@@ -46,6 +46,14 @@ Main features
 -  Extensible management interfaces (CLI, Web UI, XMLRPC and JSONRPC
    API) and Python SDK
 
+.. _releases:
+
+Releases
+--------
+
+- `FreeIPA 4.10.2 <release-notes/4-10-2.html>`__
+- `FreeIPA 4.9.12 <release-notes/4-9-12.html>`__
+
 .. _getting_involved:
 
 Getting involved

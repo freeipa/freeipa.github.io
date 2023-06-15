@@ -4,26 +4,26 @@ FreeIPA - Identity, Policy, Audit
 Identity
 --------
 
-Manage Linux users and `client hosts <Client>`__ in your realm from `one
-central location <Directory_Server>`__ with CLI, `Web UI <Web_UI>`__ or
-RPC access. Enable `Single Sign On <Kerberos>`__ authentication for all
+Manage Linux users and `client hosts <https://www.freeipa.org/page/Client>`__ in your realm from `one
+central location <https://www.freeipa.org/page/Directory_Server>`__ with CLI, `Web UI <https://www.freeipa.org/page/Web_UI>`__ or
+RPC access. Enable `Single Sign On <https://www.freeipa.org/page/Kerberos>`__ authentication for all
 your systems, services and applications.
 
 Policy
 ------
 
-Define `Kerberos <Kerberos>`__ authentication and authorization policies
-for your identities. Control services like `DNS <DNS>`__, SUDO, SELinux
+Define `Kerberos <https://www.freeipa.org/page/Kerberos>`__ authentication and authorization policies
+for your identities. Control services like `DNS <https://www.freeipa.org/page/DNS>`__, SUDO, SELinux
 or autofs.
 
 Trusts
 ------
 
-Create mutual `trust <Trusts>`__ with other Identity Management systems
-like `Microsoft Active Directory <Active_Directory_trust_setup>`__.
+Create mutual `trust <https://www.freeipa.org/page/Trusts>`__ with other Identity Management systems
+like `Microsoft Active Directory <https://www.freeipa.org/page/Active_Directory_trust_setup>`__.
 
-`About FreeIPA <About>`__ •\ `Roadmap <Roadmap>`__ • `FreeIPA
-Leaflet <Leaflet>`__ • `FreeIPA public demo <Demo>`__ •
+`About FreeIPA <https://www.freeipa.org/page/About>`__ •\ `Roadmap <https://www.freeipa.org/page/Roadmap>`__ • `FreeIPA
+Leaflet <https://www.freeipa.org/page/Leaflet>`__ • `FreeIPA public demo <https://www.freeipa.org/page/Demo>`__ •
 `Blogs/RSS <http://planet.freeipa.org>`__
 
 .. _main_features:
@@ -66,7 +66,7 @@ Whether you'd like to contribute to discussion, to code, or simply test
 it out, FreeIPA needs your help!
 
 -  To contribute to the development of FreeIPA go to
-   `Contribute <Contribute>`__ and subscribe to
+   `Contribute <https://www.freeipa.org/page/Contribute>`__ and subscribe to
    `freeipa-devel <https://lists.fedoraproject.org/archives/list/freeipa-devel@lists.fedorahosted.org/>`__
 -  To share deployment experience with FreeIPA and ask "how to"
    questions subscribe to
@@ -77,20 +77,20 @@ it out, FreeIPA needs your help!
    https://www.freeipa.org/page/Contribute#Security_Bugs_and_Flaws
 -  Contributions are always welcome!
 
-`Learn more <Contribute>`__
+`Learn more <https://www.freeipa.org/page/Contribute>`__
 
 Public Demo
 -----------
 
 People eager to try the looks and feel of the most recent FreeIPA, can
-visit our `public FreeIPA instance <Demo>`__! It is great for
+visit our `public FreeIPA instance <https://www.freeipa.org/page/Demo>`__! It is great for
 
 -  Testing changes in the most recent CLI/Web UI/API
--  Testing `client <client>`__ enrollment
--  Testing `web applications <Web_App_Authentication>`__ with
-   `LDAP <Directory_Server>`__/`Kerberos <Kerberos>`__ authentication
+-  Testing `client <https://www.freeipa.org/page/Client>`__ enrollment
+-  Testing `web applications <https://www.freeipa.org/page/Web_App_Authentication>`__ with
+   `LDAP <https://www.freeipa.org/page/Directory_Server>`__ / `Kerberos <https://www.freeipa.org/page/Kerberos>`__ authentication
 
-Read more on the page `Demo <Demo>`__.
+Read more on the page `Demo <https://www.freeipa.org/page/Demo>`__.
 
 
 .. toctree::

@@ -140,7 +140,7 @@ imported and exported along with the certificate profile.
 .. _certprofile_additions:
 
 CertProfile additions
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 In each CertProfile, we can now list the fields that need to be mapped
 into the certificate request.
@@ -153,7 +153,7 @@ into the certificate request.
    objectClasses: (2.16.840.1.113730.3.8.21.2.1 NAME 'ipaCertProfile' SUP top STRUCTURAL MUST ( cn $ description $ ipaCertProfileStoreIssued ) MAY ipaCertFieldMapping X-ORIGIN 'IPA v4.2' )
 
 CertFieldMappingRule
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 This object represents the way a particular field should be constructed
 in CSRs for this certificate profile.

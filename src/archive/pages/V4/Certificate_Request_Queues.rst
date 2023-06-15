@@ -10,7 +10,7 @@ issue certificates, instead enqueuing requests for manual processing. It
 adds commands to list, review, approve or reject certificate requests,
 and is primarily an interface to underlying Dogtag capabilities.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -44,7 +44,7 @@ request gets enqueued and provide useful feedback to the user. It should
 also prominently display the request identifier that can be used with
 the new ``ipa certrequest-*`` commands (see below).
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -90,12 +90,12 @@ Upgrade
 
 No upgrade procedures are required.
 
-.. _how_to_test:
+.. _how_to_test15:
 
 How to Test
 ===========
 
-.. _test_plan:
+.. _test_plan15:
 
 Test Plan
 =========

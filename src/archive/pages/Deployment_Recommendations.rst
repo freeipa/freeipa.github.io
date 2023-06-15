@@ -185,15 +185,17 @@ Note that it is not recommended to have more than 4 replication
 agreements per replica. Following example demonstrated the recommended
 infrastructure:
 
-+----------------------------------+----------------------------------+
-| .. figure:: Topology-16.png      | .. figure:: Topology-12.png      |
-|    :alt: Deployment              |    :alt: Deployment              |
-|  example with 16 FreeIPA servers |  example with 12 FreeIPA servers |
-|    :width: 300px                 |    :width: 300px                 |
-|                                  |                                  |
-|    Deployment example with 16    |    Deployment example with 12    |
-|    FreeIPA servers               |    FreeIPA servers               |
-+----------------------------------+----------------------------------+
+.. figure:: Topology-16.png
+   :alt: Deployment example with 16 FreeIPA servers
+   :width: 300px
+
+Deployment example with 16 FreeIPA servers
+
+.. figure:: Topology-12.png
+   :alt: Deployment example with 12 FreeIPA servers
+   :width: 300px
+
+Deployment example with 12 FreeIPA servers
 
 Clients
 ~~~~~~~

@@ -10,7 +10,7 @@ anonymous user.
 Source code: `Community Portal on
 GitHub <https://github.com/freeipa/freeipa-community-portal>`__
 
-.. _use_cases:
+.. _use_cases4:
 
 Use Cases
 ---------
@@ -111,7 +111,7 @@ choice is needed.
 
 The pages themselves are rendered using the Jinja2 template engine.
 
-.. _feature_management:
+.. _feature_management4:
 
 Feature Management
 ------------------
@@ -134,7 +134,7 @@ simple as shutting down the web application.
 Scripts will be written to automatically configure and deploy the
 self-service portal.
 
-.. _how_to_test:
+.. _how_to_test4:
 
 How to Test
 -----------

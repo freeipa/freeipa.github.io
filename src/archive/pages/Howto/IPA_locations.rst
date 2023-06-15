@@ -45,7 +45,7 @@ Example
 Topology
 ~~~~~~~~
 
-.. figure:: dns_location_topology.svg
+.. figure:: Dns_location_topology.svg
    :alt: dns_location_topology.svg
 
    dns_location_topology.svg
@@ -211,18 +211,12 @@ in each location. With same effort the same feature can be implemented
 also using external DNS servers. Following example is using InfoBlox's
 support for DNS view to simulate multiple DNS servers in each location:
 
--  On Infoblox, create DNS view **for each location**:
-
-- Data Management -> DNS -> Zones -> click to Plus sign to add DNS view
-- Add DNS view step 1 -> fill-in name, use the same name as for IPA
-location, e.g. "czechrep" - Add DNS view step 2 -> specify Match Clients
-rule so that all clients in "czechrep" location domain belong to this
-DNS view - Add DNS view step 3 -> Save
-
--  In each DNS view, create two zones with names:
-
-   -  "_udp."
-   -  "_tcp."
+*  On Infoblox, create DNS view **for each location**:
+* Data Management -> DNS -> Zones -> click to Plus sign to add DNS view
+* Add DNS view step 1 -> fill-in name, use the same name as for IPA location, e.g. "czechrep" 
+* Add DNS view step 2 -> specify Match Clients rule so that all clients in "czechrep" location domain belong to this DNS view
+* Add DNS view step 3 -> Save
+* In each DNS view, create two zones with names: "_udp.", "_tcp."
 
 These zones (specific for each DNS view) will be filled-in with records
 produced by the IPA server.

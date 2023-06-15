@@ -22,7 +22,7 @@ synchronization mechanism for records in zones.
 -  bind-dynbd-ldap page with some ideas about `alternative
    approaches <https://fedorahosted.org/bind-dyndb-ldap/wiki/SecondGeneration/Ideas>`__
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -109,7 +109,7 @@ Implementation
 
 TBD
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -134,14 +134,14 @@ Upgrade
 
 TBD
 
-.. _how_to_use:
+
 
 How to Use
 ----------
 
 No changes to current usage of DNS features.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

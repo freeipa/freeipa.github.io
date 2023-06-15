@@ -24,7 +24,7 @@ ability to establish and use one-way trust to Active Directory. The
 purpose of this feature is to regain the one-way trust support, yet
 without giving an elevated access to TDO credentials.
 
-.. _use_cases:
+
 
 Use cases
 =========
@@ -268,7 +268,7 @@ There are several moving parts here:
 #. oddjobd daemon runs under system_u:system_r:oddjob_t:s0-s0:c0.c1023
    context.
 
-.. _feature_management:
+
 
 Feature management
 ==================
@@ -315,7 +315,7 @@ masters to help with AD trust agent mode.
 
 SSSD will use ipa-getkeytab to obtain the keytabs if keytab is missing.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

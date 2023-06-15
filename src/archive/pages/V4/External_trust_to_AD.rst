@@ -9,7 +9,7 @@ trust always requires to establish trust between root domains of the
 Active Directory forests, external trust can be established to any
 domain within the forest.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -44,7 +44,7 @@ There are several specific changes to allow supporting external trust:
    absense of ipaNTTrustAttributes LDAP attribute of the trusted domain
    object.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -79,7 +79,7 @@ Upgrade
 No changes on upgrades. The trust properties are only set up at trust
 creation time.
 
-.. _how_to_test:
+.. _how_to_test26:
 
 How to Test
 -----------
@@ -91,7 +91,7 @@ trust with '--external=true' option to 'trust-add' command.
 
 A type of the trust can be seen with 'trust-show' command.
 
-.. _test_plan:
+.. _test_plan26:
 
 Test Plan
 ---------

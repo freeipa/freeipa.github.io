@@ -236,7 +236,7 @@ New server installation
 The server-specific install code is not impacted by this migration (only
 the client-part of the installation is).
 
-.. _backup_and_restore:
+
 
 Backup and restore
 ~~~~~~~~~~~~~~~~~~
@@ -356,7 +356,7 @@ and this would have to be replaced with
 | `` profile=sssd``
 | `` mkhomedir=...``
 
-.. _use_cases:
+
 
 Use cases
 ---------

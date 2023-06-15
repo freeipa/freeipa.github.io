@@ -58,7 +58,7 @@ High-level Architecture
 The tool itself which consists of plugins to analyze current
 configuration to determine the state of the installation.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -103,7 +103,7 @@ Related Tickets
 Important note: v1 healthcheck will only identify issues, not provide a
 mechanism to remediate them.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -486,7 +486,7 @@ still under discussion but for now it is separate.
 Implementation
 --------------
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -538,7 +538,7 @@ The output format by default is JSON and will look like:
 | ``     "threshold": 512``
 | ``   }``
 
-.. _test_plan:
+
 
 Test Plan
 ---------

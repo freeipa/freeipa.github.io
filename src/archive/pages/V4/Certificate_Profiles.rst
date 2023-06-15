@@ -7,7 +7,7 @@ ability to define new certificate profiles and control which subject
 principals or principal types (users, hosts or services) they can be
 used for.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -432,7 +432,7 @@ Dogtag) are stored in ``/usr/share/ipa/profiles/``.
 The CA ACL enforcement functions use the existing HBAC machinery from
 the ``pyhbac`` module.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -774,7 +774,7 @@ On upgrade, a default CA ACL added that permits host and service
 principals to use the default profile, ensuring that current
 capabilities are maintained.
 
-.. _how_to_use:
+
 
 How to Use
 ==========
@@ -782,7 +782,7 @@ How to Use
 See
 https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom-profiles-with-freeipa-4-2/
 
-.. _test_plan:
+
 
 Test Plan
 =========

@@ -29,7 +29,7 @@ Let bash do the expansion for you:
 For convenience, a warning and instructions will be provided if it
 appears the user is using the old syntax.
 
-.. _use_cases:
+.. _use_cases114:
 
 Use Cases
 =========
@@ -108,7 +108,7 @@ CLI
 
 See Overview
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -120,7 +120,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -132,7 +132,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -479,7 +479,7 @@ Affected Arguments
 | ``   user_find: not_in_sudorule``
 | ``   user_mod: ipasshpubkey``
 
-.. _rfe_author:
+
 
 RFE author
 ==========

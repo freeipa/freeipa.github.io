@@ -13,7 +13,7 @@ master).
 These tests will be run from continuous integration. Any developer can
 also run them manually.
 
-.. _use_cases:
+.. _use_cases120:
 
 Use Cases
 =========
@@ -369,7 +369,7 @@ CLI
 
 See above
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -381,7 +381,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -410,7 +410,7 @@ protocol:
 Naturally, the new dependencies are not needed in a production
 environment.
 
-.. _external_impact:
+
 
 External Impact
 ===============

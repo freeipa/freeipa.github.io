@@ -4,7 +4,7 @@ Overview
 This document specifies how backwards-incompatible changes may be
 backported to maintenance branches of FreeIPA.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -211,14 +211,14 @@ Implementation
 No additional requirements or changes were discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
 
 No user-visible features to manage
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -230,7 +230,7 @@ Replication
 
 No impact on replication.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -242,21 +242,21 @@ Dependencies
 
 No new package and library dependencies.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 No impact on other development teams and components.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
 
 No impact on B&R.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

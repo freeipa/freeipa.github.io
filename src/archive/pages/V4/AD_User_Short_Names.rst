@@ -15,7 +15,7 @@ mechanism that can be used by clients (SSSD) to resolve short names to
 fully-qualified identifiers, use them to authenticate users and cache
 the results.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -142,7 +142,7 @@ colon-separated list of domain names (e.g
 responsible to retrieve and parse this value in order to decode the list
 of domains it should consult for short name resolution.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -189,7 +189,7 @@ The feature is considered backwards compatible since the old client
 which do not understand domain resolution order will simply ignore it
 and keep original behavior.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -289,7 +289,7 @@ this one tried out first when resolving short names.
    Number of hosts the ID View was applied to: 1
    ---------------------------------------------
 
-.. _test_plan:
+
 
 Test Plan
 ---------

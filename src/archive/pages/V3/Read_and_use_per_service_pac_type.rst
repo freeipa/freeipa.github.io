@@ -26,7 +26,7 @@ added. The FreeIPA CLI and Web UI take care that 'NONE' cannot be set
 with any other value, but it might still be added manually with
 ldapmodify.
 
-.. _use_cases:
+.. _use_cases10i:
 
 Use Cases
 =========
@@ -137,7 +137,7 @@ Additionally 'service:TYPE' style entries should be allowed in the
 global configuration (it does not make sense for services and hosts).
 See `#3484 <https://fedorahosted.org/freeipa/ticket/3484>`__.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -154,7 +154,7 @@ are updated with this feature KDCs which are not updated might still
 return Kerberos tickets with the default PAC type although there is a
 different one mentioned in the service object.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -171,7 +171,7 @@ Dependencies
 
 This feature does not add any new dependencies.
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -179,7 +179,7 @@ External Impact
 The changes will only touch the KDC IPA backend, no external impact is
 expected.
 
-.. _how_to_test:
+.. _how_to_test10:
 
 How to test
 ===========
@@ -212,7 +212,7 @@ It should be tested that during updates the global ipaKrbAuthzData
 attribute will get the value 'nfs:NONE'. i.e 'ipa config-show' will list
 'nfs:NONE' in 'Default PAC types' after upgrades.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

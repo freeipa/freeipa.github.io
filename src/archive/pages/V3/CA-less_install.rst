@@ -5,7 +5,7 @@ IPA should support installing without an embedded Certificate Authority,
 with user-provided SSL certificates for the HTTP and `Directory
 Server <Directory_Server>`__.
 
-.. _use_cases:
+.. _use_cases111:
 
 Use Cases
 ---------
@@ -351,7 +351,7 @@ When creating a replica file, certificates for that replica must be
 specified. These must be signed by the CA given as --root-ca-file to the
 original master (a copy of this CA cert is in /etc/ipa/ca.crt).
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -360,14 +360,14 @@ Existing installs are not affected.
 
 Upgrading CA-less instances should work normally.
 
-.. _test_plan:
+
 
 Test Plan
 ---------
 
 See `dedicated test page <V3/CA-less_install/Test>`__.
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

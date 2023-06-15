@@ -25,7 +25,7 @@ FreeIPA will use these APIs to provide facilities for the creation and
 administration of sub-CAs, and the issuance of certificates from those
 CAs.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -474,7 +474,7 @@ execute a Python script that reuses the existing FreeIPA
 ``CustodiaClient`` class. The script is part of FreeIPA's codebase and
 is installed as ``/usr/libexec/ipa/ipa-pki-retrieve-key``.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -743,7 +743,7 @@ As part of the upgrade process:
 -  The schema (including Dogtag schema) shall be updated.
 -  The ``ipa`` CA object shall be created (see Default CAs_).
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -830,7 +830,7 @@ in your smart card, request the certificate, specifying the ``sc`` CA:
      Serial number: 64
      Serial number (hex): 0x40
 
-.. _test_plan:
+
 
 Test Plan
 ---------

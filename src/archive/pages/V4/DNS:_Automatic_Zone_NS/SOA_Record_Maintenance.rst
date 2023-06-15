@@ -28,7 +28,7 @@ Required by ticket:
 Hits tickets: `#3344 <https://fedorahosted.org/freeipa/ticket/3344>`__,
 `#3343 <https://fedorahosted.org/freeipa/ticket/3343>`__
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -61,7 +61,7 @@ Design
       ignored, param is presented in API due to compability with older
       clients
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -151,14 +151,14 @@ UI
 -  Hide ``--name-server`` field in adding new zone dialog
 -  Hide ``--force`` checkbox in adding new zone dialog
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 Update documentation..
 
-.. _test_plan:
+
 
 Test Plan
 ---------
@@ -391,7 +391,7 @@ Remove replica
 -  Result: replica hostname is removed from every NS record in IPA
    managed domain (including records outside zone apex)
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

@@ -33,7 +33,7 @@ or a warning message to disable DNSSEC validation manually will be shown
 Note: **IPA 4.2** checks forwarders in forwarding zones too
 (``dnsforwardzone-*``).
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -506,7 +506,7 @@ Dependencies
 -  Softhsm > 2
 -  opendnssec
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ~~~~~~~~~~~~~~~~~~
@@ -533,7 +533,7 @@ Following directories/files must be backed up:
 -  ipa-ods-exporter keytab (*/etc/ipa/dnssec/ipa-ods-exporter.keytab*)
 -  ipa-dnskeysyncd keytab (*/etc/ipa/dnssec/ipa-dnskeysyncd.keytab*)
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -581,7 +581,7 @@ Upgrade
 Required enabling/configuring ipa-dnskeysyncd service instance on each
 DNS replica
 
-.. _how_to_test:
+.. _how_to_test24:
 
 How to test
 -----------
@@ -592,7 +592,7 @@ Follow instructions in this `howto <Howto/DNSSEC>`__, to test DNSSEC:
 -  enable signing per zone
 -  create root zone, create zone and verify chain of trust
 
-.. _test_plan:
+.. _test_plan24:
 
 Test Plan
 ---------
@@ -635,7 +635,7 @@ covers:
 
 -  Test migration DNSSEC master
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

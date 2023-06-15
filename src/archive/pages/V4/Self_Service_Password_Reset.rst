@@ -14,7 +14,7 @@ self-service web portal that allows for self-service password reset,
 without hard-coding into the complicated and delicate code that handles
 password authentication in the core FreeIPA project.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -95,7 +95,7 @@ consequence. Tokens can be periodically expunged from the database
 through the use of a sweeper script, or the tokens can be allowed to
 persist in the database forever as a log of request attempts.
 
-.. _how_to_test:
+.. _how_to_test34:
 
 How to Test
 -----------

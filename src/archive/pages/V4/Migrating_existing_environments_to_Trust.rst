@@ -15,7 +15,7 @@ users and thus allows admin to remove such user entity from FreeIPA
 and only define the default (or per host group) user (or group) POSIX
 attributes.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -307,7 +307,7 @@ The cached entry of an AD object on IPA clients and servers will contain
 both the original AD data and the override value from the default view.
 As show in the following figure.
 
-.. figure:: directory_entries_and_overrides.png
+.. figure:: Directory_entries_and_overrides.png
    :alt: directory_entries_and_overrides.png
 
    directory_entries_and_overrides.png
@@ -420,7 +420,7 @@ used to replace original memberUid value. Otherwise original memberUid
 value is copied over. This approach ensures memberUid values are correct
 with regards to the overrides of the current view.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -534,7 +534,7 @@ targets `trusted <Trusts>`__ users. The existence of the view container
 ``cn=views,cn=accounts,$SUFFIX`` is used as an indicator if the ID Views
 are enabled or not.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -542,7 +542,7 @@ Updates and Upgrades
 Since ID views are not enabled by default only the new schema entries
 must be added during updates.
 
-.. _how_to_test:
+.. _how_to_test29:
 
 How to Test
 -----------

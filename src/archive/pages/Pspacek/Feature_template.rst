@@ -4,7 +4,7 @@ Overview
 Short overview of the problem set and any background material or
 references one would need to understand the details.
 
-.. _use_cases:
+.. _use_cases109:
 
 Use Cases
 ---------
@@ -15,7 +15,7 @@ These should not all be the simplest cases.
 -  Explicitly list use cases which were considered but will not
    supported for some reason. Include the reason, too ;-)
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -102,7 +102,7 @@ Upgrade
 
 Any impact on upgrades? Remove this section if not applicable.
 
-.. _how_to_test:
+.. _how_to_test8:
 
 How to Test
 -----------
@@ -113,7 +113,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

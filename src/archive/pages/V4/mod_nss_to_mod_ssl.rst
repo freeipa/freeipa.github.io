@@ -6,7 +6,7 @@ away from using NSS to using OpenSSL for crypto.
 
 The target Fedora release for this is Fedora 28.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -89,7 +89,7 @@ ipa-server-certinstall
 Will need to change to handle file-based certificates. This will likely
 end up as copying files to the proper location(s) in the filesystem.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ~~~~~~~~~~~~~~~~~~
@@ -144,7 +144,7 @@ Implementation
       to walk a user through the changes needed to convert to a mod_ssl
       database.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -183,7 +183,7 @@ Upgrade
 
 See the design section.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -200,7 +200,7 @@ exceptions:
    certificates from the database, so users don't change things here
    expecting it to affect the running server.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

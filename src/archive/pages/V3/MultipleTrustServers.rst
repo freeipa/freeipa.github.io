@@ -9,7 +9,7 @@ Each FreeIPA server in the realm has potential to serve as domain
 controller in the cross-forest realm trust. This page outlines design
 for implementing multiple servers support in FreeIPA.
 
-.. _use_cases:
+.. _use_cases10g:
 
 Use Cases
 =========
@@ -116,7 +116,7 @@ Implementation-wise there are three parts:
 
    -  Add support for ``ipa trustconfig-*`` to Web UI.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -128,7 +128,7 @@ Replication
 
 All data is already in a replicated namespace.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -141,7 +141,7 @@ Dependencies
 
 No additional dependencies beyond AD trusts support
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -149,7 +149,7 @@ External Impact
 Once ``ipa-adtrust-install`` install ran on replica, the replica will be
 advertised via ``_msdcs`` SRV namespace as a domain controller.
 
-.. _rfe_author:
+
 
 RFE author
 ==========

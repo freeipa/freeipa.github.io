@@ -4,7 +4,7 @@ Overview
 AD users are able to use CLI after they obtain Kerberos ticket. It would
 be useful to allow them also using WebUI.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -40,7 +40,7 @@ should be displayed.
 
 In case of AD user, the ipa idoverrideuser-show command is called.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -65,7 +65,7 @@ created idoverrideuser.
 Upgrade
 -------
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -84,7 +84,7 @@ How to Use
 -  Log in to FreeIPA WebUI using ad_username@ad.domain and password for
    AD user.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

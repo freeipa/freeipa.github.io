@@ -9,7 +9,7 @@ version to another.
 A solution is needed to make it possible for 2 different versions of
 FreeIPA to interact properly.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -110,7 +110,7 @@ objectClass will be needed for storing the domain level range.
 Selected Domain level shall be stored in
 ``cn=Domain Level,cn=ipa,cn=etc,SUFFIX``
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -138,7 +138,7 @@ Upgrade
 Server supported domain level is automatically raised during upgrade to
 next version.
 
-.. _how_to_test:
+.. _how_to_test18:
 
 How to Test
 -----------

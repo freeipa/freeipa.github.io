@@ -103,7 +103,7 @@ later to install some service as a master:
 | ``class MasterInstallClass(installs_master(MyClass), ``\ ``):``
 | ``    pass``
 
-.. _backward_compatibility:
+
 
 Backward Compatibility
 ----------------------

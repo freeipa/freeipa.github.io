@@ -16,7 +16,7 @@ NOTE: A side effect of this feature is that the lockout state can be
 tracked on any server and a locked account can be unlocked on any server
 (ticket 3863/2792)
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -81,7 +81,7 @@ This applys also to the code in the ipa kdb driver:
 The command line utilities : user-status, user-unlock also need to be
 enhanced ./ipalib/plugins/user.py
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -108,7 +108,7 @@ policy. The new attributes krbGlobalLockoutState and
 krbGlobalLockoutStartTime need to be replicated, the attribute
 krbLocalLockoutState has to be excluded from replication
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -120,21 +120,21 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 N/A
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
 
 N/A
 
-.. _test_plan:
+
 
 Test Plan
 ---------

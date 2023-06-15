@@ -20,7 +20,7 @@ Dmitri's comments on the use cases we ought to focus on first:
      currently should set aside and solve after we solve the other use
      cases.
 
-.. _use_cases:
+.. _use_cases108:
 
 Use cases
 =========

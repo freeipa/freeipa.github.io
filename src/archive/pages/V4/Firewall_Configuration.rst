@@ -28,7 +28,7 @@ default. Therefore, the firewall configuration will automatically
 proceed during ipa-server-install unless a user passes the
 "--no-firewall" option.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -191,7 +191,7 @@ FirewallD
    -  After modifying the persistent FirewallD configuration, it is
       necessary to issue a reload call to make the configuration active.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -202,7 +202,7 @@ CLI
 There are no dedicated commands. This only adds the "--no-firewall"
 option to ipa-server-install.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -228,7 +228,7 @@ can be removed. Note that a user may have made subsequent modifications
 to the zone policy. If any user modifications are detected, only the
 FreeIPA firewall configuration will be removed.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -243,21 +243,21 @@ Dependencies
 Python package lxml and module dbus. Most distributions already include
 them even in minimal installs.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 None
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
 
 None
 
-.. _test_plan:
+
 
 Test Plan
 ---------
@@ -278,7 +278,7 @@ tests that I'm considering at this point.
 Test scenarios that will be transformed to test cases for FreeIPA
 Continuous Integration during implementation or review phase.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

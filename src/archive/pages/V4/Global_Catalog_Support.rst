@@ -20,7 +20,7 @@ Directory. As such, it is only accessible for read-only purposes. Any
 change to the information shall come through the domain controllers
 responsible for a domain in question.
 
-.. _use_cases:
+
 
 Use Cases
 ---------

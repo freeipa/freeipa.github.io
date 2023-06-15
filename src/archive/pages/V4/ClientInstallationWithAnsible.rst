@@ -17,7 +17,7 @@ The goal of this project is to provide Ansible
 `roles <http://docs.ansible.com/ansible/latest/playbooks_roles.html>`__
 allowing the automation of IdM client configuration.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -323,7 +323,7 @@ module "ipaclient".
 Question: should the role with state=absent also remove ipa-client
 packages?
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -564,7 +564,7 @@ the inventory:
    -  use ipaserver_principal and ipaserver_password, or
    -  use ipaserver_principal and ipaserver_keytab
 
-.. _test_plan:
+
 
 Test Plan
 ---------

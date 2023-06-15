@@ -5,7 +5,7 @@ The new set of ipa server-\* subcommands are introduced to give a user
 an overview of which ipa components (CA, KRA, DNS, etc.) are installed
 on which node.
 
-.. _test_plan:
+
 
 Test Plan
 =========

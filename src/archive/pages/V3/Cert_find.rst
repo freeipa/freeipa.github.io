@@ -9,7 +9,7 @@ based on serial number.
 
 This RFE is being worked as https://fedorahosted.org/freeipa/ticket/2528
 
-.. _use_cases:
+.. _use_cases112:
 
 Use Cases
 =========
@@ -171,7 +171,7 @@ Implementation
 Any additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -192,7 +192,7 @@ CLI
 
 Overview of the CLI commands
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -204,7 +204,7 @@ Replication
 
 None
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -217,7 +217,7 @@ Dependencies
 Date parsing works in current dogtag 10 in F-18, but output currently
 limited by ticket #498.
 
-.. _external_impact:
+
 
 External Impact
 ===============

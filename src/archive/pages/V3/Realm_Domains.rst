@@ -18,7 +18,7 @@ commands:
 -  **``realmdomains-show``**
 -  **``realmdomains-mod``**
 
-.. _use_cases:
+.. _use_cases10j:
 
 Use Cases
 =========
@@ -129,7 +129,7 @@ page <http://www.freeipa.org/page/V3/DNS_realmdomains_integration>`__.
 
 `akrivoka <User:Akrivoka>`__ 05:05, 7 May 2013 (EDT)
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -141,7 +141,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -170,7 +170,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============

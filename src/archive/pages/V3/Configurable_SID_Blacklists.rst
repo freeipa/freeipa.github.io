@@ -19,7 +19,7 @@ to avoid this error. A target of this RFE is to include this list in
 LDAP to allow Administrator to change the list and add or remove SID to
 filter.
 
-.. _use_cases:
+.. _use_cases113:
 
 Use Cases
 =========
@@ -111,7 +111,7 @@ CLI should allow editing of these new attributes. They should not be
 displayed by default in *trust-show* or *trust-find* command, but only
 with *--all* option to keep clarity of trust entries in these commands.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -123,7 +123,7 @@ Replication
 
 New attributes will be replicated.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -144,7 +144,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============

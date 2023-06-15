@@ -20,7 +20,7 @@ appropriate groups structure using automembership plugin. In future
 other plugins can be created to look at this attribute and perform other
 operations as needed.
 
-.. _use_cases:
+.. _use_cases10a:
 
 Use Cases
 =========
@@ -71,7 +71,7 @@ Implementation
 -  Schema will be added to the initial deployment
 -  Schema will be augmented at upgrade time
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -91,7 +91,7 @@ Host-add and user-add (not done in initial implementation, `link to
 ticket <https://fedorahosted.org/freeipa/ticket/3588>`__) commands would
 accept a new optional attribute ``--class``.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -106,7 +106,7 @@ Replication
 
 Any impact on replication? *No*
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -119,7 +119,7 @@ Dependencies
 
 Any new package and library dependencies. *No*
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -127,7 +127,7 @@ External Impact
 Impact on other development teams and components. *Yes, this feature
 allows a better integration with the external provisioning systems*
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

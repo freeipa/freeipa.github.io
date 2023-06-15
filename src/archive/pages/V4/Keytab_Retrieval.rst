@@ -23,7 +23,7 @@ as it creates keys on the client system. This has 2 bad side effects:
    cannot be generated (useful when admins workstations request keys on
    behalf of other systems).
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -247,7 +247,7 @@ In order to preserve this feature an additional ACI has been provided:
 
 ``aci: (targetattr="ipaProtectedOperation;write_keys")(version 3.0; acl "Entities are allowed to rekey managed entries"; allow(write) userattr="managedby#USERDN";)``
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -264,7 +264,7 @@ CLI
 
 ``  -r, --retrieve                                           Retrieve current keys without changing them``
 
-.. _how_to_test:
+.. _how_to_test28:
 
 How to Test
 -----------

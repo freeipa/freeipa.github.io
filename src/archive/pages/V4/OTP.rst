@@ -15,7 +15,7 @@ standards. Since nearly every proprietary technology supports the RADIUS
 authentication protocol, we provide a way to proxy OTP requests to their
 proprietary RADIUS servers. This provides a path for gradual migration.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -322,7 +322,7 @@ see `the bug <https://fedorahosted.org/freeipa/ticket/4682>`__.
 works exactly the same for compat tree binds as it does for regular
 binds.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -481,7 +481,7 @@ New Dependencies
 -  python-yubico (implicit: pyusb)
 -  libverto-devel
 
-.. _how_to_test:
+.. _how_to_test31:
 
 How to Test
 ===========
@@ -729,7 +729,7 @@ server.
    ``ipa user-mod radiususer --radius-username=myradiususer``
 #. Log in (`V4/OTP#Logging_In <V4/OTP#Logging_In>`__)
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -837,7 +837,7 @@ Links
 -  `SSSD OTP
    Support <https://fedorahosted.org/sssd/wiki/DesignDocs/OTPRelatedImprovements>`__
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

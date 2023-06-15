@@ -13,7 +13,7 @@ travelling. Sometimes, it may also be appropriate to set time in UTC.
 This is rather strict setting that does not reflect daylight saving
 time.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -166,7 +166,7 @@ supported properties** of this *VEVENT* component are:
 These restrictions exist for the feasibility of setting the certain time
 policies from either CLI or WebUI.
 
-.. _server_side:
+
 
 Server side
 -----------
@@ -200,7 +200,7 @@ the iCalendar strings. It will also be used to generate recurrence of
 *RRULE* property of iCalendar strings to help evaluate the comparison
 against the current time.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -291,7 +291,7 @@ rule be used in any HBAC rule to prevent security issues.
 
 *hbactest* command should be extended with a compulsory option *--time*.
 
-.. _how_to_use:
+
 
 How to Use
 ==========

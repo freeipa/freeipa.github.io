@@ -71,7 +71,7 @@ there are 2 issues related to this change:
    NSS which only tries the last OCSP and then fail when it is not
    available.
 
-.. _use_cases:
+.. _use_cases10n:
 
 Use Cases
 =========
@@ -111,7 +111,7 @@ Implementation
    addresses. When there was a custom update to *ipa-ca.$DOMAIN*,
    upgrade should not touch it.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -127,7 +127,7 @@ CLI
 
 No change to CLI needed.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -139,7 +139,7 @@ Replication
 
 Certificates are already replicated, so no change in this area.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -168,14 +168,14 @@ used in Mozilla Firefox (see `NSS Bug
 797815 <https://bugzilla.mozilla.org/show_bug.cgi?id=797815>`__ for
 relevant discussion).
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Change impacts projects processing certificate issued by FreeIPA server.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

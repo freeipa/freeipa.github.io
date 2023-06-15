@@ -77,7 +77,7 @@ severity for their type. Debug messages will not be shown unless
 The Web UI will display warnings and above in a modal message box. In
 the future, another notification mechanism may be added.
 
-.. _use_cases:
+.. _use_cases10f:
 
 Use Cases
 ---------

@@ -17,7 +17,7 @@ groups, but also certificates, sudo rules, HBAC rules etc. Also since
 the structure of source data is predefined, the command will require
 significantly less options to run properly.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -107,7 +107,7 @@ will be performed that will retrieve all data for the entry. This
 approach is chosen to eliminate issues occuring with migrate-ds command,
 which fails when migrating deployments with huge amount of entries.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------

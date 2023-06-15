@@ -21,7 +21,7 @@ replacement for it.
 NTP - network time protocol ntpd, chronyd - time service implementations
 based on NTP
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -217,7 +217,7 @@ While upgrading IPA server there is need for:
 
 (taken care with method ntpd_cleanup(fqdn, fstore)
 
-.. _test_plan:
+
 
 Test Plan
 ---------

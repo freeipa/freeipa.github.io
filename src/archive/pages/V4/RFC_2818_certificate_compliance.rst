@@ -33,7 +33,7 @@ characters, FreeIPA must support carrying the subject information in the
 subjectAltName extension *only* (the subjectAltName extension must be
 marked *critical* in this scenario).
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -226,7 +226,7 @@ certificates.
 Implementation
 --------------
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -259,12 +259,12 @@ The ``caIPAserviceCert`` profile configuration must be updated to use
 the new profile policy components. Because FreeIPA now owns its
 profiles, this shall be done as part of the FreeIPA upgrade procedure.
 
-.. _how_to_test:
+.. _how_to_test33:
 
 How to Test
 -----------
 
-.. _test_plan:
+.. _test_plan33:
 
 Test Plan
 ---------

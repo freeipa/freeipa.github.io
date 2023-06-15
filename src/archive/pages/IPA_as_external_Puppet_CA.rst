@@ -26,7 +26,7 @@ replacement of Puppet CA with IPA CA was
 in the past, but it failed to distinguish Puppet certificates from other
 certificates issued by IPA.
 
-.. _use_cases:
+.. _use_cases106:
 
 Use Cases
 ---------
@@ -205,7 +205,7 @@ Implementation
 
 The implementation details will be defined base on elected solution.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -220,7 +220,7 @@ CLI
 
 TBD
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -238,7 +238,7 @@ might be required In case of supporting separate profiles for each
 Puppet deployment, Initially this could be provided as a manual
 procedure.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -253,7 +253,7 @@ Dependencies
 IPA as external Puppet CA does not require any new packages or
 libraries.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
@@ -263,7 +263,7 @@ Dogtag development team. There might be new handling of certificate
 requests on IPA and CA sides, which may require extension of
 corresponding interfaces.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
@@ -272,14 +272,14 @@ IPA as external Puppet CA does not require any additional backup or
 restore procedures. Regular IPA backup or restore procedure should also
 cover this new feature.
 
-.. _test_plan:
+
 
 Test Plan
 ---------
 
 TBD
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

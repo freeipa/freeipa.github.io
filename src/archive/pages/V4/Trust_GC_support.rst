@@ -7,7 +7,7 @@ Global Catalog service support for AD trusts
 
 Primary ticket: https://fedorahosted.org/freeipa/ticket/3125
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -150,7 +150,7 @@ object of a type through systemPossSuperiors and possSuperiors
 attributes. 389-ds does not support this type enforcement. In result, we
 need to explicitly check these requirements on object creation.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -165,7 +165,7 @@ CLI
 
 Overview of the CLI commands
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -178,7 +178,7 @@ Replication
 
 Any impact on replication?
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -190,14 +190,14 @@ Dependencies
 
 Any new package and library dependencies.
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Impact on other development teams and components
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
@@ -205,7 +205,7 @@ Backup and Restore
 Any files or configuration that needs to be taken care of in backup or
 restore procedure.
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -213,7 +213,7 @@ Test Plan
 Test scenarios that will be transformed to test cases for FreeIPA
 Continuous Integration during implementation or review phase.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

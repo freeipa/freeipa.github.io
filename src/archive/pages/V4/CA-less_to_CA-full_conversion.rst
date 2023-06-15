@@ -3,7 +3,7 @@ Overview
 
 Allow converting an existing CA-less IPA deployment to CA-full.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -63,7 +63,7 @@ certificates in the ``/etc/httpd/alias`` and
 If any matching certificate is present prior to installing the CA,
 ``ipa-ca-install`` will refuse to continue.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -88,21 +88,21 @@ Upgrade
 
 N/A
 
-.. _how_to_test:
+.. _how_to_test14:
 
 How to Test
 -----------
 
 TODO
 
-.. _test_plan:
+
 
 Test Plan
 ---------
 
 TODO
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

@@ -1,4 +1,4 @@
-.. figure:: %7B%7B%7Bimage
-   :alt: Idea.png}}}|px
+.. figure:: Idea.png
+   :alt: Idea.png
 
-   Idea.png}}}|px
+   Idea.png

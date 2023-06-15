@@ -1,4 +1,4 @@
-.. _the_problem:
+
 
 The problem
 -----------
@@ -45,7 +45,7 @@ We will not by default grant read access to:
 -  Machines
 -  Policy
 
-.. _other_rights:
+
 
 Other rights
 ~~~~~~~~~~~~
@@ -53,7 +53,7 @@ Other rights
 The interesting rights that 389 DS provides that IPA would use are:
 read, write, add, delete, search, and selfwrite.
 
-.. _anonymous_access:
+
 
 Anonymous Access
 ~~~~~~~~~~~~~~~~
@@ -64,7 +64,7 @@ limit access to services, machines, etc. I propose that we modify the
 anonymous read access to include just users and groups. Basically just
 enough so that nss_ldap will still work with an anonymous bind.
 
-.. _the_solution:
+
 
 The Solution
 ------------
@@ -78,7 +78,7 @@ From a high level we will:
    granting the role group the underlying permission
 -  Assign users and groups to role groups
 
-.. _task_groups_and_acis:
+
 
 Task Groups and ACIs
 ~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +109,7 @@ duplication, because a task may be a member of several groups.
 
 The ACIs will be stored in cn=accounts, the same way as in v1.
 
-.. _role_groups:
+
 
 Role Groups
 ~~~~~~~~~~~
@@ -153,7 +153,7 @@ We will continue to have the admin user and the admins group. This is
 the super-user and group of users that can do whatever they would like
 in the IPA world.
 
-.. _the_bottom_line:
+
 
 The bottom line
 ~~~~~~~~~~~~~~~
@@ -164,7 +164,7 @@ The bottom line
 -  A role is the member of one or more task groups
 -  A user/group/role is a member of one or more roles
 
-.. _aci_details:
+
 
 ACI Details
 ~~~~~~~~~~~
@@ -199,7 +199,7 @@ Examples
 Note that in these examples I'm not using the new location to store the
 task groups. You can apply these to a v1 IPA server to see how it works.
 
-.. _create_a_new_user:
+
 
 Create a new user
 '''''''''''''''''
@@ -248,7 +248,7 @@ The task entry for create_ipa_user will look like:
    member: cn=add_user_to_default_group,cn=taskgroups,dc=example,dc=com
    member: cn=change_password,cn=taskgroups,dc=example,dc=com
 
-.. _reset_password:
+
 
 Reset password
 ''''''''''''''
@@ -259,7 +259,7 @@ attributes that may be written when resetting a password.
 
 ``aci: (targetattr = "userPassword || krbPrincipalKey || sambaLMPassword || sambaNTPassword || passwordHistory")(version 3.0; acl "change_password"; allow (write) groupdn = "``\ ```ldap:///cn=change_password,cn=taskgroups,dc=example,dc=com`` <ldap:///cn=change_password,cn=taskgroups,dc=example,dc=com>`__\ ``";)``
 
-.. _remove_user:
+
 
 Remove user
 '''''''''''
@@ -271,7 +271,7 @@ simply with a different right. One would also need to be a member of the
 
 ``aci: (target="``\ ```ldap:///uid=`` <ldap:///uid=>`__\ ``*,cn=users,cn=accounts,dc=example,dc=com")(version 3.0;acl "delete_user";allow (delete) groupdn="``\ ```ldap:///cn=delete_user,cn=taskgroups,dc=example,dc=com`` <ldap:///cn=delete_user,cn=taskgroups,dc=example,dc=com>`__\ ``";)``
 
-.. _side_effects:
+
 
 Side effects
 ''''''''''''
@@ -313,12 +313,12 @@ And add that role to the task for changing passwords:
    description: Allowed to change passwords
    member: cn=helpdesk,cn=rolegroups,dc=example,dc=com
 
-.. _use_cases:
+.. _use_cases11:
 
 Use Cases
 ~~~~~~~~~
 
-.. _separate_admins_for_separate_containers:
+
 
 Separate admins for separate containers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -334,7 +334,7 @@ target based on the value of an attribute:
 
 ``(targetfilter = "(|(ou=accounting)(ou=engineering))")``
 
-.. _limit_self_service_changes_by_attribute:
+
 
 Limit self-service changes by attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -342,7 +342,7 @@ Limit self-service changes by attribute
 Add ability to limit what attributes can be modified on the self-service
 page
 
-.. _flexibility_in_attributes_that_may_be_delegated:
+
 
 Flexibility in attributes that may be delegated
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -350,7 +350,7 @@ Flexibility in attributes that may be delegated
 The list of attributes that one can grant write access to needs to be
 configurable
 
-.. _delegate_entry_user_group_whatever_creation:
+
 
 Delegate entry (user, group, whatever) creation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -359,7 +359,7 @@ In v1 we only delegate attribute writes, not add or delete permissions.
 Some granularity can be obtained by granting access only to users
 (cn=users), groups (cn=groups), etc. along with attributes.
 
-.. _additional_ui_capabilities_needed:
+
 
 Additional UI Capabilities Needed
 ---------------------------------
@@ -370,7 +370,7 @@ Additional UI Capabilities Needed
 -  Means to manage list of attributes that may be delegated
 -  Means to manage add/list/delete delegations
 
-.. _delegate_anything:
+
 
 Delegate anything
 ~~~~~~~~~~~~~~~~~
@@ -381,7 +381,7 @@ Delegate anything
 -  An admin is a special kind of delegation, need a way to recognize
    this in the UI
 
-.. _new_aci_parser:
+
 
 New ACI Parser
 ~~~~~~~~~~~~~~
@@ -393,7 +393,7 @@ New ACI Parser
    -  Set rights as a list
    -  Validate ACIs before they are written
 
-.. _ui_requirements:
+
 
 UI Requirements
 ~~~~~~~~~~~~~~~
@@ -436,7 +436,7 @@ that you can do in your own record.
 
 anyone is any bind, including an anonymous one.
 
-.. _task_groups:
+
 
 Task Groups
 ^^^^^^^^^^^
@@ -454,7 +454,7 @@ from the Role Groups. Otherwise may seem a bit backwards. What we are
 doing with Role groups is defining what tasks a role may execute. To do
 that we add the Role to the task group.
 
-.. _how_to_create_a_new_task:
+
 
 How to create a new Task
 ''''''''''''''''''''''''
@@ -462,7 +462,7 @@ How to create a new Task
 #. Create a new task group for the task
 #. Create an ACI and assign it to the task group you just created
 
-.. _role_groups_1:
+
 
 Role Groups
 ^^^^^^^^^^^
@@ -483,14 +483,14 @@ It also needs to provide the ability to manage which tasks a role may
 operate on. By adding a task to a role the role gets added as a group
 member of the task.
 
-.. _additional_possible_capabilities:
+
 
 Additional Possible Capabilities
 --------------------------------
 
 These would be for v3 or beyond.
 
-.. _limit_bind_rules:
+
 
 Limit Bind Rules
 ~~~~~~~~~~~~~~~~
@@ -502,7 +502,7 @@ We can add on additional bind rules for making changes if desired by:
 -  IP
 -  hostname
 
-.. _current_state_of_affairs:
+
 
 Current State of Affairs
 ------------------------
@@ -515,7 +515,7 @@ users to another.
 | ``,dc=example,dc=com)")(version 3.0;acl "foobar";allow (write) groupdn="``\ ```ldap://`` <ldap://>`__
 | ``/cn=foo,cn=groups,cn=accounts,dc=example,dc=com";)``
 
-.. _who_writes_the_acis_tasks_and_roles:
+
 
 Who writes the ACIs, tasks and roles?
 -------------------------------------
@@ -540,14 +540,14 @@ be:
 -  automount admin
 -  netgroups admin
 
-.. _how_will_acis_be_created:
+
 
 How will ACIs be created?
 -------------------------
 
 There will be no web UI for creating new ACIs.
 
-.. _how_will_acis_be_modified:
+
 
 How will ACIs be modified?
 --------------------------

@@ -10,7 +10,7 @@ servers in a single domain to be more manageable. The goal is to make it
 more automated when initiated by admin, script tools like Puppet, Chef,
 Salt or via provisioning systems like Foreman.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -164,7 +164,7 @@ Implementation
 Any additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -179,7 +179,7 @@ CLI
 
 Overview of the CLI commands
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -192,7 +192,7 @@ Replication
 
 Any impact on replication?
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -204,14 +204,14 @@ Dependencies
 
 Any new package and library dependencies.
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Impact on other development teams and components
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
@@ -219,7 +219,7 @@ Backup and Restore
 Any files or configuration that needs to be taken care of in backup or
 restore procedure.
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -227,7 +227,7 @@ Test Plan
 Test scenarios that will be transformed to test cases for FreeIPA
 Continuous Integration during implementation or review phase.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

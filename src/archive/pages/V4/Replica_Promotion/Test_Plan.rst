@@ -5,7 +5,7 @@ New workflow of replica creation: enroll a client and then promote it to
 replica: we no longer create replica gpg files on master and distribute
 them to potential replicas
 
-.. _test_plan:
+
 
 Test Plan
 =========

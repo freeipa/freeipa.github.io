@@ -4,7 +4,7 @@ Overview
 The command \`whoami\` is designed to provide details on how to obtain
 information about currently authenticated identity.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -69,7 +69,7 @@ The command returns following information:
 -  function to call to get actual details about the object
 -  arguments to pass to the function
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -87,7 +87,7 @@ Upgrade
 
 No upgrade impact
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -126,7 +126,7 @@ Directory user which has ID override in 'Default Trust View'.
 | ``       }``
 | ``      {'command': 'idoverrideuser_show/1', 'object': 'idoverrideuser', 'arguments': ('default trust view', 'administrator@ad.domain')}``
 
-.. _test_plan:
+
 
 Test Plan
 ---------

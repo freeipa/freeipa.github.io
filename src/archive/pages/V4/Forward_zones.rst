@@ -10,7 +10,7 @@ records. Current implementation allows separate forward and master zones
 in FreeIPA `DNS <DNS>`__ to follow BIND design and achieve consistent
 behavior.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -173,7 +173,7 @@ New IPA commands
 -  ``dnsforwardzone-remove-permission``, to remove the permission for
    per forward zone access delegation
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -326,7 +326,7 @@ will remove system permission
 | ``---------------------------------------------------------``
 | ``  Manage DNS zone zone.test.``
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -376,7 +376,7 @@ Updates and Upgrades
    in schema before schema upgrade, then no transformation is required,
    else transform master zone to forward zone using rules above.
 
-.. _how_to_test:
+.. _how_to_test20:
 
 How to Test
 -----------
@@ -424,7 +424,7 @@ Test a forward zone with forwarding none policy
 #. test zone *example.test* using dig: **$ dig @ A host.example.test.**
 #. expected result: NXDOMAIN
 
-.. _test_plan:
+
 
 Test Plan
 ---------
@@ -566,7 +566,7 @@ Unit tests
       -  Expectation: ValidationError: only master zones can contain
          records
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

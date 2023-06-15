@@ -17,7 +17,7 @@ of the same secrets. Storing these secrets centrally makes
 authorization, distribution and rollover of secrets for services much
 easier to maintain.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -359,7 +359,7 @@ list hosts or hostgroups that are allowed to retrieve a stored secret.
 
 The LDAP schema and entry location for this needs to be defined.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -374,7 +374,7 @@ CLI
 
 TBD
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -395,7 +395,7 @@ DRM internal database would be stored in a separate suffix in 389 DS.
 This would allow some FreeIPA replicas to have a password vault while
 other do not.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -420,7 +420,7 @@ relies on Dogtag for it's CA subsystem, but the DRM subsystem is
 contained in an additional package. This dependency should be optional
 since not everyone would have the password vault functionality enabled.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
@@ -431,7 +431,7 @@ required by this feature that will require RFEs for Dogtag. One such RFE
 that is known is support for a standalone DRM subsystem to allow it to
 work in a CA-less FreeIPA installation.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
@@ -440,7 +440,7 @@ The password vault will need to be backed up. This will require backing
 up the DRM data from LDAP, DRM certificate databases, and DRM
 configuration files.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

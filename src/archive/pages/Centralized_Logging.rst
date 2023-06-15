@@ -29,7 +29,7 @@ to structure and produce logs. This applies both for FreeIPA server and
 it's many services, but also for FreeIPA clients, where different
 information lies in different logs (SSSD log, audit log).
 
-.. _use_cases:
+.. _use_cases12:
 
 Use Cases
 ---------

@@ -10,7 +10,7 @@ about services running on other replicas. I chose an approach to have a
 running net-snmp agent on each replica. Every agent has a set of
 services in its configuration file which statuses will be check.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -98,13 +98,13 @@ Implementation
 Any additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
 
 Installation
-~~~~~~~~~~~~
+------------
 
 Tool is optional component of FreeIPA and it could be enabled with
 --setup-snmp parameter in install script (ipa-server-install). If master
@@ -114,13 +114,13 @@ master server will be checked during replica installation. If entry for
 SNMP service will be present, then tool will be enabled.
 
 UI
-~~
+--
 
 All command line possibilities can be accesible via web browser FreeIPA
 interface.
 
 CLI
-~~~
+---
 
 Command to gain information could be something like ipa replica-status .
 Command will use a net-snmp client, which sends a request to all agents
@@ -141,7 +141,7 @@ for services should be --service=name1 --service=name2.
 Client will use net-snmp-utils commands, especially snmpwalk to get data
 from SNMP agent.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -153,7 +153,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -165,7 +165,7 @@ Dependencies
 
 net-snmp and net-snmp-utils packages will be needed
 
-.. _external_impact:
+
 
 External Impact
 ===============

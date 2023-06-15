@@ -430,7 +430,7 @@ Completed changes:
 -  Using LDAPI to setup CA and KRA agents
    (`pushed <https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=72cfcfa0bd1e867537fcc788512e5fca20708b83>`__).
 
-.. _test_plan:
+
 
 Test Plan
 =========

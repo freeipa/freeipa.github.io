@@ -135,8 +135,6 @@ High Level Architecture
 -----------------------
 
 The diagram below shows a high level architecture for Samba4 with IPA.
-|IPA and Samba High Level Architecture|
-
 In this diagram:
 
 -  The Windows part of the enterprise (Windows clients) will continue to
@@ -274,5 +272,3 @@ development work related to this project. However, the collaboration
 with Samba developers is very important, and the IPA project community
 hopes that Samba developers will be open and responsive to questions and
 patches that arise during this effort.
-
-.. |IPA and Samba High Level Architecture| image:: IntegrationArchitecture.jpg

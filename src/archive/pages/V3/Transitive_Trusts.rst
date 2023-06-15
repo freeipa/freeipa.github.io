@@ -11,7 +11,7 @@ expose subordinate domains to the trusting party.
 FreeIPA v3 currently does not support fetching transitive trusts
 information and providing its own view of a FreeIPA forest.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -146,7 +146,7 @@ know about the domains first.
    krb5.conf. In MIT Kerberos 1.12 there will be new API added to allow
    bulk auth_to_local ruleset handling.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -186,7 +186,7 @@ ipa trustdomain-enable
    trust. SID filtering per trust is already implemented in
    **trust-mod**.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -198,7 +198,7 @@ Replication
 
 TODO
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -210,7 +210,7 @@ Dependencies
 
 SSSD will need to understand transitive trusted domains membership.
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -218,21 +218,21 @@ External Impact
 Part of the implementation relies on SSSD being able to understand
 transitive trusted domain membership for incoming users
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
 
 TODO
 
-.. _test_plan:
+
 
 Test Plan
 =========
 
 TODO
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

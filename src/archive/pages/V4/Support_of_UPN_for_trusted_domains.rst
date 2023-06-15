@@ -16,7 +16,7 @@ The purpose of this feature is to allow using alternative UPNs
 associated with the Active Directory users when accessing resources in
 FreeIPA domain.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -62,7 +62,7 @@ name). Thus, either IPA KDB driver needs to be extended to understand
 trusted domains without SID and NetBIOS name, or TLNs need to be stored
 as a property of tree root domains of the forest.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -95,7 +95,7 @@ on non-upgraded replica will not be able to fill-in the attribute values
 and will not be able to show it until the packages for the FreeIPA
 framework are upgraded.
 
-.. _how_to_test:
+.. _how_to_test38:
 
 How to Test
 -----------
@@ -109,7 +109,7 @@ See
 https://technet.microsoft.com/en-us/library/cc739093%28v=ws.10%29.aspx
 for details of AD naming and how to add UPNs.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

@@ -6,7 +6,7 @@ advanced user life-cycle management capabilities (like staging area for
 new or deleted users) or standard LDAP interface for adding or removing
 users that can be used by provisioning systems.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -16,7 +16,7 @@ Use Cases
 External Provisioning System
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _user_story:
+
 
 User Story
 ^^^^^^^^^^
@@ -1969,7 +1969,7 @@ others
 -  `#47823 <https://fedorahosted.org/389/ticket/47823>`__: Enforce
    attribute uniqueness accross all the scoped subtrees (fixed *1.3.3*)
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -2027,7 +2027,7 @@ config-mod
 -  New config options described in section `#Major configuration options
    and enablement <#Major_configuration_options_and_enablement>`__
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -2055,7 +2055,7 @@ order to prevent replication issue, **all** activation
 (stageuser-activate) of user account should be done on the **same**
 server.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -2090,7 +2090,7 @@ management, like:
 -  Staged or deleted users in ``cn=provisioning`` tree may interfere
    with older FreeIPA and it's DS plugins.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
@@ -2098,7 +2098,7 @@ External Impact
 Changes in *389 Directory Server* and *slapi-nis* packages will be
 required.
 
-.. _how_to_test:
+.. _how_to_test41:
 
 How to Test
 -----------
@@ -2540,7 +2540,7 @@ generated:
      objectClass: posixaccount
      objectClass: mepOriginEntry
 
-.. _test_plan:
+
 
 Test Plan
 ---------

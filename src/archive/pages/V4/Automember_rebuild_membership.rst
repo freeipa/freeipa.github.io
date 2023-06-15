@@ -5,7 +5,7 @@ Integrate the `rebuild membership
 feature <https://fedorahosted.org/389/ticket/20>`__ of the automember DS
 plugin into IPA CLI and Web UI.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -33,7 +33,7 @@ The newly added command will invoke the
 automember plugin tasks implementation and usage are described
 `here <https://fedorahosted.org/389/ticket/20#comment:10>`__.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -74,7 +74,7 @@ It can also be used to rebuild membership for the specified entries:
 | ``   $ ipa automember-rebuild --hosts=HOSTNAME1 --hosts=HOSTNAME2``
 | ``   $ ipa automember-rebuild --users=LOGIN1 --users=LOGIN2``
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -87,7 +87,7 @@ support creation of automember tasks:
 -  permission: ``Add Automember Rebuild Membership Task``
 -  underlying ACI for the permission listed above
 
-.. _how_to_test:
+.. _how_to_test12:
 
 How to Test
 -----------
@@ -135,7 +135,7 @@ place the host in the appropriate hostgroup:
 
 The same mechanism applies for users and groups.
 
-.. _test_plan:
+
 
 Test Plan
 ---------
@@ -144,7 +144,7 @@ See
 `test_automember_plugin.py <https://git.fedorahosted.org/cgit/freeipa.git/tree/ipatests/test_xmlrpc/test_automember_plugin.py?h=ipa-4-1>`__
 for the list of test cases.
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

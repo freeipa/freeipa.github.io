@@ -1,5 +1,5 @@
-.. image:: images/freeipa-logo-small.png
-
+FreeIPA - Identity, Policy, Audit
+=================================
 
 Identity
 --------
@@ -51,8 +51,11 @@ Main features
 Releases
 --------
 
-- `FreeIPA 4.10.2 <release-notes/4-10-2.html>`__
-- `FreeIPA 4.9.12 <release-notes/4-9-12.html>`__
+.. toctree::
+   :titlesonly:
+
+   release-notes/4-10-2.rst
+   release-notes/4-9-12.rst
 
 .. _getting_involved:
 
@@ -88,3 +91,10 @@ visit our `public FreeIPA instance <Demo>`__! It is great for
    `LDAP <Directory_Server>`__/`Kerberos <Kerberos>`__ authentication
 
 Read more on the page `Demo <Demo>`__.
+
+
+.. toctree::
+   :glob:
+   :hidden:
+
+   archive.rst

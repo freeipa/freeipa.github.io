@@ -14,7 +14,7 @@ via an external infrastructure management system, while retaining a
 reasonable level of security (or increasing the security of the solution
 in some areas).
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -593,7 +593,7 @@ for spawning replicas, all necessary infrastructure will need to be
 prepared during the upgrade phase, including replica private/public key
 generation.
 
-.. _backward_compatibility:
+
 
 Backward Compatibility
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -604,7 +604,7 @@ Backport candidates for better compatibility with older FreeIPA or
 -  `#47667: Allow nsDS5ReplicaBindDN to be a group
    DN <https://fedorahosted.org/389/ticket/47667>`__
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -614,7 +614,7 @@ management of Custodia keys or secrets. The replica installation user
 experience is simplified compared to the old procedure (i.e.
 ``ipa-replica-prepare`` is not needed, nor is the replica-file option).
 
-.. _how_to_test:
+.. _how_to_test32:
 
 How to Test
 -----------
@@ -646,7 +646,7 @@ authenticated by the KDC running on the replica.
 3.c(optional) turn off the initial master and verify every major
 subsystem (KDC, DNS, CA, KRA) keeps working as expected.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

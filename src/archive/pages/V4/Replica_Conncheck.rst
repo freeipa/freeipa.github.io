@@ -6,7 +6,7 @@ reachable, the replica installation would fail unexpectedly with
 inconvenient error messages. Replica conncheck addresses this issue by
 testing whether the required ports are open.
 
-.. _use_cases:
+
 
 Use Cases
 ---------

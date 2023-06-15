@@ -85,7 +85,7 @@ Implementation
    -  New build-time depedency gettext-devel is needed for gettextize
       framework.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -240,7 +240,7 @@ touch VERSION.m4 file. On subsequent builds, this will trigger automatic
 re-execution of configure script (assuming AM_MAINTAINER_MODE is
 disabled).
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -369,7 +369,7 @@ Translation maintainer
 
 ``$ make polint``
 
-.. _test_plan:
+
 
 Test Plan
 ---------

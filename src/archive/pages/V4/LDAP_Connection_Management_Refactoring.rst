@@ -10,7 +10,7 @@ established adhoc and there was duplicated code scattered around the
 code base. Some connections weren't closed properly. There were multiple
 ways to connect to LDAP.
 
-.. _use_cases:
+
 
 Use Cases
 ---------

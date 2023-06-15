@@ -6,7 +6,7 @@ release <Releases/4.3.0>`__. Management of topology is working but user
 experience is not at a desired level. This document covers missing parts
 of topology management to be implemented in 4.4 release.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -132,7 +132,7 @@ refactoring - ipa-replica-manage prints to output directly but IPA
 method doesn't do it. Additional change is to adjust ACIs and cleanup
 method so that ``ipa server-del`` can be called with host credentials.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -239,7 +239,7 @@ Configuration
 
 Nothing new.
 
-.. _how_to_test:
+.. _how_to_test22:
 
 How to Test
 -----------
@@ -250,7 +250,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+.. _test_plan22:
 
 Test Plan
 ---------

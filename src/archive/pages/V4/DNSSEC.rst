@@ -21,7 +21,7 @@ Disadvantage of this approach is that one replica is
 single-point-of-failure (for key management). More information available
 `here <V4/DNSSEC_Support>`__.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

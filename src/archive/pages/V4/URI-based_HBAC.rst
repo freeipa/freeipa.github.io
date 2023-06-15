@@ -5,7 +5,7 @@ A feature allowing Host Based Access Control to decide based not only on
 triplet (user,service,hostname), but also on URI of the requested
 resource.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -84,7 +84,7 @@ application to use PAM, setting PAM environment variable to URI of the
 requested resource. PAM responder uses system bus to communicate with
 IPA provider in SSSD.
 
-.. figure:: sssd_pam.png
+.. figure:: Sssd_pam.png
    :alt: sssd_pam.png
 
    sssd_pam.png
@@ -289,7 +289,7 @@ application didn't include URI in the request.
 I haven't however, found any better solution that would be fully
 backwards-compatible. I'd be glad for suggestions.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -306,7 +306,7 @@ CLI
 There are subcommands for "ipa" command to list and modify URI, these
 are generated automatically.
 
-.. _how_to_test:
+.. _how_to_test39:
 
 How to Test
 -----------
@@ -330,7 +330,7 @@ To test manually:
    path; connect the page, notice you are NOT authorized (e.g.
    "/whatever")
 
-.. _test_plan:
+
 
 Test Plan
 ---------

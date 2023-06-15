@@ -6,7 +6,7 @@ Overview
 There is no method how to filter groups by type. Group type is basically
 a variation of object classes. Prerequisite for #3333.
 
-.. _use_cases:
+.. _use_cases117:
 
 Use Cases
 =========
@@ -44,7 +44,7 @@ Implementation
 No additional requirements or changes were discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -66,7 +66,7 @@ command can be now executed:
    group-find --posix
    group-find --nonposix
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -78,7 +78,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -90,14 +90,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _rfe_author:
+
 
 RFE author
 ==========

@@ -916,7 +916,7 @@ Status
    (`pushed <https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=bf6df3df9b388753a52a0040d9c15b1eabce41ca>`__).
    This implements section 4.
 
-.. _test_plan:
+
 
 Test Plan
 =========

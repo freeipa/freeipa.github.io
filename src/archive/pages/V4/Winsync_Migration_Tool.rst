@@ -17,7 +17,7 @@ seamless migration, without changing the data on the AD side.
 
 This tool aims to automate the migration process.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -66,7 +66,7 @@ attributes from the original winsynced entry:
 The original user winsynced entry will be removed if the creation of the
 user override was successful.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -81,7 +81,7 @@ ipa-winsync-migrate --ad-realm
 \                   --unattended -U
 =================== ===============
 
-.. _how_to_test:
+.. _how_to_test42:
 
 How to Test
 -----------

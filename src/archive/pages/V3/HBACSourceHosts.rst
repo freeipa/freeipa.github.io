@@ -22,7 +22,7 @@ help and it will not be possible to use them from the CLI. They will
 however remain in the API and when called directly using the API, will
 raise appropriate exceptions informing the user about their deprecation.
 
-.. _use_cases:
+.. _use_cases118:
 
 Use Cases
 =========
@@ -95,7 +95,7 @@ CLI
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -107,7 +107,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -119,14 +119,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

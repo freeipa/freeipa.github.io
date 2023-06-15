@@ -40,7 +40,7 @@ POSIX attributes from the local IPA.
 These two actions are envisioned to happen automatically upon first
 encounter with an external user.
 
-.. _use_cases:
+.. _use_cases14:
 
 Use Cases
 =========
@@ -201,7 +201,7 @@ implementation phase.
 
 **TBD**
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -220,7 +220,7 @@ Overview of the CLI commands
 
 **TBD**
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -247,7 +247,7 @@ New configuration must be replicated.
 "external users" exist only in LDAP and should leverage the existing
 replication mechanism.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -260,7 +260,7 @@ Dependencies
 
 no change
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -277,7 +277,7 @@ complementary operation which could consume kx509 tickets, should they
 become available. As such, implementation of this RFE need not depend on
 completion of kx509 certificate support.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
@@ -288,7 +288,7 @@ need to be included in a backup/restore scheme.
 External user attribute entries in LDAP should be covered by existing
 backup/restore strategies.
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -305,7 +305,7 @@ Test Plan
 -  Verify that upstream changes to a user attribute in the realm of
    origin are reflected in the local realm.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

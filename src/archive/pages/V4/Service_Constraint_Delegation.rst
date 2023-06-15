@@ -14,7 +14,7 @@ can obtain service tickets for which other services, and optionally for
 which subset of users. Targets define the list of services that may be
 delegated.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -102,7 +102,7 @@ The ACL system also provides a means of limiting which user's a ticket
 may be obtained for using the ipaAllowToImpersonate attribute. This is
 not implemented.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -145,7 +145,7 @@ Upgrade
 
 N/A
 
-.. _how_to_test:
+.. _how_to_test37:
 
 How to Test
 -----------
@@ -204,7 +204,7 @@ Now try again:
 | ``test/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid``
 | ``test2/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid``
 
-.. _test_plan:
+
 
 Test Plan
 ---------

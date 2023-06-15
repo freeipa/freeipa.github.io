@@ -8,7 +8,7 @@ how to modify application navigation, for user to be able to navigate to
 new pages. It's not an easy task to do in FreeIPA up to version 3.0.
 This enhancement tries to make the task easy.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -135,7 +135,7 @@ Implementation
 
 N/A
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -150,7 +150,7 @@ CLI
 
 No CLI changes.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -162,7 +162,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -174,14 +174,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

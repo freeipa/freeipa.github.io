@@ -7,7 +7,7 @@ Microsoft's
 implementation, to the IPA web server, to allow clients to access the
 KDC and kpasswd services using HTTP and HTTPS.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -65,7 +65,7 @@ support <http://k5wiki.kerberos.org/wiki/Projects/HTTP_Transport>`__ was
 merged in time for the upstream 1.13 release (Fedora 22 and later), and
 backported to 1.12 for Fedora 21 and RHEL 7.1.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -74,7 +74,7 @@ Ideally, no management will be involved. If we need to be able to enable
 or disable the feature, a command-line tool along the lines of
 ipa-compat-manage and ipa-nis-manage is going to be the simplest option.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major Configuration Options and Enablement
 ------------------------------------------
@@ -94,7 +94,7 @@ Replication
 
 No new data, nothing to replicate.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -111,7 +111,7 @@ Dependencies
 No new dependencies, except possibly for those required to handle server
 location.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
@@ -119,7 +119,7 @@ External Impact
 No expected requirements on external teams; using the new feature is
 optional.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
@@ -127,7 +127,7 @@ Backup and Restore
 There should be no additional configuration or data to back up or
 restore.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

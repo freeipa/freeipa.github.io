@@ -17,7 +17,7 @@ An additional virtual attribute, ``extratargetfilter`` (``--filter`` in
 the CLI), will show/update filters that are not implied by ``--user`` or
 --memberof.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -156,7 +156,7 @@ Implementation
 Additional requirements or changes discovered during the implementation
 phase were merged into this document.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -173,7 +173,7 @@ CLI
 Permission ``--memberof`` and ``--filter`` options will now accept
 multiple values.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -186,14 +186,14 @@ Dependencies
 
 No new package and library dependencies.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 Externally, this is a part of `V3/Permissions V2 <V3/Permissions_V2>`__.
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

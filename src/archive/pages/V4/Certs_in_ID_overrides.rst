@@ -4,7 +4,7 @@ Overview
 To allow IPA to provide the user certificates for the user identities
 coming from the Active Directory.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -26,7 +26,7 @@ Implementation
 The implementation uses the standard FreeIPA schema interface and LDAP
 object framework.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -62,7 +62,7 @@ attribute for the ID override objects as an extension to the
 'ipaUserOverride' object class. This happens transparently during a
 regular FreeIPA upgrade, hence no custom action needs to be taken.
 
-.. _how_to_test:
+.. _how_to_test16:
 
 How to Test
 -----------
@@ -77,7 +77,7 @@ To test in isolation, the following steps should be taken:
 -  Create an user ID override for the selected user identity
 -  Add/Remove/Read the certificate from the user ID override entry
 
-.. _test_plan:
+.. _test_plan16:
 
 Test Plan
 ---------

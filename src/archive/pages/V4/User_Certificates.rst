@@ -13,7 +13,7 @@ profiles <V4/Certificate_Profiles>`__ and `ability to create lightweight
 sub-CAs <V4/Sub-CAs>`__, the user certificate extension is finally
 realizable.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -255,7 +255,7 @@ cases when revocation is due (the key was compromised, user leaves
 organization and retained a copy of the private key) and FreeIPA needs
 to have ability to revoke these certificates.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -328,7 +328,7 @@ certificates* to avoid change of behavior with service and host
 certificates. New installations should default to only *Record issued
 and enrolled certificate* to avoid storing unnecessary data.
 
-.. _how_to_test:
+.. _how_to_test40:
 
 How to Test
 -----------
@@ -544,7 +544,7 @@ References
 -  `Fraser Tweedale: User certificates and custom profiles with FreeIPA
    4.2 <https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom-profiles-with-freeipa-4-2/>`__
 
-.. _test_plan:
+
 
 Test Plan
 ---------

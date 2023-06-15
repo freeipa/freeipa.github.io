@@ -16,7 +16,7 @@ grant authorisation.
 
 This document describes how the application can retrieve those groups
 
-.. _use_cases:
+.. _use_cases7:
 
 Use Cases
 ---------
@@ -53,7 +53,7 @@ is **uniqueMember** or the returned groups.
 In conclusion: the data transformation **only** require a filter
 transformation.
 
-.. _how_to_use:
+.. _how_to_use7:
 
 How to use
 ----------
@@ -110,10 +110,11 @@ have same matching rules and have the same number of allowed value.
 
 An easy way to obtain target attribute in an entry is to alias the
 source and the target attribute. For example in 00core.ldif
+::
 
-| ``attributeTypes: ( 2.5.4.31 NAME ( 'member' 'uniqueMember' )                                                                                       ``
-| ``  SUP distinguishedName``
-| ``  X-ORIGIN 'RFC 4519' )``
+   ``attributeTypes: ( 2.5.4.31 NAME ( 'member' 'uniqueMember' )                                                                                       ``
+   ``  SUP distinguishedName``
+   ``  X-ORIGIN 'RFC 4519' )``
 
 The benefits are:
 

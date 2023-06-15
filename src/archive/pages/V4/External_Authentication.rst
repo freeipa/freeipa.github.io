@@ -7,7 +7,7 @@ Hardware Security Modules like Smart Cards (X509). This Feature captures
 the changes needed to allow these alternative authentication methods to
 interact with the FreeIPA UI and HTTP RPC pipes.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -133,7 +133,7 @@ between the components.
    -  New GSS-Proxy including access control for s4u2self VS s4u2proxy
       functionality
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -175,7 +175,7 @@ GSS-Proxy needs to be started:
 -  IPA Keytab permissions need to be changed so that only GSS-Proxy can
    access it
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -187,7 +187,7 @@ able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

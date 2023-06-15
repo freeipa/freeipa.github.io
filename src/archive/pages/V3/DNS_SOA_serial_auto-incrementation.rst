@@ -37,7 +37,7 @@ Structure of DNS sub-tree in LDAP
 Please get familiar with `the way how DNS data are stored in
 LDAP <https://fedorahosted.org/bind-dyndb-ldap/wiki/DatabaseStructure>`__.
 
-.. _use_cases:
+.. _use_cases114:
 
 Use Cases
 =========
@@ -147,7 +147,7 @@ solution:
 Feature Managment
 -----------------
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -195,7 +195,7 @@ Each write to ``idnsSOAserial`` can potentially trigger same problem as
 described in `IPA ticket
 #2534 <https://fedorahosted.org/freeipa/ticket/2534>`__.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -210,7 +210,7 @@ Dependencies
 
 -  bind-dyndb-ldap version >= 2.0 is required.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
@@ -360,7 +360,7 @@ Implementation
 Any additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------

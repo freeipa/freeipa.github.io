@@ -6,7 +6,7 @@ should be general enough to be able to send messages through various
 outputs (like email, IRC) and maybe not only limited to the FreeIPA
 framework.
 
-.. _use_cases:
+
 
 Use Cases
 ---------

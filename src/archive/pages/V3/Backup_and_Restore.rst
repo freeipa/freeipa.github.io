@@ -27,7 +27,7 @@ Full metal backup is left as an exercise for the system administrator.
 The only requirement is that the backup be done with the IPA services
 offline.
 
-.. _use_cases:
+.. _use_cases110:
 
 Use Cases
 ---------
@@ -344,7 +344,7 @@ restored server doesn't know about the replica at all).
 
 This could potentially strand a number of servers.
 
-.. _external_impact:
+
 
 External Impact
 ~~~~~~~~~~~~~~~
@@ -517,7 +517,7 @@ References
 -  https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Administration_Guide/Populating_Directory_Databases-Backing_Up_and_Restoring_Data.html#Backing_Up_and_Restoring_Data-Restoring_Databases_That_Include_Replicated_Entries
 -  https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Administration_Guide/Managing_Replication-Initializing_Consumers.html#Initializing_Consumers-Filesystem_Replica_Initialization
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -699,7 +699,7 @@ To run purely from a console add
 ``"pinentry-program /usr/bin/pinentry-curses"`` to
 ``.gnupg/gpg-agent.conf`` before generating a key.
 
-.. _how_to_test:
+.. _how_to_test9:
 
 How to Test
 -----------

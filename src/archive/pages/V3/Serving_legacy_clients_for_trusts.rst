@@ -14,7 +14,7 @@ compatibility level that allows to log-in to IPA clients for AD users.
 IPA clients will be able to use any reasonable nss_ldap/pam_ldap/sssd
 version.
 
-.. _use_cases:
+.. _use_cases10m:
 
 Use Cases
 =========
@@ -104,7 +104,7 @@ Implementation
 For SSSD design see
 https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -123,7 +123,7 @@ IPA idrange management is expanded to specify idrange type (IPA local,
 AD trust, AD with winsync, IPA trust, ..) to affect the way how AD users
 SIDs are mapped to POSIX IDs.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -207,7 +207,7 @@ No effect on replication. Since directory server plugin is only
 configured when ipa-adtrust-install is run, IPA masters may opt out from
 serving AD clients.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -220,14 +220,14 @@ Dependencies
 
 Depends on SSSD implementing IPA server mode (sssd 1.11)
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
@@ -245,7 +245,7 @@ PAM service. At this point what is checked by HBAC rules is access by
 the user to the service called 'system-auth' on IPA master, not on the
 legacy client.
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -253,7 +253,7 @@ Test Plan
 -  FreeIPA server: ipa.example.org
 -  Active Directory: ad.example.org
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

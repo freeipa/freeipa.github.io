@@ -22,7 +22,7 @@ Installation with --selfsign (selfsigned certificate managed in local
 NSS database on server) is rather troublesome and not even supported -
 it should be dropped.
 
-.. _use_cases:
+.. _use_cases116:
 
 Use Cases
 =========
@@ -55,7 +55,7 @@ Feature Managment
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -67,7 +67,7 @@ Replication
 
 No impact, self-signed CAs are incapable of replication
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -80,7 +80,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -89,7 +89,7 @@ QE will need to drop tests for the self-signed CA, if they have any.
 
 Documentation may need updating.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

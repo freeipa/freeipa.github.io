@@ -12,7 +12,7 @@ automatically.
 Improve the situation by being more generous in accepted file formats
 and automatically handling whatever can be handled automatically.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -99,7 +99,7 @@ imported.
 The old command line options of ``ipa-server-install`` and
 ``ipa-replica-prepare`` are hidden and kept for backward compatibility.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -124,7 +124,7 @@ Upgrade
 
 N/A
 
-.. _how_to_test:
+.. _how_to_test27:
 
 How to Test
 -----------
@@ -135,7 +135,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+.. _test_plan27:
 
 Test Plan
 ---------
@@ -146,7 +146,7 @@ implementation or review phase. This can be also link to `source in
 cgit <https://git.fedorahosted.org/cgit/freeipa.git/>`__ with the test,
 if appropriate.
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

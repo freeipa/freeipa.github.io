@@ -9,7 +9,7 @@ We expose an interface to resolve Security Identifiers (SIDs) from a
 foreign trusted domain. The command is used by Web UI to resove the SIDs
 added as external group members.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -27,7 +27,7 @@ resolved via SSSD. SSSD encapsulates actual resolution mechanism under
 libsss_nss_idmap API. Details on SSSD design are available at
 https://fedorahosted.org/sssd/wiki/DesignDocs/NSSResponderIDMappingCalls
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -55,7 +55,7 @@ Required command options:
 
 -  ``--sids``: comma-separated list of SIDs to resolve.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -67,7 +67,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -81,7 +81,7 @@ SSSD 1.10 is required. In particular, Python bindings to
 libsss_nss_idmap are used, packaged as libsss_nss_idmap-python in Fedora
 19.
 
-.. _external_impact:
+
 
 External Impact
 ===============

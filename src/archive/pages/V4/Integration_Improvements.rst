@@ -76,7 +76,7 @@ Example:
 
 The ``ipa-client-gencfg`` command is just an example.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -450,14 +450,14 @@ Upgrade
 Package dependencies must be synced between RPM spec and setup.py /
 ipasetup.py.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
 
 **TBW**
 
-.. _test_plan:
+
 
 Test Plan
 ---------

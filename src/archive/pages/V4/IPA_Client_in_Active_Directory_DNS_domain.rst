@@ -10,12 +10,12 @@ to FreeIPA was to move it to FreeIPA owned domain. While this procedure
 works well when migrating 10 client systems, it is less desirable when
 migrating 10k client systems.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
 
-.. _user_story:
+
 
 User Story
 ~~~~~~~~~~

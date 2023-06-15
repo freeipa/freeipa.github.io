@@ -121,7 +121,7 @@ CLI
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -133,7 +133,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -145,14 +145,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _test_plan:
+
 
 Test Plan
 =========

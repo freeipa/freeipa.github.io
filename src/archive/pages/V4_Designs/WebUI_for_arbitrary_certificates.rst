@@ -10,7 +10,7 @@ version of WebUI for CLI described in this design: `User
 Certificates <http://www.freeipa.org/page/V4/User_Certificates>`__ and
 also the CLI part which is necessary for WebUI.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -52,7 +52,7 @@ Implementation
 TODO: How certificates are stored in LDAP? More details about ASN.1
 parser, about finding certificates?
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -94,14 +94,14 @@ issuer in case that the certificate is not issued by our CA.
 |           | --services=[ multivalued ] --certificate=STR            |
 +-----------+---------------------------------------------------------+
 
-.. _how_to_test:
+.. _how_to_test43:
 
 How to Test
 -----------
 
 TBD
 
-.. _test_plan:
+.. _test_plan43:
 
 Test Plan
 ---------

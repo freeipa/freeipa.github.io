@@ -9,7 +9,7 @@ FIPS-enabled.
 **FreeIPA only supports fresh FIPS installs, current installations
 cannot be upgraded to FIPS mode.**
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -97,7 +97,7 @@ installation will proceed if and only if the status of FIPS is the same
 on the master and replica. Otherwise, an error message is displayed, and
 the installation is aborted.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -124,7 +124,7 @@ FreeIPA will detect whether FIPS is enabled from
 go into FIPS mode can be found in the `official RHEL Security
 Guide <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Security_Guide/chap-Federal_Standards_and_Regulations.html#sec-Enabling-FIPS-Mode>`__.
 
-.. _how_to_use:
+
 
 How to Use
 ==========
@@ -133,7 +133,7 @@ Set up your system to be in FIPS-enabled mode and install FreeIPA as you
 would normally do. Enabling FIPS after installation of IPA on the
 machine is not supported - some operations will not work.
 
-.. _test_plan:
+
 
 Test Plan
 =========

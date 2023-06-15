@@ -17,7 +17,7 @@ tools such as ipa-join will continue to use XML-RPC. The features that
 JSON-RPC will allow aren't essential for these tools. The features will
 simply not be available over XML-RPC.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -53,7 +53,7 @@ Feature Managment: CLI
 Developers can use the ``-e rpc_protocol=xmlrpc`` option to ``ipa`` to
 use the old protocol.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -65,7 +65,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -77,7 +77,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ---------------

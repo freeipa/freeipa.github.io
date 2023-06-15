@@ -6,7 +6,7 @@ ASN.1 parsing library. *asn1crypto* is a modern library to parse and
 create ASN.1 data. It has been designed to be faster and easier to use
 than pyasn1.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -24,7 +24,7 @@ In general we prefer to avoid dependencies on two libraries with same
 purpose. Moving to *asn1crypto* allows FreeIPA to drop two packages from
 its dependency list.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -71,7 +71,7 @@ Dependencies
 -  Depend on new version of *python-kdcproxy*
 -  Update *setup.py*
 
-.. _how_to_test:
+.. _how_to_test11:
 
 How to Test
 -----------

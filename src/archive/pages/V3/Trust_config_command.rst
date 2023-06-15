@@ -14,7 +14,7 @@ also expose an interface to actually show global configuration of
 FreeIPA domain which is already being stored in
 ``cn=$IPA_DOMAIN,cn=ad,cn=etc,$IPA_SUFFIX``.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -39,7 +39,7 @@ manipulate the global configuration. Even though we currently (FreeIPA
 3.1) support only Active Directory type of trusts, these commands should
 be already prepared for more types as they will come in the future.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -97,7 +97,7 @@ Required command options:
 
 -  ``--type``, see ``trustconfig-show`` command for details.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -109,7 +109,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -121,7 +121,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============

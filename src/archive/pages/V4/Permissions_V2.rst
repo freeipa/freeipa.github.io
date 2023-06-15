@@ -10,7 +10,7 @@ overhauled.
    check) the ACI
 -  It is now possible to grant read rights
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -312,7 +312,7 @@ UI
 The UI will need to be updated to use the attribute names in the API,
 see the "Option/Attribute mapping" section.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -336,7 +336,7 @@ CLI
 -  The type is a convenience option that sets rawfilter and subtree on
    input, and is computed from them on output
 
-.. _test_plan:
+
 
 Test Plan
 ---------

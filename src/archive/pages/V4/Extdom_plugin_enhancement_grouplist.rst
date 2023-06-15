@@ -14,7 +14,7 @@ un-authenticated users by reading them from the AD DCs of the trusted
 domains directly. This data should be made available to the IPA clients
 as well.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -211,7 +211,7 @@ Since the new response type will only be returned if requested by the
 client there are no compatibility concerns because older clients cannot
 request it.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -225,7 +225,7 @@ Configuration
 No additional configuration is needed. If chosen a new OID can indicate
 that the feature is available.
 
-.. _how_to_test:
+.. _how_to_test25:
 
 How to Test
 -----------
@@ -322,7 +322,7 @@ following way:
 | ``$ echo  532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030 | xxd -r -p ``
 | ``S-1-5-21-1223289188-3198440353-3300211032-500``
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

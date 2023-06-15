@@ -8,7 +8,7 @@ In the future, this allow us to create a system of fine-grained,
 user-controllable permissions with good defaults and predictable
 behavior over upgrades.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -209,7 +209,7 @@ then run ``ipa-ldap-updater -p``. This will also create the new default
 permission, but the old one will be preserved as a user-created
 permission.
 
-.. _the_problem:
+
 
 The problem
 ===========
@@ -435,7 +435,7 @@ CLI
 
 See the CLI & API section in Design.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -447,7 +447,7 @@ Replication
 
 N/A, ACIs and permissions are replicated.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -467,14 +467,14 @@ Dependencies
 
 No new package and library dependencies.
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Tests and documentation need to be written.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
@@ -482,12 +482,12 @@ Backup and Restore
 ACIs, permissions, privileges and roles are already included in backup &
 restore.
 
-.. _test_plan:
+
 
 Test Plan
 =========
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

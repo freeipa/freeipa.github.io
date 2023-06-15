@@ -18,7 +18,7 @@ As a secondary goal, much of the code can be reused to add the
 capability of inspecting the FreeIPA environment and providing succint,
 anonymyzed information bundle of the FreeIPA deployment.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -67,7 +67,7 @@ three main parts:
 The simplified overall structure of the diagnosis tool itself is best
 described with the following diagram:
 
-.. figure:: ipa-diagnose-high-level.png
+.. figure:: Ipa-diagnose-high-level.png
    :alt: ipa-diagnose-high-level.png
 
    ipa-diagnose-high-level.png
@@ -88,7 +88,7 @@ Therefore, a mechanism to fetch the reports from replicas needs to be
 introduced. Following diagram describes the simplest case with one
 master and one replica:
 
-.. figure:: ipa-diagnose-simple-fetch.png
+.. figure:: Ipa-diagnose-simple-fetch.png
    :alt: ipa-diagnose-simple-fetch.png
 
    ipa-diagnose-simple-fetch.png
@@ -105,7 +105,7 @@ to the original master which initiated the check.
 In the non-ideal case, the health check of the deployment might look as
 in the illustration below:
 
-.. figure:: ipa-diagnose-complex-fetch.png
+.. figure:: Ipa-diagnose-complex-fetch.png
    :alt: ipa-diagnose-complex-fetch.png
 
    ipa-diagnose-complex-fetch.png
@@ -156,7 +156,7 @@ produced by the reporters, and performs additional checks on the system.
 Report format
 ~~~~~~~~~~~~~
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -191,14 +191,14 @@ Upgrade
 There is no impact on upgrades, diagnostics plugins should be able to
 work with multiple versions of underlying FreeIPA packages.
 
-.. _how_to_test:
+.. _how_to_test17:
 
 How to Test
 -----------
 
 N/A
 
-.. _test_plan:
+.. _test_plan17:
 
 Test Plan
 ---------

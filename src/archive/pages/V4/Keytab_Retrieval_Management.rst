@@ -6,7 +6,7 @@ retrieval mechanism and new LDAP schema for management of the feature.
 This part utilizes the existing schema a builds a management interface,
 both CLI and Web UI, on top of it.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -52,7 +52,7 @@ was to loosen the regex for checking the param name. But this approach
 has a global effect which is potentially dangerous to do in a end phase
 of 4-1 development.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -86,7 +86,7 @@ CLI
 | `` ipa service-allow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
 | `` ipa service-disallow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
 
-.. _how_to_test:
+.. _how_to_test21:
 
 How to Test
 -----------
@@ -95,7 +95,7 @@ See `Keytab Retrieval feature <V4/Keytab_Retrieval>`__. Only use the CLI
 or Web UI interface instead of ldapmodify to delegate the keytab
 manipulation privileges.
 
-.. _test_plan:
+.. _test_plan21:
 
 Test Plan
 ---------
@@ -106,7 +106,7 @@ Should be combined with tests for `Keytab Retrieval
 feature <V4/Keytab_Retrieval>`__. First set the permission here and then
 check the actual functionality using **ipa-getkeytab**.
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

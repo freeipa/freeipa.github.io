@@ -20,7 +20,7 @@ Previously, IPA had a "self-signed" mode, where certificate management
 was done without pki-ca. This mode will be replaced by CA-less mode on
 upgrade.
 
-.. _use_cases:
+.. _use_cases115:
 
 Use Cases
 =========
@@ -289,7 +289,7 @@ Feature Managment
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -307,7 +307,7 @@ Self-signed CAs were incapable of replication. With this change,
 replicas can be created given appropriate (possibly wildcard) server
 certificates.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -319,14 +319,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Documentation may need updating.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

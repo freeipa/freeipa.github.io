@@ -8,7 +8,7 @@ etc. The test plan is situated in this area, you can find more details
 about this feature in `Design
 document <http://www.freeipa.org/page/V4/Performance_Improvements>`__
 
-.. _test_plan:
+
 
 Test Plan
 =========

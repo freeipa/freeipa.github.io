@@ -20,7 +20,7 @@ Related ticket(s):
 `#5787 <https://fedorahosted.org/freeipa/ticket/5787>`__ ,
 `5916 <https://fedorahosted.org/freeipa/ticket/5916>`__
 
-.. _use_cases:
+
 
 Use Cases
 ~~~~~~~~~
@@ -381,7 +381,7 @@ that file, where the perf improvement are
 
 Those improvements are available since **Release 0.55**
 
-.. _feature_management:
+
 
 Feature Management
 ~~~~~~~~~~~~~~~~~~
@@ -2021,7 +2021,7 @@ Other possibilities are:
 -  don't do indirect membership at all
 -  try to implement cache for indirect membership
 
-.. _test_plan:
+
 
 Test Plan
 ---------

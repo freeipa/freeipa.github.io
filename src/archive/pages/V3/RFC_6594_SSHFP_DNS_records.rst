@@ -18,7 +18,7 @@ specification with support for SHA-256 fingerprints and ECDSA host keys.
 Add support for RFC 6594 SSHFP records to IPA, generate both SHA-1 and
 SHA-256 fingerprints for RSA, DSS and ECDSA host keys.
 
-.. _use_cases:
+.. _use_cases10l:
 
 Use Cases
 =========
@@ -108,7 +108,7 @@ Feature Managment
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -120,7 +120,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -132,14 +132,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

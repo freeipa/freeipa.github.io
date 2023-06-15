@@ -10,7 +10,7 @@ distributions work with chrony like Fedora 28. However, many Linux
 distributions are using the FreeIPA system, so they need to support the
 new version.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -169,7 +169,7 @@ Upgrade
 
 There are no additional actions required once the FreeIPA is upgraded.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

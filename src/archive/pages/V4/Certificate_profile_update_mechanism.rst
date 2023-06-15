@@ -45,7 +45,7 @@ Terminology
 *profile configuration*
    A complete Dogtag profile configuration.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -288,14 +288,14 @@ Implementation
 Upgrade
 =======
 
-.. _how_to_use:
+
 
 How to Use
 ==========
 
 There is no user or administrator action required to use this mechanism.
 
-.. _test_plan:
+
 
 Test Plan
 =========

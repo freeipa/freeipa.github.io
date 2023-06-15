@@ -31,7 +31,7 @@ resources, etc. Trust controller is also what Active Directory's domain
 controllers contact when validating the trust by means of SMB protocol
 using LSA calls which implies running a Samba server.
 
-.. _use_cases:
+
 
 Use cases
 =========
@@ -81,7 +81,7 @@ libraries which are in use by SSSD components and extdom/sidgen plugins.
 Enablement of slapi-nis to provide AD users' access should depend on
 whether compat tree is enabled at this IPA master already or not.
 
-.. _feature_management:
+
 
 Feature management
 ==================

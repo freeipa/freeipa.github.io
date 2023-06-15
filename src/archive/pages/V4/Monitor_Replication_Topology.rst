@@ -8,7 +8,7 @@ it is possible to have the complete view of the topology on any server.
 This paper describes how the topology plugin functions can be etxended
 to provide replication monitoring.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -114,7 +114,7 @@ technical details here. Make sure you cover
 If this section is not trivial, move it to ``/Implementation`` sub page
 and only include link.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -139,14 +139,14 @@ Upgrade
 
 TODO
 
-.. _how_to_test:
+.. _how_to_test30:
 
 How to Test
 -----------
 
 TODO
 
-.. _test_plan:
+.. _test_plan30:
 
 Test Plan
 ---------

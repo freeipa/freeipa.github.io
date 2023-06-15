@@ -3,7 +3,7 @@ Overview
 
 Allow IPA permissions to apply to Anonymous and All authenticated users.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -51,7 +51,7 @@ Implementation
 No additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -70,7 +70,7 @@ CLI
 
 See Design.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -82,7 +82,7 @@ Replication
 
 ACIs are replicated.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -101,26 +101,26 @@ Dependencies
 
 None
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Will need tests and documentation
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
 
 ACIs are part of the DIT and so they are backed up.
 
-.. _test_plan:
+
 
 Test Plan
 =========
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

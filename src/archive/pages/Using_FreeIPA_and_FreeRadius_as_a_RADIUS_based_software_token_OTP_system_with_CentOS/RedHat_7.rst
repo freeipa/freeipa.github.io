@@ -310,7 +310,7 @@ As a first step, add the following lines at the beginning of
 
 | ``client localnet {``
 | ``        ipaddr = 192.168.1.0/24``
-| ``        proto = *``
+| ``        proto = \*``
 | ``        secret = somesecret``
 | ``        nas_type = other<------># localhost isn't usually a NAS...``
 | ``        limit {``

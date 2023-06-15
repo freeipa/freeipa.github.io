@@ -3,7 +3,7 @@ IPA-sudo integration is done automatically in ipa-client-install, see
 `V4 Minor Enhancements <V4_Minor_Enhancements>`__), it also brings a
 brand new integration test for this popular feature.
 
-.. _test_plan:
+
 
 Test Plan
 =========

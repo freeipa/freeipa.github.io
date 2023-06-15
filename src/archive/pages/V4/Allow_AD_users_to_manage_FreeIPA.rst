@@ -4,7 +4,7 @@ Overview
 Allow Active Directory users to use FreeIPA command line interface (CLI)
 to manage FreeIPA resources
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -93,7 +93,7 @@ qualified user name syntax. Following logic should be used as soon as
    to override is just fine)
 -  if succeeded, add DN of the override to the group membership list
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -137,7 +137,7 @@ Upgrade
 
 Any impact on upgrades? Remove this section if not applicable.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -149,7 +149,7 @@ able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

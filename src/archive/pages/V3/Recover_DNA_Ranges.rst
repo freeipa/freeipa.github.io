@@ -17,7 +17,7 @@ is gone as well.
 A master does not receive a range until the DNA plugin is first used, so
 it is perfectly possible for a master to have no defined range.
 
-.. _use_cases:
+.. _use_cases10k:
 
 Use Cases
 =========
@@ -281,7 +281,7 @@ CLI
 
 The ipa-replica-manage tool.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -304,7 +304,7 @@ Managing ranges can be dangerous. If there are overlapping ranges you
 run the risk of 2 different masters assigning the same value. This will
 then cause grief when the entries are replicated.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -316,7 +316,7 @@ Dependencies
 
 No
 
-.. _external_impact:
+
 
 External Impact
 ===============

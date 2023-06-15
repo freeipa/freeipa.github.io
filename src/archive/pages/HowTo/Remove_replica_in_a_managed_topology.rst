@@ -5,13 +5,13 @@ In IPA 4.3 the replication topology is controlled by the topology
 plugin. Connections between replicas can only be created or removed by
 the
 
-``ipa topologysegment-[add|del] ``
+ipa topologysegment-[add|del] 
 
 commands.
 
 When a replica is removed by running
 
-``ipa-replica-manage del ``
+ipa-replica-manage del 
 
 the removal of replication segments and corresponding replication
 agreements is automatically handled by the topology plugin.
@@ -87,7 +87,7 @@ Assume that in the above topology the internal node C should be removed.
 
 If the command
 
-``ipa-replica-manage del C ``
+ipa-replica-manage del C 
 
 is executed, the command will detect that the removal of C disconnects
 the topology and rejects the command.

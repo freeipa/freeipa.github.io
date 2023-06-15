@@ -123,13 +123,15 @@ static set of records, there is no way how to prioritize a server
 'nearest' to the client at the moment. Consequently, all FreeIPA servers
 typically have the same priority (0) and weight (100):
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-| ``;; ANSWER SECTION:``
-| ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-| ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+::
 
-.. _use_cases:
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+
+.. _use_cases6:
 
 Use Cases
 ---------
@@ -414,7 +416,7 @@ that full dynamic support can lately be easily added to bind-dyndb-ldap
 support as well as adding the necessary additional schema and UI to the
 freeipa framework to mark and group clients and locations.
 
-.. _security_considerations:
+.. _security_considerations6:
 
 Security Considerations
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -473,33 +475,38 @@ each location.
 
 Location ``cz`` will have one set of SRV records:
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.cz._locations.example.com. IN  SRV``
-| ``;; ANSWER SECTION:``
-| ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+::
+
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.cz._locations.example.com. IN  SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
 
 Location ``uk`` will have different set of SRV records (possibly with
 different priorities, weights, or even servers):
+::
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.uk._locations.example.com. IN  SRV``
-| ``;; ANSWER SECTION:``
-| ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.``
-| ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.``
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.uk._locations.example.com. IN  SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.``
+   ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.``
 
 Clients are querying SRV records under client's FQDN prefixed with label
 ``_location`` name. This record contains redirection to a location into
 which the client is assigned. (From client's perspective is does not
 matter how the DNS server generated the redirection.)
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
-| ``;; ANSWER SECTION:``
-| **``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
-| ``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+::
+
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
+   ``;; ANSWER SECTION:``
+   **``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
+   ``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
+   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
 
 Following diagram summarizes proposed behavior (version 1):
 |ExampleLocationsV1.svg|
@@ -609,14 +616,14 @@ Upgrade
 
 TBD
 
-.. _how_to_test:
+.. _how_to_test6:
 
 How to Test
 -----------
 
 TBD
 
-.. _test_plan:
+.. _test_plan6:
 
 Test Plan
 ---------

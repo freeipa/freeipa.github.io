@@ -75,7 +75,7 @@ most one principal.** In this design we ignore the possibility of a
 single ``userCertificate`` attribute value occurring on multiple
 principals. This situation does not arise in normal use.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -303,7 +303,7 @@ Implementation
 
 TODO
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -321,7 +321,7 @@ guard. It is important not to rush any changes through. We'll need to
 engage with our user base to explain the changes, and outline steps to
 preserve the existing revocation behaviour if so desired.
 
-.. _test_plan:
+
 
 Test Plan
 =========

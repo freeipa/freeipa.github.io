@@ -10,7 +10,7 @@ represent specific flags.
 We will not add support for all available flags in Kerberos at once.
 Support for flags will be added gradually, on a use-case basis.
 
-.. _use_cases:
+.. _use_cases10c:
 
 Use Cases
 =========
@@ -55,7 +55,7 @@ Add a new Bool option to the service and host commands, ok-as-delegate.
 One can confirm that the principal was updated by using kadmin.local to
 get a Kerberos-side view of the principal.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -67,7 +67,7 @@ Replication
 
 None.
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -79,14 +79,14 @@ Dependencies
 
 None.
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 None.
 
-.. _test_plan:
+
 
 Test Plan
 =========

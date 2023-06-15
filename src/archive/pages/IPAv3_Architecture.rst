@@ -266,17 +266,17 @@ identity/authorization data conveyed in the form of a MS-PAC structure.
 When a client connects (1) to the server and uses GSSAPI-Krb5 to
 authenticate it can provide a MS-PAC structure with the service ticket
 it presents to the login application. This application is linked (2)
-against the libgssapi library which can extract(*) the MS-PAC data and
+against the libgssapi library which can extract the MS-PAC data and
 pass it (3) to SSSD through a local Unix socket or equivalent mechanism.
-The SSSD validates the MS-PAC data by checking signatures(*) and then
+The SSSD validates the MS-PAC data by checking signatures and then
 use libndr_krb5 (4) to decode the MS-PAC. Once the MS-PAC is decoded,
 SSSD will update the cache with the information contained so that
-following getent requests can be properly fulfilled(**).
+following getent requests can be properly fulfilled.
 
 If the user space application requires more information than is
 available in the PAC (for example various group names) then SSSD may
 contact (5) the IPA Identity Server to get the information it
-needs(***). The IPA server may need eventually to contact the AD Domain
+needs. The IPA server may need eventually to contact the AD Domain
 to resolve Names to SIDs or SIDs to Name to reply to the client's
 request. IPA will use a LSARPC call, eventually on a Secure Channel, to
 contact (6) the AD domain controller and perform queries.
@@ -285,7 +285,7 @@ NOTE: In many cases the IPA KDC will have filtered all foreign groups
 from the MS-PAC and augmented it with local groups, so that this last
 step is rarely necessary.
 
-(*) The method to be used is not completely finalised yet. One option
+The method to be used is not completely finalised yet. One option
 assumes libgssapi will be modified to use a mechglue-proxy so that SSSD
 does the actual acceptor exchange and gives back the application only
 the session keys. Another option assumes that we have to trust all
@@ -295,13 +295,13 @@ trusting applications but still only getting the MS-PAC blob, this means
 SSSD will need to validate the MS-PAC by asking one of the IPA KDCs to
 verify the KDC signature.
 
-(**) An Ms-PAC contains only SIDs to represent group memberships, SSSD
+An Ms-PAC contains only SIDs to represent group memberships, SSSD
 will be able to translate SIDs directly into GIDs, but will not have
 direct access to the group names (unless these groups have been
 previously cached). In this case only the initgroups() call can be
 successfully replied to w/o additional name resolution work.
 
-(***) The protocol that will be used to resolve "foreign" users and
+The protocol that will be used to resolve "foreign" users and
 groups from SSSD is not yet defined. It may involve using LSARPC calls
 against the IPA's Samba instance, or perhaps a special LDAP extended
 operation. This protocol will be better defined later on and this page

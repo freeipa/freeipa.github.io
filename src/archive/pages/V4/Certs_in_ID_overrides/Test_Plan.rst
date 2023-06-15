@@ -10,7 +10,7 @@ explicitly create an idoverrideuser entity for the external user in
 either the default idview for trust, "Default Trust View", or some
 custom idview. These entities can then be used to store keys and certs.
 
-.. _test_plan:
+
 
 Test Plan
 =========

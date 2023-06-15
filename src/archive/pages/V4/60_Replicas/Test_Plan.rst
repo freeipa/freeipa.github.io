@@ -6,7 +6,7 @@ Theoretically, with a mesh-like topologies, number of replicas should
 not affect the time needed for full replication and thus data
 consistency
 
-.. _test_plan:
+
 
 Test Plan
 =========

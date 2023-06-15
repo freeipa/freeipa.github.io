@@ -13,7 +13,7 @@ Current State
 
 User Interface in 2.0 is logically divided to 3 views:
 
-.. figure:: ipa-dnszone-find.png
+.. figure:: Ipa-dnszone-find.png
    :alt: ipa-dnszone-find.png
 
    ipa-dnszone-find.png
@@ -21,7 +21,7 @@ User Interface in 2.0 is logically divided to 3 views:
 The first one shows DNS zones managed by IPA. Administrator may choose
 the zone to view/edit.
 
-.. figure:: ipa-dnszone-show.png
+.. figure:: Ipa-dnszone-show.png
    :alt: ipa-dnszone-show.png
 
    ipa-dnszone-show.png
@@ -29,7 +29,7 @@ the zone to view/edit.
 The chozen zone can be modified and *DNS Resource Records* can be
 managed via the link on the left.
 
-.. figure:: ipa-dnsrecord-find.png
+.. figure:: Ipa-dnsrecord-find.png
    :alt: ipa-dnsrecord-find.png
 
    ipa-dnsrecord-find.png

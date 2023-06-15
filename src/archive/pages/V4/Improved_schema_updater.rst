@@ -8,7 +8,7 @@ is error prone and causes issues as
 We should instead base updates on the schema files and have the updater
 validate current DS schema with the LDIF file and amend the schema.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -44,7 +44,7 @@ Implementation
 No additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -60,7 +60,7 @@ CLI
 See the "configuration options and enablement" section for info on
 manual upgrades.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -82,7 +82,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -96,21 +96,21 @@ Dependencies
 This will add a dependency on ``python-ldap``'s schema parser. We
 already depend on ``python-ldap`` (though mostly through our wrapper).
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 N/A
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------
 
 N/A
 
-.. _test_plan:
+
 
 Test Plan
 ---------

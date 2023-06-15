@@ -59,7 +59,7 @@ Graphical Elements
 
    IPA_graphic-Elements_v3.png
 
-.. figure:: icons_v5.png
+.. figure:: Icons_v5.png
    :alt: icons_v5.png
 
    icons_v5.png
@@ -82,8 +82,8 @@ Subnav-offbutton |Subnav-offbutton.png|
 
 Subnav-onbutton |Subnav-onbutton.png|
 
-.. |header_background.png| image:: header_background.png
-.. |header_logo.png| image:: header_logo.png
+.. |header_background.png| image:: Header_background.png
+.. |header_logo.png| image:: Header_logo.png
 .. |Mainnav-background.png| image:: Mainnav-background.png
 .. |Mainnav-offtab.png| image:: Mainnav-offtab.png
 .. |Mainnav-ontab.png| image:: Mainnav-ontab.png

@@ -8,7 +8,7 @@ Following improvements, listed in this design, should make server update
 process more deterministic, robust and working well in various update
 environments (%posttrans update, containers, etc.).
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -245,7 +245,7 @@ IPA 4.2+ servers.
 Values are stored into **sysupgrade.state** file as **ipa_version** and
 **ipa_platform**
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -292,14 +292,14 @@ Configuration
 
 N/A
 
-.. _how_to_test:
+.. _how_to_test36:
 
 How to Test
 -----------
 
 Run ``ipa-server-update`` on various old versions of IPA.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

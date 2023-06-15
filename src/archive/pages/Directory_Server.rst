@@ -89,7 +89,7 @@ them, traverse ``cn=plugins,cn=config`` in the tree):
    replicated zones get SOA serial set to initial value 1, so the
    mandatory attribute ``idnsSOAserial`` is present.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ------------------

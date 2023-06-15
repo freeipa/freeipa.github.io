@@ -207,7 +207,7 @@ In non-interactive mode:
    must print a warning about removing a master with CRL generation
    role.
 
-.. _test_plan:
+
 
 Test Plan
 =========

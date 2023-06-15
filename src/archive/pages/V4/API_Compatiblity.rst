@@ -5,7 +5,7 @@ The purpose of this feature is to make the IPA CLI tool (IPA client) as
 simple as possible and develop a way to maintain compatibility among
 various versions of servers and clients.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -176,7 +176,7 @@ Caching
 
 TBD
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -213,7 +213,7 @@ Upgrade
 Not applicable - There is no change to the LDAP schema nor the stored
 data.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -472,7 +472,7 @@ up-to-date API schema after server upgrade), use the
 | ``IPA server version 4.4.1. API version 2.212``
 | ``-------------------------------------------------------------------``
 
-.. _test_plan:
+
 
 Test Plan
 ---------

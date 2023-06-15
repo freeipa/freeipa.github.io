@@ -14,7 +14,7 @@ The goal of this effort is to extend our on-PR CI to also execute
 multi-host tests. Running the extended test suite should help us to
 discover broken test cases early on and stabilize our master branch.
 
-.. _use_cases:
+
 
 Use Cases
 ---------

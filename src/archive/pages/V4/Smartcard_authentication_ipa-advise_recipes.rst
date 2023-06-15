@@ -9,7 +9,7 @@ remotely, we need to create script, which will be then run on all
 servers. For those purposes ipa has ``ipa-advise`` command, which can
 generate scripts.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -89,7 +89,7 @@ Implementation
 
 TBD
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -146,7 +146,7 @@ In the case of OCSP configuration, the script must be able to store the
 state of the feature in upgrade files so that subsequent updates do not
 revert the existing configuration.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -162,7 +162,7 @@ Example 1: configure smart card auth on ``master.example.com``:
    # chmod +x configure_smart_cards.sh && ./configure_smart_cards.sh
    ...
 
-.. _test_plan:
+
 
 Test Plan
 ---------

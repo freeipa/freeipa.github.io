@@ -162,7 +162,7 @@ mappings so developer doesn't have think about where source codes or
 build versions are placed. Look to Use Cases chapter or tool's help for
 more information.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -301,14 +301,14 @@ Implementation
 Any additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
 
 From new user feature POV doesn't affect Web UI or CLI.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -340,7 +340,7 @@ Impact to Web UI and other components
 
 Pure Web UI change. Speeds up Web UI load.
 
-.. _rfe_author:
+
 
 RFE author
 ----------

@@ -26,7 +26,7 @@ We need to decide which of the two basic interfaces we're going to use
 and converge on it. Each approach has merits. But 3 different API's for
 interacting with ldap is 2 too many.
 
-.. _use_cases:
+.. _use_cases10d:
 
 Use Cases
 =========
@@ -113,7 +113,7 @@ Feature Managment
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -125,7 +125,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -137,7 +137,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============

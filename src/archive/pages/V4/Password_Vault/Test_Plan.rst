@@ -7,7 +7,7 @@ Vault Management, and Secret Management. You can find more details about
 this feature in `Desing
 document <http://www.freeipa.org/page/V4/Password_Vault_Implementation>`__
 
-.. _test_plan:
+
 
 Test Plan
 =========

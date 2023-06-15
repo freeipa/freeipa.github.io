@@ -23,7 +23,7 @@ privileged RA Agent credential, to using GSS-API authentication with
 proxy tickets (i.e. operating with the privileges of the authenticated
 principal).
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -38,7 +38,7 @@ resources), instead of relying on users crafting a CSR that is "just
 right" for a particular profile, improving usability and expanding the
 number of certificate use cases that FreeIPA can satisfy.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -434,7 +434,7 @@ include:
 -  Update ``ipa-pki-proxy.conf`` (described above; updating the template
    is sufficient to effect this change during upgrade).
 
-.. _how_to_use:
+
 
 How to Use
 ==========
@@ -445,7 +445,7 @@ authentication to SPNEGO proxy ticket authentication:
 #. Ensure all servers in the topology are at the new version
 #. Execute ``ipa domainlevel-set 2``
 
-.. _test_plan:
+
 
 Test Plan
 =========

@@ -7,7 +7,7 @@ simple custom settings. You can find more details about this feature in
 `Design
 document <http://www.freeipa.org/page/V4/DNS_Location_Mechanism>`__
 
-.. _test_plan:
+
 
 Test Plan
 =========

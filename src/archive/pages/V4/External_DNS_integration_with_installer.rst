@@ -182,7 +182,7 @@ technical details here. Make sure you cover
 If this section is not trivial, move it to ``/Implementation`` sub page
 and only include link.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -217,7 +217,7 @@ Upgrade
 
 Any impact on upgrades? Remove this section if not applicable.
 
-.. _how_to_test:
+.. _how_to_test19:
 
 How to Test
 -----------
@@ -228,7 +228,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+.. _test_plan19:
 
 Test Plan
 ---------

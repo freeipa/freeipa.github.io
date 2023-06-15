@@ -13,7 +13,7 @@ topology\* subcommands and via web interface in the Topology section.
 The topology graph is visualized in the aforementioned section of IPA
 WebUI.
 
-.. _test_plan:
+
 
 Test Plan
 =========

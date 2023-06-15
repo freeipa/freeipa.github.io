@@ -13,7 +13,7 @@ in LDAP. Visit `V4/CA certificate renewal
 (2) <V4/CA_certificate_renewal_(2)>`__ for description of **phase 2**,
 which consists of distribution of CA certificates to IPA clients.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -311,7 +311,7 @@ the certificate directly to
 When a CA certificate is renewed, its previous version is not removed to
 allow rollover.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -345,7 +345,7 @@ to look for CA certificates both in this entry and in
 ``cn=CAcert,cn=ipa,cn=etc,``\ *``suffix``* for compatibility with old
 servers.
 
-.. _how_to_test:
+.. _how_to_test13:
 
 How to Test
 -----------
@@ -441,14 +441,14 @@ Manual update of local CA certificate files
 #. If on a server with a CA, additionaly check that the
    ``/etc/pki/pki-tomcat/alias`` NSS database was updated as well
 
-.. _test_plan:
+
 
 Test Plan
 ---------
 
 TODO
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

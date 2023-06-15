@@ -7,7 +7,7 @@ DNS is an integral part of IPA, particularly when AD trust is involved.
 It should remain an optional feature but rather than relying on users to
 remember to pass an option at install time, it should be prompted for.
 
-.. _use_cases:
+.. _use_cases10h:
 
 Use Cases
 =========
@@ -47,7 +47,7 @@ The default value will be no.
 Implementation
 ==============
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -60,7 +60,7 @@ How the feature will be manged via the UI
 CLI
 ~~~
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -70,7 +70,7 @@ Replication
 
 None
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -82,14 +82,14 @@ Dependencies
 
 None
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 None
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

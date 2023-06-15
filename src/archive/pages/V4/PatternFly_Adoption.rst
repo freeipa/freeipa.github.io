@@ -14,7 +14,7 @@ One of key Bootstrap 3 features is responsiveness. It allows FreeIPA to
 abandon absolute position layout and became usable on devices with
 various screen sizes.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -180,7 +180,7 @@ Dependencies
 
 fontawesome-fonts, open-sans-fonts, python-lesscpy
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -195,14 +195,14 @@ CLI
 
 no impact
 
-.. _test_plan:
+
 
 Test Plan
 ---------
 
 existing CI tests were adapted to match new HTML structure
 
-.. _rfe_author:
+
 
 RFE Author
 ----------

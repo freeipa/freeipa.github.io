@@ -8,7 +8,7 @@ entry and uses a special algorithm to create unique UID for the user.
 The similar approach is used for GID. This works fine for the
 deployments that do not have POSIX attributes defined in AD.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -145,7 +145,7 @@ Implementation
 
 N/A
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -191,7 +191,7 @@ way to set the range type, since the detection might fail. Generally,
 you should not need to force the range type using the --range-type
 option.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -203,7 +203,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -222,21 +222,21 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
 
 N/A
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -255,7 +255,7 @@ Common assumptions
 These tests assume AD with POSIX support. More detailed info about the
 particular setup steps can be found in the test cases below.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

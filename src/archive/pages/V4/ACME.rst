@@ -100,7 +100,7 @@ Additional authentication and authorisation layers are deferred. We can
 implement them when we have a clear use case. It would be a separate
 design proposal.
 
-.. _feature_management:
+
 
 Feature management
 ==================
@@ -614,7 +614,7 @@ Upgrade
    LDAP object hierarchy) so there is no special consideration of these
    scenarios during upgrade.
 
-.. _how_to_use:
+
 
 How to use
 ==========
@@ -639,7 +639,7 @@ an account and acquire a certificate from the FreeIPA ACME service:
    # certbot --server http://ipa-ca.ipa.local/acme/directory \
      certonly --standalone --domain $(hostname)
 
-.. _test_plan:
+
 
 Test plan
 =========

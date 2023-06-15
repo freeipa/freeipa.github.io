@@ -138,7 +138,7 @@ Assumptions
       the same DNS location and will try to contact the same set of
       servers.
 
-.. _current_use_of_srv_records:
+.. _current_use_of_srv_records5:
 
 Current use of SRV records
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,13 +150,15 @@ static set of records, there is no way how to prioritize a server
 'nearest' to the client at the moment. Consequenty, all FreeIPA servers
 typically have the same priority (0) and weight (100):
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-| ``;; ANSWER SECTION:``
-| ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-| ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+::
 
-.. _use_cases:
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+
+.. _use_cases5:
 
 Use Cases
 ---------
@@ -171,7 +173,7 @@ Use Cases
    using ``SRV`` records can be hacked in this way. This might require
    specifying location on per-zone basics.
 
-.. _feature_management:
+.. _feature_management5:
 
 Feature Management
 ------------------
@@ -217,118 +219,122 @@ Details TBD
 CLI
 ~~~
 
-+-----------------------+-----------------------+-----------------------+
-| Command               | Options               | Meaning               |
-+=======================+=======================+=======================+
-| location-add          | LOCATION_NAME         | Add empty IPA         |
-|                       | [--desc=text]         | location [with        |
-|                       |                       | optional              |
-|                       |                       | description].         |
-+-----------------------+-----------------------+-----------------------+
-| location-del          | LOCATION_NAME         | Delete IPA location.  |
-|                       |                       | All servers in given  |
-|                       |                       | location will stay    |
-|                       |                       | unassigned and will   |
-|                       |                       | be used only as       |
-|                       |                       | backup servers for    |
-|                       |                       | other locations.      |
-+-----------------------+-----------------------+-----------------------+
-| location-find         | [SEARCH_TERM]         | Get locations with    |
-|                       |                       | name or description   |
-|                       |                       | matching given        |
-|                       |                       | SEARCH_TERM. List all |
-|                       |                       | locations if no       |
-|                       |                       | SEARCH_TERM was       |
-|                       |                       | specified.            |
-+-----------------------+-----------------------+-----------------------+
-| location-show         | LOCATION_NAME         | Show location name,   |
-|                       |                       | description, and list |
-|                       |                       | of all member servers |
-|                       |                       | including their       |
-|                       |                       | weights + weights     |
-|                       |                       | recalculated to       |
-|                       |                       | relative number in    |
-|                       |                       | percents. Mark IPA    |
-|                       |                       | DNS servers in the    |
-|                       |                       | output so it is easy  |
-|                       |                       | to see which servers  |
-|                       |                       | advertise this        |
-|                       |                       | location.             |
-|                       |                       |                       |
-|                       |                       | | ``Example:``        |
-|                       |                       | | ``descri            |
-|                       |                       | ption: IPA location`` |
-|                       |                       | |                     |
-|                       |                       | ``Advertised by serve |
-|                       |                       | rs: server1.example`` |
-|                       |                       | | ``Servers:``        |
-|                       |                       | | ``  serv            |
-|                       |                       | er: server1.example`` |
-|                       |                       | | ``  weight 100``    |
-|                       |                       | | ``  re              |
-|                       |                       | lative weight: 33 %`` |
-|                       |                       | | ``  Roles: DN       |
-|                       |                       | S server, CA server`` |
-|                       |                       | | ``  serv            |
-|                       |                       | er: server2.example`` |
-|                       |                       | | ``  weight: 200``   |
-|                       |                       | | ``  re              |
-|                       |                       | lative weight: 67 %`` |
-|                       |                       | | ``  Role            |
-|                       |                       | s: CA server, NTP ser |
-|                       |                       | ver, AD trust agent,  |
-|                       |                       | AD trust controller`` |
-+-----------------------+-----------------------+-----------------------+
-| dns-                  | [--dry-run]           | This command is not   |
-| update-system-records |                       | necessary if IPA DNS  |
-|                       |                       | is used and no        |
-|                       |                       | hand-tweaking is ever |
-|                       |                       | done by user.         |
-|                       |                       | Re-generate all DNS   |
-|                       |                       | records. This will be |
-|                       |                       | especially useful if  |
-|                       |                       | someone manually      |
-|                       |                       | tweaks DNS records in |
-|                       |                       | a wrong way or when   |
-|                       |                       | external DNS is used. |
-|                       |                       | Option --dry-run will |
-|                       |                       | print the records     |
-|                       |                       | without actually      |
-|                       |                       | modifying them.       |
-+-----------------------+-----------------------+-----------------------+
-| server-mod            | --l                   | Add IPA server into   |
-|                       | ocation=LOCATION_NAME | specified location.   |
-|                       | [--loca               | The server will be    |
-|                       | tion-weight=0..65535] | advertised in DNS SRV |
-|                       |                       | records for given     |
-|                       |                       | location. One server  |
-|                       |                       | can be member of at   |
-|                       |                       | most 1 location.      |
-|                       |                       |                       |
-|                       |                       | All weights in one    |
-|                       |                       | location detemine how |
-|                       |                       | requests from clients |
-|                       |                       | are distributed among |
-|                       |                       | IPA servers. Example: |
-|                       |                       | Location has three    |
-|                       |                       | servers with weights  |
-|                       |                       | 50, 25, 25. First     |
-|                       |                       | server will receive   |
-|                       |                       | 50 % of all requests  |
-|                       |                       | and second and third  |
-|                       |                       | server will receive   |
-|                       |                       | 25 % requests,        |
-|                       |                       | respectively.         |
-|                       |                       | Default: 100, i.e.    |
-|                       |                       | requests are evenly   |
-|                       |                       | distributed among all |
-|                       |                       | servers.              |
-+-----------------------+-----------------------+-----------------------+
-| server-show           | FQDN                  | Show assigned         |
-|                       |                       | location and weight   |
-|                       |                       | for particular        |
-|                       |                       | server.               |
-+-----------------------+-----------------------+-----------------------+
+ =========================================================================== ======================= ======================= =================== 
+  +-----------------------+-----------------------+-----------------------+                                                                      
+ =========================================================================== ======================= ======================= =================== 
+  Command                                                                     Options                 Meaning                                    
+  +=======================+=======================+=======================+                                                                      
+  location-add                                                                LOCATION_NAME           Add empty IPA                              
+                                                                              [--desc=text]           location [with                             
+                                                                                                      optional                                   
+                                                                                                      description].                              
+  +-----------------------+-----------------------+-----------------------+                                                                      
+  location-del                                                                LOCATION_NAME           Delete IPA location.                       
+                                                                                                      All servers in given                       
+                                                                                                      location will stay                         
+                                                                                                      unassigned and will                        
+                                                                                                      be used only as                            
+                                                                                                      backup servers for                         
+                                                                                                      other locations.                           
+  +-----------------------+-----------------------+-----------------------+                                                                      
+  location-find                                                               [SEARCH_TERM]           Get locations with                         
+                                                                                                      name or description                        
+                                                                                                      matching given                             
+                                                                                                      SEARCH_TERM. List all                      
+                                                                                                      locations if no                            
+                                                                                                      SEARCH_TERM was                            
+                                                                                                      specified.                                 
+  +-----------------------+-----------------------+-----------------------+                                                                      
+  location-show                                                               LOCATION_NAME           Show location name,                        
+                                                                                                      description, and list                      
+                                                                                                      of all member servers                      
+                                                                                                      including their                            
+                                                                                                      weights + weights                          
+                                                                                                      recalculated to                            
+                                                                                                      relative number in                         
+                                                                                                      percents. Mark IPA                         
+                                                                                                      DNS servers in the                         
+                                                                                                      output so it is easy                       
+                                                                                                      to see which servers                       
+                                                                                                      advertise this                             
+                                                                                                      location.                                  
+                                                                                                                                                 
+                                                                                                                              ``Example:``       
+                                                                                                                              descri           
+                                                                                                      ption: IPA location                     
+                                                                                                                                                 
+                                                                                                      dvertised by serve                      
+                                                                                                      rs: server1.example                      
+                                                                                                                              ``Servers:``       
+                                                                                                                              ``  serv           
+                                                                                                      er: server1.example``                      
+                                                                                                                              ``  weight 100``   
+                                                                                                                              ``  re             
+                                                                                                      lative weight: 33 %``                      
+                                                                                                                              ``  Roles: DN      
+                                                                                                      S server, CA server``                      
+                                                                                                                              ``  serv           
+                                                                                                      er: server2.example``                      
+                                                                                                                              ``  weight: 200``  
+                                                                                                                              ``  re             
+                                                                                                      lative weight: 67 %``                      
+                                                                                                                              ``  Role           
+                                                                                                      s: CA server, NTP ser                      
+                                                                                                      ver, AD trust agent,                       
+                                                                                                      AD trust controller``                      
+  +-----------------------+-----------------------+-----------------------+                                                                      
+  dns-                                                                        [--dry-run]             This command is not                        
+  update-system-records                                                                               necessary if IPA DNS                       
+                                                                                                      is used and no                             
+                                                                                                      hand-tweaking is ever                      
+                                                                                                      done by user.                              
+                                                                                                      Re-generate all DNS                        
+                                                                                                      records. This will be                      
+                                                                                                      especially useful if                       
+                                                                                                      someone manually                           
+                                                                                                      tweaks DNS records in                      
+                                                                                                      a wrong way or when                        
+                                                                                                      external DNS is used.                      
+                                                                                                      Option --dry-run will                      
+                                                                                                      print the records                          
+                                                                                                      without actually                           
+                                                                                                      modifying them.                            
+  +-----------------------+-----------------------+-----------------------+                                                                      
+  server-mod                                                                  --l                     Add IPA server into                        
+                                                                              ocation=LOCATION_NAME   specified location.                        
+                                                                              [--loca                 The server will be                         
+                                                                              tion-weight=0..65535]   advertised in DNS SRV                      
+                                                                                                      records for given                          
+                                                                                                      location. One server                       
+                                                                                                      can be member of at                        
+                                                                                                      most 1 location.                           
+                                                                                                                                                 
+                                                                                                      All weights in one                         
+                                                                                                      location detemine how                      
+                                                                                                      requests from clients                      
+                                                                                                      are distributed among                      
+                                                                                                      IPA servers. Example:                      
+                                                                                                      Location has three                         
+                                                                                                      servers with weights                       
+                                                                                                      50, 25, 25. First                          
+                                                                                                      server will receive                        
+                                                                                                      50 % of all requests                       
+                                                                                                      and second and third                       
+                                                                                                      server will receive                        
+                                                                                                      25 % requests,                             
+                                                                                                      respectively.                              
+                                                                                                      Default: 100, i.e.                         
+                                                                                                      requests are evenly                        
+                                                                                                      distributed among all                      
+                                                                                                      servers.                                   
+  +-----------------------+-----------------------+-----------------------+                                                                      
+  server-show                                                                 FQDN                    Show assigned                              
+                                                                                                      location and weight                        
+                                                                                                      for particular                             
+                                                                                                      server.                                    
+  +-----------------------+-----------------------+-----------------------+                                                                      
+ =========================================================================== ======================= ======================= =================== 
+
 
 Notes:
 
@@ -695,56 +701,54 @@ have the same or better compatibility with clients.
 Comparison of proposals
 -----------------------
 
-+----------------+----------------+----------------+----------------+
-| Property       | v1: `DNAME per | v2: `DNAME per | v3: `CNAME per |
-|                | client         | sub-tree <#    | service        |
-|                |  <V4/DNS_Locat | Design_(Versio | name <#Desi    |
-|                | ion_Mechanism_ | n_2:_DNAME_per | gn_(Version_3: |
-|                | with_per_clien | _sub-tree)>`__ | _CNAME_per_ser |
-|                | t_override>`__ |                | vice_name)>`__ |
-+================+================+================+================+
-| Requires       | yes            | no             | no             |
-| client-side    |                |                |                |
-| support        |                |                |                |
-+----------------+----------------+----------------+----------------+
-| Risk of        | zero           | small          | small          |
-| i              |                | `1 <#fn1>`__   | `2 <#fn2>`__   |
-| ncompatibility |                |                |                |
-| with old       |                |                |                |
-| clients        |                |                |                |
-+----------------+----------------+----------------+----------------+
-| Per client     | yes            | no             | no             |
-| override       |                |                |                |
-+----------------+----------------+----------------+----------------+
-| Works as       | no             | yes            | yes            |
-| cross-realm    | `3 <#fn3>`__   | `4 <#fn4>`__   | `5 <#fn5>`__   |
-| optimization   |                |                |                |
-+----------------+----------------+----------------+----------------+
-| Implementation | hard           | easy           | harder than    |
-| with standard  | `6 <#fn6>`__   | `7 <#fn7>`__   | `v2 <#         |
-| DNS server     |                |                | Design_(Versio |
-|                |                |                | n_2:_DNAME_per |
-|                |                |                | _sub-tree)>`__ |
-|                |                |                | but much       |
-|                |                |                | easier than    |
-|                |                |                | `v1            |
-|                |                |                |  <V4/DNS_Locat |
-|                |                |                | ion_Mechanism_ |
-|                |                |                | with_per_clien |
-|                |                |                | t_override>`__ |
-|                |                |                | `8 <#fn8>`__   |
-+----------------+----------------+----------------+----------------+
-| DNS query      | 1 extra hop    | 1 extra hop    | 1 extra hop    |
-| overhead       |                |                |                |
-+----------------+----------------+----------------+----------------+
-| DNS zone size  | factor ~ 2.3   | negligible     | negligible\    |
-| overhead       |                | \ `9 <#fn9>`__ | `10 <#fn10>`__ |
-+----------------+----------------+----------------+----------------+
-| Zone signing   | factor ~ 2.3   | negligible\    | negligible\    |
-| CPU overhead   |                | `11 <#fn11>`__ | `12 <#fn12>`__ |
-+----------------+----------------+----------------+----------------+
+ ======================================================================= ================ ================ ================ 
+  +----------------+----------------+----------------+----------------+                                                     
+ ======================================================================= ================ ================ ================ 
+  Property                                                                v1: `DNAME per   v2: `DNAME per   v3: `CNAME per  
+                                                                          client           sub-tree <#      service         
+                                                                          <V4/DNS_Locat    Design_(Versio   name <#Desi     
+                                                                          ion_Mechanism_   n_2:_DNAME_per   gn_(Version_3:  
+                                                                          with_per_clien   _sub-tree)>`__   _CNAME_per_ser  
+                                                                          t_override>`__                    vice_name)>`__  
+  +================+================+================+================+                                                     
+  Requires                                                                yes              no               no              
+  client-side                                                                                                               
+  support                                                                                                                   
+  +----------------+----------------+----------------+----------------+                                                     
+  Risk of                                                                 zero             small            small           
+  i                                                                                        `1 <#fn1>`__     `2 <#fn2>`__    
+  ncompatibility                                                                                                            
+  with old                                                                                                                  
+  clients                                                                                                                   
+  +----------------+----------------+----------------+----------------+                                                     
+  Per client                                                              yes              no               no              
+  override                                                                                                                  
+  +----------------+----------------+----------------+----------------+                                                     
+  Works as                                                                no               yes              yes             
+  cross-realm                                                             `3 <#fn3>`__     `4 <#fn4>`__     `5 <#fn5>`__    
+  optimization                                                                                                              
+  +----------------+----------------+----------------+----------------+                                                     
+  Implementation                                                          hard             easy             harder than     
+  with standard                                                           `6 <#fn6>`__     `7 <#fn7>`__     v2 <#          
+  DNS server                                                                                                Design
+                                                                                                            but much        
+                                                                                                            easier than     
+                                                                                                            v1 
+                                                                                                            `8 <#fn8>`__    
+  +----------------+----------------+----------------+----------------+                                                     
+  DNS query                                                               1 extra hop      1 extra hop      1 extra hop     
+  overhead                                                                                                                  
+  +----------------+----------------+----------------+----------------+                                                     
+  DNS zone size                                                           factor ~ 2.3     negligible       negligible\     
+  overhead                                                                                 \ `9 <#fn9>`__   `10 <#fn10>`__  
+  +----------------+----------------+----------------+----------------+                                                     
+  Zone signing                                                            factor ~ 2.3     negligible\      negligible\     
+  CPU overhead                                                                             `11 <#fn11>`__   `12 <#fn12>`__  
+  +----------------+----------------+----------------+----------------+                                                     
+ ======================================================================= ================ ================ ================ 
 
-.. _comparison_with_microsoft_active_directory_sites:
+
+.. _comparison_with_microsoft_active_directory_sites5:
 
 Comparison with Microsoft Active Directory Sites
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -777,7 +781,7 @@ One thing is common to AD Sites and FreeIPA DNS Locations:
    highest priority) are assumed to be *optimal* choice for clients
    assigned to that particular site.
 
-.. _security_considerations:
+.. _security_considerations5:
 
 Security Considerations
 -----------------------
@@ -1112,7 +1116,7 @@ Upgrade
    which will make it easy to check if particular server supports
    locations or not.
 
-.. _how_to_test:
+.. _how_to_test5:
 
 How to Test
 -----------
@@ -1142,7 +1146,7 @@ The answer must contain FreeIPA server assigned to first location with
 higher priority (smaller number) and the second server must have lower
 priority (higher number).
 
-.. _test_plan:
+.. _test_plan5:
 
 Test Plan
 ---------
@@ -1166,11 +1170,6 @@ DNAME Records: `RFC
    `#Compatibility_tests <#Compatibility_tests>`__ suggest that this
    should be rare.\ `↩︎ <#fnref1>`__
 
-#. 
-
-   .. container::
-      :name: fn2
-
 #. ``_location.$HOSTNAME`` domain can contain only ``SRV`` records for
    client's realm. Consequently, clients which only query for
    ``_location.$HOSTNAME`` does not have a way to find tailored ``SRV``
@@ -1180,11 +1179,6 @@ DNAME Records: `RFC
    from "nearest" DNS server. This was tested with Microsoft AD 2008 R2,
    see
    `#Compatibility_tests <#Compatibility_tests>`__.\ `↩︎ <#fnref4>`__
-
-#. 
-
-   .. container::
-      :name: fn5
 
 #. Per client approach requires some mechanism which creates ``DNAME``
    record for every new ``A/AAAA`` record created on the server. This
@@ -1202,13 +1196,3 @@ DNAME Records: `RFC
 #. 2 DNAME records per zone\ `↩︎ <#fnref9>`__
 
 #. Each service name requires one CNAME\ `↩︎ <#fnref10>`__
-
-#. 
-
-   .. container::
-      :name: fn11
-
-#. 
-
-   .. container::
-      :name: fn12

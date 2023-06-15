@@ -27,7 +27,7 @@ outlines a vision for how this process could look in the long term.
 However, for the time being we will start with some smaller changes that
 should still make things easier for administrators.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -395,7 +395,7 @@ Implementation
 Mapping rules: see
 `V4/Automatic_Certificate_Request_Generation/Mapping_Rules <V4/Automatic_Certificate_Request_Generation/Mapping_Rules>`__
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -506,7 +506,7 @@ Upgrade
 As this feature is only part of the client, no special considerations
 for upgrades are necessary.
 
-.. _how_to_use:
+
 
 How to Use
 ==========
@@ -600,7 +600,7 @@ IPA CLI:
 | `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=IECUserRoles``
 | `` ``
 
-.. _test_plan:
+
 
 Test Plan
 =========

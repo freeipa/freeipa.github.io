@@ -9,7 +9,7 @@ The CLI options for ipa-server-certinstall are not ideal. Clean them up.
 
 All changes are backwards compatible.
 
-.. _use_cases:
+.. _use_cases10b:
 
 Use Cases
 =========
@@ -58,7 +58,7 @@ It's possible that only a part of this proposal, namely adding the
 ``--pin`` option, will be be implemented in 3.3. In that case the rest
 will be atted later.
 
-.. _feature_management:
+
 
 Feature Management
 ==================
@@ -73,7 +73,7 @@ CLI
 
 See Design
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -85,7 +85,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -97,7 +97,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -105,14 +105,14 @@ External Impact
 Docs and tests will need to be updated, although since the change is
 backwards compatible, there's no rush.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
 
 N/A
 
-.. _test_plan:
+
 
 Test Plan
 =========
@@ -121,7 +121,7 @@ Tests are to be included in the CA-less test plan,
 `CA-less_install <CA-less_install>`__, and any future test cases that
 exercise ipa-server-certinstall.
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

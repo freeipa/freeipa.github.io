@@ -10,7 +10,7 @@ protocol to happen with the help of Public Key Cryptography (PKINIT).
 
 This feature page describes PKINIT implementation in FreeIPA.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -158,7 +158,7 @@ files but FreeIPA installer framework does not support this option. This
 means certmonger shim in FreeIPA installer framework is extended to
 support issuing certificates in ceparate private and public key files.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ~~~~~~~~~~~~~~~~~~
@@ -167,7 +167,7 @@ When backing the server up, KDC certificate pair needs to be backed up.
 When restoring, KDC certificate pair needs to be properly restored,
 including certmonger tracking of it.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -325,7 +325,7 @@ KDC profile we use to issue this certificate with integrated Dogtag CA.
 Compare it to /usr/share/ipa/profiles/caIPAserviceCert.cfg to see the
 difference to a 'normal' IPA service certificate.
 
-.. _how_to_use:
+
 
 How to Use
 ----------

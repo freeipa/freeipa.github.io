@@ -10,7 +10,7 @@ additional ticket
 Fix several problems with the ipa tool online help. Individual
 improvements are detailed below.
 
-.. _use_cases:
+.. _use_cases119:
 
 Use Cases
 =========
@@ -80,7 +80,7 @@ Feature Managment
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -92,7 +92,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -104,14 +104,14 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
 
 Example outputs in the documentation might need to be updated
 
-.. _rfe_author:
+
 
 RFE author
 ==========

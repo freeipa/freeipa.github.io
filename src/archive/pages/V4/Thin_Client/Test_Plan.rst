@@ -4,7 +4,7 @@ Overview
 Please note that in further text the "command" refers to a command IPA
 CLI.
 
-.. _test_plan:
+
 
 Test Plan
 =========

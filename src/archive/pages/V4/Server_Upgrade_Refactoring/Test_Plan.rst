@@ -4,7 +4,7 @@ Overview
 The purpose of Server Upgrade test plan is to describe and test
 scenarios that can happen during server upgrading. ...
 
-.. _test_plan:
+
 
 Test Plan
 =========

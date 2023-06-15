@@ -17,7 +17,7 @@ authentication that are used. Service principals can then define a set
 of authentication indicators which are required in order to obtain a
 ticket for the service.
 
-.. _use_cases:
+.. _use_cases3:
 
 Use Cases
 ---------
@@ -27,7 +27,7 @@ Use Cases
 Strong Authentication on Selected System
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _user_story:
+
 
 User story
 ^^^^^^^^^^
@@ -81,10 +81,10 @@ Overview
 Enable Optional OTP Preauth
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _server_side:
+
 
 Server Side
-'''''''''''
+^^^^^^^^^^^
 
 Currently, if OTP is enabled for a user (even optionally), only the otp
 preauth mechanism is returned. Once we have authentication indicators,
@@ -106,7 +106,7 @@ challenge/timestamp) for 1FA.
 .. _client_side:
 
 Client Side
-'''''''''''
+^^^^^^^^^^^
 
 The kinit utility should work out of the box. Versions that did not
 support OTP previously failed authentication. However, with the above
@@ -183,7 +183,7 @@ KDB String Attributes
 | Service (TGS Req) | N/A           | require_auth |                              |
 +-------------------+---------------+--------------+------------------------------+
 
-.. _feature_management:
+.. _feature_management3:
 
 Feature Management
 ------------------
@@ -216,7 +216,7 @@ Troubleshooting
 
 TBD
 
-.. _how_to_test:
+.. _how_to_test3:
 
 How to Test
 -----------
@@ -227,7 +227,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan:
+.. _test_plan3:
 
 Test Plan
 ---------

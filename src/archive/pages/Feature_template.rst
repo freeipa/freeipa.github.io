@@ -4,7 +4,7 @@ Overview
 Short overview of the problem set and any background material or
 references one would need to understand the details.
 
-.. _use_cases:
+.. _use_cases15:
 
 Use Cases
 ---------
@@ -12,7 +12,7 @@ Use Cases
 Walk through one or more full examples of how the feature will be used.
 These should not all be the simplest cases.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -57,7 +57,7 @@ technical details here. Make sure you cover
 If this section is not trivial, move it to ``/Implementation`` sub page
 and only include link.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -92,7 +92,7 @@ Upgrade
 
 Any impact on upgrades? Remove this section if not applicable.
 
-.. _test_plan:
+
 
 Test Plan
 ---------

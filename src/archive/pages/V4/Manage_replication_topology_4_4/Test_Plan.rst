@@ -17,7 +17,7 @@ IPA with IPA version 4.4.
    replica is offline (before that the RUV's were cleaned only if the
    replica could be contacted during the process)
 
-.. _test_plan:
+
 
 Test Plan
 =========

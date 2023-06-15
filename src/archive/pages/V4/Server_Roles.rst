@@ -18,7 +18,7 @@ That's why this document introduces the concept of server roles as an
 user-facing abstraction providing high-level information about services
 running on particular FreeIPA master.
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -165,7 +165,7 @@ The feature will be implemented in the following steps:
    `server_del <V4/Manage_replication_topology_4_4#server_del>`__ API
    method.
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -252,7 +252,7 @@ Upgrade
 Since there are no changes to LDAP structure/schema, no special upgrade
 procedure is necessary.
 
-.. _how_to_test:
+.. _how_to_test35:
 
 How to Test
 -----------
@@ -390,7 +390,7 @@ How to Test
    Role status: absent
    ...
 
-.. _test_plan:
+
 
 Test Plan
 ---------

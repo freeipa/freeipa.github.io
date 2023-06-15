@@ -27,7 +27,7 @@ The feature is tightly linked to SSSD features:
 -  `Matching and Mapping
    Certificates <https://docs.pagure.org/SSSD.sssd/design_pages/matching_and_mapping_certificates.html>`__
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -52,7 +52,7 @@ Use Cases
    server as authentication backend to enable authentication of users
    with multiple accounts linked to their SmartCard
 
-.. _feature_management:
+
 
 Feature Management
 ------------------
@@ -321,7 +321,7 @@ In prevision of future modifications, the configuration
 cn=certmap,cn=ipa,cn=etc,$BASEDN will contain a ipacertmapversion
 attribute.
 
-.. _how_to_use:
+
 
 How to Use
 ----------
@@ -347,7 +347,7 @@ or
 -  On an enrolled client, login to GDM using a smart card containing the
    user cert. The authenticate user will be "testuser"
 
-.. _test_plan:
+
 
 Test Plan
 ---------

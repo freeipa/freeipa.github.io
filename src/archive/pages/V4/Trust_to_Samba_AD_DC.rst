@@ -1,7 +1,7 @@
 Overview
 ========
 
-.. _use_cases:
+
 
 Use cases
 =========
@@ -12,7 +12,7 @@ Design
 Implementation
 ==============
 
-.. _feature_management:
+
 
 Feature management
 ==================

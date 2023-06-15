@@ -28,7 +28,7 @@ Enable gzip encoding using mod_deflate for following mime types:
 -  application/json (JSON RPC)
 -  application/x-font-woff (woff fonts)
 
-.. _use_cases:
+
 
 Use Cases
 ---------
@@ -48,7 +48,7 @@ Impact to WebUI and other components
 
 Speeds up communication for IPA clients - Web UI, CLI.
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ------------------------------------------
@@ -60,7 +60,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 --------------------
@@ -72,14 +72,14 @@ Dependencies
 
 N/A, mod_deflate is part of httpd package.
 
-.. _external_impact:
+
 
 External Impact
 ---------------
 
 N/A
 
-.. _rfe_author:
+
 
 RFE author
 ----------

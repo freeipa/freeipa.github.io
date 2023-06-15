@@ -4,7 +4,7 @@ Overview
 Store cryptographic objects (public and private keys, certificates) in
 LDAP for use by PKCS#11 soft-token module.
 
-.. _use_cases:
+
 
 Use Cases
 =========
@@ -109,22 +109,22 @@ Implementation
 
 TODO
 
-.. _feature_management:
+
 
 Feature Management
 ==================
 
 UI
-~~
+--
 
 N/A
 
 CLI
-~~~
+---
 
 N/A
 
-.. _major_configuration_options_and_enablement:
+
 
 Major configuration options and enablement
 ==========================================
@@ -136,7 +136,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades:
+
 
 Updates and Upgrades
 ====================
@@ -173,7 +173,7 @@ Dependencies
 
 N/A
 
-.. _external_impact:
+
 
 External Impact
 ===============
@@ -181,21 +181,21 @@ External Impact
 The objects will be accessed mainly through the PKCS#11 module. The
 PKCS#11 module will use SSSD as backend.
 
-.. _backup_and_restore:
+
 
 Backup and Restore
 ==================
 
 N/A
 
-.. _test_plan:
+
 
 Test Plan
 =========
 
 TODO
 
-.. _rfe_author:
+
 
 RFE Author
 ==========

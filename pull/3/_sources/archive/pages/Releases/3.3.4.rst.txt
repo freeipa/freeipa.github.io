@@ -1,0 +1,239 @@
+The FreeIPA team is proud to announce FreeIPA v3.3.4!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Fedora
+19 and Fedora 20 builds are already on their way to updates-testing
+repo.
+
+.. _highlights_in_3.3.4:
+
+Highlights in 3.3.4
+-------------------
+
+Enhancements
+~~~~~~~~~~~~
+
+-  New Web UI for trusted domain subdomain management
+-  trustdomain-find now shows status (enabled/disabled) of trusted
+   domain subdomains
+-  group-show command now shows external user's name instead of raw SID
+-  FreeIPA is now built with hardening enabled (PIE, RELRO)
+-  Added support for kernel keyring CCACHEs
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+-  ipa-server-install no longer crashes when freeipa-server-trust-ad
+   package is not installed on the system
+-  ipa-replica-manage no longer crashes when winsync agreement is being
+   created
+-  CLDAP plugin now correctly handles long hostnames and does not create
+   invalid NetBIOS name
+-  FreeIPA now builds on PPC and s390 platforms
+-  PKI subsystem certificate renewal no longer crash on FreeIPA replicas
+-  hbac-test command works for external users again
+-  sudoOrder attribute is now present in ou=sudoers LDAP tree
+-  trust-fetch-domains command now creates ID ranges for child domains
+-  Trust can be now re-established even when it contains subdomains
+-  Default Kerberos password policy reference (krbpwdpolicyreference) is
+   no longer added to new user's entry. The default policy is now rather
+   hard coded in the Kerberos backend to achieve the same behavior for
+   both standard FreeIPA users and winsync users
+-  dnsrecord-mod no longer produces API version warning
+-  ... and numerous other small fixes
+
+.. _test_improvements:
+
+Test improvements
+~~~~~~~~~~~~~~~~~
+
+-  Support external names for hosts
+-  Various small fixes related to legacy client feature testing
+
+.. _interface_changes:
+
+Interface changes
+~~~~~~~~~~~~~~~~~
+
+-  trust-resolve command was hidden from CLI as internal, given that
+   group-show command now shows external user's name instead of raw SID
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note that if you are doing the upgrade in special environment
+(e.g. FedUp) which does not allow running the LDAP server during upgrade
+process, upgrade scripts need to be run manually after the first boot:
+
+#. ipa-upgradeconfig
+#. ipa-ldap-updater --upgrade
+
+Also note that the performance improvements require an extended set of
+indexes to be configured. RPM update for an IPA server with a excessive
+number of users may require several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks, not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+.. _detailed_changelog_since_3.3.3:
+
+Detailed Changelog since 3.3.3
+------------------------------
+
+.. _alexander_bokovoy_10:
+
+Alexander Bokovoy (10)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Guard import of adtrustinstance for case without trusts
+-  Map NT_STATUS_INVALID_PARAMETER to most likely error cause: clock
+   skew
+-  subdomains: Use AD admin credentials when trust is being established
+-  trust: fix get_dn() to distinguish creating and re-adding trusts
+-  trust-fetch-domains: create ranges for new child domains
+-  trustdomain-find: report status of the (sub)domain
+-  ipaserver/install/installutils: clean up properly after yield
+-  group-show: resolve external members of the groups
+-  ipa-adtrust-install: configure host netbios name by default
+-  ipasam: delete trusted child domains before removing the trust
+
+.. _ana_krivokapic_1:
+
+Ana Krivokapic (1)
+~~~~~~~~~~~~~~~~~~
+
+-  Fix regression which prevents creating a winsync agreement
+
+.. _jan_cholasta_9:
+
+Jan Cholasta (9)
+~~~~~~~~~~~~~~~~
+
+-  Remove mod_ssl port workaround.
+-  Use hardening flags for ipa-optd.
+-  Own /usr/share/ipa/ui/js/ in the spec file.
+-  Prevent garbage from readline on standard output of
+   dogtag-ipa-retrieve-agent.
+-  PKI service restart after CA renewal failed
+-  Fix ipa-client-automount uninstall when fstore is empty.
+-  Do not start the service in stopped_service if it was not running
+   before.
+-  Increase service startup timeout default.
+-  Fix ntpd config on clients.
+
+.. _krzysztof_klimonda_1:
+
+Krzysztof Klimonda (1)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Fix -Wformat-security warnings
+
+.. _martin_basti_1:
+
+Martin Basti (1)
+~~~~~~~~~~~~~~~~
+
+-  Added warning if cert '/etc/ipa/ca.crt' exists
+
+.. _martin_kosek_12:
+
+Martin Kosek (12)
+~~~~~~~~~~~~~~~~~
+
+-  Server does not detect different server and IPA domain
+-  Allow kernel keyring CCACHE when supported
+-  Increase Java stack size on PPC platforms
+-  Increase Java stack size on s390 platforms
+-  Revert restart scripts file permissions change
+-  hbactest does not work for external users
+-  sudoOrder missing in sudoers
+-  Add missing example to sudorule
+-  Remove missing VERSION warning in dnsrecord-mod
+-  Hide trust-resolve command
+-  ntpconf: remove redundant comment
+-  Become IPA 3.3.4
+
+.. _petr_viktorin_5:
+
+Petr Viktorin (5)
+~~~~~~~~~~~~~~~~~
+
+-  Revert "Remove mod_ssl port workaround."
+-  test_integration: Support external names for hosts
+-  test_integration: Log external hostname in Host.ldap_connect
+-  test_webui: Allow False values in configuration for no_ca, no_dns,
+   has_trusts
+-  cli.print_attribute: Convert values to strings
+
+.. _petr_vobornik_4:
+
+Petr Vobornik (4)
+~~~~~~~~~~~~~~~~~
+
+-  Fix license in some Web UI files
+-  Increase stack size for Web UI builder
+-  Remove SID resolve call from Web UI
+-  Trust domains Web UI
+
+.. _rob_crittenden_1:
+
+Rob Crittenden (1)
+~~~~~~~~~~~~~~~~~~
+
+-  Change the way we determine if the host has a password set.
+
+.. _simo_sorce_3:
+
+Simo Sorce (3)
+~~~~~~~~~~~~~~
+
+-  Fix license tag in python setup files
+-  Harmonize policy discovery to kdb driver
+-  Stop adding a default password policy reference
+
+.. _sumit_bose_3:
+
+Sumit Bose (3)
+~~~~~~~~~~~~~~
+
+-  CLDAP: do not prepend \\\\
+-  CLDAP: generate NetBIOS name like ipa-adtrust-install does
+-  CLDAP: add unit tests for make_netbios_name
+
+.. _tomas_babej_6:
+
+Tomas Babej (6)
+~~~~~~~~~~~~~~~
+
+-  trusts: Do not pass base-id to the subdomain ranges
+-  trusts: Always stop and disable smb service on uninstall
+-  ipa-client-install: Always pass hostname to the ipa-join
+-  ipa-cldap: Cut NetBIOS name after 15 characters
+-  ipatests: Remove sudo calls from tasks
+-  ipatests: Check for legacy_client attribute presence if unapplying
+   fixes

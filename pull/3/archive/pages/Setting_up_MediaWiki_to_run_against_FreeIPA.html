@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Automatic login of users into MediaWiki &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Sidebar.html" />
+    <link rel="prev" title="Setting up Active Directory domain for testing purposes" href="Setting_up_Active_Directory_domain_for_testing_purposes.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Introduction</strong></p>
+<hr class="docutils" />
+<p>The following documentation is practical guide to set up MediaWiki to
+run against FreeIPA. It will show how to secure access to MediaWiki with
+Kerberos and SSL in FreeIPA environment.</p>
+<p>We suppose that there are one server and several clients configured in
+following way:</p>
+<ul class="simple">
+<li><p>Domain: example.com</p></li>
+<li><p>Realm: EXAMPLE.COM</p></li>
+<li><p><em>Server</em> hostname: master.example.com</p></li>
+<li><p><em>Client 0</em> hostname: client-0.example.com</p></li>
+<li><p><em>Client 1</em> hostname: client-1.example.com etc.</p></li>
+<li><p>All passwords used by FreeIPA: secret123</p></li>
+</ul>
+<p><em>Server</em> runs <strong>freeipa-server</strong> with <strong>Dogtag</strong> and <strong>DNS</strong>. <em>Client-0</em>
+has <strong>freeipa-client</strong>, <strong>freeipa-admintools</strong>, <strong>MediaWiki</strong>,
+<strong>mod_nss</strong> and <strong>mod_auth_kerb</strong>. Other clients run <strong>freeipa-client</strong>
+only.</p>
+<p>MediaWiki was installed and configured with default settings(it’s
+located in /var/www/wiki) and its
+configuration(/etc/httpd/conf.d/mediawiki.conf) looks like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Alias /wiki/skins /usr/share/mediawiki/skins</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Alias /wiki       /var/www/wiki</span></code></div>
+</div>
+<p><strong>Secure access to MediaWiki by Kerberos</strong></p>
+<hr class="docutils" />
+<p>We are going to permit access to MediaWiki only to those users who has
+valid kerberos ticket. In order to do it we must have <strong>mod_auth_kerb</strong>
+installed on <em>client-0</em>. Because we have freeipa-admintools installed on
+<em>client-0</em>, we can get kerberos ticket for Admin and then run all
+commands without any need to logging into server.</p>
+<ul class="simple">
+<li><p>Get kerberos ticket for admin user:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">kinit admin</span></code></p>
+<ul class="simple">
+<li><p>Create service for MediaWiki:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa service-add HTTP/client-0.example.com</span></code></p>
+<ul class="simple">
+<li><p>Get keytab for service and make the keytab readable by Apache(httpd):</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-getkeytab -s master.example.com -p HTTP/client-0.example.com -k /etc/httpd/conf/http.keytab</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">chown apache /etc/httpd/conf/http.keytab</span></code></p>
+<ul class="simple">
+<li><p>Allow access to MediaWiki only to those who has valid kerberos
+ticket. Add these lines into mediawiki.conf:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;Location &quot;/wiki&quot;&gt;</span></code></div>
+<div class="line">``  AuthType Kerberos``</div>
+<div class="line">``  AuthName “Kerberos Login”``</div>
+<div class="line">``  KrbMethodNegotiate on``</div>
+<div class="line">``  KrbMethodK5Passwd off``</div>
+<div class="line">``  KrbServiceName HTTP``</div>
+<div class="line">``  KrbAuthRealms EXAMPLE.COM``</div>
+<div class="line">``  Krb5KeyTab /etc/httpd/conf/http.keytab``</div>
+<div class="line">``  KrbSaveCredentials off``</div>
+<div class="line">``  Require valid-user``</div>
+</div>
+<section id="automatic-login-of-users-into-mediawiki">
+<span id="id1"></span><h1>Automatic login of users into MediaWiki<a class="headerlink" href="#automatic-login-of-users-into-mediawiki" title="Permalink to this heading">¶</a></h1>
+<p>Additionally we can use one of MediaWiki extensions to automatically log
+in every user with valid kerberos ticket. The extension is called
+<strong>Auth_remoteuser</strong> and could be downloaded from:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`http://upload.wikimedia.org/ext-dist/Auth_remoteuser-trunk-r85015.tar.gz</span></code> &lt;<a class="reference external" href="http://upload.wikimedia.org/ext-dist/Auth_remoteuser-trunk-r85015.tar.gz">http://upload.wikimedia.org/ext-dist/Auth_remoteuser-trunk-r85015.tar.gz</a>&gt;`__</p>
+<ul class="simple">
+<li><p>Extract the archive into directory /var/www/wiki/extensions</p></li>
+<li><p>Edit /var/www/wiki/LocalSettings.php by adding these lines:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">require_once('extensions/Auth_remoteuser/Auth_remoteuser.php');</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuth = new Auth_remoteuser();</span></code></div>
+</div>
+<ul class="simple">
+<li><p>Additionally you can add also these lines:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserAuthz = true; /* Your own authorization test */</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserName = $_SERVER[&quot;AUTHENTICATE_CN&quot;]; /* User's name */</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserMail = $_SERVER[&quot;AUTHENTICATE_MAIL&quot;]; /* User's Mail */</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserNotify = false; /* Do not send mail notifications */</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserDomain = &quot;EXAMPLE.COM&quot;; /* Remove EXAMPLE.COM\ from the beginning or &#64;EXAMPLE.COM at the end of a IWA username */</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/* User's mail domain to append to the user name to make their email address */</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserMailDomain = &quot;example.com&quot;;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">// Don't let anonymous people do things...</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgGroupPermissions['*']['createaccount']   = false;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgGroupPermissions['*']['read']            = false;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgGroupPermissions['*']['edit']            = false;</span></code></div>
+</div>
+<p>Instructions for installing Auth_remoteuser extension were taken from
+<a class="reference external" href="http://www.mediawiki.org/wiki/Extension:AutomaticREMOTE_USER">www.mediawiki.org</a>.</p>
+<p><strong>Configuring SSL</strong></p>
+<hr class="docutils" />
+<p>Last step is to secure connection to our Wiki by SSL. In order to do
+that we must have <strong>mod_nss</strong> installed on <em>client-0</em> and server must be
+running CA(Dogtag).</p>
+<ul class="simple">
+<li><p>First of all we must generate new NSS database(by default stored in
+/etc/httpd/alias):</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">certutil -N -d /etc/httpd/alias</span></code></p>
+<ul class="simple">
+<li><p>Save the database password into a file and make it accessible by
+Apache(httpd):</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">echo &quot;internal:mypassword&quot; &gt; /etc/httpd/alias/passwd.txt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">chown apache /etc/httpd/alias/passwd.txt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">chmod 600 /etc/httpd/alias/passwd.txt</span></code></div>
+</div>
+<ul class="simple">
+<li><p>Create a certificate request</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">certutil -R -s &quot;CN=client-0.example.com, O=EXAMPLE.COM&quot; -d /etc/httpd/alias -a &gt; mediawiki.csr</span></code></p>
+<ul class="simple">
+<li><p>Request the certificate from CA and remember its number</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa cert-request --principal=HTTP/client-0.example.com mediawiki.csr</span></code></p>
+<ul class="simple">
+<li><p>Save the certificate into a file</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa cert-show #number --out=wikicert.crt</span></code></p>
+<ul class="simple">
+<li><p>Add the certificate to <em>client-0</em> NSS database under the name
+“Https-cert”</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">certutil -A -d /etc/httpd/alias/ -n &quot;Https-cert&quot; -a -i wikicert.crt -t &quot;,,&quot;</span></code></p>
+<ul class="simple">
+<li><p>Edit NSS configuration file, usually stored in
+/etc/httpd/conf.d/nss.conf. Some/all of these settings could already
+be there, so check for duplicity.</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Listen 443</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;VirtualHost _default_:443&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSRenegotiation on</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSRequireSafeNegotiation on</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSEnforceValidCerts off</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSNickName &quot;Https-cert&quot;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSPassPhraseDialog &quot;</span></code><code class="docutils literal notranslate"><span class="pre">`file:/etc/httpd/alias/passwd.txt</span></code> &lt;<a class="reference external" href="file:/etc/httpd/alias/passwd.txt">file:/etc/httpd/alias/passwd.txt</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;</span></code></div>
+</div>
+<ul class="simple">
+<li><p>Add rewrite rules to activate SSL. Following lines must be added into
+MediaWiki configuration file (/etc/httpd/conf.d/mediawiki.conf):</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteEngine on</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteCond %{SERVER_PORT}  !^443$</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteCond %{REQUEST_URI}  ^/wiki/</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteRule ^/(.*) https://client-0.example.com/$1 [L,R]</span></code></div>
+</div>
+<ul class="simple">
+<li><p>Restart httpd service</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Setting_up_MediaWiki_to_run_against_FreeIPA.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

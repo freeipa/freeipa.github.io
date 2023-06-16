@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The REALM &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../22222222222222222222.html" />
+    <link rel="prev" title="Example application" href="Example_setup.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The <a class="reference external" href="http://www.freeipa.org/page/Web_App_Authentication">Web App
+Authentication</a>
+using sssd can be used with great benefits in environments where the
+users on the operating system level and users in the web applications
+come from the same identity providers. Ideally the providers are then
+able to control access to OS vs. to the applications (for example with
+FreeIPA, using host-based access control (HBAC) rules), and users can
+enjoy single sign-on to both the OS and to the applications, based on
+their access privileges. We can use mod_gssapi’s</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GssapiLocalName</span> <span class="n">on</span>
+</pre></div>
+</div>
+<p>or mod_auth_kerb’s</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KrbLocalUserMapping</span> <span class="n">On</span>
+</pre></div>
+</div>
+<p>option to enable stripping of the &#64;REALM part from user’s username, so
+existing web application which already had users populated and managed
+manually can start to authenticate the same users against organization’s
+Kerberos server, once mod_auth_gssapi/mod_auth_kerb is enabled.</p>
+<section id="the-realm">
+<span id="id1"></span><h1>The REALM<a class="headerlink" href="#the-realm" title="Permalink to this heading">¶</a></h1>
+<p>In some cases, mixing of internal application users and externally
+authenticated users might not be desirable. If web application populates
+its internal user database with records of externally-authenticated
+users, the admin might want to explicitly separate those managed
+internally from those managed by central identity and authentication
+server.</p>
+<p>One possible solution is to create all internal users without any &#64;REALM
+or &#64;domain parts, and have all externally-authenticated users have
+username in the form of <a class="reference external" href="mailto:'login&#37;&#52;&#48;REALM">‘login<span>&#64;</span>REALM</a>’.</p>
+<p>For Kerberos ticket-based SSO using mod_auth_gssapi/mod_auth_kerb, the
+default value of</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GssapiLocalName</span> <span class="n">Off</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KrbLocalUserMapping</span> <span class="n">Off</span>
+</pre></div>
+</div>
+<p>will pass the full name of the user including the &#64;REALM part to the
+application.</p>
+<p>For PAM authentication using mod_intercept_form_submit, it might be
+userful to force the &#64;REALM part to the username even if the user does
+not specify it in the login field of the logon form. Version 0.9.6 of
+mod_intercept_form_submit added directive <code class="docutils literal notranslate"><span class="pre">InterceptFormLoginRealms</span></code>.
+Whenever the login name used for PAM authentication does not include the
+‘&#64;’ part, the realm specified is appended and authentication attempted
+with the full user name (or if multiple realms are specified, they are
+tried in cycle). For example, if mod_intercept_form_submit is configured
+as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">InterceptFormPAMService</span> <span class="n">wikiapp</span>
+<span class="n">InterceptFormLogin</span> <span class="n">login_fld</span>
+<span class="n">InterceptFormPassword</span> <span class="n">passwd_fld</span>
+<span class="n">InterceptFormLoginRealms</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
+</div>
+<p>and user attempts to log in with login ‘bob’, PAM authentication of
+<a class="reference external" href="mailto:'bob&#37;&#52;&#48;EXAMPLE&#46;COM">‘bob<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>’ is attempted against the PAM service wikiapp.</p>
+<p>Upon successful authentication, this full user name is set to Apache’s
+internal structure r-&gt;user and to the environment variable REMOTE_USER,
+so application will see the full user name <a class="reference external" href="mailto:'bob&#37;&#52;&#48;EXAMPLE&#46;COM">‘bob<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>’.</p>
+<p>This way, user names produced by Kerberos SSO and PAM authentication via
+mod_intercept_form_submit will have the same format and the same user
+records will be used by the applications.</p>
+</section>
+<section id="multiple-freeipa-servers">
+<span id="id2"></span><h1>Multiple FreeIPA servers<a class="headerlink" href="#multiple-freeipa-servers" title="Permalink to this heading">¶</a></h1>
+<p>For web application development, using single identity provider might
+not be ideal. Web application developers might want to install their
+testing FreeIPA or other identity and authentication provider and use it
+solely for the development and testing of the web application, having it
+completely under their control, including the ability to add and modify
+users or get keytabs. At the same time they may want to control the
+access to the operating system using the organization’s identity and
+authentication provider.</p>
+<p>To use second FreeIPA server for the web application development or
+testing on already IPA-enrolled machine, we install and configure the
+server on separate host using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">install</span> <span class="o">--</span><span class="n">no_hbac_allow</span>
+</pre></div>
+</div>
+<p>It is important to choose different realm than the one used by the
+primary identity provider to maintain proper namespace separation.</p>
+<p>In the example above, we have used the <code class="docutils literal notranslate"><span class="pre">--no_hbac_allow</span></code> option.
+Alternatively you might want to <a class="reference external" href="http://www.freeipa.org/page/Howto/HBAC_and_allow_all">disable the default allow_all HBAC
+rule</a>. Since
+the testing users we will create in our second FreeIPA server will be
+seen by sssd on our web server, incorrectly configured access control
+can grant ssh access using these testing users.</p>
+<p>We will want to manually create host and service records for our web
+application machine. Assuming it is wikiapp.example.com, we run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">admin</span>
+<span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span> <span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>on the second FreeIPA server. We can also use <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-add</span></code> to add
+some testing users. Make sure HBAC rules are properly set.</p>
+<p>On the IPA-enrolled machine, we cannot run <code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code> – it
+will complain that the system is already IPA-enrolled. Therefore, we
+will configure access to the second FreeIPA server manually. In the
+following examples we will assume that the realm of the second FreeIPA
+server is EXAMPLE.COM and its hostname is ipa2.devel.company.net.</p>
+<p>To <strong>/etc/krb5.conf</strong>, we add</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">realms</span><span class="p">]</span>
+        <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">kdc</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">:</span><span class="mi">88</span>
+                <span class="n">master_kdc</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">:</span><span class="mi">88</span>
+                <span class="n">admin_server</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">:</span><span class="mi">749</span>
+        <span class="p">}</span>
+
+<span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
+        <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
+</div>
+<p>We should now be able to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
+</div>
+<p>If it succeeds, we can retrieve the keytab for the host and for the HTTP
+service. The keytab for the host is used by sssd when connecting to our
+second FreeIPA server to get for example user attributes. The keytab for
+the HTTP service is used by mod_auth_gssapi/mod_auth_kerb to facilitate
+Negotiate authentication.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="o">-</span><span class="n">getkeytab</span> <span class="o">-</span><span class="n">s</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">-</span><span class="n">k</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">krb5</span><span class="o">.</span><span class="n">keytab</span> <span class="o">-</span><span class="n">p</span> <span class="n">host</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">ipa</span><span class="o">-</span><span class="n">getkeytab</span> <span class="o">-</span><span class="n">s</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">-</span><span class="n">k</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span> <span class="o">-</span><span class="n">p</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
+</div>
+<p>This is the only time the</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
+        <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
+</div>
+<p>part in krb5.conf is needed. We could have omitted it and could have run
+the ipa-getkeytab commands directly on the second FreeIPA server and
+copied the keytabs to our machine manually. That approach however can
+fail if our machine and the FreeIPA server have different OS versions –
+the resulting keytabs may not be usable. Besides, it is good to validate
+that the authentication works, for admin anyway.</p>
+<p>Note that we have stored the host keytab in /etc/krb5.keytab which has
+already been created and populated by <code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code> with our
+machine’s primary keytab, from the primary FreeIPA. The same keytab file
+can be used as long as the realms are different.</p>
+<p>The next part to configure is sssd, in <strong>/etc/sssd/sssd.conf</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># in [sssd] section, append EXAMPLE.COM to domains</span>
+<span class="p">[</span><span class="n">sssd</span><span class="p">]</span>
+<span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span><span class="p">,</span> <span class="n">ifp</span>
+<span class="n">config_file_version</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">domains</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">,</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="c1"># add new section [domain/EXAMPLE.COM]</span>
+<span class="p">[</span><span class="n">domain</span><span class="o">/</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="p">]</span>
+<span class="n">id_provider</span> <span class="o">=</span> <span class="n">ipa</span>
+<span class="n">auth_provider</span> <span class="o">=</span> <span class="n">ipa</span>
+<span class="n">access_provider</span> <span class="o">=</span> <span class="n">ipa</span>
+<span class="n">ipa_server</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span>
+<span class="n">ldap_user_extra_attrs</span> <span class="o">=</span> <span class="n">mail</span><span class="p">,</span> <span class="n">givenname</span><span class="p">,</span> <span class="n">sn</span>
+<span class="n">use_fully_qualified_names</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ldap_user_extra_attrs</span></code> should be set to whatever our application
+and mod_lookup_identity configuration will need for proper operation.
+The <code class="docutils literal notranslate"><span class="pre">use_fully_qualified_names</span></code> option will enforce full user names to
+be used. It is easy to achieve even for mod_intercept_form_submit with
+<code class="docutils literal notranslate"><span class="pre">InterceptFormLoginRealms</span></code> option described above and it will ensure
+that mod_lookup_identity correctly makes lookup calls to the correct
+FreeIPA server, should there be for example user ‘bob’ both in the
+central organization’s server and in ipa2.devel.company.net.</p>
+<p>Restarting sssd</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">sssd</span> <span class="n">restart</span>
+</pre></div>
+</div>
+<p>and possibly httpd (if we’ve done some changes) should make the machine
+ready for use.</p>
+<p>Assuming the basic configuration of Apache, Apache modules and web
+application described at
+<a class="reference external" href="Web_App_Authentication">Web_App_Authentication</a> or in
+<a class="reference external" href="Web_App_Authentication/Example_setup_example">Web_App_Authentication/Example_setup
+example</a> is correct,
+this setup should allow the web application developer to obtain ticket
+from ipa2.devel.company.net for testing user in the EXAMPLE.COM domain
+and authenticate against the web application, and so should the PAM
+authentication via mod_intercept_form_submit work.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Web_App_Authentication/Namespace_separation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

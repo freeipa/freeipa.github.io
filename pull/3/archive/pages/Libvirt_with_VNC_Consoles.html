@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="License.html" />
+    <link rel="prev" title="License of Content" href="Legal.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>KVM Virtualization Integrating Libvirt and VNC Authentication with
+Kerberos in IPA</strong></p>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<p>The ‘default’ behaviour of KVM with libvirt is to use a UNIX socket
+rather than network and to only allow root read/write access to the
+system session with others only having user-session access read/write
+and the system session being read only - with this controlled via
+PolicyKit.</p>
+<p>Leveraging the SASL mechanisms in libvirt allows GSSAPI for an
+authentication mechanism (X509 certificates are also possible but since
+‘user certificates’ are not yet in IPA and I’ve not tested that in this
+workplace I’ll leave that out of scope of this document).</p>
+<p>The prerequisites to work through this guide are a working IPA topology
+and a working libvirt/kvm server (which only needs to allow root to
+manage the guests) that has been joined to the IPA domain.</p>
+<p>For the purposes of this document the IPA server will be
+ipa01.example.com in the realm EXAMPLE.COM, the virtualization server
+will be kvmhost01.example.com and the guest will be
+kvmguest01.example.com.</p>
+</section>
+<section id="creating-the-services-and-obtaining-the-keytabs">
+<span id="id1"></span><h1>Creating the services and obtaining the keytabs<a class="headerlink" href="#creating-the-services-and-obtaining-the-keytabs" title="Permalink to this heading">¶</a></h1>
+<p>In order to allow for all this to work keytabs need to be arranged for
+libvirt and VNC. On ipa01.example.com (or any system with ipa-admintools
+installed or the GUI):</p>
+<div class="line-block">
+<div class="line">`` ipa service-add libvirt/kvmhost01.example.com``</div>
+<div class="line">`` ipa service-add vnc/kvmhost01.example.com``</div>
+</div>
+<p>On the KVM host server:</p>
+<div class="line-block">
+<div class="line">`` ipa-getkeytab -s ipa01.example.com -p libvirt/kvmhost01.example.com -k /etc/libvirt/krb5.tab``</div>
+<div class="line">`` ipa-getkeytab -s ipa01.example.com -p vnc/kvmhost01.example.com -k /etc/qemu/krb5.tab``</div>
+</div>
+<p><strong>Notes</strong></p>
+<ul class="simple">
+<li><p>On CentOS 7, the VNC keytab should be located in /etc/qemu-kvm
+instead of /etc/qemu.</p></li>
+<li><p>The keytabs are 600 root:root for libvirt and 600 qemu:root for qemu.</p></li>
+<li><p>The standard etc_t selinux type appeared to work fine.</p></li>
+</ul>
+<p>With the keytabs in place libvirt and qemu now need to be configured to
+make use of them and enable TCP connections.</p>
+</section>
+<section id="configuring-libvirt-to-use-kerberos-via-sasl">
+<span id="id2"></span><h1>Configuring libvirt to use kerberos via SASL<a class="headerlink" href="#configuring-libvirt-to-use-kerberos-via-sasl" title="Permalink to this heading">¶</a></h1>
+<p>In order to tell kerberos that GSSAPI is an available mechanism and to
+allow connections over tcp the following configuration needs to be
+carried out:</p>
+<p>The appropriate changes in /etc/libvirt/libvirtd.conf are:</p>
+<div class="line-block">
+<div class="line">`` listen_tls = 0``</div>
+<div class="line">`` listen_tcp = 1``</div>
+<div class="line">`` auth_tcp = “sasl”``</div>
+<div class="line">`` sasl_allowed_username_list = [”<a href="#id3"><span class="problematic" id="id4">*</span></a>&#64;EXAMPLE.COM” ]``</div>
+</div>
+<p>To configure the SASL auth for libvirtd following this make sure you
+have the following in /etc/sasl2/libvirt.conf:</p>
+<div class="line-block">
+<div class="line">`` mech_list: gssapi``</div>
+<div class="line">`` keytab: /etc/libvirt/krb5.tab``</div>
+</div>
+<p>Finally listening on TCP needs to be enabled in /etc/sysconfig/libvirtd:</p>
+<p>`` LIBVIRTD_ARGS=”–listen”``</p>
+</section>
+<section id="configuring-qemu-to-allow-sasl-authentication-for-vnc">
+<span id="id5"></span><h1>Configuring qemu to allow SASL authentication for VNC<a class="headerlink" href="#configuring-qemu-to-allow-sasl-authentication-for-vnc" title="Permalink to this heading">¶</a></h1>
+<p>With libvirt listening qemu needs to be configured to allow connections
+to console. This part of things it’s the qemu process running the guest
+rather than the overall libvirt daemon that’s responsible.</p>
+<p>To enable the VNC side of things edit /etc/libvirt/qemu.conf:</p>
+<div class="line-block">
+<div class="line">`` vnc_listen = “0.0.0.0”``</div>
+<div class="line">`` vnc_tls = 0``</div>
+<div class="line">`` vnc_sasl = 1``</div>
+</div>
+<p>If SELinux is enabled on the host, it may prevent qemu to use GSSAPI.
+This is the case with CentOS 7.1.1503, but other distributions may be
+impacted. Either disable SELinux completely or add the following line to
+/etc/libvirt/qemu.conf to disable SELinux integration:</p>
+<p>`` secure_driver = “none”``</p>
+<p>Then configure SASL2 appropriately in /etc/sasl2/qemu.conf:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">mech_list: gssapi</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">keytab: /etc/qemu/krb5.tab</span></code></div>
+</div>
+<p>On CentOS 7, the file is named /etc/sasl2/qemu-kvm.conf, and the keytab
+location is different:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">mech_list: gssapi</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">keytab: /etc/qemu-kvm/krb5.tab</span></code></div>
+</div>
+<p>On CentOS 7, qemu will try to read VNC SASL configuration from the file
+/etc/sasl2/spice.conf. Other distributions may exhibit the same
+behaviour. In that case, just create a symbolic link
+/etc/sasl2/spice.conf pointing to /etc/sasl2/qemu-kvm.conf:</p>
+<div class="line-block">
+<div class="line">`` cd /etc/sasl2``</div>
+<div class="line">`` ln -s qemu-kvm.conf spice.conf``</div>
+</div>
+<p>The final note to make is an <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=718377">outstanding
+bug</a> that affects
+this setup currently where the kerberos key cache that gets made by
+libvirt has the range set to the guest VM being connected to and then
+consequently connecting to another guest on the same host fails due to
+the selinux range on the file preventing it from being read.</p>
+<p>As a workaround until the bug is fixed, as an example, I have the
+following in cron:</p>
+<p>`` <a href="#id6"><span class="problematic" id="id7">*</span></a>/5 * * * * chcon -l s0 /var/tmp/vnc_*``</p>
+<p>This will set the range to s0 and thus all VMs can then use this replay
+cache for the credentials.</p>
+</section>
+<section id="firewall-configuration">
+<span id="id8"></span><h1>Firewall configuration<a class="headerlink" href="#firewall-configuration" title="Permalink to this heading">¶</a></h1>
+<p>Although libvirtd should now be listening remotely at this point
+iptables should still be blocking connections. Assuming default ports
+for libvirt and VNC the following lines should be put in
+/etc/sysconfig/iptables:</p>
+<div class="line-block">
+<div class="line">`` -A INPUT -m state –state NEW -m tcp -p tcp –dport 5900:5999 -j ACCEPT``</div>
+<div class="line">`` -A INPUT -m state –state NEW -m tcp -p tcp –dport 16509 -j ACCEPT``</div>
+</div>
+<p>If you don’t want to deal with iptables directly, you may use
+firewall-cmd instead. Assuming your network interface is bound to the
+‘public’ zone:</p>
+<div class="line-block">
+<div class="line">`` firewall-cmd –zone=public –add-service=libvirt``</div>
+<div class="line">`` firewall-cmd –zone=public –add-service=libvirt –permanent``</div>
+<div class="line">`` firewall-cmd –zone=public –add-port=5900:5999/tcp``</div>
+<div class="line">`` firewall-cmd –zone=public –add-port=5900:5999/tcp –permanent``</div>
+</div>
+<p>This should be the only requirement left for connectivity.</p>
+</section>
+<section id="client-usage">
+<span id="id9"></span><h1>Client usage<a class="headerlink" href="#client-usage" title="Permalink to this heading">¶</a></h1>
+<p>At this point everything should be functional. Either a remote
+connection should be possible or ssh -X to kvmhost01.example.com and
+then opening virt-manager.</p>
+<p>To connect to libvirt over TCP use a connection string such as :</p>
+<p>`` virsh -c qemu+tcp://kvmhost01.example.com/system ``</p>
+<p>In the alternative add the environment variable to the client (useful on
+the server itself where it won’t need to vary) of:</p>
+<p>`` LIBVIRT_DEFAULT_URI=”qemu+tcp://kvmhost01.example.com/system”``</p>
+<p>To connect to the VNC instance a client that is capable of GSSAPI for
+VNC should be used such as virt-viewer or the console view of
+virt-manager.</p>
+</section>
+<section id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">¶</a></h1>
+<p>If all the steps have been followed then as long as there is a valid
+kerberos token in the realm EXAMPLE.COM connecting with a libvirt client
+to the libvirt daemon should work without any additional credentials
+being requested.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Libvirt_with_VNC_Consoles.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,254 @@
+The FreeIPA team is proud to announce version FreeIPA v2.2.0.
+
+It can be downloaded from
+` <http://www.freeipa.org/page/Downloads>`__\ http://www.freeipa.org/page/Downloads.
+
+A build is on the way to updates-testing for Fedora 17. Fedora 15 and 16
+are not supported by FreeIPA 2.2.0 due to missing dependencies.
+
+**Important**\ `note <Releases/DS_Issues_Note>`__\ **for Fedora 17
+users**
+
+.. _highlights_in_2.2.0:
+
+Highlights in 2.2.0
+-------------------
+
+-  Forms-based login. If Kerberos Single-Sign-On authentication fails,
+   you now have the option to authenticate through a form-base login
+   page using your domain username and password. You an also go directly
+   to the page named /ipa/ui/login.html to do form-based authentication
+   without attempting a Kerberos login at all
+-  Logout from the UI
+-  Support for SSH known-hosts with sssd 1.8.0. This will create a
+   known-hosts file dynamically based on information stored in IPA.
+-  SELinux user maps to control a user's SELinux context depending on
+   what host they log into (requires sssd 1.8.0+).
+-  Support for global configuration of the name server stored in LDAP,
+   including a list of global forwarders, forward policy, DNS zone
+   refresh poll timeout.
+-  Enhanced per-zone configuration, including query and transfer policy,
+   and conditional forwarding.
+-  DNS record CLI and Web UI is vastly improved, including an improved
+   validation of supported DNS record types, an ability to create
+   compound DNS records (like LOC or SRV) by its parts.
+-  Migration improvements including being able to specify the basedn,
+   translation of stored DN values. User-Private groups are no longer
+   being created for migrated users.
+-  We recommend that the compat plugin be disabled during migration to
+   avoid unnecessary overhead.
+-  On new installations the default users group, ipausers, is now
+   non-POSIX to speed up user enumeration in SSSD. To make ipausers a
+   POSIX group run ipa group-mod --posix ipausers.
+-  The WebUI now has support for HBAC testing and Automember
+   mananagement.
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.1.90 rc1 has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-devel
+mailing list: http://www.redhat.com/mailman/listinfo/freeipa-devel
+
+.. _detailed_changelog_since_2.1.90_rc_1:
+
+Detailed Changelog since 2.1.90 rc 1
+------------------------------------
+
+Alexander Bokovoy (1):
+
+-  When changing multiple booleans with setsebool, pass each of them
+   separately.
+
+Jan Cholasta (9):
+
+-  Wait for child process to terminate after receiving SIGINT in
+   ipautil.run.
+-  Parse zone indices in IPv6 addresses in CheckedIPAddress.
+-  Fix uses of O=REALM instead of the configured certificate subject
+   base.
+-  Fix the procedure for getting default values of command parameters.
+-  Change parameters to use only default_from for dynamic default
+   values.
+-  Check whether the default user group is POSIX when adding new user
+   with --noprivate.
+-  Check configured maximum user login length on user rename.
+-  Fix internal error when renaming user with an empty string.
+-  Set the "KerberosAuthentication" option in sshd_config to "no"
+   instead of "yes".
+
+John Dennis (7):
+
+-  Replace broken i18n shell test with Python test
+-  improve handling of ds instances during uninstall
+-  Use indexed format specifiers in i18n strings
+-  text unit test should validate using installed mo file
+-  Validate DN & RDN parameters for migrate command
+-  don't append basedn to container if it is included
+-  Fix name error in hbactest
+
+Lars Sjostrom (1):
+
+-  Add disovery domain if client domain is different from server domain
+
+Martin Kosek (29):
+
+-  Ignore case in yes/no prompts
+-  Refresh resolvers after DNS install
+-  Fix migration plugin compat check
+-  Fix ipa-replica-manage TLS connection error
+-  Treat UPGs correctly in winsync replication
+-  Allow port numbers for idnsForwarders
+-  Add missing global options in dnsconfig
+-  Fix precallback validators in DNS plugin
+-  Harden raw record processing in DNS plugin
+-  Fix LDAP effective rights control with python-ldap 2.4.x
+-  Avoid deleting DNS zone when a context is reused
+-  Fix default SOA serial format
+-  Amend permissions for new DNS attributes
+-  Improve user awareness about dnsconfig
+-  Fix dnsrecord-del interactive mode
+-  Tolerate UDP port failures in conncheck
+-  Improve automount indirect map error message
+-  Forbid public access to DNS tree
+-  Configure SELinux for httpd during upgrades
+-  Fix installation when server hostname is not in a default domain
+-  Return correct record name in DNS plugin
+-  Fix dnsrecord_add interactive mode
+-  Fix DNS and permissions unit tests
+-  Raise proper exception when LDAP limits are exceeded
+-  Do not fail migration because of duplicate groups
+-  Fix help of --hostname option in ipa-client-install
+-  Sort password policies properly with --pkey-only
+-  Improve error message in zonemgr validator
+-  Make ipa 2.2 client capable of joining an older server
+
+Ondrej Hamada (7):
+
+-  More exception handlers in ipa-client-install
+-  Search allowed attributes in superior objectclasses
+-  Typos in FreeIPA messages
+-  Netgroup nisdomain and hosts validation
+-  Confusing default user groups
+-  Unable to rename permission object
+-  Fix empty external member processing
+
+Petr Viktorin (22):
+
+-  Allow removing sudo commands with special characters from command
+   groups
+-  Enforce that required attributes can't be set to None in CRUD Update
+-  Mark most config options as required
+-  Don't crash when searching with empty relationship options
+-  Remove ipausers' gidnumber from tests
+-  Use nose tools to check for exceptions
+-  Only split CSV in the client, quote instead of escaping
+-  Add missing BuildRequires
+-  Use valid argument names in tests
+-  Add CLI parsing tests
+-  Allow multi-line CSV parameters
+-  Move test skipping to class setup
+-  Fix little test errors
+-  Test the batch plugin
+-  Defer conversion and validation until after --{add,del,set}attr are
+   handled
+-  Limit permission and selfservice names to alphanumerics, -, \_, space
+-  Convert --setattr values for attributes marked no_update
+-  Fix expected error messages in tests
+-  Remove pattern_errmsg from API.txt
+-  Pass make-test arguments through to Nose
+-  Document the 'nonempty' flag
+-  Additional tests for pwpolicy
+
+Petr Vobornik (22):
+
+-  Fixed mask validation in network_validator
+-  Fixed checkbox value in table without pkey
+-  Certificate serial number in hex format - ui testing data
+-  Fixed evaluating checkbox dirty status
+-  Better hbactest validation message
+-  Content is no more overwritten by error message
+-  Show_content on refresh success
+-  Fixed rpm build warning - extension.js listed twice
+-  Add support of new options in dnsconfig
+-  DNS forwarder validator
+-  Added mac address to host page
+-  Facet expiration flag
+-  Inter-facet expiration
+-  Reworked netgroup Web UI to allow setting user/host category
+-  Fixed: permission attrs table didn't update its available options on
+   load
+-  Added attrs field to permission for target=subtree
+-  DNS forward policy: checkboxes changed to radio buttons
+-  Removed mutex option from checkboxes
+-  Removal of memberofindirect_permissons from privileges
+-  User is notified that password needs to be reset in forms-based login
+-  Added permission field to delegation
+-  Paging disable for password policies
+
+Rob Crittenden (34):
+
+-  Fix NSS no_init in the NSSHTTPS class
+-  Set minimum version of selinux-policy to pick up memcached fix
+-  Fix nsslapd-anonlimitsdn dn in cn=config
+-  Set SELinux boolean httpd_manage_ipa so ipa_memcached will work.
+-  Don't set dbdir in the connection until after the connection is
+   created.
+-  Display serial number as HEX (DECIMAL) when showing certificates.
+-  Add subject key identifier to the dogtag server cert profile.
+-  Configure a basic ldap.conf for OpenLDAP in /etc/openldap/ldap.conf
+-  Import the ipaserver plugins based on context, not env.in_server.
+-  Don't allow hosts and services of IPA masters to be disabled.
+-  Use a consistent parameter name in errors, defaulting to cli_name.
+-  No longer shell escape the DM password when calling pkisilent.
+-  Fix test failure testing rename with an invalid hostname.
+-  Fix attributes that contain DNs when migrating.
+-  Normalize the primary key value to lowercase during migration.
+-  Fix unit tests to work with new comma-support, validation
+   requirements
+-  Set minimum version of 389-ds-base to 1.2.10.4-2 to fix upgrade issue
+-  Set nsslapd-minssf-exclude-rootdse to on so the DSE is always
+   available.
+-  Add requires on python-krbV to client subpackage
+-  Fix failure count interval attribute name in query for password
+   policy.
+-  Handle updating replication agreements that lack
+   nsDS5ReplicatedAttributeList
+-  Don't create private groups for migrated users, check for valid
+   gidnumber
+-  Add updated Output format for batch to API.txt
+-  Make revocation_reason required when revoking a certificate.
+-  Add missing comma to list of services that cannot be disabled.
+-  Return consistent value when hostcat and usercat is all.
+-  Dereference pointer when comparing password history in qsort compare.
+-  Configure certmonger to execute restart scripts on renewal.
+-  Remove the running state when uninstalling DS instances.
+-  Return consistent expiration message for forms-based login
+-  Use mixed-case for Read DNS Entries permission
+-  Update docs for user-status, always show disabled, time for each
+   server.
+
+Simo Sorce (1):
+
+-  Fix memleak and silence Coverity defects

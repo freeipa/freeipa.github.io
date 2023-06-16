@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Description &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="1.The Agent" href="Integrate_With_Okta.html" />
+    <link rel="prev" title="Configuration" href="Authenticating_Redmine_with_IPA.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>FreeIPA on banana pi</strong></p>
+<hr class="docutils" />
+<p>Provided by: Markus Roth</p>
+<section id="description">
+<h1>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h1>
+<p>This How To describes how to install FreeIPA on a single board computer
+with ARM CPU like the banana pi or raspberry pi.</p>
+</section>
+<section id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h1>
+<p>The system is installed with fedora 21. Because it will be used as a
+home server, the graphical desktop is not required. For this the default
+runlevel is set to multiuser.target.</p>
+<p><code class="docutils literal notranslate"><span class="pre">systemctl set-default multi-user.target</span></code></p>
+<p>The next step is to enter the FQDN (full qualified domain name) in the
+hosts file. For this purpose, there should be the following in the file
+/etc/hosts entry:</p>
+<p><code class="docutils literal notranslate"><span class="pre">192.168.1.1  hostname.example.com  hostname</span></code></p>
+</section>
+<section id="installation-of-freeipa">
+<span id="id1"></span><h1>Installation of FreeIPA<a class="headerlink" href="#installation-of-freeipa" title="Permalink to this heading">¶</a></h1>
+<p>First, the FreeIPA package has to be installed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">yum install freeipa-server bind bind-dyndb-ldap</span></code></p>
+<p>or as group:</p>
+<p><code class="docutils literal notranslate"><span class="pre">yum groupinstall “FreeIPA Server”</span></code></p>
+<p>all the necessary packages are installed.</p>
+<p>In order to finish the setup of the IPA server an adjustment must be
+made in the source code. The reason for this is that the certificate
+service requires about 10 minutes to start on the banana Pi. There is a
+variable set with a wait time of 300s, so the setup cancel.</p>
+<p>The adjustment is made in the file:</p>
+<p><code class="docutils literal notranslate"><span class="pre">/usr/lib/python2.7/site-packages/ipalib/constants.py</span></code></p>
+<p>the variable ‘startup_timeout’, 300 has to be customized.</p>
+<p>I changed this value to 900.</p>
+<p>Now, the setup is performed as described in the documentation of
+FreeIPA. At the setup step</p>
+<p><code class="docutils literal notranslate"><span class="pre">[8/27]: starting certificate server instance</span></code></p>
+<p>you should give 10 minutes the certificate service to start.</p>
+<p><a class="reference external" href="Category:How_to">Category:How to</a> <a class="reference external" href="Category:Draft_documentation">Category:Draft
+documentation</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/HowTo/FreeIPA_on_banana_pi.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

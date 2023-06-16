@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Password Exclusivity" href="New_Passwords_Expired.html" />
+    <link rel="prev" title="Overview" href="Network_Bound_Disk_Encryption.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<p>By default during installation of IPA we generate a self-signed CA that
+is used to issue the SSL server certs used by 389 and Apache. A mistake
+was made in the generation of this CA, <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=514027">bug
+514027</a>. The CA
+Basic Constraint extension wasn’t added to the certificate.</p>
+<p>This wasn’t a problem until NSS 3.12.3 which requires a certificate have
+this extension to be considered a CA. The most obvious impact is that
+Firefox 3.5 cannot import an IPA CA certificate.</p>
+<p>This affects IPA 1.0 through 1.2.1.</p>
+</section>
+<section id="instructions-for-issuing-a-new-ca-certificate">
+<span id="id1"></span><h1>Instructions for issuing a new CA certificate<a class="headerlink" href="#instructions-for-issuing-a-new-ca-certificate" title="Permalink to this heading">¶</a></h1>
+<p>Some changes were made in IPA so that any new CA certificates generated
+will have the appropriate extensions. So any new installations of IPA
+1.2.2 or higher will not have this problem.</p>
+<p>For existing installations we have written a tool,
+<a class="reference external" href="http://freeipa.org/downloads/ipa-newca">ipa-newca</a>, that will issue
+a new CA certificate using the existing key pair. This means that any
+existing SSL server certs (including on replicas) will not need to be
+re-issued.</p>
+<p>It does mean that the new CA certificate will need to be propagated
+everywhere that the old CA certificate exists. This includes the 389 and
+Apache server on every IPA server as well as any browser that has
+trusted the old CA certificate.</p>
+<p>To generate a new CA certificate, log into the initial IPA master. This
+is the instance that contains the CA.</p>
+<p>The tool requires that the 389 instance be shut down in order to run. It
+is probably best to shut down all IPA services before running the tool.</p>
+<p><strong>Step 1</strong> Upgrade to IPA 1.2.2</p>
+<p><strong>Step 2</strong> Generate a new CA certificate</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /usr/sbin/ipactl stop</span>
+<span class="c1"># chmod +x ipa-newca</span>
+<span class="c1"># ./ipa-newca</span>
+<span class="c1"># /usr/bin/ipactl restart</span>
+</pre></div>
+</div>
+<p>You will be prompted before a new CA is generated.</p>
+<p><strong>Step 3</strong> Distribute this new CA</p>
+<p>This new CA certificate needs to be manually installed into all other
+IPA replicas. The new certificate be install on other machines by
+logging into it and running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cd /usr/share/ipa/html</span>
+<span class="c1"># wget -O ipa.crt http://replica4.greyoak.com/ipa/config/ca.crt</span>
+<span class="c1"># chmod 444 ipa.crt</span>
+<span class="c1"># certutil -A -d /etc/httpd/alias -n &quot;CA certificate&quot; -t CT,,C -a &lt; /usr/share/ipa/html/ca.crt</span>
+<span class="c1"># certutil -A -d /etc/dirsrv/slapd-GREYOAK-COM -n &quot;CA certificate&quot; -t CT,,C -a &lt; /usr/share/ipa/html/ca.crt</span>
+<span class="c1"># /usr/sbin/ipactl restart</span>
+</pre></div>
+</div>
+<p>Browsers will need to trust this new CA certificate as well. The easiest
+way to do this is to direct users to
+<code class="docutils literal notranslate"><span class="pre">`http://ipa.example.com/ipa/config/ca.crt</span></code> &lt;<a class="reference external" href="http://ipa.example.com/ipa/config/ca.crt">http://ipa.example.com/ipa/config/ca.crt</a>&gt;`__</p>
+<p>This will download and attempt to install the new CA certificate. Have
+users click all 3 trust boxes and import the cert.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/NewCA.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Installing Binaries &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The problem" href="Delegation.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="DS_Design_Summary_2.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="installing-binaries">
+<span id="id1"></span><h1>Installing Binaries<a class="headerlink" href="#installing-binaries" title="Permalink to this heading">¶</a></h1>
+<p>Install prerequisites:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">perl</span><span class="o">-</span><span class="n">Mozilla</span><span class="o">-</span><span class="n">LDAP</span>
+</pre></div>
+</div>
+<p>To install officially released version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+<p>To install unreleased version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="o">--</span><span class="n">enablerepo</span><span class="o">=</span><span class="n">updates</span><span class="o">-</span><span class="n">testing</span> <span class="n">install</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+</section>
+<section id="building-from-source-code">
+<span id="id2"></span><h1>Building from Source Code<a class="headerlink" href="#building-from-source-code" title="Permalink to this heading">¶</a></h1>
+<p>Install prerequisites:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">git</span> <span class="n">gcc</span><span class="o">-</span><span class="n">c</span><span class="o">++</span> <span class="n">cyrus</span><span class="o">-</span><span class="n">sasl</span><span class="o">-</span><span class="n">devel</span> <span class="n">db4</span><span class="o">-</span><span class="n">devel</span> <span class="n">krb5</span><span class="o">-</span><span class="n">devel</span> <span class="n">libicu</span><span class="o">-</span><span class="n">devel</span> \
+<span class="n">mozldap</span><span class="o">-</span><span class="n">devel</span> <span class="n">net</span><span class="o">-</span><span class="n">snmp</span><span class="o">-</span><span class="n">devel</span> <span class="n">nspr</span><span class="o">-</span><span class="n">devel</span> <span class="n">nss</span><span class="o">-</span><span class="n">devel</span> <span class="n">openssl</span><span class="o">-</span><span class="n">devel</span> <span class="n">pam</span><span class="o">-</span><span class="n">devel</span> \
+<span class="n">pcre</span><span class="o">-</span><span class="n">devel</span> <span class="n">zlib</span><span class="o">-</span><span class="n">devel</span>
+</pre></div>
+</div>
+<p>Get the source code from git repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">fedorahosted</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">389</span><span class="o">/</span><span class="n">ds</span><span class="o">.</span><span class="n">git</span>
+<span class="o">%</span> <span class="n">cd</span> <span class="n">ds</span>
+</pre></div>
+</div>
+<p>Run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">rpm</span> <span class="o">--</span><span class="nb">eval</span> <span class="s1">&#39;%</span><span class="si">{configure}</span><span class="s1">&#39;</span>
+
+  <span class="n">CFLAGS</span><span class="o">=</span><span class="s2">&quot;${CFLAGS:--O2 -g}&quot;</span> <span class="p">;</span> <span class="n">export</span> <span class="n">CFLAGS</span> <span class="p">;</span>
+  <span class="n">CXXFLAGS</span><span class="o">=</span><span class="s2">&quot;${CXXFLAGS:--O2 -g}&quot;</span> <span class="p">;</span> <span class="n">export</span> <span class="n">CXXFLAGS</span> <span class="p">;</span>
+  <span class="n">FFLAGS</span><span class="o">=</span><span class="s2">&quot;${FFLAGS:--O2 -g}&quot;</span> <span class="p">;</span> <span class="n">export</span> <span class="n">FFLAGS</span> <span class="p">;</span>
+  <span class="o">./</span><span class="n">configure</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">x86_64</span><span class="o">-</span><span class="n">unknown</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span> <span class="o">--</span><span class="n">build</span><span class="o">=</span><span class="n">x86_64</span><span class="o">-</span><span class="n">unknown</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span> \
+        <span class="o">--</span><span class="n">target</span><span class="o">=</span><span class="n">x86_64</span><span class="o">-</span><span class="n">redhat</span><span class="o">-</span><span class="n">linux</span> \
+        <span class="o">--</span><span class="n">program</span><span class="o">-</span><span class="n">prefix</span><span class="o">=</span> \
+        <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span> \
+        <span class="o">--</span><span class="n">exec</span><span class="o">-</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span> \
+        <span class="o">--</span><span class="n">bindir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span> \
+        <span class="o">--</span><span class="n">sbindir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span> \
+        <span class="o">--</span><span class="n">sysconfdir</span><span class="o">=/</span><span class="n">etc</span> \
+        <span class="o">--</span><span class="n">datadir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span> \
+        <span class="o">--</span><span class="n">includedir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span> \
+        <span class="o">--</span><span class="n">libdir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span> \
+        <span class="o">--</span><span class="n">libexecdir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">libexec</span> \
+        <span class="o">--</span><span class="n">localstatedir</span><span class="o">=/</span><span class="n">var</span> \
+        <span class="o">--</span><span class="n">sharedstatedir</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span> \
+        <span class="o">--</span><span class="n">mandir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">man</span> \
+        <span class="o">--</span><span class="n">infodir</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">info</span>
+</pre></div>
+</div>
+<p>Use the output to run the configuration program.</p>
+<p>Execute the following command to build &amp; install:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">make</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+</section>
+<section id="building-rpm">
+<span id="id3"></span><h1>Building RPM<a class="headerlink" href="#building-rpm" title="Permalink to this heading">¶</a></h1>
+<p>Install prerequisites:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">cvs</span> <span class="n">icu</span> <span class="n">bzip2</span><span class="o">-</span><span class="n">devel</span> <span class="n">rpm</span><span class="o">-</span><span class="n">build</span> <span class="n">redhat</span><span class="o">-</span><span class="n">rpm</span><span class="o">-</span><span class="n">config</span>
+</pre></div>
+</div>
+<p>Prepare build directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">mkdir</span> <span class="o">~/</span><span class="n">rpmbuild</span>
+<span class="o">%</span> <span class="n">cd</span> <span class="o">~/</span><span class="n">rpmbuild</span>
+<span class="o">%</span> <span class="n">mkdir</span> <span class="n">BUILD</span> <span class="n">BUILDROOT</span> <span class="n">RPMS</span> <span class="n">SOURCES</span> <span class="n">SPECS</span> <span class="n">SRPMS</span>
+</pre></div>
+</div>
+<p>Create source tarball:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">DS_SRC</span>
+<span class="o">%</span> <span class="n">git</span> <span class="n">archive</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=</span><span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="mf">1.2.3</span><span class="o">/</span> <span class="n">master</span> <span class="o">|</span> <span class="n">bzip2</span> <span class="o">&gt;</span> <span class="o">~/</span><span class="n">rpmbuild</span><span class="o">/</span><span class="n">SOURCES</span><span class="o">/</span><span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="mf">1.2.3</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>Download the RPM spec:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cvs</span> <span class="o">-</span><span class="n">d</span> <span class="p">:</span><span class="n">pserver</span><span class="p">:</span><span class="n">anonymous</span><span class="nd">@cvs</span><span class="o">.</span><span class="n">fedoraproject</span><span class="o">.</span><span class="n">org</span><span class="p">:</span><span class="o">/</span><span class="n">cvs</span><span class="o">/</span><span class="n">extras</span> \
+<span class="n">co</span> <span class="o">-</span><span class="n">r</span> <span class="n">three89</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="mi">1_2_3</span><span class="o">-</span><span class="mi">1</span><span class="n">_fc10</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+<p>Copy files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">/</span><span class="n">F</span><span class="o">-</span><span class="mi">10</span>
+<span class="o">%</span> <span class="n">cp</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">devel</span><span class="o">.</span><span class="n">README</span> <span class="o">~/</span><span class="n">rpmbuild</span><span class="o">/</span><span class="n">SOURCES</span>
+<span class="o">%</span> <span class="n">cp</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">git</span><span class="o">.</span><span class="n">sh</span> <span class="o">~/</span><span class="n">rpmbuild</span><span class="o">/</span><span class="n">SOURCES</span>
+<span class="o">%</span> <span class="n">cp</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">.</span><span class="n">spec</span> <span class="o">~/</span><span class="n">rpmbuild</span><span class="o">/</span><span class="n">SPECS</span>
+<span class="o">%</span> <span class="n">rpmbuild</span> <span class="o">-</span><span class="n">ba</span> <span class="mi">389</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">base</span><span class="o">.</span><span class="n">spec</span>
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://directory.fedoraproject.org/wiki/Building">Building 389 Directory
+Server</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/DS_Installation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

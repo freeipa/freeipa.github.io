@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Motivation &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Introduction" href="Certificate_Authority.html" />
+    <link rel="prev" title="Building Candlepin" href="Candlepin.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="motivation">
+<h1>Motivation<a class="headerlink" href="#motivation" title="Permalink to this heading">¶</a></h1>
+<p>When a system grows to multiple hosts, managing the logs and accessing
+them can get complicated. Searching for a particular error across
+hundreds of log files on hundreds of servers is difficult without good
+tools. FreeIPA currently does not have documentation or even own tools
+how to set up the infrastructure and it is being solved separately by
+each FreeIPA user. This page summarizes the efforts and development of a
+Centralized Logging solution in/for FreeIPA that would close that gap.</p>
+<p>FreeIPA is a security related project, usually a backbone of the
+infrastructure. Tracking, audit or analysis of the logs of the FreeIPA
+server behavior and related FreeIPA user behavior is useful as it allows
+detecting problems in time before they grow in even bigger problems
+(e.g., replication errors) or helps detecting attacks, misbehavior or
+simply configuration problems in the infrastructure and amending them.</p>
+</section>
+<section id="freeipa-logs">
+<span id="id1"></span><h1>FreeIPA logs<a class="headerlink" href="#freeipa-logs" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA server itself is not a monolithic application, but rather
+compound of selected open source projects creating a solution for
+identity management. This makes log collection, processing and
+aggregation a challenge as each project have own way and technology how
+to structure and produce logs. This applies both for FreeIPA server and
+it’s many services, but also for FreeIPA clients, where different
+information lies in different logs (SSSD log, audit log).</p>
+</section>
+<section id="use-cases">
+<span id="use-cases12"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Before designing a particular solution, basic use cases and intents of
+what logs will be used and how should be defined. Currently, following
+set of use cases is tracked:</p>
+<ul class="simple">
+<li><p>As Admin or Auditor, I want to see all calls to FreeIPA API so that I
+can audit administrative changes to FreeIPA server (for instance: who
+added user “foo”? Who revoked a certificate and when?)</p></li>
+<li><p>As Auditor, I want to see all logins attempts for meeting security
+requirements and forensic analysis</p></li>
+<li><p>As Security Administrator, I want to visualize failed login attempts
+to brute-force attack</p></li>
+<li><p>As Admin, I want to see replication status of all my FreeIPA replicas
+so that I can amend the issue in a timely manner to avoid replication
+conflicts or out-of-sync data (I want my login to work on all
+servers)</p></li>
+<li><p>As Admin, I want to identify AD interoperability problems on FreeIPA
+server (example: SSSD on the FreeIPA server cannot talk to the Active
+Directory server and thus resolve groups)</p></li>
+<li><p>As Admin, I want to see load of Kerberos and LDAP server to be able
+to compare the load on the FreeIPA servers (and for example identify
+badly configured DNS SRV records or clients always calling the same
+server), network problems (some servers may not be reachable by most
+clients and have thus very small load) or simply by some of the
+services not running.</p></li>
+</ul>
+</section>
+<section id="proposed-solution">
+<span id="id2"></span><h1>Proposed Solution<a class="headerlink" href="#proposed-solution" title="Permalink to this heading">¶</a></h1>
+<p>The centralized log collection problem has 2 basic parts:</p>
+<ul class="simple">
+<li><p>Selecting and configuring the right <strong>centralized server</strong> that will
+collect, process, annotate and visualize the logs</p></li>
+<li><p>Configuring the actual machines (FreeIPA servers or clients) to
+<strong>send the interesting logs</strong> to the centralized server and selecting
+<strong>proper and secure transport</strong> for the logs.</p></li>
+</ul>
+<section id="centralized-logging-server">
+<span id="id3"></span><h2>Centralized Logging Server<a class="headerlink" href="#centralized-logging-server" title="Permalink to this heading">¶</a></h2>
+<p>Currently, the most used and advanced open source solutions are the
+centralized servers based on
+<a class="reference external" href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> for
+data storage and searches,
+<a class="reference external" href="http://www.rsyslog.com/">rsyslog</a>/<a class="reference external" href="https://www.elastic.co/products/logstash">logstash</a>/<a class="reference external" href="http://www.fluentd.org/">fluentd</a>
+for log reception and processing and
+<a class="reference external" href="https://www.elastic.co/products/kibana">Kibana</a> for data display and
+dashboards (commonly referred to as REK, ELK servers based on the log
+receiving part).</p>
+<p>Currently proposed solution chosen <code class="docutils literal notranslate"><span class="pre">rsyslog</span></code>. The server is packaged
+as <a class="reference external" href="https://registry.hub.docker.com/u/pschiffe/rsyslog-elasticsearch-kibana/">Docker
+image</a>.
+See the <a class="reference external" href="https://registry.hub.docker.com/u/pschiffe/rsyslog-elasticsearch-kibana/">Docker Hub
+Registry</a>
+or respective <a class="reference external" href="https://github.com/pschiffe/rsyslog-elasticsearch-kibana">github
+repo</a> for
+details how to download and run the preconfigured REK server.</p>
+</section>
+<section id="log-gathering-and-transport">
+<span id="id4"></span><h2>Log Gathering and Transport<a class="headerlink" href="#log-gathering-and-transport" title="Permalink to this heading">¶</a></h2>
+<p>To meet the defined use cases, at least following logs have to be
+gathered from the <strong>FreeIPA server</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/httpd/error_log</span></code>: FreeIPA API call logs (and Apache
+errors)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/krb5kdc.log</span></code>: FreeIPA <a class="reference external" href="Kerberos">KDC</a> utilization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/dirsrv/slapd-$REALM/access</span></code>: <a class="reference external" href="Directory_Server">Directory
+Server</a> utilization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/dirsrv/slapd-$REALM/errors</span></code>: <a class="reference external" href="Directory_Server">Directory
+Server</a> errors (including mentioned replication
+errors)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/pki/pki-tomcat/ca/transactions</span></code>: FreeIPA <a class="reference external" href="PKI">PKI</a>
+transactions/logs</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>FreeIPA client</strong> logs:</div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/sssd/*.log</span></code>: SSSD logs (multiple, for all tracked logs)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/audit/audit.log</span></code>: user login attempts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/secure</span></code>: reasons why user login failed</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">For easier FreeIPA log forwarding configuration,
+<a class="reference external" href="https://github.com/pschiffe/ipa-log-config">ipa-log-config</a> tool
+can be used. Visit its <a class="reference external" href="https://github.com/pschiffe/ipa-log-config">github
+page</a> for more
+information and usage.</div>
+</div>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this heading">¶</a></h2>
+<p>Current the proof of concept project contains:</p>
+<ul class="simple">
+<li><p>Aforementioned CentOS-7 based REK server for log collection (<a class="reference external" href="https://registry.hub.docker.com/u/pschiffe/rsyslog-elasticsearch-kibana/">Docker
+image</a>)</p></li>
+<li><p>Set of preconfigured Kibana dashboards visualizing different logs in
+readable graphs. See the next subsection for details. (<a class="reference external" href="https://github.com/pschiffe/rsyslog-elasticsearch-kibana/tree/master/kibana">Kibana
+dashboards and
+searches</a>)</p></li>
+<li><p>Basic log message filtering rules for the <code class="docutils literal notranslate"><span class="pre">rsyslog</span></code> on the server,
+turning the log messages into structured logs that are searchable in
+Kibana (<a class="reference external" href="https://github.com/pschiffe/rsyslog-elasticsearch-kibana/tree/master/rsyslog">rsyslog
+rules</a>)</p></li>
+<li><p>Script to configure rsyslog-based log transmission on the FreeIPA
+servers and clients (<a class="reference external" href="https://github.com/pschiffe/ipa-log-config">github
+page</a>)</p></li>
+</ul>
+<section id="dashboards">
+<h3>Dashboards<a class="headerlink" href="#dashboards" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="Media:Rek-user-logins.png">User Logins</a>: User login attempts and
+their results across FreeIPA domain, most-logged-to hosts</p></li>
+<li><p><a class="reference external" href="Media:Rek-ipa-server-administration.png">IPA Server
+Administration</a>:
+Administrative API usage on the FreeIPA servers</p></li>
+<li><p><a class="reference external" href="Media:Rek-ipa-server-utilization.png">IPA Server Utilization</a>:
+Kerberos/LDAP protocol utilization across FreeIPA servers</p></li>
+<li><p><a class="reference external" href="Media:Rek-ipa-server-health.png">IPA Server Health</a>: Replication
+errors, server SSSD errors</p></li>
+<li><p><a class="reference external" href="Media:Rek-sssd.png">SSSD</a>: selected client SSSD errors (dashboard
+still in progress)</p></li>
+</ul>
+</section>
+<section id="demo-of-the-kibana-dashboards">
+<span id="id5"></span><h3>Demo of the Kibana Dashboards<a class="headerlink" href="#demo-of-the-kibana-dashboards" title="Permalink to this heading">¶</a></h3>
+<p>{{#ev:youtube|7YjA6z5nE0I|640|center}}</p>
+</section>
+</section>
+</section>
+<section id="other-resources">
+<span id="id6"></span><h1>Other Resources<a class="headerlink" href="#other-resources" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="Howto/Centralised_Logging_with_Logstash/ElasticSearch/Kibana">Howto/Centralised Logging with
+Logstash/ElasticSearch/Kibana</a>
+- user provided HowTo on configuring the ELK</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Centralized_Logging.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

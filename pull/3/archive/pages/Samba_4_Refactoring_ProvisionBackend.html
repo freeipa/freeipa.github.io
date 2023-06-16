@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="Samba_4_Replication.html" />
+    <link rel="prev" title="Overview" href="Samba_4_Provisioning_External_LDAP_Server.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Currently the provisioning code for different backends are clumped
+together in a single Python class. It uses a number of if-then
+statements to control the path of the code. To improve manageability the
+code should be refactored into several classes utilizing more
+object-oriented techniques.</p>
+</section>
+<section id="class-hierarchy">
+<span id="id1"></span><h1>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ProvisionBackend</span>
+<span class="o">+</span> <span class="n">LDBBackend</span>
+<span class="o">+</span> <span class="n">ExistingBackend</span>
+<span class="o">+</span> <span class="n">LDAPBackend</span>
+  <span class="o">+</span> <span class="n">FDSBackend</span>
+  <span class="o">+</span> <span class="n">OpenLDAPBackend</span>
+</pre></div>
+</div>
+</section>
+<section id="provisionbackend">
+<h1>ProvisionBackend<a class="headerlink" href="#provisionbackend" title="Permalink to this heading">¶</a></h1>
+<p>The ProvisionBackend is the base class for all Samba backend classes. It
+defines some methods that should be overridden by the subclasses:</p>
+<ul class="simple">
+<li><p>init() - initializing backend</p></li>
+<li><p>start() - starting backend</p></li>
+<li><p>shutdown() - shutting down backend</p></li>
+<li><p>post_setup() - post-setup configuration</p></li>
+</ul>
+</section>
+<section id="ldbbackend">
+<h1>LDBBackend<a class="headerlink" href="#ldbbackend" title="Permalink to this heading">¶</a></h1>
+<p>The LDBBackend is the default TDB backend.</p>
+</section>
+<section id="existingbackend">
+<h1>ExistingBackend<a class="headerlink" href="#existingbackend" title="Permalink to this heading">¶</a></h1>
+<p>The ExistingBackend is used with an existing LDAP server.</p>
+</section>
+<section id="ldapbackend">
+<h1>LDAPBackend<a class="headerlink" href="#ldapbackend" title="Permalink to this heading">¶</a></h1>
+<p>The LDAPBackend is used with a new LDAP server. It defines a method that
+should be overridden by the subclasses:</p>
+<ul class="simple">
+<li><p>provision() - backend specific provisioning steps</p></li>
+</ul>
+</section>
+<section id="fdsbackend">
+<h1>FDSBackend<a class="headerlink" href="#fdsbackend" title="Permalink to this heading">¶</a></h1>
+<p>The FDSBackend is used with 389 DS server.</p>
+</section>
+<section id="openldapbackend">
+<h1>OpenLDAPBackend<a class="headerlink" href="#openldapbackend" title="Permalink to this heading">¶</a></h1>
+<p>The OpenLDAPBackend is used with OpenLDAP server.</p>
+</section>
+<section id="patches">
+<h1>Patches<a class="headerlink" href="#patches" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=fbc5696e38754b6014875c231edd5f56479e134b">s4:provision - Added initial implementation of FDSBackend and
+OpenLDAPBackend</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=be766a384173bb02c5306e5884d1228973fe5dd7">s4:provision - Added start() method in
+LDAPBackend</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=ba12eb99a04671197b92c998d72c09fd5c23c5da">s4:provision - Moved provision_xxx_backend() into backend-specific
+provision()
+method</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=1564067fbc8490bcef5523db1d7e997dca00f0bf">s4:provision - Added setup() method in
+LDAPBackend</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=55bb60a5db559a06a05a1be6633d92b8f6555c08">s4:provision - Added constructors for FDSBackend and
+OpenLDAPBackend</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=f3bc54a8f1a405bfd8886bd46a1c2ca1b47acae7">s4:provision - Added LDBBackend and
+ExistingBackend</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Samba_4_Refactoring_ProvisionBackend.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

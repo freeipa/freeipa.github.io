@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Allow_AD_users_to_manage_FreeIPA.html" />
+    <link rel="prev" title="Windows Server preparation" href="AD_configuration_for_testing.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>The purpose of this feature is to make the IPA CLI tool (IPA client) as
+simple as possible and develop a way to maintain compatibility among
+various versions of servers and clients.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>be able to use a new IPA client to run commands on an old IPA server</p></li>
+<li><p>be able to use an old IPA client to run commands on a new IPA server
+after incompatible changes were made to the commands</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="backward-compatibility-with-old-servers">
+<span id="id1"></span><h2>Backward compatibility with old servers<a class="headerlink" href="#backward-compatibility-with-old-servers" title="Permalink to this heading">¶</a></h2>
+<p>Current server code check client version and rejects requests from
+clients newer than the server. In order to allow the client to talk to
+old servers, interface definitions for supported old API versions will
+be bundled with the client.</p>
+<p>The client will use interface definition appropriate for the API version
+on the server - if it has interface definition for the exact API
+version, it will use that, otherwise it will use the closest lower API
+version interface definition available.</p>
+<p>Interface definitions for the following API versions will be included:</p>
+<ul class="simple">
+<li><p>2.49 (RHEL and CentOS 6.5+)</p></li>
+<li><p>2.114 (Fedora 22)</p></li>
+<li><p>2.156 (RHEL and CentOS 7.2, Fedora 23)</p></li>
+<li><p>2.164 (Fedora 24)</p></li>
+</ul>
+<p>When an API version becomes unsupported, its interface definition can be
+removed from the client.</p>
+<p>Additionaly, the client will no longer send argument default values with
+each request, in order not to trigger an invocation error because of
+unknown arguments.</p>
+</section>
+<section id="forward-compatibility">
+<span id="id2"></span><h2>Forward compatibility<a class="headerlink" href="#forward-compatibility" title="Permalink to this heading">¶</a></h2>
+<p>Current server is backward compatible with old clients, except when an
+incompatible change is made to the API. To allow backward incompatible
+changes in commands, it will be made possible to provide additional
+versions of a command.</p>
+<p>In order to avoid having to deal with API compatibility on a per-version
+basis in the future, a thin client approach will be used for the client.
+The server will provide API schema describing commands, their arguments
+and output fields available over its API. The client will fetch the
+schema from the server and will dynamically generate and provide the
+commands to user.</p>
+<section id="versioned-commands">
+<span id="id3"></span><h3>Versioned commands<a class="headerlink" href="#versioned-commands" title="Permalink to this heading">¶</a></h3>
+<p>The client will use the highest version of command known to it at build
+time by default, or version 1 for unknown commands. Users will be able
+to explicitly specify the version of command in each request. The server
+will use version 1 by default, in order not to break old and 3rd party
+clients.</p>
+</section>
+<section id="thin-client">
+<span id="id4"></span><h3>Thin client<a class="headerlink" href="#thin-client" title="Permalink to this heading">¶</a></h3>
+<p>Server and client side plugins needs to be split to allow separation.
+Module <code class="docutils literal notranslate"><span class="pre">ipalib.plugins</span></code> will be split into <code class="docutils literal notranslate"><span class="pre">ipaserver.plugins</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ipaclient.plugins</span></code>.</p>
+<p>On the server, API schema will be generated from modules and commands in
+<code class="docutils literal notranslate"><span class="pre">ipaserver.plugins</span></code>. This schema will be provided to the client.
+Documentation for plugins and commands will be part of the schema.</p>
+<p>On client, proxy objects of server side plugins will be created using
+the schema fetched from server. Client will be then able to display
+command signature and help, perform basic validation of provided
+arguments (data type check), forward the command call to the server and
+display returned result. Also client side plugins will be available and
+usually will preprocess user input, call one or more of server side
+plugins, and possibly postprocess the result.</p>
+<p>Due to security considerations there can’t be executable code in
+metadata. To allow commands to have arguments with dynamic default
+values separate server command to retrieve them will be provided.</p>
+<p>For the same reason validation of arguments that require normalization
+or rely on server-side information will be done on the server and
+clients must send such arguments as plain strings.</p>
+<p>When type of an argument is unknown to the client it must be sent as
+plain string. Server will convert and validate the value.</p>
+</section>
+<section id="caching">
+<h3>Caching<a class="headerlink" href="#caching" title="Permalink to this heading">¶</a></h3>
+<p>IPA client can cache downloaded API schema to reduce traffic and reduce
+start up time. IPA client can send fingerprints of known schemata on API
+initialization. When new API schema is available server will return the
+full schema. When no new API schema is available server will add warning
+to the response containing the current API version and schema
+fingerprint.</p>
+<p>API schema fingerprint is calculated on the server and must not change
+for given schema. Client can’t interpret or calculate the fingerprint.</p>
+</section>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<section id="backward-compatibility-with-old-servers-1">
+<span id="id5"></span><h2>Backward compatibility with old servers<a class="headerlink" href="#backward-compatibility-with-old-servers-1" title="Permalink to this heading">¶</a></h2>
+<p>The interface definitions for old API versions are bundled in
+<code class="docutils literal notranslate"><span class="pre">ipaclient.remote_plugins.compat.</span></code><em>``major``</em><code class="docutils literal notranslate"><span class="pre">_</span></code><em>``minor``</em>
+Python packages. They look like normal command and object plugin
+definitions, except they contain no code, only parameter definitions.</p>
+</section>
+<section id="forward-compatibility-1">
+<span id="id6"></span><h2>Forward compatibility<a class="headerlink" href="#forward-compatibility-1" title="Permalink to this heading">¶</a></h2>
+<section id="versioned-commands-1">
+<span id="id7"></span><h3>Versioned commands<a class="headerlink" href="#versioned-commands-1" title="Permalink to this heading">¶</a></h3>
+<p>Command version is specified as part of the command name throughout the
+framework, e.g. <code class="docutils literal notranslate"><span class="pre">user-show/1</span></code>. If not specified, the default version
+is used.</p>
+<p>In order to add new versions of a command, use the following pattern:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">class MyCommandBase(Command):</span></code></div>
+<div class="line">``    # put param definitions common to both versions here``</div>
+<div class="line">``    …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&#64;register()</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">class my_command(MyCommandBase):</span></code></div>
+<div class="line">``    # this is the current and main version of the command``</div>
+<div class="line">``    version = ‘2’``</div>
+<div class="line">``    …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&#64;register()</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">class my_command_1(MyCommandBase):</span></code></div>
+<div class="line">``    # this is the old compatibility version 1``</div>
+<div class="line">``    name = ‘my_command’``</div>
+<div class="line">``    …``</div>
+</div>
+</section>
+<section id="thin-client-1">
+<span id="id8"></span><h3>Thin client<a class="headerlink" href="#thin-client-1" title="Permalink to this heading">¶</a></h3>
+<p>TBD</p>
+</section>
+<section id="caching-1">
+<span id="id9"></span><h3>Caching<a class="headerlink" href="#caching-1" title="Permalink to this heading">¶</a></h3>
+<p>TBD</p>
+</section>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>Not applicable - UI currently uses <code class="docutils literal notranslate"><span class="pre">json_metadata</span></code> API call to
+retrieve information about objects, commands and parameters from server.
+It’s reflecting current version and changing this is not in a scope of
+this design.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<section id="client">
+<h3>Client<a class="headerlink" href="#client" title="Permalink to this heading">¶</a></h3>
+<p>TBD</p>
+</section>
+<section id="server">
+<h3>Server<a class="headerlink" href="#server" title="Permalink to this heading">¶</a></h3>
+<p>No new configuration.</p>
+</section>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>Not applicable - There is no change to the LDAP schema nor the stored
+data.</p>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<section id="backward-compatibility-with-old-servers-2">
+<span id="id10"></span><h2>Backward compatibility with old servers<a class="headerlink" href="#backward-compatibility-with-old-servers-2" title="Permalink to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipa</span></code> command line tool will now work on new clients enrolled
+against old server:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ rpm -q freeipa-client</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">freeipa-client-</span></code><strong>``4.4.1``</strong><code class="docutils literal notranslate"><span class="pre">-1.fc25.x86_64</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa ping</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server version ``\</span> <span class="pre">**``3.0.0``**\</span> <span class="pre">``. API version 2.49</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
+</div>
+<p>On clients without this feature, this would fail:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ rpm -q freeipa-client</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">freeipa-client-</span></code><strong>``4.3.2``</strong><code class="docutils literal notranslate"><span class="pre">-2.fc24.x86_64</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa ping</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: 2.164 client incompatible with 2.49 server at 'https://ipa.example.com/ipa/xml'</span></code></div>
+</div>
+</section>
+<section id="forward-compatibility-2">
+<span id="id11"></span><h2>Forward compatibility<a class="headerlink" href="#forward-compatibility-2" title="Permalink to this heading">¶</a></h2>
+<section id="versioned-commands-2">
+<span id="id12"></span><h3>Versioned commands<a class="headerlink" href="#versioned-commands-2" title="Permalink to this heading">¶</a></h3>
+<p>New client will request the highest available version of a command by
+default:</p>
+<div class="line-block">
+<div class="line"><a href="#id13"><span class="problematic" id="id14">``</span></a>client$ ipa -v <a href="#id15"><span class="problematic" id="id16">``</span></a><strong>``ping``</strong></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: trying https://ipa.example.com/ipa/session/json</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: Forwarding '</span></code><strong>``ping/1``</strong><code class="docutils literal notranslate"><span class="pre">' to server 'https://ipa.example.com/ipa/session/json'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server version 4.4.1. API version 2.212</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
+</div>
+<p>It is possible to explicitly request a specific command version instead:</p>
+<div class="line-block">
+<div class="line"><a href="#id17"><span class="problematic" id="id18">``</span></a>client$ ipa -v <a href="#id19"><span class="problematic" id="id20">``</span></a><strong>``ping/1``</strong></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: trying https://ipa.example.com/ipa/session/json</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: Forwarding '</span></code><strong>``ping/1``</strong><code class="docutils literal notranslate"><span class="pre">' to server 'https://ipa.example.com/ipa/session/json'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server version 4.4.1. API version 2.212</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
+</div>
+<p>Requesting an unknown version of a command will result in an error:</p>
+<div class="line-block">
+<div class="line"><a href="#id21"><span class="problematic" id="id22">``</span></a>client$ ipa -v <a href="#id23"><span class="problematic" id="id24">``</span></a><strong>``ping/2``</strong></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: trying https://ipa.example.com/ipa/session/json</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: Forwarding '</span></code><strong>``ping/2``</strong><code class="docutils literal notranslate"><span class="pre">' to server 'https://ipa.example.com/ipa/session/json'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: unknown command '</span></code><strong>``ping/2``</strong><code class="docutils literal notranslate"><span class="pre">'</span></code></div>
+</div>
+</section>
+<section id="thin-client-2">
+<span id="id25"></span><h3>Thin client<a class="headerlink" href="#thin-client-2" title="Permalink to this heading">¶</a></h3>
+<p>Thin client is transparent to the user, i.e. everything will work the
+same as on clients without this feature.</p>
+<p>It is possible to inspect the API schema using the new API introspection
+commands:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa command-show hostgroup-add</span></code></div>
+<div class="line">``  Name: hostgroup_add``</div>
+<div class="line">``  Version: 1``</div>
+<div class="line">``  Full name: hostgroup_add/1``</div>
+<div class="line">``  Documentation: Add a new hostgroup.``</div>
+<div class="line">``  Help topic: hostgroup/1``</div>
+<div class="line">``  Method of: hostgroup/1``</div>
+<div class="line">``  Method name: add``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa param-find hostgroup-add</span></code></div>
+<div class="line">``  Name: cn``</div>
+<div class="line">``  Documentation: Name of host-group``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  CLI name: hostgroup_name``</div>
+<div class="line">``  Label: Host-group``</div>
+<div class="line">``  Convert on server: True``</div>
+<div class="line">``  Name: description``</div>
+<div class="line">``  Documentation: A description of this host-group``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  CLI name: desc``</div>
+<div class="line">``  Label: Description``</div>
+<div class="line">``  Name: setattr``</div>
+<div class="line">``  Documentation: Set an attribute to a name/value pair. Format is attr=value.``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">For multi-valued attributes, the command replaces the values already present.</span></code></div>
+<div class="line">``  Exclude from: webui``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Multi-value: True``</div>
+<div class="line">``  CLI name: setattr``</div>
+<div class="line">``  Name: addattr``</div>
+<div class="line">``  Documentation: Add an attribute/value pair. Format is attr=value. The attribute``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">must be part of the schema.</span></code></div>
+<div class="line">``  Exclude from: webui``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Multi-value: True``</div>
+<div class="line">``  CLI name: addattr``</div>
+<div class="line">``  Name: all``</div>
+<div class="line">``  Documentation: Retrieve and print all attributes from the server. Affects command output.``</div>
+<div class="line">``  Exclude from: webui``</div>
+<div class="line">``  Type: bool``</div>
+<div class="line">``  CLI name: all``</div>
+<div class="line">``  Default: False``</div>
+<div class="line">``  Positional argument: False``</div>
+<div class="line">``  Name: raw``</div>
+<div class="line">``  Documentation: Print entries as stored on the server. Only affects output format.``</div>
+<div class="line">``  Exclude from: webui``</div>
+<div class="line">``  Type: bool``</div>
+<div class="line">``  CLI name: raw``</div>
+<div class="line">``  Default: False``</div>
+<div class="line">``  Positional argument: False``</div>
+<div class="line">``  Name: no_members``</div>
+<div class="line">``  Documentation: Suppress processing of membership attributes.``</div>
+<div class="line">``  Exclude from: webui``</div>
+<div class="line">``  Type: bool``</div>
+<div class="line">``  Default: False``</div>
+<div class="line">``  Positional argument: False``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Number of entries returned 7</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa class-show hostgroup</span></code></div>
+<div class="line">``  Name: hostgroup``</div>
+<div class="line">``  Version: 1``</div>
+<div class="line">``  Full name: hostgroup/1``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa param-find hostgroup</span></code></div>
+<div class="line">``  Name: cn``</div>
+<div class="line">``  Documentation: Name of host-group``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Label: Host-group``</div>
+<div class="line">``  Name: description``</div>
+<div class="line">``  Documentation: A description of this host-group``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Description``</div>
+<div class="line">``  Name: member_host``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Member hosts``</div>
+<div class="line">``  Name: member_hostgroup``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Member host-groups``</div>
+<div class="line">``  Name: memberof_hostgroup``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Member of host-groups``</div>
+<div class="line">``  Name: memberof_netgroup``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Member of netgroups``</div>
+<div class="line">``  Name: memberof_sudorule``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Member of Sudo rule``</div>
+<div class="line">``  Name: memberof_hbacrule``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Member of HBAC rule``</div>
+<div class="line">``  Name: memberindirect_host``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Indirect Member hosts``</div>
+<div class="line">``  Name: memberindirect_hostgroup``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Indirect Member host-groups``</div>
+<div class="line">``  Name: memberofindirect_hostgroup``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Indirect Member of host-group``</div>
+<div class="line">``  Name: memberofindirect_sudorule``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Indirect Member of Sudo rule``</div>
+<div class="line">``  Name: memberofindirect_hbacrule``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Label: Indirect Member of HBAC rule``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-----------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Number of entries returned 13</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-----------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa output-find hostgroup-add</span></code></div>
+<div class="line">``  Name: summary``</div>
+<div class="line">``  Documentation: User-friendly description of action performed``</div>
+<div class="line">``  Type: str``</div>
+<div class="line">``  Required: False``</div>
+<div class="line">``  Name: result``</div>
+<div class="line">``  Type: dict``</div>
+<div class="line">``  Name: value``</div>
+<div class="line">``  Documentation: The primary_key value of the entry, e.g. ‘jdoe’ for a user``</div>
+<div class="line">``  Type: str``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Number of entries returned 3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">client$ ipa topic-show hostgroup</span></code></div>
+<div class="line">``  Name: hostgroup``</div>
+<div class="line">``  Version: 1``</div>
+<div class="line">``  Full name: hostgroup/1``</div>
+<div class="line">``  Documentation: Groups of hosts.``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Manage groups of hosts. This is useful for applying access control to a</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">number of hosts by using Host-based Access Control.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">EXAMPLES:</span></code></div>
+<div class="line">`` Add a new host group:``</div>
+<div class="line">``   ipa hostgroup-add –desc=”Baltimore hosts” baltimore``</div>
+<div class="line">`` Add another new host group:``</div>
+<div class="line">``   ipa hostgroup-add –desc=”Maryland hosts” maryland``</div>
+<div class="line">`` Add members to the hostgroup (using Bash brace expansion):``</div>
+<div class="line">``   ipa hostgroup-add-member –hosts={box1,box2,box3} baltimore``</div>
+<div class="line">`` Add a hostgroup as a member of another hostgroup:``</div>
+<div class="line">``   ipa hostgroup-add-member –hostgroups=baltimore maryland``</div>
+<div class="line">`` Remove a host from the hostgroup:``</div>
+<div class="line">``   ipa hostgroup-remove-member –hosts=box2 baltimore``</div>
+<div class="line">`` Display a host group:``</div>
+<div class="line">``   ipa hostgroup-show baltimore``</div>
+<div class="line">`` Delete a hostgroup:``</div>
+<div class="line">``   ipa hostgroup-del baltimore``</div>
+</div>
+</section>
+<section id="caching-2">
+<span id="id26"></span><h3>Caching<a class="headerlink" href="#caching-2" title="Permalink to this heading">¶</a></h3>
+<p>API schema is cached on the client for an hour. During this interval,
+the client will not try to contact the server about the schema:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa -v ping</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: trying https://ipa.example.com/ipa/session/json</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-------------------------------------------------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server version 4.4.1. API version 2.212</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-------------------------------------------------------------------</span></code></div>
+</div>
+<p>To refresh the cache (e.g. if you want the client to immediately use an
+up-to-date API schema after server upgrade), use the
+<code class="docutils literal notranslate"><span class="pre">force_schema_check</span></code> option:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa -v ``\</span> <span class="pre">**</span></code>-e``<a href="#id27"><span class="problematic" id="id28">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``force_schema_check=1``**\</span> <span class="pre">`` ping</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: trying https://ipa.example.com/ipa/session/json</span></code></div>
+<div class="line"><strong>``ipa:````````INFO:````````Forwarding````````’schema’````````to````````json````````server````````’https://ipa.example.com/ipa/session/json’``</strong></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: trying https://ipa.example.com/ipa/session/json</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-------------------------------------------------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server version 4.4.1. API version 2.212</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-------------------------------------------------------------------</span></code></div>
+</div>
+</section>
+</section>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<section id="regression-testing">
+<span id="id29"></span><h2>Regression testing<a class="headerlink" href="#regression-testing" title="Permalink to this heading">¶</a></h2>
+<p>New IPA client (resp. server) MUST behave exactly the same as the old
+IPA client (resp. server) when communicating with the old IPA server
+(resp. client).</p>
+</section>
+<section id="feature-testing">
+<span id="id30"></span><h2>Feature testing<a class="headerlink" href="#feature-testing" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+<section id="test-plan-1">
+<span id="id31"></span><h2>Test Plan<a class="headerlink" href="#test-plan-1" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="V4/Thin_Client/Test_Plan">Thin Client V4.4 test plan</a></p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/API_Compatiblity.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

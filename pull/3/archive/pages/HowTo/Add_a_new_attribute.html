@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Goals of this methodology" href="Alternative_method_to_integrate_with_Okta.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="../Howto/Integrating_a_Samba_File_Server_With_IPA/NTMLSSP.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>This is a patch from Martin Kosek, annotated to explain how to add an
+LDAP attribute to IPA. You can find the change as commit
+<a class="reference external" href="https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=5af2e1779ae1a0eca785493c8ed2eb044c8e282a">5af2e17</a>
+in the IPA source tree.</p>
+<div class="line-block">
+<div class="line">``   From: Martin Kosek &lt;<a class="reference external" href="mailto:mkosek&#37;&#52;&#48;redhat&#46;com">mkosek<span>&#64;</span>redhat<span>&#46;</span>com</a>&gt;``</div>
+<div class="line">``   Date: Tue, 23 Apr 2013 09:59:24 +0200``</div>
+<div class="line">``   Subject: [PATCH] Add userClass attribute for hosts``</div>
+<div class="line">``   ``</div>
+<div class="line">``   This new freeform host attribute will allow provisioning systems``</div>
+<div class="line">``   to add custom tags for host objects which can be later used for``</div>
+<div class="line">``   in automember rules or for additional local interpretation.``</div>
+<div class="line">``   ``</div>
+<div class="line">``   Design page: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://www.freeipa.org/page/V3/Integration_with_a_provisioning_systems</span></code> &lt;<a class="reference external" href="http://www.freeipa.org/page/V3/Integration_with_a_provisioning_systems">http://www.freeipa.org/page/V3/Integration_with_a_provisioning_systems</a>&gt;`__</div>
+<div class="line">``   Ticket: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://fedorahosted.org/freeipa/ticket/3583</span></code> &lt;<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3583">https://fedorahosted.org/freeipa/ticket/3583</a>&gt;`__</div>
+<div class="line">``   ``</div>
+<div class="line">``   —``</div>
+<div class="line">``   API.txt                               |  9 ++++++—``</div>
+<div class="line">``   VERSION                               |  2 +-``</div>
+<div class="line">``   install/share/60basev2.ldif           |  2 +-``</div>
+<div class="line">``   install/updates/10-60basev3.update    |  1 +``</div>
+<div class="line">``   ipalib/plugins/host.py                |  7 +++++++``</div>
+<div class="line">``   tests/test_xmlrpc/test_host_plugin.py | 23 +++++++++++++++++++++++``</div>
+<div class="line">``   6 files changed, 39 insertions(+), 5 deletions(-)``</div>
+</div>
+<p>First, we need to add the attribute to the LDAP schema, so it is
+available for new installs. Locate the appropriate objectclass
+definition in <code class="docutils literal notranslate"><span class="pre">install/share/</span></code>, and add the desired attribute.</p>
+<div class="line-block">
+<div class="line">``   diff –git a/install/share/60basev2.ldif b/install/share/60basev2.ldif``</div>
+<div class="line">``   index 3b05e370147f6cace12913e695e02eb6550c6010..8e7174c10ddf73194bfbe634ff34c8c3fd25e264 100644``</div>
+<div class="line">``   — a/install/share/60basev2.ldif``</div>
+<div class="line">``   +++ b/install/share/60basev2.ldif``</div>
+<div class="line">``   &#64;&#64; -13,7 +13,7 &#64;&#64; attributeTypes: (2.16.840.1.113730.3.8.3.24 NAME ‘ipaEntitlementId’ DESC ‘Entitl``</div>
+<div class="line">``    # ipaKrbAuthzData added here. Even though it is a v3 attribute it is updating``</div>
+<div class="line">``    # a v2 objectClass so needs to be here.``</div>
+<div class="line">``    attributeTypes: (2.16.840.1.113730.3.8.11.37 NAME ‘ipaKrbAuthzData’ DESC ‘type of PAC preferred by a service’ EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN ‘IPA v3’ )``</div>
+<div class="line">``   -objectClasses: (2.16.840.1.113730.3.8.4.1 NAME ‘ipaHost’ AUXILIARY MUST ( fqdn ) MAY ( userPassword $ ipaClientVersion $ enrolledBy $ memberOf) X-ORIGIN ‘IPA v2’ )``</div>
+<div class="line">``   +objectClasses: (2.16.840.1.113730.3.8.4.1 NAME ‘ipaHost’ AUXILIARY MUST ( fqdn ) MAY ( userPassword $ ipaClientVersion $ enrolledBy $ memberOf $ userClass ) X-ORIGIN ‘IPA v2’ )``</div>
+<div class="line">``    objectClasses: (2.16.840.1.113730.3.8.4.12 NAME ‘ipaObject’ DESC ‘IPA objectclass’ AUXILIARY MUST ( ipaUniqueId ) X-ORIGIN ‘IPA v2’ )``</div>
+<div class="line">``    objectClasses: (2.16.840.1.113730.3.8.4.14 NAME ‘ipaEntitlement’ DESC ‘IPA Entitlement object’ AUXILIARY MUST ( ipaEntitlementId ) MAY ( userPKCS12 $ userCertificate ) X-ORIGIN ‘IPA v2’ )``</div>
+<div class="line">``    objectClasses: (2.16.840.1.113730.3.8.4.15 NAME ‘ipaPermission’ DESC ‘IPA Permission objectclass’ AUXILIARY MAY ( ipaPermissionType ) X-ORIGIN ‘IPA v2’ )``</div>
+</div>
+<p>The next step is to add a parameter definition to the appropriate
+framework object. In addition to the big <code class="docutils literal notranslate"><span class="pre">takes_params</span></code> list, there
+may also be other lists of parameters (such as <code class="docutils literal notranslate"><span class="pre">default_attributes</span></code>
+whose members are shown by <code class="docutils literal notranslate"><span class="pre">*-find</span></code> and <code class="docutils literal notranslate"><span class="pre">*-show</span></code> commands by
+default). Update these lists as appropriate.</p>
+<div class="line-block">
+<div class="line">``   diff –git a/ipalib/plugins/host.py b/ipalib/plugins/host.py``</div>
+<div class="line">``   index c79b9e212feec640a34ac0905d46adacee54060f..e615259174722af645bdad72802d8fca9783f6d3 100644``</div>
+<div class="line">``   — a/ipalib/plugins/host.py``</div>
+<div class="line">``   +++ b/ipalib/plugins/host.py``</div>
+<div class="line">``   &#64;&#64; -230,6 +230,7 &#64;&#64; class host(LDAPObject):``</div>
+<div class="line">``            ‘fqdn’, ‘description’, ‘l’, ‘nshostlocation’, ‘krbprincipalname’,``</div>
+<div class="line">``            ‘nshardwareplatform’, ‘nsosversion’, ‘usercertificate’, ‘memberof’,``</div>
+<div class="line">``            ‘managedby’, ‘memberindirect’, ‘memberofindirect’, ‘macaddress’,``</div>
+<div class="line">``   +        ‘userclass’``</div>
+<div class="line">``        ]``</div>
+<div class="line">``        uuid_attribute = ‘ipauniqueid’``</div>
+<div class="line">``        attribute_members = {``</div>
+<div class="line">``   &#64;&#64; -323,6 +324,12 &#64;&#64; class host(LDAPObject):``</div>
+<div class="line">``                csv=True,``</div>
+<div class="line">``                flags=[‘no_search’],``</div>
+<div class="line">``            ),``</div>
+<div class="line">``   +        Str(‘userclass*’,``</div>
+<div class="line">``   +            cli_name=’class’,``</div>
+<div class="line">``   +            label=_(‘Class’),``</div>
+<div class="line">``   +            doc=_(‘Host category (semantics placed on this attribute are for ‘``</div>
+<div class="line">``   +                  ‘local interpretation)’),``</div>
+<div class="line">``   +        ),``</div>
+<div class="line">``        ) + ticket_flags_params``</div>
+<div class="line">``   ``</div>
+<div class="line">``        def get_dn(self, <a href="#id1"><span class="problematic" id="id2">*</span></a>keys, <a href="#id3"><span class="problematic" id="id4">**</span></a>options):``</div>
+</div>
+<p>Since the API was changed, run the <code class="docutils literal notranslate"><span class="pre">make-api</span></code> script located at the
+root of te source tree. This will re-generate API.txt, our safeguard
+against unintentional API changes.</p>
+<div class="line-block">
+<div class="line">``   diff –git a/API.txt b/API.txt``</div>
+<div class="line">``   index 3e01fdc3611b5bc71e1a4ee185af63f7c4b07c06..c2400e901345a70e0236d1c02979220c19ece9a5 100644``</div>
+<div class="line">``   — a/API.txt``</div>
+<div class="line">``   +++ b/API.txt``</div>
+<div class="line">``   &#64;&#64; -1723,7 +1723,7 &#64;&#64; output: Output(‘summary’, (&lt;type ‘unicode’&gt;, &lt;type ‘NoneType’&gt;), None)``</div>
+<div class="line">``    output: Output(‘value’, &lt;type ‘bool’&gt;, None)``</div>
+<div class="line">``    output: Output(‘warning’, (&lt;type ‘list’&gt;, &lt;type ‘tuple’&gt;, &lt;type ‘NoneType’&gt;), None)``</div>
+<div class="line">``    command: host_add``</div>
+<div class="line">``   -args: 1,20,3``</div>
+<div class="line">``   +args: 1,21,3``</div>
+<div class="line">``    arg: Str(‘fqdn’, attribute=True, cli_name=’hostname’, multivalue=False, primary_key=True, required=True)``</div>
+<div class="line">``    option: Str(‘addattr*’, cli_name=’addattr’, exclude=’webui’)``</div>
+<div class="line">``    option: Flag(‘all’, autofill=True, cli_name=’all’, default=False, exclude=’webui’)``</div>
+<div class="line">``   &#64;&#64; -1743,6 +1743,7 &#64;&#64; option: Flag(‘random’, attribute=False, autofill=True, cli_name=’random’, defaul``</div>
+<div class="line">``    option: Flag(‘raw’, autofill=True, cli_name=’raw’, default=False, exclude=’webui’)``</div>
+<div class="line">``    option: Str(‘setattr*’, cli_name=’setattr’, exclude=’webui’)``</div>
+<div class="line">``    option: Bytes(‘usercertificate’, attribute=True, cli_name=’certificate’, multivalue=False, required=False)``</div>
+<div class="line">``   +option: Str(‘userclass’, attribute=True, cli_name=’class’, multivalue=True, required=False)``</div>
+<div class="line">``    option: Str(‘userpassword’, attribute=True, cli_name=’password’, multivalue=False, required=False)``</div>
+<div class="line">``    option: Str(‘version?’, exclude=’webui’)``</div>
+<div class="line">``    output: Entry(‘result’, &lt;type ‘dict’&gt;, Gettext(‘A dictionary representing an LDAP entry’, domain=’ipa’, localedir=None))``</div>
+<div class="line">``   &#64;&#64; -1774,7 +1775,7 &#64;&#64; output: Output(‘result’, &lt;type ‘bool’&gt;, None)``</div>
+<div class="line">``    output: Output(‘summary’, (&lt;type ‘unicode’&gt;, &lt;type ‘NoneType’&gt;), None)``</div>
+<div class="line">``    output: Output(‘value’, &lt;type ‘unicode’&gt;, None)``</div>
+<div class="line">``    command: host_find``</div>
+<div class="line">``   -args: 1,31,4``</div>
+<div class="line">``   +args: 1,32,4``</div>
+<div class="line">``    arg: Str(‘criteria?’, noextrawhitespace=False)``</div>
+<div class="line">``    option: Flag(‘all’, autofill=True, cli_name=’all’, default=False, exclude=’webui’)``</div>
+<div class="line">``    option: Str(‘description’, attribute=True, autofill=False, cli_name=’desc’, multivalue=False, query=True, required=False)``</div>
+<div class="line">``   &#64;&#64; -1805,6 +1806,7 &#64;&#64; option: Flag(‘raw’, autofill=True, cli_name=’raw’, default=False, exclude=’webui``</div>
+<div class="line">``    option: Int(‘sizelimit?’, autofill=False, minvalue=0)``</div>
+<div class="line">``    option: Int(‘timelimit?’, autofill=False, minvalue=0)``</div>
+<div class="line">``    option: Bytes(‘usercertificate’, attribute=True, autofill=False, cli_name=’certificate’, multivalue=False, query=True, required=False)``</div>
+<div class="line">``   +option: Str(‘userclass’, attribute=True, autofill=False, cli_name=’class’, multivalue=True, query=True, required=False)``</div>
+<div class="line">``    option: Str(‘userpassword’, attribute=True, autofill=False, cli_name=’password’, multivalue=False, query=True, required=False)``</div>
+<div class="line">``    option: Str(‘version?’, exclude=’webui’)``</div>
+<div class="line">``    output: Output(‘count’, &lt;type ‘int’&gt;, None)``</div>
+<div class="line">``   &#64;&#64; -1812,7 +1814,7 &#64;&#64; output: ListOfEntries(‘result’, (&lt;type ‘list’&gt;, &lt;type ‘tuple’&gt;), Gettext(‘A list``</div>
+<div class="line">``    output: Output(‘summary’, (&lt;type ‘unicode’&gt;, &lt;type ‘NoneType’&gt;), None)``</div>
+<div class="line">``    output: Output(‘truncated’, &lt;type ‘bool’&gt;, None)``</div>
+<div class="line">``    command: host_mod``</div>
+<div class="line">``   -args: 1,21,3``</div>
+<div class="line">``   +args: 1,22,3``</div>
+<div class="line">``    arg: Str(‘fqdn’, attribute=True, cli_name=’hostname’, multivalue=False, primary_key=True, query=True, required=True)``</div>
+<div class="line">``    option: Str(‘addattr*’, cli_name=’addattr’, exclude=’webui’)``</div>
+<div class="line">``    option: Flag(‘all’, autofill=True, cli_name=’all’, default=False, exclude=’webui’)``</div>
+<div class="line">``   &#64;&#64; -1833,6 +1835,7 &#64;&#64; option: Flag(‘rights’, autofill=True, default=False)``</div>
+<div class="line">``    option: Str(‘setattr*’, cli_name=’setattr’, exclude=’webui’)``</div>
+<div class="line">``    option: Flag(‘updatedns?’, autofill=True, default=False)``</div>
+<div class="line">``    option: Bytes(‘usercertificate’, attribute=True, autofill=False, cli_name=’certificate’, multivalue=False, required=False)``</div>
+<div class="line">``   +option: Str(‘userclass’, attribute=True, autofill=False, cli_name=’class’, multivalue=True, required=False)``</div>
+<div class="line">``    option: Str(‘userpassword’, attribute=True, autofill=False, cli_name=’password’, multivalue=False, required=False)``</div>
+<div class="line">``    option: Str(‘version?’, exclude=’webui’)``</div>
+<div class="line">``    output: Entry(‘result’, &lt;type ‘dict’&gt;, Gettext(‘A dictionary representing an LDAP entry’, domain=’ipa’, localedir=None))``</div>
+</div>
+<p>With every update of the API, you must bump the API version. When adding
+parameters calls, only bump the minor version number.</p>
+<div class="line-block">
+<div class="line">``   diff –git a/VERSION b/VERSION``</div>
+<div class="line">``   index 9208237cbedf23d71c5c579fcc10207380cc9712..4bee01b981d818de21f0be1b16d5668a7f453baf 100644``</div>
+<div class="line">``   — a/VERSION``</div>
+<div class="line">``   +++ b/VERSION``</div>
+<div class="line">``   &#64;&#64; -89,4 +89,4 &#64;&#64; IPA_DATA_VERSION=20100614120000``</div>
+<div class="line">``    #                                                      #``</div>
+<div class="line">``    ########################################################``</div>
+<div class="line">``    IPA_API_VERSION_MAJOR=2``</div>
+<div class="line">``   -IPA_API_VERSION_MINOR=57``</div>
+<div class="line">``   +IPA_API_VERSION_MINOR=58``</div>
+</div>
+<p>And of course, every code change should be accompanied by a test.</p>
+<div class="line-block">
+<div class="line">``   diff –git a/tests/test_xmlrpc/test_host_plugin.py b/tests/test_xmlrpc/test_host_plugin.py``</div>
+<div class="line">``   index f788dc6bc6d55f46856ada4b816997bfb517d8c4..07faf77607284b2193716854b287208f563d9472 100644``</div>
+<div class="line">``   — a/tests/test_xmlrpc/test_host_plugin.py``</div>
+<div class="line">``   +++ b/tests/test_xmlrpc/test_host_plugin.py``</div>
+<div class="line">``   &#64;&#64; -700,6 +700,7 &#64;&#64; class test_host(Declarative):``</div>
+<div class="line">``                    dict(``</div>
+<div class="line">``                        description=u’Test host 2’,``</div>
+<div class="line">``                        l=u’Undisclosed location 2’,``</div>
+<div class="line">``   +                    userclass=[u’webserver’, u’mailserver’],``</div>
+<div class="line">``                        force=True,``</div>
+<div class="line">``                    ),``</div>
+<div class="line">``                ),``</div>
+<div class="line">``   &#64;&#64; -715,6 +716,7 &#64;&#64; class test_host(Declarative):``</div>
+<div class="line">``                        objectclass=objectclasses.host,``</div>
+<div class="line">``                        ipauniqueid=[fuzzy_uuid],``</div>
+<div class="line">``                        managedby_host=[fqdn2],``</div>
+<div class="line">``   +                    userclass=[u’webserver’, u’mailserver’],``</div>
+<div class="line">``                        has_keytab=False,``</div>
+<div class="line">``                        has_password=False,``</div>
+<div class="line">``                    ),``</div>
+<div class="line">``   &#64;&#64; -722,6 +724,27 &#64;&#64; class test_host(Declarative):``</div>
+<div class="line">``            ),``</div>
+<div class="line">``   ``</div>
+<div class="line">``   ``</div>
+<div class="line">``   +        dict(``</div>
+<div class="line">``   +            desc=’Retrieve %r’ % fqdn2,``</div>
+<div class="line">``   +            command=(‘host_show’, [fqdn2], {}),``</div>
+<div class="line">``   +            expected=dict(``</div>
+<div class="line">``   +                value=fqdn2,``</div>
+<div class="line">``   +                summary=None,``</div>
+<div class="line">``   +                result=dict(``</div>
+<div class="line">``   +                    dn=dn2,``</div>
+<div class="line">``   +                    fqdn=[fqdn2],``</div>
+<div class="line">``   +                    description=[u’Test host 2’],``</div>
+<div class="line">``   +                    l=[u’Undisclosed location 2’],``</div>
+<div class="line">``   +                    krbprincipalname=[<a class="reference external" href="mailto:u'host/%s&#37;&#52;&#48;%s">u’host/%s<span>&#64;</span>%s</a>’ % (fqdn2, api.env.realm)],``</div>
+<div class="line">``   +                    has_keytab=False,``</div>
+<div class="line">``   +                    has_password=False,``</div>
+<div class="line">``   +                    managedby_host=[fqdn2],``</div>
+<div class="line">``   +                    userclass=[u’webserver’, u’mailserver’],``</div>
+<div class="line">``   +                ),``</div>
+<div class="line">``   +            ),``</div>
+<div class="line">``   +        ),``</div>
+<div class="line">``   +``</div>
+<div class="line">``   +``</div>
+<div class="line">``            # This test will only succeed when running against lite-server.py``</div>
+<div class="line">``            # on same box as IPA install.``</div>
+<div class="line">``            dict(``</div>
+<div class="line">``   – ``</div>
+<div class="line">``   1.8.1.4``</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/HowTo/Add_a_new_attribute.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

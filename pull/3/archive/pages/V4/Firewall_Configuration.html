@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Forward_zones.html" />
+    <link rel="prev" title="Overview" href="External_trust_to_AD.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>The FreeIPA server installer goes through a lot of effort to setup a
+variety of services to get the server fully functional after running a
+single command. Unfortunately, the server installation script has not
+ever attempted to create netfilter rules.</p>
+<p><a class="reference external" href="https://fedoraproject.org/wiki/FirewallD">FirewallD</a> is a relatively
+new service that is a front-end for netfilter. It has a rich concept of
+zones, services, and interfaces that makes configurations easy to setup
+and administer. For our purposes, there are two important features.
+First, FirewallD has a DBus interface that allows reliable reloading and
+manipulation without interfering with existing connections or other user
+policies. Second, FirewallD uses standardized XML policy files. The
+greatest problem with modifying iptables-save files is that it is
+non-trivial to parse them or properly insert rules. (There’s also a
+great variety in where and how users store their iptables-save files,
+complicating both the FreeIPA integration UI and implementation.)</p>
+<p>By using FirewallD, we will be able to offer users the server
+install-time option of enabling a FreeIPA policy that covers all of the
+constituent services.</p>
+<p>Since a properly configured firewall is necessary for FreeIPA clients
+and replicas to operate, it makes more sense to configure FirewallD by
+default. Therefore, the firewall configuration will automatically
+proceed during ipa-server-install unless a user passes the
+“–no-firewall” option.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Samantha is installing FreeIPA server on a Linux system that has
+NetworkManager and FirewallD (with both running). She wants to get the
+server fully running using the ipa-server-install script, including
+firewall configuration. Since ipa-server-install will configure
+FirewallD by default, she doesn’t have to pass any extra configuration
+options.</p>
+<p>Dan is installing FreeIPA on a Linux system that has NetworkManager and
+FirewallD. His server is connected to a network that has some portions
+which are trusted and others that are not. He doesn’t want the FreeIPA
+exposed to the untrusted portions and needs to setup more complex rules
+(called rich-rules in FirewallD). He passes the “–no-firewall” option
+to ipa-server-install. The installation program detects that FirewallD
+is active and prints out the FirewallD services needed and leaves the
+implementation to Dan.</p>
+<p>Rebecca is installing FreeIPA on a system without FirewallD.
+Ipa-server-install detects that FirewallD is not running and prints out
+a message similar to the current situation, which informs the user of
+the needed protocols and ports.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The ipa-server-install script will get a new option <em>–no-firewall</em>. If
+this option is not passed, ipa-server-install will attempt to configure
+FirewallD, and if unsuccessful will fall-back to printing generic
+information about which protocols and ports should be allowed.</p>
+<p>Example: ipa-server-install –setup-dns –forwarder=192.168.0.2
+–forwarder=192.168.0.3 –no-firewall</p>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>New Python dependencies: dbus module and lxml package. These are
+commonly found on most distributions in standard/minimal installs,
+including on both RHEL 7 (beta) and Fedora 20.</p></li>
+<li><p>Service dependencies: NetworkManager.service and firewalld.service.
+These are optional dependencies. If only NM is missing,
+ipa-server-install will configure as much of FirewallD as possible,
+but the user will have to run a command after installation (to
+determine the proper FirewallD zone). If FirewallD is not present,
+freeipa-server-install will fall back into similar behavior where it
+prints out information on what firewall protocols and ports are
+needed but leaves the implementation up to the user.</p></li>
+<li><p>One downside to FirewallD is that there is currently no DBus
+interface to modify the persistent firewall configuration. Therefore,
+it is necessary to write (or edit) the FirewallD zone configuration
+XML files, which is why lxml is needed. Generally, most users will be
+using one of the default, built-in zones (“public” is the default).
+In that case, we will have to either copy or preferably serialize the
+running zone configuration to a XML file in /etc/firewalld/zones/,
+including the FreeIPA rules. On the other hand, if the user is
+running a custom zone then the XML file will already exist in
+/etc/firewalld/zones/, and it only needs to be modified to include
+the FreeIPA rules.</p></li>
+<li><p>This firewall option will integrate properly with the existing
+FirewallD configuration, including detecting already enabled services
+that FreeIPA needs. Any customized FirewallD policy will have a
+customized XML zone file in /etc/firewalld/services/, and that will
+be easy to modify safely using lxml. Uncustomized zones can be copied
+from /usr/lib/firewalld/services/ into /etc/firewalld/zones/ and
+modified from there.</p></li>
+<li><p>Firewall configuration will include robust exception handling and
+logging. Modifications will never be left in a partial state. In the
+event of an unrecoverable error, it will fall back to printing the
+traditional message about which protocols and ports are needed.</p></li>
+<li><p>The firewall configuration module takes an explicit list of services
+to enable. That way any disabled services aren’t mistakeningly
+allowed through the firewall. Additionally, it also makes it easy to
+add new services to the firewall during upgrades.</p></li>
+<li><p>Code: ipaserver/install/firewallutils.py is new and
+ipaserver/install/tools/ipa-server-install will be modified.</p></li>
+<li><p>Documentation: manpages, user guide.</p></li>
+</ul>
+<section id="dbus-method-overview">
+<span id="id1"></span><h2>DBus Method Overview<a class="headerlink" href="#dbus-method-overview" title="Permalink to this heading">¶</a></h2>
+<p>Firewall configuration uses NetworkManager and FirewallD DBus methods.
+Interaction with DBus includes a bus address and a method call. Here is
+an overview of the addresses and methods used.</p>
+<p>The object path</p>
+<p>The format is</p>
+<ul class="simple">
+<li><p>Task</p>
+<ul>
+<li><p>bus</p></li>
+<li><p>method, args</p></li>
+<li><p>Description</p></li>
+</ul>
+</li>
+</ul>
+<section id="networkmanager">
+<h3>NetworkManager<a class="headerlink" href="#networkmanager" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Enumerate network interfaces.</p>
+<ul>
+<li><p>org.freedesktop.NetworkManager</p></li>
+<li><p>GetDevices()</p></li>
+<li><p>ipa-server-install detects or prompts the user for the proper IP
+address to use during installation. FirewallD operates on
+interfaces, not addresses, so it’s necessary to determine which
+interface has the proper IP address.</p></li>
+</ul>
+</li>
+<li><p>Get the IP address of each network interface.</p>
+<ul>
+<li><p>org.freedesktop.NetworkManager.Device</p></li>
+<li><p>Get(), Ip4Address and IP6Address</p></li>
+<li><p>This continues from the previous task to actually get the address
+of each interface.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="firewalld">
+<h3>FirewallD<a class="headerlink" href="#firewalld" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Find the zone that has the interface obtained from NetworkManager.</p>
+<ul>
+<li><p>org.fedoraproject.FirewallD1</p></li>
+<li><p>getZoneOfInterface(), &lt;&gt;</p></li>
+<li><p>FirewallD configuration happens to zones. This finds the zone
+associated with the correct interface.</p></li>
+</ul>
+</li>
+<li><p>Find the default zone if the interface is not attached to a defined
+zone.</p>
+<ul>
+<li><p>org.fedoraproject.FirewallD1</p></li>
+<li><p>getDefaultZone()</p></li>
+<li><p>Default FirewallD configurations do not attach interfaces to any
+zone. Instead, there is a default zone, which includes all
+interfaces. Fallback to the default zone if the interface isn’t
+explicitly attached to another zone.</p></li>
+</ul>
+</li>
+<li><p>Verify that all services are available that are needed.</p>
+<ul>
+<li><p>org.fedoraproject.FirewallD1</p></li>
+<li><p>listServices()</p></li>
+<li><p>FirewallD comes with all of the necessary service definitions for
+FreeIPA. They should always be present, but the situation may
+arise where a user or FirewallD packager may have deleted them. If
+any services are missing, they will need to be created with XML
+files in /etc/firewalld/services/.</p></li>
+</ul>
+</li>
+<li><p>Reload FirewallD after configuration.</p>
+<ul>
+<li><p>org.fedoraproject.FirewallD1</p></li>
+<li><p>reload()</p></li>
+<li><p>After modifying the persistent FirewallD configuration, it is
+necessary to issue a reload call to make the configuration active.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>There are no dedicated commands. This only adds the “–no-firewall”
+option to ipa-server-install.</p>
+<p>Any commands to enable/disable the feature or turn on/off its parts?</p>
+<p>“–no-firewall” will stop all firewall configuration.</p>
+</section>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>No impact.</p>
+</section>
+<section id="restore-and-uninstall">
+<span id="id2"></span><h1>Restore and Uninstall<a class="headerlink" href="#restore-and-uninstall" title="Permalink to this heading">¶</a></h1>
+<p>Firewall configuration will either modify or create a zone file in
+/etc/firewalld/zones/. If a file was modified, the original will be
+saved in /var/lib/ipa/sysrestore/ for restore. Otherwise, the zone file
+can be removed. Note that a user may have made subsequent modifications
+to the zone policy. If any user modifications are detected, only the
+FreeIPA firewall configuration will be removed.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>If new FreeIPA services are available during upgrades (like DRM and
+TPS), the firewall configuration module allows those new services to be
+added easily.</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>Python package lxml and module dbus. Most distributions already include
+them even in minimal installs.</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>None</p>
+</section>
+<section id="backup-and-restore">
+<h1>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h1>
+<p>None</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>I will need to investigate the CI environment, but here are the basic
+tests that I’m considering at this point.</p>
+<ul class="simple">
+<li><p>lxml, dbus, or both Python modules missing.</p></li>
+<li><p>Authorization denials to DBus system bus.</p></li>
+<li><p>Missing NetworkManager, FirewallD, or both services.</p></li>
+<li><p>Invalid, missing, or inaccessible /etc/firewalld/zones/<a href="#id3"><span class="problematic" id="id4">*</span></a>.</p></li>
+<li><p>Fedora 19+ and RHEL 7+ platforms.</p></li>
+<li><p>Python 2.7.</p></li>
+<li><p>Partial FirewallD policy configuration.</p></li>
+</ul>
+<p>Test scenarios that will be transformed to test cases for FreeIPA
+Continuous Integration during implementation or review phase.</p>
+<p>Justin Brown &lt;justin.brown ON fandingo PERIOD org&gt;</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Firewall_Configuration.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

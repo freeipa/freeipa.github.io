@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Purpose &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Introduction" href="SSLUsage.html" />
+    <link rel="prev" title="Requests for upstream" href="Roadmap.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="purpose">
+<h1>Purpose<a class="headerlink" href="#purpose" title="Permalink to this heading">¶</a></h1>
+<p>Manage mapping of users stored in IPA to SELinux users.</p>
+</section>
+<section id="storage">
+<h1>Storage<a class="headerlink" href="#storage" title="Permalink to this heading">¶</a></h1>
+<p>IPA will store one new type of entry and two new pieces of
+configuration.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.10</span></code></div>
+<div class="line">``  NAME ‘ipaSELinuxUser’``</div>
+<div class="line">``  DESC ‘An SELinux user’``</div>
+<div class="line">``  EQUALITY caseIgnoreMatch``</div>
+<div class="line">``  ORDERING caseIgnoreOrderingMatch``</div>
+<div class="line">``  SUBSTR caseIgnoreSubstringsMatch``</div>
+<div class="line">``  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
+<div class="line">``  SINGLE-VALUE``</div>
+<div class="line">``  X-ORIGIN ‘IPA v3’``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClasses: (2.16.840.1.113730.3.8.12.5</span></code></div>
+<div class="line">``  NAME ‘ipaSELinuxUserMap’``</div>
+<div class="line">``  SUP ipaAssociation STRUCTURAL``</div>
+<div class="line">``  MUST SELinuxUser``</div>
+<div class="line">``  MAY ( accessTime $ seeAlso )``</div>
+<div class="line">``  X-ORIGIN ‘IPA v3’``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
+</div>
+<ul class="simple">
+<li><p>SELinuxUser is the SELinux user this rule maps to.</p></li>
+<li><p>accessTime is a FutureFeature.</p></li>
+<li><p>seeAlso is the dn of an HBAC rule defining the users and hosts for
+this map</p></li>
+</ul>
+<p>We will store these rules in cn=selinux,$SUFFIX</p>
+<p>Some examples:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: ipauniqueid=d4d97a3a-1167-11e1-9dea-0050562c8d82,cn=selinux,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: Staff on rawhide</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaenabledflag: TRUE</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">memberhost: fqdn=rawhide.example.com,cn=computers,cn=accounts,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">memberuser: uid=joe.user,cn=users,cn=accounts,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">accessruletype: allow</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaselinuxuser: staff_u:s0-s0:c0.c1023</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipauniqueid: d4d97a3a-1167-11e1-9dea-0050562c8d82</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaassociation</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaselinuxusermap</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: ipauniqueid=d4d97a3a-1167-11e1-9dea-0050562c8d82,cn=selinux,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: User using hbac</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaenabledflag: TRUE</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">seeAlso: ipauniqueid=79a60542-1168-11e1-851d-0050562c8d82,cn=hbac,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaselinuxuser: user_u:s0-s0:c0.c1023</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipauniqueid: d4d97a3a-1167-11e1-9dea-0050562c8d82</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaassociation</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaselinuxusermap</span></code></div>
+</div>
+<p>The other two values will be stored in cn=ipaConfig.</p>
+<p>The first value is the order list of SELinux users we can map to in
+ascending order of priority. This list will use $ as a separator.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.3.27</span></code></div>
+<div class="line">``  NAME ‘ipaSELinuxUserMapOrder’``</div>
+<div class="line">``  DESC ‘Available SELinux user context ordering’``</div>
+<div class="line">``  EQUALITY caseIgnoreMatch``</div>
+<div class="line">``  ORDERING caseIgnoreMatch``</div>
+<div class="line">``  SUBSTR caseIgnoreSubstringsMatch``</div>
+<div class="line">``  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
+<div class="line">``  SINGLE-VALUE``</div>
+<div class="line">``  X-ORIGIN ‘IPA v3’``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
+</div>
+<p>This table will look like:</p>
+<p><code class="docutils literal notranslate"><span class="pre">guest_u:s0$xguest_u:s0$user_u:s0-s0:c0.c1023$staff_u:s0-s0:c0.c1023$unconfined_u:s0-s0:c0.c1023</span></code></p>
+<p>The second value is the default SELinux user, e.g. guest_u:s0</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.3.26</span></code></div>
+<div class="line">``  NAME ‘ipaSELinuxUserMapDefault’``</div>
+<div class="line">``  DESC ‘Default SELinux user’``</div>
+<div class="line">``  EQUALITY caseIgnoreMatch``</div>
+<div class="line">``  ORDERING caseIgnoreMatch``</div>
+<div class="line">``  SUBSTR caseIgnoreSubstringsMatch``</div>
+<div class="line">``  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
+<div class="line">``  SINGLE-VALUE``</div>
+<div class="line">``  X-ORIGIN ‘IPA v3’``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
+</div>
+<p>An HBAC rule pointed to by an SELinux mapping may not be removed until
+the mapping rule is removed. The HBAC rule does not store a pointer,
+rather it will need to search the maps to see if it is being referenced.</p>
+<p>An SELinux user may not be removed from the ordered list if it appears
+in any of the mapping rules.</p>
+<p>An SELinux user may not be removed from the order list if it is the
+default.</p>
+<p>The default value must always be a member of the list.</p>
+<p>The default user context may be blank/empty. An empty member tells sssd
+to use the system default context.</p>
+<p>The default user context in IPA is unconfined_u.</p>
+<p>A map must contain both a (user/group or usercat) and (host/hostgroup or
+hostcat).</p>
+<p>If it points to an HBAC rule then that rule must conform to the above.
+Otherwise the mapping rule is ignored.</p>
+<p>seeAlso may not be defined if a user, usercat, host or hostcat is
+defined. The use must either link to an HBAC rule or define everything
+in the SELinux map.</p>
+</section>
+<section id="selinux-user-syntax">
+<span id="id1"></span><h1>SELinux user syntax<a class="headerlink" href="#selinux-user-syntax" title="Permalink to this heading">¶</a></h1>
+<p>An SELinux user has 3 components: <code class="docutils literal notranslate"><span class="pre">user:MLS:MCS</span></code>. <code class="docutils literal notranslate"><span class="pre">user</span></code> and <code class="docutils literal notranslate"><span class="pre">MLS</span></code>
+are mandatory, so <code class="docutils literal notranslate"><span class="pre">user:MLS:MCS</span></code> or only <code class="docutils literal notranslate"><span class="pre">user:MLS</span></code> are also valid
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=885181">relevant
+Bugzilla</a>).</p>
+<p>User traditionally ends with _u but this is not mandatory. It may
+contain letters or underscores, but must start with a letter.</p>
+<p>The MLS part can only be s[0-15] (a single level), or s[0-15]-s[0-15] (a
+range of levels).</p>
+<p>Then MCS could be c[0-1023] (a single category), c[0-1023].c[0-0123] (a
+range of categories), or any number of these separated by commas.</p>
+<p>For example, the following are valid:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user_u:s0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user_u:s0-s1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user_u:s0-s15:c0.c1023</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user_u:s0-s1:c0,c2,c15.c26</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user_u:s0-s0:c0.c1023</span></code></div>
+</div>
+<p>See <a class="reference external" href="http://docs.fedoraproject.org/en-US/Fedora/21/html/SELinux_Users_and_Administrators_Guide/index.html">SELinux
+documentation</a>
+for more details on MCS/MLS levels. Note that IPA only does a
+rudimentary sanity check, so it may allow illegal values in some cases.</p>
+</section>
+<section id="evaluation">
+<h1>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">¶</a></h1>
+<p>IPA stores the maps, the ordered list of SELinux contexts and the
+default context.</p>
+<p>SSSD evaluates the maps to determine the correct context based on the
+user and machine.</p>
+<section id="order-of-operation">
+<span id="id2"></span><h2>Order of operation<a class="headerlink" href="#order-of-operation" title="Permalink to this heading">¶</a></h2>
+<p>The maps are a triple of (host, user, selinuxuser)</p>
+<p>host can be a single host, a hostgroup, or hostcat=all user can be a
+single user, a group, or usercat=all selinuxuser is a single value</p>
+<p>Matching is done from most to least-specific. You can think of this as
+levels where user &gt; group &gt; usercat=all and host &gt; hostgroup &gt;
+hostcat=all.</p>
+<p>The host is checked first, then user.</p>
+<p>If two matches on the same level are found then the ordered list of
+selinux users is used to determine the winner. The last (highest
+priority) in the list wins.</p>
+<p>If after all this no match is found the default selinux user is used.</p>
+<p>Since we can potentially point to another association (HBAC) which has
+its own enabled flag both will need to be evaluated. If either is
+disabled then the rule is ignored.</p>
+</section>
+<section id="evaluating-rules">
+<span id="id3"></span><h2>Evaluating Rules<a class="headerlink" href="#evaluating-rules" title="Permalink to this heading">¶</a></h2>
+<p>When a user attempts to log in we’ll know two things: the uid of the
+user logging in and the name of the host we’re on.</p>
+<p>For determining which rules apply to the user you have to check two
+things:</p>
+<p>1. Pull the user’s entry and find any memberof in the SELinux user map
+container, it will look like:</p>
+<p>memberof:
+ipaUniqueID=f99b9a7c-19f2-11e1-94cc-0050562c8d82,cn=usermap,cn=selinux,dc=example,dc=com</p>
+<p>2. Find all the SELinux rules with seeAlso set and see if that DN is in
+the user’s memberof.</p>
+<p>Do the same thing with the host, combine the two sets and you have your
+set of rules.</p>
+<p>The next calculation is more complex as we decided that specificity wins
+(e.g. a rule with a specific user has more weight than a group or *).
+To determine the correct user context, iterate through the unordered set
+of candidate rules and comparing current state to the rule.</p>
+<p>The initial context is the default SELinux user.</p>
+<p>The first rule context gets applied to the user and we also track
+specificity of host and user (could be an enum: direct, group,
+wildcard).</p>
+<p>In the next rule we look to see if host or user is more specific and if
+so we get that context, otherwise we punt.</p>
+<p>If it is equally specific we take the highest context as defined in the
+context ordering.</p>
+<p>Do this until the list is exhausted. The final state is the context to
+set.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<p>These rules are in the form (host, user, mapping).</p>
+<p>Ordering is: <code class="docutils literal notranslate"><span class="pre">guest_u$staff_u$unconfined_u</span></code></p>
+<p>Our user, <code class="docutils literal notranslate"><span class="pre">joe.user</span></code>, is a member of the groups <code class="docutils literal notranslate"><span class="pre">admins</span></code> and
+<code class="docutils literal notranslate"><span class="pre">users</span></code>.</p>
+<p>We have a hostgroup, <code class="docutils literal notranslate"><span class="pre">webservers</span></code>, which contains the hosts
+<code class="docutils literal notranslate"><span class="pre">web1.example.com</span></code> and <code class="docutils literal notranslate"><span class="pre">web2.example.com&gt;/code&gt;</span></code></p>
+<section id="example-1">
+<span id="id4"></span><h3>Example 1<a class="headerlink" href="#example-1" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(client.example.com, *, staff_u)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(*, joe.user, guest_u)</span></code></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">joe.user</span></code> logs in from client.example.com he will get <code class="docutils literal notranslate"><span class="pre">staff_u</span></code>
+because hosts are evaluated first.</p>
+<p>If joe.user logs in from any other host he gets <code class="docutils literal notranslate"><span class="pre">guest_u</span></code></p>
+</section>
+<section id="example-2">
+<span id="id5"></span><h3>Example 2<a class="headerlink" href="#example-2" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(webservers, joe.user, staff_u)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(webservers, admins, unconfined_u)</span></code></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">joe.user</span></code> logs in from web2.example.com he will get <code class="docutils literal notranslate"><span class="pre">staff_u</span></code>.</p>
+<p>This is because the rule containing his uid is more specific than the
+group rule.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/SELinux_user_mapping.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

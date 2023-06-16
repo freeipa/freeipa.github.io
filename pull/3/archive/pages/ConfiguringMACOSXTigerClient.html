@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IPA Client Configuration &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Configuring Macintosh OS X 10.4 as an IPA Client" href="ConfiguringMacintoshClients.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="ConfiguringLinuxClients.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="ipa-client-configuration">
+<span id="id1"></span><h1>IPA Client Configuration<a class="headerlink" href="#ipa-client-configuration" title="Permalink to this heading">¶</a></h1>
+<section id="setup">
+<h2>setup<a class="headerlink" href="#setup" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">`` Follow this guide. I found the step-by-step description to be very useful.``</div>
+<div class="line">`` <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx</span></code> &lt;<a class="reference external" href="http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx">http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx</a>&gt;`__</div>
+</div>
+<div class="line-block">
+<div class="line">`` Specifically for Kerberos Configuration , follow this. No changes.``</div>
+<div class="line">``  <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx</span></code> &lt;<a class="reference external" href="http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx">http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx</a>&gt;`__</div>
+<div class="line">`` ``</div>
+<div class="line">`` Specifically for LDAP Client Configuration, follow this.``</div>
+<div class="line">`` There are some changes, which are described below.``</div>
+<div class="line">``  <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx</span></code> &lt;<a class="reference external" href="http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx">http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx</a>&gt;`__</div>
+</div>
+<div class="line-block">
+<div class="line">``  PrimaryGroupID - use gidNumber attribute from LDAP``</div>
+<div class="line">``  UniqueID - use uidNumber attribute from LDAP``</div>
+</div>
+</section>
+<section id="ntp">
+<h2>NTP<a class="headerlink" href="#ntp" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Open the “Date&amp;Time” utility and point it to the
+ipaserver.example.com to set the date and time automatically.</p></li>
+</ul>
+</section>
+<section id="kinit">
+<h2>kinit<a class="headerlink" href="#kinit" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Attempt to get a kerberos ticket.</p></li>
+</ul>
+<div class="line-block">
+<div class="line">``   kinit admin``</div>
+<div class="line">``   klist ( to verify )``</div>
+</div>
+</section>
+<section id="ssh">
+<h2>ssh<a class="headerlink" href="#ssh" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">`` if you have a valid kerberos ticket, ssh would proceed with GSSAPI``</div>
+<div class="line">`` auth without asking for a password.``</div>
+</div>
+<ul class="simple">
+<li><p>ssh <a class="reference external" href="mailto:admin&#37;&#52;&#48;ipaserver&#46;example&#46;com">admin<span>&#64;</span>ipaserver<span>&#46;</span>example<span>&#46;</span>com</a></p></li>
+</ul>
+</section>
+<section id="system-login">
+<span id="id2"></span><h2>system login<a class="headerlink" href="#system-login" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>On the MAC system console, login as an ipa user with its password.
+Once logged in , open a terminal and try these commands:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">id ( look for userid and group id correctness )</span></code></p>
+<ul class="simple">
+<li><p>After login, if you have kerberos configured, make sure you have a
+valid kerberos ticket. klist will help here.</p></li>
+</ul>
+</section>
+<section id="nfsv4-kerberos">
+<h2>nfsv4/kerberos<a class="headerlink" href="#nfsv4-kerberos" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">TBD. not sure what status this code is in. I'm not able to find any docs for this from apple.</span></code></p>
+</section>
+<section id="browser-firefox">
+<span id="id3"></span><h2>Browser - firefox<a class="headerlink" href="#browser-firefox" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><a href="#id4"><span class="problematic" id="id5">``</span></a>Do the normal kerberos configuration for firefox. ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Open firefox. goto ``\</span> <span class="pre">```about:config</span></code> &lt;<a class="reference external" href="about:config">about:config</a>&gt;`__</div>
+<div class="line">`` set network.negotiate-auth.delegation-uris to .example.com``</div>
+<div class="line">`` set network.negotiate-auth.trusted-uris to .example.com``</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Goto ``\</span> <span class="pre">```https://ipaserver.example.com</span></code> &lt;<a class="reference external" href="https://ipaserver.example.com">https://ipaserver.example.com</a>&gt;`__</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">If you have a valid kerberos ticket, you should be authenticated at this point.</span></code></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/ConfiguringMACOSXTigerClient.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

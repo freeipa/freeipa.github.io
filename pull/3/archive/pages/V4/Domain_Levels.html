@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Extdom_plugin_enhancement_grouplist.html" />
+    <link rel="prev" title="Overview" href="Dogtag_GSS-API_Authentication.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>As we add more and more features and we change the way some operations
+are done or add dependencies on new components we face some challenges
+with mixing different versions of FreeIPA, and migrating from one
+version to another.</p>
+<p>A solution is needed to make it possible for 2 different versions of
+FreeIPA to interact properly.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Migration from one version of FreeIPA to another.</p></li>
+<li><p>Coexistence of two different versions of FreeIPA servers in the same
+Domain.</p></li>
+<li><p>Potentially, in future, identification of the features supported by a
+trusted FreeIPA Domain.</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The simplest way to deal with domain level compatibility issues is to
+have a Domain-wide “Level” or “Version” associated with the Domain.</p>
+<p>This Domain Version is a number written in the public shared tree and is
+maintained by the administrator, which can decide to increase it to
+activate new functionality after a migration from an older to a newer
+version of FreeIPA an all the participating domain controllers.</p>
+<section id="domain-level-compliance">
+<span id="id1"></span><h2>Domain Level Compliance<a class="headerlink" href="#domain-level-compliance" title="Permalink to this heading">¶</a></h2>
+<p>Checking if the Domain Level can be upgraded relies on the ability to
+check if all servers in the Domain satisfy minimum requirements that
+allow them to fully participate in a higher Domain Level.</p>
+<p>Each server will expose a range of Supported Levels, which will be the
+basis to determine if the Domain Level can be raised. However additional
+checks maybe needed to determine if a domain level can be raised. For
+example a Domain Level may depend on a specific component to be
+configured and running on at least one server, but not all of them. And
+although all servers are capable of running the specific component, the
+server version alone won’t be able to convey the fact that at least one
+server in fact does run such a component.</p>
+<p>When the need will arise we’ll have to determine how to properly check
+(and “warn” if not) if these services are available.</p>
+<p>Older FreeIPA versions that do not maintain a Server Version attribute
+will be considered at level “0” which will be defined as something
+compatible with version 3.3.0/4.1.0 of FreeIPA as currently released by
+various distributions.</p>
+</section>
+<section id="raising-the-domain-level">
+<span id="id2"></span><h2>Raising the Domain Level<a class="headerlink" href="#raising-the-domain-level" title="Permalink to this heading">¶</a></h2>
+<p>A CLI/UI command will be provided to allow raising the Domain Level.
+This command will embed the knowledge necessary to determine if an
+upgrade is possible. It will check various minimum version numbers and
+obligatory component presence across the domain by consulting the public
+shared tree.</p>
+<p>If all the constraints are met then the Domain Level is raised to the
+level specified.</p>
+<p>The Domain Level cannot be lowered as raising the Domain Level can cause
+changes to the tree (new schema, changes in behavior and data) that
+cannot be easily undone.</p>
+</section>
+<section id="effects-of-a-raise-in-level-on-the-domain">
+<span id="id3"></span><h2>Effects of a raise in level on the Domain<a class="headerlink" href="#effects-of-a-raise-in-level-on-the-domain" title="Permalink to this heading">¶</a></h2>
+<p>All servers MUST monitor the Domain Level attribute. Upon replication if
+the Domain Level is raised then all server features that are affected by
+the change must be notified (or must be listening on the same change as
+plugins) and accordingly alter behavior.</p>
+<p>It is HIGHLY desirable that no restart be required for a Domain Level
+change to take effect. If such will be needed in future, then we’ll need
+to develop a privileged component that can be activated by the level
+change and can restart the affected components as needed.</p>
+<p>An effort will need to be made each time a feature is change or a new
+feature is added to understand if a new Domain Level is required, and if
+so how a domain level change to enable the new feature will affect the
+domain. In particular, races due to the delayed activation (replication
+may take some time) must be taken in account when designing new features
+that will require a domain level change.</p>
+</section>
+<section id="storing-domain-levels">
+<span id="id4"></span><h2>Storing Domain levels<a class="headerlink" href="#storing-domain-levels" title="Permalink to this heading">¶</a></h2>
+<p>Domain levels supported by the server should be stored in the server
+record and automatically updated during upgrade. The level is stored in
+<code class="docutils literal notranslate"><span class="pre">cn=HOSTNAME,cn=masters,cn=ipa,cn=etc,SUFFIX</span></code>. New attributeType and
+objectClass will be needed for storing the domain level range.</p>
+<p>Selected Domain level shall be stored in
+<code class="docutils literal notranslate"><span class="pre">cn=Domain</span> <span class="pre">Level,cn=ipa,cn=etc,SUFFIX</span></code></p>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>Add page for setting the domain level to Server Configuration tab.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>There should be a command to raise <em>global</em> domain level. Server
+supported domain level(s) is automated, based on server version.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>Presence of domain level is mandatory for all servers since the initial
+version.</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>Server supported domain level is automatically raised during upgrade to
+next version.</p>
+</section>
+<section id="how-to-test">
+<span id="how-to-test18"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<p>TBD.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Domain_Levels.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

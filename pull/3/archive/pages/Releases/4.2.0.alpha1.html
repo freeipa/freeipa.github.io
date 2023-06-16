@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Highlights in 4.2 &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Highlights in 4.2.1" href="4.2.1.html" />
+    <link rel="prev" title="Highlights in 4.2" href="4.2.0.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The FreeIPA team is proud to announce FreeIPA v4.2.0 Alpha 1 release!</p>
+<p>It can be downloaded from <a class="reference external" href="http://www.freeipa.org/page/Downloads">http://www.freeipa.org/page/Downloads</a>. The
+builds for Fedora 22 and Fedora Rawhide will be available in the
+official <a class="reference external" href="https://copr.fedoraproject.org/coprs/mkosek/freeipa-4.2/">COPR
+repository</a>.</p>
+<section id="highlights-in-4-2">
+<span id="id1"></span><h1>Highlights in 4.2<a class="headerlink" href="#highlights-in-4-2" title="Permalink to this heading">¶</a></h1>
+<section id="enhancements">
+<h2>Enhancements<a class="headerlink" href="#enhancements" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Support for multiple certificate profiles, including support for user
+certificates. The profiles are now replicated between FreeIPA server
+to have consistent state for all certificate creation request. The
+certificate submission requests are authorized by the new CA ACL
+rules (<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/57">ticket</a>,
+<a class="reference external" href="V4/Certificate_Profiles">design</a>)</p></li>
+<li><p>User life-cycle management management - add inactive stage users
+using UI or LDAP interface and have them moved to active users by
+single command. Deleted users can now be also moved - <em>preserved</em> -
+to special tree and re-activated when user returns, preserving it’s
+UID/GID (<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3813">ticket</a>,
+<a class="reference external" href="V4/User_Life-Cycle_Management">design</a>)</p></li>
+<li><p>Support for Password Vault (KRA) component of <a class="reference external" href="PKI">PKI</a> for
+storing user or service secrets. All encrypted with public key
+cryptography so that even FreeIPA server does not know the secrets!
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3872">ticket</a>,
+<a class="reference external" href="V4/Password_Vault">design</a>,
+<a class="reference external" href="V4/Password_Vault_Implementation">implementation</a>)</p></li>
+<li><p>Replication topology is now managed by <a class="reference external" href="Directory_Server">Directory
+Server</a> <em>Topology plugin</em> which allows
+modifications to the topology via standard FreeIPA UI. The plugin is
+enabled for new 4.2 based deployment and for upgraded deployments
+that raised the <a class="reference external" href="V4/Domain_Levels">Domain Level</a> to 1
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4302">ticket</a>,
+<a class="reference external" href="V4/Manage_replication_topology">design</a>)</p></li>
+<li><p>Datepicker is now used for datetime fields in the Web UI
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4347">ticket</a>)</p></li>
+<li><p>Upgrade process was overhauled. There is now single upgrade tool
+(<code class="docutils literal notranslate"><span class="pre">ipa-server-upgrade</span></code>) providing simplified interface for upgrading
+the FreeIPA server. See details in separate subsection.
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4904">ticket</a>,
+<a class="reference external" href="V4/Server_Upgrade_Refactoring">design</a>)</p></li>
+<li><p>Service constrained delegation rules can be now added by UI and CLI
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3644">ticket</a>,
+<a class="reference external" href="V4/Service_Constraint_Delegation">design</a>)</p></li>
+<li><p>FreeIPA Web Server no longer use deprecated <code class="docutils literal notranslate"><span class="pre">mod_auth_kerb</span></code> but
+switched to the modern <code class="docutils literal notranslate"><span class="pre">mod_auth_gssapi</span></code>
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4190">ticket</a>)</p></li>
+<li><p>Add support for Domain Levels
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5018">ticket</a>,
+<a class="reference external" href="V4/Domain_Levels">design</a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">migrate-ds</span></code> command can now search the migrated users and groups
+with different scope</p></li>
+<li><p>DNSSEC integration was improved and FreeIPA server is configured to
+do DNSSEC validation by default. This might potentially affect
+installations which did not follow <a class="reference external" href="Deployment_Recommendations#DNS">Deployment Recommendations for
+DNS</a>.</p></li>
+</ul>
+</section>
+<section id="changes-to-upgrade">
+<span id="id2"></span><h2>Changes to upgrade<a class="headerlink" href="#changes-to-upgrade" title="Permalink to this heading">¶</a></h2>
+<p>The server still upgrades automatically during RPM update. However,
+<code class="docutils literal notranslate"><span class="pre">ipactl</span> <span class="pre">start</span></code> now verifies that the server was really upgraded before
+starting FreeIPA to prevent running upgraded bits on old data when
+<code class="docutils literal notranslate"><span class="pre">ipa-server-upgrade</span></code> was not run during RPM update (for example during
+<a class="reference external" href="https://fedoraproject.org/wiki/FedUp">FedUp</a> Fedora upgrade).</p>
+<p>Update files (files in <code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/updates/</span></code>) format was changed.
+Namely:</p>
+<ul class="simple">
+<li><p>Updates are not merged, update files are applied one at a time
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3560">ticket</a>)</p></li>
+<li><p>Update entries no longer support CSV - commas can be now freely used
+in the added attributes</p></li>
+<li><p>Update can now use base64 values
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4984">ticket</a>)</p></li>
+<li><p>Update plugins are now not run automatically, but when referenced
+from update files (<code class="docutils literal notranslate"><span class="pre">plugin:</span></code>)</p></li>
+</ul>
+</section>
+</section>
+<section id="known-issues">
+<span id="id3"></span><h1>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this heading">¶</a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>missing dependency on <code class="docutils literal notranslate"><span class="pre">python-setuptools</span></code>, run
+<code class="docutils literal notranslate"><span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">python-setuptools</span></code> before installing FreeIPA rpms.</p></li>
+</ul>
+</section>
+<section id="topology-management">
+<span id="id4"></span><h2>Topology management<a class="headerlink" href="#topology-management" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa-replica-manage</span> <span class="pre">del</span></code> doesn’t check for disconnection of
+topology</p></li>
+<li><p>replica reinitialization after <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">topologysegment-reinitialize</span></code>
+could be executed multiple times
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5065">ticket</a>)</p></li>
+<li><p>topology segment direction and ‘enable’ can be still modified. It
+will not be allowed in final version.</p></li>
+</ul>
+</section>
+<section id="certificates">
+<h2>Certificates<a class="headerlink" href="#certificates" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Certificate profiles are not correctly upgraded and therefore
+certificate signing requests fail</p></li>
+<li><p>Web UI does not support multiple certificates</p></li>
+</ul>
+</section>
+</section>
+<section id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this heading">¶</a></h1>
+<p>Upgrade instructions are available on the <a class="reference external" href="Upgrade">Upgrade</a> page.</p>
+</section>
+<section id="feedback">
+<h1>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h1>
+<p>Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (<a class="reference external" href="http://www.redhat.com/mailman/listinfo/freeipa-users">http://www.redhat.com/mailman/listinfo/freeipa-users</a>) or
+#freeipa channel on Freenode.</p>
+</section>
+<section id="detailed-changelog-since-4-1">
+<span id="id5"></span><h1>Detailed Changelog since 4.1<a class="headerlink" href="#detailed-changelog-since-4-1" title="Permalink to this heading">¶</a></h1>
+<section id="ade-lee-3">
+<span id="id6"></span><h2>Ade Lee (3)<a class="headerlink" href="#ade-lee-3" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add a KRA to IPA</p></li>
+<li><p>Add man page for ipa-kra-install</p></li>
+<li><p>Re-enable uninstall feature for ipa-kra-install</p></li>
+</ul>
+</section>
+<section id="ales-alich-marecek-1">
+<span id="id7"></span><h2>Ales ‘alich’ Marecek (1)<a class="headerlink" href="#ales-alich-marecek-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Ipatests DNS SOA Record Maintenance</p></li>
+</ul>
+</section>
+<section id="alexander-bokovoy-10">
+<span id="id8"></span><h2>Alexander Bokovoy (10)<a class="headerlink" href="#alexander-bokovoy-10" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add ipaSshPubkey and gidNumber to the ACI to read ID user overrides</p></li>
+<li><p>Update slapi-nis dependency to pull 0.54.1</p></li>
+<li><p>AD trust: improve trust validation</p></li>
+<li><p>Support Samba PASSDB 0.2.0 aka interface version 24</p></li>
+<li><p>ipa-cldap: support NETLOGON_NT_VERSION_5EX_WITH_IP properly</p></li>
+<li><p>ipa-kdb: when processing transitions, hand over unknown ones to KDC</p></li>
+<li><p>ipa-kdb: reject principals from disabled domains as a KDC policy</p></li>
+<li><p>fix Makefile.am for daemons</p></li>
+<li><p>slapi-nis: require 0.54.2 for CVE-2015-0283 fixes</p></li>
+<li><p>ipaserver/dcerpc: Ensure LSA pipe has session key before using it</p></li>
+</ul>
+</section>
+<section id="david-kupka-25">
+<span id="id9"></span><h2>David Kupka (25)<a class="headerlink" href="#david-kupka-25" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Respect UID and GID soft static allocation.</p></li>
+<li><p>Stop dirsrv last in ipactl stop.</p></li>
+<li><p>Remove unneeded internal methods. Move code to public methods.</p></li>
+<li><p>Remove service file even if it isn’t link.</p></li>
+<li><p>Produce better error in group-add command.</p></li>
+<li><p>Fix –{user,group}-ignore-attribute in migration plugin.</p></li>
+<li><p>ipa-restore: Check if directory is provided + better errors.</p></li>
+<li><p>Fix error message for nonexistent members and add tests.</p></li>
+<li><p>Use singular in help metavars + update man pages.</p></li>
+<li><p>Always add /etc/hosts record when DNS is being configured.</p></li>
+<li><p>Remove ipanttrustauthincoming/ipanttrustauthoutgoing from ipa
+trust-add output.</p></li>
+<li><p>Abort backup restoration on not matching host.</p></li>
+<li><p>idviews: Allow setting ssh public key on ipauseroverride-add</p></li>
+<li><p>Use IPA CA certificate when available and ignore NO_TLS_LDAP when
+not.</p></li>
+<li><p>Restore default.conf and use it to build API.</p></li>
+<li><p>Always reload StateFile before getting or modifying the stored
+values.</p></li>
+<li><p>Remove unused part of ipa.conf.</p></li>
+<li><p>Use mod_auth_gssapi instead of mod_auth_kerb.</p></li>
+<li><p>Bump ipa.conf version to 17.</p></li>
+<li><p>Lint: Skip checking of functions stolen by python-nose.</p></li>
+<li><p>Make lint work on Fedora 22.</p></li>
+<li><p>Lint: Fix error on pylint-1.3.1 introduced by fix for pylint-1.4.1.</p></li>
+<li><p>Do not store state if CA is enabled</p></li>
+<li><p>Move CA installation code into single module.</p></li>
+<li><p>Use 389-ds centralized scripts.</p></li>
+</ul>
+</section>
+<section id="drew-erny-1">
+<span id="id10"></span><h2>Drew Erny (1)<a class="headerlink" href="#drew-erny-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Migration now accepts scope as argument</p></li>
+</ul>
+</section>
+<section id="endi-sukma-dewata-5">
+<span id="id11"></span><h2>Endi Sukma Dewata (5)<a class="headerlink" href="#endi-sukma-dewata-5" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed KRA backend.</p></li>
+<li><p>Modififed NSSConnection not to shutdown existing database.</p></li>
+<li><p>Added vault plugin.</p></li>
+<li><p>Added vault-archive and vault-retrieve commands.</p></li>
+<li><p>Fixed KRA installation problem.</p></li>
+</ul>
+</section>
+<section id="francesco-marella-1">
+<span id="id12"></span><h2>Francesco Marella (1)<a class="headerlink" href="#francesco-marella-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Refactor selinuxenabled check</p></li>
+</ul>
+</section>
+<section id="fraser-tweedale-18">
+<span id="id13"></span><h2>Fraser Tweedale (18)<a class="headerlink" href="#fraser-tweedale-18" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Support multiple host and service certificates</p></li>
+<li><p>Fix certificate management with service-mod</p></li>
+<li><p>Install CA with LDAP profiles backend</p></li>
+<li><p>Add schema for certificate profiles</p></li>
+<li><p>ipa-pki-proxy: provide access to profiles REST API</p></li>
+<li><p>Add ACL to allow CA agent to modify profiles</p></li>
+<li><p>Add certprofile plugin</p></li>
+<li><p>Enable LDAP-based profiles in CA on upgrade</p></li>
+<li><p>Import included profiles during install or upgrade</p></li>
+<li><p>Add generic split_any_principal method</p></li>
+<li><p>Add profile_id parameter to ‘request_certificate’</p></li>
+<li><p>Add usercertificate attribute to user plugin</p></li>
+<li><p>Update cert-request to support user certs and profiles</p></li>
+<li><p>Fix certificate subject base</p></li>
+<li><p>Import profiles earlier during install</p></li>
+<li><p>ipa-pki-proxy: allow certificate and password authentication</p></li>
+<li><p>Add CA ACL plugin</p></li>
+<li><p>Enforce CA ACLs in cert-request command</p></li>
+</ul>
+</section>
+<section id="gabe-alford-16">
+<span id="id14"></span><h2>Gabe Alford (16)<a class="headerlink" href="#gabe-alford-16" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Remove trivial path constants from modules</p></li>
+<li><p>ipa-server-install Directory Manager help incorrect</p></li>
+<li><p>ipa-managed-entries requires password with bad password</p></li>
+<li><p>Update default NTP configuration</p></li>
+<li><p>Remove usage of app_PYTHON in ipaserver Makefiles</p></li>
+<li><p>Remove dependency on subscription-manager</p></li>
+<li><p>Typos in ipa-rmkeytab options help and man page</p></li>
+<li><p>permission-add does not prompt for ipapermright in interactive mode</p></li>
+<li><p>ipa-replica-prepare should document ipv6 options</p></li>
+<li><p>ipatests: Add tests for valid and invalid ipa-advise</p></li>
+<li><p>ipa-replica-prepare can only be created on the first master</p></li>
+<li><p>Add message for skipping NTP configuration during client install</p></li>
+<li><p>Remove unneeded ip-address option in ipa-adtrust-install</p></li>
+<li><p>Unsaved changes dialog internally inconsistent</p></li>
+<li><p>Allow ipa help command to run when ipa-client-install is not
+configured</p></li>
+<li><p>Do not print traceback when pipe is broken</p></li>
+</ul>
+</section>
+<section id="jan-cholasta-93">
+<span id="id15"></span><h2>Jan Cholasta (93)<a class="headerlink" href="#jan-cholasta-93" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Do not crash in CAInstance.__init__ when default argument values are
+used</p></li>
+<li><p>Fix certmonger configuration in installer code</p></li>
+<li><p>Do not check if port 8443 is available in step 2 of external CA
+install</p></li>
+<li><p>Handle profile changes in dogtag-ipa-ca-renew-agent</p></li>
+<li><p>Do not wait for new CA certificate to appear in LDAP in
+ipa-certupdate</p></li>
+<li><p>Fail if certmonger can’t see new CA certificate in LDAP in
+ipa-cacert-manage</p></li>
+<li><p>Fix possible NULL dereference in ipa-kdb</p></li>
+<li><p>Fix memory leaks in ipa-extdom-extop</p></li>
+<li><p>Fix various bugs in ipa-opt-counter and ipa-otp-lasttoken</p></li>
+<li><p>Fix memory leak in ipa-pwd-extop</p></li>
+<li><p>Fix memory leaks in ipa-join</p></li>
+<li><p>Fix various bugs in ipap11helper</p></li>
+<li><p>Fix CA certificate backup and restore</p></li>
+<li><p>Fix wrong expiration date on renewed IPA CA certificates</p></li>
+<li><p>Restore file extended attributes and SELinux context in ipa-restore</p></li>
+<li><p>Use correct service name in cainstance.backup_config</p></li>
+<li><p>Stop tracking certificates before restoring them in ipa-restore</p></li>
+<li><p>Remove redefinition of LOG from ipa-otp-lasttoken</p></li>
+<li><p>Unload P11_Helper object’s library when it is finalized in
+ipap11helper</p></li>
+<li><p>Fix Kerberos error handling in ipa-sam</p></li>
+<li><p>Fix unchecked return value in ipa-kdb</p></li>
+<li><p>Fix unchecked return values in ipa-winsync</p></li>
+<li><p>Fix unchecked return value in ipa-join</p></li>
+<li><p>Fix unchecked return value in krb5 common utils</p></li>
+<li><p>Fix memory leak in GetKeytabControl asn1 code</p></li>
+<li><p>Add TLS 1.2 to the protocol list in mod_nss config</p></li>
+<li><p>Fix automatic CA cert renewal endless loop in
+dogtag-ipa-ca-renew-agent</p></li>
+<li><p>Do not renew the IPA CA cert by serial number in
+dogtag-ipa-ca-renew-agent</p></li>
+<li><p>Improve validation of –instance and –backend options in ipa-restore</p></li>
+<li><p>Check subject name encoding in ipa-cacert-manage renew</p></li>
+<li><p>Refer the user to freeipa.org when something goes wrong in
+ipa-cacert-manage</p></li>
+<li><p>Fix ipa-restore on systems without IPA installed</p></li>
+<li><p>Remove RUV from LDIF files before using them in ipa-restore</p></li>
+<li><p>Fix CA certificate renewal syslog alert</p></li>
+<li><p>Do not crash on unknown services in installutils.stopped_service</p></li>
+<li><p>Restart dogtag when its server certificate is renewed</p></li>
+<li><p>Make certificate renewal process synchronized</p></li>
+<li><p>Fix validation of ipa-restore options</p></li>
+<li><p>Do not assume certmonger is running in httpinstance</p></li>
+<li><p>Put LDIF files to their original location in ipa-restore</p></li>
+<li><p>Revert “Make all ipatokenTOTP attributes mandatory”</p></li>
+<li><p>Create correct log directories during full restore in ipa-restore</p></li>
+<li><p>Do not crash when replica is unreachable in ipa-restore</p></li>
+<li><p>Bump 389-ds-base and pki-ca dependencies for POODLE fixes</p></li>
+<li><p>ipalib: Allow multiple API instances</p></li>
+<li><p>ipalib: Move plugin package setup to ipalib-specific API subclass</p></li>
+<li><p>advise: Add separate API object for ipa-advise</p></li>
+<li><p>ldap2: Use self API instance instead of ipalib.api</p></li>
+<li><p>replica-install: Use different API instance for the remote server</p></li>
+<li><p>certstore: Make certificate retrieval more robust</p></li>
+<li><p>client-install: Do not crash on invalid CA certificate in LDAP</p></li>
+<li><p>client: Fix ca_is_enabled calls</p></li>
+<li><p>upload_cacrt: Fix empty cACertificate in cn=CAcert</p></li>
+<li><p>ldap: Drop python-ldap tuple compatibility</p></li>
+<li><p>ldap: Remove unused IPAdmin methods</p></li>
+<li><p>ldap: Add connection management to LDAPClient</p></li>
+<li><p>ldap: Use LDAPClient connection management in IPAdmin</p></li>
+<li><p>ldap: Use LDAPClient connection management in ldap2</p></li>
+<li><p>ldap: Add bind and unbind methods to LDAPClient</p></li>
+<li><p>ldap: Use LDAPClient bind and unbind methods in IPAdmin</p></li>
+<li><p>ldap: Use LDAPClient bind and unbind methods in ldap2</p></li>
+<li><p>ldap: Use LDAPClient instead of IPASimpleLDAPObject in
+ldap2.modify_password</p></li>
+<li><p>cainstance: Use LDAPClient instead of IPASimpleLDAPObject</p></li>
+<li><p>makeaci: Use LDAPClient instead of IPASimpleLDAPObject</p></li>
+<li><p>ldap: Move value encoding from IPASimpleLDAPObject to LDAPClient</p></li>
+<li><p>ldap: Use LDAPClient instead of IPASimpleLDAPObject in LDAPEntry</p></li>
+<li><p>ldap: Move schema handling from IPASimpleLDAPObject to LDAPClient</p></li>
+<li><p>ldap: Use SimpleLDAPObject instead of IPASimpleLDAPObject in
+LDAPClient</p></li>
+<li><p>ldap: Remove IPASimpleLDAPObject</p></li>
+<li><p>Fix stop_tracking_certificates call in ipa-restore</p></li>
+<li><p>baseldap: Fix possible crash in LDAPObject.handle_duplicate_entry</p></li>
+<li><p>client-install: Fix kinits with non-default Kerberos config file</p></li>
+<li><p>install: Make a package out of ipaserver.install.server</p></li>
+<li><p>install: Move ipa-server-install code into a module</p></li>
+<li><p>install: Move ipa-replica-install code into a module</p></li>
+<li><p>install: Move ipa-server-upgrade code into a module</p></li>
+<li><p>install: Fix missing variable initialization in replica install</p></li>
+<li><p>install: Fix CA-less server install</p></li>
+<li><p>install: Fix external CA server install</p></li>
+<li><p>install: Move private_ccache from ipaserver to ipapython</p></li>
+<li><p>install: Introduce installer framework ipapython.install</p></li>
+<li><p>install: Migrate ipa-server-install to the install framework</p></li>
+<li><p>install: Handle Knob cli_name and cli_aliases values consistently</p></li>
+<li><p>install: Add support for positional arguments in CLI tools</p></li>
+<li><p>install: Allow setting usage in CLI tools</p></li>
+<li><p>install: Migrate ipa-replica-install to the install framework</p></li>
+<li><p>vault: Move vaults to cn=vaults,cn=kra</p></li>
+<li><p>install: Initialize API early in server and replica install</p></li>
+<li><p>vault: Fix ipa-kra-install</p></li>
+<li><p>install: Fix logging setup in server and replica install</p></li>
+<li><p>User life cycle: provide preserved user virtual attribute</p></li>
+<li><p>install: Fix ipa-replica-install not installing RA cert</p></li>
+<li><p>User life cycle: change user-del flags to be CLI-specific</p></li>
+</ul>
+</section>
+<section id="jan-pazdziora-1">
+<span id="id16"></span><h2>Jan Pazdziora (1)<a class="headerlink" href="#jan-pazdziora-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>No explicit zone specification.</p></li>
+</ul>
+</section>
+<section id="lenka-ryznarova-1">
+<span id="id17"></span><h2>Lenka Ryznarova (1)<a class="headerlink" href="#lenka-ryznarova-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Test Objectclass of postdetach group</p></li>
+</ul>
+</section>
+<section id="ludwig-krispenz-9">
+<span id="id18"></span><h2>Ludwig Krispenz (9)<a class="headerlink" href="#ludwig-krispenz-9" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ds plugin - manage replication topology in the shared tree</p></li>
+<li><p>install part - manage topology in shared tree</p></li>
+<li><p>replica install fails with domain level 1</p></li>
+<li><p>accept missing binddn group</p></li>
+<li><p>plugin uses 1 as minimum domain level to become active no calculation
+based on plugin version</p></li>
+<li><p>crash when removing a replica</p></li>
+<li><p>check for existing and self referential segments</p></li>
+<li><p>make sure the agremment rdn match the rdn used in the segment</p></li>
+<li><p>v2-reject modifications of endpoints and connectivity of a segment</p></li>
+</ul>
+</section>
+<section id="lukas-slebodnik-2">
+<span id="id19"></span><h2>Lukáš Slebodník (2)<a class="headerlink" href="#lukas-slebodnik-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>SPEC: Explicitly requires python-sssdconfig</p></li>
+<li><p>SPEC: Require python2 version of sssd bindings</p></li>
+</ul>
+</section>
+<section id="martin-babinsky-36">
+<span id="id20"></span><h2>Martin Babinsky (36)<a class="headerlink" href="#martin-babinsky-36" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Use ‘remove-ds.pl’ to remove DS instance</p></li>
+<li><p>Moved dbus-python dependence to freeipa-python package</p></li>
+<li><p>ipa-kdb: unexpected error code in ‘ipa_kdb_audit_as_req’ triggers a
+message</p></li>
+<li><p>always get PAC for client principal if AS_REQ is true</p></li>
+<li><p>ipa-kdb: more robust handling of principal addition/editing</p></li>
+<li><p>OTP: failed search for the user of last token emits an error message</p></li>
+<li><p>ipa-pwd-extop: added an informational comment about intentional
+fallthrough</p></li>
+<li><p>ipa-uuid: emit a message when unexpected mod type is encountered</p></li>
+<li><p>OTP: emit a log message when LDAP entry for config record is not
+found</p></li>
+<li><p>ipa-client-install: put eol character after the last line of altered
+config file(s)</p></li>
+<li><p>migrate-ds: exit with error message if no users/groups to migrate are
+found</p></li>
+<li><p>Changing the token owner changes also the manager</p></li>
+<li><p>ipa-dns-install: use STARTTLS to connect to DS</p></li>
+<li><p>ipa-dns-install: use LDAPI to connect to DS</p></li>
+<li><p>migrate-ds: print out failed attempts when no users/groups are
+migrated</p></li>
+<li><p>show the exception message thrown by dogtag._parse_ca_status during
+install</p></li>
+<li><p>do not log BINDs to non-existent users as errors</p></li>
+<li><p>fix improper handling of boolean option in</p></li>
+<li><p>proper client host setup/teardown in forced client reenrollment
+integration test suite</p></li>
+<li><p>do not install CA on replica during integration test if
+setup_ca=False</p></li>
+<li><p>ipautil: new functions kinit_keytab and kinit_password</p></li>
+<li><p>ipa-client-install: try to get host TGT several times before giving
+up</p></li>
+<li><p>Adopted kinit_keytab and kinit_password for kerberos auth</p></li>
+<li><p>use separate ccache filename for each IPA DNSSEC daemon</p></li>
+<li><p>point the users to PKI-related logs when CA configuration fails</p></li>
+<li><p>suppress errors arising from deleting non-existent files during
+client uninstall</p></li>
+<li><p>prevent duplicate IDs when setting up multiple replicas against
+single master</p></li>
+<li><p>ipa-server-install: deprecate manual setting of master KDC password</p></li>
+<li><p>update ‘api.env.ca_host’ if a different hostname is used during
+server install</p></li>
+<li><p>provide dedicated ccache file for httpd</p></li>
+<li><p>move IPA-related http runtime directories to common subdirectory</p></li>
+<li><p>explicitly destroy httpd service ccache file during httpinstance
+removal</p></li>
+<li><p>do not check for directory manager password during KRA uninstall</p></li>
+<li><p>merge KRA installation machinery to a single module</p></li>
+<li><p>KRA: get the right dogtag version during server uninstall</p></li>
+<li><p>add DS index for userCertificate attribute</p></li>
+</ul>
+</section>
+<section id="martin-basti-114">
+<span id="id21"></span><h2>Martin Bašti (114)<a class="headerlink" href="#martin-basti-114" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Dogtag 10.2 to spec.file</p></li>
+<li><p>Fix dns zonemgr validation regression</p></li>
+<li><p>Add bind-dyndb-ldap working dir to IPA specfile</p></li>
+<li><p>Fix CI tests: install_adtrust</p></li>
+<li><p>Fix upgrade: do not use invalid ldap connection</p></li>
+<li><p>Fix: DNS installer adds invalid zonemgr email</p></li>
+<li><p>Fix: DNS policy upgrade raises asertion error</p></li>
+<li><p>Fix upgrade referint plugin</p></li>
+<li><p>Upgrade: fix trusts objectclass violationi</p></li>
+<li><p>Fix named working directory permissions</p></li>
+<li><p>Fix: zonemgr must be unicode value</p></li>
+<li><p>Fix warning message should not contain CLI commands</p></li>
+<li><p>Show warning instead of error if CA did not start</p></li>
+<li><p>Raise right exception if domain name is not valid</p></li>
+<li><p>Fix pk11helper module compiler warnings</p></li>
+<li><p>Fix: read_ip_addresses should return ipaddr object</p></li>
+<li><p>Fix detection of encoding in zonemgr option</p></li>
+<li><p>Fix zonemgr option encoding detection</p></li>
+<li><p>Throw zonemgr error message before installation proceeds</p></li>
+<li><p>Upgrade fix: masking named should be executed only once</p></li>
+<li><p>Using wget to get status of CA</p></li>
+<li><p>Show SSHFP record containing space in fingerprint</p></li>
+<li><p>Fix don’t check certificate during getting CA status</p></li>
+<li><p>Fix: Upgrade forwardzones zones after adding newer replica</p></li>
+<li><p>Fix zone find during forwardzone upgrade</p></li>
+<li><p>Fix traceback if zonemgr error contains unicode</p></li>
+<li><p>DNS tests: separate current forward zone tests</p></li>
+<li><p>New test cases for Forward_zones</p></li>
+<li><p>Detect and warn about invalid DNS forward zone configuration</p></li>
+<li><p>DNS tests: warning if forward zone is inactive</p></li>
+<li><p>Add debug messages into client autodetection</p></li>
+<li><p>DNSSEC catch ldap exceptions in ipa-dnskeysyncd</p></li>
+<li><p>DNSSEC: fix root zone dns name conversion</p></li>
+<li><p>Always return absolute idnsname in dnszone commands</p></li>
+<li><p>Use dyndns_update instead of deprecated sssd option</p></li>
+<li><p>Fix reference counting in pkcs11 extension</p></li>
+<li><p>Prevent install scripts fail silently if timeout exceeded</p></li>
+<li><p>Fix warning message on client side</p></li>
+<li><p>Fix restoring services status during uninstall</p></li>
+<li><p>Fix do not enable service before storing status</p></li>
+<li><p>Uninstall configured services only</p></li>
+<li><p>Fix saving named restore status</p></li>
+<li><p>Migrate uniquess plugins configuration to new style</p></li>
+<li><p>Fix uniqueness plugins</p></li>
+<li><p>DNSSEC add support for CKM_RSA_PKCS_OAEP mechanism</p></li>
+<li><p>Fix memory leaks in ipap11helper</p></li>
+<li><p>Remove unused method from ipap11pkcs helper module</p></li>
+<li><p>Remove unused disable-betxn.ldif file</p></li>
+<li><p>DNS fix: do not traceback if unsupported records are in LDAP</p></li>
+<li><p>DNS fix: do not show part options for unsupported records</p></li>
+<li><p>DNS: remove NSEC3PARAM from records</p></li>
+<li><p>Fix dead code in ipap11helper module</p></li>
+<li><p>Server Upgrade: Remove unused PRE_SCHEMA_UPDATE</p></li>
+<li><p>Server Upgrade: do not sort updates by DN</p></li>
+<li><p>Server Upgrade: Upgrade one file per time</p></li>
+<li><p>Server Upgrade: Set modified to false, before each update</p></li>
+<li><p>Server Upgrade: Update entries in order specified in file</p></li>
+<li><p>Server Upgrade: order update files by default</p></li>
+<li><p>Server Upgrade: respect –test option in plugins</p></li>
+<li><p>Server Upgrade: remove –test option</p></li>
+<li><p>Server Upgrade: Fix comments</p></li>
+<li><p>DNSSEC: Do not log into files</p></li>
+<li><p>Fix ldap2 shared connection</p></li>
+<li><p>Server Upgrade: use only LDAPI connection</p></li>
+<li><p>Server Upgrade: remove unused code in upgrade</p></li>
+<li><p>Server Upgrade: Apply plugin updates immediately</p></li>
+<li><p>Server Upgrade: specify order of plugins in update files</p></li>
+<li><p>Server Upgrade: plugins should use ldapupdater API instance</p></li>
+<li><p>Server Upgrade: Handle connection better in updates_from_dict</p></li>
+<li><p>Server Upgrade: use ldap2 connection in fix_replica_agreements</p></li>
+<li><p>Server Upgrade: restart DS using ipaplatfom service</p></li>
+<li><p>Server Upgrade: only root can run updates</p></li>
+<li><p>DNSSEC CI tests</p></li>
+<li><p>ipa client: make –ntp-server option multivalued</p></li>
+<li><p>ipa client: use NTP servers detected from SRV</p></li>
+<li><p>ipa client: use NTP servers specified by user</p></li>
+<li><p>Server Upgrade: ipa-server-upgrade command</p></li>
+<li><p>Server Upgrade: Verify version and platform</p></li>
+<li><p>Server Upgrade: use ipa-server-upgrade in RPM upgrade</p></li>
+<li><p>Server Upgrade: fix a comment in ldapupdater</p></li>
+<li><p>move realm_to_serverid to installutils module</p></li>
+<li><p>Server Upgrade: use LDIF parser to modify DSE.ldif</p></li>
+<li><p>Server Upgrade: enable DS global lock during upgrade</p></li>
+<li><p>Server Upgrade: remove CSV from upgrade files</p></li>
+<li><p>Server Upgrade: Allow base64 encoded values</p></li>
+<li><p>Server Upgrade: fix memberUid index</p></li>
+<li><p>Dont use the proxy to check CA status</p></li>
+<li><p>Server Upgrade: Do not start DS if it was stopped before upgrade</p></li>
+<li><p>Server Upgrade: raise RuntimeError instead exit()</p></li>
+<li><p>Server Upgrade: do not allow to run upgradeinstace alone</p></li>
+<li><p>Server Upgrade: handle errors better</p></li>
+<li><p>Server Upgrade: ipa-ldap-updater will not do overall upgrade</p></li>
+<li><p>Server Upgrade: Fix uniqueness plugins</p></li>
+<li><p>DNSSEC: FIX Do not re-create kasp.db if already exists</p></li>
+<li><p>DNSSEC: update OpenDNSSEC KASP configuration</p></li>
+<li><p>DNS install: extract DNS installer into one module</p></li>
+<li><p>Pylint: fix false positive warning for domain</p></li>
+<li><p>Uid uniqueness: fix: exclude compat tree from uniqueness</p></li>
+<li><p>Server Upgrade: wait until DS is ready</p></li>
+<li><p>Server Upgrade: Fix: execute schema update</p></li>
+<li><p>Server Upgrade: Move code from ipa-upgradeconfig to separate module</p></li>
+<li><p>Fix: use DS socket check only for upgrade</p></li>
+<li><p>Server Upgrade: fix remove statement</p></li>
+<li><p>Installers fix: remove temporal ccache</p></li>
+<li><p>ULC: fix: upgrade for stage Stage User Admins failed</p></li>
+<li><p>Fix: regression in host and service plugin</p></li>
+<li><p>DNSSEC: Improve global forwarders validation</p></li>
+<li><p>DNSSEC: validate forward zone forwarders</p></li>
+<li><p>Revert 389-DS BuildRequires version to 1.3.3.9</p></li>
+<li><p>DNSSEC: fix traceback during shutdown phase</p></li>
+<li><p>Server Upgrade: disconnect ldap2 connection before DS restart</p></li>
+<li><p>DNS: add UnknownRecord to schema</p></li>
+<li><p>ipa-ca-install fix: reconnect ldap2 after DS restart</p></li>
+<li><p>Server Upgrade: create default config for NIS Server plugin</p></li>
+</ul>
+</section>
+<section id="martin-kosek-11">
+<span id="id22"></span><h2>Martin Košek (11)<a class="headerlink" href="#martin-kosek-11" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Fix ImportError in ipa-ca-install</p></li>
+<li><p>Bump SSSD Requires to 1.12.3</p></li>
+<li><p>Fix IPA_BACKUP_DIR path name</p></li>
+<li><p>Allow PassSync user to locate and update NT users</p></li>
+<li><p>Allow Replication Administrators manipulate Winsync Agreements</p></li>
+<li><p>Replication Administrators cannot remove replication agreements</p></li>
+<li><p>Add anonymous read ACI for DUA profile</p></li>
+<li><p>Print PublicError traceback when in debug mode</p></li>
+<li><p>group-detach does not add correct objectclasses</p></li>
+<li><p>Remove references to GPL v2.0 license</p></li>
+<li><p>Fix typo in ipa-server-upgrade man page</p></li>
+</ul>
+</section>
+<section id="milan-kubik-1">
+<span id="id23"></span><h2>Milan Kubik (1)<a class="headerlink" href="#milan-kubik-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: port of p11helper test from github</p></li>
+</ul>
+</section>
+<section id="id24">
+<span id="id25"></span><h2>Milan Kubík (1)<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Abstract the HostTracker class from host plugin test</p></li>
+</ul>
+</section>
+<section id="nathan-kinder-2">
+<span id="id26"></span><h2>Nathan Kinder (2)<a class="headerlink" href="#nathan-kinder-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Timeout when performing time sync during client install</p></li>
+<li><p>Skip time sync during client install when using –no-ntp</p></li>
+</ul>
+</section>
+<section id="nathaniel-mccallum-15">
+<span id="id27"></span><h2>Nathaniel McCallum (15)<a class="headerlink" href="#nathaniel-mccallum-15" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Ensure that a password exists after OTP validation</p></li>
+<li><p>Improve otptoken help messages</p></li>
+<li><p>Ensure users exist when assigning tokens to them</p></li>
+<li><p>Enable QR code display by default in otptoken-add</p></li>
+<li><p>Catch USBError during YubiKey location</p></li>
+<li><p>Preliminary refactoring of libotp files</p></li>
+<li><p>Move authentication configuration cache into libotp</p></li>
+<li><p>Enable last token deletion when password auth type is configured</p></li>
+<li><p>Make token auth and sync windows configurable</p></li>
+<li><p>Create an OTP help topic</p></li>
+<li><p>Prefer TCP connections to UDP in krb5 clients</p></li>
+<li><p>Expose the disabled User Auth Type</p></li>
+<li><p>Update python-yubico dependency version</p></li>
+<li><p>Fix a signedness bug in OTP code</p></li>
+<li><p>Fix OTP token URI generation</p></li>
+</ul>
+</section>
+<section id="petr-viktorin-35">
+<span id="id28"></span><h2>Petr Viktorin (35)<a class="headerlink" href="#petr-viktorin-35" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipa-restore: Don’t crash if AD trust is not installed</p></li>
+<li><p>ipaplatform: Use the dirsrv service, not target</p></li>
+<li><p>Do not restore SELinux settings that were not backed up</p></li>
+<li><p>Add additional backup &amp; restore checks</p></li>
+<li><p>tests: Use PEP8-compliant setup/teardown method names</p></li>
+<li><p>tests: Add configuration for pytest</p></li>
+<li><p>ipatests.util.ClassChecker: Raise AttributeError in get_subcls</p></li>
+<li><p>test_automount_plugin: Fix test ordering</p></li>
+<li><p>Use setup_class/teardown_class in Declarative tests</p></li>
+<li><p>dogtag plugin: Don’t use doctest syntax for non-doctest examples</p></li>
+<li><p>test_webui: Don’t use __init__ for test classes</p></li>
+<li><p>test_ipapython: Use functions instead of classes in test generators</p></li>
+<li><p>Configure pytest to run doctests</p></li>
+<li><p>Declarative tests: Move cleanup to setup_class/teardown_class</p></li>
+<li><p>Declarative tests: Switch to pytest</p></li>
+<li><p>Integration tests: Port the ordering plugin to pytest</p></li>
+<li><p>Switch make-test to pytest</p></li>
+<li><p>Add local pytest plugin for –with-xunit and –logging-level</p></li>
+<li><p>Switch ipa-run-tests to pytest</p></li>
+<li><p>Switch integration testing config to a fixture</p></li>
+<li><p>Integration tests: Port the BeakerLib plugin and log collection to
+pytest</p></li>
+<li><p>test_integration: Adjust tests for pytest</p></li>
+<li><p>copy_schema_to_ca: Fallback to old import location for
+ipaplatform.services</p></li>
+<li><p>Ignore ipap11helper/setup.py in doctests</p></li>
+<li><p>test_integration: Use python-pytest-multihost</p></li>
+<li><p>test_integration: Use collect_log from the host, not the testing
+class</p></li>
+<li><p>test_integration: Parametrize test instead of using a generator</p></li>
+<li><p>ipatests: Use pytest-beakerlib</p></li>
+<li><p>ipatests: Use pytest-sourceorder</p></li>
+<li><p>Run pylint on tests</p></li>
+<li><p>test_host_plugin: Convert tests to imperative style</p></li>
+<li><p>test_host_plugin: Split tests into independent classes</p></li>
+<li><p>test_host_plugin: Use HostTracker fixtures</p></li>
+<li><p>rename_managed: Remove use of EditableDN</p></li>
+<li><p>Remove Editable DN and DN component classes</p></li>
+</ul>
+</section>
+<section id="petr-vobornik-88">
+<span id="id29"></span><h2>Petr Voborník (88)<a class="headerlink" href="#petr-vobornik-88" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>build: increase java stack size for all arches</p></li>
+<li><p>ranges: prohibit setting –rid-base with ipa-trust-ad-posix type</p></li>
+<li><p>unittests: baserid for ipa-ad-trust-posix idranges</p></li>
+<li><p>ldapupdater: set baserid to 0 for ipa-ad-trust-posix ranges</p></li>
+<li><p>idrange: include raw range type in output</p></li>
+<li><p>webui: prohibit setting rid base with ipa-trust-ad-posix type</p></li>
+<li><p>webui: fix potential XSS vulnerabilities</p></li>
+<li><p>restore: clear httpd ccache after restore</p></li>
+<li><p>webui: use domain name instead of domain SID in idrange adder dialog</p></li>
+<li><p>webui: normalize idview tab labels</p></li>
+<li><p>webui: add radius fields to user page</p></li>
+<li><p>fix indentation in ipa-restore page</p></li>
+<li><p>add –hosts and –hostgroup options to allow/retrieve keytab methods</p></li>
+<li><p>webui: fix service unprovisioning</p></li>
+<li><p>webui: increase duration of notification messages</p></li>
+<li><p>revert removal of cn attribute from idnsRecord</p></li>
+<li><p>migrate-ds: fix compat plugin check</p></li>
+<li><p>rpcclient: use json_encode_binary for verbose output</p></li>
+<li><p>Fix TOTP Synchronization Window label</p></li>
+<li><p>ipatests: add missing ssh object classes to idoverrideuser</p></li>
+<li><p>webui: service: add ipakrbrequirespreauth checkbox</p></li>
+<li><p>webui: unable to select single value in CB by enter key</p></li>
+<li><p>webui: use no_members option in entity select search</p></li>
+<li><p>performance: faster DN implementation</p></li>
+<li><p>speed up convert_attribute_members</p></li>
+<li><p>speed up indirect member processing</p></li>
+<li><p>webui: add pwpolicy link to group details page if group has
+associated pwpolicy</p></li>
+<li><p>webui-ci: do not open 2 browser windows</p></li>
+<li><p>Update BUILD.txt</p></li>
+<li><p>allow to call ldap2.destroy_connection multiple times</p></li>
+<li><p>use Connectible.disconnect() instead of .destroy_connection()</p></li>
+<li><p>jQuery.ordered_map: faster creation</p></li>
+<li><p>jQuery.ordered_map: remove map attribute</p></li>
+<li><p>migrate-ds: optimize adding users to default group</p></li>
+<li><p>migrate-ds: skip default group option</p></li>
+<li><p>migrate-ds: remove unused def_group_gid context property</p></li>
+<li><p>migrate-ds: optimize gid checks by utilizing dictionary nature of set</p></li>
+<li><p>migrate-ds: log migrated group members only on debug level</p></li>
+<li><p>cli: differentiate Flag a Bool when autofill is set</p></li>
+<li><p>webui-ci: fix type error in host_tasks inicializations</p></li>
+<li><p>webui: update patternfly to v1.1.4</p></li>
+<li><p>webui: rename <a href="#id37"><span class="problematic" id="id38">IPA.user_</span></a>* to IPA.user.*</p></li>
+<li><p>webui: declare search command options in search facet</p></li>
+<li><p>webui: register construction spec based on existing spec</p></li>
+<li><p>webui: entity facets in facet registry</p></li>
+<li><p>webui: entity menu items navigate to main entity facet</p></li>
+<li><p>webui: prefer entity fallback in menu item select</p></li>
+<li><p>webui: navigation: do not remember selected childs of menu item</p></li>
+<li><p>webui: navigation: unique names on entity facet menu items</p></li>
+<li><p>webui: metadata validator min and max value overrides</p></li>
+<li><p>webui: custom facet groups in a facet</p></li>
+<li><p>webui: facet groups widget</p></li>
+<li><p>webui: allow to replace facet tabs with sidebar</p></li>
+<li><p>webui: allow to hide facet tabs or sidebar</p></li>
+<li><p>webui: facet policies for all facets</p></li>
+<li><p>webui: stageuser plugin</p></li>
+<li><p>webui: extend user deleter dialog with –permanent and –preserve
+options</p></li>
+<li><p>webui: update stageuser/user pages based on action in diffrent user
+search page</p></li>
+<li><p>webui: stageusers, display page elements based on user state</p></li>
+<li><p>webui: prefer search facet’s deleter dialog</p></li>
+<li><p>webui: fix empty table border in Firefox</p></li>
+<li><p>webui: option to not create user private group</p></li>
+<li><p>webui: add boostrap-datepicker files</p></li>
+<li><p>webui: datetime widget with datepicker</p></li>
+<li><p>git ignore ipaplatform/__init__.py</p></li>
+<li><p>server-find and server-show commands</p></li>
+<li><p>topology: ipa management commands</p></li>
+<li><p>webui: IPA.command_dialog - a new dialog base class</p></li>
+<li><p>webui: use command_dialog as a base class for password dialog</p></li>
+<li><p>webui: make usage of –all in details facet optional</p></li>
+<li><p>webui: topology plugin</p></li>
+<li><p>webui: configurable refresh command</p></li>
+<li><p>webui: don’t log in back after logout</p></li>
+<li><p>topology: allow only one node to be specified in
+topologysegment-refresh</p></li>
+<li><p>topology: hide topologysuffix-add del mod commands</p></li>
+<li><p>move replications managers group to cn=sysaccounts,cn=etc,$SUFFIX</p></li>
+<li><p>add entries required by topology plugin on update</p></li>
+<li><p>webui: make topology suffices UI readonly</p></li>
+<li><p>rename topologysegment_refresh to topologysegment_reinitialize</p></li>
+<li><p>disallow mod of topology segment nodes</p></li>
+<li><p>topology: restrict direction changes</p></li>
+<li><p>topology: fix swapped topologysegment-reinitialize behavior</p></li>
+<li><p>regenerate ACI.txt after stage user permission rename</p></li>
+<li><p>ipa-replica-manage: Do not allow topology altering commands from DL 1</p></li>
+<li><p>server: add “del” command</p></li>
+<li><p>ipa-replica-manage: adjust del to work with managed topology</p></li>
+<li><p>webui: adjust user deleter dialog to new api</p></li>
+<li><p>Become IPA 4.2.0 Alpha 1</p></li>
+</ul>
+</section>
+<section id="petr-spacek-15">
+<span id="id30"></span><h2>Petr Špaček (15)<a class="headerlink" href="#petr-spacek-15" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Fix zone name to directory name conversion in BINDMgr.</p></li>
+<li><p>Fix minimal version of BIND for Fedora 20 and 21</p></li>
+<li><p>Fix default value type for wait_for_dns option</p></li>
+<li><p>p11helper: standardize indentation and other visual aspects of the
+code</p></li>
+<li><p>p11helper: use sizeof() instead of magic constants</p></li>
+<li><p>p11helper: clarify error message</p></li>
+<li><p>Clarify messages related to adding DNS forwarders</p></li>
+<li><p>Grammar fix in ‘Estimated time’ messages printed by installer</p></li>
+<li><p>Clarify host name output in ipa-client-install</p></li>
+<li><p>Update PKCS#11 mechanism constants for AES key wrapping to PKCS#11
+v2.40.</p></li>
+<li><p>DNSSEC: Detect zone shadowing with incorrect DNSSEC signatures.</p></li>
+<li><p>Bump run-time requires to SoftHSM 2.0.0rc1.</p></li>
+<li><p>Improve error messages about reverse address resolution in
+ipa-replica-prepare</p></li>
+<li><p>Clarify recommendation about –ip-address option in
+ipa-replica-prepapre</p></li>
+<li><p>Clarify error messages in ipa-replica-prepare: add_dns_records()</p></li>
+</ul>
+</section>
+<section id="rob-crittenden-3">
+<span id="id31"></span><h2>Rob Crittenden (3)<a class="headerlink" href="#rob-crittenden-3" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Search using proper scope when connecting CA instances</p></li>
+<li><p>Use NSS protocol range API to set available TLS protocols</p></li>
+<li><p>Add plugin to manage service constraint delegations</p></li>
+</ul>
+</section>
+<section id="simo-sorce-13">
+<span id="id32"></span><h2>Simo Sorce (13)<a class="headerlink" href="#simo-sorce-13" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add UTC date to GIT snapshot version generation</p></li>
+<li><p>Fix filtering of enctypes in server code.</p></li>
+<li><p>Add asn1c generated code for keytab controls</p></li>
+<li><p>Use asn1c helpers to encode/decode the getkeytab control</p></li>
+<li><p>Stop saving the master key in a stash file</p></li>
+<li><p>Avoid calling ldap functions without a context</p></li>
+<li><p>Remove the removal of the ccache</p></li>
+<li><p>Handle DAL ABI change in MIT 1.13</p></li>
+<li><p>Add a clear OpenSSL exception.</p></li>
+<li><p>Stop including the DES algorythm from openssl.</p></li>
+<li><p>Detect default encsalts kadmin password change</p></li>
+<li><p>Add compatibility function for older libkrb5</p></li>
+<li><p>Fix s4u2proxy README and add warning</p></li>
+</ul>
+</section>
+<section id="sumit-bose-11">
+<span id="id33"></span><h2>Sumit Bose (11)<a class="headerlink" href="#sumit-bose-11" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipa-range-check: do not treat missing objects as error</p></li>
+<li><p>Add configure check for cwrap libraries</p></li>
+<li><p>extdom: handle ERANGE return code for getXXYYY_r() calls</p></li>
+<li><p>extdom: make nss buffer configurable</p></li>
+<li><p>extdom: return LDAP_NO_SUCH_OBJECT to the client</p></li>
+<li><p>extdom: fix memory leak</p></li>
+<li><p>extdom: add err_msg member to request context</p></li>
+<li><p>extdom: add add_err_msg() with test</p></li>
+<li><p>extdom: add selected error messages</p></li>
+<li><p>extdom: migrate check-based test to cmocka</p></li>
+<li><p>extdom: fix wrong realloc size</p></li>
+</ul>
+</section>
+<section id="thierry-bordaz-16">
+<span id="id34"></span><h2>Thierry Bordaz (16)<a class="headerlink" href="#thierry-bordaz-16" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>User Life Cycle: create containers and scoping DS plugins</p></li>
+<li><p>User Life Cycle: DNA scopes full SUFFIX</p></li>
+<li><p>Deadlock in schema compat plugin (between
+automember_update_membership task and dse update)</p></li>
+<li><p>User Life Cycle: Exclude subtree for ipaUniqueID generation</p></li>
+<li><p>User life cycle: stageuser-add verb</p></li>
+<li><p>User life cycle: allows MODRDN from ldap2</p></li>
+<li><p>User life cycle: new stageuser commands del/mod/find/show</p></li>
+<li><p>User life cycle: new stageuser commands activate</p></li>
+<li><p>User life cycle: new stageuser commands activate (provisioning)</p></li>
+<li><p>User life cycle: user-del supports –permanently, –preserve options
+and ability to delete deleted user</p></li>
+<li><p>User life cycle: user-find support finding delete users</p></li>
+<li><p>User life cycle: support of user-undel</p></li>
+<li><p>User life cycle: DNA DS plugin should exclude provisioning DIT</p></li>
+<li><p>User life cycle: Stage user Administrators permission/priviledge</p></li>
+<li><p>User life cycle: Add ‘Stage User Provisioning’ permission/priviledge</p></li>
+<li><p>Stage User: Fix permissions naming and split them where apropriate.</p></li>
+<li><p>Limit deadlocks between DS plugin DNA and slapi-nis</p></li>
+</ul>
+</section>
+<section id="thorsten-scherf-4">
+<span id="id35"></span><h2>Thorsten Scherf (4)<a class="headerlink" href="#thorsten-scherf-4" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>pwpolicy-add: Added better error handling</p></li>
+<li><p>Add help string on how to configure multiple DNS forwards for various
+cli tools</p></li>
+<li><p>Removed recommendation from ipa-adtrust-install</p></li>
+<li><p>Changed in-tree development setup instructions</p></li>
+</ul>
+</section>
+<section id="tomas-babej-24">
+<span id="id36"></span><h2>Tomáš Babej (24)<a class="headerlink" href="#tomas-babej-24" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Bump 4.2 development version to 4.1.99</p></li>
+<li><p>specfile: Add BuildRequires for pki-base 10.2.1-0</p></li>
+<li><p>Re-initialize NSS database after otptoken plugin tests</p></li>
+<li><p>certs: Fix incorrect flag handling in load_cacert</p></li>
+<li><p>hosts: Display assigned ID view by default in host-find and show
+commands</p></li>
+<li><p>ipatests: Increase required version for pytest-multihost plugin</p></li>
+<li><p>idviews: Complain if host is already assigned the ID View in
+idview-apply</p></li>
+<li><p>idviews: Ignore host or hostgroup options set to None</p></li>
+<li><p>ipatests: Invoke class install methods properly with respect to
+pytest-multihost</p></li>
+<li><p>ipatests: Set the correct number of required clients for
+IntegrationTest</p></li>
+<li><p>ipatests: Refactor and fix docstrings in integration pytest plugin</p></li>
+<li><p>baseldap: Handle missing parent objects properly in *-find commands</p></li>
+<li><p>spec: Add BuildRequires for python-pytest plugins</p></li>
+<li><p>ipatests: Make descriptions sorted according to the order of the
+tests</p></li>
+<li><p>ipatests: Add coverage for referential integrity plugin applied on
+ipaAssignedIDView</p></li>
+<li><p>ipatests: Fix old command references in the ID views tests</p></li>
+<li><p>ipatests: Fix incorrect assumptions in idviews tests</p></li>
+<li><p>ipapython: Fix incorrect python shebangs</p></li>
+<li><p>ipatests: Add coverage for adding and removing sshpubkeys in ID
+overrides</p></li>
+<li><p>ipalib: Make sure correct attribute name is referenced for fax</p></li>
+<li><p>idviews: Use case-insensitive detection of Default Trust View</p></li>
+<li><p>Revert “Server Upgrade: respect –test option in plugins”</p></li>
+<li><p>replica-manage: Properly delete nested entries</p></li>
+<li><p>Add Domain Level feature</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Releases/4.2.0.alpha1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

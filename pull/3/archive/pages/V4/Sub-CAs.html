@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Test Plan" href="Sudo_Integration.html" />
+    <link rel="prev" title="Overview" href="Smartcard_authentication_ipa-advise_recipes.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA’s usefulness and appeal as a PKI is currently limited by the
+fact that there is a single X.509 security domain. Any certificate
+issued by FreeIPA is signed by the single authority, regardless of
+purpose.</p>
+<p>FreeIPA requires a mechanism to issues certificates with different
+certification chains, so that certificates issues for some particular
+use (e.g. Puppet, VPN authentication, DNP3) can be regarded as invalid
+for other uses.</p>
+<p>Dogtag’s <a class="reference external" href="http://pki.fedoraproject.org/wiki/Lightweight_sub-CAs">lightweight
+sub-CAs</a>
+feature will provide the foundation for supporting multiple sub-CAs in
+FreeIPA. This feature will provide:</p>
+<ul class="simple">
+<li><p>an API for creating and administering sub-CAs <em>within</em> a CA subsystem
+instance;</p></li>
+<li><p>an augmented certificate request API for directing certificate
+requests to a particular CA or sub-CA within the instance.</p></li>
+</ul>
+<p>FreeIPA will use these APIs to provide facilities for the creation and
+administration of sub-CAs, and the issuance of certificates from those
+CAs.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<section id="user-certificates">
+<span id="id1"></span><h2>User certificates<a class="headerlink" href="#user-certificates" title="Permalink to this heading">¶</a></h2>
+<p>There are many use cases for issuing certificates to user
+entities/principals from a sub-CA. The sub-CA acts as a “scope”
+indicating a particular intent or authorization for certificates issued
+by the sub-CA, and the sub-CA’s signing certificate can be used to
+validate certificates issued in that scope (rejecting others). Some of
+these use cases are detailed below.</p>
+<section id="vpn-authentication">
+<span id="id2"></span><h3>VPN authentication<a class="headerlink" href="#vpn-authentication" title="Permalink to this heading">¶</a></h3>
+<p>A FreeIPA-based tool could be implemented to request short-lived user
+certificates for the purpose of VPN authentication. It would be
+inappropriate to accept as valid any client certificate issued by the
+host CA, so a sub-CA specifically for VPN authentication should be
+created for this purpose. The certificate-issuing tool would direct
+certificates signing requests to the VPN sub-CA.</p>
+<p>A CLI command could be issued to retrieve the VPN CA’s signing
+certificate, and/or register it in a local security database, and the
+user will configure the VPN server to use that CA certificate for client
+certificate verification.</p>
+</section>
+</section>
+<section id="puppet">
+<h2>Puppet<a class="headerlink" href="#puppet" title="Permalink to this heading">¶</a></h2>
+<p>A <a class="reference external" href="http://jcape.name/2012/01/16/using-the-freeipa-pki-with-puppet/">blog
+post</a>
+about using FreeIPA as an external Puppet PKI comments that:</p>
+<blockquote>
+<div><p>On the downside, there is the issue of security. FreeIPA out of the
+box only supports a single toplevel CA, which means that all your
+certificates (IPA host certs, puppet certs, Website certs, etc.) are
+all in a single security domain - there’s no built-in way to restrict
+this access to puppet. Users can’t invent certs, of course, but any
+cert with the right hostname can be used to authenticate to puppet,
+because they share the same trust hierarchy.</p>
+</div></blockquote>
+<p>The proposed feature will remove this shortcoming of FreeIPA (which
+applies not only to Puppet but in many situations.)</p>
+</section>
+<section id="default-sub-cas-for-host-service-and-user-certificates">
+<span id="id3"></span><h2>Default sub-CAs for host, service and user certificates<a class="headerlink" href="#default-sub-cas-for-host-service-and-user-certificates" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA user Baptiste Agasse requested having separate domains for host
+and user certificates by default:</p>
+<blockquote>
+<div><p>Hosts in FreeIPA can have an X.509 certificate for the host
+principal; you don’t have to create any service on the host to
+request this certificate. If the security domains land in FreeIPA, it
+would be nice to have some default security domains, like one that
+sign hosts certificates by default, and why not another that sign
+user certificates by default.</p>
+</div></blockquote>
+<p>This use case is not directly addressed by this design but because this
+design makes it possible to do what was suggested, it is included for
+completeness.</p>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this heading">¶</a></h2>
+<dl class="simple">
+<dt><em>sub-CA</em></dt><dd><p>A lightweight sub-CA in the Dogtag CA instance, and its
+representation in FreeIPA.</p>
+</dd>
+<dt><em>lightweight CA</em></dt><dd><p>A lightweight CA in the Dogtag CA instance. This terminology is
+sometimes used where the topic applies to all lightweight CAs, which
+in the future may include CAs that are not chained to the IPA CA.</p>
+</dd>
+<dt><em>top-level CA</em> or <em>host CA</em></dt><dd><p>The top-level CA in the Dogtag CA subsystem, as distinct from any of
+its sub-CAs. In the FreeIPA context, this is sometimes called the
+<em>IPA CA</em>. It may or may not be a self-signed CA.</p>
+</dd>
+<dt><em>FreeIPA-managed CA</em></dt><dd><p>A CA or sub-CA that was created by or via FreeIPA and has an
+associated object in the FreeIPA directory, as distinct from a CA
+existing in Dogtag of which FreeIPA has no knowledge.</p>
+</dd>
+</dl>
+</section>
+<section id="high-level-design-considerations">
+<span id="id4"></span><h2>High-level design considerations<a class="headerlink" href="#high-level-design-considerations" title="Permalink to this heading">¶</a></h2>
+<section id="nested-sub-cas">
+<span id="id5"></span><h3>Nested sub-CAs<a class="headerlink" href="#nested-sub-cas" title="Permalink to this heading">¶</a></h3>
+<p>Nested sub-CAs (that is, more than a single level of sub-CAs beneath the
+primary CA in a Dogtag instance) are not an initial requirement,
+however, the schema and other aspects of the FreeIPA feature should take
+into account the possibility of nested sub-CAs as a future requirement.</p>
+</section>
+<section id="externally-signed-and-self-signed-lightweight-cas">
+<span id="id6"></span><h3>Externally signed and self-signed lightweight CAs<a class="headerlink" href="#externally-signed-and-self-signed-lightweight-cas" title="Permalink to this heading">¶</a></h3>
+<p>Initially all sub-CAs will be children of the host CA, but the sub-CAs
+feature should be designed for the possible future requirement of
+supporting multiple independent trust chains. Additional work will be
+required in Dogtag to support these use cases.</p>
+<section id="externally-signed-lightweight-cas">
+<span id="id7"></span><h4>Externally signed lightweight CAs<a class="headerlink" href="#externally-signed-lightweight-cas" title="Permalink to this heading">¶</a></h4>
+<p>We would support partial creation of the CA to generate the key in the
+NSSDB and yield a Certificate Signing Request (CSR) for submission to
+the external CA. The signed certificate would then be imported to
+complete the process.</p>
+<p>Alternatively, we could simply accept a certificate and private signing
+key (e.g. in PKCS #12 format). This approach is not mutually exclusive
+with the other - they can both be supported.</p>
+<p>The “upstream” root certificate and intermediate CA certificates would
+be stored in LDAP for distribution to clients, with the IPA CA having an
+<code class="docutils literal notranslate"><span class="pre">ipaKeyTrust</span></code> value of <code class="docutils literal notranslate"><span class="pre">trusted</span></code> (see <a class="reference external" href="http://www.freeipa.org/page/V4/CA_certificate_renewal">CA certificate
+renewal</a>).</p>
+</section>
+<section id="self-signed-lightweight-cas">
+<span id="id8"></span><h4>Self-signed lightweight CAs<a class="headerlink" href="#self-signed-lightweight-cas" title="Permalink to this heading">¶</a></h4>
+<p>In this case, FreeIPA causes Dogtag to generate a new self-signed (root)
+CA. The CA certificate would be stored in LDAP for distribution to
+clients, having an <code class="docutils literal notranslate"><span class="pre">ipaKeyTrust</span></code> value of <code class="docutils literal notranslate"><span class="pre">trusted</span></code>.</p>
+</section>
+</section>
+<section id="ca-discovery">
+<span id="id9"></span><h3>CA discovery<a class="headerlink" href="#ca-discovery" title="Permalink to this heading">¶</a></h3>
+<p>Lightweight CAs created directly in Dogtag <strong>will not be discovered</strong> by
+FreeIPA. FreeIPA-managed and non-FreeIPA-managed CAs can coexist in
+Dogtag but FreeIPA will not be aware of CAs it did not create (other
+than the host authority).</p>
+</section>
+</section>
+<section id="ca-plugin">
+<span id="id10"></span><h2><code class="docutils literal notranslate"><span class="pre">ca</span></code> plugin<a class="headerlink" href="#ca-plugin" title="Permalink to this heading">¶</a></h2>
+<p>Lightweight CAs, in addition to having a representation within the
+Dogtag deployment, have a representation in the FreeIPA directory, for
+several reasons:</p>
+<ul class="simple">
+<li><p>Provides a layer of indirection that can include user-friendly names
+and descriptions for the CA.</p></li>
+<li><p>Allows the “friendly name” to be changed in FreeIPA without changing
+anything in Dogtag.</p></li>
+<li><p>Provides the opportunity to extend the object with additional
+metadata that pertains only to FreeIPA, as deemed important.</p></li>
+<li><p>Provides an object that can be referenced in CA ACLs.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">ca</span></code> plugin defines these objects and the CRUD commands for
+finding, creating, modifying and deleting lightweight CAs.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ca</span></code> plugin also provides an entry for the host authority, for
+consistency and to allow CA ACLs to explicitly reference the IPA CA. The
+entry for the host authority is automatically added on installation or
+upgrade.</p>
+<section id="certificate-parameters">
+<span id="id11"></span><h3>Certificate parameters<a class="headerlink" href="#certificate-parameters" title="Permalink to this heading">¶</a></h3>
+<section id="keygen-parameters">
+<span id="id12"></span><h4>Keygen parameters<a class="headerlink" href="#keygen-parameters" title="Permalink to this heading">¶</a></h4>
+<p>Initially, 2048-bit RSA keys shall be supported. Later work will
+implement the ability to specify key sizes and types when creating
+lightweight CAs.</p>
+</section>
+<section id="subject-distinguished-name">
+<span id="id13"></span><h4>Subject Distinguished Name<a class="headerlink" href="#subject-distinguished-name" title="Permalink to this heading">¶</a></h4>
+<p>The Subject DN is user-specified and used as-is.</p>
+</section>
+<section id="validity">
+<h4>Validity<a class="headerlink" href="#validity" title="Permalink to this heading">¶</a></h4>
+<p>The default validity period of the Dogtag <code class="docutils literal notranslate"><span class="pre">caCAcert</span></code> profile shall be
+used (10 years).</p>
+<p>Future work could enable the use of different profiles for lightweight
+CA creation and/or allow direct control of the validity period.</p>
+</section>
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h3>
+<p>CA objects shall be stored in the container <code class="docutils literal notranslate"><span class="pre">cn=cas,cn=ca,$SUFFIX</span></code> and
+shall have the object classes <code class="docutils literal notranslate"><span class="pre">ipaCa</span></code> (defined below). They shall be
+distinguished by <code class="docutils literal notranslate"><span class="pre">cn</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>objectClasses: (2.16.840.1.113730.3.8.21.2.3
+  NAME &#39;ipaCa&#39;
+  SUP top STRUCTURAL
+  MUST ( cn $ ipaCaId $ ipaCaSubjectDN $ ipaCaIssuerDN )
+  MAY description
+  X-ORIGIN &#39;IPA v4.4 Lightweight CAs&#39; )
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipaCaId</span></code> attribute shall store the Dogtag Authority ID of a
+lightweight CA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attributeTypes</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.16.840.1.113730.3.8.21.1.6</span>
+  <span class="n">NAME</span> <span class="s1">&#39;ipaCaId&#39;</span> <span class="n">DESC</span> <span class="s1">&#39;Dogtag Authority ID&#39;</span>
+  <span class="n">EQUALITY</span> <span class="n">caseIgnoreMatch</span>
+  <span class="n">ORDERING</span> <span class="n">caseIgnoreOrderingMatch</span>
+  <span class="n">SUBSTR</span> <span class="n">caseIgnoreSubstringsMatch</span>
+  <span class="n">SYNTAX</span> <span class="mf">1.3.6.1.4.1.1466.115.121.1.15</span>
+  <span class="n">X</span><span class="o">-</span><span class="n">ORIGIN</span> <span class="s1">&#39;IPA v4.4 Lightweight CAs&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipaCaIssuerDN</span></code> attribute shall store the issuer DN of the CA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attributeTypes</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.16.840.1.113730.3.8.21.1.7</span>
+  <span class="n">NAME</span> <span class="s1">&#39;ipaCaIssuerDN&#39;</span> <span class="n">DESC</span> <span class="s1">&#39;Issuer Distinguished Name&#39;</span>
+  <span class="n">SUP</span> <span class="n">distinguishedName</span>
+  <span class="n">X</span><span class="o">-</span><span class="n">ORIGIN</span> <span class="s1">&#39;IPA v4.4 Lightweight CAs&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipaCaSubjectDN</span></code> attribute shall store the subject DN of the CA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attributeTypes</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.16.840.1.113730.3.8.21.1.8</span>
+  <span class="n">NAME</span> <span class="s1">&#39;ipaCaSubjectDN&#39;</span> <span class="n">DESC</span> <span class="s1">&#39;Subject Distinguished Name&#39;</span>
+  <span class="n">SUP</span> <span class="n">distinguishedName</span>
+  <span class="n">X</span><span class="o">-</span><span class="n">ORIGIN</span> <span class="s1">&#39;IPA v4.4 Lightweight CAs&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipaCaId</span></code>, <code class="docutils literal notranslate"><span class="pre">ipaCaIssuerDN</span></code> and <code class="docutils literal notranslate"><span class="pre">ipaCaSubjectDN</span></code> attributes
+shall be immutable.</p>
+</section>
+<section id="permissions">
+<h3>Permissions<a class="headerlink" href="#permissions" title="Permalink to this heading">¶</a></h3>
+<p>The following new permissions will be added. Unless stated otherwise,
+permissions are initially granted to the <em>CA Administrator</em> role.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Read</span> <span class="pre">CAs</span></code></dt><dd><p>All principals may search lightweight CAs and read all attributes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Add</span> <span class="pre">CA</span></code></dt><dd><p>Add a new lightweight CA.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Delete</span> <span class="pre">CA</span></code></dt><dd><p>Delete an existing lightweight CA.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Modify</span> <span class="pre">CA</span></code></dt><dd><p>Modify the name or description of lightweight CAs.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="key-replication">
+<span id="id14"></span><h2>Key replication<a class="headerlink" href="#key-replication" title="Permalink to this heading">¶</a></h2>
+<p>Key replication will be handled by Dogtag’s
+<code class="docutils literal notranslate"><span class="pre">ExternalProcessKeyRetriever</span></code> (part of Dogtag), which will be
+configured to execute a Python script (part of FreeIPA) that will
+retrieve the required key and certificate through Custodia.</p>
+<p>This work requires minor changes to FreeIPA’s <code class="docutils literal notranslate"><span class="pre">CustodiaClient</span></code>
+implementation to generalise it and make it usable from arbitrary Python
+programs.</p>
+<section id="authenticating-to-custodia">
+<span id="id15"></span><h3>Authenticating to Custodia<a class="headerlink" href="#authenticating-to-custodia" title="Permalink to this heading">¶</a></h3>
+<p>Authenticating to Custodia involves both Kerberos (i.e. the client must
+have Kerberos credentials) and Custodia-specific signing keys, the
+public parts of which are published in LDAP as <code class="docutils literal notranslate"><span class="pre">ipaPublicKeyObject</span></code>
+objects and associated with client principal through the
+<code class="docutils literal notranslate"><span class="pre">memberPrincipal</span></code> attribute.</p>
+<p>For replica promotion, the Custodia client runs as <code class="docutils literal notranslate"><span class="pre">root</span></code> and uses the
+host keytab at <code class="docutils literal notranslate"><span class="pre">/etc/krb5.keytab</span></code>, and Custodia keys stored at
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa/custodia/server.keys</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pkiuser</span></code> does not have read access to either of these locations, so a
+new service principal shall be created for each Dogtag CA instance for
+the purpose of authenticating to Custodia and retrieving lightweight CA
+private keys. Its principal name shall be <code class="docutils literal notranslate"><span class="pre">dogtag/&lt;hostname&gt;&#64;REALM</span></code>.
+Its keytab and Custodia keys shall be stored with ownership
+<code class="docutils literal notranslate"><span class="pre">pkiuser:pkiuser</span></code> and mode <code class="docutils literal notranslate"><span class="pre">0600</span></code> at
+<code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/dogtag.keytab</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/dogtag.keys</span></code> respectively.</p>
+</section>
+<section id="custodia-store">
+<span id="id16"></span><h3>Custodia store<a class="headerlink" href="#custodia-store" title="Permalink to this heading">¶</a></h3>
+<p>The existing PKCS #12 Custodia store cannot be used for transporting
+lightweight CA signing keys, because if the Custodia client imports the
+keys to the destination NSSDB, Dogtag cannot observe them unless
+restarted, and Dogtag cannot unpack the PKCS #12 file because the bare
+private key would then be resident in the Dogtag process’ memory, which
+is unacceptable from a security standpoint. The solution is transport
+wrapped keys with the IPA CA’s public key, and Dogtag shall unwrap them
+direct into its NSSDB using the IPA CA’s private signing key.</p>
+<p>A new Custodia store shall be implemented that wraps requested keys in
+this manner. Its relative path shall be <code class="docutils literal notranslate"><span class="pre">ca_wrapped</span></code> (cf. <code class="docutils literal notranslate"><span class="pre">ca</span></code> for
+the existing mechanism, which shall continue to be used for replica
+promotion).</p>
+</section>
+</section>
+<section id="renewal">
+<h2>Renewal<a class="headerlink" href="#renewal" title="Permalink to this heading">¶</a></h2>
+<p>A mechanism must be provided to renew lightweight CA certificates. A
+Dogtag REST API shall be provided for renewal of the certificate. When
+and how renewal occurs, possible approaches include:</p>
+<ol class="arabic">
+<li><p>No automatic renewal is performed. Provide the <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">ca-renew</span></code>
+command to invoke the REST API and renew the sub-CA certificate.
+Renewal need not be performed on the renewal master.</p>
+<p>Implementation of an <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">ca-renew</span></code> command is compatible with the
+remaining options; it would allowing a privileged user to force
+renewal of a certificate regardless of the prevailing auto-renewal
+mechanism (if any).</p>
+</li>
+<li><p>Implement a thread in Dogtag that renews lightweight CA certificates
+as the existing certificates approach expiry. Only the renewal master
+would execute this thread.</p>
+<p>Automatic renewal could be enabled on a per-CA basis.</p>
+<p>The advantage of this approach is that the behaviour has no
+dependency on other components; it can be implemented entirely within
+Dogtag and can be used in standalone Dogtag deployments.</p>
+<p>Disadvantages and caveats of this approach are:</p>
+<ul class="simple">
+<li><p>New code for tracking certificate expiry must be written,
+duplicating functionality that already exists in Certmonger.</p></li>
+<li><p>The renewal thread must run on only one Dogtag instance (in
+FreeIPA terms: the <em>renewal master</em>). There is precedent with CRL
+generation; <code class="docutils literal notranslate"><span class="pre">ipa-csreplica-manager</span></code> would be enhanced to manage
+lightweight CA renewal configuration and an upgrade script would
+be needed to add the required Dogtag configuration on the renewal
+master.</p></li>
+</ul>
+</li>
+<li><p>Track each lightweight CA certificate in Certmonger on the renewal
+master, and implement a renewal helper for lightweight CAs.</p>
+<p>In this scenario, lightweight CA creation must always be performed by
+the renewal master, which will establish tracking, and promoting a CA
+replica to renewal master shall involve tracking all FreeIPA-managed
+lightweight CA certificates.</p>
+<p>The advantage of this approach is the reuse of existing machinery in
+Certmonger for monitoring certificates and triggering renewal when
+needed.</p>
+<p>Disadvantages of this approach are:</p>
+<ul class="simple">
+<li><p>Proliferation of Certmonger tracking requests; one for each
+FreeIPA-managed lightweight CA.</p></li>
+<li><p>Either lightweight CA creation is restricted to the renewal
+master, or the renewal master must observe the creation of new
+lightweight CAs and start tracking their certificate.</p></li>
+<li><p>Development of new Certmonger renewal helpers solely for
+lightweight CA renewal.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<section id="set-up-dogtag-key-replication">
+<span id="id17"></span><h3>Set up Dogtag key replication<a class="headerlink" href="#set-up-dogtag-key-replication" title="Permalink to this heading">¶</a></h3>
+<p>The CA installation process shall perform the following new steps:</p>
+<ul class="simple">
+<li><p>Create the <code class="docutils literal notranslate"><span class="pre">dogtag/$HOSTNAME</span></code> service principal</p></li>
+<li><p>Create Custodia keys for the principal and store them at the location
+declared above.</p></li>
+<li><p>Retrieve the keytab for the principal to the location declared above.</p></li>
+<li><p>Configure Dogtag to use the <code class="docutils literal notranslate"><span class="pre">ExternalProcessKeyRetriever</span></code> with a
+Python helper script to do the work of key retrieval. (This is
+configured in Dogtag’s <code class="docutils literal notranslate"><span class="pre">CS.cfg</span></code>).</p></li>
+</ul>
+</section>
+<section id="default-cas">
+<span id="id18"></span><h3>Default CAs<a class="headerlink" href="#default-cas" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code> need not initially create any sub-CAs, but see
+the “Default sub-CAs” use case for a suggested future direction.</p>
+<p>A CA object for the IPA CA will automatically be created, with
+<code class="docutils literal notranslate"><span class="pre">cn=ipa</span></code> and <code class="docutils literal notranslate"><span class="pre">description=IPA</span> <span class="pre">CA</span></code>.</p>
+<p>Renaming of the IPA CA shall not be permitted.</p>
+</section>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>The initial implementation will deliver the <code class="docutils literal notranslate"><span class="pre">ca</span></code> plugin which will
+provide for the creation and management of sub-CAs. The <code class="docutils literal notranslate"><span class="pre">caacl</span></code> plugin
+will be enhanced with the ability to choose the CAs to which each CA ACL
+applies.</p>
+<p><strong>Future work</strong>
+(<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5011">#5011</a>) will
+implement GSSAPI authentication and ACL enforcement in Dogtag and remove
+ACL enforcement from FreeIPA. The FreeIPA framework will use S4U2Proxy
+to obtain a ticket for Dogtag on behalf of the bind principal, and the
+RA Agent priviliges will be dropped.</p>
+<section id="dogtag-signing-key-retrieval">
+<span id="id19"></span><h2>Dogtag signing key retrieval<a class="headerlink" href="#dogtag-signing-key-retrieval" title="Permalink to this heading">¶</a></h2>
+<p>To avoid reimplementing a Custodia client in Java (a substantial
+effort), we configure Dogtag’s <code class="docutils literal notranslate"><span class="pre">ExternalProcessKeyRetriever</span></code> to
+execute a Python script that reuses the existing FreeIPA
+<code class="docutils literal notranslate"><span class="pre">CustodiaClient</span></code> class. The script is part of FreeIPA’s codebase and
+is installed as <code class="docutils literal notranslate"><span class="pre">/usr/libexec/ipa/ipa-pki-retrieve-key</span></code>.</p>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>The web UI must be enhanced to allow the user to indicate which CA a
+certificate request should be directed to, and to indicate the CA of any
+existing certificate (ideally, a brief representation the entire
+certification path).</p>
+<p>It will be necessary to support multiple certificates per-principal,
+issued from different CAs.</p>
+<p>The web UI for retrieving certificates must be extended to include the
+ability to download a chained certificate.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>CLI commands for creating and adminstering lightweight CAs will be
+created, with appropriate ACIs for authorization.</p>
+<p>CLI commands that retrieve certificates will be enhanced to add the
+capability to retrieve certificate <em>chains</em> from the root to the
+end-entity certificate.</p>
+<section id="new-commands">
+<span id="id20"></span><h3>New commands<a class="headerlink" href="#new-commands" title="Permalink to this heading">¶</a></h3>
+<section id="ipa-ca-find">
+<span id="id21"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">ca-find</span></code><a class="headerlink" href="#ipa-ca-find" title="Permalink to this heading">¶</a></h4>
+<p>Search for lightweight CAs.</p>
+</section>
+<section id="ipa-ca-show-name">
+<span id="id22"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">ca-show</span> <span class="pre">&lt;NAME&gt;</span></code><a class="headerlink" href="#ipa-ca-show-name" title="Permalink to this heading">¶</a></h4>
+<p>Show lightweight CA details.</p>
+</section>
+<section id="ipa-ca-add-name">
+<span id="id23"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">ca-add</span> <span class="pre">&lt;NAME&gt;</span></code><a class="headerlink" href="#ipa-ca-add-name" title="Permalink to this heading">¶</a></h4>
+<p>Create a new sub-CA, a direct subordinate of the top-level CA. (Future
+work could allow nested sub-CAs).</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Name of new CA (FreeIPA object only; value is not known to or used by
+Dogtag).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--description</span> <span class="pre">&lt;STR&gt;</span></code></dt><dd><p><strong>Optional</strong> description.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--subject</span> <span class="pre">&lt;DN&gt;</span></code></dt><dd><p>Subject DN for new CA.</p>
+</dd>
+</dl>
+<p>This command first creates the FreeIPA CA object (to ensure that the
+user has permission to do so), then creates the CA in Dogtag. The
+<em>Authority ID</em> returned from Dogtag is then saved. If creation in Dogtag
+fails, the newly-added object gets deleted.</p>
+<p>See also the discussion above about <em>public key</em> parameters and
+<em>validity</em>. Additional CA creation parameters in the Dogtag API may
+(eventually) be reflected as additional option for this command.</p>
+</section>
+<section id="ipa-ca-del-name">
+<span id="id24"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">ca-del</span> <span class="pre">&lt;NAME&gt;</span></code><a class="headerlink" href="#ipa-ca-del-name" title="Permalink to this heading">¶</a></h4>
+<p>Delete the given certificate authority; both the FreeIPA object and the
+Dogtag lightweight CA.</p>
+<p>Non-expired certificates of deleted CAs shall be revoked. This behaviour
+shall be implemented in Dogtag as part of the CA deletion method; no
+extra behaviour is needed in the IPA framework.</p>
+<p>Note: Dogtag has not yet implemented revocation on lightweight CA
+deletion. The associated ticket is
+<a class="reference external" href="https://fedorahosted.org/pki/ticket/1638">https://fedorahosted.org/pki/ticket/1638</a>. Until it is implemented, CA
+certificate revocation can be performed as an additional manual step,
+using existing commands.</p>
+<p>Note: Dogtag prohibits the deletion of non-leaf CAs.</p>
+</section>
+<section id="ipa-caacl-add-ca-name">
+<span id="id25"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add-ca</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-add-ca-name" title="Permalink to this heading">¶</a></h4>
+<p>Add CA(s) to the CA ACL.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--ca=STR</span></code></dt><dd><p>CA to add.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-remove-ca-name">
+<span id="id26"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-remove-ca</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-remove-ca-name" title="Permalink to this heading">¶</a></h4>
+<p>Add CA(s) to the CA ACL.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--ca=STR</span></code></dt><dd><p>CA to remove.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="enhanced-commands">
+<span id="id27"></span><h3>Enhanced commands<a class="headerlink" href="#enhanced-commands" title="Permalink to this heading">¶</a></h3>
+<section id="ipa-caacl-add">
+<span id="id28"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add</span></code><a class="headerlink" href="#ipa-caacl-add" title="Permalink to this heading">¶</a></h4>
+<p>Added option:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--cacat=['all']</span></code></dt><dd><p>CA category. Mutually exclusive with CA members added via the
+<code class="docutils literal notranslate"><span class="pre">caacl-add-ca</span></code> command.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-mod-name">
+<span id="id29"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-mod</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-mod-name" title="Permalink to this heading">¶</a></h4>
+<p>Added option:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--cacat=['all']</span></code></dt><dd><p>CA category. Mutually exclusive with CA members added via the
+<code class="docutils literal notranslate"><span class="pre">caacl-add-ca</span></code> command.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-find">
+<span id="id30"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-find</span></code><a class="headerlink" href="#ipa-caacl-find" title="Permalink to this heading">¶</a></h4>
+<p>Added option:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--cacat=['all']</span></code></dt><dd><p>Search for CA ACLs with the given CA category.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-cert-request">
+<span id="id31"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span></code><a class="headerlink" href="#ipa-cert-request" title="Permalink to this heading">¶</a></h4>
+<p>New options:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--ca</span> <span class="pre">NAME</span></code></dt><dd><p>Specify the CA to which to direct the request. Optional; default to
+the top-level CA.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--chain</span></code></dt><dd><p>Instead of just the newly-issued leaf certificate, retrieve the
+certificate chain ending in the new certificate.</p>
+</dd>
+</dl>
+<p>CA ACL enforcement shall be enhanced to take CAs into account. For
+backwards compatibility with CA ACLs defined previously, CA ACLs that do
+not have a CA category and have no CAs shall behave as though the IPA CA
+alone was specified.</p>
+</section>
+<section id="ipa-cert-find">
+<span id="id32"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-find</span></code><a class="headerlink" href="#ipa-cert-find" title="Permalink to this heading">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-find</span></code> command shall allow searching by issuer, via the
+following new arguments.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--issuer</span> <span class="pre">&lt;DN&gt;</span></code></dt><dd><p>Specify the issuer DN.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--ca</span> <span class="pre">&lt;NAME&gt;</span></code></dt><dd><p>Specify a FreeIPA CA name. The behaviour is the same as if the
+subject DN of the named CA had been specified via <code class="docutils literal notranslate"><span class="pre">--issuer</span></code>.</p>
+</dd>
+</dl>
+<p>If both <code class="docutils literal notranslate"><span class="pre">--issuer</span></code> and <code class="docutils literal notranslate"><span class="pre">--ca</span></code> are given and the two DNs are not
+equal, the result of the search will be empty.</p>
+</section>
+<section id="ipa-cert-show">
+<span id="id33"></span><h4><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-show</span></code><a class="headerlink" href="#ipa-cert-show" title="Permalink to this heading">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-show</span></code> command shall have new options for specifying the
+issuer of the cert to show (in addition to the existing serial number
+argument), and for retrieving the CA chain ending with the specified
+certificate.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--ca</span> <span class="pre">&lt;NAME&gt;</span></code></dt><dd><p>Specify the issuer of the certificate. Defaults to the IPA CA. If
+there is no certificate with the specified serial number issued by
+the specified CA, the result is <strong>not found</strong>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--chain</span></code></dt><dd><p>Request the certificate chain (when saving via <code class="docutils literal notranslate"><span class="pre">--out</span> <span class="pre">&lt;file&gt;</span></code>, PEM
+format is used; this is the format used for the end-entity
+certificate). By default, the leaf certificate is returned in PEM
+format.</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+<section id="certmonger">
+<h2>Certmonger<a class="headerlink" href="#certmonger" title="Permalink to this heading">¶</a></h2>
+<p>For <em>service</em> administration use cases, certificates will be requested
+via certmonger, in accordance with the existing use pattern where
+<code class="docutils literal notranslate"><span class="pre">ipa-getcert</span></code> is used to request, monitor and renew certificates.</p>
+<section id="indicating-the-target-ca">
+<span id="id34"></span><h3>Indicating the target CA<a class="headerlink" href="#indicating-the-target-ca" title="Permalink to this heading">¶</a></h3>
+<p>Certmonger will need to be told which FreeIPA CA to use. (Note that this
+is different from Certmonger’s “CA” concept; the <code class="docutils literal notranslate"><span class="pre">IPA</span></code> Certmonger CA
+will be used regardless of which FreeIPA CA is to be used).</p>
+<p>To support this use case, the <code class="docutils literal notranslate"><span class="pre">template-issuer</span></code> property shall be
+added, and the <code class="docutils literal notranslate"><span class="pre">-X</span></code> / <code class="docutils literal notranslate"><span class="pre">--issuer</span></code> command line option shall be added
+to <code class="docutils literal notranslate"><span class="pre">getcert</span> <span class="pre">request</span></code> and related commands.</p>
+<p>If set, the <code class="docutils literal notranslate"><span class="pre">template-issuer</span></code> value shall be propagated to submission
+helpers in the <code class="docutils literal notranslate"><span class="pre">CERTMONGER_CA_ISSUER</span></code> environment variable.</p>
+<p>The FreeIPA submission helper shall, if the <code class="docutils literal notranslate"><span class="pre">CERTMONGER_CA_ISSUER</span></code>
+environment variable is set, set the <code class="docutils literal notranslate"><span class="pre">ca</span></code> argument of the
+<code class="docutils literal notranslate"><span class="pre">cert-request</span></code> method accordingly; otherwise, the <code class="docutils literal notranslate"><span class="pre">ca</span></code> argument
+shall be omitted.</p>
+</section>
+<section id="certificate-chain-retreival">
+<span id="id35"></span><h3>Certificate chain retreival<a class="headerlink" href="#certificate-chain-retreival" title="Permalink to this heading">¶</a></h3>
+<p>There are numerous certificate chain formats; common formats will be
+supported, and an option will be used to select the desired format. For
+uncommon formats, administrators will need to retrieve the chain in one
+of the supported formats and manually compose what they need.</p>
+<p>Common certificate chain formats:</p>
+<ul class="simple">
+<li><p>PEM (sequence of PEM-encoded certificates)</p></li>
+<li><p>PKCS #7 (certificate chain object)</p></li>
+<li><p>PKCS #12</p></li>
+</ul>
+<p>Apache and nginx expect a sequence of PEM-encoded certificates, so PEM
+is a baseline requirement.</p>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA must be deployed with the Dogtag RA in order to use these
+features. No other configuration is required.</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>As part of the upgrade process:</p>
+<ul class="simple">
+<li><p>Dogtag key replication shall be configured using the steps described
+at Set up Dogtag key <a href="#id36"><span class="problematic" id="id37">replication_</span></a>.</p></li>
+<li><p>The schema (including Dogtag schema) shall be updated.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ipa</span></code> CA object shall be created (see Default <a href="#id38"><span class="problematic" id="id39">CAs_</span></a>).</p></li>
+</ul>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>Scenario: add a sub-CA that will be used to issue user smart cards. A
+profile for this purpose called <code class="docutils literal notranslate"><span class="pre">userSmartCard</span></code> is assumed to exist.</p>
+<p>List lightweight CAs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span> <span class="n">ca</span><span class="o">-</span><span class="n">find</span>
+<span class="o">------------</span>
+<span class="mi">1</span> <span class="n">CA</span> <span class="n">matched</span>
+<span class="o">------------</span>
+  <span class="n">Name</span><span class="p">:</span> <span class="n">ipa</span>
+  <span class="n">Description</span><span class="p">:</span> <span class="n">IPA</span> <span class="n">CA</span>
+  <span class="n">Authority</span> <span class="n">ID</span><span class="p">:</span> <span class="n">d3e62e89</span><span class="o">-</span><span class="n">df27</span><span class="o">-</span><span class="mi">4</span><span class="n">a89</span><span class="o">-</span><span class="n">bce4</span><span class="o">-</span><span class="n">e721042be730</span>
+  <span class="n">Subject</span> <span class="n">DN</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span> <span class="mi">201606201330</span>
+  <span class="n">Issuer</span> <span class="n">DN</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span> <span class="mi">201606201330</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">1</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+<p>Add a new lightweight CA called <code class="docutils literal notranslate"><span class="pre">sc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span> <span class="n">ca</span><span class="o">-</span><span class="n">add</span> <span class="n">sc</span> <span class="o">--</span><span class="n">subject</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">CN</span><span class="o">=</span><span class="n">Smart</span> <span class="n">Card</span> <span class="n">CA</span><span class="p">,</span> <span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span> <span class="o">--</span><span class="n">desc</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">Smart</span> <span class="n">Card</span> <span class="n">CA</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
+<span class="o">---------------</span>
+<span class="n">Created</span> <span class="n">CA</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">sc</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
+<span class="o">---------------</span>
+  <span class="n">Name</span><span class="p">:</span> <span class="n">sc</span>
+  <span class="n">Description</span><span class="p">:</span> <span class="n">Smart</span> <span class="n">Card</span> <span class="n">CA</span>
+  <span class="n">Authority</span> <span class="n">ID</span><span class="p">:</span> <span class="mi">660</span><span class="n">ad30b</span><span class="o">-</span><span class="mi">7</span><span class="n">be4</span><span class="o">-</span><span class="mi">4909</span><span class="o">-</span><span class="n">aa2c</span><span class="o">-</span><span class="mi">2</span><span class="n">c7d874c84fd</span>
+  <span class="n">Subject</span> <span class="n">DN</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Smart</span> <span class="n">Card</span> <span class="n">CA</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span>
+  <span class="n">Issuer</span> <span class="n">DN</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span> <span class="mi">201606201330</span>
+</pre></div>
+</div>
+<p>Add a CA ACL called <code class="docutils literal notranslate"><span class="pre">user-sc-userSmartCard</span></code> and through it associate
+all users, the <code class="docutils literal notranslate"><span class="pre">sc</span></code> CA, and <code class="docutils literal notranslate"><span class="pre">userSmartCard</span></code> profile. users:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span> <span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span> <span class="o">--</span><span class="n">usercat</span><span class="o">=</span><span class="nb">all</span>
+<span class="o">------------------------------------</span>
+<span class="n">Added</span> <span class="n">CA</span> <span class="n">ACL</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
+<span class="o">------------------------------------</span>
+  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">User</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+
+<span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">ca</span> <span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span> <span class="o">--</span><span class="n">ca</span> <span class="n">sc</span>
+  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">User</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">CAs</span><span class="p">:</span> <span class="n">sc</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
+<span class="o">-------------------------</span>
+
+<span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">profile</span> <span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span> <span class="o">--</span><span class="n">certprofile</span> <span class="n">userSmartCard</span>
+  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">user</span><span class="o">-</span><span class="n">sc</span><span class="o">-</span><span class="n">userSmartCard</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">User</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">CAs</span><span class="p">:</span> <span class="n">sc</span>
+  <span class="n">Profiles</span><span class="p">:</span> <span class="n">userSmartCard</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
+<span class="o">-------------------------</span>
+</pre></div>
+</div>
+<p>Now, as a user (<code class="docutils literal notranslate"><span class="pre">alice</span></code>), assuming you already have a CSR for the key
+in your smart card, request the certificate, specifying the <code class="docutils literal notranslate"><span class="pre">sc</span></code> CA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">request</span> <span class="o">--</span><span class="n">principal</span> <span class="n">alice</span> <span class="o">--</span><span class="n">ca</span> <span class="n">sc</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">csr</span><span class="o">.</span><span class="n">req</span>
+  <span class="n">Certificate</span><span class="p">:</span> <span class="n">MIIDmDCCAoCgAwIBAgIBQDANBgkqhkiG9w0BA</span><span class="o">...</span>
+  <span class="n">Subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">alice</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span>
+  <span class="n">Issuer</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Smart</span> <span class="n">Card</span> <span class="n">CA</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span>
+  <span class="n">Not</span> <span class="n">Before</span><span class="p">:</span> <span class="n">Fri</span> <span class="n">Jul</span> <span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">04</span> <span class="mi">2016</span> <span class="n">UTC</span>
+  <span class="n">Not</span> <span class="n">After</span><span class="p">:</span> <span class="n">Mon</span> <span class="n">Jul</span> <span class="mi">16</span> <span class="mi">05</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">04</span> <span class="mi">2018</span> <span class="n">UTC</span>
+  <span class="n">Fingerprint</span> <span class="p">(</span><span class="n">MD5</span><span class="p">):</span> <span class="mi">6</span><span class="n">f</span><span class="p">:</span><span class="mi">67</span><span class="p">:</span><span class="n">ab</span><span class="p">:</span><span class="mi">4</span><span class="n">e</span><span class="p">:</span><span class="mi">0</span><span class="n">c</span><span class="p">:</span><span class="mi">3</span><span class="n">d</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">7</span><span class="n">e</span><span class="p">:</span><span class="n">e6</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="n">fc</span><span class="p">:</span><span class="n">bb</span><span class="p">:</span><span class="mi">5</span><span class="n">d</span><span class="p">:</span><span class="n">fe</span><span class="p">:</span><span class="n">aa</span><span class="p">:</span><span class="mi">88</span>
+  <span class="n">Fingerprint</span> <span class="p">(</span><span class="n">SHA1</span><span class="p">):</span> <span class="mi">0</span><span class="n">d</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="n">a7</span><span class="p">:</span><span class="n">c4</span><span class="p">:</span><span class="n">e1</span><span class="p">:</span><span class="n">b9</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">0</span><span class="n">e</span><span class="p">:</span><span class="mi">94</span><span class="p">:</span><span class="mi">8</span><span class="n">e</span><span class="p">:</span><span class="mi">24</span><span class="p">:</span><span class="mi">8</span><span class="n">b</span><span class="p">:</span><span class="mi">2</span><span class="n">d</span><span class="p">:</span><span class="mi">85</span><span class="p">:</span><span class="mi">6</span><span class="n">e</span><span class="p">:</span><span class="mi">9</span><span class="n">d</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="n">e6</span><span class="p">:</span><span class="n">aa</span>
+  <span class="n">Serial</span> <span class="n">number</span><span class="p">:</span> <span class="mi">64</span>
+  <span class="n">Serial</span> <span class="n">number</span> <span class="p">(</span><span class="nb">hex</span><span class="p">):</span> <span class="mh">0x40</span>
+</pre></div>
+</div>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="V4/Sub-CAs/Test_Plan">Sub-CAs V4.4 test plan</a></p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>FreeIPA <a class="reference external" href="http://www.freeipa.org/page/V4/Certificate_Profiles">Certificate
+Profiles</a>
+feature.</p></li>
+<li><p>Dogtag &gt;= 10.3.2</p></li>
+</ul>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://blog-ftweedal.rhcloud.com/2016/07/lightweight-sub-cas-in-freeipa-4-4/">Fraser Tweedale’s blog: Lightweight Sub-CAs in FreeIPA
+4.4</a></p></li>
+<li><p><a class="reference external" href="https://blog-ftweedal.rhcloud.com/2016/07/freeipa-lightweight-ca-internals/">Fraser Tweedale’s blog: FreeIPA Lightweight CA
+internals</a></p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Sub-CAs.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

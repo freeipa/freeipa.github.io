@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Improved_schema_updater.html" />
+    <link rel="prev" title="Overview" href="IPA_Client_in_Active_Directory_DNS_domain.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Current (as of 4.1) deployment and management of the FreeIPA server
+cluster does not render itself well for automatic unattended operations.
+The deployment sequence of primary and replicas installation assumes
+physical presence of an admin at every step. This page is dedicated to
+making the deployment and life-cycle management of a group of FreeIPA
+servers in a single domain to be more manageable. The goal is to make it
+more automated when initiated by admin, script tools like Puppet, Chef,
+Salt or via provisioning systems like Foreman.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Use cases are best covered in the <a class="reference external" href="https://lists.fedorahosted.org/pipermail/openlmi-devel/2014-July/002281.html">respective mail
+thread</a>.</p>
+</section>
+<section id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h1>
+<figure class="align-default" id="id2">
+<img alt="OpenLMI_Architecture.png" src="../../../_images/OpenLMI_Architecture.png" />
+<figcaption>
+<p><span class="caption-text">OpenLMI_Architecture.png</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><a class="reference external" href="https://drive.google.com/file/d/0B3tfpNCVjJdCNzk3eEtKaF9VeGM/edit?usp=sharing">Link to the original .odg file if you need to make edits is
+here</a></p>
+<p>The diagram shows a general relationships between components of the
+solution. In the top there is an administrator that will interact with
+either provisioning tools or LMI CLI directly (on the right) or with
+already deployed FreeIPA instance on the left.</p>
+<p>The bottom part of the diagram shows the components that will be
+implemented (or already exist) that will interact with each other on the
+the node being managed.</p>
+<p><strong>Lines</strong></p>
+<ul class="simple">
+<li><p><strong>Black</strong> - tool invocation or interactions that are well known and
+already defined and outside of scope of this design</p></li>
+<li><p><strong>Orange</strong> - calls over CIM protocol</p></li>
+<li><p><strong>Blue</strong> - Local D-BUS calls on the system</p></li>
+<li><p><strong>Red</strong> - Policy kit calls (also implemented over D-BUS under the
+hood, but services will use client API that wraps the D-BUS call)</p></li>
+<li><p><strong>Green</strong> - Interaction with the pure FreeIPA related components</p></li>
+<li><p><strong>Purple</strong> - Operations against an FreeIPA client or server instance</p></li>
+</ul>
+<p><strong>Boxes</strong></p>
+<ul class="simple">
+<li><p><strong>Pink</strong> - Core OpenLMI related components, tools, services and
+libraries. This includes the future OpenLMI provider to expose the
+IPA server node management functionality.</p></li>
+<li><p><strong>Blue</strong> - D-BUS</p></li>
+<li><p><strong>Salmon</strong> - OpenLMI daemons</p>
+<ul>
+<li><p>Server Role Service is the service that would run on the node and
+would in general specify what the server is dedicated to. This
+component is effectively a registry of KVPs (key-value-pairs) and
+reflects the high level state of the system.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ipaserverd</span></code> Service is the new service that would be
+implemented by the FreeIPA project and would constitute the core
+of the IPA node management functionality. It will be in charge of
+session and state management as well as execution of operations
+like: install server, uninstall server, make server CRL generator,
+make server cert tracker, add/remove DNS and other components,
+check state/status of the server, etc.</p></li>
+<li><p>realmd Service is the existing component to manage the client and
+perform operations to discover domain, join or leave it.</p></li>
+</ul>
+</li>
+<li><p><strong>Red</strong> - PolicyKit that will be consulted regarding each operation.
+It is suggested that FreeIPA project would build a set of policy
+definitions that will be packaged as a part of the core PolicyKit
+policies that would define which users or groups of users can perform
+which operations on the node. It will be a mixture of the local users
+like <em>root</em> and <em>openpegasus</em> to be able to deploy the initial
+instance as well as a predefined in FreeIPA group of admins that have
+the right to do instance management. This group will be added to IPA
+at the installation time or during upgrade to the version where the
+feature would be first implemented.</p></li>
+<li><p><strong>Orange</strong> - FreeIPA related components. It is expected that the
+FreeIPA tools and scripts like <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ipa-replica-manage</span></code> will be refactored
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4468">#4468</a> on top of a
+common python library to manage an instance that can be invoked
+directly by the <code class="docutils literal notranslate"><span class="pre">ipaserverd</span></code> service. The refactored tools are
+still shown as they will remain for backward compatibility. New tools
+might be developed to implement local command line for the new node
+management functions.</p></li>
+<li><p><strong>Yellow</strong> - FreeIPA server and client instances. The thick arrow
+shows that a new model would be implemented to be able to promote a
+client into a server
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3506">#3506</a>,
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2888">#2888</a>.</p></li>
+</ul>
+</section>
+<section id="scope-of-work">
+<span id="id1"></span><h1>Scope of work<a class="headerlink" href="#scope-of-work" title="Permalink to this heading">¶</a></h1>
+<p>This section covers the catalog of changes that need to be implemented
+to complete the feature</p>
+<ul class="simple">
+<li><p><strong>OpenLMI</strong></p>
+<ul>
+<li><p>Create an OpenLMI model for FreeIPA server node management</p></li>
+<li><p>Implement an OpenLMI provider that implement this CIM model. The
+provider will use D-BUS calls to communicate with <code class="docutils literal notranslate"><span class="pre">ipaserverd</span></code></p></li>
+<li><p>Design interface that Server Role Server will use to get get high
+level information (KVPs)</p></li>
+</ul>
+</li>
+<li><p><strong>Security &amp; Access control</strong></p>
+<ul>
+<li><p>Create a PolicyKit policy</p></li>
+<li><p>Integrate PolicyKit check into the <code class="docutils literal notranslate"><span class="pre">ipaserverd</span></code></p></li>
+<li><p>Add access group to FreeIPA (new install and upgrade)</p></li>
+<li><p>Define initial creation of SSL channel between a client and a
+server. For new systems that is a bit of leap of faith. It can be
+solved by a locally generated on the node self signed cert, by
+placing a cert when the image is created (kickstart) or via
+Puppet. regardless this aspect and security implications should be
+clearly identified and spelled out.</p></li>
+</ul>
+</li>
+<li><p><strong>FreeIPA node management</strong></p>
+<ul>
+<li><p>Define a set of node management interfaces</p></li>
+<li><p>Create a python library that will implement these interfaces</p></li>
+<li><p>Refactor existing tools to use new library</p></li>
+<li><p>Provide additional tools or options as needed</p></li>
+<li><p>Hook this API into the <code class="docutils literal notranslate"><span class="pre">ipaserverd</span></code> service. The <code class="docutils literal notranslate"><span class="pre">ipaserverd</span></code>
+may need to run the processes asynchronously so that it is able to
+return status calls when installing FreeIPA server for example.</p></li>
+</ul>
+</li>
+<li><p><strong>Core FreeIPA changes</strong></p>
+<ul>
+<li><p>Implement client promotion to replica capability</p></li>
+<li><p>Move topology into replicate tree</p></li>
+<li><p>Create a plugin to manage cluster over OpenLMI python client</p></li>
+<li><p>Create IPA CLI to manage the deployment (add replica, remove
+replica, move CRL generation, add dns etc.)</p></li>
+<li><p>Create UI to display IPA topology and allow to easily manage the
+instances and their relations via this interface</p></li>
+<li><p>Create ACIs and roles for these management capabilities</p></li>
+</ul>
+</li>
+<li><p><strong>Log Collection</strong></p>
+<ul>
+<li><p>Create a command to prepare a file with a snippet of log from a
+particular log file for the specified time interval (most likely
+will be a separate OpenLMI provider not shown on the diagram)</p></li>
+<li><p>Implement an SCP kind of mechanism to fetch this file</p></li>
+<li><p>Implement a way to display content of the fetched file from IPA UI
+and CLI</p></li>
+<li><p>Add ability to attach this file to a UI plugin of the external
+case management system</p></li>
+</ul>
+</li>
+</ul>
+<p>These items in turn might require individual child design pages.</p>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>Any additional requirements or changes discovered during the
+implementation phase.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>How the feature will be manged via the UI</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>Overview of the CLI commands</p>
+</section>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>Any configuration options? Any commands to enable/disable the feature or
+turn on/off its parts?</p>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>Any impact on replication?</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>Any impact on updates and upgrades?</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>Any new package and library dependencies.</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>Impact on other development teams and components</p>
+</section>
+<section id="backup-and-restore">
+<h1>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h1>
+<p>Any files or configuration that needs to be taken care of in backup or
+restore procedure.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>Test scenarios that will be transformed to test cases for FreeIPA
+Continuous Integration during implementation or review phase.</p>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p>Author/contact person for the feature</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/IPA_Server_Management_via_OpenLMI.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

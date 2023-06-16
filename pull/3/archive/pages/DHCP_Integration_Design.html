@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Summary &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The user/Group ID assignment problem" href="DNA_plugin_default_configuration.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="Creating_a_binddn_for_Foreman.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">¶</a></h1>
+<p>The ISC-DHCP 4.x servers support storing their configuration inside of
+an LDAP tree. By adding DHCP support to FreeIPA, we complete the “host
+identity” puzzle, allowing users of FreeIPA to easily manage their hosts
+from the IP level up.</p>
+</section>
+<section id="locations">
+<h1>Locations<a class="headerlink" href="#locations" title="Permalink to this heading">¶</a></h1>
+<p>DHCP servers may not be connected to the same physical network segments.
+Thus, we should support having seperate DHCP server configurations at
+different locations. These locations should be independant of Automount,
+as there may be multiples automount locations on a sincle DHCP location
+for example. This would be managed by seperating each DHCP configuration
+into cn=Location,cn=dhcp in the tree.</p>
+</section>
+<section id="v4-and-v6">
+<span id="id1"></span><h1>v4 and v6<a class="headerlink" href="#v4-and-v6" title="Permalink to this heading">¶</a></h1>
+<p>ISC-DHCP supports both Ipv4 and Ipv6. We should aim to support both.
+This requires two branches of DHCP server configuration information
+(cn=v4,cn=Location,cn=dhcp, and cn=v6,cn=Location,cn=dhcp). As a part of
+supporting v6, we must also modify radvd configurations.</p>
+</section>
+<section id="gssapi">
+<h1>GSSAPI<a class="headerlink" href="#gssapi" title="Permalink to this heading">¶</a></h1>
+<p>At this time, ISC-DHCP does not support authentication to LDAP via
+GSSAPI. This will need to be added, and commited as patches. Until this
+support exists, simple binds must be used.</p>
+</section>
+<section id="dhcp-server-groups">
+<span id="id2"></span><h1>DHCP server groups<a class="headerlink" href="#dhcp-server-groups" title="Permalink to this heading">¶</a></h1>
+<p>With out this consideration, if two DHCP servers are connected to the
+same network segment, the servers may become inconsistent causing
+duplicate leases to be allocated. This will create address conflicts and
+other unforseen issues.</p>
+<section id="dhcp-failover">
+<span id="id3"></span><h2>DHCP failover<a class="headerlink" href="#dhcp-failover" title="Permalink to this heading">¶</a></h2>
+<p>DHCP supports a failover mechanism, where two hosts can exchange leases
+between the failover pair. However, it is limited to two hosts.
+Additionally, if a host goes offline, when it restarts it must wait for
+a timeout period, before it can start serving leases again (Normally 20
+minutes).</p>
+<p>Using this in conjunction with locations, two servers can be configured
+in failover mode per-location. Each servers failover options must be
+placed into it’s dhcpServer object, so that each server has a the pair’s
+details, but still points at the same dhcpServiceDN</p>
+</section>
+<section id="ldap-lease-storage">
+<span id="id4"></span><h2>LDAP Lease storage<a class="headerlink" href="#ldap-lease-storage" title="Permalink to this heading">¶</a></h2>
+<p>The current DHCP schema for LDAP supports storage of DHCP leases in the
+LDAP storage backend. That way arbitratry numbers of servers will always
+be consistent. This also means that DHCP servers can be added or removed
+from the FreeIPA with no effect on the stability or consistancy of the
+network. Finally, This allows us to inspect the current leased hosts on
+a network, without network mapping hosts or aggregating lease databases
+from many DHCP servers.</p>
+<p>While the ISC-DHCP schema supports this, the ISC-DHCP db code does not
+yet at this stage. This will need to be added. Initially, with only a
+single ISC-DHCP server on a physical network segment, we will avoid
+potential inconsistent network issues.</p>
+<section id="seperate-389ds-database">
+<span id="id5"></span><h3>Seperate 389ds database<a class="headerlink" href="#seperate-389ds-database" title="Permalink to this heading">¶</a></h3>
+<p>With planned lease storage for DHCP, having a seperate 389ds database
+backend for this would be highly advisable from a performance
+standpoint.</p>
+</section>
+</section>
+</section>
+<section id="dit">
+<h1>DIT<a class="headerlink" href="#dit" title="Permalink to this heading">¶</a></h1>
+<p>Each DHCP server reads it’s configuration by searching for a dhcpServer
+object that has a matching fqdn (IE, cn=host.example.com,cn=v4,cn=dhcp).
+The filter for this is by default
+“&amp;(cn=host.example.com)(objectClass=dhcpServer)”. From there, the
+attribute dhcpServiceDN (And in the future, dhcpLeasesDN) are read. The
+dhcpServiceDN object contains the objects that describe the list of
+configurations avaliable to the DHCP server. Multiple hosts can read the
+same dhcpServiceDN. More advanced use cases may use this, but we will
+maintain only a single dhcpServiceDN.</p>
+<p>Since the ISC-DHCP server can only run in either v4 or v6 mode, and they
+share attribute names in LDAP, we must split the configuration tree as
+below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cn=v4,cn=Location,cn=dhcp,$SUFFIX
+cn=v6,cn=Location,cn=dhcp,$SUFFIX
+</pre></div>
+</div>
+<p>Inside of these two containers, we place the relevant dhcpServer
+configuration objects, and the dhcpServiceDN.</p>
+</section>
+<section id="schema">
+<h1>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h1>
+<p>Converted from /usr/share/doc/dhcp-4.2.4/ldap/dhcp.schema</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=schema
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.1
+  NAME &#39;dhcpPrimaryDN&#39;
+  DESC &#39;The DN of the dhcpServer which is the primary server for the
+configuration.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.2
+  NAME &#39;dhcpSecondaryDN&#39;
+  DESC &#39;The DN of dhcpServer(s) which provide backup service for the
+configuration.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.3
+  NAME &#39;dhcpStatements&#39;
+  DESC &#39;Flexible storage for specific data depending on what object this exists
+in. Like conditional statements, server parameters, etc. This allows the
+standard to evolve without needing to adjust the schema.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.4
+  NAME &#39;dhcpRange&#39;
+  DESC &#39;The starting &amp; ending IP Addresses in the range (inclusive), separated
+by a hyphen; if the range only contains one address, then just the address can
+be specified with no hyphen. Each range is defined as a separate value.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.5
+  NAME &#39;dhcpPermitList&#39;
+  DESC &#39;This attribute contains the permit lists associated with a pool. Each
+permit list is defined as a separate value.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.6
+  NAME &#39;dhcpNetMask&#39;
+  DESC &#39;The subnet mask length for the subnet. The mask can be easily computed
+from this length.&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.7
+  NAME &#39;dhcpOption&#39;
+  DESC &#39;Encoded option values to be sent to clients. Each value represents a
+single option and contains (OptionTag, Length, OptionValue) encoded in the
+format used by DHCP.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.8
+  NAME &#39;dhcpClassData&#39;
+  DESC &#39;Encoded text string or list of bytes expressed in hexadecimal,
+separated by colons. Clients match subclasses based on matching the class data
+with the results of match or spawn with statements in the class name
+declarations.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.9
+  NAME &#39;dhcpOptionsDN&#39;
+  DESC &#39;The distinguished name(s) of the dhcpOption objects containing the
+configuration options provided by the server.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.10
+  NAME &#39;dhcpHostDN&#39;
+  DESC &#39;the distinguished name(s) of the dhcpHost objects.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.11
+  NAME &#39;dhcpPoolDN&#39;
+  DESC &#39;The distinguished name(s) of pools.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.12
+  NAME &#39;dhcpGroupDN&#39;
+  DESC &#39;The distinguished name(s) of the groups.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.13
+  NAME &#39;dhcpSubnetDN&#39;
+  DESC &#39;The distinguished name(s) of the subnets.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.14
+  NAME &#39;dhcpLeaseDN&#39;
+  DESC &#39;The distinguished name of a client address.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.15
+  NAME &#39;dhcpLeasesDN&#39;
+  DESC &#39;The distinguished name(s) client addresses.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.16
+  NAME &#39;dhcpClassesDN&#39;
+  DESC &#39;The distinguished name(s) of a class(es) in a subclass.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.17
+  NAME &#39;dhcpSubclassesDN&#39;
+  DESC &#39;The distinguished name(s) of subclass(es).&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.18
+  NAME &#39;dhcpSharedNetworkDN&#39;
+  DESC &#39;The distinguished name(s) of sharedNetworks.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.19
+  NAME &#39;dhcpServiceDN&#39;
+  DESC &#39;The DN of dhcpService object(s)which contain the configuration
+information. Each dhcpServer object has this attribute identifying the DHCP
+configuration(s) that the server is associated with.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.20
+  NAME &#39;dhcpVersion&#39;
+  DESC &#39;The version attribute of this object.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.21
+  NAME &#39;dhcpImplementation&#39;
+  DESC &#39;Description of the DHCP Server implementation e.g. DHCP Servers
+vendor.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.22
+  NAME &#39;dhcpAddressState&#39;
+  DESC &#39;This stores information about the current binding-status of an address.
+For dynamic addresses managed by DHCP, the values should be restricted to the
+following: &quot;FREE&quot;, &quot;ACTIVE&quot;, &quot;EXPIRED&quot;, &quot;RELEASED&quot;, &quot;RESET&quot;, &quot;ABANDONED&quot;,
+&quot;BACKUP&quot;. For other addresses, it SHOULD be one of the following: &quot;UNKNOWN&quot;,
+&quot;RESERVED&quot; (an address that is managed by DHCP that is reserved for a specific
+client), &quot;RESERVED-ACTIVE&quot; (same as reserved, but address is currently in use),
+&quot;ASSIGNED&quot; (assigned manually or by some other mechanism), &quot;UNASSIGNED&quot;,
+&quot;NOTASSIGNABLE&quot;.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.23
+  NAME &#39;dhcpExpirationTime&#39;
+  DESC &#39;This is the time the current lease for an address expires.&#39;
+  EQUALITY generalizedTimeMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.24
+  NAME &#39;dhcpStartTimeOfState&#39;
+  DESC &#39;This is the time of the last state change for a leased address.&#39;
+  EQUALITY generalizedTimeMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.25
+  NAME &#39;dhcpLastTransactionTime&#39;
+  DESC &#39;This is the last time a valid DHCP packet was received from the
+client.&#39;
+  EQUALITY generalizedTimeMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.26
+  NAME &#39;dhcpBootpFlag&#39;
+  DESC &#39;This indicates whether the address was assigned via BOOTP.&#39;
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.27
+  NAME &#39;dhcpDomainName&#39;
+  DESC &#39;This is the name of the domain sent to the client by the server. It is
+essentially the same as the value for DHCP option 15 sent to the client, and
+represents only the domain - not the full FQDN. To obtain the full FQDN
+assigned to the client you must prepend the &quot;dhcpAssignedHostName&quot; to this
+value with a &quot;.&quot;.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.28
+  NAME &#39;dhcpDnsStatus&#39;
+  DESC &#39;This indicates the status of updating DNS resource records on behalf of
+the client by the DHCP server for this address. The value is a 16-bit bitmask.&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.29
+  NAME &#39;dhcpRequestedHostName&#39;
+  DESC &#39;This is the hostname that was requested by the client.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.30
+  NAME &#39;dhcpAssignedHostName&#39;
+  DESC &#39;This is the actual hostname that was assigned to a client. It may not
+be the name that was requested by the client. The fully qualified domain name
+can be determined by appending the value of &quot;dhcpDomainName&quot; (with a dot
+separator) to this name.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.31
+  NAME &#39;dhcpReservedForClient&#39;
+  DESC &#39;The distinguished name of a &quot;dhcpClient&quot; that an address is reserved
+for. This may not be the same as the &quot;dhcpAssignedToClient&quot; attribute if the
+address is being reassigned but the current lease has not yet expired.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.32
+  NAME &#39;dhcpAssignedToClient&#39;
+  DESC &#39;This is the distinguished name of a &quot;dhcpClient&quot; that an address is
+currently assigned to. This attribute is only present in the class when the
+address is leased.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.33
+  NAME &#39;dhcpRelayAgentInfo&#39;
+  DESC &#39;If the client request was received via a relay agent, this contains
+information about the relay agent that was available from the DHCP request.
+This is a hex-encoded option value.&#39;
+  EQUALITY octetStringMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.34
+  NAME &#39;dhcpHWAddress&#39;
+  DESC &#39;The clients hardware address that requested this IP address.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.35
+  NAME &#39;dhcpHashBucketAssignment&#39;
+  DESC &#39;HashBucketAssignment bit map for the DHCP Server, as defined in DHC
+Load Balancing Algorithm [RFC 3074].&#39;
+  EQUALITY octetStringMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.36
+  NAME &#39;dhcpDelayedServiceParameter&#39;
+  DESC &#39;Delay in seconds corresponding to Delayed Service Parameter
+configuration, as defined in DHC Load Balancing Algorithm [RFC 3074]. &#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.37
+  NAME &#39;dhcpMaxClientLeadTime&#39;
+  DESC &#39;Maximum Client Lead Time configuration in seconds, as defined in DHCP
+Failover Protocol [FAILOVR]&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.38
+  NAME &#39;dhcpFailOverEndpointState&#39;
+  DESC &#39;Server (Failover Endpoint) state, as defined in DHCP Failover Protocol
+[FAILOVR]&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.39
+  NAME &#39;dhcpErrorLog&#39;
+  DESC &#39;Generic error log attribute that allows logging error conditions within
+a dhcpService or a dhcpSubnet, like no IP addresses available for lease.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.40
+  NAME &#39;dhcpLocatorDN&#39;
+  DESC &#39;The DN of dhcpLocator object which contain the DNs of all DHCP
+configuration objects. There will be a single dhcpLocator object in the tree
+with links to all the DHCP objects in the tree&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.41
+  NAME &#39;dhcpKeyAlgorithm&#39;
+  DESC &#39;Algorithm to generate TSIG Key&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.42
+  NAME &#39;dhcpKeySecret&#39;
+  DESC &#39;Secret to generate TSIG Key&#39;
+  EQUALITY octetStringMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.43
+  NAME &#39;dhcpDnsZoneServer&#39;
+  DESC &#39;Master server of the DNS Zone&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.44
+  NAME &#39;dhcpKeyDN&#39;
+  DESC &#39;The DNs of TSIG Key to use in secure dynamic updates. In case of
+locator object, this will be list of TSIG keys. In case of DHCP Service, Shared
+Network, Subnet and DNS Zone, it will be a single key.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.45
+  NAME &#39;dhcpZoneDN&#39;
+  DESC &#39;The DNs of DNS Zone. In case of locator object, this will be list of
+DNS Zones in the tree. In case of DHCP Service, Shared Network and Subnet, it
+will be a single DNS Zone.&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.46
+  NAME &#39;dhcpFailOverPrimaryServer&#39;
+  DESC &#39;IP address or DNS name of the server playing primary role in DHC Load
+Balancing and Fail over.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.47
+  NAME &#39;dhcpFailOverSecondaryServer&#39;
+  DESC &#39;IP address or DNS name of the server playing secondary role in DHC Load
+Balancing and Fail over.&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.48
+  NAME &#39;dhcpFailOverPrimaryPort&#39;
+  DESC &#39;Port on which primary server listens for connections from its fail over
+peer (secondary server)&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.49
+  NAME &#39;dhcpFailOverSecondaryPort&#39;
+  DESC &#39;Port on which secondary server listens for connections from its fail
+over peer (primary server)&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.50
+  NAME &#39;dhcpFailOverResponseDelay&#39;
+  DESC &#39;Maximum response time in seconds, before Server assumes that connection
+to fail over peer has failed&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.51
+  NAME &#39;dhcpFailOverUnackedUpdates&#39;
+  DESC &#39;Number of BNDUPD messages that server can send before it receives
+BNDACK from its fail over peer&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.52
+  NAME &#39;dhcpFailOverSplit&#39;
+  DESC &#39;Split between the primary and secondary servers for fail over purpose&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.53
+  NAME &#39;dhcpFailOverLoadBalanceTime&#39;
+  DESC &#39;Cutoff time in seconds, after which load balance is disabled&#39;
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.54
+  NAME &#39;dhcpFailOverPeerDN&#39;
+  DESC &#39;The DNs of Fail over peers. In case of locator object, this will be
+list of fail over peers in the tree. In case of Subnet and pool, it will be a
+single Fail Over Peer&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.55
+  NAME &#39;dhcpServerDN&#39;
+  DESC &#39;List of all DHCP Servers in the tree. Used by dhcpLocatorObject&#39;
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  )
+attributeTypes: (
+  2.16.840.1.113719.1.203.4.56
+  NAME &#39;dhcpComments&#39;
+  DESC &#39;Generic attribute that allows coments within any DHCP object&#39;
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.1
+  NAME &#39;dhcpService&#39;
+  DESC &#39;Service object that represents the actual DHCP Service configuration.
+This is a container object.&#39;
+  SUP top
+  MUST ( cn )
+  MAY ( dhcpPrimaryDN $ dhcpSecondaryDN $ dhcpServerDN $ dhcpSharedNetworkDN $
+dhcpSubnetDN $ dhcpGroupDN $ dhcpHostDN $ dhcpClassesDN $ dhcpOptionsDN $
+dhcpZoneDN $ dhcpKeyDN $ dhcpFailOverPeerDN $ dhcpStatements $dhcpComments $
+dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.2
+  NAME &#39;dhcpSharedNetwork&#39;
+  DESC &#39;This stores configuration information for a shared network.&#39;
+  SUP top
+  MUST cn
+  MAY ( dhcpSubnetDN $ dhcpPoolDN $ dhcpOptionsDN $ dhcpZoneDN $ dhcpStatements
+$dhcpComments $ dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.3
+  NAME &#39;dhcpSubnet&#39;
+  DESC &#39;This class defines a subnet. This is a container object.&#39;
+  SUP top
+  MUST ( cn $ dhcpNetMask )
+  MAY ( dhcpRange $ dhcpPoolDN $ dhcpGroupDN $ dhcpHostDN $ dhcpClassesDN $
+dhcpLeasesDN $ dhcpOptionsDN $ dhcpZoneDN $ dhcpKeyDN $ dhcpFailOverPeerDN $
+dhcpStatements $ dhcpComments $ dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.4
+  NAME &#39;dhcpPool&#39;
+  DESC &#39;This stores configuration information about a pool.&#39;
+  SUP top
+  MUST ( cn $ dhcpRange )
+  MAY ( dhcpClassesDN $ dhcpPermitList $ dhcpLeasesDN $ dhcpOptionsDN $
+dhcpZoneDN $dhcpKeyDN $ dhcpStatements $ dhcpComments $ dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.5
+  NAME &#39;dhcpGroup&#39;
+  DESC &#39;Group object that lists host DNs and parameters. This is a container
+object.&#39;
+  SUP top
+  MUST cn
+  MAY ( dhcpHostDN $ dhcpOptionsDN $ dhcpStatements $ dhcpComments $ dhcpOption
+)
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.6
+  NAME &#39;dhcpHost&#39;
+  DESC &#39;This represents information about a particular client&#39;
+  SUP top
+  MUST cn
+  MAY ( dhcpLeaseDN $ dhcpHWAddress $ dhcpOptionsDN $ dhcpStatements $
+dhcpComments $ dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.7
+  NAME &#39;dhcpClass&#39;
+  DESC &#39;Represents information about a collection of related clients.&#39;
+  SUP top
+  MUST cn
+  MAY ( dhcpSubClassesDN $ dhcpOptionsDN $ dhcpStatements $ dhcpComments $
+dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.8
+  NAME &#39;dhcpSubClass&#39;
+  DESC &#39;Represents information about a collection of related classes.&#39;
+  SUP top
+  MUST cn
+  MAY ( dhcpClassData $ dhcpOptionsDN $ dhcpStatements $ dhcpComments $
+dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.9
+  NAME &#39;dhcpOptions&#39;
+  DESC &#39;Represents information about a collection of options defined.&#39;
+  SUP top
+  AUXILIARY
+  MUST cn
+  MAY ( dhcpOption $ dhcpComments )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.10
+  NAME &#39;dhcpLeases&#39;
+  DESC &#39;This class represents an IP Address, which may or may not have been
+leased.&#39;
+  SUP top
+  MUST ( cn $ dhcpAddressState )
+  MAY ( dhcpExpirationTime $ dhcpStartTimeOfState $ dhcpLastTransactionTime $
+dhcpBootpFlag $ dhcpDomainName $ dhcpDnsStatus $ dhcpRequestedHostName $
+dhcpAssignedHostName $ dhcpReservedForClient $ dhcpAssignedToClient $
+dhcpRelayAgentInfo $ dhcpHWAddress )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.11
+  NAME &#39;dhcpLog&#39;
+  DESC &#39;This is the object that holds past information about the IP address.
+The cn is the time/date stamp when the address was assigned or released, the
+address state at the time, if the address was assigned or released.&#39;
+  SUP top
+  MUST ( cn )
+  MAY ( dhcpAddressState $ dhcpExpirationTime $ dhcpStartTimeOfState $
+dhcpLastTransactionTime $ dhcpBootpFlag $ dhcpDomainName $ dhcpDnsStatus $
+dhcpRequestedHostName $ dhcpAssignedHostName $ dhcpReservedForClient $
+dhcpAssignedToClient $ dhcpRelayAgentInfo $ dhcpHWAddress $ dhcpErrorLog )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.12
+  NAME &#39;dhcpServer&#39;
+  DESC &#39;DHCP Server Object&#39;
+  SUP top
+  MUST ( cn )
+  MAY ( dhcpServiceDN $ dhcpLocatorDN $ dhcpVersion $ dhcpImplementation $
+dhcpHashBucketAssignment $ dhcpDelayedServiceParameter $ dhcpMaxClientLeadTime
+$ dhcpFailOverEndpointState $ dhcpStatements $ dhcpComments $ dhcpOption )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.13
+  NAME &#39;dhcpTSigKey&#39;
+  DESC &#39;TSIG key for secure dynamic updates&#39;
+  SUP top
+  MUST ( cn $ dhcpKeyAlgorithm $ dhcpKeySecret )
+  MAY ( dhcpComments )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.14
+  NAME &#39;dhcpDnsZone&#39;
+  DESC &#39;DNS Zone for updating leases&#39;
+  SUP top
+  MUST ( cn $ dhcpDnsZoneServer )
+  MAY ( dhcpKeyDN $ dhcpComments )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.15
+  NAME &#39;dhcpFailOverPeer&#39;
+  DESC &#39;This class defines the Fail over peer&#39;
+  SUP top
+  MUST ( cn $ dhcpFailOverPrimaryServer $ dhcpFailOverSecondaryServer $
+dhcpFailoverPrimaryPort $ dhcpFailOverSecondaryPort )
+  MAY ( dhcpFailOverResponseDelay $ dhcpFailOverUnackedUpdates $
+dhcpMaxClientLeadTime $ dhcpFailOverSplit $ dhcpHashBucketAssignment $
+dhcpFailOverLoadBalanceTime $ dhcpComments )
+  )
+objectClasses: (
+  2.16.840.1.113719.1.203.6.16
+  NAME &#39;dhcpLocator&#39;
+  DESC &#39;Locator object for DHCP configuration in the tree. There will be a
+single dhcpLocator object in the tree with links to all the DHCP objects in the
+tree&#39;
+  SUP top
+  MUST ( cn )
+  MAY ( dhcpServiceDN $dhcpServerDN $ dhcpSharedNetworkDN $ dhcpSubnetDN $
+dhcpPoolDN $ dhcpGroupDN $ dhcpHostDN $ dhcpClassesDN $ dhcpKeyDN $ dhcpZoneDN
+$ dhcpFailOverPeerDN $ dhcpOption $ dhcpComments )
+  )
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/DHCP_Integration_Design.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

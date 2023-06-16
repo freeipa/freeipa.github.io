@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Authentication_Indicators.html" />
+    <link rel="prev" title="Overview" href="Anonymous_and_All_permissions.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Move to <a class="reference external" href="https://github.com/wbond/asn1crypto">python-asn1crypto</a> as
+ASN.1 parsing library. <em>asn1crypto</em> is a modern library to parse and
+create ASN.1 data. It has been designed to be faster and easier to use
+than pyasn1.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="https://github.com/pyca/cryptography/">PyCA cryptography</a> has
+replaced <em>pyasn1</em> and <em>pyasn1_modules</em> with <em>asn1crypto</em> in version
+<a class="reference external" href="https://cryptography.io/en/latest/changelog/#v1-8">1.8</a>. On Fedora
+26 and newer, FreeIPA depends on two different ASN.1 libraries. It
+directly depends on <em>pyasn1</em> to parse X.509 certs in <em>ipalib.x509</em>, to
+create CSRs in <em>ipaclient.csrgen</em>, and in <em>ipaserver.rpcserver</em> to parse
+OTP sync requests. There is an indirect dependency on <em>asn1crypto</em>
+because latest Fedora comes with <em>python-cryptography 2.x</em>.</p>
+<p>In general we prefer to avoid dependencies on two libraries with same
+purpose. Moving to <em>asn1crypto</em> allows FreeIPA to drop two packages from
+its dependency list.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<p>The change does not introduce new features.</p>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<section id="asn1crypto">
+<h2>asn1crypto<a class="headerlink" href="#asn1crypto" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA can be ported to asn1crypto now. X.509 parsing is stable.
+asn1crypto 0.22 has <a class="reference external" href="https://github.com/wbond/asn1crypto/issues/63">known
+issues</a> to handle
+Kerberos’ ASN.1 data that contains explicit application tags. It only
+affects <em>python-kdcproxy</em>. The issue will be solved soonish.</p>
+</section>
+<section id="freeipa">
+<h2>FreeIPA<a class="headerlink" href="#freeipa" title="Permalink to this heading">¶</a></h2>
+<p>Four modules must be ported:</p>
+<ul class="simple">
+<li><p>ipaclient/csrgen.py</p></li>
+<li><p>ipalib/x509.py</p></li>
+<li><p>ipaserver/rpcserver.py</p></li>
+<li><p>ipatests/test_integration/create_caless_pki.py</p></li>
+</ul>
+<p>and some additional places that import PyASN1Error. asn1crypto simply
+raises ValueError in case of an error.</p>
+</section>
+<section id="kdcproxy">
+<h2>kdcproxy<a class="headerlink" href="#kdcproxy" title="Permalink to this heading">¶</a></h2>
+<p>The <em>python-kdcproxy</em> package also depends on pyasn1. The next release
+will have support for <em>asn1crypto</em>, too. Progress is track
+<a class="reference external" href="https://github.com/latchset/kdcproxy/issues/33">upstream</a>.</p>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add <em>python[23]-asn1crypto</em></p></li>
+<li><p>Remove <em>python[23]-pyasn1</em> and <em>python[23]-pyasn1_modules</em></p></li>
+<li><p>Depend on new version of <em>python-kdcproxy</em></p></li>
+<li><p>Update <em>setup.py</em></p></li>
+</ul>
+</section>
+</section>
+<section id="how-to-test">
+<span id="how-to-test11"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<p>Existing unit and integration tests should be sufficient to cover the
+migration. In case some aspects of <em>pyasn</em> are not covered yet, tests
+should be written first.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Asn1crypto.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

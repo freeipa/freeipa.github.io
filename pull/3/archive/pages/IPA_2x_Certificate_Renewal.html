@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="IPA_Change_Log_Monitor.html" />
+    <link rel="prev" title="Heading" href="IPAFAQ.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__</p>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<p>Automated certificate renewal of the CA subsystem certificates was added
+in <a class="reference external" href="IPAv3_300_ga">IPA 3.0</a>. If you can’t upgrade, here are some
+manual steps that should get you moving forward.</p>
+<p>You probably have several certificates tracked by certmonger in a
+CA_UNREACHABLE state, like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="n">ID</span> <span class="s1">&#39;20111111152846&#39;</span><span class="p">:</span>
+        <span class="n">status</span><span class="p">:</span> <span class="n">CA_UNREACHABLE</span>
+        <span class="n">ca</span><span class="o">-</span><span class="n">error</span><span class="p">:</span> <span class="n">Server</span> <span class="n">failed</span> <span class="n">request</span><span class="p">,</span> <span class="n">will</span> <span class="n">retry</span><span class="p">:</span> <span class="o">-</span><span class="mi">504</span> <span class="p">(</span><span class="n">libcurl</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">execute</span> <span class="n">the</span> <span class="n">HTTP</span> <span class="n">POST</span> <span class="n">transaction</span><span class="o">.</span>  <span class="n">Peer</span> <span class="n">certificate</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">authenticated</span> <span class="k">with</span> <span class="n">known</span> <span class="n">CA</span> <span class="n">certificates</span><span class="p">)</span><span class="o">.</span>
+        <span class="n">stuck</span><span class="p">:</span> <span class="n">yes</span>
+        <span class="n">key</span> <span class="n">pair</span> <span class="n">storage</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">NSSDB</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/etc/httpd/alias&#39;</span><span class="p">,</span><span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;Server-Cert&#39;</span><span class="p">,</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span><span class="p">,</span><span class="n">pinfile</span><span class="o">=</span><span class="s1">&#39;/etc/httpd/alias/pwdfile.txt&#39;</span>
+        <span class="n">certificate</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">NSSDB</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/etc/httpd/alias&#39;</span><span class="p">,</span><span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;Server-Cert&#39;</span><span class="p">,</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span>
+        <span class="n">CA</span><span class="p">:</span> <span class="n">IPA</span>
+        <span class="n">issuer</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+        <span class="n">subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+        <span class="n">expires</span><span class="p">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">11</span> <span class="mi">15</span><span class="p">:</span><span class="mi">28</span><span class="p">:</span><span class="mi">46</span> <span class="n">UTC</span>
+        <span class="n">eku</span><span class="p">:</span> <span class="nb">id</span><span class="o">-</span><span class="n">kp</span><span class="o">-</span><span class="n">serverAuth</span><span class="p">,</span><span class="nb">id</span><span class="o">-</span><span class="n">kp</span><span class="o">-</span><span class="n">clientAuth</span>
+        <span class="n">pre</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span>
+        <span class="n">post</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">restart_httpd</span>
+        <span class="n">track</span><span class="p">:</span> <span class="n">yes</span>
+        <span class="n">auto</span><span class="o">-</span><span class="n">renew</span><span class="p">:</span> <span class="n">yes</span>
+</pre></div>
+</div>
+</section>
+<section id="process">
+<h1>Process<a class="headerlink" href="#process" title="Permalink to this heading">¶</a></h1>
+<p>The first thing you need to do is update certmonger to at least 0.58-1:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># yum update certmonger</span></code></p>
+<p>This provides the dogtag-ipa-renew-agent CA that can directly renew the
+dogtag CA subsystem certificates. You only need to do this on those
+masters with a CA (so it won’t hurt if you upgrade it in other places
+too but it won’t help with this problem either).</p>
+<p>In order for this to work you are going to need to go back in time to
+when the certificates are all still valid. First we need to stop the NTP
+service:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service ntpd stop</span></code></p>
+<p>To find out when the certificates were still valid, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># for nickname in &quot;auditSigningCert cert-pki-ca&quot; &quot;ocspSigningCert cert-pki-ca&quot; &quot;subsystemCert cert-pki-ca&quot; &quot;Server-Cert cert-pki-ca&quot;
+  do
+    echo $nickname
+    certutil -L -d /var/lib/pki-ca/alias -n &quot;${nickname}&quot; | grep -i after
+  done
+</pre></div>
+</div>
+<p>This tells us when to set time back to. I recommend setting time back at
+least 24 hours before expiration.</p>
+<p>Next, you need to determine the PIN for the CA NSS database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># grep internal= /var/lib/pki-ca/conf/password.conf</span></code></p>
+<p>Now we need to tell certmonger about all the CA certificates it needs to
+renew</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for nickname in &quot;auditSigningCert cert-pki-ca&quot; &quot;ocspSigningCert cert-pki-ca&quot; &quot;subsystemCert cert-pki-ca&quot; &quot;Server-Cert cert-pki-ca&quot;</span>
+ <span class="n">do</span>
+     <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">getcert</span> <span class="n">start</span><span class="o">-</span><span class="n">tracking</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">pki</span><span class="o">-</span><span class="n">ca</span><span class="o">/</span><span class="n">alias</span> <span class="o">-</span><span class="n">n</span> <span class="s2">&quot;$</span><span class="si">{nickname}</span><span class="s2">&quot;</span> <span class="o">-</span><span class="n">c</span> <span class="n">dogtag</span><span class="o">-</span><span class="n">ipa</span><span class="o">-</span><span class="n">renew</span><span class="o">-</span><span class="n">agent</span> <span class="o">-</span><span class="n">P</span> <span class="o">&lt;</span><span class="n">internal</span> <span class="n">pin</span><span class="o">&gt;</span>
+ <span class="n">done</span>
+</pre></div>
+</div>
+<p>We also need to renew the agent certificate that IPA uses to
+authenticate:</p>
+<p>`` # /usr/bin/getcert start-tracking -d /etc/httpd/alias -n ipaCert -c dogtag-ipa-renew-agent -p /etc/httpd/alias/pwdfile.txt``</p>
+<p>Use “getcert list” to confirm that these 5 certs are now being tracked
+and note the Request IDs. You should be tracking a total of 8
+certificates now.</p>
+<p>Now it’s time to go back in time to when the certificates are valid,
+something like:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># date 102910262013</span></code></p>
+<p>Let’s force renewal on all of the certificates:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># for line in `getcert list | grep Request | cut -d &quot;'&quot; -f2</span></code>; do getcert resubmit -i $line; done`</p>
+<p>This will renew the CA subsystem certificates but the server
+certificates for Apache and 389-ds will have failed. We need to do a
+little more work to get those renewed, and to get the CA fully
+operational again.</p>
+<p>Running <code class="docutils literal notranslate"><span class="pre">getcert</span> <span class="pre">list</span></code> should confirm this. The two 389-ds and the
+Apache certs are still in CA_UNREACHABLE, though the reason is now SSL
+peer rejected your certificate as expired.</p>
+<p>Let’s continue getting the CA up and running. The audit subsystem
+certificate is recreated with the wrong trust permissions. To fix this
+run:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a># certutil -M -n “auditSigningCert cert-pki-ca” -d /var/lib/pki-ca/alias -t u,u,Pu ``</p>
+<p>The dogtag configuration file has a base64-encoded copy of most of these
+certificates in it. You’ll need to update those by hand.</p>
+<p>To get this run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># for nickname in &quot;auditSigningCert cert-pki-ca&quot; &quot;ocspSigningCert cert-pki-ca&quot; &quot;subsystemCert cert-pki-ca&quot; &quot;Server-Cert cert-pki-ca&quot;; do certutil -L -d /var/lib/pki-ca/alias -n &quot;${nickname}&quot; -a &gt; /tmp/&quot;${nickname}&quot;; done</span></code></p>
+<p>Stop the CA service:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service pki-cad stop</span></code></p>
+<p>Then edit /etc/pki-ca/CS.cfg and find the cert entry for each one and
+replace the blobs. The option names are like ca.audit_signing.cert,
+ca.ocsp_signing.cert, etc. It should be fairly straightforward. There
+are 4 certs you need to replace.</p>
+<p>Here are the nicknames and values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;auditSigningCert cert-pki-ca&#39;</span><span class="p">:</span> <span class="s1">&#39;ca.audit_signing.cert&#39;</span>
+<span class="s1">&#39;ocspSigningCert cert-pki-ca&#39;</span><span class="p">:</span> <span class="s1">&#39;ca.ocsp_signing.cert&#39;</span>
+<span class="s1">&#39;subsystemCert cert-pki-ca&#39;</span><span class="p">:</span> <span class="s1">&#39;ca.subsystem.cert&#39;</span>
+<span class="s1">&#39;Server-Cert cert-pki-ca&#39;</span><span class="p">:</span> <span class="s1">&#39;ca.sslserver.cert&#39;</span>
+</pre></div>
+</div>
+<p>The PEM exported by certutil is going to be broken into several
+64-character lines. You will need to combine them into a single line.</p>
+<p>Backing up this file in advance would be a good idea.</p>
+<p>Now you can try to restart the CA to see what happens. It should come up
+fine:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service pki-cad start</span></code></p>
+<p>For ipaCert, stored in /etc/httpd/alias you have another job to do. This
+certificate is used to authenticate with the CA. You’ll need to use
+ldapmodify to fix things up.</p>
+<p>Start by looking at the new value for ipaCert. You need to do two
+things:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias -n ipaCert | grep -i serial</span></code></p>
+<p>Next you need the base64-encoded value of the cert like before:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias -n ipaCert -a</span></code></p>
+<p>Again you’ll need to drop the header/footer and combine this into a
+single line.</p>
+<p>Next see what is already there with:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ldapsearch -x -h localhost -p 7389 -D 'cn=directory manager' -W -b uid=ipara,ou=People,o=ipaca</span></code></p>
+<p>You need to replace the serial number in the description attribute with
+the new one. The serial number is the 2nd number. The format of the
+description line is:</p>
+<p><code class="docutils literal notranslate"><span class="pre">2;</span></code><code class="docutils literal notranslate"><span class="pre">;</span></code><code class="docutils literal notranslate"><span class="pre">;</span></code></p>
+<p>The change is going to look something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ldapmodify -x -h localhost -p 7389 -D &#39;cn=directory manager&#39; -w password</span>
+<span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">ipara</span><span class="p">,</span><span class="n">ou</span><span class="o">=</span><span class="n">people</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
+<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
+<span class="n">add</span><span class="p">:</span> <span class="n">usercertificate</span>
+<span class="n">usercertificate</span><span class="p">::</span> <span class="n">MII</span><span class="o">...</span><span class="n">PNQ</span><span class="o">=</span>
+<span class="o">-</span>
+<span class="n">replace</span><span class="p">:</span> <span class="n">description</span>
+<span class="n">description</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span><span class="mi">16</span><span class="p">;</span><span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="p">;</span><span class="n">CN</span><span class="o">=</span><span class="n">IPA</span> <span class="n">RA</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="o">&lt;</span><span class="n">extra</span> <span class="n">blank</span> <span class="n">line</span> <span class="n">to</span> <span class="n">finish</span><span class="o">&gt;</span>
+<span class="o">^</span><span class="n">D</span> <span class="n">to</span> <span class="n">exit</span>
+</pre></div>
+</div>
+<p>Now restart the Apache service</p>
+<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service httpd restart</span></code></p>
+<p>Next we need to renew the two 389-ds and the Apache server certificates.</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-getcert list</span></code></p>
+<p>For each of the three Request IDs run something like this:</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a># ipa-getcert resubmit -i ``</p>
+<p>Restart the world:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service ipa restart</span></code></p>
+<p>Return to the present time.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># /sbin/service ntpd start</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># date (confirm it is now)</span></code></div>
+</div>
+<p>To make sure that communication with the CA is working run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa cert-show 1</span></code></p>
+</section>
+<section id="notes">
+<h1>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h1>
+<p>I tested this on a RHEL 6.4 system that I installed ipa-server-2.2.0 and
+krb5-server-1.9. I did this by:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># date 111110262011</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-server-install -N ...</span></code></div>
+</div>
+<p>I confirmed that things were working, then I brought time to today:</p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a># rdate -s ``</p>
+<p>So I basically simulated an installation 2 years in the past and see
+today that my certificates are expired. Then I did the renewal
+procedure. I did the install without an NTP server because otherwise it
+would have reset the current time to today during the install, and I
+wanted to be in the past.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/IPA_2x_Certificate_Renewal.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

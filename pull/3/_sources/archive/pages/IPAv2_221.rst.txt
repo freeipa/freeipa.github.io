@@ -1,0 +1,101 @@
+The FreeIPA team is proud to announce a bug fix release FreeIPA v2.2.1.
+
+It can be downloaded from
+` <http://www.freeipa.org/page/Downloads>`__\ http://www.freeipa.org/page/Downloads.
+
+A build is on the way to updates-testing for Fedora 17. Fedora 15 and 16
+are not supported by FreeIPA 2.2.1 due to missing dependencies.
+
+**IMPORTANT NOTE**
+
+LDAP upgrade script in FreeIPA 2.2.1 contains a flawed index update
+upgrade procedure, which may cause users not being able to authenticate
+with server **upgraded** to FreeIPA 2.2.1. New installations are not
+affected.
+
+The issue is already `filed to FreeIPA
+Trac <https://fedorahosted.org/freeipa/ticket/3253>`__, to workaround
+the issue, please run the following command after freeipa-server package
+upgrade:
+
+``# ipa-ldap-updater --upgrade``
+
+After this command is run, FreeIPA should function properly.
+
+.. _highlights_in_2.2.1:
+
+Highlights in 2.2.1
+-------------------
+
+-  New Firefox extension able to configure browser for Kerberos support.
+   The extension is required in Firefox 15 and later as updates to
+   Firefox configuration via signed code is no longer supported
+-  Web UI Host page fixed to work with disabled DNS
+-  Client SSH configuration has been fixed to use GlobalKnownHostsFile
+   instead of GlobalKnownHostsFile2 in as the latter has been deprecated
+   in OpenSSH 5.9
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-devel
+mailing list: http://www.redhat.com/mailman/listinfo/freeipa-devel
+
+.. _detailed_changelog_since_2.2.0:
+
+Detailed Changelog since 2.2.0
+------------------------------
+
+Endi Sukma Dewata (1):
+
+-  Fixed boot.ldif permission.
+
+Jan Cholasta (1):
+
+-  SSH configuration fixes.
+
+Martin Kosek (1):
+
+-  Become IPA 2.2.1
+
+Petr Viktorin (2):
+
+-  replica-install: Don't copy Firefox config extension files if they're
+   not in the replica file
+-  Create Firefox extension on upgrade and replica-install
+
+Petr Vobornik (8):
+
+-  Host page fixed to work with disabled DNS support
+-  Fix jquery error when using '??' in a pkey
+-  Kerberos authentication extension
+-  Kerberos authentication extension makefiles
+-  Build and installation of Kerberos authentication extension
+-  Configuration pages changed to use new FF extension
+-  Add mime type to httpd ipa.conf for xpi extension
+-  RPM spec fix for ffconfig.js and ffconfig_page.js
+
+Rob Crittenden (2):
+
+-  Check for locked-out user before incrementing lastfail.
+-  Index the fqdn attribute.
+
+Simo Sorce (2):
+
+-  Fix migration code password setting.
+-  Add support for disabling KDC writes

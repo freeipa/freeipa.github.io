@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How it works &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Apache Configuration Changes" href="LdapUpdate.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="IpaConcepts.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The Kerberos KDC/Kadmin components are implemented using the <a class="reference external" href="http://web.mit.edu/kerberos/">MIT
+Kerberos</a> software. It provides
+authentication services for the entire FreeIPA realm, it’s users
+services and other components. Kerberos server is one of the base stones
+of a FreeIPA server.</p>
+<section id="how-it-works">
+<span id="id1"></span><h1>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this heading">¶</a></h1>
+<p>When you run <code class="docutils literal notranslate"><span class="pre">kinit</span></code> command you invoke a client that connects to the
+Kerberos server, called KDC. As a result of the authentication the
+client receives a ticket. This ticket is a temporary pass or better say
+a pass-book. The best example from the real life will a be pass to a
+movie festival. A pass to such festival would allow someone to attend
+different movies at their discretion. Kerberos is very similar. When
+user tries to access some kind of resource protected by Kerberos the
+resource requires the user to present a valid ticket – same as with the
+movies.</p>
+<p>To get such a ticket the user needs to prove that he is who he is.
+Asking user to authenticate with his password all the time might be too
+annoying and hard to manage. This is why there is a multi tier process.
+First user authenticates and gets so called <em>TGT</em> (ticket granting
+ticket). This ticket can be presented to Kerberos server at any moment
+and a new ticket specific to the resource the user wants to access can
+be acquired. All the tickets have a configurable expiration time (run
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">help</span> <span class="pre">krbtpolicy</span></code> to get more information) so user needs to
+re-authenticate from time to time but it is much less of a burden.</p>
+<p>When <a class="reference external" href="Client">SSSD</a> project is used, the ticket is get for a user
+automatically as he authenticates to client machine.</p>
+</section>
+<section id="data">
+<h1>Data<a class="headerlink" href="#data" title="Permalink to this heading">¶</a></h1>
+<p>MIT Kerberos KDC server reads all the user and service identity
+information from a <a class="reference external" href="Directory_Server">Directory Server</a>. FreeIPA
+implements an own <strong>ipa-kdb</strong> KDC data backend implementation reading
+and writing all the required information to LDAP tree. The provides both
+basic identity retrieval function, but also more advanced features, like
+verifying, signing and producing Kerberos ticket MS-PAC extension when
+<a class="reference external" href="Trusts">Trusts</a> are in place.</p>
+</section>
+<section id="kerberos-specific-terminology">
+<span id="id2"></span><h1>Kerberos-Specific Terminology<a class="headerlink" href="#kerberos-specific-terminology" title="Permalink to this heading">¶</a></h1>
+<p>authentication server (AS) : A server that issues tickets for a desired
+service which are in turn given to users for access to the service. The
+AS responds to requests from clients who do not have or do not send
+credentials with a request. It is usually used to gain access to the
+ticket-granting server (TGS) service by issuing a ticket-granting ticket
+(TGT). The AS usually runs on the same host as the key distribution
+center (KDC).</p>
+<p>ciphertext : Encrypted data.</p>
+<p>client : An entity on the network (a user, a host, or an application)
+that can receive a ticket from Kerberos.</p>
+<p>credentials : A temporary set of electronic credentials that verify the
+identity of a client for a particular service. Also called a ticket.</p>
+<p>credential cache or ticket file : A file which contains the keys for
+encrypting communications between a user and various network services.
+Kerberos 5 supports a framework for using other cache types, such as
+shared memory, but files are more thoroughly supported.</p>
+<p>crypt hash : A one-way hash used to authenticate users. These are more
+secure than using unencrypted data, but they are still relatively easy
+to decrypt for an experienced cracker.</p>
+<p>GSS-API : The Generic Security Service Application Program Interface
+(defined in RFC-2743 published by The Internet Engineering Task Force)
+is a set of functions which provide security services. This API is used
+by clients and services to authenticate to each other without either
+program having specific knowledge of the underlying mechanism. If a
+network service (such as cyrus-IMAP) uses GSS-API, it can authenticate
+using Kerberos.</p>
+<p>hash : Also known as a hash value. A value generated by passing a string
+through a hash function. These values are typically used to ensure that
+transmitted data has not been tampered with.</p>
+<p>hash function : A way of generating a digital “fingerprint” from input
+data. These functions rearrange, transpose or otherwise alter data to
+produce a hash value.</p>
+<p>key : Data used when encrypting or decrypting other data. Encrypted data
+cannot be decrypted without the proper key or extremely good fortune on
+the part of the cracker.</p>
+<p>key distribution center (KDC) : A service that issues Kerberos tickets,
+and which usually runs on the same host as the ticket-granting server
+(TGS).</p>
+<p>keytab (or key table) : A file that includes an unencrypted list of
+principals and their keys. Servers retrieve the keys they need from
+keytab files instead of using kinit. The default keytab file is
+<code class="docutils literal notranslate"><span class="pre">/etc/krb5.keytab</span></code>. The KDC administration server,
+<strong>/usr/kerberos/sbin/kadmind</strong>, is the only service that uses any other
+file (it uses <code class="docutils literal notranslate"><span class="pre">/var/kerberos/krb5kdc/kadm5.keytab</span></code>).</p>
+<p>kinit : The kinit command allows a principal who has already logged in
+to obtain and cache the initial ticket-granting ticket (TGT). Refer to
+the kinit man page for more information.</p>
+<p>principal (or principal name) : The principal is the unique name of a
+user or service allowed to authenticate using Kerberos. A principal
+follows the form <em>root[/instance]&#64;REALM</em>. For a typical user, the root
+is the same as their login ID. The instance is optional. If the
+principal has an instance, it is separated from the root with a forward
+slash (“/”). An empty string (“”) is considered a valid instance (which
+differs from the default NULL instance), but using it can be confusing.
+All principals in a realm have their own key, which for users is derived
+from a password or is randomly set for services.</p>
+<p>realm : A network that uses Kerberos, composed of one or more servers
+called KDCs and a potentially large number of clients.</p>
+<p>service : A program accessed over the network.</p>
+<p>ticket : A temporary set of electronic credentials that verify the
+identity of a client for a particular service. Also called credentials.</p>
+<p>ticket-granting server (TGS) : A server that issues tickets for a
+desired service which are in turn given to users for access to the
+service. The TGS usually runs on the same host as the KDC.</p>
+<p>ticket-granting ticket (TGT) : A special ticket that allows the client
+to obtain additional tickets without applying for them from the KDC.</p>
+<p>unencrypted password : A plain text, human-readable password.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Kerberos.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

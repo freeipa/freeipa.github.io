@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Cert_find.html" />
+    <link rel="prev" title="Overview" href="Backup_and_Restore.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>IPA should support installing without an embedded Certificate Authority,
+with user-provided SSL certificates for the HTTP and <a class="reference external" href="Directory_Server">Directory
+Server</a>.</p>
+</section>
+<section id="use-cases">
+<span id="use-cases111"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ol class="arabic simple">
+<li><p>User installs IPA using the –http_pkcs12, –dirsrv_pkcs12,
+–http_pin, –dirsrv_pin, –root-ca-file options, giving appropriate
+certificates.</p></li>
+<li><p>IPA installs and works normally, excluding the certificate management
+operations</p></li>
+<li><p>User creates a replica using –http_pkcs12, –dirsrv_pkcs12,
+–http_pin, –dirsrv_pin options to ipa-replica-prepare</p></li>
+<li><p>Replica works normally, excluding certificate management operaions</p></li>
+</ol>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>To install without a CA, the following options must be provided to
+ipa-server-install:</p>
+<ul class="simple">
+<li><p>–http_pkcs12: a PKCS#12 file containing the HTTP server certificate</p></li>
+<li><p>–dirsrv_pkcs12: a PKCS#12 file containing the Directory server
+certificate</p></li>
+<li><p>–http_pin: password for the file given in –http_pkcs12</p></li>
+<li><p>–dirsrv_pin: password for the file given in –dirsrv_pkcs12</p></li>
+<li><p>–root-ca-file: a PEM file containing the root CA certificate</p></li>
+</ul>
+<p>Each of the PKCS#12 files must contain exactly one certificate with a
+private key. This will be used as the server certificate. It must also
+contain certificates of any intermediate CAs. It may contain any number
+of other certificates without matching private keys. The two PKCS#12
+files may (and often will) be the same. The certificates must be valid
+as server certs for the given host.</p>
+<p>The PEM file given by –root-ca-file must contain exactly one
+certificate. This cert will be trusted as a root CA on the IPA server
+and all clients. Both server certs must be signed by this CA (possibly
+via a trust chain). It will be available in <code class="docutils literal notranslate"><span class="pre">/etc/ipa/ca.crt</span></code> and in
+the cACertificate attribute of cn=CACert,cn=ipa,cn=etc,$SUFFIX in LDAP,
+just like the IPA CA cert in Dogtag-based installations.</p>
+<p>Note that –root-ca-file gives the root of trust, which may not
+necessarily be the root of a certificate chain. For example, if a user
+wishes to trust a company-wide certificate, but not an external the CA
+that signed it, –root-ca-file should give the company certificate.</p>
+<p>These options are incompatible with –external-ca.</p>
+<p>To install a replica, following options must be provided to
+ipa-replica-prepare:</p>
+<ul class="simple">
+<li><p>–http_pkcs12</p></li>
+<li><p>–dirsrv_pkcs12</p></li>
+<li><p>–http_pin</p></li>
+<li><p>–dirsrv_pin</p></li>
+</ul>
+<p>The root CA is taken from the existing master. All requirements
+mentioned in the ipa-server-install case apply.</p>
+<section id="certificate-rotation">
+<span id="id1"></span><h2>Certificate rotation<a class="headerlink" href="#certificate-rotation" title="Permalink to this heading">¶</a></h2>
+<p>Neither the Dogtag CA nor Certmonger are installed on IPA servers in
+this scenario. Before the server certificates expire, new ones must be
+issued and installed manually.</p>
+<p>In this setup, no warnings are given about certs that are about to
+expire.</p>
+</section>
+<section id="kdc-pkinit-considerations">
+<span id="id2"></span><h2>KDC pkinit considerations<a class="headerlink" href="#kdc-pkinit-considerations" title="Permalink to this heading">¶</a></h2>
+<p>In the future, another certificate will be needed for the KDC. It will
+be specified using the –pkinit_pkcs and –pkinit_pin options, similarly
+to the other two certs.</p>
+<p>Currently KDC pkinit is disabled.</p>
+</section>
+<section id="affected-commands">
+<span id="id3"></span><h2>Affected commands<a class="headerlink" href="#affected-commands" title="Permalink to this heading">¶</a></h2>
+<p>IPA’s cert plugin and cert-* commands will not be available at all.
+Calling them will result in CommandError (code 905) No online help will
+be available on them, or on the “cert” topic.</p>
+<p>Certificates removed from LDAP will not be automatically revoked. This
+affects the following commands:</p>
+<ul class="simple">
+<li><p>host-del</p></li>
+<li><p>host-mod</p></li>
+<li><p>host-disable</p></li>
+<li><p>service-del</p></li>
+<li><p>service-mod</p></li>
+<li><p>service-disable</p></li>
+</ul>
+</section>
+<section id="clients">
+<h2>Clients<a class="headerlink" href="#clients" title="Permalink to this heading">¶</a></h2>
+<p>Clients in a CA-less IPA installation will work normally, except host
+certificates will not be assigned automatically.</p>
+<p>Older clients configure certmonger to obtain the host certificate, which
+will fail, with the following line appearing periodically in the system
+log:</p>
+<p>``   Server failed request, will retry: 905 (RPC failed at server.  unknown command ‘cert_request’).``</p>
+<p>The errors can be stopped by issuing:</p>
+<div class="line-block">
+<div class="line">``   # getcert list  # to find out the certmonger request ID``</div>
+<div class="line">``   # getcert stop-tracking ``</div>
+</div>
+<p>If needed, machine certificates may be obtained from the external CA and
+added to the server with:</p>
+<p>``   ipa host-mod <a href="#id4"><span class="problematic" id="id5">``</span></a>`` –certificate ``</p>
+</section>
+<section id="why-root-ca-file">
+<span id="id6"></span><h2>Why –root-ca-file?<a class="headerlink" href="#why-root-ca-file" title="Permalink to this heading">¶</a></h2>
+<p>IPA requires the user to specify the root CA to be trusted. This done to
+ensure that all replicas and clients trust the IPA certificates, no
+matter what their initial configuration is.</p>
+<p>Theoretically the CA certificate could be extracted from PKCS#12 files,
+but to ensure transparency and the administrator’s control when it comes
+to trusting a root CA, it must always be specified explicitly.</p>
+<p>In the future it might be possible to trust more than one CA in this
+way.</p>
+</section>
+</section>
+<section id="certificate-management-faq">
+<span id="id7"></span><h1>Certificate management FAQ<a class="headerlink" href="#certificate-management-faq" title="Permalink to this heading">¶</a></h1>
+<section id="how-to-check-what-format-files-are">
+<span id="id8"></span><h2>How to check what format files are?<a class="headerlink" href="#how-to-check-what-format-files-are" title="Permalink to this heading">¶</a></h2>
+<p>Use the handy <code class="docutils literal notranslate"><span class="pre">file</span></code> command.</p>
+<p>PEM files show up as such:</p>
+<div class="line-block">
+<div class="line">``   $ file /etc/ipa/ca.crt``</div>
+<div class="line">``   /etc/ipa/ca.crt: PEM certificate``</div>
+</div>
+<p>PKCS#12 files show up as just “data”:</p>
+<div class="line-block">
+<div class="line">``   $ file dirsrv.p12``</div>
+<div class="line">``   dirsrv.p12: data``</div>
+</div>
+<p>To check a PKCS#12 file, you need to know the password:</p>
+<div class="line-block">
+<div class="line">``   $ pk12util -l dirsrv.p12``</div>
+<div class="line">``   Enter password for PKCS12 file:``</div>
+<div class="line">``   Certificate(has private key):``</div>
+<div class="line">``       &lt;…&gt;``</div>
+<div class="line">``   Certificate:``</div>
+<div class="line">``       &lt;…&gt;``</div>
+<div class="line">``   Key(shrouded):``</div>
+<div class="line">``       &lt;…&gt;``</div>
+</div>
+</section>
+<section id="how-many-certs-are-there-in-a-file">
+<span id="id9"></span><h2>How many certs are there in a file?<a class="headerlink" href="#how-many-certs-are-there-in-a-file" title="Permalink to this heading">¶</a></h2>
+<p>For PKCS#12 files, use <code class="docutils literal notranslate"><span class="pre">pk12util</span> <span class="pre">-l</span></code> (see previous section).</p>
+<p>For PEM files, simply open the file in a pager or text editor and count
+the number of blocks. A certificate will look like this:</p>
+<div class="line-block">
+<div class="line">``   $ cat /etc/ipa/ca.crt``</div>
+<div class="line">``   —–BEGIN CERTIFICATE—–``</div>
+<div class="line">``   MIIDuzCCAqOgAwIBAgIBATANBgkqhkiG9w0BAQsFADBFMSMwIQYDVQQKExpJRE0u``</div>
+<div class="line">``   TEFCLkVORy5CUlEuUkVESEFULkNPTTEeMBwGA1UEAxMVQ2VydGlmaWNhdGUgQXV0``</div>
+<div class="line">``   aG9yaXR5MB4XDTEzMDMyMDE3MDQxNFoXDTMzMDMyMDE3MDQxNFowRTEjMCEGA1UE``</div>
+<div class="line">``   ChMaSURNLkxBQi5FTkcuQlJRLlJFREhBVC5DT00xHjAcBgNVBAMTFUNlcnRpZmlj``</div>
+<div class="line">``   YXRlIEF1dGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZi``</div>
+<div class="line">``   pF9Dz5O1rVTRnwIdttHl0sKpHeRqzi/S7bnAFh3Jb2UxzFmHTpgQFKqq72mYatpL``</div>
+<div class="line">``   O0BPc47IGh9gwGZNLcEaNCf7zYCbqBJso8RV6SxbHSEdo+JuSYhMxVasKQcojqeY``</div>
+<div class="line">``   /wx11A4NSQAco6mBZz255llZqMQcJVMW4T8aioUd19Yh35CM9vr6l6dgUnvA9fAF``</div>
+<div class="line">``   TOl144yfF8AjvF1hIAePjLyl+Y/xxh1U2j5hF4z7ZeUGHKVZR9pQ62kbM7TgAR6Y``</div>
+<div class="line">``   YLGpis44JPfgRVkDGEkc7Vzpct1D4Iz7/oGMV+0kbJbz+9DSIHWY10QTtf9mNQNn``</div>
+<div class="line">``   xKGa3wCf5u8ctfmms8cCAwEAAaOBtTCBsjAfBgNVHSMEGDAWgBQCHF1DVeHg3kUG``</div>
+<div class="line">``   VRm/j0f9eji6nzAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBxjAdBgNV``</div>
+<div class="line">``   HQ4EFgQUAhxdQ1Xh4N5FBlUZv49H/Xo4up8wTwYIKwYBBQUHAQEEQzBBMD8GCCsG``</div>
+<div class="line">``   AQUFBzABhjNodHRwOi8vdm0tMDg0LmlkbS5sYWIuZW5nLmJycS5yZWRoYXQuY29t``</div>
+<div class="line">``   OjgwL2NhL29jc3AwDQYJKoZIhvcNAQELBQADggEBAB3+or2Q/aPO4ZMBE4Q6xCMV``</div>
+<div class="line">``   09ESAXXT/0DLakAt28ljy1wWKVR3d54TxZJ4DEcYgbxDa1A87DZW8sn+LM4Uwap9``</div>
+<div class="line">``   DUyHA0mhBjROe6NXgJQl9aZ7IeE1ht+pw/n+JR2sg3ccYHvQjRcEZj2OPQuavyPn``</div>
+<div class="line">``   hwokDc3FVarlsQcrtfePG3e8TQXAnpSxV+KAMBEp4yib5nrkNZZoU+nqMI0ftXrk``</div>
+<div class="line">``   rP5q0SaEBEjC4+AoYje4Bv3+8RKT1kwBMkTL8eRRuWZmKvOy9sCnnFfU4HMMkPTK``</div>
+<div class="line">``   NJg9Gt8a/xU6GK239M1keCKct87VqWN1unXaD51bgotK1UJWj1q8H262mSYzfRg=``</div>
+<div class="line">``   —–END CERTIFICATE—–``</div>
+</div>
+</section>
+<section id="how-to-extact-certs-or-or-combine-certs-into-files">
+<span id="id10"></span><h2>How to extact certs or or combine certs into files?<a class="headerlink" href="#how-to-extact-certs-or-or-combine-certs-into-files" title="Permalink to this heading">¶</a></h2>
+<section id="pem-files">
+<span id="id11"></span><h3>PEM Files<a class="headerlink" href="#pem-files" title="Permalink to this heading">¶</a></h3>
+<p>PEM files are plain text; manipulate them using a text editor</p>
+</section>
+<section id="base64-encoded-der-certificates">
+<span id="id12"></span><h3>Base64-encoded DER certificates<a class="headerlink" href="#base64-encoded-der-certificates" title="Permalink to this heading">¶</a></h3>
+<p>The letters and symbols between a PEM file’s BEGIN CERTIFICATE and END
+CERTIFICATE markers are a base64-encoded DER-encoded X.509 certificate.
+To convert between PEM and base64-encoded DER, just add or remove the
+markers in a text editor.</p>
+</section>
+<section id="using-a-nss-database">
+<span id="id13"></span><h3>Using a NSS database<a class="headerlink" href="#using-a-nss-database" title="Permalink to this heading">¶</a></h3>
+<p>NSS databases can be manipulated using <code class="docutils literal notranslate"><span class="pre">certutil</span></code> and <code class="docutils literal notranslate"><span class="pre">pk12util</span></code>.</p>
+<p>In a NSS database, each certificate is identified using a “nickname”.
+The nickname can be set with -n option, or taken from the “Friendly
+name” entry in a PKCS#12 file, or from the Subject of the certificate.
+Note that nicknames and Friendly Names are *not* part of the cert
+itself.</p>
+<p>Create a temporary NSS database using:</p>
+<p>``   certutil -N -d /path/to/nssdb``</p>
+<p>Remember to set appropriate permissions if you’re working with sensitive
+data.</p>
+<p>To list nicknames and trust flags in of the certs in the database,
+enter:</p>
+<p>``   certutil -L -d /path/to/nssdb/``</p>
+<p>To import a PKCS#12 file to a database:</p>
+<p>``   pk12util -i /path/to/pkcs12file.p12 -d /path/to/nssdb``</p>
+<p>To export a PKCS#12 file from a database (this will export the
+certificate chain and private key(s), if available):</p>
+<p>``   pk12util -o /path/to/pkcs12file.p12 -d /path/to/nssdb -n ``</p>
+<p>To import a PEM file:</p>
+<p>``   certutil -A -d /path/to/nssdb -n <a href="#id14"><span class="problematic" id="id15">``</span></a>`` -a -t <a href="#id16"><span class="problematic" id="id17">``</span></a>`` -i ``</p>
+<p>For an explicitly trusted (root) CA, use “CT,C,C” for flags. Otherwise
+use “,,”</p>
+<p>To export a PEM file (to stdout):</p>
+<p>``   certutil -L -d /path/to/nssdb -n <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -a</span></code></p>
+<p>Note that PEM is referred to as “ASCII” in certutil documentation.</p>
+<p>To create a self-signed root CA certificate and private key:</p>
+<p>``   certutil -S -d /path/to/nssdb -s “CN=$(hostname)” -m $RANDOM -n RootCA -t CT,C,C -x``</p>
+<p>You should substitute a unique serial number for $RANDOM.</p>
+<p>To generate a Certificate Signing Request for a server:</p>
+<p>``   certutil -R -d /path/to/nssdb -s “CN=$(hostname)” -1 -a -o request.csr``</p>
+<p>Select Digital Signature, Non-Repudiation and Key Encipherment for the
+extension.</p>
+<p>To sign the CSR, and get a PEM file with the cert:</p>
+<p>``   certutil -C -d /path/to/nssdb -m $RANDOM -a -i request.csr -c RootCA``</p>
+<p>Again, substitute a unique serial number for $RANDOM.</p>
+</section>
+</section>
+<section id="how-to-check-that-my-certificates-will-be-usable">
+<span id="id18"></span><h2>How to check that my certificates will be usable?<a class="headerlink" href="#how-to-check-that-my-certificates-will-be-usable" title="Permalink to this heading">¶</a></h2>
+<p>To inspect PKCS#12 files, use <code class="docutils literal notranslate"><span class="pre">pk12util</span> <span class="pre">-l</span></code>. For other files, import
+them in a NSS database and use <code class="docutils literal notranslate"><span class="pre">certutil</span> <span class="pre">-L</span></code>. See above for details.</p>
+<p>For the servers, you will need certs with a private key. These show up
+as “Certificate(has private key):” in <code class="docutils literal notranslate"><span class="pre">pk12util</span></code> output, and with “u”
+flags in <code class="docutils literal notranslate"><span class="pre">certutil</span> <span class="pre">-L</span></code> without <code class="docutils literal notranslate"><span class="pre">-n</span></code> The certs will need Digital
+Signature, Non-Repudiation and Key Encipherment in the “Certificate Key
+Usage” extension (visible in <code class="docutils literal notranslate"><span class="pre">pk12util</span> <span class="pre">-l</span></code> and <code class="docutils literal notranslate"><span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-n</span></code>
+output). Also, server certs must have “CN=” in the Subject.</p>
+<p>The server certs will need a valid trust chain leading up to the CA
+certificate. You can check the trust chain following the “Subject” and
+“Issuer” lines in the <code class="docutils literal notranslate"><span class="pre">pk12util</span> <span class="pre">-l</span></code> output. CAs should have
+Certificate Signing and CRL Signing in their “Certificate Key Usage”
+extension.</p>
+</section>
+</section>
+<section id="feature-managment">
+<span id="id19"></span><h1>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>N/A</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>The –http_pkcs12, –dirsrv_pkcs12, –http_pin, –dirsrv_pin options to
+ipa-server-install and ipa-replica-prepare work again. The
+–root-ca-file option was added to ipa-server-install.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>The feature can be installed as detailed above. There is no supported
+way to enable a CA once a CA-less IPA is installed, or to revert to
+CA-less from a Dogtag installation.</p>
+</section>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>When creating a replica file, certificates for that replica must be
+specified. These must be signed by the CA given as –root-ca-file to the
+original master (a copy of this CA cert is in /etc/ipa/ca.crt).</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>Existing installs are not affected.</p>
+<p>Upgrading CA-less instances should work normally.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>See <a class="reference external" href="V3/CA-less_install/Test">dedicated test page</a>.</p>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="User:pviktorin">pviktori</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/CA-less_install.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

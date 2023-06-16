@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Requirements &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="What is Backup and Restore?" href="Backup_and_Restore.html" />
+    <link rel="prev" title="Architecture" href="Architecture.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h1>
+<p>Kerberos as authentication mechanism allows authenticating different
+kinds of principals: users, host, services etc. As a result of the
+authentication a so called TGT (ticket granting ticket) is issued. This
+ticket is used to obtain tickets to contact other services, so that they
+do not need to contact the central server to confirm authentication. The
+TGT is valid for a limited period of time. When the TGT expires a new
+one need to issued. If allowed by the TGT and requested on issue, the
+ticket can also be renewed before it is expired. The ticket cannot be
+renewd past the maximum renewal time. This page deals with acquiring
+and/or renewing TGTs.</p>
+<section id="host-ticket">
+<span id="id1"></span><h2>Host Ticket<a class="headerlink" href="#host-ticket" title="Permalink to this heading">¶</a></h2>
+<p>In IPA v2 every host enrolled with IPA will have a kerberos keytab that
+will be provisioned to the machine during the machine enrollment. This
+keytab will be used to authenticate the host when the host itself needs
+to perform an operation against the IPA server or any other client in
+the network.</p>
+<p>Because the keytab contains the secret it is always possible to acquire
+a new TGT at any time. If a TGT is expired a new one will be requested
+before performing an operation that requires exchange of kerberos
+credentials.</p>
+</section>
+<section id="user-ticket">
+<span id="id2"></span><h2>User Ticket<a class="headerlink" href="#user-ticket" title="Permalink to this heading">¶</a></h2>
+<p>Users logging into the IPA enrolled client are going to use a PAM module
+that will proxy requests down to the IPA Data Provider. The result will
+be the generation of a credential cache for the user containing the User
+TGT.</p>
+<section id="credentials-expiration">
+<span id="id3"></span><h3>Credentials Expiration<a class="headerlink" href="#credentials-expiration" title="Permalink to this heading">¶</a></h3>
+<p>Sometimes the user may need to run long jobs that take hours to
+complete. If the job tries to access other kerberos enabled services
+like NFS on behalf of the user, access will be denied if the Ticket is
+expired, and the job may abort. This situation is causes a lot of
+problems in the customer environment and is one of the show stoppers for
+broader kerberos adoption.</p>
+<p>The requirement to solve this problem was added to the IPA PRD.</p>
+</section>
+</section>
+<section id="other-considerations">
+<span id="id4"></span><h2>Other Considerations<a class="headerlink" href="#other-considerations" title="Permalink to this heading">¶</a></h2>
+<p>There several important considerations that should be taken into the
+account:</p>
+<ul class="simple">
+<li><p>The solution should not jeopardize security</p></li>
+<li><p>The solution should not require end user intervention</p></li>
+<li><p>The user ticket should not be renewed by default, but only if
+explicitly configured to do so.</p></li>
+</ul>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>There are several different approaches that address the requirements.</p>
+<section id="kerberos-renewal-approach">
+<span id="id5"></span><h2>Kerberos Renewal Approach<a class="headerlink" href="#kerberos-renewal-approach" title="Permalink to this heading">¶</a></h2>
+<p>The Kerberos protocol allows to renew a ticket if it is marked as
+renewable (and original ticket was requested as renewable). The TGTs in
+addition to the “renewable” flag has a max renew time – when asking for
+renewals the expiration time will not be set beyond this time limit.
+Renewal must occur before the ticket expires. Potentially this can be
+defined on per users bases and stored, per principal, in LDAP using this
+objectclass.</p>
+<div class="line-block">
+<div class="line">``  objectClasses: ( 2.16.840.1.113719.1.301.6.16.1 ``</div>
+<div class="line">``  NAME ‘krbTicketPolicyAux’ ``</div>
+<div class="line">``  AUXILIARY ``</div>
+<div class="line">``  MAY ( krbTicketFlags $ krbMaxTicketLife $ krbMaxRenewableAge ) ``</div>
+<div class="line">``  X-ORIGIN ‘user defined’ ) ``</div>
+</div>
+<div class="line-block">
+<div class="line">Currently in IPA v2 there is no UI to add this information, but it can
+be manipulated using LDAP operations.</div>
+<div class="line">It would be possible to leverage this class to set per principal
+defaults, to allow or disallow renewals on a per principal basis. A
+possible scenario to manage these options is this:</div>
+</div>
+<ul class="simple">
+<li><p>Any kerberos principal entry would be populated with a
+krbTicketPolicyAux objectclass.</p></li>
+<li><p>There would be a management interface that would allow bulk
+manipulation of kerberos ticket flags, ticket maximum time and
+renewable age.</p></li>
+<li><p>There would be an option in the IPA client policy that will indicate
+that the clients should attempt to renew the tickets automatically.
+The IPA clients affected by this policy will attempt automatic
+renewal of the tickets.</p></li>
+<li><p>The IPA data provider will have additional logic:</p>
+<ul>
+<li><p>If the client is configured to automatically renew tickets, a
+“check kerberos renewal” task will be created.</p></li>
+<li><p>The task will periodically generate an event and when that happens
+it will check if it is time to renew tickets.</p></li>
+<li><p>If a ticket is close to expiration it will try to renew it.</p></li>
+<li><p>Only ticket for logged in users are checked for, a list of
+references to the credential caches for each user is kept up to
+date based on login/logout events.</p></li>
+<li><p>The renewal must happen before the ticket is expired, it is
+usually wise to renew a ticket when half the time of validity is
+passed:</p></li>
+</ul>
+</li>
+</ul>
+<p>``     (now &gt; releasetime + (expiretime - releasetime)/2)``</p>
+<p>or:</p>
+<p>``     (now &gt; expiretime - configured_amount_of_time)``</p>
+<p>The exact method can be configured by a specific policy.</p>
+<p>If we implement this functionality there will be no need to capture and
+store user passwords on the client (but will be limited to renewal
+time). We can also make the IPA client policy to specify a group of
+users for which the tickets should be renewed. In this case the handler
+first will check if the user who owns a ticket is a member of a group.
+It is pretty simple and doable. The only long pole in this solution is
+management of the options and ages in the IPA UI. But may be it is not
+that needed. The policy management effectively provides the capability
+of specifying the set of hosts (by making a policy destined to these
+hosts) and a user group (in the policy) for which the tickets need to be
+automatically renewed. It might then be sufficient not to use explicit
+attributes on a per user entry but rather configure the IPA data
+provider to always request renewable tickets with renewal period a long
+enough to complete nightly jobs or long “over the weekend jobs”. With
+the current configuration in v1 the renewal age is set to 14 days
+maximum which should be more than enough for any unattended job in
+normal environments. Another factor to keep in mind is that in normal
+circumstances the user can obtain a completely new ticket simply
+performing an authentication. A common method to force a new
+authentication is to lock the machine and provide the user password to
+the screensaver. This will generate a new PAM authentication which will
+allow us to obtain a completely new TGT extending renewal time to 14
+days from that point on.</p>
+<section id="security-concerns">
+<span id="id6"></span><h3>Security Concerns<a class="headerlink" href="#security-concerns" title="Permalink to this heading">¶</a></h3>
+<p>The only drawback of this solution is that an arbitrary program can be
+developed to automatically renew the kerberos tickets bypassing IPA
+policy checks since they are enforced on a client. But still this seems
+to be a viable solution for v2 even considering this issue.</p>
+</section>
+</section>
+<section id="alternative-approach">
+<span id="id7"></span><h2>Alternative Approach<a class="headerlink" href="#alternative-approach" title="Permalink to this heading">¶</a></h2>
+<p>The alternative approach calls for caching the user passwords on the
+client. During the authentication the user password will be captured and
+stored locally on the client to allow offline authentication. Normally
+the user password is hashed before being stored, so that it can be used
+only to verify authentication, but not be used to impersonate the user
+in case the machine is compromised. In case renewal of kerberos
+credentials is more important than other security concerns, then the
+clear text password can be stored in protected kernel memory. This way
+it will be automatically cleared when the machine is shut off or
+hibernated, and the system will never swap it to disk as the memory
+pages will be locked. As an extra measure it may be reversibly encrypted
+with an appropriate secret.</p>
+<p>In this case the logic will be the same as the previous one. the only
+differences being that the user passwords are captured and stored on the
+client, and that renewal could happen even if the ticket is actually
+expired as we posses the user secret.</p>
+<section id="security-concerns-1">
+<span id="id8"></span><h3>Security Concerns<a class="headerlink" href="#security-concerns-1" title="Permalink to this heading">¶</a></h3>
+<p>The main issue with this approach is the need to cache passwords on the
+client, this is a quite relevant security concern. This approach allows
+to overcome the problem of being able to renew credentials past the
+renewal time and before a ticket is expired but should not be used
+unless there is a critical need for it (very long, completely unattended
+jobs on very secure systems.</p>
+</section>
+</section>
+<section id="suggested-solution">
+<span id="id9"></span><h2>Suggested Solution<a class="headerlink" href="#suggested-solution" title="Permalink to this heading">¶</a></h2>
+<p>After some discussion we decided that we will use a slightly modified
+ticket renewal approach.</p>
+<section id="solution-for-host-use-case">
+<span id="id10"></span><h3>Solution for Host Use Case<a class="headerlink" href="#solution-for-host-use-case" title="Permalink to this heading">¶</a></h3>
+<p>There are several components of the IPA client that would require
+kerberos authentication:</p>
+<ul class="simple">
+<li><p>IPA Data Provider – used to do LDAP lookups</p></li>
+<li><p>XML-RPC client – (formerly known as the Policy Downloader) used to
+download policies and execute certificate related requests</p></li>
+<li><p>Audit client – component responsible for uploading the logs collected
+from different processes</p></li>
+</ul>
+<p>Each component will implement its own independent kerberos
+authentication logic. This authentication logic will be capable of:</p>
+<ul class="simple">
+<li><p>Authenticating with keytab if the TGT is not available or expired</p></li>
+<li><p>Renewing TGT if it is about to expire</p></li>
+</ul>
+<p>There is no need to use a shared ticket cache. For simplicity each
+process will keep its own ticket cache in memory and re-authenticate or
+renew ticket as needed.</p>
+<p>To avoid the re-implementation of the same logic multiple times a common
+library will be created. This library will be implemented SSSD
+developers and shared with others team members who are working on the
+client components.</p>
+</section>
+<section id="solution-for-user-use-case">
+<span id="id11"></span><h3>Solution for User Use Case<a class="headerlink" href="#solution-for-user-use-case" title="Permalink to this heading">¶</a></h3>
+<p>For the user case we decided that it would be an overhead to implement
+the logic described above inside the IPA client. We agreed that by
+default the IPA Data Provider when performs authentication will not
+request renewable kerberos tickets for users. If the user needs a
+renewable ticket he would be able to request it using “kinit -r ”. Then
+one can use a cron job or some other periodic mean to request a renewal
+of the ticket using “kinit -R”. This can be documented in the IPA v2 as
+a solution. Later we might create a convenient utility that would
+combine the functionality of the “kinit -r …” and “kinit -R” into one
+utility. Such utility would be explicitly used by the users that are
+about to start a long job. It will request a renewable ticket, demonize
+and continue renewing the ticket until the renewal age elapses. If we do
+not implement the utility we will at least document how the same task
+can be accomplished using the current existing means.</p>
+<p>For this approach to work the kerberos ticket policies should be
+enforced on the server side. There are several places where and how the
+policies can be specified.</p>
+<p>The research showed the following rules:</p>
+<ul class="simple">
+<li><p>One can specify maximum ranges for renewal and lifetime in the
+/ver/kerberos/krb5kdc/kdc.conf file. It is in the realms section.
+<strong>max_life</strong> setting defines maximum life of the ticket.
+<strong>max_renewable_life</strong> setting defines the period during which the
+ticket is renewable. In IPA v1 the values are 7d and 14 days. This
+means that if the client ask for a ticket valid for the 7d it will
+get it.</p></li>
+<li><p>If the settings are removed from the kdc.conf file the default hard
+coded values are 24h for lifetime and 7d for renewal.</p></li>
+<li><p>There is an entry in the kerberos hive with cn equal name of the
+realm. This entry has krbTicketPolicyAux object class applied to it
+but no attributes that specify the timeouts. If those attributes
+added they can only further restrict the rules defined in the
+configuration file. They can’t extend the lifetime beyond what has
+been set in kds.conf or, if entries are not defined, the hard coded
+values.</p></li>
+<li><p>Each individual principal can have the krbTicketPolicyAux object
+class applied to it. Some principals already have it applied but not
+users. So in v2 we will add the krbTicketPolicyAux object class to
+user object and expose the ticket lifetime attributes in UI and CLI.
+This would allow to alter the policies defined at the higher level
+but up to the limits imposed by configuration.</p></li>
+</ul>
+<p>Based on the rules above we will use the following defaults:</p>
+<ul class="simple">
+<li><p>kdc.conf as current (no changes)</p>
+<ul>
+<li><p>max_life = 7d</p></li>
+<li><p>max_reneable_life = 14d</p></li>
+</ul>
+</li>
+<li><p>Kerberos realm entry</p>
+<ul>
+<li><p>krbMaxTicketLife = 86400 <em>(it is 1 day)</em></p></li>
+<li><p>krbMaxRenewableAge = 604800 <em>(it is 7 days)</em></p></li>
+</ul>
+</li>
+<li><p>User entries will have</p>
+<ul>
+<li><p>objectClass = krbTicketPolicyAux <em>(applied during upgrade)</em></p></li>
+<li><p>krbMaxTicketLife <em>- missing</em></p></li>
+<li><p>krbMaxRenewableAge <em>- missing</em></p></li>
+</ul>
+</li>
+</ul>
+<p>By adding the attributes to the user entry the customer would be able to
+override (extend) the ticket policies on per user basis up to 7 days and
+14 days. On the client side the IPA client will always ask for the
+renewable ticket with 7 days lifetime and 14 days renewable life time.
+This is equivalent to:</p>
+<p>`` kinit -r 14d -l 7d ``</p>
+<p>These two values will be defined in the IPA client policy and will be
+centrally changeable if ever customer would want to alter values in
+kdc.conf and match the new kdc,conf values with the values used on the
+client.</p>
+<p>In UI the kerberos fields will be special “protected” fields non
+editable until explicitly requested. The CLI can be used to effectively
+build a “bulk update” of the attributes if such functionality is needed.
+We might explore using same approach for the management of the password
+policy on per user basis instead of one size fits all as it is currently
+in v1.x.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Automatic_Ticket_Renewal.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

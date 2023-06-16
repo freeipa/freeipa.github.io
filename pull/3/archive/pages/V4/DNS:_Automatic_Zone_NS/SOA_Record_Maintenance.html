@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Using mod_nss’s NSSVerifyClient require + LookupUserByCertificate + GssapiImpersonate" href="../External_Authentication/NSS_Impersonation.html" />
+    <link rel="prev" title="TBD" href="../DNS_Location_Mechanism_with_per_client_override/Test_Plan.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p><strong>Old behavior:</strong></p>
+<ul class="simple">
+<li><p>–name-server address was used as SOA MNAME attribute and the NS
+record pointing to this server address was created in zone apex. For
+relative/inside zone server name, –ip-address option was required,
+which created an additional A record.</p></li>
+<li><p>User has to write an admin email (SOA RNAME) during zone creation.</p></li>
+</ul>
+<p>We should use the replicas with installed DNS as NS servers in zone
+apex. The hostname of NS records has to be A/AAAA resolvable. Those
+replicas have already configured A/AAAA records in IPA managed DNS and
+they are reachable (otherwise there is bigger problem than
+miss-configured DNS).</p>
+<p>This makes <code class="docutils literal notranslate"><span class="pre">--ip-address</span> <span class="pre">option</span></code> in <code class="docutils literal notranslate"><span class="pre">dnszone-add</span></code> command
+deprecated.</p>
+<p>Param <code class="docutils literal notranslate"><span class="pre">--name-server</span></code> is autofilled.</p>
+<p>Param <code class="docutils literal notranslate"><span class="pre">--admin-email</span></code> is autofilled with default value <strong>hostmaster</strong>.</p>
+<p>Required by ticket:
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4149">#4149</a>.</p>
+<p>Hits tickets: <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3344">#3344</a>,
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3343">#3343</a></p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>User wants to create zone/reverse zone</p>
+<ul>
+<li><p>uses option <code class="docutils literal notranslate"><span class="pre">--ip-address</span></code></p></li>
+<li><p>uses option <code class="docutils literal notranslate"><span class="pre">--name-server</span></code></p></li>
+<li><p>uses option <code class="docutils literal notranslate"><span class="pre">--admin-email</span></code></p></li>
+<li><p>uses none of options listed above</p></li>
+</ul>
+</li>
+<li><p>User wants to install server (replica) with DNS</p></li>
+<li><p>User wants to remove replica with DNS</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>No schema changes required</p></li>
+<li><p>API changes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dnszone-add</span></code> automatically creates NS records in zone apex with
+all IPA DNS server hostnames</p></li>
+<li><p>DNS zone’s param <code class="docutils literal notranslate"><span class="pre">--admin-email</span></code> (SOA RNAME) is autofilled with
+relative value: <strong>hostmaster</strong>, bind server appends the zone
+suffix automatically. Admin email validator allows to add a
+relative domain name.</p></li>
+<li><p>DNS zone’s param <code class="docutils literal notranslate"><span class="pre">--name-server</span></code> is not used to create NS
+records anymore</p></li>
+<li><p>dnszone-add’s param <code class="docutils literal notranslate"><span class="pre">--ip-address</span></code> is deprecated, value is
+ignored, param is presented in API due to compability with older
+clients</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<section id="dnszone-add">
+<span id="id1"></span><h3>dnszone-add<a class="headerlink" href="#dnszone-add" title="Permalink to this heading">¶</a></h3>
+<p>All hostnames of DNS capable replicas are inserted into the <strong>zone apex
+NS record</strong>. User can modify those records using the
+<code class="docutils literal notranslate"><span class="pre">dnsrecord-mod</span> <span class="pre">zone</span> <span class="pre">&#64;</span> <span class="pre">--ns-rec=hostname</span></code> command.</p>
+<p>If a server/replica where the command is executed has installed DNS,
+<strong>SOA MNAME</strong> attribute is filled with the replica hostname (in absolute
+form). Otherwise (the replica where the command is executed is not has
+no DNS installed) the first DNS replica’s hostname returned from LDAP
+(lexicographic order) is used as SOA MNAME.</p>
+<p>The SOA RNAME (admin email) attribute has default autofilled value
+<strong>hostmaster</strong>. The default value is relative, bind will append zone
+automatically.</p>
+<p>Options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--ip-address</span></code> option is deprecated, value is ignored. If this
+option occurs in options, server will respond with warning:
+<strong>“ip-address option is deprecated. Value will be ignored. “</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--admin-email</span></code> option fill SOA MNAME. Validation/normalization is
+less restrictive and allows to add relative names.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--name-server</span></code> option is not required, if user specify the
+name-server value, the value is used as SOA MNAME, no additional NS
+record of this value is added (only ipa servers are added as NS
+records). Server returns warning message: <strong>“semantic of
+‘–name-server’ option was changed: the option is used only for
+setting up the SOA MNAME attribute.nTo edit NS record(s) in zone
+apex, use command dnsrecord-mod [zone] &#64; –ns-rec=nameserver’.”</strong></p></li>
+</ul>
+<p>User specified nameserver is verified, if A/AAAA record(s) could be
+resolved, otherwise exception is raised. To suppress this validation
+option –force can be used.</p>
+<p><strong>NOTE:</strong> If user really needs to have SOA MNAME inside the zone, first,
+the zone with default nameserver value has to be created, then A/AAAA
+record of nameserver has to be added, and finally user can change SOA
+MNAME with <code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">--name-server=nameserver_in_zone</span></code> command.
+Second approach is use the –force option, and create A/AAAA record for
+nameserver later.</p>
+</section>
+<section id="dnszone-mod">
+<span id="id2"></span><h3>dnszone-mod<a class="headerlink" href="#dnszone-mod" title="Permalink to this heading">¶</a></h3>
+<p>Options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--admin-email</span></code> option: no changes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--name-server</span></code> option: same behavior as in <code class="docutils literal notranslate"><span class="pre">dnszone-add</span></code> command</p></li>
+</ul>
+</section>
+<section id="ipa-server-installation-with-dns">
+<span id="id3"></span><h3>IPA server installation (with DNS)<a class="headerlink" href="#ipa-server-installation-with-dns" title="Permalink to this heading">¶</a></h3>
+<p>Commands: <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span> <span class="pre">(ipa-replica-install)</span> <span class="pre">--setup-dns</span></code> or
+<code class="docutils literal notranslate"><span class="pre">ipa-setup-dns</span></code> add replica hostname to each NS record in IPA managed
+DNS zones.</p>
+</section>
+<section id="ipa-server-uninstallation-with-dns">
+<span id="id4"></span><h3>IPA server uninstallation (with DNS)<a class="headerlink" href="#ipa-server-uninstallation-with-dns" title="Permalink to this heading">¶</a></h3>
+<p>The IPA server hostname is removed from all NS records in IPA managed
+DNS zones (including records outside of the zone apex).</p>
+</section>
+</section>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Hide <code class="docutils literal notranslate"><span class="pre">--ip-address</span></code> field in adding new zone dialog</p></li>
+<li><p>Hide <code class="docutils literal notranslate"><span class="pre">--admin-email</span></code> field in adding new zone dialog</p></li>
+<li><p>Hide <code class="docutils literal notranslate"><span class="pre">--name-server</span></code> field in adding new zone dialog</p></li>
+<li><p>Hide <code class="docutils literal notranslate"><span class="pre">--force</span></code> checkbox in adding new zone dialog</p></li>
+</ul>
+</section>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>Update documentation..</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<section id="adding-zone">
+<span id="id5"></span><h2>Adding zone<a class="headerlink" href="#adding-zone" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>IPA servers with DNS: ipa-dns1.example.com, ipa-dns2.example.com)</p></li>
+<li><p>IPA servers without DNS: ipa.example.com</p></li>
+</ul>
+<section id="add-zone-on-server-with-dns">
+<span id="id6"></span><h3>Add zone on server with DNS<a class="headerlink" href="#add-zone-on-server-with-dns" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span></code></p></li>
+<li><p>Assumption: command executed on <em>ipa-dns2</em> server</p></li>
+<li><p>Result: zone is created with values</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: ipa-dns2.example.com.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="add-zone-on-server-without-dns">
+<span id="id7"></span><h3>Add zone on server without DNS<a class="headerlink" href="#add-zone-on-server-without-dns" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span></code></p></li>
+<li><p>Assumption: command executed on <em>ipa.example.com</em> server (non DNS)</p></li>
+<li><p>Result: zone is created with values</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: ipa-dns1.example.com. # First nameserver is used</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="add-zone-with-unresolvable-nameserver">
+<span id="id8"></span><h3>Add zone with unresolvable nameserver<a class="headerlink" href="#add-zone-with-unresolvable-nameserver" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">unresolvable.address.test.</span></code></p></li>
+<li><p>Result: exception raised</p>
+<ul>
+<li><p>Exception: NotFound: Nameserver unresolvable.address.test. does
+not have a corresponding A/AAAA record</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="add-zone-with-resolvable-nameserver">
+<span id="id9"></span><h3>Add zone with resolvable nameserver<a class="headerlink" href="#add-zone-with-resolvable-nameserver" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">resolvable.nameserver.test.</span></code></p></li>
+<li><p>Result: zone is created with values and warning</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: resolvable.nameserver.test.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="add-zone-with-relative-nameserver">
+<span id="id10"></span><h3>Add zone with relative nameserver<a class="headerlink" href="#add-zone-with-relative-nameserver" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">relative</span></code></p></li>
+<li><p>Result: exception raised</p>
+<ul>
+<li><p>Exception: NotFound: Nameserver relative.zone.test. does not have
+a corresponding A/AAAA record</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="add-zone-with-relative-nameserver-with-force-option">
+<span id="id11"></span><h3>Add zone with relative nameserver with –force option<a class="headerlink" href="#add-zone-with-relative-nameserver-with-force-option" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">relative</span> <span class="pre">--force</span></code></p></li>
+<li><p>Result: zone is created with values and warning</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: relative</p></li>
+<li><p>warning: “’–name-server’ is used only for setting up the SOA
+MNAME attribute.nTo edit NS record(s) in zone apex, use command
+‘dnsrecord-mod [zone] &#64; –ns-rec=nameserver’.”</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="add-zone-with-relative-nameserver-and-ip-address-old-client">
+<span id="id12"></span><h3>Add zone with relative nameserver and ip-address (old client)<a class="headerlink" href="#add-zone-with-relative-nameserver-and-ip-address-old-client" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">relative</span> <span class="pre">--ip-address</span> <span class="pre">172.16.70.1</span></code></p></li>
+<li><p>Result: exception raised</p>
+<ul>
+<li><p>Exception: NotFound: Nameserver relative.zone.test. does not have
+a corresponding A/AAAA record</p></li>
+</ul>
+</li>
+<li><p>Note: raise error: no such option –ip-address on new clients</p></li>
+</ul>
+</section>
+<section id="add-zone-with-relative-nameserver-and-ip-address-and-force-old-client">
+<span id="id13"></span><h3>Add zone with relative nameserver and ip-address and –force (old client)<a class="headerlink" href="#add-zone-with-relative-nameserver-and-ip-address-and-force-old-client" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">relative</span> <span class="pre">--ip-address</span> <span class="pre">172.16.70.1</span> <span class="pre">--force</span></code></p></li>
+<li><p>Result: zone is created with values and warning</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: relative</p></li>
+<li><p>warning: “’–name-server’ is used only for setting up the SOA
+MNAME attribute.nTo edit NS record(s) in zone apex, use command
+‘dnsrecord-mod [zone] &#64; –ns-rec=nameserver’.”</p></li>
+<li><p>warning: “ip-address option is deprecated. Value will be ignored.
+“</p></li>
+</ul>
+</li>
+<li><p>Note: raise error: no such option –ip-address on new clients</p></li>
+</ul>
+</section>
+<section id="add-zone-with-relative-admin-email">
+<span id="id14"></span><h3>Add zone with relative admin-email<a class="headerlink" href="#add-zone-with-relative-admin-email" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-add</span> <span class="pre">zone.test.</span> <span class="pre">--admin-email</span> <span class="pre">it-department</span></code></p></li>
+<li><p>Assumption: zone is created on <em>ipa-dns1.example.com.</em> server</p></li>
+<li><p>Result: zone is created with values</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: it-department</p></li>
+<li><p>idnssoamname: ipa-dns1.example.com.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="modifying-zone">
+<span id="id15"></span><h2>Modifying zone<a class="headerlink" href="#modifying-zone" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Zone <em>zone.test.</em> exists with values:</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: ipa-dns1.example.com.</p></li>
+</ul>
+</li>
+</ul>
+<section id="modify-zone-with-unresolvable-nameserver">
+<span id="id16"></span><h3>Modify zone with unresolvable nameserver<a class="headerlink" href="#modify-zone-with-unresolvable-nameserver" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">unresolvable.address.test.</span></code></p></li>
+<li><p>Result: exception raised</p>
+<ul>
+<li><p>Exception: NotFound: Nameserver unresolvable.address.test. does
+not have a corresponding A/AAAA record</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="modify-zone-with-resolvable-nameserver">
+<span id="id17"></span><h3>Modify zone with resolvable nameserver<a class="headerlink" href="#modify-zone-with-resolvable-nameserver" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">resolvable.nameserver.test.</span></code></p></li>
+<li><p>Result: zone is modified with values</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: resolvable.nameserver.test.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="modify-zone-with-relative-nameserver-with-a-record-in-zone">
+<span id="id18"></span><h3>Modify zone with relative nameserver with A record in zone<a class="headerlink" href="#modify-zone-with-relative-nameserver-with-a-record-in-zone" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command:
+<code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">relative-with-A-rec-in-zone</span></code></p></li>
+<li><p>Result: zone is modified with values</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: relative-with-A-rec-in-zone</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="modify-zone-with-relative-nameserver-no-a-aaaa-record-in-zone-with-force-option">
+<span id="modify-zone-with-relative-nameserver-no-aaaaa-record-in-zone-with-force-option"></span><h3>Modify zone with relative nameserver (no A/AAAA record in zone) with –force option<a class="headerlink" href="#modify-zone-with-relative-nameserver-no-a-aaaa-record-in-zone-with-force-option" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--name-server</span> <span class="pre">relative</span> <span class="pre">--force</span></code></p></li>
+<li><p>Result: zone is created with values and warning</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: hostmaster</p></li>
+<li><p>idnssoamname: relative</p></li>
+<li><p>warning: “’–name-server’ is used only for setting up the SOA
+MNAME attribute.nTo edit NS record(s) in zone apex, use command
+‘dnsrecord-mod [zone] &#64; –ns-rec=nameserver’.”</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="modify-zone-with-relative-admin-email">
+<span id="id19"></span><h3>Modify zone with relative admin-email<a class="headerlink" href="#modify-zone-with-relative-admin-email" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--admin-email</span> <span class="pre">it-department2</span></code></p></li>
+<li><p>Result: zone is created with values</p>
+<ul>
+<li><p>nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]</p></li>
+<li><p>idnssoarname: it-department2</p></li>
+<li><p>idnssoamname: ipa-dns1.example.com.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="install-server-replica">
+<span id="install-serverreplica"></span><h2>Install server/replica<a class="headerlink" href="#install-server-replica" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span> <span class="pre">--setup-dns</span></code> or
+<code class="docutils literal notranslate"><span class="pre">ipa-replica-install</span> <span class="pre">--setup-dns</span></code> or <code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span></code></p></li>
+<li><p>Result: Installed replica hostname is appended to every IPA managed
+DNS zone apex as nameserver</p></li>
+</ul>
+</section>
+<section id="remove-replica">
+<span id="id20"></span><h2>Remove replica<a class="headerlink" href="#remove-replica" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Command: <code class="docutils literal notranslate"><span class="pre">ipa-replica-manage</span> <span class="pre">del</span> <span class="pre">replica.example.com</span></code></p></li>
+<li><p>Assumption: replica is with DNS installation</p></li>
+<li><p>Result: replica hostname is removed from every NS record in IPA
+managed domain (including records outside zone apex)</p></li>
+</ul>
+</section>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="User:Mbasti">mbasti</a> 14:00 16 September 2014 (CEST)</p>
+<p><a class="reference external" href="Category:FreeIPA_V4_Test_Plan">Category:FreeIPA V4 Test Plan</a>
+<a class="reference external" href="Category:FreeIPA_Test_Plan">Category:FreeIPA Test Plan</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/archive/pages/V4/DNS:_Automatic_Zone_NS/SOA_Record_Maintenance.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

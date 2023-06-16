@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Summary &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Introduction" href="Group_Password_Policy.html" />
+    <link rel="prev" title="IPA UX Notes and Behaviors for Screens" href="Behaviors_of_IPA.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">¶</a></h1>
+<p>This page present a summary of proposed and acknowledged design for
+FreeIPA DNS module.</p>
+</section>
+<section id="motivation">
+<h1>Motivation<a class="headerlink" href="#motivation" title="Permalink to this heading">¶</a></h1>
+<p>There are many structured DNS RR types where DNS data is not just a
+scalar value, for example an IP address or a domain name, but a data
+structure which may be often complex. A good example is a LOC record
+[RFC1876] which consist of many mandatory and optional parts (degrees,
+minutes, seconds of latitude and longtitude, altitude or precision).
+This is an example of adding a LOC DNS record:</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --loc-rec &quot;49 11 42.4 N 16 36 29.6 E 227.64m&quot;</span></code></p>
+<p>It may be difficult to enter such DNS records to FreeIPA without making
+an error which would lead in errors in <em>bind-dyndb-ldap</em> plugin which
+process data from LDAP and passes them to BIND DNS server.</p>
+<p>The new API shall present a convenient way to enter there record for
+user without an obligation to know and apply all RFCs specifying DNS RR
+types format.</p>
+</section>
+<section id="resolution">
+<h1>Resolution<a class="headerlink" href="#resolution" title="Permalink to this heading">¶</a></h1>
+<p>IPA v3.0 will follow these steps to improve working with all these
+complex steps</p>
+<section id="new-per-type-structured-api">
+<span id="id1"></span><h2>1. New per-type structured API<a class="headerlink" href="#new-per-type-structured-api" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>New API shall be implemented for all supported resource record types</p>
+<ul>
+<li><p>It will take form of new options. Every part of DNS RR which will
+be set separately shall have its own option. For example, MX
+record have 2 parts: <em>PREFERENCE</em> and <em>EXCHANGER</em>. I.e. there
+should be 2 new options which can be used to create/modify MX
+record: <em>–mx-preference</em> and <em>–mx-exchanger</em></p></li>
+<li><p>The list of all new options can be retrieved using standard
+<em>–help</em> option of chosen command</p></li>
+</ul>
+</li>
+<li><p>New API shall be integrated to current commands for dnsrecord
+manipulation. That is:</p>
+<ul>
+<li><p><em>dnsrecord-show</em></p></li>
+<li><p><em>dnsrecord-add</em></p></li>
+<li><p><em>dnsrecord-mod</em></p></li>
+<li><p><em>dnsrecord-del</em></p></li>
+</ul>
+</li>
+<li><p>All these commands should have a new interactive mode which should
+help with record manipulation. The interactive mode shall be started
+when the dnsrecord command is executed with no option.</p></li>
+<li><p>DNSSEC RR types: DS, KEY, NSEC, RRSIG, SIG. These are not meant to be
+set manually and will be generated automatically in the future.</p></li>
+<li><p>Unsupported RR types shall be removed from CLI at all: APL, DHCID,
+DLV, DNSKEY, HIP, IPSECKEY, NSEC3, NSEC3PARAM, RP, TA, TKEY, TSIG</p></li>
+<li><p>The new API shall be implemented for both structured DNS RR types but
+also DNS RR types with scalar values to provide a base for other RR
+type related functionality. A good example may be a generation of
+IPv6 address from MAC:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com client1 --aaaa-from-mac=00:1D:BA:06:37:64</span></code></p>
+<section id="dnsrecord-add-command">
+<span id="id2"></span><h3>dnsrecord-add command<a class="headerlink" href="#dnsrecord-add-command" title="Permalink to this heading">¶</a></h3>
+<p>New per-type options can be used to add DNS RR, each part separately.
+When any new option for a DNS RR type is detected, the command assumes
+that the new API is used and all required DNS RR type options have to be
+passed.</p>
+<p>Adding of MX record using a standard ADD operation:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --mx-rec=&quot;0 server1.example.com.&quot;</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>Adding MX record using new API:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --mx-preference=0 --mx-exchanger= server1.example.com.</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>Adding MX record using new interactive help:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Please choose a type of DNS resource record to be added</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">The most common types for this type of zone are: NS, MX, LOC</span></code></div>
+</div>
+</section>
+<section id="dnsrecord-mod-command">
+<span id="id3"></span><h3>dnsrecord-mod command<a class="headerlink" href="#dnsrecord-mod-command" title="Permalink to this heading">¶</a></h3>
+<p>The command should offer an easy way to modify only specific part(s) of
+a DNS record. It shall operate in 2 modes:</p>
+<ul class="simple">
+<li><p>An old mode when just a new set of DNS RRs is passed, e.g.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;0 server1.example.com.&quot;,&quot;1 server2.example.com.&quot;</span></code></p>
+<ul class="simple">
+<li><p>A new mode where a specified DNS RR will be updated (per-part). This
+mode shall be triggered when any of the new option is passed. In this
+case, the old <em>—rec</em> will serve just as a pointer to the modified
+record:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;1 server2.example.com.&quot; --mx-preference=2</span></code></p>
+<p>A full example of old-style record modification:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;0 server1.example.com.&quot;,&quot;1 server2.example.com.&quot;</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com., 1 server2.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>A full example of a modification using the new API:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;1 server2.example.com.&quot; --mx-preference=2</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com., 2 server2.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>An example of new interactive mode:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">No option to modify specific record provided.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Current DNS record contents:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">MX record: 0 server1.example.com., 2 server2.example.com.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NS record: ns.example.com.</span></code></div>
+<div class="line"><a href="#id4"><span class="problematic" id="id5">``</span></a>Modify MX record ‘0 server1.example.com.’? Yes/No (default No): ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Modify MX record '2 server2.example.com.'? Yes/No (default No): y</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">MX Preference [2]: 3</span></code></div>
+<div class="line"><a href="#id6"><span class="problematic" id="id7">``</span></a>MX Exchanger [server2.example.com.]: ``</div>
+<div class="line"><a href="#id8"><span class="problematic" id="id9">``</span></a>Modify NS record ‘ns.example.com.’? Yes/No (default No): ``</div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com., 3 server2.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+</section>
+<section id="dnsrecord-del-command">
+<span id="id10"></span><h3>dnsrecord-del command<a class="headerlink" href="#dnsrecord-del-command" title="Permalink to this heading">¶</a></h3>
+<p>Neither API nor the interactive mode need to be changed.</p>
+</section>
+<section id="improved-output">
+<span id="id11"></span><h3>Improved output<a class="headerlink" href="#improved-output" title="Permalink to this heading">¶</a></h3>
+<p>A new option <em>–structured</em> has been implemented which can be useful for
+displaying more complex records:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-show example.com &#64; --structured</span></code></div>
+<div class="line">``  Record name: &#64;``</div>
+<div class="line">``  Records: ``</div>
+<div class="line">``    Record type: MX``</div>
+<div class="line">``    Record data: 0 server1.example.com.``</div>
+<div class="line">``    MX Preference: 0``</div>
+<div class="line">``    MX Exchanger: server1.example.com.``</div>
+</div>
+<div class="line-block">
+<div class="line">``    Record type: MX``</div>
+<div class="line">``    Record data: 3 server2.example.com.``</div>
+<div class="line">``    MX Preference: 3``</div>
+<div class="line">``    MX Exchanger: server2.example.com.``</div>
+</div>
+<div class="line-block">
+<div class="line">``    Record type: NS``</div>
+<div class="line">``    Record data: ns.example.com.``</div>
+<div class="line">``    NS Hostname: ns.example.com.``</div>
+</div>
+<p>The output then shows all record in a structured format including the
+record type, raw DNS record data and an attribute for every part of the
+DNS record.</p>
+</section>
+</section>
+<section id="improved-validation">
+<span id="id12"></span><h2>2. Improved validation<a class="headerlink" href="#improved-validation" title="Permalink to this heading">¶</a></h2>
+<p>DNS record validation should be improved so that most common user errors
+are detected and reported by IPA client and by <em>bind-dyndb-ldap</em> plugin
+failing to serve the record.</p>
+<p>A better help with a pointer to further information (RFC) should be
+produced when validation fails:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --mx-rec=BADRECORD</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: invalid 'mx_rec': format must be specified as &quot;PREFERENCE EXCHANGER&quot;  (see RFC 1035 for details)</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --loc-rec=BADRECORD</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: invalid 'loc_rec': format must be specified as</span></code></div>
+<div class="line">``    “d1 [m1 [s1]] {“N”|”S”}  d2 [m2 [s2]] {“E”|”W”} alt[“m”] [siz[“m”] [hp[“m”] [vp[“m”]]]]”``</div>
+<div class="line">``    where:``</div>
+<div class="line">``       d1:     [0 .. 90]            (degrees latitude)``</div>
+<div class="line">``       d2:     [0 .. 180]           (degrees longitude)``</div>
+<div class="line">``       m1, m2: [0 .. 59]            (minutes latitude/longitude)``</div>
+<div class="line">``       s1, s2: [0 .. 59.999]        (seconds latitude/longitude)``</div>
+<div class="line">``       alt:    [-100000.00 .. 42849672.95] BY .01 (altitude in meters)``</div>
+<div class="line">``       siz, hp, vp: [0 .. 90000000.00] (size/precision in meters)``</div>
+<div class="line">``    See RFC 1876 for details``</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V2/DNS_Interface_Design.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

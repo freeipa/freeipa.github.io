@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Performance_Improvements.html" />
+    <link rel="prev" title="Notice - Design Document" href="Password_Vault_2.0.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>At the end of year 2013 a project called RCUE was started. This
+project’s goal was to create a set of common UX principles and patterns
+usable in enterprise open source web applications. This project was then
+renamed to PatternFly <a class="reference external" href="https://www.patternfly.org/">https://www.patternfly.org/</a>. FreeIPA along with
+other open source projects such as Foreman, AeroGear, Cockpit,
+KeyCloak… decided to adopt these principles. PatternFly has a
+referential implementation which is based on Bootstrap 3 frontend
+framework. Using this implementation makes the adoption quick.</p>
+<p>One of key Bootstrap 3 features is responsiveness. It allows FreeIPA to
+abandon absolute position layout and became usable on devices with
+various screen sizes.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Every Web UI access.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Adoption parts:</p>
+<section id="use-patternfly-css">
+<span id="id1"></span><h2>Use PatternFly CSS<a class="headerlink" href="#use-patternfly-css" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>PatternFly and Bootstrap 3 uses Less for CSS build. FreeIPA as well,
+however PF and BS uses NodeJS lessc for the task. FreeIPA uses
+lesscpy which is not able to compile PatternFly CSS at the time of
+writing (there is effort to make it possible). Therefore the CSS
+should be built by a developer and updated as necessary. When
+PatternFly and Bootstrap are packaged to Fedora, FreeIPA should make
+effort to use the system packages.</p></li>
+</ul>
+</section>
+<section id="fluid-layout">
+<span id="id2"></span><h2>Fluid layout<a class="headerlink" href="#fluid-layout" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>abandon absolute layout which cause elements overlap on non-standard
+browser configuration (locale with longer strings, forced bigger
+font). Such overlap usually made breadcrumb navigation unusable.</p></li>
+<li><p>new fluid layout allows to make better use of space on larger
+screens, and on the other hand, usable apps on smaller screens</p></li>
+</ul>
+</section>
+<section id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>use Two-Level navigation with dropdown
+&lt;<a class="reference external" href="https://www.patternfly.org/wikis/patterns/navigation/primary-navigation-bar/#drop_down_menu">https://www.patternfly.org/wikis/patterns/navigation/primary-navigation-bar/#drop_down_menu</a>&gt;</p></li>
+<li><p>restructure menu items to have only 7 items top in each visible
+level. It’s not a hard rule but a UX recommendation (related to
+number of items human brain can remember together)</p></li>
+</ul>
+</section>
+<section id="implement-login-page">
+<span id="id3"></span><h2>Implement Login Page<a class="headerlink" href="#implement-login-page" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.patternfly.org/wikis/patterns/user-authentication/loginlogout/">https://www.patternfly.org/wikis/patterns/user-authentication/loginlogout/</a></p></li>
+<li><p>required to implement support for standalone pages</p></li>
+<li><p>old unauthorized dialog is replaced by login facet</p></li>
+<li><p>requires to hide dialogs which don’t belong to current facet to
+prevent having dialog over login screen when unauthenticated</p></li>
+</ul>
+</section>
+<section id="adapt-forms">
+<span id="id4"></span><h2>Adapt forms<a class="headerlink" href="#adapt-forms" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.patternfly.org/widgets/#forms">https://www.patternfly.org/widgets/#forms</a></p></li>
+<li><p>new styles for almost every element</p></li>
+<li><p>requires changes in widget HTML output - mostly css classes</p></li>
+<li><p>text fields are wider because inputs make use of their container’s
+space. Therefore undo, delete buttons and others elements should be
+part of form-group or on a next row</p></li>
+<li><p>majority of link buttons should be converted to buttons (at least
+visually)</p></li>
+<li><p>abandon table layout in sections</p></li>
+<li><p>two columns of form sections can be displayed on large screens</p></li>
+</ul>
+</section>
+<section id="adapt-tables">
+<span id="id5"></span><h2>Adapt tables<a class="headerlink" href="#adapt-tables" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.patternfly.org/widgets/#tables">https://www.patternfly.org/widgets/#tables</a></p></li>
+<li><p>add “Last” and “First” buttons into pager to support going to the
+last and first page</p></li>
+<li><p>abandoned calculation of column with, leave it on browser.
+Calculation with fluid layout is very difficult, isn’t worth the
+hassle.</p></li>
+<li><p>use horizontal scrolling on small screens</p></li>
+<li><p>enable various styles for odd and even rows</p></li>
+<li><p>hovered row should be highlighted</p></li>
+</ul>
+</section>
+<section id="page-facet-controls">
+<span id="pagefacet-controls"></span><h2>Page(facet) controls<a class="headerlink" href="#page-facet-controls" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>convert link buttons to regular buttons</p></li>
+<li><p>reorder input elements and buttons in facet header. Search facets
+should have search related elements on the left, as defined in
+PatternFly, and actions on the right. Details facets should have
+everything on the left.</p></li>
+</ul>
+</section>
+<section id="move-actions-into-action-dropdown">
+<span id="id6"></span><h2>Move actions into action dropdown<a class="headerlink" href="#move-actions-into-action-dropdown" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>action dropdown is a dropdown list in controls section of a facet
+header</p></li>
+<li><p>old action list and action panels do not play well with fluid layout.
+They tend to clash with nearby elements. All actions should be moved
+to action list. Therefore action list and nearby buttons are a
+central point of invoking actions related to displayed object or list
+of objects. Since all action can be then invoked by a single click
+(when dropdown menu is visible), all actions should require
+confirmation in order to prevent accidental invocation of an action.</p></li>
+</ul>
+</section>
+<section id="activity-notification">
+<span id="id7"></span><h2>Activity notification<a class="headerlink" href="#activity-notification" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>old activity indicator are not very visible and users tend to
+overlook them because they are positioned in a place different from
+user’s focus</p></li>
+<li><p>add new global indicator. It should be displayed in a center of a
+page when an ajax operation is active</p></li>
+<li><p>this behavior could be further extended by providing context related
+activity indicators instead of a global one (future goal)</p></li>
+</ul>
+</section>
+<section id="event-notification">
+<span id="id8"></span><h2>Event notification<a class="headerlink" href="#event-notification" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>“error”, “success”, “warning”, “info” notification should use
+consistent style and same implementation across application</p></li>
+</ul>
+</section>
+<section id="better-error-handling">
+<span id="id9"></span><h2>Better Error handling<a class="headerlink" href="#better-error-handling" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>multivalued widget should highlight only inputs with error and do not
+show duplicate required error message</p></li>
+<li><p>error notification should be displayed after fail validation on
+details page instead of in a modal dialog (user doesn’t have to click
+on ‘ok’ button).</p></li>
+<li><p>first focusable widget with error should be automatically focused.
+User can then quickly correct his mistake.</p></li>
+</ul>
+</section>
+<section id="user-menu">
+<span id="id10"></span><h2>User menu<a class="headerlink" href="#user-menu" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>user menu should added to navigation (related to
+<a class="reference external" href="#Navigation">#Navigation</a>)</p></li>
+<li><p>it should allow:</p>
+<ul>
+<li><p>password reset</p></li>
+<li><p>displaying about dialog with current FreeIPA version</p></li>
+<li><p>logging out</p></li>
+<li><p>navigating to user’s profile</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
+<p>fontawesome-fonts, open-sans-fonts, python-lesscpy</p>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>As described in <a class="reference external" href="#Design">#Design</a> section.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>no impact</p>
+</section>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>existing CI tests were adapted to match new HTML structure</p>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p>pvoborni</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/PatternFly_Adoption.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

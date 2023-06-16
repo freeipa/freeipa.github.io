@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Version 3.3.3 (11/01/2013)" href="Changelog.html" />
+    <link rel="prev" title="Summary" href="Certificate_renewal.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<p>The certmonger daemon monitors certificates for impending expiration,
+and can optionally refresh soon-to-be-expired certificates with the help
+of a CA. If told to, it can drive the entire enrollment process from key
+generation through enrollment and refresh.</p>
+<p>It can work with either flat files, like those used by OpenSSL, or with
+NSS databases.</p>
+</section>
+<section id="commands">
+<h1>Commands<a class="headerlink" href="#commands" title="Permalink to this heading">¶</a></h1>
+<p>The certmonger command-line tool, <code class="docutils literal notranslate"><span class="pre">getcert</span></code> is a very generic tool
+that can manage the certificates you are tracking. A superset of this
+tool, <code class="docutils literal notranslate"><span class="pre">ipa-getcert</span></code> works specifically with an IPA CA. ipa-getcert is
+equivalent to <code class="docutils literal notranslate"><span class="pre">getcert</span> <span class="pre">-c</span> <span class="pre">IPA</span></code></p>
+</section>
+<section id="common-usage">
+<span id="id1"></span><h1>Common Usage<a class="headerlink" href="#common-usage" title="Permalink to this heading">¶</a></h1>
+<p>For the NSS cases this assumes there is no password associated with the
+NSS database. If there is then the key must be in a file readable by
+certmonger and passed in using the -p or -P options.</p>
+<section id="get-a-list-of-currently-tracked-certificates">
+<span id="id2"></span><h2>Get a list of currently tracked certificates<a class="headerlink" href="#get-a-list-of-currently-tracked-certificates" title="Permalink to this heading">¶</a></h2>
+<p>The difference between “all” and “IPA-issued” is subtle. An IPA-issued
+certificate means it was issued using the API provided by IPA. It does
+not refer to any certificate issued by the IPA CA. There are some
+certificates, such as some subsystem certificates of the CA itself, than
+can be tracked by certmonger but are not issued by the API.</p>
+</section>
+<section id="certmonger-cas">
+<span id="id3"></span><h2>Certmonger “CAs”<a class="headerlink" href="#certmonger-cas" title="Permalink to this heading">¶</a></h2>
+<p>Certmonger uses helpers to communicate with CAs. These are listed and
+defined using the command <code class="docutils literal notranslate"><span class="pre">getcert-list-cas</span></code> and <code class="docutils literal notranslate"><span class="pre">getcert-add-ca</span></code>
+commands. Each defined CA in certmonger has a name. It’s perfectly legal
+to have multiple certmonger CA entries pointing to the same helper but
+defined differently.</p>
+<p>For the case of an IPA installation there are two relevant certmonger
+CAs:</p>
+<ul class="simple">
+<li><p>IPA</p></li>
+<li><p>dogtag-ipa-ca-renew-agent</p></li>
+</ul>
+<p>IPA uses a CA helper that uses the host keytab entry to authenticate to
+the IPA API in order to obtain certificates.</p>
+<p>The dogtag-ipa-ca-renew-agent is used to directly authenticate to the CA
+(dogtag) backend. This is used to manage the certificates that the CA
+itself requires.</p>
+<p>And this is why <code class="docutils literal notranslate"><span class="pre">getcert</span> <span class="pre">list</span></code> returns more certificates that
+<code class="docutils literal notranslate"><span class="pre">ipa-getcert</span> <span class="pre">list</span></code></p>
+<section id="anatomy-of-a-tracked-certificate">
+<span id="id4"></span><h3>Anatomy of a tracked certificate<a class="headerlink" href="#anatomy-of-a-tracked-certificate" title="Permalink to this heading">¶</a></h3>
+<p>A typical OpenSSL certificate looks like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Request ID '20120912211542':</span></code></div>
+<div class="line">``       status: MONITORING``</div>
+<div class="line">``       stuck: no``</div>
+<div class="line">``       key pair storage: type=FILE,location=’/etc/ssl/private.key’``</div>
+<div class="line">``       certificate: type=FILE,location=’/etc/ssl/server.crt’``</div>
+<div class="line">``       CA: IPA``</div>
+<div class="line">``       issuer: CN=Certificate Authority,O=EXAMPLE.COM``</div>
+<div class="line">``       subject: CN=edsel.example.com,O=EXAMPLE.COM``</div>
+<div class="line">``       expires: 2014-09-13 21:15:44 UTC``</div>
+<div class="line">``       eku: id-kp-serverAuth,id-kp-clientAuth``</div>
+<div class="line">``       pre-save command: ``</div>
+<div class="line">``       post-save command: ``</div>
+<div class="line">``       track: yes``</div>
+<div class="line">``       auto-renew: yes``</div>
+</div>
+<p>You’ll need the Request ID when running other certmonger commands. This
+will be a number if an ID is not provided when the request is originally
+made.</p>
+<p>The status MONITORING means that the certificate is valid and being
+tracked by certmonger.</p>
+<p>The key and certificate values indicate where the OpenSSL private key
+and certificate are stored in the filesystem.</p>
+<p>The CA type is IPA. This was passed in as the -c option of getcert, or
+automatically set to IPA by ipa-getcert.</p>
+<p>The issuer is the subject of the CA that issued the certificate.</p>
+<p>The subject is the subject of the certificate in the certificate file.</p>
+<p>The expiration date is UTC. By default certmonger will start trying to
+renew the certificate 28 days before it expires by default.</p>
+<p>eku lists the Enhanced Key Usage (EKU) extensions of the certificate. By
+default IPA certificates are usable both as server and client
+certificates.</p>
+<p>The pre and post-save commands define commands that are executed before
+and after the renewal process. This can be used, for example, to restart
+a service when a certificate is renewed.</p>
+</section>
+<section id="all-tracked-certificates">
+<span id="id5"></span><h3>All tracked certificates<a class="headerlink" href="#all-tracked-certificates" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre"># getcert list</span></code></p>
+</section>
+<section id="all-ipa-issued-certificate">
+<span id="id6"></span><h3>All IPA-issued certificate<a class="headerlink" href="#all-ipa-issued-certificate" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-getcert list</span></code></p>
+<p>This is the equivalent of:</p>
+<p>`` # getcert list -c IPA``</p>
+<p>The difference is that ipa-getcert sets the value of the CA (-c). It’s
+just a shortcut.</p>
+</section>
+</section>
+<section id="request-a-new-certificate">
+<span id="id7"></span><h2>Request a new certificate<a class="headerlink" href="#request-a-new-certificate" title="Permalink to this heading">¶</a></h2>
+<p>This will generate a new key pair, create a CSR and request a
+certificate from the IPA server configured in <code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code>,
+authenticating using the machine’s host service principal in
+<code class="docutils literal notranslate"><span class="pre">/etc/krb5.keytab</span></code>.</p>
+<p>A certificate needs to be associated with an object in IPA so the -K
+option is required in order to set that. Other useful options are:</p>
+<p>-A to add an IPaddress Subject Alternative name (SAN) to the request -D
+to add DNS Subject Alternative Name (SAN) to the request -g to set the
+RSA key size -I to set the ID of the certmonger request</p>
+<p>By default all certmonger requests are set to auto-renew. The -R option
+will disable this.</p>
+<section id="openssl">
+<h3>OpenSSL<a class="headerlink" href="#openssl" title="Permalink to this heading">¶</a></h3>
+<p><a href="#id8"><span class="problematic" id="id9">``</span></a>#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``</p>
+</section>
+<section id="nss">
+<h3>NSS<a class="headerlink" href="#nss" title="Permalink to this heading">¶</a></h3>
+<p><a href="#id10"><span class="problematic" id="id11">``</span></a># ipa-getcert request -d /path/to/database -n ‘Test’ -K ``</p>
+</section>
+</section>
+<section id="manually-renew-a-certificate">
+<span id="id12"></span><h2>Manually renew a certificate<a class="headerlink" href="#manually-renew-a-certificate" title="Permalink to this heading">¶</a></h2>
+<p>If you want to manually renew a certificate prior to its expiration
+date, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-getcert resubmit -i REQUEST_ID</span></code></p>
+</section>
+<section id="stop-tracking-a-certificate">
+<span id="id13"></span><h2>Stop tracking a certificate<a class="headerlink" href="#stop-tracking-a-certificate" title="Permalink to this heading">¶</a></h2>
+<p>To tell certmonger to forget about a certificate and stop tracking it
+run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-getcert stop-tracking -i REQUEST_ID</span></code></p>
+<p>This does <strong>not</strong> touch the certificate or keys, it merely tells
+certmonger to not track it for for rewnewals.</p>
+</section>
+</section>
+<section id="issue-a-certificate-with-specific-properties">
+<span id="id14"></span><h1>Issue a certificate with specific properties<a class="headerlink" href="#issue-a-certificate-with-specific-properties" title="Permalink to this heading">¶</a></h1>
+<p>To issue a certificate with specific CN or other properties, specify
+additional options to the utility. <code class="docutils literal notranslate"><span class="pre">getcert</span></code> has a lot of flexibility
+with options described in its manual page. For example, to issue a
+certificate for Nginx to use a specific fully qualified hostname on a
+host without it, use following sequence:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cd /etc/nginx/ssl</span></code></div>
+<div class="line"><a href="#id15"><span class="problematic" id="id16">``</span></a># fqdn=$(hostname -f); REALM=(hostname -d|tr ‘[:lower:]’ ‘[:upper:]’); ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn&#64;$REALM -N $fqdn</span></code></div>
+</div>
+<p>The CA has the final say on what the subject will be in the certificate
+it issues.</p>
+</section>
+<section id="external-documentation">
+<span id="id17"></span><h1>External Documentation<a class="headerlink" href="#external-documentation" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System-Level_Authentication_Guide/certmongerX.html">Certmonger user guide in RHEL
+documentation</a></p></li>
+</ul>
+</section>
+<section id="how-certmonger-finds-an-ipa-ca">
+<span id="id18"></span><h1>How Certmonger finds an IPA CA<a class="headerlink" href="#how-certmonger-finds-an-ipa-ca" title="Permalink to this heading">¶</a></h1>
+<p>Certmonger will first look in <code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code> for the value of
+<code class="docutils literal notranslate"><span class="pre">xmlrpc_uri</span></code> and use that to make the certificate request for IPA.</p>
+<p>Any IPA Master, even those that do not have a CA locally installed, can
+handle a certificate request by proxying the request to a master that
+does have a CA.</p>
+<p>If the request fails due to a connect error Certmonger will next look
+for a value of <code class="docutils literal notranslate"><span class="pre">server</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code>. If one is found
+then a similar request is made to the value of <code class="docutils literal notranslate"><span class="pre">server</span></code> plus
+<code class="docutils literal notranslate"><span class="pre">/ipa/xm</span></code>.</p>
+<p>If there is no <code class="docutils literal notranslate"><span class="pre">server</span></code> defined, and there likely will not be given
+this directive is deprecated, then an LDAP search will be done using the
+default LDAP search values in <code class="docutils literal notranslate"><span class="pre">/etc/openldap/ldap.conf</span></code> for the list
+of IPA servers that have a CA. One of these servers, if any, will be
+picked by certmonger and the request will be made again. If this request
+fails then certmonger will give up.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Certmonger.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

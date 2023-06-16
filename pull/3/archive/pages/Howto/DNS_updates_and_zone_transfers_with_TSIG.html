@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DNS updates and zone transfers with TSIG &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Affected systems" href="Dogtag9ToDogtag10Migration.html" />
+    <link rel="prev" title="Theory" href="DNS_in_isolated_networks.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="dns-updates-and-zone-transfers-with-tsig">
+<span id="id1"></span><h1>DNS updates and zone transfers with TSIG<a class="headerlink" href="#dns-updates-and-zone-transfers-with-tsig" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA doesn’t have support for TSIG in user interface but it can be
+configured to use TSIG for dynamic updates and zone transfers.</p>
+<section id="tsig-key-configuration">
+<span id="id2"></span><h2>TSIG key configuration<a class="headerlink" href="#tsig-key-configuration" title="Permalink to this heading">¶</a></h2>
+<section id="generate-a-new-tsig-key">
+<span id="id3"></span><h3>Generate a new TSIG key<a class="headerlink" href="#generate-a-new-tsig-key" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Kkeyname.+165+03160</span></code></div>
+</div>
+</section>
+<section id="copy-and-paste-key-from-key-file-to-named-conf">
+<span id="id4"></span><h3>Copy and paste key from key file to named.conf<a class="headerlink" href="#copy-and-paste-key-from-key-file-to-named-conf" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat Kkeyname.+165+0316.private</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Private-key-format: v1.3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Algorithm: 165 (HMAC_SHA512)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Key: keyvalue</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Bits: AAA=</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ vim /etc/named.conf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">key &quot;keyname&quot; {</span></code></div>
+<div class="line">``       algorithm hmac-sha512;``</div>
+<div class="line">``       secret “keyvalue”;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<p>You have to repeat this copy&amp;paste step for every FreeIPA server.</p>
+</section>
+</section>
+<section id="dynamic-updates">
+<span id="id5"></span><h2>Dynamic updates<a class="headerlink" href="#dynamic-updates" title="Permalink to this heading">¶</a></h2>
+<section id="server">
+<h3>Server<a class="headerlink" href="#server" title="Permalink to this heading">¶</a></h3>
+<p>Normal rules for <a class="reference external" href="http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies">BIND dynamic update policies
+apply</a>.
+Just use name of the key you defined in named.conf:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.com. --update-policy=&quot;grant keyname name example.com A;&quot;</span></code></p>
+<p>One of FreeIPA specifics is that dynamic updates can be completely
+disabled by switch even if update policy is non-empty. Make sure that
+DNS dynamic updates are enabled for your zone:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.com. --dynamic-update=1</span></code></p>
+</section>
+<section id="client">
+<h3>Client<a class="headerlink" href="#client" title="Permalink to this heading">¶</a></h3>
+<p>For <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> from <code class="docutils literal notranslate"><span class="pre">bind-utils</span></code> package you have to either use
+option <code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:keyvalue</span></code> or <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfilename</span></code> option.
+E.g.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ nsupdate -y hmac-sha512:keyname:keyvalue</span></code></p>
+<p>or</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ nsupdate -k Kkeyname.+165+0316.private</span></code></p>
+</section>
+</section>
+<section id="zone-transfers">
+<span id="id6"></span><h2>Zone transfers<a class="headerlink" href="#zone-transfers" title="Permalink to this heading">¶</a></h2>
+<section id="server-1">
+<span id="id7"></span><h3>Server<a class="headerlink" href="#server-1" title="Permalink to this heading">¶</a></h3>
+<p>FreeIPA user interface will not allow you to configure allow-transfer
+policy directly because it expects that allow-transfer consists only of
+IP addresses. You have to modify LDAP directly.</p>
+<p>Run this on one of FreeIPA servers:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ldapmodify -Y GSSAPI &lt;&lt; EOF</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: idnsAllowTransfer</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsAllowTransfer: key keyname;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">EOF</span></code></div>
+</div>
+<p>Don’t forget to replace zone name in <code class="docutils literal notranslate"><span class="pre">idnsname</span></code> component of DN and
+realm name in <code class="docutils literal notranslate"><span class="pre">dc=ipa,dc=example</span></code> components.</p>
+</section>
+<section id="client-1">
+<span id="id8"></span><h3>Client<a class="headerlink" href="#client-1" title="Permalink to this heading">¶</a></h3>
+<p>The syntax for <code class="docutils literal notranslate"><span class="pre">dig</span></code> from <code class="docutils literal notranslate"><span class="pre">bind-utils</span></code> package is the same as for
+<code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>. You have to either use option
+<code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:keyvalue</span></code> or <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfilename</span></code> option. E.g.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ dig -y hmac-sha512:keyname:keyvalue</span></code></p>
+<p>or</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ dig -k Kkeyname.+165+0316.private</span></code></p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Howto/DNS_updates_and_zone_transfers_with_TSIG.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

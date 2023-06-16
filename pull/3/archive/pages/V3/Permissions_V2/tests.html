@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Top Level" href="../User_Life-Cycle_Management/Implementation.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="../Multivalued_target_filters_in_permissions/Tests.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__</p>
+<p>Test permission</p>
+<p>Implemented in
+<code class="docutils literal notranslate"><span class="pre">ipatests.test_xmlrpc.test_permission_plugin.test_permission</span></code></p>
+<p>Misc. tests for the permission plugin</p>
+<p>Like other tests in the test_xmlrpc suite, these tests should run on a
+clean IPA installation, or possibly after other similar tests.</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm2,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: cn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=test2</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: read</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test2</span></code></div>
+</div>
+<p>Note: the permission entry cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+will not be present</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm1_rn,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm1_rn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: all</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test2</span></code></div>
+</div>
+<p>Note: the permission entry
+cn=testperm1_rn,cn=permissions,cn=pbac,$SUFFIX will not be present</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: Testperm_RN</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test2</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: Testperm_RN</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=other-test2</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm2,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: cn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">owner: cn=test2</span></code></div>
+</div>
+<p>Note: the permission entry cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX
+will not be present</p>
+<p>Note: the permission entry cn=testperm2,cn=permissions,cn=pbac,$SUFFIX
+will not be present</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=editors,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+will not be present</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm3,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: cn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm3,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: cn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: uid</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p id="section-1">Cleanup</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm --force</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm2 --force</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm3 --force</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm1_rn --force</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission_del Testperm_RN --force</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa privilege_del testpriv1</span></code></div>
+</div>
+<p id="section-2">Test permission rollback</p>
+<p>Implemented in
+<code class="docutils literal notranslate"><span class="pre">ipatests.test_xmlrpc.test_permission_plugin.test_permission_rollback</span></code></p>
+<p>Test rolling back changes after failed update</p>
+<p>Like other tests in the test_xmlrpc suite, these tests should run on a
+clean IPA installation, or possibly after other similar tests.</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p id="section-3">Cleanup</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm --force</span></code></p>
+<p id="section-4">Test permission sync attributes</p>
+<p>Implemented in
+<code class="docutils literal notranslate"><span class="pre">ipatests.test_xmlrpc.test_permission_plugin.test_permission_sync_attributes</span></code></p>
+<p>Test the effects of setting permission attributes</p>
+<p>Like other tests in the test_xmlrpc suite, these tests should run on a
+clean IPA installation, or possibly after other similar tests.</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: cn=*,cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p id="section-5">Cleanup</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm --force</span></code></p>
+<p id="section-6">Test permission sync nice</p>
+<p>Implemented in
+<code class="docutils literal notranslate"><span class="pre">ipatests.test_xmlrpc.test_permission_plugin.test_permission_sync_nice</span></code></p>
+<p>Test the effects of setting convenience options on permissions</p>
+<p>Like other tests in the test_xmlrpc suite, these tests should run on a
+clean IPA installation, or possibly after other similar tests.</p>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: cn=*,cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p>Note: the permission entry will look like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermAllowedAttr: sn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+</div>
+<p id="section-7">Cleanup</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm --force</span></code></p>
+<p id="section-8">Test permission flags</p>
+<p>Implemented in
+<code class="docutils literal notranslate"><span class="pre">ipatests.test_xmlrpc.test_permission_plugin.test_permission_flags</span></code></p>
+<p>Test that permission flags are handled correctly</p>
+<p>Like other tests in the test_xmlrpc suite, these tests should run on a
+clean IPA installation, or possibly after other similar tests.</p>
+<p id="section-9">Cleanup</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa permission_del testperm --force</span></code></p>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/archive/pages/V3/Permissions_V2/tests.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

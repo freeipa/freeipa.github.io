@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Promote a self-signed FreeIPA CA &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Setting_up_S4U2Proxy_with_FreeIPA.html" />
+    <link rel="prev" title="Introduction" href="Promote_CA_to_Renewal_and_CRL_Master.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="promote-a-self-signed-freeipa-ca">
+<span id="id1"></span><h1>Promote a self-signed FreeIPA CA<a class="headerlink" href="#promote-a-self-signed-freeipa-ca" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA officially never supported installations with –selfsign option,
+i.e. FreeIPA servers which do not use Certificate Authority but only use
+a self-signed certificate stored in a local NSS certificate database to
+sign certificates. Thus, official user guides do not have a procedure
+how to promote a replica in such environment to serve as a new master
+CA.</p>
+<p>This <em>HOWTO</em> should help Administrator promote such replica to a master
+CA which is able to sign new certificates. This may be useful for
+example when the old FreeIPA master server is to be decommissioned and
+is being replaced with a new replica. Please note, that if you have two
+promoted FreeIPA replicas, certificate serial numbers may clash unless
+you manually configure proper offset in <em>/var/lib/ipa/ca_serialno</em>.</p>
+<section id="procedure-to-install-and-promote-a-new-self-signed-replica">
+<span id="id2"></span><h2>Procedure to install and promote a new self-signed replica<a class="headerlink" href="#procedure-to-install-and-promote-a-new-self-signed-replica" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Install a replica</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-replica-install</span></code></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Copy CA serial number setting from master to replica:</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># scp /var/lib/ipa/ca_serialno root&#64;REPLICA:/var/lib/ipa/</span></code></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>On replica, set correct owner and permissions:</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># chown root:apache /var/lib/ipa/ca_serialno</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># chmod 550 /var/lib/ipa/ca_serialno</span></code></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Restore SELinux context on serial file:</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># restorecon  var/lib/ipa/ca_serialno</span></code></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Copy master CA certificate and pwdfile.txt to replica:</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># scp /etc/httpd/alias/cacert.p12 /etc/httpd/alias/pwdfile.txt root&#64;REPLICA:~/</span></code></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>On replica, import the CA certificate:</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># pk12util -i ~/cacert.p12 -w ~/pwdfile.txt -d /etc/httpd/alias/ -k /etc/httpd/alias/pwdfile.txt</span></code></div>
+</div>
+<p>7. The list of certificates in NSS database (including the one imported)
+can be listed with:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias/</span></code></div>
+</div>
+<p>However, since <em>pk12util</em> import util is not capable of setting a
+correct certificate nickname, the imported certificate will have a
+nickname like <em>CN=$REALM Certificate Authority</em>, which is not recognized
+by IPA certificate system.</p>
+<p>The following procedure can be used <strong>set a correct nickname</strong> of the
+certificate (replace <em>$REALM</em> with your realm):</p>
+<ol class="loweralpha simple">
+<li><p>Export the certificate</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -d /etc/httpd/alias/ -L -n 'CN=$REALM Certificate Authority' -a &gt; ~/cacert.crt</span></code></p>
+<p>b) Delete the old certificate (NSS database /etc/httpd/alias/ should be
+backed up before this step):</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -d /etc/httpd/alias/ -D -n 'CN=$REALM Certificate Authority'</span></code></p>
+<ol class="loweralpha simple" start="3">
+<li><p>Import the certificate with correct nickname:</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -n &quot;$REALM IPA CA&quot; -d /etc/httpd/alias/ -f /etc/httpd/alias/pwdfile.txt \</span></code></div>
+<div class="line">``  -i /root/cacert.crt -a -t CTu,u,Cu``</div>
+</div>
+<ol class="arabic simple" start="8">
+<li><p>Enable certificate operations on IPA replica:</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre"># echo &quot;enable_ra=True&quot; &gt;&gt; /etc/ipa/default.conf</span></code></p>
+<ol class="arabic simple" start="9">
+<li><p>Reload replica web server to pick up new configuration:</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre"># service httpd reload</span></code></p>
+<p><a class="reference external" href="Category:How_to">Category:How to</a></p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Howto/Promoting_a_self-signed_FreeIPA_CA.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

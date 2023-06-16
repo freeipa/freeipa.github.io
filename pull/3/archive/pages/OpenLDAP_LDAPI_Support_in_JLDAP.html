@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="OpenShift_Broker_Apache_%2B_mod_auth_kerb_for_IdM.html" />
+    <link rel="prev" title="Prerequisites" href="OpenLDAP_Installation.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>A synchronization tool will communicate with the DS instances used by
+IPA and Samba and synchronize their contents. At least initially the
+sync tool will be implemented in Java. In the final implementation it
+could be replaced by native code if necessary.</p>
+<p>Communicating with IPA’s DS instance can be via regular/secure LDAP
+protocol. Communicating with Samba’s DS instance requires the use of
+LDAPI. The DS instances are identified by their URLs.</p>
+<p>A regular LDAP URL will look like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">389</span>
+</pre></div>
+</div>
+<p>A secure LDAP URL will look like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldaps</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">636</span>
+</pre></div>
+</div>
+<p>An LDAPI URL will look like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldapi</span><span class="p">:</span><span class="o">//%</span><span class="mi">2</span><span class="n">Fusr</span><span class="o">%</span><span class="mi">2</span><span class="n">Flocal</span><span class="o">%</span><span class="mi">2</span><span class="n">Fsamba</span><span class="o">%</span><span class="mi">2</span><span class="n">Fprivate</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldap</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldapi</span>
+</pre></div>
+</div>
+<p>The LDAPI URL contains a path to a Unix domain socket file
+/usr/local/samba/private/ldap/ldapi.</p>
+<p>The <a class="reference external" href="http://www.openldap.org/jldap/">OpenLDAP JLDAP</a> library provides
+a Java API to communicate with LDAP servers. However, the library
+currently only supports regular LDAP and secure LDAP protocol schemes.
+It currently does not support LDAPI.</p>
+<p>The <a class="reference external" href="http://code.google.com/p/junixsocket/">junixsocket</a> library
+provides a Java API to communicate via Unix domain socket. This library
+could be used in JLDAP to provide LDAPI support. There are also other
+libraries such as <a class="reference external" href="http://code.google.com/p/juds/">JUDS</a> but
+junixsocket’s API is based on Java Socket API which is used by JLDAP.</p>
+</section>
+<section id="current-code">
+<span id="id1"></span><h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">¶</a></h1>
+<section id="ietf-api">
+<span id="id2"></span><h2>IETF API<a class="headerlink" href="#ietf-api" title="Permalink to this heading">¶</a></h2>
+<p>Using the current IETF API, an LDAP connection can be created by
+providing an LDAP or LDAPS URL containing the host name and port number
+of the LDAP server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAPUrl</span> <span class="n">url</span> <span class="o">=</span> <span class="n">new</span> <span class="n">LDAPUrl</span><span class="p">(</span><span class="s2">&quot;ldap://localhost:389&quot;</span><span class="p">);</span>
+<span class="n">LDAPConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="p">();</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">getHost</span><span class="p">(),</span> <span class="n">url</span><span class="o">.</span><span class="n">getPort</span><span class="p">());</span>
+</pre></div>
+</div>
+</section>
+<section id="ldap-url">
+<span id="id3"></span><h2>LDAP URL<a class="headerlink" href="#ldap-url" title="Permalink to this heading">¶</a></h2>
+<p>The com.novell.ldap.LDAPUrl class currently only recognizes ldap and
+ldaps protocol schemes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">parseURL</span><span class="p">(</span><span class="n">String</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanStart</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s2">&quot;ldap://&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">scanStart</span> <span class="o">+=</span> <span class="mi">7</span><span class="p">;</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="o">.</span><span class="n">DEFAULT_PORT</span><span class="p">;</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanStart</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s2">&quot;ldaps://&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;ldaps&quot;</span><span class="p">;</span>
+        <span class="n">scanStart</span> <span class="o">+=</span> <span class="mi">8</span><span class="p">;</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="o">.</span><span class="n">DEFAULT_SSL_PORT</span><span class="p">;</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">throw</span> <span class="n">new</span> <span class="n">MalformedURLException</span><span class="p">(</span><span class="s2">&quot;LDAPUrl: URL scheme is not ldap&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="ldap-connection">
+<span id="id4"></span><h2>LDAP Connection<a class="headerlink" href="#ldap-connection" title="Permalink to this heading">¶</a></h2>
+<p>The com.novell.ldap.Connection class creates the socket using Java
+Socket API by providing the host name and port number.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">connect</span><span class="p">(</span><span class="n">String</span> <span class="n">host</span><span class="p">,</span> <span class="nb">int</span> <span class="n">port</span><span class="p">,</span> <span class="nb">int</span> <span class="n">semaphoreId</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">mySocketFactory</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">socket</span> <span class="o">=</span> <span class="n">mySocketFactory</span><span class="o">.</span><span class="n">createSocket</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">socket</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Socket</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="proposed-solution">
+<span id="id5"></span><h1>Proposed Solution<a class="headerlink" href="#proposed-solution" title="Permalink to this heading">¶</a></h1>
+<section id="ietf-api-1">
+<span id="id6"></span><h2>IETF API<a class="headerlink" href="#ietf-api-1" title="Permalink to this heading">¶</a></h2>
+<p>The IETF API should be modified to allow creating a connection by
+providing an LDAPI URL which contains a path to the socket file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAPUrl</span> <span class="n">url</span> <span class="o">=</span> <span class="n">new</span> <span class="n">LDAPUrl</span><span class="p">(</span><span class="s2">&quot;ldapi://</span><span class="si">%2F</span><span class="s2">usr</span><span class="si">%2F</span><span class="s2">local</span><span class="si">%2F</span><span class="s2">samba</span><span class="si">%2F</span><span class="s2">private</span><span class="si">%2F</span><span class="s2">ldap</span><span class="si">%2F</span><span class="s2">ldapi&quot;</span><span class="p">);</span>
+<span class="n">LDAPConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="p">();</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">url</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="ldap-url-1">
+<span id="id7"></span><h2>LDAP URL<a class="headerlink" href="#ldap-url-1" title="Permalink to this heading">¶</a></h2>
+<p>The com.novell.ldap.LDAPUrl should be modified to recognize the ldapi
+protocol scheme.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">parseURL</span><span class="p">(</span><span class="n">String</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanStart</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s2">&quot;ldapi://&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;ldapi&quot;</span><span class="p">;</span>
+        <span class="n">scanStart</span> <span class="o">+=</span> <span class="mi">8</span><span class="p">;</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanEnd</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="ldap-connection-1">
+<span id="id8"></span><h2>LDAP Connection<a class="headerlink" href="#ldap-connection-1" title="Permalink to this heading">¶</a></h2>
+<p>A new connect() method should to be added into
+com.novell.ldap.Connection to create a socket by providing a path to the
+socket file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">connect</span><span class="p">(</span><span class="n">File</span> <span class="n">path</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="n">AFUNIXSocket</span> <span class="n">unixSocket</span> <span class="o">=</span> <span class="n">AFUNIXSocket</span><span class="o">.</span><span class="n">newInstance</span><span class="p">();</span>
+    <span class="n">unixSocket</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">new</span> <span class="n">AFUNIXSocketAddress</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+
+    <span class="n">socket</span> <span class="o">=</span> <span class="n">unixSocket</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://tools.ietf.org/html/draft-chu-ldap-ldapi-00">Using LDAP Over IPC
+Mechanisms</a></p></li>
+<li><p><a class="reference external" href="http://www.openldap.org/doc/admin24/runningslapd.html">Running
+slapd</a></p></li>
+<li><p><a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/8.1/admin/ldapi-enabling.html">Enabling
+LDAPI</a></p></li>
+<li><p><a class="reference external" href="http://www.openldap.org/jldap/">OpenLDAP Java LDAP</a></p></li>
+<li><p><a class="reference external" href="http://code.google.com/p/junixsocket/">junixsocket</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/OpenLDAP_LDAPI_Support_in_JLDAP.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Realm_Domains.html" />
+    <link rel="prev" title="Overview" href="RFC_6594_SSHFP_DNS_records.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__</p>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>In ticket <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2184">#2184</a> a new
+option –pac_type was introduced to ipa service-mod to individually set
+the PAC type for each service ticket. The allowed values are:</p>
+<ul class="simple">
+<li><p>MS-PAC, the PAC used by Microsoft and specified in
+<a class="reference external" href="http://msdn.microsoft.com/en-us/library/cc237917.aspx">http://msdn.microsoft.com/en-us/library/cc237917.aspx</a></p></li>
+<li><p>PAD, Posix Authorization Data, currently work in progress, draft can
+be found at <a class="reference external" href="http://tools.ietf.org/html/draft-ietf-krb-wg-pad-01">http://tools.ietf.org/html/draft-ietf-krb-wg-pad-01</a></p></li>
+<li><p>NONE, do not add any authorization data to the ticket</p></li>
+<li><p>all other values are ignored</p></li>
+</ul>
+<p>If the attribute is not set the default values specified in the
+ipakrbauthzdata attribute of the ipaConfig object is used. If this is
+missing as well, which e.g. is the case when no value is selected in the
+Web UI or no value is given with ‘ipa config-mod –pac-type=’, ‘NONE’ is
+assumed, i.e. not authorization data is added to the ticket.</p>
+<p>If the attribute has multiple values all mentioned authorization data
+blobs are added to the ticket. If one of the values is ‘NONE’ no data is
+added. The FreeIPA CLI and Web UI take care that ‘NONE’ cannot be set
+with any other value, but it might still be added manually with
+ldapmodify.</p>
+</section>
+<section id="use-cases">
+<span id="use-cases10i"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>For services which do not use the authorization data from the PAC the
+PAC type can be set to ‘NONE’. This will keep the tickets smaller and
+avoids unneeded load on the FreeIPA server during the PAC processing.</p></li>
+<li><p>For services which can only handle Kerberos tickets up to a maximal
+size, e.g. NFS, see
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3263">#3263</a>, the PAC
+type should be set to ‘NONE’. The authorization data in the PAC can
+become quite large and can make the Kerberos ticket grow larger than
+the service can handle</p></li>
+<li><p>For services which cannot handle the default PAC type but need a
+different one. (This is for future versions since currently only the
+MS-PAC is supported)</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Since the UI/CLI changes were already handled by
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2184">#2184</a> no additional
+user interaction is needed here.</p>
+<p>For the needed changes to the IPA KDC backend the changes done to fix
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3263">#3263</a> can be used as
+a starting point.</p>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>In <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3263">#3263</a> the NFS
+service got a hardcoded default of ‘NONE’. This implicit default should
+be removed and replaced with the scheme described here. For newly
+created NFS services the CLI and wth Web UI should set ipakrbauthzdata
+to ‘NONE’ if not specified otherwise. During upgrade the valie
+‘<a class="reference external" href="nfs:NONE">nfs:NONE</a>’ will be added to the global ipakrbauthzdata attribute.</p>
+<p>To read ipakrbauthzdata together with the other attributes of the
+service principal it should be added to std_principal_attrs defined in
+ipa_kdb_principals.c. Then the read value can be added to struct
+ipadb_e_data in ipadb_parse_ldap_entry() to make it available in the
+struct krb5_db_entry of the service principal.</p>
+<p>Besides the plain types ‘MS-PAC’, ‘PAD’ and ‘NONE’ the new code must
+also handle the ‘<a class="reference external" href="service:TYPE">service:TYPE</a>’ style values of the global authorization
+data configuration. If the first component for the service principal
+matches the ‘service’ identifier the corresponding type should be use of
+there is no specific authorization data type is set for the service
+principal. As the plain option the ‘<a class="reference external" href="service:TYPE">service:TYPE</a>’ style can be used to
+multiple times to set more than one type but if one of the types is
+‘NONE’ no authorization data is added.</p>
+<p>All string comparisons are done case-sensitive.</p>
+<section id="evaluation-logic">
+<span id="id1"></span><h2>Evaluation logic<a class="headerlink" href="#evaluation-logic" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>If the service entry has ipakrbauthzdata attributes, those are used</p>
+<ul>
+<li><p>If one of the values is ‘NONE’ no authorization data is added</p></li>
+<li><p>If the values are ‘MS-PAC’ or ‘PAD’ the corresponding
+authorization data is added, respectively.</p></li>
+<li><p>All other values are ignored.</p></li>
+</ul>
+</li>
+<li><p>If the global configuration object has ipakrbauthzdata attributes,
+those are used as default for all services without the
+ipakrbauthzdata attribute</p>
+<ul>
+<li><p>If there are service specific default values ‘<a class="reference external" href="service:TYPE">service:TYPE</a>’ which
+matches the given service, only those are considered and the TYPE
+is evaluated according to the rules above</p></li>
+<li><p>For services without matching service specific default values the
+general default values are evaluated according to the rules above</p></li>
+</ul>
+</li>
+<li><p>For services where none of the above matches, no authorization data
+is added</p></li>
+</ul>
+</section>
+</section>
+<section id="feature-managment">
+<span id="id2"></span><h1>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h1>
+<p>UI related changes were added by ticket
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2184">#2184</a>. Some fixes are
+requested in <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3403">#3403</a>
+and <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3404">#3404</a>.</p>
+<p>Additionally ‘<a class="reference external" href="service:TYPE">service:TYPE</a>’ style entries should be allowed in the glbal
+configuration (it does not make sense for services and hosts). See
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3484">#3484</a>.</p>
+<p>CLI related changes were added by ticket
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2184">#2184</a>. Some fixes are
+requested in <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3403">#3403</a>.</p>
+<p>Additionally ‘<a class="reference external" href="service:TYPE">service:TYPE</a>’ style entries should be allowed in the
+global configuration (it does not make sense for services and hosts).
+See <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3484">#3484</a>.</p>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>This feature does not need any options and is enabled by default. The
+behaviour is controlled by the value of the ipaKrbAuthzData of the
+service object and the ipaConfig object.</p>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>Changes only affect the KDC IPA backend. If not all server and replicas
+are updated with this feature KDCs which are not updated might still
+return Kerberos tickets with the default PAC type although there is a
+different one mentioned in the service object.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>Setting the default for ipaKrbAuthzData in the ipaConfig object to
+‘MS-PAC’ during upgrades is already handled.</p>
+<p>As mentioned in the ‘Implementation’ section for all NFS service
+principals the ipaKrbAuthzData must be set to ‘NONE’ if it is not
+already set.</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>This feature does not add any new dependencies.</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>The changes will only touch the KDC IPA backend, no external impact is
+expected.</p>
+</section>
+<section id="how-to-test">
+<span id="how-to-test10"></span><h1>How to test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<p>Unfortunately there is not utility to check the presence of a PAC in a
+ticket but because of the size of the PAC the size/size-change of the
+credential cache can be used to see if a PAC is present in a ticket or
+not.</p>
+<p>After kinit the typical size of the credential cache file is about 500
+bytes if the TGT does not contain a PAC and about 1200 bytes with a PAC.</p>
+<p>A service ticket can be added to the credential cache file with the kvno
+utility</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kvno</span> <span class="n">host</span><span class="o">/</span><span class="n">fully</span><span class="o">.</span><span class="n">qualified</span><span class="o">.</span><span class="n">host</span><span class="o">.</span><span class="n">name</span><span class="nd">@REALM</span><span class="o">.</span><span class="n">NAME</span>
+</pre></div>
+</div>
+<p>If the service ticket has a PAC an increase of the size of the
+credential cache of 1000 bytes or more can be expected. Without the
+difference will be about 450-500 bytes.</p>
+<section id="testing-updates">
+<span id="id3"></span><h2>Testing updates<a class="headerlink" href="#testing-updates" title="Permalink to this heading">¶</a></h2>
+<p>It should be tested that during updates the global ipaKrbAuthzData
+attribute will get the value ‘<a class="reference external" href="nfs:NONE">nfs:NONE</a>’. i.e ‘ipa config-show’ will list
+‘<a class="reference external" href="nfs:NONE">nfs:NONE</a>’ in ‘Default PAC types’ after upgrades.</p>
+</section>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="User:Sbose">Sumit Bose</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/Read_and_use_per_service_pac_type.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

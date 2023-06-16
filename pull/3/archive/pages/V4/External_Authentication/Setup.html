@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IPA Server Authentication with User Certificate or Smart Card Setup &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Overview" href="../External_trust_to_AD/Test_Plan.html" />
+    <link rel="prev" title="Using mod_nss’s NSSVerifyClient require + LookupUserByCertificate + GssapiImpersonate" href="NSS_Impersonation.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="ipa-server-authentication-with-user-certificate-or-smart-card-setup">
+<span id="id1"></span><h1>IPA Server Authentication with User Certificate or Smart Card Setup<a class="headerlink" href="#ipa-server-authentication-with-user-certificate-or-smart-card-setup" title="Permalink to this heading">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipa-experimental-x509-auth-plugin</span></code> enables external
+authentication for the FreeIPA server web UI to log in using a
+certificate or smart card.</p>
+<p><strong>Warning: This plug-in is experimental. Do not use it in production
+environments.</strong></p>
+<p><em>Note: This plug-in does not verify if a certificate has been revoked.
+Configure the Apache web server to enable revocation checks.</em></p>
+<p>The procedure has been tested with Red Hat Enterprise Linux 7.3 and
+FreeIPA 4.4.</p>
+<p><strong>Warning: Certificate-based authentication for Web UI was integrated
+into FreeIPA 4.5.0. The setup described below is not required anymore</strong></p>
+<hr class="docutils" />
+<section id="freeipa-server-configuration">
+<span id="id2"></span><h2>FreeIPA Server Configuration<a class="headerlink" href="#freeipa-server-configuration" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Red Hat Enterprise Linux 7.3</p></li>
+<li><p>FreeIPA 4.4.0 or newer</p></li>
+</ul>
+<hr class="docutils" />
+<section id="installing-the-web-ui-plug-in">
+<span id="id3"></span><h3>Installing the Web UI Plug-in<a class="headerlink" href="#installing-the-web-ui-plug-in" title="Permalink to this heading">¶</a></h3>
+<p>To to download, install and configure the web UI plug-in, run on your
+FreeIPA server:</p>
+<ul class="simple">
+<li><p>Download the repository file from
+<a class="reference external" href="https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/">https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/</a>
+and store it in the <code class="docutils literal notranslate"><span class="pre">/etc/yum.repos.d/</span></code> directory. For example, for
+Red Hat Enterprise Linux 7.3:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cd /etc/yum.repos.d/</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># curl -O ``\</span> <span class="pre">```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo</span></code> &lt;<a class="reference external" href="https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo">https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo</a>&gt;`__</div>
+</div>
+<ul class="simple">
+<li><p>To install the plug-in:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># yum install -y ipa-experimental-x509-auth-plugin</span></code></p>
+<blockquote>
+<div><p>After the package is installed in the
+<code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/ui/js/plugins/</span></code> FreeIPA plug-in directory, <code class="docutils literal notranslate"><span class="pre">yum</span></code>
+automatically enables the <code class="docutils literal notranslate"><span class="pre">mod_lookup_identity</span></code> module and
+configures the System Security Services Daemon (SSSD).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Set the <code class="docutils literal notranslate"><span class="pre">OK-AS-DELEGATE</span></code> flag to the web server’s Kerberos service
+principal:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa service-mod --ok-to-auth-as-delegate=True HTTP/$(hostname)</span></code></p>
+<blockquote>
+<div><p>This Kerberos flag enables the service to forward Kerberos tickets.
+Use this flag only with security-reviewed and trusted services.</p>
+</div></blockquote>
+<hr class="docutils" />
+</section>
+</section>
+<section id="example-authentication-using-a-certificate">
+<span id="id4"></span><h2>Example Authentication Using a Certificate<a class="headerlink" href="#example-authentication-using-a-certificate" title="Permalink to this heading">¶</a></h2>
+<p>Smart cards use a digitally signed certificated, issued from a public
+key infrastructure (PKI) provider to authenticate a user. Authenticating
+using a soft token works like smart cards with user certificates.
+However, smart cards additionally require a hardware reader and a driver
+for the smart card. Follow your smart card provider’s documentation, how
+to generate the keys and how to add them to the smart card.</p>
+<section id="authenticating-to-the-web-ui-using-a-freeipa-ca-signed-certificate">
+<span id="id5"></span><h3>Authenticating to the Web UI Using a FreeIPA CA-signed Certificate<a class="headerlink" href="#authenticating-to-the-web-ui-using-a-freeipa-ca-signed-certificate" title="Permalink to this heading">¶</a></h3>
+<p>To create a new account and authenticate to the web UI using a
+certificate issued by the FreeIPA certificate authority (CA):</p>
+<ul>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">demo</span></code> user account in FreeIPA with a certificate and
+store the private key in the <code class="docutils literal notranslate"><span class="pre">~/demo.key</span></code> file.</p>
+<p>For details, see <a class="reference external" href="http://www.freeipa.org/page/V4/User_Certificates#Using_FreeIPA.2FDogtag_PKI_to_issue_user_certificates">Using FreeIPA/Dogtag PKI to Issue User
+Certificates</a>.</p>
+</li>
+<li><p>Verify that the certificate is displayed in the output of the
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-show</span></code> command:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa user-show demo</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Certificate: MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG.....</span></code></div>
+</div>
+<blockquote>
+<div><p>Alternatively, verify that the certificate is shown in the user’s
+account details in the web UI.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>To download the certificate for the <code class="docutils literal notranslate"><span class="pre">demo</span></code> user to the
+<code class="docutils literal notranslate"><span class="pre">~/demo_cert.pem</span></code> file, run:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># echo '-----BEGIN CERTIFICATE-----' &gt; ~/demo_cert.pem</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa user-show demo | grep Certificate:\  | cut -d ' ' -f 4 | fold -64 &gt;&gt; ~/demo_cert.pem</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># echo '-----END CERTIFICATE-----' &gt;&gt; ~/demo_cert.pem</span></code></div>
+</div>
+<ul class="simple">
+<li><p>Convert the certificate and private key to a PKCS #12-formated
+<code class="docutils literal notranslate"><span class="pre">~/demo_cert.pfx</span></code> file:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># openssl pkcs12 -export -out ~/demo_cert.pfx -inkey ~/demo.key -in ~/demo_cert.pem</span></code></p>
+<blockquote>
+<div><p>PKCS #12-formatted files are password protected and store private and
+public keys. Additionally, it can optionally include intermediate and
+root certificates. You can import these files to browsers and web
+servers, such as Apache Tomcat.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Import the <code class="docutils literal notranslate"><span class="pre">~/demo_cert.pfx</span></code> file to your web browsers certificate
+store. For details, see your web browser’s documentation.</p></li>
+</ul>
+<p>You are now able to authenticate to the web UI using the certificate.</p>
+<hr class="docutils" />
+</section>
+<section id="authenticating-to-the-web-ui-using-a-certificate-signed-by-an-external-ca">
+<span id="id6"></span><h3>Authenticating to the Web UI using a Certificate Signed by an External CA<a class="headerlink" href="#authenticating-to-the-web-ui-using-a-certificate-signed-by-an-external-ca" title="Permalink to this heading">¶</a></h3>
+<p>If you are running FreeIPA with certificates signed by an external
+certificate authority (CA), the certificates are usually stored in a
+local NSS database, such as <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code>.</p>
+<p>To create a new account and authenticate to the web UI using a
+certificate issued by an external CA:</p>
+<ul class="simple">
+<li><p>Create a new user account:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa user-add demo --first=Demo --last=Demo</span></code></p>
+<ul class="simple">
+<li><p>Assign the certificate from the <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code> NSS database to the
+FreeIPA <code class="docutils literal notranslate"><span class="pre">demo</span></code> user account:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa user-add-cert --certificate=&quot;$( certutil -L -d ~/nssdb/ -a -n alpha | grep -v '.---' )&quot; demo</span></code></p>
+<ul class="simple">
+<li><p>Export the certificate in PKCS #12 format from the <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code> NSS
+database:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># pk12util -o demo_cert.pfx -n alpha -d ~/nssdb/</span></code></p>
+<ul class="simple">
+<li><p>To verify external signed certificates, the Apache web server must
+use the CA certificate:</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">* To export the CA certificate from the <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code> NSS database<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d ~/nssdb/ -a -n cacert &gt; ca_cert.pem</span></code></p>
+<p>:* Import the CA certificate to the Apache web server’s certificate
+store:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -n ext_authCA -t CT,C,C  -d /etc/httpd/alias/ -a -i ca_cert.pem</span></code></p>
+<ul class="simple">
+<li><p>Restart the web server service:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># systemctl restart httpd</span></code></p>
+<ul class="simple">
+<li><p>Import the <code class="docutils literal notranslate"><span class="pre">~/demo_cert.pfx</span></code> file to your web browsers certificate
+store. For details, see your web browser’s documentation.</p></li>
+</ul>
+<p>You are now able to authenticate to the web UI using the certificate.</p>
+<hr class="docutils" />
+</section>
+<section id="verifying-the-web-ui-log-in-using-the-command-line">
+<span id="id7"></span><h3>Verifying the Web UI Log-in Using the Command Line<a class="headerlink" href="#verifying-the-web-ui-log-in-using-the-command-line" title="Permalink to this heading">¶</a></h3>
+<p>To verify the authentication to the web UI with certificates using the
+command line, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># curl --cert demo_cert.pem --key demo.key ``\</span> <span class="pre">```https://ipaserver/ipa/session/login_x509</span></code> &lt;<a class="reference external" href="https://ipaserver/ipa/session/login_x509">https://ipaserver/ipa/session/login_x509</a>&gt;`__`` -siv``</p>
+<hr class="docutils" />
+</section>
+</section>
+<section id="developer-notes">
+<span id="id8"></span><h2>Developer NOTES<a class="headerlink" href="#developer-notes" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Sources: <a class="reference external" href="https://github.com/Tiboris/ipa-experimental-x509-auth-plugin">https://github.com/Tiboris/ipa-experimental-x509-auth-plugin</a></p></li>
+<li><p>Repositories:
+<a class="reference external" href="https://copr.fedorainfracloud.org/coprs/tdudlak/ipa-experimental-x509-auth-plugin/">https://copr.fedorainfracloud.org/coprs/tdudlak/ipa-experimental-x509-auth-plugin/</a></p></li>
+<li><p>For further information about the plug-in infrastructure of the
+FreeIPA web UI, see
+<a class="reference external" href="https://pvoborni.fedorapeople.org/doc/#!/guide/Plugins">https://pvoborni.fedorapeople.org/doc/#!/guide/Plugins</a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/archive/pages/V4/External_Authentication/Setup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

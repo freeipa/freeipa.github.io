@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Global_Catalog_Support.html" />
+    <link rel="prev" title="Overview" href="Global_Catalog_HLD.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Global Catalog is a special service that exposes information about
+objects in FreeIPA domain in a way expected by the clients enrolled to
+Active Directory environments. Active Directory domain controllers and
+other systems use Global Catalog to search across the potentially
+multi-domain forest for the information about users, groups, machines,
+and other types of objects.</p>
+<p>The information stored in the Global Catalog represents a subset of the
+information available at the specific domain controllers in Active
+Directory. As such, it is only accessible for read-only purposes. Any
+change to the information shall come through the domain controllers
+responsible for a domain in question.</p>
+<p>The information stored in the Global Catalog are provisioned from a
+Freeipa LDAP instance (aka <em>primary</em> instance). The Global Catalog is
+available with an other LDAP instance known as <em>AD</em> instance. <em>primary</em>
+and <em>secondary</em> instances do not share the same schema, so there is
+required transformation of the provisioned LDAP entry to conform Global
+Catalog needs.</p>
+<p>This document describes the provisioning from <em>primary</em> instance and the
+transformation of entries on the <em>AD</em> instance.</p>
+</section>
+<section id="use-case">
+<span id="id1"></span><h1>Use Case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h1>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA Global Catalog service is a read-only LDAP service available
+over port 3268. This service runs on a <em>AD</em> LDAP instance that use a
+schema compatible with Active Directory LDAP schema. Entries in <em>AD</em>
+instance are provisioned from a <em>primary</em> freeipa ldap instance, that
+runs a different schema. So provisioned entries are crafted to conform
+the <em>AD</em> instance schema.</p>
+<p>The consequence of running different schema is that it is <strong>not
+possible</strong> to use regular multimaster replication between the <em>primary</em>
+and <em>AD</em> LDAP instances. In fact multimaster replication, replicates the
+schema. The provisioning relies <a class="reference external" href="http://www.port389.org/docs/389ds/design/content-synchronization-plugin.html">content
+synchronization</a>
+(RFC4533) supported by 389-ds since 1.3.5.</p>
+<p>The LDAP entries exposed on Global Catalog represents a subset of the
+information available at <em>primary</em> instance and also adaptation of the
+attributes/objectclass to conforms the <em>AD</em> instance. The transformation
+(remove/add/modification of attributes/objectclass) will be done by
+plugins running on <em>AD</em> instance. These plugins will do the same jobs as
+<a class="reference external" href="https://git.fedorahosted.org/cgit/slapi-nis.git/tree/doc/format-specifiers.txt">slapi-nis</a></p>
+<section id="provisioning">
+<h2>Provisioning<a class="headerlink" href="#provisioning" title="Permalink to this heading">¶</a></h2>
+<p>Provisioning relies on <a class="reference external" href="http://www.port389.org/docs/389ds/design/content-synchronization-plugin.html">content
+synchronization</a>
+(RFC4533). This mechanism is triggered when a client sends a <em>SEARCH</em>
+request with a <em>Sync request control</em>. The synchronization is done via a
+dedicated client thread, that will run <strong>RefreshandPersist</strong> mode (see
+<a class="reference external" href="https://tools.ietf.org/html/rfc4533#page-16">RefreshAndPersist</a>)
+with or without cookie.</p>
+<section id="content-synchronization-protocol-elements">
+<span id="id2"></span><h3>Content synchronization protocol elements<a class="headerlink" href="#content-synchronization-protocol-elements" title="Permalink to this heading">¶</a></h3>
+<section id="sync-request-control">
+<span id="id3"></span><h4>Sync Request Control<a class="headerlink" href="#sync-request-control" title="Permalink to this heading">¶</a></h4>
+<p>This control is used in the search request to trigger a content
+synchronization</p>
+<div class="line-block">
+<div class="line">``   syncRequestValue ::= SEQUENCE {``</div>
+<div class="line">``         mode ENUMERATED {``</div>
+<div class="line">``             – 0 unused``</div>
+<div class="line">``             refreshOnly       (1),``</div>
+<div class="line">``             – 2 reserved``</div>
+<div class="line">``             refreshAndPersist (3)``</div>
+<div class="line">``         },``</div>
+<div class="line">``         cookie     syncCookie OPTIONAL,``</div>
+<div class="line">``         reloadHint BOOLEAN DEFAULT FALSE``</div>
+<div class="line">``     }``</div>
+</div>
+</section>
+<section id="sync-info-message">
+<span id="id4"></span><h4>Sync Info Message<a class="headerlink" href="#sync-info-message" title="Permalink to this heading">¶</a></h4>
+<div class="line-block">
+<div class="line">``  syncInfoValue ::= CHOICE {``</div>
+<div class="line">``         newcookie      [0] syncCookie,``</div>
+<div class="line">``         refreshDelete  [1] SEQUENCE {``</div>
+<div class="line">``             cookie         syncCookie OPTIONAL,``</div>
+<div class="line">``             refreshDone    BOOLEAN DEFAULT TRUE``</div>
+<div class="line">``         },``</div>
+<div class="line">``         refreshPresent [2] SEQUENCE {``</div>
+<div class="line">``             cookie         syncCookie OPTIONAL,``</div>
+<div class="line">``             refreshDone    BOOLEAN DEFAULT TRUE``</div>
+<div class="line">``         },``</div>
+<div class="line">``         syncIdSet      [3] SEQUENCE {``</div>
+<div class="line">``             cookie         syncCookie OPTIONAL,``</div>
+<div class="line">``             refreshDeletes BOOLEAN DEFAULT FALSE,``</div>
+<div class="line">``             syncUUIDs      SET OF syncUUID``</div>
+<div class="line">``         }``</div>
+<div class="line">``     }``</div>
+</div>
+<p>In <em>RefreshAndPersist</em> mode, the refresh stage does <strong>not</strong> end with a
+SearchResultDone but with <strong>refreshDone</strong> (refreshDelete or
+refreshPresent) and a <strong>newcookie</strong>.</p>
+<p>In persist stage, when multiple entries are deleted, it uses several
+sync info messages with <strong>refreshDeletes=TRUE</strong> and the set of syncUUIDs
+deleted.</p>
+</section>
+<section id="sync-state-control">
+<span id="id5"></span><h4>Sync state control<a class="headerlink" href="#sync-state-control" title="Permalink to this heading">¶</a></h4>
+<div class="line-block">
+<div class="line">``     syncStateValue ::= SEQUENCE {``</div>
+<div class="line">``         state ENUMERATED {``</div>
+<div class="line">``             present (0),``</div>
+<div class="line">``             add (1),``</div>
+<div class="line">``             modify (2),``</div>
+<div class="line">``             delete (3)``</div>
+<div class="line">``         },``</div>
+<div class="line">``         entryUUID syncUUID,``</div>
+<div class="line">``         cookie    syncCookie OPTIONAL``</div>
+<div class="line">``     }``</div>
+</div>
+<p>In persist stage, for each updated entry/reference is send in a
+SearchResultEntry/SearchResultReference message with sync state control.
+The control contains the entryUUID. For <em>ADD</em> entry, state is <strong>add</strong>.
+For <em>MOD/MODDN</em> entry, state is <strong>modify</strong>. For <em>DEL</em> entry, state is
+<strong>delete</strong>.</p>
+<p>Note: in this implementation we assume we will not receive
+SearchResultReference message.</p>
+</section>
+</section>
+<section id="refresh-stage">
+<span id="id6"></span><h3>Refresh stage<a class="headerlink" href="#refresh-stage" title="Permalink to this heading">¶</a></h3>
+<p>During <a class="reference external" href="http://www.port389.org/docs/389ds/design/content-synchronization-plugin.html#refresh-only-cookie-present">refresh
+stage</a>,
+the synchronization client thread will receive ldap messages containing
+entries with sync state control. The control state is either <strong>Present</strong>
+or <strong>Delete</strong>. A set of <strong>Present</strong> entry messages is known as <em>Present
+phase</em>. A set of <strong>Delete</strong> entry message is known as <strong>Delete</strong> phase.
+XXX Not clear if phases are clearly separated or we can receive
+Present-Delete-Present for example XXX.</p>
+<p>If no cookie is provided (<em>initial content</em>), only <strong>Present</strong> sync
+state control are received. Then the <strong>primary</strong> server will end the
+Refresh phase sending an <strong>intermediate</strong> message to switch to
+persistent phase.</p>
+<p>If a cookie is provided (<em>content update</em>), the primary server starts
+with <strong>Delete</strong> phase sending all entries deleted since the cookie
+timestamp. They are send with intermediate message(s) (tag
+LDAP_TAG_SYNC_ID_SET) XXsync_send_deleted_entriesXX. Then the server
+enters in a <strong>Present</strong> phase sending all entries that have been
+added/modified/moddn since the cookie timestamp. They are send with
+LDAP_RES_SEARCH_ENTRY msg with sync control.</p>
+</section>
+<section id="persistant-stage">
+<span id="id7"></span><h3>Persistant stage<a class="headerlink" href="#persistant-stage" title="Permalink to this heading">¶</a></h3>
+</section>
+</section>
+<section id="transformations">
+<h2>Transformations<a class="headerlink" href="#transformations" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Global_Catalog_IDM_provisioning.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

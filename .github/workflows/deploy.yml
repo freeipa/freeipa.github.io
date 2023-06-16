@@ -1,0 +1,81 @@
+# Useful guides:
+# https://www.sphinx-doc.org/en/master/tutorial/deploying.html
+# https://marcomadera.com/blog/github-pages
+# https://coderefinery.github.io/documentation/gh_workflow/
+
+name: Deploy docs to GH Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request_target:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - name: Comment on PR
+      uses: hasura/comment-progress@v2.2.0
+      if: github.event_name == 'pull_request_target'
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        number: ${{ github.event.number }}
+        id: deploy-preview
+        message: "Starting deployment of preview ⏳..."
+
+    - uses: actions/checkout@v3
+
+    - name: Checkout PR head if this is a PR
+      if: github.event_name == 'pull_request_target'
+      run: |
+        git fetch origin pull/${{ github.event.pull_request.number }}/head:pr
+        git checkout pr
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Build pages
+      run: make html
+
+    - name: Deploy if this is a push in the `main` branch
+      uses: peaceiris/actions-gh-pages@v3.9.3
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: _build/html/
+    
+    - name: Set PR preview path ENVVAR if this is a PR
+      if: github.event_name == 'pull_request_target'
+      run: |
+        echo "PR_PATH=pull/${{github.event.number}}" >> $GITHUB_ENV
+
+    - name: Set base URL for preview if this is a PR
+      if: github.event_name == 'pull_request_target'
+      run: |
+        echo "BASE_URL=https://freeipa.github.io/${{ env.PR_PATH}}/" >> $GITHUB_ENV
+
+    - name: Deploy to preview if this is a PR
+      uses: peaceiris/actions-gh-pages@v3.9.3
+      if: github.event_name == 'pull_request_target'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: _build/html/
+        destination_dir: ${{ env.PR_PATH }}
+    
+    - name: Update PR preview comment if this a PR
+      uses: hasura/comment-progress@v2.2.0
+      if: github.event_name == 'pull_request_target'
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        number: ${{ github.event.number }}
+        id: deploy-preview
+        message: "A preview of ${{ github.event.pull_request.head.sha }} is uploaded and can be seen here:\n\n 🚀 ${{ env.BASE_URL }} 🚀"

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Highlights since 3.0.0 beta 1 &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Highlights since 3.0.0 beta 2" href="IPAv3_300_beta3.html" />
+    <link rel="prev" title="Highlights in 3.0.0" href="IPAv3_300_beta1.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__ The FreeIPA team is proud to announce version FreeIPA v3.0.0
+beta 2.</p>
+<p>It can be downloaded from <a class="reference external" href="http://www.freeipa.org/page/Downloads">http://www.freeipa.org/page/Downloads</a>.</p>
+<p>A build is available in the Fedora 18 and rawhide repositories or for
+Fedora 17 via the freeipa-devel repo on www.freeipa.org:
+<a class="reference external" href="http://freeipa.org/downloads/freeipa-devel.repo">http://freeipa.org/downloads/freeipa-devel.repo</a> . To install in Fedora
+17 and 18 the updates-testing repository needs to be enabled as well.</p>
+<p>For additional information see the AD Trust design page
+<a class="reference external" href="http://freeipa.org/page/IPAv3_AD_trust">http://freeipa.org/page/IPAv3_AD_trust</a> and the AD Trust testing page
+<a class="reference external" href="http://freeipa.org/page/IPAv3_testing_AD_trust">http://freeipa.org/page/IPAv3_testing_AD_trust</a>.</p>
+<section id="highlights-since-3-0-0-beta-1">
+<span id="id1"></span><h1>Highlights since 3.0.0 beta 1<a class="headerlink" href="#highlights-since-3-0-0-beta-1" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>NTLM password hash is generated for existing users on first use of
+IPA cross-realm environment based on their Kerberos keys without
+requiring a password change.</p></li>
+<li><p>Secure identifiers compatible with Active Directory are generated
+automatically for existing users upon set up of IPA cross-realm
+environment.</p></li>
+<li><p>Use certmonger to renew CA subsystem certificates</p></li>
+<li><p>Support for DNS zone transfers to non-IPA slaves</p></li>
+<li><p>Internal change to LDAP Distinguished Name handling to be more robust</p></li>
+<li><p>Better support for Internet Explorer 9 in the UI</p></li>
+<li><p>Allow multiple servers on client install command-line and configuring
+without DNS discovery.</p></li>
+<li><p>Translation updates</p></li>
+</ul>
+</section>
+<section id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this heading">¶</a></h1>
+<p>An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.</p>
+<p>If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.</p>
+<p>Downgrading a server once upgraded is not supported.</p>
+<p>Upgrading from 2.2.0 should work but has not been fully tested. Proceed
+with caution.</p>
+<p>An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys (using host-mod).</p>
+</section>
+<section id="feedback">
+<h1>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h1>
+<p>Please provide comments, bugs and other feedback via the freeipa-devel
+mailing list: <a class="reference external" href="http://www.redhat.com/mailman/listinfo/freeipa-devel">http://www.redhat.com/mailman/listinfo/freeipa-devel</a></p>
+</section>
+<section id="detailed-changelog">
+<span id="id2"></span><h1>Detailed changelog<a class="headerlink" href="#detailed-changelog" title="Permalink to this heading">¶</a></h1>
+<p>Alexander Bokovoy (11):</p>
+<ul class="simple">
+<li><p>ipasam: improve SASL bind callback</p></li>
+<li><p>Use smb.conf ‘dedicated keytab file’ parameter instead of hard-coded
+value</p></li>
+<li><p>reduce redundant checks in ldapsam_search_users() to a single
+statement</p></li>
+<li><p>ipalib/plugins/trust.py: ValidationError takes ‘error’ named
+argument, not ‘reason’</p></li>
+<li><p>Handle various forms of admin accounts when establishing trusts</p></li>
+<li><p>Follow change in samba4 beta4 for sid_check_is_domain to
+sid_check_is_our_sam</p></li>
+<li><p>Rework task naming in LDAP updates to avoid conflicting names in
+certain cases</p></li>
+<li><p>When ipaNTHash is missing, ask IPA to generate it from kerberos keys</p></li>
+<li><p>Ensure ipa-adtrust-install is run with Kerberos ticket for admin user</p></li>
+<li><p>Handle exceptions when establishing trusts</p></li>
+<li><p>Add internationalization to DCE RPC code</p></li>
+</ul>
+<p>David Spångberg (1):</p>
+<ul class="simple">
+<li><p>Indirect roles in WebUI</p></li>
+</ul>
+<p>Gowrishankar Rajaiyan (1):</p>
+<ul class="simple">
+<li><p>Adding exit status 3 &amp; 4 to ipa-client-install man page</p></li>
+</ul>
+<p>Jan Cholasta (2):</p>
+<ul class="simple">
+<li><p>Add –{set,add,del}attr options to commands which are missing them.</p></li>
+<li><p>Raise Base64DecodeError instead of ConversionError when base64
+decoding fails in Bytes parameters.</p></li>
+</ul>
+<p>John Dennis (2):</p>
+<ul class="simple">
+<li><p>Use DN objects instead of strings</p></li>
+<li><p>Installation fails when CN is set in certificate subject base</p></li>
+</ul>
+<p>Martin Kosek (12):</p>
+<ul class="simple">
+<li><p>Do not change LDAPObject objectclass list</p></li>
+<li><p>Add automount map/key update permissions</p></li>
+<li><p>Fix ipa-managed-entries man page typo</p></li>
+<li><p>Improve address family handling in sockets</p></li>
+<li><p>Enable SOA serial autoincrement</p></li>
+<li><p>Add range-mod command</p></li>
+<li><p>Warn user if an ID range with incorrect size was created</p></li>
+<li><p>Print ipa-ldap-updater errors during RPM upgrade</p></li>
+<li><p>Enforce CNAME constrains for DNS commands</p></li>
+<li><p>Avoid redundant info message during RPM update</p></li>
+<li><p>Bump bind-dyndb-ldap version for F18</p></li>
+<li><p>Fix winsync agreements creation</p></li>
+</ul>
+<p>Petr Viktorin (7):</p>
+<ul class="simple">
+<li><p>Fix batch command error reporting</p></li>
+<li><p>Fix wrong option name in ipa-managed-entries man page</p></li>
+<li><p>Fix updating minimum_connections in ipa-upgradeconfig</p></li>
+<li><p>Framework for admin/install tools, with ipa-ldap-updater</p></li>
+<li><p>Arrange stripping .po files</p></li>
+<li><p>Update translations</p></li>
+<li><p>Create /etc/sysconfig/network if it doesn’t exist</p></li>
+</ul>
+<p>Petr Vobornik (31):</p>
+<ul class="simple">
+<li><p>Moved configuration to last position in navigation</p></li>
+<li><p>Display loginas information only after login</p></li>
+<li><p>Password policy measurement units.</p></li>
+<li><p>Web UI: kerberos ticket policy measurement units</p></li>
+<li><p>Add and remove dns per-domain permission in Web UI</p></li>
+<li><p>Differentiation of widget type and text_widget input type</p></li>
+<li><p>Fixed display of attributes_widget in IE9</p></li>
+<li><p>Bigger textarea for permission type=subtree</p></li>
+<li><p>IDs and names for dialogs</p></li>
+<li><p>Fix autoscroll to top in tables in IE</p></li>
+<li><p>Fixed: Unable to select option in combobox in IE and Chrome</p></li>
+<li><p>Fixed: Unable to select option in combobox in IE and Chrome</p></li>
+<li><p>Fixed: combobox stacking in service adder dialog</p></li>
+<li><p>PAC Type options for services in Web UI</p></li>
+<li><p>Update to jquery.1.7.2.min</p></li>
+<li><p>Update to jquery-ui-1.8.21.custom</p></li>
+<li><p>Fix for incorrect event handler definition</p></li>
+<li><p>Removal of unnecessary overrides of jquery-ui styles</p></li>
+<li><p>Unified buttons</p></li>
+<li><p>Web UI tests fix</p></li>
+<li><p>Fixed incorrect use of jQuery.attr for setting disabled attribute</p></li>
+<li><p>Replace use of attr with prop for booleans</p></li>
+<li><p>Add external group</p></li>
+<li><p>Make group external</p></li>
+<li><p>Make group posix</p></li>
+<li><p>Display group type</p></li>
+<li><p>Attribute facet</p></li>
+<li><p>Group external member facet</p></li>
+<li><p>Read-only external facet for non-external groups</p></li>
+<li><p>Handle case when trusted domain user access the Web UI</p></li>
+<li><p>Disable caching of Web UI login_kerberos request</p></li>
+<li><p>Update other facets on delete from search page</p></li>
+</ul>
+<p>Rob Crittenden (12):</p>
+<ul class="simple">
+<li><p>Centralize timeout for waiting for servers to start.</p></li>
+<li><p>Make client server option multi-valued, allow disabling DNS discovery</p></li>
+<li><p>Don’t hardcode serial_autoincrement to True.</p></li>
+<li><p>Support per-principal sessions and handle session update failures</p></li>
+<li><p>Default to no when trying trying to install a replica on wrong
+server.</p></li>
+<li><p>Fix validator for SELinux user map settings in config plugin.</p></li>
+<li><p>Use certmonger to renew CA subsystem certificates</p></li>
+<li><p>Add per-service option to store the types of PAC it supports</p></li>
+<li><p>Convert PKCS#11 subject to string before passing to ipapython.DN</p></li>
+<li><p>Use DN object for Directory Manager in ipa-replica-manage connect
+command</p></li>
+<li><p>Raise proper exception when given a bad DN attribute.</p></li>
+<li><p>Validate default user in ordered list when using setattr, require MLS</p></li>
+</ul>
+<p>Simo Sorce (14):</p>
+<ul class="simple">
+<li><p>Fix wrong check after allocation.</p></li>
+<li><p>Fix safety checks to prevent orphaning replicas</p></li>
+<li><p>Fix detection of deleted masters</p></li>
+<li><p>Add libtalloc-devel as spec file BuildRequire</p></li>
+<li><p>Add all external samba libraries to BuildRequires</p></li>
+<li><p>Do not check for DNA magic values</p></li>
+<li><p>Move code into common krb5 utils</p></li>
+<li><p>Improve loops around slapi mods</p></li>
+<li><p>Add special modify op to regen ipaNTHash</p></li>
+<li><p>Move mspac structure to be a private pointer</p></li>
+<li><p>Load list of trusted domain on connecting to ldap</p></li>
+<li><p>Properly name function to add ipa external groups</p></li>
+<li><p>Split out manipulation of logon_info blob</p></li>
+<li><p>Add PAC filtering</p></li>
+</ul>
+<p>Sumit Bose (4):</p>
+<ul class="simple">
+<li><p>Allow silent build if available</p></li>
+<li><p>ipasam: fixes for clang warnings</p></li>
+<li><p>ipasam: replace testing code</p></li>
+<li><p>Fix typo</p></li>
+</ul>
+<p>Tomas Babej (5):</p>
+<ul class="simple">
+<li><p>Adds check for ipa-join.</p></li>
+<li><p>Permissions of replica files changed to 0600.</p></li>
+<li><p>Handle SSSD restart crash more gently.</p></li>
+<li><p>Corrects help description of selinuxusermap.</p></li>
+<li><p>Improves exception handling in ipa-replica-prepare.</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/IPAv3_300_beta2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

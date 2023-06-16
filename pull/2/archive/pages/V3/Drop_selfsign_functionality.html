@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Filtering_groups_by_type.html" />
+    <link rel="prev" title="Overview" href="Drop_selfsign.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__</p>
+<p>Not to be confused with <a class="reference external" href="V3/Drop_selfsign">V3/Drop_selfsign</a>, a RFE
+to only drop the –selfsign option.</p>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Ticket <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3494">3494</a> Drop
+–selfsign server functionality:</p>
+<p>IPA supports 2 flavors of certificate management:</p>
+<ul class="simple">
+<li><p>IPA with pki-ca (dogtag) with either a self-signed certificate or
+with a certificate signed by external CA (–external-ca option)</p></li>
+<li><p>IPA with no pki-ca installed (i.e CA-less), with certificates signed
+and provided by an external CA.</p></li>
+</ul>
+<p>Previously, IPA had a “self-signed” mode, where certificate management
+was done without pki-ca. This mode will be replaced by CA-less mode on
+upgrade.</p>
+</section>
+<section id="use-cases">
+<span id="use-cases115"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ol class="arabic simple">
+<li><p>User upgrades a server that uses the self-signed CA</p></li>
+<li><p>The CA functionality is removed.</p></li>
+<li><p>User uses commands below to manage certificates manually.</p></li>
+</ol>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>On upgrade, selfsign masters will be converted to CA-less. The existing
+certificate database and files the selfsign CA used will be left on disk
+and may be used to issue new certificates manually.</p>
+<p>IPA’s <code class="docutils literal notranslate"><span class="pre">cert-*</span></code> commands will be no longer available. The following
+commands will no longer issue certificates automatically:</p>
+<ul class="simple">
+<li><p>host-del</p></li>
+<li><p>host-mod</p></li>
+<li><p>host-disable</p></li>
+<li><p>service-del</p></li>
+<li><p>service-mod</p></li>
+<li><p>service-disable</p></li>
+</ul>
+<p>Certificates may be issued manually (see instructions below) and loaded
+with <code class="docutils literal notranslate"><span class="pre">host-mod</span></code> or <code class="docutils literal notranslate"><span class="pre">service-mod</span></code>.</p>
+<p>Server certificates tracked by certmonger will be untracked during the
+upgrade.</p>
+<p>The self-sign CAs were incapable of replication. With this change,
+replicas can be created given appropriate (possibly wildcard) server
+certificates.</p>
+</section>
+<section id="manual-certificate-management">
+<span id="id1"></span><h1>Manual certificate management<a class="headerlink" href="#manual-certificate-management" title="Permalink to this heading">¶</a></h1>
+<p>This section shows commands that the removed selfsign backend ran behind
+the scenes. This serves as a baseline or tutorial – the reason why IPA
+no longer runs the commands manually is to provide flexibility for users
+that need it. If you want a simple solution, please use IPA’s default
+Dogtag backend.</p>
+<section id="selfsign-ca-files">
+<span id="id2"></span><h2>Selfsign CA files<a class="headerlink" href="#selfsign-ca-files" title="Permalink to this heading">¶</a></h2>
+<section id="nss-database">
+<span id="id3"></span><h3>NSS database<a class="headerlink" href="#nss-database" title="Permalink to this heading">¶</a></h3>
+<p>The NSS database containing certs and keys is in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias</span></code>.</p>
+</section>
+<section id="noise-file">
+<span id="id4"></span><h3>Noise file<a class="headerlink" href="#noise-file" title="Permalink to this heading">¶</a></h3>
+<p>A noise file is generally put at <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/noise.txt</span></code>. Fill it
+with random data whenever you need it:</p>
+<p>``   head -c12 /dev/random | sha1sum | cut -d’ ‘ -f1 &gt; /etc/httpd/alias/noise.txt``</p>
+<p>Be sure to remove the file after it’s used.</p>
+</section>
+<section id="nss-database-password">
+<span id="id5"></span><h3>NSS database password<a class="headerlink" href="#nss-database-password" title="Permalink to this heading">¶</a></h3>
+<p>The NSS database password is stored in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/pwdfile.txt</span></code>.</p>
+</section>
+<section id="serial-number">
+<span id="id6"></span><h3>Serial number<a class="headerlink" href="#serial-number" title="Permalink to this heading">¶</a></h3>
+<p>The file <code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/ca_serialno</span></code> contains the CA’s serial numbers
+in INI format:</p>
+<div class="line-block">
+<div class="line">``   [selfsign]``</div>
+<div class="line">``   nextreplica = 500000``</div>
+<div class="line">``   replicainterval = 500000``</div>
+<div class="line">``   lastvalue = 1005``</div>
+</div>
+<p>Of these values, only <code class="docutils literal notranslate"><span class="pre">lastvalue</span></code> is used (replication of selfsign CAs
+was never implemented). It is recommended to note the number, store it
+in a more convenient format, and delete the <code class="docutils literal notranslate"><span class="pre">ca_serialno</span></code> file.</p>
+<p>Each certificate issued by a particular CA must have a unique serial
+number. To ensure this, increment the <code class="docutils literal notranslate"><span class="pre">lastvalue</span></code> before using it.</p>
+</section>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<p>Note that installation is <em>not needed</em> after an upgrade from selfsign;
+these files are not removed by the upgrade.</p>
+<p>Store a password in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/pwdfile.txt</span></code>.</p>
+<p>Then run:</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -N -f /etc/httpd/alias/pwdfile.txt``</p>
+<p>Create a noise file (see above), and create a CA cert by:</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -S -n “$REALM IPA CA” -s “CN=$REALM Certificate Authority” -x -t CT,,C -1 -2 -5 -m $NEXT_SERIAL -v 120 -z $NOISE_FILE -f /etc/httpd/alias/pwdfile.txt``</p>
+<p>Give the following answers:</p>
+<div class="line-block">
+<div class="line">``   Create key usage extension:``</div>
+<div class="line">``       0 - Digital Signature``</div>
+<div class="line">``       1 - Non-repudiation``</div>
+<div class="line">``       5 - Cert signing key``</div>
+<div class="line">``       Is this a critical extension [y/N]? y``</div>
+<div class="line">``   Create basic constraint extension``</div>
+<div class="line">``       Is this a CA certificate [y/N]?  y``</div>
+<div class="line">``   Enter the path length constraint, enter to skip [&lt;0 for unlimited path]``</div>
+<div class="line">``       0``</div>
+<div class="line">``       Is this a critical extension [y/N]? y``</div>
+<div class="line">``   Extensions:``</div>
+<div class="line">``       5 6 7 9 n (SSL, S/MIME, Object signing CA)``</div>
+</div>
+<p>Export the CA cert:</p>
+<p>``   /usr/bin/pk12util -d /etc/httpd/alias -o /etc/httpd/alias/cacert.p12 -n “$REALM IPA CA” -w /etc/httpd/alias/pwdfile.txt -k /etc/httpd/alias/pwdfile.txt``</p>
+</section>
+<section id="generating-a-certificate-request">
+<span id="id7"></span><h2>Generating a certificate request<a class="headerlink" href="#generating-a-certificate-request" title="Permalink to this heading">¶</a></h2>
+<p>Create a noise file (see above).</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -R -s CN=$HOSTNAME,O=IPA -o $CERTREQ_FILENAME -k rsa -g 2048 -z /etc/httpd/alias/noise.txt -f /etc/httpd/alias/pwdfile.txt -a``</p>
+<p>Example values:</p>
+<ul class="simple">
+<li><p>HOSTNAME=ipaserver.ipadomain.example.com</p></li>
+<li><p>CERTREQ_FILENAME=/tmp/service.csr</p></li>
+</ul>
+</section>
+<section id="issuing-a-certificate">
+<span id="id8"></span><h2>Issuing a certificate<a class="headerlink" href="#issuing-a-certificate" title="Permalink to this heading">¶</a></h2>
+<p>First generate a certificate request (see above). Then run:</p>
+<div class="line-block">
+<div class="line">``   NEXT_SERIAL=$(($NEXT_SERIAL + 1))  # (be sure to also store the number on disk!)``</div>
+<div class="line">``   /usr/bin/certutil -d /etc/httpd/alias -C -c “CN=$REALM Certificate Authority” -i $CERTREQ_FILENAME -o $CERT_FILENAME -m $NEXT_SERIAL -v 120 -f /etc/httpd/alias/pwdfile.txt -1 -5 -a``</div>
+</div>
+<p>Example values:</p>
+<ul class="simple">
+<li><p>REALM=IPADOMAIN.EXAMPLE.COM</p></li>
+<li><p>CERTREQ_FILENAME=/tmp/service.csr</p></li>
+<li><p>CERT_FILENAME=/tmp/service.cert</p></li>
+<li><p>NEXT_SERIAL - unique serial number, see above</p></li>
+</ul>
+<p>For a server certificate (e.g. for a new replica), give the following
+answers:</p>
+<div class="line-block">
+<div class="line">``   Create key usage extension:``</div>
+<div class="line">``       2 - Key encipherment``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+<div class="line">``   Create netscape cert type extension:``</div>
+<div class="line">``       1 - SSL Server``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+</div>
+<p>For an object signing certificate, give the following answers:</p>
+<div class="line-block">
+<div class="line">``   Create key usage extension:``</div>
+<div class="line">``       0 - Digital Signature``</div>
+<div class="line">``       5 - Cert signing key``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+<div class="line">``   Create netscape cert type extension:``</div>
+<div class="line">``       3 - Object Signing``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+</div>
+<p>For a service certificate (ipa service-add, ipa cert-request, ipa
+host-add), add the <code class="docutils literal notranslate"><span class="pre">-6</span></code> option. The IPA commands also validate the
+certificate, and with Dogtag, the old host/service certis revoked. These
+steps are left entirely to the user. Answer:</p>
+<div class="line-block">
+<div class="line">``   Create key usage extension:``</div>
+<div class="line">``       0 - Digital Signature``</div>
+<div class="line">``       1 - Cert signing key``</div>
+<div class="line">``       2 - Key encipherment``</div>
+<div class="line">``       3 - Data encipherment``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+<div class="line">``   Create netscape cert type extension:``</div>
+<div class="line">``       0 - Server Auth``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+<div class="line">``   Create extended key usage extension:``</div>
+<div class="line">``       1 - SSL Server``</div>
+<div class="line">``       9 - done``</div>
+<div class="line">``       n - not critical``</div>
+</div>
+<p>This will put a PEM-encoded certificate in $CERT_FILENAME.</p>
+<p>You may want to import the certificate into the DB, and track it; see
+below.</p>
+</section>
+<section id="importing-issued-certificate-into-the-database">
+<span id="id9"></span><h2>Importing issued certificate into the database<a class="headerlink" href="#importing-issued-certificate-into-the-database" title="Permalink to this heading">¶</a></h2>
+<p>If you have a PEM certificate, open it in an editor, remove the start
+and end markers, and save it in a new file. This will be a</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -A -i $CERT_DER_FILENAME -n $CERT_NICKNAME -a -t ,,``</p>
+<p>Example values:</p>
+<ul class="simple">
+<li><p>CERT_DER_FILENAME=/tmp/service.der</p></li>
+<li><p>CERT_NICKNAME=Server-Cert</p></li>
+</ul>
+</section>
+<section id="exporting-server-cert-into-pkcs-12">
+<span id="exporting-server-cert-into-pkcs12"></span><h2>Exporting server cert into PKCS#12<a class="headerlink" href="#exporting-server-cert-into-pkcs-12" title="Permalink to this heading">¶</a></h2>
+<p>Run:</p>
+<p>``   /usr/bin/pk12util -o $CERT_PKCS_FILENAME -n $CERT_NICKNAME -d /etc/httpd/alias -k /etc/httpd/alias/pwdfile.txt -w /etc/httpd/alias/pwdfile.txt``</p>
+<p>Example values:</p>
+<ul class="simple">
+<li><p>CERT_PKCS_FILENAME=/tmp/service.p12</p></li>
+<li><p>CERT_NICKNAME=Server-Cert</p></li>
+</ul>
+<p>The resulting file can be given to <code class="docutils literal notranslate"><span class="pre">ipa-replica-prepare</span></code>, with
+contents of /etc/httpd/alias/pwdfile.txt as the password.</p>
+</section>
+<section id="tracking-a-certificate-with-certmonger">
+<span id="id10"></span><h2>Tracking a certificate with certmonger<a class="headerlink" href="#tracking-a-certificate-with-certmonger" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">``   systemctl enable certmonger.service``</div>
+<div class="line">``   systemctl start certmonger.service``</div>
+</div>
+<p>``   /usr/bin/ipa-getcert start-tracking -d /etc/httpd/alias -n $CERT_NICKNAME -p /etc/httpd/alias/pwdfile.txt``</p>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>No additional requirements or changes discovered during the
+implementation phase.</p>
+</section>
+<section id="feature-managment">
+<span id="id11"></span><h1>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>Upgrading from selfsign sets the following env settings
+(/etc/ipa/default.conf):</p>
+<ul class="simple">
+<li><p>enable_ra=False</p></li>
+<li><p>ra_plugin=none</p></li>
+</ul>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>Self-signed CAs were incapable of replication. With this change,
+replicas can be created given appropriate (possibly wildcard) server
+certificates.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>Selfsign certificates will be converted to CA-less on upgrade.</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>Documentation may need updating.</p>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="User:pviktorin">pviktori</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/Drop_selfsign_functionality.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

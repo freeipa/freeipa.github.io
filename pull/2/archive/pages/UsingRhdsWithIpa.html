@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Installing Red Hat Directory Server &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Sources" href="Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host.html" />
+    <link rel="prev" title="Introduction" href="User_certificate_use_cases.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="installing-red-hat-directory-server">
+<span id="id1"></span><h1>Installing Red Hat Directory Server<a class="headerlink" href="#installing-red-hat-directory-server" title="Permalink to this heading">¶</a></h1>
+<p>You should follow the documented procedures for installing Red Hat
+Directory Server. These are available online at
+` &lt;<a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/">http://www.redhat.com/docs/manuals/dir-server/</a>&gt;`__<a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/">http://www.redhat.com/docs/manuals/dir-server/</a></p>
+</section>
+<section id="using-red-hat-directory-server-with-ipa">
+<span id="id2"></span><h1>Using Red Hat Directory Server with IPA<a class="headerlink" href="#using-red-hat-directory-server-with-ipa" title="Permalink to this heading">¶</a></h1>
+<section id="schema-requirements">
+<span id="id3"></span><h2>Schema Requirements<a class="headerlink" href="#schema-requirements" title="Permalink to this heading">¶</a></h2>
+<p>IPA uses the standard Red Hat Directory Server (RHDS) schema, combined
+with the MIT Kerberos schema.</p>
+</section>
+<section id="dit-requirements">
+<span id="id4"></span><h2>DIT Requirements<a class="headerlink" href="#dit-requirements" title="Permalink to this heading">¶</a></h2>
+<p>A number of rules apply to how the Directory Information Tree (DIT)
+should be structured. These are probably more important than the schema
+employed, unless at some point you want to relocate entries. This is
+because RHDS does not support subtree renames, and complex scripting may
+be required for a successful migration if this is not taken into
+account.</p>
+<section id="dit-assumptions">
+<span id="id5"></span><h3>DIT Assumptions<a class="headerlink" href="#dit-assumptions" title="Permalink to this heading">¶</a></h3>
+<p>The freeIPA DIT assumes the following:</p>
+<p>The Suffix (BaseDN) is determined by splitting the realm name into
+domain components. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">-&gt;</span> <span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>The DIT then uses the following structure:</p>
+<figure class="align-default" id="id8">
+<img alt="IPA DIT structure" src="../../_images/IPA-DIT.png" />
+<figcaption>
+<p><span class="caption-text">IPA DIT structure</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>To gain an in-depth view of the schema and DIT used by freeIPA, the most
+efficient approach would be to install freeIPA on a test Fedora 7
+installation. This is very straight forward and could be completed in 10
+- 15 minutes. The freeIPA installation provides a 389 Directory Server
+instance that you can analyze and use as a basis for RHDS.</p>
+</section>
+<section id="examining-the-dit">
+<span id="id6"></span><h3>Examining the DIT<a class="headerlink" href="#examining-the-dit" title="Permalink to this heading">¶</a></h3>
+<p><strong>To examine the DIT, run the following command:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldapsearch</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">b</span> <span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+</pre></div>
+</div>
+<p><strong>or, if you have a kerberos ticket:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldapsearch</span> <span class="o">-</span><span class="n">Y</span> <span class="n">GSSAPI</span> <span class="o">-</span><span class="n">b</span> <span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>Alternatively, you can install the gq package to examine both the DIT
+and the schema.</p>
+</section>
+</section>
+</section>
+<section id="downloading-and-installing-freeipa">
+<span id="id7"></span><h1>Downloading and Installing freeIPA<a class="headerlink" href="#downloading-and-installing-freeipa" title="Permalink to this heading">¶</a></h1>
+<p>Refer to the <a class="reference external" href="http://www.freeipa.org/page/Downloads">Downloads</a> page
+for instructions on how to download the freeIPA packages.</p>
+<p>Refer to the <a class="reference external" href="http://www.freeipa.com/page/InstallAndDeploy">Installation and Deployment
+Guide</a> for instructions
+on how to install freeIPA.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/UsingRhdsWithIpa.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

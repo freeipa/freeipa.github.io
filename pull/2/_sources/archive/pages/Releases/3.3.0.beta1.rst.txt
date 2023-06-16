@@ -1,0 +1,461 @@
+The FreeIPA team is proud to announce FreeIPA v3.3.0 Beta 1.
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. As this
+is a Beta release, there is no public Fedora build at this time but we
+will prepare Fedora 19 builds for `FreeIPA 3.3 Test
+Day <https://fedoraproject.org/wiki/Test_Day:2013-07-25_AD_trusts_with_POSIX_attributes_in_AD_and_support_for_old_clients>`__.
+
+**Important**: please see section *Upgrading* before upgrading the
+packages, a manual procedure is needed for FreeIPA servers with CA
+originally installed with FreeIPA version prior to 3.1.
+
+.. _highlights_in_3.3_beta_1:
+
+Highlights in 3.3 beta 1
+------------------------
+
+.. _new_features_for_3.3:
+
+New features for 3.3
+~~~~~~~~~~~~~~~~~~~~
+
+-  Active Directory integration:
+
+   -  Support of externally defined POSIX attributes for Active
+      Directory trusted domains
+   -  Automatic discovery of Active Directory identity mapping
+      configuration
+   -  Support of trusted domain users for legacy clients
+   -  Identity mapping for AD users can now be delegated
+
+-  Performance improvements in processing large number of users and
+   groups
+-  Automated integration testing infrastructure
+-  ipa-advise utility is added to generate client setup advice based on
+   an IPA master configuration
+-  FreeIPA-specific SELinux policies has been merged to the main SELinux
+   policy in Fedora 19
+-  SSSD 1.11 is required
+
+.. _active_directory_integration:
+
+Active Directory integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Starting with FreeIPA 3.3, it is possible to define identity ranges for
+a trusted Active Directory domain that rely on POSIX attributes provided
+by AD DC instead of generating them out of corresponding security
+identifiers. This functionality requires Services for Unix (SFU) or
+Identity Management for UNIX enabled on Active Directory side and is
+provided mostly to aid with migration to SID-based mapping.
+
+In order to support externally defined POSIX attributes, identity ranges
+have been extended to support new range types:
+
+-  AD trust with SID-based mapping: 'ipa-ad-trust' (default)
+-  SFU support: 'ipa-ad-trust-posix'
+
+'ipa-ad-trust-posix' range type is activated when range discovery finds
+out SFU is in use by Active Directory domain. To override automatic
+detection, --range-type=ipa-ad-trust can be specified to 'ipa trust-add'
+command.
+
+FreeIPA 3.3 requires SSSD 1.11 on the IPA master in order to support
+externally defined POSIX attributes in AD.
+
+More details:
+http://www.freeipa.org/page/V3/Use_posix_attributes_defined_in_AD
+
+FreeIPA 3.3 provides a new way to enable legacy clients to support
+trusted domain users. A compatibility tree, provided by slapi-nis, can
+now be configured to look up trusted domain users and handle
+authentication for them. This functionality relies on SSSD 1.11 and an
+experimental patch for slapi-nis. One can enable legacy clients support
+by running ipa-adtrust-install and answering positively to the
+corresponding question.
+
+More details:
+http://www.freeipa.org/page/V3/Serving_legacy_clients_for_trusts
+
+Finally, SSSD 1.11 is used to query identity information about trusted
+domains' users from within IPA framework, including SID to name and name
+to SID resolution. In addition to speed improvements, FreeIPA 3.3 allows
+to manage mappings for trusted domains' users without requiring elevated
+privileges of 'trust admins'.
+
+.. _performance_improvements:
+
+Performance improvements
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When acting on large datasets, FreeIPA now reduces number of potential
+read roundtrips required to update user and group information. When
+scaled to thousands of users and groups, this shortens the time required
+by certain operations tenfold.
+
+.. _automated_testing_infrastructure:
+
+Automated testing infrastructure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The FreeIPA team has been providing self-testing code for a long time.
+
+The FreeIPA 3.3 test suite includes a framework for integration tests
+that verify functionality such as replication across several machines.
+Tests can be run manually, or by test automation servers such as Jenkins
+or Beaker.
+
+Development builds now create a freeipa-tests RPM containing the test
+suite and related tools. However, as the focus is on testing development
+code, this package will not be released to Fedora yet.
+
+More details: http://www.freeipa.org/page/V3/Integration_testing
+
+Additionally, it is now possible to run Web UI tests through the test
+suite.
+
+More details: http://www.freeipa.org/page/Web_UI_Integration_Tests
+
+.. _ipa_advise_tool:
+
+IPA advise tool
+~~~~~~~~~~~~~~~
+
+FreeIPA 3.3 introduces new framework to generate recipes of
+configuration based on how IPA master is configured. These recipes can
+be taken to the target client systems and used there to configure them
+for a specific task.
+
+We expect to expand use of 'ipa-advise' tool to cover at least
+configuration of legacy systems in subsequent releases. Contributions
+are always welcome to grow capabilities of 'ipa-advise' tool to other
+areas.
+
+More details:
+http://www.freeipa.org/page/V3/Serving_legacy_clients_for_trusts#Major_configuration_options_and_enablement
+
+.. _selinux_policy:
+
+SELinux policy
+~~~~~~~~~~~~~~
+
+SELinux policies specific to FreeIPA have been merged back to the main
+SELinux policy package in Fedora 19. Starting with FreeIPA 3.2.2
+(available in Fedora 19 updates) SELinux policy is no londer provided by
+freeipa-selinux package and the package is removed in favor of
+selinux-policy package.
+
+.. _sssd_1.11_is_required:
+
+SSSD 1.11 is required
+~~~~~~~~~~~~~~~~~~~~~
+
+FreeIPA 3.3 depends on SSSD 1.11 for cross-realm trusts with Active
+Directory. In particular, FreeIPA 3.3 depends on a new operational mode
+of SSSD called 'ipa_server_mode'. Thus, SSSD 1.11 is required for
+FreeIPA 3.3.
+
+More details:
+https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode
+
+Upgrading
+---------
+
+.. _freeipa_servers_with_ca_installed_prior_to_version_3.1:
+
+FreeIPA servers with CA installed prior to version 3.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`Manual upgrade procedure <Howto/Dogtag9ToDogtag10Migration>`__ is
+required for FreeIPA servers installed with version prior to
+`3.1 <IPAv3_310>`__.
+
+.. _other_freeipa_servers_and_clients:
+
+Other FreeIPA servers and clients
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note, that the performance improvements requires an extended set
+of indexes to be configured. RPM update for an IPA server with a
+excessive number of users may require several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+.. _detailed_changelog_since_3.2.0:
+
+Detailed Changelog since 3.2.0
+------------------------------
+
+.. _alexander_bokovoy_8:
+
+Alexander Bokovoy (8):
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Fix cldap parser to work with a single equality filter (NtVer=...)
+-  Make sure domain_name is also set when processing INP_NAME requests
+-  Fix extdom plugin to provide unqualified name in response as sssd
+   expects
+-  Generate syntethic MS-PAC for all services running on IPA master
+-  ipa-adtrust-install: configure compatibility tree to serve trusted
+   domain users
+-  ipa-kdb: cache KDC hostname on startup
+-  ipa-kdb: reinit mspac on HTTP TGT acquisition to aid trust-add case
+-  ipaserver/dcerpc: attempt to resolve SIDs through SSSD first
+
+.. _ana_krivokapic_21:
+
+Ana Krivokapic (21):
+~~~~~~~~~~~~~~~~~~~~
+
+-  Prompt for nameserver IP address in dnszone-add
+-  Do not display success message on failure in web UI
+-  Ignore files generated by build
+-  Deprecate options --dom-sid and --dom-name in idrange-mod
+-  Prevent error when running IPA commands with su/sudo
+-  Fix displaying of success message
+-  Fix location of service.crt in .gitignore
+-  Improve handling of options in ipa-client-install
+-  Fail when adding a trust with a different range
+-  Do not display traceback to user
+-  Require rid-base and secondary-rid-base in idrange-add after
+   ipa-adtrust-install
+-  Fix bug in adtrustinstance
+-  Use correct DS instance in ipactl status
+-  Avoid systemd service deadlock during shutdown
+-  Make sure replication works after DM password is changed
+-  Use --ignore-dependencies only when necessary
+-  Properly handle non-existent cert files
+-  Add 'ipa_server_mode' option to SSSD configuration
+-  Bump version of sssd in spec file
+-  Use admin@REALM when testing if SSSD is ready
+-  Fix internal error in idrange-add
+
+.. _diane_trout_1:
+
+Diane Trout (1):
+~~~~~~~~~~~~~~~~
+
+-  Fix log format not a string literal.
+
+.. _jakub_hrozek_3:
+
+Jakub Hrozek (3):
+~~~~~~~~~~~~~~~~~
+
+-  Remove unused variable
+-  IPA KDB MS-PAC: return ENOMEM if allocation fails
+-  IPA KDB MS-PAC: remove unused variable
+
+.. _jan_cholasta_21:
+
+Jan Cholasta (21):
+~~~~~~~~~~~~~~~~~~
+
+-  Use the correct PKCS#12 file for HTTP server.
+-  Remove stray error condition in ipa-server-install.
+-  Handle exceptions gracefully when verifying PKCS#12 files.
+-  Skip empty lines when parsing pk12util output.
+-  Do not allow installing CA replicas in CA-less setup.
+-  Do not track DS certificate in CA-less setup.
+-  Fix CA-less check in ipa-replica-install and ipa-ca-install.
+-  Do not skip SSSD known hosts in ipa-client-install --ssh-trust-dns.
+-  Enable SASL mapping fallback.
+-  Skip cert issuer validation in service and host commands in CA-less
+   install.
+-  Check trust chain length in CA-less install.
+-  Use LDAP search instead of \*group_show to check if a group exists.
+-  Use LDAP search instead of \*group_show to check for a group
+   objectclass.
+-  Use LDAP modify operation directly to add/remove group members.
+-  Add missing substring indices for attributes managed by the referint
+   plugin.
+-  Add missing equality index for ipaUniqueId.
+-  Run gpg-agent explicitly when encrypting/decrypting files.
+-  Add new hidden command option to suppress processing of membership
+   attributes.
+-  Ask for PKCS#12 password interactively in ipa-server-install.
+-  Ask for PKCS#12 password interactively in ipa-replica-prepare.
+-  Print newline after receiving EOF in installutils.read_password.
+
+.. _lukas_slebodnik_1:
+
+Lukas Slebodnik (1):
+~~~~~~~~~~~~~~~~~~~~
+
+-  Use pkg-config to detect cmocka
+
+.. _martin_kosek_11:
+
+Martin Kosek (11):
+~~~~~~~~~~~~~~~~~~
+
+-  Set KRB5CCNAME so that dirsrv can work with newer krb5-server
+-  Handle DIR type CCACHEs in test_cmdline properly
+-  Avoid exporting KRB5_KTNAME in dirsrv env
+-  Remove redundant u'' character
+-  Drop SELinux subpackage
+-  Drop redundant directory /var/cache/ipa/sessions
+-  Remove entitlement support
+-  Run server upgrade and restart in posttrans
+-  Require new selinux-policy replacing old server-selinux subpackage
+-  Bump minimum SSSD version
+-  Become 3.3.0 Beta 1
+
+.. _nathaniel_mccallum_10:
+
+Nathaniel McCallum (10):
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Add ipaUserAuthType and ipaUserAuthTypeClass
+-  Add IPA OTP schema and ACLs
+-  ipa-kdb: Add OTP support
+-  Add the krb5/FreeIPA RADIUS companion daemon
+-  Remove unnecessary prefixes from ipa-pwd-extop files
+-  Add OTP support to ipa-pwd-extop
+-  Fix client install exception if /etc/ssh is missing
+-  Permit reads to ipatokenRadiusProxyUser objects
+-  Fix for small syntax error in OTP schema
+-  Use libunistring ulc_casecmp() on unicode strings
+
+.. _petr_spacek_1:
+
+Petr Spacek (1):
+~~~~~~~~~~~~~~~~
+
+-  ipa-client-install: Add 'debug' and 'show' statements to nsupdate
+   commands
+
+.. _petr_viktorin_21:
+
+Petr Viktorin (21):
+~~~~~~~~~~~~~~~~~~~
+
+-  Remove leading zero from IPA_NUM_VERSION
+-  Relax getkeytab test to allow additional messages on stderr
+-  Remove code to install Dogtag 9
+-  Flush stream after writing service messages
+-  Make an ipa-tests package
+-  Add ipa-run-tests command
+-  Add Nose plugin for BeakerLib integration
+-  Add a plugin for test ordering
+-  Add a framework for integration test configuration
+-  Add a framework for integration testing
+-  Introduce a class for remote commands
+-  Collect logs from tests
+-  Show logs in failed tests
+-  tests: Allow public keys for authentication to the remote machines
+-  tests: Configure/unconfigure remote hosts
+-  Host class improvements
+-  Use dosctrings in BeakerLib phase descriptions
+-  Make BeakerLib logging less verbose
+-  BeakerLib plugin: Log http links in test docstrings
+-  Integration test config: Make it possible to specify host IP
+-  ipa-client: Use "ipa" as the package name for i18n
+
+.. _petr_vobornik_18:
+
+Petr Vobornik (18):
+~~~~~~~~~~~~~~~~~~~
+
+-  Fix: HBAC Test tab is missing
+-  Move spec modifications from facet factories to pre_ops
+-  Unite and move facet pre_ops to related modules
+-  Web UI: move ./_base/metadata_provider.js to ./metadata.js
+-  Regression fix: missing control buttons in nested search facets
+-  Make ssbrowser.html work in IE 10
+-  Fix regression: missing facet tab group labels
+-  Regression fix: rule table with ext. member support doesn't offer any
+   items
+-  Fix default value selection in radio widget
+-  Do not redirect to https in /ipa/ui on non-HTML files
+-  Create Firefox configuration extension on CA-less install
+-  Disable checkboxes and radios for readonly attributes
+-  Better automated test support
+-  Fix container element in adder dialogs
+-  Upstream Web UI tests
+-  Web UI search optimization
+-  Break long words in notification area
+-  Remove word 'field' from GECOS param label
+
+.. _rob_crittenden_4:
+
+Rob Crittenden (4):
+~~~~~~~~~~~~~~~~~~~
+
+-  Bump version for development branch to 3.2.99
+-  Return the correct Content-type on negotiated XML-RPC requests.
+-  Add Camellia ciphers to allowed list.
+-  Hide sensitive attributes in LDAP updater logging and output
+
+.. _simo_sorce_2:
+
+Simo Sorce (2):
+~~~~~~~~~~~~~~~
+
+-  CLDAP: Fix domain handling in netlogon requests
+-  CLDAP: Return empty reply on non-fatal errors
+
+.. _sumit_bose_5:
+
+Sumit Bose (5):
+~~~~~~~~~~~~~~~
+
+-  Fix format string typo
+-  Fix type of printf argument
+-  Add PAC to master host TGTs
+-  extdom: replace winbind calls with POSIX/SSSD calls
+-  Remove winbind client configure check
+
+.. _tomas_babej_22:
+
+Tomas Babej (22):
+~~~~~~~~~~~~~~~~~
+
+-  Remove redundancy from hbactest help text
+-  Do not translate trust type and direction with --raw in trust_show
+   and trust-find
+-  Support multiple local domain ranges with RID base set
+-  Do not allow removal of ID range of an active trust
+-  Use private ccache in ipa install tools
+-  Remove redundant check for env.interactive
+-  Add prompt_param method to avoid code duplication
+-  Incorporate interactive prompts in idrange-add
+-  Do not check userPassword with 7-bit plugin
+-  Manage ipa-otpd.socket by IPA
+-  Add ipaRangeType attribute to LDAP Schema
+-  Add update plugin to fill in ipaRangeType attribute
+-  Extend idrange commands to support new range origin types
+-  PEP8 fixes in idrange.py
+-  Remove hardcoded values from idrange plugin tests
+-  Return ipaRangeType as a list in idrange commands
+-  Do not redirect ipa/crl to HTTPS
+-  Add --range-type option that forces range type of the trusted domain
+-  Add libsss_nss_idmap-devel to BuildRequires
+-  Change group ownership of CRL publish directory
+-  Provide ipa-advise tool
+-  Use AD LDAP probing to create trusted domain ID range

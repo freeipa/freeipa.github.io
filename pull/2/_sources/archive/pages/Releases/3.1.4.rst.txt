@@ -1,0 +1,133 @@
+The FreeIPA team is proud to announce version FreeIPA v3.1.4.
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The new
+version has also been built for Fedora 18 and is on its way to
+updates-testing:
+https://admin.fedoraproject.org/updates/freeipa-3.1.4-1.fc18
+
+.. _highlights_in_3.1.4:
+
+Highlights in 3.1.4
+-------------------
+
+.. _new_features:
+
+New features
+~~~~~~~~~~~~
+
+-  Added support for new Dogtag 10.0.2
+-  Added support for new OpenSSH 6.2
+-  Added userClass attribute for hosts entries
+-  Server/replica installation now accepts --mkhomedir option
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+-  New certificates issued by FreeIPA CA now contain correct OCSP/CRL
+   URIs [1]
+-  /etc/ipa directory ownership was fixed
+-  Deprecated HBAC Source host related options were removed from CLI
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Due to changes related to OCSP/CRL URI fix [1], ipa-ca.DOMAIN DNS name
+is automatically converted from a set of CNAMEs to a set of A/AAAA
+records pointing to FreeIPA servers with CA configured.
+
+Please note, that the referential integrity extension requires an
+extended set of indexes to be configured. RPM update for an IPA server
+with a excessive number of hosts, SUDO or HBAC entries may require
+several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 is supported. Upgrading from previous versions is
+not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list: http://www.redhat.com/mailman/listinfo/freeipa-users
+
+References
+----------
+
+#. http://freeipa.org/page/V3/Single_OCSP_and_CRL_in_certs
+
+.. _detailed_changelog_since_3.1.3:
+
+Detailed Changelog since 3.1.3
+------------------------------
+
+Alexander Bokovoy (1):
+
+-  Enhance ipa-adtrust-install for domains with multiple IPA server
+
+Ana Krivokapic (8):
+
+-  Add mkhomedir option to ipa-server-install and ipa-replica-install
+-  Remove CA cert on client uninstall
+-  Remove HBAC source hosts from web UI
+-  Remove any reference to HBAC source hosts from help
+-  Deprecate HBAC source hosts from CLI
+-  Handle missing /etc/ipa in ipa-client-install
+-  Fix the spec file
+-  Add missing permissions to Host Administrators privilege
+
+Jan Cholasta (7):
+
+-  Do actually stop pki_cad in stop_pkicad instead of starting it.
+-  Use only one URL for OCSP and CRL in IPA certificate profile.
+-  Use A/AAAA records instead of CNAME records in ipa-ca.
+-  Delete DNS records in ipa-ca on ipa-csreplica-manage del.
+-  Do not use new LDAP API in old code.
+-  Use correct zone when removing DNS records of a master.
+-  Add support for OpenSSH 6.2.
+
+Martin Kosek (4):
+
+-  Require 389-base-base 1.3.0.5
+-  Add userClass attribute for hosts
+-  Update pki proxy configuration
+-  Become IPA 3.1.4
+
+Petr Viktorin (2):
+
+-  Display full command documentation in online help
+-  Use two digits for each part of NUM_VERSION
+
+Rob Crittenden (3):
+
+-  Handle socket.gethostbyaddr() exceptions when verifying hostnames.
+-  Drop uniqueMember mapping with nss-pam-ldapd.
+-  Specify the location for the agent PKCS#12 file so we don't have to
+   move it.
+
+Sumit Bose (1):
+
+-  ipa-pwd-extop: do not use dn until it is really set
+
+Tomas Babej (2):
+
+-  Properly handle ipa-replica-install when its zone is not managed by
+   IPA
+-  Allow underscore in record targets

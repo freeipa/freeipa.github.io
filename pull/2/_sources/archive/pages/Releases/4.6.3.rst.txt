@@ -1,0 +1,547 @@
+The FreeIPA team would like to announce FreeIPA 4.6.3 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora 27 will be available in the official `COPR
+repository <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-6/>`__.
+
+.. _highlights_in_4.6.3:
+
+Highlights in 4.6.3
+-------------------
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.6.3 is a stabilization release for the features delivered as a
+part of 4.6.0. There are more than 31 bug-fixes details of which can be
+seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+-  7253 Custodia keys are not removed on uninstall
+-  7381 Drop PyOpenSSL requirement
+-  7373 "An internal error has occurred" show up when trying to add a
+   user to the Member User table in Vault.
+-  7350 ObjectclassViolation seen while adding idview with
+   domain-resolution-order option.
+-  7341 nsslapd-sasl-max-buffer-size is hardcoded to '2097152' during
+   install even if another value was provided in an LDIF (
+   --dirsrv-config-file )
+-  7338 FreeIPA server install/upgrade does not process schema.d/ files
+   correctly
+-  7333 Need to document kinit_lifetime in /etc/ipa/default.conf
+-  7318 Cannot uninstall ipaserver after fresh install - {'desc': "Can't
+   contact LDAP server", 'errno': 111, 'info': 'Connection refused'}
+-  7315 Packaging: use pylint 1.7.5 and remove disable for import stat
+-  7312 Turn installutils.set_directive() into a context manager
+-  7288 set_directive can overwrite wrong directives
+-  7280 CA less IPA install with external certificates fails on RHEL 7
+   in FIPS mode
+-  7276 ipatest: automation for pagure ticket 7174
+-  7265 test_vault: increase WAIT_AFTER_ARCHIVE
+-  7264 IPA trust-add internal error (expected security.dom_sid got
+   None)
+-  7250 Spelling error in ipa-replica-conncheck man page
+-  7247 ipa-backup does not backup Custodia keys and files
+-  7237 ipa-getkeytab man page should have more details about
+   consequences of krb5 key renewal
+-  7231 ipa-restore broken with python2
+-  7227 389-ds-base crashed as part of ipa-server-intall in ipa-uuid
+-  7223 show REPLICA_FILE as optional when ipa-ca-install is executed
+   with --help
+-  7221 Replica installation at domain-level 0 fails against upgraded
+   ipa-server
+-  7220 Third KRA installation in topology fails
+-  7202 IPA User Details not being displayed in WebUI
+-  7182 ca_less testcase fixes
+-  7174 ipa-replica-install might fail because of an already existing
+   entry cn=ipa-http-delegation,cn=s4u2proxy,cn=etc,$SUFFI
+-  7169 domain resolution order field in Identity->ID Views->Settings
+   tab missing in WebUI
+-  7168 IPA failing to authenticate via password+OTP on RHEL7.4 with
+   fips enabled
+-  7161 ipaplatform module import error in 4.5 branch on f26 causing
+   server installation failure
+-  7145 ca_certfile is not honored on API requests
+-  7111 Incorrect attribute level rights (ipaallowedtoperform) of
+   service object
+-  7016 ipa_server_certinstall - restart krb5kdc service after kdc cert
+   is installed
+-  6968 Consider moving upgrades from rpm install post
+-  6703 Enable ephemeral KRA requests
+-  6666 Unable to re-add broken AD trust - Unexpected Information
+   received
+-  6611 Second phase of --external-ca ipa-server-install setup fails
+   when dirsrv is not running
+-  6371 host-find slowness caused by missing host attributes in index
+-  6091 [CI test]: improve DNS locations test
+-  5801 ipa-server-install: error: option --forwarder: invalid IP
+   address 127.0.0.11: cannot use loopback IP address when using Docker
+   embedded DNS server
+
+.. _detailed_changelog_since_4.6.2:
+
+Detailed changelog since 4.6.2
+------------------------------
+
+.. _alexander_bokovoy_13:
+
+Alexander Bokovoy (13)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipaserver/plugins/trust.py: pep8 compliance
+-  trust: detect and error out when non-AD trust with IPA domain name
+   exists
+-  ipaserver/plugins/trust.py; fix some indenting issues
+-  ipa-extdom-extop: refactor nsswitch operations
+-  test_dns_plugin: cope with missing IPv6 in Travis
+-  travis-ci: collect logs from cmocka tests
+-  ipa-kdb: override krb5.conf when testing KDC code in cmocka
+-  adtrust: filter out subdomains when defining our topology to AD
+-  ipa-replica-manage: implicitly ignore initial time skew in force-sync
+-  ds: ignore time skew during initial replication step
+-  Make sure upgrade also checks for IPv6 stack
+-  OTP import: support hash names with HMAC- prefix
+-  dsinstance: Restore context after changing dse.ldif
+
+.. _abhijeet_kasurde_3:
+
+Abhijeet Kasurde (3)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Trivial typo fix.
+-  ipatests: Fix interactive prompt in ca_less tests
+-  tests: correct usage of hostname in logger in tasks
+
+.. _alexander_koksharov_2:
+
+Alexander Koksharov (2)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ensuring 389-ds plugins are enabled after install
+-  kra-install: better warning message
+
+.. _amitkuma_2:
+
+amitkuma (2)
+~~~~~~~~~~~~
+
+-  Custom ca-subject logging
+-  Documenting kinit_lifetime in /etc/ipa/default.conf
+
+.. _aleksei_slaikovskii_9:
+
+Aleksei Slaikovskii (9)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+-  test_backup_and_restore.py AssertionError fix
+-  ipalib/frontend.py output_for_cli loops optimization
+-  View plugin/command help in pager
+-  ipa-restore: Set umask to 0022 while restoring
+-  Prevent installation with single label domains
+-  Add a notice to restart ipa services after certs are installed
+-  Fix TypeError while ipa-restore is restoring a backup
+-  ipaclient.plugins.dns: Cast DNS name to unicode
+-  Less confusing message for PKINIT configuration during install
+
+.. _christian_heimes_58:
+
+Christian Heimes (58)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Remove unused PyOpenSSL from spec file
+-  Give ODS socket a bit of time
+-  Require dbus-python on F27
+-  Fix pylint error in ipapython/dn.py
+-  Lower python-ldap requirement for F27
+-  ipa-run-tests: make --ignore absolute, too
+-  Sort external schema files
+-  LGTM: unnecessary else in for loop
+-  LGTM: Use explicit string concatenation
+-  LGTM: raise handle_not_found()
+-  LGTM: Fix multiple use before assignment
+-  LGTM: Remove redundant assignment
+-  LGTM: Fix exception in permission_del
+-  LGTM: Membership test with a non-container
+-  LGTM: Name unused variable in loop
+-  LGTM: Use of exit() or quit()
+-  LGTM: Silence unmatchable dollar
+-  Make fastlint even faster
+-  ipa-run-tests: replace chdir with plugin
+-  Include ipa_krb5.h without util prefix
+-  Custodia uninstall: Don't fail when LDAP is down
+-  Require python-ldap 3.0.0b2
+-  Use pylint 1.7.5 with fix for bad python3 import
+-  Vault: Add argument checks to encrypt/decrypt
+-  Fix pylint warnings inconsistent-return-statements
+-  Travis: Add workaround for missing IPv6 support
+-  Replace nose with unittest and pytest
+-  Add safe DirectiveSetter context manager
+-  More log in verbs
+-  Address more 'to login'
+-  Fix grammar error: Log out
+-  Fix grammar in login screen
+-  Add make targets for fast linting and testing
+-  Add marker needs_ipaapi and option to skip tests
+-  Add python_requires to Python package metadata
+-  Remove Custodia keys on uninstall
+-  NSSDB: use preferred convert command
+-  Skip test_rpcclient_context in client tests
+-  Update to python-ldap 3.0.0
+-  Update builddep command to install Python 3 and tox deps
+-  Add workaround for pytest 3.3.0 bug
+-  Fix dict iteration bug in dnsrecord_show
+-  Reproducer for bug in structured dnsrecord_show
+-  Use Python 3 on Travis
+-  Prevent installation of Py2 and Py3 mod_wsgi
+-  Require UTF-8 fs encoding
+-  libotp: add libraries after objects
+-  Run tox tests for PyPI packages on Travis
+-  Support sqlite NSSDB
+-  Py3: Fix vault tests
+-  Test script for ipa-custodia
+-  ipa-custodia: use Dogtag's alias/pwdfile.txt
+-  Use namespace-aware meta importer for ipaplatform
+-  Remove ignore_import_errors
+-  Backup ipa-custodia conf and keys
+-  Py3: fix fetching of tar files
+-  Use os.path.isfile() and isdir()
+-  Block PyOpenSSL to prevent SELinux execmem in wsgi
+
+.. _david_kupka_2:
+
+David Kupka (2)
+~~~~~~~~~~~~~~~
+
+-  schema: Fix internal error in param-{find,show} with nonexistent
+   object
+-  tests: Add LDAP URI to ldappasswd explicitly
+
+.. _felipe_barreto_12:
+
+Felipe Barreto (12)
+~~~~~~~~~~~~~~~~~~~
+
+-  Fixing vault-add-member to be compatible with py3
+-  Fixing test_backup_and_restore assert to do not rely on the order
+-  Fixing test_testconfig with proper asserts
+-  Warning the user when using a loopback IP as forwarder
+-  Removing replica-s4u2proxy.ldif since it's not used anymore
+-  Fix log capture when running pytests_multihosts commands
+-  Checks if replica-s4u2proxy.ldif should be applied
+-  Fixing tox and pylint errors
+-  Fixing param-{find,show} and output-{find,show} commands
+-  Checks if Dir Server is installed and running before IPA installation
+-  Changing idoverrideuser-\* to treat objectClass case insensitively
+-  Fixing how sssd.conf is updated when promoting a client to replica
+
+.. _françois_cami_1:
+
+François Cami (1)
+~~~~~~~~~~~~~~~~~
+
+-  10-config.update: remove nsslapd-sasl-max-buffer-size override as
+   https://pagure.io/389-ds-base/issue/47457 was fixed directly in 389
+   Directory Server.
+
+.. _florence_blanc_renaud_16:
+
+Florence Blanc-Renaud (16)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  test_integration: backup custodia conf and keys
+-  Idviews: fix objectclass violation on idview-add
+-  Improve help message for ipa trust-add --range-type
+-  Fix ca less IPA install on fips mode
+-  Fix ipa-replica-install when key not protected by PIN
+-  Fix ipa-restore (python2)
+-  ipa-getkeytab man page: add more details about the -r option
+-  Py3: fix ipa-replica-conncheck
+-  Fix ipa-replica-conncheck when called with --principal
+-  py3: fix ipa cert-request --database ...
+-  ipa-cacert-manage renew: switch from ext-signed CA to self-signed
+-  ipa-server-upgrade: do not add untracked certs to the request list
+-  ipa-server-upgrade: fix the logic for tracking certs
+-  Fix ipa-server-upgrade with server cert tracking
+-  Python3: Fix winsync replication agreement
+-  Fix ipa config-mod --ca-renewal-master
+
+.. _fraser_tweedale_32:
+
+Fraser Tweedale (32)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Don't use admin cert during KRA installation
+-  Add uniqueness constraint on CA ACL name
+-  Add tests for installutils.set_directive
+-  installutils: refactor set_directive
+-  pep8: reduce line lengths in CAInstance.__enable_crl_publish
+-  Prevent set_directive from clobbering other keys
+-  install: report CA Subject DN and subject base to be used
+-  ipa_certupdate: avoid classmethod and staticmethod
+-  Run certupdate after promoting to CA-ful deployment
+-  ipa-ca-install: run certupdate as initial step
+-  CertUpdate: make it easy to invoke from other programs
+-  renew_ra_cert: fix update of IPA RA user entry
+-  Re-enable some KRA installation tests
+-  Use correct version of Python in RPM scripts
+-  Remove caJarSigningCert profile and related code
+-  CertDB: remove unused method issue_signing_cert
+-  Remove XPI and JAR MIME types from httpd config
+-  Remove mention of firefox plugin after CA-less install
+-  Add missing space in ipa-replica-conncheck error
+-  ipa-cacert-manage: avoid some duplicate string definitions
+-  ipa-cacert-manage: handle alternative tracking request CA name
+-  Add tests for external CA profile specifiers
+-  ipa-cacert-manage: support MS V2 template extension
+-  certmonger: add support for MS V2 template
+-  certmonger: refactor 'resubmit_request' and 'modify'
+-  ipa-ca-install: add --external-ca-profile option
+-  install: allow specifying external CA template
+-  Remove duplicate references to external CA type
+-  cli: simplify parsing of arbitrary types
+-  py3: fix pkcs7 file processing
+-  ipa-pki-retrieve-key: ensure we do not crash
+-  issue_server_cert: avoid application of str to bytes
+
+.. _john_morris_1:
+
+John Morris (1)
+~~~~~~~~~~~~~~~
+
+-  Increase dbus client timeouts during CA install
+
+.. _martin_basti_1:
+
+Martin Basti (1)
+~~~~~~~~~~~~~~~~
+
+-  py3: set samba dependencies
+
+.. _michal_reznik_23:
+
+Michal Reznik (23)
+~~~~~~~~~~~~~~~~~~
+
+-  test_caless: add SAN extension to other certs
+-  prci: run full external_ca test suite
+-  tests: move CA related modules to pytest_plugins
+-  test_external_ca: selfsigned->ext_ca->selfsigned
+-  test_tasks: add sign_ca_and_transport() function
+-  paths: add IPA_CACERT_MANAGE and IPA_CERTUPDATE constants
+-  test_caless: test PKINIT install and anchor update
+-  test_renewal_master: add ipa csreplica-manage test
+-  test_cert_plugin: check if SAN is added with default profile
+-  test_help: test "help" command without cache
+-  test_x509: test very long OID
+-  test_batch_plugin: fix py2/3 failing assertion
+-  test_vault: increase WAIT_AFTER_ARCHIVE
+-  test_caless: fix http.p12 is not valid
+-  test_caless: fix TypeError on domain_level compare
+-  manpage: ipa-replica-conncheck - fix minor typo
+-  test_external_dns: add missing test cases
+-  test_caless: open CA cert in binary mode
+-  test_forced_client: decode get_file_contents() result
+-  tests: add host zone with overlap
+-  tests_py3: decode get_file_contents() result
+-  test_caless: add caless to external CA test
+-  test_external_ca: switch to python-cryptography
+
+.. _mohammad_rizwan_yusuf_1:
+
+Mohammad Rizwan Yusuf (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipatest: replica install with existing entry on master
+
+.. _petr_čech_2:
+
+Petr Čech (2)
+~~~~~~~~~~~~~
+
+-  tests: Mark failing tests as failing
+-  ipatests: Fix on logs collection
+
+.. _petr_vobornik_1:
+
+Petr Vobornik (1)
+~~~~~~~~~~~~~~~~~
+
+-  browser config: cleanup after removal of Firefox extension
+
+.. _pavel_vomacka_16:
+
+Pavel Vomacka (16)
+~~~~~~~~~~~~~~~~~~
+
+-  WebUI: make keytab tables on service and host pages writable
+-  Include npm related files into Makefile and .gitignore
+-  Update jsl.conf in tests subfolder
+-  Edit TravisCI conf files to run WebUI unit tests
+-  Update README about WebUI unit tests
+-  Update tests
+-  Create symlink to qunit.js
+-  Update jsl to not warn about module in Gruntfile
+-  Add Gruntfile and package.json to ui directory
+-  Update QUnit CSS file to 2.4.1
+-  Update qunit.js to version 2.4.1
+-  Extend ui_driver to support geckodriver log_path
+-  WebUI: make Domain Resolution Order writable
+-  WebUI: Fix calling undefined method during reset passwords
+-  WebUI: remove unused parameter from get_whoami_command
+-  Adds whoami DS plugin in case that plugin is missing
+
+.. _rob_crittenden_13:
+
+Rob Crittenden (13)
+~~~~~~~~~~~~~~~~~~~
+
+-  Log contents of files created or modified by IPAChangeConf
+-  Don't manually generate default.conf in server, use IPAChangeConf
+-  Enable ephemeral KRA requests
+-  Make the path to CS.cfg a class variable
+-  Run server upgrade in ipactl start/restart
+-  If the cafile is not present or readable then raise an exception
+-  Add test to ensure that properties are being set in rpcclient
+-  Use the CA chain file from the RPC context
+-  Fix cert-find for CA-less installations
+-  Use 389-ds provided method for file limits tuning
+-  Collect group membership without a size limit
+-  Add exec to /var/lib/ipa/sysrestore for install status inquiries
+-  Use TLS for the cert-find operation
+
+.. _robbie_harwood_1:
+
+Robbie Harwood (1)
+~~~~~~~~~~~~~~~~~~
+
+-  ipa-kdb: support KDB DAL version 7.0
+
+.. _rishabh_dave_1:
+
+Rishabh Dave (1)
+~~~~~~~~~~~~~~~~
+
+-  ipa-ca-install: mention REPLICA_FILE as optional in help
+
+.. _sumit_bose_1:
+
+Sumit Bose (1)
+~~~~~~~~~~~~~~
+
+-  ipa-kdb: reinit trusted domain data for enterprise principals
+
+.. _stanislav_laznicka_53:
+
+Stanislav Laznicka (53)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+-  replica_prepare: Remove the correct NSS DB files
+-  Add a helpful comment to ca.py:install_check()
+-  Don't allow OTP or RADIUS in FIPS mode
+-  caless tests: decode cert bytes in debug log
+-  caless tests: make debug log of certificates sensible
+-  Add indexing to improve host-find performance
+-  Add the sub operation for fqdn index config
+-  x509: remove subject_base() function
+-  x509: remove the strip_header() function
+-  py3: pass raw entries to LDIFWriter
+-  ipatests: use python3 if built with python3
+-  PRCI: use a new template for py3 testing
+-  travis: pep8 changes to pycodestyle
+-  csrgen_ffi: cast the DN value to unsigned char \*
+-  Remove pkcs10 module contents
+-  Add tests for CertificateSigningRequest
+-  parameters: introduce CertificateSigningRequest
+-  parameters: relax type checks
+-  csrgen: update docstring for py3
+-  csrgen: accept public key info as Bytes
+-  csrgen_ffi: pass bytes where "char \*" is required
+-  p11-kit: add serial number in DER format
+-  travis: make tests fail if pep8 does not pass
+-  Remove the \`message\` attribute from exceptions
+-  rpc: don't decode cookie_string if it's None
+-  Don't write p11-kit EKU extension object if no EKU
+-  pylint: fix missing module
+-  travis: run the same tests in python2/3
+-  certmap testing: fix wrong cert construction
+-  ldap2: don't use decode() on str instance
+-  client: fix retrieving certs from HTTP
+-  uninstall: remove deprecation warning
+-  ldif: handle attribute names as strings
+-  pkinit: don't fail when no pkinit servers found
+-  pkinit: fix sorting dictionaries
+-  travis: remove "fast" from "makecache fast"
+-  Change Travis CI container to FreeIPA-owned
+-  Change the requirements for pylint in wheel
+-  rpcserver: don't call xmlserver.Command
+-  secrets: disable relative-imports for custodia
+-  pylint: disable \__hash_\_ for some classes
+-  install.util: disable no-value-for-parameter
+-  pylint: make unsupported-assignment-operation check local
+-  sudocmd: fix unsupported assignment
+-  pylint: Iterate through dictionaries
+-  parameters: convert Decimal.precision to int
+-  dcerpc: disable unbalanced-tuple-unpacking
+-  dcerpc: refactor assess_dcerpc_exception
+-  pylint: fix no-member in schema plugin
+-  csrgen: fix incorrect codec for pyasn BitString
+-  pylint: fix not-context-manager false positives
+-  travis: temporary workaround for Travis CI
+-  Travis: archive logs of py3 jobs
+
+.. _thierry_bordaz_1:
+
+Thierry Bordaz (1)
+~~~~~~~~~~~~~~~~~~
+
+-  389-ds-base crashed as part of ipa-server-intall in ipa-uuid
+
+.. _tomas_krizek_17:
+
+Tomas Krizek (17)
+~~~~~~~~~~~~~~~~~
+
+-  prci: bump ci-master-f27 template to 1.0.2
+-  prci: define testing topologies
+-  prci: start testing PRs on fedora 27
+-  py3 spec: remove python2 dependencies from server-trust-ad
+-  py3 spec: remove python2 dependencies from freeipa-server
+-  py3 spec: use proper python2 package names
+-  ipatests: fix circular import for collect_logs
+-  ipatests: collect logs for external_ca test suite
+-  prci: add external_ca test
+-  ldap: limit the retro changelog to dns subtree
+-  spec: bump 389-ds-base to 1.3.7.6-1
+-  ipatests: set default 389-ds log level to 0
+-  prci: update F26 template
+-  spec: bump python-pyasn1 to 0.3.2-2
+-  prci: use f26 template for master
+-  VERSION: set 4.6 git snapshot
+-  Contributors.txt: update
+
+.. _thorsten_scherf_1:
+
+Thorsten Scherf (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  Add debug option to ipa-replica-manage and remove references to
+   api_env var.

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="V3.0 Feature Designs" href="V3_Designs.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="V3.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <ul>
+<li><p>Add support for certificate authentication and provisioning for users</p></li>
+<li><p>Switch IPA’s DNS schema to use syntax for attributes that is now
+available in latest upstream version of DS.</p></li>
+<li><p>Central management of the disk encryption keys</p></li>
+<li><p>Integration with LUKS/Anaconda for key escrow</p></li>
+<li><p>Integration with Anaconda for enrolling a machine in an IPA domain at
+install time</p></li>
+<li><p>NTP and SSSD. The main problem here btw is insuring that the source
+of the time is trusted. Microsoft modified NTP to add their custom
+signature so that clients can trust that NTP packets are coming from
+a trusted server and not a forgery to convince our machine to change
+time. We probably need to investigate if we have a way to use GSSAPI
+or some other key mechanism to do trusted NTP as well. NTP already
+has some sort of signing method.</p></li>
+<li><p>NTP and IPA v3. There is a patch for NTP server that allows Samba to
+serve Windows clients with the NTP requests the Windows clients
+expect. We need to explore integration between Samba’s way of using
+NTP and NTP provided by IPA in the scope of IPA v3 project. The
+Windows clients can be configured to use normal NTP so it might be a
+lower priority, however tha concern is that it would require some
+configuration changes on the Windows client.</p></li>
+<li><p>Add RADIUS support</p></li>
+<li><p>Add the capability to associate a full ACI with each command plugin
+to implement access control for commands that don’t modify or query
+LDAP. For v2, will will have only the ability to required a
+particular group for each command (like must be in “admin” group).</p></li>
+<li><p>The access control to who can perform certificate operations should
+be improved. In case of v2 it is group based where group name is keep
+in a special configuration entry</p></li>
+<li><p>In future releases we might want to add the capability to define
+rules about how the input of different fields must be validated. For
+example login name must match some combination of letters from field
+and last name.</p></li>
+<li><p>Use case: “We have several different servers that are going to
+require different users to have different shells on each. It appears
+I can only define one shell per user. Is there a way to either create
+some sort of policy with server groups that will dynamically change
+the shell the user is using depending on the group they are in?”</p>
+<p>It would be possible to do something like this by modifying the
+classOfService plugin so that it would modify the return value of the
+user shell based on the bind identity of the LDAP connection. This
+would not work in IPAv1 because all users bind as themselves, but in
+IPAv2, through the SSSD, the LDAP connections will be bound as the
+machine connection. This would make it possible to have “group of
+machine” responses to individual attributes.</p>
+</li>
+<li><p>Consider storing SUDO information in DS and service it via SSSD.
+Integrate SUDO with SSSD on the client. This is an alternative to
+just distributing files. The reason is that for customers the SUDO is
+more identity management than configuration management. In our case
+we said that SUDO file is distributed via config management solution
+but realistically it makes sense to do it centrally and store in DS.</p></li>
+<li><p>Allow one host to provision keytabs for another host.</p></li>
+</ul>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/V3PRD.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

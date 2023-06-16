@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Anonymous_and_All_permissions/tests.html" />
+    <link rel="prev" title="Overview" href="WebUI_plugins.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__</p>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Ticket <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3869">3869</a></p>
+<p>The CLI options for ipa-server-certinstall are not ideal. Clean them up.</p>
+<p>All changes are backwards compatible.</p>
+</section>
+<section id="use-cases">
+<span id="use-cases10b"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Same as for ipa-server-certinstall</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Before this change, <code class="docutils literal notranslate"><span class="pre">ipa-replica-certinstall</span> <span class="pre">-h</span></code> output was:</p>
+<div class="line-block">
+<div class="line">``   Usage: ipa-server-certinstall [options]``</div>
+<div class="line">``   ``</div>
+<div class="line">``   Options:``</div>
+<div class="line">``   -h, –help            show this help message and exit``</div>
+<div class="line">``   -d, –dirsrv          install certificate for the directory server``</div>
+<div class="line">``   -w, –http            install certificate for the http server``</div>
+<div class="line">``   –dirsrv_pin=DIRSRV_PIN``</div>
+<div class="line">``                           The password of the Directory Server PKCS#12 file``</div>
+<div class="line">``   –http_pin=HTTP_PIN   The password of the Apache Server PKCS#12 file``</div>
+</div>
+<p>The actual allowed usages were:</p>
+<div class="line-block">
+<div class="line">``   ipa-server-certinstall -h``</div>
+<div class="line">``   ipa-server-certinstall -d –dirsrv_pin <a href="#id1"><span class="problematic" id="id2">``</span></a>`` ``</div>
+<div class="line">``   ipa-server-certinstall -w –http_pin <a href="#id3"><span class="problematic" id="id4">``</span></a>`` ``</div>
+<div class="line">``   ipa-server-certinstall -d –dirsrv_pin <a href="#id5"><span class="problematic" id="id6">``</span></a>`` -w –http_pin <a href="#id7"><span class="problematic" id="id8">``</span></a>`` ``</div>
+</div>
+<p>This change:</p>
+<ul class="simple">
+<li><p>Adds a <code class="docutils literal notranslate"><span class="pre">--pin</span></code> option that replaces <code class="docutils literal notranslate"><span class="pre">--dirsrv_pin</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--http_pin</span></code>. The old options will remain as deprecated aliases.</p></li>
+<li><p>Adds a <code class="docutils literal notranslate"><span class="pre">-p,</span> <span class="pre">--dirman-password</span></code> option to specify the directory
+manager password (necessary for replacing the DS cert).</p></li>
+<li><p>Mentions in the usage string that</p>
+<ul>
+<li><p>a PKCS#12 cert argument is required</p></li>
+<li><p>at least one of <code class="docutils literal notranslate"><span class="pre">-d</span></code> or <code class="docutils literal notranslate"><span class="pre">-w</span></code> is required</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>It’s possible that only a part of this proposal, namely adding the
+<code class="docutils literal notranslate"><span class="pre">--pin</span></code> option, will be be implemented in 3.3. In that case the rest
+will be atted later.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>N/A</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>See Design</p>
+</section>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>Docs and tests will need to be updated, although since the change is
+backwards compatible, there’s no rush.</p>
+</section>
+<section id="backup-and-restore">
+<h1>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>Tests are to be included in the CA-less test plan,
+<a class="reference external" href="CA-less_install">CA-less_install</a>, and any future test cases that
+exercise ipa-server-certinstall.</p>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="User:pviktorin">Petr Viktorin</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/ipa-server-certinstall_CLI_cleanup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

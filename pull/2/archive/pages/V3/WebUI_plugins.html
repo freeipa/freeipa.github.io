@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="ipa-server-certinstall_CLI_cleanup.html" />
+    <link rel="prev" title="Keyboard confirmation of dialogs" href="WebUI_keyboard_confirmation.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__NOTOC__</p>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>This document tries to describe new plugin infrastructure of FreeIPA Web
+UI.</p>
+<p>Upstream ticket:
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3235">#3235</a></p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Example plugins to be added.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="plugin-location-and-structure">
+<span id="id1"></span><h2>Plugin location and structure<a class="headerlink" href="#plugin-location-and-structure" title="Permalink to this heading">¶</a></h2>
+<p>Plugin is registered by creating a directory <em>$plugin_name</em> in
+<em>/usr/share/ipa/ui/js/plugins/</em>. $plugin_name is name of the plugin, it
+has to start with a letter and may contain only ASCII alphanumeric
+character, underscore _ and dash - .</p>
+<p>Plugin folder must contain <em>$plugin_name.js</em> file. It’s have to be
+either AMD module or a layer built by Dojo builder.</p>
+</section>
+<section id="plugin-index-registration">
+<span id="id2"></span><h2>Plugin index - registration<a class="headerlink" href="#plugin-index-registration" title="Permalink to this heading">¶</a></h2>
+<p>Web UI consist only of static files. It can’t examine plugins directory
+in during. Therefore it needs a some configuration file with listed
+plugins to load. We can call this file a plugin index. It’s located in
+<em>/usr/share/ipa/ui/js/freeipa/plugins.js</em>.</p>
+<section id="structure">
+<h3>Structure<a class="headerlink" href="#structure" title="Permalink to this heading">¶</a></h3>
+<p>Plugin index is a simple AMD module with array <em>plugins</em> containing
+plugin names.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span><span class="p">([],</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">&#39;module-1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;module-2&#39;</span>
+    <span class="p">];</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="index-regeneration">
+<span id="id3"></span><h3>Index regeneration<a class="headerlink" href="#index-regeneration" title="Permalink to this heading">¶</a></h3>
+<p>Plugin index is dynamically created by wsgi script:
+<em>/usr/share/ipa/wsgi/plugins.py</em>. Httpd rewrite rule hides this fact and
+makes sure that it can be access as at it’s location.</p>
+</section>
+</section>
+<section id="load">
+<h2>Load<a class="headerlink" href="#load" title="Permalink to this heading">¶</a></h2>
+<p>Plugins have to be loaded before registration phase, that means right
+after implicit resource load phase. First we must load index and then
+plugins.</p>
+</section>
+<section id="loading-index">
+<span id="id4"></span><h2>Loading index<a class="headerlink" href="#loading-index" title="Permalink to this heading">¶</a></h2>
+<p>Plugin index is located in <em>freeipa</em> package of FreeIPA Web UI,
+therefore the easiest would be to add <em>./plugins</em> as a dependency in
+<em>./app</em> module. But that would be wrong. <em>./app</em> module is part of
+freeipa layer build and it would be included - it couldn’t be updated
+later. Hence, it must be loaded dynamically.</p>
+</section>
+<section id="loading-plugins">
+<span id="id5"></span><h2>Loading plugins<a class="headerlink" href="#loading-plugins" title="Permalink to this heading">¶</a></h2>
+<p>From AMD’s perspective plugin is a package. Loader can’t load it because
+it doesn’t know where it is located, so each plugin needs to be
+registered in a loader with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="s1">&#39;$plugin_name&#39;</span><span class="p">,</span>
+    <span class="n">path</span><span class="p">:</span> <span class="s1">&#39;plugins/$plugin_name&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then, plugin may be dynamically loaded. Application should proceed to
+registration phase after all plugins are loaded.</p>
+</section>
+<section id="extending-ui">
+<span id="id6"></span><h2>Extending UI<a class="headerlink" href="#extending-ui" title="Permalink to this heading">¶</a></h2>
+<p>At this point plugins can do whatever they want to do. In future we
+should provide more or less stable plugin API. Consumers of the API
+would care only about the API and not the underlying functionality. It
+would allow to create some internal changes without breaking simple
+plugins.</p>
+<p>There are 3 main extension use cases:</p>
+<ul class="simple">
+<li><p>adding completely new page</p></li>
+<li><p>adding new UI fields to existing pages</p>
+<ul>
+<li><p>by modifying page spec</p></li>
+<li><p>by extending already created pages</p></li>
+</ul>
+</li>
+</ul>
+<p>Both cases of adding new UI fields are not straightforward.</p>
+<section id="modifying-page-spec">
+<span id="id7"></span><h3>Modifying page spec<a class="headerlink" href="#modifying-page-spec" title="Permalink to this heading">¶</a></h3>
+<p>Spec of most pages are enclosed in function calls which are usually
+evaluated right before creating a page. All spec should be moved to
+static property of corresponding module. Spec should be completely
+declarative. It should no contain any calls dependent on already
+initialized app. Extensions should extend the spec at <em>alternation</em>
+phase.</p>
+</section>
+<section id="modifying-already-created-pages">
+<span id="id8"></span><h3>Modifying already created pages<a class="headerlink" href="#modifying-already-created-pages" title="Permalink to this heading">¶</a></h3>
+<p>Facets don’t support content recreation. They expects that
+<em>create(container)</em> method is called only once. New rules for facets and
+widgets have to be set to support extensibility:</p>
+<ul class="simple">
+<li><p>Web UI components should not be directly depend on HTML
+representation of other components (widget/facets)</p></li>
+<li><p>each widget should support destroying and recreating its HTML
+representation</p></li>
+<li><p>widget should not modify it’s container</p></li>
+<li><p>communication should be done mostly by events and topics (global
+event)</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+<p>N/A</p>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>N/A</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p><em>extension.js</em> file is no longer available. All existing extension
+should be changed to new format.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/WebUI_plugins.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

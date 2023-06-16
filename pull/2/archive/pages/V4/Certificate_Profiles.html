@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Certificate_Request_Queues.html" />
+    <link rel="prev" title="Overview" href="Certificate_Identity_Mapping.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA currently only supports host and service certificates and has a
+single, hard-coded certificate profile. This proposal introduces the
+ability to define new certificate profiles and control which subject
+principals or principal types (users, hosts or services) they can be
+used for.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<section id="custom-extension-values">
+<span id="id1"></span><h2>Custom extension values<a class="headerlink" href="#custom-extension-values" title="Permalink to this heading">¶</a></h2>
+<p>The current certificate profile sets both TLS Server Authentication and
+TLS Client Authentication in the <em>Extended Key Usage</em> extension. This is
+not appropriate for most uses. Profile support will allow the
+appropriate profile(s) to be defined.</p>
+<p>Furthermore, wherever there is a use case that requires specific values
+in certificate fields or extensions, it will be possible to import a
+profile that supports that use case as long as Dogtag supports the
+certificate extension(s) to be included.</p>
+</section>
+<section id="dnp3-sav5">
+<span id="id2"></span><h2>DNP3 SAv5<a class="headerlink" href="#dnp3-sav5" title="Permalink to this heading">¶</a></h2>
+<p>The DNP3 Secure Authentication version 5 (SAv5) standard uses the IEC
+62351-8 certificate authentication to carry authorization data for the
+DNP3 smart-grid technology. A specialised certificate profile would be
+needed to support DNP3.</p>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Profiles will be stored in Dogtag. A small amount of metadata will be
+stored in FreeIPA’s directory to track these profiles, provide a
+description and store whether certificates issued using the profile will
+be stored in the FreeIPA directory.</p>
+<p>IPA must be modified to respect the profile parameter in requests from
+Certmonger (currently ignored).</p>
+<p>Rich profile management (use of a command-line tool or Web UI to build
+new profiles for use with FreeIPA, rather than the presuppose the
+existence of a profile) can be implemented on top of the basic profiles
+support, if there is demand. At a minimum, there should be tutorials and
+improved documentation in Dogtag for how to define certificate profiles.</p>
+<section id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this heading">¶</a></h2>
+<dl class="simple">
+<dt><em>included profile</em></dt><dd><p>Any profile that is shipped as part of FreeIPA and available in a
+default installation.</p>
+</dd>
+<dt><em>custom profile</em></dt><dd><p>Any profile that has been imported by an administrator.</p>
+</dd>
+<dt><em>FreeIPA-managed profile</em></dt><dd><p>A profile that was added via FreeIPA and has an associated object in
+the FreeIPA directory, containing FreeIPA-specific configuration,
+distinguishing it from other profiles in Dogtag.</p>
+</dd>
+</dl>
+</section>
+<section id="profile-backend">
+<span id="id3"></span><h2>Profile backend<a class="headerlink" href="#profile-backend" title="Permalink to this heading">¶</a></h2>
+<p>A new backend will be implemented to provide the profile management
+behaviours while abstracting the Dogtag integration. The profile
+management <em>plugin</em> shall invoke the profile backend to do the work of
+communicating with Dogtag.</p>
+<section id="profile-formats">
+<span id="id4"></span><h3>Profile formats<a class="headerlink" href="#profile-formats" title="Permalink to this heading">¶</a></h3>
+<p>There are two profile formats used by Dogtag: an XML representation, and
+the “raw” property list format which is also (at the current time) the
+internal storage format. Initial work will focus on the raw format, but
+it should be simple to distinguish between and support both formats.</p>
+</section>
+<section id="listing-profiles">
+<span id="id5"></span><h3>Listing profiles<a class="headerlink" href="#listing-profiles" title="Permalink to this heading">¶</a></h3>
+<p>The list of all Dogtag profiles is retrieved via the Dogtag REST API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GET</span> <span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">rest</span><span class="o">/</span><span class="n">profiles</span>
+</pre></div>
+</div>
+</section>
+<section id="profile-import">
+<span id="id6"></span><h3>Profile import<a class="headerlink" href="#profile-import" title="Permalink to this heading">¶</a></h3>
+<p>(This section is about importing new profiles individually. For initial
+import of profiles during installation or upgrade, see the
+<strong>Configuration</strong> and <strong>Upgrade</strong> sections.)</p>
+<p>New profiles can be imported via CLI (specify profile filename) or Web
+UI (paste file content). Interactive “profile builder” functionality is
+a future feature (see Dogtag ticket
+<a class="reference external" href="https://fedorahosted.org/pki/ticket/1331">#1331</a>.)</p>
+<p>Having obtained the profile content, FreeIPA will import import the
+profile into Dogtag using the Dogtag REST API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PUT</span> <span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">rest</span><span class="o">/</span><span class="n">profiles</span><span class="o">/&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">profileId</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>       <span class="p">(</span><span class="n">XML</span> <span class="nb">format</span><span class="p">)</span>
+<span class="n">PUT</span> <span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">rest</span><span class="o">/</span><span class="n">profiles</span><span class="o">/&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">profileId</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">/</span><span class="n">raw</span>   <span class="p">(</span><span class="n">raw</span> <span class="nb">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Failure modes:</p>
+<ul class="simple">
+<li><p>Profile ID already in use</p></li>
+<li><p>Bad profile content</p></li>
+</ul>
+</section>
+<section id="retrieve-profile">
+<span id="id7"></span><h3>Retrieve profile<a class="headerlink" href="#retrieve-profile" title="Permalink to this heading">¶</a></h3>
+<p>Profile data can be retrieved from Dogtag using the REST API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GET</span> <span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">rest</span><span class="o">/</span><span class="n">profiles</span><span class="o">/&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">profileId</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>       <span class="p">(</span><span class="n">XML</span> <span class="nb">format</span><span class="p">)</span>
+<span class="n">GET</span> <span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">rest</span><span class="o">/</span><span class="n">profiles</span><span class="o">/&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">profileId</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">/</span><span class="n">raw</span>   <span class="p">(</span><span class="n">raw</span> <span class="nb">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The XML or property list (whatever is used) can be parsed to determine
+name, enabled/disabled state, and other data. It is not an initial
+requirement that FreeIPA provide a detailed breakdown of the profile
+(inputs, policy constraints and defaults, etc), but the basic
+information should be available.</p>
+<p>Failure modes:</p>
+<ul class="simple">
+<li><p>Profile ID unknown</p></li>
+</ul>
+</section>
+<section id="delete-profile">
+<span id="id8"></span><h3>Delete profile<a class="headerlink" href="#delete-profile" title="Permalink to this heading">¶</a></h3>
+<p>Profiles can be deleted from Dogtag using the REST API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DELETE</span> <span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">rest</span><span class="o">/</span><span class="n">profiles</span><span class="o">/&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">profileId</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Failure modes:</p>
+<ul class="simple">
+<li><p>Profile ID unknown</p></li>
+<li><p>Profile enabled (profiles must be disabled before deletion)</p></li>
+</ul>
+<p>If a profile is enabled and a FreeIPA admin attempts to delete it, we
+shall raise <code class="docutils literal notranslate"><span class="pre">StillActive</span></code> or a similar exception.</p>
+</section>
+<section id="enable-disable-profile">
+<span id="enabledisable-profile"></span><h3>Enable/disable profile<a class="headerlink" href="#enable-disable-profile" title="Permalink to this heading">¶</a></h3>
+<p>Enabling or disabling a profile in Dogtag is accomplished via the REST
+API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>POST /ca/rest/profiles/&amp;lt;profileId&amp;gt;?action=enable
+POST /ca/rest/profiles/&amp;lt;profileId&amp;gt;?action=disable
+</pre></div>
+</div>
+<p>Failure modes:</p>
+<ul class="simple">
+<li><p>Profile ID unknown</p></li>
+<li><p>Profile already enabled/disabled</p></li>
+</ul>
+<p>It may be useful to record the enabled/disabled state of a profile in
+the FreeIPA directory, so that the state is visible and decisions can be
+made based on the profile state without requiring a round-trip to Dogtag
+to find out and to avoid blind attempts of operations that could fail
+according to profile enabled/disabled state (e.g. profile deletion).</p>
+</section>
+</section>
+<section id="certificate-profiles-plugin">
+<span id="id9"></span><h2>Certificate Profiles plugin<a class="headerlink" href="#certificate-profiles-plugin" title="Permalink to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">certprofile</span></code> plugin will be created for the management of FreeIPA
+profiles. It will allow privileged users to import, modify or remove
+FreeIPA-managed profiles in Dogtag and manage the FreeIPA-specific
+profile configuration.</p>
+<section id="enabling-or-disabling-profiles">
+<span id="id10"></span><h3>Enabling or disabling profiles<a class="headerlink" href="#enabling-or-disabling-profiles" title="Permalink to this heading">¶</a></h3>
+<p>IPA will not provide a direct way to enable or disable profiles in
+Dogtag. Separate CA ACL rules will govern whether a particular profile
+can be used to issue a certificate to a particular subject princpial.
+These rules can be created, modified, disabled or enabled by privileged
+users. See the CA ACL section below.</p>
+</section>
+<section id="storing-issued-certificates">
+<span id="id11"></span><h3>Storing issued certificates<a class="headerlink" href="#storing-issued-certificates" title="Permalink to this heading">¶</a></h3>
+<p>Support for multiple profiles means that principals (including user
+principals) may now have <em>multiple certificates</em>. The proposed schema
+and implications are discussed in the <a class="reference external" href="http://www.freeipa.org/page/V4/User_Certificates">V4/User
+Certificates</a>
+design page.</p>
+<p>The FreeIPA profile object class includes a boolean attribute
+<code class="docutils literal notranslate"><span class="pre">ipaCertProfileStoreIssued</span></code> that controls whether certificate issued
+using that profile are stored in the subject principal’s
+<code class="docutils literal notranslate"><span class="pre">userCertificate</span></code> attribute. For use cases that involve issuance of
+many, possibly short-lived certificates, setting this attribute to
+<code class="docutils literal notranslate"><span class="pre">FALSE</span></code> ensures that these certificates to not accumulate in the
+principal’s entry.</p>
+<p>When issuing a certificate via <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span></code>, the semantics of
+<code class="docutils literal notranslate"><span class="pre">ipaCertProfileStoreIssued</span></code> is:</p>
+<ul class="simple">
+<li><p>when <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, <em>add</em> the full certificate to the userCertificate
+attribute;</p></li>
+<li><p>when <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, store nothing at all and merely deliver the issued
+certificate in the command result.</p></li>
+</ul>
+<p>The cert-request command will be updated to act accordingly.</p>
+</section>
+<section id="permissions">
+<h3>Permissions<a class="headerlink" href="#permissions" title="Permalink to this heading">¶</a></h3>
+<p>The following new permissions will be added, as will the <em>CA
+Administrator</em> role which is initially granted these permissions.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Read</span> <span class="pre">Certificate</span> <span class="pre">Profiles</span></code> (all principals may read)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Import</span> <span class="pre">Certificate</span> <span class="pre">Profile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Delete</span> <span class="pre">Certificate</span> <span class="pre">Profile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Modify</span> <span class="pre">Certificate</span> <span class="pre">Profile</span></code></p></li>
+</ul>
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h3>
+<p>FreeIPA will store data about the certificate profiles that are managed
+via FreeIPA (including the <em>included profiles</em>). This will:</p>
+<ul class="simple">
+<li><p>enable fast query of which profiles are available for FreeIPA
+principals to use (Dogtag does not have to be contacted);</p></li>
+<li><p>allow storage of additional profile-related configuration that is
+specific to FreeIPA;</p></li>
+<li><p>avoid exposing all of the profiles available in Dogtag to FreeIPA
+(only those managed by FreeIPA will be visible to FreeIPA users);</p></li>
+</ul>
+<p>The data stored for each profile are:</p>
+<ul class="simple">
+<li><p>Profile ID (used by Dogtag)</p></li>
+<li><p>Profile summary (short description)</p></li>
+<li><p>Profile certificate storage configuration (explained above)</p></li>
+</ul>
+<p>Certificate profile entries will be stored under a new DN:
+<code class="docutils literal notranslate"><span class="pre">cn=certprofiles,cn=ca,$SUFFIX</span></code>.</p>
+<p>Schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=schema
+attributeTypes: ( 2.16.840.1.113730.3.8.19.1.1
+  NAME &#39;ipaCertProfileStoreIssued&#39;
+  DESC &#39;Store certificates issued using this profile&#39;
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE
+  X-ORIGIN &#39;IPA v4.2&#39; )
+objectClasses: ( 2.16.840.1.113730.3.8.19.2.1
+  NAME &#39;ipaCertProfile&#39;
+  SUP top
+  STRUCTURAL MUST ( cn $ description $ ipaCertProfileStoreIssued )
+  X-ORIGIN &#39;IPA v4.2&#39; )
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ca-acls-plugin">
+<span id="id12"></span><h2>CA ACLs plugin<a class="headerlink" href="#ca-acls-plugin" title="Permalink to this heading">¶</a></h2>
+<p>Custom profile use cases involve the issuance of certificates for
+specific, unrelated purposes. It is necessary to be able to define rules
+that control which profiles can be used to issue certificates to which
+principals. ACLs will be used to associate profiles, subject principals
+and groups with a CA (initially just the <em>top-level</em> CA, but this
+provision is made for forward-compatibility with Lightweight CAs).
+Specifically:</p>
+<ul class="simple">
+<li><p>An ACL can permit access to multiple CAs.</p></li>
+<li><p>An ACL can permit access to multiple profiles.</p></li>
+<li><p>An ACL can have multiple users, services, hosts, (user) groups and
+hostgroups associated with it.</p></li>
+<li><p>The interpretation of the ACL is: <em>these principals (or groups) are
+permitted as the subject of certificates issued using these profiles,
+by these CAs</em>.</p></li>
+</ul>
+<p>Note that the principal performing the certificate request is not
+necessarily the subject principal.</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-*</span></code> commands in the CLI section below.</p>
+<section id="permissions-1">
+<span id="id13"></span><h3>Permissions<a class="headerlink" href="#permissions-1" title="Permalink to this heading">¶</a></h3>
+<p>The following permissions will be created. All permissions are intially
+granted to the <em>CA Administrator</em> role.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Read</span> <span class="pre">CA</span> <span class="pre">ACLs</span></code></dt><dd><p>All may read all attributes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Add</span> <span class="pre">CA</span> <span class="pre">ACL</span></code></dt><dd><p>Add a new CA ACL.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Delete</span> <span class="pre">CA</span> <span class="pre">ACL</span></code></dt><dd><p>Delete an existing CA ACL.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Modify</span> <span class="pre">CA</span> <span class="pre">ACL</span></code></dt><dd><p>Modify the name or description, or enable/disable the CA ACL.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">System:</span> <span class="pre">Manage</span> <span class="pre">CA</span> <span class="pre">ACL</span> <span class="pre">membership</span></code></dt><dd><p>Manage CA, profile, user, host and service membership.</p>
+</dd>
+</dl>
+</section>
+<section id="schema-1">
+<span id="id14"></span><h3>Schema<a class="headerlink" href="#schema-1" title="Permalink to this heading">¶</a></h3>
+<p>CA ACL objects shall be stored in the container
+<code class="docutils literal notranslate"><span class="pre">cn=caacls,cn=ca,$SUFFIX</span></code>.</p>
+<p>New attributes are defined for CA and profile membership and categories
+(“all CAs / profiles”). The <code class="docutils literal notranslate"><span class="pre">ipaCaAcl</span></code> object class extends
+<code class="docutils literal notranslate"><span class="pre">ipaAssociation</span></code> uses these new attributes as well as existing member
+and category attributes.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">memberCa</span></code> and <code class="docutils literal notranslate"><span class="pre">caCategory</span></code> attributes are unused by
+this design. They will be used by the Sub-CAs feature.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>attributeTypes: (2.16.840.1.113730.3.8.21.1.2
+  NAME &#39;memberCa&#39;
+  DESC &#39;Reference to a CA member&#39;
+  SUP distinguishedName
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  X-ORIGIN &#39;IPA v4.2&#39; )
+attributeTypes: (2.16.840.1.113730.3.8.21.1.3
+  NAME &#39;memberProfile&#39;
+  DESC &#39;Reference to a certificate profile member&#39;
+  SUP distinguishedName
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+  X-ORIGIN &#39;IPA v4.2&#39; )
+attributeTypes: (2.16.840.1.113730.3.8.21.1.4
+  NAME &#39;caCategory&#39;
+  DESC &#39;Additional classification for CAs&#39;
+  EQUALITY caseIgnoreMatch
+  ORDERING caseIgnoreOrderingMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  X-ORIGIN &#39;IPA v4.2&#39; )
+attributeTypes: (2.16.840.1.113730.3.8.21.1.5
+  NAME &#39;profileCategory&#39;
+  DESC &#39;Additional classification for certificate profiles&#39;
+  EQUALITY caseIgnoreMatch
+  ORDERING caseIgnoreOrderingMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  X-ORIGIN &#39;IPA v4.2&#39; )
+objectClasses: (2.16.840.1.113730.3.8.21.2.2
+  NAME &#39;ipaCaAcl&#39;
+  SUP ipaAssociation
+  STRUCTURAL
+    MUST cn
+    MAY
+      ( caCategory $ profileCategory $ userCategory $ hostCategory
+      $ serviceCategory $ memberCa $ memberProfile $ memberService )
+    X-ORIGIN &#39;IPA v4.2&#39; )
+</pre></div>
+</div>
+</section>
+<section id="default-ca-acl">
+<span id="id15"></span><h3>Default CA ACL<a class="headerlink" href="#default-ca-acl" title="Permalink to this heading">¶</a></h3>
+<p>During installation we must create a default CA ACL that grants use of
+caIPAserviceCert on the top-level CA to all hosts and services:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: ipauniqueid=autogenerate,cn=caacls,cn=ca,$SUFFIX
+changetype: add
+objectclass: ipaassociation
+objectclass: ipacaacl
+ipauniqueid: autogenerate
+cn: hosts_services_caIPAserviceCert
+ipaenabledflag: TRUE
+memberprofile: cn=caIPAserviceCert,cn=certprofiles,cn=ca,$SUFFIX
+hostcategory: all
+servicecategory: all
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-pki-proxy.conf</span></code> had to be updated to allow access to the
+<code class="docutils literal notranslate"><span class="pre">/ca/rest/profiles</span></code> endpoint and to allow <em>either</em> certificate
+authentication or password authentication for logging into the REST API.</p>
+<p>As part of this feature, FreeIPA now manages its own profiles.
+Previously, the default profile was provided by Dogtag itself.
+(Currently, it still is, but FreeIPA overrides it, and its removal from
+Dogtag should now be considered). FreeIPA profile <em>templates</em> (which
+have variables that are substituted before they are imported into
+Dogtag) are stored in <code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/profiles/</span></code>.</p>
+<p>The CA ACL enforcement functions use the existing HBAC machinery from
+the <code class="docutils literal notranslate"><span class="pre">pyhbac</span></code> module.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<section id="profile-management-ui">
+<span id="id16"></span><h3>Profile management UI<a class="headerlink" href="#profile-management-ui" title="Permalink to this heading">¶</a></h3>
+<p>A grid UI shall be provided that lists FreeIPA-managed profiles and
+allows editing of their FreeIPA-specific configuration.</p>
+</section>
+<section id="ca-acl-management-ui">
+<span id="id17"></span><h3>CA ACL management UI<a class="headerlink" href="#ca-acl-management-ui" title="Permalink to this heading">¶</a></h3>
+<p>A web UI allowing creation and management of CA ACLs will be added. It
+will work similarly to the HBAC UI.</p>
+</section>
+<section id="certificate-management-ui">
+<span id="id18"></span><h3>Certificate management UI<a class="headerlink" href="#certificate-management-ui" title="Permalink to this heading">¶</a></h3>
+<p>There are existing UI elements for requesting a certificate for, and
+displaying the certificate issued to a service principal. These aspects
+of the UI must be enhanced to support multiple certificates.</p>
+<p>For certificate requests, a drop-down list of FreeIPA-managed profiles
+will be suitable for selecting a profile.</p>
+<p>For viewing certificates, a list of certificates should be presented.
+Each should identify the profile that was used to issue that
+certificate, and perhaps other important information such as a
+certificate fingerprint. Upon selecting a certificate the existing
+dialog showing the Base-64 encoded certificate and providing options for
+renewal or revocation will be shown.</p>
+</section>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<section id="ipa-certprofile-import-id-options">
+<span id="id19"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">certprofile-import</span> <span class="pre">ID</span> <span class="pre">[options]</span></code><a class="headerlink" href="#ipa-certprofile-import-id-options" title="Permalink to this heading">¶</a></h3>
+<p>Add a profile to FreeIPA and Dogtag. Profiles will be enabled by
+default.</p>
+<p>Options:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--desc=STR</span></code></dt><dd><p>Brief description of this profile</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--store=BOOL</span></code></dt><dd><p>Whether to store certs issued using this profile</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--file=FILE</span></code></dt><dd><p>Name of file containing profile data (Dogtag raw format)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-certprofile-mod-id-options">
+<span id="id20"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">certprofile-mod</span> <span class="pre">ID</span> <span class="pre">[options]</span></code><a class="headerlink" href="#ipa-certprofile-mod-id-options" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--desc=STR</span></code></dt><dd><p>Edit the description</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--store=BOOL</span></code></dt><dd><p>Edit the “store issued certificates” policy for this profile</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--file=FILE</span></code></dt><dd><p>Name of file containing profile data (Dogtag raw format) with which
+to update Dogtag.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-certprofile-del-id">
+<span id="id21"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">certprofile-del</span> <span class="pre">ID</span></code><a class="headerlink" href="#ipa-certprofile-del-id" title="Permalink to this heading">¶</a></h3>
+<p>Delete the specified profile. This command will disable the profile in
+Dogtag prior to deletion.</p>
+<p>Certificates issued using the profile will be kept around; no special
+action is taken in this regard.</p>
+</section>
+<section id="ipa-certprofile-find-criteria-options">
+<span id="id22"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">certprofile-find</span> <span class="pre">[CRITERIA]</span> <span class="pre">[options]</span></code><a class="headerlink" href="#ipa-certprofile-find-criteria-options" title="Permalink to this heading">¶</a></h3>
+<p>Search for Certificate Profiles.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--id=STR</span></code></dt><dd><p>Profile ID</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--desc=STR</span></code></dt><dd><p>Brief description of the profile</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--store=BOOL</span></code></dt><dd><p>Search for profiles with the given store-issued setting.</p>
+</dd>
+</dl>
+<p>Case insensitive substring or keyword match on the description is
+desirable, to aid users in locating the right profile for a particular
+purpose.</p>
+</section>
+<section id="ipa-certprofile-show-id-options">
+<span id="id23"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">certprofile-show</span> <span class="pre">ID</span> <span class="pre">[options]</span></code><a class="headerlink" href="#ipa-certprofile-show-id-options" title="Permalink to this heading">¶</a></h3>
+<p>Display the properties of a Certificate Profile.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--out=FILE</span></code></dt><dd><p>Write the Dogtag profile data (Dogtag raw format) to the named file.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-find">
+<span id="id24"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-find</span></code><a class="headerlink" href="#ipa-caacl-find" title="Permalink to this heading">¶</a></h3>
+<p>Search for CA ACLs.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--name=STR</span></code></dt><dd><p>CA ACL name</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--desc=STR</span></code></dt><dd><p>Description</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--profilecat=['all']</span></code></dt><dd><p>Profile category. Mutually exclusive to profile members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--usercat=['all']</span></code></dt><dd><p>User category. Mutually exclusive with user members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--hostcat=['all']</span></code></dt><dd><p>Host category. Mutually exclusive with host members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--servicecat=['all']</span></code></dt><dd><p>Service category. Mutually exclusive with service members.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-show-name">
+<span id="id25"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-show</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-show-name" title="Permalink to this heading">¶</a></h3>
+<p>Show details of named CA ACL.</p>
+</section>
+<section id="ipa-caacl-add-name">
+<span id="id26"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-add-name" title="Permalink to this heading">¶</a></h3>
+<p>Create a CA ACL. New CA ACLs are initially enabled.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--desc=STR</span></code></dt><dd><p>Description</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--profilecat=['all']</span></code></dt><dd><p>Profile category. Mutually exclusive to profile members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--usercat=['all']</span></code></dt><dd><p>User category. Mutually exclusive with user members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--hostcat=['all']</span></code></dt><dd><p>Host category. Mutually exclusive with host members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--servicecat=['all']</span></code></dt><dd><p>Service category. Mutually exclusive with service members.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-mod-name">
+<span id="id27"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-mod</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-mod-name" title="Permalink to this heading">¶</a></h3>
+<p>Modify the named CA ACL.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--desc=STR</span></code></dt><dd><p>Description</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--profilecat=['all']</span></code></dt><dd><p>Profile category. Mutually exclusive to profile members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--usercat=['all']</span></code></dt><dd><p>User category. Mutually exclusive with user members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--hostcat=['all']</span></code></dt><dd><p>Host category. Mutually exclusive with host members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--servicecat=['all']</span></code></dt><dd><p>Service category. Mutually exclusive with service members.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--setattr</span></code>, <code class="docutils literal notranslate"><span class="pre">--addattr</span></code>, <code class="docutils literal notranslate"><span class="pre">--delattr</span></code></dt><dd><p>As per other IPA framework commands.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-del-name">
+<span id="id28"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-del</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-del-name" title="Permalink to this heading">¶</a></h3>
+<p>Delete the CA ACL.</p>
+</section>
+<section id="ipa-caacl-enable-name">
+<span id="id29"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-enable</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-enable-name" title="Permalink to this heading">¶</a></h3>
+<p>Enable the named CA ACL.</p>
+</section>
+<section id="ipa-caacl-disable-name">
+<span id="id30"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-disable</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-disable-name" title="Permalink to this heading">¶</a></h3>
+<p>Disabled the named CA ACL.</p>
+</section>
+<section id="ipa-caacl-add-profile-name">
+<span id="id31"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add-profile</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-add-profile-name" title="Permalink to this heading">¶</a></h3>
+<p>Add profile(s) to the CA ACL.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--certprofiles=STR</span></code></dt><dd><p>Certificate Profiles to add.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-remove-profile-name">
+<span id="id32"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-remove-profile</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-remove-profile-name" title="Permalink to this heading">¶</a></h3>
+<p>Remove profile(s) from the CA ACL.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--certprofiles=STR</span></code></dt><dd><p>Certificate Profiles to remove.</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-add-user-name">
+<span id="id33"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add-user</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-add-user-name" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--users</span></code></dt><dd><p>Add user(s)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--groups</span></code></dt><dd><p>Add user group(s)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-remove-user-name">
+<span id="id34"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-remove-user</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-remove-user-name" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--users</span></code></dt><dd><p>Remove user(s)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--groups</span></code></dt><dd><p>Remove user group(s)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-add-host-name">
+<span id="id35"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add-host</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-add-host-name" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--hosts</span></code></dt><dd><p>Add host(s)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--hostgroups</span></code></dt><dd><p>Add host group(s)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-remove-host-name">
+<span id="id36"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-remove-host</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-remove-host-name" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--hosts</span></code></dt><dd><p>Remove host(s)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--hostgroups</span></code></dt><dd><p>Remove host group(s)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-add-service-name">
+<span id="id37"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-add-service</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-add-service-name" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--services</span></code></dt><dd><p>Add service(s)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-caacl-remove-service-name">
+<span id="id38"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">caacl-remove-service</span> <span class="pre">NAME</span></code><a class="headerlink" href="#ipa-caacl-remove-service-name" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--services</span></code></dt><dd><p>Remove service(s)</p>
+</dd>
+</dl>
+</section>
+<section id="ipa-cert-request">
+<span id="id39"></span><h3><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span></code><a class="headerlink" href="#ipa-cert-request" title="Permalink to this heading">¶</a></h3>
+<p>Modify command to add <strong>optional</strong> <code class="docutils literal notranslate"><span class="pre">--profile-id</span> <span class="pre">ID</span></code> argument to
+specify which profile to use. If not given, the default
+<code class="docutils literal notranslate"><span class="pre">caIPAserviceCert</span></code> profile will be used.</p>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA must be deployed with the Dogtag RA in order to use these
+features. No other configuration is required.</p>
+<p>There is no configuration in FreeIPA to enable or disable profiles in
+Dogtag. FreeIPA-managed profiles are automatically enabled in Dogtag
+upon import.</p>
+<p>Essential profiles (if any beyond the default set in Dogtag) will be
+added and enabled on server installation. Other “pre-canned” profiles
+can be introduced by FreeIPA in the future, as required.</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>The upgrade process ensures that included profiles are imported and
+enabled.</p>
+<p>Dogtag instances must be configured to use LDAP-based profiles, so that
+they are replicated. This involves setting
+<code class="docutils literal notranslate"><span class="pre">subsystem.1.class=com.netscape.cmscore.profile.LDAPProfileSubsystem</span></code>
+in Dogtag’s <code class="docutils literal notranslate"><span class="pre">CS.cfg</span></code> and importing profiles.</p>
+<section id="upgrading-default-profiles">
+<span id="id40"></span><h2>Upgrading default profiles<a class="headerlink" href="#upgrading-default-profiles" title="Permalink to this heading">¶</a></h2>
+<p>If an <em>included profile</em> (i.e., a profile supplied by FreeIPA) needs to
+be updated, an upgrade script can call invoke the profile backend to
+update it. Any changes to the behaviour of included profiles should be
+adequately documented in release notes.</p>
+</section>
+<section id="handling-inconsistent-profiles">
+<span id="id41"></span><h2>Handling inconsistent profiles<a class="headerlink" href="#handling-inconsistent-profiles" title="Permalink to this heading">¶</a></h2>
+<p>We take a “first upgrade wins” approach - whichever replica is upgraded
+first, its profiles are imported. On other replica, the presence of LDAP
+profiles will be detected and no import or conflict resolution is
+attempted. This behaviour must be clearly explained and administrators
+who have custom profiles encouraged to check for inconsistencies prior
+to upgrade.</p>
+</section>
+<section id="adding-default-ca-acl">
+<span id="id42"></span><h2>Adding default CA ACL<a class="headerlink" href="#adding-default-ca-acl" title="Permalink to this heading">¶</a></h2>
+<p>On upgrade, a default CA ACL added that permits host and service
+principals to use the default profile, ensuring that current
+capabilities are maintained.</p>
+</section>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>See
+<a class="reference external" href="https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom-profiles-with-freeipa-4-2/">https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom-profiles-with-freeipa-4-2/</a></p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="http://www.freeipa.org/page/V4/Certificate_Profiles/Test_Plan">http://www.freeipa.org/page/V4/Certificate_Profiles/Test_Plan</a></p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Dogtag with LDAP profile replication enabled.</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Certificate_Profiles.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

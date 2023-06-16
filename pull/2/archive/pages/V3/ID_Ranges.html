@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>What are RIDs and RID ranges &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Integration_testing.html" />
+    <link rel="prev" title="Overview" href="Help.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="what-are-rids-and-rid-ranges">
+<span id="id1"></span><h1>What are RIDs and RID ranges<a class="headerlink" href="#what-are-rids-and-rid-ranges" title="Permalink to this heading">¶</a></h1>
+<p>RIDs are unique 32-bit identifiers of the user/group objects in the
+scope one Active Directory domain. The RID is the last part of the SID,
+e.g. for SID S-1-5-21-123-456-789-1010, the last segment, that is 1010
+is the RID. RID range is the analog of the ID range.</p>
+</section>
+<section id="the-purpose-of-primary-and-secondary-rid-range">
+<span id="id2"></span><h1>The purpose of primary and secondary RID range<a class="headerlink" href="#the-purpose-of-primary-and-secondary-rid-range" title="Permalink to this heading">¶</a></h1>
+<p>If we want to export user / group objects from IPA to the Active
+Directory, we need to generate SIDs for them. The whole SID but the last
+segment (which is above mentioned RID) is an unique string to the
+domain. To keep SIDs of the objects unique, we need to generate an
+unique RID for each object in the IPA domain. RID range (or an RID
+space) is then an interval of natural numbers, where we expect our RIDs
+to be generated. RIDs are generated from the object IDs (UID for users,
+GID for groups). Their generation from the IDs is completely
+deterministic, and in the simple terms it’s just a shift of the
+interval:</p>
+<div class="line-block">
+<div class="line">``   ID       |   RID``</div>
+<div class="line">``   10000   -&gt;    0``</div>
+<div class="line">``   10001   -&gt;    1``</div>
+<div class="line">``   10002   -&gt;    2``</div>
+<div class="line">``   10003   -&gt;    3``</div>
+<div class="line">``   10004   -&gt;    4``</div>
+<div class="line">``   ….``</div>
+</div>
+<p>However, the UID and GID spaces in UNIX are independent. It’s completely
+okay to have an user with UID 10002 and a group with GID 10002.
+Following the example above, we would end up with RID 2 for both these
+objects. To avoid that, we define secondary RID range for local ranges.
+This new interval serves as a backup interval where we shift the object
+if corresponding RID in the primary range is already taken:</p>
+<div class="line-block">
+<div class="line">``     UID    |    GID      |     RID``</div>
+<div class="line">``   10000                 -&gt;      0``</div>
+<div class="line">``   10001                 -&gt;      1``</div>
+<div class="line">``                10001    -&gt;      10001``</div>
+<div class="line">``                10002    -&gt;      2``</div>
+<div class="line">``   10003                 -&gt;      3``</div>
+</div>
+<p>(secondary RID range starts at 10000 in this example)</p>
+<p>Please note that objects created by IPA by default have non-conflicting
+UIDs and GIDs, since they are assigned by DNA Directory Server plugin,
+which assigns to a newly created user/group a new ID which is unique
+across UID/GID space. However, admin can manually create specify UID or
+GID at the object creation and create conflicts, or any data imported
+from other LDAP/NIS systems might.</p>
+</section>
+<section id="constraints-on-id-ranges">
+<span id="id3"></span><h1>Constraints on ID ranges<a class="headerlink" href="#constraints-on-id-ranges" title="Permalink to this heading">¶</a></h1>
+<section id="any-domain">
+<span id="id4"></span><h2>Any domain<a class="headerlink" href="#any-domain" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Base range space should not overlap for any range combination (of any
+type)</p>
+<ul>
+<li><p>Reasoning: Base ID range space is the ID range space as seen in
+the IPA world. Overlapping base ID range space could cause
+conflicts on UIDs/GIDs.</p></li>
+<li><p>Exception: Base ranges with type ipa-ad-trust-posix may overlap if
+the domains are coming from the same forest, they might even be
+the same.</p>
+<ul>
+<li><p>Reasoning: with type ipa-ad-trust-posix we do not have to do
+any mapping at all but all data (Posix IDs and SIDs/RIDs) are
+coming from AD and we have to trust AD here that the values are
+choosen wisely and do not overlap. By default in this case only
+one idrange will be created for the forest root and SSSD
+automatically takes the same ID range for any member domain in
+the forest which does not have an specific idrange set.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>``   Q: So why would anyone set up a new ID range of ipa-ad-trust-posix type for subdomain? Is it the case that user/group entries from subdomain are not replicated to the forest root?``</p>
+<p>``   A: E.g. if the POSIX IDs are not managed centrally for the whole forest, but domain admins do it on a per domain basis, seperate ipa-ad-trust-posix ranges with disjunct base idrange would help to avoid collisions. This happens by assigining each domain range a specific reserved ID range space, which is non-overlapping with any other ID range space, thus if any two objects from two different domains collide on UID/GID, only one of them can be resolved in IPA since only one of them would be in ID range space of its own particular domain.``</p>
+</section>
+<section id="ranges-from-the-same-domain">
+<span id="id5"></span><h2>Ranges from the same domain<a class="headerlink" href="#ranges-from-the-same-domain" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>If there are multiple ranges for a single domain, all must have the
+same type.</p></li>
+</ul>
+<section id="ipa-ad-trust-ranges">
+<span id="id6"></span><h3>ipa-ad-trust ranges<a class="headerlink" href="#ipa-ad-trust-ranges" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Primary RID ranges should not overlap</p>
+<ul>
+<li><p>Reasoning: RIDs need to be unique inside one AD domain.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="ipa-ad-trust-posix-ranges">
+<span id="id7"></span><h3>ipa-ad-trust-posix ranges:<a class="headerlink" href="#ipa-ad-trust-posix-ranges" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>since we do not do any RID -&gt; UID/GID mapping for this ranges the RID
+range is of no use here, hence no checking needed, attribute should
+not be set at all.</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4221">https://fedorahosted.org/freeipa/ticket/4221</a></p></li>
+</ul>
+</section>
+<section id="local-ranges">
+<span id="id8"></span><h3>Local ranges<a class="headerlink" href="#local-ranges" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>RID ranges of any type (primary or secondary) should not overlap</p>
+<ul>
+<li><p>Reasoning: RIDs need to be unique inside one AD domain.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/ID_Ranges.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

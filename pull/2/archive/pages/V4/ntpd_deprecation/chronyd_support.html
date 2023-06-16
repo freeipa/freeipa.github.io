@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Test Plan" href="../One-way_trust/Test_Plan.html" />
+    <link rel="prev" title="Overview" href="../Manage_replication_topology_4_4/Test_Plan.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>While using Single-Sign-on authentication provided via an
+<a class="reference external" href="http://web.mit.edu/kerberos/">MIT</a>
+<a class="reference external" href="http://en.wikipedia.org/wiki/Kerberos_%28protocol%29">Kerberos</a> KDC
+there must not be any significant clock skew between server and clients
+so a time synchronization service is required.</p>
+<p>When FreeIPA started there was only ntpd that offered hooks to sign NTP
+packets using kerberos keys. Now as the change is required we think
+about chronyd as replacement for ntpd as there will not be a ntpd in new
+fedora releases.</p>
+<p>FreeIPA server supports only a configuration of ntpd. ntpd is being
+deprecated in Fedora 28 therefore IPA must deprecate it as well. FreeIPA
+needs network time synchronization to have all clients and servers
+synchronized because of time based services so there should be
+replacement for it.</p>
+<p>NTP - network time protocol ntpd, chronyd - time service implementations
+based on NTP</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>ipa-{server,replica}-install</p></li>
+</ul>
+<p>Install first check for NTP services already running and disable all in
+favor of ntpd. After this check if there is NO option -N set installer
+will force ntpd configuration. It alters ntpd configuration file enable
+service and add record to LDAP.</p>
+<ul class="simple">
+<li><p>ipa-client-install</p></li>
+</ul>
+<p>FreeIPA client install first tries to configure itself as client to
+existing ntpd instance on network. Same behavior can be reproduced by
+chrony.</p>
+<p>With -N FreeIPA is not configuring ntpd server nor client. Option
+–force-ntp is now used to disable any other NTP services.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The idea of ntpd replacement with <em>chronyd</em> played with idea not using
+FreeIPA as NTP server but only as NTP client.</p>
+<p>Installer deprecates –force-ntp option and forces chronyd service by
+default if there is any conflicting time service running on host.</p>
+<p>Unless we do not specify the -N option described down below FreeIPA
+installer will enable chronyd daemon with respective client
+configuration (default or user-defined).</p>
+<p>Installer used with -N option will not configure chronyd nor enable
+chronyd service if it is not running. This option should be used in case
+administrator would like to have other NTP service than chronyd.</p>
+<ul class="simple">
+<li><p><strong>Dependencies</strong>:</p>
+<ul>
+<li><ul>
+<li><p>ntpd</p></li>
+</ul>
+</li>
+<li><ul>
+<li><p>chrony</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>File ipaclient/install/ntpconf.py has been replaced with
+ipaclient/install/timeconf.py. The configuration of chronyd service
+handled by methods in the ipaclient/install/timeconf.py file and it is
+done same way in client and master installation using Augeas tool.</p>
+<p>Note that different StateStores for chronyd in {master, replica DL0} and
+{replica DL1} are used. This is caused by installation of master using
+master’s StateStore and client using client’s StateStore.</p>
+<p>Due to change that FreeIPA is no longer a NTP server providing clock
+only client the removal of the NTP server role from the FreeIPA has been
+done. There is no need for instalation to add _ntp._udp record with the
+FreeIPA master’s hostname to DNS as well.</p>
+<p>If there is not specified –ntp-server option and no –ntp-pool option
+as well the FreeIPA installer will try use autodiscovery for _ntp._udp
+record in DNS and configure chrony with discovered server address. When
+DNS has no _ntp._udp record default chrony configuration will be used.</p>
+<p>The –ntp-server (knob ntp_servers) is used to specify a exactly one
+time server and may be used multiple times. The –ntp-pool option is
+meant to be pool of multiple servers resolved as one hostname. This
+pool’s servers may vary but pool address will be still same and chronyd
+daemon will choose only one server randomly from this pool.</p>
+<p>After succesfull configuration of chrony client we run waitsync to
+synchronize with given time source.</p>
+<p>Note that FreeIPA will force chronyd service therefore disable any other
+conflicting time synchronization daemon when the -N option is not used.</p>
+<p>All changes related to –force-ntp option and ntpd replacement should be
+reflected into man pages.</p>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>The ipa-{server,replica}-install did not support the –ntp-server option
+so support has been added with the new option –ntp-pool as well. The
+ipa-client-install supports the new option –ntp-pool as well Overview
+of the CLI commands. Example:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Options</p></th>
+<th class="head"><p>Behavior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ipa-server-install</p></td>
+<td><p>-N</p></td>
+<td><p>will NOT configure
+NOR start a local
+time service(chronyd
+client)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-server-install</p></td>
+<td></td>
+<td><p>will use default
+chrony configuration
+when autodiscovery
+for _ntp._udp
+record fails(enables
+chronyd)</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-server-install</p></td>
+<td><p>–
+ntp-server=1.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+foo.bar NTP server
+and enable chronyd
+daemon</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-server-install</p></td>
+<td><p>–
+ntp-server=1.foo.bar
+–
+ntp-server=2.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+1.foo.bar and
+2.foo.bar NTP
+servers and enable
+chronyd daemon</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-server-install</p></td>
+<td><p>–n
+tp-pool=pool.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+pool.foo.bar NTP
+pool and enable
+chronyd daemon</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-replica-install</p></td>
+<td><p>-N</p></td>
+<td><p>will NOT configure
+NOR start a local
+time service(chronyd
+client)</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-replica-install</p></td>
+<td></td>
+<td><p>will use default
+chrony configuration
+when autodiscovery
+for _ntp._udp
+record fails(enables
+chronyd)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-replica-install</p></td>
+<td><p>–
+ntp-server=1.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+foo.bar NTP server
+and enable chronyd
+daemon</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-replica-install</p></td>
+<td><p>–
+ntp-server=1.foo.bar
+–
+ntp-server=2.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+1.foo.bar and
+2.foo.bar NTP
+servers and enable
+chronyd daemon</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-replica-install</p></td>
+<td><p>–n
+tp-pool=pool.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+pool.foo.bar NTP
+pool and enable
+chronyd daemon</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-client-install</p></td>
+<td><p>-N</p></td>
+<td><p>will NOT configure
+NOR start a local
+time service(chronyd
+client)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-client-install</p></td>
+<td></td>
+<td><p>will use default
+chrony configuration
+when autodiscovery
+for _ntp._udp
+record fails(enables
+chronyd)</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-client-install</p></td>
+<td><p>–
+ntp-server=1.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+foo.bar NTP server
+and enable chronyd
+daemon</p></td>
+</tr>
+<tr class="row-odd"><td><p>ipa-client-install</p></td>
+<td><p>–
+ntp-server=1.foo.bar
+–
+ntp-server=2.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+1.foo.bar and
+2.foo.bar NTP
+servers and enable
+chronyd daemon</p></td>
+</tr>
+<tr class="row-even"><td><p>ipa-client-install</p></td>
+<td><p>–n
+tp-pool=pool.foo.bar</p></td>
+<td><p>will configure
+chrony client using
+pool.foo.bar NTP
+pool and enable
+chronyd daemon</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>While upgrading IPA server there is need for:</p>
+<ul class="simple">
+<li><p>complete removal of ntpd service related configuration files</p></li>
+<li><p>disablement of ntpd service</p></li>
+<li><p>removal of _ntp._udp DNS record</p></li>
+</ul>
+<p>(taken care with method ntpd_cleanup(fqdn, fstore)</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>fresh install with -N and ntpd already setup</p>
+<p>fresh install with -N and chrony already setup</p>
+<p>fresh install with -N and without any time service configuration</p>
+<p>fresh install without any time option and ntpd already setup</p>
+<p>fresh install without any time option and chrony already setup</p>
+<p>fresh install without any time option and without any time conf</p>
+<p>upgrade on instance installed with -N and ntpd already setup</p>
+<p>upgrade on instance installed with -N and chrony already setup</p>
+<p>upgrade on instance installed with -N and without any time conf</p>
+<p>upgrade on instance installed without any time option and ntpd already
+setup</p>
+<p>upgrade on instance installed without any time option and chrony already
+setup</p>
+<p>upgrade on instance installed without any time option and without any
+time conf</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/archive/pages/V4/ntpd_deprecation/chronyd_support.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

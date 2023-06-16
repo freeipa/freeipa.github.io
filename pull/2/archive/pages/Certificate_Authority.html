@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Introduction" href="Certificate_Management.html" />
+    <link rel="prev" title="Motivation" href="Centralized_Logging.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>__TOC__</p>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+</section>
+<section id="status">
+<h1>Status<a class="headerlink" href="#status" title="Permalink to this heading">¶</a></h1>
+<p>Feature complete, needs testing.</p>
+</section>
+<section id="fedora">
+<h1>Fedora<a class="headerlink" href="#fedora" title="Permalink to this heading">¶</a></h1>
+<p>The dogtag packages are now available in Fedora. The required packages
+should be pulled in as dependencies when ipa-server is installed.</p>
+<p>This just makes the binaries available for the IPA installer script. The
+installer creates and configures the necessary dogtag components to
+stand up a CA.</p>
+</section>
+<section id="installing">
+<h1>Installing<a class="headerlink" href="#installing" title="Permalink to this heading">¶</a></h1>
+<p>A dogtag CA is installed by default by IPA. To install using a
+self-signed CA instead of dogtag pass in the <code class="docutils literal notranslate"><span class="pre">--selfsign</span></code> argument to
+<code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code>.</p>
+<p>The CA uses a separate instance of DS that is used only for the CA. This
+instance is named PKI-IPA.</p>
+<p>It will install a CA instance into /var/lib/pki-ca.</p>
+<p>A copy of the root CA certificate and private key will be put into
+/root/cacert.p12.</p>
+<p>A copy of the CA agent certificate will be put into /root/ca-agent.p12.
+This agent certificate can be imported into a browser and used to
+administer CS using the web interface (not recommended).</p>
+</section>
+<section id="use-a-different-ca-to-sign-the-ipa-ca-certificate">
+<span id="id1"></span><h1>Use a Different CA to sign the IPA CA certificate<a class="headerlink" href="#use-a-different-ca-to-sign-the-ipa-ca-certificate" title="Permalink to this heading">¶</a></h1>
+<p>If you have an existing CA you can use it make the IPA CA a subordinate.</p>
+<p>This is a three-step process:</p>
+<ul class="simple">
+<li><p>Have ipa-server-install generate a Certificate Signing Request (CSR)</p></li>
+<li><p>Take the CSR to your CA and have it signed</p></li>
+<li><p>Provide the resulting certificate to ipa-server-install to complete
+the installation</p></li>
+</ul>
+<section id="detailed-instructions">
+<span id="id2"></span><h2>Detailed instructions<a class="headerlink" href="#detailed-instructions" title="Permalink to this heading">¶</a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code> with whatever arguments are appropriate for
+your environment and include the <code class="docutils literal notranslate"><span class="pre">--external_ca</span></code> flag:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install --external-ca</span></code></p>
+<p>This will generate a CSR in <code class="docutils literal notranslate"><span class="pre">/root/ipa.csr</span></code>. This is the file you need
+to provide to your CA for signing. You will also need to obtain a PEM
+copy of your CA trust chain.</p>
+<p>Once you have both of these you can continue the installer:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install --external_cert_file=/root/ipa.crt --external_ca_file=/root/existing_ca.crt</span></code></p>
+<p>The server caches the answers the first time you run the installer so
+you don’t need to answer the questions again the second time. This cache
+is removed when the installer is run again.</p>
+<p>The paths to the certificate and CA must be absolute paths. The dogtag
+silent installer will fail if they are not.</p>
+<p>Once the installation is complete you will have the same files as a
+standalone IPA CA: /root/cacert.p12 and /root/ca-agent.p12.</p>
+<p>The only difference is that the CA certificate is signed by your
+external CA in this mode and self-signed in the default mode.</p>
+</section>
+</section>
+<section id="using-certificates-from-a-different-ca">
+<span id="id3"></span><h1>Using Certificates From a Different CA<a class="headerlink" href="#using-certificates-from-a-different-ca" title="Permalink to this heading">¶</a></h1>
+<p>If don’t you want to use the new IPA CA features at all that is ok but
+you’ll need to take a few extra steps.</p>
+<p>There are two ways to achieve this:</p>
+<ul class="simple">
+<li><p>Install IPA using the selfsign CA and replace the server certs
+post-installation</p></li>
+<li><p>Provide PKCS#12 files to the installer (and still use the selfsign
+CA, it just won’t generate any certs)</p></li>
+</ul>
+<p>The step setting <code class="docutils literal notranslate"><span class="pre">enable_ra</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code> disables the cert plugin in
+the XML-RPC interface. Your IPA server will be unable to issue
+certificates.</p>
+<section id="install-and-replace">
+<span id="id4"></span><h2>Install and Replace<a class="headerlink" href="#install-and-replace" title="Permalink to this heading">¶</a></h2>
+<p>To use the Install and Replace method do the following:</p>
+<ul class="simple">
+<li><p>Install IPA server with the <code class="docutils literal notranslate"><span class="pre">--selfsign</span></code> option</p></li>
+<li><p>Once IPA is up and working run <code class="docutils literal notranslate"><span class="pre">ipa-server-certinstall</span></code> once for
+the DS and once for Apache to replace the server certificates</p></li>
+<li><p>If you want the Firefox autoconfiguration to work use an object
+signing certificate to sign the jar file in
+<code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/html/configure.jar</span></code></p></li>
+<li><p>Replace the CA certificate in <code class="docutils literal notranslate"><span class="pre">/etc/ipa/ca.crt</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/html/ca.crt</span></code></p></li>
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code> and set <code class="docutils literal notranslate"><span class="pre">enable_ra</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p>Restart Apache</p></li>
+</ul>
+</section>
+<section id="install-with-your-own-certificates">
+<span id="id5"></span><h2>Install with your own certificates<a class="headerlink" href="#install-with-your-own-certificates" title="Permalink to this heading">¶</a></h2>
+<p>To use the Install your own method do the following:</p>
+<ul class="simple">
+<li><p>Install IPA server with the <code class="docutils literal notranslate"><span class="pre">--http_pkcs12</span></code> and <code class="docutils literal notranslate"><span class="pre">--dirsrv_pkcs12</span></code>
+and their respective pin arguments. Your PKCS#12 files should contain
+the server cert, key and the CA cert chain.</p></li>
+<li><p>If you want the Firefox autoconfiguration to work use an object
+signing certificate to sign the jar file in
+<code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/html/configure.jar</span></code></p></li>
+<li><p>Verify that the CA certificate in <code class="docutils literal notranslate"><span class="pre">/etc/ipa/ca.crt</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/html/ca.crt</span></code> are correct</p></li>
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code> and set <code class="docutils literal notranslate"><span class="pre">enable_ra</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p>Restart Apache</p></li>
+</ul>
+</section>
+</section>
+<section id="working-with-certificates">
+<span id="id6"></span><h1>Working with Certificates<a class="headerlink" href="#working-with-certificates" title="Permalink to this heading">¶</a></h1>
+<p>Once your CA is configured authorized users can perform a number of
+operations.</p>
+<section id="request-a-certificate">
+<span id="id7"></span><h2>Request a certificate<a class="headerlink" href="#request-a-certificate" title="Permalink to this heading">¶</a></h2>
+<p>You start with a Certificate Signing Request (CSR). In our case this is
+a base-64 encoded PKCS#10 request which looks something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-----</span><span class="n">BEGIN</span> <span class="n">CERTIFICATE</span> <span class="n">REQUEST</span><span class="o">-----</span>
+<span class="n">MIIBnTCCAQYCAQAwXTELMAkGA1UEBhMCU0cxETAPBgNVBAoTCE0yQ3J5cHRvMRIw</span>
+<span class="n">EAYDVQQDEwlsb2NhbGhvc3QxJzAlBgkqhkiG9w0BCQEWGGFkbWluQHNlcnZlci5l</span>
+<span class="o">...</span>
+<span class="o">...</span>
+<span class="mi">9</span><span class="n">rsQkRc9Urv9mRBIsredGnYECNeRaK5R1yzpOowninXC</span>
+<span class="o">-----</span><span class="n">END</span> <span class="n">CERTIFICATE</span> <span class="n">REQUEST</span><span class="o">-----</span>
+</pre></div>
+</div>
+<p>To generate a CSR using OpenSSL run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">nodes</span> <span class="o">-</span><span class="n">out</span> <span class="n">host</span><span class="o">.</span><span class="n">csr</span>
+</pre></div>
+</div>
+<p>You will be prompted for the contents of the certificate subject
+(country, state, organization, etc). The only critical piece is the
+common name, this needs to be set to the FQDN of your host.</p>
+<p>The CSR is in the file <code class="docutils literal notranslate"><span class="pre">host.csr</span></code> and the key for this request is in
+<code class="docutils literal notranslate"><span class="pre">privkey.pem</span></code></p>
+<p>In NSS you need to start with a cert database so you have an extra step.
+An NSS CSR generation looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">certutil</span> <span class="o">-</span><span class="n">N</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">test</span>
+<span class="o">%</span> <span class="n">certutil</span> <span class="o">-</span><span class="n">R</span> <span class="o">-</span><span class="n">s</span> <span class="s2">&quot;CN=ipa.example.com&quot;</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">test</span> <span class="o">-</span><span class="n">o</span> <span class="n">test</span><span class="o">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">g</span> <span class="mi">1024</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
+<p>The CSR needs to be passed as one single string on the command-line:</p>
+<p>$ ipa cert-request –principal=ldap2/zeus.example.com –add
+‘MIIBejCB5AIBADA7MQwwCgYDVQQKEwNJUEExEDAOBgNVBAsTB3BraS1pcGExGTAXBgNVBAMTEHpldXMuZ3JleW9hay5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANSiseMKVF/ft44rJDM5XKaMo6jo03TBAC2i61D1GZL6nZ1trl6Oc4YfXccrbQLQ4RGLB6vwDE8vHyYh36OICb1EiWJ+bRaPsn9FaO2mk4qyZp2U/om52BCTSrOq+O+EhTdqLs+hUmUFRDpzmGX3x3UU0JR7cPcvNbcnNQvqfb2NAgMBAAGgADANBgkq
+&gt;
+hkiG9w0BAQUFAAOBgQAjWFSgv3KZbcjn8V3rhAnuXG9xFzsqD5XsDRBsIMIrG/KNtw4VZBzuXlU2zOdoYm1vlSlzwep9xWXJi5L8HejyqPiCf2mLB60ZxBJLbe1UQ07+oCBMrxck4VXmnySWekRzfYy9lqV0lP/3A5UC6jbtrqJ6t5mp3yiwkjEzEJGp3A==’</p>
+<p>certificate:
+MIIC7DCCAdSgAwIBAgIBCzANBgkqhkiG9w0BAQUFADAuMQwwCgYDVQQKEwNJUEExHjAcBgNVBAMTFUNlcnRpZmljYXRlIEF1dGhvcml0eTAeFw0wOTEwMDkxNTU5MzJaFw0xMDA0MDcxNTU5MzJaMDsxDDAKBgNVBAoTA0lQQTEQMA4GA1UECxMHcGtpLWlwYTEZMBcGA1UEAxMQemV1cy5ncmV5b2FrLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA1KKx4wpUX9+3jiskMzlcpoyjqOjTdMEALaLrUPUZkvqdnW2uXo5zhh9dxyttAtDhEYsHq/AMTy8fJiHfo4gJvUSJYn5tFo+yf0Vo7aaTirJmnZT+ibnYEJNKs6r474SFN2ouz6FSZQVEOnOYZffHdRTQlHtw9y81tyc1C+p9vY0CAwEAAaOBizCBiDAfBgNVHSMEGDAWgBSaCxEepKwX6jI6LVrOiHgmiM4EwjBABggrBgEFBQcBAQQ0MDIwMAYIKwYBBQUHMAGGJGh0dHA6Ly96ZXVzLmdyZXlvYWsuY29tOjkxODAvY2Evb2NzcDAOBgNVHQ8BAf8EBAMCBPAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwDQYJKoZIhvcNAQEFBQADggEBAGljf00jgdkyivJFOONlu/lNb25vpWnM/Wu3N6F6hcYC722YjzAFFAFA6wJf4QybrUGQiihh4veqRlknZeoR8Wlc9491E+lGwyk4SZxmSWMHc/TEoTDKPqrngTaf3YsjzBqPhQQF6TkM1TL68uMsU4uHl7mWtD9ueDVQkWlWmTJEJXcT8OdvIFOC/Wb+Vq9FV1lgJAosXmt8poZyHPGX+GiVxdtdZpoZSb7vyMg0FvjhSHNoX8tVo5QKlzxsci+xRkT4tcAe+ReFyQ7+aX851QMluttEUT1Gz1OxnfGojvHbiqYkH92fk+eUJtTZHGpK5H1U5gJVFauCKf/8SzU4awE=
+request_id: 11 serial_number: 0xb status: 0 subject:
+CN=zeus.example.com,OU=pki-ipa,O=IPA</p>
+<p>There is also a short-cut method though it isn’t working today (Oct 9).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">request</span> <span class="n">file</span><span class="p">:</span><span class="o">//</span><span class="n">test</span><span class="o">.</span><span class="n">csr</span> <span class="o">--</span><span class="n">principal</span><span class="o">=</span><span class="n">ldap3</span><span class="o">/</span><span class="n">zeus</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">add</span>
+</pre></div>
+</div>
+</section>
+<section id="put-a-cert-on-hold">
+<span id="id8"></span><h2>Put a cert on hold<a class="headerlink" href="#put-a-cert-on-hold" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=6 0xb
+</pre></div>
+</div>
+</section>
+<section id="remove-a-cert-from-hold">
+<span id="id9"></span><h2>Remove a cert from hold<a class="headerlink" href="#remove-a-cert-from-hold" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=6 0xb
+</pre></div>
+</div>
+</section>
+<section id="revoke-a-certificate">
+<span id="id10"></span><h2>Revoke a certificate<a class="headerlink" href="#revoke-a-certificate" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=1 0xb
+revoked: True
+status: 0
+</pre></div>
+</div>
+</section>
+<section id="retrieve-a-revoked-certificate">
+<span id="id11"></span><h2>Retrieve a revoked certificate<a class="headerlink" href="#retrieve-a-revoked-certificate" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-get 0xb
+certificate: MIIC7D...
+revocation_reason: 1
+status: 0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="revocation">
+<h1>Revocation<a class="headerlink" href="#revocation" title="Permalink to this heading">¶</a></h1>
+<p>When you want a certificate to go away you revoke it. <a class="reference external" href="http://www.ietf.org/rfc/rfc5280.txt">RFC
+5280</a> defines the following
+reasons for revocation:</p>
+<ul class="simple">
+<li><p>0 - unspecified</p></li>
+<li><p>1 - keyCompromise</p></li>
+<li><p>2 - cACompromise</p></li>
+<li><p>3 - affiliationChanged</p></li>
+<li><p>4 - superseded</p></li>
+<li><p>5 - cessationOfOperation</p></li>
+<li><p>6 - certificateHold</p></li>
+<li><p>8 - removeFromCRL</p></li>
+<li><p>9 - privilegeWithdrawn</p></li>
+<li><p>10 - aACompromise</p></li>
+</ul>
+<p>Note that reason code 7 is not used.</p>
+<p>A CRL is generated by the CA that contains a list of revoked
+certificates. This may be retrieved from an IPA server at:
+<a class="reference external" href="http://ipa.example.com/ipa/crl/MasterCRL.bin">http://ipa.example.com/ipa/crl/MasterCRL.bin</a></p>
+</section>
+<section id="working-with-services">
+<span id="id12"></span><h1>Working with Services<a class="headerlink" href="#working-with-services" title="Permalink to this heading">¶</a></h1>
+<p><strong>Note</strong> this services capability is not in alpha 1</p>
+<p>When requesting a certificate a number of things happen:</p>
+<ul class="simple">
+<li><p>The server checks the virtual ACI “request certificate” to see if the
+requestor has permission to request certificates.</p></li>
+<li><p>The subject of the certificate is compared to the hostname in the
+requested principal. They must match.</p></li>
+<li><p>The requested service record is retrieved. If the service already has
+a userCertificate attribute then the request stops</p></li>
+<li><p>If the service does not exist and the –add argument wasn’t provided
+then the request stops</p></li>
+<li><p>If the –add option was requested and the requestor doesn’t have
+permission to add services the request stops</p></li>
+<li><p>The requestor must be listed in the managedBy attribute of the
+service record.</p></li>
+</ul>
+<section id="managedby-attribute">
+<span id="id13"></span><h2>managedBy attribute<a class="headerlink" href="#managedby-attribute" title="Permalink to this heading">¶</a></h2>
+<p>This is a multi-value attribute that contains the distinguished name of
+all hosts that are allowed to write the userCertificate attribute of
+this service. Use the service-add-host and service-remove-host to
+control access.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<p>This example demonstrates the steps need to be taken by an administrator
+and a client machine that is attempting to request a certificate for
+itself. This assumes that the CSR has already been generated and is in
+the file web.csr in the current directory.</p>
+<p><strong>admin</strong></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa host-add client.example.com --password=secret123</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa service-add HTTP/client.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa service-add-host --hosts=client.example.com HTTP/client.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa rolegroup-add-member --hosts=client.example.com certadmin</span></code></div>
+</div>
+<p><strong>client</strong></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-join -w secret123</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">kinit -kt /etc/krb5.keytab host/client.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa -d cert-request ``\</span> <span class="pre">```file://web.csr</span></code> &lt;<a class="reference external" href="file://web.csr">file://web.csr</a>&gt;`__`` –principal=HTTP/client.example.com``</div>
+</div>
+<section id="what-this-does">
+<span id="id14"></span><h3>What this does<a class="headerlink" href="#what-this-does" title="Permalink to this heading">¶</a></h3>
+<p><strong>admin</strong></p>
+<ul class="simple">
+<li><p>Add a new host with a one-time password</p></li>
+<li><p>Create an HTTP service principal for the host</p></li>
+<li><p>Allow the host to manage its own userCertificate attribute</p></li>
+<li><p>Allow the host to manage certificates (request, revoke, etc)</p></li>
+</ul>
+<p><strong>client</strong></p>
+<ul class="simple">
+<li><p>Configure the client to use the IPA realm</p></li>
+<li><p>join the host to the realm and retrieve a keytab</p></li>
+<li><p>get a kerberos ticket for the machine</p></li>
+<li><p>request a certificate</p></li>
+</ul>
+</section>
+</section>
+<section id="vpn-example">
+<span id="id15"></span><h2>VPN Example<a class="headerlink" href="#vpn-example" title="Permalink to this heading">¶</a></h2>
+<p>Lets consider the case of a VPN server. On an IPA client we want to set
+up a VPN tunnel to a remote host, perhaps at another company. To do this
+we need to create an entry for that remote host, a service principal to
+store the certificate, then we can issue the cert.</p>
+<p>Some of this work needs to be done as an admin:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">% kinit admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa host-add vpn.remote.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa service-add vpn/vpn.remote.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com</span></code></div>
+</div>
+<p>We’ve created the remote host and a service principal for it, then gave
+permission for the host ipa.example.com to request a certificate on
+behalf of vpn.remote.com. This assumes that the certificate request for
+vpn.remote.com is in the file <strong>vpn.csr</strong>.</p>
+<p>On ipa.example com:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">% kinit -kt /etc/krb5.keytab host/ipa.example.com&#64;EXAMPLE.COM</span></code></div>
+<div class="line"><a href="#id16"><span class="problematic" id="id17">``</span></a>% ipa cert-request –principal=vpn/vpn.remote.com vpn.csr ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa service-show vpn/vpn.remote.com</span></code></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Certificate_Authority.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

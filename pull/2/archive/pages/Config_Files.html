@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Configuration files &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Introduction" href="ConfiguringAixClients.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="Concepts_and_Objects.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="configuration-files">
+<span id="id1"></span><h1>Configuration files<a class="headerlink" href="#configuration-files" title="Permalink to this heading">¶</a></h1>
+<p>The server and client share a common core configuration file,
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code>. This file is read by the server at startup
+and the <code class="docutils literal notranslate"><span class="pre">ipa</span></code> command every time it is executed.</p>
+<p>The section <code class="docutils literal notranslate"><span class="pre">[global]</span></code> is mandatory and the only section used. A
+sample default configuration file is:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[global]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">basedn=dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">realm=EXAMPLE.COM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">domain=example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">xmlrpc_uri=</span></code><code class="docutils literal notranslate"><span class="pre">`https://ipa.example.com/ipa/xml</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/xml">https://ipa.example.com/ipa/xml</a>&gt;`__</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap_uri=ldapi://%2fvar%2frun%2fslapd-EXAMPLE-COM.socket</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">enable_ra=True</span></code></div>
+</div>
+<p>These values are shared between the client and server (on the same
+machine). If you need to make client or server-specific configuration
+changes you can create a configuration file for it. For the server used
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa/server.conf</span></code> and for client configuration used
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa/cli.conf</span></code></p>
+<p>For example, if you want to enable debug logging for the server only,
+create <code class="docutils literal notranslate"><span class="pre">/etc/ipa/server.conf</span></code> containing:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[global]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">debug=True</span></code></div>
+</div>
+<p>To always have verbose mode set on the client, create
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa/cli.conf</span></code> that contains:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[global]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">verbose=True</span></code></div>
+</div>
+<section id="merging">
+<h2>Merging<a class="headerlink" href="#merging" title="Permalink to this heading">¶</a></h2>
+<p>The order that file configuration files are read is:</p>
+<ol class="arabic simple">
+<li><p>context file (<code class="docutils literal notranslate"><span class="pre">/etc/ipa/server.conf</span></code> or <code class="docutils literal notranslate"><span class="pre">/etc/ipa/cli.conf</span></code>)</p></li>
+<li><p>default file (<code class="docutils literal notranslate"><span class="pre">/etc/ipa/default.conf</span></code>)</p></li>
+</ol>
+<p>Once an attribute is set it is not overridden if it appears in another
+configuration file.</p>
+<p>For example, if you set <code class="docutils literal notranslate"><span class="pre">debug=True</span></code> in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code> and
+<code class="docutils literal notranslate"><span class="pre">debug=False</span></code> in <code class="docutils literal notranslate"><span class="pre">default.conf</span></code> then it will be <code class="docutils literal notranslate"><span class="pre">True</span></code> because the
+value in <code class="docutils literal notranslate"><span class="pre">default.conf</span></code> will be ignored.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Config_Files.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,549 @@
+The FreeIPA team would like to announce FreeIPA 4.7.1 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora 29 and Fedora 28 will be available in the official `COPR
+repository <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-7/>`__.
+
+.. _highlights_in_4.7.1:
+
+Highlights in 4.7.1
+-------------------
+
+-  In Web UI now more pages can be in local languages, including a login
+   page
+-  Complete drop of support for domain level 0 (DL0)
+-  FreeIPA is compatible with with Samba 4.9
+-  Support FIPS mode for trust to AD
+-  Remove Python 2 support packages
+-  Update licenses of 389-ds plugins to be in line with 389-ds
+-  New advises to ease management of systems with Cockpit
+-  Better test coverage for Web UI and certificate management
+
+Enhancements
+~~~~~~~~~~~~
+
+FreeIPA 4.7.1 provides an easy way to allow administrators to perform
+management operations on all enrolled machines by creating a set of SUDO
+and HBAC rules with a new FreeIPA advise available in ipa-advise tool.
+
+Support for Domain Level 0 is removed. If you need to upgrade to FreeIPA
+4.7, please consider first to upgrade masters and replicas to FreeIPA
+4.4-4.6, raise domain level to 1, and then upgrade to FreeIPA 4.7.1.
+
+Web UI localization was rewritten. Now Web UI allows to localize
+pre-login static pages and localization can be more flexible in the way
+how terms could be placed in non-English locales. Also Russian and
+Ukrainian translations are complete now.
+
+Support for Python 2 packages is removed from the provided RPM spec
+files. Next releases will only support Python 3.
+
+In FIPS mode under some conditions trust to Active Directory forest is
+failing. Now FreeIPA will exclude RC4 cipher from the list of supported
+ciphers when establishing trust under FIPS mode. As result, in FIPS mode
+FreeIPA 4.7.1 will not be able to interoperate with Windows Server 2003
+versions.
+
+Samba 4.9 made implicit requirement to have BUILTIN\Guests group mapped
+to POSIX environment. FreeIPA 4.7.1 is mapping this mandatory SMB group
+to \`nobody\` group.
+
+.. _known_issues:
+
+Known Issues
+~~~~~~~~~~~~
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.7.1 is a stabilization release for the features delivered as a
+part of 4.7.0.
+
+There are more than 20 bug-fixes details of which can be seen in the
+list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+-  7711 python 3 fallout in ipa-server-install
+-  7710 Update spec file to require sssd-ipa, not an sssd meta-package
+-  7680 Detect Python interpreter during configure
+-  7679 [WebUI] all validation items are rendered on each key typing at
+   login form
+-  7678 [WebUI] JS error of 'reset' view
+-  7674 client install fails on Fedora 29
+-  7662 SELinux is preventing /usr/sbin/httpd from write access on the
+   directory /etc/httpd/alias/
+-  7661 SELinux is preventing /usr/sbin/httpd from getattr access on the
+   file /usr/lib/systemd/system/fedora-domainname.service
+-  7657 Leaving IPA domain fails: Failed to remove krb5/LDAP
+   configuration: expected str, bytes or os.PathLike object, not
+   NoneType
+-  7656 ipa-replica-install on DL0 doesn't completely honor
+   --no-host-dns
+-  7650 client installer uses invalid format in chmod (0x...)
+-  7649 error shown when options are added to an existing sudo rule
+-  7641 [Translation] ipa/migration/{error,index,invalid}.html are not
+   translated
+-  7640 [Translation] ipa/config/{unauthorized,ssbrowser}.html are not
+   translated
+-  7628 ipa ca-show --certificate-out=/tmp/ca fails with python type
+   error
+-  7625 ipa-client-install fails with
+   ScriptError(rval=CLIENT_INSTALL_ERROR)
+-  7621 [Translation] sync otp page is not translated completely
+-  7619 [Translation] reset password page is not translated
+-  7608 FreeIPA 4.6.3 install fails when \`/proc/sys/crypto\` is absent
+-  7538 sudo rule for "admins" members should be created by default
+
+.. _detailed_changelog_since_4.7.0:
+
+Detailed changelog since 4.7.0
+------------------------------
+
+.. _armando_neto_3:
+
+Armando Neto (3)
+~~~~~~~~~~~~~~~~
+
+-  Add test for client installation with empty keytab file
+-  Fix certificate type error when exporting to file
+-  Delete empty keytab during client installation
+
+.. _alexander_bokovoy_8:
+
+Alexander Bokovoy (8)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Update list of contributors
+-  Import updated translations from Zanata
+-  Re-sort the translations before importing new ones from Zanata
+-  When stripping PO files, sort the output
+-  Support Samba 4.9
+-  ipasam: do not use RC4 in FIPS mode
+-  Move fips_enabled to a common library to share across different
+   plugins
+-  ipa-extdom-extop: Update licenses to GPLv3 or later with exceptions
+
+.. _alexander_scheel_2:
+
+Alexander Scheel (2)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Add missing docstrings to kernel_keyring.py
+-  Add docstring to verify_kdc_cert_validity
+
+.. _christian_heimes_21:
+
+Christian Heimes (21)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Fix zonemgr encoding issue
+-  Py3: Replace six.moves imports
+-  Lint yaml and RPM spec
+-  Py3: Replace six.bytes_type with bytes
+-  Py3: Replace six.text_type with str
+-  Py3: Replace six.integer_types with int
+-  Py3: Replace six.string_types with str
+-  Require sssd-ipa instead of sssd meta pkg
+-  Py3: Remove subclassing from object
+-  Sprinkle raw strings across the code base
+-  Workaround for pyasn1 0.4
+-  Remove Python 2 support and packages
+-  Don't check for systemd service
+-  Refactor os-release and platform information
+-  Generate scripts from templates
+-  Rename Python scripts and add dynamic shebang
+-  Detect and prefer platform Python
+-  Disable DL0 specific tests
+-  Rename pytest_plugins to ipatests.pytest_ipa
+-  Add convenient template for temp commits
+-  Fix topology configuration of nightly runs
+
+.. _felipe_barreto_1:
+
+Felipe Barreto (1)
+~~~~~~~~~~~~~~~~~~
+
+-  Making nigthly test definition editable by FreeIPA's contributors
+
+.. _florence_blanc_renaud_21:
+
+Florence Blanc-Renaud (21)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipatests: remove TestReplicaManageDel (dl0)
+-  ipatests: mark known failure for installation_TestInstallWithCA2
+-  ipa-server-upgrade: fix inconsistency in
+   setup_lightweight_ca_key_retrieval
+-  Tests: remove dl0 tests from nightly definition
+-  ipatests: mark known failures as xfail
+-  tests: add test for uninstall with incomplete sysrestore.state
+-  authselect: harden uninstallation of ipa client
+-  ipa-advise: configure pam_cert_auth=True for smart card on client
+-  Test: scenario replica install/uninstall should restore ssl.conf
+-  ipa-replica-install: properly use the file store
+-  Tests: test successful PKINIT install on replica
+-  ipa-replica-install: fix pkinit setup
+-  tests: add test for server install with --no-dnssec-validation
+-  ipa-server-install: do not perform forwarder validation with
+   --no-dnssec-validation
+-  DS replication settings: fix regression with <3.3 master
+-  Test: test ipa-\* commands when IPA is not configured
+-  ipa commands: print 'IPA is not configured' when ipa is not setup
+-  ipautil.run: add test for runas parameter
+-  uninstall -v: remove Tracebacks
+-  PRCI: extend timeouts for gating
+-  Tests: add integration test for password changes by dir mgr
+
+.. _fraser_tweedale_1:
+
+Fraser Tweedale (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  Fix writing certificate chain to file
+
+.. _ganna_kaihorodova_1:
+
+Ganna Kaihorodova (1)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Add check for occuring traceback during uninstallation ipa master
+
+.. _michal_reznik_8:
+
+Michal Reznik (8)
+~~~~~~~~~~~~~~~~~
+
+-  bump PRCI template version to 0.1.9
+-  add strip_cert_header() to tasks.py
+-  tests: sssd_ssh fd leaks when user cert converted into SSH key
+-  bump PRCI template version to 0.1.8
+-  Add "389-ds-base-legacy-tools" to requires.
+-  test: client uninstall fails when installed using non-existing
+   hostname
+-  ipa_tests: test ssh keys login
+-  prci_definitions: fix wrong indentation in the nightly yaml
+
+.. _mohammad_rizwan_yusuf_2:
+
+Mohammad Rizwan Yusuf (2)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Test if WSGI worker process count is set to 4
+-  Check if user permssions and umask 0022 is set when executing
+   ipa-restore
+
+.. _orion_poplawski_1:
+
+Orion Poplawski (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  ipaclient-install: chmod needs octal permissions
+
+.. _pavel_picka_3:
+
+Pavel Picka (3)
+~~~~~~~~~~~~~~~
+
+-  PRCI failures fix
+-  PR-CI extend timeouts
+-  WebUI Tests stabilize
+
+.. _petr_vobornik_3:
+
+Petr Vobornik (3)
+~~~~~~~~~~~~~~~~~
+
+-  webui: redable color of invalid fields on login-screen-like pages
+-  webui: remove mixed indentation in App and LoginScreen
+-  webui: change indentation of freeipa/_base/debug.js
+
+.. _rob_crittenden_11:
+
+Rob Crittenden (11)
+~~~~~~~~~~~~~~~~~~~
+
+-  Add entry for Serhii to mailmap
+-  Fix identifier typo in UI
+-  Add uninstallation tests to night master and rawhide
+-  Fix uninstallation test, use different method to stop dirsrv
+-  Try to resolve the name passed into the password reader to a file
+-  Advise plugin for enabling sudo for members of the admins group
+-  Update required version of dogtag to detect when FIPS is available
+-  Retrieve certificate subject base directly instead of ipa-join
+-  Honor no-host-dns when creating client host in replica install
+-  Convert members into types in sudorule-*-option
+-  Set development version to 4.7.90
+
+.. _robbie_harwood_2:
+
+Robbie Harwood (2)
+~~~~~~~~~~~~~~~~~~
+
+-  Add cmocka unit tests for ipa otpd queue code
+-  Clear next field when returnining list elements in queue.c
+
+.. _stanislav_levin_115:
+
+Stanislav Levin (115)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Add title to 'add' dialog for 'association_table' widget of Topology
+   entity
+-  Add title to 'add' dialog for 'association_table' widget of Vaults
+   entity
+-  Add title to 'add' dialog for 'association_table' widget of
+   Certificates entity
+-  Add title to 'add' dialog for 'association_table' widget of SELinux
+   User Maps entity
+-  Add title to 'add' dialog for 'association_table' widget of Sudo
+   entity
+-  Add title to 'add' dialog for 'association_table' widget of HBAC
+   entity
+-  Add title to 'add' dialog for 'association_table' widget of Groups
+   entity
+-  Add title to 'add' dialog for 'association_table' widget of Services
+   entity
+-  Add title to 'add' dialog for 'association_table' widget of Hosts
+   entity
+-  Drop concatenated title of add dialog for association_table widget
+-  Add title to 'add' dialog for details of 'RBAC' entity
+-  Add title to 'add' dialog for details of 'OTP Tokens' entity
+-  Add title to 'add' dialog for details of 'Sudo' entity
+-  Add title to 'add' dialog for details of 'HBAC' entity
+-  Add title to 'add' dialog for details of 'ID Views' entity
+-  Add title to 'add' dialog for details of 'Groups' entity
+-  Add title to 'add' dialog for details of 'Services' entity
+-  Add title to 'add' dialog for details of 'Hosts' entity
+-  Add title to 'add' dialog for details of 'Users' entity
+-  Add title to 'add' dialog for details of 'Certificate' entity
+-  Drop concatenated title of 'Add' dialog for details of entity
+-  Add title to 'add' dialog for 'Topology' entity
+-  Add title to 'add' dialog for 'Trusts' entity
+-  Add title to 'add' dialog for 'ID Ranges' entity
+-  Add title to 'add' dialog for 'RBAC' entity
+-  Add title to 'add' dialog for 'Vault' entity
+-  Add title to 'add' dialog for 'DNS' entity
+-  Add title to 'add' dialog for 'Automount' entity
+-  Add title to 'add' dialog for 'Certificate Identity' entity
+-  Add title to 'add' dialog for 'RADIUS' entity
+-  Add title to 'add' dialog for 'Certificates' entity
+-  Add title to 'add' dialog for 'Password Policies' entity
+-  Add title to 'add' dialog for 'SELinux' entity
+-  Add title to 'add' dialog for 'Sudo' entity
+-  Add title to 'add' dialog for 'HBAC' entity
+-  Add title to 'add' dialog for 'Automember' entity
+-  Drop concatenated title of 'add' dialog for 'attribute_table' widget
+-  Add title to 'add' dialog for 'ID Views' entity
+-  Add title to 'add' dialog for 'Groups' entity
+-  Add title to 'add' dialog for 'Service' entity
+-  Add title to 'add' dialog for 'Host' entity
+-  Add title to 'add' dialog for 'OTP' entity
+-  Add title to 'add' dialog for 'Users' entity
+-  Drop concatenated title of 'add' dialog
+-  Add jslint check to PR CI tests
+-  Fix javascript 'errors' found by jslint
+-  Add title to remove dialog of 'DNS' entity
+-  Add title to 'unprovision' dialog
+-  Add title to 'Remove' dialog for 'association_table' widget of
+   'Vault' entity
+-  Add title to 'Remove' dialog for 'association_table' widget of
+   'Topology' entity
+-  Add title to 'Remove' dialog for 'association_table' widget of 'CA'
+   entity
+-  Add title to 'Remove' dialog for 'association_table' widget of
+   'SELinux' entity
+-  Add title to 'Remove' dialog for 'association_table' widget of 'Sudo'
+   entity
+-  Add title to 'Remove' dialog for 'association_table' widget of 'HBAC'
+   entity
+-  Add title to 'Remove' dialog for 'association_table' widget of
+   'Automember' entity
+-  Allow having a custom title of 'Remove' dialog for 'attribute_table'
+   widget
+-  Add title to 'remove' dialog for 'association_table' widget of
+   'Groups' entity
+-  Add title to 'remove' dialog for 'association_table' widget of
+   'Services' entity
+-  Add title to 'remove' dialog for 'association_table' widget of
+   'Hosts' entity
+-  Drop concatenated title of remove dialog
+-  Fix loading 'freeipa/text' at production mode
+-  Add a title to 'remove' dialog for details of 'Trusts' entity
+-  Add a title to 'remove' dialog for details of 'RBAC' entity
+-  Add a title to 'remove' dialog for details of 'OTP Tokens' entity
+-  Add a title to 'remove' dialog for details of 'Sudo' entity
+-  Add a title to 'remove' dialog for details of 'HBAC' entity
+-  Add a title to 'remove' dialog for details of 'Groups' entity
+-  Add a title to 'remove' dialog for details of 'Services' entity
+-  Add a title to 'remove' dialog for details of 'Hosts' entity
+-  Add a title to 'remove' dialog for details of 'Users' entity
+-  Drop concatenated title of remove dialog
+-  Add title to remove dialog of 'Trusts' entity
+-  Add title to remove dialog of 'Topology' entity
+-  Add title to remove dialog of 'ID Ranges' entity
+-  Add title to remove dialog of 'RBAC' entity
+-  Add title to remove dialog of 'DNS' entity
+-  Add title to remove dialog of 'Automount Locations' entity
+-  Add title to remove dialog of 'Certificate Identity Mapping Rules'
+   entity
+-  Add title to remove dialog of 'RADIUS Servers' entity
+-  Add title to remove dialog of 'OTP Tokens' entity
+-  Add title to remove dialog of 'Certificates' entity
+-  Add title to remove dialog of 'Password Policies' entity
+-  Add title to remove dialog of 'SELinux User Maps' entity
+-  Add title to remove dialog of 'Sudo' entity
+-  Add title to remove dialog of 'HBAC' entity
+-  Add title to remove dialog of 'Automember' entity
+-  Add title to remove dialog of 'ID Views' entity
+-  Add title to remove dialog of 'Groups' entity
+-  Add title to remove dialog of 'Services' entity
+-  Add title to remove dialog of 'Hosts' entity
+-  Add title to remove dialog of 'Users' entity
+-  Drop concatenated title of remove dialog
+-  Add tests for LoginScreen widget
+-  Add "bounce" logic from "reset_password.js"
+-  Fix translations of messages in LoginScreen widget
+-  Clean up reset_password.js file from project
+-  Use "login" plugin instead of standalone JS file
+-  Add "reset_and_login" view to LoginScreen widget
+-  Replace the direct URL with config's one
+-  Add basic tests to web pages which are located at /ipa/config/
+-  Fix translation of "ssbrowser.html" Web page
+-  Fix translation of "unauthorized.html" Web page
+-  Fix render validation items on keypress event at login form
+-  Reindex 'key_indicies' after item delete
+-  Fix "get_key_index" to fit caller's expectations
+-  Add basic tests for "migration" end point
+-  Clean up migration "error" and "invalid" pages from project
+-  Provide translatable messages for MigrateScreen widget
+-  Integrate "migration" page to IPA Web framework.
+-  Return the result of "password migration" procedure
+-  Add "migrate" Web UI plugin
+-  Add MigrateScreen widget
+-  Fix translation of "SyncOTPScreen" widget
+-  Fix translation of "sync_otp" plugin
+-  Replace the direct URL with config's one
+
+.. _serhii_tsymbaliuk_1:
+
+Serhii Tsymbaliuk (1)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Replace logo images with new one (version 4.7)
+
+.. _serhii_tsymbaliuk_15:
+
+Serhii Tsymbaliuk (15)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Change Web UI tests setup flow
+-  Fix UI_driver.has_class exception. Handle situation when element has
+   no class attribute
+-  Increase some timeouts in Web UI tests
+-  Remove unnecessary session clearing in some Web UI tests
+-  Add cookies clearing for all Web UI tests
+-  Generate CSR for test_host::test_certificates (Web UI test)
+-  Add SAN extension for CSR generation in test_cert (Web UI tests)
+-  Fix unpermitted user session in test_selfservice (Web UI test)
+-  Fix test_user::test_login_without_username (Web UI test)
+-  Use random realmdomains in test_webui/test_realmdomains.py
+-  Fix test_realmdomains::test_add_single_labeled_domain (Web UI test)
+-  Increase request timeout for WebUI tests
+-  Use random IPs and domains in test_webui/test_host.py
+-  Fix hardcoded CSR in test_webui/test_cert.py
+-  Replace old login screen logo with new one
+
+.. _thierry_bordaz_1:
+
+Thierry Bordaz (1)
+~~~~~~~~~~~~~~~~~~
+
+-  In IPA 4.4 when updating userpassword with ldapmodify does not update
+   krbPasswordExpiration nor krbLastPwdChange
+
+.. _tibor_dudlák_3:
+
+Tibor Dudlák (3)
+~~~~~~~~~~~~~~~~
+
+-  Do not set ca_host when --setup-ca is used
+-  Add assert to check output of upgrade
+-  Re-open the ldif file to prevent error message
+
+.. _thomas_woerner_40:
+
+Thomas Woerner (40)
+~~~~~~~~~~~~~~~~~~~
+
+-  Remove DL0 specific code from
+   ipatests/test_integration/test_caless.py
+-  Remove DL0 specific code from
+   ipatests/pytest_ipa/integration/tasks.py
+-  Remove DL0 specific tests from
+   ipatests/test_integration/test_replica_promotion.py
+-  Remove replica_file knob from ipalib/install/service.py
+-  Remove replica_file from ClientInstall class in
+   ipaclient/install/client.py
+-  Remove options.promote from install in
+   ipaserver/install/server/install
+-  Rename CustodiaModes.STANDALONE to CustodiaModes.FIRST_MASTER
+-  Remove DL0 specific code from custodiainstance in ipaserver/install
+-  Remove create_replica_config from installutils in ipaserver/install
+-  Remove DL0 specific code from replicainstall in
+   ipaserver/install/server
+-  Remove DL0 specific code from \__init_\_ in ipaserver/install/server
+-  Remove DL0 specific code from ipa_replica_install in
+   ipaserver/install
+-  Remove unused promote arg in krbinstance.create_replica in
+   ipaserver/install
+-  Remove DL0 specific code from kra in ipaserver/install
+-  Remove DL0 specific code from dsinstance ipaserver/install
+-  Remove DL0 specific code from ipa_kra_install in ipaserver/install
+-  Remove DL0 specific code from cainstance and ca in ipaserver/install
+-  Remove DL0 specific code from ipa-ca-install
+-  Remove ipa-replica-prepare script and man page
+-  Adapt freeipa.spec.in for latest Fedora, fix python2 ipatests
+   packaging bug
+-  replicainstall: Make sure that domain fulfills minimal domain level
+   requirement
+-  ipatests/test_xmlrpc/tracker/server_plugin.py: Increase hard coded
+   mindomainlevel
+-  ipaserver/install/adtrust.py: Do not use DOMAIN_LEVEL_0 for minimum
+-  ipatests/test_ipaserver/test_install/test_installer.py: Drop tempfile
+   import
+-  ipatests: Drop test_password_option_DL0
+-  Move DL0 raises outside if existing conditionals to calm down pylint
+-  Remove "at DL1" from ipa-server-install man page
+-  Remove "at DL1" from ipa-replica-manage man page
+-  Remove DL0 specific sections from ipa-replica-install man page
+-  Remove support for replica_file option from ipa-kra-install
+-  Remove support for replica_file option from ipa-ca-install
+-  Raise error if DL is set to 0 or DL0 options are used
+-  Mark replica_file option as deprecated
+-  Increase MIN_DOMAIN_LEVEL to DOMAIN_LEVEL_1
+-  Do not install ipa-replica-prepare
+-  ipaclient: Remove --no-sssd and --no-ac options
+-  ipa_restore: Restore SELinux context of template_dir
+   /var/log/dirsrv/slapd-X
+-  httpinstance: Restore SELinux context of session_dir /etc/httpd/alias
+-  ipaserver/plugins/cert.py: Added reason to raise of errors.NotFound
+-  Fix $-style format string in ipa_ldap_init (util/ipa_ldap.c)

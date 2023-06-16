@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Healthcheck.html" />
+    <link rel="prev" title="Overview" href="Global_Catalog_IDM_provisioning.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Global Catalog is a special service that exposes information about
+objects in FreeIPA domain in a way expected by the clients enrolled to
+Active Directory environments. Active Directory domain controllers and
+other systems use Global Catalog to search across the potentially
+multi-domain forest for the information about users, groups, machines,
+and other types of objects.</p>
+<p>A search in the Global Catalog service allows machines enrolled to an
+Active Directory environment to efficiently maintain a relationship
+between internal access control lists (ACLs) associated with the
+resources provided by the machines, and the visual representation of the
+access controls for interaction with users, locally and remotely.</p>
+<p>The information stored in the Global Catalog represents a subset of the
+information available at the specific domain controllers in Active
+Directory. As such, it is only accessible for read-only purposes. Any
+change to the information shall come through the domain controllers
+responsible for a domain in question.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>This design document focuses on two primary user stories where access to
+Global Catalog in FreeIPA is crucial.</p>
+<p><strong>User Story 1</strong>: As a Windows Administrator I want to add FreeIPA Users
+and Groups to the access control lists of resources in Active Directory,
+so that I can let FreeIPA user log into to Windows client enrolled with
+Windows Server and file shares.</p>
+<p>Acceptance Criteria</p>
+<ul class="simple">
+<li><p>I can enable “Allow logon locally” Global Policy for a special group
+with all FreeIPA users or a selected FreeIPA Group or an FreeIPA User
+to later enable local logon</p></li>
+<li><p>I can add a special group with all FreeIPA users, selected FreeIPA
+Group or FreeIPA User to “Remote Desktop Users” group to later enable
+remote logon</p></li>
+<li><p>I can grant access to a file share located on Windows Servers</p></li>
+</ul>
+<p><strong>Limitation</strong>: the use cases not explicitly called out above may or may
+not work and are not supported in the first implementation.</p>
+<p><strong>User Story 2</strong>: As an FreeIPA User I’m able to login remotely or
+locally to Windows client enrolled in Windows Server, so that the user
+can use file shares or run a Windows application.</p>
+<p>Acceptance Criteria</p>
+<ul class="simple">
+<li><p>Prerequisite: this workflow requires a bi-directional Trust between
+FreeIPA Server and AD Forest Root and a Workstation enrolled in the
+forest’s domain</p>
+<ul>
+<li><p>When allowed, FreeIPA user can login with his user and password to
+local Windows terminal</p></li>
+<li><p>When allowed, FreeIPA user can login with his user and password to
+remote Windows terminal using RDP client (test with FreeRDP)</p></li>
+</ul>
+</li>
+<li><p>FreeIPA user can open, modify or delete a file in a folder, when
+allowed by respective Windows folder ACL</p></li>
+<li><p>FreeIPA user can run a Windows application that does not require any
+additional interfaces (like SMB or DCE RPC) available on FreeIPA
+Server</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA Global Catalog service is a read-only LDAP service available
+over port 3268. The content of the entries is based on the primary
+FreeIPA LDAP instance. LDAP schema for FreeIPA Global Catalog is
+compatible with Active Directory LDAP schema but exposes a minimal
+subset of the latter as FreeIPA is not an Active Directory by itself.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="V4/Global_Catalog_HLD">High Level description of the Global Catalog
+service</a></p></li>
+<li><p><a class="reference external" href="V4/Global_Catalog_Access_Control">Access control to the Global Catalog
+service</a></p></li>
+<li><p><a class="reference external" href="V4/Global_Catalog_Data_Transformation">Data transformation to the Global
+Catalog</a></p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Global_Catalog_Support.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

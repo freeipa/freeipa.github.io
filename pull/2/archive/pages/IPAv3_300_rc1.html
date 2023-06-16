@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Highlights since 3.0.0 beta 3 &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Highlights since 3.0.0 rc 1" href="IPAv3_300_rc2.html" />
+    <link rel="prev" title="Highlights since 3.0.0 beta 2" href="IPAv3_300_beta3.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The FreeIPA team is proud to announce version FreeIPA v3.0.0 rc 1.</p>
+<p>It can be downloaded from <a class="reference external" href="http://www.freeipa.org/page/Downloads">http://www.freeipa.org/page/Downloads</a>.</p>
+<p>A build is available in the Fedora 18 and rawhide repositories or for
+Fedora 17 via the freeipa-devel repo on www.freeipa.org:
+<a class="reference external" href="http://freeipa.org/downloads/freeipa-devel.repo">http://freeipa.org/downloads/freeipa-devel.repo</a> . To install in Fedora
+17 the updates repo repository needs to be enabled as well. For Fedora
+17 you will also need libldb-1.1.12-1 installed for sssd to work. There
+are no dependencies on this package.</p>
+<p>For additional information see the AD Trust design page
+<a class="reference external" href="http://freeipa.org/page/IPAv3_AD_trust">http://freeipa.org/page/IPAv3_AD_trust</a> and the AD Trust testing page
+<a class="reference external" href="http://freeipa.org/page/IPAv3_testing_AD_trust">http://freeipa.org/page/IPAv3_testing_AD_trust</a>.</p>
+<section id="highlights-since-3-0-0-beta-3">
+<span id="id1"></span><h1>Highlights since 3.0.0 beta 3<a class="headerlink" href="#highlights-since-3-0-0-beta-3" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Support for the Dogtag CA version 10</p></li>
+<li><p>Verification when setting up AD trust</p></li>
+<li><p>New ipa-client-install option to disable OpenSSH client
+configuration.</p></li>
+<li><p>Expand Referential Integrity checks on hosts, SUDO and HBAC rule
+referential attributes</p></li>
+<li><p>Run the CLEANALLRUV task when deleting a replication agreement to
+remove replication meta-data about removed master. See the
+ipa-replica-manage man page for the list of new commands related to
+CLEANALLRUV command.</p></li>
+<li><p>Try to prevent orphaning other servers when deleting a master.</p></li>
+</ul>
+</section>
+<section id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this heading">¶</a></h1>
+<p>An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.</p>
+<p>Please note, that the referential integrity extension requires an
+extended set of indexes to be configured. RPM update for an IPA server
+with a excessive number of hosts, SUDO or HBAC entries may require
+several minutes to finish.</p>
+<p>If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.</p>
+<p>Downgrading a server once upgraded is not supported.</p>
+<p>Upgrading from 2.2.0 should work but has not been fully tested. Proceed
+with caution.</p>
+<p>An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.</p>
+</section>
+<section id="feedback">
+<h1>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h1>
+<p>Please provide comments, bugs and other feedback via the freeipa-devel
+mailing list: <a class="reference external" href="http://www.redhat.com/mailman/listinfo/freeipa-devel">http://www.redhat.com/mailman/listinfo/freeipa-devel</a></p>
+</section>
+<section id="detailed-changelog">
+<span id="id2"></span><h1>Detailed changelog<a class="headerlink" href="#detailed-changelog" title="Permalink to this heading">¶</a></h1>
+<p>Ade Lee (1):</p>
+<ul class="simple">
+<li><p>Modifications to install scripts for dogtag 10</p></li>
+</ul>
+<p>Alexander Bokovoy (5):</p>
+<ul class="simple">
+<li><p>Add verification of the AD trust</p></li>
+<li><p>validate SID for trusted domain when adding/modifying ID range</p></li>
+<li><p>Fix error messages and use proper ImportError for dcerpc import</p></li>
+<li><p>Add documentation for ‘ipa trust’ set of commands</p></li>
+<li><p>Document use of external group membership</p></li>
+</ul>
+<p>Jan Cholasta (3):</p>
+<ul class="simple">
+<li><p>Add the SSH service to SSSD config file before trying to activate it.</p></li>
+<li><p>Add –no-ssh option to ipa-client-install to disable OpenSSH client
+configuration.</p></li>
+<li><p>SSHPublicKey.fingerprint_dns_sha1 should return unicode value.</p></li>
+</ul>
+<p>Martin Kosek (8):</p>
+<ul class="simple">
+<li><p>Fix addattr internal error</p></li>
+<li><p>Add attributeTypes to safe schema updater</p></li>
+<li><p>Amend memberAllowCmd and memberDenyCmd attribute types</p></li>
+<li><p>Run index task in ldap updater only when needed</p></li>
+<li><p>Expand Referential Integrity checks</p></li>
+<li><p>Properly convert DN in ipa-client-install</p></li>
+<li><p>Use default reverse zone consistently</p></li>
+<li><p>Fix idrange plugin help</p></li>
+</ul>
+<p>Petr Viktorin (7):</p>
+<ul class="simple">
+<li><p>ipa-client-install: Obtain host TGT from one specific KDC</p></li>
+<li><p>Fix server installation</p></li>
+<li><p>Use temporary key cache for host key in server installation</p></li>
+<li><p>Update the pot file (translation source)</p></li>
+<li><p>Use Dogtag 10 only when it is available</p></li>
+<li><p>Only stop the main DS instance when upgrading it</p></li>
+<li><p>Use correct Dogtag port in ipaserver.install.certs</p></li>
+</ul>
+<p>Petr Vobornik (4):</p>
+<ul class="simple">
+<li><p>Prevent opening of multiple dirty dialogs on navigation</p></li>
+<li><p>JSON serialization of long type</p></li>
+<li><p>Show trust status in add success notification</p></li>
+<li><p>Fix integer validation when boundary value is empty string</p></li>
+</ul>
+<p>Rob Crittenden (3):</p>
+<ul class="simple">
+<li><p>Set SELinux default context to unconfined_u:s0-s0:c0.c1023</p></li>
+<li><p>Run the CLEANALLRUV task when deleting a replication agreement.</p></li>
+<li><p>When deleting a master, try to prevent orphaning other servers.</p></li>
+</ul>
+<p>Sumit Bose (3):</p>
+<ul class="simple">
+<li><p>ipasam: Fixes build with samba4 rc1</p></li>
+<li><p>Set master_kdc and dns_lookup_kdc to true</p></li>
+<li><p>Update krb5.conf during ipa-adtrust-install</p></li>
+</ul>
+<p>Tomas Babej (2):</p>
+<ul class="simple">
+<li><p>Make sure selinuxusemap behaves consistently to HBAC rule</p></li>
+<li><p>Improves sssd.conf handling during ipa-client uninstall</p></li>
+</ul>
+<p>Yuri Chornoivan (1):</p>
+<ul class="simple">
+<li><p>Fix various typos.</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/IPAv3_300_rc1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

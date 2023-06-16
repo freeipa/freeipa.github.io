@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Winsync_Migration_Tool.html" />
+    <link rel="prev" title="Overview" href="User_Life-Cycle_Management.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>The command `whoami` is designed to provide details on how to obtain
+information about currently authenticated identity.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Primary use case for `whoami` command is to allow Web UI to choose
+correct initial page for the authenticated identity. For self-service of
+Active Directory users from trusted forests, their starting page should
+be corresponding ID user override. For FreeIPA users their starting page
+is their own user page.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The `whoami` command uses following features of FreeIPA design:</p>
+<ul class="simple">
+<li><p>Any identity authenticated to FreeIPA framework should be able to
+authenticate to an LDAP server. If authentication to LDAP server is
+successful, there is an LDAP object that represents this identity.
+FreeIPA framework can query DN of this LDAP object using `whoami`
+extension to LDAPv3 as documented in
+<a class="reference external" href="https://tools.ietf.org/html/rfc4532_RFC_4532">https://tools.ietf.org/html/rfc4532 RFC
+4532</a>.</p></li>
+<li><p>FreeIPA uses flat DIT to store objects in LDAP database. Therefore, a
+corresponding FreeIPA framework object can be found by matching DN of
+the authenticated LDAP object to a FreeIPA framework’s object with
+closest container DN, e.g. leftmost RDN is the only difference. There
+is only one exception to this rule, ID user overrides, which have
+container DN two levels below because they are grouped by the ID
+views.</p></li>
+<li><p>FreeIPA framework objects are introspectable and have associated
+commands, including a command to show the object in question.</p></li>
+<li><p>Finally, all objects that could be used to bind to FreeIPA framework
+have `bindable = True` property.</p></li>
+</ul>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>When LDAP bind is successfully performed, an LDAP client can request DN
+value of the bound LDAP object. FreeIPA framework always uses SASL
+GSSAPI to perform its LDAP bind, thus SASL mapping rules in 389-ds are
+used to find proper LDAP object which corresponds to SASL identity.
+There are two primary SASL mappings in FreeIPA: Kerberos principal
+mapping for FreeIPA users, hosts, and services, and ID user override
+mapping for users from trusted Active Directory forests.</p>
+<p>For FreeIPA objects which are known to be exceptions (ID users
+override), a correction of the container DN is applied before testing.
+SASL mapping for trusted Active Directory users always searches for ID
+user override in the ‘Default Trust View’ ID View. This means container
+DN for ID user override can be extended to always use ‘Default Trust
+View’ ID view.</p>
+<p>`whoami` command retrieves DN of the authenticated LDAP object and the
+object itself from LDAP. It then finds FreeIPA framework object that is
+bindable and has container DN immediately preceding the DN of the
+authenticated object. In terms of `ipapython.dn.DN` class, this means
+DN.find(foo) returns 1.</p>
+<p>The command returns following information:</p>
+<ul class="simple">
+<li><p>object class name</p></li>
+<li><p>function to call to get actual details about the object</p></li>
+<li><p>arguments to pass to the function</p></li>
+</ul>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<p>The `whoami` command does not require any arguments. It uses implicit
+authenticated identity as its input.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>No configuration is needed</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>No upgrade impact</p>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>Below is an example of how communication looks like for an Active
+Directory user which has ID override in ‘Default Trust View’.</p>
+<div class="line-block">
+<div class="line">``       $ ipa -vv console``</div>
+<div class="line">``       &gt;&gt;&gt; api.Command.whoami()``</div>
+<div class="line">``       ipa: INFO: trying <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://ipa.example.com/ipa/session/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/session/json">https://ipa.example.com/ipa/session/json</a>&gt;`__</div>
+<div class="line">``       ipa: INFO: Forwarding ‘whoami/1’ to json server ‘<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://ipa.example.com/ipa/session/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/session/json">https://ipa.example.com/ipa/session/json</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">'</span></code></div>
+<div class="line">``       ipa: INFO: Request: {``</div>
+<div class="line">``           “id”: 0,``</div>
+<div class="line">``           “method”: “whoami/1”,``</div>
+<div class="line">``           “params”: [``</div>
+<div class="line">``               [],``</div>
+<div class="line">``               {``</div>
+<div class="line">``                   “version”: “2.220”``</div>
+<div class="line">``               }``</div>
+<div class="line">``           ]``</div>
+<div class="line">``       }``</div>
+<div class="line">``       ipa: INFO: Response: {``</div>
+<div class="line">``           “error”: null,``</div>
+<div class="line">``           “id”: 0,``</div>
+<div class="line">``           “principal”: “<a class="reference external" href="mailto:Administrator&#37;&#52;&#48;AD&#46;DOMAIN">Administrator<span>&#64;</span>AD<span>&#46;</span>DOMAIN</a>”,``</div>
+<div class="line">``           “result”: {``</div>
+<div class="line">``               “arguments”: [``</div>
+<div class="line">``                   “default trust view”,``</div>
+<div class="line">``                   “<a class="reference external" href="mailto:administrator&#37;&#52;&#48;ad&#46;domain">administrator<span>&#64;</span>ad<span>&#46;</span>domain</a>”``</div>
+<div class="line">``               ],``</div>
+<div class="line">``               “command”: “idoverrideuser_show/1”,``</div>
+<div class="line">``               “object”: “idoverrideuser”,``</div>
+<div class="line">``               “options”: []``</div>
+<div class="line">``           },``</div>
+<div class="line">``           “version”: “<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
+<div class="line">``       }``</div>
+<div class="line">``      {‘command’: ‘idoverrideuser_show/1’, ‘object’: ‘idoverrideuser’, ‘arguments’: (‘default trust view’, <a class="reference external" href="mailto:'administrator&#37;&#52;&#48;ad&#46;domain">‘administrator<span>&#64;</span>ad<span>&#46;</span>domain</a>’)}``</div>
+</div>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>There are five types of objects that could bind to IPA using their
+credentials. `ipa whoami` call expects one of the following:</p>
+<ul class="simple">
+<li><p>users</p></li>
+<li><p>staged users</p></li>
+<li><p>hosts</p></li>
+<li><p>Kerberos services</p></li>
+<li><p>ID user override from the default trust view</p></li>
+</ul>
+<p>The latter category of objects is automatically mapped by SASL GSSAPI
+mapping rule in 389-ds for users from trusted Active Directory forests.</p>
+<p>Below is a short summary demonstrating possible test cases for the
+`whoami` command.</p>
+<section id="using-host-principal">
+<span id="id1"></span><h2>Using host principal<a class="headerlink" href="#using-host-principal" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipa</span> <span class="o">~</span><span class="p">]</span><span class="c1"># klist</span>
+<span class="n">Ticket</span> <span class="n">cache</span><span class="p">:</span> <span class="n">KEYRING</span><span class="p">:</span><span class="n">persistent</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="n">krb_ccache_uA6VDOR</span>
+<span class="n">Default</span> <span class="n">principal</span><span class="p">:</span> <span class="n">host</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+
+<span class="n">Valid</span> <span class="n">starting</span>       <span class="n">Expires</span>              <span class="n">Service</span> <span class="n">principal</span>
+<span class="mi">03</span><span class="o">/</span><span class="mi">08</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">47</span>  <span class="mi">03</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">42</span>  <span class="n">HTTP</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="mi">03</span><span class="o">/</span><span class="mi">08</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">42</span>  <span class="mi">03</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">42</span>  <span class="n">krbtgt</span><span class="o">/</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ipa</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa -vv console</span>
+<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">trying</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">session</span><span class="o">/</span><span class="n">json</span>
+<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Forwarding</span> <span class="s1">&#39;schema&#39;</span> <span class="n">to</span> <span class="n">json</span> <span class="n">server</span> <span class="s1">&#39;https://ipa.example.com/ipa/session/json&#39;</span>
+<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">trying</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">session</span><span class="o">/</span><span class="n">json</span>
+<span class="p">(</span><span class="n">Custom</span> <span class="n">IPA</span> <span class="n">interactive</span> <span class="n">Python</span> <span class="n">console</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">whoami</span><span class="p">()</span>
+<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Forwarding</span> <span class="s1">&#39;whoami/1&#39;</span> <span class="n">to</span> <span class="n">json</span> <span class="n">server</span> <span class="s1">&#39;https://ipa.example.com/ipa/session/json&#39;</span>
+<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Request</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;whoami/1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[],</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;2.220&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Response</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;principal&quot;</span><span class="p">:</span> <span class="s2">&quot;host/ipa.example.com@EXAMPLE.COM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;arguments&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ipa.example.com&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;host_show/1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="s2">&quot;host&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;4.4.90.dev201703081319+git708d826&quot;</span>
+<span class="p">}</span>
+<span class="p">{</span><span class="sa">u</span><span class="s1">&#39;command&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;host_show/1&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;object&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;host&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;arguments&#39;</span><span class="p">:</span> <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;ipa.example.com&#39;</span><span class="p">,)}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Who_Am_I_Command.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

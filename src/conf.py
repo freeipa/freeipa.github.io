@@ -50,8 +50,16 @@ html_theme = "alabaster"
 
 html_sidebars = {
     '**': [
+        'about.html',
+        'custom_nav.html',
         'searchbox.html',
     ]
+}
+
+html_theme_options = {
+    'logo': 'freeipa-logo-small.png',
+    'github_user': 'freeipa',
+    'github_repo': 'freeipa',
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -60,4 +68,3 @@ html_sidebars = {
 # html_static_path = ["_static"]
 
 html_favicon = 'images/favicon.png'
-html_logo = 'images/freeipa-logo-small.png'

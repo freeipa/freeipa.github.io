@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Quick Start &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Reporting bugs" href="Troubleshooting.html" />
+    <link rel="prev" title="Overview" href="Test_plan_template.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="quick-start">
+<span id="id1"></span><h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">¶</a></h1>
+<p>IPA provides an ipatests package which contains all of the tests and
+tools needed to run the unit and IPA integration tests.</p>
+<p>Requirements for 100% test passing:</p>
+<ul class="simple">
+<li><p>–setup-dns option must be passed to ipa-server-install (or run
+ipa-dns-install afterward)</p></li>
+<li><p>freeipa-server-trust-ad must be installed (AD trust is not necessary)</p></li>
+</ul>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">¶</a></h2>
+<p>The tests allow customization through the use of a required, local
+configuration directory, ~/.ipa. This can be created with:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ mkdir ~/.ipa</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ln -s  /etc/ipa/default.conf ~/.ipa/default.conf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ln -s /etc/ipa/ca.crt ~/.ipa/ca.crt</span></code></div>
+</div>
+<p><strong>Note:</strong> you can instead copy those files but you’ll need to update
+them again if re-install IPA.</p>
+<p>To run the whole integration test suite, run the following:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa-run-tests</span></code></div>
+</div>
+<p>For additional options or to run the integration tests see below.</p>
+<p>The certificate test <em>test_0027_sizelimit_zero</em> will fail after the
+first execution of ipa-run-tests. It makes assumptions about the number
+of certificates issued. New certificates are issued as part of test
+execution which it is not expecting.</p>
+</section>
+</section>
+<section id="for-developers">
+<span id="id2"></span><h1>For Developers<a class="headerlink" href="#for-developers" title="Permalink to this heading">¶</a></h1>
+<section id="fast-test">
+<span id="id3"></span><h2>Fast test<a class="headerlink" href="#fast-test" title="Permalink to this heading">¶</a></h2>
+<p>Often during development phase one needs to quickly check whether Python
+code is OK and whether basic tests (which don’t require access to IPA
+API) are working. To do so, freeIPA 4.6.2 introduces ‘fasttest’ target:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ make fasttest</span></code></p>
+<p>The ‘fastlint’ target allows to quickly check pylint of modified Python
+files and pycodestyle checks of code diff. The target automatically
+determinates difference between current working tree and the origin
+branch (e.g. master or ipa-4-6):</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ make fastlint</span></code></p>
+<p>For convenience the ‘fastcheck’ runs ‘fasttest’ and ‘fastlint’ with
+Python 2 and 3 in one go. A fastcheck takes about half a minute to a
+minute to execute:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ make fastcheck</span></code></p>
+<p>Note: in order to install all the dependencies for fastcheck, you can
+run</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ sudo dnf builddep -b -D &quot;with_python3 1&quot; -D &quot;with_wheels 1&quot; -D &quot;with_lint 1&quot; --spec freeipa.spec.in --allowerasing</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ./autogen.sh</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ make fastcheck</span></code></div>
+</div>
+<section id="full-test-run">
+<span id="id4"></span><h3>Full test run<a class="headerlink" href="#full-test-run" title="Permalink to this heading">¶</a></h3>
+<p>You can run the full tests from inside a source tree, but some template
+files must be generated first.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ make version-update</span></code></p>
+<p>You also need to run tests with admin ticket:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></p>
+<p>Run the test script:</p>
+<p><code class="docutils literal notranslate"><span class="pre">./make-test</span></code></p>
+<p>This command executes all the tests in ipatests folder.</p>
+<p>You can also use this to run specific tests. Here is how you would test
+the user plugin:</p>
+<p><code class="docutils literal notranslate"><span class="pre">./make-test ipatests/test_xmlrpc/test_user_plugin.py</span></code></p>
+<p>Or you can run only tests from specific test class…</p>
+<p><code class="docutils literal notranslate"><span class="pre">./make-test ipatests/test_xmlrpc/test_user_plugin.py::TestUser</span></code></p>
+<p>… or even one particular test case (applies for non-declarative tests
+only):</p>
+<p><code class="docutils literal notranslate"><span class="pre">./make-test ipatests/test_xmlrpc/test_user_plugin.py::TestUser::test_retrieve</span></code></p>
+<p>Note that some of the tests make certain assumptions about the data on
+the server. Some tests, for example, pull all entries and expect a
+certain number to be returned and may raise an error.</p>
+</section>
+</section>
+<section id="in-tree-testing">
+<span id="id5"></span><h2>In-tree testing<a class="headerlink" href="#in-tree-testing" title="Permalink to this heading">¶</a></h2>
+<p>It is possible to execute the tests inside the tree rather than from the
+packaged files. This can make it faster to develop tests or test changes
+without having to do a full rebuild, install cycle.</p>
+<section id="install">
+<h3>Install<a class="headerlink" href="#install" title="Permalink to this heading">¶</a></h3>
+<p>You need to have already executed ipa-server-install. This provides the
+Kerberos and LDAP servers needed for IPA testing.</p>
+</section>
+<section id="configure">
+<h3>Configure<a class="headerlink" href="#configure" title="Permalink to this heading">¶</a></h3>
+<p>You also need to configure IPA for your local installation.</p>
+<p>When running the server in-tree we will use ~/.ipa/ instead of /etc/ipa
+to look for configuration files. You need to create ~/.ipa/default.conf.
+You can copy this from /etc/ipa/default.conf.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ mkdir -p ~/.ipa</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cp /etc/ipa/default.conf ~/.ipa/</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cp /etc/ipa/ca.crt ~/.ipa/</span></code></div>
+</div>
+<section id="run-the-tests">
+<span id="id6"></span><h4>Run the tests<a class="headerlink" href="#run-the-tests" title="Permalink to this heading">¶</a></h4>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ PYTHONPATH=. python3 ipatests/ipa-run-tests</span></code></div>
+</div>
+</section>
+<section id="optional-tests">
+<span id="id7"></span><h4>Optional tests<a class="headerlink" href="#optional-tests" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>In order for the certificate tests to pass you’ll also need to copy
+the Dogtag agent certificate and private key from /var/lib/ipa/. Be
+sure to change ownership of these files too. That should do it.</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cp /var/lib/ipa/ra-agent.{pem,key} ~/.ipa/</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ chown $USER ~/.ipa/ra-agent.{pem,key}</span></code></div>
+</div>
+<ul class="simple">
+<li><p>To test the ldap updater you need to store password for Directory
+Managed to ~/.ipa/.dmpw file.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="lite-server">
+<span id="id8"></span><h2>Lite server<a class="headerlink" href="#lite-server" title="Permalink to this heading">¶</a></h2>
+<p>The lite-server is a lightweight WSGI server that can be used to
+simplify web framework debugging in the source tree. Lite server info
+can be found <a class="reference external" href="http://www.freeipa.org/page/Testing/Lite_server">here</a>.</p>
+</section>
+</section>
+<section id="remote-testing">
+<span id="id9"></span><h1>Remote testing<a class="headerlink" href="#remote-testing" title="Permalink to this heading">¶</a></h1>
+<p>You can also test against an IPA installation on another machine, it
+just requires a bit more configuration.</p>
+<p>You first need to update ~/.ipa/default.conf to point to the remote
+machine. My test machine is ipa.example.com, here is my configuration:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[global]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">domain=example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">realm=EXAMPLE.COM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">basedn=dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">server=ipa.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">enable_ra=True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">xmlrpc_uri=</span></code><code class="docutils literal notranslate"><span class="pre">`https://ipa.example.com/ipa/xml</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/xml">https://ipa.example.com/ipa/xml</a>&gt;`__</div>
+</div>
+<p>If you don’t want your development machine to be enrolled as a client of
+the remote IPA master you can grab the remote krb5.conf and use that:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ scp ipa.example.com:/etc/krb5.conf lion-krb5.conf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ export KRB5_CONFIG=`pwd</span></code>/lion-krb5.conf`</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
+</div>
+<p>Finally you need to retrieve the CA from the IPA master and put it into
+~/.ipa/ca.crt</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ wget  -O ~/.ipa/ca.crt. ``\</span> <span class="pre">```http://ipa.example.com/ipa/config/ca.crt</span></code> &lt;<a class="reference external" href="http://ipa.example.com/ipa/config/ca.crt">http://ipa.example.com/ipa/config/ca.crt</a>&gt;`__</p>
+<p>Now you should be good-to-go to run the XML-RPC tests against a remote
+server.</p>
+</section>
+<section id="web-ui-testing">
+<span id="id10"></span><h1>Web UI testing<a class="headerlink" href="#web-ui-testing" title="Permalink to this heading">¶</a></h1>
+<p>Web UI testing is covered by <a class="reference external" href="FreeIPAv2:UI_Unit_Tests">unit tests</a>
+and <a class="reference external" href="Web_UI_Integration_Tests">integration tests</a>.</p>
+</section>
+<section id="integration-tests">
+<span id="id11"></span><h1>Integration tests<a class="headerlink" href="#integration-tests" title="Permalink to this heading">¶</a></h1>
+<p>Integration tests test IPA installations in multiple configurations
+across potentially multiple virtual machines.</p>
+<section id="install-1">
+<span id="id12"></span><h2>Install<a class="headerlink" href="#install-1" title="Permalink to this heading">¶</a></h2>
+<p>To run the <a class="reference external" href="V3/Integration_testing">integration tests</a> you need to
+have the pythonX-ipatests package installed.</p>
+<p><code class="docutils literal notranslate"><span class="pre"># dnf install python2-ipatests</span></code></p>
+<p>or (preferred):</p>
+<p><code class="docutils literal notranslate"><span class="pre"># dnf install python3-ipatests</span></code></p>
+<p>All the files containing actual test implementations are located in the
+<em>$PYTHON_SITELIB/ipatests/test_integration/</em> directory and start with a
+<em>test_</em> prefix.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>To properly configure the environment, see <a class="reference external" href="Integration_testing_configuration">integration testing
+configuration page</a>.</p>
+<p>Particularly, the configuration of your environment used for the testing
+can be done in two ways:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="Integration_testing_configuration#Using_YAML.2FJSON_configuration_file">a YAML/JSON configuration
+file</a></p></li>
+<li><p><a class="reference external" href="Integration_testing_configuration#Setting_Environment_Variables">environment
+variables</a></p></li>
+</ul>
+</section>
+<section id="run-tests">
+<span id="id13"></span><h2>Run tests<a class="headerlink" href="#run-tests" title="Permalink to this heading">¶</a></h2>
+<p>To run the whole integration test suite, run the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa-run-tests</span></code></p>
+<p>To run only tests from a specific file, run the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa-run-tests test_integration/test_simple_replication.py</span></code></p>
+<p>To run tests from specific class, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa-run-tests test_integration/test_simple_replication.py::TestSimpleReplication</span></code></p>
+<p>To run only one specific test, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa-run-tests test_integration/test_simple_replication.py::TestSimpleReplication::test_user_replication_to_master</span></code></p>
+<p>Please note that you need to specify a whole path <strong>relative</strong> to the
+python’s <em>site-packages/ipatests/</em> directory.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Testing.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

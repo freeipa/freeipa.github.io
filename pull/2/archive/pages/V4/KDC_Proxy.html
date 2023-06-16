@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Kerberos_PKINIT.html" />
+    <link rel="prev" title="Overview" href="JSON-RPC.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>We’re proposing adding a KDC proxy function, interoperable with
+Microsoft’s
+<a class="reference external" href="http://msdn.microsoft.com/en-us/library/hh553774.aspx">MS-KKDCP</a>
+implementation, to the IPA web server, to allow clients to access the
+KDC and kpasswd services using HTTP and HTTPS.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>There are deployments in the wild where the only ports which can be made
+reachable are those which are used for carrying HTTP (port 80) and HTTPS
+(port 443) traffic. While clients can access the IPA web-based UI by
+going through a login form, administrative command-line tools will not
+function.</p>
+<p>Being able to obtain Kerberos credentials by using the IPA HTTP service
+as a proxy will allow those tools to be used, and provides for the
+possibility that other Kerberos-authenticated services will also be made
+available via HTTP, including — but not limited to — IPA services
+accessed through its own HTTP server.</p>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
+<p>While other designs are possible, for IPA, the consensus appears to be
+that a python-based implementation which can be run by mod_wsgi is
+preferred. Keeping clear of the details of protocol parsing, the handler
+needs to:</p>
+<ul class="simple">
+<li><p>Accept a request wrapped in a contained in an HTTP POST request.</p></li>
+<li><p>Determine whether that request should be sent to the KDC or to the
+password-changing service.</p></li>
+<li><p>Locate the server for the realm, the name of which is also contained
+in the client request.</p></li>
+<li><p>Send the request to the right server.</p></li>
+<li><p>Read the server’s response.</p></li>
+<li><p>Send the server’s response as the body of the response to the HTTP
+request.</p></li>
+</ul>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>By default, the IPA framework is run as a mod_wsgi process group. The
+simplest implementation is single-threaded and blocking. The
+implementation either needs to multiplex multiple in-flight requests, or
+a second process group will need to be added to avoid starving clients
+which attempt to use the framework’s services.</p>
+<p>Service location needs refinement to properly sort servers located using
+DNS SRV records. Server affinity is highly preferred in order to avoid
+breaking multiple-round-trip preauthentication if/when it appears. Only
+TCP-based connections to the KDC are supported at first. Supporting
+servers which can only be reached by UDP complicates things due to a
+need to catch and handle KRB_ERR_RESPONSE_TOO_BIG errors. Additionally,
+connecting over TCP only allows the proxy to avoid needing to manage
+timeouts and retransmits.</p>
+<p>The <a class="reference external" href="http://k5wiki.kerberos.org/wiki/Projects/HTTP_Transport">client
+support</a> was
+merged in time for the upstream 1.13 release (Fedora 22 and later), and
+backported to 1.12 for Fedora 21 and RHEL 7.1.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<p>Ideally, no management will be involved. If we need to be able to enable
+or disable the feature, a command-line tool along the lines of
+ipa-compat-manage and ipa-nis-manage is going to be the simplest option.</p>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major Configuration Options and Enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>There are only a two things which might need to be configured:</p>
+<ul class="simple">
+<li><p>Whether the proxy service is enabled or not. If we just declare that
+it’s always enabled, this goes away.</p></li>
+<li><p>The locations of KDCs for trusted realms. Currently we can dig
+information out of krb5.conf or DNS. If we need to consult other
+sources for this information (directory servers, SSSD .kdcinfo
+files), we’ll need to add logic for that. If it comes from places we
+already consult, then it should already work.</p></li>
+</ul>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>No new data, nothing to replicate.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>Upgrades should need to drop the new module in place, and a new
+configuration file to be picked up by httpd that instructs it to call
+the module for requests to the proxy namespace (/KdcProxy seems
+popular). If we can keep the explicit configuration at zero, that’s all
+there’ll be to it.</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>No new dependencies, except possibly for those required to handle server
+location.</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>No expected requirements on external teams; using the new feature is
+optional.</p>
+</section>
+<section id="backup-and-restore">
+<h1>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h1>
+<p>There should be no additional configuration or data to back up or
+restore.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>Given that there are two types of KDC requests and one supported type of
+password-change request, we need to test with</p>
+<ul class="simple">
+<li><p>kinit (KDC AS requests)</p></li>
+<li><p>kvno (KDC TGS requests)</p></li>
+<li><p>kpasswd (KDC AS requests and kpasswd requests)</p></li>
+</ul>
+<p>Running these commands with KRB5_TRACE set may be necessary to ensure
+that requests are going to the right port.</p>
+<p>The <a class="reference external" href="http://k5wiki.kerberos.org/wiki/Projects/HTTP_Transport">client
+support</a> in
+libkrb5 expects configuration in krb5.conf’s [realms] section,
+specifying the location of the KDC or kpasswd service as a full HTTPS
+URL (e.g. “kdc = <a class="reference external" href="https://kdc.example.com/KdcProxy">https://kdc.example.com/KdcProxy</a>” and either
+“admin_server = <a class="reference external" href="https://kdc.example.com/KdcProxy">https://kdc.example.com/KdcProxy</a>” or “kpasswd_server =
+<a class="reference external" href="https://kdc.example.com/KdcProxy">https://kdc.example.com/KdcProxy</a>”, along with “http_anchors =
+<a class="reference external" href="FILE:/etc/ipa/ca.crt">FILE:/etc/ipa/ca.crt</a>” to allow the certificate to be verified). See the
+<a class="reference external" href="http://web.mit.edu/kerberos/krb5-current/doc/admin/https.html">upstream
+docs</a>
+for more information.</p>
+<p>In particular, to ensure we’re not making the sorts of mistakes that
+lead to multiple security advisories, we also need to check that certain
+things fail:</p>
+<ul class="simple">
+<li><p>if the hostname in the server location URL doesn’t match what’s in
+the certificate (for example, because we added a mapping from an
+arbitrary name to the server’s IP address to /etc/hosts, and used
+that name in the URL)</p></li>
+<li><p>if the client isn’t configured to trust the server’s CA’s certificate</p></li>
+</ul>
+<p>The patch will need to be extended to include a modified version of the
+service as we’re implementing it, using the python-paste server to run
+it as part of additions to the libkrb5 self-tests.</p>
+<p><a class="reference external" href="Category:FreeIPA_V4_Test_Plan">Category:FreeIPA V4 Test Plan</a>
+<a class="reference external" href="Category:FreeIPA_Test_Plan">Category:FreeIPA Test Plan</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/KDC_Proxy.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Scope &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="External_Users_in_IPA.html" />
+    <link rel="prev" title="Common variables" href="Environment_Variables.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="scope">
+<h1>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">¶</a></h1>
+<p>This page describes a use case. It contains only the “what”, not the
+“how”. The page contains a text description, an illustration, and a
+handful of basic functional requirements. The “how” is deferred, and is
+expected to be handled as an RFE.</p>
+</section>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<p>There is a group of people belonging to different organizations, for
+example universities, who launch a project together. Most participants
+have one or more identities in IdPs operated by their own home
+organization (domains), but nearly all will also have identities in
+places like Google and Facebook. The project’s resources are deployed in
+pre-existing public-facing networks (“collaboration domains”) hosted by
+one or more of the participating organizations. Jointly all the users
+want to be able to access the systems that belong to the project. This
+includes login into the systems as well as accessing file shares and web
+applications that constitute the joint project. They also want to be
+able to SSO as much as possible. Avoiding the creation of additional
+identities having a separate password is crucial to success of this
+environment.</p>
+<figure class="align-default" id="id2">
+<img alt="External Collaboration Realms" src="../../_images/CollaborationRealm.png" />
+<figcaption>
+<p><span class="caption-text">External Collaboration Realms</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The internal “desktop” infrastructure of hosting organizations has a
+one-way trust with the collaboration realm belonging to that same
+organization. The purpose of this trust is to ensure that all local
+users on the company intranet can access the collaboration resources
+using their institutional desktop-oriented identities. Trust between
+collaboration realms from different organizations is optional.</p>
+<p>The goal is to make it possible for resources deployed in these
+collaboration realms to understand external identities accessing
+resources on the file system level thus POSIX attributes need to be
+generated, assigned and managed for those users. The vast majority of
+identities will be external to the collaboration domains, being
+contributed via a trust from the organization’s internal “desktop”
+infrastructure, trust from other collaboration domains, PKINIT from a
+different kerberos domain, or from an IdP implemented in a non-Kerberos
+technology.</p>
+</section>
+<section id="functional-requirements">
+<span id="id1"></span><h1>Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Heterogeneous connection origins</p>
+<ul>
+<li><p>Support “home organization” users connecting from the corporate
+intranet, from a collaborator’s organization, or from home.</p></li>
+<li><p>Support “other” users, connecting from collaborator’s organization
+or from home.</p></li>
+</ul>
+</li>
+<li><p>Reduce as much as possible the need to create accounts.</p></li>
+<li><p>Establishing an external collaboration domain must not require
+exposure of an organization’s internal “desktop” infrastructure to
+the public internet. (i.e., firewall stays intact)</p></li>
+<li><p>Coordination between organizations must not be required.</p></li>
+<li><p>Minimize the number of times the user’s password is demanded.</p></li>
+<li><p>Users, regardless of origin, must be able to ssh, mount nfs shares,
+and otherwise utilize the systems to which they have access.</p></li>
+<li><p>Users must be able to participate in groups defined within the
+collaboration domain.</p></li>
+<li><p>While not required, it would be desirable for users to be able to
+specify which identities belong to them.</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/External_Collaboration_Domains.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

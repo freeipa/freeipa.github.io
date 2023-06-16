@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>OSE + IPA with AD Trust &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="../Pspacek/Feature_template.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="../HowTos/Using_FreeIPA_and_FreeRadius_as_a_RADIUS_based_software_token_OTP_system_with_CentOS/RedHat_7.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="ose-ipa-with-ad-trust">
+<span id="id1"></span><h1>OSE + IPA with AD Trust<a class="headerlink" href="#ose-ipa-with-ad-trust" title="Permalink to this heading">¶</a></h1>
+<section id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this heading">¶</a></h2>
+<p>This is just a proof of concept for review!</p>
+</section>
+<section id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this heading">¶</a></h2>
+<p>To allow users setup in a Windows Active Directory server to be able to
+access OpenShift Enterprise through establishing a trust between RHEL
+IdM (IPA) and the AD server.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>4 RHEL 6.4 Machines:</p>
+<ol class="arabic simple">
+<li><p>IPA Server</p></li>
+<li><p>OSE Broker (an IPA Client)</p></li>
+<li><p>OSE Node (an IPA Client)</p></li>
+<li><p>User/Developer (an IPA Client)</p></li>
+</ol>
+</li>
+<li><p>1 Windows Active Directory Machine (assumption is that AD is already
+setup)</p></li>
+<li><p>Optional: 2nd Windows non-AD machine that is already enrolled in
+Windows AD for a Windows developer</p></li>
+</ul>
+<p><strong>Note</strong>: The trust setup only supports two domain setups:</p>
+<ol class="arabic simple">
+<li><p>Parallel domains (e.g. <code class="docutils literal notranslate"><span class="pre">ipaserver.example.com</span></code> and
+<code class="docutils literal notranslate"><span class="pre">addomain.example.com</span></code>)</p></li>
+<li><p>IPA as a subdomain of AD (e.g. <code class="docutils literal notranslate"><span class="pre">ipaserver.addomain.example.com</span></code> and
+<code class="docutils literal notranslate"><span class="pre">addomain.example.com</span></code>)</p></li>
+</ol>
+<p>AD as a subdomain of IPA does not yet work per the instructions above,
+and is being looked into.</p>
+</section>
+<section id="setup-idm-ose-machines">
+<span id="id2"></span><h2>Setup IdM + OSE Machines<a class="headerlink" href="#setup-idm-ose-machines" title="Permalink to this heading">¶</a></h2>
+<p>Follow the following instructions to setup OpenShift Enterprise with
+Identity Management:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://wiki.idm.lab.bos.redhat.com/export/idmwiki/IPA_Server_Setup">IPA Server
+Setup</a></p></li>
+<li><p><a class="reference external" href="http://etherpad.corp.redhat.com/puddle-1-2-2013-06-26">Broker and Node
+Setup</a> -
+the most up-to-date puddle</p></li>
+<li><p><a class="reference external" href="https://wiki.idm.lab.bos.redhat.com/export/idmwiki/User/Developer_Setup">User/Developer
+Setup</a></p></li>
+</ol>
+<section id="ssh-configuration">
+<span id="id3"></span><h3>SSH Configuration<a class="headerlink" href="#ssh-configuration" title="Permalink to this heading">¶</a></h3>
+<p>For SSH with keytabs configuration, follow
+<a class="reference external" href="https://wiki.idm.lab.bos.redhat.com/export/idmwiki/SSH_with_Keytabs_for_OpenShift">these</a>
+instructions.</p>
+<p><strong>Note</strong>, however, that ssh with keytabs does <em>not</em> work out-of-the-box
+between Windows &lt;-&gt; OpenShift Enterprise. If the user/developer uses
+MinGW for the command line, GSSAPI is not compiled. MinGW can be
+recompiled with GSSAPI, but this has not been tested. If the
+user/developer uses PuTTy, configuration for Keytabs has not been
+confirmed to work.</p>
+</section>
+</section>
+<section id="setup-trust-between-ipa-server-and-windows-ad-server">
+<span id="id4"></span><h2>Setup Trust between IPA Server and Windows AD Server<a class="headerlink" href="#setup-trust-between-ipa-server-and-windows-ad-server" title="Permalink to this heading">¶</a></h2>
+<p>Follow
+<a class="reference external" href="http://www.freeipa.org/page/Active_Directory_trust_setup#Configure_IPA_server_for_cross-realm_trusts">these</a>
+instructions (starting specifically on “Configure IPA server for
+cross-realm trusts”).</p>
+<p><strong>Note</strong>: It may be helpful to install MinGW/MSYS for a Bash-like
+environment on a Windows machine. This
+<a class="reference external" href="http://msysgit.github.io">git</a> installation comes with both git and
+MinGW, labeled as “Git Bash”. If you install this, then you may use this
+shell to test
+<a class="reference external" href="http://www.freeipa.org/page/Active_Directory_trust_setup#Using_SSH">ssh</a>
+instead of using PuTTY.</p>
+</section>
+<section id="setup-windows-for-user-developer">
+<span id="setup-windows-for-userdeveloper"></span><h2>Setup Windows for user/developer<a class="headerlink" href="#setup-windows-for-user-developer" title="Permalink to this heading">¶</a></h2>
+<p>To be done on a Windows developer machine, or can be tested on the
+Windows AD Server itself:</p>
+<p>Follow step #2 of the command line instructions found
+<a class="reference external" href="https://www.openshift.com/get-started">here</a> to get git, the
+RubyInstaller and RHC installed.</p>
+</section>
+<section id="additional-configuration">
+<span id="id5"></span><h2>Additional Configuration<a class="headerlink" href="#additional-configuration" title="Permalink to this heading">¶</a></h2>
+<section id="krb5-conf">
+<h3>krb5.conf<a class="headerlink" href="#krb5-conf" title="Permalink to this heading">¶</a></h3>
+<p>On both the Broker and Node machines, edit <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> for the
+following lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># &amp;lt;--snip--&amp;gt;</span>
+<span class="n">dns_lookup_realm</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">dns_lookup_kdc</span> <span class="o">=</span> <span class="n">true</span>
+<span class="c1"># &amp;lt;--snip--&amp;gt;</span>
+</pre></div>
+</div>
+<p>This allows the clients to defer to DNS if/when a user has a different
+realm, e.g. <a class="reference external" href="mailto:user&#37;&#52;&#48;ADDOMAIN&#46;EXAMPLE&#46;COM">user<span>&#64;</span>ADDOMAIN<span>&#46;</span>EXAMPLE<span>&#46;</span>COM</a>.</p>
+<p>Restart the KDC: <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">krb5kdc</span> <span class="pre">restart</span></code>.</p>
+</section>
+<section id="mod-auth-kerb">
+<h3>mod_auth_kerb<a class="headerlink" href="#mod-auth-kerb" title="Permalink to this heading">¶</a></h3>
+<p>On the Broker machine, within both broker &amp; console apps
+<code class="docutils literal notranslate"><span class="pre">/var/www/openshift/[broker</span> <span class="pre">|</span> <span class="pre">console]/httpd/conf.d/</span></code>, edit
+<code class="docutils literal notranslate"><span class="pre">openshift-origin-auth-remote-user-kerberos.conf</span></code> file, edit to match
+the following with the appropriate parameters. Notice there are <strong>two</strong>
+realms for <code class="docutils literal notranslate"><span class="pre">KrbAuthRealms</span></code>, one is the IPA Realm, and one is the
+$AD_DOMAIN:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Provided by the mod_auth_kerb package</span>
+<span class="n">LoadModule</span> <span class="n">authz_user_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_authz_user</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">auth_kerb_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_auth_kerb</span><span class="o">.</span><span class="n">so</span>
+<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Location</span> <span class="o">/</span><span class="n">broker</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
+    <span class="n">AuthName</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">OpenShift</span> <span class="n">broker</span> <span class="n">API</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
+    <span class="n">AuthType</span> <span class="n">Kerberos</span>
+    <span class="n">KrbMethodNegotiate</span> <span class="n">On</span>
+    <span class="n">KrbMethodK5Passwd</span> <span class="n">On</span>
+    <span class="n">KrbServiceName</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">broker</span><span class="o">.</span><span class="n">ipadomain</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">org</span>
+    <span class="n">KrbAuthRealms</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">ORG</span> <span class="n">ADDOMAIN</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">ORG</span>
+    <span class="n">Krb5KeyTab</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">openshift</span><span class="o">/</span><span class="n">broker</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span>
+    <span class="n">require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
+
+<span class="c1"># &amp;lt;--snip--&amp;gt;</span>
+</pre></div>
+</div>
+<p>This allows Apache to accept AD users when username is
+<a class="reference external" href="mailto:user&#37;&#52;&#48;ADDOMAIN&#46;EXAMPLE&#46;COM">user<span>&#64;</span>ADDOMAIN<span>&#46;</span>EXAMPLE<span>&#46;</span>COM</a>.</p>
+<p>Restart OpenShift Broker and Console:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>service<span class="w"> </span>openshift-broker<span class="w"> </span>restart
+$<span class="w"> </span>service<span class="w"> </span>openshift-console<span class="w"> </span>restart
+</pre></div>
+</div>
+</section>
+</section>
+<section id="test-debug-setup-configuration">
+<span id="id6"></span><h2>Test &amp; Debug Setup &amp; Configuration<a class="headerlink" href="#test-debug-setup-configuration" title="Permalink to this heading">¶</a></h2>
+<section id="rhel">
+<h3>RHEL<a class="headerlink" href="#rhel" title="Permalink to this heading">¶</a></h3>
+<p>On an IPA Client/Developer machine:</p>
+<ol class="arabic simple">
+<li><p>Get a new ticket as the AD user: <code class="docutils literal notranslate"><span class="pre">kinit</span> <span class="pre">aduser&#64;ADDOMAIN</span></code> (notice
+that the ADDOMAIN is all caps)</p></li>
+<li><p>Access the Broker:
+<code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-Ik</span> <span class="pre">--negotiate</span> <span class="pre">-u</span> <span class="pre">:</span></code><code class="docutils literal notranslate"><span class="pre">`https://$BROKER_FQDN/broker/rest/api/</span></code> &lt;<a class="reference external" href="https://$BROKER_FQDN/broker/rest/api/">https://$BROKER_FQDN/broker/rest/api/</a>&gt;`__
+- You should see two responses: a 401, and a 200.</p></li>
+<li><p>Access the Node via ssh: <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">aduser&#64;ADDOMAIN&#64;NODE_FQDN</span></code>. Note the
+two <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> - the ADDOMAIN must be capitalized like before. If you
+setup ssh with keytabs, you should <em>not</em> be prompted for a password.</p></li>
+</ol>
+<p>If you can not kinit as an AD User, then the configuration of the trust
+is wrong. Check the logs on the server: <code class="docutils literal notranslate"><span class="pre">/var/log/krb5kdc.log</span></code>.</p>
+<p>If you have two 401 responses, check the http logs on the Broker at
+<code class="docutils literal notranslate"><span class="pre">/var/log/openshift/broker/httpd/error_log</span></code>. You may need to restart
+the broker (<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code>), or re-edit the
+configuration for kerberos in
+<code class="docutils literal notranslate"><span class="pre">/var/www/openshift/broker/httpd/conf.d/openshift-origin-auth-remote-user-kerberos.conf</span></code>
+like <a class="reference external" href="#modauthkerb">above</a>.</p>
+<p>If you are prompted for your password, on the Node machine, edit
+<code class="docutils literal notranslate"><span class="pre">/etc/ssh/sshd_config</span></code> and set <code class="docutils literal notranslate"><span class="pre">UsePAM</span> <span class="pre">on</span></code>. Restart ssh via
+<code class="docutils literal notranslate"><span class="pre">services</span> <span class="pre">sshd</span> <span class="pre">restart</span></code> and try again. If the issue persists, add
+verbosity in two places:</p>
+<ol class="arabic simple">
+<li><p>On the Node, edit <code class="docutils literal notranslate"><span class="pre">/etc/sssd/sssd.conf</span></code> and under
+<code class="docutils literal notranslate"><span class="pre">[domain/ipadomain]</span></code> add a line for <code class="docutils literal notranslate"><span class="pre">debug_level</span> <span class="pre">=</span> <span class="pre">9</span></code>. You will
+need to restart sssd: <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">sssd</span> <span class="pre">restart</span></code>. The logs will be
+available in <code class="docutils literal notranslate"><span class="pre">/var/log/sssd/</span></code>.</p></li>
+<li><p>On the IPA Client, you can add up to 3 <code class="docutils literal notranslate"><span class="pre">v</span></code>’s when ssh’ing:
+<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-v</span> <span class="pre">aduser&#64;ADDOMAIN&#64;NODE_FQDN</span></code>.</p></li>
+</ol>
+<p>If the above works on the IPA Server but <strong>not</strong> the IPA client, then
+revisit the <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> configuration <a class="reference external" href="#krbconf">above</a>.</p>
+<section id="with-rhc">
+<span id="id7"></span><h4>With RHC<a class="headerlink" href="#with-rhc" title="Permalink to this heading">¶</a></h4>
+<p>If all of the above work, then:</p>
+<ol class="arabic simple">
+<li><p>Install RHC per OpenShift installation <a class="reference external" href="https://www.openshift.com/get-started">command-line
+instructions</a>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">rhc</span> <span class="pre">setup</span> <span class="pre">--server=$BROKER_FQDN</span></code> and follow the setup
+instructions. When prompted for login, use the pattern of
+<code class="docutils literal notranslate"><span class="pre">aduser&#64;ADDOMAIN</span></code>, specifically the ADDOMAIN being in caps.</p></li>
+</ol>
+<p><strong>NOTE</strong>: Logging in with Kerberos ticket is not yet supported. You will
+be prompted for your password.</p>
+<p>If you can not login, and within the broker logs, you find an error
+stating <code class="docutils literal notranslate"><span class="pre">Specified</span> <span class="pre">realm</span> <span class="pre">'ADDOMAIN'</span> <span class="pre">not</span> <span class="pre">allowed</span> <span class="pre">by</span> <span class="pre">configuration</span></code>,
+then review your Apache configuration <a class="reference external" href="#modauthkerb">above</a>.</p>
+</section>
+</section>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">¶</a></h3>
+<section id="curl">
+<h4>cURL<a class="headerlink" href="#curl" title="Permalink to this heading">¶</a></h4>
+<p>Within either the Windows Command Line (with the <code class="docutils literal notranslate"><span class="pre">C:\&gt;</span></code> prompt) or
+with Git Bash/MinGW/MSYS shell, run
+<code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-Ik</span> <span class="pre">-u</span> <span class="pre">$ADUSER&#64;$ADDOMAIN:$ADPASSWORD</span> <span class="pre">$BROKER_FQDN</span></code>. You should
+receive two responses: 401 and a 200.</p>
+<p><strong>Note</strong>: On Git Bash/MinGW/MSYS, GSSAPI is <em>not</em> compiled; therefore,
+<code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">--negotiate</span></code> will <em>not</em> work. You can, however, recompile MinGW
+with GSSAPI (directions below under <em>SSH</em>). Supposedly, the
+<code class="docutils literal notranslate"><span class="pre">--negotiate</span></code> would work after recompiling, but this has not been
+tested.</p>
+</section>
+<section id="ssh">
+<h4>SSH<a class="headerlink" href="#ssh" title="Permalink to this heading">¶</a></h4>
+<p>Follow
+<a class="reference external" href="http://www.freeipa.org/page/Active_Directory_trust_setup#Using_SSH">these</a>
+instructions with PuTTY to test SSH from Windows to the Node. If ssh’ing
+into the Node machine does not work, but does work for IPA server, then
+revisit the <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> configuration <a class="reference external" href="#krbconf">above</a>.</p>
+<p>Windows does not have GSSAPI compiled for it, so similar to
+<code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">--negotiate</span></code> not working on Windows, ssh with keytabs will not
+work out of the box. While this has <em>not</em> been tested, you can
+try/follow these instructions to set it up:</p>
+<ol class="arabic simple">
+<li><p>If you are using PuTTY, follow
+<a class="reference external" href="http://www.ncsa.illinois.edu/UserInfo/Resources/Software/kerberos/windows_kfw_ssh.html#putty">these</a>
+setup instructions.</p></li>
+</ol>
+<ol class="arabic simple" start="2">
+<li><p>If you are using MinGW/MSYS/Git Bash, you can follow
+<a class="reference external" href="http://www.nomachine.com/ar/view.php?ar_id=AR01J00621">these</a>
+instructions to recompile OpenSSH and GSSAPI for ssh with keytabs and
+curl with <code class="docutils literal notranslate"><span class="pre">--negotiate</span></code>.</p></li>
+</ol>
+</section>
+<section id="rhc">
+<h4>RHC<a class="headerlink" href="#rhc" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Install RHC per OpenShift installation <a class="reference external" href="https://www.openshift.com/get-started">command-line
+instructions</a>, if not
+already.</p></li>
+<li><p>Within either the Windows Command Line (with the <code class="docutils literal notranslate"><span class="pre">C:\&gt;</span></code> prompt) or
+the Git Bash/MinGW shell, run <code class="docutils literal notranslate"><span class="pre">rhc</span> <span class="pre">setup</span> <span class="pre">--server=$BROKER_FQDN</span></code> and
+follow the setups prompted to complete setup.</p></li>
+</ul>
+<p><strong>NOTE</strong>: Logging in with Kerberos ticket is not yet supported. You will
+be prompted for your password.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/OpenShift_Enterprise_on_top_of_a_trust_between_IPA/IdM_and_Windows_Active_Directory.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

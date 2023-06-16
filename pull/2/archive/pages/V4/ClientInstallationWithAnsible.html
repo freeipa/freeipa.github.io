@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Community_Portal.html" />
+    <link rel="prev" title="Overview" href="Certs_in_ID_overrides.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Automation of installation and configuration tasks is an important part
+of the sysadmin’s responsibilities.
+<a class="reference external" href="http://docs.ansible.com/ansible/latest/index.html">Ansible</a> is a
+powerful engine providing automation, that is becoming widely used, and
+can allow to avoid the repetition of manual tasks.</p>
+<p>In this context, IPA client deployment is a perfect candidate for
+automation through Ansible: when the sysadmin needs to configure
+additional IdM clients, Ansible can be used to install the IdM packages
+and configure IdM client on the nodes with the same set of options.</p>
+<p>The goal of this project is to provide Ansible
+<a class="reference external" href="http://docs.ansible.com/ansible/latest/modules.html">modules</a> and
+<a class="reference external" href="http://docs.ansible.com/ansible/latest/playbooks_roles.html">roles</a>
+allowing the automation of IdM client configuration.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<section id="ipa-client-configuration">
+<span id="id1"></span><h2>IPA client configuration<a class="headerlink" href="#ipa-client-configuration" title="Permalink to this heading">¶</a></h2>
+<p>A sysadmin has already deployed IdM on one or more servers, and wants to
+configure one or more nodes as IdM clients using Ansible. The sysadmin
+needs to define an <a class="reference external" href="http://docs.ansible.com/ansible/latest/intro_inventory.html">inventory
+file</a>
+describing the IdM clients and the IdM server (hostname, domain name,
+realm name…) and is able to call ansible either through an <a class="reference external" href="http://docs.ansible.com/ansible/latest/playbooks.html">Ansible
+playbook</a> or
+<a class="reference external" href="http://docs.ansible.com/ansible/latest/intro_adhoc.html">Ansible ad-hoc
+commands</a> in
+order to configure the IdM clients.</p>
+<p>If a host defined as IdM client in the inventory is already configured,
+Ansible will detect this and check that the domain and realm are
+matching the expectations of the inventory file.</p>
+<ul class="simple">
+<li><p>If it is the case, Ansible will skip the configuration of IPA client.
+Note: if the configuration options (except domain and realm) differ,
+the IPA client will not be reconfigured. This means that the solution
+will not be able to repair broken installations or modify
+installation options.</p></li>
+<li><p>If the domain or realm is different, Ansible will exit on error for
+the specified host.</p></li>
+</ul>
+<p>If the host defined as IdM client in the inventory is not configured yet
+as IPA client, Ansible will configure IPA client.</p>
+<p>This use case can be enhanced in the future, in order to allow:</p>
+<ul class="simple">
+<li><p>repair of broken installations (by comparing what should be
+configured with the actual settings)</p></li>
+<li><p>modification of current installation (for instance in order to re-run
+ipa-client-install but with a different set of options)</p></li>
+</ul>
+<p>but the scope for this first release is limited to the configuration and
+check of domain and realm consistency.</p>
+<p>As an authorized user is required to join a client machine to IPA,
+Ansible needs to be provided either with the keytab of a user allowed to
+join hosts (which will be used to call ipa host-add and create a OTP for
+the machine), or a kerberos principal + password.</p>
+<p>The re-enrollment of a host is also supported by providing Ansible with
+a backed up host keytab from previous enrollment.</p>
+</section>
+<section id="ipa-client-unconfiguration">
+<span id="id2"></span><h2>IPA client unconfiguration<a class="headerlink" href="#ipa-client-unconfiguration" title="Permalink to this heading">¶</a></h2>
+<p>A sysadmin has already deployed IPA client on a host (either using
+Ansible or with the ipa-client-install command line), and wants to
+un-enroll the host from IdM. The sysadmin needs to define an inventory
+file containing the host to be unenrolled and is able to call ansible
+either through an Ansible playbook or Ansible ad-hoc commands in order
+to unconfigure the IdM client.</p>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The solution is implemented as Ansible modules and role:</p>
+<ul class="simple">
+<li><p>a module “ipahost” allowing to perform the equivalent to ipa
+host-add/mod/del, supporting the –random option in order to create a
+One-Time Password used for host enrollment</p></li>
+<li><p>a module “ipaclient” checking if the host is already configured for
+IPA and wrapping ipa-client-install. This module accepts a “state”
+parameter which can take “present” or “absent” values and will either
+configure or unconfigure IPA client depending on this value.</p></li>
+<li><p>a role “ipaclient” combining the above modules and existing ansible
+modules (for instance the
+<a class="reference external" href="http://docs.ansible.com/ansible/latest/package_module.html">package</a>
+module to install ipa-client package), accepting a “state” parameter
+with value either “present” or “absent”.</p></li>
+</ul>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<section id="ansible-ipaclient-module">
+<span id="id3"></span><h2>Ansible ipaclient module<a class="headerlink" href="#ansible-ipaclient-module" title="Permalink to this heading">¶</a></h2>
+<p>The ansible ipaclient module is a module performing the equivalent of
+ipa-client-install. In this first version, it is written as a wrapper
+calling ipa-client-install. It requires ipa-client packages to be
+installed on the managed node.</p>
+<p>Potential issues:</p>
+<ul class="simple">
+<li><p>Compatibility of the Ansible modules with various versions of
+ipa-client: what is the requirement? What is the minimum supported
+version of ipa-client?</p></li>
+</ul>
+<p>The module supports a “state” parameter allowing to either configure
+(state=present) or unconfigure (state=absent) IPA client.</p>
+<p>The module supports the Ansible check_mode, i.e. if called with -C or
+–check, it will not perform any modification but simply return if
+changes would need to be made.</p>
+<p>==== state=present ====</p>
+<p>In order to guarantee idempotency, the module first checks if ipa client
+is already installed, by checking for the presence of
+/etc/ipa/default.conf and
+/var/lib/ipa-client/sysrestore/sysrestore.state.</p>
+<ul class="simple">
+<li><p>If IPA client is already installed, it checks that the required
+domain and realm are matching the configured domain and realm (as
+read from the configuration in /etc/ipa/default.conf).</p>
+<ul>
+<li><p>If domain and realm are matching, the module exits successfully
+and reports that it did not perform any modification
+(changed=False).</p></li>
+<li><p>If domain or realm is inconsistent with the module parameters, the
+module exits on error</p></li>
+</ul>
+</li>
+<li><p>If IPA client is not installed, it calls ipa-client-install</p></li>
+</ul>
+<p>The module doesn’t support exactly the same set of parameters as those
+supported by ipa-client-install. This allows to handle some parts of the
+configuration with other Ansible modules. For instance, the ipaclient
+module always calls ipa-client-install with the –no-ntp option and the
+NTP configuration is done in the ipaclient role by calling existing
+Ansible module for NTP.</p>
+<p>This strategy will allow to gradually transfer the configuration of IPA
+components to Ansible modules and benefit from their features (repair
+config, update config…)</p>
+<p>==== state=absent ====</p>
+<p>The module first checks if ipa client is already installed.</p>
+<ul class="simple">
+<li><p>If IPA client is installed, the module wraps a call to
+ipa-client-install –uninstall -U in order to unconfigure IPA client.</p></li>
+<li><p>If IPA client is not installed, the module simply returns
+successfully and reports that it did not perform any modification
+(changed=False).</p></li>
+</ul>
+<p>The uninstallation is possible for IPA clients installed with the
+command line ipa-client-install as well as clients installed with
+Ansible.</p>
+</section>
+<section id="ansible-ipahost-module">
+<span id="id4"></span><h2>Ansible ipahost module<a class="headerlink" href="#ansible-ipahost-module" title="Permalink to this heading">¶</a></h2>
+<p>Note: Ansible already provides <a class="reference external" href="http://docs.ansible.com/ansible/latest/list_of_identity_modules.html">Identity
+Modules</a>
+for IPA, especially one for
+<a class="reference external" href="http://docs.ansible.com/ansible/latest/ipa_host_module.html">ipa_host</a>,
+but these modules currently lack some features:</p>
+<ul class="simple">
+<li><p>ipa_host module does not allow to create a random One-Time Password</p></li>
+<li><p>all the IPA modules are authenticating to IPA server using principal
++ password and do not support keytabs</p></li>
+<li><p>all the IPA modules are communicating with the IPA server using the
+remote JSON API instead of the Python API</p></li>
+</ul>
+<p>These limitations argue in favor of a new ipahost module.</p>
+<p>The ansible ipahost module is a module performing the equivalent of ipa
+host-add/mod/del. It must be executed on an IPA host. It is needed
+especially when the goal is to install a client using a One-Time
+Password and allows to obtain the OTP.</p>
+<p>It is written with an ansible Action Plugin which allows to prepare the
+authentication, and a module executed on the managed node.</p>
+<p>The action plugin is executed on the control node and:</p>
+<ul class="simple">
+<li><p>creates a kerberos client configuration file using IPA server, stored
+in a temp directory</p></li>
+<li><p>sets the environment variable KRB5_CONFIG on the control node to the
+temp kerberos config file</p></li>
+<li><p>performs kinit on the control node, using a specific credential cache
+file in the temp directory, and specifying a limited lifetime</p></li>
+<li><p>copies the credential cache file from the control node to the managed
+node in the Ansible temp directory used by the module</p></li>
+<li><p>calls the module on the managed node by providing the path to the
+credential cache file</p></li>
+</ul>
+<p>The module is executed on the managed node and:</p>
+<ul class="simple">
+<li><p>sets the environment variable KRB5CCNAME to the credential cache file</p></li>
+<li><p>uses IPA client API to add/mod/del the host.</p></li>
+</ul>
+<p>When the module has finished its execution, the credential cache file is
+automatically deleted on the managed node as Ansible removes the temp
+directory used by the module.</p>
+<p>The kinit can be done either with principal/password or with a keytab.
+They are provided as arguments to the ansible module. The password or
+the keytab are never transfered to the managed node, only the cache file
+is.</p>
+<p>The module can be called with the argument state=present or state=absent
+to add or remove a host.</p>
+<p>The module supports the Ansible check_mode, i.e. if called with -C or
+–check, it will not perform any modification but simply return if
+changes would need to be made.</p>
+<p>==== state=present ====</p>
+<p>When called with state=present (or state not defined), the module
+ensures that the host is defined in IPA configuration: it performs the
+equivalent of ipa host-show to check if the host is already defined.</p>
+<ul class="simple">
+<li><p>if the host is already defined, it compares the host attributes with
+the ones specified by the module. If needed, it calls the equivalent
+of ipa host-mod.</p></li>
+<li><p>if the host is not defined, it calls the equivalent of ipa host-add.</p></li>
+</ul>
+<p>==== state=absent ====</p>
+<p>When called with state=absent, the module ensures that the host is not
+defined in IPA configuration: it performs the equivalent of ipa
+host-show to check if the host is already defined.</p>
+<ul class="simple">
+<li><p>if the host is already defined, it calls the equivalent of ipa
+host-del.</p></li>
+<li><p>if the host is not defined, it returns successfully and reports that
+it did not perform any modification (changed=false).</p></li>
+</ul>
+<p>It is desirable to be able to set an OTP on a host prior to calling the
+client enrollment module so the client host entry will be in a state
+ready for enrollment, even if this means re-enrollment. It cannot be
+assumed that an enrolled host can unenroll itself to handle cases of a
+broken or missing keytab.</p>
+<p>IPA currently (as of IPA 4.6) prevents setting an OTP on an enrolled
+host by a check in the host_mod pre callback. I’d propose a new option
+to allow overriding this for backwards compatibility in case existing
+integration relies on the ValidationError raised when setting an OTP on
+an enrolled client to know the state. I’d propose –force.</p>
+<p>Similarly the 389-ds ipa_enrollment plugin prevents enrolling an already
+enrolled host in ipa_join(). This will be needed to be updated to handle
+re-enrollment as well, particularly in the assumptions about what
+objectclasses and attributes already exist in the host entry.</p>
+</section>
+<section id="ansible-ipaclient-role">
+<span id="id5"></span><h2>Ansible ipaclient role<a class="headerlink" href="#ansible-ipaclient-role" title="Permalink to this heading">¶</a></h2>
+<p>The ipaclient role takes a “state” parameter allowing to either
+configure or unconfigure IPA client. It combines the installation of ipa
+client packages (using the pre-existing Ansible module “package”) and
+the configuration of IPA client using the Ansible module ipaclient.</p>
+<section id="state-present">
+<span id="id6"></span><h3>state: present<a class="headerlink" href="#state-present" title="Permalink to this heading">¶</a></h3>
+<p>When the role is called with the parameter “state: present” (or the
+parameter state is not defined), the role performs IPA client
+configuration:</p>
+<ul class="simple">
+<li><p>install the packages required by IPA client</p></li>
+<li><p>if needed obtain a One-Time Password for enrolling the host using
+Ansible module “ipahost”</p></li>
+<li><p>configure IPA client using the Ansible module “ipaclient”</p></li>
+</ul>
+<p>The package names depend on the OS of the managed node: in RHEL the
+package is named ipa-client while in Fedora freeipa-client. In order to
+work with both OSes, it is possible to import variables specific to the
+distribution. The role defines the ipaclient_package variable which will
+have a default value of freeipa-client, or a value ipa-client for RHEL.</p>
+<p>Question: which OS should be supported for the IPA client? fedora, rhel,
+other distros?</p>
+<p>IPA client enrollment can be performed using one of the 3 following
+methods:</p>
+<ul class="simple">
+<li><p>supply a principal and a password</p></li>
+<li><p>supply a principal and a One-Time Password</p></li>
+<li><p>supply a host keytab from previous enrollment</p></li>
+</ul>
+</section>
+<section id="state-absent">
+<span id="id7"></span><h3>state: absent<a class="headerlink" href="#state-absent" title="Permalink to this heading">¶</a></h3>
+<p>When the role is called with the parameter “state: absent”, the role
+performs IPA client unconfiguration. The role is using the Ansible
+module “ipaclient”.</p>
+<p>Question: should the role with state=absent also remove ipa-client
+packages?</p>
+</section>
+</section>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>Example of inventory file:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat inventory/hosts</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ipaclients]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient1.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient2.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ipaservers]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaserver.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ipaclients:vars]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient_domain=example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient_realm=EXAMPLE.COM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient_extraargs=[ '--kinit-attempts=3', '--mkhomedir']</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># To enroll the IPAclient, the module needs either a host keytab from a previous enrollment,</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># or a principal + password, or a One-Time Password</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># If you wish to use principal + password, you need to provide ipaclient_principal and ipaclient_password:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient_principal=admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient_password=MySecretPassword123</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># If you wish to use a host keytab from a previous enrollment, you need to provide ipaclient_keytab:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#ipaclient_keytab=</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># If you wish to use a One-Time Password, you need to select an auth method to IPA server</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># (either using password or keytab) and need to provide</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># - for password auth: ipaserver_principal and ipaserver_password:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#ipaserver_principal=</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#ipaserver_password=</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># - for keytab auth: ipaserver_principal and ipaserver_keytab:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#ipaserver_principal=</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#ipaserver_keytab=</span></code></div>
+</div>
+<section id="using-the-ansible-ipaclient-module-to-unconfigure-ipa">
+<span id="id8"></span><h2>Using the Ansible ipaclient module to unconfigure IPA<a class="headerlink" href="#using-the-ansible-ipaclient-module-to-unconfigure-ipa" title="Permalink to this heading">¶</a></h2>
+<p>Create a playbook calling the ipaclient module, with state=absent</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat uninstall.yml</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">---</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">- name: Playbook to unconfigure IPA clients</span></code></div>
+<div class="line">``  hosts: ipaclients``</div>
+<div class="line">``  become: true``</div>
+<div class="line">``  tasks:``</div>
+<div class="line">``  - name: Unconfigure IPA client``</div>
+<div class="line">``    ipaclient:``</div>
+<div class="line">``      state: absent``</div>
+</div>
+<p>Call the playbook</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -i inventory/hosts uninstall.yml</span></code></p>
+</section>
+<section id="using-the-ansible-role-ipaclient-to-unconfigure-ipa">
+<span id="id9"></span><h2>Using the Ansible role ipaclient to unconfigure IPA<a class="headerlink" href="#using-the-ansible-role-ipaclient-to-unconfigure-ipa" title="Permalink to this heading">¶</a></h2>
+<p>Create a playbook calling the ipaclient role, with state=absent</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat uninstall.yml</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">---</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">- name: Playbook to unconfigure IPA clients</span></code></div>
+<div class="line">``  hosts: ipaclients``</div>
+<div class="line">``  become: true``</div>
+<div class="line">``  roles:``</div>
+<div class="line">``  - role: ipaclient``</div>
+<div class="line">``    state: absent``</div>
+</div>
+<p>Call the playbook</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -i inventory/hosts uninstall.yml</span></code></p>
+</section>
+<section id="use-the-ipaclient-module-to-configure-ipa-client-by-providing-username-and-password">
+<span id="id10"></span><h2>Use the ipaclient module to configure IPA client by providing username and password<a class="headerlink" href="#use-the-ipaclient-module-to-configure-ipa-client-by-providing-username-and-password" title="Permalink to this heading">¶</a></h2>
+<p>Create a playbook calling the ipaclient module, with state=present. The
+module takes principal and password as arguments.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat install.yml</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">---</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">- name: Playbook to configure IPA clients with username/password</span></code></div>
+<div class="line">``  hosts: ipaclients``</div>
+<div class="line">``  become: true``</div>
+<div class="line">``  tasks:``</div>
+<div class="line">``  - name: Install IPA client package``</div>
+<div class="line">``    package:``</div>
+<div class="line">``      name: ipa-client``</div>
+<div class="line">``      state: present``</div>
+<div class="line">``  - name: Configure IPA client``</div>
+<div class="line">``    ipaclient:``</div>
+<div class="line">``      state: present``</div>
+<div class="line">``      domain: “{{ ipaclient_domain }}”``</div>
+<div class="line">``      realm: “{{ ipaclient_realm }}”``</div>
+<div class="line">``      principal: “{{ ipaclient_principal }}”``</div>
+<div class="line">``      password: “{{ ipaclient_password }}”``</div>
+<div class="line">``      extra_args: “{{ipaclient_extraargs }}”``</div>
+</div>
+<p>Call the playbook</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -i inventory/hosts install.yml</span></code></p>
+<p>Note: Ansible provides a feature named <a class="reference external" href="http://docs.ansible.com/ansible/latest/playbooks_vault.html">Ansible
+Vault</a>
+to avoid writing clear-text sensible data in playbooks. The sysadmin can
+create a file containing the password:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat playbook_sensitive_data.yml</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">---</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaclient_password: MySecretPassword123</span></code></div>
+</div>
+<p>Then encrypt this file using ansible-vault command:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ansible-vault encrypt playbook_sensitive_data.yml</span></code></div>
+<div class="line"><a href="#id11"><span class="problematic" id="id12">``</span></a>New Vault password: ``</div>
+<div class="line"><a href="#id13"><span class="problematic" id="id14">``</span></a>Confirm New Vault password: ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Encryption successful</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span></code></div>
+</div>
+<p>At this point, the file is encrypted and the variables it contains can
+be used by the playbook:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[...]</span></code></div>
+<div class="line">``  hosts: ipaclients``</div>
+<div class="line">``  become: true``</div>
+<div class="line">``  <a href="#id15"><span class="problematic" id="id16">``</span></a><strong>``vars_files:``</strong></div>
+<div class="line">``  <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**</span></code>-<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span></code><a href="#id17"><span class="problematic" id="id18">``</span></a>playbook_sensitive_data.yml``**</div>
+<div class="line">``  - name: Configure IPA client``</div>
+<div class="line">``    ipaclient:``</div>
+<div class="line">``      state: present``</div>
+<div class="line">``      domain: “{{ ipaclient_domain }}”``</div>
+<div class="line">``      realm: “{{ ipaclient_realm }}”``</div>
+<div class="line">``      principal: “{{ ipaclient_principal }}”``</div>
+<div class="line">``      <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``password:</span></code><a href="#id19"><span class="problematic" id="id20">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;{{</span></code><a href="#id21"><span class="problematic" id="id22">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``ipaclient_password</span></code><a href="#id23"><span class="problematic" id="id24">``</span></a><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">``</span></a>}}”<a href="#id29"><span class="problematic" id="id30">``</span></a><a href="#id31"><span class="problematic" id="id32">**</span></a></div>
+<div class="line">``      extra_args: “{{ipaclient_extraargs }}”``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[...]</span></code></div>
+</div>
+<p>When the playbook is called, the password used to protect the file is
+either supplied interactively:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -i inventory/hosts ``\</span> <span class="pre">**</span></code>–ask-vault-pass``**`` install.yml``</p>
+<p>or provided in a file:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -in inventory/hosts ``\</span> <span class="pre">**</span></code>–vault-password-file``<a href="#id33"><span class="problematic" id="id34">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``~/.vault_pass.txt``**\</span> <span class="pre">`` install.yml</span></code></p>
+</section>
+<section id="use-the-ipahost-and-ipaclient-modules-to-configure-ipa-client-by-providing-an-otp-password">
+<span id="id35"></span><h2>Use the ipahost and ipaclient modules to configure IPA client by providing an OTP password<a class="headerlink" href="#use-the-ipahost-and-ipaclient-modules-to-configure-ipa-client-by-providing-an-otp-password" title="Permalink to this heading">¶</a></h2>
+<p>Create a playbook calling ipahost module in order to create an OTP
+password for the managed node, then calling ipaclient module to
+configure IPA with the OTP password just obtained.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat install_otp.yml</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">---</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">- name: Playbook to configure IPA clients with an OTP password</span></code></div>
+<div class="line">``  hosts: ipaclients``</div>
+<div class="line">``  become: true``</div>
+<div class="line">``  tasks:``</div>
+<div class="line">``  - name: For OTP client registration, add client and get OTP``</div>
+<div class="line">``    ipahost:``</div>
+<div class="line">``      state: present``</div>
+<div class="line">``      principal: “{{ ipaserver_principal }}”``</div>
+<div class="line">``      <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``keytab:``**\</span> <span class="pre">`` &quot;{{ ipaserver_keytab }}&quot;</span></code></div>
+<div class="line">``      fqdn: “{{ ansible_fqdn }}”``</div>
+<div class="line">``      random: True``</div>
+<div class="line">``    register: ipahost_output``</div>
+<div class="line">``    delegate_to: “{{ groups.ipaservers[0] }}”``</div>
+<div class="line">``  - name: Configure ipaclient``</div>
+<div class="line">``    ipaclient:``</div>
+<div class="line">``      state: present``</div>
+<div class="line">``      domain: “{{ ipaclient_domain }}”``</div>
+<div class="line">``      realm: “{{ ipaclient_realm }}”``</div>
+<div class="line">``      <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``otp:``**\</span> <span class="pre">`` &quot;{{ ipahost_output.host.randompassword }}&quot;</span></code></div>
+<div class="line">``      extra_args: “{{ ipaclient_extraargs }}”``</div>
+</div>
+<p>Call the playbook</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -i inventory/hosts install_otp.yml</span></code></p>
+<p>Note: the ipahost module can also be called with a principal and
+password instead of the admin keytab:</p>
+<div class="line-block">
+<div class="line">``  - name: For OTP client registration, add client and get OTP``</div>
+<div class="line">``    ipahost:``</div>
+<div class="line">``      state: present``</div>
+<div class="line">``      principal: “{{ ipaserver_principal }}”``</div>
+<div class="line">``      <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``password:``**\</span> <span class="pre">`` &quot;{{ ipaserver_password }}&quot;</span></code></div>
+<div class="line">``      fqdn: “{{ ansible_fqdn }}”``</div>
+<div class="line">``      random: True``</div>
+<div class="line">``    register: ipahost_output``</div>
+<div class="line">``    delegate_to: “{{ groups.ipaservers[0] }}”``</div>
+</div>
+</section>
+<section id="use-the-ipaclient-role-to-configure-ipa-client">
+<span id="id36"></span><h2>Use the ipaclient role to configure IPA client<a class="headerlink" href="#use-the-ipaclient-role-to-configure-ipa-client" title="Permalink to this heading">¶</a></h2>
+<p>Create a playbook calling ipaclient role.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat install_with_role.yml</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">---</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">- name: Playbook to install IPA clients</span></code></div>
+<div class="line">``  hosts: ipaclients``</div>
+<div class="line">``  become: true``</div>
+<div class="line">``  roles:``</div>
+<div class="line">``  - role: ipaclient``</div>
+<div class="line">``    state: present``</div>
+</div>
+<p>Call the playbook</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ansible-playbook -i inventory/hosts install_with_role.yml</span></code></p>
+<p>The role is written to handle the various cases based on the content of
+the inventory:</p>
+<ul class="simple">
+<li><p>enrollment options:</p>
+<ul>
+<li><p>if ipaclient_principal and ipaclient_password are specified, the
+IPA client will be configured with the specified credentials
+(equivalent to ipa-client-install –principal … –password …)</p></li>
+<li><p>if ipaclient_keytab is specified, the IPA client will be
+configured with the specified keytab (equivalent to
+ipa-client-install –keytab …)</p></li>
+<li><p>if neither ipaclient_password nor ipaclient_keytab is specified,
+the role will assume that OTP enrollment is desired and will
+register the host as client using ipahost module. The ipahost
+module requires authentication to the IPA server as described
+below.</p></li>
+</ul>
+</li>
+<li><p>if the ipahost module is needed to create a OTP, it will be delegated
+to the server and will use one of the following auth methods:</p>
+<ul>
+<li><p>use ipaserver_principal and ipaserver_password, or</p></li>
+<li><p>use ipaserver_principal and ipaserver_keytab</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/ClientInstallationWithAnsible.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

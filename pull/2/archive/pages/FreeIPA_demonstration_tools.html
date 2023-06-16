@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="FreeIPA_v2.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="FreeIPA_V4_Test_Plan.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Introduction</strong></p>
+<hr class="docutils" />
+<p>These tools are offering opportunity to easily try out FreeIPA in
+virtual machines environment. And it could be done within a few clicks.
+Whole process is divided into two parts, each covered by one script.</p>
+<p>First part - covered by <strong>ipa-base-prepare</strong> script - takes care of
+preparing base images. The base image is common for all virtual machines
+and thus reduce time needed to create whole testing environment.</p>
+<p>Second part is covered by <strong>ipa-demo</strong> script. It takes base image,
+creates the virtual machines and installs and configures the FreeIPA on
+all machines.</p>
+<p>The environment consists of three virtual machines (one server and two
+clients) by default, but the number of clients could by set to higher
+one.</p>
+<p><strong>Requirements</strong></p>
+<hr class="docutils" />
+<p>Both scripts were tested on Fedora 15 x86_64 and RHEL 6.1 x86_64
+systems. These packages are required:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">libvirt-0.8.8-7</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">qemu-0.14.0-8</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">qemu-system-0.14.0-8</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">qemu-kvm-0.14.0-8</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">qemu-img-0.14.0-8</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">python-virtinst-0.500.6-2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">openssh-clients-5.6p1-34</span></code></div>
+</div>
+<p>(Optionally you can install virt-manager and/or virt-viewer)</p>
+<p>Hardware (this configuration allowed us to run smoothly all three VMs as
+well as use system):</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">10GB of disk free space</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">4 GB RAM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CPU dual-core with virtualization support</span></code></div>
+</div>
+<p>One virtual machine is supposed to use one CPU and 1GB RAM. Disk images
+has growing size with maximum size set to 10GB.</p>
+<p><strong>Get It</strong></p>
+<hr class="docutils" />
+<p>Both scripts with all necessary files are located in git repository
+<a class="reference external" href="https://github.com/ohamada/demo">here</a>. You can download them
+through web interface or using git:</p>
+<p><code class="docutils literal notranslate"><span class="pre">git clone https://github.com/ohamada/demo.git</span></code></p>
+<p><strong>Easiest way to try out</strong></p>
+<hr class="docutils" />
+<p>Now we’ll show the easiest way to try out FreeIPA:</p>
+<ul class="simple">
+<li><p>Get the scripts and extract them into a directory.</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">git clone https://github.com/ohamada/demo.git</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cd demo</span></code></div>
+</div>
+<ul class="simple">
+<li><p>You must be root to run the scripts:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">su</span></code></p>
+<ul class="simple">
+<li><p>Prepare base image. It’s strongly recommended to specify Fedora
+repository. You should choose the repository from <a class="reference external" href="http://mirrors.fedoraproject.org/publiclist/Fedora/15/x86_64/">Fedora mirrors
+list</a>
+that is the nearest one to your current location. Just remember that
+the selected repository address must end with ‘…/x86_64/os’
+(example:
+‘<a class="reference external" href="http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/">http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</a>’):</p></li>
+</ul>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>./ipa-base-prepare.sh –createbase –repo $selected_repository ``</p>
+<ul class="simple">
+<li><p>Prepare installation image:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">./ipa-base-prepare.sh --installipa</span></code></p>
+<ul class="simple">
+<li><p>Create virtual machines and prepare whole environment (disk images
+will be saved in /var/lib/libvirt/images)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">./ipa-demo.sh</span></code></p>
+<ul class="simple">
+<li><p>When the installation finishes, it prints out all necessary
+instruction on how to connect to virtual machines</p></li>
+<li><p>As a next step you can try to set up MediaWiki to run against
+FreeIPA. This tutorial should help you: <a class="reference external" href="Setting_up_MediaWiki_to_run_against_FreeIPA">Setting up MediaWiki to run
+against FreeIPA</a>.</p></li>
+</ul>
+<p><strong>ipa-base-prepare</strong></p>
+<hr class="docutils" />
+<p>Ipa-base-prepare can create base image, update it and prepare image that
+has freeipa-server installed and is ready to be used by ipa-demo script
+for creating virtual machines. It generates own ssh key which is then
+used in further steps for running commands on virtual machines. Created
+base images are saved in directory called ‘archive’. File names of base
+images are in this format ‘f15-ipa-demo-base.$date.qcow2’. $date is used
+for discovering most actual base image. Base image ready for
+installation is called ‘ipa-ready-image’. Script arguments:</p>
+<p>Mandatory arguments:</p>
+<ul class="simple">
+<li><p><em>–createbase</em> - create base image</p></li>
+<li><p><em>–updatebase</em> - update base image to contain actual packages</p></li>
+<li><p><em>–installipa</em> - prepare base image with installed FreeIPA</p></li>
+<li><p><em>–repo</em> - specify Fedora repository. Using this option is strongly
+recommended because the default one is very slow. You should choose
+the repository from <a class="reference external" href="http://mirrors.fedoraproject.org/publiclist/Fedora/15/x86_64/">Fedora mirrors
+list</a>
+that is the nearest one to your current location. Just remember that
+the selected repository address must end with …/x86_64/os - for
+example
+` &lt;<a class="reference external" href="http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/">http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</a>&gt;`__<a class="reference external" href="http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/">http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</a></p></li>
+</ul>
+<p>Optional arguments:</p>
+<ul class="simple">
+<li><p><em>–imgdir</em> - specify different directory for lookup/storing of base
+images</p></li>
+<li><p><em>–sshkey</em> - specify ssh key to be used by script instead of newly
+generated key</p></li>
+<li><p><em>–base</em> - specify base image. If you want to update base image or
+prepare installation base image from base image of your own choice.</p></li>
+<li><p><em>-h, –help</em> - prints out help</p></li>
+</ul>
+<p>Usage:</p>
+<ul class="simple">
+<li><p>Create base image, use existing ssh key and other than default
+repository</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">./ipa-base-prepare.sh --createbase --repo http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/ --sshkey /home/user/.ssh/key_rsa</span></code></p>
+<p><strong>ipa-demo</strong></p>
+<hr class="docutils" />
+<p>Ipa-demo takes image called ‘ipa-ready-image.qcow2’ and uses it as a
+base image for creating virtual machines. Images of virtual machines are
+saved in ‘/var/lib/libvirt/images/’ directory by default, but user can
+specify his own directory. Script also needs private ssh key to access
+virtual machines in order to run necessary installation scripts. He
+seeks for the key in ‘cert’ subdirectory of his working directory, but
+user can specify which key to use. Script arguments are:</p>
+<ul class="simple">
+<li><p><em>–base</em> - specify base image. If you want to update base image or
+prepare installation base image from base image of your own choice.</p></li>
+<li><p><em>–sshkey</em> - specify ssh key to be used by script</p></li>
+<li><p><em>–imgdir</em> - specify directory for storing disk images, directory
+must exist (by default /var/lib/libvirt/images)</p></li>
+<li><p><em>–clients</em> - specify number of clients (by default 2)</p></li>
+<li><p><em>-h, –help</em> - prints out help</p></li>
+</ul>
+<p>Usage:</p>
+<ul class="simple">
+<li><p>Ipa-demo takes specified base image and ssh key and creates five
+virtual machines (one server and four clients) whose disk images are
+stored in ‘images’ subdirectory</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">./ipa-demo.sh --base /mnt/storage/ipa-ready-image.qcow2 --sshkey /home/user/.ssh/key_rsa --imgdir images --clients 4</span></code></p>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/FreeIPA_demonstration_tools.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

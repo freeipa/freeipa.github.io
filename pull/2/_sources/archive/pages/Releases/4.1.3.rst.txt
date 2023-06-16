@@ -1,0 +1,241 @@
+The FreeIPA team would like to announce FreeIPA v4.1.3 bug fix release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The
+builds will be available for Fedora 21. Builds for Fedora 20 are
+available in the official `COPR
+repository <https://copr.fedoraproject.org/coprs/mkosek/freeipa/>`__.
+
+.. _highlights_in_4.1.3:
+
+Highlights in 4.1.3
+-------------------
+
+Enhancements
+~~~~~~~~~~~~
+
+-  ID Views support user SSH public keys
+-  ID Views support IPA user overrides
+-  OTP token authentication and synchronization windows are configurable
+-  RADIUS server proxy fields added to user page in Web UI
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+-  Issues fixed in ipa-restore:
+
+   -  doesn't crash if replica is unreachable
+   -  checks if it isn't a restore on non matching host
+   -  improved validation of input options to disallow invalid
+      combinations
+   -  doesn't fail if run on a system without IPA installed
+   -  creates correct log directories
+
+-  certificate renewal process is synchronized
+-  migrate-ds: warns user if compat plugin is enabled
+-  PassSync plugin could not update synchronized users due to too strict
+   access control
+-  replication agreements by Replication Administrators could not be
+   removed due to strict access control
+-  anonymous read of a DUA profile was not possible due to strict access
+   control
+-  various upgrade fixes related to DNSSEC
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+.. _detailed_changelog_since_4.1.2:
+
+Detailed Changelog since 4.1.2
+------------------------------
+
+.. _alexander_bokovoy_4:
+
+Alexander Bokovoy (4)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Support Samba PASSDB 0.2.0 aka interface version 24
+-  ipa-cldap: support NETLOGON_NT_VERSION_5EX_WITH_IP properly
+-  ipa-kdb: when processing transitions, hand over unknown ones to KDC
+-  ipa-kdb: reject principals from disabled domains as a KDC policy
+
+.. _david_kupka_5:
+
+David Kupka (5)
+~~~~~~~~~~~~~~~
+
+-  Use singular in help metavars + update man pages.
+-  Always add /etc/hosts record when DNS is being configured.
+-  Remove ipanttrustauthincoming/ipanttrustauthoutgoing from ipa
+   trust-add output.
+-  Abort backup restoration on not matching host.
+-  idviews: Allow setting ssh public key on ipauseroverride-add
+
+.. _gabe_alford_3:
+
+Gabe Alford (3)
+~~~~~~~~~~~~~~~
+
+-  Remove dependency on subscription-manager
+-  Typos in ipa-rmkeytab options help and man page
+-  permission-add does not prompt for ipapermright in interactive mode
+
+.. _jan_cholasta_18:
+
+Jan Cholasta (18)
+~~~~~~~~~~~~~~~~~
+
+-  Fix automatic CA cert renewal endless loop in
+   dogtag-ipa-ca-renew-agent
+-  Do not renew the IPA CA cert by serial number in
+   dogtag-ipa-ca-renew-agent
+-  Improve validation of --instance and --backend options in ipa-restore
+-  Check subject name encoding in ipa-cacert-manage renew
+-  Refer the user to freeipa.org when something goes wrong in
+   ipa-cacert-manage
+-  Fix ipa-restore on systems without IPA installed
+-  Remove RUV from LDIF files before using them in ipa-restore
+-  Fix CA certificate renewal syslog alert
+-  Do not crash on unknown services in installutils.stopped_service
+-  Restart dogtag when its server certificate is renewed
+-  Make certificate renewal process synchronized
+-  Fix validation of ipa-restore options
+-  Do not assume certmonger is running in httpinstance
+-  Put LDIF files to their original location in ipa-restore
+-  Revert "Make all ipatokenTOTP attributes mandatory"
+-  Create correct log directories during full restore in ipa-restore
+-  Do not crash when replica is unreachable in ipa-restore
+-  Bump 389-ds-base and pki-ca dependencies for POODLE fixes
+
+.. _jan_pazdziora_1:
+
+Jan Pazdziora (1)
+~~~~~~~~~~~~~~~~~
+
+-  No explicit zone specification.
+
+.. _martin_babinsky_11:
+
+Martin Babinsky (11)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Moved dbus-python dependence to freeipa-python package
+-  ipa-kdb: unexpected error code in 'ipa_kdb_audit_as_req' triggers a
+   message
+-  always get PAC for client principal if AS_REQ is true
+-  ipa-kdb: more robust handling of principal addition/editing
+-  OTP: failed search for the user of last token emits an error message
+-  ipa-pwd-extop: added an informational comment about intentional
+   fallthrough
+-  ipa-uuid: emit a message when unexpected mod type is encountered
+-  OTP: emit a log message when LDAP entry for config record is not
+   found
+-  ipa-client-install: put eol character after the last line of altered
+   config file(s)
+-  migrate-ds: exit with error message if no users/groups to migrate are
+   found
+-  Changing the token owner changes also the manager
+
+.. _martin_bašti_19:
+
+Martin Bašti (19)
+~~~~~~~~~~~~~~~~~
+
+-  Fix zonemgr option encoding detection
+-  Throw zonemgr error message before installation proceeds
+-  Upgrade fix: masking named should be executed only once
+-  Using wget to get status of CA
+-  Show SSHFP record containing space in fingerprint
+-  Fix don't check certificate during getting CA status
+-  Fix: Upgrade forwardzones zones after adding newer replica
+-  Fix zone find during forwardzone upgrade
+-  Fix traceback if zonemgr error contains unicode
+-  DNS tests: separate current forward zone tests
+-  New test cases for Forward_zones
+-  Detect and warn about invalid DNS forward zone configuration
+-  DNS tests: warning if forward zone is inactive
+-  Add debug messages into client autodetection
+-  DNSSEC catch ldap exceptions in ipa-dnskeysyncd
+-  DNSSEC: fix root zone dns name conversion
+-  Always return absolute idnsname in dnszone commands
+-  Use dyndns_update instead of deprecated sssd option
+-  Fix reference counting in pkcs11 extension
+
+.. _martin_košek_7:
+
+Martin Košek (7)
+~~~~~~~~~~~~~~~~
+
+-  Bump SSSD Requires to 1.12.3
+-  Allow PassSync user to locate and update NT users
+-  Allow Replication Administrators manipulate Winsync Agreements
+-  Replication Administrators cannot remove replication agreements
+-  Add anonymous read ACI for DUA profile
+-  Print PublicError traceback when in debug mode
+-  group-detach does not add correct objectclasses
+
+.. _nathaniel_mccallum_7:
+
+Nathaniel McCallum (7)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Catch USBError during YubiKey location
+-  Preliminary refactoring of libotp files
+-  Move authentication configuration cache into libotp
+-  Enable last token deletion when password auth type is configured
+-  Make token auth and sync windows configurable
+-  Create an OTP help topic
+-  Prefer TCP connections to UDP in krb5 clients
+
+.. _petr_voborník_10:
+
+Petr Voborník (10)
+~~~~~~~~~~~~~~~~~~
+
+-  webui: add radius fields to user page
+-  fix indentation in ipa-restore page
+-  add --hosts and --hostgroup options to allow/retrieve keytab methods
+-  webui: fix service unprovisioning
+-  webui: increase duration of notification messages
+-  revert removal of cn attribute from idnsRecord
+-  migrate-ds: fix compat plugin check
+-  rpcclient: use json_encode_binary for verbose output
+-  Fix TOTP Synchronization Window label
+-  Become IPA 4.1.3
+
+.. _simo_sorce_3:
+
+Simo Sorce (3)
+~~~~~~~~~~~~~~
+
+-  Avoid calling ldap functions without a context
+-  Remove the removal of the ccache
+-  Handle DAL ABI change in MIT 1.13
+
+.. _tomáš_babej_9:
+
+Tomáš Babej (9)
+~~~~~~~~~~~~~~~
+
+-  Re-initialize NSS database after otptoken plugin tests
+-  certs: Fix incorrect flag handling in load_cacert
+-  hosts: Display assigned ID view by default in host-find and show
+   commands
+-  idviews: Complain if host is already assigned the ID View in
+   idview-apply
+-  idviews: Ignore host or hostgroup options set to None
+-  baseldap: Handle missing parent objects properly in \*-find commands
+-  ipatests: Add coverage for referential integrity plugin applied on
+   ipaAssignedIDView
+-  ipatests: Fix old command references in the ID views tests
+-  ipatests: Fix incorrect assumptions in idviews tests

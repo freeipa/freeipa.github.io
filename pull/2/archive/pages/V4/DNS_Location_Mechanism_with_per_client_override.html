@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="DNS_configuration_daemon.html" />
+    <link rel="prev" title="Overview" href="DNS_Location_Mechanism.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p><strong>Author</strong>: Simo Sorce with help from Petr Spacek, Martin Basti, and
+others</p>
+<section id="forewords">
+<h2>Forewords<a class="headerlink" href="#forewords" title="Permalink to this heading">¶</a></h2>
+<p>This is a new proposal (Jan 2013) to support Location Based discovery in
+FreeIPA. It was inspired by <a class="reference external" href="FreeIPAv2:DNS_Location_Discovery">this</a>
+earlier proposal made a while ago. The main difference is that it
+simplifies the whole management by eliminating IP subnets and special
+client code while still maintaining a great deal of flexibility. The key
+insight being that different locations can configure the network to use
+different FreeIPA DNS servers, that are local to the location being
+considered.</p>
+</section>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>Service Discovery is a process whereby a client uses information stored
+in the network to find servers that offer a specific service. It is
+useful for two reasons. First, it places the information required for
+the location of servers in the network, lessening the burden of client
+configuration. Second, it gives system and network administrators a
+central point of control that can be used to to define an optimized
+policy that determines which clients should use which server and in what
+order.</p>
+<p>A standard for service discovery is defined in <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC2782">RFC
+2782</a>. This
+standard defines a DNS RR with the mnemonic SRV and usage rules around
+it. It allows a client to discover servers that offer a given service
+over a given protocol.</p>
+<p>A drawback of SRV Records is that it assumes clients know the correct
+DNS domain to use as the query target. Without any further information,
+the client’s options includes using their own DNS domain and the name of
+the security domain in which the client operates (such as the domain
+name associated to the Kerberos REALM the client refers to). Neither
+option is likely to yield optimal results however. One key service
+discovery requirement, especially in large distributed enterprises, is
+to choose a server that is close to a client. However in many situation
+binding the client name to a specific zone that is tied to a physical
+location is not possible. And even if it were it would not address the
+needs of a roaming client that moves across the networks. We cannot have
+the name of a client change when it move across networks as this break
+the Kerberos protocol that associates keys to a fixed host name for
+Service Principals.</p>
+<p>The incompleteness of <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC2782">RFC
+2782</a> is
+acknowledged by systems such as <a class="reference external" href="http://en.wikipedia.org/wiki/Active_Directory">Active
+Directory</a> that
+contain extra functionality to augment SRV lookups to make them site
+aware. The basic idea is to use a target in SRV service discovery that
+is specific to a location or “site” in AD parlance. Unfortunately AD
+clients rely on additional configuration or side protocols to determine
+the client “site” and it is quite specific to Microsoft technologies so
+the method they use is not easily portable and reusable in other
+contexts nor documented in Standards or informative IETF RFCs.</p>
+<p>This document specifies a protocol for location discovery based
+exclusively on DNS. While the protocol itself can be fully implemented
+with a normal DNS the FreeIPA mechanism is augmented by additional
+‘location’ awarness and will depend on additional computation done by
+the FreeIPA DNS plugins.</p>
+</section>
+</section>
+<section id="assumptions">
+<h1>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Clients are doing DNS SRV lookup specified in <a class="reference external" href="http://tools.ietf.org/html/rfc2782">RFC
+2782</a> to find out information
+about servers they should connect to.</p></li>
+<li><p>There are sets of servers which are functionally equivalent but
+communication costs to different sets of servers vary.</p></li>
+<li><p>For a client, it is ‘cheap’ to communicate with servers ‘near’ the
+client and it is more ‘expensive’ to communicate with ‘remote’
+servers (higher latency, smaller throughput, pay-per-byte etc.).</p>
+<ul>
+<li><p>Special case: Some clients are able to reach only subset of
+servers due to firewall restrictions etc.</p></li>
+</ul>
+</li>
+<li><p>Clients can roam among various networks so optimal set of servers
+changes from client’s perspective. For this reason only one set of
+static DNS SRV records cannot suffice.</p>
+<ul>
+<li><p>The <em>DNS Locations</em> feature will work only if TTL of DNS records
+is shorter than time which clients need to move between two
+locations.</p></li>
+</ul>
+</li>
+<li><p>Each <code class="docutils literal notranslate"><span class="pre">location</span></code> corresponds to a different network.</p></li>
+<li><p>At least one of the FreeIPA servers in each location is a DNS enabled
+server.</p>
+<ul>
+<li><p>In principle this might be relaxed to “DNS view per location” but
+then IPA needs integration with DNS views on external servers.</p></li>
+</ul>
+</li>
+<li><p>Clients in each <code class="docutils literal notranslate"><span class="pre">location</span></code> are configured to use local DNS server,
+which is (or forwards to) a local FreeIPA DNS server. In other words,
+the assumption is that a client in a specific location will generally
+query a FreeIPA server (possibly through forwarding or recursion) in
+the same location for location-specific information.</p>
+<ul>
+<li><p>If DNS recursion is involved, we assume that recursor is
+intelligent enough to query <em>nearest</em> FreeIPA DNS server. This is
+commonly done by querying servers with shortest round trip time.
+The implicit logic in DNS recursors can be overridden by explicit
+forwarding configuration.</p></li>
+<li><p>In principle this might be done using “DNS view per location” but
+then IPA needs integration with DNS views on external servers.</p></li>
+</ul>
+</li>
+</ul>
+<section id="current-use-of-srv-records">
+<span id="id1"></span><h2>Current use of SRV records<a class="headerlink" href="#current-use-of-srv-records" title="Permalink to this heading">¶</a></h2>
+<p>Client queries for SRV records located in the domain/realm
+(<code class="docutils literal notranslate"><span class="pre">example.com</span></code> in the following example) and gets back all servers.
+Assuming that all DNS servers responsible for given zone are returning a
+static set of records, there is no way how to prioritize a server
+‘nearest’ to the client at the moment. Consequently, all FreeIPA servers
+typically have the same priority (0) and weight (100):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+</pre></div>
+</div>
+</section>
+</section>
+<section id="use-cases">
+<span id="use-cases6"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Roaming clients should connect to set of ‘nearest’ servers so
+communication is ‘cheap’. When none of nearest servers is reachable,
+failover to remote servers might be desired.</p></li>
+<li><p>Some clients might want to connect always to the same set of servers
+for some reason, i.e. server can be pinned to a location.</p></li>
+<li><p>The mechanism can be re-used for non-IPA services. Generally any
+service which is using <code class="docutils literal notranslate"><span class="pre">SRV</span></code> records can be hacked in this way.
+This might require specifying location on per-zone basics.</p></li>
+</ul>
+</section>
+<section id="design-so-called-dname-per-client">
+<span id="id2"></span><h1>Design (so-called DNAME per client)<a class="headerlink" href="#design-so-called-dname-per-client" title="Permalink to this heading">¶</a></h1>
+<section id="the-discovery-protocol">
+<span id="id3"></span><h2>The Discovery Protocol<a class="headerlink" href="#the-discovery-protocol" title="Permalink to this heading">¶</a></h2>
+<p>The main point about this protocol is the recognition that all we really
+need is to find a specific (set of) server(s) that a specific client
+needs to find. The second point is that the client has 1 bit of
+information that is unequivocal: its own fully qualified name. Whether
+this is fixed or assigned by the network (via DHCP) is not important,
+what matters is that the name unequivocally identifies this specific
+host in the network.</p>
+<p>Based on these two points the idea is to make the client query for a
+special set of SRV records keyed on the client’s own DNS name. From the
+client perspective this is the simplest protocol possible, it requires
+no knowledge or hard decisions about what DNS domain name to query or
+how to discover it. At the same time is allows the Domain Administrators
+a lot of flexibility on how to configure these records per-client.</p>
+<p>The failure mode for this protocol is to simply keep using the previous
+heuristics, we will not define these heuristics as they are not
+standardized and are implementation and deployment specific to some
+extent. Suffice to say that this new protocol should not impact in any
+way on previous heuristics and DNS setups and can be safely implemented
+in clients with no ill effects save for an additional initial query.
+Local negative caching may help in avoiding excessive queries if the
+administrator chooses not to configure the servers to support per client
+SRV Records and otherwise adds little overhead.</p>
+</section>
+<section id="client-implementation">
+<span id="id4"></span><h2>Client Implementation<a class="headerlink" href="#client-implementation" title="Permalink to this heading">¶</a></h2>
+<p>Because currently used SRV records are multiple and to allow the case
+where a host may actually be using a domain name that is also already
+used as a zone name (ie the name X.example.com identifies both an actual
+host and is a sub-domain where clients Y.X.example.com normally searches
+for SRV records) we group all per-client location SRV records under the
+<code class="docutils literal notranslate"><span class="pre">_location.</span></code> sub name.</p>
+<p>So for example, a client named X.example.com would search for its own
+per-client records for the LDAP service over the TCP protocol by using
+the name: <code class="docutils literal notranslate"><span class="pre">_ldap._tcp._location.X.example.com</span></code></p>
+<p>With current practices a client normally looks for
+<code class="docutils literal notranslate"><span class="pre">_ldap._tcp.example.com</span></code> instead.</p>
+<p>It is a simple as that, the only difference between a client supporting
+this new mechanism and a generic client is only about what name is used
+as the ‘base domain name’. Everything else is identical. Many clients
+can probably be already configured to use this new base domain. And
+clients that may not support it (either because the base domain is
+always derived in some way and not directly configurable or because
+clients refuse to use _location as a valid bade DNS name component due
+to the leading ‘_’ character) can be easily changed. Those that can’t be
+changed will simply fall back to use the classic SRV records on the base
+domain and will simply not be location aware.</p>
+<p>The additional advantage of using this scheme is that clients can now
+use per-client SRV searches by default if they so choose because there
+is no risk of ending up using unrelated servers due to unfortunate host
+naming. If the administrator took the pain to configure per-client SRV
+records there is an overwhelming chance those are indeed the records the
+client is supposed to use. By using this as default it is possible to
+make client configuration free by default which is a real boon on
+networks with many hosts.</p>
+<p>Changing defaults requires careful consideration of security
+implications, please read the <a class="reference external" href="#Security_Considerations">#Security
+Considerations</a> section for more
+information.</p>
+</section>
+<section id="server-side-implementation">
+<span id="id5"></span><h2>Server side implementation<a class="headerlink" href="#server-side-implementation" title="Permalink to this heading">¶</a></h2>
+<section id="basic-solution">
+<span id="id6"></span><h3>Basic solution<a class="headerlink" href="#basic-solution" title="Permalink to this heading">¶</a></h3>
+<p>The simplest way to implement this scheme on the server side is to just
+create a set of records for each client. However this is a very
+heavyweight and error prone process as it requires the creation of many
+records for each client.</p>
+</section>
+<section id="a-more-rational-solution">
+<span id="id7"></span><h3>A more rational solution<a class="headerlink" href="#a-more-rational-solution" title="Permalink to this heading">¶</a></h3>
+<p>A simple but more manageable solution may be to use DNAME records as
+defined by <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC6672">RFC
+6672</a>. The
+administrator in this case can set up a single set of SRV records per
+location and then use a DNAME record to glue each client to this
+subtree.</p>
+<p>This solution is much more lightweight and less error prone as each
+client would need one single additional record that points to a well
+maintained subtree.</p>
+<p>So a client X.example.com could have a DNAME record like this:
+<code class="docutils literal notranslate"><span class="pre">_location.X.example.com.</span> <span class="pre">DNAME</span> <span class="pre">Y._locations.example.com.</span></code></p>
+<p>When the client X tries to search for its own per-client records for the
+LDAP service over the TCP protocol by using the name
+<code class="docutils literal notranslate"><span class="pre">_ldap._tcp._location.X.example.com</span></code> it would be automatically
+redirected to the record <code class="docutils literal notranslate"><span class="pre">_ldap._tcp.Y._locations.example.com</span></code></p>
+</section>
+<section id="advanced-freeipa-solution">
+<span id="id8"></span><h3>Advanced FreeIPA solution<a class="headerlink" href="#advanced-freeipa-solution" title="Permalink to this heading">¶</a></h3>
+<p>Although the above implementation works fine for most cases it has 2
+major drawbacks. The first one is poor support for roaming clients as
+they would be permanently referring to a specific location even when
+they travel across potentially very geographically dispersed locations.
+The other big drawback is that admins will have to create the DNAME
+records for each client which is a lot of work. In FreeIPA we can have
+more smarts given we can influence the bind-dyndb-ldap plugin behavior.</p>
+<p>So one first very simple yet very effective simplification would be to
+change the bind-dyndb-ldap plugin to create a phantom per-client
+location DNAME record that points to a ‘default’ location.</p>
+<p>This means DNAME records wouldn’t be directly stored in LDAP but would
+be synthesized by the driver if not present using a default
+configuration. However to make this more useful the plugin shouldn’t
+just use one single default, but should have a default ‘per server’.</p>
+<section id="related-tickets-incomplete-list">
+<span id="id9"></span><h4>Related tickets (incomplete list)<a class="headerlink" href="#related-tickets-incomplete-list" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/ticket/126">bind-dyndb-ldap ticket
+#126</a></p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2008">FreeIPA ticket #2008:
+[RFE</a> IPA should
+support and manage DNS sites]</p></li>
+</ul>
+</section>
+<section id="roaming-remote-clients">
+<span id="roamingremote-clients"></span><h4>Roaming/Remote clients<a class="headerlink" href="#roaming-remote-clients" title="Permalink to this heading">¶</a></h4>
+<p>Roaming clients or Remote clients have one big problem, although they
+may have a default preferred location they move across networks and the
+definition of ‘location’ and ‘closest’ server changes as they move. Yet
+their name is still fixed. With a classic Bind setup this problem can
+somewhat be handled by using views and changing the DNAME returned or
+directly the SRV records depending on the client IP address. However
+using source IP address is not always a good indicator. Clients may be
+behind a NAT or maybe IP addressing is shared between multiple logical
+locations within a physical network. or the client may be getting the IP
+address over a VPN tunnel and so on. In general relying on IP address
+information may or may not work. (There is also the minor issue that we
+do not yet support views in the bind-dyndb-ldap plugin.)</p>
+</section>
+<section id="addressing-the-multiple-locations-problem">
+<span id="id10"></span><h4>Addressing the multiple locations problem<a class="headerlink" href="#addressing-the-multiple-locations-problem" title="Permalink to this heading">¶</a></h4>
+<p>The reason to define multiple locations is that we want to redirect
+clients to different servers depending on the location they belong to.
+This only really makes sense if each location has its own (set of)
+FreeIPA server(s).</p>
+<p>Also usually a location corresponds to a different network so it can be
+assumed the if at least one of the FreeIPA servers in each location is a
+DNS enabled server and the local network configuration (DHCP) server
+serves this DNS server as the primary server for the client then we can
+make the reasonable assumption that a client in a specific location will
+generally query a FreeIPA server in that same location for
+location-specific information.</p>
+<p>If this holds true then changing the ‘default’ location base on the
+server’s own location would effectively make clients stick to the local
+servers (Assuming the location’s SRV records are properly configured to
+contain only local server, which we can insure through appropriate
+checks in the framework)</p>
+<p>This is another simple optimization and works for a lot of cases but not
+necessarily all. However this optimization leads to another problem.
+What if the client needs to belong to a specific location indipendetly
+from what server they ask to, or what if we really only have a few
+FreeIPA DNS servers but want to use more locations ?</p>
+<p>One way of course is to create a fixed DNAME record for these clients,
+so the defaults do not kick in. However this is rather final. Maybe the
+clients needs a preference but that preference can be overridden in some
+circumstances.</p>
+</section>
+<section id="choosing-the-right-location">
+<span id="id11"></span><h4>Choosing the right location<a class="headerlink" href="#choosing-the-right-location" title="Permalink to this heading">¶</a></h4>
+<p>So the right location for a client may be a combination of a preference
+and a set of requirements. One example of a requirement that can trump
+any preference is a bandwidth constrained location.</p>
+<p>Assume we have a client that normally resides in a large location. This
+location has been segmented in small sub-locations to better distribute
+load so it has a preferred location. If we use a fixed DNAME to
+represent this preference when this client roams to a bandwidth
+constrained network it will try to use the slow link to call ‘home’ to
+his usual location. This may be a serious problem.</p>
+<p>However if we generate the default location dynamically we can easily
+have rules on the bandwidth constrained location DNS servers that no
+matter what is the preference any client asking for location based SRV
+records will always be redirected to the local location which includes
+only local servers in their SRV records.</p>
+<p>This is quite powerful and would neatly solve many issues connected with
+roaming clients.</p>
+</section>
+<section id="dns-slave-server-problem">
+<span id="id12"></span><h4>DNS Slave server problem<a class="headerlink" href="#dns-slave-server-problem" title="Permalink to this heading">¶</a></h4>
+<p>Dynamically choosing locations may cause issues with DNS Slaves servers,
+as they wouldn’t be able implement this dynamic mechanism.</p>
+<p>One way to handle this problem is to operate in a ‘degraded’ mode where
+DNAME records are effectively created and the location is not dynamic
+per-client anymore. We can still have ‘different’ defaults per server if
+we decide to filter DNAME records from replication. However filtering
+DNAME records is also a problem because we would not be able to filter
+only location based ones, it would be an all or nothing filter, which
+would render DNAME records unusable for any other purpose. This
+restriction is a bit extreme.</p>
+<p>Another way might be to always compute all zone DNAME records based on
+the available host records on the fly at DNS server startup, and then
+keep them cached (and updated) by the bind-dyndb-ldap plugin, which will
+include these records in AXFR transfers but will not write them back to
+the LDAP server keeping them local. This solution might be the golden
+egg, as it might allow all the advantages of dynamic generation, as well
+as response performance and solve the slave server issue and perhaps
+even DNSSEC related issues. It has a major drawback, it would make the
+code a lot more compicated and critical.</p>
+</section>
+</section>
+</section>
+<section id="overall-implementation-proposal">
+<span id="id13"></span><h2>Overall implementation proposal<a class="headerlink" href="#overall-implementation-proposal" title="Permalink to this heading">¶</a></h2>
+<p>Given that the basic solution is relatively simple and require minimal
+if no client changes we should consider implementing at least part of
+this proposal as soon as possible. Implementing DNAME record support in
+bind-dyndb-ldap seem a prerequisite and adding client support in the
+SSSD IPA provider would allow to test at least with the basic setup.
+This basic support should be implemented sooner rather than later so
+that full dynamic support can lately be easily added to bind-dyndb-ldap
+support as well as adding the necessary additional schema and UI to the
+freeipa framework to mark and group clients and locations.</p>
+</section>
+<section id="security-considerations">
+<span id="security-considerations6"></span><h2>Security Considerations<a class="headerlink" href="#security-considerations" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+<section id="client-implementation-1">
+<span id="id14"></span><h3>Client Implementation<a class="headerlink" href="#client-implementation-1" title="Permalink to this heading">¶</a></h3>
+<p>As always DNS replies can be spoofed relatively easily. We recommend
+that SRV records resolution is used only for those clients that normally
+use an additional security protocol to talk to network resources and can
+use additional mechanisms to authenticate these resources. For example a
+client that uses an LDAP server for security related information like
+user identity information should only trust SRV record discovery for the
+LDAP service if LDAPS or STARTTLS over LDAP are mandatory and
+certificate verification is fully turned on, or if SASL/GSSAPI is used
+with mutual authentication, integrity and confidentiality options
+required. Use of DNSSEC and full DNS signature verification may be
+considered an additional requirement in some cases.</p>
+</section>
+<section id="server-implementation">
+<span id="id15"></span><h3>Server Implementation<a class="headerlink" href="#server-implementation" title="Permalink to this heading">¶</a></h3>
+<p>Given current integration with BIND (using bind-dyndb-ldap), the only
+way how to handle DNSSEC is to pre-generate all <code class="docutils literal notranslate"><span class="pre">_location</span></code> records
+for each client name at zone loading time. DNSSEC signing will then sign
+all the data as usual.</p>
+<p>As a consequence, this pre-generation increases memory consumption and
+CPU time spent on signing by factor of ~ 2.3. Tested on zone with 10000
+names using <code class="docutils literal notranslate"><span class="pre">dnssec-signzone</span></code> from BIND
+<code class="docutils literal notranslate"><span class="pre">bind-9.10.3-7.P2.fc23.x86_64</span></code> with 2048 bit ZSK, 3072 KSK:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user   0m56.584s</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user   0m24.881s</span></code></div>
+</div>
+<p>Zone file sizes:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">23150974  dname.db.signed</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">10097345  nodname.db.signed</span></code></div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<p>Version 1 of this proposal introduces separate sets of SRV records for
+each location.</p>
+<p>Location <code class="docutils literal notranslate"><span class="pre">cz</span></code> will have one set of SRV records:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.cz._locations.example.com. IN  SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+</pre></div>
+</div>
+<p>Location <code class="docutils literal notranslate"><span class="pre">uk</span></code> will have different set of SRV records (possibly with
+different priorities, weights, or even servers):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.uk._locations.example.com. IN  SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.``
+``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.``
+</pre></div>
+</div>
+<p>Clients are querying SRV records under client’s FQDN prefixed with label
+<code class="docutils literal notranslate"><span class="pre">_location</span></code> name. This record contains redirection to a location into
+which the client is assigned. (From client’s perspective is does not
+matter how the DNS server generated the redirection.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
+``;; ANSWER SECTION:``
+**``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
+``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
+``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+</pre></div>
+</div>
+<p>Following diagram summarizes proposed behavior (version 1):
+<img alt="ExampleLocationsV1.svg" src="../../../_images/ExampleLocationsV1.svg" /></p>
+<ul class="simple">
+<li><p><strong>(A)</strong> The LDAP database contains records per each location
+(“Y.$LOCATION._location.$SUFFIX”) and default records (<em>Y.$SUFFIX</em>)</p></li>
+<li><p><strong>(B)</strong> The DNAME record that overrides the default locations in
+format
+<em>_location.$HOSTNAME</em><strong>DNAME</strong><em>$LOCATION._locations.$SUFFIX</em></p></li>
+<li><p><strong>(C)</strong> The DNS server in location using <em>bind-dyndb-ldap</em> generates
+DNAME records per host which replace client hostnames with <strong>cz</strong>
+location. A client from location <strong>cz</strong> will get SRV records with
+priority set for this location.</p></li>
+<li><p><strong>(D)</strong> The DNS server in location using <em>bind-dyndb-ldap</em> generates
+DNAME records per host which replace client hostnames with <strong>uk</strong>
+location. A client from location <strong>uk</strong> will get SRV records with
+priority set for this location. Please note DNAME record for
+<strong>client2</strong> that has been overridden with the record stored in the
+LDAP database.</p></li>
+<li><p><strong>(E)</strong> Configuration for client2 has been overridden. The client is
+configured to contact location <strong>uk</strong> but DNS server returns results
+for location <strong>cz</strong>.</p></li>
+<li><p><strong>[1]</strong> Client is configured to use DNS <em>locations</em> and wants to
+connect to the closest LDAP server.</p></li>
+<li><p><strong>[2]</strong> Client send DNS query in format
+<em>_ldap._tcp._location.$CLIENT_HOSTNAME</em> to server in its location.</p></li>
+<li><p><strong>[3]</strong> DNAME records for each client has been dynamically created on
+DNS server (except override records).</p></li>
+<li><p><strong>[4]</strong> Server returns DNAME and CNAME (for old clients) records, the
+client has to ask server again to receive SRV records for the name
+returned by DNAME (CNAME).</p></li>
+<li><p><strong>[5]</strong> Server returns SRV records configured for this location
+(priority for servers located in CZ (Brno))</p></li>
+</ul>
+</section>
+<section id="comparison-with-microsoft-active-directory-sites">
+<span id="id16"></span><h2>Comparison with Microsoft Active Directory Sites<a class="headerlink" href="#comparison-with-microsoft-active-directory-sites" title="Permalink to this heading">¶</a></h2>
+<p>Some administrators might be familiar with concept of <a class="reference external" href="https://technet.microsoft.com/en-us/library/cc754697.aspx">Active Directory
+Sites</a>.
+Please note that FreeIPA’s <em>DNS Locations</em> are different in several
+aspects:</p>
+<ul class="simple">
+<li><p>FreeIPA’s replication topology is not affected in any way by <em>DNS
+Locations</em></p></li>
+<li><p>There is no concept of intra-site links between <em>DNS Locations</em></p></li>
+<li><p>Client’s location is determined by DNS server used by the client for
+making DNS queries for records in FreeIPA primary DNS domain</p>
+<ul>
+<li><p>All clients using particular DNS server always belong to one <em>DNS
+Location</em></p></li>
+</ul>
+</li>
+<li><p>In current implementation, there is no way to statically configure a
+client to always use particular location</p></li>
+<li><p>Clients are using standard DNS queries and generally do not need to
+be aware of concept of locations</p>
+<ul>
+<li><p>Consequently, the facility will work with any standard-compliant
+client (please see <a class="reference external" href="#Assumptions">#Assumptions</a>)</p></li>
+</ul>
+</li>
+</ul>
+<p>One thing is common to AD Sites and FreeIPA DNS Locations:</p>
+<ul class="simple">
+<li><p>Set of servers assigned to one site (in case of FreeIPA servers with
+highest priority) are assumed to be <em>optimal</em> choice for clients
+assigned to that particular site.</p></li>
+</ul>
+</section>
+</section>
+<section id="summary-of-meeting-2016-02-04">
+<span id="id17"></span><h1>Summary of meeting 2016-02-04<a class="headerlink" href="#summary-of-meeting-2016-02-04" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Participants: Simo Sorce, Petr Spacek, Martin Basti</p></li>
+<li><p>We will start with <a class="reference external" href="V4/DNS_Location_Mechanism">per sub-tree
+approach</a> and deffer per-client
+overrides for now.</p></li>
+<li><p>Keep in mind that bind-dyndb-ldap might get rid of GSSAPI. LDAPI
+mapping to a principal may change results from LDAP whoami.</p></li>
+<li><p>LDAP schema and user interface has to be defined.</p>
+<ul>
+<li><p>We should think about supporting DNS locations per (server &amp; zone)
+so different zones can be assigned to different locations.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+<section id="how-to-test">
+<span id="how-to-test6"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+<section id="test-plan">
+<span id="test-plan6"></span><h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="V4/DNS_Location_Mechanism_with_per_client_override/Test_Plan">DNS Location Mechanism with per client override V4.4 test
+plan</a></p>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<p>SRV Records: <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC2782">RFC
+2782</a></p>
+<p>DNAME Records: <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC6672">RFC
+6672</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/DNS_Location_Mechanism_with_per_client_override.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

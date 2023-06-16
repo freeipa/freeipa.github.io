@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG.html" />
+    <link rel="prev" title="Overview" href="OpenLDAP_LDAPI_Support_in_JLDAP.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>DRAFT</strong>: Apache + <code class="docutils literal notranslate"><span class="pre">mod_auth_kerb</span></code> configuration on Broker for IPA
+and OpenShift</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>The service, <code class="docutils literal notranslate"><span class="pre">HTTP/$BROKER_FQDN</span></code> is enrolled in IPA
+(<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">service-add</span></code> on IPA Server or Broker machine that has
+ipa-admintools)</p></li>
+<li><p>An IPA-issued keytab is on the same machine as Apache
+(<code class="docutils literal notranslate"><span class="pre">ipa-getkeytab</span></code> on Broker machine)</p></li>
+<li><p>Apache owns the keytab</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mod_auth_kerb</span></code> is installed (simply
+<code class="docutils literal notranslate"><span class="pre">yum</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">mod_auth_kerb</span></code> if not found in
+<code class="docutils literal notranslate"><span class="pre">/etc/httpd/modules/</span></code>)</p></li>
+<li><p>There are two apache configurations, one “Broker” and one “Console” -
+they share the same keytab</p></li>
+</ul>
+<p id="apache-configuration">Apache configuration:</p>
+<p><strong>Broker</strong>: In
+<code class="docutils literal notranslate"><span class="pre">/var/www/openshift/broker/httpd/conf.d/openshift-origin-remote-user.conf</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>LoadModule auth_basic_module modules/mod_auth_basic.so
+LoadModule authz_user_module modules/mod_authz_user.so
+LoadModule auth_kerb_module modules/mod_auth_kerb.so
+
+&amp;lt;Location /broker&amp;gt;
+    AuthName &quot;OpenShift&quot;
+    AuthType Kerberos
+    KrbMethodNegotiate On
+    KrbMethodK5Passwd On
+    KrbServiceName HTTP/$BROKER_FQDN
+    KrbAuthRealms $KERBEROS_REALM
+    Krb5KeyTab /path/to/http.keytab
+    Require valid-user
+
+    # The node-&amp;gt;broker auth is handled in the Ruby code
+    BrowserMatch Openshift passthrough
+    Allow from env=passthrough
+
+    Order Deny,Allow
+    Deny from all
+    Satisfy any
+&amp;lt;/Location&amp;gt;
+
+# The following APIs do not require auth:
+&amp;lt;Location /broker/rest/application_templates*&amp;gt;
+    Allow from all
+&amp;lt;/Location&amp;gt;
+
+&amp;lt;Location /broker/rest/cartridges*&amp;gt;
+    Allow from all
+&amp;lt;/Location&amp;gt;
+
+&amp;lt;Location /broker/rest/api*&amp;gt;
+    Allow from all
+&amp;lt;/Location&amp;gt;
+</pre></div>
+</div>
+<p><strong>Console</strong>: In
+<code class="docutils literal notranslate"><span class="pre">/var/www/openshift/console/httpd/conf.d/openshift-origin-remote-user.conf</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>LoadModule auth_basic_module modules/mod_auth_basic.so
+LoadModule authz_user_module modules/mod_authz_user.so
+LoadModule auth_kerb_module modules/mod_auth_kerb.so
+
+# Turn the authenticated remote-user into an Apache environment variable for the console security controller
+RewriteEngine On
+RewriteCond %{LA-U:REMOTE_USER} (.+)
+RewriteRule . - [E=RU:%1]
+RequestHeader set X-Remote-User &quot;%{RU}e&quot; env=RU
+
+&amp;lt;Location /console&amp;gt;
+    AuthName &quot;OpenShift Developer Console&quot;
+    AuthType Kerberos
+    KrbMethodNegotiate On
+    KrbMethodK5Passwd On
+    KrbServiceName HTTP/$BROKER_FQDN
+    KrbAuthRealms $KERBEROS_REALM
+    Krb5KeyTab /path/to/http.keytab
+    require valid-user
+
+    # The node-&amp;gt;broker auth is handled in the Ruby code
+    BrowserMatch OpenShift passthrough
+    Allow from env=passthrough
+
+    Order Deny,Allow
+    Deny from all
+    Satisfy any
+&amp;lt;/Location&amp;gt;
+</pre></div>
+</div>
+<p>Restart services:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ service openshift-broker restart
+$ service openshift-console restart
+</pre></div>
+</div>
+<p id="test">Test</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit USER
+# for the Broker - note trailing &quot;/&quot;
+$ curl -Ik --negotiate -u : https://$BROKER_FQDN/broker/rest/api/
+# for the console
+$ curl -Ik --negotiate -u : https://$BROKER_FQDN/console
+</pre></div>
+</div>
+<p>As well, test the console link in a browser that is configured for
+SPNego/Negotiate protocol.</p>
+<p>If there are issues, add the <code class="docutils literal notranslate"><span class="pre">-v</span></code> flag with curl, and check logs at:</p>
+<ul class="simple">
+<li><p>Broker:</p>
+<ul>
+<li><p>Fedora: <code class="docutils literal notranslate"><span class="pre">/var/log/openshift/broker/httpd/</span></code> both <code class="docutils literal notranslate"><span class="pre">error_log</span></code>
+and <code class="docutils literal notranslate"><span class="pre">access_log</span></code> can be helpful</p></li>
+<li><p>RHEL: <code class="docutils literal notranslate"><span class="pre">/var/www/openshift/broker/logs/httpd/</span></code> both <code class="docutils literal notranslate"><span class="pre">error_log</span></code>
+and <code class="docutils literal notranslate"><span class="pre">access_log</span></code> can be helpful</p></li>
+</ul>
+</li>
+<li><p>Console:</p>
+<ul>
+<li><p>Fedora: <code class="docutils literal notranslate"><span class="pre">/var/log/openshift/console/httpd/</span></code> both <code class="docutils literal notranslate"><span class="pre">error_log</span></code>
+and <code class="docutils literal notranslate"><span class="pre">access_log</span></code> can be helpful</p></li>
+<li><p>RHEL: <code class="docutils literal notranslate"><span class="pre">/var/www/openshift/console/logs/httpd/</span></code> both
+<code class="docutils literal notranslate"><span class="pre">error_log</span></code> and <code class="docutils literal notranslate"><span class="pre">access_log</span></code> can be helpful</p></li>
+</ul>
+</li>
+<li><p>IPA Server: <code class="docutils literal notranslate"><span class="pre">/var/log/krb5kdc.log</span></code></p></li>
+</ul>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/OpenShift_Broker_Apache_+_mod_auth_kerb_for_IdM.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

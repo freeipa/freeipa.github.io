@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Highlights in 3.2.0 Prerelease 1 &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Highlights in 3.2.1" href="3.2.1.html" />
+    <link rel="prev" title="Highlights in 3.2.0 Beta 1" href="3.2.0.beta1.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The FreeIPA team is proud to announce a first PRERELEASE of FreeIPA
+v3.2.0. We would like to welcome any early testers of this prerelase to
+provide us feedback and help us stabilize this feature release which we
+plan to release as final in the beginning of May 2013.</p>
+<p>It can be downloaded from <a class="reference external" href="http://www.freeipa.org/page/Downloads">http://www.freeipa.org/page/Downloads</a>. The new
+version has also been built for Fedora 19 Alpha, if it does not appear
+in your Fedora 19 yet, you can also download the build from koji:</p>
+<p><a class="reference external" href="http://koji.fedoraproject.org/koji/buildinfo?buildID=408311">http://koji.fedoraproject.org/koji/buildinfo?buildID=408311</a></p>
+<section id="highlights-in-3-2-0-prerelease-1">
+<span id="id1"></span><h1>Highlights in 3.2.0 Prerelease 1<a class="headerlink" href="#highlights-in-3-2-0-prerelease-1" title="Permalink to this heading">¶</a></h1>
+<section id="new-features">
+<span id="id2"></span><h2>New features<a class="headerlink" href="#new-features" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Support installing FreeIPA without an embedded Certificate Authority,
+with user-provided SSL certificates for the HTTP and Directory
+servers. [1]</p></li>
+<li><p>New cert-find command. Search certificates in the Dogtag database
+based on their serial number, validity or revocation details. This
+feature is available both as a CLI command and Web UI page. [2]</p></li>
+<li><p>New trustconfig-show and trustconfig-mod command. Show or modify AD
+Trust settings generated during AD Trust installation
+(ipa-adtrust-install) [3]</p></li>
+<li><p>Multiple FreeIPA servers can now be designated as Domain Controllers
+for trusts with Active Directory [12]</p></li>
+<li><p>New realmdomains-show and realmdomains-mod command. Manage list of
+DNS domains associated with FreeIPA realm (realmdomains sommand).
+This list is primarily used by AD, which can pull all domains managed
+by FreeIPA and use that list for routing authentication requests for
+domains which do not match FreeIPA realm name. [4]</p></li>
+<li><p>Support trusted domain users in HBAC test command (hbactest command).</p></li>
+<li><p>Allow filtering incoming trusted domain SIDs per-trust (trust-mod
+command). [5]</p></li>
+<li><p>Configurable PAC type for services. Service commands can now
+configure a set of PAC types (MS-PAC, PAD, no PAC) that are supported
+and handled for the service.</p></li>
+<li><p>Faster UI loading. FreeIPA Web UI application is now packaged in
+minimalized format. FreeIPA web server is now also able to transmit
+data in compressed format. [6] [7]</p></li>
+<li><p>UI now accepts confirmation of cancel of its dialogs via keyboard
+[11]</p></li>
+<li><p>Client reenrollment. A host that has been recreated can now be
+reenrolled to FreeIPA server using a backed up host keytab or admin
+credentials [8]</p></li>
+<li><p>Service and Host commands now provide options to add or remove
+selected Kerberos flags [9]</p></li>
+</ul>
+</section>
+<section id="prerelease-1-limitations">
+<span id="id3"></span><h2>Prerelease 1 limitations<a class="headerlink" href="#prerelease-1-limitations" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>List of DNS domains associated with FreeIPA realm currently only
+works with a special Samba build available for Fedora 18:
+<a class="reference external" href="http://koji.fedoraproject.org/koji/taskinfo?taskID=5184105">http://koji.fedoraproject.org/koji/taskinfo?taskID=5184105</a>. One needs
+to rebuild FreeIPA 3.2.0 prerelease 1 against this Samba version in
+order to get it working.</p></li>
+<li><p>Test of trusted domain users in HBAC rules is accessible to only to
+members of ‘Trust Admins’ group due to privilege limitations</p></li>
+<li><p>Same applies to any other trust-specific operations that require
+translation between user/group name and its security identifier (SID)</p></li>
+</ul>
+</section>
+<section id="bug-fixes">
+<span id="id4"></span><h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed migration from OpenLDAP. FreeIPA is now able to migrate users
+and groups from OpenLDAP database instances.</p></li>
+<li><p>Migration process is now also a lot faster and provides more debug
+output (to httpd error log).</p></li>
+<li><p>SUDO rules disabled by sudorule-disable command are now removed from
+ou=sudoers compat tree without a need to restart 389 Directory Server
+instance.</p></li>
+<li><p>Fixed LDAP schema upgrade when upgrading from a pre-2.2.0 release</p></li>
+<li><p>Fixed server installation with external CA (–external-ca)</p></li>
+<li><p>Consolidate on-line help system, show help without need of valid
+Kerberos credentials (ipa help)</p></li>
+<li><p>New LDAP plugin (ipa_dns) has been added to add missing idnsSOASerial
+attribute for replicas which either do not have integrated DNS
+service enabled to which have disabled SOA serial autoincrement</p></li>
+<li><p>LDAP lockout plugin has been fixed so that lockout policies are
+applied consistently both for LDAP binds and Kerberos authentication</p></li>
+<li><p>… and many others stabilization fixes, see Detailed changelog for
+full details</p></li>
+</ul>
+</section>
+</section>
+<section id="changes-in-api-or-cli">
+<span id="id5"></span><h1>Changes in API or CLI<a class="headerlink" href="#changes-in-api-or-cli" title="Permalink to this heading">¶</a></h1>
+<section id="dropped-selfsign-option">
+<span id="id6"></span><h2>Dropped –selfsign option<a class="headerlink" href="#dropped-selfsign-option" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA servers prior to 3.2.0 could be installed with –selfsign
+option. This configured the server with a NSS database based Certificate
+Authority with a selfsigned CA certificate and limited certificate
+operation support.</p>
+<p>This option was always intended for development or testing purposes only
+and was not intended for use in production. This release drops this
+option and deprecates the functionality. Current FreeIPA servers
+installed with –selfsigned option will still work, instructions on how
+to migrate to supported certificate options will be provided.</p>
+<p>FreeIPA servers version 3.2.0 and later supports the following 2 flavors
+of certificate management:</p>
+<ul class="simple">
+<li><p>FreeIPA with pki-ca (dogtag) with either a self-signed certificate or
+with a certificate signed by external CA (–external-ca option)</p></li>
+<li><p>FreeIPA with no pki-ca installed with certificates signed and
+provided by an external CA [1]</p></li>
+</ul>
+</section>
+<section id="dropped-csv-support">
+<span id="id7"></span><h2>Dropped CSV support<a class="headerlink" href="#dropped-csv-support" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA client CLI supported CSV in some arguments so that multiple
+values could be added with just one convenient option:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission-add some-perm --permissions=read,write --attrs=sn,cn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com --a-rec=10.0.0.1,10.0.0.2</span></code></div>
+</div>
+<p>CSV parsing however introduces great difficulty when trying to include a
+value with an embedded space in it. Escaping these values is not
+intuitive and made it very difficult to add such values. The level of
+effort in working around the CSV problems has come to the point where
+the benefits of it are outweighed by the problems which lead to decision
+to drop CSV support in CLI altogether [10].</p>
+<p>There are several ways to workaround lack of CSV:</p>
+<p>Provide an argument multiple times on the command-line:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission-add some-perm --permissions=read --permissions=write --attrs=sn --attrs=cn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com --a-rec=10.0.0.1 --a-rec=10.0.0.2</span></code></div>
+</div>
+<p>Let BASH do the expansion for you:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa permission-add some-perm --permissions={read,write} --attrs={sn,cn}</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com --a-rec={10.0.0.1,10.0.0.2}</span></code></div>
+</div>
+</section>
+</section>
+<section id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this heading">¶</a></h1>
+<p>An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.</p>
+<p>Please note, that the referential integrity extension requires an
+extended set of indexes to be configured. RPM update for an IPA server
+with a excessive number of hosts, SUDO or HBAC entries may require
+several minutes to finish.</p>
+<p>If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.</p>
+<p>Downgrading a server once upgraded is not supported.</p>
+<p>Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.</p>
+<p>An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.</p>
+</section>
+<section id="feedback">
+<h1>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h1>
+<p>Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (<a class="reference external" href="http://www.redhat.com/mailman/listinfo/freeipa-users">http://www.redhat.com/mailman/listinfo/freeipa-users</a>) or
+#freeipa channel on Freenode.</p>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>[1] <a class="reference external" href="http://www.freeipa.org/page/V3/CA-less_install">http://www.freeipa.org/page/V3/CA-less_install</a></p></li>
+<li><p>[2] <a class="reference external" href="http://www.freeipa.org/page/V3/Cert_find">http://www.freeipa.org/page/V3/Cert_find</a></p></li>
+<li><p>[3] <a class="reference external" href="http://www.freeipa.org/page/V3/Trust_config_command">http://www.freeipa.org/page/V3/Trust_config_command</a></p></li>
+<li><p>[4] <a class="reference external" href="http://www.freeipa.org/page/V3/Realm_Domains">http://www.freeipa.org/page/V3/Realm_Domains</a></p></li>
+<li><p>[5] <a class="reference external" href="http://www.freeipa.org/page/V3/Configurable_SID_Blacklists">http://www.freeipa.org/page/V3/Configurable_SID_Blacklists</a></p></li>
+<li><p>[6] <a class="reference external" href="http://www.freeipa.org/page/V3/WebUI_gzip_compression">http://www.freeipa.org/page/V3/WebUI_gzip_compression</a></p></li>
+<li><p>[7] <a class="reference external" href="http://www.freeipa.org/page/V3/WebUI_build">http://www.freeipa.org/page/V3/WebUI_build</a></p></li>
+<li><p>[8] <a class="reference external" href="http://www.freeipa.org/page/V3/Forced_client_re-enrollment">http://www.freeipa.org/page/V3/Forced_client_re-enrollment</a></p></li>
+<li><p>[9] <a class="reference external" href="http://www.freeipa.org/page/V3/Kerberos_Flags">http://www.freeipa.org/page/V3/Kerberos_Flags</a></p></li>
+<li><p>[10] <a class="reference external" href="http://www.freeipa.org/page/V3/Drop_CSV">http://www.freeipa.org/page/V3/Drop_CSV</a></p></li>
+<li><p>[11] <a class="reference external" href="http://www.freeipa.org/page/V3/WebUI_keyboard_confirmation">http://www.freeipa.org/page/V3/WebUI_keyboard_confirmation</a></p></li>
+<li><p>[12] <a class="reference external" href="http://www.freeipa.org/page/V3/MultipleTrustServers">http://www.freeipa.org/page/V3/MultipleTrustServers</a></p></li>
+</ul>
+</section>
+<section id="detailed-changelog-since-3-1-0">
+<span id="id8"></span><h1>Detailed Changelog since 3.1.0<a class="headerlink" href="#detailed-changelog-since-3-1-0" title="Permalink to this heading">¶</a></h1>
+<p>Alexander Bokovoy (7):</p>
+<ul class="simple">
+<li><p>Update plugin to upload CA certificate to LDAP</p></li>
+<li><p>ipasam: use base scope when fetching domain information about own
+domain</p></li>
+<li><p>ipaserver/dcerpc: enforce search_s without schema checks for GC
+searching</p></li>
+<li><p>ipa-replica-manage: migrate to single_value after LDAPEntry updates</p></li>
+<li><p>Process exceptions when talking to Dogtag</p></li>
+<li><p>ipasam: add enumeration of UPN suffixes based on the realm domains</p></li>
+<li><p>Enhance ipa-adtrust-install for domains with multiple IPA server</p></li>
+</ul>
+<p>Ana Krivokapic (10):</p>
+<ul class="simple">
+<li><p>Raise ValidationError for incorrect subtree option.</p></li>
+<li><p>Add crond as a default HBAC service</p></li>
+<li><p>Take into consideration services when deleting replicas</p></li>
+<li><p>Add list of domains associated to our realm to cn=etc</p></li>
+<li><p>Improve error messages for external group members</p></li>
+<li><p>Remove check for alphabetic only characters from domain name
+validation</p></li>
+<li><p>Fix internal error for ipa show-mappings</p></li>
+<li><p>Realm Domains page</p></li>
+<li><p>Use default NETBIOS name in unattended ipa-adtrust-install</p></li>
+<li><p>Add mkhomedir option to ipa-server-install and ipa-replica-install</p></li>
+</ul>
+<p>Brian Cook (1):</p>
+<ul class="simple">
+<li><p>Add DNS Setup Prompt to Install</p></li>
+</ul>
+<p>JR Aquino (1):</p>
+<ul class="simple">
+<li><p>Allow PKI-CA Replica Installs when CRL exceeds default maxber value</p></li>
+</ul>
+<p>Jakub Hrozek (1):</p>
+<ul class="simple">
+<li><p>Allow ipa-replica-conncheck and ipa-adtrust-install to read krb5
+includedir</p></li>
+</ul>
+<p>Jan Cholasta (24):</p>
+<ul class="simple">
+<li><p>Pylint cleanup.</p></li>
+<li><p>Drop ipapython.compat.</p></li>
+<li><p>Add support for RFC 6594 SSHFP DNS records.</p></li>
+<li><p>Raise ValidationError on invalid CSV values.</p></li>
+<li><p>Run interactive_prompt callbacks after CSV values are split.</p></li>
+<li><p>Add custom mapping object for LDAP entry data.</p></li>
+<li><p>Add make_entry factory method to LDAPConnection.</p></li>
+<li><p>Remove the Entity class.</p></li>
+<li><p>Remove the Entry class.</p></li>
+<li><p>Use the dn attribute of LDAPEntry to set/get DNs of entries.</p></li>
+<li><p>Preserve case of attribute names in LDAPEntry.</p></li>
+<li><p>Aggregate IPASimpleLDAPObject in LDAPEntry.</p></li>
+<li><p>Support attributes with multiple names in LDAPEntry.</p></li>
+<li><p>Use full DNs in plugin code.</p></li>
+<li><p>Remove DN normalization from the baseldap plugin.</p></li>
+<li><p>Remove support for DN normalization from LDAPClient.</p></li>
+<li><p>Fix remove while iterating in suppress_netgroup_memberof.</p></li>
+<li><p>Remove disabled entries from sudoers compat tree.</p></li>
+<li><p>Fix internal error in output_for_cli method of
+sudorule_{enable,disable}.</p></li>
+<li><p>Do not fail if schema cannot be retrieved from LDAP server.</p></li>
+<li><p>Allow disabling LDAP schema retrieval in LDAPClient and IPAdmin.</p></li>
+<li><p>Allow disabling attribute decoding in LDAPClient and IPAdmin.</p></li>
+<li><p>Disable schema retrieval and attribute decoding when talking to AD
+GC.</p></li>
+<li><p>Add Kerberos ticket flags management to service and host plugins.</p></li>
+</ul>
+<p>John Dennis (2):</p>
+<ul class="simple">
+<li><p>Cookie Expires date should be locale insensitive</p></li>
+<li><p>Use secure method to acquire IPA CA certificate</p></li>
+</ul>
+<p>Lynn Root (4):</p>
+<ul class="simple">
+<li><p>Switch %r specifiers to ‘%s’ in Public errors</p></li>
+<li><p>Added the ability to do Beta versioning</p></li>
+<li><p>Fixed the catch of the hostname option during ipa-server-install</p></li>
+<li><p>Raise ValidationError when CSR does not have a subject hostname</p></li>
+</ul>
+<p>Martin Kosek (58):</p>
+<ul class="simple">
+<li><p>Add Lynn Root to Contributors.txt</p></li>
+<li><p>Enable SSSD on client install</p></li>
+<li><p>Fix delegation-find command –group handling</p></li>
+<li><p>Do not crash when Kerberos SRV record is not found</p></li>
+<li><p>permission-find no longer crashes with –targetgroup</p></li>
+<li><p>Avoid CRL migration error message</p></li>
+<li><p>Sort LDAP updates properly</p></li>
+<li><p>Upgrade process should not crash on named restart</p></li>
+<li><p>Installer should not connect to 127.0.0.1</p></li>
+<li><p>Fix migration for openldap DS</p></li>
+<li><p>Remove unused krbV imports</p></li>
+<li><p>Use fully qualified CCACHE names</p></li>
+<li><p>Fix permission_find test error</p></li>
+<li><p>Add trusconfig-show and trustconfig-mod commands</p></li>
+<li><p>ipa-kdb: add sentinel for LDAPDerefSpec allocation</p></li>
+<li><p>ipa-kdb: avoid ENOMEM when all SIDs are filtered out</p></li>
+<li><p>ipa-kdb: reinitialize LDAP configuration for known realms</p></li>
+<li><p>Add SID blacklist attributes</p></li>
+<li><p>ipa-kdb: read SID blacklist from LDAP</p></li>
+<li><p>ipa-sam: Fill SID blacklist when trust is added</p></li>
+<li><p>ipa-adtrust-install should ask for SID generation</p></li>
+<li><p>Test NetBIOS name clash before creating a trust</p></li>
+<li><p>Generalize AD GC search</p></li>
+<li><p>Do not hide SID resolver error in group-add-member</p></li>
+<li><p>Add support for AD users to hbactest command</p></li>
+<li><p>Fix hbachelp examples formatting</p></li>
+<li><p>ipa-kdb: remove memory leaks</p></li>
+<li><p>ipa-kdb: fix retry logic in ipadb_deref_search</p></li>
+<li><p>Add autodiscovery section in ipa-client-install man pages</p></li>
+<li><p>Avoid internal error when user is not Trust admin</p></li>
+<li><p>Use fixed test domain in realmdomains test</p></li>
+<li><p>Bump FreeIPA version for development branch</p></li>
+<li><p>Remove ORDERING for IA5 attributeTypes</p></li>
+<li><p>Fix includedir directive in krb5.conf template</p></li>
+<li><p>Use new 389-ds-base cleartext password API</p></li>
+<li><p>Do not hide idrange-add errors when adding trust</p></li>
+<li><p>Preserve order of servers in ipa-client-install</p></li>
+<li><p>Avoid multiple client discovery with fixed server list</p></li>
+<li><p>Update named.conf parser</p></li>
+<li><p>Use tkey-gssapi-keytab in named.conf</p></li>
+<li><p>Do not force named connections on upgrades</p></li>
+<li><p>ipa-client discovery with anonymous access off</p></li>
+<li><p>Use temporary CCACHE in ipa-client-install</p></li>
+<li><p>Improve client install LDAP cert retrieval fallback</p></li>
+<li><p>Configure ipa_dns DS plugin on install and upgrade</p></li>
+<li><p>Fix structured DNS record output</p></li>
+<li><p>Bump selinux-policy requires</p></li>
+<li><p>Clean spec file for Fedora 19</p></li>
+<li><p>Remove build warnings</p></li>
+<li><p>Remove syslog.target from ipa.server</p></li>
+<li><p>Put pid-file to named.conf</p></li>
+<li><p>Update mod_wsgi socket directory</p></li>
+<li><p>Normalize RA agent certificate</p></li>
+<li><p>Require 389-base-base 1.3.0.5</p></li>
+<li><p>Change CNAME and DNAME attributes to single valued</p></li>
+<li><p>Improve CNAME record validation</p></li>
+<li><p>Improve DNAME record validation</p></li>
+<li><p>Become 3.2.0 Prerelease 1</p></li>
+</ul>
+<p>Petr Spacek (1):</p>
+<ul class="simple">
+<li><p>Add 389 DS plugin for special idnsSOASerial attribute handling</p></li>
+</ul>
+<p>Petr Viktorin (101):</p>
+<ul class="simple">
+<li><p>Sort Options and Outputs in API.txt</p></li>
+<li><p>Add the CA cert to LDAP after the CA install</p></li>
+<li><p>Better logging for AdminTool and ipa-ldap-updater</p></li>
+<li><p>Port ipa-replica-prepare to the admintool framework</p></li>
+<li><p>Make ipapython.dogtag log requests at debug level, not info</p></li>
+<li><p>Don’t add another nsDS5ReplicaId on updates if one already exists</p></li>
+<li><p>Improve `ipa –help` output</p></li>
+<li><p>Print help to stderr on error</p></li>
+<li><p>Store the OptionParser in the API, use it to print unified help
+messages</p></li>
+<li><p>Simplify `ipa help topics` output</p></li>
+<li><p>Add command summary to `ipa COMMAND –help` output</p></li>
+<li><p>Mention `ipa COMMAND –help` as the preferred way to get command
+help</p></li>
+<li><p>Parse command arguments before creating a context</p></li>
+<li><p>Add tests for the help command &amp; –help options</p></li>
+<li><p>In topic help text, mention how to get help for commands</p></li>
+<li><p>Check SSH connection in ipa-replica-conncheck</p></li>
+<li><p>Use ipauniqueid for the RDN of sudo commands</p></li>
+<li><p>Prevent a sudo command from being deleted if it is a member of a sudo
+rule</p></li>
+<li><p>Update sudocmd ACIs to use targetfilter</p></li>
+<li><p>Add the version option to all Commands</p></li>
+<li><p>Add ipalib.messages</p></li>
+<li><p>Add client capabilities, enable messages</p></li>
+<li><p>Rename the “messages” Output of the i18n_messages command to “texts”</p></li>
+<li><p>Fix permission validation and normalization in aci.py</p></li>
+<li><p>Remove csv_separator and csv_skipspace Param arguments</p></li>
+<li><p>Drop support for CSV in the CLI client</p></li>
+<li><p>Update argument docs to reflect dropped CSV support</p></li>
+<li><p>Update plugin docstrings (topic help) to reflect dropped CSV support</p></li>
+<li><p>cli: Do interactive prompting after a context is created</p></li>
+<li><p>Remove some unused imports</p></li>
+<li><p>Remove unused methods from Entry, Entity, and IPAdmin</p></li>
+<li><p>Derive Entity class from Entry, and move it to ldapupdate</p></li>
+<li><p>Use explicit loggers in ldap2 code</p></li>
+<li><p>Move LDAPEntry to ipaserver.ipaldap and derive Entry from it</p></li>
+<li><p>Remove connection-creating code from ShemaCache</p></li>
+<li><p>Move the decision to force schema updates out of IPASimpleLDAPObject</p></li>
+<li><p>Move SchemaCache and IPASimpleLDAPObject to ipaserver.ipaldap</p></li>
+<li><p>Start LDAPConnection, a common base for ldap2 and IPAdmin</p></li>
+<li><p>Make IPAdmin not inherit from IPASimpleLDAPObject</p></li>
+<li><p>Move schema-related methods to LDAPConnection</p></li>
+<li><p>Move DN handling methods to LDAPConnection</p></li>
+<li><p>Move filter making methods to LDAPConnection</p></li>
+<li><p>Move entry finding methods to LDAPConnection</p></li>
+<li><p>Remove unused proxydn functionality from IPAdmin</p></li>
+<li><p>Move entry add, update, remove, rename to LDAPConnection</p></li>
+<li><p>Implement some of IPAdmin’s legacy methods in terms of LDAPConnection
+methods</p></li>
+<li><p>Replace setValue by keyword arguments when creating entries</p></li>
+<li><p>Use update_entry with a single entry in adtrustinstance</p></li>
+<li><p>Replace entry.getValues() by entry.get()</p></li>
+<li><p>Replace entry.setValue/setValues by item assignment</p></li>
+<li><p>Replace add_s and delete_s by their newer equivalents</p></li>
+<li><p>Change {add,update,delete}_entry to take LDAPEntries</p></li>
+<li><p>Remove unused imports from ipaserver/install</p></li>
+<li><p>Remove unused bindcert and bindkey arguments to IPAdmin</p></li>
+<li><p>Turn the LDAPError handler into a context manager</p></li>
+<li><p>Remove dbdir, binddn, bindpwd from IPAdmin</p></li>
+<li><p>Remove IPAdmin.updateEntry calls from fix_replica_agreements</p></li>
+<li><p>Remove IPAdmin.get_dns_sorted_by_length</p></li>
+<li><p>Replace IPAdmin.checkTask by replication.wait_for_task</p></li>
+<li><p>Introduce LDAPEntry.single_value for getting single-valued attributes</p></li>
+<li><p>Remove special-casing for missing and single-valued attributes in
+LDAPUpdate._entry_to_entity</p></li>
+<li><p>Replace entry.getValue by entry.single_value</p></li>
+<li><p>Replace getList by a get_entries method</p></li>
+<li><p>Remove toTupleList and attrList from LDAPEntry</p></li>
+<li><p>Rename LDAPConnection to LDAPClient</p></li>
+<li><p>Replace addEntry with add_entry</p></li>
+<li><p>Replace deleteEntry with delete_entry</p></li>
+<li><p>Fix typo and traceback suppression in replication.py</p></li>
+<li><p>replace getEntry with get_entry (or get_entries if scope !=
+SCOPE_BASE)</p></li>
+<li><p>Inline inactivateEntry in its only caller</p></li>
+<li><p>Inline waitForEntry in its only caller</p></li>
+<li><p>Proxy LDAP methods explicitly rather than using __getattr__</p></li>
+<li><p>Remove search_s and search_ext_s from IPAdmin</p></li>
+<li><p>Replace IPAdmin.start_tls_s by an __init__ argument</p></li>
+<li><p>Remove IPAdmin.sasl_interactive_bind_s</p></li>
+<li><p>Remove IPAdmin.simple_bind_s</p></li>
+<li><p>Remove IPAdmin.unbind_s(), keep unbind()</p></li>
+<li><p>Use ldap instead of _ldap in ipaldap</p></li>
+<li><p>Do not use global variables in migration.py</p></li>
+<li><p>Use IPAdmin rather than raw python-ldap in migration.bind</p></li>
+<li><p>Use IPAdmin rather than raw python-ldap in ipactl</p></li>
+<li><p>Remove some uses of raw python-ldap</p></li>
+<li><p>Improve LDAPEntry tests</p></li>
+<li><p>Fix installing server with external CA</p></li>
+<li><p>Change DNA magic value to -1 to make UID 999 usable</p></li>
+<li><p>Move ipaldap to ipapython</p></li>
+<li><p>Remove ipaserver/ipaldap.py</p></li>
+<li><p>Use IPAdmin rather than raw python-ldap in ipa-client-install</p></li>
+<li><p>Use IPAdmin rather than raw python-ldap in migration.py and
+ipadiscovery.py</p></li>
+<li><p>Remove unneeded python-ldap imports</p></li>
+<li><p>Don’t download the schema in ipadiscovery</p></li>
+<li><p>ipa-server-install: Make temporary pin files available for the whole
+installation</p></li>
+<li><p>ipa-server-install: Remove the –selfsign option</p></li>
+<li><p>Remove unused ipapython.certdb.CertDB class</p></li>
+<li><p>ipaserver.install.certs: Introduce NSSDatabase as a more generic
+certutil wrapper</p></li>
+<li><p>Trust CAs from PKCS#12 files even if they don’t have Friendly Names</p></li>
+<li><p>dsinstance, httpinstance: Don’t hardcode ‘Server-Cert’</p></li>
+<li><p>Support installing with custom SSL certs, without a CA</p></li>
+<li><p>Load the CA cert into server NSS databases</p></li>
+<li><p>Do not call cert-* commands in host plugin if a RA is not available</p></li>
+<li><p>ipa-client-install: Do not request host certificate if server is
+CA-less</p></li>
+</ul>
+<p>Petr Vobornik (38):</p>
+<ul class="simple">
+<li><p>Make confirm_dialog a base class of revoke and restore certificate
+dialogs</p></li>
+<li><p>Make confirm_dialog a base class for deleter dialog</p></li>
+<li><p>Make confirm_dialog a base class for message_dialog</p></li>
+<li><p>Confirm mixin</p></li>
+<li><p>Confirm adder dialog by enter</p></li>
+<li><p>Confirm error dialog by enter</p></li>
+<li><p>Focus last dialog when some is closed</p></li>
+<li><p>Confirm association dialogs by enter</p></li>
+<li><p>Standardize login password reset, user reset password and host set
+OTP dialogs</p></li>
+<li><p>Focus first input element after ‘Add and Add another’</p></li>
+<li><p>Enable mod_deflate</p></li>
+<li><p>Use Uglify.js for JS optimization</p></li>
+<li><p>Dojo Builder</p></li>
+<li><p>Config files for builder of FreeIPA UI layer</p></li>
+<li><p>Minimal Dojo layer</p></li>
+<li><p>Web UI development environment directory structure and configuration</p></li>
+<li><p>Web UI Sync development utility</p></li>
+<li><p>Move of Web UI non AMD dep. libs to libs subdirectory</p></li>
+<li><p>Move of core Web UI files to AMD directory</p></li>
+<li><p>Update JavaScript Lint configuration file</p></li>
+<li><p>AMD config file</p></li>
+<li><p>Change Web UI sources to simple AMD modules</p></li>
+<li><p>Updated makefiles to build FreeIPA Web UI layer</p></li>
+<li><p>Change tests to use AMD loader</p></li>
+<li><p>Fix BuildRequires: rhino replaced with java-1.7.0-openjdk</p></li>
+<li><p>Develop.js extended</p></li>
+<li><p>Allow to specify modules for which builder doesn’t raise dependency
+error</p></li>
+<li><p>Web UI build profile updated</p></li>
+<li><p>Combobox keyboard support</p></li>
+<li><p>Fix dirty state update of editable combobox</p></li>
+<li><p>Fix handling of no_update flag in Web UI</p></li>
+<li><p>Web UI: configurable SID blacklists</p></li>
+<li><p>Web UI:Certificate pages</p></li>
+<li><p>Web UI:Choose different search option for cert-find</p></li>
+<li><p>Fixed Web UI build error caused by rhino changes in F19</p></li>
+<li><p>Nestable checkbox/radio widget</p></li>
+<li><p>Added Web UI support for service PAC type option: NONE</p></li>
+<li><p>Web UI: Disable cert functionality if a CA is not available</p></li>
+</ul>
+<p>Rob Crittenden (16):</p>
+<ul class="simple">
+<li><p>Convert uniqueMember members into DN objects.</p></li>
+<li><p>Add Ana Krivokapic to Contributors.txt</p></li>
+<li><p>Do SSL CA verification and hostname validation.</p></li>
+<li><p>Don’t initialize NSS if we don’t have to, clean up unused cert refs</p></li>
+<li><p>Update anonymous access ACI to protect secret attributes.</p></li>
+<li><p>Make certmonger a (pre) requires on server, restart it before
+upgrading</p></li>
+<li><p>Use new certmonger locking to prevent NSS database corruption.</p></li>
+<li><p>Improve migration performance</p></li>
+<li><p>Add LDAP server fallback to client installer</p></li>
+<li><p>Prevent a crash when no entries are successfully migrated.</p></li>
+<li><p>Implement the cert-find command for the dogtag CA backend.</p></li>
+<li><p>Add missing v3 schema on upgrades, fix typo in schema.</p></li>
+<li><p>Don’t base64-encode the CA cert when uploading it during an upgrade.</p></li>
+<li><p>Extend ipa-replica-manage to be able to manage DNA ranges.</p></li>
+<li><p>Improve some error handling in ipa-replica-manage</p></li>
+<li><p>Fix lockout of LDAP bind.</p></li>
+</ul>
+<p>Simo Sorce (2):</p>
+<ul class="simple">
+<li><p>Log info on failure to connect</p></li>
+<li><p>Upload CA cert in the directory on install</p></li>
+</ul>
+<p>Sumit Bose (17):</p>
+<ul class="simple">
+<li><p>ipa-kdb: remove unused variable</p></li>
+<li><p>ipa-kdb: Uninitialized scalar variable in ipadb_reinit_mspac()</p></li>
+<li><p>ipa-sam: Array compared against 0 in ipasam_set_trusted_domain()</p></li>
+<li><p>ipa-kdb: Dereference after null check in ipa_kdb_mspac.c</p></li>
+<li><p>ipa-lockout: Wrong sizeof argument in ipa_lockout.c</p></li>
+<li><p>ipa-extdom: Double-free in ipa_extdom_common.c</p></li>
+<li><p>ipa-pwd: Unchecked return value ipapwd_chpwop()</p></li>
+<li><p>Revert “MS-PAC: Special case NFS services”</p></li>
+<li><p>Add NFS specific default for authorization data type</p></li>
+<li><p>ipa-kdb: Read global defaul ipaKrbAuthzData</p></li>
+<li><p>ipa-kdb: Read ipaKrbAuthzData with other principal data</p></li>
+<li><p>ipa-kdb: add PAC only if requested</p></li>
+<li><p>Add unit test for get_authz_data_types()</p></li>
+<li><p>Mention PAC issue with NFS in service plugin doc</p></li>
+<li><p>Allow ‘<a class="reference external" href="nfs:NONE">nfs:NONE</a>’ in global configuration</p></li>
+<li><p>Add support for cmocka C-Unit Test framework</p></li>
+<li><p>ipa-pwd-extop: do not use dn until it is really set</p></li>
+</ul>
+<p>Timo Aaltonen (1):</p>
+<ul class="simple">
+<li><p>convert the base platform modules into packages</p></li>
+</ul>
+<p>Tomas Babej (18):</p>
+<ul class="simple">
+<li><p>Relax restriction for leading/trailing whitespaces in *-find
+commands</p></li>
+<li><p>Forbid overlapping rid ranges for the same id range</p></li>
+<li><p>Fix a typo in ipa-adtrust-install help</p></li>
+<li><p>Prevent integer overflow when setting krbPasswordExpiration</p></li>
+<li><p>Add option to specify SID using domain name to idrange-add/mod</p></li>
+<li><p>Prevent changing protected group’s name using –setattr</p></li>
+<li><p>Use default.conf as flag of IPA client being installed</p></li>
+<li><p>Make sure appropriate exit status is returned in make-test</p></li>
+<li><p>Make options checks in idrange-add/mod consistent</p></li>
+<li><p>Add trusted domain range objectclass when using idrange-mod</p></li>
+<li><p>Perform secondary rid range overlap check for local ranges only</p></li>
+<li><p>Add support for re-enrolling hosts using keytab</p></li>
+<li><p>Make sure uninstall script prompts for reboot as last</p></li>
+<li><p>Remove implicit Str to DN conversion using *-attr</p></li>
+<li><p>Enforce exact SID match when adding or modifying a ID range</p></li>
+<li><p>Allow host re-enrollment using delegation</p></li>
+<li><p>Add logging to join command</p></li>
+<li><p>Properly handle ipa-replica-install when its zone is not managed by
+IPA</p></li>
+</ul>
+<p>sbose (1):</p>
+<ul class="simple">
+<li><p>ipa-kdb: Free talloc autofree context when module is closed</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Releases/3.2.0.pre1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using mod_nss’s NSSVerifyClient require + LookupUserByCertificate + GssapiImpersonate &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="IPA Server Authentication with User Certificate or Smart Card Setup" href="Setup.html" />
+    <link rel="prev" title="Overview" href="../DNS%3A_Automatic_Zone_NS/SOA_Record_Maintenance.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="using-mod-nss-s-nssverifyclient-require-lookupuserbycertificate-gssapiimpersonate">
+<span id="using-mod-nsss-nssverifyclient-require-lookupuserbycertificate-gssapiimpersonate"></span><h1>Using mod_nss’s NSSVerifyClient require + LookupUserByCertificate + GssapiImpersonate<a class="headerlink" href="#using-mod-nss-s-nssverifyclient-require-lookupuserbycertificate-gssapiimpersonate" title="Permalink to this heading">¶</a></h1>
+<p>TL;DR: mod_nss’s NSSVerifyClient require + LookupUserByCertificate On +
+GssapiImpersonate On work for generic Apache setup but it is fragile and
+updates are likely needed to mod_lookup_identity and mod_nss.</p>
+<p>This was an email summary, that’s why it’s written in an Ich form.</p>
+<p>See also <a class="reference external" href="V4/External_Authentication/Setup">setup of this feature for FreeIPA
+WebUI</a>.</p>
+<hr class="docutils" />
+<section id="setup-and-test-steps">
+<span id="id1"></span><h2>Setup and test steps<a class="headerlink" href="#setup-and-test-steps" title="Permalink to this heading">¶</a></h2>
+<p>I have used RHEL 7.2, IPA-enrolled to RHEL 7.2 IPA. I’ve installed</p>
+<ul class="simple">
+<li><p>mod_nss-1.0.11-6.el7.x86_64</p></li>
+<li><p>mod_lookup_identity-0.9.3-1.el7.x86_64</p></li>
+<li><p>sssd-dbus-1.13.0-40.el7.x86_64</p></li>
+</ul>
+<p>and built mod_auth_gssapi from master
+(3e0f4e980b4bea2f4f347fc39ea3deddf95fe71e) with make -j &amp;&amp; make install.</p>
+<p>I’ve configured SSSD:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sssd</span><span class="o">/</span><span class="n">sssd</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">orig</span>    <span class="mi">2016</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span> <span class="mi">04</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mf">01.056705019</span> <span class="o">-</span><span class="mi">0400</span>
+<span class="o">+++</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sssd</span><span class="o">/</span><span class="n">sssd</span><span class="o">.</span><span class="n">conf</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span> <span class="mi">07</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mf">58.078165651</span> <span class="o">-</span><span class="mi">0400</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">7</span> <span class="o">+</span><span class="mi">12</span><span class="p">,</span><span class="mi">7</span> <span class="o">@@</span>
+ <span class="n">ipa_server</span> <span class="o">=</span> <span class="n">_srv_</span><span class="p">,</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+ <span class="n">dns_discovery_domain</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+ <span class="p">[</span><span class="n">sssd</span><span class="p">]</span>
+<span class="o">-</span><span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">sudo</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span>
+<span class="o">+</span><span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">sudo</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span><span class="p">,</span> <span class="n">ifp</span>
+ <span class="n">config_file_version</span> <span class="o">=</span> <span class="mi">2</span>
+
+ <span class="n">domains</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>and run</p>
+<div class="line-block">
+<div class="line">``       setsebool -P httpd_dbus_sssd on``</div>
+<div class="line">``       systemctl restart sssd``</div>
+</div>
+<p>I have created HTTP/ service for the machine and got its keytab:</p>
+<div class="line-block">
+<div class="line">``       echo Secret123 | kinit admin``</div>
+<div class="line">``       ipa service-add HTTP/$(hostname)``</div>
+<div class="line">``       IPA_SERVER=$(awk ‘/^server =/ {print $3}’ /etc/ipa/default.conf)``</div>
+<div class="line">``       ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)``</div>
+<div class="line">``       chown apache /etc/http.keytab``</div>
+<div class="line">``       chmod 600 /etc/http.keytab``</div>
+</div>
+<p>On the IPA server, I’ve run</p>
+<div class="line-block">
+<div class="line">``       [<a class="reference external" href="mailto:root&#37;&#52;&#48;ipa">root<span>&#64;</span>ipa</a> ~]# kadmin.local``</div>
+<div class="line">``       Authenticating as principal <a class="reference external" href="mailto:admin/admin&#37;&#52;&#48;EXAMPLE&#46;COM">admin/admin<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> with password.``</div>
+<div class="line">``       kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com``</div>
+<div class="line">``       Principal “<a class="reference external" href="mailto:HTTP/client&#46;example&#46;com&#37;&#52;&#48;EXAMPLE&#46;COM">HTTP/client<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>” modified.``</div>
+<div class="line">``       kadmin.local:  quit``</div>
+</div>
+<p>I have created directory for the delegated credentials:</p>
+<div class="line-block">
+<div class="line">``       mkdir /var/run/httpd/gssapi_deleg``</div>
+<div class="line">``       chown apache /var/run/httpd/gssapi_deleg``</div>
+</div>
+<p>I have created user and associated client certificate (the test
+certificate alpha from mod_nss’s default /etc/httpd/alias) with it:</p>
+<div class="line-block">
+<div class="line">``       ipa user-add –first Robert –last Chase –random bob``</div>
+<div class="line">``       ipa user-add-cert –certificate=”$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v ‘.—’ )” bob``</div>
+</div>
+<p>I had to change bob’s password or I was getting CLIENT KEY EXPIRED later
+during gss_acquire_cred_impersonate_name:</p>
+<p>``       kpasswd bob``</p>
+<p>I have created test content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat &gt; /var/www/cgi-bin/set.cgi &lt;&lt;EOF</span>
+<span class="c1">#!/bin/bash</span>
+<span class="n">echo</span> <span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="p">:</span> <span class="n">text</span><span class="o">/</span><span class="n">plain</span>
+<span class="n">echo</span> <span class="n">Pragma</span><span class="p">:</span> <span class="n">no</span><span class="o">-</span><span class="n">cache</span>
+<span class="n">echo</span>
+<span class="nb">set</span>
+<span class="n">EOF</span>
+
+<span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">x</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">cgi</span><span class="o">-</span><span class="nb">bin</span><span class="o">/</span><span class="nb">set</span><span class="o">.</span><span class="n">cgi</span>
+</pre></div>
+</div>
+<p>Started Apache and tested I can talk to it via HTTPS:</p>
+<p>``       SSL_DIR=/etc/httpd/alias curl -v -Lsi <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://$(hostname):8443/cgi-bin/set.cgi</span></code> &lt;<a class="reference external" href="https://$(hostname):8443/cgi-bin/set.cgi">https://$(hostname):8443/cgi-bin/set.cgi</a>&gt;`__</p>
+<p>I’ve configured the modules:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nss</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">orig</span>     <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">22</span> <span class="mi">16</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mf">00.000000000</span> <span class="o">-</span><span class="mi">0400</span>
+<span class="o">+++</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nss</span><span class="o">.</span><span class="n">conf</span>  <span class="mi">2016</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span> <span class="mi">07</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mf">00.591724042</span> <span class="o">-</span><span class="mi">0400</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">70</span><span class="p">,</span><span class="mi">11</span> <span class="o">+</span><span class="mi">70</span><span class="p">,</span><span class="mi">13</span> <span class="o">@@</span>
+ <span class="c1">#</span>
+ <span class="c1"># Only renegotiate if the peer&#39;s hello bears the TLS renegotiation_info</span>
+ <span class="c1"># extension. Default off.</span>
+<span class="o">-</span><span class="n">NSSRenegotiation</span> <span class="n">off</span>
+<span class="o">+</span><span class="c1"># NSSRenegotiation off</span>
+<span class="o">+</span><span class="n">NSSRenegotiation</span> <span class="n">on</span>
+
+ <span class="c1"># Peer must send Signaling Cipher Suite Value (SCSV) or</span>
+ <span class="c1"># Renegotiation Info (RI) extension in ALL handshakes.  Default: off</span>
+<span class="o">-</span><span class="n">NSSRequireSafeNegotiation</span> <span class="n">off</span>
+<span class="o">+</span><span class="c1"># NSSRequireSafeNegotiation off</span>
+<span class="o">+</span><span class="n">NSSRequireSafeNegotiation</span> <span class="n">on</span>
+
+ <span class="c1">##</span>
+ <span class="c1">## SSL Virtual Host Context</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">146</span><span class="p">,</span><span class="mi">6</span> <span class="o">+</span><span class="mi">148</span><span class="p">,</span><span class="mi">16</span> <span class="o">@@</span>
+ <span class="c1">#   Client certificate verification type.  Types are none, optional and</span>
+ <span class="c1">#   require.</span>
+ <span class="c1">#NSSVerifyClient none</span>
+<span class="o">+&lt;</span><span class="n">Location</span> <span class="o">/</span><span class="n">cgi</span><span class="o">-</span><span class="nb">bin</span><span class="o">/</span><span class="nb">set</span><span class="o">.</span><span class="n">cgi</span><span class="o">&gt;</span>
+<span class="o">+</span><span class="n">NSSVerifyClient</span> <span class="n">require</span>
+<span class="o">+</span><span class="n">NSSUserName</span> <span class="n">SSL_CLIENT_CERT</span>
+<span class="o">+</span><span class="n">LookupUserByCertificate</span> <span class="n">On</span>
+<span class="o">+</span>
+<span class="o">+</span><span class="n">GssapiImpersonate</span> <span class="n">On</span>
+<span class="o">+</span><span class="n">GssapiDelegCcacheDir</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">gssapi_deleg</span>
+<span class="o">+</span><span class="n">GssapiCredStore</span> <span class="n">keytab</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span>
+<span class="o">+</span><span class="n">GssapiCredStore</span> <span class="n">client_keytab</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span>
+<span class="o">+&lt;/</span><span class="n">Location</span><span class="o">&gt;</span>
+
+ <span class="c1">#</span>
+ <span class="c1">#   Online Certificate Status Protocol (OCSP).</span>
+</pre></div>
+</div>
+<p>uncommented LoadModule in</p>
+<p>``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``</p>
+<p>and run</p>
+<div class="line-block">
+<div class="line">``       echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so &gt; /etc/httpd/conf.modules.d/09-gssapi.conf``</div>
+<div class="line">``       systemctl restart httpd``</div>
+</div>
+<p>I’ve now run</p>
+<p>``       SSL_DIR=/etc/httpd/alias curl -Lsi –cert alpha <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://$(hostname):8443/cgi-bin/set.cgi</span></code> &lt;<a class="reference external" href="https://$(hostname):8443/cgi-bin/set.cgi">https://$(hostname):8443/cgi-bin/set.cgi</a>&gt;`__</p>
+<p>and in the log I saw</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">==&gt;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">error_log</span> <span class="o">&lt;==</span>
+<span class="p">[</span><span class="n">Thu</span> <span class="n">Jun</span> <span class="mi">16</span> <span class="mi">08</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mf">28.070370</span> <span class="mi">2016</span><span class="p">]</span> <span class="p">[:</span><span class="n">notice</span><span class="p">]</span> <span class="p">[</span><span class="n">pid</span> <span class="mi">18961</span><span class="p">]</span> <span class="n">lookup_user_by_certificate</span> <span class="n">found</span> <span class="p">[</span><span class="n">bob</span><span class="p">]</span>
+
+<span class="o">==&gt;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">access_log</span> <span class="o">&lt;==</span>
+<span class="mi">2620</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">1322</span><span class="p">:</span><span class="mi">221</span><span class="p">:</span><span class="mi">5</span><span class="n">eff</span><span class="p">:</span><span class="n">fe20</span><span class="p">:</span><span class="mi">2</span><span class="n">f4e</span> <span class="o">-</span> <span class="o">-----</span><span class="n">BEGIN</span> <span class="n">CERTIFICATE</span><span class="o">-----</span>\<span class="n">nMIICeDCCAeGgAwIBAgIBAjANBgkqhkiG9w0BAQsFADA</span><span class="o">/</span><span class="n">MQswCQYDVQQGEwJVUzEU</span>\<span class="n">nMBIGA1UEChMLZXhhbXBsZS5jb20xGjAYBgNVBAMTE</span>
+<span class="n">UNlcnRpZmljYXRlIFNoYWNr</span>\<span class="n">nMB4XDTE2MDYxNjA4NTM0MVoXDTIwMDYxNjA4NTM0MVowgaAxCzAJBgNVBAYTAlVT</span>\<span class="n">nMRQwEgYDVQQKEwtleGFtcGxlLmNvbTEPMA0GA1UECxMGUGVvcGxlMRUwEwYKCZIm</span>\<span class="n">niZPyLGQBARMFYWxwaGExFDA</span>
+<span class="n">SBgNVBAMTC0ZyYW5rIEFscGhhMT0wOwYJKoZIhvcN</span>\<span class="n">nAQkBFi5hbHBoYUBxZS1ibGFkZS0xMC5pZG1xZS5sYWIuZW5nLmJvcy5yZWRoYXQu</span>\<span class="n">nY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7XmqZ98Ohbom0YHr8yr5M</span>\<span class="n">nvMeuE</span>
+<span class="n">ju</span><span class="o">+</span><span class="n">uVmv2vNEjAzrK3bdKcvqVHcx9sGJz376X6PrJxOthFiItxKpEWxshadK</span>\<span class="n">nDwxrz0JPiDyZQW5FPYIuFx</span><span class="o">/</span><span class="n">vH8hnPE5LetTw7rf1ukUU4CpfnonLuH7LBwGmpUIl</span>\<span class="n">neRV4ATUb0GYIF</span><span class="o">/</span><span class="n">P8gdtOZwIDAQABoyIwIDARBglghkgBhvhCAQEEB</span>
+<span class="n">AMCB4AwCwYD</span>\<span class="n">nVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4GBAGVMJU24Cjz9CPBmiW61l4B</span><span class="o">+</span><span class="n">ufI7</span>\<span class="n">nLvyxCQirRq4rkus0fmkYFHd3</span><span class="o">+</span><span class="n">zB40dUcnM</span><span class="o">/</span><span class="n">o1Vv5dV3uCxPOjiZz72Ur</span><span class="o">/</span><span class="n">bVG3Igw</span>\<span class="n">nI02zZc86</span><span class="o">+</span><span class="n">jV9mO5FSfu10myoUNExnsR3uKY</span>
+<span class="n">WZUW</span><span class="o">/</span><span class="mi">5</span><span class="n">rl4GRMtFa8Gruk4cFa0</span><span class="o">+</span><span class="n">DJx</span>\<span class="n">nL</span><span class="o">/</span><span class="n">dRR</span><span class="o">/</span><span class="n">x2uOqDY0Rb</span>\<span class="n">n</span><span class="o">-----</span><span class="n">END</span> <span class="n">CERTIFICATE</span><span class="o">-----</span>\<span class="n">n</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Jun</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">28</span> <span class="o">-</span><span class="mi">0400</span><span class="p">]</span> <span class="s2">&quot;GET /cgi-bin/set.cgi HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">4196</span>
+</pre></div>
+</div>
+<p>and <a class="reference external" href="mailto:/var/run/httpd/gssapi_deleg/bob&#37;&#52;&#48;EXAMPLE&#46;COM">/var/run/httpd/gssapi_deleg/bob<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> got created.</p>
+</section>
+<section id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">¶</a></h2>
+<section id="mod-lookup-identity">
+<h3>mod_lookup_identity<a class="headerlink" href="#mod-lookup-identity" title="Permalink to this heading">¶</a></h3>
+<p>The correct functionality depends on the order in which mod_nss and
+mod_lookup_identity are loaded. By default, on RHEL 7.2, mod_nss uses</p>
+<p>``       /etc/httpd/conf.modules.d/10-nss.conf``</p>
+<p>and mod_lookup_identity uses</p>
+<p>``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``</p>
+<p>(55-lookup_identity.conf has the LoadModule commented out), so that
+order works. But it would be good to add mod_nss to</p>
+<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749</span></code> &lt;<a class="reference external" href="https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749">https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749</a>&gt;`__</p>
+<p>to force mod_lookup_identity to be run after mod_nss.</p>
+<p>New release mod_lookup_identity-0.9.7 was done to address this issue.</p>
+</section>
+<section id="mod-nss">
+<h3>mod_nss<a class="headerlink" href="#mod-nss" title="Permalink to this heading">¶</a></h3>
+<p>Second issue is the fact that as shown by the access_log above, the
+r-&gt;user and REMOTE_USER are set back to the SSL_CLIENT_CERT value in the
+fixup phase, even if we’ve set it to bob and mod_auth_gssapi found bob
+there. It’s because the r-&gt;user is set both at</p>
+<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627</span></code> &lt;<a class="reference external" href="https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627">https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627</a>&gt;`__</p>
+<p>where we find it, but also in</p>
+<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962</span></code> &lt;<a class="reference external" href="https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962">https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962</a>&gt;`__</p>
+<p>That second operation should likely be only run when</p>
+<p>``       (dc-&gt;nOptions &amp; SSL_OPT_FAKEBASICAUTH)``</p>
+<p>When I patch mod_nss that way, the curl will show</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">==&gt;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">error_log</span> <span class="o">&lt;==</span>
+<span class="p">[</span><span class="n">Thu</span> <span class="n">Jun</span> <span class="mi">16</span> <span class="mi">08</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mf">41.175368</span> <span class="mi">2016</span><span class="p">]</span> <span class="p">[:</span><span class="n">notice</span><span class="p">]</span> <span class="p">[</span><span class="n">pid</span> <span class="mi">22993</span><span class="p">]</span> <span class="n">lookup_user_by_certificate</span> <span class="n">found</span> <span class="p">[</span><span class="n">bob</span><span class="p">]</span>
+
+<span class="o">==&gt;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">access_log</span> <span class="o">&lt;==</span>
+<span class="mi">2620</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">1322</span><span class="p">:</span><span class="mi">221</span><span class="p">:</span><span class="mi">5</span><span class="n">eff</span><span class="p">:</span><span class="n">fe20</span><span class="p">:</span><span class="mi">2</span><span class="n">f4e</span> <span class="o">-</span> <span class="n">bob</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">TEST</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="n">Jun</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">41</span> <span class="o">-</span><span class="mi">0400</span><span class="p">]</span> <span class="s2">&quot;GET /cgi-bin/set.cgi HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">3310</span>
+</pre></div>
+</div>
+<p>which likely is exactly what we want.</p>
+<p>I have filed <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1347298">https://bugzilla.redhat.com/show_bug.cgi?id=1347298</a> for
+this.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/archive/pages/V4/External_Authentication/NSS_Impersonation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

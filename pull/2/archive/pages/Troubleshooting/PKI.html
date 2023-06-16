@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IPA won’t start, expired certificates &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="How to debug FreeIPA privilege separation issues" href="PrivilegeSeparation.html" />
+    <link rel="prev" title="kinit does not work" href="Kerberos.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>This page contains <strong>PKI</strong> troubleshooting advice. For other issues,
+refer to the index at <a class="reference external" href="Troubleshooting">Troubleshooting</a>.</p>
+<section id="ipa-won-t-start-expired-certificates">
+<span id="ipa-wont-start-expired-certificates"></span><h1>IPA won’t start, expired certificates<a class="headerlink" href="#ipa-won-t-start-expired-certificates" title="Permalink to this heading">¶</a></h1>
+<p>Where available (&gt;= v4.8.0?), the <code class="docutils literal notranslate"><span class="pre">ipa-cert-fix</span></code> command can be used
+to recover from expired system certificate scenarios. See <a class="reference external" href="https://frasertweedale.github.io/blog-redhat/posts/2019-05-24-ipa-cert-fix.html">blog
+post</a>.</p>
+<p>Starting with IPA <a class="reference external" href="IPAv3_300_ga">3.0.0</a> all FreeIPA certificates are
+tracked by <a class="reference external" href="Certmonger">Certmonger</a> and should be renewed
+automatically. In case of problems, see
+<a class="reference external" href="Certmonger#Manually_renew_a_certificate">Certmonger#Manually_renew_a_certificate</a>.</p>
+<p>If your Certificate Authority certificate is expired, see <a class="reference external" href="Howto/CA_Certificate_Renewal">CA
+Certificate Renewal page</a> .</p>
+<p>For v2.0 see
+<a class="reference external" href="IPA_2x_Certificate_Renewal">IPA_2x_Certificate_Renewal</a>.</p>
+<p><strong>DO NOT RUN</strong> <code class="docutils literal notranslate"><span class="pre">ipa-cacert-manage</span> <span class="pre">renew</span></code> in an effort to renew
+expirted certificates. This is for renewing the CA certificate only,
+which by default is good for 20 years. It is very unlikely you need to
+do this.</p>
+</section>
+<section id="pki-tomcatd-fails-to-start">
+<span id="id1"></span><h1>PKI-tomcatd fails to start<a class="headerlink" href="#pki-tomcatd-fails-to-start" title="Permalink to this heading">¶</a></h1>
+<p>After an upgrade of IPA packages, pki-tomcatd fails to start. See
+<a class="reference external" href="https://floblanc.wordpress.com/2017/09/11/troubleshooting-freeipa-pki-tomcatd-fails-to-start/">Troubleshooting pki-tomcatd fails to
+start</a>.</p>
+</section>
+<section id="authentication-errors">
+<span id="id2"></span><h1>Authentication Errors<a class="headerlink" href="#authentication-errors" title="Permalink to this heading">¶</a></h1>
+<p>If you see something like
+<code class="docutils literal notranslate"><span class="pre">4301</span> <span class="pre">(RPC</span> <span class="pre">failed</span> <span class="pre">at</span> <span class="pre">server.</span> <span class="pre">Certificate</span> <span class="pre">operation</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">completed:</span> <span class="pre">FAILURE</span></code>
+<code class="docutils literal notranslate"><span class="pre">(Authentication</span> <span class="pre">Error))</span></code> or <code class="docutils literal notranslate"><span class="pre">Invalid</span> <span class="pre">Credential</span></code> the likely culprit
+is the RA agent certificate that IPA uses to authenticate against
+<a class="reference external" href="PKI">PKI</a>.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">getcert</span> <span class="pre">list</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-n</span> <span class="pre">ipaCert</span></code> to show the current
+status of the certificate tracked by <a class="reference external" href="Certmonger">Certmonger</a>. It
+should be <strong>MONITORING</strong>.</p>
+<p>If it isn’t in MONITORING, or it is and things still aren’t working,
+compare the serial number of the certificate with that on other IPA
+masters.</p>
+<p>If you have the <code class="docutils literal notranslate"><span class="pre">[free]ipa-healthcheck</span></code> package available in your
+distribution run that as it will check for this condition.</p>
+<p>For IPA &lt; 4.7.0:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias -n ipaCert | grep Serial</span></code></p>
+<p>For IPA &gt;= 4.7.0:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># openssl x509 -noout -serial -in /var/lib/ipa/ra-agent.pem</span></code></p>
+<p>The serial number should match the value of the 2nd integer at:</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a># ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``</p>
+<p>(use port 7389 for 2.x servers)</p>
+<p>If they are different this suggests that one has been renewed. Only the
+most recent is allowed by dogtag. To repair this, go to the master with
+the most recent certificate:</p>
+<p>For IPA &lt; 4.7.0:</p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a># certutil -L -d /etc/httpd/alias -n ipaCert -a &gt; /tmp/ra.crt ``</p>
+<p>This will export all the certificates. Edit this file and remove all but
+the first certificate, You can double-check the result with:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># openssl x509 -text -in /tmp/ra.crt</span></code></p>
+<p>For IPA &gt;= 4.7.0 the certificate is in <code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/ra-agent.pem</span></code></p>
+<p>It should have only the cert with the latest serial #.</p>
+<p>After removing the unnecessary certificates from the file, for IPA &lt;
+4.7.0:</p>
+<p>Now add it to your cert database:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># service httpd restart</span></code></div>
+</div>
+<p>If the certificate is valid and the ou=People entry is ok then check the
+<a class="reference external" href="PKI">PKI</a> logs <code class="docutils literal notranslate"><span class="pre">/var/log/pki</span></code> or <code class="docutils literal notranslate"><span class="pre">/var/log/pki-ca</span></code>.</p>
+<p>If you see an error like “Failed to connect LDAP server” then try
+restarting the tomcat process, either pki-cad (for IPA 3.0) or
+<a class="reference external" href="mailto:pki-tomcatd&#37;&#52;&#48;pki-tomcat&#46;service">pki-tomcatd<span>&#64;</span>pki-tomcat<span>&#46;</span>service</a>.</p>
+</section>
+<section id="crl-gets-very-old">
+<span id="id7"></span><h1>CRL gets very old<a class="headerlink" href="#crl-gets-very-old" title="Permalink to this heading">¶</a></h1>
+<p>If the main CRL file containing the list of invalidated certificates is
+old and not updated, make sure you check that:</p>
+<ul class="simple">
+<li><p>There is at least one <a class="reference external" href="PKI">PKI</a> master server generating the CRL
+- see <a class="reference external" href="CVE-2012-4546">CVE-2012-4546</a> for instructions.</p></li>
+<li><p>CRL generation on that server is not blocked by wrong ownership of
+<code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/pki-ca/publish/</span></code> directory or there are no SELinux
+errors. Consult PKI <code class="docutils literal notranslate"><span class="pre">system</span></code> for details. (<a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2014-November/msg00012.html">related user
+case</a>)</p></li>
+</ul>
+</section>
+<section id="external-ca-renewal-with-ipa-cacert-manage-fails">
+<span id="id8"></span><h1>External CA renewal with ipa-cacert-manage fails<a class="headerlink" href="#external-ca-renewal-with-ipa-cacert-manage-fails" title="Permalink to this heading">¶</a></h1>
+<p>The second step of external CA renewal may fail for a number of reasons:</p>
+<ul>
+<li><p>Subject name mismatch</p>
+<blockquote>
+<div><p>The new CA certificate issued by the external CA uses a different
+subject name than the old CA certificate.</p>
+</div></blockquote>
+</li>
+<li><p>Subject name encoding mismatch</p>
+<blockquote>
+<div><p>The new CA certificate issued by the external CA uses the same
+subject name as the old CA certificate, but it is encoded
+differently. Some CAs like to re-encode the subject name from
+certificate signing requests in certificates they issue. This does
+not work well with NSS, which considers subject names to be equal
+only if they binary representation is exactly the same. To avoid
+the problem, configure the external CA to either respect the CSR’s
+encoding, or use UTF8String encoding (which is the FreeIPA
+default). Microsoft Certificate Services / AD-CS uses
+PrintableString as the default encoding in subject names. See
+<a class="reference external" href="https://github.com/freeipa/freeipa/pull/930#issuecomment-332748881">this GitHub
+thread</a>
+for how to observe and configure the AD-CS treatment of Subject DN
+encoding.</p>
+</div></blockquote>
+</li>
+<li><p>Subject public key info mismatch</p>
+<blockquote>
+<div><p>The new CA certificate issued by the external CA uses a different
+public / private key pair than the old CA certificate.</p>
+</div></blockquote>
+</li>
+<li><p>Not a valid CA certificate</p>
+<blockquote>
+<div><p>The new CA certificate issued by the external CA is either missing
+the Basic Constraints extension, or the Basic Constraints
+extension indicates that the certificate is not a CA certificate.</p>
+</div></blockquote>
+</li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Troubleshooting/PKI.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

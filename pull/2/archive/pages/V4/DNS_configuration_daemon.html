@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Data_transformation.html" />
+    <link rel="prev" title="Overview" href="DNS_Location_Mechanism_with_per_client_override.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA uses for all DNS subsystem related operations a BIND plugin
+bind-dyndb-ldap. That plugin configures BIND using data from LDAP DB and
+synchronizes . Due this purpose bind-dyndb-ldap heavily uses internal
+BIND API and BIND hacks to be able to do all requirements. The more
+features FreeIPA contains the harder is maintain this plugin and keep up
+to date with newer versions of BIND DNS server. Basically we stuck with
+adding new features due plugin maintainability.</p>
+<p>However configuration of BIND server can be extracted from
+bind-dyndb-ldap plugin and moved to separated BIND configuration daemon
+which will modify directly named.conf and uses ``rndc`` utils to
+adding/removing and reloading zones and configuration. With
+configuration daemon the bind-dyndb-plugin should serve only as
+synchronization mechanism for records in zones.</p>
+<ul class="simple">
+<li><p>See <a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/Maintainability">bind-dyndb-ldap code
+analysis</a>
+how BIND internals are hacked</p></li>
+<li><p>bind-dynbd-ldap page with some ideas about <a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/SecondGeneration/Ideas">alternative
+approaches</a></p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>List of all DNS operation that are done by FreeIPA and have effect to
+BIND:</p>
+<section id="synchronization-of-dns-records">
+<span id="id1"></span><h2>Synchronization of DNS records<a class="headerlink" href="#synchronization-of-dns-records" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>copying DNS records from to LDAP DB to BIND</p></li>
+<li><p>copying DNS records from BIND to LDAP DB</p></li>
+<li><p>creating reverse records from A records (<em>dnszone-mod
+–allow-sync-ptr=BOOL; dnsconfig-mod –allow-sync-ptr=BOOL</em>)</p></li>
+</ul>
+</section>
+<section id="managing-master-zones">
+<span id="id2"></span><h2>Managing master zones<a class="headerlink" href="#managing-master-zones" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>creating new zones in BIND (source LDAP DB)</p></li>
+<li><p>removing zones from BIND (added by FreeIPA)</p></li>
+<li><p>enable/disable zone (<em>dnszone-{enable|disable}</em>)</p></li>
+<li><p>setting default TTL per zone (<em>dnszone-mod –default-ttl=INT</em>)</p></li>
+<li><p>setting forwarders per zone (<em>dnszone-mod –forwarders=STR</em>)</p></li>
+<li><p>setting forward-policy per zone (<em>dnszone-mod –forward-policy=ENUM</em>)</p></li>
+<li><p>setting update-policy (<em>dnszone-mod –update-policy=STR</em>)</p></li>
+<li><p>setting allow-query per zone (<em>dnszone-mod –allow-query=STR</em>)</p></li>
+<li><p>setting allow-transfer per zone (<em>dnszone-mod –allow-transfer=STR</em>)</p></li>
+<li><p>enabling DNSSEC inline signing per zone (<em>dnszone-mod –dnssec=BOOL</em>)</p></li>
+<li><p>setting NSEC3PARAM record (<em>dnszone-mod –nsec3param-rec=STR</em>)</p></li>
+</ul>
+</section>
+<section id="managing-forward-zones">
+<span id="id3"></span><h2>Managing forward zones<a class="headerlink" href="#managing-forward-zones" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>creating new zones in BIND (source LDAP DB)</p></li>
+<li><p>removing zones from BIND (added by FreeIPA)</p></li>
+<li><p>enable/disable zone (<em>dnsforwardzone-{enable|disable}</em>)</p></li>
+<li><p>set forwarders (<em>dnsforwardzone-mod –forwarder=STR</em>)</p></li>
+<li><p>set forward-policy (<em>dnsforwardzone-mod –forward-policy=ENUM</em>)</p></li>
+</ul>
+</section>
+<section id="bind-configuration-global-and-per-dns-server">
+<span id="id4"></span><h2>BIND configuration (global and per DNS server)<a class="headerlink" href="#bind-configuration-global-and-per-dns-server" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>set global forward policy (<em>dnsconfig-mod –forward-policy=ENUM</em>)</p></li>
+<li><p>set global forwarders (<em>dnsconfig-mod –forwarder=STR</em>)</p></li>
+</ul>
+</section>
+<section id="bind-configuration-per-server">
+<span id="id5"></span><h2>BIND configuration (per server)<a class="headerlink" href="#bind-configuration-per-server" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>SOA mname (authoritative server) override (<em>dnsserver-mod
+–soa-mname-override=DNSNAME</em>)</p></li>
+</ul>
+</section>
+<section id="ipa-dns-locations">
+<span id="id6"></span><h2>IPA DNS Locations<a class="headerlink" href="#ipa-dns-locations" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>CNAME record mappings per server, generated dynamically in BIND</p></li>
+</ul>
+</section>
+<section id="dnssec">
+<h2>DNSSEC<a class="headerlink" href="#dnssec" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>There is no need for special care, BIND does inline zone signing
+automatically when configured. There is quite big code implemented on
+bind-dyndb-ldap side but it is caused by using BIND internal API
+otherwise it can be replace by one line in named.conf</p></li>
+</ul>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>Same as now, no changes expected (<em>ipa dns*</em> commands).</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>Same as now, no changes expected (<em>ipa dns*</em> commands).</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>No changes to current usage of DNS features.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/DNS_configuration_daemon.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

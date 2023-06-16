@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="IPAv3_User_Attribute_Mapping.html" />
+    <link rel="prev" title="Fedora/RHEL" href="IPAv3_Technical_Notes.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>This page describes how to unify the IPA and Samba DIT’s in the same DS.</p>
+<p>The main issue is that IPA and Samba DIT’s have completely different
+structure and schema so they have to be stored in separate locations.
+This could be done in several methods:</p>
+<ul class="simple">
+<li><p>using same DS instance and same partition,</p></li>
+<li><p>using same DS instance but separate partitions,</p></li>
+<li><p>using separate DS instances.</p></li>
+</ul>
+<p>Regardless of the methods, DS/IPA and Samba processes will run on the
+same machine. Since both applications will be using port 389, separate
+virtual hostnames will be used to distinguish the services. In the
+diagrams below, IPA clients will access IPA LDAP service using the
+ipa:389 address, and Samba clients will access Samba LDAP service using
+the samba:389 address.</p>
+</section>
+<section id="same-instance-same-partition">
+<span id="id1"></span><h1>Same Instance Same Partition<a class="headerlink" href="#same-instance-same-partition" title="Permalink to this heading">¶</a></h1>
+<p>In this configuration Samba tree will be stored as a subtree underneath
+the IPA tree. This requires renaming Samba name space and schema to
+avoid conflicts with IPA.</p>
+<figure class="align-default" id="id6">
+<img alt="Ipa3-ldap-integration1.png" src="../../_images/Ipa3-ldap-integration1.png" />
+<figcaption>
+<p><span class="caption-text">Ipa3-ldap-integration1.png</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="same-instance-separate-partitions">
+<span id="id2"></span><h1>Same Instance Separate Partitions<a class="headerlink" href="#same-instance-separate-partitions" title="Permalink to this heading">¶</a></h1>
+<p>In this configuration IPA and Samba trees will be stored in the same
+instance but in separate partitions. This will avoid renaming the Samba
+name space but it still requires renaming the Schema to avoid conflicts
+with IPA schema. The DS may need to be modified to support this
+configuration. Also, each partition will need to be bound to separate
+virtual hostnames (e.g. ipa.example.com and samba.example.com) so IPA
+client and Samba server can access the right tree by specifying the
+right hostname.</p>
+<figure class="align-default" id="id7">
+<img alt="Ipa3-ldap-integration2.png" src="../../_images/Ipa3-ldap-integration2.png" />
+<figcaption>
+<p><span class="caption-text">Ipa3-ldap-integration2.png</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="separate-instances">
+<span id="id3"></span><h1>Separate Instances<a class="headerlink" href="#separate-instances" title="Permalink to this heading">¶</a></h1>
+<p>In this configuration IPA and Samba trees will be stored in separate
+instances. IPA instance will be listening to port 389 while Samba
+instance will be listening to private LDAPI interface. This doesn’t
+require renaming the name space nor the schema, but the administrator
+will be required to maintain multiple DS instances.</p>
+<figure class="align-default" id="id8">
+<img alt="Ipa3-ldap-integration3.png" src="../../_images/Ipa3-ldap-integration3.png" />
+<figcaption>
+<p><span class="caption-text">Ipa3-ldap-integration3.png</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="name-space-translation">
+<span id="id4"></span><h1>Name Space Translation<a class="headerlink" href="#name-space-translation" title="Permalink to this heading">¶</a></h1>
+<p>IPA and Samba are serving the same domain/realm (e.g. EXAMPLE.COM), so
+by default they will use the same LDAP name space (e.g.
+dc=example,dc=com). If they are using the same instance/partition there
+will be a conflict.</p>
+<p>This can be solved by translating Samba’s name space by storing the
+Samba DIT as a subtree of the IPA DIT. Currently Samba is already doing
+some schema mapping. It could to be extended to do name space
+translation.</p>
+<p>For example, when a Samba client sends a request to Samba using the
+dc=example,dc=com name space, Samba will map that request into
+dc=samba,dc=example,dc=com then send it to DS. When the DS returns the
+results, Samba will map them back to dc=example,dc=com.</p>
+<figure class="align-default" id="id9">
+<img alt="Ipa3-ldap-integration4.png" src="../../_images/Ipa3-ldap-integration4.png" />
+<figcaption>
+<p><span class="caption-text">Ipa3-ldap-integration4.png</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Name space translation includes not only the DN but also any attributes
+that can contain a DN.</p>
+</section>
+<section id="schema-mapping">
+<span id="id5"></span><h1>Schema Mapping<a class="headerlink" href="#schema-mapping" title="Permalink to this heading">¶</a></h1>
+<p>IPA is using the standard LDAP schema and Samba uses Active Directory
+schema to store objects in the DS. If they are using the same instance
+there will be a conflict because a DS instance can only support 1
+schema.</p>
+<p>This can be solved by mapping AD schema into different names. Samba is
+already doing some schema mapping. It could be extended to map
+conflicting schema.</p>
+<p>For example, in the standard LDAP schema the person object class
+requires cn and sn. However, in AD schema the person object class only
+requires cn. With this method the AD person will be renamed to
+samba-person when stored in DS.</p>
+<figure class="align-default" id="id10">
+<img alt="Ipa3-ldap-integration5.png" src="../../_images/Ipa3-ldap-integration5.png" />
+<figcaption>
+<p><span class="caption-text">Ipa3-ldap-integration5.png</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/IPAv3_Unified_DIT.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

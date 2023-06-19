@@ -1,6 +1,6 @@
 **This page has been deprecated.**
 
-.. _building_candlepin:
+
 
 Building Candlepin
 ==================
@@ -65,7 +65,7 @@ Deploy Candlepin to Tomcat 6 with test data:
    % ln -s /etc/candlepin/certs/candlepin-ca.crt /etc/candlepin/certs/candlepin-ca.pem
    % wget -qO- http://localhost:8080/candlepin/admin/init
 
-.. _registering_ipa:
+
 
 Registering IPA
 ===============

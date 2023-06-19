@@ -1,4 +1,4 @@
-.. _host_file:
+
 
 Host File
 =========
@@ -8,7 +8,7 @@ Host File
    192.168.1.100 ipa.example.com ipa
    192.168.1.200 samba.example.com samba
 
-.. _virtual_address:
+
 
 Virtual Address
 ===============

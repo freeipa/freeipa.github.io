@@ -59,7 +59,7 @@ nfsv4/kerberos
 
 ``TBD. not sure what status this code is in. I'm not able to find any docs for this from apple.``
 
-.. _browser___firefox:
+
 
 Browser - firefox
 -----------------

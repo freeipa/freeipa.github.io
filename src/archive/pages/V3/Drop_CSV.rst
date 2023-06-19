@@ -29,7 +29,7 @@ Let bash do the expansion for you:
 For convenience, a warning and instructions will be provided if it
 appears the user is using the old syntax.
 
-.. _use_cases114:
+
 
 Use Cases
 =========
@@ -40,7 +40,7 @@ Bash "curly brace" shortcut (or equivalent in other shells). See
 Overview for command examples, and Affected Arguments below for all
 affected arguments.
 
-.. _convenience_warninginstructions:
+
 
 Convenience warning/instructions
 --------------------------------
@@ -93,7 +93,7 @@ is not implemented yet, or if XML-RPC is selected (e.g. via the -e
 option to ``ipa``), no warning will be shown. The error message will
 stay the same.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================
@@ -139,7 +139,7 @@ QA: Need to update tests
 
 Docs: Need to update documentation
 
-.. _affected_arguments:
+
 
 Affected Arguments
 ==================

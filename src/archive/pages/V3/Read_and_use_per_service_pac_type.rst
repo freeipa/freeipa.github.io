@@ -26,7 +26,7 @@ added. The FreeIPA CLI and Web UI take care that 'NONE' cannot be set
 with any other value, but it might still be added manually with
 ldapmodify.
 
-.. _use_cases10i:
+
 
 Use Cases
 =========
@@ -84,7 +84,7 @@ multiple times to set more than one type but if one of the types is
 
 All string comparisons are done case-sensitive.
 
-.. _evaluation_logic:
+
 
 Evaluation logic
 ----------------
@@ -109,7 +109,7 @@ Evaluation logic
 -  For services where none of the above matches, no authorization data
    is added
 
-.. _feature_managment:
+
 
 Feature Managment
 =================
@@ -177,7 +177,7 @@ External Impact
 The changes will only touch the KDC IPA backend, no external impact is
 expected.
 
-.. _how_to_test10:
+
 
 How to test
 ===========
@@ -201,7 +201,7 @@ If the service ticket has a PAC an increase of the size of the
 credential cache of 1000 bytes or more can be expected. Without the
 difference will be about 450-500 bytes.
 
-.. _testing_updates:
+
 
 Testing updates
 ---------------

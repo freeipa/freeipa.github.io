@@ -8,7 +8,7 @@ service). However, there are some records that use the same name but
 pointing to different services (e.g. IPA LDAP service vs. Samba LDAP
 service).
 
-.. _ipa_dns_records:
+
 
 IPA DNS Records
 ===============
@@ -28,7 +28,7 @@ IPA DNS Records
 
    _ntp._udp               IN SRV 0 100 123        ipa
 
-.. _samba_dns_records:
+
 
 Samba DNS Records
 =================
@@ -65,7 +65,7 @@ Samba DNS Records
 
    _kerberos               IN TXT  EXAMPLE.COM
 
-.. _proposed_solution:
+
 
 Proposed Solution
 =================

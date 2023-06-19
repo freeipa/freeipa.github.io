@@ -6,7 +6,7 @@ instances to Dogtag 10-based instances and a manual procedure is
 required (`related Dogtag
 article <http://pki.fedoraproject.org/wiki/Migrating_a_Dogtag_9_Instance_to_a_Dogtag_10_Instance>`__).
 
-.. _affected_systems:
+
 
 Affected systems
 ----------------
@@ -15,7 +15,7 @@ All FreeIPA servers which have CA configured and which were installed
 prior to version `3.1 <IPAv3_310>`__. In Fedora, this is relevant for
 all FreeIPA servers with CA installed in *Fedora 17* or older.
 
-.. _upgrade_procedure:
+
 
 Upgrade procedure
 -----------------
@@ -29,7 +29,7 @@ There are 2 options for the procedure:
    creating replicas with CA capability. See details in the next
    section.
 
-.. _migrating_freeipa_servers_with_ca:
+
 
 Migrating FreeIPA servers with CA
 ----------------------------------------------------------------------------------------------

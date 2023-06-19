@@ -1,4 +1,4 @@
-.. _webui_2.1:
+
 
 WebUI 2.1
 ---------
@@ -6,7 +6,7 @@ WebUI 2.1
 The WebUI was completely rewritten for the 2.0 release. These are the
 design documents for aspects of the 2.1 release.
 
-.. _entity_navigation:
+
 
 Entity Navigation
 ----------------------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ The search box will be available from anywhere within the entity
 
 `Navigation Enhancements for 2.1 <Media:2.1_Enhancements_v2.pdf>`__
 
-.. _entitlement_support:
+
 
 Entitlement support
 ----------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Entitlement support
 The ability to register, view, and consume entitlements from a candlepin
 based server.
 
-.. _dns_enhancements:
+
 
 DNS Enhancements
 ----------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ DNS Enhancements
 Better support for larger number of records, organization of records
 along common use cases.
 
-.. _automount_support:
+
 
 Automount Support
 ----------------------------------------------------------------------------------------------

@@ -9,8 +9,6 @@ validation while preserving application's standard look and feel, and
 how the application can obtain additional information about the
 externally-authenticated user.
 
-.. _example_application:
-
 Example application
 -------------------
 
@@ -40,10 +38,10 @@ Make sure it is executable as CGI script:
    semanage fcontext -a -t httpd_sys_script_exec_t '/var/www/app\.cgi'
    restorecon -rvv /var/www/app.cgi
 
-Configure it to "live" in **/application** location (for example,
+Configure it to "live" in /application location (for example,
 http://wikiapp.example.com/application) via ScriptAlias directive in
 /etc/httpd/conf/httpd.conf or in some configuration file in
-/etc/httpd/conf.d/*.conf:
+/etc/httpd/conf.d/\*.conf:
 
 ::
 
@@ -133,7 +131,7 @@ just an example to show additional setups later.
 Clicking **Log out** will just set the cookie value to **xx** meaning no
 active user, and redirect back to **wikiapp.example.com/application**.
 
-.. _enrolling_the_web_machine_to_ipa_server:
+
 
 Enrolling the web machine to IPA server
 ---------------------------------------
@@ -206,7 +204,7 @@ retrieve with curl using
 
    curl -Lo /etc/httpd/conf.d/wikiapp_kerb.conf 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate'
 
-.. _successful_negotiate:
+
 
 Successful Negotiate
 ----------------------------------------------------------------------------------------------
@@ -276,7 +274,7 @@ Log out
 
 No login form will be shown.
 
-.. _failed_negotiate:
+
 
 Failed Negotiate
 ----------------------------------------------------------------------------------------------
@@ -332,7 +330,7 @@ the login form will be displayed from
 **wikiapp.example.com/application/login2** and the user can log in as
 usual, with their login and password.
 
-.. _additional_yum_repo:
+
 
 Additional yum repo
 -------------------
@@ -350,7 +348,7 @@ You can also retrieve the .repo file via curl: for example, for RHEL 7:
 
    curl -Lo /etc/yum.repos.d/identity_demo.repo 'http://copr.fedoraproject.org/coprs/adelton/identity_demo/repo/epel-7/adelton-identity_demo-epel-7.repo'
 
-.. _host_and_service_based_access_control_for_kerberos:
+
 
 Host (and service) based access control for Kerberos
 ----------------------------------------------------
@@ -434,7 +432,7 @@ remove either the machine or the user from the HBAC rule
 or perhaps indirectly from host/user-group, the Kerberos authentication
 will still fail and logon form will be shown.
 
-.. _access_control_with_user_groups_using_pam_access:
+
 
 Access control with user groups using pam_access
 ----------------------------------------------------------------------------------------------
@@ -464,7 +462,7 @@ only users in the wiki-group-test group will be granted access. Both
 local groups from **/etc/group** and the IPA-managed groups are
 considered for this access control check.
 
-.. _external_identities_for_login_form:
+
 
 External identities for login form
 ----------------------------------
@@ -507,7 +505,7 @@ with Kerberos on **/application/login**, that is where the for
 submission will run. If we omitted the Kerberos configuration, we would
 want **mod_intercept_form_submit** configured on **/application/login**.
 
-.. _storing_external_users_in_internal_databases:
+
 
 Storing external users in internal databases
 --------------------------------------------
@@ -524,7 +522,7 @@ referential integrity to work. So in reality, the change of application
 code to process REMOTE_USER would probably create the user in the
 database first and then create session for this new user.
 
-.. _additional_attributes:
+
 
 Additional attributes
 ----------------------------------------------------------------------------------------------
@@ -685,7 +683,7 @@ list of attributes that the applications might be interested in is
 proposed at
 http://www.freeipa.org/page/Environment_Variables#Proposed_Additional_Variables.
 
-.. _application_level_roles:
+
 
 Application-level roles
 ----------------------------------------------------------------------------------------------
@@ -712,7 +710,7 @@ group memebership on the fly and make the new employee no only able to
 log in to the system management tools but also assign correct roles and
 permissions to them.
 
-.. _passing_information_to_applications:
+
 
 Passing information to applications
 -----------------------------------
@@ -782,7 +780,7 @@ HTTP headers.
 Of course, the application or its framework might also have other means
 to get values of the HTTP headers of the request more directly.
 
-.. _web_framework_configurations:
+
 
 Web framework configurations
 ----------------------------

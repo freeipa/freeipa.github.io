@@ -19,7 +19,7 @@ profiles can be found using ``authselect list`` and their features with
 the features with-mkhomedir or with-smartcard, and the winbind profile
 accepts the feature with-mkhomedir but not with-smartcard.
 
-.. _current_implementation:
+
 
 Current implementation
 ----------------------
@@ -27,7 +27,7 @@ Current implementation
 This section lists the components of FreeIPA that are currently relying
 on authconfig.
 
-.. _package_dependency:
+
 
 Package dependency
 ----------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ Package dependency
 FreeIPA currently has a dependency on authconfig package (freeipa-client
 package).
 
-.. _client_installation:
+
 
 Client installation
 ----------------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ ipa-restore is calling
 
 to restore the saved configuration.
 
-.. _ipa_advise_plugins:
+
 
 ipa-advise plugins
 ----------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ scripts that are calling authconfig:
 Design
 ------
 
-.. _general_decisions:
+
 
 General decisions
 ----------------------------------------------------------------------------------------------
@@ -143,25 +143,27 @@ General decisions
    client with --no-sssd or --noac options, but it will not be possible
    any more for new client installations on fedora-based distributions.
 
-.. _new_client_installation:
+
 
 New client installation
 ----------------------------------------------------------------------------------------------
 
 Currently, the algorithm for PAM stack configuration is the following:
 
-| ````
-| ``authconfig --nisdomain=<domain>``
-| ``if (sssd) then ``
-| ``   authconfig --enablesssd --enablesssdauth``
-| ``else ``
-| ``   authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
-| ``done``
-| ``if (mkhomedir) then``
-| ``   authconfig --enablemkhomedir``
-| ``done``
+::
 
-.. _no_sssd_and___noac_options:
+   | ````
+   | ``authconfig --nisdomain=<domain>``
+   | ``if (sssd) then ``
+   | ``   authconfig --enablesssd --enablesssdauth``
+   | ``else ``
+   | ``   authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
+   | ``done``
+   | ``if (mkhomedir) then``
+   | ``   authconfig --enablemkhomedir``
+   | ``done``
+
+
 
 --no-sssd and --noac options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -173,7 +175,7 @@ a distribution-specific implementation) is_nosssd_supported(), and a
 check in the client installer that refuses the option in case
 is_nosssd_supported returns False.
 
-.. _pam_stack_configuration:
+
 
 PAM stack configuration
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -184,7 +186,7 @@ into a separate class following bridge oop pattern. All related code is
 under ipaplatform/redhat/authconfig.py, ensuring that only fedora-based
 distributions are impacted by the modifications.
 
-.. _mkhomedir_option:
+
 
 --mkhomedir option
 ^^^^^^^^^^^^^^^^^^
@@ -192,7 +194,7 @@ distributions are impacted by the modifications.
 The homedir creation can also be enabled with authselect with:
 ``authselect select sssd with-mkhomedir``.
 
-.. _nis_domain_configuration:
+
 
 NIS domain configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -204,7 +206,7 @@ file <https://access.redhat.com/articles/2278>`__. This is the chosen
 approach: append (or replace) the ``NISDOMAIN=value`` line in the file
 /etc/sysconfig/network.
 
-.. _client_uninstallation:
+
 
 Client uninstallation
 ----------------------------------------------------------------------------------------------
@@ -228,7 +230,7 @@ will simply warn that it is not able to revert to the exact state before
 installation and will apply the default authselect profile, namely the
 sssd profile without any feature.
 
-.. _new_server_installation:
+
 
 New server installation
 ----------------------------------------------------------------------------------------------
@@ -269,12 +271,12 @@ authselect, the ipa-restore will detect that restore is trying to
 restore data from a different release and prompt for user confirmation
 with a warning. Unattended restore will fail.
 
-.. _ipa_advise_plugins_1:
+
 
 ipa-advise plugins
 ----------------------------------------------------------------------------------------------
 
-.. _config_client_for_smart_card_auth_plugin:
+
 
 config-client-for-smart-card-auth plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -288,7 +290,7 @@ the plugin must use
 
 `` authselect enable-feature with-smartcard``
 
-.. _config_fedora_authconfig_plugin:
+
 
 config-fedora-authconfig plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -297,7 +299,7 @@ This plugin configures Fedora 18/19 client without the use of sssd.
 These versions are not suppported any more and the plugin can be
 dropped.
 
-.. _other_plugins:
+
 
 other plugins
 ^^^^^^^^^^^^^
@@ -311,7 +313,7 @@ RHEL5 system, meaning that we can keep them.
 Upgrade
 ----------------------------------------------------------------------------------------------
 
-.. _migration_for_older_clients:
+
 
 Migration for older clients
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -319,7 +321,7 @@ Migration for older clients
 Client upgrade will not modify the configuration since the PAM stack
 configuration is already in place.
 
-.. _migration_for_older_servers:
+
 
 Migration for older servers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -380,7 +382,7 @@ Testing
 The tests need to focus on 2 main parts, new installations and upgrades.
 They can be run on fedora-based distributions.
 
-.. _upgrade_1:
+
 
 Upgrade
 ----------------------------------------------------------------------------------------------
@@ -392,7 +394,7 @@ Upgrade
 -  uninstall must still be working after the upgrade (potentially with a
    warning if the client was installed with authconfig).
 
-.. _new_installations:
+
 
 New installations
 ----------------------------------------------------------------------------------------------

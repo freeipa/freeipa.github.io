@@ -35,7 +35,7 @@ The above rules work with FreeIPA's current API versioning scheme. This
 design defines a way to enable backporting backwards-incompatible
 features to maintenance branches, while respecting these rules.
 
-.. _freeipa_master_branch:
+
 
 FreeIPA master branch
 ----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ Server >= '2.54' Old API         New API\*
 
 -  A client may not connect to a server of lower version.
 
-.. _maintenance_api_branches:
+
 
 Maintenance API branches
 ----------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ attached (e.g. '2.10+xy' < '2.10+xy+zzy').
 
 † See the "Optional suffix" section
 
-.. _optional_suffix:
+
 
 Optional suffix
 ^^^^^^^^^^^^^^^

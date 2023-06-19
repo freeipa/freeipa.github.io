@@ -26,7 +26,7 @@ We need to decide which of the two basic interfaces we're going to use
 and converge on it. Each approach has merits. But 3 different API's for
 interacting with ldap is 2 too many.
 
-.. _use_cases10d:
+
 
 Use Cases
 =========
@@ -36,7 +36,7 @@ N/A
 Design
 ======
 
-.. _entry_representation:
+
 
 Entry representation
 --------------------
@@ -60,7 +60,7 @@ We'll use lists for all attributes, even single-valued ones, because
 The object should also "rembember" its original set of attributes, so we
 don't have to retrieve them from LDAP again when it's updated.
 
-.. _the_connectionbackend_class:
+
 
 The connection/backend class
 ----------------------------
@@ -77,7 +77,7 @@ ldap2 has some overly specific "helper" methods like
 remove_principal_key or modify_password. We shouldn't add new ones, and
 the existing ones should be moved away eventually.
 
-.. _backwards_compatibility_porting:
+
 
 Backwards compatibility, porting
 --------------------------------
@@ -106,7 +106,7 @@ Implementation
 No additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================
@@ -144,7 +144,7 @@ External Impact
 
 N/A
 
-.. _design_page_authors:
+
 
 Design page authors
 ===================

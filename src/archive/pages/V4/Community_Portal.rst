@@ -10,12 +10,12 @@ anonymous user.
 Source code: `Community Portal on
 GitHub <https://github.com/freeipa/freeipa-community-portal>`__
 
-.. _use_cases4:
+
 
 Use Cases
 ---------
 
-.. _self_service_user_registration:
+
 
 Self-service user registration
 ----------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ Design
 
    Community_portal_arch.png
 
-.. _stand_alone_web_application:
+
 
 Stand Alone Web Application
 ----------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ communicates with the FreeIPA server using only ipalib and the RPC. The
 server sees the self-service portal as it does any other client, and
 never needs to directly interact with anonymous users.
 
-.. _self_service_registration:
+
 
 Self-Service Registration
 ----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ pre-filled, and a message outlining the error is displayed. If the
 user's input is valid, then the command is sent and committed on the
 FreeIPA server, and the user is dropped to a completion page.
 
-.. _administrator_notification:
+
 
 Administrator Notification
 ----------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ choice is needed.
 
 The pages themselves are rendered using the Jinja2 template engine.
 
-.. _feature_management4:
+
 
 Feature Management
 ------------------
@@ -134,7 +134,7 @@ simple as shutting down the web application.
 Scripts will be written to automatically configure and deploy the
 self-service portal.
 
-.. _how_to_test4:
+
 
 How to Test
 -----------

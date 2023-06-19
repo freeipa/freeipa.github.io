@@ -1,4 +1,4 @@
-.. _license_of_content:
+
 
 License of Content
 ------------------
@@ -22,7 +22,7 @@ Red Hat and FreeIPA are trademarks of Red Hat, Inc., registered in the
 U.S. and other countries. All other trademarks are the property of their
 respective owners.
 
-.. _privacy_statement:
+
 
 Privacy Statement
 -----------------

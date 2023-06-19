@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _overview_of_freeipa_v2_release_candidate_1:
+
 
 Overview of FreeIPA v2 Release Candidate 1
 ------------------------------------------
@@ -14,7 +14,7 @@ server <http://www.freeipa.org/page/Downloads>`__.
    on our mailing list:
    `mailto:freeipa-users@redhat.com <mailto:freeipa-users@redhat.com>`__
 
-.. _main_highlights_of_release_candidate_1:
+
 
 Main Highlights of Release Candidate 1
 --------------------------------------
@@ -26,7 +26,7 @@ project. Modifications include but are not limited to:
 -  Changes in the DIT structure.
 -  WebUI improvements.
 
-.. _focus_of_the_release_candidate_testing:
+
 
 Focus of the Release Candidate Testing
 --------------------------------------
@@ -40,7 +40,7 @@ Focus of the Release Candidate Testing
    `section <https://fedoraproject.org/wiki/Features/FreeIPAv2#How_To_Test>`__
    outlines the areas that we are mostly interested to test.
 
-.. _significant_changes_since_beta_2:
+
 
 Significant Changes Since Beta 2
 --------------------------------
@@ -49,7 +49,7 @@ To see all the tickets addressed between the two beta releases see the
 following
 `link <https://fedorahosted.org/freeipa/query?status=closed&milestone=2.0.1+Bug+fixing+(RC)>`__.
 
-.. _repositories_and_installation:
+
 
 Repositories and Installation
 -----------------------------
@@ -61,7 +61,7 @@ Repositories and Installation
    currently available from the updates-testing repository. Please make
    sure to enable this repository before you proceed with installation.
 
-.. _known_issues:
+
 
 Known Issues
 ------------

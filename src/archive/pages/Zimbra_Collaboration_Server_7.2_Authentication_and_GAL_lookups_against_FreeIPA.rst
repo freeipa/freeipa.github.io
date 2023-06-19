@@ -63,7 +63,7 @@ Save your file, and then import it on your IPA server
 
 Your service account is now imported
 
-.. _zimbra_authentication_with_freeipa:
+
 
 Zimbra Authentication with FreeIPA
 ----------------------------------
@@ -202,7 +202,7 @@ See attached screenshot.
 
    12-WebMailConsoleCrop.png
 
-.. _zimbra_global_address_list_lookups_against_freeipa:
+
 
 Zimbra Global Address List lookups against FreeIPA
 --------------------------------------------------
@@ -222,11 +222,11 @@ Active Directory. Please change the port number to 389
 Enter the address of your IPA server under "External Server Name" and
 set the port to 389
 
-Under "Search Filter", enter "(&(|(cn=*%s*)(sn=*%s*)))" without the
+Under "Search Filter", enter "(\&(\|(cn=\*%s\*)(sn=\*%s\*)))" without the
 quotes.
 
 Under "Autocomplete Filter", enter
-"(|(uid=%s*)(givenname=%s*)(mail=%s*))" without the quotes.
+"(\|(uid=%s\*)(givenname=%s\*)(mail=%s\*))" without the quotes.
 
 Under "LDAP Search base", enter "dc=example,dc=com" without the quotes.
 

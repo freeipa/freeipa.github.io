@@ -1,7 +1,7 @@
 *This page and all pages it links to are a work in progress. Please note
 that any content may be changed as the development progresses.*
 
-.. _ipa_v2_development_progress:
+
 
 IPA v2 Development Progress
 ---------------------------
@@ -9,7 +9,7 @@ IPA v2 Development Progress
 Design
 ------
 
-.. _ipa_client:
+
 
 IPA Client
 ----------------------------------------------------------------------------------------------
@@ -18,12 +18,12 @@ IPA Client
 -  `Service Controller
    Daemon <FreeIPAv2:SSSD/Service_Controller_Daemon>`__
 
-.. _ipa_server:
+
 
 IPA Server
 ----------------------------------------------------------------------------------------------
 
-.. _system_management:
+
 
 System Management
 ^^^^^^^^^^^^^^^^^
@@ -36,7 +36,7 @@ Kerberos
 -  `Automatic Ticket Renewal <FreeIPAv2:Automatic_Ticket_Renewal>`__ -
    stable version
 
-.. _ca_integration:
+
 
 CA Integration
 ^^^^^^^^^^^^^^
@@ -61,7 +61,7 @@ SUDO
    using LDAP rather than policies.
 -  `SUDO Schema Design <FreeIPAv2:SUDO_Schema_Design>`__
 
-.. _back_end_concepts:
+
 
 Back End Concepts
 ^^^^^^^^^^^^^^^^^
@@ -76,7 +76,7 @@ Back End Concepts
    processing <FreeIPAv2:Schema_for_loading_and_processing>`__ - based
    on the design pages above
 
-.. _plugin_framework:
+
 
 Plugin framework
 ^^^^^^^^^^^^^^^^
@@ -87,7 +87,7 @@ Plugin framework
    Generated automatically from source code using
    `epydoc <http://epydoc.sourceforge.net/>`__.
 
-.. _dns_integration:
+
 
 DNS integration
 ^^^^^^^^^^^^^^^
@@ -97,7 +97,7 @@ DNS integration
    GSS-TSIG <FreeIPAv2:Dynamic_updates_with_GSS-TSIG>`__
 -  `DNS Location Discovery <FreeIPAv2:DNS_Location_Discovery>`__ (DRAFT)
 
-.. _directory_server:
+
 
 389 Directory Server
 ^^^^^^^^^^^^^^^^^^^^
@@ -105,7 +105,7 @@ DNS integration
 -  `Schema Compatibility Plug-in
    Design <FreeIPAv2:Schema_Compatibility_Plug-in_Design>`__
 
-.. _default_configurations_for_ipa_components:
+
 
 Default configurations for IPA components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -113,7 +113,7 @@ Default configurations for IPA components
 -  `DNA plugin default
    configuration <FreeIPAv2:DNA_plugin_default_configuration>`__
 
-.. _ipa_server_reference_pages:
+
 
 IPA Server Reference Pages
 ----------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ IPA Server Reference Pages
 -  `Schema Available in DS in IPA
    v1 <http://freeipa.org/static/IPAV1Available.html>`__
 
-.. _user_interface_design:
+
 
 User Interface Design
 ---------------------
@@ -133,7 +133,7 @@ Usability
    Materials <FreeIPAv2:Usability_Testing_Materials>`__
 -  `Usability Testing Results <FreeIPAv2:Usability_Testing_Results>`__
 
-.. _design_1:
+
 
 Design
 ----------------------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ Testing
 -  `UI Unit Tests <FreeIPAv2:UI_Unit_Tests>`__
 -  `Selenium <FreeIPAv2:Selenium>`__
 
-.. _current_progress:
+
 
 Current progress
 ----------------
@@ -159,7 +159,7 @@ To checkout the code, use the ``git clone``\ *``repository_url``*.
 Please note that these repositories changing rapidly and may not always
 be buildable.
 
-.. _ipa_server_1:
+
 
 IPA Server
 ----------------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ as the V1 code. All work for V2 has been done in the master branch.
 -  `Git repository <http://git.fedorahosted.org/git/freeipa.git>`__:
    ```git://git.fedorahosted.org/git/freeipa.git`` <git://git.fedorahosted.org/git/freeipa.git>`__
 
-.. _test_repository:
+
 
 Test Repository
 ^^^^^^^^^^^^^^^
@@ -181,7 +181,7 @@ retrieve the file:
 
 `freeipa-devel.repo <http://freeipa.org/downloads/freeipa-devel.repo>`__
 
-.. _ipa_client_1:
+
 
 IPA Client
 ----------------------------------------------------------------------------------------------
@@ -193,12 +193,12 @@ SSSD:
 -  `Git repository <http://git.fedorahosted.org/git/sssd.git>`__:
    ```git://git.fedorahosted.org/sssd.git`` <git://git.fedorahosted.org/sssd.git>`__
 
-.. _dns_integration_1:
+
 
 DNS integration
 ----------------------------------------------------------------------------------------------
 
-.. _dynamic_loading_of_dlz_drivers:
+
 
 Dynamic loading of DLZ drivers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -209,14 +209,14 @@ feature upstream as soon as possible.
 
 Code will be available soon.
 
-.. _ipa_ldap_driver:
+
 
 IPA LDAP driver
 ^^^^^^^^^^^^^^^
 
 Code will be available soon.
 
-.. _bind_dlz_write_back_support_patch:
+
 
 BIND DLZ write-back support patch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -237,7 +237,7 @@ far:
    provides high-level design information for both the IPA client and
    server.*
 
-.. _developer_documentation:
+
 
 Developer Documentation
 -----------------------
@@ -252,7 +252,7 @@ Developer Documentation
    requirements <FreeIPAv2:CommandDocumentation>`__
 -  `Configuration files <FreeIPAv2:Config_Files>`__
 
-.. _documentation_repository:
+
 
 Documentation Repository
 ------------------------

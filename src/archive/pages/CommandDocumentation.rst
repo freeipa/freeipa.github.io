@@ -1,4 +1,4 @@
-.. _command_line_documentation_guidelnes:
+
 
 Command-line Documentation Guidelnes
 ------------------------------------
@@ -13,7 +13,7 @@ etc.) and the ``ipa-`` (dash) commands are generally used in a more
 limited way (e.g. ``ipa-server-install``, ``ipa-replica-manage``). I
 refer to these as the standalone commands.
 
-.. _command_types:
+
 
 Command types
 -------------
@@ -27,12 +27,12 @@ manages data in the IPA database. There is a single man page for the ipa
 command with an overview of its capabilites, but not a complete list of
 all plugins and what their various options do.
 
-.. _getting_help:
+
 
 Getting help
 ------------
 
-.. _ipa__commands:
+
 
 ipa- commands
 ----------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ see the man page:
 
 ``% man ipa-replica-manage``
 
-.. _framework_commands_ipa:
+
 
 Framework commands (ipa)
 ----------------------------------------------------------------------------------------------
@@ -172,12 +172,12 @@ have help like the dns plugin:
 | ``...``
 | ``...``
 
-.. _rules_of_the_road:
+
 
 Rules of the Road
 -----------------
 
-.. _standalone_commands:
+
 
 Standalone commands
 ----------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ Every standalone command must have:
 -  A man page
 -  Usage output
 
-.. _framework_commands:
+
 
 Framework commands
 ----------------------------------------------------------------------------------------------

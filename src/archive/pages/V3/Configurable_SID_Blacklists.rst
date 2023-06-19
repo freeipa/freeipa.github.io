@@ -19,7 +19,7 @@ to avoid this error. A target of this RFE is to include this list in
 LDAP to allow Administrator to change the list and add or remove SID to
 filter.
 
-.. _use_cases113:
+
 
 Use Cases
 =========
@@ -32,7 +32,7 @@ filtered.
 Design
 ======
 
-.. _configuration_granularity:
+
 
 Configuration granularity
 -------------------------
@@ -44,7 +44,7 @@ MS-PAC (i.e. for transitive authentication of a user from IPA trusted
 domain trying to authenticate to other domain trusted by IPA, but which
 is not trusted directly by this domain).
 
-.. _schema_updates:
+
 
 Schema updates
 --------------
@@ -63,7 +63,7 @@ The feature will introduce 2 new *attributeTypes* which will be added to
 | `` SUBSTR caseIgnoreIA5SubstringsMatch``
 | `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )``
 
-.. _ipa_kdb_changes:
+
 
 ipa-kdb Changes
 ---------------
@@ -93,7 +93,7 @@ Implementation
 
 N/A
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

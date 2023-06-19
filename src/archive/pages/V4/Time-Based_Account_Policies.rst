@@ -30,7 +30,7 @@ HBAC rule plugin. As the time rules may find use somewhere else in the
 system (Sudo rules, for example), they should be designed with that in
 mind.
 
-.. _time_scenarios:
+
 
 Time Scenarios
 --------------
@@ -40,7 +40,7 @@ format <http://tools.ietf.org/html/rfc5545>`__. It therefore understands
 time in three different views. These are: host local time, time at a
 certain time zone, and UTC.
 
-.. _host_local_time:
+
 
 Host Local Time
 ----------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ may appear in different time zones, or in case of a hostgroup there
 could be hosts from multiple different time zones, and administrator
 should be very sure they want to use this.
 
-.. _time_zones:
+
 
 Time Zones
 ----------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ the whole globe throughout the year. That's why UTC is also supported.
 Implementation
 ==============
 
-.. _time_policies_storage:
+
 
 Time Policies Storage
 ---------------------
@@ -109,7 +109,7 @@ Also, there need to be changes to the directory structure:
 | ``objectClass: nsContainer``
 | ``cn: timerules``
 
-.. _hbac_rule_ldap_object_changes:
+
 
 HBAC Rule LDAP object changes
 -----------------------------
@@ -133,7 +133,7 @@ The new schema for the new HBAC Rule type:
 | ``attributeTypes: (2.16.840.1.113730.3.8.11.76 NAME 'ipaMemberTimeRule' DESC 'Reference to a time rule describing some period of time' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.4' )``
 | ``objectClasses: (2.16.840.1.113730.3.8.12.38 NAME 'ipaHBACRuleV2' SUP ipaAssociation STRUCTURAL MAY ( serviceCategory $ memberService $ externalHost  $ ipaMemberTimeRule ) X-ORIGIN 'IPA v4.4' )``
 
-.. _icalendar_strings_restrictions:
+
 
 iCalendar strings restrictions
 ------------------------------
@@ -180,7 +180,7 @@ and modification commands.
 **New dependency:** *python-icalendar* will be used for parsing and
 creating the iCalendar strings.
 
-.. _sssd_side:
+
 
 SSSD side
 ---------

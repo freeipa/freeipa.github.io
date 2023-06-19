@@ -18,7 +18,7 @@ diagrams below, IPA clients will access IPA LDAP service using the
 ipa:389 address, and Samba clients will access Samba LDAP service using
 the samba:389 address.
 
-.. _same_instance_same_partition:
+
 
 Same Instance Same Partition
 ============================
@@ -32,7 +32,7 @@ avoid conflicts with IPA.
 
    Ipa3-ldap-integration1.png
 
-.. _same_instance_separate_partitions:
+
 
 Same Instance Separate Partitions
 =================================
@@ -51,7 +51,7 @@ right hostname.
 
    Ipa3-ldap-integration2.png
 
-.. _separate_instances:
+
 
 Separate Instances
 ==================
@@ -67,7 +67,7 @@ will be required to maintain multiple DS instances.
 
    Ipa3-ldap-integration3.png
 
-.. _name_space_translation:
+
 
 Name Space Translation
 ======================
@@ -95,7 +95,7 @@ results, Samba will map them back to dc=example,dc=com.
 Name space translation includes not only the DN but also any attributes
 that can contain a DN.
 
-.. _schema_mapping:
+
 
 Schema Mapping
 ==============

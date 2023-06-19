@@ -110,7 +110,7 @@ can use, which allows all your apps to take advantage of SSO.
 
    KrbTicketCache.png
 
-.. _mechanism_1_kerberos_cross_realm_trusts:
+
 
 Mechanism 1: Kerberos cross-realm trusts
 ----------------------------------------
@@ -162,7 +162,7 @@ domain's services by auditing the presentation of cross realm tickets to
 the local TGS, noting the name and realm of the user who presented it,
 and recording which service was requested.
 
-.. _mechanism_2_kerberos_pkinit_cross_realm_operation:
+
 
 Mechanism 2: Kerberos PKINIT cross-realm operation
 --------------------------------------------------
@@ -216,7 +216,7 @@ the local AS. Also, because this method is designed to relax the
 requirement for cross-realm coordination, the likelihood of locating the
 original user attributes in "CREALM" is smaller than for use case 1.
 
-.. _mechanism_3_non_kerberos_web_identity_providers:
+
 
 Mechanism 3: Non-Kerberos web Identity Providers
 ------------------------------------------------
@@ -261,7 +261,7 @@ gateway actually create the external user entry in IPA. The location of
 auditing and the means of creating user entries are orthogonal concerns
 to describing the authentication mechanisms.
 
-.. _logging_in_with_a_saslgssapi_client:
+
 
 Logging in with a SASL/GSSAPI client
 ----------------------------------------------------------------------------------------------
@@ -292,7 +292,7 @@ in step 6 and receives a TGT in step 7. From this point on, the client
 has access to the services of the realm, and can delete the
 public/private key pair as well as the kx509 certificate.
 
-.. _logging_in_with_a_browser:
+
 
 Logging in with a browser
 ----------------------------------------------------------------------------------------------
@@ -337,7 +337,7 @@ of the workflow would remain the same.
 Design
 ======
 
-.. _auditing_cross_realm_activity:
+
 
 Auditing cross realm activity
 -----------------------------
@@ -355,7 +355,7 @@ expanded as described here to notice whether the cname and crealm of
 PKINIT requests already exists in the LDAP store. Likewise, auditing the
 TGS exchanges must be implemented.
 
-.. _essential_functionality_delegated_to_gateway_server:
+
 
 Essential functionality delegated to gateway server
 ---------------------------------------------------

@@ -1,4 +1,4 @@
-.. _self_service_password_reset:
+
 
 Self Service Password Reset
 ===========================
@@ -19,7 +19,7 @@ password authentication in the core FreeIPA project.
 Use Cases
 ---------
 
-.. _community_sites:
+
 
 Community Sites
 ----------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ might accept the trade-off of security for convenience.
 Design
 ------
 
-.. _high_level_architecture_and_workflow:
+
 
 High-Level Architecture and Workflow
 ----------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ consequence. Tokens can be periodically expunged from the database
 through the use of a sweeper script, or the tokens can be allowed to
 persist in the database forever as a log of request attempts.
 
-.. _how_to_test34:
+
 
 How to Test
 -----------

@@ -1,4 +1,4 @@
-.. _refactorings_and_infrastructure_improvements:
+
 
 Refactorings and infrastructure improvements
 ============================================
@@ -10,14 +10,14 @@ finish.
 Each entry has a contact person who has either started working on it, or
 just knows about the topic or can refer you to someone who does.
 
-.. _planned_refactorings:
+
 
 Planned refactorings
 ====================
 
 See `plans for the next major version <V4/Refactorings>`__.
 
-.. _completed_refactorings:
+
 
 Completed refactorings
 ======================

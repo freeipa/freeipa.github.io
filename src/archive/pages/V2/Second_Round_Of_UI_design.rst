@@ -1,4 +1,4 @@
-.. _design_documentation_for_second_round_of_ui:
+
 
 Design documentation for Second Round of UI
 ===========================================
@@ -21,7 +21,7 @@ PDF files of the skeletons and site map:
 
 http://freeipa.org/page/Image:IPA_HBAC_skeletons.pdf
 
-.. _screen_comps:
+
 
 Screen Comps
 ------------
@@ -34,14 +34,14 @@ Behaviors
 
 -  Description of the `behaviors of IPA <V2/Behaviors_of_IPA>`__
 
-.. _language_usage:
+
 
 Language Usage
 --------------
 
 -  Description of how `language is used <V2/Language_usage>`__.
 
-.. _click_through_mockup:
+
 
 Click-through Mockup
 --------------------
@@ -49,7 +49,7 @@ Click-through Mockup
 -  The Original `click-through
    mockup <http://fedorapeople.org/~kybaker/IPA/>`__ from early July
 
-.. _graphical_elements:
+
 
 Graphical Elements
 ------------------

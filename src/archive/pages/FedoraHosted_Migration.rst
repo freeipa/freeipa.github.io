@@ -14,7 +14,7 @@ fedorahosted.org shuts down.
 -  Announcement:
    https://communityblog.fedoraproject.org/fedorahosted-sunset-2017-02-28/
 
-.. _current_state:
+
 
 Current state
 -------------
@@ -24,12 +24,12 @@ FreeIPA project uses:
 -  git hosting: https://git.fedorahosted.org/cgit/freeipa.git
 -  Trac issue tracker: https://fedorahosted.org/freeipa
 
-.. _issue_tracker:
+
 
 Issue tracker
 -------------
 
-.. _used_fields:
+
 
 Used fields
 ----------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ API is needed. Our Trac instance doesn't support authentication by using
 an API token, so it is not a strict requirement, but would be very much
 welcome.
 
-.. _ticket_numbers:
+
 
 Ticket numbers
 ----------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ Requirements
 -  ability migrate all tickets with comments in automated fashion
 -  keep ticket numbers
 
-.. _nice_to_have:
+
 
 Nice to have
 ----------------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ Nice to have
 -  API token support
 -  hosted solution
 
-.. _possible_replacements:
+
 
 Possible Replacements
 ---------------------
@@ -129,7 +129,7 @@ Cons
 
 -  closed
 
-.. _missing_features:
+
 
 Missing features
 ^^^^^^^^^^^^^^^^
@@ -144,21 +144,21 @@ Notes
 Pagure.io
 ----------------------------------------------------------------------------------------------
 
-.. _pros_1:
+
 
 Pros
 ^^^^
 
 -  open
 
-.. _cons_1:
+
 
 Cons
 ^^^^
 
 -  immature
 
-.. _missing_features_1:
+
 
 Missing features
 ^^^^^^^^^^^^^^^^

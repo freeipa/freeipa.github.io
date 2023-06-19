@@ -7,7 +7,7 @@ access is read-only. However, the access is authenticated to limit the
 exposure of the information similar to how Global Catalog in Active
 Directory by default limits its access to Authenticated Users.
 
-.. _supported_authentication_schemes:
+
 
 Supported authentication schemes
 --------------------------------
@@ -25,7 +25,7 @@ In all cases the resulted authenticated LDAP identity will be mapped to
 the pre-defined LDAP object which will have read-only access rights
 associated with the Global Catalog subtree.
 
-.. _ldap_simple_bind_authentication:
+
 
 LDAP simple bind authentication
 ----------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ master. In result, any valid user recognized on the FreeIPA master will
 be able to authenticate using the *global-catalog* service, including
 valid accounts from the trusted Active Directory forests.
 
-.. _sasl_gssapi_authentication:
+
 
 SASL GSSAPI authentication
 ----------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ directory server instance will map any valid Kerberos principal to the
 pre-defined LDAP object with read-only access rights associated with the
 Global Catalog subtree.
 
-.. _sasl_gss_spnego_authentication:
+
 
 SASL GSS-SPNEGO authentication
 ----------------------------------------------------------------------------------------------

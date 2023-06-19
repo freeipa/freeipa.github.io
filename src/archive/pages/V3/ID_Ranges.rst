@@ -1,4 +1,4 @@
-.. _what_are_rids_and_rid_ranges:
+
 
 What are RIDs and RID ranges
 ----------------------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ scope one Active Directory domain. The RID is the last part of the SID,
 e.g. for SID S-1-5-21-123-456-789-1010, the last segment, that is 1010
 is the RID. RID range is the analog of the ID range.
 
-.. _the_purpose_of_primary_and_secondary_rid_range:
+
 
 The purpose of primary and secondary RID range
 ----------------------------------------------------------------------------------------------
@@ -55,12 +55,12 @@ across UID/GID space. However, admin can manually create specify UID or
 GID at the object creation and create conflicts, or any data imported
 from other LDAP/NIS systems might.
 
-.. _constraints_on_id_ranges:
+
 
 Constraints on ID ranges
 ----------------------------------------------------------------------------------------------
 
-.. _any_domain:
+
 
 Any domain
 ^^^^^^^^^^
@@ -87,7 +87,7 @@ Any domain
 
 ``   A: E.g. if the POSIX IDs are not managed centrally for the whole forest, but domain admins do it on a per domain basis, seperate ipa-ad-trust-posix ranges with disjunct base idrange would help to avoid collisions. This happens by assigining each domain range a specific reserved ID range space, which is non-overlapping with any other ID range space, thus if any two objects from two different domains collide on UID/GID, only one of them can be resolved in IPA since only one of them would be in ID range space of its own particular domain.``
 
-.. _ranges_from_the_same_domain:
+
 
 Ranges from the same domain
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -95,7 +95,7 @@ Ranges from the same domain
 -  If there are multiple ranges for a single domain, all must have the
    same type.
 
-.. _ipa_ad_trust_ranges:
+
 
 ipa-ad-trust ranges
 '''''''''''''''''''
@@ -104,7 +104,7 @@ ipa-ad-trust ranges
 
    -  Reasoning: RIDs need to be unique inside one AD domain.
 
-.. _ipa_ad_trust_posix_ranges:
+
 
 ipa-ad-trust-posix ranges:
 ''''''''''''''''''''''''''
@@ -114,7 +114,7 @@ ipa-ad-trust-posix ranges:
    not be set at all.
 -  https://fedorahosted.org/freeipa/ticket/4221
 
-.. _local_ranges:
+
 
 Local ranges
 ''''''''''''

@@ -97,7 +97,7 @@ Some interesting things to note about these formats:
 Implementations
 ===============
 
-.. _two_pass_data_interpolation:
+
 
 Two-pass data interpolation
 ---------------------------
@@ -164,7 +164,7 @@ of markup being used in parallel.
 Note, too, that the ``section`` tag does not exist yet in jinja2; it
 would need to be implemented as an extension.
 
-.. _two_pass_template_interpolation:
+
 
 Two-pass template interpolation
 -------------------------------
@@ -194,7 +194,7 @@ would be the data rules themselves rather than data rules with
 interpolated user data. And of course, the ``values`` would not be
 escaped beforehand.
 
-.. _template_based_hierarchical_rules:
+
 
 Template-based hierarchical rules
 ---------------------------------
@@ -255,7 +255,7 @@ Concern #1 is probably an ok tradeoff, as it's not clear how broadly
 reusable rules will be anyway. However, #2 would need to be addressed in
 any actual implementation.
 
-.. _formatter_based_hierarchical_rules:
+
 
 Formatter-based hierarchical rules
 ----------------------------------

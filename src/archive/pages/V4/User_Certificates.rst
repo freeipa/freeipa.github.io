@@ -18,7 +18,7 @@ realizable.
 Use Cases
 ---------
 
-.. _smart_card_authentication:
+
 
 Smart Card Authentication
 ----------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ This use case is generic and can result in different implementations,
 given there are several options how the Smart Card certificate is loaded
 to FreeIPA and if it is available before hand at all.
 
-.. _client_certificate_authentication:
+
 
 Client Certificate Authentication
 ----------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ used for user certificate authentication against server, for example to
 `mod_ssl <http://www.modssl.org/>`__
 `Apache <http://httpd.apache.org/>`__ modules.
 
-.. _smime_and_user_signing_certificates:
+
 
 S/MIME and User Signing Certificates
 ----------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ the proposed use cases:
 -  Searching certificates by clients - Smart Card, S/MIME use cases
 -  Enrolling external certificates to the system - Smart Card use case
 
-.. _storing_user_certificates:
+
 
 Storing User Certificates
 ----------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ unnecessary big (and thus adding a risk of LDAP performance problems).
 This design therefore removes the assumption that all certificates are
 stored in user entry.
 
-.. _searching_certificates_by_clients:
+
 
 Searching Certificates by Clients
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ aims to cover support for *Binary match on whole certificate* option and
 also discusses the proposal for the *Match on custom certificate
 attributes* option.
 
-.. _certificate_identity_mapping:
+
 
 Certificate Identity Mapping
 ----------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ The search itself is only one part of the problem. FreeIPA also needs to
 be able to **store** the unique per user configuration and an attribute
 and let admin set it.
 
-.. _storing_custom_user_identifier:
+
 
 Storing Custom User Identifier
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -211,7 +211,7 @@ OID Attribute Name   Syntax Description
 TBD ipaUserCertMatch TBD    Custom matching attribute selection.
 === ================ ====== ====================================
 
-.. _granularity_of_the_certificate_identity_mapping:
+
 
 Granularity of the Certificate Identity Mapping
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -220,7 +220,7 @@ Admins should be able to set the profile both for internal CA, but
 especially for the **external CA**, from which each may use different
 combination of the fields for the matching.
 
-.. _changes_to_certificate_bookkeeping:
+
 
 Changes to Certificate Bookkeeping
 ----------------------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ be filled and used for certificate manipulation and bookkeeping
 user entry at all and only stored in Dogtag (especially the short lived
 certificates).
 
-.. _revocation_of_the_certificates:
+
 
 Revocation of the Certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -326,12 +326,12 @@ certificates* to avoid change of behavior with service and host
 certificates. New installations should default to only *Record issued
 and enrolled certificate* to avoid storing unnecessary data.
 
-.. _how_to_test40:
+
 
 How to Test
 -----------
 
-.. _using_freeipadogtag_pki_to_issue_user_certificates:
+
 
 Using FreeIPA/Dogtag PKI to issue user certificates
 ----------------------------------------------------------------------------------------------
@@ -400,7 +400,7 @@ Tweedale <https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom
 -  the newly issued certificate should be visible when viewing list of
    certificates in WebUI
 
-.. _using_cli_commands_to_manager_user_certificates:
+
 
 Using CLI commands to manager user certificates
 ----------------------------------------------------------------------------------------------
@@ -483,7 +483,7 @@ Using CLI commands to manager user certificates
 
    ipa: ERROR: usercertificate;binary does not contain 'one or more values to remove'
 
-.. _using_sssd_to_lookup_users_by_certificate:
+
 
 Using SSSD to lookup users by certificate
 ----------------------------------------------------------------------------------------------
@@ -519,7 +519,7 @@ them. To test this feature *sssd-dbus* package must be installed.
    method return sender=:1.792 -> dest=:1.793 reply_serial=2 object path 
    "/org/freedesktop/sssd/infopipe/Users/ipadom_2eorg/883600001"
 
-.. _use_case_smart_card_authentication_using_sssd_and_freeipa:
+
 
 Use case: smart card authentication using SSSD and FreeIPA
 ----------------------------------------------------------------------------------------------

@@ -44,7 +44,7 @@ possible to have a DNS host name for FreeIPA client as a part of a DNS
 domain of existing Active Directory domain and still allow single
 sign-on operations.
 
-.. _theory_and_practice_of_a_forest_trust_interaction:
+
 
 Theory and practice of a forest trust interaction
 -------------------------------------------------
@@ -78,7 +78,7 @@ a host within DNS zone owned by Active Directory. This means no Kerberos
 authentication is possible against such FreeIPA machines from Windows
 systems.
 
-.. _a_subdomain_of_ad_that_only_has_ipa_machines:
+
 
 A subdomain of AD that only has IPA machines
 ----------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ Directory needs to be told that this DNS domain belongs to FreeIPA. This
 is done with the help of \`ipa realmdomains-mod
 --add-domain=sub.ad.domain\` and re-establishing trust to AD.
 
-.. _enrolling_to_freeipa_realm:
+
 
 Enrolling to FreeIPA realm
 ----------------------------------------------------------------------------------------------
@@ -258,7 +258,7 @@ of a Kerberos realm different to *EXAMPLE.COM* but a CNAME record
 *ipa-client.example.com* can point to A/AAAA DNS record
 *ipa-client.ipa.example.com* to allow Kerberos authentication.
 
-.. _possible_solutions:
+
 
 Possible solutions
 ------------------
@@ -268,7 +268,7 @@ possible. In both cases we assume proper enrollment of the client to
 FreeIPA by means of *ipa-client-install* tool which would set up SSSD
 with 'ipa' identity provider.
 
-.. _no_single_sign_on_required:
+
 
 No single sign-on required
 ----------------------------------------------------------------------------------------------
@@ -317,7 +317,7 @@ Kerberos credentials obtained on the FreeIPA client as part of the
 OpenSSH logon can be used to authenticate against other Active Directory
 resources.
 
-.. _handling_of_ssl_certificates:
+
 
 Handling of SSL certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -355,7 +355,7 @@ against *IPA.EXAMPLE.COM* realm should be properly working which is why
 *ipa-client.example.com = IPA.EXAMPLE.COM* was added to *[domain_realm]*
 mapping in */etc/krb5.conf* above.
 
-.. _single_sign_on_required:
+
 
 Single sign-on required
 ----------------------------------------------------------------------------------------------
@@ -378,7 +378,7 @@ be relaxed:
 For OpenSSH server there is a specific option *GSSAPIStrictAcceptorCheck
 no* to achieve the same.
 
-.. _handling_of_ssl_certificates_1:
+
 
 Handling of SSL certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

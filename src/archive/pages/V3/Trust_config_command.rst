@@ -58,7 +58,7 @@ group "SMB Default Group".
 
 CLI
 
-.. _trustconfig_show:
+
 
 trustconfig-show
 ----------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Required command options:
 -  ``--type``: The exactly same meaning as with ``trust-add``.
    Currently, the only allowed value will be ``ad``.
 
-.. _trustconfig_mod:
+
 
 trustconfig-mod
 ----------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ External Impact
 
 N/A
 
-.. _design_page_authors:
+
 
 Design page authors
 ===================

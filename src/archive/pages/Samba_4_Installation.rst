@@ -6,7 +6,7 @@ Prerequisites
    % yum install gcc git autoconf make python-devel perl-Mozilla-LDAP \
    perl-LDAP phpldapadmin openldap-devel bind ctags-etags
 
-.. _getting_the_source_code:
+
 
 Getting the Source Code
 =======================
@@ -36,7 +36,7 @@ Getting development branch:
    % git fetch github
    % git checkout --track -b development github/development
 
-.. _building_samba:
+
 
 Building Samba
 ==============
@@ -51,7 +51,7 @@ Building Samba
    % make etags idl_full clean all
    % make install
 
-.. _testing_samba:
+
 
 Testing Samba
 =============

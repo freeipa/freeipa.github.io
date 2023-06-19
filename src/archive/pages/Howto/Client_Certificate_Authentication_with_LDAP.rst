@@ -1,7 +1,7 @@
 We can use `user certificates <V4/User_Certificates>`__ to authenticate
 our ldap session.
 
-.. _generate_user_certificate_for_user_account:
+
 
 generate user certificate for user account
 ------------------------------------------
@@ -124,7 +124,7 @@ first we need to get the certificate's serial number.
 
 which will give you all the certificate output on screen.
 
-.. _map_certificate_to_user_account:
+
 
 map certificate to user account
 -------------------------------
@@ -183,7 +183,7 @@ You can add this value to the seeAlso attribute using your favourite
 ldap client, like the very nice `apache ds
 studio <https://directory.apache.org/studio/>`__
 
-.. _configure_ldap_client:
+
 
 configure ldap client
 ---------------------
@@ -224,7 +224,7 @@ ldap server we see this:
    [04/Mar/2016:23:34:57 +0100] conn=100 op=2 SRCH base="dc=sub,dc=domain,dc=tld" scope=2 filter="(objectClass=person)" attrs="cn"
    [04/Mar/2016:23:34:57 +0100] conn=100 op=2 RESULT err=0 tag=101 nentries=1001 etime=0
 
-.. _perl5_example:
+
 
 perl5 example
 -------------
@@ -272,7 +272,7 @@ you need the perl-LDAP and perl-IO-Socket-SSL packages for this
        print $entry->dn, "\n";
    }
 
-.. _disabling_access_to_the_user_certificate:
+
 
 disabling access to the user certificate
 ----------------------------------------

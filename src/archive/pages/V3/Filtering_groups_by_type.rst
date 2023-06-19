@@ -6,7 +6,7 @@ Overview
 There is no method how to filter groups by type. Group type is basically
 a variation of object classes. Prerequisite for #3333.
 
-.. _use_cases117:
+
 
 Use Cases
 =========

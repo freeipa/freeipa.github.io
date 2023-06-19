@@ -14,7 +14,7 @@ preferably hours or days and not weeks.
 It may not be possible to upgrade any release to any other release.
 Intermediate steps may be required (e.g. upgrade v2.1 to 2.3 to 3.0)
 
-.. _what_is_a_server:
+
 
 What is a server?
 -----------------
@@ -27,7 +27,7 @@ can cause problems.
 On top of this sits the IPA management framework to manage identity
 data.
 
-.. _upgrade_strategy:
+
 
 Upgrade Strategy
 ----------------
@@ -65,7 +65,7 @@ version from interfering with other servers.
 The 389-ds replication plugin will add hooks to be able to register a
 version. The IPA plugin will use those hooks to register the version.
 
-.. _version_format:
+
 
 Version format
 ----------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Version format
 The version will be stored as a date which will make comparisons a lot
 easier (e.g. 201003081732).
 
-.. _ipa_management_utilities:
+
 
 IPA management utilities
 ----------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ communicate to the IPA XML-RPC server. The server will use this version
 to decide if it will work with the client (this is the purpose of
 putting the IPA version into ``ipalib/constants.py``)
 
-.. _the_upgrade_process:
+
 
 The Upgrade Process
 -------------------
@@ -107,7 +107,7 @@ Changes will be queued in the 389-ds changelog but the more changes
 there are the more likelihood that MMR will need to determine winners
 and losers.
 
-.. _changes_to_replica_installation_process:
+
 
 Changes to Replica Installation Process
 ---------------------------------------
@@ -117,7 +117,7 @@ ensure that a different version replica isn't added. We don't want old
 servers to be added to an IPA domain. The initial replication population
 would fail anyway due to the version checking.
 
-.. _types_of_incompatibilities:
+
 
 Types of Incompatibilities
 --------------------------

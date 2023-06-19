@@ -1,6 +1,6 @@
 **Draft** Using IPA DNS for OpenShift - setup how-to
 
-.. _install-plugins-on-broker:
+
 
 Install plugins on Broker
 
@@ -41,7 +41,7 @@ Install plugins on Broker
    BIND_KRB_PRINCIPAL="DNS/vm-040.idm.lab.bos.redhat.com@IDM.LAB.BOS.REDHAT.COM"
    BIND_KRB_KEYTAB="/etc/dns.keytab"
 
-.. _get-ipa-keytab-for-dns:
+
 
 Get IPA Keytab for DNS
 
@@ -79,7 +79,7 @@ the BIND policy.
 -  Change the ownership: ``chown apache:apache /etc/dns.keytab``
 -  Restart the broker service: ``service openshift-broker restart``
 
-.. _to-test:
+
 
 To test
 
@@ -92,7 +92,7 @@ I suggest testing three ways:
 #. With RHC command line tools. If this fails, then it is an OpenShift
    issue with either MongoDB or ActiveMQ/MCollective.
 
-.. _manually:
+
 
 Manually
 
@@ -126,7 +126,7 @@ Then on the IPA Server or Broker if the Broker has ``ipa-admintools``:
 
    [root@ipaserver]# ipa dns-resolve $YOUR_TEST_APP_FQDN
 
-.. _with-openshift-enterprise:
+
 
 With OpenShift Enterprise
 
@@ -152,7 +152,7 @@ console:
 
 If you are successful, the rails console will return with "nil".
 
-.. _possible-issue:
+
 
 Possible issue
 
@@ -167,7 +167,7 @@ IPA's keytab.
 Once you edit this, restart the broker service:
 ``service openshift-broker restart``
 
-.. _with-rhc-command-line-tools:
+
 
 With RHC command-line tools
 

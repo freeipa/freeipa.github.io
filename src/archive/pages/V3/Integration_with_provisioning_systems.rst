@@ -20,7 +20,7 @@ appropriate groups structure using automembership plugin. In future
 other plugins can be created to look at this attribute and perform other
 operations as needed.
 
-.. _use_cases10a:
+
 
 Use Cases
 =========
@@ -48,7 +48,7 @@ section <HowTos>`__.
 Design
 ======
 
-.. _new_schema:
+
 
 New schema
 ----------

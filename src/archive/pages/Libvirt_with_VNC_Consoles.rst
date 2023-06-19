@@ -24,7 +24,7 @@ ipa01.example.com in the realm EXAMPLE.COM, the virtualization server
 will be kvmhost01.example.com and the guest will be
 kvmguest01.example.com.
 
-.. _creating_the_services_and_obtaining_the_keytabs:
+
 
 Creating the services and obtaining the keytabs
 -----------------------------------------------
@@ -51,7 +51,7 @@ On the KVM host server:
 With the keytabs in place libvirt and qemu now need to be configured to
 make use of them and enable TCP connections.
 
-.. _configuring_libvirt_to_use_kerberos_via_sasl:
+
 
 Configuring libvirt to use kerberos via SASL
 --------------------------------------------
@@ -65,7 +65,7 @@ The appropriate changes in /etc/libvirt/libvirtd.conf are:
 | `` listen_tls = 0``
 | `` listen_tcp = 1``
 | `` auth_tcp = "sasl"``
-| `` sasl_allowed_username_list = ["*@EXAMPLE.COM" ]``
+| `` sasl_allowed_username_list = ["\*@EXAMPLE.COM" ]``
 
 To configure the SASL auth for libvirtd following this make sure you
 have the following in /etc/sasl2/libvirt.conf:
@@ -77,7 +77,7 @@ Finally listening on TCP needs to be enabled in /etc/sysconfig/libvirtd:
 
 `` LIBVIRTD_ARGS="--listen"``
 
-.. _configuring_qemu_to_allow_sasl_authentication_for_vnc:
+
 
 Configuring qemu to allow SASL authentication for VNC
 -----------------------------------------------------
@@ -128,7 +128,7 @@ the selinux range on the file preventing it from being read.
 As a workaround until the bug is fixed, as an example, I have the
 following in cron:
 
-`` */5 * * * * chcon -l s0 /var/tmp/vnc_*``
+`` \*/5 \* \* \* \* chcon -l s0 /var/tmp/vnc\_\*``
 
 This will set the range to s0 and thus all VMs can then use this replay
 cache for the credentials.
@@ -157,7 +157,7 @@ firewall-cmd instead. Assuming your network interface is bound to the
 
 This should be the only requirement left for connectivity.
 
-.. _client_usage:
+
 
 Client usage
 ------------

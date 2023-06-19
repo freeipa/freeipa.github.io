@@ -5,7 +5,7 @@ Samba relies on the LDAP backend to do attribute indexing. Currently the
 provisioning tool can already configure the indexing on OpenLDAP, but it
 still needs to be modified to configure the indexing on DS.
 
-.. _attribute_indexing:
+
 
 Attribute Indexing
 ==================
@@ -28,12 +28,12 @@ the schema subtree using the following filter:
 
 There are 114 attributes that need indexing in AD schema.
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _openldap_configuration:
+
 
 OpenLDAP Configuration
 ----------------------
@@ -45,7 +45,7 @@ following directive in slapd.conf:
 
    index ${ATTR} eq
 
-.. _provisioning_tool:
+
 
 Provisioning Tool
 -----------------
@@ -76,7 +76,7 @@ attribute indexing in OpenLDAP:
        // generate indexing configuration
        index_config += "index " + index_attr + " eq\n"
 
-.. _default_indexes:
+
 
 Default Indexes
 ---------------
@@ -108,7 +108,7 @@ The following attributes are indexed by default in DS:
 
 All except aci and numsubordinates have an equality index.
 
-.. _linked_attributes:
+
 
 Linked Attributes
 -----------------
@@ -154,12 +154,12 @@ index. See also `this page <Obsolete:Samba_4_Attribute_Linking>`__.
 The member and owner are already defined in the default indexes and have
 an equality index.
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
 
-.. _ds_configuration:
+
 
 DS Configuration
 ----------------
@@ -178,7 +178,7 @@ configuration entry:
 
 This template should be stored in source4/setup/fedorads-index.ldif.
 
-.. _provisioning_tool_1:
+
 
 Provisioning Tool
 -----------------
@@ -226,7 +226,7 @@ indexes, but they will be ignored during instance creation.
            setup_path("fedorads-index.ldif"),
            { "ATTR" : attr })
 
-.. _samba_patches:
+
 
 Samba Patches
 =============

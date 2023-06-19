@@ -3,7 +3,7 @@ Guide <FreeIPAv1:Client_Configuration_Guide>`__
 
 \__TOC_\_
 
-.. _configuring_windows_as_an_ipa_client:
+
 
 Configuring Windows as an IPA Client
 ====================================

@@ -11,7 +11,7 @@ users that can be used by provisioning systems.
 Use Cases
 ---------
 
-.. _external_provisioning_system:
+
 
 External Provisioning System
 ----------------------------------------------------------------------------------------------
@@ -53,12 +53,12 @@ The following supported workflows are expected:
 #. *Lock user*: temporarily lock user so that it is not accessible
 #. *Unlock user*: unlock temporarily locked user
 
-.. _privilege_separation_for_employee_entry_and_activation:
+
 
 Privilege Separation for Employee Entry and Activation
 ----------------------------------------------------------------------------------------------
 
-.. _user_story_1:
+
 
 User Story
 ^^^^^^^^^^
@@ -72,7 +72,7 @@ the first day of employment.
 Design
 ------
 
-.. _user_status:
+
 
 User status
 ----------------------------------------------------------------------------------------------
@@ -124,7 +124,9 @@ status of the user. There are 3 differents status:
 workflows
 ----------------------------------------------------------------------------------------------
 
-``The main workflow allows  moves: ``\ *``stage``*\ `` ``\ **``-->``**\ `` ``\ *``active``*\ `` ``\ **``<-->``**\ `` ``\ *``delete``*
+::
+
+   ``The main workflow allows  moves: ``\ *``stage``*\ `` ``\ **``-->``**\ `` ``\ *``active``*\ `` ``\ **``<-->``**\ `` ``\ *``delete``*
 
 -  stage -> active: The appropriate set of approvals are granted and a
    new comer is now fully operational in the organisation
@@ -179,12 +181,12 @@ The workflow allows to modify user account from:
                              \                                                                    /
                                ----------------------- add (from-delete opt.) ---------------------
 
-.. _stageuser_plugin:
+
 
 stageuser plugin
 ^^^^^^^^^^^^^^^^
 
-.. _add_a_stage_entry:
+
 
 Add a stage entry
 '''''''''''''''''
@@ -257,7 +259,7 @@ The drawback of the first CLI (stageuser-add) is that lastname/firstname
 are required option, but when the 'uid' entry is taken from the 'Delete'
 container lastname/firstname are useless.
 
-.. _provision_stage_entry:
+
 
 Provision stage entry
 '''''''''''''''''''''
@@ -298,7 +300,7 @@ Provision stage entry
    sn: User
    uid: tuser
 
-.. _activate_stageuser:
+
 
 Activate StageUser
 ''''''''''''''''''
@@ -394,7 +396,7 @@ or if it exists a *Delete* entry that already have the ''uid: foo value:
    `ajustments <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Adjustment_of_DN_syntax_attributes>`__
    of DN syntax attributes
 
-.. _modrdn_vs._add_del:
+
 
 MODRDN vs. ADD-DEL
                   
@@ -456,7 +458,7 @@ The *second approach is chosen* solution because:
    are present
 -  It is most simplest solution to implement.
 
-.. _adjustment_of_dn_syntax_attributes:
+
 
 Adjustment of DN syntax attributes
                                   
@@ -476,7 +478,7 @@ preserved if it is the DN of an *Active* entry, else it is replaced with
 an empty value. (see `this
 thread <https://www.redhat.com/archives/freeipa-devel/2014-June/msg00080.html>`__)
 
-.. _update_stageuser:
+
 
 Update StageUser
 ''''''''''''''''
@@ -493,7 +495,7 @@ Update StageUser
    #. **nsaccountlock** can not be set. Its value is forced to be *True*
       by a **COS**
 
-.. _delete_stageuser:
+
 
 Delete StageUser
 ''''''''''''''''
@@ -505,18 +507,20 @@ Delete StageUser
 #. ``stageuser-del`` triggers LDAP delete operation on LDAP stage entry
    that deletes it permanently
 
-.. _restore_stageuser:
+
 
 Restore StageUser
 '''''''''''''''''
 
-``Support engineer can restore a ``\ *``Delete``*\ `` user (under ``\ *``cn=deleted``\ ````\ ``users,cn=accounts,cn=provisioning,SUFFIX``*\ ``). ``\ *``Delete``*\ `` user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\ ```restore``\ ````\ ``and``\ ````\ ``activate`` <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User>`__\ `` a ``\ *``Delete``*\ `` user. Stepping the entry into ``\ *``Stage``*\ `` allows to keep valid properties and update the corrupted ones before making the user ``\ *``Active``*\ ``.``
+::
+
+   ``Support engineer can restore a ``\ *``Delete``*\ `` user (under ``\ *``cn=deleted``\ ````\ ``users,cn=accounts,cn=provisioning,SUFFIX``*\ ``). ``\ *``Delete``*\ `` user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\ ```restore``\ ````\ ``and``\ ````\ ``activate`` <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User>`__\ `` a ``\ *``Delete``*\ `` user. Stepping the entry into ``\ *``Stage``*\ `` allows to keep valid properties and update the corrupted ones before making the user ``\ *``Active``*\ ``.``
 
 #. Support engineer restore the user using the following CLI
 
       ipa stageuser-add --from-preserved
 
-.. _find_stageuser:
+
 
 Find StageUser
 ''''''''''''''
@@ -556,7 +560,7 @@ Find StageUser
    Number of entries returned 2
    ----------------------------
 
-.. _show_stageuser:
+
 
 Show StageUser
 ''''''''''''''
@@ -566,12 +570,12 @@ Show StageUser
 
       ipa stageuser-show <*LOGIN*>
 
-.. _user_plugin:
+
 
 user plugin
 ^^^^^^^^^^^
 
-.. _add_an_active_user:
+
 
 Add an active user
 ''''''''''''''''''
@@ -633,7 +637,7 @@ Add an active user
    krbPrincipalName: test_user@domain.com
    initials: tu
 
-.. _assign_group_memberships_already_available:
+
 
 Assign Group Memberships (already available)
 ''''''''''''''''''''''''''''''''''''''''''''
@@ -648,7 +652,7 @@ Assign Group Memberships (already available)
    the *memberOf* attribute is not preserved and membershift is
    recomputed .
 
-.. _update_user_already_available:
+
 
 Update User (already available)
 '''''''''''''''''''''''''''''''
@@ -670,7 +674,7 @@ Update User (already available)
 #. When updating DN syntax attributes (like *--manager* option) , if the
    entry is not an *Active* entry the modification fails.
 
-.. _change_password_already_available:
+
 
 Change Password (already available)
 '''''''''''''''''''''''''''''''''''
@@ -681,7 +685,7 @@ Change Password (already available)
 
 #. Regular user uses same CLI to modify the password of its own entry
 
-.. _delete_user:
+
 
 Delete User
 '''''''''''
@@ -780,7 +784,7 @@ decides to delete a user, he does not need to specify if the user is in
 
    #. This is done by a direct ldap delete of the entry.
 
-.. _restore_deleted_user:
+
 
 Restore Deleted User
 ''''''''''''''''''''
@@ -816,7 +820,7 @@ again,
    `ajustments <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Adjustment_of_DN_syntax_attributes>`__
    of DN syntax attributes
 
-.. _lock_user_already_available:
+
 
 Lock User (already available)
 '''''''''''''''''''''''''''''
@@ -829,7 +833,7 @@ Lock User (already available)
    bind to LDAP. Membership and password attributes are preserved
 #. Only *Active* account can be locked/disabled
 
-.. _unlock_user_already_available:
+
 
 Unlock User (already available)
 '''''''''''''''''''''''''''''''
@@ -842,7 +846,7 @@ Unlock User (already available)
    operation is restored
 #. Only *Active* account can be unlocked/enabled
 
-.. _find_user:
+
 
 Find User
 '''''''''
@@ -883,7 +887,7 @@ In addition if the retrieved entry is *preserved* it displays a flag:
    Number of entries returned 1
    ----------------------------
 
-.. _show_user:
+
 
 Show User
 '''''''''
@@ -1005,7 +1009,7 @@ ignored. Else if the placeholder attribute exists in the placeholders
 entry it selects the placeholder value and the possible default value is
 ignored. Else it selects the default values.
 
-.. _limitation___future_enhancement:
+
 
 Limitation - Future enhancement
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1019,12 +1023,12 @@ As futur enhancement, we can imagine a placeholder being defined with:
 *homeDirectory: /home/net/%{uid}*. In that case for user 'uid=tuser',
 the added value for **homeDirectory** will be **/home/net/tuser**
 
-.. _staging_container:
+
 
 Staging container
 ----------------------------------------------------------------------------------------------
 
-.. _staging_tree:
+
 
 Staging tree
 ^^^^^^^^^^^^
@@ -1045,7 +1049,7 @@ Staging tree should have the following structure:
 
          -  ``cn=staged users``: new staged users
 
-.. _staging_users_in_a_special_database:
+
 
 Staging Users in a Special Database
 '''''''''''''''''''''''''''''''''''
@@ -1071,12 +1075,12 @@ Cons
 -  Increased maintenance burden with replication agreements of the new
    database
 
-.. _staging_users_in_a_normal_suffix_preferred:
+
 
 Staging Users in a Normal Suffix (preferred)
 ''''''''''''''''''''''''''''''''''''''''''''
 
-.. _pros_1:
+
 
 Pros
     
@@ -1086,7 +1090,7 @@ Pros
    server.
 -  No need to manage new databases or replication agreements
 
-.. _cons_1:
+
 
 Cons
     
@@ -1102,7 +1106,7 @@ Cons
 -  Running in a topology with different versions, will require that the
    ACI, containers are replicated
 
-.. _stage_placeholders:
+
 
 Stage placeholders
 ^^^^^^^^^^^^^^^^^^
@@ -1127,7 +1131,7 @@ The placeholders for the staging container are:
    ipaUniqueId: ?autogenerate?
    nsAccountLock: yes
 
-.. _stage_entry_requirements:
+
 
 Stage entry requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1152,7 +1156,7 @@ The common requirements from these origins are
    `ipaUniqueID
    reset <https://www.redhat.com/archives/freeipa-devel/2014-June/msg00344.html>`__)
 
-.. _example_of_stage_entry_provisioning_origin:
+
 
 Example of Stage entry (provisioning origin)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1160,7 +1164,7 @@ Example of Stage entry (provisioning origin)
 In addition to the common requirements above, the entry may contains any
 objectclasses/attributes
 
-.. _example_of_stage_entry_stageuser_add:
+
 
 Example of Stage entry (stageuser-add)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1215,7 +1219,7 @@ staging will contains those default values:
 
 The way those values are generated is hardcoded in the CLI core.
 
-.. _example_of_stage_entry_stageuser_undel:
+
 
 Example of Stage entry (stageuser-undel)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1258,19 +1262,19 @@ attributes:
    krbPrincipalName: test_user@domain.com
    initials: tu
 
-.. _active_container:
+
 
 Active container
 ----------------------------------------------------------------------------------------------
 
-.. _active_tree:
+
 
 Active tree
 ^^^^^^^^^^^
 
 Active entries are under *cn=users,cn=accounts,SUFFIX*
 
-.. _active_placeholders:
+
 
 Active Placeholders
 ^^^^^^^^^^^^^^^^^^^
@@ -1299,7 +1303,7 @@ The placeholders for the *Active* container are:
 -  ``gidNumber``: copied from uidNumber
 -  ``ipaUniqueId``\ (final value generated by FreeIPA IPA UUID plugin)
 
-.. _active_entry_requirements:
+
 
 Active entry requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1319,7 +1323,7 @@ The requirements for active entries are
       cn=ipaConfig,cn=etc,$SUFFIX)
    -  uid/cn (generated from the CLI)
 
-.. _example_of_active_entry_user_add:
+
 
 Example of Active entry (user-add)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1357,12 +1361,12 @@ The freeipa CLI creates an entry like:
    initials: tu
    memberOf: cn=ipausers,cn=groups,cn=accounts,SUFFIX
 
-.. _delete_container:
+
 
 Delete container
 ----------------------------------------------------------------------------------------------
 
-.. _delete_tree:
+
 
 Delete tree
 ^^^^^^^^^^^
@@ -1370,14 +1374,14 @@ Delete tree
 Delete entries are under *cn=deleted users,cn=accounts,cn=provisioning,
 SUFFIX*
 
-.. _delete_placeholders:
+
 
 Delete placeholders
 ^^^^^^^^^^^^^^^^^^^
 
 N/A No entry are added in the *Delete* container
 
-.. _delete_entry_requirements:
+
 
 Delete entry requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1401,7 +1405,7 @@ and conform the following requirements
 
 -  entry has no 'memberof' attribute
 
-.. _example_of_delete_entry:
+
 
 Example of Delete entry
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -1444,7 +1448,7 @@ Authentication
 
 ``Authentication is not allowed with ``\ *``Stage``*\ `` and ``\ *``Delete``*\ `` entries. Authentication can be done with simple bind or through an external mechanism (like GSSAPI).``
 
-.. _staging_entry:
+
 
 Staging entry
 ^^^^^^^^^^^^^
@@ -1481,7 +1485,7 @@ To prevent authentication from *Stage* entry, we can use two methods:
 The *COS* solution will be use because it seems good enough without
 major drawback
 
-.. _active_entry:
+
 
 Active entry
 ^^^^^^^^^^^^
@@ -1502,7 +1506,7 @@ been removed. So it is not possible to authenticate with it before the
 If this is a *True* new user (user-add), it is possible to authenticate
 with it at the condition it has *userPassword* and kerberos keys
 
-.. _delete_entry:
+
 
 Delete entry
 ^^^^^^^^^^^^
@@ -1518,7 +1522,7 @@ cleared. Password attribute must be cleared as well at the exception of
 passwordHistory. *passwordHistory* will prevent the user to reuse one of
 password it used when the entry was *Active*.
 
-.. _permissions_and_acis:
+
 
 Permissions and ACIs
 ----------------------------------------------------------------------------------------------
@@ -1548,7 +1552,7 @@ Following roles should be updated:
 -  *User Administrator*: should contain *Staged User Administrators*
    privilege
 
-.. _allow_moving_staged_users_only:
+
 
 Allow Moving Staged Users Only
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1572,7 +1576,7 @@ staging container.
 User life cycle do not "move" entries (LDAP moddn) but create valid user
 and delete stage user/preserved user.
 
-.. _moving_users_from_staging_tree_automatically:
+
 
 Moving Users from Staging Tree Automatically
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1584,7 +1588,7 @@ periodically using a custom script run on one chosen server (to prevent
 race unexpected conditions when more servers are activating staged
 users).
 
-.. _proposed_script_workflow:
+
 
 Proposed Script Workflow
 ''''''''''''''''''''''''
@@ -1595,7 +1599,7 @@ Proposed Script Workflow
 
    -  Activate user with ``user-add``, log result
 
-.. _affected_directory_server_plugins:
+
 
 Affected Directory Server Plugins
 ----------------------------------------------------------------------------------------------
@@ -1604,7 +1608,7 @@ Active FreeIPA plugins that are active in any user-related operation
 need to be checked or updated, to avoid interference with users in
 *staged* or *deleted* tree, namely:
 
-.. _dna_plugin:
+
 
 DNA plugin
 ^^^^^^^^^^
@@ -1642,7 +1646,7 @@ The following possibilities were evaluated but did not work:
    config entry (i.e. "cn=Trust IDs,cn=Distributed Numeric Assignment
    Plugin,cn=plugins,cn=config'' is not an option)
 
-.. _krbprincipalname_uniqueness:
+
 
 krbPrincipalName uniqueness
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1673,7 +1677,7 @@ the plugin configuration contains:
    nsslapd-pluginContainerScope: cn=deleted users,cn=accounts,cn=provisioning,SUFFIX
    uniqueness-across-all-subtrees: on
 
-.. _krbcanonicalname_uniqueness:
+
 
 krbCanonicalName uniqueness
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1692,7 +1696,7 @@ we apply the following configuration
    nsslapd-pluginContainerScope: cn=deleted users,cn=accounts,cn=provisioning,SUFFIX
    uniqueness-across-all-subtrees: on
 
-.. _uid_uniqueness:
+
 
 uid uniqueness
 ^^^^^^^^^^^^^^
@@ -1709,7 +1713,7 @@ we apply the following configuration
    nsslapd-pluginContainerScope: cn=deleted users,cn=accounts,cn=provisioning,SUFFIX
    uniqueness-across-all-subtrees: on
 
-.. _ipauniqueid_uniquness:
+
 
 ipaUniqueID uniquness
 ^^^^^^^^^^^^^^^^^^^^^
@@ -1732,7 +1736,7 @@ we apply the following configuration
 system can set any values and stageuser-add CLI creates entries with the
 same value *autogenerate*
 
-.. _referential_integrity:
+
 
 Referential integrity
 ^^^^^^^^^^^^^^^^^^^^^
@@ -1770,7 +1774,7 @@ The configuration of this plugin is :
    nsslapd-pluginContainerScope: cn=accounts,SUFFIX
    nsslapd-pluginEntryScope: cn=accounts,SUFFIX
 
-.. _memberof_plugin:
+
 
 MemberOf plugin
 ^^^^^^^^^^^^^^^
@@ -1793,7 +1797,7 @@ the configuration of this plugin is:
    memberofentryscope: SUFFIX
    memberofentryscopeexcludesubtree: cn=provisioning,SUFFIX
 
-.. _managed_entries_plugin:
+
 
 Managed Entries plugin
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -1829,7 +1833,7 @@ This is the expected behavior.
 In conclusion, the current configuration of the mep plugin does not need
 to be change because of user life cycle.
 
-.. _ipa_uuid_plugin:
+
 
 IPA UUID plugin
 ^^^^^^^^^^^^^^^
@@ -1847,7 +1851,7 @@ The configuration of that plugin is
    ...
    ipaUuidExcludeSubtree: cn=provisioning,SUFFIX
 
-.. _schema_compatibility_plugin:
+
 
 Schema Compatibility plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1855,7 +1859,7 @@ Schema Compatibility plugin
 should not be affected as it is already focused on
 ``cn=users, cn=accounts, SUFFIX`` tree only **TBC**
 
-.. _ipa_modrdn_plugin:
+
 
 IPA MODRDN plugin
 ^^^^^^^^^^^^^^^^^
@@ -1872,7 +1876,7 @@ strictly necessary, but it makes sense that any provisioning entry (even
 So this plugin scope will not be restricted to *Active* entries but to
 the full SUFFIX.
 
-.. _ipa_kdb:
+
 
 ipa-kdb
 ^^^^^^^
@@ -1881,7 +1885,7 @@ ipa-kdb
 to be sure *Stage* or *Delete* are not used for kerberos authentication,
 ipa-kdb should ignore users in *staged* or *deleted*
 
-.. _ipa_pwd_extop:
+
 
 ipa-pwd-extop
 ^^^^^^^^^^^^^
@@ -1894,12 +1898,12 @@ ipa-pwd-extop:ipapwd_pre_add must relax its control for example if the
 krb keys already exists in the entry (see
 `user-activate <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Activate_StageUser>`__)
 
-.. _future_enhancements:
+
 
 Future enhancements
 ----------------------------------------------------------------------------------------------
 
-.. _deletion_of_active_user:
+
 
 Deletion of active user
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -1921,7 +1925,7 @@ Implementation
 details <http://www.freeipa.org/page/V3/User_Life-Cycle_Management/Implementation_Implementation_details>`__
 still need to be defined. Consider this section as a work in progress.
 
-.. _freeipa_tickets:
+
 
 FreeIPA tickets
 ----------------------------------------------------------------------------------------------
@@ -1934,12 +1938,12 @@ FreeIPA tickets
    prevent newly activated user to be immediatly in the configured
    automember groups
 
-.. _directory_server_tickets:
+
 
 389 Directory Server tickets
 ----------------------------------------------------------------------------------------------
 
-.. _scoping_of_plugins:
+
 
 Scoping of plugins
 ^^^^^^^^^^^^^^^^^^
@@ -1990,7 +1994,7 @@ enablement <#Major_configuration_options_and_enablement>`__.
 
 CLI
 
-.. _user_add:
+
 
 user-add
 ^^^^^^^^
@@ -2003,7 +2007,7 @@ user-add
 -  New option ``--from-deleted=tuser``: specifies primary key of the
    deleted user to be activated
 
-.. _user_find:
+
 
 user-find
 ^^^^^^^^^
@@ -2017,7 +2021,7 @@ user_provisioning_is_enabled
 Returns TRUE if ``cn=provisioning`` exists. Will be used by Web UI to
 find out if the feature is enabled or not.
 
-.. _config_mod:
+
 
 config-mod
 ^^^^^^^^^^
@@ -2074,7 +2078,7 @@ should:
    #. Add new Directory Server plugins
    #. Restart Directory Server
 
-.. _heterogeneous_environment:
+
 
 Heterogeneous Environment
 ----------------------------------------------------------------------------------------------
@@ -2096,17 +2100,17 @@ External Impact
 Changes in *389 Directory Server* and *slapi-nis* packages will be
 required.
 
-.. _how_to_test41:
+
 
 How to Test
 -----------
 
-.. _external_provisioning_system_1:
+
 
 External Provisioning System
 ----------------------------------------------------------------------------------------------
 
-.. _adding_new_user:
+
 
 Adding New User
 ^^^^^^^^^^^^^^^
@@ -2205,7 +2209,7 @@ attributes generated:
      objectClass: ipaSshGroupOfPubKeys
      objectClass: mepOriginEntry
 
-.. _activating_users_automatically:
+
 
 Activating Users Automatically
 ''''''''''''''''''''''''''''''
@@ -2291,7 +2295,7 @@ The automated activation task example that can be used in cron script:
      UID: 626000006
      GID: 626000006
 
-.. _deleting_a_user:
+
 
 Deleting a User
 ^^^^^^^^^^^^^^^
@@ -2405,7 +2409,7 @@ Second option is to preserve the user via LDAP MODRDN command directly:
    Number of entries returned 2
    ----------------------------
 
-.. _privilege_separation_for_employee_entry_and_activation_1:
+
 
 Privilege Separation for Employee Entry and Activation
 ----------------------------------------------------------------------------------------------

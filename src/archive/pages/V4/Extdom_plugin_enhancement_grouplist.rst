@@ -63,43 +63,45 @@ Request
 
 The current request looks like this:
 
-| ``/* We expect the following request:``
-| `` * ExtdomRequestValue ::= SEQUENCE {``
-| `` *    inputType ENUMERATED {``
-| `` *        sid (1),``
-| `` *        name (2),``
-| `` *        posix uid (3),``
-| `` *        posix gid (3)``
-| `` *    },``
-| `` *    requestType ENUMERATED {``
-| `` *        simple (1),``
-| `` *        full (2)``
-| `` *    },``
-| `` *    data InputData``
-| `` * }``
-| `` *``
-| `` * InputData ::= CHOICE {``
-| `` *    sid OCTET STRING,``
-| `` *    name NameDomainData``
-| `` *    uid PosixUid,``
-| `` *    gid PosixGid``
-| `` * }``
-| `` *``
-| `` * NameDomainData ::= SEQUENCE {``
-| `` *    domain_name OCTET STRING,``
-| `` *    object_name OCTET STRING``
-| `` * }``
-| `` *``
-| `` * PosixUid ::= SEQUENCE {``
-| `` *    domain_name OCTET STRING,``
-| `` *    uid INTEGER``
-| `` * }``
-| `` *``
-| `` * PosixGid ::= SEQUENCE {``
-| `` *    domain_name OCTET STRING,``
-| `` *    gid INTEGER``
-| `` * }``
-| `` */``
+::
+
+   | ``/* We expect the following request:``
+   | `` * ExtdomRequestValue ::= SEQUENCE {``
+   | `` *    inputType ENUMERATED {``
+   | `` *        sid (1),``
+   | `` *        name (2),``
+   | `` *        posix uid (3),``
+   | `` *        posix gid (3)``
+   | `` *    },``
+   | `` *    requestType ENUMERATED {``
+   | `` *        simple (1),``
+   | `` *        full (2)``
+   | `` *    },``
+   | `` *    data InputData``
+   | `` * }``
+   | `` *``
+   | `` * InputData ::= CHOICE {``
+   | `` *    sid OCTET STRING,``
+   | `` *    name NameDomainData``
+   | `` *    uid PosixUid,``
+   | `` *    gid PosixGid``
+   | `` * }``
+   | `` *``
+   | `` * NameDomainData ::= SEQUENCE {``
+   | `` *    domain_name OCTET STRING,``
+   | `` *    object_name OCTET STRING``
+   | `` * }``
+   | `` *``
+   | `` * PosixUid ::= SEQUENCE {``
+   | `` *    domain_name OCTET STRING,``
+   | `` *    uid INTEGER``
+   | `` * }``
+   | `` *``
+   | `` * PosixGid ::= SEQUENCE {``
+   | `` *    domain_name OCTET STRING,``
+   | `` *    gid INTEGER``
+   | `` * }``
+   | `` */``
 
 Basically only a new request type must be added, e.g.
 
@@ -119,7 +121,7 @@ the feature, that the inputType is extended as well, e.g. by adding 128
 or 256 to the values. Nevertheless I think it is less error prone to use
 a new OID.
 
-.. _processing_the_request:
+
 
 Processing the request
 ----------------------------------------------------------------------------------------------
@@ -147,42 +149,44 @@ Response
 
 Currently the response looks like:
 
-| ``/* We send to follwing response:``
-| `` * ExtdomResponseValue ::= SEQUENCE {``
-| `` *    responseType ENUMERATED {``
-| `` *        sid (1),``
-| `` *        name (2),``
-| `` *        posix_user (3),``
-| `` *        posix_group (4)``
-| `` *    },``
-| `` *    data OutputData``
-| `` * }``
-| `` *``
-| `` * OutputData ::= CHOICE {``
-| `` *    sid OCTET STRING,``
-| `` *    name NameDomainData,``
-| `` *    user PosixUser,``
-| `` *    group PosixGroup``
-| `` * }``
-| `` *``
-| `` * NameDomainData ::= SEQUENCE {``
-| `` *    domain_name OCTET STRING,``
-| `` *    object_name OCTET STRING``
-| `` * }``
-| `` *``
-| `` * PosixUser ::= SEQUENCE {``
-| `` *    domain_name OCTET STRING,``
-| `` *    user_name OCTET STRING,``
-| `` *    uid INTEGER``
-| `` *    gid INTEGER``
-| `` * }``
-| `` *``
-| `` * PosixGroup ::= SEQUENCE {``
-| `` *    domain_name OCTET STRING,``
-| `` *    group_name OCTET STRING,``
-| `` *    gid INTEGER``
-| `` * }``
-| `` */``
+::
+
+   | ``/* We send to follwing response:``
+   | `` * ExtdomResponseValue ::= SEQUENCE {``
+   | `` *    responseType ENUMERATED {``
+   | `` *        sid (1),``
+   | `` *        name (2),``
+   | `` *        posix_user (3),``
+   | `` *        posix_group (4)``
+   | `` *    },``
+   | `` *    data OutputData``
+   | `` * }``
+   | `` *``
+   | `` * OutputData ::= CHOICE {``
+   | `` *    sid OCTET STRING,``
+   | `` *    name NameDomainData,``
+   | `` *    user PosixUser,``
+   | `` *    group PosixGroup``
+   | `` * }``
+   | `` *``
+   | `` * NameDomainData ::= SEQUENCE {``
+   | `` *    domain_name OCTET STRING,``
+   | `` *    object_name OCTET STRING``
+   | `` * }``
+   | `` *``
+   | `` * PosixUser ::= SEQUENCE {``
+   | `` *    domain_name OCTET STRING,``
+   | `` *    user_name OCTET STRING,``
+   | `` *    uid INTEGER``
+   | `` *    gid INTEGER``
+   | `` * }``
+   | `` *``
+   | `` * PosixGroup ::= SEQUENCE {``
+   | `` *    domain_name OCTET STRING,``
+   | `` *    group_name OCTET STRING,``
+   | `` *    gid INTEGER``
+   | `` * }``
+   | `` */``
 
 Here a new responds type e.g.
 
@@ -225,7 +229,7 @@ Configuration
 No additional configuration is needed. If chosen a new OID can indicate
 that the feature is available.
 
-.. _how_to_test25:
+
 
 How to Test
 -----------
@@ -233,7 +237,7 @@ How to Test
 It is possible to test the new feature using an IPA client or directly
 call into the plugin.
 
-.. _integration_tests_with_sssd:
+
 
 Integration tests with SSSD
 ----------------------------------------------------------------------------------------------
@@ -255,7 +259,7 @@ doesn't use the plugin but connects to the server directly!
    contains at least one user. All the member users need to be displayed
    on the command line.
 
-.. _manual_tests_of_the_plugin:
+
 
 Manual tests of the plugin
 ----------------------------------------------------------------------------------------------
@@ -270,57 +274,59 @@ include it in the CI tests as well.
 The current version of the extdom plugin can be manually tested in the
 following way:
 
-| ``$ cat extdom_req_user_admin.asc``
-| ``Example Example.Sid2NameRequestValue``
-| ``inputType 2``
-| ``requestType 1``
-| ``data name``
-| ``data.name.domain_name ipa20.devel``
-| ``data.name.object_name admin``
-| ``$ asn1Coding extdom_req.asn extdom_req_user_admin.asc ``
-| ``Parse: done.``
-| ``var=Example, value=Example.Sid2NameRequestValue``
-| ``var=inputType, value=2``
-| ``var=requestType, value=1``
-| ``var=data, value=name``
-| ``var=data.name.domain_name, value=ipa20.devel``
-| ``var=data.name.object_name, value=admin``
-| ``name:NULL  type:SEQUENCE``
-| ``  name:inputType  type:ENUMERATED  value:0x02``
-| ``  name:requestType  type:ENUMERATED  value:0x01``
-| ``  name:data  type:CHOICE``
-| ``    name:name  type:SEQUENCE``
-| ``      name:domain_name  type:OCT_STR  value:69706132302e646576656c``
-| ``      name:object_name  type:OCT_STR  value:61646d696e``
-| ``Coding: SUCCESS``
-| ``-----------------``
-| ``Number of bytes=30``
-| ``30 1c 0a 01 02 0a 01 01 30 14 04 0b 69 70 61 32 30 2e 64 65 76 65 6c 04 05 61 64 6d 69 6e ``
-| ``-----------------``
-| ``OutputFile=extdom_req_user_admin.out``
-| ``Writing: done.``
-| ``$ cat extdom_req_user_admin.out | base64 ``
-| ``MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu``
-| ``$ ldapexop -Y GSSAPI 2.16.840.1.113730.3.8.10.4::MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu``
-| ``SASL/GSSAPI authentication started``
-| ``SASL username: admin@IPA20.DEVEL``
-| ``SASL SSF: 56``
-| ``SASL data security layer installed.``
-| ``# extended operation response``
-| ``oid: 2.16.840.1.113730.3.8.10.4``
-| ``data:: MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA=``
-| `` =``
-| ``$ echo -n MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA== |base64 -d > extdom_resp_user_admin.bin``
-| ``$ asn1Decoding extdom_resp.asn extdom_resp_user_admin.bin Example.Sid2NameResponseValue``
-| ``Parse: done.``
-| ``Decoding: SUCCESS``
-| ``DECODING RESULT:``
-| ``name:NULL  type:SEQUENCE``
-| ``  name:responseType  type:ENUMERATED  value:0x01``
-| ``  name:data  type:CHOICE``
-| ``    name:sid  type:OCT_STR  value:532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030``
-| ``$ echo  532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030 | xxd -r -p ``
-| ``S-1-5-21-1223289188-3198440353-3300211032-500``
+::
+
+   | ``$ cat extdom_req_user_admin.asc``
+   | ``Example Example.Sid2NameRequestValue``
+   | ``inputType 2``
+   | ``requestType 1``
+   | ``data name``
+   | ``data.name.domain_name ipa20.devel``
+   | ``data.name.object_name admin``
+   | ``$ asn1Coding extdom_req.asn extdom_req_user_admin.asc ``
+   | ``Parse: done.``
+   | ``var=Example, value=Example.Sid2NameRequestValue``
+   | ``var=inputType, value=2``
+   | ``var=requestType, value=1``
+   | ``var=data, value=name``
+   | ``var=data.name.domain_name, value=ipa20.devel``
+   | ``var=data.name.object_name, value=admin``
+   | ``name:NULL  type:SEQUENCE``
+   | ``  name:inputType  type:ENUMERATED  value:0x02``
+   | ``  name:requestType  type:ENUMERATED  value:0x01``
+   | ``  name:data  type:CHOICE``
+   | ``    name:name  type:SEQUENCE``
+   | ``      name:domain_name  type:OCT_STR  value:69706132302e646576656c``
+   | ``      name:object_name  type:OCT_STR  value:61646d696e``
+   | ``Coding: SUCCESS``
+   | ``-----------------``
+   | ``Number of bytes=30``
+   | ``30 1c 0a 01 02 0a 01 01 30 14 04 0b 69 70 61 32 30 2e 64 65 76 65 6c 04 05 61 64 6d 69 6e ``
+   | ``-----------------``
+   | ``OutputFile=extdom_req_user_admin.out``
+   | ``Writing: done.``
+   | ``$ cat extdom_req_user_admin.out | base64 ``
+   | ``MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu``
+   | ``$ ldapexop -Y GSSAPI 2.16.840.1.113730.3.8.10.4::MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu``
+   | ``SASL/GSSAPI authentication started``
+   | ``SASL username: admin@IPA20.DEVEL``
+   | ``SASL SSF: 56``
+   | ``SASL data security layer installed.``
+   | ``# extended operation response``
+   | ``oid: 2.16.840.1.113730.3.8.10.4``
+   | ``data:: MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA=``
+   | `` =``
+   | ``$ echo -n MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA== |base64 -d > extdom_resp_user_admin.bin``
+   | ``$ asn1Decoding extdom_resp.asn extdom_resp_user_admin.bin Example.Sid2NameResponseValue``
+   | ``Parse: done.``
+   | ``Decoding: SUCCESS``
+   | ``DECODING RESULT:``
+   | ``name:NULL  type:SEQUENCE``
+   | ``  name:responseType  type:ENUMERATED  value:0x01``
+   | ``  name:data  type:CHOICE``
+   | ``    name:sid  type:OCT_STR  value:532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030``
+   | ``$ echo  532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030 | xxd -r -p ``
+   | ``S-1-5-21-1223289188-3198440353-3300211032-500``
 
 
 

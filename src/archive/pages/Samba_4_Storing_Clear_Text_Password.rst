@@ -17,12 +17,12 @@ The flag is defined as follows:
 
    #define DOMAIN_PASSWORD_STORE_CLEARTEXT ( 0x00000010 )
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _password_hash_module:
+
 
 Password Hash Module
 --------------------
@@ -100,7 +100,7 @@ attribute by the setup_supplemental_field() function:
            &scb,
            (ndr_push_flags_fn_t)ndr_push_supplementalCredentialsBlob);
 
-.. _encoder_and_decoder_functions:
+
 
 Encoder and Decoder Functions
 -----------------------------
@@ -144,7 +144,7 @@ librpc/gen_ndr/ndr_drsblobs.c:
        return NDR_ERR_SUCCESS;
    }
 
-.. _proposed_solution:
+
 
 Proposed Solution
 =================

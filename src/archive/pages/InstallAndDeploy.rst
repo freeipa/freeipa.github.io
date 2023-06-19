@@ -1,4 +1,4 @@
-.. _installing_the_ipa_server:
+
 
 Installing the IPA Server
 =========================
@@ -39,7 +39,7 @@ This script makes a number of assumptions.
       addresses. The DNS does not need to be on the same machine as the
       IPA Server, but it does need to be fully functional.
 
-.. _required_ports:
+
 
 Required Ports
 ----------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ You need to ensure that these ports are available; that is, that they
 are not assigned to another service. If these ports are not available,
 IPA will not function correctly.
 
-.. _file_systems:
+
 
 File Systems
 ----------------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ will see a message similar to the following:
 You should use this file in your zone file in DNS. Further, you need to
 ensure that your FQDN does not resolve to your loopback address.
 
-.. _ipa_dns_and_nscd:
+
 
 IPA, DNS, and NSCD
 ^^^^^^^^^^^^^^^^^^
@@ -143,7 +143,7 @@ In particular, consider changing the following values in the
    positive-time-to-live   hosts           3600
    negative-time-to-live   hosts           20
 
-.. _dns_and_kerberos:
+
 
 DNS and Kerberos
 ^^^^^^^^^^^^^^^^
@@ -159,7 +159,7 @@ Refer to `IPA and
 DNS <http://www.freeipa.com/page/IpaConcepts#IPA_and_DNS>`__ for more
 information on how these technologies work together.
 
-.. _configuring_etchosts:
+
 
 Configuring /etc/hosts
 ----------------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ hosts file:
    ::1     localhost6.localdomain6 localhost6
    192.168.1.1     ipaserver.example.com      ipaserver
 
-.. _hardware_requirements:
+
 
 Hardware Requirements
 ----------------------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ same.
    |                                   |                                   |
    +-----------------------------------+-----------------------------------+
 
-.. _installing_the_ipa_server_packages:
+
 
 Installing the IPA Server Packages
 ----------------------------------
@@ -298,7 +298,7 @@ ensure you have the minimum version of **krb5-libs** as listed above.
 
 Now you are ready to configure your IPA server.
 
-.. _configuring_the_ipa_server:
+
 
 Configuring the IPA Server
 --------------------------
@@ -360,7 +360,7 @@ Switch (nss) configuration is read when the service restarts.
 
 You can now proceed to test the configuration.
 
-.. _testing_the_configuration:
+
 
 Testing the Configuration
 ----------------------------------------------------------------------------------------------
@@ -411,7 +411,7 @@ configured correctly:
 | ``Could not initialize GSSAPI: Unspecified GSS failure.``
 | ``Minor code may provide more information/Server not found in Kerberos database.``
 
-.. _configuring_your_browser:
+
 
 Configuring your Browser
 ------------------------
@@ -438,7 +438,7 @@ domain name, for example, http://ipaserver.example.com). Ensure that
 there are no Kerberos authentication errors, and that you can see and
 interact with the Web interface.
 
-.. _using_a_browser_on_another_system:
+
 
 Using a Browser on Another System
 ---------------------------------
@@ -466,7 +466,7 @@ system. Do not overwrite the existing ``krb5.conf`` file.
 
 Now you should be able to connect to the IPA Web interface remotely.
 
-.. _setting_up_multi_master_replication:
+
 
 Setting up Multi-Master Replication
 ===================================
@@ -480,7 +480,7 @@ IPA 1.0 uses a number of scripts to install, configure, and manage
 replica servers and replication agreements. These are discussed in the
 following sections.
 
-.. _preparing_the_replica_servers:
+
 
 Preparing the Replica Servers
 -----------------------------
@@ -497,7 +497,7 @@ Refer to `Introduction to Installing IPA <#Introduction>`__ for more
 information about these and other considerations for installing an IPA
 server.
 
-.. _installing_the_server_packages:
+
 
 Installing the Server Packages
 ------------------------------
@@ -511,7 +511,7 @@ required packages for the replica server.
       Do not run the **ipa-server-install** script on the replica
       servers.
 
-.. _creating_the_replica_information_file:
+
 
 Creating the Replica Information File
 -------------------------------------
@@ -557,7 +557,7 @@ This should produce output similar to the following:
       it is intended. You cannot use the same replica information file
       for multiple replicas.
 
-.. _configuring_an_ipa_replica:
+
 
 Configuring an IPA Replica
 --------------------------
@@ -597,7 +597,7 @@ set up a complete master replica of the IPA server.
       script detects an existing Directory Server instance, you will be
       prompted to remove it.
 
-.. _updating_dns_for_ipa_replicas:
+
 
 Updating DNS for IPA Replicas
 ----------------------------------------------------------------------------------------------
@@ -618,7 +618,7 @@ following entries to your zone file:
    _kpasswd._udp          IN SRV 0 100 464 $HOST
    _ntp._udp              IN SRV 0 100 123 $HOST
 
-.. _managing_multi_master_replication:
+
 
 Managing Multi-Master Replication
 ---------------------------------
@@ -651,7 +651,7 @@ Replication <http://www.redhat.com/docs/manuals/dir-server/ag/8.0/Managing_Repli
 section of the Red Hat Directory Server Administration Guide for
 information about managing replication.
 
-.. _troubleshooting_multi_master_replication:
+
 
 Troubleshooting Multi-Master Replication
 ----------------------------------------
@@ -664,7 +664,7 @@ Administration Guide for information about troubleshooting replication:
 -  `Troubleshooting Replication-Related
    Problems <http://www.redhat.com/docs/manuals/dir-server/ag/8.0/Managing_Replication-Troubleshooting_Replication_Related_Problems.html>`__
 
-.. _running_ipa_in_a_virtual_host:
+
 
 Running IPA in a Virtual Host
 =============================
@@ -674,7 +674,7 @@ configure IPA to run on a secondary port, for example 8089. You should
 be aware, however, that running IPA in this configuration does not use
 SSL; all requests will go over standard HTTP.
 
-.. _converting_your_ipa_configuration_to_run_as_a_virtualhost:
+
 
 Converting Your IPA Configuration to run as a VirtualHost
 ---------------------------------------------------------

@@ -29,12 +29,12 @@ Two important things to note:
 #. Any CA can be the master. There is nothing magical about it, this is
    just configuration.
 
-.. _procedure_in_freeipa_4.0_or_later:
+
 
 Procedure in FreeIPA 4.0 or later
 ---------------------------------
 
-.. _identifying_current_first_master:
+
 
 Identifying current first master
 ----------------------------------------------------------------------------------------------
@@ -76,12 +76,12 @@ CA:
 If the value is ``true``, then it is the CRL generation master,
 otherwise it is a clone.
 
-.. _reconfiguring_a_ca_as_a_clone:
+
 
 Reconfiguring a CA as a clone
 ----------------------------------------------------------------------------------------------
 
-.. _configure_clone_renewal:
+
 
 Configure clone renewal
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -89,7 +89,7 @@ Configure clone renewal
 This is done automatically when you configure some other CA as renewal
 master.
 
-.. _stop_crl_generation:
+
 
 Stop CRL generation
 ^^^^^^^^^^^^^^^^^^^
@@ -109,7 +109,7 @@ Set the value of ``ca.crl.MasterCRL.enableCRLCache`` and
    ca.crl.MasterCRL.enableCRLCache=false
    ca.crl.MasterCRL.enableCRLUpdates=false
 
-.. _stop_certificate_status_update_task:
+
 
 Stop Certificate Status Update Task
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -145,12 +145,12 @@ Restart Apache:
 
    # systemctl restart httpd
 
-.. _reconfigure_a_ca_as_the_new_master:
+
 
 Reconfigure a CA as the new master
 ----------------------------------------------------------------------------------------------
 
-.. _configure_ca_renewal:
+
 
 Configure CA renewal
 ^^^^^^^^^^^^^^^^^^^^
@@ -161,7 +161,7 @@ Run the following command:
 
    # ipa-csreplica-manage set-renewal-master
 
-.. _start_crl_generation:
+
 
 Start CRL generation
 ^^^^^^^^^^^^^^^^^^^^
@@ -181,7 +181,7 @@ Set the value of ``ca.crl.MasterCRL.enableCRLCache`` and
    ca.crl.MasterCRL.enableCRLCache=true
    ca.crl.MasterCRL.enableCRLUpdates=true
 
-.. _start_certificate_status_update_task:
+
 
 Start Certificate Status Update Task
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -216,12 +216,12 @@ Restart Apache:
 
 https://github.com/dogtagpki/pki/wiki/Configuring-Certificate-Status-Update-Task
 
-.. _procedure_in_freeipa_4.0:
+
 
 Procedure in FreeIPA < 4.0
 --------------------------
 
-.. _identifying_current_first_master_1:
+
 
 Identifying current first master
 ----------------------------------------------------------------------------------------------
@@ -238,14 +238,14 @@ If it contains ``renew_ca_cert`` then it is the CA renewal master.
 
 If it contains ``restart_pkicad`` then it is a CA renewal clone.
 
-.. _reconfiguring_a_ca_as_a_clone_1:
+
 
 Reconfiguring a CA as a clone
 ----------------------------------------------------------------------------------------------
 
 This step changes current *first master* into a standard clone.
 
-.. _unconfigure_the_master_renewal:
+
 
 Unconfigure the master renewal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -266,7 +266,7 @@ You should see output like:
    Request "20131127184549" removed.
    Request "20131127184550" removed.
 
-.. _configure_clone_renewal_1:
+
 
 Configure clone renewal
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -318,7 +318,7 @@ You should see output like:
    New tracking request "20131127184745" added.
    New tracking request "20131127184746" added.
 
-.. _stop_crl_generation_1:
+
 
 Stop CRL generation
 ^^^^^^^^^^^^^^^^^^^
@@ -359,12 +359,12 @@ Restart Apache:
 
    # service httpd restart
 
-.. _reconfigure_a_ca_as_the_new_master_1:
+
 
 Reconfigure a CA as the new master
 ----------------------------------------------------------------------------------------------
 
-.. _unconfigure_the_clone_renewal:
+
 
 Unconfigure the clone renewal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -385,7 +385,7 @@ You should see output like:
    Request "20131127163824" removed.
    Request "20131127164042" removed.
 
-.. _configure_ca_renewal_1:
+
 
 Configure CA renewal
 ^^^^^^^^^^^^^^^^^^^^
@@ -412,7 +412,7 @@ You should see output like:
    New tracking request "20131127185432" added.
    New tracking request "20131127185433" added.
 
-.. _start_crl_generation_1:
+
 
 Start CRL generation
 ^^^^^^^^^^^^^^^^^^^^

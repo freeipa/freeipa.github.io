@@ -1,4 +1,4 @@
-.. _freeipa_server_containers:
+
 
 FreeIPA server containers
 -------------------------
@@ -26,7 +26,7 @@ if the issue is with FreeIPA in general or whether it is related to the
 containerization. We would like to `hear <Contribute#Communication>`__
 your feedback or ideas for improvement! }}
 
-.. _enroll_the_host_to_freeipa_running_in_the_container:
+
 
 Enroll the host to FreeIPA running in the container
 ---------------------------------------------------
@@ -67,14 +67,14 @@ Then
 
 should enroll the host to the containerized FreeIPA server.
 
-.. _building_the_freeipa_server_container_image:
+
 
 Building the FreeIPA server container image
 -------------------------------------------
 
 {{#ev:youtube|ZV8-tXoTev0}}
 
-.. _further_reading:
+
 
 Further reading
 ---------------

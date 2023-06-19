@@ -253,7 +253,7 @@ Note: the permission entry will look like this:
 | ``objectClass: ipapermissionv2``
 | ``objectClass: top``
 
-.. _section-1:
+
 
 Cleanup
 
@@ -264,7 +264,7 @@ Cleanup
 | ``ipa permission_del Testperm_RN --force``
 | ``ipa privilege_del testpriv1``
 
-.. _section-2:
+
 
 Test permission rollback
 
@@ -372,13 +372,13 @@ Note: the permission entry will look like this:
 | ``objectClass: ipapermissionv2``
 | ``objectClass: top``
 
-.. _section-3:
+
 
 Cleanup
 
 ``ipa permission_del testperm --force``
 
-.. _section-4:
+
 
 Test permission sync attributes
 
@@ -503,13 +503,13 @@ Note: the permission entry will look like this:
 | ``objectClass: ipapermissionv2``
 | ``objectClass: top``
 
-.. _section-5:
+
 
 Cleanup
 
 ``ipa permission_del testperm --force``
 
-.. _section-6:
+
 
 Test permission sync nice
 
@@ -599,13 +599,13 @@ Note: the permission entry will look like this:
 | ``objectClass: ipapermissionv2``
 | ``objectClass: top``
 
-.. _section-7:
+
 
 Cleanup
 
 ``ipa permission_del testperm --force``
 
-.. _section-8:
+
 
 Test permission flags
 
@@ -617,7 +617,7 @@ Test that permission flags are handled correctly
 Like other tests in the test_xmlrpc suite, these tests should run on a
 clean IPA installation, or possibly after other similar tests.
 
-.. _section-9:
+
 
 Cleanup
 

@@ -49,7 +49,7 @@ which the RHEL one is the most complete. Guide was orphaned, as
 `announced <https://lists.fedoraproject.org/pipermail/docs/2014-October/015878.html>`__
 on fedora-docs list.
 
-.. _deprecated_upstream_guides:
+
 
 Deprecated Upstream Guides
 --------------------------

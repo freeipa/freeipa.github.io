@@ -19,7 +19,7 @@ Example plugins to be added.
 Design
 ======
 
-.. _plugin_location_and_structure:
+
 
 Plugin location and structure
 -----------------------------
@@ -32,7 +32,7 @@ character, underscore \_ and dash - .
 Plugin folder must contain *$plugin_name.js* file. It's have to be
 either AMD module or a layer built by Dojo builder.
 
-.. _plugin_index___registration:
+
 
 Plugin index - registration
 ---------------------------
@@ -57,7 +57,7 @@ plugin names.
        ];
    });
 
-.. _index_regeneration:
+
 
 Index regeneration
 ----------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Plugins have to be loaded before registration phase, that means right
 after implicit resource load phase. First we must load index and then
 plugins.
 
-.. _loading_index:
+
 
 Loading index
 -------------
@@ -84,7 +84,7 @@ therefore the easiest would be to add *./plugins* as a dependency in
 freeipa layer build and it would be included - it couldn't be updated
 later. Hence, it must be loaded dynamically.
 
-.. _loading_plugins:
+
 
 Loading plugins
 ---------------
@@ -103,7 +103,7 @@ registered in a loader with:
 Then, plugin may be dynamically loaded. Application should proceed to
 registration phase after all plugins are loaded.
 
-.. _extending_ui:
+
 
 Extending UI----------
 
@@ -123,7 +123,7 @@ There are 3 main extension use cases:
 
 Both cases of adding new UI fields are not straightforward.
 
-.. _modifying_page_spec:
+
 
 Modifying page spec
 ----------------------------------------------------------------------------------------------
@@ -135,7 +135,7 @@ declarative. It should no contain any calls dependent on already
 initialized app. Extensions should extend the spec at *alternation*
 phase.
 
-.. _modifying_already_created_pages:
+
 
 Modifying already created pages
 ----------------------------------------------------------------------------------------------

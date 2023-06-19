@@ -11,7 +11,7 @@ which is not really meant to be used programatically. The following work
 should likely be done talking to the proposed REST API, which means that
 there is some Java/Dogtag work to be done first.
 
-.. _just_fetch_new_certs:
+
 
 Just Fetch new Certs
 ====================
@@ -28,7 +28,7 @@ multi-use user certificate and submit it to Dogtag. All values for the
 form will be populated with values from the users record. The CSR will
 be automatically approved and returned to the client.
 
-.. _fetch_existing_certs:
+
 
 Fetch existing Certs
 ====================
@@ -36,7 +36,7 @@ Fetch existing Certs
 The second step is to extend ipa cert-show –uid to fetch a user
 certificate from the Dogtag back end.
 
-.. _recording_user_certs:
+
 
 Recording User Certs
 ====================
@@ -75,7 +75,7 @@ Automatic signing will be activated by:
 
 ipa cert-policy GROUP --autoapprove=[yes|no]
 
-.. _agent_identification:
+
 
 Agent Identification
 ----------------------------------------------------------------------------------------------

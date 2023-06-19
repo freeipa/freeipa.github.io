@@ -6,7 +6,7 @@ manage DNS zones in the IPA domain. The UI must cope with large zones
 with thousands of DNS records where each record may contain several
 record types (A, AAAA, ...) at the same time.
 
-.. _current_state:
+
 
 Current State
 -------------
@@ -58,7 +58,7 @@ See the underlying LDAP object for this resource record:
 This LDAP object structure should be reflected in the DNS UI in 2.1
 better.
 
-.. _new_ui_proposal:
+
 
 New UI Proposal
 ---------------
@@ -76,7 +76,7 @@ Highlights:
    IPA) - this is important for records with associated A and AAAA
    record types
 
-.. _dns_resource_records_view:
+
 
 DNS Resource Records View
 ----------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ type.
 When an uncommon record type (e.g. *LOC*) record is associated with the
 record, a [+] mark is placed to column **More Types**.
 
-.. _dns_resource_records_details_view:
+
 
 DNS Resource Records Details View
 ----------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ This window should provide a simple way to actually view/edit/add new
 record types for given DNS record. Each record type should should be in
 an own section named after the record type.
 
-.. _more_ideas:
+
 
 More Ideas
 ----------------------------------------------------------------------------------------------

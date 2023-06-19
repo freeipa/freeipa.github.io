@@ -1,7 +1,7 @@
 This page outlines standards for `Python <http://python.org/>`__ code
 contributed to freeIPA v2 and beyond.
 
-.. _python_version:
+
 
 Python version
 ==============
@@ -11,7 +11,7 @@ Python 2.7. This permits the use of set literals, dict and set
 comprehensions, and `many other
 features <https://docs.python.org/dev/whatsnew/2.7.html>`__.
 
-.. _python_coding_style:
+
 
 Python coding style
 ===================
@@ -29,7 +29,7 @@ Python, which is defined in PEP-8 and PEP-257:
 -  `PEP 257: Docstring
    Conventions <http://www.python.org/dev/peps/pep-0257>`__
 
-.. _python_unit_testing:
+
 
 Python unit testing
 ===================
@@ -45,7 +45,7 @@ and in a quite natural and flexible manner.
 All the unit tests should be located in the ``tests/`` directory in the
 source tree.
 
-.. _python_api_documentation:
+
 
 Python API documentation
 ========================
@@ -65,7 +65,7 @@ freeipa.org:
 -  `Tutorial for Plugin
    Authors <http://freeipa.org/developer-docs/ipalib-module.html>`__
 
-.. _python_internationalized_i18n_strings:
+
 
 Python Internationalized (i18n) Strings
 =======================================
@@ -94,7 +94,7 @@ has the freedom to reorder the wording. Try to pick names for the for
 format specifiers which will provide hints to the translator as to
 meaning of the substitution.
 
-.. _python_docstrings:
+
 
 Python docstrings
 =================
@@ -117,7 +117,7 @@ and then to test them with doctest. This is done using the
 
 ``nosetests --with-doctest``
 
-.. _unused_dummy_variables:
+
 
 Unused (dummy) variables
 ========================

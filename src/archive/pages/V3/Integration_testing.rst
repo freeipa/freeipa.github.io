@@ -13,12 +13,12 @@ master).
 These tests will be run from continuous integration. Any developer can
 also run them manually.
 
-.. _use_cases120:
+
 
 Use Cases
 =========
 
-.. _continuous_integration:
+
 
 Continuous integration
 ----------------------
@@ -29,7 +29,7 @@ resources are available).
 
 The CI results will be posted publicly.
 
-.. _developer_testing:
+
 
 Developer testing
 -----------------
@@ -38,7 +38,7 @@ Anyone is be able to run integration tests without advanced
 infrastructure, only a number of virtual machines to run the tests on is
 needed.
 
-.. _beaker_integration:
+
 
 Beaker integration
 ------------------
@@ -47,7 +47,7 @@ The tests will run seamlessly inside
 `Beaker <http://beaker-project.org/>`__/`RHTS <https://fedoraproject.org/wiki/QA/RHTS>`__.
 A special option enables reporting via BeakerLib.
 
-.. _non_goals:
+
 
 Non-goals
 =========
@@ -89,7 +89,7 @@ systems to their previous state.
 
 A plugin for integration with BeakerLib is provided.
 
-.. _test_configuration:
+
 
 Test configuration
 ==================
@@ -97,7 +97,7 @@ Test configuration
 Tests are configured using these environment variables. For any
 additional information, see man ipa-test-config.
 
-.. _host_configuration:
+
 
 Host configuration
 ------------------
@@ -128,7 +128,7 @@ $AD_env1, $AD_env2, $AD_env3, $AD_env4, ...
 DNS needs to be set up so that IP addresses can be obtained for these
 hosts.
 
-.. _additional_roles:
+
 
 Additional roles
 ----------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ a space, e.g.
 
 The role name may not end with a number.
 
-.. _basic_configuration:
+
 
 Basic configuration
 -------------------
@@ -168,7 +168,7 @@ $IPA_ROOT_SSH_KEY
    machines
    Default: ~/.ssh/id_rsa
 
-.. _test_customization:
+
 
 Test customization
 ------------------
@@ -206,12 +206,12 @@ $ROOTDNPWD
    Directory manager password
    Default: Secret123
 
-.. _supporting_tools:
+
 
 Supporting tools
 ================
 
-.. _ipa_test_config:
+
 
 ipa-test-config
 ---------------
@@ -225,7 +225,7 @@ the host it is run on. When given a hostname, it prints config for that
 host. With the ``--global`` flag, it outputs configuration common to all
 hosts.
 
-.. _ipa_run_tests:
+
 
 ipa-run-tests
 -------------
@@ -234,7 +234,7 @@ This tool is a wrapper arount ``nosetests`` and accepts the same
 arguments as Nose. It loads any additional plugins and runs tests from
 the system-installed IPA test suite.
 
-.. _ipa_test_task:
+
 
 ipa-test-task
 -------------
@@ -285,7 +285,7 @@ each test case, and collects and submits relevant logs.
 A separate plugin will be provided to collect logs outside of a Beaker
 environment.
 
-.. _ordering_of_the_tests:
+
 
 Ordering of the tests
 =====================
@@ -302,7 +302,7 @@ order of the classes they were first defined in the inheritance chain.
 Methods that were introduced in the same class, are executed in the
 order they were defined within that class.
 
-.. _example_instructions:
+
 
 Example instructions
 ====================
@@ -325,7 +325,7 @@ be handled.
 The next steps depend on whether the test will run within a BeakerLib
 session or not.
 
-.. _with_beakerlib:
+
 
 With BeakerLib
 --------------
@@ -341,7 +341,7 @@ may appear hung.
 Archive any relevant data (e.g. with ``rlJournalPrintText``), and end
 the BeakerLib session (``rlJournalEnd``).
 
-.. _without_beakerlib:
+
 
 Without BeakerLib
 -----------------
@@ -354,7 +354,7 @@ As with other Nose tests, no output is shown for test setup
 (installation) if nothing goes wrong, so there may be a long time
 without output. A summary is printed at the end of the test run.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================
@@ -415,7 +415,7 @@ External Impact
 
 Cooperation with QE is underway.
 
-.. _ad_integration:
+
 
 AD integration
 ==============
@@ -423,7 +423,7 @@ AD integration
 A subpage dedicated to the AD integration testing can be found here:
 `V3/Integration_testing/AD <V3/Integration_testing/AD>`__
 
-.. _design_author:
+
 
 Design author
 =============

@@ -1,4 +1,4 @@
-.. _defining_an_entity:
+
 
 Defining an Entity
 ==================
@@ -38,7 +38,7 @@ An entity can be defined as follows:
        return that;
    }
 
-.. _defining_an_add_dialog_box:
+
 
 Defining an Add Dialog Box
 ==========================
@@ -68,7 +68,7 @@ An add dialog box can be defined as follows:
        return that;
    }
 
-.. _defining_a_search_facet:
+
 
 Defining a Search Facet
 =======================
@@ -99,7 +99,7 @@ A search facet can be defined as follows:
        return that;
    }
 
-.. _defining_a_details_facet:
+
 
 Defining a Details Facet
 ========================
@@ -134,7 +134,7 @@ A details facet can be defined as follows:
        return that;
    }
 
-.. _registering_entity:
+
 
 Registering Entity
 ==================
@@ -146,7 +146,7 @@ The entity should be registered as follows:
    var entity = ipa_service();
    IPA.add_entity(entity);
 
-.. _defining_navigation:
+
 
 Defining Navigation
 ===================

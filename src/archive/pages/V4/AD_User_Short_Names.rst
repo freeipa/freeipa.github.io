@@ -49,7 +49,7 @@ The ordered list of domains used for resolution of user short name to
 the full-qualified form will be referred to as domain resolution order
 in the rest of this document.
 
-.. _domain_resolution_order_storage_and_interpretation:
+
 
 Domain resolution order storage and interpretation
 ----------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ fully-qualified names to log into enrolled machines. The exact
 interpretation of these rule can, however, be left on the client
 application.
 
-.. _global_vs._local_domain_resolution_order_settings:
+
 
 Global vs. local domain resolution order settings
 ----------------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ configuration to a specific ID view object. The override can be created
 also when no global definition is set so that the feature can first be
 tested on selected hostgroup and then applied globally when desired.
 
-.. _domain_resolution_order_management:
+
 
 Domain resolution order management
 ----------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ Additionally, the commands that retrieve trusted domain information
 resolution order and remove stale domains from it when the trusted
 domain was removed or disabled.
 
-.. _domain_resolution_order_validation:
+
 
 Domain resolution order validation
 ----------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ has two child domains ('child1.ad.forest.test',
 To allow users from both FreeIPA domain and from the trusted AD forest
 log in using short name, we may do the following:
 
-.. _example_1_create_a_global_resolution_order:
+
 
 Example 1: Create a global resolution order
 ----------------------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ to the desired value:
      Domain Resolution Order: ipa.test:ad.forest.test:child1.ad.forest.test:child2.ad.forest.test
      ...
 
-.. _example_1_more_conductive_to_automation:
+
 
 Example 1 more conductive to automation
 ----------------------------------------------------------------------------------------------
@@ -250,7 +250,7 @@ the order of operations.
      Domain Resolution Order: ipa.test:ad.forest.test:child1.ad.forest.test:child2.ad.forest.test
      ...
 
-.. _example_2_creating_local_override_of_global_resolution_order:
+
 
 Example 2: creating local override of global resolution order
 ----------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ Overview
 This page contains the feedback the IPA team got during usability
 testing of the proposed UI for the IPA v2 system.
 
-.. _define_a_configuration_policy:
+
 
 Define a Configuration Policy
 =============================
@@ -27,7 +27,7 @@ Instances
 -  The Undo feature makes sense.
 -  The Roll Back To button makes sense.
 
-.. _branching_policy_edits_and_cloning_policies_into_different_groups:
+
 
 Branching Policy Edits and Cloning Policies Into Different Groups
 -----------------------------------------------------------------
@@ -45,7 +45,7 @@ Branching Policy Edits and Cloning Policies Into Different Groups
 -  Users prefer that the configuration management tool is always right
    and assume local changes are wrong and need correcting.
 
-.. _association_between_policy_groups_and_hosts:
+
 
 Association Between Policy Groups and Hosts
 -------------------------------------------
@@ -53,7 +53,7 @@ Association Between Policy Groups and Hosts
 -  “I'd like to select a policy to see its associated hosts, and vice
    versa.”
 
-.. _link_to_host_associations_screen:
+
 
 Link to “Host Associations” Screen
 ----------------------------------
@@ -61,7 +61,7 @@ Link to “Host Associations” Screen
 -  “It's logical. I'd use it to define groups of hosts [on production,
    staging, etc.].”
 
-.. _prioritizing_policies_and_policy_groups:
+
 
 Prioritizing Policies and Policy Groups
 ---------------------------------------
@@ -72,7 +72,7 @@ Prioritizing Policies and Policy Groups
 -  The up and down arrow buttons were overlooked, but seem fine once
    explained.
 
-.. _policies_preview:
+
 
 Policies Preview
 ----------------
@@ -92,7 +92,7 @@ Policies Preview
 -  “Verifying syntax would be very helpful.” Use a green check mark if
    OK, indicate lines with errors.
 
-.. _merge_log:
+
 
 Merge Log
 ---------
@@ -108,7 +108,7 @@ Merge Log
    from instead of sorting through each policy.” For example, to see why
    someone has access who shouldn't.
 
-.. _general_comments:
+
 
 General Comments
 ----------------
@@ -138,7 +138,7 @@ General Comments
    confusing. Perhaps change to “Revert All Policies Preview”.
 -  Add a "Save Text" button to the Policies Preview window.
 
-.. _host_based_access_control_rules:
+
 
 Host-Based Access Control Rules
 ===============================
@@ -150,7 +150,7 @@ Host-Based Access Control Rules
 -  `Additional screens for the rule's time range management
    tasks <http://www.freeipa.org/wiki/images/4/4e/Time.pdf>`__
 
-.. _ordering_of_deny_and_allow_rules:
+
 
 Ordering of Deny and Allow Rules
 --------------------------------
@@ -160,7 +160,7 @@ Ordering of Deny and Allow Rules
 -  Prefer to see Allow rules listed first, even if they don't follow
    that order under the hood.
 
-.. _on_hosts_and_from_hosts_steps:
+
 
 “On Hosts” and “From Hosts” Steps
 ---------------------------------
@@ -174,7 +174,7 @@ Ordering of Deny and Allow Rules
 -  From hosts should allow specifying the name, domain, mask or range.
    We should support something like 192.168.0/24 syntax.
 
-.. _changing_rule_attributes:
+
 
 Changing Rule Attributes
 ------------------------
@@ -186,7 +186,7 @@ Changing Rule Attributes
    are different enough to merit different editing features.”
 -  Tool tips would help during editing.
 
-.. _deleting_all_rule_attributes:
+
 
 Deleting All Rule Attributes
 ----------------------------
@@ -202,7 +202,7 @@ Deleting All Rule Attributes
    reasonable. Defaulting to "All..." makes sense for a Deny rule.
 -  Expect no attributes by default.
 
-.. _deny_all_access_rule:
+
 
 “Deny All Access” Rule
 ----------------------
@@ -224,7 +224,7 @@ Services
 -  Expect the ability to add services to the list as needed.
 -  Expect unknown services to be denied by default.
 
-.. _time_ranges:
+
 
 Time Ranges
 -----------
@@ -238,7 +238,7 @@ Time Ranges
 -  Would like any overlapping time range attributes within a rule to be
    merged.
 
-.. _general_comments_1:
+
 
 General Comments
 ----------------
@@ -263,7 +263,7 @@ General Comments
 -  Add tip(s) indicating that Deny and Allow rules will be applied in
    the order listed.
 
-.. _cloning_roles:
+
 
 Cloning Roles
 =============
@@ -282,7 +282,7 @@ Roles
    other screens.
 -  “If I don't have access to manage a role then don't show it.”
 
-.. _ordering_role_priority:
+
 
 Ordering Role Priority
 ----------------------
@@ -291,7 +291,7 @@ Ordering Role Priority
 -  The reason for ordering roles is unclear. Perhaps provide a tip when
    ordering is necessary (per app).
 
-.. _role_relations:
+
 
 Role Relations
 --------------
@@ -303,7 +303,7 @@ Role Relations
    relations is confusing. (But they can apply to several relations in
    that spot.)
 
-.. _cloning_role_relations:
+
 
 Cloning Role Relations
 ----------------------
@@ -311,7 +311,7 @@ Cloning Role Relations
 -  Everyone agrees the Clone button is bad. Find out what a common icon
    is (overlapping pages?) or use a text button or link.
 
-.. _adding_an_undefined_role_name:
+
 
 Adding an Undefined Role Name
 -----------------------------
@@ -326,7 +326,7 @@ Adding an Undefined Role Name
 -  Suggestion: Include a description in the actual relation saying it's
    not linked.
 
-.. _renaming_roles:
+
 
 Renaming Roles
 --------------
@@ -335,7 +335,7 @@ Renaming Roles
    linked to a new name rather than become disconnected and point to
    non-exiting role. (DP: I doubt this can be fixed).
 
-.. _general_comments_2:
+
 
 General Comments
 ----------------
@@ -353,7 +353,7 @@ Groups
 -  `Screens for the
    task <http://www.freeipa.org/wiki/images/3/33/Groups.pdf>`__
 
-.. _list_of_groups:
+
 
 List of Groups
 --------------
@@ -363,7 +363,7 @@ List of Groups
    relationships. Perhaps use a tree, indented list or drop down box of
    relationships if possible.
 
-.. _making_a_child_or_parent_group:
+
 
 Making a Child or Parent Group
 ------------------------------
@@ -372,7 +372,7 @@ Making a Child or Parent Group
 -  Some people expected an opposite action when clicking Add Under Child
    Groups/Parent Groups. Could require a language change or better tips.
 
-.. _group_id_or_gid:
+
 
 "Group ID” or “GID”?
 --------------------
@@ -394,7 +394,7 @@ Users
    nice. They could be toggled on and off or preferred fields could be
    configured.
 
-.. _general_comments_3:
+
 
 General Comments
 ----------------
@@ -414,7 +414,7 @@ Netgroups
 -  `Additional
    screens <http://www.freeipa.org/wiki/images/9/96/Netgroups_addon.pdf>`__
 
-.. _adding_all_hosts:
+
 
 Adding “All Hosts”
 ------------------
@@ -430,7 +430,7 @@ Adding “All Hosts”
    eclipsed hosts.
 -  Would prefer an option to preserve eclipsed hosts for later use.
 
-.. _managed_and_unmanaged_hosts:
+
 
 Managed and Unmanaged Hosts
 ---------------------------
@@ -446,7 +446,7 @@ Managed and Unmanaged Hosts
 -  The possibility of duplicate host names is fine. Perhaps use a
    secondary identifier.
 
-.. _pre_populated_domain_name:
+
 
 Pre-Populated Domain Name
 -------------------------
@@ -463,7 +463,7 @@ Automount
 -  `Screens for the
    task <http://www.freeipa.org/wiki/images/8/84/Automount.pdf>`__
 
-.. _separate_screens_for_direct_and_indirect_maps:
+
 
 Separate Screens for Direct and Indirect Maps
 ---------------------------------------------
@@ -485,14 +485,14 @@ Options
    menu of frequently used attributes.
 -  Look at real world examples of options for better reference.
 
-.. _would_different_mounts_for_different_hosts_be_useful:
+
 
 Would Different Mounts for Different Hosts be Useful?
 -----------------------------------------------------
 
 -  Yes.
 
-.. _editing_mount_points:
+
 
 Editing Mount Points
 --------------------
@@ -500,7 +500,7 @@ Editing Mount Points
 -  Some confusion over which “Edit” link to click. Perhaps move “Edit
    Properties” closer to Mount Points, or make mount points links.
 
-.. _general_comments_4:
+
 
 General Comments
 ----------------
@@ -510,7 +510,7 @@ General Comments
 -  There could be a “scary” amount of mount points in a list.
 -  “That was stupid easy.”
 
-.. _help_desk_update_user:
+
 
 Help Desk: Update User
 ======================
@@ -522,7 +522,7 @@ Help Desk: Update User
 -  `Screens for the task (Part
    2) <http://www.freeipa.org/wiki/images/6/6b/Update_user2.pdf>`__
 
-.. _edit_protected_fields_checkbox:
+
 
 “Edit Protected Fields” Checkbox
 --------------------------------
@@ -532,7 +532,7 @@ Help Desk: Update User
 -  Change color or make more pronounced.
 -  Reset to unchecked state after updating.
 
-.. _link_to_associations_screen:
+
 
 Link to “Associations” Screen
 -----------------------------
@@ -541,7 +541,7 @@ Link to “Associations” Screen
    you know.
 -  Change the name to “Memberships.”
 
-.. _one_vs._two_column_layout:
+
 
 One VS. Two Column Layout
 -------------------------
@@ -549,7 +549,7 @@ One VS. Two Column Layout
 -  Everyone prefers a single column.
 -  Nobody prefers expandable sections. Scrolling is fine.
 
-.. _user_update_my_account:
+
 
 User: Update My Account
 =======================
@@ -561,7 +561,7 @@ User: Update My Account
 -  `Screens for the task (Part
    2) <http://www.freeipa.org/wiki/images/6/61/Update_my2.pdf>`__
 
-.. _non_editable_info_fields:
+
 
 Non-Editable Info Fields
 ------------------------
@@ -569,14 +569,14 @@ Non-Editable Info Fields
 -  “If I can't edit something just don't show it.”
 -  “Users don't care about Home Directory.”
 
-.. _general_comments_5:
+
 
 General Comments
 ----------------
 
 -  Layout is fairly standard and easy to use.
 
-.. _navigation_tabs:
+
 
 Navigation Tabs
 ===============
@@ -600,7 +600,7 @@ Navigation Tabs
 -  Perhaps rename System. “I thought it meant external system (as
    opposed to IPA itself).”
 
-.. _pop_ups:
+
 
 Pop-ups
 =======
@@ -622,7 +622,7 @@ Pop-ups
    “All Users/Hosts” as a result. (Should “All Users/Hosts” be presented
    a selectable result before performing a search?)
 
-.. _in_different_lists_what_should_the_contents_link_to:
+
 
 In Different Lists What Should the Contents Link to?
 ====================================================
@@ -636,7 +636,7 @@ In Different Lists What Should the Contents Link to?
 -  Wouldn't mind using the same screen and session if the Back button
    was smart and work was retained. If not, use a new window or tab.
 
-.. _thoughts_on_puppet:
+
 
 Thoughts on Puppet
 ==================
@@ -679,7 +679,7 @@ Cons
 -  It doesn't come with the modules IPA has.
 -  It doesn't always do good clean up of access files, flat files, etc.
 
-.. _general_comments_6:
+
 
 General Comments
 ----------------
@@ -689,7 +689,7 @@ General Comments
 -  IPA could potentially be more useful (than Puppet) if flexible
    enough.
 
-.. _general_comments_and_suggestions:
+
 
 General Comments and Suggestions
 --------------------------------
@@ -716,7 +716,7 @@ General Comments and Suggestions
 -  “The core functionality is definitely there.”
 -  “I'm hoping this is something we can implement.”
 
-.. _quick_ui_fixes_and_concerns:
+
 
 Quick UI Fixes and Concerns
 ===========================
@@ -745,7 +745,7 @@ Quick UI Fixes and Concerns
 -  Make entries in the lists be links to corresponding objects. This
    applicable to Groups, Netgroups, HBAC, relations etc.
 
-.. _other_ui_changes:
+
 
 Other UI Changes
 ================
@@ -758,7 +758,7 @@ Other UI Changes
 -  Allow dragging item and carrying it around to change order/priority.
 -  Add more intuitive automount option management.
 
-.. _best_comment:
+
 
 Best Comment
 ============

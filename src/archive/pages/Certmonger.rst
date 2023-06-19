@@ -17,7 +17,7 @@ that can manage the certificates you are tracking. A superset of this
 tool, ``ipa-getcert`` works specifically with an IPA CA. ipa-getcert is
 equivalent to ``getcert -c IPA``
 
-.. _common_usage:
+
 
 Common Usage
 ------------
@@ -26,7 +26,7 @@ For the NSS cases this assumes there is no password associated with the
 NSS database. If there is then the key must be in a file readable by
 certmonger and passed in using the -p or -P options.
 
-.. _get_a_list_of_currently_tracked_certificates:
+
 
 Get a list of currently tracked certificates
 ----------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ not refer to any certificate issued by the IPA CA. There are some
 certificates, such as some subsystem certificates of the CA itself, than
 can be tracked by certmonger but are not issued by the API.
 
-.. _certmonger_cas:
+
 
 Certmonger "CAs"
 ----------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ itself requires.
 And this is why ``getcert list`` returns more certificates that
 ``ipa-getcert list``
 
-.. _anatomy_of_a_tracked_certificate:
+
 
 Anatomy of a tracked certificate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -114,14 +114,14 @@ The pre and post-save commands define commands that are executed before
 and after the renewal process. This can be used, for example, to restart
 a service when a certificate is renewed.
 
-.. _all_tracked_certificates:
+
 
 All tracked certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``# getcert list``
 
-.. _all_ipa_issued_certificate:
+
 
 All IPA-issued certificate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +135,7 @@ This is the equivalent of:
 The difference is that ipa-getcert sets the value of the CA (-c). It's
 just a shortcut.
 
-.. _request_a_new_certificate:
+
 
 Request a new certificate
 ----------------------------------------------------------------------------------------------
@@ -157,15 +157,17 @@ will disable this.
 
 OpenSSL
 ^^^^^^^
+::
 
-``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
+   ``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
 
 NSS
 ^^^
+::
 
-``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
+   ``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
 
-.. _manually_renew_a_certificate:
+
 
 Manually renew a certificate
 ----------------------------------------------------------------------------------------------
@@ -175,7 +177,7 @@ date, run:
 
 ``# ipa-getcert resubmit -i REQUEST_ID``
 
-.. _stop_tracking_a_certificate:
+
 
 Stop tracking a certificate
 ----------------------------------------------------------------------------------------------
@@ -188,7 +190,7 @@ run:
 This does **not** touch the certificate or keys, it merely tells
 certmonger to not track it for for rewnewals.
 
-.. _issue_a_certificate_with_specific_properties:
+
 
 Issue a certificate with specific properties
 --------------------------------------------
@@ -198,15 +200,16 @@ additional options to the utility. ``getcert`` has a lot of flexibility
 with options described in its manual page. For example, to issue a
 certificate for Nginx to use a specific fully qualified hostname on a
 host without it, use following sequence:
+::
 
-| ``# cd /etc/nginx/ssl``
-| ``# fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); ``
-| ``# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
+   | ``# cd /etc/nginx/ssl``
+   | ``# fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); ``
+   | ``# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
 
 The CA has the final say on what the subject will be in the certificate
 it issues.
 
-.. _external_documentation:
+
 
 External Documentation
 ----------------------
@@ -214,7 +217,7 @@ External Documentation
 -  `Certmonger user guide in RHEL
    documentation <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System-Level_Authentication_Guide/certmongerX.html>`__
 
-.. _how_certmonger_finds_an_ipa_ca:
+
 
 How Certmonger finds an IPA CA
 ------------------------------

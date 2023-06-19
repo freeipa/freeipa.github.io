@@ -77,7 +77,7 @@ Upgrade
 No changes on upgrades. The trust properties are only set up at trust
 creation time.
 
-.. _how_to_test26:
+
 
 How to Test
 -----------
@@ -89,7 +89,7 @@ trust with '--external=true' option to 'trust-add' command.
 
 A type of the trust can be seen with 'trust-show' command.
 
-.. _test_plan26:
+
 
 Test Plan
 ---------

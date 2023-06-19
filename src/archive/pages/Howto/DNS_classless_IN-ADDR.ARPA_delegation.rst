@@ -1,4 +1,4 @@
-.. _classless_in_addr.arpa_delegation:
+
 
 Classless IN-ADDR.ARPA delegation
 =================================
@@ -43,7 +43,7 @@ Example
    -  Records for this network should be hosted on server
       ``ipa2.example.``.
 
-.. _on_server_ipa2.example.:
+
 
 On server ipa2.example.
 ----------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ On server ipa2.example.
    -  ... (add all other records as necessary)
    -  ``ipa dnsrecord-add 0/26.100.51.198.in-addr.arpa. 62 --ptr-rec=another.machine.example.``
 
-.. _on_server_ipa1.example.:
+
 
 On server ipa1.example.
 ----------------------------------------------------------------------------------------------

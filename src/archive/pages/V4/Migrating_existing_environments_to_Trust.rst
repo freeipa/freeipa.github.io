@@ -20,7 +20,7 @@ attributes.
 Use Cases
 ---------
 
-.. _store_posix_attributes_and_ssh_keys_for_ad_users:
+
 
 Store POSIX attributes and SSH keys for AD users
 ----------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ This capability is useful both for migration from Winsync or in a
 situation when Linux admins would like to manually define POSIX
 attributes for AD users, but AD policy do not allow it.
 
-.. _migration_from_the_sync_to_the_trust_solution:
+
 
 Migration from the Sync to the Trust solution
 ----------------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ mechanism follows simple procedure:
 planned for next releases in ticket
 `#4524 <https://fedorahosted.org/freeipa/ticket/4524>`__ }}
 
-.. _per_hostgroup_override_of_freeipa_user_posix_attributes:
+
 
 Per hostgroup override of FreeIPA user POSIX attributes
 ----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ This option is useful for example for users migrated from NIS.
 Design
 ------
 
-.. _id_views:
+
 
 ID Views
 ----------------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ A new concept of *ID Views* is introduced. Every ID View is a collection
 of user and group *overrides* that applies to specified hosts or as a
 default to all hosts. Each *override* is bound to an AD or IPA user.
 
-.. _user_overrides:
+
 
 User Overrides
 ^^^^^^^^^^^^^^
@@ -89,7 +89,7 @@ Following list of user attributes can be overridden in an *ID View*:
 -  **homeDirectory**: user home directory
 -  **ipaSshPubkey**: user SSH public key(s)
 
-.. _group_overrides:
+
 
 Group Overrides
 ^^^^^^^^^^^^^^^
@@ -99,7 +99,7 @@ Following list of group attributes can be overridden in an *ID View*:
 -  **cn**: group name
 -  **gidNumber**: group GID number
 
-.. _data_flow:
+
 
 Data Flow
 ----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ another view if needed for the client. Clients using the *extdom plugin*
 have to read client specific view data on their own from the FreeIPA
 LDAP tree and apply them on their own.
 
-.. _id_ranges:
+
 
 ID Ranges
 ----------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ cumbersome to use without adding additional protection.
 Implementation
 --------------
 
-.. _proposed_schema:
+
 
 Proposed schema
 ----------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ default view for any client. SSSD on the client will check which view
 the client should apply and load the overrides for the given view
 separately.
 
-.. _sssd_ipa_backend:
+
 
 SSSD IPA backend
 ^^^^^^^^^^^^^^^^
@@ -220,7 +220,7 @@ SID if there is an override for the object. This e.g. is necessary to
 cover cases where the object is looked up by the name, but only the IDs
 are overridden.
 
-.. _sssd_responders_nss_pam_infopipe_and_others:
+
 
 SSSD responders (NSS, PAM, InfoPipe and others)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -267,7 +267,7 @@ attribute set. Only in this case view processing is needed. This flag
 can be passed to the new sysdb calls to tell them if they could bypass
 the override lookups or not.
 
-.. _sssd_ipa_server_mode:
+
 
 SSSD (IPA server mode)
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -298,7 +298,7 @@ The following should be noted here:
       overridden by e.g. view xyz the change in the default view will be
       visible on call clients assigned to the xyz view as well.
 
-.. _sssd_cache_layout:
+
 
 SSSD Cache layout
 ^^^^^^^^^^^^^^^^^
@@ -346,7 +346,7 @@ different view and the case where the name is overriden, here the
 nameAlias will contain the original fully qualified AD name and the
 un-qualified override name to allow searches with those names as well).
 
-.. _slapi_nis_plugincompat_tree:
+
 
 slapi-nis plugin/compat tree
 ----------------------------------------------------------------------------------------------
@@ -427,7 +427,7 @@ Feature Management
 
 UI
 
-.. _view_management:
+
 
 View management
 ^^^^^^^^^^^^^^^
@@ -435,7 +435,7 @@ View management
 A page to list all view and a page to change the attributes of the view
 object are needed (see CLI section below for details).
 
-.. _management_of_the_overrides:
+
 
 Management of the overrides
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -449,7 +449,7 @@ deletion.
 
 CLI
 
-.. _view_management_1:
+
 
 View management
 ^^^^^^^^^^^^^^^
@@ -461,7 +461,7 @@ the tool can reject any attempt to change the default view.
 The ipa host-\* commands must be able to set/modify/delete the view for
 an IPA host.
 
-.. _management_of_the_overrides_1:
+
 
 Management of the overrides
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -540,7 +540,7 @@ Updates and Upgrades
 Since ID views are not enabled by default only the new schema entries
 must be added during updates.
 
-.. _how_to_test29:
+
 
 How to Test
 -----------
@@ -581,7 +581,7 @@ Check that the user UID, GID and group membership is returned correctly:
    [tbabej@vm-124 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
    uid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com),1218200513(domain users@tbad.idm.lab.eng.brq.redhat.com)
 
-.. _use_case_store_posix_attributes_and_ssh_keys_for_ad_users_using_default_trust_view:
+
 
 Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View
 ----------------------------------------------------------------------------------------------
@@ -611,7 +611,7 @@ Let's now check that the user has override UID value.
 In a similiar way, you can override GID, or other attributes, see
 ``ipa idoverrideuser-add --help``.
 
-.. _use_case_store_posix_attributes_and_ssh_keys_for_ad_users_using_host_specific_id_view:
+
 
 Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View
 ----------------------------------------------------------------------------------------------
@@ -669,7 +669,7 @@ our client, than on the server:
    [tbabej@vm-057 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
    uid=6666(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=5555(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=5555(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com)
 
-.. _use_case_migration_from_the_sync_to_the_trust_solution:
+
 
 Use Case: Migration from the Sync to the Trust solution
 ----------------------------------------------------------------------------------------------

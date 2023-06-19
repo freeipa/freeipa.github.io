@@ -25,7 +25,7 @@ FreeIPA `3.0.0 <Releases/3.0.0>`__ and FreeIPA 4.0. When connected to
 the older server, it will of course only provide functionality available
 on the older server.
 
-.. _ipa_management_tool:
+
 
 IPA management tool
 -------------------

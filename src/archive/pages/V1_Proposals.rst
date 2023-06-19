@@ -1,4 +1,4 @@
-.. _proposals_for_freeipa:
+
 
 Proposals for FreeIPA
 =====================

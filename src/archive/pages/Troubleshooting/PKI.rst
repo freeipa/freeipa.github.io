@@ -1,7 +1,7 @@
 This page contains **PKI** troubleshooting advice. For other issues,
 refer to the index at `Troubleshooting <Troubleshooting>`__.
 
-.. _ipa_wont_start_expired_certificates:
+
 
 IPA won't start, expired certificates
 =====================================
@@ -26,7 +26,7 @@ expirted certificates. This is for renewing the CA certificate only,
 which by default is good for 20 years. It is very unlikely you need to
 do this.
 
-.. _pki_tomcatd_fails_to_start:
+
 
 PKI-tomcatd fails to start
 ==========================
@@ -35,7 +35,7 @@ After an upgrade of IPA packages, pki-tomcatd fails to start. See
 `Troubleshooting pki-tomcatd fails to
 start <https://floblanc.wordpress.com/2017/09/11/troubleshooting-freeipa-pki-tomcatd-fails-to-start/>`__.
 
-.. _authentication_errors:
+
 
 Authentication Errors
 =====================
@@ -67,7 +67,9 @@ For IPA >= 4.7.0:
 
 The serial number should match the value of the 2nd integer at:
 
-``# ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``
+::
+
+      ``# ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``
 
 (use port 7389 for 2.x servers)
 
@@ -77,7 +79,9 @@ the most recent certificate:
 
 For IPA < 4.7.0:
 
-``# certutil -L -d /etc/httpd/alias -n ipaCert -a > /tmp/ra.crt ``
+::
+
+      ``# certutil -L -d /etc/httpd/alias -n ipaCert -a > /tmp/ra.crt ``
 
 This will export all the certificates. Edit this file and remove all but
 the first certificate, You can double-check the result with:
@@ -103,7 +107,7 @@ If you see an error like "Failed to connect LDAP server" then try
 restarting the tomcat process, either pki-cad (for IPA 3.0) or
 pki-tomcatd@pki-tomcat.service.
 
-.. _crl_gets_very_old:
+
 
 CRL gets very old
 =================
@@ -118,7 +122,7 @@ old and not updated, make sure you check that:
    errors. Consult PKI ``system`` for details. (`related user
    case <https://www.redhat.com/archives/freeipa-users/2014-November/msg00012.html>`__)
 
-.. _external_ca_renewal_with_ipa_cacert_manage_fails:
+
 
 External CA renewal with ipa-cacert-manage fails
 ================================================

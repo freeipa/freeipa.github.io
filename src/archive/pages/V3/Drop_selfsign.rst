@@ -22,7 +22,7 @@ Installation with --selfsign (selfsigned certificate managed in local
 NSS database on server) is rather troublesome and not even supported -
 it should be dropped.
 
-.. _use_cases116:
+
 
 Use Cases
 =========
@@ -48,7 +48,7 @@ Implementation
 No additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

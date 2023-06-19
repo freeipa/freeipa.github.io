@@ -1,9 +1,9 @@
-.. _test_assumptions_on_the_active_directory_side:
+
 
 Test assumptions on the Active Directory side
 ---------------------------------------------
 
-.. _dns_has_to_be_setup_manually_on_ad.:
+
 
 DNS has to be setup manually on AD.
 ----------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ DNS has to be setup manually on AD.
 See `DNS configuration
 instructions <Active_Directory_trust_setup#DNS_configuration>`__
 
-.. _active_directory_posix_support:
+
 
 Active Directory Posix support
 ----------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Active Directory, please refer to the steps described in the
 `V3/Use_posix_attributes_defined_in_AD <V3/Use_posix_attributes_defined_in_AD>`__
 , test plan for "Test case: Leverage POSIX attributes defined in AD".
 
-.. _object_existing_in_active_directory:
+
 
 Object existing in Active Directory
 ----------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ On Active Directory side, the following objects should exist:
 | `` Password: Secret123``
 | `` Logon: disabledaduser``
 
-.. _how_to_extend_the_active_directory_test_suite:
+
 
 How to extend the Active Directory test suite
 ---------------------------------------------

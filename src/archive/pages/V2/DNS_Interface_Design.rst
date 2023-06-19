@@ -30,7 +30,7 @@ Resolution
 IPA v3.0 will follow these steps to improve working with all these
 complex steps
 
-.. _new_per_type_structured_api:
+
 
 1. New per-type structured API
 ----------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ complex steps
 
 ``ipa dnsrecord-add example.com client1 --aaaa-from-mac=00:1D:BA:06:37:64``
 
-.. _dnsrecord_add_command:
+
 
 dnsrecord-add command
 ^^^^^^^^^^^^^^^^^^^^^
@@ -100,7 +100,7 @@ Adding MX record using new interactive help:
 | ``Please choose a type of DNS resource record to be added``
 | ``The most common types for this type of zone are: NS, MX, LOC``
 
-.. _dnsrecord_mod_command:
+
 
 dnsrecord-mod command
 ^^^^^^^^^^^^^^^^^^^^^
@@ -134,29 +134,30 @@ A full example of a modification using the new API:
 | ``  NS record: ns.example.com.``
 
 An example of new interactive mode:
+::
 
-| ``ipa dnsrecord-mod example.com @``
-| ``No option to modify specific record provided.``
-| ``Current DNS record contents:``
-| ``MX record: 0 server1.example.com., 2 server2.example.com.``
-| ``NS record: ns.example.com.``
-| ``Modify MX record '0 server1.example.com.'? Yes/No (default No): ``
-| ``Modify MX record '2 server2.example.com.'? Yes/No (default No): y``
-| ``MX Preference [2]: 3``
-| ``MX Exchanger [server2.example.com.]: ``
-| ``Modify NS record 'ns.example.com.'? Yes/No (default No): ``
-| ``  Record name: example.com``
-| ``  MX record: 0 server1.example.com., 3 server2.example.com.``
-| ``  NS record: ns.example.com.``
+   | ``ipa dnsrecord-mod example.com @``
+   | ``No option to modify specific record provided.``
+   | ``Current DNS record contents:``
+   | ``MX record: 0 server1.example.com., 2 server2.example.com.``
+   | ``NS record: ns.example.com.``
+   | ``Modify MX record '0 server1.example.com.'? Yes/No (default No): ``
+   | ``Modify MX record '2 server2.example.com.'? Yes/No (default No): y``
+   | ``MX Preference [2]: 3``
+   | ``MX Exchanger [server2.example.com.]: ``
+   | ``Modify NS record 'ns.example.com.'? Yes/No (default No): ``
+   | ``  Record name: example.com``
+   | ``  MX record: 0 server1.example.com., 3 server2.example.com.``
+   | ``  NS record: ns.example.com.``
 
-.. _dnsrecord_del_command:
+
 
 dnsrecord-del command
 ^^^^^^^^^^^^^^^^^^^^^
 
 Neither API nor the interactive mode need to be changed.
 
-.. _improved_output:
+
 
 Improved output
 ^^^^^^^^^^^^^^^
@@ -185,7 +186,7 @@ The output then shows all record in a structured format including the
 record type, raw DNS record data and an attribute for every part of the
 DNS record.
 
-.. _improved_validation:
+
 
 2. Improved validation
 ----------------------------------------------------------------------------------------------

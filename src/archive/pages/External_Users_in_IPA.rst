@@ -40,7 +40,7 @@ POSIX attributes from the local IPA.
 These two actions are envisioned to happen automatically upon first
 encounter with an external user.
 
-.. _use_cases14:
+
 
 Use Cases
 =========
@@ -51,7 +51,7 @@ for the context driving this RFE.
 Design
 ======
 
-.. _overview_1:
+
 
 Overview
 --------
@@ -98,7 +98,7 @@ expired internet draft
 The relationship between the two identities may also be embodied in the
 way configuration of hosts is managed in the source realm.
 
-.. _provisioning_external_users_in_ldap:
+
 
 Provisioning External Users in LDAP
 -----------------------------------
@@ -132,7 +132,7 @@ It is necessary that hosts and services within the realm be readily
 configured to understand the mapping between LDAP and Kerberos user
 identities.
 
-.. _attributes_from_the_realm_of_origin:
+
 
 Attributes from the realm of origin
 -----------------------------------
@@ -176,7 +176,7 @@ synchronizing all identities from every potential donor realm is
 unlikely to serve a useful purpose. The only identities important to the
 local realm are those identities which access services within the realm.
 
-.. _external_user_participation_in_posix_groups:
+
 
 External User participation in POSIX groups
 -------------------------------------------

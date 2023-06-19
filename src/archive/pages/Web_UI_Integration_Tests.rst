@@ -38,7 +38,7 @@ Test runner
 All parts can run on their own machine or they can share one (not
 tested).
 
-.. _freeipa_server_configuration:
+
 
 FreeIPA Server Configuration
 ----------------------------
@@ -60,7 +60,7 @@ no_ca
 has_trusts
    Trust support is enabled: ``ipa-adtrust-install`` was run.
 
-.. _selenium_server_configuration:
+
 
 Selenium Server Configuration
 -----------------------------
@@ -99,7 +99,7 @@ Chrome/Chromium
    `2 <http://chromedriver.storage.googleapis.com/index.html>`__
 #. put chrome driver in directory included in ``$PATH``
 
-.. _internet_explorer:
+
 
 Internet Explorer
 ----------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ Internet Explorer
    `3 <http://code.google.com/p/selenium/wiki/InternetExplorerDriver>`__
 #. download FreeIPA server CA cert and put it into root authorities.
 
-.. _x_virtual_framebuffer:
+
 
 X virtual framebuffer
 ----------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Run:
    export DISPLAY=:99
    /usr/bin/Xvfb $DISPLAY -ac -noreset -screen 0 1400x1200x8 > /dev/null &
 
-.. _make_it_quick:
+
 
 Make it quick
 ----------------------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ It:
 #. downloads and installs selenium-server
 #. downloads and install chrome driver
 
-.. _test_runner_configuration:
+
 
 Test Runner Configuration
 -------------------------
@@ -173,7 +173,7 @@ They can be combined but either one is sufficient. Configuration file is
 loaded first, then then configuration is overwritten by that in
 environmental variables.
 
-.. _configuration_file:
+
 
 Configuration file
 ----------------------------------------------------------------------------------------------
@@ -248,7 +248,7 @@ Example of configuration file:
    # directory where screenshots should be saved
    screenshot_dir: /home/me/tests
 
-.. _environmental_variables:
+
 
 Environmental variables
 ----------------------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ SEL_HOST               host
 FF_PROFILE             ff_profile
 ====================== ====================
 
-.. _running_tests:
+
 
 Running tests
 -------------
@@ -292,7 +292,7 @@ Test can be run either in-tree or from test package. Selenium is quite
 chatty so it's recommended to run the test with less verbose debug level
 like ``--logging-level=INFO``
 
-.. _in_tree:
+
 
 In tree
 ----------------------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ In tree
 
    ./make-test --logging-level=INFO ipatests/test_webui/test_module.py::class_name::method_name
 
-.. _test_package:
+
 
 Test package
 ----------------------------------------------------------------------------------------------
@@ -338,7 +338,7 @@ Test package
 
    ipa-run-tests --logging-level=INFO test_webui/test_module.py::class_name::method_name
 
-.. _writing_tests:
+
 
 Writing tests
 -------------

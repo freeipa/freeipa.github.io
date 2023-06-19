@@ -17,7 +17,7 @@ Before we dive into particular scenarios we offer you presentation about
 `FreeIPA troubleshooting
 principles <media:FreeIPA_Architecture_and_Troubleshooting.odp>`__.
 
-.. _reporting_bugs:
+
 
 Reporting bugs
 --------------
@@ -47,7 +47,7 @@ If you want to read some theory about bug reporting we recommend you the
 famous article `How to Report Bugs
 Effectively <http://www.chiark.greenend.org.uk/~sgtatham/bugs.html>`__.
 
-.. _troubleshooting_scenarios:
+
 
 Troubleshooting scenarios
 -------------------------

@@ -1,4 +1,4 @@
-.. _about_domain_levels:
+
 
 About domain levels
 -------------------
@@ -11,7 +11,7 @@ increased manually, it is not raised during upgrade.
 
 Details on `design page <V4/Domain_Levels>`__
 
-.. _current_domain_level:
+
 
 Current domain level
 ----------------------------------------------------------------------------------------------
@@ -19,12 +19,14 @@ Current domain level
 To get value of current domain level, please execute the following
 command:
 
-| ``$ ipa ``\ **``domainlevel-get``**
-| ``-----------------------``
-| ``Current domain level: 0``
-| ``-----------------------``
+::
 
-.. _increase_domain_level:
+    | ``$ ipa ``\ **``domainlevel-get``**
+    | ``-----------------------``
+    | ``Current domain level: 0``
+    | ``-----------------------``
+
+
 
 Increase domain level
 ----------------------------------------------------------------------------------------------
@@ -36,7 +38,7 @@ To increase domain level, please use the following command:
 | ``Current domain level: 1``
 | ``-----------------------``
 
-.. _current_domain_levels:
+
 
 Current domain levels
 ---------------------
@@ -59,7 +61,7 @@ Current domain levels
 Features
 --------
 
-.. _replica_promotion:
+
 
 Replica promotion
 ----------------------------------------------------------------------------------------------
@@ -69,7 +71,7 @@ Details on `design page <V4/Replica_Promotion>`__
 Howto install replica: `release notes
 4.3.0 <Releases/4.3.0#Replica_installation>`__
 
-.. _topology_management_plugin:
+
 
 Topology management plugin
 ----------------------------------------------------------------------------------------------

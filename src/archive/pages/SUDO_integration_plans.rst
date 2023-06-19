@@ -1,11 +1,11 @@
-.. _sudo_intergation:
+
 
 SUDO Intergation
 ================
 
 This page outlines our plans regarding SUDO integration.
 
-.. _current_situation:
+
 
 Current Situation
 -----------------
@@ -30,7 +30,7 @@ manging all the objects stored in the IPA. IPA plans to provide an
 integrated solution to manage SUDO rules centrally and in the integrated
 way. This plan consists of the two phases.
 
-.. _phase_one:
+
 
 Phase One
 ---------
@@ -57,7 +57,7 @@ For this phase the following development work needs to be done:
 -  Expose new functionality via UI/CLI and describe it in the man pages
    and project documentation.
 
-.. _phase_two:
+
 
 Phase Two
 ---------

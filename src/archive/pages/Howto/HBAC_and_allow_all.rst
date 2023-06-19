@@ -1,4 +1,4 @@
-.. _hbac_and_the_allow_all_problem:
+
 
 HBAC and the allow_all problem
 ------------------------------
@@ -89,7 +89,7 @@ Note that there is ``ipa hbactest`` utility which can be used to test
 policies -- use it to test your setup before locking your users out of
 their systems.
 
-.. _example_of_new_service:
+
 
 Example of new service
 ----------------------

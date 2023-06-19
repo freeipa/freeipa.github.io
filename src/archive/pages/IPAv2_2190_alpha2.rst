@@ -17,7 +17,7 @@ Fedora 17 package. It was not well-tested, particularly for upgrades,
 which is why it wasn't announced at the time. It was released to meet
 Fedora 17 package deadlines.
 
-.. _highlights_in_2.1.90_alpha_2:
+
 
 Highlights in 2.1.90 alpha 2
 ----------------------------
@@ -58,7 +58,7 @@ Feedback
 Please provide comments, bugs and other feedback via the freeipa-devel
 mailing list: http://www.redhat.com/mailman/listinfo/freeipa-devel
 
-.. _detailed_changelog_since_2.1.4:
+
 
 Detailed Changelog since 2.1.4
 ------------------------------

@@ -1,4 +1,4 @@
-.. _inspecting_the_pac:
+
 
 Inspecting the PAC
 ------------------
@@ -29,7 +29,7 @@ called **net ads kerberos pac**. It was originally developed with only
 the Samba use case in mind because at that time there was only Samba
 using the PAC.
 
-.. _ad_client:
+
 
 AD client
 ----------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ it hard to use this tool in other environments. But recently Samba Team
 member Günther Deschner enhanced the tool and opened it for other use
 cases.
 
-.. _freeipa_client:
+
 
 FreeIPA client
 ----------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ You can call
            buffers: ARRAY(4)
                buffers: struct PAC_BUFFER
                    type                     : PAC_TYPE_LOGON_INFO (1)
-                   _ndr_size                : 0x000001c8 (456)
+                 0x000001c8 (456)
                    info                     : *
                        info                     : union PAC_INFO(case 1)
    ...
@@ -130,7 +130,7 @@ utility form the samba-test package
                    buffers: ARRAY(4)
                        buffers: struct PAC_BUFFER
                            type                     : PAC_TYPE_LOGON_INFO (1)
-                           _ndr_size                : 0x000001c8 (456)
+                         0x000001c8 (456)
                            info                     : *
                                info                     : union PAC_INFO(case 1)
                                logon_info: struct PAC_LOGON_INFO_CTR

@@ -31,7 +31,7 @@ In the procedure below:
    instance where CA database is running. Use 7389 for Dogtag and 389
    for Dogtag 10
 
-.. _update_ldap_bind_password:
+
 
 1. Update LDAP bind password
 ----------------------------
@@ -46,7 +46,7 @@ Configure all replicas to use the new password by editing
    internaldb=<password>
    ...
 
-.. _update_password_of_cacert.p12:
+
 
 2. Update password of cacert.p12
 --------------------------------
@@ -75,7 +75,7 @@ Then re-generate the ``cacert.p12`` file with the following command:
 
    # /usr/bin/PKCS12Export -d $ALIAS_PATH -p /root/keydb_pin -w /root/dm_password -o /root/cacert.p12
 
-.. _update_pki_admin_password:
+
 
 3. Update PKI admin password
 ----------------------------

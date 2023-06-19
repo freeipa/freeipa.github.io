@@ -1,4 +1,4 @@
-.. _server_instalation_failed:
+
 
 Server instalation failed
 -------------------------
@@ -6,12 +6,12 @@ Server instalation failed
 Please be aware that some logs may contain sensitive information and
 should be sanitized or transported over a secure channel.
 
-.. _ipa_server_install:
+
 
 ipa-server-install
 ----------------------------------------------------------------------------------------------
 
-.. _generic_failure:
+
 
 Generic failure
 ^^^^^^^^^^^^^^^
@@ -20,7 +20,7 @@ Generic failure
 | ``/var/log/ipaserver-install.log``
 | ``ausearch -m AVC > avc.log``
 
-.. _directory_server_failed:
+
 
 Directory server failed
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -32,7 +32,7 @@ Directory server failed
 | ``/var/log/dirsrv/slapd-*/access``
 | ``journalctl -xe``
 
-.. _dogtag_ca_failed:
+
 
 Dogtag CA failed
 ^^^^^^^^^^^^^^^^
@@ -44,7 +44,7 @@ Dogtag CA failed
 | ``/var/log/pki/pki-tomcat/ca/debug``
 | ``/var/log/pki/pki-ca-spawn.``\ ``.log``
 
-.. _dogtag_kra_failed:
+
 
 Dogtag KRA failed
 ^^^^^^^^^^^^^^^^^
@@ -56,7 +56,7 @@ Dogtag KRA failed
 | ``/var/log/pki/pki-tomcat/kra/debug``
 | ``/var/log/pki/pki-kra-spawn.``\ ``.log``
 
-.. _kerberos_kdc_kadmin_failed:
+
 
 Kerberos (KDC, kadmin) failed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -67,7 +67,7 @@ Kerberos (KDC, kadmin) failed
 | ``/var/log/kadmind.log``
 | ``/var/log/krb5kdc.log``
 
-.. _apache_httpd_failed:
+
 
 Apache (httpd) failed
 ^^^^^^^^^^^^^^^^^^^^^
@@ -78,7 +78,7 @@ Apache (httpd) failed
 | ``journalctl -u httpd``
 | ``/var/log/httpd/error_log``
 
-.. _custodia_failed:
+
 
 Custodia failed
 ^^^^^^^^^^^^^^^
@@ -89,7 +89,7 @@ Custodia failed
 | ``journalctl -u ipa-custodia``
 | ``less /var/log/ipa-custodia.audit.log  # from both master and replica``
 
-.. _dns_part_failed:
+
 
 DNS part failed
 ^^^^^^^^^^^^^^^
@@ -100,7 +100,7 @@ DNS part failed
 | ``journalctl -u named-pkcs11``
 | ``journalctl -u ipa-dnskeysyncd``
 
-.. _ad_trust_installation_failed:
+
 
 AD Trust installation failed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -114,7 +114,7 @@ AD Trust installation failed
 | ``journalctl -u smb``
 | ``journalctl -u winbind``
 
-.. _installation_of_updates_failed:
+
 
 Installation of updates failed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ Installation of updates failed
 | ``ausearch -m AVC > avc.log``
 | ``/var/log/dirsrv/slapd-*/errors``
 
-.. _client_part_failed:
+
 
 Client part failed
 ^^^^^^^^^^^^^^^^^^
@@ -135,12 +135,12 @@ Client part failed
 | ``/var/log/ipaclient-install.log``
 | ``/var/log/httpd/error_log``
 
-.. _ipa_replica_install:
+
 
 ipa-replica-install
 ----------------------------------------------------------------------------------------------
 
-.. _generic_failure_1:
+
 
 Generic failure
 ^^^^^^^^^^^^^^^
@@ -154,7 +154,7 @@ from installation
 section <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#ipa-server-install>`__
 and provide those logs too.
 
-.. _connection_check_failed:
+
 
 Connection check failed
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -168,7 +168,7 @@ From both *master* and *replica*
 | ``date -R``
 | ``/var/log/ipareplica-conncheck.log``
 
-.. _ipa_dns_install:
+
 
 ipa-dns-install
 ----------------------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ ipa-dns-install
 See `ipa-server-install DNS
 part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#DNS_part_failed>`__
 
-.. _ipa_ca_install:
+
 
 ipa-ca-install
 ----------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ ipa-ca-install
 And see `ipa-server-install CA
 part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Dogtag_CA_failed>`__.
 
-.. _ipa_kra_install:
+
 
 ipa-kra-install
 ----------------------------------------------------------------------------------------------
@@ -198,7 +198,7 @@ ipa-kra-install
 And see `ipa-server-install KRA
 part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Dogtag_KRA_failed>`__.
 
-.. _ipa_adtrust_install:
+
 
 ipa-adtrust-install
 ----------------------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ ipa-adtrust-install
 See `ipa-server-install AD Trust
 part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#AD_Trust_installation_failed>`__.
 
-.. _i_have_no_idea:
+
 
 I HAVE NO IDEA
 ----------------------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ Then provide everything you can ;-)
 | ``/var/log/kadmind.log``
 | ``/var/log/krb5kdc.log``
 
-.. _client_installation_failed:
+
 
 Client installation failed
 --------------------------
@@ -240,7 +240,7 @@ Client installation failed
 | ``/var/log/ipaclient-install.log``
 | ``ausearch -m AVC > avc.log``
 
-.. _upgrade_failed:
+
 
 Upgrade failed
 --------------
@@ -255,12 +255,12 @@ services from installation
 section <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#ipa-server-install>`__
 and provide those logs too.
 
-.. _freeipa_cli_failed:
+
 
 FreeIPA CLI failed
 ------------------
 
-.. _kerberos_related_errors:
+
 
 Kerberos related errors
 ----------------------------------------------------------------------------------------------
@@ -273,7 +273,7 @@ From the server:
 | ``/var/log/httpd/error_log``
 | ``/var/log/krb5kdc.log``
 
-.. _internal_server_error:
+
 
 Internal server error
 ----------------------------------------------------------------------------------------------
@@ -288,26 +288,30 @@ Prologue:
 
 Run broken command:
 
-``ipa ``
+::
+
+    ``ipa ``
 
 Provide logs from the server:
 
-| ``date -R``
-| ``/var/log/httpd/error_log``
-| ``/var/log/dirsrv/slapd-*/access``
-| ``/var/log/dirsrv/slapd-*/errors``
+::
+
+    | ``date -R``
+    | ``/var/log/httpd/error_log``
+    | ``/var/log/dirsrv/slapd-*/access``
+    | ``/var/log/dirsrv/slapd-*/errors``
 
 Epilogue:
 
 | ``remove ``\ *``debug=true``*\ `` from ``\ *``/etc/ipa/default.conf``*
 | ``apachectl graceful``
 
-.. _freeipa_webui_failed:
+
 
 FreeIPA WebUI failed
 --------------------
 
-.. _login_failed:
+
 
 Login failed
 ----------------------------------------------------------------------------------------------
@@ -333,7 +337,7 @@ Epilogue:
 | ``set back ``\ *``LogLevel``*\ `` to ``\ *``warn``*\ `` in ``\ *``/etc/httpd/conf.d/nss.conf``*
 | ``apachectl graceful``
 
-.. _other_failures:
+
 
 Other failures
 ----------------------------------------------------------------------------------------------
@@ -345,7 +349,7 @@ Usually seen as 50x HTTP error in WebUI.
 | ``/var/log/httpd/access_log``
 | ``journalctl -u httpd``
 
-.. _internal_server_error_1:
+
 
 Internal server error
 ----------------------------------------------------------------------------------------------

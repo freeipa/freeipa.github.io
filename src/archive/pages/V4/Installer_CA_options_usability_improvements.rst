@@ -17,7 +17,7 @@ and automatically handling whatever can be handled automatically.
 Use Cases
 ---------
 
-.. _external_ca_install:
+
 
 External CA install
 ----------------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ External CA install
 -  Automatically determine which certificate is IPA CA certificate
 -  Use 1, 2, or more certificate files in PEM, DER or PKCS#7 format
 
-.. _ca_less_install:
+
 
 CA-less install
 ----------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ CA-less install
 Design
 ------
 
-.. _external_ca_install_1:
+
 
 External CA install
 ----------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ certificate and the whole CA certificate chain of the IPA CA
 certificate's issuer. IPA CA certificate will be automatically picked
 from the available certificates.
 
-.. _ca_less_install_1:
+
 
 CA-less install
 ----------------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ Upgrade
 
 N/A
 
-.. _how_to_test27:
+
 
 How to Test
 -----------
@@ -133,7 +133,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan27:
+
 
 Test Plan
 ---------

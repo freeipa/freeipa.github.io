@@ -26,7 +26,7 @@ practices and standard tools. Re-write from scratch is deemed to be more
 effecient than fixing bugs one by one because parts of current system
 are unnecessairly complex or can be replaced with standard solutions.
 
-.. _user_stories:
+
 
 User stories
 ------------
@@ -315,7 +315,7 @@ Or alternatively:
 
 will produce RPMs suitable for further FreeIPA testing.
 
-.. _release_engineer:
+
 
 Release engineer
 ----------------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@ Packager
 will install FreeIPA into correct paths in build root so it is very easy
 to take all installed files and just package them.
 
-.. _packager___client_only_build:
+
 
 Packager - client only build
 ----------------------------------------------------------------------------------------------
@@ -351,7 +351,7 @@ to take all installed files and just package them.
 Note: This use case does not fully work yet. See progress in
 `#6417 <https://fedorahosted.org/freeipa/ticket/6517>`__
 
-.. _translation_maintainer:
+
 
 Translation maintainer
 ----------------------------------------------------------------------------------------------

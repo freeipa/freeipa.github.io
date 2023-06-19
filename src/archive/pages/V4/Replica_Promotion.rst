@@ -31,7 +31,7 @@ Use Cases
 Design
 ------
 
-.. _bootstrapping_problem:
+
 
 Bootstrapping problem
 ----------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ system might prefer to provide only credentials that are temporarily
 valid to an unattended system, so that provisioning failures do not risk
 exposing long term, privileged credentials in logs or on disks.
 
-.. _bootstrapping_workflows:
+
 
 Bootstrapping Workflows
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -100,7 +100,7 @@ Bootstrapping Workflows
 
    Replica_bootstrap_1.svg
 
-.. _secrets_sharing_problem:
+
 
 Secrets sharing problem
 ----------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ Secrets that need to be shared in a safe way:
 A mechanism needs to be provide such that only legitimate replicas can
 get access to private keys and other highly sensitive secrets.
 
-.. _new_replica_install_workflow:
+
 
 New replica install workflow
 ----------------------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ at the end of a fully successful and functional basic replica install.
 This will allow a failure in an optional component to be remediated
 separately and will not force a full reinstall of the replica.
 
-.. _ipa_replica_conncheck:
+
 
 ipa-replica-conncheck
 ^^^^^^^^^^^^^^^^^^^^^
@@ -190,7 +190,7 @@ new service that can be instantiated via the system message bus be
 created]. As this is FreeIPA specific, the additional policy should be
 based on ``httpd_manage_ipa`` conditional.
 
-.. _ipa_client_install:
+
 
 ipa-client-install
 ^^^^^^^^^^^^^^^^^^
@@ -200,7 +200,7 @@ are promoting an already installed client). The final step of the client
 install procedure will be to rotate the host keytab if the install
 credentials were keytab based.
 
-.. _directory_server_initialization:
+
 
 Directory Server initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -245,7 +245,7 @@ perform the following steps:
    cert and configure `Directory Server <Directory_Server>`__ to also
    provide TLS support
 
-.. _kerberos_kdc_initialization:
+
 
 Kerberos KDC initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -254,7 +254,7 @@ The current `KDC <Kerberos>`__ instance setup will be simplified, mostly
 removing code that retrieves the LDAP and host keys, which we already
 have at this point.
 
-.. _other_core_components_initialization:
+
 
 Other core components initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -277,7 +277,7 @@ NTP server, will need no or minor changes. For example:
 -  The CA server and ports will need to be detected via checking in LDAP
    and probing and stored in this phase as well.
 
-.. _key_sharing_component_initialization:
+
 
 Key sharing component initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -296,7 +296,7 @@ For example we may want to request a hash of the *Directory Manager*
 password so that all servers have the same password for admins
 convenience.
 
-.. _dns_installation:
+
 
 DNS Installation
 ^^^^^^^^^^^^^^^^
@@ -305,7 +305,7 @@ If required the normal ipa-dns-install script is executed
 
 -  changes to this script are TBD
 
-.. _ca_installation:
+
 
 CA installation
 ^^^^^^^^^^^^^^^
@@ -314,7 +314,7 @@ The CA installation procedure will be changed to require less secrets be
 shared between clones and also avoid the need for obtaining the
 *Directory Manager* password.
 
-.. _no_clear_text_dm_password_for_the_install:
+
 
 No clear text DM password for the install
 '''''''''''''''''''''''''''''''''''''''''
@@ -340,7 +340,7 @@ Temporarily replacing the *Directory Manager* password with a random one
 at CA install time is a bit hackish, but can be done todaywithout any
 changes to `Directory Server <Directory_Server>`__ or `CS <PKI>`__.
 
-.. _multiple_admin_users:
+
 
 Multiple Admin users
 ''''''''''''''''''''
@@ -357,7 +357,7 @@ procedure as the admin user is not used for now. (It may be needed in
 future to allow the creation of subCAs, but we can generate a new secret
 on updates if needed).
 
-.. _certificates_and_public_key_wrapping:
+
 
 Certificates and public key wrapping
 ''''''''''''''''''''''''''''''''''''
@@ -366,7 +366,7 @@ Given secrets will be transferred via the privileged key service, there
 will be no need to use the *Directory Manager* password to wrap the p12
 file containing the CA and other certs.
 
-.. _ca_certificates:
+
 
 CA Certificates
 '''''''''''''''
@@ -408,7 +408,7 @@ Certificates/keys that still need to be transferred to replicas:
    which one to use for each replica making load-balancing and fallback
    clients much harder.
 
-.. _sharing_secrets_securely:
+
 
 Sharing Secrets Securely
 ----------------------------------------------------------------------------------------------
@@ -430,7 +430,7 @@ Examples:
 -  A replica is promoted to be a Vault server (needs KRA storage and
    transport keys)
 
-.. _secrets_sharing_service_custodia:
+
 
 Secrets Sharing Service (Custodia)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -454,7 +454,7 @@ A good solution is to actually use both:
 -  the other to secure and add an additional authorization level to the
    exchange
 
-.. _transport_mechanisms:
+
 
 Transport mechanisms
 ^^^^^^^^^^^^^^^^^^^^
@@ -483,7 +483,7 @@ signature verification on each request. The verification will be done
 via public key published in IPA's LDAP server and retrieved based on the
 Kerberos Principal used to authenticate to the apache server.
 
-.. _exchange_flow:
+
 
 Exchange Flow
 ^^^^^^^^^^^^^
@@ -522,7 +522,7 @@ Exchange Flow
 
    Replica_KISS_1.svg
 
-.. _ldap_dit_layout:
+
 
 LDAP DIT Layout
 ^^^^^^^^^^^^^^^
@@ -543,7 +543,7 @@ encryption key.
    memberPrincipal: host/{fqdn}@{realm}
    ipaPublicKey:: <DER encoded SubjectPublicKeyInfo>
 
-.. _handlers_reading_and_writing_keys:
+
 
 Handlers (reading and writing keys)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -614,7 +614,7 @@ management of Custodia keys or secrets. The replica installation user
 experience is simplified compared to the old procedure (i.e.
 ``ipa-replica-prepare`` is not needed, nor is the replica-file option).
 
-.. _how_to_test32:
+
 
 How to Test
 -----------

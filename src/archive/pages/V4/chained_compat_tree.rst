@@ -34,7 +34,7 @@ entries* or *duplicated twin entries*.
 Design
 ======
 
-.. _initial_situation:
+
 
 Initial situation
 -----------------
@@ -67,7 +67,7 @@ containers are replicated on all servers in a FreeIPA topology. The
 The entries in that container **are not** replicated to the others
 servers, instead each server manage its own set of mapped entries.
 
-.. _schema_compat_container:
+
 
 Schema Compat container
 ----------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ groups or computers) that is mapped
 
    GC_slapi_nis_img_schema_compat.png
 
-.. _formating_keyword_deref:
+
 
 Formating keyword: deref
 ----------------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ users/groups/computer that are in the DB**.
 
    GC_slapi_nis_img_SC_deref.png
 
-.. _primary_instance:
+
 
 Primary instance
 ----------------
@@ -138,7 +138,7 @@ The primary contains all FreeIPA posix entries
 
    GC_slapi_nis_img_sec_inst_overview.png
 
-.. _compat_chained_backend:
+
 
 Compat chained backend
 ----------------------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ secondary instance TBD. ACI evaluation is done locally
 mostly rely on group membership and we do not want to provision
 groups/users on secondary instance.
 
-.. _secondary_instance:
+
 
 Secondary instance
 ------------------
@@ -169,7 +169,7 @@ duplicate/transformed from entries that are in the primary instance
 computers) from the primary instance are stored in the secondary
 instance.
 
-.. _rfc2307_map_plugin:
+
 
 RFC2307 map plugin
 ----------------------------------------------------------------------------------------------
@@ -243,7 +243,7 @@ RFC2307 map plugin spawn a dedicated thread that
 -  Under the same transaction it updates the **users_cookie** that is
    kind of RUV
 
-.. _compat_backend:
+
 
 compat backend
 ----------------------------------------------------------------------------------------------
@@ -252,7 +252,7 @@ The compat backend on the secondary instance is read-only. Internal
 updates to that backend will need the flag
 *SLAPI_OP_FLAG_BYPASS_REFERRALS*.
 
-.. _formating_keyword_deref_1:
+
 
 Formating keyword deref
 ----------------------------------------------------------------------------------------------

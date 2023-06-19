@@ -53,7 +53,7 @@ on a trivial CGI application.
 We do not expect applications to drop their existing functionality that
 served them well, this is merely an additional possibility.
 
-.. _the_use_of_sssd:
+
 
 The use of sssd
 ---------------
@@ -102,7 +102,7 @@ To enable this method on typical Apache installation,
 **mod_auth_gssapi** or **mod_auth_kerb** module needs to be `installed
 and configured <Web_App_Authentication/Example_setup#Kerberos>`__.
 
-.. _application_change_remote_user:
+
 
 Application change: REMOTE_USER
 -------------------------------
@@ -133,7 +133,7 @@ mapping, the application will still work. (See below if the application
 requires that the user record has certain attributes besides login NOT
 NULL.)
 
-.. _other_authentication_modules:
+
 
 Other authentication modules
 ----------------------------
@@ -153,7 +153,7 @@ mod_ssl
 \                                
 ================================ ============================
 
-.. _host_and_service_based_access_control:
+
 
 Host and service based access control
 -------------------------------------
@@ -177,7 +177,7 @@ server, and set up host-based access control (HBAC) rule in FreeIPA to
 separate service, to only give access to a particular set or group of
 users.
 
-.. _hbac_rules:
+
 
 HBAC rules
 ----------------------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ Please also note that you will probably need to `disable the default
 allow_all HBAC rule <Howto/HBAC_and_allow_all>`__ for the mechanism to
 work properly.
 
-.. _pam_service:
+
 
 PAM service
 ----------------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@ Please consult the `example setup
 page <Web_App_Authentication/Example_setup#Host_.28and_service.29_based_access_control_for_Kerberos>`__
 for detailed configuration steps.
 
-.. _login_form_using_freeipa:
+
 
 Login form using FreeIPA
 ------------------------
@@ -341,7 +341,7 @@ The `example setup
 page <Web_App_Authentication/Example_setup#External_identities_for_login_form>`__
 has more details about the configuration.
 
-.. _additional_user_information:
+
 
 Additional user information
 ---------------------------
@@ -428,7 +428,7 @@ Login form-based                 mod_intercept_form_submit
 Note: sssd call also be configured to use different identity providers
 than FreeIPA but such setup is beyond the scope of this overview.
 
-.. _namespace_separation:
+
 
 Namespace Separation
 --------------------
@@ -505,7 +505,7 @@ individual issues and pull requests that introduced the feature. It is
 now documented in `Foreman
 manual <http://theforeman.org/manuals/1.6/index.html#5.7ExternalAuthentication>`__.
 
-.. _satellite_6:
+
 
 Satellite 6
 ----------------------------------------------------------------------------------------------
@@ -543,7 +543,7 @@ John Dennis.
 Videos
 ------
 
-.. _using_os_level_identity_authentication_and_access_control_for_web_applications:
+
 
 Using OS-level identity, authentication, and access control for Web applications
 ----------------------------------------------------------------------------------------------
@@ -554,7 +554,7 @@ Using OS-level identity, authentication, and access control for Web applications
    {{#ev:youtube|Hhy5__C-XFc}}
    Sadly, the first five minutes of the video are without sound.
 
-.. _identity_management_in_red_hat_enterprise_linux_web_application_authentication_series:
+
 
 Identity management in Red Hat Enterprise Linux: Web Application Authentication Series
 ----------------------------------------------------------------------------------------------
@@ -576,7 +576,7 @@ Django
    https://www.youtube.com/watch?v=62_jD-8zV4M
    {{#ev:youtube|62_jD-8zV4M}}
 
-.. _foreman_demo:
+
 
 Foreman demo
 ----------------------------------------------------------------------------------------------
@@ -589,7 +589,7 @@ Foreman demo
 Presentations
 -------------
 
-.. _external_and_federated_identities_on_the_web:
+
 
 External and Federated Identities on the Web
 ----------------------------------------------------------------------------------------------
@@ -599,7 +599,7 @@ External and Federated Identities on the Web
    (also as `PDF
    slides <http://www.adelton.com/docs/idm/external-and-federated-identities.pdf>`__)
 
-.. _using_os_level_identity_authentication_and_access_control_for_web_applications_1:
+
 
 Using OS-level identity, authentication, and access control for Web applications
 ----------------------------------------------------------------------------------------------
@@ -609,7 +609,7 @@ Using OS-level identity, authentication, and access control for Web applications
    (also as `PDF
    slides <http://www.adelton.com/docs/idm/os-auth-stack-for-web-applications.pdf>`__)
 
-.. _external_identity_and_authentication_providers_for_apache_http_server:
+
 
 External Identity and Authentication Providers For Apache HTTP Server
 ----------------------------------------------------------------------------------------------
@@ -619,7 +619,7 @@ External Identity and Authentication Providers For Apache HTTP Server
    (also as `PDF
    slides <http://www.adelton.com/docs/idm/apache-external-idm-auth.pdf>`__)
 
-.. _identity_management_scaling_out_and_up:
+
 
 Identity Management Scaling Out and Up
 ----------------------------------------------------------------------------------------------
@@ -629,7 +629,7 @@ Identity Management Scaling Out and Up
    (also as `PDF
    slides <http://www.adelton.com/docs/idm/idm-scaling-out-and-up.pdf>`__)
 
-.. _external_authentication_for_django_projects:
+
 
 External Authentication for Django Projects
 ----------------------------------------------------------------------------------------------

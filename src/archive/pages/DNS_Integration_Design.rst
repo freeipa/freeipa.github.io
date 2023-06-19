@@ -13,7 +13,7 @@ the machine with DNS server using
 the authenticity established, we will only allow the machine to edit
 it's own DNS record. The changes will then be stored in LDAP.
 
-.. _dynamic_updates_with_gss_tsig:
+
 
 Dynamic updates with GSS-TSIG
 -----------------------------
@@ -24,7 +24,7 @@ Protocol. The GSS-TSIG is a framework of GSS-API to provide
 authentication, integrity and confidentiality. It is defined in RFC
 3645.
 
-.. _support_in_dnspython:
+
 
 Support in dnspython
 ----------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ support for GSS-TSIG. As a workaround, we could just make a simple
 wrapper for the nsupdate utility, but in the long-term, we should make a
 patch and work with upstream community on its adoption.
 
-.. _storing_dns_records_in_ldap:
+
 
 Storing DNS records in LDAP
 ---------------------------
@@ -52,7 +52,7 @@ BIND. We will patch BIND in such a way that these drivers can be loaded
 dynamically. This will allow us better control of schema we use and we
 will ship the driver ourselves.
 
-.. _ldap_driver:
+
 
 LDAP driver
 ----------------------------------------------------------------------------------------------
@@ -371,7 +371,7 @@ Schema <http://www.venaas.no/ldap/bind-sdb/dnszone-schema.txt>`__.
 | ``   )``
 | ``)``
 
-.. _see_also:
+
 
 See also
 --------
@@ -379,7 +379,7 @@ See also
 -  `Dynamic updates with
    GSS-TSIG <FreeIPAv2:Dynamic_updates_with_GSS-TSIG>`__
 
-.. _useful_links:
+
 
 Useful links
 ------------

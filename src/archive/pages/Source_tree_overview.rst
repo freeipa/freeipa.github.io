@@ -35,13 +35,12 @@ happen but this ensured that there would be fewer surprises.
 This implementation centered around a framework that defined the basic
 rules for a plugable architecture:
 
-- A base set of argument and option types including validators - A
-defintion of inputs and outputs - A plugin execution structure that
-consisted of pre-operation, execution, post-operation and exception
-handling - Centralized error handling with control over public and
-private exceptions to prevent information disclosure - Plugin
-extensibility to provide a way to extend an existing plugin without
-having to override it - A set of CRUD rules
+- A base set of argument and option types including validators 
+- A defintion of inputs and outputs 
+- A plugin execution structure that consisted of pre-operation, execution, post-operation and exception handling 
+- Centralized error handling with control over public and private exceptions to prevent information disclosure 
+- Plugin extensibility to provide a way to extend an existing plugin without having to override it 
+- A set of CRUD rules
 
 The long-term plan was always to break ipalib out as a separate package
 to live alongside IPA. We gave up on this eventually in order to speed

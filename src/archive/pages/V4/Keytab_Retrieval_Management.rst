@@ -31,7 +31,7 @@ Retrieval is associated with **read_keys** subtype, creation with
 expects principal and a list of user or groups which should be allowed
 /disallowed to retrieve/create keytab of that principal.
 
-.. _access_control:
+
 
 Access Control
 ----------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ CLI
 | `` ipa service-allow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
 | `` ipa service-disallow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
 
-.. _how_to_test21:
+
 
 How to Test
 -----------
@@ -93,7 +93,7 @@ See `Keytab Retrieval feature <V4/Keytab_Retrieval>`__. Only use the CLI
 or Web UI interface instead of ldapmodify to delegate the keytab
 manipulation privileges.
 
-.. _test_plan21:
+
 
 Test Plan
 ---------

@@ -107,14 +107,14 @@ Use Cases
    heavy weight solutions like containers or virtual machines. Instead I
    prefer virtual envs with pinned package versions.
 
-.. _lead_engineers:
+
 
 Lead Engineers
 ----------------------------------------------------------------------------------------------
 
 -  Christian Heimes (IPA/CS)
 
-.. _supporting_engineers:
+
 
 Supporting Engineers
 ----------------------------------------------------------------------------------------------
@@ -122,12 +122,12 @@ Supporting Engineers
 -  Adam Young (OpenStack Platform)
 -  Rob Crittenden (OpenStack Platform)
 
-.. _design_implementation:
+
 
 Design & Implementation
 -----------------------
 
-.. _api_for_local_configuration_directory:
+
 
 API for local configuration directory
 ----------------------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ Cons
 
 -  It's yet another way to set the ``confdir`` option.
 
-.. _tickets_prs:
+
 
 Tickets / PRs
 ^^^^^^^^^^^^^
@@ -215,7 +215,7 @@ Tickets / PRs
 
    -  https://github.com/freeipa/freeipa/pull/180
 
-.. _add_package_dependencies_for_distribution_with_pip:
+
 
 Add package dependencies for distribution with pip
 ----------------------------------------------------------------------------------------------
@@ -228,7 +228,7 @@ packages need to provide a list of install requirements. Setuptools
 include the requirements in the packages'. Pip downloads and install the
 requirements automatically.
 
-.. _build_and_runtime_requirements:
+
 
 Build and runtime requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -247,7 +247,7 @@ provide all features of lxml.etree. That's not a problem since FreeIPA
 uses only basic features and no advanced features like XSLT or complex
 XPath. **FIXED** ipaclient no longer imports lxml.
 
-.. _fedora_rhel:
+
 
 Fedora / RHEL
 '''''''''''''
@@ -301,14 +301,14 @@ Build dependencies:
 -  [STRIKEOUT:libxml2-dev]
 -  [STRIKEOUT:libxslt1-dev]
 
-.. _pros_1:
+
 
 Pros
 ^^^^
 
 -  FreeIPA's client libraries become easy installable in a virtual env.
 
-.. _cons_1:
+
 
 Cons
 ^^^^
@@ -322,7 +322,7 @@ Remarks
 python-nss does not support wheels yet,
 https://bugzilla.redhat.com/show_bug.cgi?id=1389739
 
-.. _tickets_prs_1:
+
 
 Tickets / PRs
 ^^^^^^^^^^^^^
@@ -335,7 +335,7 @@ Tickets / PRs
 -  Use xml.etree instead of lxml in odsmgr.py
    https://fedorahosted.org/freeipa/ticket/6469
 
-.. _ipaplatform_auto_configuration:
+
 
 ipaplatform auto-configuration
 ----------------------------------------------------------------------------------------------
@@ -364,7 +364,7 @@ I'm proposing two changes:
    package allows third parties to provide external packages with
    platform definitions, e.g. a ``ipaplatform.debian`` package.
 
-.. _pros_2:
+
 
 Pros
 ^^^^
@@ -373,14 +373,14 @@ Pros
 -  The platform selector falls back to related platform identifiers.
 -  Third parties can provide pip install-able platform modules.
 
-.. _cons_2:
+
 
 Cons
 ^^^^
 
 -  The implementation becomes a bit more complicated.
 
-.. _remarks_1:
+
 
 Remarks
 ^^^^^^^
@@ -392,7 +392,7 @@ pylint is not able to understand meta import hooks. An AstroidBuilder
 plugin for pylint turned out to be too fragile. My new implementation
 uses a facade module that is replaced with the actual module.
 
-.. _tickets_prs_2:
+
 
 Tickets / PRs
 ^^^^^^^^^^^^^
@@ -401,7 +401,7 @@ Tickets / PRs
 -  Select ipaplatform at runtime
    https://fedorahosted.org/freeipa/ticket/6474
 
-.. _ipaplatform_debian_support:
+
 
 ipaplatform Debian support
 ----------------------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ deployment on other distributions, FreeIPA should include Timo Aalton's
 patch for ``ipaplatform.debian``. There is demand for Debian support
 from OpenStack side.
 
-.. _tickets_prs_3:
+
 
 Tickets / PRs
 ^^^^^^^^^^^^^
@@ -420,7 +420,7 @@ Tickets / PRs
 -  Include ipaplatform.debian
    https://fedorahosted.org/freeipa/ticket/6475
 
-.. _pypi_packages:
+
 
 PyPI packages
 ----------------------------------------------------------------------------------------------

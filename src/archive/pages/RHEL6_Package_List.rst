@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _srpm_packages:
+
 
 SRPM Packages
 =============

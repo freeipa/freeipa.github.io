@@ -46,7 +46,7 @@ feature as released in FreeIPA v3.3. The difference between FreeIPA v3.3
 and v3.0 is in the way how credentials to access information from a
 trusted forest are used.
 
-.. _freeipa_v3.0_and_v3.3:
+
 
 FreeIPA v3.0 and v3.3
 ---------------------
@@ -112,7 +112,7 @@ that Active Directory Domain Controllers do trust FreeIPA realm and uses
 host/ipa.master@IPA.REALM Kerberos ticket to directly resolve AD users
 and groups.
 
-.. _security_of_two_way_trust_solution:
+
 
 Security of two-way trust solution
 ----------------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ with some other solutions, it is still too fragile for production. This
 shortcoming is addressed by `V4/Trust agents <V4/Trust_agents>`__
 feature design.
 
-.. _new_design:
+
 
 New design
 ----------
@@ -228,7 +228,7 @@ support one-way trust:
    script that would use TDO credentials to populate information about
    trusted domains
 
-.. _details_about_oddjobd_triggered_script:
+
 
 Details about oddjobd-triggered script
 --------------------------------------
@@ -293,7 +293,7 @@ via ipa-adtrust-install run on any other IPA master. At least SSSD
 version 1.13 on IPA master is required to be able to perform as a trust
 agent.
 
-.. _web_ui:
+
 
 Web UI----
 

@@ -1,4 +1,4 @@
-.. _installing_binaries:
+
 
 Installing Binaries
 ===================
@@ -21,7 +21,7 @@ To install unreleased version:
 
    % yum --enablerepo=updates-testing install 389-ds-base
 
-.. _building_from_source_code:
+
 
 Building from Source Code
 =========================
@@ -76,7 +76,7 @@ Execute the following command to build & install:
    % make
    % make install
 
-.. _building_rpm:
+
 
 Building RPM
 ============

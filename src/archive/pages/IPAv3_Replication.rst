@@ -1,4 +1,4 @@
-.. _prepare_replica:
+
 
 Prepare Replica
 ===============
@@ -13,7 +13,7 @@ Execute the following on the master:
 
    % scp /var/lib/ipa/replica-info-ipa2.domain1.com.gpg root@ipa2.domain1.com:/var/lib/ipa/
 
-.. _configure_replica:
+
 
 Configure Replica
 =================
@@ -30,7 +30,7 @@ If you need to uninstall replica:
 
    % ipa-server-install --uninstall
 
-.. _enable_change_log:
+
 
 Enable Change Log
 =================

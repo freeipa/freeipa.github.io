@@ -18,7 +18,7 @@ which consists of distribution of CA certificates to IPA clients.
 Use Cases
 ---------
 
-.. _automated_ca_certificate_renewal:
+
 
 Automated CA certificate renewal
 ----------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ and subject name as the old certificate.
 
 This only works for self-signed CA certificates in CA-ful installs.
 
-.. _manual_ca_certificate_renewal:
+
 
 Manual CA certificate renewal
 ----------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ use the same keypair and subject name as the old certificate.
 
 This works for any CA certificate in CA-ful installs.
 
-.. _manual_install_of_ca_certificate:
+
 
 Manual install of CA certificate
 ----------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ in the domain (**phase 2**).
 Design
 ------
 
-.. _shared_certificate_store:
+
 
 Shared certificate store
 ----------------------------------------------------------------------------------------------
@@ -64,24 +64,26 @@ Shared certificate store
 CA certificates will be stored in entries under
 ``cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*:
 
-| ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
-| ``objectClass: ipaCertificate``
-| ``objectClass: pkiCA``
-| ``objectClass: ipaKeyPolicy``
-| ``cn: cn=EXAMPLE.COM IPA CA``
-| ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
-| ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
-| ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
-| ``ipaPublicKey: ``\ *``DER-encoded public key``*
-| ``ipaConfigString: ipaCA``
-| ``ipaConfigString: compatCA``
-| ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
-| ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
-| ``ipaKeyTrust: trusted``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
+::
+
+   | ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
+   | ``objectClass: ipaCertificate``
+   | ``objectClass: pkiCA``
+   | ``objectClass: ipaKeyPolicy``
+   | ``cn: cn=EXAMPLE.COM IPA CA``
+   | ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
+   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
+   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
+   | ``ipaPublicKey: ``\ *``DER-encoded public key``*
+   | ``ipaConfigString: ipaCA``
+   | ``ipaConfigString: compatCA``
+   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
+   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
+   | ``ipaKeyTrust: trusted``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
 
 Each entry represents a set of certificates using a single subject name
 and public key and contains trust policy for the set of certificates
@@ -215,7 +217,7 @@ The new schema used for the entries is:
 | ``                MAY  ( ipaKeyTrust $ ipaKeyUsage $ ipaExtKeyUsage )``
 | ``                X-ORIGIN 'IPA v4')``
 
-.. _automatic_renewal_of_ipa_ca_certificate:
+
 
 Automatic renewal of IPA CA certificate
 ----------------------------------------------------------------------------------------------
@@ -226,7 +228,7 @@ certificate is signed by an external CA, the renewal attempt will fail
 with an error, advising the administrator to renew the certificate
 manually. The error is syslogged with ALERT severity.
 
-.. _ca_certificate_management_utility:
+
 
 CA certificate management utility
 ----------------------------------------------------------------------------------------------
@@ -265,7 +267,7 @@ There will be new utility to manage CA certificates,
       Directory manager password. Required for external CA renewal step
       2.
 
--  ``install``\ *``options``*\ ````\ *``file``*
+-  ``install``\ *``options``*\  \ *``file``*
 
    Install CA certificate from a PEM file.
    The available options are:
@@ -278,7 +280,7 @@ There will be new utility to manage CA certificates,
 
       Trust flags for the certificate in NSS / certutil format.
 
-.. _client_certificate_update_utility:
+
 
 Client certificate update utility
 ----------------------------------------------------------------------------------------------
@@ -343,12 +345,12 @@ to look for CA certificates both in this entry and in
 ``cn=CAcert,cn=ipa,cn=etc,``\ *``suffix``* for compatibility with old
 servers.
 
-.. _how_to_test13:
+
 
 How to Test
 -----------
 
-.. _automated_ca_certificate_renewal_1:
+
 
 Automated CA certificate renewal
 ----------------------------------------------------------------------------------------------
@@ -382,7 +384,7 @@ Automated CA certificate renewal
       CA_WORKING status
    #. Check that an error was syslogged with ALERT severity
 
-.. _manual_ca_certificate_renewal_1:
+
 
 Manual CA certificate renewal
 ----------------------------------------------------------------------------------------------
@@ -413,7 +415,7 @@ Manual CA certificate renewal
       certificate were added to the LDAP certificate store and to the
       ``/etc/pki/pki-tomcat/alias`` NSS database
 
-.. _manual_install_of_ca_certificate_1:
+
 
 Manual install of CA certificate
 ----------------------------------------------------------------------------------------------
@@ -422,7 +424,7 @@ Manual install of CA certificate
 #. Run ``ipa-cacert-manage install`` to install the CA certificate
 #. Check that the certificate was added to the LDAP certificate store
 
-.. _manual_update_of_local_ca_certificate_files:
+
 
 Manual update of local CA certificate files
 ----------------------------------------------------------------------------------------------

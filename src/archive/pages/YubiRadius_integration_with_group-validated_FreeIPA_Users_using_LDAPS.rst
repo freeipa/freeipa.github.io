@@ -34,7 +34,7 @@ follows.
 
 ``Example Users: euser1, euser2, euser3, euser4, euser5``
 
-.. _step_1._create_our_group_to_be_used_for_user_validation:
+
 
 Step 1. Create our Group to be used for user validation
 -------------------------------------------------------
@@ -52,7 +52,7 @@ On your FreeIPA server, run the following:
 | ``GID: 1870200005``
 | ``[root@ds01 ~]#``
 
-.. _step_2._add_users_to_your_new_group.:
+
 
 Step 2. Add users to your new group.
 ------------------------------------
@@ -72,7 +72,7 @@ just created.
 | ``-------------------------``
 | ``[root@ds01 ~]#``
 
-.. _step_3_create_an_ldap_bind_account.:
+
 
 Step 3, Create an LDAP bind account.
 ------------------------------------
@@ -82,14 +82,16 @@ Create a text file called "yubiradius.ldif" with the following content.
 Be sure to change the password to something secure. In this example I
 have used "redhat123"
 
-| ``dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| ``changetype: add``
-| ``objectclass: account``
-| ``objectclass: simplesecurityobject``
-| ``uid: yubiradius``
-| ``userPassword: redhat123``
-| ``passwordExpirationTime: 20380119031407Z``
-| ``nsIdleTimeout: 0 ``
+::
+
+   | ``dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com``
+   | ``changetype: add``
+   | ``objectclass: account``
+   | ``objectclass: simplesecurityobject``
+   | ``uid: yubiradius``
+   | ``userPassword: redhat123``
+   | ``passwordExpirationTime: 20380119031407Z``
+   | ``nsIdleTimeout: 0 ``
 
 Now, import yubiradius.ldif into FreeIPA. You will need to enter your
 Directory Manager password, as you are making additions to LDAP.
@@ -100,7 +102,7 @@ Directory Manager password, as you are making additions to LDAP.
 
 ``[root@ds01 ~]#``
 
-.. _step_4._add_your_yubiradius_servers_hostname_to_our_dns_environment._if_you_are_using_ipa_to_manage_your_dns_do_the_following.:
+
 
 Step 4. Add your YubiRadius server's hostname to our DNS environment. If you are using IPA to manage your DNS, do the following.
 --------------------------------------------------------------------------------------------------------------------------------
@@ -113,7 +115,7 @@ Step 4. Add your YubiRadius server's hostname to our DNS environment. If you are
 | ``PTR record: yubiradius01.example.com.``
 | ``[root@ds01 ~]#``
 
-.. _step_5._start_to_configure_your_yubiradius_through_the_webmin_management_page.:
+
 
 Step 5. Start to configure your YubiRadius through the webmin management page.
 ------------------------------------------------------------------------------
@@ -135,7 +137,7 @@ See attached screen shot
 
    Webmin_Login.png
 
-.. _step_6._create_a_domain.:
+
 
 Step 6. Create a domain.
 ------------------------
@@ -146,7 +148,7 @@ button.
 
 In my example, it is "example.com"
 
-.. _step_7._import_users_from_freeipa:
+
 
 Step 7. Import Users from FreeIPA
 ---------------------------------
@@ -208,7 +210,7 @@ See attached screen shot
 Once this has completed, click "Return to previous page", and then click
 the "Users/Groups" tab at the top.
 
-.. _step_8._assign_yubikeys_to_your_users:
+
 
 Step 8. Assign Yubikey(s) to your User(s)
 -----------------------------------------
@@ -242,7 +244,7 @@ See attached screen shot
 
    UserList.png
 
-.. _step_9._verify_your_users_radius_authentication.:
+
 
 Step 9. Verify your User's Radius authentication.
 -------------------------------------------------

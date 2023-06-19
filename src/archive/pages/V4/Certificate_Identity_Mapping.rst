@@ -129,7 +129,7 @@ All the options are optional.
 -  PRIORITY: integer >= 0. The higher the value, the lower the priority.
    Rules with the same priority will all be considered.
 
-.. _user_mapping:
+
 
 User mapping
 ^^^^^^^^^^^^
@@ -204,7 +204,7 @@ This document concentrates on the management part of the feature
 (configuration, provisioning of user certificates and mappings). The
 design for SSSD modifications is out of scope.
 
-.. _high_level_schema:
+
 
 High Level schema
 ----------------------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ protect the data.
 LDAP
 ----------------------------------------------------------------------------------------------
 
-.. _objectclasses_and_attributes:
+
 
 Objectclasses and attributes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -273,7 +273,7 @@ Example
 | ``objectclass: ipacertmapobject``
 | ``ipacertmapdata: X509:<I>CN=Certificate Authority,O=IPA.DEVEL<S>CN=certmaptest.ipa.devel,O=IPA.DEVEL``
 
-.. _access_control:
+
 
 Access control
 ----------------------------------------------------------------------------------------------

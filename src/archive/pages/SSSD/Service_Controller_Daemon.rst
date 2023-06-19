@@ -10,7 +10,7 @@ service provided by the SSSD may render the machine unusable. To avoid
 this, the SSSD will provide a special Monitor daemon that will maintain
 the lifecycle of all other SSSD services.
 
-.. _main_functions:
+
 
 Main Functions
 --------------
@@ -30,7 +30,7 @@ Additional goals of the Monitor daemon are as follows:
 -  It should not require the installation of any dependencies that are
    not installed by default on the supported client platforms.
 
-.. _internal_logic:
+
 
 Internal Logic
 --------------
@@ -55,7 +55,7 @@ be:
 
 For further detail, see the Configuration Store section below.
 
-.. _service_control:
+
 
 Service Control
 ----------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ a private D-BUS message to the process, triggering a service update.
 This may be an alteration of a particular option to the service, or it
 may trigger the service to shut down completely.
 
-.. _service_monitoring:
+
 
 Service Monitoring
 ----------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ The child services will be monitored in two ways.
 Appendix
 --------
 
-.. _configuration_store:
+
 
 Configuration Store
 ----------------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ configuration store will be represented thusly:
 
 Further configuration options pending.
 
-.. _d_bus_methods:
+
 
 D-BUS Methods
 ----------------------------------------------------------------------------------------------

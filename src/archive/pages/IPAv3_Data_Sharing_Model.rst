@@ -5,7 +5,7 @@ This document describes the high-level design of IPA and Samba
 integration. The integration is designed such that these applications
 represent a single domain/realm by sharing their data.
 
-.. _shared_backend:
+
 
 Shared Backend
 ==============
@@ -27,7 +27,7 @@ The unified DIT is described in `this
 page <Obsolete:IPAv3_Unified_DIT>`__. The synchronization process is
 described in `this page <Obsolete:IPAv3_Synchronization_Process>`__.
 
-.. _shared_objects:
+
 
 Shared Objects
 ==============
@@ -53,7 +53,7 @@ linked using the GUID.
 The object mapping is described in `this
 page <Obsolete:IPAv3_DIT_Mapping>`__.
 
-.. _shared_attributes:
+
 
 Shared Attributes
 =================

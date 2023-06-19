@@ -11,7 +11,7 @@ Fedora or RHEL repo.
 Details about build system can be found in the `V4/Build system
 refactoring <V4/Build_system_refactoring>`__ design page.
 
-.. _the_version_file:
+
 
 The VERSION file
 ----------------
@@ -26,7 +26,7 @@ you are working from.
 To build a release, define ``IPA_VERSION_IS_GIT_SNAPSHOT`` as ``no`` in
 VERSION.m4 file before you execute the build.
 
-.. _building_from_the_git:
+
 
 Building from the git
 ---------------------
@@ -99,7 +99,7 @@ that all your changes are committed.
 
 `` $ git clean -dfx``
 
-.. _running_freeipa_in_tree:
+
 
 Running FreeIPA In-tree
 -----------------------

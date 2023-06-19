@@ -12,7 +12,7 @@ document <http://www.freeipa.org/page/V4/DNS_Location_Mechanism>`__
 Test Plan
 =========
 
-.. _dns_location:
+
 
 DNS Location
 ------------

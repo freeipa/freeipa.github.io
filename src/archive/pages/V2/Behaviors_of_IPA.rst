@@ -2,14 +2,14 @@
 
 Back to `Second Round Of UI design <V2/Second_Round_Of_UI_design>`__.
 
-.. _ipa_ux_notes_and_behaviors_for_screens:
+
 
 IPA UX Notes and Behaviors for Screens
 ======================================
 
 -  V1 – July 20, 2010 at 8:45am.
 
-.. _types_of_screens:
+
 
 Types of Screens
 ----------------
@@ -51,7 +51,7 @@ So far, these are the following classes of screens:
    adding a certificate to an object. They are: 131a, 131b, 131c, 161a,
    161b, and 161c.
 
-.. _common_actions:
+
 
 Common Actions
 --------------
@@ -80,7 +80,7 @@ Following are some overall actions that are common through all the site:
 -  Find String Wildcaring: Standard wildcards (? and \*) should apply in
    find strings
 
-.. _common_screen_areas:
+
 
 Common Screen Areas
 ----------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ Product logo, and an indicator who is logged in.
 -  The user name is itself a link, and clicking on that link will take
    the user to their own user identity entry page.
 
-.. _main_nav:
+
 
 Main Nav
 ^^^^^^^^
@@ -106,7 +106,7 @@ Identities, Policis or IPA Configuration.
 
 -  NB: We need to describe behavior when user clicks on main nav...
 
-.. _secondary_nav:
+
 
 Secondary Nav
 ^^^^^^^^^^^^^
@@ -118,7 +118,7 @@ and Services.
    page for that type of object, subject to the “dirty data” policy
    described later.
 
-.. _page_title:
+
 
 Page Title
 ^^^^^^^^^^
@@ -131,7 +131,7 @@ Help
 The bottom of every page has page-specific help reminders for functions
 on that page.
 
-.. _element_navigator:
+
 
 Element Navigator
 ^^^^^^^^^^^^^^^^^
@@ -143,12 +143,12 @@ Clicking on any element in the element navigator will bring the user to
 that page. However, a check is first done to see if there is any “dirty”
 data on screen. This is described later.
 
-.. _selection_screens:
+
 
 Selection Screens
 -----------------
 
-.. _element_pages_details:
+
 
 Element Pages: Details
 ----------------------
@@ -172,7 +172,7 @@ Common behaviors
 -  Long screens are: 111, 131, and 161
 -  Short screens are 119, 139, and 151
 
-.. _create_object_pop_ups:
+
 
 Create Object Pop Ups
 ---------------------
@@ -197,7 +197,7 @@ Common behaviors:
    the calling page, with an error message placed in the calling
    screen's message area.
 
-.. _create_host_and_create_service_130a_and_160a:
+
 
 Create Host and Create Service (130a and 160a)
 ----------------------------------------------------------------------------------------------
@@ -226,7 +226,7 @@ NB: These instructions may be modified when discussion about the DNS
 section of IPA is fleshed out and we decide if/how to allow users to
 automatically add new host to DNS
 
-.. _add_to_set_pop_ups:
+
 
 Add to Set Pop Ups
 ------------------
@@ -280,7 +280,7 @@ Common behaviors:
    a race condition to add the item – the message in the calling screen
    should be advisory only, and not report an error.
 
-.. _add_host_to_host_group_or_net_group_pop_ups_139a_and_154a:
+
 
 Add Host to Host Group or Net Group Pop-ups (139a and 154a)
 ----------------------------------------------------------------------------------------------
@@ -301,12 +301,12 @@ Add Host to Host Group or Net Group Pop-ups (139a and 154a)
 NB: What do we do if there is an unmanaged host with name foo, and a
 user later adds a managed host with the name foo. Do we allow it?
 
-.. _specific_screens:
+
 
 Specific Screens
 ----------------
 
-.. _decouple_private_group_118a:
+
 
 Decouple Private Group (118a)
 ----------------------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ Decouple Private Group (118a)
    unchecked
 -  When the user checks the box, the “Decouple” button becomes active
 
-.. _group_details_119:
+
 
 Group Details (119)
 ----------------------------------------------------------------------------------------------

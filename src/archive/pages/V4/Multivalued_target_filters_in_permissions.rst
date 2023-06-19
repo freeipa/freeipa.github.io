@@ -56,7 +56,7 @@ the --all option:
 Design
 ------
 
-.. _multi_valued_ipapermtargetfilter:
+
 
 Multi-valued ipapermtargetfilter
 ----------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ The ``ipapermtargetfilter`` attribute, and its corresponding
 is present, they all need to apply -- they will be joined by ``(& )`` to
 create the ACI.
 
-.. _multivalued___memberof:
+
 
 Multivalued --memberof
 ----------------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ On output, if the ACI location matches an eligible object type, and
 proper objectclass filters are present, a corresponding type will be
 reported.
 
-.. _canonical_objectclasses_for_filter:
+
 
 Canonical objectclasses for filter
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +135,7 @@ of this declaration will make the type usable in a permission (in
 contrast with the current situation, where a list of types is hardcoded
 in the permission & ACI plugins).
 
-.. _raw_targetfilter_vs._extratargetfilter:
+
 
 Raw targetfilter vs. extratargetfilter
 ----------------------------------------------------------------------------------------------

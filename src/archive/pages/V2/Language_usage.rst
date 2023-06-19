@@ -2,12 +2,12 @@
 
 Back to `Second Round Of UI design <V2/Second_Round_Of_UI_design>`__.
 
-.. _general_language_usage:
+
 
 General Language Usage
 ----------------------
 
-.. _containing_vs._contained:
+
 
 Containing vs. Contained
 ------------------------
@@ -111,7 +111,7 @@ Netgroup foo")
    -  Group: Enrollment in Netgroups
    -  Group: Details
 
-.. _enrollment_or_not_enrollment:
+
 
 Enrollment? Or Not Enrollment?
 ----------------------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ Do we use:
    Affilate(s) and Membership
    Constituent(s) and Membership
 
-.. _phrases_from_7_july_skeletons:
+
 
 Phrases from 7-July Skeletons
 -----------------------------

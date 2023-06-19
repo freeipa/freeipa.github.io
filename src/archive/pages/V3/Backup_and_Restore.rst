@@ -27,12 +27,12 @@ Full metal backup is left as an exercise for the system administrator.
 The only requirement is that the backup be done with the IPA services
 offline.
 
-.. _use_cases110:
+
 
 Use Cases
 ---------
 
-.. _catastrophic_hardware_failure_on_a_machine.:
+
 
 Catastrophic hardware failure on a machine.
 ----------------------------------------------------------------------------------------------
@@ -52,13 +52,13 @@ An optional method would be:
 
 This carries some limited risk that the packages do not match exactly,
 or that the administrator forgets to install some optional packages like
-bind, bind-dyndb-ldap, samba4-*, etc.
+bind, bind-dyndb-ldap, samba4-\*, etc.
 
 Once restored, replication will handle applying any missing changes. The
 replication protocol will detect if a replica is too out of date. In
 this case a re-init would be required.
 
-.. _failed_upgrade_on_an_isolated_machine.:
+
 
 Failed upgrade on an isolated machine.
 ----------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ In other words we could only restore the files we know about. The data
 is another matter, see `Returning to a known good
 state <V3/Backup_and_Restore#Returning_to_a_known_good_state>`__
 
-.. _restore_accidentally_deleted_data:
+
 
 Restore Accidentally deleted data
 ----------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ investigated with help from the 389-ds team. The issues are:
 -  How automatically to deal with membership and other relationships
 -  What to do when restoring managed entries
 
-.. _returning_to_a_known_good_state:
+
 
 Returning to a known good state
 ----------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ The act of re-initializing a master will re-enable its agreement.
 Design
 ------
 
-.. _basic_process:
+
 
 Basic Process
 ----------------------------------------------------------------------------------------------
@@ -129,12 +129,12 @@ The four possibilities are:
 
 This design covers only the middle two.
 
-.. _full_ipa_backup:
+
 
 Full IPA backup
 ----------------------------------------------------------------------------------------------
 
-.. _files_for_full_ipa_backup:
+
 
 Files for full IPA backup
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -150,7 +150,7 @@ Logs will be optionally backed up and restored.
 
 The full list is included at the end of this document.
 
-.. _full_system_backup_process_offline:
+
 
 Full System Backup Process (offline)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -161,14 +161,16 @@ services need to be stopped in order to ensure a safe backup.
 This will include the LDAP DB files so this is a standalone backup. A
 scripted process would include this:
 
-| ``# ipactl stop``
-| ``# tar --xattrs --selinux -czf /path/to/backup ``
-| ``# ipactl start``
+::
+
+   | ``# ipactl stop``
+   | ``# tar --xattrs --selinux -czf /path/to/backup ``
+   | ``# ipactl start``
 
 Note that this a simplified view and doesn't include the metadata we
 will package as well.
 
-.. _full_system_restore_process:
+
 
 Full System Restore Process
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -227,7 +229,7 @@ cases. An option for ipa-restore will allow one to conditionally restore
 instance data if needed. The possible backends are userRoot (basically
 $SUFFIX) and o=ipaca.
 
-.. _data_backup_restore_process_online:
+
 
 Data Backup & Restore Process (online)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -238,28 +240,28 @@ we will not be required to provide the DM password.
 The default should be to back up and restore both instances (if
 installed) or both the IPA (userRoot) and dogtag (ipara) backends.
 
-.. _file_naming_convention:
+
 
 File Naming Convention
 ----------------------------------------------------------------------------------------------
 
 Files will be stored in /var/lib/ipa/backup
 
-.. _full_backups:
+
 
 Full Backups
 ^^^^^^^^^^^^
 
 ipa-full-%Y-%m-%d-%H-%M-%S.bak
 
-.. _data_backups:
+
 
 Data Backups
 ^^^^^^^^^^^^
 
 ipa-data--%Y-%m-%d-%H-%M-%S.bak
 
-.. _version_wrapper:
+
 
 Version wrapper
 ----------------------------------------------------------------------------------------------
@@ -281,7 +283,7 @@ We will prevent full restores on a different host.
 
 Data restore should be allowed on any host.
 
-.. _restore_validation:
+
 
 Restore Validation
 ----------------------------------------------------------------------------------------------
@@ -289,7 +291,7 @@ Restore Validation
 Backing up is easy, restoring is hard, especially verifying that you
 actually backed everything up (and restored it properly).
 
-.. _full_restoration:
+
 
 Full restoration
 ^^^^^^^^^^^^^^^^
@@ -299,7 +301,7 @@ Full restoration
 #. ipa-server-install
 #. Restore backup
 
-.. _data_restoration:
+
 
 Data restoration
 ^^^^^^^^^^^^^^^^
@@ -357,7 +359,7 @@ In fact, we may want to consider recommending a reboot to be sure things
 are in a good state, or we may need to think about extending ipactl to
 include other daemons.
 
-.. _more_on_partial_restores:
+
 
 More on partial restores
 ----------------------------------------------------------------------------------------------
@@ -393,12 +395,12 @@ Here is a list of some things to test
 -  Verify that replication is still working, and working with dogtag as
    well
 
-.. _open_questions:
+
 
 Open Questions
 ----------------------------------------------------------------------------------------------
 
-.. _size_of_backup:
+
 
 Size of backup?
 ^^^^^^^^^^^^^^^
@@ -408,14 +410,14 @@ determine if there is adequate space before starting the backup? We may
 be able to stat each file, sum the size, and check. It would just take a
 bit of time and I/O.
 
-.. _encrypt_backup_files:
+
 
 Encrypt backup files?
 ^^^^^^^^^^^^^^^^^^^^^
 
 Should we prompt for and/or encrypt with gpg the backup files? **Yes**
 
-.. _should_i_delete_everything_before_doing_a_restore:
+
 
 Should I delete everything before doing a restore?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -434,7 +436,7 @@ for them on reinstall.
 Implementation
 --------------
 
-.. _full_restore:
+
 
 Full Restore
 ----------------------------------------------------------------------------------------------
@@ -451,7 +453,7 @@ Uninstall
 The backup files are NOT removed on uninstall. When it comes to data, I
 prefer not to delete things automatically.
 
-.. _development_notes_semi_interesting_testing:
+
 
 Development notes (semi-interesting testing)
 ----------------------------------------------------------------------------------------------
@@ -461,7 +463,7 @@ things. Here are those things and the outcomes. I'm not sure if these
 will ever be eventually interesting or helpful, but I don't want to lose
 anything.
 
-.. _backup_uninstall_reinstall_restore_just_the_ldap_server:
+
 
 Backup, uninstall, reinstall, restore JUST the LDAP server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -469,27 +471,29 @@ Backup, uninstall, reinstall, restore JUST the LDAP server
 So I wanted to verify that the restoration actually worked, so what I
 did was:
 
-#. ipa-server-install ...
-#. kinit admin
-#. ipa user-add tuser1
-#. ipa user-add tuser2
-#. db2bak
-#. ipa-server-install --uninstall -U
-#. ipa-server-install (same options as above)
-#. bak2db
-#. ipa-getkeytab -k /etc/dirsrv/ds.keytab -p ldap/`hostname\` -s
-   \`hostname\` -D 'cn=directory manager' -w password
-#. service dirsrv restart
-#. kdestroy
-#. kinit admin
-#. ipa-getkeytab -k /etc/httpd/conf/ipa.keytab -p HTTP/`hostname\` -s
-   \`hostname\`
-#. ipa-getkeytab -k /etc/krb5.keytab -p host/`hostname\` -s \`hostname\`
-#. ipactl restart
-#. service sssd restart
-#. ipa user-show admin
-#. ipa user-find (confirm that I have the 2 new users)
-#. id tuser1 (to confirm that sssd is working)
+::
+
+   #. ipa-server-install ...
+   #. kinit admin
+   #. ipa user-add tuser1
+   #. ipa user-add tuser2
+   #. db2bak
+   #. ipa-server-install --uninstall -U
+   #. ipa-server-install (same options as above)
+   #. bak2db
+   #. ipa-getkeytab -k /etc/dirsrv/ds.keytab -p ldap/`hostname\` -s
+      \`hostname\` -D 'cn=directory manager' -w password
+   #. service dirsrv restart
+   #. kdestroy
+   #. kinit admin
+   #. ipa-getkeytab -k /etc/httpd/conf/ipa.keytab -p HTTP/`hostname\` -s
+      \`hostname\`
+   #. ipa-getkeytab -k /etc/krb5.keytab -p host/`hostname\` -s \`hostname\`
+   #. ipactl restart
+   #. service sssd restart
+   #. ipa user-show admin
+   #. ipa user-find (confirm that I have the 2 new users)
+   #. id tuser1 (to confirm that sssd is working)
 
 So what does this do? Well, it replaces the CA for one. And it
 invalidates all certificates.
@@ -568,7 +572,7 @@ There are also common options:
 | ``   -q, --quiet         output only errors``
 | ``   --log-file=FILE     log to the given file``
 
-.. _full_list_of_files_and_directories_to_back_up:
+
 
 Full list of files and directories to back up
 ---------------------------------------------
@@ -655,7 +659,7 @@ This is a mix of files and directories
 -  /var/log/ipaclient-uninstall.log
 -  /var/named/data/named.run
 
-.. _gpg_encryption:
+
 
 GPG encryption
 --------------
@@ -697,12 +701,12 @@ To run purely from a console add
 ``"pinentry-program /usr/bin/pinentry-curses"`` to
 ``.gnupg/gpg-agent.conf`` before generating a key.
 
-.. _how_to_test9:
+
 
 How to Test
 -----------
 
-.. _general_test_outline:
+
 
 General test outline
 ----------------------------------------------------------------------------------------------
@@ -721,7 +725,7 @@ General test outline
    output matches.
 -  Uninstall server
 
-.. _test_full_backup_and_restore:
+
 
 Test Full Backup and Restore
 ----------------------------------------------------------------------------------------------
@@ -732,7 +736,7 @@ The "Do backup & restore" steps are:
 -  Uninstall server
 -  ``ipa-restore``\ *``$BACKUP_PATH``*
 
-.. _test_backup_and_restore_with_removed_users:
+
 
 Test Backup and Restore with Removed Users
 ----------------------------------------------------------------------------------------------
@@ -748,7 +752,7 @@ The "Do backup & restore" steps are:
 
 At the end of the test, remove user ``ipatest_user1``
 
-.. _test_backup_and_restore_with_selinux_booleans_off:
+
 
 Test Backup and Restore with SELinux Booleans Off
 ----------------------------------------------------------------------------------------------
@@ -763,7 +767,7 @@ The "Do backup & restore" steps are:
 
 After restoring, check that the above booleans are on.
 
-.. _test_backup_and_restore_from_heavily_upgraded_instance:
+
 
 Test Backup and Restore from heavily upgraded instance
 ----------------------------------------------------------------------------------------------
@@ -777,7 +781,7 @@ separate 389-ds instance for IPA.
 
 Backup and Restore is NOT a method of eliminating that extra instance.
 
-.. _data_backup_only:
+
 
 Data backup only
 ----------------------------------------------------------------------------------------------
@@ -787,7 +791,7 @@ Data backup only
 -  ``ipa-restore /var/lib/ipa/ipa-data-...``
 -  Ensure that the new user is gone
 
-.. _online_data_restore:
+
 
 Online data restore
 ----------------------------------------------------------------------------------------------
@@ -798,7 +802,7 @@ Online data restore
 -  Ensure that the new user is gone
 -  Ensure IPA is still functioning properly
 
-.. _encryptiondecryption_of_backup_files:
+
 
 Encryption/decryption of Backup files
 ----------------------------------------------------------------------------------------------
@@ -807,7 +811,7 @@ Encryption/decryption of Backup files
 -  ``ipa-server-install --uninstall -U``
 -  ``ipa-restore --gpg-keyring=/path/to/keyring /var/lib/ipa/ipa-...``
 
-.. _clientreplica_installation_with_restored_master:
+
 
 Client/Replica installation with restored Master
 ----------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _significant_changes_since_last_alpha:
+
 
 Significant Changes since last alpha
 ------------------------------------
@@ -37,7 +37,7 @@ Significant Changes since last alpha
       -  If you join the host using an admin user it will be
          automatically added if not already present
 
-.. _package_requirements:
+
 
 Package Requirements
 --------------------
@@ -48,7 +48,7 @@ be enabled by default in the installer. To install dogtag run
 ``yum install pki-ca``. It should pull in all dependencies. Pass the
 --ca flag to the IPA installer to enable CA creation at install time.
 
-.. _command_line:
+
 
 Command Line
 ------------
@@ -175,7 +175,7 @@ Bugs
 If you find any problems then please file a bug against the freeIPA
 product at https://bugzilla.redhat.com/
 
-.. _work_continues:
+
 
 Work Continues
 --------------

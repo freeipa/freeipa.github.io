@@ -13,7 +13,7 @@ properties:
 -  Name
 -  Mapping rules
 
-.. _mapping_rule:
+
 
 Mapping Rule
 ============
@@ -26,7 +26,7 @@ an expression. A mapping rule consist of the following properties:
 -  Condition
 -  Expression: constant, variable, script
 
-.. _mapping_an_object:
+
 
 Mapping an Object
 =================
@@ -35,7 +35,7 @@ One mapping can be used to transform an object. There should be a
 mapping for each different scenario. The mapping should include rules
 for mapping the DN, object classes, and its attributes.
 
-.. _mapping_a_dn:
+
 
 Mapping a DN
 ============
@@ -50,7 +50,7 @@ The following mapping rule constructs a Samba DN from an IPA attribute:
       </expression>
    </rule>
 
-.. _mapping_an_object_class:
+
 
 Mapping an Object Class
 =======================
@@ -70,7 +70,7 @@ from constant values:
        <constant>organizationalPerson</constant>
    </rule>
 
-.. _mapping_an_attribute:
+
 
 Mapping an Attribute
 ====================

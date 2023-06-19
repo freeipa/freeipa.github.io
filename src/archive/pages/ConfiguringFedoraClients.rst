@@ -20,7 +20,7 @@ Commands to be run as a regular user are prefixed with a $ symbol.
       Before starting the freeIPA installation, ensure that you update
       your system with all the latest packages.
 
-.. _installing_the_ipa_client:
+
 
 Installing the IPA Client
 =========================
@@ -46,7 +46,7 @@ your IPA server).
 
 Note: this is not typical.
 
-.. _configuring_the_ipa_client:
+
 
 Configuring the IPA Client
 ==========================

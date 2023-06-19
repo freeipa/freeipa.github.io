@@ -3,7 +3,7 @@ schema on the server. This operation is delicate, what follows are best
 practices and requirements to handle schema changes in the FreeIPA
 project.
 
-.. _prior_art:
+
 
 Prior Art
 ---------
@@ -16,7 +16,7 @@ is available and then only extend it with additional auxiliary
 objectclasses and attributes. If no schema exists or existing schema is
 an odd fit, then new schema can be considered.
 
-.. _general_considerations:
+
 
 General Considerations
 ----------------------
@@ -37,14 +37,14 @@ between two servers do not stomp on each other, if in doubt open a
 discussion on the mailing list about how to best handle updates for the
 specific case at hand.
 
-.. _choosing_attributes_and_objectclasses:
+
 
 Choosing attributes and objectclasses
 -------------------------------------
 
 Creating new schema requires considereing a number of factors.
 
-.. _naming_conventions:
+
 
 Naming Conventions
 ----------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ assignment, with a full schema description if available. If you haven't
 worked out the details of each new object but you know exactly how many
 you will need, you can get an allotment reserved too.
 
-.. _objectclasses_and_attribute_types:
+
 
 ObjectClasses and Attribute types
 ----------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ attributes should be always required (MUST) and which should be optional
 (MAY). In case of doubt open a discussion on the development mailing
 list.
 
-.. _changing_existing_schema:
+
 
 Changing existing Schema
 ------------------------
@@ -98,7 +98,7 @@ syntax are allowed only if the new syntax is a complete superset of the
 previous one. Changes in equality matches are allowed. A SINGLE-VALUE
 attribute can become multivalued but not the other way around.
 
-.. _technical_details:
+
 
 Technical Details
 -----------------

@@ -2,7 +2,7 @@ This page contains troubleshooting advice for **directory server**
 issues. For other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.
 
-.. _replication_issues:
+
 
 Replication issues
 ==================
@@ -35,7 +35,7 @@ Replication issues
 
       ``[01/Dec/2014:12:00:00 +0100] - sasl_io_recv failed to decode packet for connection xxxx``
 
-.. _obsolete_ruv_records:
+
 
 Obsolete RUV records
 ====================
@@ -61,7 +61,7 @@ Obsolete RUV records
       recovery is described at `FreeIPA users list
       post <https://www.redhat.com/archives/freeipa-users/2016-May/msg00043.html>`__
 
-.. _performance_tuning:
+
 
 Performance tuning
 ==================
@@ -71,7 +71,7 @@ recommendations <https://access.redhat.com/documentation/en-US/Red_Hat_Enterpris
 and `Directory Server 11
 tuning <https://access.redhat.com/documentation/en-us/red_hat_directory_server/11/html/performance_tuning_guide/index>`__.
 
-.. _advanced_troubleshooting:
+
 
 Advanced Troubleshooting
 ========================

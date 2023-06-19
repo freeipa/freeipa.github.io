@@ -10,7 +10,7 @@ Fedora 16 and 17 builds are available.
 Builds for Fedora 15 are no longer being provided. Packages that FreeIPA
 requires are not available in Fedora 15.
 
-.. _highlights_in_2.1.90_beta_1:
+
 
 Highlights in 2.1.90 beta 1
 ---------------------------
@@ -51,7 +51,7 @@ Feedback
 Please provide comments, bugs and other feedback via the freeipa-devel
 mailing list: http://www.redhat.com/mailman/listinfo/freeipa-devel
 
-.. _detailed_changelog_since_2.1.90_beta_1:
+
 
 Detailed Changelog since 2.1.90 beta 1
 --------------------------------------

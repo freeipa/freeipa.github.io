@@ -13,7 +13,7 @@ your Kerberos account and provide an initial password. You can then use
 these Kerberos credentials to log in to the IPA server from any machine
 that has been correctly configured.
 
-.. _logging_in_to_ipa:
+
 
 Logging in to IPA
 -----------------
@@ -22,7 +22,7 @@ IPA uses the Kerberos credentials that you provide when you log in to
 your machine. To connect to the IPA server, enter the server's address
 in your browser. For example, http://myIPAserver.example.com
 
-.. _managing_your_account:
+
 
 Managing Your Account
 =====================
@@ -33,7 +33,7 @@ details, etc. You can also add and remove yourself from groups,
 according to the permissions that have been set by the IPA
 administrator.
 
-.. _updating_your_personal_information_self_service:
+
 
 Updating Your Personal Information (Self Service)
 -------------------------------------------------
@@ -52,7 +52,7 @@ When you first log in to the IPA server, the IPA home page displays.
 A status message is displayed at the top of the page indicating the
 success or failure of the update.
 
-.. _editing_protected_fields:
+
 
 Editing Protected Fields
 ------------------------
@@ -70,7 +70,7 @@ passwords, that they are changed regularly, etc.
 For advice on how to create strong passwords, refer to `Creating Srong
 Passwords <http://www.redhat.com/docs/manuals/enterprise/RHEL-5-manual/en-US/RHEL510/Deployment_Guide/s2-wstation-pass-create.html>`__
 
-.. _searching_for_users_and_groups:
+
 
 Searching for Users and Groups
 ==============================

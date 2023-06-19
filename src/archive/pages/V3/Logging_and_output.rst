@@ -68,7 +68,7 @@ this phase to a file is useless. The file logging will start after the
 validation/prompting. The first logged message(s) will mention the
 command and options used.
 
-.. _use_cases10e:
+
 
 Use Cases
 =========

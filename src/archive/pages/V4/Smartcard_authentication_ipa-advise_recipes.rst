@@ -37,7 +37,7 @@ Ansible playbook. It should also provide information message that the
 step was successful or provide steps how to solve the issue. In case
 that a script fails it has to be rerun after fixing described issue.
 
-.. _smartcard_login_activation:
+
 
 Smartcard Login activation
 ----------------------------------------------------------------------------------------------

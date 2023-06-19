@@ -4,7 +4,7 @@
 
 Provided by: Sigbjorn Lie
 
-.. _configure_the_dns_client:
+
 
 Configure the DNS client
 ------------------------
@@ -14,7 +14,7 @@ knows both your AD and your IPA DNS domain. Configure the DNS search
 path to point at both the IPA domain, and the AD domain (if you have a
 different DNS domain for your IPA and AD instances)
 
-.. _configure_the_cifs_server:
+
 
 Configure the CIFS server
 -------------------------
@@ -25,7 +25,7 @@ Join the CIFS server to the AD domain:
 
 Follow the prompts.
 
-.. _configure_the_ldap_client:
+
 
 Configure the LDAP client
 -------------------------
@@ -97,7 +97,7 @@ CA certificate in PEM format into /etc on the filer and use the keymgr
 command to import it. After uploading the CA cert SSL is enabled using
 "options ldap.ssl.enable on".*
 
-.. _testing_the_ldap_client:
+
 
 Testing the LDAP client
 -----------------------
@@ -106,7 +106,7 @@ Grant yourself advanced privileges on the filer "priv set advanced", and
 use the "getXXbyYY" command to verify that the LDAP naming services
 works as expected for users, groups and netgroups.
 
-.. _configure_nsswitch.conf:
+
 
 Configure nsswitch.conf
 -----------------------
@@ -119,7 +119,7 @@ Configure hosts to use "files" before "dns".
 
 You should now have a working AD (CIFS) and IPA (NFS) setup.
 
-.. _ad___ipa_username_mapping:
+
 
 AD - IPA username mapping
 -------------------------

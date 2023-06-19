@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _enable_compression_on_httpd:
+
 
 Enable compression on httpd
 ===========================
@@ -41,7 +41,7 @@ Implementation
 Change of ``/etc/httdp/conf.d/ipa.conf`` by change in its template:
 freeipa/install/conf/ipa.conf
 
-.. _impact_to_webui_and_other_components:
+
 
 Impact to WebUI and other components
 ------------------------------------

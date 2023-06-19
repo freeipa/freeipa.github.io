@@ -7,7 +7,7 @@ Provided by: Sigbjorn Lie
 Making NexentaStor speak to AD and LDAP/IPA is easy, adding krb5 for NFS
 is a bit more tricky.
 
-.. _first_part_cifs_nfs_no_kerberos:
+
 
 First part: CIFS + NFS no-kerberos
 ----------------------------------
@@ -51,7 +51,7 @@ In a shell using expert_mode, edit the nsswitch.conf as the following:
 This will make Nexenta look for Unix accounts and ground in IPA first,
 before looking up the rest from Active Directory.
 
-.. _second_part_adding_kerberos_to_nfs4_nfs_krb5:
+
 
 Second part, adding kerberos to NFS4: NFS + KRB5
 ------------------------------------------------

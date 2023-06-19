@@ -1,4 +1,4 @@
-.. _ipa_xml_rpc_api:
+
 
 IPA XML-RPC API
 ===============

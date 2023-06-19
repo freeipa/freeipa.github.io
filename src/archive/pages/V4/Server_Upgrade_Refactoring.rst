@@ -31,7 +31,7 @@ Use Cases
 Design
 ------
 
-.. _make_upgrade_process_more_deterministic:
+
 
 Make upgrade process more deterministic
 ----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ This effort consist of following steps:
    updates will be same as order in files.
 -  Apply updates per file, in specified order from top to bottom.
 
-.. _ordering_ldap_updates:
+
 
 Ordering LDAP updates
 ^^^^^^^^^^^^^^^^^^^^^
@@ -75,7 +75,7 @@ updater.
 | ``90-last.update``
 | ``ZZ.update  # this will work, but we should avoid of using number less update files``
 
-.. _plugin___the_new_update_file_directive:
+
 
 *plugin* - the new update file directive
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -85,7 +85,7 @@ Plugins are called from update files, using new directive **plugin:**
 Plugins which edits ldap data directly, without using modlists, should
 be in separate files.
 
-.. _update_plugins_modifications:
+
 
 Update plugins modifications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -104,7 +104,7 @@ The **execute** method of the class, returns only 2 values
    *modlist* application
 -  *modlist* - list of required changes
 
-.. _merge_server_update_commands_into_the_one_command:
+
 
 Merge server update commands into the one command
 ----------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ ipa-ldap-updater failed, can break the system.
 To resolve issues mentioned above only one command should do upgrade:
 ``ipa-server-upgrade``.
 
-.. _ipa_server_upgrade_characteristics:
+
 
 ipa-server-upgrade characteristics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -157,7 +157,7 @@ ipa-server-upgrade characteristics
 -  update configuration version, if update was successful
 -  only former **--upgrade**/offline method is supported
 
-.. _prevent_to_run_ipa_if_version_mismatch:
+
 
 Prevent to run IPA if version mismatch
 ----------------------------------------------------------------------------------------------
@@ -203,14 +203,14 @@ IPA.
 ``ipactl start|restart`` option ``--skip-version-check`` overrides this
 check.
 
-.. _refactor_ipa_upgradeconfig_into_modulesplugins_used_by_ipa_server_update:
+
 
 Refactor ipa-upgradeconfig into modules/plugins used by ipa-server-update
 ----------------------------------------------------------------------------------------------
 
 This will be done during the installer refactoring.
 
-.. _requirements_for_using_updates_in_containers:
+
 
 Requirements for using updates in containers
 ----------------------------------------------------------------------------------------------
@@ -229,7 +229,7 @@ Requirements for using updates in containers
 Implementation
 --------------
 
-.. _storing_configuration_version_and_platform_place_format:
+
 
 Storing configuration version and platform (place, format)
 ----------------------------------------------------------------------------------------------
@@ -290,7 +290,7 @@ Configuration
 
 N/A
 
-.. _how_to_test36:
+
 
 How to Test
 -----------

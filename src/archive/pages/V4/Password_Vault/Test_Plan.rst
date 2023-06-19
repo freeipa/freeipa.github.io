@@ -12,7 +12,7 @@ document <http://www.freeipa.org/page/V4/Password_Vault_Implementation>`__
 Test Plan
 =========
 
-.. _vault_management:
+
 
 Vault Management
 ----------------

@@ -3,12 +3,12 @@
 This isn't every single check-in between versions but will hopefully
 will provide the highlights of the changes.
 
-.. _version_3.3.3_11012013:
+
 
 Version 3.3.3 (11/01/2013)
 ==========================
 
-.. _ana_krivokapic_4:
+
 
 Ana Krivokapic (4):
 ^^^^^^^^^^^^^^^^^^^
@@ -18,7 +18,7 @@ Ana Krivokapic (4):
 -  Make sure nsds5ReplicaStripAttrs is set on agreements
 -  Add test for external CA installation
 
-.. _jakub_hrozek_1:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
@@ -26,14 +26,14 @@ Jakub Hrozek (1):
 -  trusts: combine filters with AND to make sure only the intended
    domain matches
 
-.. _jan_cholasta_1:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Track DS certificate with certmonger on replicas.
 
-.. _martin_kosek_14:
+
 
 Martin Kosek (14):
 ^^^^^^^^^^^^^^^^^^
@@ -53,7 +53,7 @@ Martin Kosek (14):
 -  Remove deprecated AllowLMhash config
 -  Become IPA 3.3.3
 
-.. _petr_viktorin_6:
+
 
 Petr Viktorin (6):
 ^^^^^^^^^^^^^^^^^^
@@ -66,14 +66,14 @@ Petr Viktorin (6):
    exist
 -  beakerlib plugin: Don't try to submit logs if they are missing
 
-.. _petr_vobornik_1:
+
 
 Petr Vobornik (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Fix password expiration notification
 
-.. _sumit_bose_3:
+
 
 Sumit Bose (3):
 ^^^^^^^^^^^^^^^
@@ -82,7 +82,7 @@ Sumit Bose (3):
 -  Remove AllowLMhash from the allowed IPA config strings
 -  Remove generation and handling of LM hashes
 
-.. _tomas_babej_23:
+
 
 Tomas Babej (23):
 ^^^^^^^^^^^^^^^^^
@@ -113,12 +113,12 @@ Tomas Babej (23):
 -  ipatests: test_trust: use domain name instead of realm for user
    lookups
 
-.. _version_3.3.2_10042013:
+
 
 Version 3.3.2 (10/04/2013)
 ==========================
 
-.. _alexander_bokovoy_11:
+
 
 Alexander Bokovoy (11):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -137,7 +137,7 @@ Alexander Bokovoy (11):
 -  KDC: implement transition check for trusted domains
 -  ipa-kdb: Handle parent-child relationship for subdomains
 
-.. _ana_krivokapic_5:
+
 
 Ana Krivokapic (5):
 ^^^^^^^^^^^^^^^^^^^
@@ -148,7 +148,7 @@ Ana Krivokapic (5):
 -  Do not crash if DS is down during server uninstall
 -  Follow tmpfiles.d packaging guidelines
 
-.. _jan_cholasta_3:
+
 
 Jan Cholasta (3):
 ^^^^^^^^^^^^^^^^^
@@ -157,7 +157,7 @@ Jan Cholasta (3):
 -  Read passwords from stdin when importing PKCS#12 files with pk12util.
 -  Allow PKCS#12 files with empty password in install tools.
 
-.. _martin_kosek_5:
+
 
 Martin Kosek (5):
 ^^^^^^^^^^^^^^^^^
@@ -168,21 +168,21 @@ Martin Kosek (5):
 -  Remove faulty DNS memberOf Task
 -  Become IPA 3.3.2
 
-.. _nathaniel_mccallum_1:
+
 
 Nathaniel McCallum (1):
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Ensure credentials structure is initialized
 
-.. _petr_spacek_1:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
 
 -  Add timestamps to named debug logs in /var/named/data/named.run
 
-.. _petr_viktorin_15:
+
 
 Petr Viktorin (15):
 ^^^^^^^^^^^^^^^^^^^
@@ -208,7 +208,7 @@ Petr Viktorin (15):
 -  Do not fail upgrade if the global anonymous read ACI is not found
 -  ipapython.nsslib: Name arguments to NSPRError
 
-.. _petr_vobornik_5:
+
 
 Petr Vobornik (5):
 ^^^^^^^^^^^^^^^^^^
@@ -220,21 +220,21 @@ Petr Vobornik (5):
 -  Fix enablement of automount map type selector
 -  ipatests.test_integration.host: Add logging to ldap_connect()
 
-.. _simo_sorce_1:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  Add Delegation Info to MS-PAC
 
-.. _sumit_bose_1:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  CLDAP: do not read IPA domain from hostname
 
-.. _tomas_babej_3:
+
 
 Tomas Babej (3):
 ^^^^^^^^^^^^^^^^
@@ -243,19 +243,19 @@ Tomas Babej (3):
 -  Do not add trust to AD in case of IPA realm-domain mismatch
 -  Warn user about realm-domain mismatch in install scripts
 
-.. _version_3.3.1_08292013:
+
 
 Version 3.3.1 (08/29/2013)
 ==========================
 
-.. _alexander_bokovoy_1:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Remove systemd upgrader as it is not used anymore
 
-.. _ana_krivokapic_4_1:
+
 
 Ana Krivokapic (4):
 ^^^^^^^^^^^^^^^^^^^
@@ -265,14 +265,14 @@ Ana Krivokapic (4):
 -  Add integration tests for Kerberos Flags
 -  Fix tests which fail after ipa-adtrust-install
 
-.. _jakub_hrozek_1_1:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
 
 -  EXTDOM: Do not overwrite domain_name for INP_SID
 
-.. _jan_cholasta_12:
+
 
 Jan Cholasta (12):
 ^^^^^^^^^^^^^^^^^^
@@ -295,7 +295,7 @@ Jan Cholasta (12):
 -  Fix ipa-server-certinstall usage string.
 -  Fix service-disable in CA-less install.
 
-.. _martin_kosek_3:
+
 
 Martin Kosek (3):
 ^^^^^^^^^^^^^^^^^
@@ -304,14 +304,14 @@ Martin Kosek (3):
 -  Remove rpmlint warnings in spec file
 -  Fix selected minor issues in the spec file and license
 
-.. _nathaniel_mccallum_1_1:
+
 
 Nathaniel McCallum (1):
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Bypass ipa-replica-conncheck ssh tests when ssh is not installed
 
-.. _petr_viktorin_4:
+
 
 Petr Viktorin (4):
 ^^^^^^^^^^^^^^^^^^
@@ -321,7 +321,7 @@ Petr Viktorin (4):
 -  Add CA-less install tests
 -  Add man pages for testing tools
 
-.. _petr_vobornik_7:
+
 
 Petr Vobornik (7):
 ^^^^^^^^^^^^^^^^^^
@@ -334,14 +334,14 @@ Petr Vobornik (7):
 -  Web UI integration tests: ID range types
 -  Update idrange search facet after trust creation
 
-.. _rob_crittenden_1:
+
 
 Rob Crittenden (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Re-order NULL check in ipa_lockout.
 
-.. _simo_sorce_3:
+
 
 Simo Sorce (3):
 ^^^^^^^^^^^^^^^
@@ -350,14 +350,14 @@ Simo Sorce (3):
 -  kdb-mspac: Fix out of bounds memset
 -  kdb-princ: Fix memory leak
 
-.. _sumit_bose_1_1:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  CLDAP: make sure an empty reply is returned on any error
 
-.. _tomas_babej_6:
+
 
 Tomas Babej (6):
 ^^^^^^^^^^^^^^^^
@@ -369,12 +369,12 @@ Tomas Babej (6):
 -  Fix incorrect error message occurence when re-adding the trust
 -  Log proper error message when defaultNamingContext not found
 
-.. _version_3.3.0_08082013:
+
 
 Version 3.3.0 (08/08/2013)
 ==========================
 
-.. _alexander_bokovoy_9:
+
 
 Alexander Bokovoy (9):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -391,7 +391,7 @@ Alexander Bokovoy (9):
 -  ipaserver/dcerpc: attempt to resolve SIDs through SSSD first
 -  Rename slapi-nis configuration variable
 
-.. _ana_krivokapic_26:
+
 
 Ana Krivokapic (26):
 ^^^^^^^^^^^^^^^^^^^^
@@ -424,14 +424,14 @@ Ana Krivokapic (26):
 -  Enable running API commands in ipa-advise plugins
 -  Add new command compat-is-enabled
 
-.. _diane_trout_1:
+
 
 Diane Trout (1):
 ^^^^^^^^^^^^^^^^
 
 -  Fix log format not a string literal.
 
-.. _jakub_hrozek_3:
+
 
 Jakub Hrozek (3):
 ^^^^^^^^^^^^^^^^^
@@ -440,7 +440,7 @@ Jakub Hrozek (3):
 -  IPA KDB MS-PAC: return ENOMEM if allocation fails
 -  IPA KDB MS-PAC: remove unused variable
 
-.. _jan_cholasta_21:
+
 
 Jan Cholasta (21):
 ^^^^^^^^^^^^^^^^^^
@@ -471,7 +471,7 @@ Jan Cholasta (21):
 -  Ask for PKCS#12 password interactively in ipa-replica-prepare.
 -  Print newline after receiving EOF in installutils.read_password.
 
-.. _lukas_slebodnik_4:
+
 
 Lukas Slebodnik (4):
 ^^^^^^^^^^^^^^^^^^^^
@@ -481,7 +481,7 @@ Lukas Slebodnik (4):
 -  Remove unused variable
 -  Remove unused variable
 
-.. _martin_kosek_17:
+
 
 Martin Kosek (17):
 ^^^^^^^^^^^^^^^^^^
@@ -504,7 +504,7 @@ Martin Kosek (17):
 -  Add requires for slapi-nis and SSSD
 -  Become 3.3.0
 
-.. _nathaniel_mccallum_10:
+
 
 Nathaniel McCallum (10):
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -520,7 +520,7 @@ Nathaniel McCallum (10):
 -  Fix for small syntax error in OTP schema
 -  Use libunistring ulc_casecmp() on unicode strings
 
-.. _petr_spacek_1_1:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
@@ -528,7 +528,7 @@ Petr Spacek (1):
 -  ipa-client-install: Add 'debug' and 'show' statements to nsupdate
    commands
 
-.. _petr_viktorin_33:
+
 
 Petr Viktorin (33):
 ^^^^^^^^^^^^^^^^^^^
@@ -568,7 +568,7 @@ Petr Viktorin (33):
 -  Update translations
 -  Fix installutils.get_password without a TTY
 
-.. _petr_vobornik_24:
+
 
 Petr Vobornik (24):
 ^^^^^^^^^^^^^^^^^^^
@@ -599,7 +599,7 @@ Petr Vobornik (24):
 -  Web UI integration tests: PEP8 fixes
 -  Web UI integration tests: Code quality fixes
 
-.. _rob_crittenden_4:
+
 
 Rob Crittenden (4):
 ^^^^^^^^^^^^^^^^^^^
@@ -609,7 +609,7 @@ Rob Crittenden (4):
 -  Add Camellia ciphers to allowed list.
 -  Hide sensitive attributes in LDAP updater logging and output
 
-.. _simo_sorce_2:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -617,7 +617,7 @@ Simo Sorce (2):
 -  CLDAP: Fix domain handling in netlogon requests
 -  CLDAP: Return empty reply on non-fatal errors
 
-.. _sumit_bose_5:
+
 
 Sumit Bose (5):
 ^^^^^^^^^^^^^^^
@@ -628,7 +628,7 @@ Sumit Bose (5):
 -  extdom: replace winbind calls with POSIX/SSSD calls
 -  Remove winbind client configure check
 
-.. _tomas_babej_32:
+
 
 Tomas Babej (32):
 ^^^^^^^^^^^^^^^^^
@@ -667,12 +667,12 @@ Tomas Babej (32):
 -  Add a word wrapping for comment log messages to AdviceLogger
 -  Wrap lines in the list of available advices
 
-.. _version_3.3.0_beta_1_07242013:
+
 
 Version 3.3.0 Beta 1 (07/24/2013)
 =================================
 
-.. _alexander_bokovoy_8:
+
 
 Alexander Bokovoy (8):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -688,7 +688,7 @@ Alexander Bokovoy (8):
 -  ipa-kdb: reinit mspac on HTTP TGT acquisition to aid trust-add case
 -  ipaserver/dcerpc: attempt to resolve SIDs through SSSD first
 
-.. _ana_krivokapic_21:
+
 
 Ana Krivokapic (21):
 ^^^^^^^^^^^^^^^^^^^^
@@ -716,14 +716,14 @@ Ana Krivokapic (21):
 -  Use admin@REALM when testing if SSSD is ready
 -  Fix internal error in idrange-add
 
-.. _diane_trout_1_1:
+
 
 Diane Trout (1):
 ^^^^^^^^^^^^^^^^
 
 -  Fix log format not a string literal.
 
-.. _jakub_hrozek_3_1:
+
 
 Jakub Hrozek (3):
 ^^^^^^^^^^^^^^^^^
@@ -732,7 +732,7 @@ Jakub Hrozek (3):
 -  IPA KDB MS-PAC: return ENOMEM if allocation fails
 -  IPA KDB MS-PAC: remove unused variable
 
-.. _jan_cholasta_21_1:
+
 
 Jan Cholasta (21):
 ^^^^^^^^^^^^^^^^^^
@@ -763,14 +763,14 @@ Jan Cholasta (21):
 -  Ask for PKCS#12 password interactively in ipa-replica-prepare.
 -  Print newline after receiving EOF in installutils.read_password.
 
-.. _lukas_slebodnik_1:
+
 
 Lukas Slebodnik (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Use pkg-config to detect cmocka
 
-.. _martin_kosek_11:
+
 
 Martin Kosek (11):
 ^^^^^^^^^^^^^^^^^^
@@ -787,7 +787,7 @@ Martin Kosek (11):
 -  Bump minimum SSSD version
 -  Become 3.3.0 Beta 1
 
-.. _nathaniel_mccallum_10_1:
+
 
 Nathaniel McCallum (10):
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -803,7 +803,7 @@ Nathaniel McCallum (10):
 -  Fix for small syntax error in OTP schema
 -  Use libunistring ulc_casecmp() on unicode strings
 
-.. _petr_spacek_1_2:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
@@ -811,7 +811,7 @@ Petr Spacek (1):
 -  ipa-client-install: Add 'debug' and 'show' statements to nsupdate
    commands
 
-.. _petr_viktorin_21:
+
 
 Petr Viktorin (21):
 ^^^^^^^^^^^^^^^^^^^
@@ -838,7 +838,7 @@ Petr Viktorin (21):
 -  Integration test config: Make it possible to specify host IP
 -  ipa-client: Use "ipa" as the package name for i18n
 
-.. _petr_vobornik_18:
+
 
 Petr Vobornik (18):
 ^^^^^^^^^^^^^^^^^^^
@@ -863,7 +863,7 @@ Petr Vobornik (18):
 -  Break long words in notification area
 -  Remove word 'field' from GECOS param label
 
-.. _rob_crittenden_4_1:
+
 
 Rob Crittenden (4):
 ^^^^^^^^^^^^^^^^^^^
@@ -873,7 +873,7 @@ Rob Crittenden (4):
 -  Add Camellia ciphers to allowed list.
 -  Hide sensitive attributes in LDAP updater logging and output
 
-.. _simo_sorce_2_1:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -881,7 +881,7 @@ Simo Sorce (2):
 -  CLDAP: Fix domain handling in netlogon requests
 -  CLDAP: Return empty reply on non-fatal errors
 
-.. _sumit_bose_5_1:
+
 
 Sumit Bose (5):
 ^^^^^^^^^^^^^^^
@@ -892,7 +892,7 @@ Sumit Bose (5):
 -  extdom: replace winbind calls with POSIX/SSSD calls
 -  Remove winbind client configure check
 
-.. _tomas_babej_22:
+
 
 Tomas Babej (22):
 ^^^^^^^^^^^^^^^^^
@@ -921,12 +921,12 @@ Tomas Babej (22):
 -  Provide ipa-advise tool
 -  Use AD LDAP probing to create trusted domain ID range
 
-.. _version_3.2.2_07172013:
+
 
 Version 3.2.2 (07/17/2013)
 ==========================
 
-.. _ana_krivokapic_8:
+
 
 Ana Krivokapic (8):
 ^^^^^^^^^^^^^^^^^^^
@@ -940,7 +940,7 @@ Ana Krivokapic (8):
 -  Make sure replication works after DM password is changed
 -  Use --ignore-dependencies only when necessary
 
-.. _jan_cholasta_16:
+
 
 Jan Cholasta (16):
 ^^^^^^^^^^^^^^^^^^
@@ -965,14 +965,14 @@ Jan Cholasta (16):
 -  Add missing equality index for ipaUniqueId.
 -  Run gpg-agent explicitly when encrypting/decrypting files.
 
-.. _lukas_slebodnik_1_1:
+
 
 Lukas Slebodnik (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Use pkg-config to detect cmocka
 
-.. _martin_kosek_7:
+
 
 Martin Kosek (7):
 ^^^^^^^^^^^^^^^^^
@@ -985,7 +985,7 @@ Martin Kosek (7):
 -  Require new selinux-policy replacing old server-selinux subpackage
 -  Become 3.2.2
 
-.. _nathaniel_mccallum_3:
+
 
 Nathaniel McCallum (3):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -994,7 +994,7 @@ Nathaniel McCallum (3):
 -  Permit reads to ipatokenRadiusProxyUser objects
 -  Fix for small syntax error in OTP schema
 
-.. _petr_vobornik_5_1:
+
 
 Petr Vobornik (5):
 ^^^^^^^^^^^^^^^^^^
@@ -1006,21 +1006,21 @@ Petr Vobornik (5):
 -  Create Firefox configuration extension on CA-less install
 -  Disable checkboxes and radios for readonly attributes
 
-.. _rob_crittenden_1_1:
+
 
 Rob Crittenden (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Return the correct Content-type on negotiated XML-RPC requests.
 
-.. _sumit_bose_1_2:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  Fix type of printf argument
 
-.. _tomas_babej_2:
+
 
 Tomas Babej (2):
 ^^^^^^^^^^^^^^^^
@@ -1028,19 +1028,19 @@ Tomas Babej (2):
 -  Do not redirect ipa/crl to HTTPS
 -  Change group ownership of CRL publish directory
 
-.. _version_3.2.1_06072013:
+
 
 Version 3.2.1 (06/07/2013)
 ==========================
 
-.. _alexander_bokovoy_1_1:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Fix cldap parser to work with a single equality filter (NtVer=...)
 
-.. _ana_krivokapic_3:
+
 
 Ana Krivokapic (3):
 ^^^^^^^^^^^^^^^^^^^
@@ -1049,14 +1049,14 @@ Ana Krivokapic (3):
 -  Do not display success message on failure in web UI
 -  Prevent error when running IPA commands with su/sudo
 
-.. _diane_trout_1_2:
+
 
 Diane Trout (1):
 ^^^^^^^^^^^^^^^^
 
 -  Fix log format not a string literal.
 
-.. _martin_kosek_4:
+
 
 Martin Kosek (4):
 ^^^^^^^^^^^^^^^^^
@@ -1066,7 +1066,7 @@ Martin Kosek (4):
 -  Remove redundant u'' character
 -  Become 3.2.1
 
-.. _nathaniel_mccallum_6:
+
 
 Nathaniel McCallum (6):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -1078,7 +1078,7 @@ Nathaniel McCallum (6):
 -  Remove unnecessary prefixes from ipa-pwd-extop files
 -  Add OTP support to ipa-pwd-extop
 
-.. _petr_spacek_1_3:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
@@ -1086,14 +1086,14 @@ Petr Spacek (1):
 -  ipa-client-install: Add 'debug' and 'show' statements to nsupdate
    commands
 
-.. _petr_viktorin_1:
+
 
 Petr Viktorin (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Remove leading zero from IPA_NUM_VERSION
 
-.. _petr_vobornik_7_1:
+
 
 Petr Vobornik (7):
 ^^^^^^^^^^^^^^^^^^
@@ -1106,7 +1106,7 @@ Petr Vobornik (7):
 -  Make ssbrowser.html work in IE 10
 -  Fix regression: missing facet tab group labels
 
-.. _simo_sorce_2_2:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -1114,14 +1114,14 @@ Simo Sorce (2):
 -  CLDAP: Fix domain handling in netlogon requests
 -  CLDAP: Return empty reply on non-fatal errors
 
-.. _sumit_bose_1_3:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  Fix format string typo
 
-.. _tomas_babej_9:
+
 
 Tomas Babej (9):
 ^^^^^^^^^^^^^^^^
@@ -1136,12 +1136,12 @@ Tomas Babej (9):
 -  Do not check userPassword with 7-bit plugin
 -  Manage ipa-otpd.socket by IPA
 
-.. _version_3.2.0_05102013:
+
 
 Version 3.2.0 (05/10/2013)
 ==========================
 
-.. _alexander_bokovoy_9_1:
+
 
 Alexander Bokovoy (9):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -1158,7 +1158,7 @@ Alexander Bokovoy (9):
 -  spec: detect Kerberos DAL driver ABI change from installed krb5-devel
 -  Resolve SIDs in Web UI
 
-.. _ana_krivokapic_24:
+
 
 Ana Krivokapic (24):
 ^^^^^^^^^^^^^^^^^^^^
@@ -1189,21 +1189,21 @@ Ana Krivokapic (24):
 -  Add missing permissions to Host Administrators privilege
 -  Always stop dirsrv in 'ipactl stop'
 
-.. _brian_cook_1:
+
 
 Brian Cook (1):
 ^^^^^^^^^^^^^^^
 
 -  Add DNS Setup Prompt to Install
 
-.. _jr_aquino_1:
+
 
 JR Aquino (1):
 ^^^^^^^^^^^^^^
 
 -  Allow PKI-CA Replica Installs when CRL exceeds default maxber value
 
-.. _jakub_hrozek_1_2:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
@@ -1211,7 +1211,7 @@ Jakub Hrozek (1):
 -  Allow ipa-replica-conncheck and ipa-adtrust-install to read krb5
    includedir
 
-.. _jan_cholasta_33:
+
 
 Jan Cholasta (33):
 ^^^^^^^^^^^^^^^^^^
@@ -1254,7 +1254,7 @@ Jan Cholasta (33):
 -  Add support for OpenSSH 6.2.
 -  Fix normalization of FQDNs in DNS installer code.
 
-.. _john_dennis_2:
+
 
 John Dennis (2):
 ^^^^^^^^^^^^^^^^
@@ -1262,7 +1262,7 @@ John Dennis (2):
 -  Cookie Expires date should be locale insensitive
 -  Use secure method to acquire IPA CA certificate
 
-.. _lynn_root_3:
+
 
 Lynn Root (3):
 ^^^^^^^^^^^^^^
@@ -1271,7 +1271,7 @@ Lynn Root (3):
 -  Fixed the catch of the hostname option during ipa-server-install
 -  Raise ValidationError when CSR does not have a subject hostname
 
-.. _martin_kosek_65:
+
 
 Martin Kosek (65):
 ^^^^^^^^^^^^^^^^^^
@@ -1342,21 +1342,21 @@ Martin Kosek (65):
 -  Fix ipa-ca DNS name creation
 -  Fix SASL_NOCANON behavior for LDAPI
 
-.. _nathaniel_mccallum_1_2:
+
 
 Nathaniel McCallum (1):
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Ignore log files from automake tests
 
-.. _petr_spacek_1_4:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
 
 -  Add 389 DS plugin for special idnsSOASerial attribute handling
 
-.. _petr_viktorin_113:
+
 
 Petr Viktorin (113):
 ^^^^^^^^^^^^^^^^^^^^
@@ -1486,7 +1486,7 @@ Petr Viktorin (113):
 -  Only require libsss_nss_idmap-python in Fedora 19+
 -  Update translations from Transifex
 
-.. _petr_vobornik_181:
+
 
 Petr Vobornik (181):
 ^^^^^^^^^^^^^^^^^^^^
@@ -1682,7 +1682,7 @@ Petr Vobornik (181):
 -  Fix crash on host deleletion
 -  Enable standalone facets in menu.add_item
 
-.. _rob_crittenden_29:
+
 
 Rob Crittenden (29):
 ^^^^^^^^^^^^^^^^^^^^
@@ -1719,7 +1719,7 @@ Rob Crittenden (29):
 -  Set KRB5CCNAME so httpd s4u2proxy can with with newer krb5-server
 -  Become 3.2.0
 
-.. _simo_sorce_2_3:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -1727,7 +1727,7 @@ Simo Sorce (2):
 -  Log info on failure to connect
 -  Upload CA cert in the directory on install
 
-.. _sumit_bose_21:
+
 
 Sumit Bose (21):
 ^^^^^^^^^^^^^^^^
@@ -1754,14 +1754,14 @@ Sumit Bose (21):
 -  Allow ID-to-SID mappings in the extdom plugin
 -  ipa-kdb: Free talloc autofree context when module is closed
 
-.. _timo_aaltonen_1:
+
 
 Timo Aaltonen (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  convert the base platform modules into packages
 
-.. _tomas_babej_27:
+
 
 Tomas Babej (27):
 ^^^^^^^^^^^^^^^^^
@@ -1796,19 +1796,19 @@ Tomas Babej (27):
 -  Enforce host existence only where needed in ipa-replica-manage
 -  Handle connection timeout in ipa-replica-manage
 
-.. _version_3.2.0_beta_1_04162013:
+
 
 Version 3.2.0 Beta 1 (04/16/2013)
 =================================
 
-.. _alexander_bokovoy_1_2:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  spec: detect Kerberos DAL driver ABI change from installed krb5-devel
 
-.. _ana_krivokapic_7:
+
 
 Ana Krivokapic (7):
 ^^^^^^^^^^^^^^^^^^^
@@ -1821,7 +1821,7 @@ Ana Krivokapic (7):
 -  Deprecate HBAC source hosts from CLI
 -  Integrate realmdomains with IPA DNS
 
-.. _jan_cholasta_4:
+
 
 Jan Cholasta (4):
 ^^^^^^^^^^^^^^^^^
@@ -1831,7 +1831,7 @@ Jan Cholasta (4):
 -  Use A/AAAA records instead of CNAME records in ipa-ca.
 -  Delete DNS records in ipa-ca on ipa-csreplica-manage del.
 
-.. _martin_kosek_2:
+
 
 Martin Kosek (2):
 ^^^^^^^^^^^^^^^^^
@@ -1839,7 +1839,7 @@ Martin Kosek (2):
 -  Fix trustconfig-mod primary group error
 -  Require new samba and krb5
 
-.. _petr_viktorin_7:
+
 
 Petr Viktorin (7):
 ^^^^^^^^^^^^^^^^^^
@@ -1853,7 +1853,7 @@ Petr Viktorin (7):
    comments
 -  Drop --selfsign server functionality
 
-.. _petr_vobornik_6:
+
 
 Petr Vobornik (6):
 ^^^^^^^^^^^^^^^^^^
@@ -1865,7 +1865,7 @@ Petr Vobornik (6):
 -  Don't show trusts pages when trust is not configured
 -  Fix regression in group type selection in group adder dialog
 
-.. _rob_crittenden_5:
+
 
 Rob Crittenden (5):
 ^^^^^^^^^^^^^^^^^^^
@@ -1876,7 +1876,7 @@ Rob Crittenden (5):
 -  Revert "Fix permission_find test error"
 -  Become 3.2.0 Beta 1
 
-.. _tomas_babej_2_1:
+
 
 Tomas Babej (2):
 ^^^^^^^^^^^^^^^^
@@ -1884,12 +1884,12 @@ Tomas Babej (2):
 -  Add nfs:NONE to default PAC types only when needed
 -  Update only selected attributes for winsync agreement
 
-.. _version_3.2.0_prerelease_1_04022013:
+
 
 Version 3.2.0 Prerelease 1 (04/02/2013)
 =======================================
 
-.. _alexander_bokovoy_7:
+
 
 Alexander Bokovoy (7):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -1904,7 +1904,7 @@ Alexander Bokovoy (7):
 -  ipasam: add enumeration of UPN suffixes based on the realm domains
 -  Enhance ipa-adtrust-install for domains with multiple IPA server
 
-.. _ana_krivokapic_10:
+
 
 Ana Krivokapic (10):
 ^^^^^^^^^^^^^^^^^^^^
@@ -1921,21 +1921,21 @@ Ana Krivokapic (10):
 -  Use default NETBIOS name in unattended ipa-adtrust-install
 -  Add mkhomedir option to ipa-server-install and ipa-replica-install
 
-.. _brian_cook_1_1:
+
 
 Brian Cook (1):
 ^^^^^^^^^^^^^^^
 
 -  Add DNS Setup Prompt to Install
 
-.. _jr_aquino_1_1:
+
 
 JR Aquino (1):
 ^^^^^^^^^^^^^^
 
 -  Allow PKI-CA Replica Installs when CRL exceeds default maxber value
 
-.. _jakub_hrozek_1_3:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
@@ -1943,7 +1943,7 @@ Jakub Hrozek (1):
 -  Allow ipa-replica-conncheck and ipa-adtrust-install to read krb5
    includedir
 
-.. _jan_cholasta_24:
+
 
 Jan Cholasta (24):
 ^^^^^^^^^^^^^^^^^^
@@ -1975,7 +1975,7 @@ Jan Cholasta (24):
    GC.
 -  Add Kerberos ticket flags management to service and host plugins.
 
-.. _john_dennis_2_1:
+
 
 John Dennis (2):
 ^^^^^^^^^^^^^^^^
@@ -1983,7 +1983,7 @@ John Dennis (2):
 -  Cookie Expires date should be locale insensitive
 -  Use secure method to acquire IPA CA certificate
 
-.. _lynn_root_4:
+
 
 Lynn Root (4):
 ^^^^^^^^^^^^^^
@@ -1993,7 +1993,7 @@ Lynn Root (4):
 -  Fixed the catch of the hostname option during ipa-server-install
 -  Raise ValidationError when CSR does not have a subject hostname
 
-.. _martin_kosek_58:
+
 
 Martin Kosek (58):
 ^^^^^^^^^^^^^^^^^^
@@ -2057,14 +2057,14 @@ Martin Kosek (58):
 -  Improve DNAME record validation
 -  Become 3.2.0 Prerelease 1
 
-.. _petr_spacek_1_5:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
 
 -  Add 389 DS plugin for special idnsSOASerial attribute handling
 
-.. _petr_viktorin_101:
+
 
 Petr Viktorin (101):
 ^^^^^^^^^^^^^^^^^^^^
@@ -2181,7 +2181,7 @@ Petr Viktorin (101):
 -  ipa-client-install: Do not request host certificate if server is
    CA-less
 
-.. _petr_vobornik_38:
+
 
 Petr Vobornik (38):
 ^^^^^^^^^^^^^^^^^^^
@@ -2228,7 +2228,7 @@ Petr Vobornik (38):
 -  Added Web UI support for service PAC type option: NONE
 -  Web UI: Disable cert functionality if a CA is not available
 
-.. _rob_crittenden_16:
+
 
 Rob Crittenden (16):
 ^^^^^^^^^^^^^^^^^^^^
@@ -2251,7 +2251,7 @@ Rob Crittenden (16):
 -  Improve some error handling in ipa-replica-manage
 -  Fix lockout of LDAP bind.
 
-.. _simo_sorce_2_4:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -2259,7 +2259,7 @@ Simo Sorce (2):
 -  Log info on failure to connect
 -  Upload CA cert in the directory on install
 
-.. _sumit_bose_17:
+
 
 Sumit Bose (17):
 ^^^^^^^^^^^^^^^^
@@ -2282,14 +2282,14 @@ Sumit Bose (17):
 -  Add support for cmocka C-Unit Test framework
 -  ipa-pwd-extop: do not use dn until it is really set
 
-.. _timo_aaltonen_1_1:
+
 
 Timo Aaltonen (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  convert the base platform modules into packages
 
-.. _tomas_babej_18:
+
 
 Tomas Babej (18):
 ^^^^^^^^^^^^^^^^^
@@ -2315,14 +2315,14 @@ Tomas Babej (18):
 -  Properly handle ipa-replica-install when its zone is not managed by
    IPA
 
-.. _sumit_bose_1_4:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  ipa-kdb: Free talloc autofree context when module is closed
 
-.. _version_3.1.5_06032013:
+
 
 Version 3.1.5 (06/03/2013)
 ==========================
@@ -2331,21 +2331,21 @@ Version 3.1.5 (06/03/2013)
 
 -  Fix cldap parser to work with a single equality filter (NtVer=...)
 
-.. _martin_kosek_1:
+
 
 Martin Kosek (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Become IPA 3.1.5
 
-.. _petr_viktorin_1_1:
+
 
 Petr Viktorin (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Remove leading zero from IPA_NUM_VERSION
 
-.. _simo_sorce_2_5:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -2353,19 +2353,19 @@ Simo Sorce (2):
 -  CLDAP: Fix domain handling in netlogon requests
 -  CLDAP: Return empty reply on non-fatal errors
 
-.. _version_3.1.4_05072013:
+
 
 Version 3.1.4 (05/07/2013)
 ==========================
 
-.. _alexander_bokovoy_1_3:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Enhance ipa-adtrust-install for domains with multiple IPA server
 
-.. _ana_krivokapic_8_1:
+
 
 Ana Krivokapic (8):
 ^^^^^^^^^^^^^^^^^^^
@@ -2379,7 +2379,7 @@ Ana Krivokapic (8):
 -  Fix the spec file
 -  Add missing permissions to Host Administrators privilege
 
-.. _jan_cholasta_7:
+
 
 Jan Cholasta (7):
 ^^^^^^^^^^^^^^^^^
@@ -2392,7 +2392,7 @@ Jan Cholasta (7):
 -  Use correct zone when removing DNS records of a master.
 -  Add support for OpenSSH 6.2.
 
-.. _martin_kosek_4_1:
+
 
 Martin Kosek (4):
 ^^^^^^^^^^^^^^^^^
@@ -2402,7 +2402,7 @@ Martin Kosek (4):
 -  Update pki proxy configuration
 -  Become IPA 3.1.4
 
-.. _petr_viktorin_2:
+
 
 Petr Viktorin (2):
 ^^^^^^^^^^^^^^^^^^
@@ -2410,7 +2410,7 @@ Petr Viktorin (2):
 -  Display full command documentation in online help
 -  Use two digits for each part of NUM_VERSION
 
-.. _rob_crittenden_3:
+
 
 Rob Crittenden (3):
 ^^^^^^^^^^^^^^^^^^^
@@ -2420,14 +2420,14 @@ Rob Crittenden (3):
 -  Specify the location for the agent PKCS#12 file so we don't have to
    move it.
 
-.. _sumit_bose_1_5:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  ipa-pwd-extop: do not use dn until it is really set
 
-.. _tomas_babej_2_2:
+
 
 Tomas Babej (2):
 ^^^^^^^^^^^^^^^^
@@ -2436,12 +2436,12 @@ Tomas Babej (2):
    IPA
 -  Allow underscore in record targets
 
-.. _version_3.1.3_03262013:
+
 
 Version 3.1.3 (03/26/2013)
 ==========================
 
-.. _alexander_bokovoy_2:
+
 
 Alexander Bokovoy (2):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -2450,7 +2450,7 @@ Alexander Bokovoy (2):
    domain
 -  Process exceptions when talking to Dogtag
 
-.. _ana_krivokapic_6:
+
 
 Ana Krivokapic (6):
 ^^^^^^^^^^^^^^^^^^^
@@ -2463,7 +2463,7 @@ Ana Krivokapic (6):
 -  Realm Domains page
 -  Use default NETBIOS name in unattended ipa-adtrust-install
 
-.. _jakub_hrozek_1_4:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
@@ -2471,7 +2471,7 @@ Jakub Hrozek (1):
 -  Allow ipa-replica-conncheck and ipa-adtrust-install to read krb5
    includedir
 
-.. _jan_cholasta_6:
+
 
 Jan Cholasta (6):
 ^^^^^^^^^^^^^^^^^
@@ -2484,7 +2484,7 @@ Jan Cholasta (6):
 -  Fix internal error in output_for_cli method of
    sudorule_{enable,disable}.
 
-.. _martin_kosek_33:
+
 
 Martin Kosek (33):
 ^^^^^^^^^^^^^^^^^^
@@ -2523,14 +2523,14 @@ Martin Kosek (33):
 -  Bump selinux-policy requires
 -  Become 3.1.3
 
-.. _petr_spacek_1_6:
+
 
 Petr Spacek (1):
 ^^^^^^^^^^^^^^^^
 
 -  Add 389 DS plugin for special idnsSOASerial attribute handling
 
-.. _petr_viktorin_23:
+
 
 Petr Viktorin (23):
 ^^^^^^^^^^^^^^^^^^^
@@ -2562,7 +2562,7 @@ Petr Viktorin (23):
 -  cli: Do interactive prompting after a context is created
 -  Fix installing server with external CA
 
-.. _petr_vobornik_36:
+
 
 Petr Vobornik (36):
 ^^^^^^^^^^^^^^^^^^^
@@ -2607,7 +2607,7 @@ Petr Vobornik (36):
 -  Added Web UI support for service PAC type option: NONE
 -  Load extension.js after UI AMD modules.
 
-.. _rob_crittenden_10:
+
 
 Rob Crittenden (10):
 ^^^^^^^^^^^^^^^^^^^^
@@ -2624,7 +2624,7 @@ Rob Crittenden (10):
 -  Don't base64-encode the CA cert when uploading it during an upgrade.
 -  Improve some error handling in ipa-replica-manage
 
-.. _sumit_bose_7:
+
 
 Sumit Bose (7):
 ^^^^^^^^^^^^^^^
@@ -2637,7 +2637,7 @@ Sumit Bose (7):
 -  ipa-extdom: Double-free in ipa_extdom_common.c
 -  ipa-pwd: Unchecked return value ipapwd_chpwop()
 
-.. _tomas_babej_13:
+
 
 Tomas Babej (13):
 ^^^^^^^^^^^^^^^^^
@@ -2656,40 +2656,40 @@ Tomas Babej (13):
 -  Enforce exact SID match when adding or modifying a ID range
 -  Add logging to join command
 
-.. _sumit_bose_1_6:
+
 
 Sumit Bose (1):
 ^^^^^^^^^^^^^^^
 
 -  ipa-kdb: Free talloc autofree context when module is closed
 
-.. _version_3.1.2_01232013:
+
 
 Version 3.1.2 (01/23/2013)
 ==========================
 
-.. _alexander_bokovoy_1_4:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Update plugin to upload CA certificate to LDAP
 
-.. _ana_krivokapic_1:
+
 
 Ana Krivokapic (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Raise ValidationError for incorrect subtree option.
 
-.. _john_dennis_1:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  Use secure method to acquire IPA CA certificate
 
-.. _martin_kosek_5_1:
+
 
 Martin Kosek (5):
 ^^^^^^^^^^^^^^^^^
@@ -2700,7 +2700,7 @@ Martin Kosek (5):
 -  Upgrade process should not crash on named restart
 -  Installer should not connect to 127.0.0.1
 
-.. _rob_crittenden_5_1:
+
 
 Rob Crittenden (5):
 ^^^^^^^^^^^^^^^^^^^
@@ -2711,33 +2711,33 @@ Rob Crittenden (5):
 -  Update anonymous access ACI to protect secret attributes.
 -  Become IPA 3.1.2
 
-.. _simo_sorce_1_1:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  Upload CA cert in the directory on install
 
-.. _version_3.1.1_01082013:
+
 
 Version 3.1.1 (01/08/2013)
 ==========================
 
-.. _jr_aquino_1_2:
+
 
 JR Aquino (1):
 ^^^^^^^^^^^^^^
 
 -  Allow PKI-CA Replica Installs when CRL exceeds default maxber value
 
-.. _john_dennis_1_1:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  Cookie Expires date should be locale insensitive
 
-.. _lynn_root_2:
+
 
 Lynn Root (2):
 ^^^^^^^^^^^^^^
@@ -2745,7 +2745,7 @@ Lynn Root (2):
 -  Fixed the catch of the hostname option during ipa-server-install
 -  Raise ValidationError when CSR does not have a subject hostname
 
-.. _martin_kosek_4_2:
+
 
 Martin Kosek (4):
 ^^^^^^^^^^^^^^^^^
@@ -2755,21 +2755,21 @@ Martin Kosek (4):
 -  Fix delegation-find command --group handling
 -  Do not crash when Kerberos SRV record is not found
 
-.. _rob_crittenden_1_2:
+
 
 Rob Crittenden (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Become IPA 3.1.1
 
-.. _simo_sorce_1_2:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  Log info on failure to connect
 
-.. _tomas_babej_2_3:
+
 
 Tomas Babej (2):
 ^^^^^^^^^^^^^^^^
@@ -2778,12 +2778,12 @@ Tomas Babej (2):
    commands
 -  Forbid overlapping rid ranges for the same id range
 
-.. _version_3.0.2_12112012:
+
 
 Version 3.0.2 (12/11/2012)
 ==========================
 
-.. _alexander_bokovoy_3:
+
 
 Alexander Bokovoy (3):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -2792,7 +2792,7 @@ Alexander Bokovoy (3):
 -  trusts: replace use of python-crypto by m2crypto
 -  Propagate kinit errors with trust account
 
-.. _jakub_hrozek_4:
+
 
 Jakub Hrozek (4):
 ^^^^^^^^^^^^^^^^^
@@ -2802,21 +2802,21 @@ Jakub Hrozek (4):
 -  Specify includedir in krb5.conf on new installs
 -  Add the includedir to krb5.conf on upgrades
 
-.. _john_dennis_1_2:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  Compliant client side session cookie behavior
 
-.. _lubomir_rintel_1:
+
 
 Lubomir Rintel (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Drop unused readline import
 
-.. _martin_kosek_5_2:
+
 
 Martin Kosek (5):
 ^^^^^^^^^^^^^^^^^
@@ -2827,7 +2827,7 @@ Martin Kosek (5):
 -  Improve ipa-replica-prepare error message
 -  Fix sshd feature check
 
-.. _petr_viktorin_2_1:
+
 
 Petr Viktorin (2):
 ^^^^^^^^^^^^^^^^^^
@@ -2835,7 +2835,7 @@ Petr Viktorin (2):
 -  Provide explicit user name for Dogtag installation scripts
 -  Add Lubomir Rintel to Contributors.txt
 
-.. _petr_vobornik_4:
+
 
 Petr Vobornik (4):
 ^^^^^^^^^^^^^^^^^^
@@ -2845,7 +2845,7 @@ Petr Vobornik (4):
 -  Better licensing information of 3rd party code
 -  Better error message for login of users from other realms
 
-.. _rob_crittenden_5_2:
+
 
 Rob Crittenden (5):
 ^^^^^^^^^^^^^^^^^^^
@@ -2856,14 +2856,14 @@ Rob Crittenden (5):
 -  Reorder XML-RPC initialization in ipa-join to avoid segfault.
 -  Become IPA 3.0.2
 
-.. _simo_sorce_1_3:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  MS-PAC: Special case NFS services
 
-.. _sumit_bose_3_1:
+
 
 Sumit Bose (3):
 ^^^^^^^^^^^^^^^
@@ -2872,26 +2872,26 @@ Sumit Bose (3):
 -  Restart sssd after authconfig update
 -  Do not recommend how to configure DNS in error message
 
-.. _tomas_babej_1:
+
 
 Tomas Babej (1):
 ^^^^^^^^^^^^^^^^
 
 -  Add detection for users from trusted/invalid realms
 
-.. _version_3.1.0_12102012:
+
 
 Version 3.1.0 (12/10/2012)
 ==========================
 
-.. _ade_lee_1:
+
 
 Ade Lee (1):
 ^^^^^^^^^^^^
 
 -  Changes to use a single database for dogtag and IPA
 
-.. _alexander_bokovoy_8_1:
+
 
 Alexander Bokovoy (8):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -2906,14 +2906,14 @@ Alexander Bokovoy (8):
 -  trusts: replace use of python-crypto by m2crypto
 -  Propagate kinit errors with trust account
 
-.. _endi_sukma_dewata_1:
+
 
 Endi Sukma Dewata (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Configuring CA with ConfigParser.
 
-.. _jakub_hrozek_5:
+
 
 Jakub Hrozek (5):
 ^^^^^^^^^^^^^^^^^
@@ -2924,14 +2924,14 @@ Jakub Hrozek (5):
 -  Specify includedir in krb5.conf on new installs
 -  Add the includedir to krb5.conf on upgrades
 
-.. _jan_cholasta_1_1:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Reword description of the --passsync option of ipa-replica-manage.
 
-.. _john_dennis_2_2:
+
 
 John Dennis (2):
 ^^^^^^^^^^^^^^^^
@@ -2939,14 +2939,14 @@ John Dennis (2):
 -  log dogtag errors
 -  Compliant client side session cookie behavior
 
-.. _lubomir_rintel_1_1:
+
 
 Lubomir Rintel (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Drop unused readline import
 
-.. _martin_kosek_18:
+
 
 Martin Kosek (18):
 ^^^^^^^^^^^^^^^^^^
@@ -2970,14 +2970,14 @@ Martin Kosek (18):
 -  Improve ipa-replica-prepare error message
 -  Fix sshd feature check
 
-.. _nikolai_kondrashov_1:
+
 
 Nikolai Kondrashov (1):
 ^^^^^^^^^^^^^^^^^^^^^^^
 
--  Add uninstall command hints to ipa-*-instal
+-  Add uninstall command hints to ipa-\*-instal
 
-.. _petr_viktorin_12:
+
 
 Petr Viktorin (12):
 ^^^^^^^^^^^^^^^^^^^
@@ -2996,7 +2996,7 @@ Petr Viktorin (12):
 -  Provide explicit user name for Dogtag installation scripts
 -  Add Lubomir Rintel to Contributors.txt
 
-.. _petr_vobornik_7_2:
+
 
 Petr Vobornik (7):
 ^^^^^^^^^^^^^^^^^^
@@ -3009,7 +3009,7 @@ Petr Vobornik (7):
 -  Better licensing information of 3rd party code
 -  Better error message for login of users from other realms
 
-.. _rob_crittenden_16_1:
+
 
 Rob Crittenden (16):
 ^^^^^^^^^^^^^^^^^^^^
@@ -3034,7 +3034,7 @@ Rob Crittenden (16):
 -  Set min for selinux-policy to 3.11.1-60
 -  Reorder XML-RPC initialization in ipa-join to avoid segfault.
 
-.. _simo_sorce_7:
+
 
 Simo Sorce (7):
 ^^^^^^^^^^^^^^^
@@ -3047,7 +3047,7 @@ Simo Sorce (7):
 -  Save service name on service startup/shutdown
 -  MS-PAC: Special case NFS services
 
-.. _sumit_bose_7_1:
+
 
 Sumit Bose (7):
 ^^^^^^^^^^^^^^^
@@ -3060,7 +3060,7 @@ Sumit Bose (7):
 -  Restart sssd after authconfig update
 -  Do not recommend how to configure DNS in error message
 
-.. _tomas_babej_5:
+
 
 Tomas Babej (5):
 ^^^^^^^^^^^^^^^^
@@ -3071,12 +3071,12 @@ Tomas Babej (5):
 -  IPA Server check in ipa-replica-manage
 -  Add detection for users from trusted/invalid realms
 
-.. _version_3.0.1_11092012:
+
 
 Version 3.0.1 (11/09/2012)
 ==========================
 
-.. _alexander_bokovoy_4:
+
 
 Alexander Bokovoy (4):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -3087,28 +3087,28 @@ Alexander Bokovoy (4):
 -  Clarify trust-add help regarding multiple runs against the same
    domain
 
-.. _jakub_hrozek_1_5:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
 
 -  ipa-client-automount: Add the autofs service if it doesn't exist yet
 
-.. _jan_cholasta_1_2:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Reword description of the --passsync option of ipa-replica-manage.
 
-.. _john_dennis_1_3:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  log dogtag errors
 
-.. _martin_kosek_9:
+
 
 Martin Kosek (9):
 ^^^^^^^^^^^^^^^^^
@@ -3123,14 +3123,14 @@ Martin Kosek (9):
 -  Do not require resolvable nameserver in DNS install
 -  Disable global forwarding per-zone
 
-.. _nikolai_kondrashov_1_1:
+
 
 Nikolai Kondrashov (1):
 ^^^^^^^^^^^^^^^^^^^^^^^
 
--  Add uninstall command hints to ipa-*-install
+-  Add uninstall command hints to ipa-\*-install
 
-.. _petr_viktorin_3:
+
 
 Petr Viktorin (3):
 ^^^^^^^^^^^^^^^^^^
@@ -3140,7 +3140,7 @@ Petr Viktorin (3):
    forward/reverse resolution check
 -  Make sure the CA is running when starting services
 
-.. _petr_vobornik_2:
+
 
 Petr Vobornik (2):
 ^^^^^^^^^^^^^^^^^^
@@ -3148,7 +3148,7 @@ Petr Vobornik (2):
 -  Simpler instructions to generate certificate
 -  Fixed incorrect link to browser config after session expiration
 
-.. _rob_crittenden_11:
+
 
 Rob Crittenden (11):
 ^^^^^^^^^^^^^^^^^^^^
@@ -3168,7 +3168,7 @@ Rob Crittenden (11):
 -  Handle the case where there are no replicas with list-ruv
 -  Become IPA 3.0.1
 
-.. _simo_sorce_6:
+
 
 Simo Sorce (6):
 ^^^^^^^^^^^^^^^
@@ -3180,7 +3180,7 @@ Simo Sorce (6):
 -  Revert "Save service name on service startup"
 -  Save service name on service startup/shutdown
 
-.. _sumit_bose_4:
+
 
 Sumit Bose (4):
 ^^^^^^^^^^^^^^^
@@ -3190,7 +3190,7 @@ Sumit Bose (4):
 -  Restart httpd if ipa-server-trust-ad is installed or updated
 -  ipa-adtrust-install: allow to reset te NetBIOS domain name
 
-.. _tomas_babej_4:
+
 
 Tomas Babej (4):
 ^^^^^^^^^^^^^^^^
@@ -3200,12 +3200,12 @@ Tomas Babej (4):
 -  Make service naming in ipa-server-install consistent
 -  IPA Server check in ipa-replica-manage
 
-.. _version_3.0.0_ga_10152012:
+
 
 Version 3.0.0 GA (10/15/2012)
 =============================
 
-.. _alexander_bokovoy_7_1:
+
 
 Alexander Bokovoy (7):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -3221,14 +3221,14 @@ Alexander Bokovoy (7):
 -  Use PublicError instructions support for trust-add case when domain
    is not found
 
-.. _jan_cholasta_1_3:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Do not show full SSH public keys in command output by default.
 
-.. _martin_kosek_3_1:
+
 
 Martin Kosek (3):
 ^^^^^^^^^^^^^^^^^
@@ -3237,7 +3237,7 @@ Martin Kosek (3):
 -  Move CRL publish directory to IPA owned directory
 -  Fix CA CRL migration crash in ipa-upgradeconfig
 
-.. _petr_viktorin_4_1:
+
 
 Petr Viktorin (4):
 ^^^^^^^^^^^^^^^^^^
@@ -3248,14 +3248,14 @@ Petr Viktorin (4):
 -  Create Firefox extension on upgrade and replica-install
 -  Pull translation files from Transifex
 
-.. _petr_vobornik_1_1:
+
 
 Petr Vobornik (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Add mime type to httpd ipa.conf for xpi exetension
 
-.. _rob_crittenden_6:
+
 
 Rob Crittenden (6):
 ^^^^^^^^^^^^^^^^^^^
@@ -3267,7 +3267,7 @@ Rob Crittenden (6):
 -  Explicitly disable betxn plugins for the time being.
 -  Become IPA 3.0.0
 
-.. _simo_sorce_2_6:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -3275,7 +3275,7 @@ Simo Sorce (2):
 -  Fix trust attributes for ipa trust-add
 -  Use stricter requirement for krb5-server
 
-.. _sumit_bose_2:
+
 
 Sumit Bose (2):
 ^^^^^^^^^^^^^^^
@@ -3283,19 +3283,19 @@ Sumit Bose (2):
 -  ipa-adtrust-install: create fallback group with ldif file
 -  ipadb: reload trust information if domain is not known
 
-.. _tomas_babej_1_1:
+
 
 Tomas Babej (1):
 ^^^^^^^^^^^^^^^^
 
 -  Notify user about necessary ports in ipa-client-install
 
-.. _version_3.0.0_rc_2_10082012:
+
 
 Version 3.0.0 RC 2 (10/08/2012)
 ===============================
 
-.. _alexander_bokovoy_3_1:
+
 
 Alexander Bokovoy (3):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -3304,7 +3304,7 @@ Alexander Bokovoy (3):
 -  Change the way SID comparison is done for belonging to trusted domain
 -  Support python-ldap 2.3 way of making LDAP control
 
-.. _martin_kosek_9_1:
+
 
 Martin Kosek (9):
 ^^^^^^^^^^^^^^^^^
@@ -3319,7 +3319,7 @@ Martin Kosek (9):
 -  Only use service PAC type as an override
 -  Fill ipakrbprincipalalias on upgrades
 
-.. _petr_viktorin_4_2:
+
 
 Petr Viktorin (4):
 ^^^^^^^^^^^^^^^^^^
@@ -3329,7 +3329,7 @@ Petr Viktorin (4):
 -  Fix NS records in installation
 -  Wait for secure Dogtag ports when starting the pki services
 
-.. _petr_vobornik_5_2:
+
 
 Petr Vobornik (5):
 ^^^^^^^^^^^^^^^^^^
@@ -3340,7 +3340,7 @@ Petr Vobornik (5):
 -  Configuration pages changed to use new FF extension
 -  Removal of delegation-uris instruction from browser config
 
-.. _rob_crittenden_3_1:
+
 
 Rob Crittenden (3):
 ^^^^^^^^^^^^^^^^^^^
@@ -3350,7 +3350,7 @@ Rob Crittenden (3):
    connections
 -  Become IPA v3 RC 2 (3.0.0.rc2)
 
-.. _sumit_bose_12:
+
 
 Sumit Bose (12):
 ^^^^^^^^^^^^^^^^
@@ -3371,7 +3371,7 @@ Sumit Bose (12):
 -  Add new ipaIDobject to DNA plugin configuraton
 -  ipasam: generate proper SID for trusted domain object
 
-.. _tomas_babej_2_4:
+
 
 Tomas Babej (2):
 ^^^^^^^^^^^^^^^^
@@ -3379,19 +3379,19 @@ Tomas Babej (2):
 -  Improve user addition to default group in user-add
 -  Restrict admins group modifications
 
-.. _version_3.0.0_rc_1_09262012:
+
 
 Version 3.0.0 RC 1 (09/26/2012)
 ===============================
 
-.. _ade_lee_1_1:
+
 
 Ade Lee (1):
 ^^^^^^^^^^^^
 
 -  Modifications to install scripts for dogtag 10
 
-.. _alexander_bokovoy_5:
+
 
 Alexander Bokovoy (5):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -3402,7 +3402,7 @@ Alexander Bokovoy (5):
 -  Add documentation for 'ipa trust' set of commands
 -  Document use of external group membership
 
-.. _jan_cholasta_3_1:
+
 
 Jan Cholasta (3):
 ^^^^^^^^^^^^^^^^^
@@ -3412,7 +3412,7 @@ Jan Cholasta (3):
    configuration.
 -  SSHPublicKey.fingerprint_dns_sha1 should return unicode value.
 
-.. _martin_kosek_8:
+
 
 Martin Kosek (8):
 ^^^^^^^^^^^^^^^^^
@@ -3426,7 +3426,7 @@ Martin Kosek (8):
 -  Use default reverse zone consistently
 -  Fix idrange plugin help
 
-.. _petr_viktorin_7_1:
+
 
 Petr Viktorin (7):
 ^^^^^^^^^^^^^^^^^^
@@ -3439,7 +3439,7 @@ Petr Viktorin (7):
 -  Only stop the main DS instance when upgrading it
 -  Use correct Dogtag port in ipaserver.install.certs
 
-.. _petr_vobornik_4_1:
+
 
 Petr Vobornik (4):
 ^^^^^^^^^^^^^^^^^^
@@ -3449,7 +3449,7 @@ Petr Vobornik (4):
 -  Show trust status in add success notification
 -  Fix integer validation when boundary value is empty string
 
-.. _rob_crittenden_3_2:
+
 
 Rob Crittenden (3):
 ^^^^^^^^^^^^^^^^^^^
@@ -3458,7 +3458,7 @@ Rob Crittenden (3):
 -  Run the CLEANALLRUV task when deleting a replication agreement.
 -  When deleting a master, try to prevent orphaning other servers.
 
-.. _sumit_bose_3_2:
+
 
 Sumit Bose (3):
 ^^^^^^^^^^^^^^^
@@ -3467,7 +3467,7 @@ Sumit Bose (3):
 -  Set master_kdc and dns_lookup_kdc to true
 -  Update krb5.conf during ipa-adtrust-install
 
-.. _tomas_babej_2_5:
+
 
 Tomas Babej (2):
 ^^^^^^^^^^^^^^^^
@@ -3475,19 +3475,19 @@ Tomas Babej (2):
 -  Make sure selinuxusemap behaves consistently to HBAC rule
 -  Improves sssd.conf handling during ipa-client uninstall
 
-.. _yuri_chornoivan_1:
+
 
 Yuri Chornoivan (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Fix various typos.
 
-.. _version_3.0.0_beta_3_09102012:
+
 
 Version 3.0.0 Beta 3 (09/10/2012)
 =================================
 
-.. _alexander_bokovoy_4_1:
+
 
 Alexander Bokovoy (4):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -3497,7 +3497,7 @@ Alexander Bokovoy (4):
 -  Add ACI to allow regenerating ipaNTHash from ipasam
 -  Ask for admin password in ipa-adtrust-install
 
-.. _jan_cholasta_1_4:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
@@ -3505,7 +3505,7 @@ Jan Cholasta (1):
 -  Use OpenSSH-style public keys as the preferred format of SSH public
    keys.
 
-.. _john_dennis_4:
+
 
 John Dennis (4):
 ^^^^^^^^^^^^^^^^
@@ -3515,7 +3515,7 @@ John Dennis (4):
 -  ipa user-find --manager does not find matches
 -  prevent last admin from being disabled
 
-.. _martin_kosek_12:
+
 
 Martin Kosek (12):
 ^^^^^^^^^^^^^^^^^^
@@ -3533,7 +3533,7 @@ Martin Kosek (12):
 -  Update DNS zone allow-query validation test
 -  Cast DNS SOA serial maximum boundary to long
 
-.. _petr_viktorin_3_1:
+
 
 Petr Viktorin (3):
 ^^^^^^^^^^^^^^^^^^
@@ -3542,7 +3542,7 @@ Petr Viktorin (3):
 -  Run ntpdate in verbose mode, not debug (i.e. no-op) mode
 -  Add nsds5ReplicaStripAttrs to replica agreements
 
-.. _petr_vobornik_15:
+
 
 Petr Vobornik (15):
 ^^^^^^^^^^^^^^^^^^^
@@ -3563,7 +3563,7 @@ Petr Vobornik (15):
 -  Update of confirmation of actions
 -  Reflect API change of SSH store in Web UI
 
-.. _rob_crittenden_8:
+
 
 Rob Crittenden (8):
 ^^^^^^^^^^^^^^^^^^^
@@ -3578,7 +3578,7 @@ Rob Crittenden (8):
 -  Fix some restart script issues found with certificate renewal.
 -  Become IPA v3 beta 3 (3.0.0.pre3)
 
-.. _sumit_bose_27:
+
 
 Sumit Bose (27):
 ^^^^^^^^^^^^^^^^
@@ -3612,7 +3612,7 @@ Sumit Bose (27):
 -  Trust CLI: return more details of added trust
 -  Trust CLI: mark trust-mod for future use
 
-.. _tomas_babej_5_1:
+
 
 Tomas Babej (5):
 ^^^^^^^^^^^^^^^^
@@ -3623,12 +3623,12 @@ Tomas Babej (5):
 -  Change slapi_mods_init in ipa_winsync_pre_ad_mod_user_mods_cb
 -  Sort policies numerically in pwpolicy-find
 
-.. _version_3.0.0_beta_2_08172012:
+
 
 Version 3.0.0 Beta 2 (08/17/2012)
 =================================
 
-.. _alexander_bokovoy_11_1:
+
 
 Alexander Bokovoy (11):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -3650,21 +3650,21 @@ Alexander Bokovoy (11):
 -  Handle exceptions when establishing trusts
 -  Add internationalization to DCE RPC code
 
-.. _david_spångberg_1:
+
 
 David Spångberg (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Indirect roles in WebUI
 
-.. _gowrishankar_rajaiyan_1:
+
 
 Gowrishankar Rajaiyan (1):
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Adding exit status 3 & 4 to ipa-client-install man page
 
-.. _jan_cholasta_2:
+
 
 Jan Cholasta (2):
 ^^^^^^^^^^^^^^^^^
@@ -3673,7 +3673,7 @@ Jan Cholasta (2):
 -  Raise Base64DecodeError instead of ConversionError when base64
    decoding fails in Bytes parameters.
 
-.. _john_dennis_2_3:
+
 
 John Dennis (2):
 ^^^^^^^^^^^^^^^^
@@ -3681,7 +3681,7 @@ John Dennis (2):
 -  Use DN objects instead of strings
 -  Installation fails when CN is set in certificate subject base
 
-.. _martin_kosek_12_1:
+
 
 Martin Kosek (12):
 ^^^^^^^^^^^^^^^^^^
@@ -3699,7 +3699,7 @@ Martin Kosek (12):
 -  Bump bind-dyndb-ldap version for F18
 -  Fix winsync agreements creation
 
-.. _petr_viktorin_7_2:
+
 
 Petr Viktorin (7):
 ^^^^^^^^^^^^^^^^^^
@@ -3712,7 +3712,7 @@ Petr Viktorin (7):
 -  Update translations
 -  Create /etc/sysconfig/network if it doesn't exist
 
-.. _petr_vobornik_31:
+
 
 Petr Vobornik (31):
 ^^^^^^^^^^^^^^^^^^^
@@ -3750,7 +3750,7 @@ Petr Vobornik (31):
 -  Disable caching of Web UI login_kerberos request
 -  Update other facets on delete from search page
 
-.. _rob_crittenden_12:
+
 
 Rob Crittenden (12):
 ^^^^^^^^^^^^^^^^^^^^
@@ -3770,7 +3770,7 @@ Rob Crittenden (12):
 -  Raise proper exception when given a bad DN attribute.
 -  Validate default user in ordered list when using setattr, require MLS
 
-.. _simo_sorce_14:
+
 
 Simo Sorce (14):
 ^^^^^^^^^^^^^^^^
@@ -3790,7 +3790,7 @@ Simo Sorce (14):
 -  Split out manipulation of logon_info blob
 -  Add PAC filtering
 
-.. _sumit_bose_4_1:
+
 
 Sumit Bose (4):
 ^^^^^^^^^^^^^^^
@@ -3800,7 +3800,7 @@ Sumit Bose (4):
 -  ipasam: replace testing code
 -  Fix typo
 
-.. _tomas_babej_5_2:
+
 
 Tomas Babej (5):
 ^^^^^^^^^^^^^^^^
@@ -3811,7 +3811,7 @@ Tomas Babej (5):
 -  Corrects help description of selinuxusermap.
 -  Improves exception handling in ipa-replica-prepare.
 
-.. _version_3.0.0_beta_1_07022012:
+
 
 Version 3.0.0 Beta 1 (07/02/2012)
 =================================
@@ -3819,7 +3819,7 @@ Version 3.0.0 Beta 1 (07/02/2012)
 The development of 3.0 occurred simultaneously with 2.2.0 so there is
 some overlap.
 
-.. _adam_young_10:
+
 
 Adam Young (10):
 ^^^^^^^^^^^^^^^^
@@ -3835,7 +3835,7 @@ Adam Young (10):
 -  Remove delegation from browser config
 -  ignore generated services file.
 
-.. _alexander_bokovoy_61:
+
 
 Alexander Bokovoy (61):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -3917,7 +3917,7 @@ Alexander Bokovoy (61):
 -  Add error condition handling to the SASL bind callback in ipasam
 -  Add support for external group members
 
-.. _endi_s._dewata_105:
+
 
 Endi S. Dewata (105):
 ^^^^^^^^^^^^^^^^^^^^^
@@ -4028,7 +4028,7 @@ Endi S. Dewata (105):
 -  Show password expiration date.
 -  Fixed boot.ldif permission.
 
-.. _jr_aquino_5:
+
 
 JR Aquino (5):
 ^^^^^^^^^^^^^^
@@ -4041,7 +4041,7 @@ JR Aquino (5):
 -  Move Managed Entries into their own container in the replicated
    space.
 
-.. _jan_cholasta_42:
+
 
 Jan Cholasta (42):
 ^^^^^^^^^^^^^^^^^^
@@ -4101,7 +4101,7 @@ Jan Cholasta (42):
 -  Redo boolean value encoding.
 -  SSH configuration fixes.
 
-.. _john_dennis_38:
+
 
 John Dennis (38):
 ^^^^^^^^^^^^^^^^^
@@ -4145,14 +4145,14 @@ John Dennis (38):
 -  Fix name error in hbactest
 -  validate i18n strings when running "make lint"
 
-.. _lars_sjostrom_1:
+
 
 Lars Sjostrom (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Add disovery domain if client domain is different from server domain
 
-.. _marko_myllynen_2:
+
 
 Marko Myllynen (2):
 ^^^^^^^^^^^^^^^^^^^
@@ -4160,7 +4160,7 @@ Marko Myllynen (2):
 -  include <stdint.h> for uintptr_t
 -  Don't remove /tmp when removing temp cert dir
 
-.. _martin_kosek_171:
+
 
 Martin Kosek (171):
 ^^^^^^^^^^^^^^^^^^^
@@ -4337,7 +4337,7 @@ Martin Kosek (171):
 -  Per-domain DNS record permissions
 -  Create default range entry after upgrade
 
-.. _nalin_dahyabhai_5:
+
 
 Nalin Dahyabhai (5):
 ^^^^^^^^^^^^^^^^^^^^
@@ -4353,7 +4353,7 @@ Nalin Dahyabhai (5):
 -  add a pair of ethers maps for computers with hardware addresses on
    file
 
-.. _ondrej_hamada_26:
+
 
 Ondrej Hamada (26):
 ^^^^^^^^^^^^^^^^^^^
@@ -4385,7 +4385,7 @@ Ondrej Hamada (26):
 -  Case sensitive renaming of objects
 -  Change random passwords behaviour
 
-.. _petr_viktorin_60:
+
 
 Petr Viktorin (60):
 ^^^^^^^^^^^^^^^^^^^
@@ -4454,7 +4454,7 @@ Petr Viktorin (60):
 -  Explicitly filter options that permission-{add,mod} passes to
    aci-{add,mod}
 
-.. _petr_vobornik_158:
+
 
 Petr Vobornik (158):
 ^^^^^^^^^^^^^^^^^^^^
@@ -4623,7 +4623,7 @@ Petr Vobornik (158):
 -  Added logout button
 -  Forms based authentication UI
 
-.. _rob_crittenden_191:
+
 
 Rob Crittenden (191):
 ^^^^^^^^^^^^^^^^^^^^^
@@ -4853,7 +4853,7 @@ Rob Crittenden (191):
 -  Fix compatibility with Fedora 18.
 -  Become IPA v3 beta 1 (3.0.0.pre1)
 
-.. _simo_sorce_104:
+
 
 Simo Sorce (104):
 ^^^^^^^^^^^^^^^^^
@@ -4964,7 +4964,7 @@ Simo Sorce (104):
 -  ipa-kdb: Add MS-PAC on constrained delegation.
 -  Add support for disabling KDC writes
 
-.. _sumit_bose_32:
+
 
 Sumit Bose (32):
 ^^^^^^^^^^^^^^^^
@@ -5002,40 +5002,40 @@ Sumit Bose (32):
 -  Use DN objects instead of strings in adtrustinstance
 -  Set samba_portmapper SELinux boolean during ipa-adtrust-install
 
-.. _yuri_chornoivan_1_1:
+
 
 Yuri Chornoivan (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Fix typos
 
-.. _version_2.2.2_02132013:
+
 
 Version 2.2.2 (02/13/2013)
 ==========================
 
-.. _alexander_bokovoy_1_5:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Update plugin to upload CA certificate to LDAP
 
-.. _jan_cholasta_1_5:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Pylint cleanup
 
-.. _john_dennis_1_4:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  Use secure method to acquire IPA CA certificate
 
-.. _martin_kosek_3_2:
+
 
 Martin Kosek (3):
 ^^^^^^^^^^^^^^^^^
@@ -5044,47 +5044,47 @@ Martin Kosek (3):
 -  Filter suffix in replication management tools
 -  Become IPA 2.2.2
 
-.. _rob_crittenden_1_3:
+
 
 Rob Crittenden (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Do SSL CA verification and hostname validation.
 
-.. _simo_sorce_1_4:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  Upload CA cert in the directory on install
 
-.. _version_2.2.1_10232012:
+
 
 Version 2.2.1 (10/23/2012)
 ==========================
 
-.. _endi_sukma_dewata_1_1:
+
 
 Endi Sukma Dewata (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Fixed boot.ldif permission.
 
-.. _jan_cholasta_1_6:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  SSH configuration fixes.
 
-.. _martin_kosek_1_1:
+
 
 Martin Kosek (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Become IPA 2.2.1
 
-.. _petr_viktorin_2_2:
+
 
 Petr Viktorin (2):
 ^^^^^^^^^^^^^^^^^^
@@ -5093,7 +5093,7 @@ Petr Viktorin (2):
    not in the replica file
 -  Create Firefox extension on upgrade and replica-install
 
-.. _petr_vobornik_8:
+
 
 Petr Vobornik (8):
 ^^^^^^^^^^^^^^^^^^
@@ -5107,7 +5107,7 @@ Petr Vobornik (8):
 -  Add mime type to httpd ipa.conf for xpi extension
 -  RPM spec fix for ffconfig.js and ffconfig_page.js
 
-.. _rob_crittenden_2:
+
 
 Rob Crittenden (2):
 ^^^^^^^^^^^^^^^^^^^
@@ -5115,7 +5115,7 @@ Rob Crittenden (2):
 -  Check for locked-out user before incrementing lastfail.
 -  Index the fqdn attribute.
 
-.. _simo_sorce_2_7:
+
 
 Simo Sorce (2):
 ^^^^^^^^^^^^^^^
@@ -5123,12 +5123,12 @@ Simo Sorce (2):
 -  Fix migration code password setting.
 -  Add support for disabling KDC writes
 
-.. _version_2.2.0_05032012:
+
 
 Version 2.2.0 (05/03/2012)
 ==========================
 
-.. _alexander_bokovoy_1_6:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -5136,7 +5136,7 @@ Alexander Bokovoy (1):
 -  When changing multiple booleans with setsebool, pass each of them
    separately.
 
-.. _jan_cholasta_9:
+
 
 Jan Cholasta (9):
 ^^^^^^^^^^^^^^^^^
@@ -5156,7 +5156,7 @@ Jan Cholasta (9):
 -  Set the "KerberosAuthentication" option in sshd_config to "no"
    instead of "yes".
 
-.. _john_dennis_7:
+
 
 John Dennis (7):
 ^^^^^^^^^^^^^^^^
@@ -5169,14 +5169,14 @@ John Dennis (7):
 -  don't append basedn to container if it is included
 -  Fix name error in hbactest
 
-.. _lars_sjostrom_1_1:
+
 
 Lars Sjostrom (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Add disovery domain if client domain is different from server domain
 
-.. _martin_kosek_29:
+
 
 Martin Kosek (29):
 ^^^^^^^^^^^^^^^^^^
@@ -5211,7 +5211,7 @@ Martin Kosek (29):
 -  Improve error message in zonemgr validator
 -  Make ipa 2.2 client capable of joining an older server
 
-.. _ondrej_hamada_7:
+
 
 Ondrej Hamada (7):
 ^^^^^^^^^^^^^^^^^^
@@ -5224,7 +5224,7 @@ Ondrej Hamada (7):
 -  Unable to rename permission object
 -  Fix empty external member processing
 
-.. _petr_viktorin_22:
+
 
 Petr Viktorin (22):
 ^^^^^^^^^^^^^^^^^^^
@@ -5254,7 +5254,7 @@ Petr Viktorin (22):
 -  Document the 'nonempty' flag
 -  Additional tests for pwpolicy
 
-.. _petr_vobornik_22:
+
 
 Petr Vobornik (22):
 ^^^^^^^^^^^^^^^^^^^
@@ -5283,7 +5283,7 @@ Petr Vobornik (22):
 -  Added permission field to delegation
 -  Paging disable for password policies
 
-.. _rob_crittenden_34:
+
 
 Rob Crittenden (34):
 ^^^^^^^^^^^^^^^^^^^^
@@ -5328,26 +5328,26 @@ Rob Crittenden (34):
 -  Update docs for user-status, always show disabled, time for each
    server.
 
-.. _simo_sorce_1_5:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  Fix memleak and silence Coverity defects
 
-.. _version_2.1.90_beta_1_03052012:
+
 
 Version 2.1.90 Beta 1 (03/05/2012)
 ==================================
 
-.. _jan_cholasta_1_7:
+
 
 Jan Cholasta (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Configure SSH features of SSSD in ipa-client-install.
 
-.. _john_dennis_8:
+
 
 John Dennis (8):
 ^^^^^^^^^^^^^^^^
@@ -5360,7 +5360,7 @@ John Dennis (8):
 -  Implement password based session login
 -  Log a message when returning non-success HTTP result
 
-.. _martin_kosek_21:
+
 
 Martin Kosek (21):
 ^^^^^^^^^^^^^^^^^^
@@ -5387,7 +5387,7 @@ Martin Kosek (21):
 -  Add help for new structured DNS framework
 -  Improve dnsrecord interactive help
 
-.. _ondrej_hamada_3:
+
 
 Ondrej Hamada (3):
 ^^^^^^^^^^^^^^^^^^
@@ -5396,7 +5396,7 @@ Ondrej Hamada (3):
 -  Migration warning when compat enabled
 -  ipa-client-install not calling authconfig
 
-.. _petr_viktorin_6_1:
+
 
 Petr Viktorin (6):
 ^^^^^^^^^^^^^^^^^^
@@ -5409,7 +5409,7 @@ Petr Viktorin (6):
 -  Use stricter semantics when checking IP address for DNS records
 -  Use reboot from /sbin
 
-.. _petr_voborník_18:
+
 
 Petr Voborník (18):
 ^^^^^^^^^^^^^^^^^^^
@@ -5436,7 +5436,7 @@ Petr Voborník (18):
 -  Added logout button
 -  Forms based authentication UI
 
-.. _rob_crittenden_37:
+
 
 Rob Crittenden (37):
 ^^^^^^^^^^^^^^^^^^^^
@@ -5483,7 +5483,7 @@ Rob Crittenden (37):
 -  Only warn if ipa-getkeytab doesn't get all requested enctypes.
 -  Fix NSS no_init in the NSSHTTPS class
 
-.. _simo_sorce_4:
+
 
 Simo Sorce (4):
 ^^^^^^^^^^^^^^^
@@ -5493,12 +5493,12 @@ Simo Sorce (4):
 -  ipa-kdb: fix delegation acl check
 -  Fix ticket checks when using either s4u2proxy or a delegated krbtgt
 
-.. _version_2.1.90_alpha_2_02172012:
+
 
 Version 2.1.90 Alpha 2 (02/17/2012)
 ===================================
 
-.. _adam_young_4:
+
 
 Adam Young (4):
 ^^^^^^^^^^^^^^^
@@ -5508,7 +5508,7 @@ Adam Young (4):
 -  Remove delegation from browser config
 -  ignore generated services file.
 
-.. _alexander_bokovoy_14:
+
 
 Alexander Bokovoy (14):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -5530,7 +5530,7 @@ Alexander Bokovoy (14):
 -  Adopt to python-ldap 2.4.6 by removing unused references which are
    not available in python-ldap anymore
 
-.. _endi_s._dewata_60:
+
 
 Endi S. Dewata (60):
 ^^^^^^^^^^^^^^^^^^^^
@@ -5596,7 +5596,7 @@ Endi S. Dewata (60):
 -  Use fixed font when displaying certificate.
 -  Show password expiration date.
 
-.. _jr_aquino_1_3:
+
 
 JR Aquino (1):
 ^^^^^^^^^^^^^^
@@ -5604,7 +5604,7 @@ JR Aquino (1):
 -  Replication: Adjust replica installation to omit processing memberof
    computations
 
-.. _jan_cholasta_15:
+
 
 Jan Cholasta (15):
 ^^^^^^^^^^^^^^^^^^
@@ -5628,7 +5628,7 @@ Jan Cholasta (15):
 -  Add SSH service to platform-specific services.
 -  Move the compat module from ipalib to ipapython.
 
-.. _john_dennis_10:
+
 
 John Dennis (10):
 ^^^^^^^^^^^^^^^^^
@@ -5644,14 +5644,14 @@ John Dennis (10):
 -  Add ipa_memcached service
 -  add session manager and cache krb auth
 
-.. _marko_myllynen_1:
+
 
 Marko Myllynen (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  include <stdint.h> for uintptr_t
 
-.. _martin_kosek_52:
+
 
 Martin Kosek (52):
 ^^^^^^^^^^^^^^^^^^
@@ -5709,7 +5709,7 @@ Martin Kosek (52):
 -  Remove unused options from ipa-managed-entries
 -  Add Petr Viktorín to Contributors.txt
 
-.. _ondrej_hamada_9:
+
 
 Ondrej Hamada (9):
 ^^^^^^^^^^^^^^^^^^
@@ -5724,7 +5724,7 @@ Ondrej Hamada (9):
 -  Fix 'no-reverse' option description
 -  Memberof attribute control and update
 
-.. _petr_viktorin_5:
+
 
 Petr Viktorin (5):
 ^^^^^^^^^^^^^^^^^^
@@ -5735,7 +5735,7 @@ Petr Viktorin (5):
 -  Clean up i18n strings
 -  Internationalization for HBAC and ipalib.output
 
-.. _petr_voborník_55:
+
 
 Petr Voborník (55):
 ^^^^^^^^^^^^^^^^^^^
@@ -5796,7 +5796,7 @@ Petr Voborník (55):
 -  UI support for ssh keys
 -  Redirection to PTR records from A,AAAA records
 
-.. _rob_crittenden_54:
+
 
 Rob Crittenden (54):
 ^^^^^^^^^^^^^^^^^^^^
@@ -5860,7 +5860,7 @@ Rob Crittenden (54):
 -  Set min for 389-ds-base to 1.2.10.1-1 to fix install segfault, schema
    replication.
 
-.. _simo_sorce_77:
+
 
 Simo Sorce (77):
 ^^^^^^^^^^^^^^^^
@@ -5943,7 +5943,7 @@ Simo Sorce (77):
 -  ipa-kdb: set krblastpwdchange only when keys have been effectively
    changed
 
-.. _version_2.1.90_alpha_1_02072012:
+
 
 Version 2.1.90 Alpha 1 (02/07/2012)
 ===================================
@@ -5955,12 +5955,12 @@ Fedora 17 package deadlines.
 
 The changelog is included in the public alpha 2 entry.
 
-.. _version_2.1.4_12062011:
+
 
 Version 2.1.4 (12/06/2011)
 ==========================
 
-.. _alexander_bokovoy_4_2:
+
 
 Alexander Bokovoy (4):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -5970,28 +5970,28 @@ Alexander Bokovoy (4):
 -  Spin for connection success also when socket is not (yet) available
 -  Quote multiple workers option
 
-.. _endi_s._dewata_1:
+
 
 Endi S. Dewata (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Added current password field.
 
-.. _evgeny_sinelnikov_1:
+
 
 Evgeny Sinelnikov (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  ipa_kpasswd: Update selinux policies for ldap and urandom
 
-.. _john_dennis_1_5:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  Unable to Download Certificate with Browser
 
-.. _martin_kosek_8_1:
+
 
 Martin Kosek (8):
 ^^^^^^^^^^^^^^^^^
@@ -6005,14 +6005,14 @@ Martin Kosek (8):
 -  Enable automember for upgraded servers
 -  Make ipa-server-install clean after itself
 
-.. _ondrej_hamada_1:
+
 
 Ondrej Hamada (1):
 ^^^^^^^^^^^^^^^^^^
 
 -  Client install root privileges check
 
-.. _rob_crittenden_4_2:
+
 
 Rob Crittenden (4):
 ^^^^^^^^^^^^^^^^^^^
@@ -6023,26 +6023,26 @@ Rob Crittenden (4):
 -  Require an HTTP Referer header in the server. Send one in ipa tools.
    (CVE-2011-3636)
 
-.. _simo_sorce_1_6:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  Modify random salt creation for interoperability
 
-.. _version_2.1.3_10192011:
+
 
 Version 2.1.3 (10/19/2011)
 ==========================
 
-.. _adam_young_1:
+
 
 Adam Young (1):
 ^^^^^^^^^^^^^^^
 
 -  Fix dynamic display of UI tabs based on rights
 
-.. _alexander_bokovoy_8_2:
+
 
 Alexander Bokovoy (8):
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -6059,7 +6059,7 @@ Alexander Bokovoy (8):
 -  Document --preserve-sssd option of ipa-client-install
 -  Use set class instead of dictview class as set is wider supported
 
-.. _jan_cholasta_3_2:
+
 
 Jan Cholasta (3):
 ^^^^^^^^^^^^^^^^^
@@ -6068,14 +6068,14 @@ Jan Cholasta (3):
 -  Don't leak passwords through kdb5_ldap_util command line arguments.
 -  Remove more redundant configuration values from krb5.conf.
 
-.. _john_dennis_1_6:
+
 
 John Dennis (1):
 ^^^^^^^^^^^^^^^^
 
 -  Fix Spanish po translation file
 
-.. _martin_kosek_12_2:
+
 
 Martin Kosek (12):
 ^^^^^^^^^^^^^^^^^^
@@ -6093,7 +6093,7 @@ Martin Kosek (12):
 -  Fix ipa-client-install -U option alignment
 -  Improve hostgroup/netgroup collision checks
 
-.. _petr_vobornik_2_1:
+
 
 Petr Vobornik (2):
 ^^^^^^^^^^^^^^^^^^
@@ -6101,7 +6101,7 @@ Petr Vobornik (2):
 -  Added missing fields to password policy page
 -  Fixed: Unable to add external user for RunAs User for Sudo rules
 
-.. _rob_crittenden_12_1:
+
 
 Rob Crittenden (12):
 ^^^^^^^^^^^^^^^^^^^^
@@ -6124,19 +6124,19 @@ Rob Crittenden (12):
    config.
 -  Fix typo in invalid PTR record error message
 
-.. _simo_sorce_1_7:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  updates: Change default limits on ldap searches
 
-.. _version_2.1.2_not_publicly_released_10072011:
+
 
 Version 2.1.2 (not publicly released, ~ 10/07/2011)
 ===================================================
 
-.. _adam_young_4_1:
+
 
 Adam Young (4):
 ^^^^^^^^^^^^^^^
@@ -6146,7 +6146,7 @@ Adam Young (4):
 -  Execute pki proxy setup when server is upgraded if needed
 -  Force the upgrade of pki-setup when upgrading the RPMS
 
-.. _alexander_bokovoy_13:
+
 
 Alexander Bokovoy (13):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -6170,7 +6170,7 @@ Alexander Bokovoy (13):
 -  Before kinit, try to sync time with the NTP servers of the domain we
    are joining
 
-.. _endi_s._dewata_24:
+
 
 Endi S. Dewata (24):
 ^^^^^^^^^^^^^^^^^^^^
@@ -6200,21 +6200,21 @@ Endi S. Dewata (24):
 -  I18n clean-up.
 -  Disable sudo options Delete button if nothing selected.
 
-.. _jr_aquino_1_4:
+
 
 JR Aquino (1):
 ^^^^^^^^^^^^^^
 
 -  25 Create Tool for Enabling/Disabling Managed Entry Plugins
 
-.. _jakub_hrozek_1_6:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Silence a compilation warning in ipa_kpasswd
 
-.. _jan_cholasta_6_1:
+
 
 Jan Cholasta (6):
 ^^^^^^^^^^^^^^^^^
@@ -6228,7 +6228,7 @@ Jan Cholasta (6):
    for use in URLs.
 -  Work around pkisilent bugs.
 
-.. _jr_aquino_1_5:
+
 
 JR Aquino (1):
 ^^^^^^^^^^^^^^
@@ -6236,14 +6236,14 @@ JR Aquino (1):
 -  Move Managed Entries into their own container in the replicated
    space.
 
-.. _marko_myllynen_1_1:
+
 
 Marko Myllynen (1):
 ^^^^^^^^^^^^^^^^^^^
 
 -  Don't remove /tmp when removing temp cert dir
 
-.. _martin_kosek_21_1:
+
 
 Martin Kosek (21):
 ^^^^^^^^^^^^^^^^^^
@@ -6270,7 +6270,7 @@ Martin Kosek (21):
 -  Prevent collisions of hostgroup and netgroup
 -  Make sure ipa-client-install returns correct error code
 
-.. _nalin_dahyabhai_2:
+
 
 Nalin Dahyabhai (2):
 ^^^^^^^^^^^^^^^^^^^^
@@ -6279,7 +6279,7 @@ Nalin Dahyabhai (2):
 -  Update man pages to note that PKCS#12 files also contain private
    keys, and that the "pkinit" options refer to the KDC's credentials
 
-.. _petr_vobornik_10:
+
 
 Petr Vobornik (10):
 ^^^^^^^^^^^^^^^^^^^
@@ -6296,7 +6296,7 @@ Petr Vobornik (10):
 -  Split Web UI initialization to several smaller calls #2
 -  Split Web UI initialization to several smaller calls
 
-.. _rob_crittenden_20:
+
 
 Rob Crittenden (20):
 ^^^^^^^^^^^^^^^^^^^^
@@ -6328,7 +6328,7 @@ Rob Crittenden (20):
 -  When calculating indirect membership don't test nesting on users and
    hosts.
 
-.. _simo_sorce_4_1:
+
 
 Simo Sorce (4):
 ^^^^^^^^^^^^^^^
@@ -6338,7 +6338,7 @@ Simo Sorce (4):
 -  ipa-client-install: Fix joining when LDAP access is restricted
 -  replica-prepare: anonymous binds may be disallowed
 
-.. _sumit_bose_2_1:
+
 
 Sumit Bose (2):
 ^^^^^^^^^^^^^^^
@@ -6346,33 +6346,33 @@ Sumit Bose (2):
 -  Call standard_logging_setup() before any logging is done
 -  ipa-pwd-extop: allow password change on all connections with SSF>1
 
-.. _yuri_chornoivan_1_2:
+
 
 Yuri Chornoivan (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Fix typos
 
-.. _version_2.1.1_09082011:
+
 
 Version 2.1.1 (09/08/2011)
 ==========================
 
-.. _adam_young_1_1:
+
 
 Adam Young (1):
 ^^^^^^^^^^^^^^^
 
 -  enable proxy for dogtag
 
-.. _alexander_bokovoy_1_7:
+
 
 Alexander Bokovoy (1):
 ^^^^^^^^^^^^^^^^^^^^^^
 
 -  Propagate environment when it is required.
 
-.. _endi_s._dewata_19:
+
 
 Endi S. Dewata (19):
 ^^^^^^^^^^^^^^^^^^^^
@@ -6397,7 +6397,7 @@ Endi S. Dewata (19):
 -  Fixed missing permission filter field.
 -  Fixed problem with combobox using Sahi
 
-.. _jan_cholasta_6_2:
+
 
 Jan Cholasta (6):
 ^^^^^^^^^^^^^^^^^
@@ -6411,7 +6411,7 @@ Jan Cholasta (6):
 -  Add subscription-manager dependency for RHEL.
 -  Verify that the external CA certificate files are correct.
 
-.. _john_dennis_11:
+
 
 John Dennis (11):
 ^^^^^^^^^^^^^^^^^
@@ -6428,7 +6428,7 @@ John Dennis (11):
 -  internationalize cli help framework
 -  improve i18n docstring extraction
 
-.. _jr_aquino_2:
+
 
 JR Aquino (2):
 ^^^^^^^^^^^^^^
@@ -6436,7 +6436,7 @@ JR Aquino (2):
 -  Improve sudorule documentation
 -  Create FreeIPA CLI Plugin for the 389 Auto Membership plugin
 
-.. _martin_kosek_6:
+
 
 Martin Kosek (6):
 ^^^^^^^^^^^^^^^^^
@@ -6448,7 +6448,7 @@ Martin Kosek (6):
 -  Fix sudo help and summaries
 -  Let Bind track data changes
 
-.. _petr_vobornik_8_1:
+
 
 Petr Vobornik (8):
 ^^^^^^^^^^^^^^^^^^
@@ -6462,7 +6462,7 @@ Petr Vobornik (8):
 -  Enable update and reset button only if dirty
 -  Attributes table not scrollable
 
-.. _rob_crittenden_24:
+
 
 Rob Crittenden (24):
 ^^^^^^^^^^^^^^^^^^^^
@@ -6493,19 +6493,19 @@ Rob Crittenden (24):
 -  Set min nvr of 389-ds-base to 1.2.9.7-1 for BZ 728605
 -  Become IPA 2.1.1
 
-.. _simo_sorce_1_8:
+
 
 Simo Sorce (1):
 ^^^^^^^^^^^^^^^
 
 -  conncheck: Fix List of ports to check
 
-.. _version_2.1.0_08172011:
+
 
 Version 2.1.0 (08/17/2011)
 ==========================
 
-.. _adam_young_62:
+
 
 Adam Young (62):
 ^^^^^^^^^^^^^^^^
@@ -6583,7 +6583,7 @@ Adam Young (62):
 -  dns section header i18n.
 -  use other_entity for adder columns
 
-.. _alexander_bokovoy_10:
+
 
 Alexander Bokovoy (10):
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -6599,7 +6599,7 @@ Alexander Bokovoy (10):
 -  Ensure network configuration file has proper permissions
 -  Pass empty options as empty arrays for supported dns record types.
 
-.. _endi_s._dewata_114:
+
 
 Endi S. Dewata (114):
 ^^^^^^^^^^^^^^^^^^^^^
@@ -6719,14 +6719,14 @@ Endi S. Dewata (114):
 -  Fixed link style in dialog box.
 -  Fixed problem with buttons in enrollment dialog.
 
-.. _jakub_hrozek_1_7:
+
 
 Jakub Hrozek (1):
 ^^^^^^^^^^^^^^^^^
 
 -  Remove wrong kpasswd sysconfig
 
-.. _jan_cholasta_34:
+
 
 Jan Cholasta (34):
 ^^^^^^^^^^^^^^^^^^
@@ -6769,7 +6769,7 @@ Jan Cholasta (34):
    asking for DNS forwarders, so that DNS configuration is done in one
    place.
 
-.. _john_dennis_9:
+
 
 John Dennis (9):
 ^^^^^^^^^^^^^^^^
@@ -6785,7 +6785,7 @@ John Dennis (9):
 -  Clean up existing DN object usage
 -  transifex translation adjustment
 
-.. _jr_aquino_15:
+
 
 JR Aquino (15):
 ^^^^^^^^^^^^^^^
@@ -6806,7 +6806,7 @@ JR Aquino (15):
 -  Correct behavior for sudorunasgroup vs sudorunasuser
 -  Correct sudo runasuser and runasgroup attributes in schema
 
-.. _martin_kosek_68:
+
 
 Martin Kosek (68):
 ^^^^^^^^^^^^^^^^^^
@@ -6880,21 +6880,21 @@ Martin Kosek (68):
 -  Update 389-ds-base version
 -  Update pki-ca version
 
-.. _nalin_dahyabhai_1:
+
 
 Nalin Dahyabhai (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Select a server with a CA on it when submitting signing requests.
 
-.. _pavel_zuna_1:
+
 
 Pavel Zuna (1):
 ^^^^^^^^^^^^^^^
 
 -  Fix gidnumber option of user-add command.
 
-.. _petr_vobornik_3:
+
 
 Petr Vobornik (3):
 ^^^^^^^^^^^^^^^^^^
@@ -6903,7 +6903,7 @@ Petr Vobornik (3):
 -  Fixed adding host without DNS reverse zone
 -  Redirection after changing browser configuration
 
-.. _rich_megginson_3:
+
 
 Rich Megginson (3):
 ^^^^^^^^^^^^^^^^^^^
@@ -6912,7 +6912,7 @@ Rich Megginson (3):
 -  modify user deleted in AD crashes winsync
 -  memory leak in ipa_winsync_get_new_ds_user_dn_cb
 
-.. _rob_crittenden_90:
+
 
 Rob Crittenden (90):
 ^^^^^^^^^^^^^^^^^^^^
@@ -7029,7 +7029,7 @@ Rob Crittenden (90):
 -  Fix date order in changelog.
 -  Re-arrange CA configuration code to reduce the number of restarts.
 
-.. _simo_sorce_4_2:
+
 
 Simo Sorce (4):
 ^^^^^^^^^^^^^^^
@@ -7039,14 +7039,14 @@ Simo Sorce (4):
 -  install-scripts: avoid using --list with chkconfig
 -  Don't set the password expiration to the current time
 
-.. _yuri_chornoivan_1_3:
+
 
 Yuri Chornoivan (1):
 ^^^^^^^^^^^^^^^^^^^^
 
 -  Typos in freeIPA messages and man page
 
-.. _kyle_baker_5:
+
 
 Kyle Baker (5):
 ^^^^^^^^^^^^^^^
@@ -7057,7 +7057,7 @@ Kyle Baker (5):
 -  Tab and spacing on list
 -  Facet icon swap and tab sizing
 
-.. _version_2.0.1_05022011:
+
 
 Version 2.0.1 (05/02/2011)
 ==========================
@@ -7106,7 +7106,7 @@ Version 2.0.1 (05/02/2011)
 -  Fix resource leaks.
 -  ipautil: Preserve environment unless explicitly overridden by caller.
 
-.. _version_2.0.0_ga_03252011:
+
 
 Version 2.0.0 GA (03/25/2011)
 =============================
@@ -7126,7 +7126,7 @@ Version 2.0.0 GA (03/25/2011)
    same.
 -  Fix uninitialized variable.
 
-.. _version_2.0.0_rc_3_03102011:
+
 
 Version 2.0.0 RC 3 (03/10/2011)
 ===============================
@@ -7136,7 +7136,7 @@ Version 2.0.0 RC 3 (03/10/2011)
 -  Use TLS for CA replication
 -  Setting up Winsync agreements has been fixed
 
-.. _version_2.0.0_rc_2_02282011:
+
 
 Version 2.0.0 RC 2 (02/28/2011)
 ===============================
@@ -7148,7 +7148,7 @@ Version 2.0.0 RC 2 (02/28/2011)
 -  IPv6 support
 -  Documentation updates
 
-.. _version_2.0.0_rc_1_02142011:
+
 
 Version 2.0.0 RC 1 (02/14/2011)
 ===============================
@@ -7157,7 +7157,7 @@ Version 2.0.0 RC 1 (02/14/2011)
 -  DNS improvements.
 -  WebUI improvements.
 
-.. _version_2.0.0_beta_2_02032011:
+
 
 Version 2.0.0 Beta 2 (02/03/2011)
 =================================
@@ -7174,7 +7174,7 @@ Version 2.0.0 Beta 2 (02/03/2011)
 
 collision with IPA v1.x and many others.
 
-.. _version_2.0.0_beta_1_12232010:
+
 
 Version 2.0.0 Beta 1 (12/23/2010)
 =================================
@@ -7204,7 +7204,7 @@ Version 2.0.0 Beta 1 (12/23/2010)
    entry.
 -  A number of i18n issues have been addressed.
 
-.. _version_2.0.0_alpha_5_11112010:
+
 
 Version 2.0.0 Alpha 5 (11/11/2010)
 ==================================
@@ -7252,7 +7252,7 @@ Version 2.0.0 Alpha 5 (11/11/2010)
 -  Updated a lot of man pages.
 -  Support Fedora 14.
 
-.. _version_2.0.0_alpha_4_07152010:
+
 
 Version 2.0.0 Alpha 4 (07/15/2010)
 ==================================
@@ -7287,7 +7287,7 @@ Version 2.0.0 Alpha 4 (07/15/2010)
 -  Fixed netgroups plugin, it was generating the wrong attributes.
 -  Other minor polish and bug fixes.
 
-.. _version_2.0.0_alpha_3_05072010:
+
 
 Version 2.0.0 Alpha 3 (05/07/2010)
 ==================================
@@ -7302,7 +7302,7 @@ Version 2.0.0 Alpha 3 (05/07/2010)
    allow_all, will be removed before you deploy.
 -  We no longer enable nscd, sssd handles caching now
 
-.. _version_2.0.0_alpha_2_02182010:
+
 
 Version 2.0.0 Alpha 2 (02/18/2010)
 ==================================
@@ -7315,7 +7315,7 @@ Version 2.0.0 Alpha 2 (02/18/2010)
    certificates on a member server.
 -  General improvements and enhancements across the whole project.
 
-.. _version_2.0.0_alpha_1_10282009:
+
 
 Version 2.0.0 Alpha 1 (10/28/2009)
 ==================================
@@ -7326,7 +7326,7 @@ Version 2.0.0 Alpha 1 (10/28/2009)
    certificates
 -  NIS compatibility plug-in
 
-.. _version_1.2.1:
+
 
 Version 1.2.1
 =============
@@ -7337,7 +7337,7 @@ Version 1.2.1
    `471808 <https://bugzilla.redhat.com/show_bug.cgi?id=471808>`__
 -  Fixed some crash conditions in the password plugin
 
-.. _version_1.2.0:
+
 
 Version 1.2.0
 =============
@@ -7366,7 +7366,7 @@ Version 1.2.0
 -  Add list of DNs that are not controlled by password policy.
    `471130 <https://bugzilla.redhat.com/show_bug.cgi?id=471130>`__
 
-.. _version_1.1.0:
+
 
 Version 1.1.0
 =============
@@ -7446,14 +7446,14 @@ Version 1.1.0
 -  Make sure we always have the [domain-realm] section or kerberos libs
    misbehave.
 
-.. _version_1.0.0:
+
 
 Version 1.0.0
 =============
 
 Lots of bug fixes
 
-.. _version_0.99:
+
 
 Version 0.99
 ============

@@ -313,7 +313,7 @@ And add that role to the task for changing passwords:
    description: Allowed to change passwords
    member: cn=helpdesk,cn=rolegroups,dc=example,dc=com
 
-.. _use_cases11:
+
 
 Use Cases
 ----------------------------------------------------------------------------------------------

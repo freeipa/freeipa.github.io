@@ -12,12 +12,12 @@ The goal is to release a version of freeIPA that will:
 -  Provide initial Policy and Audit functionality (dropped, except for
    Host Based Access Control)
 
-.. _general_overview:
+
 
 General Overview
 ================
 
-.. _main_use_cases_solved_by_ipav1:
+
 
 Main Use Cases Solved by IPAv1
 ------------------------------
@@ -28,7 +28,7 @@ Main Use Cases Solved by IPAv1
 -  Easily install Kerberos, LDAP, NTP
 -  Enable basic synchronization with AD (with 1.1)
 
-.. _main_use_cases_for_ipav2:
+
 
 Main Use Cases for IPAv2
 ------------------------
@@ -98,7 +98,7 @@ Main Use Cases for IPAv2
       control decisions and authentication to new applications (do early
       in the project)
 
-.. _compelling_reason_to_use:
+
 
 Compelling Reason to Use
 ========================
@@ -131,7 +131,7 @@ Glossary
 | Access policy : Policy describing the rules by which an authenticated
   user can connect to a resource
 
-.. _high_level_requirements:
+
 
 High Level Requirements
 =======================
@@ -152,12 +152,12 @@ High Level Requirements
 -  14. Web UI/CLI
 -  15. Quality, Performance and Documentation
 
-.. _detailed_requirements:
+
 
 Detailed Requirements
 =====================
 
-.. _machine_identity_and_authentication:
+
 
 1. Machine Identity and Authentication
 --------------------------------------
@@ -262,7 +262,7 @@ guest image in virtual machine.
    an upgrade of the OS including a major upgrade for example from 4 to
    5. **(Planned)**
 
-.. _services_identity:
+
 
 2. Services Identity
 --------------------
@@ -325,7 +325,7 @@ guest image in virtual machine.
 -  **Sharing of the kerberos principals between services**
 -  **No policy management**
 
-.. _extensible_plug_in_architecture_framework:
+
 
 3. Extensible (Plug-in) Architecture / Framework
 ------------------------------------------------
@@ -410,7 +410,7 @@ guest image in virtual machine.
       We are not planning to implement these changes in v2. It is big
       effort - deferred.**
 
-.. _certificate_and_registration_authority_integration:
+
 
 5. Certificate and Registration Authority Integration
 -----------------------------------------------------
@@ -589,7 +589,7 @@ deferred. **(Was considered but no hooks will be implemented.)**
 -  [6.10] Enable existing SUDO configuration files to be loaded into IPA
    server
 
-.. _ipa_client:
+
 
 7. IPA client
 -------------
@@ -725,7 +725,7 @@ deferred. **(Was considered but no hooks will be implemented.)**
    pam_mkhomedir cfg. **(Have not been evaluated but might be doable
    without requiring extra time)**
 
-.. _migration_and_interoperability:
+
 
 8. Migration and Interoperability
 ---------------------------------
@@ -862,7 +862,7 @@ PROJECT.**
 -  [9.19] Audit information in transit shall adhere to existing audit
    information standards as much as possible.
 
-.. _security_of_the_system:
+
 
 10. Security of the System
 --------------------------
@@ -878,7 +878,7 @@ PROJECT.**
 -  [10.6] There should be a way from the IPA UI to disallow anonymous
    reads to the IPA (v2)
 
-.. _freeradius_plug_in:
+
 
 11. FreeRADIUS Plug-in
 ----------------------
@@ -958,7 +958,7 @@ PROJECT.**
       -  Yes/No sent back and based on this WLAN connection (and full
          access to corporate network) given
 
-.. _active_directory_integration:
+
 
 12. Active Directory Integration
 --------------------------------
@@ -966,7 +966,7 @@ PROJECT.**
 -  [12.1] Support Kerberos trust between IPA and AD. **(WAS NOT
    EVALUATED - MOVED to V3)**
 
-.. _user_identity_and_administration_enhancements:
+
 
 13. User Identity and Administration Enhancements
 -------------------------------------------------
@@ -998,7 +998,7 @@ PROJECT.**
 -  [13.7] Allow setting different password policies per different
    (non-overlapping) groups of users. **(Planned)**
 
-.. _web_uicli:
+
 
 14. Web UI/CLI-----------
 
@@ -1017,7 +1017,7 @@ PROJECT.**
 -  [14.6] Localize into Chinese, Japanese, Korean, German, French,
    Spanish **(Planned after release)**
 
-.. _quality_performance_and_documentation:
+
 
 15. Quality, Performance and Documentation
 ------------------------------------------

@@ -3,7 +3,7 @@
 Test Plan
 =========
 
-.. _common_setup:
+
 
 Common setup
 ------------
@@ -14,12 +14,12 @@ domain ipatest.com)
 Running AD installations - root domain (adtest.com), subdomain
 (sub.adtest.com), tree root domain (adtree.com).
 
-.. _external_trust_test_cases:
+
 
 External trust test cases
 -------------------------
 
-.. _trust_with_upn_test_cases:
+
 
 Trust with UPN test cases
 -------------------------

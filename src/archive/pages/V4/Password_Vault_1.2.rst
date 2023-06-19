@@ -8,12 +8,12 @@ New vault management commands:
 
 -  Copying vault secrets.
 
-.. _vault_management:
+
 
 Vault Management
 ================
 
-.. _copying_vault_secret:
+
 
 Copying vault secret
 --------------------
@@ -40,7 +40,7 @@ To copy a secret from a source vault to an existing target vault:
 
    $ ipa vault-archive <target vault> --source-vault <source vault> [--source-service <service>|--source-shared|--source-user <user>] [--source-password-file <password> file] [--source-private-key-file <private key file>]
 
-.. _service_operations:
+
 
 Service Operations
 ==================
@@ -48,7 +48,7 @@ Service Operations
 Vault 1.2 provides a mechanism to copy a secret from one vault to
 another. This can be used to simplify provisioning service passwords.
 
-.. _creating_service_password:
+
 
 Creating service password
 -------------------------
@@ -72,7 +72,7 @@ Then service password can be copied into a new service vault:
      Vault name: password
      Type: asymmetric
 
-.. _changing_service_vault_password:
+
 
 Changing service vault password
 -------------------------------
@@ -101,7 +101,7 @@ vault password to each service instance using the following command:
      Vault name: password
      Type: asymmetric
 
-.. _escrow_operations:
+
 
 Escrow Operations
 =================
@@ -109,7 +109,7 @@ Escrow Operations
 Vault encryption key can be escrowed such that if needed the escrow
 officer can recover the secrets.
 
-.. _creating_a_vault_with_escrow:
+
 
 Creating a vault with escrow
 ----------------------------
@@ -138,7 +138,7 @@ An escrowed asymmetric vault can be created with the following command:
      Vault name: EscrowedAsymmetricVault
      Vault type: asymmetric
 
-.. _escrowing_an_existing_vault:
+
 
 Escrowing an existing vault
 ---------------------------
@@ -173,7 +173,7 @@ A vault owner can unescrow a vault box as follows:
    Modified vault "Vault"
    ----------------------
 
-.. _recovering_an_escrowed_secret:
+
 
 Recovering an escrowed secret
 -----------------------------
@@ -188,7 +188,7 @@ private key to decrypt the secret key:
    Retrieved data from vault "EscrowedVault"
    -----------------------------------------
 
-.. _changing_escrowed_vault_password:
+
 
 Changing escrowed vault password
 --------------------------------
@@ -237,7 +237,7 @@ If necessary, the escrow officer can reject the request as follows:
    Password change canceled
    ------------------------
 
-.. _ldap_directory:
+
 
 LDAP Directory
 ==============
@@ -256,7 +256,7 @@ Schema
    ipaVaultPendingEscrowedSecretKey:: ...
    ipaVaultPendingEscrowedPrivateKey:: ...
 
-.. _access_control_list:
+
 
 Access Control List
 -------------------

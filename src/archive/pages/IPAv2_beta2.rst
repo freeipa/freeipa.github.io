@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _overview_of_freeipa_v2_beta_2:
+
 
 Overview of FreeIPA v2 Beta 2
 -----------------------------
@@ -16,7 +16,7 @@ server <http://www.freeipa.org/page/Downloads>`__.
    on our mailing list:
    `mailto:freeipa-users@redhat.com <mailto:freeipa-users@redhat.com>`__
 
-.. _main_highlights_of_the_beta_2:
+
 
 Main Highlights of the Beta 2
 -----------------------------
@@ -35,7 +35,7 @@ project. Modifications include but are not limited to:
 -  The package name has been changed to "freeipa" to avoid collision
    with IPA v1.x and many others.
 
-.. _focus_of_the_beta_testing:
+
 
 Focus of the Beta Testing
 -------------------------
@@ -51,7 +51,7 @@ Focus of the Beta Testing
    `section <https://fedoraproject.org/wiki/Features/FreeIPAv2#How_To_Test>`__
    outlines the areas that we are mostly interested to test.
 
-.. _significant_changes_since_beta_1:
+
 
 Significant Changes Since Beta 1
 --------------------------------
@@ -60,7 +60,7 @@ To see all the tickets addressed between the two beta releases see the
 following
 `link <https://fedorahosted.org/freeipa/milestone/0.8%20iteration%20-%20January%20%28cleanup%29>`__.
 
-.. _repositories_and_installation:
+
 
 Repositories and Installation
 -----------------------------
@@ -72,7 +72,7 @@ Repositories and Installation
    currently available from the updates-testing repository. Please make
    sure to enable this repository before you proceed with installation.
 
-.. _known_issues:
+
 
 Known Issues
 ------------

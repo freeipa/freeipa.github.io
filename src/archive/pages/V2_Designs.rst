@@ -3,7 +3,7 @@ PRD
 
 -  `V2 PRD <FreeIPAv2:V2PRD>`__
 
-.. _v2_designs:
+
 
 V2 Designs
 ----------

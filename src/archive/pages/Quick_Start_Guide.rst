@@ -1,4 +1,4 @@
-.. _getting_started_with_ipa:
+
 
 Getting started with IPA
 ------------------------
@@ -8,7 +8,7 @@ and especially a security one might be a challenge. The following
 document is an attempt to help those who are not familiar with Linux and
 want to give IPA a try.
 
-.. _preparing_a_platform:
+
 
 Preparing a Platform
 --------------------
@@ -28,7 +28,7 @@ RAM
 freeIPA requires an absolute minimum of 1.2GB to install with a CA. 2GB
 is recommended for a demo/test system.
 
-.. _static_hostname:
+
 
 Static Hostname
 ----------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ changes, Kerberos authentication may break. Thus, the testing machine
 should not use dynamically configured hostname from DHCP, but rather a
 static one configured in ``/etc/hostname``
 
-.. _dns_rules:
+
 
 DNS Rules
 ----------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ come first. It should look like:
 
    10.0.0.1       server.ipa.test server
 
-.. _select_freeipa_version:
+
 
 Select FreeIPA version
 ----------------------
@@ -89,7 +89,7 @@ to install. There are two options:
    in an isolated `Docker container <Docker>`__ without need to create
    virtual machines.
 
-.. _open_ports_in_the_firewall:
+
 
 Open ports in the firewall
 --------------------------
@@ -113,7 +113,7 @@ older names:
    # firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps
    # firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --permanent
 
-.. _installing_freeipa_server:
+
 
 Installing FreeIPA server
 -------------------------
@@ -140,7 +140,7 @@ FreeIPA!
       The command will at first gather all required information and then
       configure all required services.
 
-.. _administrative_users_in_freeipa:
+
 
 Administrative users in FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ specified during the configuration step for the admin user. As a result
 of this operation you acquire Kerberos ticket (`more
 info <KerberosService>`__).
 
-.. _help_system_in_freeipa:
+
 
 Help system in FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ addition of the information. To get more information, run:
 -  ``$ ipa help`` to print help for chosen topic
 -  ``$ ipa help`` to dive into the details of the command or topic
 
-.. _adding_your_first_user:
+
 
 Adding your first user
 ----------------------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ You can now authenticate as the new user with
 command. This will prompt you for a password and the immediately request
 a password change.
 
-.. _web_user_interface:
+
 
 Web User Interface
 ----------------------------------------------------------------------------------------------

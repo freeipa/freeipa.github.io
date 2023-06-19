@@ -10,7 +10,7 @@ when needed. Always make sure, that you read upgrade section of the new
 FreeIPA server release as it may contain important or useful information
 related to upgrade process.
 
-.. _words_of_caution:
+
 
 Words of caution
 ----------------------------------------------------------------------------------------------
@@ -21,12 +21,12 @@ Words of caution
    changes done during the upgrade are replicated to **all FreeIPA
    masters**
 
-.. _versioned_upgrade_notes:
+
 
 Versioned upgrade notes
 -----------------------
 
-.. _freeipa_3.3.0_or_newer:
+
 
 FreeIPA 3.3.0 or newer
 ----------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ Conditions
    period (days or weeks, not months). They should be able to co-exist
    peacefully but new features will not be available on old servers.
 
-.. _freeipa_3.1.0___freeipa_3.3.0:
+
 
 FreeIPA 3.1.0 - FreeIPA 3.3.0
 ----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ To upgrade an existing FreeIPA installation:
 
 ``# yum update freeipa-server``
 
-.. _conditions_1:
+
 
 Conditions
 ^^^^^^^^^^
@@ -76,7 +76,7 @@ Conditions
    of indexes to be configured. RPM update for an IPA server with a
    excessive number of users may require several minutes to finish.
 
-.. _upgrade_in_special_environment_e.g._fedup:
+
 
 Upgrade in special environment (e.g. FedUp)
 ----------------------------------------------------------------------------------------------
@@ -85,14 +85,14 @@ Please note that if you are doing the upgrade in special environment
 (e.g. FedUp) which does not allow running the LDAP server during upgrade
 process, upgrade scripts need to be run manually after the first boot:
 
-.. _freeipa_4.2.0_or_newer:
+
 
 FreeIPA 4.2.0 or newer
 ^^^^^^^^^^^^^^^^^^^^^^
 
 ``# ipa-server-upgrade``
 
-.. _freeipa_4.1.x_or_older:
+
 
 FreeIPA 4.1.x or older
 ^^^^^^^^^^^^^^^^^^^^^^

@@ -21,7 +21,7 @@ Syntax rules
    Describe how to combine data rules in order to create a complete
    certificate field
 
-.. _data_rules:
+
 
 Data rules
 ----------
@@ -35,7 +35,7 @@ Data rules
    attacks
 -  Suppress rendering of a rule if necessary data is missing
 
-.. _syntax_rules:
+
 
 Syntax rules
 ------------
@@ -48,7 +48,7 @@ Syntax rules
 -  Suppress rendering of a rule if none of the data rules it contains
    are going to be rendered
 
-.. _planned_implementation:
+
 
 Planned implementation
 ======================
@@ -67,7 +67,7 @@ be snippets of Jinja2 markup. The formatting process will be as follows:
 #. The final rendered template will be returned to the caller, labeled
    with its function (e.g. a command line or a config file)
 
-.. _data_available_during_final_render:
+
 
 Data available during final render
 ----------------------------------
@@ -78,7 +78,7 @@ Data available during final render
 ``config``
    dict of IPA configuration data (result of the config_show API call)
 
-.. _special_features:
+
 
 Special features
 ----------------
@@ -116,19 +116,21 @@ Example syntax rule:
 
 Example composed config template:
 
-| ``[ req ]``
-| ``prompt = no``
-| ``encrypt_key = no``
-| ````
-| ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
-| ``CN={{subject.username}}{% endsection %}``
-| ````
-| ``req_extensions = exts``
-| ````
-| ``[ exts ]``
-| ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
+::
 
-.. _current_status:
+   | ``[ req ]``
+   | ``prompt = no``
+   | ``encrypt_key = no``
+   | ````
+   | ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
+   | ``CN={{subject.username}}{% endsection %}``
+   | ````
+   | ``req_extensions = exts``
+   | ````
+   | ``[ exts ]``
+   | ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
+
+
 
 Current status
 ==============
@@ -137,7 +139,7 @@ The code `currently under
 review <https://www.redhat.com/archives/freeipa-devel/2016-July/msg00462.html>`__
 implements most of the features described above, with some exceptions:
 
-.. _macros_not_tags:
+
 
 Macros, not tags
 ----------------
@@ -151,7 +153,7 @@ openssl config section. Similarly, the features that allow suppressing
 rules with no data are implemented using jinja2 macros. If the macros
 turn out to be problematic, we may want to move to using tags after all.
 
-.. _rule_suppression:
+
 
 Rule suppression
 ----------------
@@ -178,12 +180,12 @@ for example:
 
 ``email:{{ipa.datafield(subject.mail.0)|quote}}``
 
-.. _alternatives_considered:
+
 
 Alternatives considered
 =======================
 
-.. _template_languages:
+
 
 Template languages
 ------------------
@@ -205,7 +207,7 @@ relationships before settling on jinja2:
    Would only need to define syntax for what we need, but a whole
    language would need to be defined and implemented.
 
-.. _data_interpolation:
+
 
 Data interpolation
 ------------------
@@ -217,7 +219,7 @@ here <V4/Automatic_Certificate_Request_Generation/Thinking_About_Templating_Post
 analyzes some alternative ways of using jinja2 to format rules, besides
 the current option of substituting data rules into syntax rules.
 
-.. _rule_suppression_1:
+
 
 Rule suppression
 ----------------

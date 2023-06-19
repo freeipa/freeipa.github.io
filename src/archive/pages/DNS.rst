@@ -5,7 +5,7 @@ from the tight DNS integration in FreeIPA management framework and have
 configuration changes in FreeIPA server covered by automatic DNS updates
 (see next chapters for more detailed list of benefits).
 
-.. _initial_considerations:
+
 
 Initial Considerations
 ----------------------
@@ -39,7 +39,7 @@ Goals
    beyond easing FreeIPA deployment and maintenance are explicitly out
    of scope.
 
-.. _benefits_of_integrated_dns:
+
 
 Benefits of integrated DNS
 --------------------------
@@ -87,7 +87,7 @@ caveat includes inventing your own top-level domain like ``int.``)
    by multiple parties at the same time, especially when new top-level
    domains are delegated or during company mergers.
 
-.. _internal_only_domains:
+
 
 Internal-only domains
 ----------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ For internal names you can use arbitrary sub-domain in a DNS sub-tree
 you own, e.g. ``int.example.com.``. **Always respect rules from the
 previous section.**
 
-.. _dns_views_split_horizon_dns:
+
 
 DNS views / split-horizon DNS
 ----------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ Most common problems are caused by mis-configuration. Please see
 page <https://fedorahosted.org/bind-dyndb-ldap/#Documentationandsupport>`__
 and `FreeIPA troubleshooting DNS page <Troubleshooting#DNS_Issues>`__.
 
-.. _bug_reporting:
+
 
 Bug reporting
 -------------
@@ -174,7 +174,7 @@ Bug reporting
 Please follow `instructions published by bind-dyndb-ldap
 project <https://fedorahosted.org/bind-dyndb-ldap/wiki/BugReporting>`__.
 
-.. _additional_documentation:
+
 
 Additional Documentation
 ------------------------

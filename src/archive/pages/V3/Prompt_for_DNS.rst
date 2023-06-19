@@ -7,12 +7,12 @@ DNS is an integral part of IPA, particularly when AD trust is involved.
 It should remain an optional feature but rather than relying on users to
 remember to pass an option at install time, it should be prompted for.
 
-.. _use_cases10h:
+
 
 Use Cases
 =========
 
-.. _basic_ipa_installation:
+
 
 Basic IPA installation
 ----------------------
@@ -22,7 +22,7 @@ own domain has advantages like automatic SRV record management. Adding
 additional masters is simplified and makes failover easier since DNS is
 automatically maintained.
 
-.. _ad_trust:
+
 
 AD Trust
 --------

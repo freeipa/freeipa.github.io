@@ -21,18 +21,20 @@ Download and install nss-ldap packages from here.
 Configuration
 =============
 
-.. _configuring_solaris_10_as_an_ipa_client:
+
 
 Configuring Solaris 10 as an IPA Client
 ---------------------------------------
 
-.. _pamldapkrb5_configuration:
+
 
 PAM/LDAP/KRB5 configuration
 ----------------------------------------------------------------------------------------------
 
 /etc/hosts should contain the fully-qualified name of the IPA Solaris
 client
+
+::
 
    | ``10.14.1.48      ipasolaris.example.com       ipasolaris loghost ``
 
@@ -42,6 +44,8 @@ client
 that can resolve at least the IPA Solaris client and the ipa server
 names.
 
+::
+
    | ``search example.com ``
    | `` nameserver bindserver.example.com ``
 
@@ -49,6 +53,8 @@ names.
 
 /etc/nsswitch.conf should be configured to do password and group look up
 via LDAP
+
+::
 
    | ``passwd:     files ldap[NOTFOUND=return] ``
    | `` group:      files ldap[NOTFOUND=return] ``
@@ -61,6 +67,8 @@ first.
 These lines show how to do pam kerberos authentication for console
 login.
 
+::
+
    | ``login   auth requisite          pam_authtok_get.so.1 ``
    | `` login   auth sufficient         pam_krb5.so.1 ``
    | `` login   auth required           pam_dhkeys.so.1 ``
@@ -71,6 +79,8 @@ login.
 --------------
 
 /etc/ldap.conf should be configured as shown below
+
+::
 
    | ``ldap_version 3 ``
    | `` base dc=example,dc=com ``
@@ -91,6 +101,8 @@ login.
 
 /etc/krb5/krb5.conf should be configured as follows for kerberos clients
 to get kerberos tickets..
+
+::
 
    | [libdefaults]
    | default_realm = EXAMPLE.COM
@@ -121,6 +133,8 @@ to get kerberos tickets..
 the Solaris client machine and generate a keytab file. Place this keytab
 on the Solaris machine as /etc/krb5/krb5.keytab
 
+::
+
    | `` # ipa-addservice host/solarisipaclient.example.com ``
    | ``  # ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc ``
 
@@ -131,7 +145,7 @@ on the Solaris machine as /etc/krb5/krb5.keytab
 
 --------------
 
-.. _nfs_v4_configuration_only_solaris_10:
+
 
 NFS v4 Configuration (only Solaris 10)
 ----------------------------------------------------------------------------------------------
@@ -165,21 +179,23 @@ utility.
 
 ::
 
-    # ktutil
-    ktutil: read_kt /tmp/krb5.keytab
-    ktutil: write_kt /etc/krb5/krb5.keytab
-    ktutil: q
+   # ktutil
+   ktutil: read_kt /tmp/krb5.keytab
+   ktutil: write_kt /etc/krb5/krb5.keytab
+   ktutil: q
 
 At this point your IPA client should be fully configured to mount NFS
 shares using your Kerberos credentials.
 
-.. _configuring_solaris_9_as_an_ipa_client:
+
 
 Configuring Solaris 9 as an IPA Client
 --------------------------------------
 
 Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file
+
+::
 
    | ``login   auth requisite          pam_authtok_get.so.1 ``
    | `` login   auth  sufficient        pam_krb5.so.1 use_first_pass ``
@@ -188,7 +204,7 @@ change is in /etc/pam.conf file
    | `` login   auth required           pam_unix_auth.so.1 ``
    | `` login   auth required           pam_dial_auth.so.1 ``
 
-.. _configuring_solaris_8_as_an_ipa_client:
+
 
 Configuring Solaris 8 as an IPA Client
 --------------------------------------
@@ -196,11 +212,13 @@ Configuring Solaris 8 as an IPA Client
 Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file
 
+::
+
    | ``login   auth  sufficient        /usr/lib/security/pam_krb5.so ``
    | `` login   auth required   /usr/lib/security/pam_unix.so use_first_pass ``
    | `` login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1 ``
 
-.. _testing_the_configuration:
+
 
 Testing the configuration
 =========================
@@ -219,18 +237,22 @@ kinit
 getent
 ------
 
-| ``Perform the following commands to make sure that getent in Solaris``
-| ``works with IPA.``
-| ``getent passwd admin``
-| ``getent group ipausers``
+::
 
-.. _console_login:
+   | ``Perform the following commands to make sure that getent in Solaris``
+   | ``works with IPA.``
+   | ``getent passwd admin``
+   | ``getent group ipausers``
+
+
 
 console login
 -------------
 
-| ``At the console of the solaris machine, provide an IPA user name``
-| ``and their Kerberos password to login. ``
+::
+
+   | ``At the console of the solaris machine, provide an IPA user name``
+   | ``and their Kerberos password to login. ``
 
 ssh
 ---
@@ -240,7 +262,7 @@ ssh
 | ``kinit ipauser@EXAMPLE.COM``
 | ``ssh ipauser@ipaserver.example.com``
 
-.. _nfs_v4:
+
 
 NFS v4
 ------

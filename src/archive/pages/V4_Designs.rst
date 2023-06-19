@@ -1,4 +1,4 @@
-.. _page_proposal_using_automatic_categories:
+
 
 Page proposal using automatic categories
 ----------------------------------------

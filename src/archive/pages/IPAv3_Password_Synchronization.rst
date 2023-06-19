@@ -11,7 +11,7 @@ Regardless of the method, to ensure Kerberos interoperability each
 system must be configured to generate encryption keys that are supported
 by both applications.
 
-.. _sharing_clear_text_password:
+
 
 Sharing Clear Text Password
 ===========================
@@ -21,7 +21,7 @@ be distributed between IPA and Samba so each can create any type of
 encryption keys or password hashes because it has the clear text
 password.
 
-.. _using_ldb_module:
+
 
 Using LDB Module
 ----------------
@@ -30,7 +30,7 @@ In this method an LDB Module will intercept the user password before
 being encrypted, then the Sync Agent will use it to set the password of
 the corresponding IPA user.
 
-.. _from_ipa_to_samba:
+
 
 From IPA to Samba
 ----------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ to set the password of the corresponding Samba user.
 
    Ipa3-password-synchronization1.png
 
-.. _from_samba_to_ipa:
+
 
 From Samba to IPA
 ----------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ corresponding IPA user.
 
    Ipa3-password-synchronization2.png
 
-.. _using_ldap_backend:
+
 
 Using LDAP Backend
 ------------------
@@ -71,7 +71,7 @@ In this method Samba will store the user password as clear text in the
 LDAP backend, then the Sync Agent will use it to set the password of the
 corresponding IPA user.
 
-.. _sharing_encryption_keys:
+
 
 Sharing Encryption Keys
 =======================
@@ -79,7 +79,7 @@ Sharing Encryption Keys
 Sharing the encryption keys means that both IPA and Samba will generate
 the encryption keys and password hashes needed by both applications.
 
-.. _from_ipa_to_samba_1:
+
 
 From IPA to Samba
 -----------------
@@ -95,7 +95,7 @@ Samba's DS backend.
 
    Ipa3-password-synchronization3.png
 
-.. _from_samba_to_ipa_1:
+
 
 From Samba to IPA
 -----------------

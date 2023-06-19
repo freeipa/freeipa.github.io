@@ -138,7 +138,7 @@ Assumptions
       the same DNS location and will try to contact the same set of
       servers.
 
-.. _current_use_of_srv_records5:
+
 
 Current use of SRV records
 ----------------------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ typically have the same priority (0) and weight (100):
    ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
    ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
 
-.. _use_cases5:
+
 
 Use Cases
 ---------
@@ -173,7 +173,7 @@ Use Cases
    using ``SRV`` records can be hacked in this way. This might require
    specifying location on per-zone basics.
 
-.. _feature_management5:
+
 
 Feature Management
 ------------------
@@ -369,7 +369,7 @@ Explicit DNS query forwarding overrides normal server selection and can
 be used to fine-tune client-to-location assignment (or to
 unintentionally break auto-configuration described above).
 
-.. _design_version_1_dname_per_client:
+
 
 Design (Version 1: DNAME per client)
 ------------------------------------
@@ -379,7 +379,7 @@ proposal <V4/DNS_Location_Mechanism_with_per_client_override>`__ which
 allowed per-client override was split to separate page. This version is
 being deferred for now.
 
-.. _design_version_2_dname_per_sub_tree:
+
 
 Design (Version 2: DNAME per sub-tree)
 --------------------------------------
@@ -393,7 +393,7 @@ can be different on each server.
 
 This should work out of the box.
 
-.. _interaction_with_hand_made_records:
+
 
 Interaction with hand-made records
 ----------------------------------------------------------------------------------------------
@@ -522,7 +522,7 @@ name will be redirected to location-specific sub-tree:
 -  **[5]** Server returns SRV records configured for this location
    (priority for servers located in CZ (Brno))
 
-.. _compatibility_tests:
+
 
 Compatibility tests
 ----------------------------------------------------------------------------------------------
@@ -572,7 +572,7 @@ Compatibility tests
       and respects SRV priorities - is it a way to cheap DNS sites for
       AD?
 
-.. _design_version_3_cname_per_service_name:
+
 
 Design (Version 3: CNAME per service name)
 ------------------------------------------
@@ -621,7 +621,7 @@ For more information about mechanism generating the records see
 `bind-dyndb-ldap design
 page <https://fedorahosted.org/bind-dyndb-ldap/wiki/Design/RecordGenerator>`__.
 
-.. _example_1:
+
 
 Example
 ----------------------------------------------------------------------------------------------
@@ -662,7 +662,7 @@ Example
 -  **[5]** Server returns SRV records configured for this location
    (priority for servers located in CZ (Brno))
 
-.. _interaction_with_hand_made_records_1:
+
 
 Interaction with hand-made records
 ----------------------------------------------------------------------------------------------
@@ -694,7 +694,7 @@ version 3 should have the same or better properties than `version
 DNAME+CNAME and worked pretty well so I assume that version 2 should
 have the same or better compatibility with clients.
 
-.. _comparison_of_proposals:
+
 
 Comparison of proposals
 -----------------------
@@ -746,7 +746,7 @@ Comparison of proposals
  ======================================================================= ================ ================ ================ 
 
 
-.. _comparison_with_microsoft_active_directory_sites5:
+
 
 Comparison with Microsoft Active Directory Sites
 ----------------------------------------------------------------------------------------------
@@ -779,7 +779,7 @@ One thing is common to AD Sites and FreeIPA DNS Locations:
    highest priority) are assumed to be *optimal* choice for clients
    assigned to that particular site.
 
-.. _security_considerations5:
+
 
 Security Considerations
 -----------------------
@@ -800,7 +800,7 @@ confidentiality options required.
 Use of DNSSEC and full DNS signature verification may be considered an
 additional requirement in some cases.
 
-.. _summmary_of_meeting_2016_02_04:
+
 
 Summmary of meeting 2016-02-04
 ------------------------------
@@ -836,7 +836,7 @@ order):
 -  Add management UI for per-DNS server configuration (to make it more
    manageable)
 
-.. _dns_server_configuration:
+
 
 DNS server configuration
 ----------------------------------------------------------------------------------------------
@@ -856,7 +856,7 @@ advertised to clients), the DNS name of the location will be put into
 ``idnsSubstitutionVariable;ipaLocation`` attribute in
 ``idnsServerConfigObject`` representing the DNS server.
 
-.. _cname_data_generation:
+
 
 CNAME data generation
 ----------------------------------------------------------------------------------------------
@@ -869,7 +869,7 @@ All these objects need to contain attribute
 bind-dyndb-ldap to generate the CNAME records for the particular
 location.
 
-.. _example_2:
+
 
 Example
 ^^^^^^^
@@ -886,7 +886,7 @@ user-defined variable ``ipalocation``, and suffix ``._locations``.
 | ``srvrecord: 0 100 389 ipa.example.com.``
 | ``idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations``
 
-.. _records_generated_for_ipa_services:
+
 
 Records generated for IPA services
 ----------------------------------------------------------------------------------------------
@@ -923,7 +923,7 @@ Records generated for IPA services
 | ``_kerberos._tcp.dc._msdcs SRV 0 100 88 {hostname}``
 | ``_kerberos._udp.dc._msdcs SRV 0 100 88 {hostname}``
 
-.. _location_data_generation:
+
 
 Location data generation
 ----------------------------------------------------------------------------------------------
@@ -944,12 +944,12 @@ services <https://fedorahosted.org/freeipa/ticket/5620>`__.
 The record generator will be executed for the FreeIPA primary DNS domain
 and then again with modified priority and weight for each DNS location.
 
-.. _ldap_data_structure:
+
 
 LDAP Data structure
 ----------------------------------------------------------------------------------------------
 
-.. _objectclasses_and_attributes:
+
 
 Objectclasses and attributes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -980,7 +980,7 @@ IPA locations part, in cn=etc subtree:
 
 ``objectClasses: (  2.16.840.1.113730.3.8.6.8 NAME 'ipaLocationMember' DESC 'Member object of IPA location' AUXILIARY MAY ( ipaLocation $ ipaLocationWeight ) X-ORIGIN 'IPA v4.4' )``
 
-.. _locations_ldap_structure:
+
 
 Locations LDAP structure
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -994,7 +994,7 @@ Locations LDAP structure
 | ``idnsName: prague``
 | ``description: Servers in Prague area``
 
-.. _servers_ldap_structure:
+
 
 Servers LDAP structure
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -1013,7 +1013,7 @@ Servers LDAP structure
 | **``ipaLocation:``\ ````\ ``idnsName=prague,cn=locations,cn=etc,$SUFFIX``**
 | **``ipaLocationWeight:``\ ````\ ``100``**
 
-.. _ipa_commands_affected_by_this_feature:
+
 
 IPA commands affected by this feature
 ----------------------------------------------------------------------------------------------
@@ -1021,14 +1021,14 @@ IPA commands affected by this feature
 When following commands are executed, resulting of that commands might
 result into a need to update location records
 
-.. _server_del:
+
 
 server-del
 ^^^^^^^^^^
 
 system records should be updated
 
-.. _server_mod:
+
 
 server-mod
 ^^^^^^^^^^
@@ -1036,35 +1036,35 @@ server-mod
 system records should be updated only if *location* or *weight* have
 been changed
 
-.. _ipa_replica_manage_del:
+
 
 ipa-replica-manage del
 ^^^^^^^^^^^^^^^^^^^^^^
 
 system records should be updated
 
-.. _ipa_server_install:
+
 
 ipa-server-install
 ^^^^^^^^^^^^^^^^^^
 
 system records should be updated
 
-.. _ipa_replica_install:
+
 
 ipa-replica-install
 ^^^^^^^^^^^^^^^^^^^
 
 system records should be updated
 
-.. _location_add:
+
 
 location-add
 ^^^^^^^^^^^^
 
 TBD
 
-.. _location_del:
+
 
 location-del
 ^^^^^^^^^^^^
@@ -1072,7 +1072,7 @@ location-del
 system records should be updated, unused location records should be
 removed
 
-.. _permissions_and_privileges:
+
 
 permissions and privileges
 ----------------------------------------------------------------------------------------------
@@ -1083,7 +1083,7 @@ locations
 *DNS Servers* privilege must have read access to new container in cn=DNS
 subtree
 
-.. _new_permissions:
+
 
 New permissions
 ^^^^^^^^^^^^^^^
@@ -1114,7 +1114,7 @@ Upgrade
    which will make it easy to check if particular server supports
    locations or not.
 
-.. _how_to_test5:
+
 
 How to Test
 -----------
@@ -1144,7 +1144,7 @@ The answer must contain FreeIPA server assigned to first location with
 higher priority (smaller number) and the second server must have lower
 priority (higher number).
 
-.. _test_plan5:
+
 
 Test Plan
 ---------

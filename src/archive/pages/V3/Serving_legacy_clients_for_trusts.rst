@@ -14,7 +14,7 @@ compatibility level that allows to log-in to IPA clients for AD users.
 IPA clients will be able to use any reasonable nss_ldap/pam_ldap/sssd
 version.
 
-.. _use_cases10m:
+
 
 Use Cases
 =========
@@ -153,7 +153,7 @@ and so on.
 would show all plugins (filtering itself, i.e. list and help plugin)
 with their short descriptions.
 
-.. _sssd_1.9_and_after:
+
 
 SSSD 1.9 and after
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ SSSD 1.9 and after
 SSSD 1.9 and onwards natively supports IPA cross-realm trusts with AD.
 No need to explicitly use AD compatibility tree
 
-.. _sssd_1.11:
+
 
 SSSD 1.11
 ----------------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ Additionally, on IPA master **sssd.conf** will have **ipa_server_mode =
 true** set. This is the mode that will allow IPA master to ask SSSD for
 resolution of AD users using Global Catalog.
 
-.. _sssd_prior_to_1.9:
+
 
 SSSD prior to 1.9
 -----------------
@@ -178,7 +178,7 @@ SSSD prior to 1.9
 Compat tree can be configured to search both main IPA LDAP tree and AD
 compatibility data.
 
-.. _padl_pam_ldapnss_ldap:
+
 
 PADL pam_ldap/nss_ldap
 ----------------------
@@ -186,7 +186,7 @@ PADL pam_ldap/nss_ldap
 PADL **pam_ldap** is in use by all GNU/Linux distributions and many
 other UNIX-like operating systems.
 
-.. _vendor_specific_pam_ldap:
+
 
 Vendor-specific pam_ldap
 ------------------------
@@ -232,7 +232,7 @@ Backup and Restore
 
 No external configuration files are affected
 
-.. _legacy_clients_and_hbac_rules:
+
 
 Legacy clients and HBAC rules
 =============================

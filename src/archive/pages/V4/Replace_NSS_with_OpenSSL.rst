@@ -77,7 +77,7 @@ Upgrade needs to perform the certmonger tracking transition of
 means, that the previous *ra-agent.pem* needs to be exported to the
 correct location during upgrade.
 
-.. _how_to_usetest_plan:
+
 
 How to Use/Test Plan
 ====================

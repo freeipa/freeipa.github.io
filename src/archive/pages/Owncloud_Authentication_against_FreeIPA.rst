@@ -21,7 +21,7 @@ IPA as a service account. For this purpose I use admin account. Owncloud
 needs to be able to connect to IPA server on port 389 or 636 to LDAP
 sync works.
 
-.. _owncloud_authentication:
+
 
 Owncloud Authentication
 -----------------------
@@ -65,7 +65,7 @@ Owncloud Authentication
 -  **Group filter** (it depends on which user group you want allow to
    access owncloud)
 
-`` Edit raw filter instead: (|(cn=ipausers))``
+`` Edit raw filter instead: (\|(cn=ipausers))``
 
 .. figure:: Own_ldap_group_filter.png
    :alt: Own_ldap_group_filter.png

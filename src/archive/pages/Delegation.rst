@@ -313,7 +313,7 @@ And add that role to the task for changing passwords:
    description: Allowed to change passwords
    member: cn=helpdesk,cn=rolegroups,dc=example,dc=com
 
-.. _use_cases13:
+
 
 Use Cases
 ----------------------------------------------------------------------------------------------
@@ -575,7 +575,7 @@ Remember:
 
    Picture
 
-.. _examples_using_the_aci_commands:
+
 
 Examples using the aci commands
 -------------------------------
@@ -591,7 +591,7 @@ simplifies things.
 For a thorough description of ACIs you should read `Creating ACIs
 Manually <http://www.redhat.com/docs/manuals/dir-server/ag/8.0/Managing_Access_Control-Creating_ACIs_Manually.html>`__
 
-.. _adding_an_aci:
+
 
 Adding an ACI
 ----------------------------------------------------------------------------------------------
@@ -599,7 +599,7 @@ Adding an ACI
 An ACI has 3 basic components and here are the aci-add options that
 manage them:
 
-.. _target_1:
+
 
 target
 ^^^^^^
@@ -628,7 +628,7 @@ The permissions option tells the ACI what access you are granting
    otherwise be available (potentially dangerous as you could grant read
    access to the password, for example).
 
-.. _bind_rule:
+
 
 bind rule
 ^^^^^^^^^
@@ -639,7 +639,7 @@ The bind rule tells who this ACI is granting access to.
    added automatically if it does not exist (beware of typos)
 -  group - Grant access to a group of users directly.
 
-.. _examples_1:
+
 
 Examples
 ^^^^^^^^

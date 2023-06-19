@@ -23,7 +23,7 @@ existing web application which already had users populated and managed
 manually can start to authenticate the same users against organization's
 Kerberos server, once mod_auth_gssapi/mod_auth_kerb is enabled.
 
-.. _the_realm:
+
 
 The REALM
 ---------
@@ -83,7 +83,7 @@ This way, user names produced by Kerberos SSO and PAM authentication via
 mod_intercept_form_submit will have the same format and the same user
 records will be used by the applications.
 
-.. _multiple_freeipa_servers:
+
 
 Multiple FreeIPA servers
 ------------------------

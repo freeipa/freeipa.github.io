@@ -146,7 +146,7 @@ mapping rule in 389-ds for users from trusted Active Directory forests.
 Below is a short summary demonstrating possible test cases for the
 \`whoami\` command.
 
-.. _using_host_principal:
+
 
 Using host principal
 ----------------------------------------------------------------------------------------------

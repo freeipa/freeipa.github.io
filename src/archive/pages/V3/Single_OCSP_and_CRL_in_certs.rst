@@ -71,7 +71,7 @@ there are 2 issues related to this change:
    NSS which only tries the last OCSP and then fail when it is not
    available.
 
-.. _use_cases10n:
+
 
 Use Cases
 =========

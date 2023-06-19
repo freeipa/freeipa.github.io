@@ -2,7 +2,7 @@ Authenticating via Apache will set a number of environment variables,
 depending on the configuration and the authentication method. I'm
 skipping digest authentication because that is not commonly used.
 
-.. _common_variables:
+
 
 Common variables
 ----------------
@@ -48,7 +48,7 @@ A number of useful variables are set by Apache itself, they include:
 |                  | mod_unique_id                                    |
 +------------------+--------------------------------------------------+
 
-.. _basic_authentication:
+
 
 Basic Authentication
 --------------------
@@ -70,7 +70,7 @@ The user database would be created with this:
 
 ``htpasswd -c /etc/httpd/conf/passwords testuser``
 
-.. _kerberos_authentication:
+
 
 Kerberos Authentication
 -----------------------
@@ -101,7 +101,7 @@ for mod_auth_gssapi or for mod_auth_kerb:
 | `` Krb5KeyTab /etc/httpd/conf/ipa.keytab``
 | `` KrbSaveCredentials on``
 
-.. _x.509_authentication:
+
 
 X.509 Authentication
 --------------------
@@ -223,7 +223,7 @@ contents may differ slightly. The set of variables available in httpd
 |                         | supplied with ClientHello)                |
 +-------------------------+-------------------------------------------+
 
-.. _ldap_authentication:
+
 
 LDAP authentication
 -------------------
@@ -246,7 +246,7 @@ Attributes can be specified in the AuthLDAPURL value such that those
 values are set as environment variables of the form "AUTHENTICATE\_", so
 any arbitrary list of values may be provided.
 
-.. _proposed_additional_variables:
+
 
 Proposed Additional Variables
 -----------------------------
@@ -288,7 +288,7 @@ applications adopt the following environment variable names:
 |                                                                       | is in          | rg.freedesktop | :              |
 |                                                                       |                | .sssd.infopipe |                |
 |                                                                       |                | .GetUserGroups |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE                                                                | number of user | alternate way  | Lookup         |
 | _USER_GROUP_N,                                                        | groups and     | to get the     | UserGroupsIter |
 | REMOTE                                                                | individual     | list of        | REM            |
@@ -298,7 +298,7 @@ applications adopt the following environment variable names:
 | ...                                                                   |                | with           |                |
 |                                                                       |                | REMO           |                |
 |                                                                       |                | TE_USER_GROUPS |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REM                                                                   | Equivalent of  | pw_gecos field | L              |
 | OTE_USER_GECOS                                                        | the GECOS      | of result of   | ookupUserGECOS |
 |                                                                       | value from the | POSIX call     | REM            |
@@ -310,7 +310,7 @@ applications adopt the following environment variable names:
 |                                                                       |                | op.sssd.infopi | OTE_USER_GECOS |
 |                                                                       |                | pe.GetUserAttr |                |
 |                                                                       |                | gecos          |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMO                                                                  | domain the     |                |                |
 | TE_USER_DOMAIN                                                        | user was       |                |                |
 |                                                                       | authenticated  |                |                |
@@ -318,31 +318,31 @@ applications adopt the following environment variable names:
 |                                                                       | the domain in  |                |                |
 |                                                                       | sssd, nss,     |                |                |
 |                                                                       | LDAP, etc.)    |                |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REM                                                                   | user's email   | IPA attribute  | LookupUserAttr |
 | OTE_USER_EMAIL                                                        | address        | mail,          | mail           |
 |                                                                       |                | sssd-dbus      | REM            |
 |                                                                       |                | attribute mail | OTE_USER_EMAIL |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE_US                                                             | list of groups |                |                |
 | ER_GROUPS_JSON                                                        | the user is    |                |                |
 |                                                                       | in, formatted  |                |                |
 |                                                                       | as JSON string |                |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE\_                                                              | user's first   | IPA attribute  | LookupUserAttr |
 | USER_FIRSTNAME                                                        | name           | givenname,     | givenname      |
 |                                                                       |                | sssd-dbus      | REMOTE\_       |
 |                                                                       |                | attribute      | USER_FIRSTNAME |
 |                                                                       |                | givenname      |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE_U                                                              | user's middle  |                |                |
 | SER_MIDDLENAME                                                        | name           |                |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE                                                                | user's last    | IPA attribute  | LookupUserAttr |
 | _USER_LASTNAME                                                        | name           | sn, sssd-dbus  | sn             |
 |                                                                       |                | attribute sn   | REMOTE         |
 |                                                                       |                |                | _USER_LASTNAME |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE                                                                | user's full    | IPA attribute  | LookupUserAttr |
 | _USER_FULLNAME                                                        | name formatted | cn or          | cn             |
 |                                                                       | as one string  | displayname,   | REMOTE         |
@@ -352,12 +352,12 @@ applications adopt the following environment variable names:
 |                                                                       | REMO           |                | displayname    |
 |                                                                       | TE_USER_GECOS) |                | REMOTE         |
 |                                                                       |                |                | _USER_FULLNAME |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOT                                                                 | organizational | IPA attribute  | LookupUserAttr |
 | E_USER_ORGUNIT                                                        | unit to which  | ou, sssd-dbus  | ou             |
 |                                                                       | the user       | attribute ou   | REMOT          |
 |                                                                       | belongs        |                | E_USER_ORGUNIT |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | REMOTE_US                                                             | SID, GUID, or  | IPA attribute  | LookupUserAttr |
 | ER_EXTERNAL_ID                                                        | other unique   | ipaUniqueId,   | ipaUniqueId    |
 |                                                                       | identifier     | 389 DS         | REMOTE_US      |
@@ -368,7 +368,7 @@ applications adopt the following environment variable names:
 |                                                                       | to reconcile   |                |                |
 |                                                                       | account after  |                |                |
 |                                                                       | login change   |                |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 | EXTER                                                                 | when external  |                |                |
 | NAL_AUTH_ERROR                                                        | authentication |                |                |
 |                                                                       | fails (and     |                |                |
@@ -378,7 +378,7 @@ applications adopt the following environment variable names:
 |                                                                       | contain error  |                |                |
 |                                                                       | describing the |                |                |
 |                                                                       | reason         |                |                |
-| +----------------+----------------+----------------+----------------+ |                |                |                |
+| +================+================+================+================+ |                |                |                |
 +-----------------------------------------------------------------------+----------------+----------------+----------------+
 
 

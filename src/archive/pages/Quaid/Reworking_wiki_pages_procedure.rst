@@ -38,7 +38,7 @@ Procedure
    category, creating and adding a description when necessary.
 #. Go back to the start.
 
-.. _page_renaming_procedure:
+
 
 Page renaming procedure
 ----------------------------------------------------------------------------------------------

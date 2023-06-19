@@ -1,4 +1,4 @@
-.. _welcome_to_the_freeipa_v2_fedora_15_test_day_page:
+
 
 Welcome to the FreeIPA v2 Fedora-15 Test Day Page!
 ==================================================
@@ -16,7 +16,7 @@ We need your feedback!
    `trac <https://fedorahosted.org/freeipa>`__ or
    `Bugzilla <https://bugzilla.redhat.com>`__.
 
-.. _test_cases_and_instructions:
+
 
 Test Cases and Instructions
 ---------------------------

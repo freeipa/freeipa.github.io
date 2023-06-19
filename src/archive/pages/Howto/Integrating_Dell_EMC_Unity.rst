@@ -1,4 +1,4 @@
-.. _howto_integrate_freeipa_with_nfs_share_hosted_on_dell_emc_unity:
+
 
 HowTo Integrate FreeIPA with NFS share hosted on Dell EMC Unity
 ---------------------------------------------------------------
@@ -15,7 +15,7 @@ Assumption
 FreeIPA installation already configured (4.x) CentOS/Fedora/Ubuntu
 FreeIPA client already configured
 
-.. _freeipa_configuration:
+
 
 FreeIPA Configuration
 ^^^^^^^^^^^^^^^^^^^^^
@@ -37,7 +37,7 @@ FreeIPA server for the integration.
 
       ``ipa-getkeytab -s ipaserver.example.com -p nfs/emc-nas-server.example.com -k /tmp/emc-nas-server.keytab``
 
-.. _dell_emc_unit_configuration:
+
 
 Dell EMC Unit Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -138,7 +138,7 @@ nss_base_netgroup ou=netgroup,dc=example,dc=com
 
 #. Apply settings and you are done on the Dell EMC Unity system
 
-.. _centosubuntu_configuration:
+
 
 CentOS/Ubuntu Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

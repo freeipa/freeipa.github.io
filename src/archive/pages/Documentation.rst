@@ -1,4 +1,4 @@
-.. _user_documentation:
+
 
 User Documentation
 ==================
@@ -11,7 +11,7 @@ User Documentation
    other systems, 3rd party Applications Integration
 -  `Frequently Asked Questions <Frequently_Asked_Questions>`__
 
-.. _user_guides:
+
 
 User Guides
 -----------
@@ -53,7 +53,7 @@ as all effort is put into the Red Hat Enteprise Linux documentation.
 Bugs found in the documentation can be reported in `Red Hat
 bugzilla <https://bugzilla.redhat.com/enter_bug.cgi?alias=&assigned_to=apetrova%40redhat.com&attach_text=&blocked=&bug_file_loc=http%3A%2F%2F&bug_severity=unspecified&bug_status=NEW&cf_build_id=&cf_category=---&cf_clone_of=&cf_cloudforms_team=---&cf_crm=&cf_cust_facing=---&cf_devel_whiteboard=&cf_docs_score=&cf_documentation_action=---&cf_environment=&cf_internal_whiteboard=&cf_mount_type=---&cf_ovirt_team=---&cf_pm_score=&cf_regression_status=---&cf_story_points=---&cf_type=Bug&comment=Description%20of%20problem%3A%0D%0A%0D%0A%0D%0AVersion-Release%20number%20of%20selected%20component%20%28if%20applicable%29%3A%0D%0A%0D%0A%0D%0AHow%20reproducible%3A%0D%0A%0D%0A%0D%0ASteps%20to%20Reproduce%3A%0D%0A1.%0D%0A2.%0D%0A3.%0D%0A%0D%0AActual%20results%3A%0D%0A%0D%0A%0D%0AExpected%20results%3A%0D%0A%0D%0A%0D%0AAdditional%20info%3A%0D%0A&component=doc-Linux_Domain_Identity_Management_Guide&contenttypeentry=&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&data=&deadline=&defined_cf_layered_products=&defined_cf_partner=&defined_groups=1&defined_rh_sub_component=0&dependson=&description=&docs_contact=&estimated_time=&external_bug_id_1=&external_id_1=0&flag_type-10=X&flag_type-11=X&flag_type-15=X&flag_type-155=X&flag_type-16=X&flag_type-24=X&flag_type-312=X&flag_type-415=X&flag_type-742=X&flag_type-9=X&flag_type-932=X&flag_type-990=X&flag_type-991=X&form_name=enter_bug&keywords=&op_sys=Unspecified&priority=unspecified&product=Red%20Hat%20Enterprise%20Linux%207&qa_contact=nsoman%40redhat.com&rep_platform=Unspecified&requestee_type-155=&requestee_type-16=&rh_sub_component=&short_desc=&status_whiteboard=&target_milestone=rc&target_release=---&version=7.3>`__
 
-.. _by_component:
+
 
 By Component
 ------------
@@ -78,7 +78,7 @@ Additional Resources
 
 -  `FreeIPA Planet <http://planet.freeipa.org>`__: blog/RSS aggregator
 
-.. _old_resources:
+
 
 Old Resources
 -------------
@@ -88,12 +88,12 @@ Old Resources
 -  `Old FreeIPA v1.2.1 Documentation
    Page <FreeIPAv1:v1_Documentation>`__
 
-.. _developer_documentation:
+
 
 Developer Documentation
 =======================
 
-.. _design_goals_and_core_decisions:
+
 
 Design goals and core decisions
 -------------------------------
@@ -102,7 +102,7 @@ Design goals and core decisions
 -  `Scalability <Goals/Scalability>`__
 -  `ACIs <Goals/ACIs>`__
 
-.. _feature_designs:
+
 
 Feature Designs
 ---------------
@@ -117,7 +117,7 @@ FreeIPA:
 -  `Version 2 Designs <V2_Designs>`__
 -  `Version 1 Designs <V1_Designs>`__
 
-.. _feature_proposals:
+
 
 Feature Proposals
 -----------------
@@ -130,7 +130,7 @@ approved/implemented or that have been superseded or abandoned.
 -  `Version 2 Proposals <V2_Proposals>`__
 -  `Version 1 Proposals <V1_Proposals>`__
 
-.. _additional_resources_1:
+
 
 Additional Resources
 --------------------
@@ -148,7 +148,7 @@ Additional Resources
 -  `Federated Authentication Utilizing Apache &
    SSSD <https://jdennis.fedorapeople.org/doc/sssd_configuration.pdf>`__
 
-.. _tester_documentation:
+
 
 Tester Documentation
 ====================
@@ -162,12 +162,12 @@ This section contains test plans that have been designed for FreeIPA:
 
 -  `Version 4 Test Plans <V4_Test_Plans>`__
 
-.. _freeipa_training_series:
+
 
 FreeIPA Training Series
 =======================
 
-.. _freeipa_4.5:
+
 
 FreeIPA 4.5
 -----------
@@ -175,12 +175,12 @@ FreeIPA 4.5
 -  `FreeIPA CA <Media:freeipa-ca-component.pdf>`__
 -  `Introduction to LDAP <Media:freeipa-introduction-to-ldap.pdf>`__
 
-.. _freeipa_3.3_sssd_1.11:
+
 
 FreeIPA 3.3 & SSSD 1.11
 -----------------------
 
-.. _freeipa_server_presentations:
+
 
 FreeIPA server presentations
 ----------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ FreeIPA server presentations
 -  `FreeIPA Client and Server Improvements in
    3.3 <Media:FreeIPA33-server-and-client.pdf>`__
 
-.. _sssd_client_presentations:
+
 
 SSSD client presentations
 ----------------------------------------------------------------------------------------------
@@ -206,12 +206,12 @@ SSSD client presentations
 -  `SSSD DNS Improvements in AD
    Environment <Media:FreeIPA33-sssd-dns-ad.pdf>`__
 
-.. _freeipa_3.0_sssd_1.9.2:
+
 
 FreeIPA 3.0 & SSSD 1.9.2
 ------------------------
 
-.. _freeipa_server_presentations_1:
+
 
 FreeIPA server presentations
 ----------------------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ FreeIPA server presentations
 -  `DNS Zone Transfers <Media:Freeipa30_DNS_zone_transfers.pdf>`__
    (`ODP <Media:Freeipa30_DNS_zone_transfers.odp>`__)
 
-.. _sssd_client_presentations_1:
+
 
 SSSD client presentations
 ----------------------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ SSSD client presentations
    Feature <Media:Freeipa30_SSSD_SUDO_Integration.pdf>`__
    (`ODP <Media:Freeipa30_SSSD_SUDO_Integration.odp>`__)
 
-.. _public_presentations:
+
 
 Public Presentations
 ====================

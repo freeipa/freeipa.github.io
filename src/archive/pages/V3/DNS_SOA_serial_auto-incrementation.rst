@@ -29,7 +29,7 @@ Quotations from `Zytrax DNS book <http://www.zytrax.com/books/dns/>`__:
    Note: the arithmetic used by the serial number is defined in `RFC
    1982 <http://tools.ietf.org/html/rfc1982>`__.
 
-.. _structure_of_dns_sub_tree_in_ldap:
+
 
 Structure of DNS sub-tree in LDAP
 ---------------------------------
@@ -37,7 +37,7 @@ Structure of DNS sub-tree in LDAP
 Please get familiar with `the way how DNS data are stored in
 LDAP <https://fedorahosted.org/bind-dyndb-ldap/wiki/DatabaseStructure>`__.
 
-.. _use_cases114:
+
 
 Use Cases
 =========
@@ -46,7 +46,7 @@ Correct serial number is a requirement for functional zone tranfers.
 Corrent zone transfers from IPA to non-IPA DNS server are impossible if
 zone serial number is not incremented after each change.
 
-.. _design_in_ipa_3.0:
+
 
 Design in IPA 3.0
 =================
@@ -79,7 +79,7 @@ Disadvantages
 Slave DNS servers cannot fall-back to other masters, because of SOA
 serial inconsistency.
 
-.. _very_basic_implementation:
+
 
 Very basic implementation
 -------------------------
@@ -99,7 +99,7 @@ Implementation was done in the scope of `IPA ticket
 `bind-dyndb-ldap ticket
 #67 <https://fedorahosted.org/bind-dyndb-ldap/ticket/67>`__.
 
-.. _problems_found_after_implementation_to_ipa_3.0:
+
 
 Problems found after implementation to IPA 3.0
 ----------------------------------------------
@@ -142,7 +142,7 @@ solution:
    I agree that this is an attribute that should be managed internally
    by the directory server, like the entryusn attribute.
 
-.. _feature_managment:
+
 
 Feature Managment
 -----------------
@@ -215,7 +215,7 @@ External Impact
 
 (Hopefully) none.
 
-.. _design_in_ipa_3.1:
+
 
 Design in IPA 3.1
 =================
@@ -228,7 +228,7 @@ DS plugin watches ``cn=dns`` sub-tree for changes.
 Any change in DNS record in this subtree will increment
 ``idnsSOAserial`` attribute in record's parent zone.
 
-.. _basic_idea:
+
 
 Basic idea
 ----------
@@ -243,7 +243,7 @@ Basic idea
 | `` else``
 | ``    do nothing``
 
-.. _soa_serial_incrementation_algorithm:
+
 
 SOA serial incrementation algorithm
 -----------------------------------
@@ -256,7 +256,7 @@ SOA serial incrementation algorithm
 | ``   newSerial = OLDSerial + 1``
 | ``Write newSerial value to particular idnsSOAserial attribute``
 
-.. _interaction_with_bind_serial_update_mechanism:
+
 
 Interaction with BIND serial update mechanism
 ---------------------------------------------
@@ -270,7 +270,7 @@ attempts and ignore them:
 -  It should be possible to catch & discard SOA serial modifications
    inside BIND. This will save some load from LDAP server.
 
-.. _possible_optimization:
+
 
 Possible optimization
 ---------------------
@@ -299,7 +299,7 @@ Result: Zones on master and it's slave servers have serial =
 "new_serial" but the zone content is different (records under
 test2.example.com. are not equal).
 
-.. _variant_with_delayed_serial_write:
+
 
 Variant with delayed serial write
 ----------------------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ Variant with delayed serial write
 | ``When starting Directory Server:``
 | ``Bump each serial by one.``
 
-.. _variant_with_modified_search_operation:
+
 
 Variant with modified search operation
 ----------------------------------------------------------------------------------------------
@@ -369,14 +369,14 @@ Feature Management
 -  Do not create UI for enabling/disabling this feature. We can provide
    some boolean directly in plugin configuration, but nothing else.
 
-.. _replication_1:
+
 
 Replication
 -----------
 
 No change from IPA 3.0.
 
-.. _updates_and_upgrades_1:
+
 
 Updates and Upgrades
 --------------------
@@ -384,21 +384,21 @@ Updates and Upgrades
 Replace ``serial_autoincrement`` option in ``/etc/named.conf`` with
 ``serial_remote`` option.
 
-.. _dependencies_1:
+
 
 Dependencies
 ------------
 
 New version of bind-dyndb-ldap + the new 389 DS plugin.
 
-.. _external_impact_1:
+
 
 External Impact
 ---------------
 
 Hopefully none.
 
-.. _impact_on_testing:
+
 
 Impact on testing
 -----------------

@@ -1,7 +1,7 @@
 **This design is obsolete and was replaced
 by**\ `V3/DNS_Location_Mechanism <V3/DNS_Location_Mechanism>`__\ **.**
 
-.. _a_dns_rr_for_ip_based_location_discovery_draft:
+
 
 A DNS RR FOR IP BASED LOCATION DISCOVERY (DRAFT)
 ================================================
@@ -60,16 +60,17 @@ on their IP address and DNS domain name. The result of the location
 discovery is a DNS name that can then be used as a target for a
 subsequent, location aware, DNS SRV based service discovery.
 
-.. _the_subnet_and_subnet6_records:
+
 
 The SUBNET and SUBNET6 records
 ------------------------------
 
 The format of the SUBNET and SUBNET6 RR is as follows.
 
-``   ``\ `` SUBNET  TTL CLASS ``
+::
 
-``   ``\ `` SUBNET6 TTL CLASS ``
+   ``   ``\ `` SUBNET  TTL CLASS ``
+   ``   ``\ `` SUBNET6 TTL CLASS ``
 
 The components are explained below.
 
@@ -91,7 +92,7 @@ but a reference to an intermediate SUBNET instead. SUBNET references are
 used to build index structures that make lookups more efficient in the
 case of a large number of subnets.
 
-.. _the_discovery_protocol:
+
 
 The Discovery Protocol
 ----------------------
@@ -166,7 +167,7 @@ subsequently SRV query.
 Advice
 ------
 
-.. _advice_for_server_implementors:
+
 
 Advice for Server Implementors
 ----------------------------------------------------------------------------------------------
@@ -208,7 +209,7 @@ below.
    node as \_network).
 #. All locations are published under \_locations.
 
-.. _advice_for_dns_administrators:
+
 
 Advice for DNS Administrators
 ----------------------------------------------------------------------------------------------
@@ -225,7 +226,7 @@ network tree and location databsea of the domain "example.com".
 This requires one DNS record to be published in each DNS zone in the
 network which in our view is a manageable overhead.
 
-.. _advice_for_client_implementors:
+
 
 Advice for Client Implementors
 ----------------------------------------------------------------------------------------------
@@ -242,7 +243,7 @@ software could use the first network interface of the system to
 determine the IP address, or could accept a configuration setting
 indicating the system's primary IP address.
 
-.. _alternative_solutions:
+
 
 Alternative Solutions
 ---------------------
@@ -257,7 +258,7 @@ being strechted subnets for high availability purposes). Nevertheless,
 we don't think DHCP is a valid option because there are many systems
 that do not use it an use static IP configuration instead.
 
-.. _the_resolver_sortlist_option:
+
 
 The resolver "sortlist" option
 ----------------------------------------------------------------------------------------------
@@ -276,7 +277,7 @@ Another disadvantage is that the subnet as seen from he network may
 actually be different from the subnet that the administrator defined
 from a location point of view.
 
-.. _use_dns_subdomains:
+
 
 Use DNS subdomains
 ----------------------------------------------------------------------------------------------
@@ -287,7 +288,7 @@ DNS domains are required, and that there is again an undesirable
 coupling between grouping for naming purposes and grouping for location
 purposes.
 
-.. _use_ldap_for_location_discovery:
+
 
 Use LDAP for location discovery
 ----------------------------------------------------------------------------------------------
@@ -301,7 +302,7 @@ internal attributes on the LDAP root). This is a problem, as we'd like
 to use service discovery protocol to resolve servers for our identity
 service.
 
-.. _use_remote_procedure_calls:
+
 
 Use Remote Procedure Calls
 ----------------------------------------------------------------------------------------------
@@ -315,7 +316,7 @@ another protocol is introduce. the advantage is that the location and
 subnet database does not need to be public, it only needs to be
 available to the RPC server.
 
-.. _transition_period:
+
 
 Transition Period
 -----------------
@@ -325,7 +326,7 @@ up and implement the SUBNET RR. Until this time, client implementations
 MAY use [RFC1464] style TXT records to store keys named "subnet" and
 "subnet6" in TXT records.
 
-.. _security_considerations:
+
 
 Security Considerations
 -----------------------

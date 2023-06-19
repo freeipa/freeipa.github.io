@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _significant_changes_since_alpha_4:
+
 
 Significant Changes since alpha 4
 ---------------------------------
@@ -48,7 +48,7 @@ Significant Changes since alpha 4
 -  Correct handling of userCategory and hostCategory in netgroups.
 -  Updated a lot of man pages.
 
-.. _package_requirements:
+
 
 Package Requirements
 --------------------
@@ -57,7 +57,7 @@ The dogtag CA is now an rpm dependency in this alpha. It will be
 configured by default when installing IPA. To not configure dogtag pass
 the ``--selfsign`` flag to ``ipa-server-install``.
 
-.. _command_line:
+
 
 Command Line
 ------------
@@ -170,7 +170,7 @@ Bugs
 If you find any problems then please file a bug against the freeIPA
 product at https://bugzilla.redhat.com/
 
-.. _work_continues:
+
 
 Work Continues
 --------------

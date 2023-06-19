@@ -21,7 +21,7 @@ IPAv3
 -  `Replication <Obsolete:IPAv3_Replication>`__
 -  `DNS <Obsolete:IPAv3_DNS>`__
 
-.. _samba_4:
+
 
 Samba 4
 =======
@@ -32,7 +32,7 @@ Samba 4
 -  `DNS <Obsolete:Samba_4_DNS>`__
 -  `Documentation <Obsolete:Samba_4_Documentation>`__
 
-.. _synchronization_tool:
+
 
 Synchronization Tool
 ====================

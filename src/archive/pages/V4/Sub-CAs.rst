@@ -30,7 +30,7 @@ CAs.
 Use Cases
 ---------
 
-.. _user_certificates:
+
 
 User certificates
 ----------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ by the sub-CA, and the sub-CA's signing certificate can be used to
 validate certificates issued in that scope (rejecting others). Some of
 these use cases are detailed below.
 
-.. _vpn_authentication:
+
 
 VPN authentication
 ^^^^^^^^^^^^^^^^^^
@@ -77,7 +77,7 @@ about using FreeIPA as an external Puppet PKI comments that:
 The proposed feature will remove this shortcoming of FreeIPA (which
 applies not only to Puppet but in many situations.)
 
-.. _default_sub_cas_for_host_service_and_user_certificates:
+
 
 Default sub-CAs for host, service and user certificates
 ----------------------------------------------------------------------------------------------
@@ -118,12 +118,12 @@ Terminology
    associated object in the FreeIPA directory, as distinct from a CA
    existing in Dogtag of which FreeIPA has no knowledge.
 
-.. _high_level_design_considerations:
+
 
 High-level design considerations
 ----------------------------------------------------------------------------------------------
 
-.. _nested_sub_cas:
+
 
 Nested sub-CAs
 ^^^^^^^^^^^^^^
@@ -133,7 +133,7 @@ primary CA in a Dogtag instance) are not an initial requirement,
 however, the schema and other aspects of the FreeIPA feature should take
 into account the possibility of nested sub-CAs as a future requirement.
 
-.. _externally_signed_and_self_signed_lightweight_cas:
+
 
 Externally signed and self-signed lightweight CAs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -143,7 +143,7 @@ feature should be designed for the possible future requirement of
 supporting multiple independent trust chains. Additional work will be
 required in Dogtag to support these use cases.
 
-.. _externally_signed_lightweight_cas:
+
 
 Externally signed lightweight CAs
 '''''''''''''''''''''''''''''''''
@@ -162,7 +162,7 @@ be stored in LDAP for distribution to clients, with the IPA CA having an
 ``ipaKeyTrust`` value of ``trusted`` (see `CA certificate
 renewal <http://www.freeipa.org/page/V4/CA_certificate_renewal>`__).
 
-.. _self_signed_lightweight_cas:
+
 
 Self-signed lightweight CAs
 '''''''''''''''''''''''''''
@@ -171,7 +171,7 @@ In this case, FreeIPA causes Dogtag to generate a new self-signed (root)
 CA. The CA certificate would be stored in LDAP for distribution to
 clients, having an ``ipaKeyTrust`` value of ``trusted``.
 
-.. _ca_discovery:
+
 
 CA discovery
 ^^^^^^^^^^^^
@@ -181,7 +181,7 @@ FreeIPA. FreeIPA-managed and non-FreeIPA-managed CAs can coexist in
 Dogtag but FreeIPA will not be aware of CAs it did not create (other
 than the host authority).
 
-.. _ca_plugin:
+
 
 ``ca`` plugin
 ----------------------------------------------------------------------------------------------
@@ -206,12 +206,12 @@ consistency and to allow CA ACLs to explicitly reference the IPA CA. The
 entry for the host authority is automatically added on installation or
 upgrade.
 
-.. _certificate_parameters:
+
 
 Certificate parameters
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. _keygen_parameters:
+
 
 Keygen parameters
 '''''''''''''''''
@@ -220,7 +220,7 @@ Initially, 2048-bit RSA keys shall be supported. Later work will
 implement the ability to specify key sizes and types when creating
 lightweight CAs.
 
-.. _subject_distinguished_name:
+
 
 Subject Distinguished Name
 ''''''''''''''''''''''''''
@@ -301,7 +301,7 @@ permissions are initially granted to the *CA Administrator* role.
 ``System: Modify CA``
    Modify the name or description of lightweight CAs.
 
-.. _key_replication:
+
 
 Key replication
 ----------------------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ This work requires minor changes to FreeIPA's ``CustodiaClient``
 implementation to generalise it and make it usable from arbitrary Python
 programs.
 
-.. _authenticating_to_custodia:
+
 
 Authenticating to Custodia
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -339,7 +339,7 @@ Its keytab and Custodia keys shall be stored with ownership
 ``/etc/pki/pki-tomcat/dogtag.keytab`` and
 ``/etc/pki/pki-tomcat/dogtag.keys`` respectively.
 
-.. _custodia_store:
+
 
 Custodia store
 ^^^^^^^^^^^^^^
@@ -420,7 +420,7 @@ and how renewal occurs, possible approaches include:
 Installation
 ----------------------------------------------------------------------------------------------
 
-.. _set_up_dogtag_key_replication:
+
 
 Set up Dogtag key replication
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -435,7 +435,7 @@ The CA installation process shall perform the following new steps:
    Python helper script to do the work of key retrieval. (This is
    configured in Dogtag's ``CS.cfg``).
 
-.. _default_cas:
+
 
 Default CAs
 ^^^^^^^^^^^
@@ -463,7 +463,7 @@ ACL enforcement from FreeIPA. The FreeIPA framework will use S4U2Proxy
 to obtain a ticket for Dogtag on behalf of the bind principal, and the
 RA Agent priviliges will be dropped.
 
-.. _dogtag_signing_key_retrieval:
+
 
 Dogtag signing key retrieval
 ----------------------------------------------------------------------------------------------
@@ -501,26 +501,26 @@ CLI commands that retrieve certificates will be enhanced to add the
 capability to retrieve certificate *chains* from the root to the
 end-entity certificate.
 
-.. _new_commands:
+
 
 New commands
 ^^^^^^^^^^^^
 
-.. _ipa_ca_find:
+
 
 ``ipa ca-find``
 '''''''''''''''
 
 Search for lightweight CAs.
 
-.. _ipa_ca_show_name:
+
 
 ``ipa ca-show <NAME>``
 ''''''''''''''''''''''
 
 Show lightweight CA details.
 
-.. _ipa_ca_add_name:
+
 
 ``ipa ca-add <NAME>``
 '''''''''''''''''''''
@@ -545,7 +545,7 @@ See also the discussion above about *public key* parameters and
 *validity*. Additional CA creation parameters in the Dogtag API may
 (eventually) be reflected as additional option for this command.
 
-.. _ipa_ca_del_name:
+
 
 ``ipa ca-del <NAME>``
 '''''''''''''''''''''
@@ -565,7 +565,7 @@ using existing commands.
 
 Note: Dogtag prohibits the deletion of non-leaf CAs.
 
-.. _ipa_caacl_add_ca_name:
+
 
 ``ipa caacl-add-ca NAME``
 '''''''''''''''''''''''''
@@ -575,7 +575,7 @@ Add CA(s) to the CA ACL.
 ``--ca=STR``
    CA to add.
 
-.. _ipa_caacl_remove_ca_name:
+
 
 ``ipa caacl-remove-ca NAME``
 ''''''''''''''''''''''''''''
@@ -585,12 +585,12 @@ Add CA(s) to the CA ACL.
 ``--ca=STR``
    CA to remove.
 
-.. _enhanced_commands:
+
 
 Enhanced commands
 ^^^^^^^^^^^^^^^^^
 
-.. _ipa_caacl_add:
+
 
 ``ipa caacl-add``
 '''''''''''''''''
@@ -601,7 +601,7 @@ Added option:
    CA category. Mutually exclusive with CA members added via the
    ``caacl-add-ca`` command.
 
-.. _ipa_caacl_mod_name:
+
 
 ``ipa caacl-mod NAME``
 ''''''''''''''''''''''
@@ -612,7 +612,7 @@ Added option:
    CA category. Mutually exclusive with CA members added via the
    ``caacl-add-ca`` command.
 
-.. _ipa_caacl_find:
+
 
 ``ipa caacl-find``
 ''''''''''''''''''
@@ -622,7 +622,7 @@ Added option:
 ``--cacat=['all']``
    Search for CA ACLs with the given CA category.
 
-.. _ipa_cert_request:
+
 
 ``ipa cert-request``
 ''''''''''''''''''''
@@ -641,7 +641,7 @@ backwards compatibility with CA ACLs defined previously, CA ACLs that do
 not have a CA category and have no CAs shall behave as though the IPA CA
 alone was specified.
 
-.. _ipa_cert_find:
+
 
 ``ipa cert-find``
 '''''''''''''''''
@@ -658,7 +658,7 @@ following new arguments.
 If both ``--issuer`` and ``--ca`` are given and the two DNs are not
 equal, the result of the search will be empty.
 
-.. _ipa_cert_show:
+
 
 ``ipa cert-show``
 '''''''''''''''''
@@ -685,7 +685,7 @@ For *service* administration use cases, certificates will be requested
 via certmonger, in accordance with the existing use pattern where
 ``ipa-getcert`` is used to request, monitor and renew certificates.
 
-.. _indicating_the_target_ca:
+
 
 Indicating the target CA
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -706,7 +706,7 @@ environment variable is set, set the ``ca`` argument of the
 ``cert-request`` method accordingly; otherwise, the ``ca`` argument
 shall be omitted.
 
-.. _certificate_chain_retreival:
+
 
 Certificate chain retreival
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

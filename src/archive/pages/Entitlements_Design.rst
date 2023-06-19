@@ -34,7 +34,7 @@ all IPA servers will have access to it. The password to decrypt it is
 currently TBD but I'm leaning towards using the Apache NSS database
 password as we have easy access to it.
 
-.. _entitlement_cli_operations:
+
 
 Entitlement CLI Operations
 --------------------------
@@ -53,7 +53,7 @@ We will support the following operations:
    certificate and is only allowed if we are not enrolled to a Candlepin
    server.
 
-.. _cron_operations:
+
 
 Cron Operations
 ---------------
@@ -65,7 +65,7 @@ entries in cn=computers,cn=accounts that have a krbprincipalkey). We
 will bind using the host keytab, meaning that all replicas need to be
 able to write the entitlements.
 
-.. _counting_hosts:
+
 
 Counting Hosts
 --------------

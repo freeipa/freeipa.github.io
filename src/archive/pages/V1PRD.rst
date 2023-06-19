@@ -1,4 +1,4 @@
-.. _identity_policy_audit_1.0_prd:
+
 
 Identity, Policy & Audit 1.0 PRD
 ================================
@@ -6,7 +6,7 @@ Identity, Policy & Audit 1.0 PRD
 Overview
 ========
 
-.. _description_of_the_ipav1_solutions:
+
 
 Description of the IPAv1 solutions
 ----------------------------------
@@ -39,7 +39,7 @@ Description of the IPAv1 solutions
    -  Reduce cost of admin
    -  Enhanced security and audit
 
-.. _target_users:
+
 
 Target Users
 ------------
@@ -56,12 +56,12 @@ Target Users
 Requirements
 ============
 
-.. _server_requirements:
+
 
 Server Requirements
 -------------------
 
-.. _req1_create_centralized_identity_server:
+
 
 [Req1]: Create centralized identity server
 ----------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ Server Requirements
 -  [Req1.5]: The User administration interface should work with existing
    user management tools such as those that utilize libuser.
 
-.. _req2_create_central_authentication_point_ipa_server_install:
+
 
 [Req2] Create central authentication point IPA server install
 ----------------------------------------------------------------------------------------------
@@ -199,7 +199,7 @@ Server Requirements
       specific feature. i.e. If a customer wishes to deploy an IPA id
       server without freeradius, cleartext passwords are not required.
 
-.. _req3_create_provisioninginitial_configuration_tool_for_ipa_server:
+
 
 [Req3] Create provisioning/Initial configuration tool for IPA server
 ----------------------------------------------------------------------------------------------
@@ -259,7 +259,7 @@ Server Requirements
    -  Connect to administrative gui via the web and add users, groups,
       etc.
 
-.. _req4define_default_schemas_for_ipa_server:
+
 
 [Req4]Define default schemas for IPA server
 ----------------------------------------------------------------------------------------------
@@ -277,7 +277,7 @@ Server Requirements
 -  [Req4.5] In cases where this cannot be done, tools should be provided
    to facilitate easy inplace upgrades
 
-.. _req5kerberize_jboss_middleware:
+
 
 [Req5]Kerberize JBoss Middleware
 ----------------------------------------------------------------------------------------------
@@ -298,7 +298,7 @@ Server Requirements
 -  [Req5.4] Support Kerberos credentials submitted by IE6, IE7, FF1.x,
    FF2.x
 
-.. _req6_replication_and_failover_requirements:
+
 
 [Req6] Replication and Failover Requirements
 ----------------------------------------------------------------------------------------------
@@ -326,7 +326,7 @@ Server Requirements
    -  **Directory Server on Local IPA server fails:** Clients gracefully
       failover to remote/backup/standby IPA server
 
-.. _req7_migration_requirements:
+
 
 [Req7] Migration Requirements
 ----------------------------------------------------------------------------------------------
@@ -348,7 +348,7 @@ Server Requirements
    This interface will use the users orginal password to authenticate
    the request
 
-.. _req8_server_platform_support:
+
 
 [Req8] Server Platform Support
 ----------------------------------------------------------------------------------------------
@@ -369,12 +369,12 @@ Server Requirements
       -  The WindowsSync feature of DS will be tested/supported on AD
          Windows Server 2003, AD Windows Server 2000
 
-.. _ipa_client_requirements:
+
 
 IPA Client Requirements
 -----------------------
 
-.. _req9_client_configuration:
+
 
 [Req9] Client configuration
 ----------------------------------------------------------------------------------------------
@@ -432,7 +432,7 @@ IPA Client Requirements
    -  NFS v4 filesharing - configuration documentation to be provided
    -  CUPS - configuration documentation to be provided
 
-.. _req10_client_support:
+
 
 [Req10] Client Support
 ----------------------------------------------------------------------------------------------
@@ -457,7 +457,7 @@ IPA Client Requirements
       -  Mac OSX
       -  Windows 2000, XP, Vista ( i386 only)
 
-.. _req11_windows_interop:
+
 
 [Req11] Windows interop
 -----------------------
@@ -479,7 +479,7 @@ IPA Client Requirements
    will act as an NT4 style domain controller. Only NTLM authentication
    will be supported in this release, no Kerberos
 
-.. _req12_security_requirements:
+
 
 [Req12] Security requirements
 -----------------------------
@@ -526,7 +526,7 @@ In particular, the IPA server should support these features:
       required to turn off SELinux in order to get the IPA services to
       operate
 
-.. _req_13international_support:
+
 
 [Req 13]International Support
 -----------------------------
@@ -541,12 +541,12 @@ In particular, the IPA server should support these features:
    mind -- i.e it should have resource files etc.. to make it
    straightforward to localize it at a future date.
 
-.. _user_interface:
+
 
 User Interface
 --------------
 
-.. _req14_general_ui_requirements:
+
 
 [Req14] General UI Requirements
 ----------------------------------------------------------------------------------------------
@@ -592,7 +592,7 @@ The IPA server shall provide an interface for management of Identity
    product the flexibility of enforcing the configuration on either the
    server or by the user interface.
 
-.. _req15_administrator_access_control_and_delegation:
+
 
 [Req15] Administrator Access Control and Delegation
 ----------------------------------------------------------------------------------------------
@@ -610,7 +610,7 @@ The IPA server shall provide an interface for management of Identity
       Accounting Group. Only Administrator B is allowed to create users
       who are based in France.
 
-.. _req16_creationediting:
+
 
 [Req16] Creation/Editing
 ----------------------------------------------------------------------------------------------
@@ -653,7 +653,7 @@ The IPA server shall provide an interface for management of Identity
    UI should not allow users to view or modify values if they do not
    have sufficient privileges
 
-.. _req17_discovery:
+
 
 [Req17] Discovery
 ----------------------------------------------------------------------------------------------
@@ -684,7 +684,7 @@ The IPA server shall provide an interface for management of Identity
    attributes are kept, possibly in a separate directory branch, to
    allow accounts to be resurrected or to prevent uid reuse.
 
-.. _req19_policy:
+
 
 [Req19] Policy
 ----------------------------------------------------------------------------------------------
@@ -710,7 +710,7 @@ The IPA server shall provide an interface for management of Identity
 -  [Req19.3] If a manager is deleted the manager attribute of
    subordinates should be set to the managers manager
 
-.. _req20_radius_policy:
+
 
 [Req20] RADIUS Policy
 ----------------------------------------------------------------------------------------------
@@ -718,7 +718,7 @@ The IPA server shall provide an interface for management of Identity
 -  [Req20.1] Allow users to be placed in a group or role that specifies
    RADIUS users. Allow or disallow RADIUS access based on this
 
-.. _req21administrator_management_of_groups:
+
 
 [Req21]Administrator Management of Groups
 ----------------------------------------------------------------------------------------------
@@ -735,7 +735,7 @@ The IPA server shall provide an interface for management of Identity
 -  [Req21.6] Allow removal of all users from the group without deleting
    the group
 
-.. _req22non_administrative_user_use:
+
 
 [Req22]Non Administrative user use
 ----------------------------------------------------------------------------------------------
@@ -751,7 +751,7 @@ The IPA server shall provide an interface for management of Identity
    interface will use the users orginal password to authenticate the
    request
 
-.. _req23user_self_management:
+
 
 [Req23]User Self Management
 ----------------------------------------------------------------------------------------------
@@ -787,7 +787,7 @@ The IPA server shall provide an interface for management of Identity
       -  If windows sync is installed on an Active Directory domain
          controller.
 
-.. _req24gui_server_policies:
+
 
 [Req24]GUI Server Policies
 ----------------------------------------------------------------------------------------------
@@ -801,7 +801,7 @@ of users and groups are necessarily server wide:
 -  [Req24.2] We will NOT support fine grained password policy in this
    version)
 
-.. _req26documentation_requirements:
+
 
 [Req26]Documentation Requirements
 ---------------------------------
@@ -827,7 +827,7 @@ concise documentation.
 -  [Req26.6] Migration Guide: Detailing steps necessary to migrate users
    from existing Directory or Kerberos deployments
 
-.. _notes_on_future_releases:
+
 
 Notes on Future Releases
 ========================
@@ -835,7 +835,7 @@ Notes on Future Releases
 Features listed below will not be included in release 1.0 of the IPA
 server product
 
-.. _host_management:
+
 
 Host Management
 ---------------
@@ -845,7 +845,7 @@ Host Management
 -  The initial configuration script will not configure DNS services on
    the IPA server.
 
-.. _netgroups_and_host_based_access_control:
+
 
 Netgroups and Host Based access control
 ---------------------------------------
@@ -856,7 +856,7 @@ release will not provide any netgroup management capability. After the
 necessary features are added to the supported client platforms an
 updated IPA release can support this feature.
 
-.. _windows_file_and_print_services_cifs:
+
 
 Windows file and print services (CIFS)
 --------------------------------------
@@ -864,7 +864,7 @@ Windows file and print services (CIFS)
 The IPA product will not be able to provide authentication services for
 Windows file and print services
 
-.. _user_interface_features_not_in_version_1.0:
+
 
 User Interface features Not in version 1.0
 ------------------------------------------

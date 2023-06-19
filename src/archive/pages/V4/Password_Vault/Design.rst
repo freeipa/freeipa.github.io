@@ -85,7 +85,7 @@ Definitions
    during key retrieval. This identifier is not exposed to the user or
    service.
 
-.. _authentication_and_authorization:
+
 
 Authentication and Authorization
 ----------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ secret that is stored in the DRM, though it is important to note that
 the secrets are encrypted such that the IPA Server is unable to decrypt
 them.
 
-.. _common_workflows:
+
 
 Common Workflows
 ----------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ response.
 
    Password_Vault_Retrieval.png
 
-.. _vault_password_reset:
+
 
 Vault Password Reset
 ^^^^^^^^^^^^^^^^^^^^
@@ -157,7 +157,7 @@ Vault Password Reset
    then re-encrypted using the new encryption key.
 -  Newly encrypted secrets are sent to IPA as archival requests.
 
-.. _service_workflows:
+
 
 Service Workflows
 ----------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ same service. It also allows an admin to change the service vault
 password for all instances of a service by archiving encrypted copies
 the new vault password with the public keys of the service instances.
 
-.. _archival_of_a_service_vault_password_at_service_set_up_time:
+
 
 Archival of a service vault password (at service set up time)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -222,7 +222,7 @@ new service instance.
 
    Password_Vault_Service_Password_Archival.png
 
-.. _retrieval_of_service_vault_password_automated:
+
 
 Retrieval of service vault password (automated)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -233,12 +233,12 @@ Retrieval of service vault password (automated)
    key. This decrypted vault password can be used to decrypt retrieved
    secrets that the service is allowed to access.
 
-.. _escrow_workflows:
+
 
 Escrow Workflows
 ----------------------------------------------------------------------------------------------
 
-.. _archival_1:
+
 
 Archival
 ^^^^^^^^
@@ -248,7 +248,7 @@ Archival
    the new encryption key. This encrypted encryption key is sent to IPA
    over a GSSAPI protected connection and is stored in the DRM.
 
-.. _retrieval_escrow_officer_initiated:
+
 
 Retrieval (escrow officer initiated)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -266,7 +266,7 @@ Retrieval (escrow officer initiated)
 -  IPA client framework uses the encryption key to decrypt the secret
    and presents it to the escrow officer.
 
-.. _vault_password_reset_with_escrowed_encryption_key:
+
 
 Vault Password Reset (with escrowed encryption key)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -317,7 +317,7 @@ Implementation
 The `implementation details <V4/Password_Vault_Implementation>`__ still
 need to be defined. Consider this section as a work in progress.
 
-.. _drm_namespace:
+
 
 DRM Namespace
 ----------------------------------------------------------------------------------------------
@@ -328,12 +328,12 @@ possible naming scheme is:
 
 ``-``
 
-.. _ldap_implementation_details:
+
 
 LDAP Implementation Details
 ----------------------------------------------------------------------------------------------
 
-.. _escrow_officer_assignment:
+
 
 Escrow Officer Assignment
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -341,7 +341,7 @@ Escrow Officer Assignment
 The LDAP schema used to assign an escrow officer to users and groups
 needs to be defined.
 
-.. _stored_secret_tracking:
+
 
 Stored Secret Tracking
 ^^^^^^^^^^^^^^^^^^^^^^

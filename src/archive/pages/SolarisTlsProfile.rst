@@ -1,4 +1,4 @@
-.. _sample_tls_profile_file_for_solaris:
+
 
 Sample TLS Profile File for Solaris
 ===================================

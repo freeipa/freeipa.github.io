@@ -1,4 +1,4 @@
-.. _the_captcha:
+
 
 The CAPTCHA
 ===========
@@ -61,7 +61,7 @@ is available through pip.
 Old captcha data will be periodically expired and deleted from the
 database with a script run regularly by cron.
 
-.. _feature_management23:
+
 
 Feature Management
 ------------------
@@ -69,7 +69,7 @@ Feature Management
 The secret key for the HMAC is currently hard-coded into the program,
 but will be read from a configuration file in the future.
 
-.. _how_to_test23:
+
 
 How to Test
 -----------

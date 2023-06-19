@@ -13,12 +13,12 @@ still needs Heimdal KDC service to perform some operations internally.
 To avoid conflicts Samba needs to be modified so that Heimdal KDC
 service can continue running but it does not listen to the ports.
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _port_configuration:
+
 
 Port Configuration
 ------------------
@@ -35,7 +35,7 @@ source4/param/loadparam.c.
        lp_do_global_parameter(lp_ctx, "kpasswd port", "464");
    }
 
-.. _kdc_initialization:
+
 
 KDC Initialization
 ------------------
@@ -81,7 +81,7 @@ source4/kdc/kdc.c.
            kdc_check_generic_kerberos, kdc);
    }
 
-.. _socket_creation:
+
 
 Socket Creation
 ---------------
@@ -145,12 +145,12 @@ services:
            kdc);
    }
 
-.. _proposed_solution:
+
 
 Proposed Solution
 =================
 
-.. _port_configuration_1:
+
 
 Port Configuration
 ------------------
@@ -165,7 +165,7 @@ Heimdal ports could be disabled by setting them to 0 in smb.conf:
 
 Note: No Samba source code will be changed for this.
 
-.. _kdc_initialization_1:
+
 
 KDC Initialization
 ------------------
@@ -173,7 +173,7 @@ KDC Initialization
 The kdc_task_init() should not be modified so that it will continue to
 initialize Heimdal service.
 
-.. _socket_creation_1:
+
 
 Socket Creation
 ---------------

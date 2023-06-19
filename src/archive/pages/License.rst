@@ -16,7 +16,7 @@ v3 <http://www.gnu.org/licenses/gpl-3.0.en.html>`__ except for the
 Directory Server plugins. These are licensed under the GPL with an
 `1 <http://directory.fedoraproject.org/docs/389ds/FAQ/annotated-gpl-exception-license.html>`__.
 
-.. _directory_server:
+
 
 389 Directory Server
 ----------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ Directory Server plugins. These are licensed under the GPL with an
 The core is GPL + Exception. Details are at the
 `Licensing <http://directory.fedoraproject.org/wiki/Licensing>`__ page.
 
-.. _mit_kerberos:
+
 
 MIT Kerberos
 ----------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ MIT Kerberos
 `MIT <http://k5wiki.kerberos.org/wiki/MIT_Kerberos_License>`__, freely
 distributable.
 
-.. _mod_nss_mod_proxy_mod_auth_kerb:
+
 
 mod_nss, mod_proxy, mod_auth_kerb
 ----------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ mod_nss, mod_proxy, mod_auth_kerb
 These are Apache modules and are licensed under the `Apache 2.0
 license <http://www.apache.org/licenses/>`__.
 
-.. _nspr_nss_ldapsdk:
+
 
 NSPR / NSS / LDAPSDK
 ----------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ NSPR / NSS / LDAPSDK
 This code is licensed under the
 `MPL/LGPL/GPL <http://www.mozilla.org/MPL/>`__ tri-license.
 
-.. _cyrus_sasl:
+
 
 Cyrus SASL
 ----------------------------------------------------------------------------------------------

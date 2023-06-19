@@ -66,7 +66,7 @@ commands without any need to logging into server.
 | ``  KrbSaveCredentials off``
 | ``  Require valid-user``
 
-.. _automatic_login_of_users_into_mediawiki:
+
 
 Automatic login of users into MediaWiki
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

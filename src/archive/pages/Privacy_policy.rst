@@ -1,9 +1,9 @@
-.. _privacy_statement_for_the_freeipa_project:
+
 
 Privacy Statement for the FreeIPA Project
 =========================================
 
-.. _scope_of_this_notice:
+
 
 Scope of This Notice
 --------------------
@@ -14,7 +14,7 @@ regarding the ways in which information collected by the FreeIPA project
 is used and disclosed. For convenience, the FreeIPA project is referred
 to in this document as "FreeIPA".
 
-.. _our_commitment_to_privacy:
+
 
 Our Commitment to Privacy
 -------------------------
@@ -25,7 +25,7 @@ practices and the choices you can make about the way your personal
 information is collected, used and disclosed. To make this Statement
 easy to find, we have included a link it at the bottom of every page.
 
-.. _the_information_we_collect:
+
 
 The Information We Collect
 --------------------------
@@ -43,7 +43,7 @@ Some pages also link to external resources that contain public
 information about contributors, such as personal blogs. This information
 is not collected, but rather voluntarily provided.
 
-.. _publicly_available_personal_data:
+
 
 Publicly Available Personal Data
 --------------------------------
@@ -54,7 +54,7 @@ See Fedora’s `privacy
 policy <https://fedoraproject.org/wiki/Legal:PrivacyPolicy>`__ for more
 details and how to limit exposure of this information.
 
-.. _using_processing_your_personal_data:
+
 
 Using (Processing) Your Personal Data
 -------------------------------------
@@ -66,7 +66,7 @@ information that might be copied from FAS into the internal database or
 entered manually is full name and email address. This data is used for
 the content attribution only.
 
-.. _sharing_your_personal_data:
+
 
 Sharing Your Personal Data
 --------------------------
@@ -75,7 +75,7 @@ FreeIPA project other than making some of you publicly available
 personal data used for attribution purposes does not explicitly share
 personal data with any third parties.
 
-.. _receiving_e_mail:
+
 
 Receiving E-Mail
 ----------------
@@ -84,7 +84,7 @@ FreeIPA project does not have its own accounting system. FreeIPA wiki
 can be configured to send email notifications for edits and
 contributions. This is an opt in feature.
 
-.. _cookies_and_other_browser_information:
+
 
 Cookies and Other Browser Information
 -------------------------------------
@@ -93,7 +93,7 @@ Fedora’s `privacy
 policy <https://fedoraproject.org/wiki/Legal:PrivacyPolicy>`__ applies
 here.
 
-.. _our_commitment_to_data_security:
+
 
 Our Commitment to Data Security
 -------------------------------
@@ -106,7 +106,7 @@ FreeIPA and its partners enter into confidentiality agreements which
 require that care and precautions be taken to prevent loss, misuse, or
 disclosure of your personal data.
 
-.. _public_forums_reminder:
+
 
 Public Forums Reminder
 ----------------------
@@ -126,7 +126,7 @@ data and content for historical, scientific, and research purposes; and
 to provide an environment for the free exchange of ideas relevant and
 constructive to the development and propagation of open source software.
 
-.. _our_commitment_to_childrens_online_privacy:
+
 
 Our Commitment to Children's Online Privacy
 -------------------------------------------
@@ -135,7 +135,7 @@ Fedora’s `privacy
 policy <https://fedoraproject.org/wiki/Legal:PrivacyPolicy>`__ applies
 here.
 
-.. _about_links_to_other_sites:
+
 
 About Links to Other Sites
 --------------------------
@@ -145,7 +145,7 @@ information collection of sites that can be reached through links from
 FreeIPA wiki. If you have questions about the data collection procedures
 of linked sites, please contact these sites directly.
 
-.. _your_rights_and_choices_in_the_eea:
+
 
 Your Rights and Choices in the EEA
 ----------------------------------
@@ -178,7 +178,7 @@ sending email to one of the current FreeIPA wiki administrators.
 However, the withdrawal of consent will not affect the lawfulness of
 processing based on consent provided before its withdrawal.
 
-.. _how_to_contact_us:
+
 
 How to Contact Us
 -----------------
@@ -192,7 +192,7 @@ concern, please send a direct email to that person.
 FreeIPA will work with you to resolve any concerns you may have about
 this Statement.
 
-.. _changes_to_this_privacy_statement:
+
 
 Changes to this Privacy Statement
 ---------------------------------

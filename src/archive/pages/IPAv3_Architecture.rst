@@ -1,4 +1,4 @@
-.. _ipav3_goals:
+
 
 IPAv3 Goals
 ===========
@@ -12,7 +12,7 @@ Linux machines are handled by the Linux Admins.
 Ad users will be able to freely access Linux (Unix) machines with their
 AD credentials.
 
-.. _required_features_to_reach_the_goal:
+
 
 Required Features to reach the Goal
 -----------------------------------
@@ -30,7 +30,7 @@ ports the services are listening. The LDAP port MUST be filtered, as our
 LDAP schema and DIT are not compatible with what AD clients expect and
 may confuse them.
 
-.. _required_components:
+
 
 Required Components
 -------------------
@@ -46,7 +46,7 @@ The KDC also needs to be able to handle some of the information Windows
 clients/servers need, in form of an Authorization structure called
 MS-PAC (Privileged Access Certificate) embedded in Kerberos Tickets.
 
-.. _ipav3_layout:
+
 
 IPAv3 Layout
 ============
@@ -64,7 +64,7 @@ v2 server. Samba components (in blue) are quite evident. But there is
 also a new KDC related component called IPA-KDB. This is an IPA specific
 DAL backend, and replaces the original MIT kldap DAL backend used in v2.
 
-.. _setting_up_trust_relationships:
+
 
 Setting up trust relationships
 ==============================
@@ -179,7 +179,7 @@ libndr_krb5
 unpacking authorization structures used by Windows, including the MS-PAC
 structure embedded in Kerberos Tickets.
 
-.. _ipa___ad_trust_relationships_at_work:
+
 
 IPA - AD trust relationships at work
 ====================================
@@ -200,7 +200,7 @@ KDCs from the perspective of both Windows and IPA clients and servers.
 It is assumed that a trust relationship is already in place. It is also
 assumed the clients already have a valid TGT.
 
-.. _ad_client_needs_services_from_ipa_server:
+
 
 AD client needs services from IPA server
 ----------------------------------------
@@ -225,7 +225,7 @@ again, sign it and send it back attached to the service ticket.
 
 The AD client can now contact the IPA service (a.3).
 
-.. _ipa_client_needs_services_from_ad_server:
+
 
 IPA client needs services from AD server
 ----------------------------------------
@@ -250,7 +250,7 @@ AD server.
 
 The IPA client can now contact the Ad service (b.3).
 
-.. _ipa_managed_server_and_ms_pac:
+
 
 IPA managed server and MS-PAC
 =============================
@@ -307,7 +307,7 @@ against the IPA's Samba instance, or perhaps a special LDAP extended
 operation. This protocol will be better defined later on and this page
 will be corrected to reflect the decision.
 
-.. _ipa_managed_server_and_password_based_login:
+
 
 IPA managed server and Password based Login
 ===========================================
@@ -357,7 +357,7 @@ similar but contains information in a way that is more complete for
 Posix machines. We are currently working on a draft proposal within IETF
 to have the PAD standardized so that we can soon start to use it in IPA.
 
-.. _finding_a_name_for_a_sid:
+
 
 Finding a name for a SID
 ========================

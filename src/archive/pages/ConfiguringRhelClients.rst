@@ -19,12 +19,12 @@ Commands to be run as a regular user are prefixed with a $ symbol.
       Before starting the freeIPA installation, ensure that you update
       your system with all the latest packages.
 
-.. _configuring_rhel_5_as_an_ipa_client:
+
 
 Configuring RHEL 5 as an IPA Client
 ===================================
 
-.. _downloading_and_installing_the_ipa_packages:
+
 
 Downloading and Installing the IPA Packages
 -------------------------------------------
@@ -289,12 +289,12 @@ Access
 Control <Obsolete:Administrators_Guide#Configuring_Host-Based_Access_Control>`__
 for more information on this topic.
 
-.. _configuring_rhel_4_as_an_ipa_client:
+
 
 Configuring RHEL 4 as an IPA Client
 ===================================
 
-.. _downloading_and_installing_the_ipa_packages_1:
+
 
 Downloading and Installing the IPA Packages
 -------------------------------------------
@@ -355,7 +355,7 @@ service requests from the client, and reduce the load on the server.
       perform auto-discovery, and neither does it configure the client
       machine to perform auto-discovery.
 
-.. _configuring_kerberos_1:
+
 
 Configuring Kerberos
 --------------------
@@ -451,7 +451,7 @@ System Login
 | ``getent passwd``
 | ``getent group``
 
-.. _configuring_nfs_v4_with_kerberos_1:
+
 
 Configuring NFS v4 with Kerberos
 --------------------------------
@@ -518,7 +518,7 @@ configuration:
 
    # mount -v -t nfs4 -o sec=krb5 ipaserver.example.com:/ /mnt
 
-.. _configuring_client_ssh_access_1:
+
 
 Configuring Client SSH Access
 -----------------------------
@@ -591,7 +591,7 @@ This should succeed without asking for a password.
 
    # ssh admin@ipaclient.example.com
 
-.. _configuring_host_based_access_control_1:
+
 
 Configuring Host-Based Access Control
 -------------------------------------
@@ -603,7 +603,7 @@ Access
 Control <Obsolete:Administrators_Guide#Configuring_Host-Based_Access_Control>`__
 for more information on this topic.
 
-.. _configuring_rhel_2.1_and_3_as_ipa_clients:
+
 
 Configuring RHEL 2.1 and 3 as IPA Clients
 =========================================
@@ -617,7 +617,7 @@ process is completely manual.
 
       The IPA client requires that an IPA server already exist.
 
-.. _configuring_kerberos_2:
+
 
 Configuring Kerberos
 --------------------
@@ -657,7 +657,7 @@ the **authconfig** utility.
 
 Kerberos should now be correctly configured.
 
-.. _configuring_ldap:
+
 
 Configuring LDAP
 ----------------

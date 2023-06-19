@@ -4,7 +4,7 @@ NOTICE
 This is a **draft** - the project is not yet complete - not even sure if
 it will *work*.
 
-.. _problem_definition:
+
 
 Problem Definition
 ------------------
@@ -13,7 +13,7 @@ Currently, there is no easy way to implement an internal cloud with
 OpenShift Enterprise on RHEL/Fedora systems that can seemlessly
 integrate with IPA.
 
-.. _hope_to_achieve:
+
 
 Hope to Achieve
 ---------------
@@ -41,7 +41,7 @@ Deliverables
    -  Windows AD Trust with IPA Server
    -  Demo application running on internal cloud
 
-.. _proposed_implementation:
+
 
 Proposed Implementation
 -----------------------
@@ -60,7 +60,7 @@ Assumptions
 -  Puppet Agents are configured to query Master every ${x} minutes for
    catalog
 
-.. _initial_setup_of_ipa_and_puppet:
+
 
 Initial Setup of IPA and Puppet
 ----------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ Initial Setup of IPA and Puppet
    blogpost <http://jcape.name/2012/01/16/using-the-freeipa-pki-with-puppet/>`__)
 -  Generate keytabs for both Puppet Master and Agent
 
-.. _puppet_ipaopenshift_module_in_detail:
+
 
 Puppet IPA/OpenShift Module in Detail
 ----------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ Puppet IPA/OpenShift Module in Detail
       `overview <http://sosiouxme.wordpress.com/2012/12/31/openshift-with-dynamic-host-ips/>`__
       of how-to.
 
-.. _open_questions:
+
 
 Open Questions
 --------------
@@ -145,7 +145,7 @@ Open Questions
 -  Can databases, such as Mongo, MySQL, Postgres, be enrolled as a host
    and/or service w/ IPA?
 
-.. _reference_documentation_research:
+
 
 Reference Documentation & Research
 ----------------------------------

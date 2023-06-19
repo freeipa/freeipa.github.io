@@ -6,7 +6,7 @@ on the same machine, these services will conflict with each other. To
 solve this problem, the machine must have multiple IP addresses, then
 the services must bind to different addresses.
 
-.. _configuring_ipa:
+
 
 Configuring IPA
 ===============
@@ -63,7 +63,7 @@ ldap/servers/slapd/daemon.c:
        }
    }
 
-.. _configuring_samba:
+
 
 Configuring Samba
 =================
@@ -110,7 +110,7 @@ The socket is created in source4/ldap_server/ldap_server.c:
        }
    }
 
-.. _creating_virtual_ip_address:
+
 
 Creating Virtual IP Address
 ===========================

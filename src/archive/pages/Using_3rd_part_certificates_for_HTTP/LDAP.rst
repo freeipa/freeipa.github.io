@@ -12,7 +12,7 @@ certificate/private SSL key for each server.
 Note2: this procedure can be applied to change the HTTP/LDAP server
 certificates even if FreeIPA was initially deployed with an embedded CA.
 
-.. _procedure_in_current_ipa:
+
 
 Procedure in current IPA
 ------------------------
@@ -31,7 +31,7 @@ load the CA's certificate prior to installing the new certificate.
 Note: the command ipa-certupdate must be executed on all the IPA hosts
 (master/replicas/clients) before moving to the next step.
 
-.. _configuration_of_the_3rd_part_certificate:
+
 
 Configuration of the 3rd part certificate
 ----------------------------------------------------------------------------------------------
@@ -50,12 +50,12 @@ Then restart your daemons:
 | ``# systemctl restart httpd.service``
 | ``# systemctl restart dirsrv@MY-REALM.service``
 
-.. _procedure_in_ipa_4.1:
+
 
 Procedure in IPA < 4.1
 ----------------------
 
-.. _prerequisite_1:
+
 
 Prerequisite
 ----------------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ On the clients, you need to run only the following:
 | ``# certutil -A -d /etc/pki/nssdb/ -n 'EXT-CA1' -t CT,C,C -a -i /root/ca1.crt``
 | ``# certutil -A -d /etc/pki/nssdb/ -n 'EXT-CA2' -t CT,C,C -a -i /root/ca2.crt``
 
-.. _configuration_of_the_3rd_part_certificate_1:
+
 
 Configuration of the 3rd part certificate
 ----------------------------------------------------------------------------------------------
@@ -130,8 +130,10 @@ aforementioned certificates:
 
 Once this command has completed, you can install the new bundle using:
 
-| ``# ipa-server-certinstall -w --http_pin=some_secret_password newcert.pk12 ``
-| ``# ipa-server-certinstall -d --dirsrv_pin=some_secret_password newcert.pk12``
+::
+
+   | ``# ipa-server-certinstall -w --http_pin=some_secret_password newcert.pk12 ``
+   | ``# ipa-server-certinstall -d --dirsrv_pin=some_secret_password newcert.pk12``
 
 Then restart your daemons:
 

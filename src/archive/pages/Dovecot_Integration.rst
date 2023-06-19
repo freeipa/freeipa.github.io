@@ -1,4 +1,4 @@
-.. _dovecot_integration_with_ipa:
+
 
 Dovecot Integration with IPA
 ============================

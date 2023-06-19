@@ -1,11 +1,11 @@
-.. _v2_proposals:
+
 
 V2 Proposals
 ============
 
 -  `DS Design Summary <FreeIPAv2:DS_Design_Summary>`__
 
-.. _historical_superseded:
+
 
 Historical / Superseded
 -----------------------

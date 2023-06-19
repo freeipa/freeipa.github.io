@@ -42,12 +42,12 @@ could be used in JLDAP to provide LDAPI support. There are also other
 libraries such as `JUDS <http://code.google.com/p/juds/>`__ but
 junixsocket's API is based on Java Socket API which is used by JLDAP.
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _ietf_api:
+
 
 IETF API
 --------
@@ -62,7 +62,7 @@ of the LDAP server:
    LDAPConnection connection = LDAPConnection();
    connection.connect(url.getHost(), url.getPort());
 
-.. _ldap_url:
+
 
 LDAP URL
 --------
@@ -88,7 +88,7 @@ ldaps protocol schemes.
        }
    }
 
-.. _ldap_connection:
+
 
 LDAP Connection
 ---------------
@@ -108,12 +108,12 @@ Socket API by providing the host name and port number.
        }
    }
 
-.. _proposed_solution:
+
 
 Proposed Solution
 =================
 
-.. _ietf_api_1:
+
 
 IETF API
 --------
@@ -127,7 +127,7 @@ providing an LDAPI URL which contains a path to the socket file:
    LDAPConnection connection = LDAPConnection();
    connection.connect(url);
 
-.. _ldap_url_1:
+
 
 LDAP URL
 --------
@@ -148,7 +148,7 @@ protocol scheme.
        }
    }
 
-.. _ldap_connection_1:
+
 
 LDAP Connection
 ---------------

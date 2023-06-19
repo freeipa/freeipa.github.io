@@ -1,4 +1,4 @@
-.. _windows_server_preparation:
+
 
 Windows Server preparation
 --------------------------
@@ -12,14 +12,14 @@ preparations must be done on Windows Server machine:
    Authority
 -  install Cygwin and OpenSSH, configure ssshd server
 
-.. _object_existing_in_active_directory:
+
 
 Object existing in Active Directory
 -----------------------------------
 
 On Active Directory side, objects in following description should exist.
 
-.. _on_forest_root_ad:
+
 
 On forest root AD
 ----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ On forest root AD
 | `` Enabled: $true``
 | `` OtherAttributes: "@{'uidNumber'='10055'; 'gidNumber'='10055'; 'loginShell'='/bin/sh'; 'homeDirectory'='/home/mytestuser'; 'unixHomeDirectory'='/home/mytestuser'; 'gecos'='Test User'}"``
 
-.. _on_child_subdomain_ad:
+
 
 On child (subdomain) AD
 ----------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ On child (subdomain) AD
 | ``   loginShell: /bin/sh``
 | ``   homeDirectory: /home/subdomaindisableduser``
 
-.. _on_tree_root_ad:
+
 
 On tree root AD
 ----------------------------------------------------------------------------------------------

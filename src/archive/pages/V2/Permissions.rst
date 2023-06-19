@@ -82,7 +82,7 @@ Commands:
 
 Allowed member types are: users, groups, hosts and hostgroups.
 
-.. _differences_to_old_system:
+
 
 Differences to old system
 -------------------------
@@ -105,7 +105,7 @@ APPENDIX
 
 Here is a breakdown of what the various objects look like.
 
-.. _permission_entry:
+
 
 permission entry
 ----------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ ACI is stored in ``dc=example,dc=com``.
      3.0;acl "Add Users";allow (add) groupdn = "ldap:///cn=addusers,cn=permission
     s,cn=accounts,dc=example,dc=com";)
 
-.. _privilege_entry:
+
 
 privilege entry
 ----------------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ role.
    memberOf: cn=modifyusers,cn=permissions,cn=accounts,dc=example,dc=com
    member: cn=helpdesk,cn=roles,cn=accounts,dc=example,dc=com
 
-.. _role_entry:
+
 
 role entry
 ----------------------------------------------------------------------------------------------

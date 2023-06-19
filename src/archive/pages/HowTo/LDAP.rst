@@ -1,4 +1,4 @@
-.. _ldap_overview:
+
 
 LDAP Overview
 =============
@@ -7,7 +7,7 @@ This guide is meant to provide general guidance on configuring an LDAP
 client to connect to IPA. There are specific guides/Howtos for some
 clients/servers.
 
-.. _data_layout_dit:
+
 
 Data layout (DIT)
 =================
@@ -28,7 +28,7 @@ containers. Some container examples are:
 -  Users: ``cn=users,cn=accounts,$SUFFIX``
 -  Groups: ``cn=groups,cn=accounts,$SUFFIX``
 
-.. _system_accounts:
+
 
 System Accounts
 ===============
@@ -70,7 +70,7 @@ everything is readable to nothing is readable, by default. You will
 eventually need to add some Access Control Instructions (ACI's) to grant
 read access to the parts of the LDAP tree you will need.
 
-.. _handy_helper_for_system_accounts_management:
+
 
 Handy helper for system accounts management
 -------------------------------------------
@@ -88,7 +88,7 @@ You can either use port 389 and enable startTLS in the client or
 configure to use the ldaps port, 636. The IPA CA certificate can be
 found in /etc/ipa/ca.crt on all enrolled hosts.
 
-.. _tool_configuration:
+
 
 Tool configuration
 ==================
@@ -113,7 +113,7 @@ Rather than:
 
 ``$ ldapsearch -x -h ipa.example.com  -b dc=example,dc=com uid=admin``
 
-.. _unix_clients:
+
 
 Unix clients
 ============

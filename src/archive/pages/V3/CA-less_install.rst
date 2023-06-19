@@ -5,7 +5,7 @@ IPA should support installing without an embedded Certificate Authority,
 with user-provided SSL certificates for the HTTP and `Directory
 Server <Directory_Server>`__.
 
-.. _use_cases111:
+
 
 Use Cases
 ---------
@@ -64,7 +64,7 @@ ipa-replica-prepare:
 The root CA is taken from the existing master. All requirements
 mentioned in the ipa-server-install case apply.
 
-.. _certificate_rotation:
+
 
 Certificate rotation
 ----------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ issued and installed manually.
 In this setup, no warnings are given about certs that are about to
 expire.
 
-.. _kdc_pkinit_considerations:
+
 
 KDC pkinit considerations
 ----------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ to the other two certs.
 
 Currently KDC pkinit is disabled.
 
-.. _affected_commands:
+
 
 Affected commands
 ----------------------------------------------------------------------------------------------
@@ -126,9 +126,11 @@ The errors can be stopped by issuing:
 If needed, machine certificates may be obtained from the external CA and
 added to the server with:
 
-``   ipa host-mod ``\ `` --certificate ``
+::
 
-.. _why___root_ca_file:
+   ``   ipa host-mod ``\ `` --certificate ``
+
+
 
 Why --root-ca-file?
 ----------------------------------------------------------------------------------------------
@@ -144,12 +146,12 @@ to trusting a root CA, it must always be specified explicitly.
 In the future it might be possible to trust more than one CA in this
 way.
 
-.. _certificate_management_faq:
+
 
 Certificate management FAQ
 --------------------------
 
-.. _how_to_check_what_format_files_are:
+
 
 How to check what format files are?
 ----------------------------------------------------------------------------------------------
@@ -177,7 +179,7 @@ To check a PKCS#12 file, you need to know the password:
 | ``   Key(shrouded):``
 | ``       <...>``
 
-.. _how_many_certs_are_there_in_a_file:
+
 
 How many certs are there in a file?
 ----------------------------------------------------------------------------------------------
@@ -211,19 +213,19 @@ the number of blocks. A certificate will look like this:
 | ``   NJg9Gt8a/xU6GK239M1keCKct87VqWN1unXaD51bgotK1UJWj1q8H262mSYzfRg=``
 | ``   -----END CERTIFICATE-----``
 
-.. _how_to_extact_certs_or_or_combine_certs_into_files:
+
 
 How to extact certs or or combine certs into files?
 ----------------------------------------------------------------------------------------------
 
-.. _pem_files:
+
 
 PEM Files
 ^^^^^^^^^
 
 PEM files are plain text; manipulate them using a text editor
 
-.. _base64_encoded_der_certificates:
+
 
 Base64-encoded DER certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -233,7 +235,7 @@ CERTIFICATE markers are a base64-encoded DER-encoded X.509 certificate.
 To convert between PEM and base64-encoded DER, just add or remove the
 markers in a text editor.
 
-.. _using_a_nss_database:
+
 
 Using a NSS database
 ^^^^^^^^^^^^^^^^^^^^
@@ -269,7 +271,9 @@ certificate chain and private key(s), if available):
 
 To import a PEM file:
 
-``   certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i ``
+::
+
+   ``   certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i ``
 
 For an explicitly trusted (root) CA, use "CT,C,C" for flags. Otherwise
 use ",,"
@@ -299,7 +303,7 @@ To sign the CSR, and get a PEM file with the cert:
 
 Again, substitute a unique serial number for $RANDOM.
 
-.. _how_to_check_that_my_certificates_will_be_usable:
+
 
 How to check that my certificates will be usable?
 ----------------------------------------------------------------------------------------------
@@ -320,7 +324,7 @@ certificate. You can check the trust chain following the "Subject" and
 Certificate Signing and CRL Signing in their "Certificate Key Usage"
 extension.
 
-.. _feature_managment:
+
 
 Feature Managment
 -----------------

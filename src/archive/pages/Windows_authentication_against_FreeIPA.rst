@@ -1,4 +1,4 @@
-.. _windows_authentication_against_freeipa:
+
 
 Windows authentication against FreeIPA
 ======================================
@@ -31,7 +31,7 @@ yet in any released FreeIPA version.
    native 2FA inside enterprise across multiple platforms. But please do
    it open source way otherwise we would not recommend you ;-)
 
-.. _freeipa_is_not_an_active_directory_server:
+
 
 FreeIPA is not an Active Directory server
 -----------------------------------------
@@ -53,52 +53,56 @@ trust <Trusts>`__.)
 `Project pGina <http://pgina.org/>`__ could help you to overcome some
 limitations.
 
-.. _configure_freeipa:
+
 
 Configure FreeIPA
 -----------------
 
-| ``1. Create the host principal in the web interface``
-| ``2. Create IPA users to correspond to Windows users``
-| ``3. Reset the user's IPA password to a known password using the web interface or CLI,``
-| ``   the user will be prompted to change at first log in.``
-| ``4. On the IPA server run``
-| `` ipa-getkeytab -s [kdc DNS name]``
-| ``               -p host/[machine-name]``
-| ``               -e  arcfour-hmac``
-| ``               -k krb5.keytab.[machine-name]``
-| ``               -P``
-| `` At the prompt enter a random MACHINE_PASSWORD``
-| `` (you will enter this later on the windows machine too).``
-| `` ``\ **``Note:``\ ````\ ``you``\ ````\ ``can``\ ````\ ``change``\ ````\ ``the``\ ````\ ``-e``\ ````\ ``argument``\ ````\ ``to``\ ````\ ``include``\ ````\ ``also``**
-| `` ``\ **``AES``\ ````\ ``enctypes``\ ````\ ``from``\ ````\ ``FreeIPA``\ ````\ ``2.1.4``\ ````\ ``and``\ ````\ ``higher.``**\ `` (FreeIPA ticket ``\ ```2038`` <https://fedorahosted.org/freeipa/ticket/2038>`__\ ``)``
+::
 
-| `` ``\ **``Note:``\ ````\ ``Windows``\ ````\ ``machines``\ ````\ ``names``\ ````\ ``cannot``\ ````\ ``exceed``\ ````\ ``15``\ ````\ ``characters``**
-| ``  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``
+   | ``1. Create the host principal in the web interface``
+   | ``2. Create IPA users to correspond to Windows users``
+   | ``3. Reset the user's IPA password to a known password using the web interface or CLI,``
+   | ``   the user will be prompted to change at first log in.``
+   | ``4. On the IPA server run``
+   | `` ipa-getkeytab -s [kdc DNS name]``
+   | ``               -p host/[machine-name]``
+   | ``               -e  arcfour-hmac``
+   | ``               -k krb5.keytab.[machine-name]``
+   | ``               -P``
+   | `` At the prompt enter a random MACHINE_PASSWORD``
+   | `` (you will enter this later on the windows machine too).``
+   | `` ``\ **``Note:``\ ````\ ``you``\ ````\ ``can``\ ````\ ``change``\ ````\ ``the``\ ````\ ``-e``\ ````\ ``argument``\ ````\ ``to``\ ````\ ``include``\ ````\ ``also``**
+   | `` ``\ **``AES``\ ````\ ``enctypes``\ ````\ ``from``\ ````\ ``FreeIPA``\ ````\ ``2.1.4``\ ````\ ``and``\ ````\ ``higher.``**\ `` (FreeIPA ticket ``\ ```2038`` <https://fedorahosted.org/freeipa/ticket/2038>`__\ ``)``
 
-.. _configure_windows_ksetup:
+   | `` ``\ **``Note:``\ ````\ ``Windows``\ ````\ ``machines``\ ````\ ``names``\ ````\ ``cannot``\ ````\ ``exceed``\ ````\ ``15``\ ````\ ``characters``**
+   | ``  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``
+
+
 
 Configure Windows (ksetup)
 --------------------------
 
-| ``1. ksetup /setdomain [REALM NAME]``
-| ``2. ksetup /addkdc [REALM NAME] [kdc DNS name]``
-| ``3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]``
-| ``4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)``
-| ``5. ksetup /mapuser * *``
-| ``6. Run gpedit.msc, open the key called:``
-| `` "Network Security: Configure encryption types allowed for Kerberos”``
-| `` under:``
-| ``   Computer Configuration``
-| ``     Windows Settings``
-| ``       Security Settings``
-| ``         Local Policies``
-| ``           Security Options``
-| `` and deselect everything except RC4_HMAC_MD5``
-| ``7. *** REBOOT ***``
-| ``8. Add local user accounts for all users that need to be able to log in.``
-| ``9. Log in as [user]@[REALM] with the initial password, you will be prompted``
-| ``to change the password then logged in.``
+::
+
+   | ``1. ksetup /setdomain [REALM NAME]``
+   | ``2. ksetup /addkdc [REALM NAME] [kdc DNS name]``
+   | ``3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]``
+   | ``4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)``
+   | ``5. ksetup /mapuser * *``
+   | ``6. Run gpedit.msc, open the key called:``
+   | `` "Network Security: Configure encryption types allowed for Kerberos”``
+   | `` under:``
+   | ``   Computer Configuration``
+   | ``     Windows Settings``
+   | ``       Security Settings``
+   | ``         Local Policies``
+   | ``           Security Options``
+   | `` and deselect everything except RC4_HMAC_MD5``
+   | ``7. *** REBOOT ***``
+   | ``8. Add local user accounts for all users that need to be able to log in.``
+   | ``9. Log in as [user]@[REALM] with the initial password, you will be prompted``
+   | ``to change the password then logged in.``
 
 **Note: Configuring encryption types is not needed from FreeIPA 2.1.4
 and higher.** (FreeIPA ticket

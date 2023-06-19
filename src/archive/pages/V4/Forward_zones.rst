@@ -15,7 +15,7 @@ behavior.
 Use Cases
 ---------
 
-.. _forwarding_queries_per_a_zone:
+
 
 Forwarding queries per a zone
 ----------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ Generally using global forwarders is all or nothing solution. Using
 forward zones give more control to admin, which zones and how should be
 forwarded.
 
-.. _forwarding_policy_in_forward_and_master_zones:
+
 
 Forwarding policy in forward and master zones
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -79,7 +79,7 @@ manual <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#id2583443>
 |                                   |    not reply)                     |
 +-----------------------------------+-----------------------------------+
 
-.. _avoid_an_ineffective_forward_zone:
+
 
 Avoid an ineffective forward zone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -123,7 +123,7 @@ zone with same name you must remove master zone and vice versa)
 
 Forward zones are enabled by default.
 
-.. _forward_policy:
+
 
 Forward Policy
 ----------------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ Forward Policy
 |                                   | | ``};``                          |
 +-----------------------------------+-----------------------------------+
 
-.. _new_ipa_commands:
+
 
 New IPA commands
 ----------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ enabled/disabled status
 
 CLI
 
-.. _dnsforwardzone_:
+
 
 dnsforwardzone-\*
 ^^^^^^^^^^^^^^^^^
@@ -200,9 +200,9 @@ Args ``--forwarder``, ``--forward-policy``, ``--name-from-ip`` have same
 behavior as they have in dnszone-\* commands.
 
 Forward zone name has same restrictions as in the master zone
-(dnszone-*).
+(dnszone-\*).
 
-.. _dnsforwardzone_add:
+
 
 dnsforwardzone-add
 ^^^^^^^^^^^^^^^^^^
@@ -215,7 +215,7 @@ forwarder if forward-policy is not 'none'.
 | ``  Zone forwarders: 172.16.0.1, 172.16.0.2``
 | ``  Forward policy: first``
 
-.. _dnsforwardzone_mod:
+
 
 dnsforwardzone-mod
 ^^^^^^^^^^^^^^^^^^
@@ -234,7 +234,7 @@ performed in several ways.
 | ``  Zone forwarders: 172.16.0.3``
 | ``  Forward policy: only``
 
-.. _dnsforwardzone_show:
+
 
 dnsforwardzone-show
 ^^^^^^^^^^^^^^^^^^^
@@ -246,7 +246,7 @@ will show specified forward zone
 | ``  Zone forwarders: 172.16.0.5``
 | ``  Forward policy: first``
 
-.. _dnsforwardzone_find:
+
 
 dnsforwardzone-find
 ^^^^^^^^^^^^^^^^^^^
@@ -261,19 +261,21 @@ will find specified forward zone
 | ``Number of entries returned 1``
 | ``----------------------------``
 
-.. _dnsforwardzone_del:
+
 
 dnsforwardzone-del
 ^^^^^^^^^^^^^^^^^^
 
 will delete specified forward zone(s)
 
-| ``dnsforwardzone-del zone.test. ``
-| ``----------------------------``
-| ``Deleted forward DNS zone "zone.test."``
-| ``----------------------------``
+::
 
-.. _dnsforwardzone_enable:
+   | ``dnsforwardzone-del zone.test. ``
+   | ``----------------------------``
+   | ``Deleted forward DNS zone "zone.test."``
+   | ``----------------------------``
+
+
 
 dnsforwardzone-enable
 ^^^^^^^^^^^^^^^^^^^^^
@@ -281,24 +283,28 @@ dnsforwardzone-enable
 will enable specified forward zone(s) NOTE: Forward zones are enabled by
 default.
 
-| ``dnsforwardzone-enable zone.test. ``
-| ``----------------------------``
-| ``Enabled forward DNS zone "zone.test."``
-| ``----------------------------``
+::
 
-.. _dnsforwardzone_disable:
+   | ``dnsforwardzone-enable zone.test. ``
+   | ``----------------------------``
+   | ``Enabled forward DNS zone "zone.test."``
+   | ``----------------------------``
+
+
 
 dnsforwardzone-disable
 ^^^^^^^^^^^^^^^^^^^^^^
 
 will disable specified forward zone(s)
 
-| ``dnsforwardzone-disable zone.test. ``
-| ``----------------------------``
-| ``Disabled forward DNS zone "zone.test."``
-| ``----------------------------``
+::
 
-.. _dnsforwardzone_add_permission:
+   | ``dnsforwardzone-disable zone.test. ``
+   | ``----------------------------``
+   | ``Disabled forward DNS zone "zone.test."``
+   | ``----------------------------``
+
+
 
 dnsforwardzone-add-permission
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -311,7 +317,7 @@ will add system permission
 | ``---------------------------------------------------------``
 | ``  Manage DNS zone zone.test.``
 
-.. _dnsforwardzone_remove_permission:
+
 
 dnsforwardzone-remove-permission
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -374,12 +380,12 @@ Updates and Upgrades
    in schema before schema upgrade, then no transformation is required,
    else transform master zone to forward zone using rules above.
 
-.. _how_to_test20:
+
 
 How to Test
 -----------
 
-.. _basic_configuration:
+
 
 Basic configuration
 ----------------------------------------------------------------------------------------------
@@ -390,7 +396,7 @@ Basic configuration
 #. Add A record *host.example.test. IN A 192.0.2.111* into zone
    *example.test.* on *external DNS server*
 
-.. _test_a_forward_zone_with_forwarding_only_policy:
+
 
 Test a forward zone with forwarding only policy
 ----------------------------------------------------------------------------------------------
@@ -404,7 +410,7 @@ Test a forward zone with forwarding only policy
 #. expected result: *host.example.test. IN A 192.0.2.111* record in the
    answer, AUTHORITY SECTION is pointing to *external DNS server*
 
-.. _test_a_forward_zone_with_forwarding_none_policy:
+
 
 Test a forward zone with forwarding none policy
 ----------------------------------------------------------------------------------------------
@@ -427,7 +433,7 @@ Test a forward zone with forwarding none policy
 Test Plan
 ---------
 
-.. _unit_tests:
+
 
 Unit tests
 ----------------------------------------------------------------------------------------------
@@ -523,11 +529,11 @@ Unit tests
 
 -  Delete forward zone
 
-   -  **dnszone-del fw-zone**
+   -  dnszone-del fw-zone
 
       -  Expectation: Zone is removed
 
--  Mutual exclusion with master zones (*-add)
+-  Mutual exclusion with master zones (\*-add)
 
    -  **dnszone-add zone-exists-as-forward**
 
@@ -537,7 +543,7 @@ Unit tests
 
       -  Expectation: DuplicateError
 
--  Mutual exclusion with master zones (*-find)
+-  Mutual exclusion with master zones (\*-find)
 
    -  **dnszone-find**
 

@@ -1,4 +1,4 @@
-.. _goals_of_this_methodology:
+
 
 Goals of this methodology
 -------------------------
@@ -20,7 +20,7 @@ Bear in mind that as a bridge between Okta an FreeIPA **you will need a
 Windows Server** that will be used just for provisioning/deprovisioning
 purposes
 
-.. _provisioning_integration_todo:
+
 
 Provisioning integration (TODO)
 -------------------------------
@@ -32,7 +32,7 @@ Provisioning integration (TODO)
 #. Install Passsync on Windows Server(s) to push passwords from Active
    Directory to FreeIPA
 
-.. _desktop_sso_todo:
+
 
 Desktop SSO (TODO)
 ------------------

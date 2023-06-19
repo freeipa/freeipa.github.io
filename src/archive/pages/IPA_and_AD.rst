@@ -5,7 +5,7 @@ machines.**'
 See `IPAv3_Architecture <IPAv3_Architecture>`__ for the current
 proposal.
 
-.. _overview_and_problem_statement:
+
 
 Overview and Problem Statement
 ------------------------------
@@ -79,7 +79,7 @@ provide a native integration between IPA and AD:
 
 This page is dedicated to that solution.
 
-.. _solution_in_a_nutshell:
+
 
 Solution In a Nutshell
 ----------------------
@@ -90,7 +90,7 @@ will present IPA to the AD world as a separate domain forest and will be
 responsible for establishing a cross-forest domain trust between the
 IPA/Samba domain and the Windows part of the enterprise.
 
-.. _what_is_samba_4:
+
 
 What is Samba 4?
 ----------------
@@ -129,7 +129,7 @@ the open source community and early adopters. Samba4 needs a boost, and
 we think that integration with IPA could be just the boost that would
 push Samba 4 over the top.
 
-.. _high_level_architecture:
+
 
 High Level Architecture
 -----------------------
@@ -154,7 +154,7 @@ In this diagram:
 As usual, the devil is in the details; there are several additional
 requirements and constraints that need to be factored in.
 
-.. _choosing_a_common_ldap_server:
+
 
 Choosing a Common LDAP server
 ----------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ Directory Server as a back end.
    the path of least resistance seems to be to add these new features to
    DS 389.
 
-.. _choosing_a_shared_kdc:
+
 
 Choosing a Shared KDC
 ----------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ Overview
 This page describes the development phases for the IPA & Samba backend
 synchronization.
 
-.. _phase_1:
+
 
 Phase 1
 =======
@@ -20,7 +20,7 @@ between Samba and AD.
 
    Ipa3-phase1.png
 
-.. _phase_2:
+
 
 Phase 2
 =======
@@ -37,7 +37,7 @@ connect to any of the servers in each system.
 
    Ipa3-phase2.png
 
-.. _phase_3:
+
 
 Phase 3
 =======

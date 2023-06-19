@@ -20,7 +20,7 @@ IPA operations that need to be synchronized to Samba are:
 
 Other operations will be ignored.
 
-.. _adding_ipa_user:
+
 
 Adding IPA User
 ===============
@@ -34,7 +34,7 @@ Consider the following example:
 
 The above command will generate 6 change log records.
 
-.. _adding_user_object:
+
 
 Adding User Object
 ------------------
@@ -79,7 +79,7 @@ The content of the changes attribute is:
 
 A new user will be added to Samba.
 
-.. _adding_memberof_attribute:
+
 
 Adding MemberOf Attribute
 -------------------------
@@ -111,7 +111,7 @@ The content of the changes attribute is:
 
 Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 
-.. _adding_member_attribute:
+
 
 Adding Member Attribute
 -----------------------
@@ -143,7 +143,7 @@ The content of the changes attribute is:
 
 Changes to IPA group will be synchronized to Samba.
 
-.. _change_password_grace_user_time:
+
 
 Change Password Grace User Time
 -------------------------------
@@ -169,7 +169,7 @@ The content of the changes attribute is:
 
 Need to investigate.
 
-.. _set_password:
+
 
 Set Password
 ------------
@@ -223,7 +223,7 @@ The content of the changes attribute is:
 
 User password will be synchronized to Samba.
 
-.. _update_modifiers_info:
+
 
 Update Modifiers Info
 ---------------------
@@ -252,7 +252,7 @@ The content of the changes attribute is:
 
 Need to investigate.
 
-.. _modifying_ipa_user:
+
 
 Modifying IPA User
 ==================
@@ -295,7 +295,7 @@ The content of the changes attribute is:
 
 The corresponding Samba user will be modified.
 
-.. _deleting_ipa_user:
+
 
 Deleting IPA User
 =================
@@ -308,7 +308,7 @@ Consider the following example:
 
 This operation will generate 3 change log records.
 
-.. _deleting_group_member:
+
 
 Deleting Group Member
 ---------------------
@@ -340,7 +340,7 @@ The content of the changes attribute is:
 
 The corresponding Samba group will be modified.
 
-.. _deleting_group_member_1:
+
 
 Deleting Group Member
 ---------------------
@@ -372,7 +372,7 @@ The content of the changes attribute is:
 
 Need to investigate.
 
-.. _deleting_user_object:
+
 
 Deleting User Object
 --------------------
@@ -389,7 +389,7 @@ Deleting User Object
 
 The corresponding Samba user will be deleted.
 
-.. _adding_ipa_group:
+
 
 Adding IPA Group
 ================
@@ -431,7 +431,7 @@ The content of the changes attribute is:
 
 A new group will be added to Samba.
 
-.. _deleting_ipa_group:
+
 
 Deleting IPA Group
 ==================
@@ -456,7 +456,7 @@ The above command will generate 1 change log record.
 
 The corresponding Samba group will be deleted.
 
-.. _adding_group_member:
+
 
 Adding Group Member
 ===================
@@ -469,7 +469,7 @@ Consider the following example:
 
 The above command will generate 2 change log records.
 
-.. _modifying_user_membership:
+
 
 Modifying User Membership
 -------------------------
@@ -502,7 +502,7 @@ The content of the changes attribute is:
 
 Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 
-.. _adding_group_member_1:
+
 
 Adding Group Member
 -------------------
@@ -534,7 +534,7 @@ The content of the changes attribute is:
 
 The corresponding Samba group will be modified.
 
-.. _deleting_group_member_2:
+
 
 Deleting Group Member
 =====================
@@ -547,7 +547,7 @@ Consider the following example:
 
 The above command will generate 2 change log records.
 
-.. _deleting_user_membership:
+
 
 Deleting User Membership
 ------------------------
@@ -579,7 +579,7 @@ The content of the changes attribute is:
 
 Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 
-.. _deleting_group_member_3:
+
 
 Deleting Group Member
 ---------------------
@@ -611,7 +611,7 @@ The content of the changes attribute is:
 
 The corresponding Samba group will be modified.
 
-.. _locking_ipa_user:
+
 
 Locking IPA User
 ================
@@ -624,7 +624,7 @@ Consider the following example:
 
 The above command will generate 2 change log records.
 
-.. _modifying_user_membership_1:
+
 
 Modifying User Membership
 -------------------------
@@ -657,7 +657,7 @@ The content of the changes attribute is:
 
 Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 
-.. _adding_user_into_inactivated_group:
+
 
 Adding User Into Inactivated Group
 ----------------------------------
@@ -690,7 +690,7 @@ The content of the changes attribute is:
 The corresponding Samba user will be disabled. The corresponding Samba
 group will be modified.
 
-.. _unlocking_ipa_user:
+
 
 Unlocking IPA User
 ==================
@@ -703,7 +703,7 @@ Consider the following example:
 
 The above command will generate 2 change log records.
 
-.. _modifying_user_membership_2:
+
 
 Modifying User Membership
 -------------------------
@@ -735,7 +735,7 @@ The content of the changes attribute is:
 
 Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 
-.. _deleting_user_from_inactivated_group:
+
 
 Deleting User From Inactivated Group
 ------------------------------------

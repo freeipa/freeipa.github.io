@@ -1,4 +1,4 @@
-.. _howtofreeipa_and_policykit:
+
 
 Howto/FreeIPA and PolicyKit
 ---------------------------
@@ -40,27 +40,31 @@ user at all.
 
 So, to sum up, step above turns this:
 
-| ``$ id``
-| ``uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
-| ``$ pkexec id``
-| ``==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===``
-| :literal:`Authentication is needed to run `/usr/bin/id' as the super user`
-| ``Authenticating as: root``
-| ``Password: ``
-| ``==== AUTHENTICATION COMPLETE ===``
-| ``uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
+::
+
+   | ``$ id``
+   | ``uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
+   | ``$ pkexec id``
+   | ``==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===``
+   | :literal:`Authentication is needed to run `/usr/bin/id' as the super user`
+   | ``Authenticating as: root``
+   | ``Password: ``
+   | ``==== AUTHENTICATION COMPLETE ===``
+   | ``uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
 
 or this:
 
-| ``$ id``
-| ``uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
-| ``$ pkexec id``
-| ``==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===``
-| :literal:`Authentication is needed to run `/usr/bin/id' as the super user`
-| ``Authenticating as: SysAdmin (sysadmin)``
-| ``Password: ``
-| ``==== AUTHENTICATION COMPLETE ===``
-| ``uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
+::
+
+   | ``$ id``
+   | ``uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
+   | ``$ pkexec id``
+   | ``==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===``
+   | :literal:`Authentication is needed to run `/usr/bin/id' as the super user`
+   | ``Authenticating as: SysAdmin (sysadmin)``
+   | ``Password: ``
+   | ``==== AUTHENTICATION COMPLETE ===``
+   | ``uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
 
 into this:
 
@@ -83,7 +87,7 @@ It works also for graphical user interfaces (GNOME Shell in my case),
 etc. Only when it comes to that GNOME Shell, user is shown as 'Standard'
 and not as 'Administrator' in Settings -> Users.
 
-.. _hbac_rule:
+
 
 HBAC Rule
 ----------------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 **As of Sep 15, 2010 a CLA is no longer required. This page is being
 maintained for historical purposes**
 
-.. _why_a_cla_for_freeipa:
+
 
 Why a CLA for freeIPA
 =====================

@@ -92,14 +92,14 @@ issuer in case that the certificate is not issued by our CA.
 |           | --services=[ multivalued ] --certificate=STR            |
 +-----------+---------------------------------------------------------+
 
-.. _how_to_test43:
+
 
 How to Test
 -----------
 
 TBD
 
-.. _test_plan43:
+
 
 Test Plan
 ---------

@@ -71,7 +71,7 @@ Dependencies
 -  Depend on new version of *python-kdcproxy*
 -  Update *setup.py*
 
-.. _how_to_test11:
+
 
 How to Test
 -----------

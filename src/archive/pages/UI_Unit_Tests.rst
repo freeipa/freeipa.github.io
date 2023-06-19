@@ -7,7 +7,7 @@ using QUnit framework. The tests are limited to functionalities that can
 be tested programmatically via JavaScript/JQuery. Other aspects of the
 UI will still require a visual validation.
 
-.. _running_unit_tests:
+
 
 Running Unit Tests
 ==================
@@ -19,7 +19,7 @@ source code execute the following command:
 
    git clone git://git.fedorahosted.org/git/freeipa.git
 
-.. _necessary_steps_for_running_tests:
+
 
 Necessary steps for running tests
 ---------------------------------
@@ -54,14 +54,14 @@ case description.
 
 The summary of the results will be displayed at the bottom of the page.
 
-.. _writing_unit_tests:
+
 
 Writing Unit Tests
 ==================
 
 All test files are stored in the install/static/test folder.
 
-.. _test_data:
+
 
 Test Data
 ---------
@@ -88,7 +88,7 @@ using curl. The following example invokes user-find command:
 The output should be stored in a file named according to the command
 name (e.g. user_find.json).
 
-.. _test_script:
+
 
 Test Script
 -----------
@@ -134,7 +134,7 @@ equals() and same().
 
 See QUnit documentation for more info.
 
-.. _test_page:
+
 
 Test Page
 ---------
@@ -171,7 +171,7 @@ See the following example:
    </body>
    </html>
 
-.. _complete_test:
+
 
 Complete Test
 -------------
@@ -180,7 +180,7 @@ The all_tests.html is similar to a regular test page, but it includes
 all test scripts and all required libraries. This page can be used to
 quickly check for regressions.
 
-.. _test_main_page:
+
 
 Test Main Page
 --------------

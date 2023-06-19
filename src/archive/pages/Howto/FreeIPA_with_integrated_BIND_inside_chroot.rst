@@ -1,4 +1,4 @@
-.. _ipa_with_integrated_bind_inside_chroot:
+
 
 IPA with integrated BIND inside chroot
 ======================================
@@ -89,7 +89,7 @@ list <https://www.redhat.com/archives/freeipa-users/2013-February/msg00411.html>
 
 --------------
 
-.. _note_chroot_should_not_be_considered_a_security_feature:
+
 
 NOTE: Chroot should not be considered a security feature
 --------------------------------------------------------

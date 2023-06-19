@@ -8,7 +8,7 @@ authentication.
 Patches
 =======
 
-.. _ds_patches:
+
 
 DS Patches
 ----------
@@ -18,7 +18,7 @@ DS Patches
 -  `SASL IO sometimes loops with "error: would
    block" <https://bugzilla.redhat.com/show_bug.cgi?id=526319>`__
 
-.. _samba_patches:
+
 
 Samba Patches
 -------------

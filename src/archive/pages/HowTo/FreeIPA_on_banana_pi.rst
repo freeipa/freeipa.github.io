@@ -25,7 +25,7 @@ hosts file. For this purpose, there should be the following in the file
 
 ``192.168.1.1  hostname.example.com  hostname``
 
-.. _installation_of_freeipa:
+
 
 Installation of FreeIPA
 -----------------------

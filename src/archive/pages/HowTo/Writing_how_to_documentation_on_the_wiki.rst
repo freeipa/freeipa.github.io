@@ -1,6 +1,6 @@
 Writing a how to page on the wiki is straightforward.
 
-.. _get_an_account_with_permission_to_edit_wiki:
+
 
 Get an account with permission to edit wiki
 -------------------------------------------
@@ -8,7 +8,7 @@ Get an account with permission to edit wiki
 Please see page
 `Contribute#Contribute_documentation <Contribute#Contribute_documentation>`__.
 
-.. _create_a_page_name_that_describes_the_content_and_is_a_natural_language_phrase:
+
 
 Create a page name that describes the content and is a natural language phrase
 ------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ new How To pages using the prefix HowTo/)
 More information on page names is at `Help:Wiki
 structure <Help:Wiki_structure>`__.
 
-.. _put_your_how_to_content_in_to_the_page:
+
 
 Put your how-to content in to the page
 --------------------------------------
@@ -35,7 +35,7 @@ Don't be afraid to read and understand the
 Don't forget the next step, it helps your content be found by wiki
 editors and readers.
 
-.. _you_can_put_an_optional_draft_header_to_warn_readers:
+
 
 You can put an optional DRAFT header to warn readers
 ----------------------------------------------------
@@ -47,7 +47,7 @@ Put this template call at the top of your page:
 This also helps wiki contributors find your page as linked to the draft
 template.
 
-.. _add_your_page_to_at_least_two_specific_categories_and_any_other_relevant_ones:
+
 
 Add your page to at least two specific categories and any other relevant ones
 -----------------------------------------------------------------------------

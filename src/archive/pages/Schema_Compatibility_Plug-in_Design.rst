@@ -1,4 +1,4 @@
-.. _design_overview:
+
 
 Design Overview
 ===============
@@ -9,7 +9,7 @@ visible in another part of the directory. It does this by precomputing
 the contents of its entries at startup-time and refreshing its entries
 as needed.
 
-.. _map_cache:
+
 
 Map Cache
 ---------
@@ -21,7 +21,7 @@ distinguished name. The map cache can be used to quickly answer whether
 or not a particular search request crosses into the portion of the DIT
 which is "served" by the data in the cache.
 
-.. _internal_representation:
+
 
 Internal Representation
 ----------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ full Slapi_Entry for the generated entry).
 The set indexes its entry list using an entry's unique identifier and
 its relative distinguished name.
 
-.. _back_end:
+
 
 Back End
 --------
@@ -92,7 +92,7 @@ every applicable container are updated or removed. Likewise, if an entry
 is added to the directory server which would correspond to an entry in a
 container, entries are created in the corresponding container.
 
-.. _specifying_entry_contents:
+
 
 Specifying Entry Contents
 -------------------------
@@ -147,7 +147,7 @@ double-quoted arguments. Any arguments which contain a double-quote need
 to escape the double-quote using a '\' character. Naturally the '\' this
 character itself also needs to be escaped whenever it appears.
 
-.. _implemented_functions:
+
 
 Implemented Functions
 ----------------------------------------------------------------------------------------------

@@ -5,7 +5,7 @@ difference more than several minutes, authentication will not work. For
 this reason, the server installers configure NTP server (ntpd at the
 moment) on every FreeIPA server.
 
-.. _known_ntp_services:
+
 
 Known NTP services
 ------------------

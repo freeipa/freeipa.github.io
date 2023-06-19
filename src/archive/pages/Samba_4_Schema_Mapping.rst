@@ -26,12 +26,12 @@ For other AD attribute types and object classes that have
 identical/compatible definitions in the standard LDAP schema, Samba
 should just use the standard LDAP schema.
 
-.. _schema_mapping:
+
 
 Schema Mapping
 ==============
 
-.. _ds_schema:
+
 
 DS Schema
 ---------
@@ -65,7 +65,7 @@ unixHomeDirectory    **homeDirectory**
 userSMIMECertificate userSMIMECertificate
 ==================== ====================
 
-.. _samba_3_schema:
+
 
 Samba 3 Schema
 --------------
@@ -91,7 +91,7 @@ nextRid              sambaNextRid
 privilegeDisplayName sambaPrivName
 ==================== =====================
 
-.. _conflicting_attribute_types:
+
 
 Conflicting Attribute Types
 ---------------------------
@@ -137,7 +137,7 @@ solution is to rename the attributes and/or change the OID's.
 |                      | 2.840.113556.1.4.481 |                      |
 +----------------------+----------------------+----------------------+
 
-.. _conflicting_object_classes:
+
 
 Conflicting Object Classes
 --------------------------
@@ -186,12 +186,12 @@ The solution is to rename the object class and/or change the OID's.
 |                      | 6.840.1.113730.3.2.2 |                      |
 +----------------------+----------------------+----------------------+
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _schema_conversion:
+
 
 Schema Conversion
 -----------------
@@ -221,7 +221,7 @@ source4/dsdb/schema/schema_convert_to_ol.c:
 
 Current the code doesn't map the object class parent.
 
-.. _mapping_module:
+
 
 Mapping Module
 --------------
@@ -308,12 +308,12 @@ The module is initialized in the following method:
        return ldb_next_init(module);
    }
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
 
-.. _adding_samba_3_schema:
+
 
 Adding Samba 3 Schema
 ---------------------
@@ -330,7 +330,7 @@ source4/setup/fedorads.inf:
    SchemaFile=/etc/dirsrv/schema/06inetorgperson.ldif
    SchemaFile=/usr/share/dirsrv/data/60samba3.ldif
 
-.. _schema_conversion_1:
+
 
 Schema Conversion
 -----------------
@@ -419,7 +419,7 @@ The conversion code should be modified map the object class parent:
        }
    }
 
-.. _mapping_module_1:
+
 
 Mapping Module
 --------------

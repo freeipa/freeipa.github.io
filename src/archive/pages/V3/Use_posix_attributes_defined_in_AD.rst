@@ -21,7 +21,7 @@ to respect the POSIX attributes defined in the AD.
 Design
 ======
 
-.. _exteding_id_range_schema_to_support_various_types_of_id_ranges:
+
 
 Exteding ID Range schema to support various types of ID Ranges
 ----------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ attribute:
 
 ``objectClasses: (2.16.840.1.113730.3.8.12.15 NAME 'ipaIDrange' ABSTRACT MUST ( cn $ ipaBaseID $ ipaIDRangeSize $ ipaRangeType ) X-ORIGIN 'IPA v3' )``
 
-.. _allowed_values:
+
 
 Allowed values
 ^^^^^^^^^^^^^^
@@ -55,7 +55,7 @@ The **ipaRangeType** must obtain exactly one of the following values:
 
 This is enforced via CLI and UI validation, not in LDAP itself.
 
-.. _detecting_the_id_range_type_for_the_ad_trusted_domain:
+
 
 Detecting the ID range type for the AD trusted domain
 ----------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ Depending on whether the users/groups defined have specified UID and GID
 POSIX attributes, we create a range of appropriate type during the
 execution of *trust-add* command.
 
-.. _connecting_to_the_ad:
+
 
 Connecting to the AD
 ^^^^^^^^^^^^^^^^^^^^
@@ -81,36 +81,38 @@ we cannot use user's ticket due to fact that our KDC does not allow wide
 open S42Proxy relay to other domain for HTTP/fqdn. See the related
 ticket: https://fedorahosted.org/freeipa/ticket/3651
 
-.. _obtaining_information_on_use_of_posix_attributes_in_ad:
+
 
 Obtaining information on use of POSIX attributes in AD
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Information on the can be obtained conducting the following ldapsearch:
 
-| ``# ``\ ``, ypservers, ypServ30, RpcServices, System, ``
-| ``dn: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
-| ``objectClass: top``
-| ``objectClass: msSFU30DomainInfo``
-| ``cn: idm``
-| ``distinguishedName: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
-| ``instanceType: 4``
-| ``whenCreated: 20130625220322.0Z``
-| ``whenChanged: 20130626190645.0Z``
-| ``uSNCreated: 53308``
-| ``uSNChanged: 61507``
-| ``showInAdvancedViewOnly: TRUE``
-| ``name: idm``
-| ``objectGUID:: 7ntK3glNqE2KGmHY1SePWQ==``
-| ``objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com``
-| ``dSCorePropagationData: 16010101000000.0Z``
-| ``msSFU30MasterServerName: tbad``
-| **``msSFU30OrderNumber``**\ ``: 10000``
-| ``msSFU30Domains: idm``
-| **``msSFU30MaxGidNumber``**\ ``: 10001``
-| **``msSFU30MaxUidNumber``**\ ``: 10002``
+::
 
-.. _id_base_detection:
+   | ``# ``\ ``, ypservers, ypServ30, RpcServices, System, ``
+   | ``dn: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
+   | ``objectClass: top``
+   | ``objectClass: msSFU30DomainInfo``
+   | ``cn: idm``
+   | ``distinguishedName: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
+   | ``instanceType: 4``
+   | ``whenCreated: 20130625220322.0Z``
+   | ``whenChanged: 20130626190645.0Z``
+   | ``uSNCreated: 53308``
+   | ``uSNChanged: 61507``
+   | ``showInAdvancedViewOnly: TRUE``
+   | ``name: idm``
+   | ``objectGUID:: 7ntK3glNqE2KGmHY1SePWQ==``
+   | ``objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com``
+   | ``dSCorePropagationData: 16010101000000.0Z``
+   | ``msSFU30MasterServerName: tbad``
+   | **``msSFU30OrderNumber``**\ ``: 10000``
+   | ``msSFU30Domains: idm``
+   | **``msSFU30MaxGidNumber``**\ ``: 10001``
+   | **``msSFU30MaxUidNumber``**\ ``: 10002``
+
+
 
 ID base detection
 ^^^^^^^^^^^^^^^^^
@@ -120,7 +122,7 @@ automatically assigning UID/GID numbers. Please note that any manual
 intervention will not be reflected in this attribute, so changing an
 user's UID to 9800 manually will not change the value of this attribute.
 
-.. _range_size_detection:
+
 
 Range size detection
 ^^^^^^^^^^^^^^^^^^^^
@@ -128,7 +130,7 @@ Range size detection
 Attributes **msSFU30MaxUidNumber** and **msSFU30MaxGidNumber** hold the
 value of next available UID/GID.
 
-.. _detecting_the_range_type:
+
 
 Detecting the range type
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -160,7 +162,7 @@ https://fedorahosted.org/freeipa/ticket/3049
 
 CLI
 
-.. _idrange_add:
+
 
 idrange-add
 -----------
@@ -170,7 +172,7 @@ that *idrange-mod* does not have this option. Since *--type* corrseponds
 to **ipaRangeType** attribute, the allowed value is any of the allowed
 values for **ipaRangeType** attribute.
 
-.. _trust_add:
+
 
 trust-add
 ---------
@@ -242,7 +244,7 @@ Test Plan
 Test scenarios that will be transformed to test cases for FreeIPA
 Continuous Integration during implementation or review phase.
 
-.. _common_assumptions:
+
 
 Common assumptions
 ------------------

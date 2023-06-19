@@ -15,7 +15,7 @@ ways to connect to LDAP.
 Use Cases
 ---------
 
-.. _in_framework:
+
 
 In framework
 ----------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ You do not need to worry about connects and disconnects. These are
 handled in an upper abstraction layer along with setting proper size and
 time limits.
 
-.. _local_server:
+
 
 Local server
 ----------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ following code will connect with LDAPI and use external bind:
    finally:
        api.Backend.ldap2.disconnect()
 
-.. _remove_server:
+
 
 Remove server
 ----------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ LDAPClient and simple_bind():
        conn.simple_bind(bind_dn, bind_pw)
        conn.unbind()
 
-.. _proper_usage:
+
 
 Proper usage
 ------------
@@ -76,7 +76,7 @@ api.Backend.ldap2
 -  Connection is automatically re-established if DS is restarted
 -  Uses ldapi
 
-.. _restarting_directory_server:
+
 
 Restarting Directory Server
 ----------------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ Restarting Directory Server
 -  Using knownservices to restart a DS instance is deprecated and
    requires a manual dis/re/connect of api.Backend.ldap2
 
-.. _adhoc_connections:
+
 
 Adhoc connections
 ----------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ Changes
 The following improvements have been made as a part of the 4.5
 refactoring effort.
 
-.. _merge_ipadmin_to_ldapclient:
+
 
 Merge IPAdmin to LDAPClient
 ----------------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ changes were made in ipaldap:
    -  get_ldap_uri() is used to construct ldap_uri
    -  LDAPClient object is initialized with the ldap_uri
 
-.. _use_ldapi_when_connecting_to_localhost:
+
 
 Use ldapi when connecting to localhost
 ----------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ connections were replaced with api.Backend.ldap2.
 ldap2 default time and size limit was set to unlimited. Limit for use in
 rpc still respects the ipa config file.
 
-.. _use_a_shared_ldap_connection_in_installers_and_install_tools:
+
 
 Use a shared LDAP connection in installers and install tools
 ----------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ the connection should dis/re/connect accordingly.
    -  Overriden start, stop and restart method of DsInstance to also
       dis/re/connect the api.Backend.ldap2.connection
 
-.. _future_effors:
+
 
 Future effors
 -------------

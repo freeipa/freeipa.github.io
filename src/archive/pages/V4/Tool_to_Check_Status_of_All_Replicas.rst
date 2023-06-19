@@ -53,7 +53,7 @@ of client passphrase. This extension will be implement later.
 
    650|x
 
-.. _example_agents_configuration:
+
 
 Example agent's configuration
 -----------------------------
@@ -85,7 +85,7 @@ which enforces use of authentication and encryption.
 Proc java is in example because pki-tomcatd is visible only as "java"
 with /bin/ps -e.
 
-.. _example_how_to_get_data_from_agent:
+
 
 Example how to get data from agent
 ----------------------------------
@@ -170,7 +170,7 @@ External Impact
 
 N/A
 
-.. _design_page_authors:
+
 
 Design page authors
 ===================

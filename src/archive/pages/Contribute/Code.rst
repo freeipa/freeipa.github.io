@@ -7,7 +7,7 @@ whole new feature! The steps below should help get you started.
 If you need to learn more about FreeIPA itself, visit the `main
 page <Main_Page>`__.
 
-.. _find_something_to_start_with:
+
 
 Find something to start with
 ----------------------------
@@ -41,7 +41,7 @@ preparation is advisable:
    your plans. See currently `accepted <V4_Designs>`__ or `proposed
    designs <V4_Proposals>`__ for inspiration
 
-.. _understanding_freeipa:
+
 
 Understanding FreeIPA
 ---------------------
@@ -51,7 +51,7 @@ To get started and understand more about the project, you can check the
 guided tour through the core functionalities and how to setup a FreeIPA
 environment.
 
-.. _understanding_the_source_code:
+
 
 Understanding the source code
 ----------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ together, etc), you can read the `"Extending FreeIPA Guide"
 here <Documentation#Additional_Resources_2>`__. It's outdated, however,
 is still a good source of information.
 
-.. _get_the_source:
+
 
 Get the source
 --------------
@@ -76,7 +76,7 @@ in git. Retrieve it with:
 The code can also be browsed online
 `here <https://pagure.io/freeipa/commits>`__
 
-.. _change_the_code:
+
 
 Change the code
 ---------------
@@ -115,7 +115,7 @@ Then, you just need to run:
    $ kinit admin -c <path in kinit_path>
    $ sudo python -m pdb debug_ipa.py
 
-.. _update_pagure_ticket:
+
 
 Update Pagure ticket
 ----------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ knowing about each other.
    see `Login to pagure or create your
    account <https://docs.pagure.org/pagure/usage/first_steps.html#login-to-pagure-or-create-your-account>`__)
 
-.. _update_code:
+
 
 Update code
 ----------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ Update code
 Before completing the patch, please just make sure your contribution
 complies with couple simple rules.
 
-.. _code_quality:
+
 
 Code quality
 ^^^^^^^^^^^^
@@ -165,7 +165,7 @@ Code quality
    will make your intent clear (the code tells us *how* but the comment
    tells us *why*...)
 
-.. _changes_to_requirements:
+
 
 Changes to requirements
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -179,7 +179,7 @@ differences between FreeIPA versions.
 Change to project requirements may also mean a need to regenerate
 development repositories, so make sure other developers know about it.
 
-.. _update_documentation:
+
 
 Update documentation
 ----------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ minute to execute: ``make fastcheck``. Please see
 -  Important rule: For each ticket, a corresponding test must be
    written.
 
-.. _create_pull_request_on_github:
+
 
 Create pull request on Github
 -----------------------------
@@ -232,7 +232,7 @@ demonstrate the logic and isolate changes.
 All pull requests need an associated pagure ticket unless they are
 trivial.
 
-.. _commit_message_requirements:
+
 
 Commit message requirements
 ----------------------------------------------------------------------------------------------
@@ -296,12 +296,12 @@ If the PR does not progress for a while, you can ask assign the review
 to a developer by setting an Assignee (in the PR page, click on
 Assignees and pick a reviewer).
 
-.. _work_through_code_review_process:
+
 
 Work through Code Review process
 --------------------------------
 
-.. _tracking_reviews:
+
 
 Tracking reviews
 ----------------------------------------------------------------------------------------------
@@ -309,7 +309,7 @@ Tracking reviews
 All review related information is tracked in `pull request
 queue <https://github.com/freeipa/freeipa/pulls>`__
 
-.. _pr_submitter_responsibilities:
+
 
 PR Submitter responsibilities
 ----------------------------------------------------------------------------------------------
@@ -334,7 +334,7 @@ Github <Pull_request_on_Github>`__ for advice how to update a pull
 request. No changes in Pagure are needed when a reviewer rejects the
 patch or submitter sends a new version of the patch.
 
-.. _pr_reviewer_responsibilities:
+
 
 PR Reviewer responsibilities
 ----------------------------------------------------------------------------------------------
@@ -377,7 +377,7 @@ you request a change.
 Finally, when you are OK with the fix, give the ACK label to the PR so
 that the fix can be pushed by one of the FreeIPA members.
 
-.. _enjoy_the_benefits:
+
 
 Enjoy the benefits
 ------------------

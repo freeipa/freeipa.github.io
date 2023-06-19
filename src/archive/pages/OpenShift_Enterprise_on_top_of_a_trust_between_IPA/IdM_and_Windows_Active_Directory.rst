@@ -1,4 +1,4 @@
-.. _ose_ipa_with_ad_trust:
+
 
 OSE + IPA with AD Trust
 =======================
@@ -40,7 +40,7 @@ Prerequisites
 AD as a subdomain of IPA does not yet work per the instructions above,
 and is being looked into.
 
-.. _setup_idm_ose_machines:
+
 
 Setup IdM + OSE Machines
 ------------------------
@@ -56,7 +56,7 @@ Identity Management:
 #. `User/Developer
    Setup <https://wiki.idm.lab.bos.redhat.com/export/idmwiki/User/Developer_Setup>`__
 
-.. _ssh_configuration:
+
 
 SSH Configuration
 ----------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ recompiled with GSSAPI, but this has not been tested. If the
 user/developer uses PuTTy, configuration for Keytabs has not been
 confirmed to work.
 
-.. _setup_trust_between_ipa_server_and_windows_ad_server:
+
 
 Setup Trust between IPA Server and Windows AD Server
 ----------------------------------------------------
@@ -90,7 +90,7 @@ shell to test
 `ssh <http://www.freeipa.org/page/Active_Directory_trust_setup#Using_SSH>`__
 instead of using PuTTY.
 
-.. _setup_windows_for_userdeveloper:
+
 
 Setup Windows for user/developer
 --------------------------------
@@ -102,7 +102,7 @@ Follow step #2 of the command line instructions found
 `here <https://www.openshift.com/get-started>`__ to get git, the
 RubyInstaller and RHC installed.
 
-.. _additional_configuration:
+
 
 Additional Configuration
 ------------------------
@@ -162,7 +162,7 @@ Restart OpenShift Broker and Console:
    $ service openshift-broker restart
    $ service openshift-console restart
 
-.. _test_debug_setup_configuration:
+
 
 Test & Debug Setup & Configuration
 ----------------------------------
@@ -206,7 +206,7 @@ verbosity in two places:
 If the above works on the IPA Server but **not** the IPA client, then
 revisit the ``/etc/krb5.conf`` configuration `above <#krbconf>`__.
 
-.. _with_rhc:
+
 
 With RHC
 ^^^^^^^^

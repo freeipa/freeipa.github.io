@@ -16,12 +16,12 @@ Heading
       **Q:** Can I do that?
       **A:** Yes. Use the blek tool to do that.
 
-.. _general_queries:
+
 
 General Queries
 ---------------
 
-.. _migration_issues:
+
 
 Migration Issues
 ----------------

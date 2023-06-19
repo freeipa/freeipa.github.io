@@ -37,7 +37,7 @@ well represented here.
 Environment
 ===========
 
-.. _current_situation_ldap_and_kerberos_support:
+
 
 Current situation: LDAP and Kerberos support
 --------------------------------------------
@@ -73,7 +73,7 @@ bind as well as kerberos. Linux machines can be joined to FreeIPA, and
 windows machines which call the collaboration network home (few and far
 between) are more or less standalone.
 
-.. _eventually_handle_windows_too:
+
 
 Eventually: Handle windows too
 ------------------------------
@@ -122,7 +122,7 @@ Features of this arrangement include:
 Implementation
 ==============
 
-.. _four_logical_functions:
+
 
 Four logical functions
 ----------------------
@@ -158,7 +158,7 @@ functions because it is likely that they will require separate
 controllers targeted for each platform. Hosts, regardless of OS, consume
 the merged identities described above.
 
-.. _merging_and_reconciling:
+
 
 Merging and Reconciling
 -----------------------
@@ -197,7 +197,7 @@ and three distinct auth providers. Regardless of the details of
 implementation, this characteristic is likely to always crop up when
 attempting to create a coherent local view of multiple upstream domains.
 
-.. _metadirectory_block:
+
 
 Metadirectory block
 ----------------------------------------------------------------------------------------------
@@ -245,7 +245,7 @@ This DIT structure allows for a single LDAP query with a base DN of
 ``ou=users,ou=remapped,dc=collaboration,dc=example,dc=org`` to find
 users regardless of which identity source contains them.
 
-.. _override_block:
+
 
 Override block
 ----------------------------------------------------------------------------------------------
@@ -269,7 +269,7 @@ connect and query.
 Evaluation
 ==========
 
-.. _meeting_the_requirements:
+
 
 Meeting the requirements
 ------------------------
@@ -288,7 +288,7 @@ configure clients with one domain per auth provider, which prevents
 
    IdentitySystemRequirementAnnotations.png
 
-.. _tasks_scripts_and_automation:
+
 
 Tasks, Scripts and Automation
 -----------------------------

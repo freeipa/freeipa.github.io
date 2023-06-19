@@ -1,4 +1,4 @@
-.. _using_mod_nsss_nssverifyclient_require_lookupuserbycertificate_gssapiimpersonate:
+
 
 Using mod_nss's NSSVerifyClient require + LookupUserByCertificate + GssapiImpersonate
 =====================================================================================
@@ -14,7 +14,7 @@ WebUI <V4/External_Authentication/Setup>`__.
 
 --------------
 
-.. _setup_and_test_steps:
+
 
 Setup and test steps
 --------------------

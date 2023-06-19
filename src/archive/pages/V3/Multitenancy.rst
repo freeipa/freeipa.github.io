@@ -18,7 +18,7 @@ developers has a GID of 2100, but in the other company asmith has a UID
 of 87687 and developers has a GID of 6332. Both need to exist in the IdM
 server and be distinguishable from the other.
 
-.. _ipa_status:
+
 
 IPA Status
 ----------
@@ -41,7 +41,7 @@ In addition, each IPA server manages a Kerberos Realm. By default the
 name of the realm matches the domain name, but in all capitals. The zone
 example.com would have a corresponding realm EXAMPLE.COM.
 
-.. _required_changes:
+
 
 Required Changes
 ================
@@ -49,7 +49,7 @@ Required Changes
 These are the changes necessary to the FreeIPA server to support a cloud
 deployment and multi-tenancy.
 
-.. _directory_server_dit_layout:
+
 
 Directory Server DIT Layout
 ---------------------------
@@ -82,7 +82,7 @@ do. Additions can be made but they should be very limited and optional.
 Instead FreeIPA should allow tenants to opt-in in new features when that
 involves touching their subtree rather then forcing it on them.
 
-.. _new_api:
+
 
 New API
 -------
@@ -96,7 +96,7 @@ Washington
 The implementation should follow the techniques used by the batch
 command in ipalib/plugins/batch.py.
 
-.. _directory_server_plugins:
+
 
 Directory Server Plugins
 ------------------------
@@ -113,7 +113,7 @@ well):
 #. Auto-Membership
 #. Attribute Uniqueness
 
-.. _baseldap_plugin:
+
 
 BaseLDAP plugin
 ---------------
@@ -142,7 +142,7 @@ It is also possible to keep the current approach, and then add the
 ability to identify which users and tenants can manage and control DNS
 entries. The simpler solution is to modify BIND Dyn DB.
 
-.. _certificate_authority:
+
 
 Certificate Authority
 ---------------------
@@ -152,7 +152,7 @@ Certificate requests as a single Agent. The IPA server will ensure that
 a user can only request certificates for entities within their own
 subtree.
 
-.. _ipa_client:
+
 
 IPA-CLIENT
 ----------

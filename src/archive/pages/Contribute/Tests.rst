@@ -1,9 +1,9 @@
-.. _how_to_start:
+
 
 How to start
 ------------
 
-.. _find_something_to_start_with:
+
 
 Find something to start with
 ----------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ this, there are test related fields that indicate the status:
       it's empty, it's free to take
    -  empty field - this issue needs review
 
-.. _update_trac_ticket:
+
 
 Update Trac ticket
 ----------------------------------------------------------------------------------------------
@@ -49,14 +49,14 @@ the *Test by* field.
 If you prefer to work on a test with no existing ticket, create a new
 ticket for the purpose.
 
-.. _get_the_source:
+
 
 Get the source
 --------------
 
 See `Contribute code <Contribute/Code#Get_the_source>`__ section.
 
-.. _design_a_test_or_a_test_plan:
+
 
 Design a test or a test plan
 ----------------------------
@@ -71,7 +71,7 @@ send the test plan for comments and approval to
 `freeipa-devel <http://www.redhat.com/mailman/listinfo/freeipa-devel>`__
 mailing list.
 
-.. _create_a_test_or_test_plan:
+
 
 Create a test or test plan
 --------------------------
@@ -84,7 +84,7 @@ When creating a test, you can follow
 -  `Python coding style guide <Python_Coding_Style>`__
 -  `Coding best Practices <Coding_Best_Practices>`__
 
-.. _prior_to_starting_the_implementation:
+
 
 Prior to starting the implementation
 ------------------------------------
@@ -97,7 +97,7 @@ Prior to starting the implementation
 -  Check if the change take into consideration availability of packages
    for all distributions
 
-.. _prior_to_committing:
+
 
 Prior to committing
 -------------------
@@ -118,7 +118,7 @@ Prior to committing
 #. Execute the bundled code checks using make fastlint. This will check
    for linting errors and PEP8 standards
 
-.. _submit_a_patch:
+
 
 Submit a patch
 --------------
@@ -130,7 +130,7 @@ process <Contribute/Code#Work_through_Code_Review_process>`__. If the
 changes in the patch are approved, they get pushed to the source
 repository. The process is also summarized bellow.
 
-.. _committing_doesnt_apply_for_the_temp_commit:
+
 
 Committing (doesn’t apply for the temp commit)
 ----------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ Committing (doesn’t apply for the temp commit)
 Note: “Fixes” is used when providing a fix for the raised issue.
 “Related” is used when providing a test for the fix.
 
-.. _temp_commit:
+
 
 Temp commit
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ PR-CI.
 The template of the temp commit is available at
 `temp_commit.yaml <https://github.com/freeipa/freeipa/blob/master/ipatests/prci_definitions/temp_commit.yaml>`__
 
-.. _integration_tests:
+
 
 Integration tests
 ^^^^^^^^^^^^^^^^^
@@ -175,9 +175,11 @@ to read
 `Line#L68 <https://github.com/freeipa/freeipa/blob/master/ipatests/prci_definitions/temp_commit.yaml#L68>`__
 should read
 
-``RunPytest ``
+::
 
-.. _webui_tests:
+   ``RunPytest ``
+
+
 
 WebUI tests
 ^^^^^^^^^^^
@@ -186,7 +188,9 @@ When changing, e.g. test_loginscreen.py, edit
 `Line#71 <https://github.com/freeipa/freeipa/blob/master/ipatests/prci_definitions/temp_commit.yaml#L71>`__
 to read
 
-``test_webui/test_loginscreen.py ``
+::
+
+   ``test_webui/test_loginscreen.py ``
 
 and change
 `Line#L68 <https://github.com/freeipa/freeipa/blob/master/ipatests/prci_definitions/temp_commit.yaml#L68>`__
@@ -214,7 +218,7 @@ executed from the repository root
 Note: Don’t execute just the changed test case/test class, but rather
 the whole suite.
 
-.. _creating_pull_request:
+
 
 Creating Pull Request
 ----------------------------------------------------------------------------------------------
@@ -226,7 +230,7 @@ Creating Pull Request
 
    #. Ask for a review by assigning a reviewer, if known in advance
 
-.. _reviewing_the_pull_request:
+
 
 Reviewing the pull request
 ----------------------------------------------------------------------------------------------
@@ -252,7 +256,9 @@ Merging
    tool <https://github.com/freeipa/freeipa-tools>`__ to merge the pull
    request, e.g.
 
-``ipatool pr-push 3406 -r reviewer1 -r reviewer2  -B ipa-4-8 -B ipa-4-7 ``
+::
+
+   ``ipatool pr-push 3406 -r reviewer1 -r reviewer2  -B ipa-4-8 -B ipa-4-7 ``
 
 If you don’t have the permissions, e.g. as an external contributor,
 merging will be taken care of, usually by the reviewer.

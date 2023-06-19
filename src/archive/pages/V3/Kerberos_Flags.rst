@@ -10,7 +10,7 @@ represent specific flags.
 We will not add support for all available flags in Kerberos at once.
 Support for flags will be added gradually, on a use-case basis.
 
-.. _use_cases10c:
+
 
 Use Cases
 =========
@@ -33,7 +33,7 @@ Add a Bool virtual attribute for every flag to service and host plugins.
 Convert values of these virtual attributes to/from krbTicketFlags in
 service and host commands.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

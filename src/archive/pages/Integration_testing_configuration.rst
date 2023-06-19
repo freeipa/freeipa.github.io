@@ -21,7 +21,7 @@ not fail for a login session without a TTY attached. (Older RHEL/Fedora
 machines invoke ``clear`` from ``/root/.bash_logout``, this will fail
 without a TTY. Remove the ``clear`` command before running the tests.)
 
-.. _configuring_the_test_environment:
+
 
 Configuring the Test Environment
 --------------------------------
@@ -34,7 +34,7 @@ in two ways:
 -  `environment
    variables <Integration_testing_configuration#Setting_Environment_Variables>`__
 
-.. _using_yamljson_configuration_file:
+
 
 Using YAML/JSON configuration file
 ----------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ the ``ipa-test-config`` command:
 | ``ipa-test-config --json     # output current configuration as JSON``
 | ``ipa-test-config --global   # output current configuration as environment variables``
 
-.. _setting_environment_variables:
+
 
 Setting Environment Variables
 ----------------------------------------------------------------------------------------------
@@ -228,7 +228,7 @@ Additionally, if a test is skipped due to the insufficient resources
 available, the exception contains information about what resources were
 not available.
 
-.. _further_information:
+
 
 Further information
 -------------------

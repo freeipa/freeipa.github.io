@@ -45,7 +45,7 @@ infrastructure, trust from other collaboration domains, PKINIT from a
 different kerberos domain, or from an IdP implemented in a non-Kerberos
 technology.
 
-.. _functional_requirements:
+
 
 Functional Requirements
 -----------------------

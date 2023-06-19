@@ -15,7 +15,7 @@ We agreed that we will hard code SELinux related functionality in PAM
 responder in v2 and refactor it into a sepaFreeIPAv2:rate plug-in in v3
 time frame.
 
-.. _policy_engine:
+
 
 Policy Engine
 -------------
@@ -34,7 +34,7 @@ of Policy Related
 Components <FreeIPAv2:Overall_Design_of_Policy_Related_Components>`__
 for more details.
 
-.. _download_install_or_remove_selinux_policy_modules_with_ipa_action_policy:
+
 
 Download, install or remove SELinux policy modules with IPA action policy
 ----------------------------------------------------------------------------------------------
@@ -71,14 +71,14 @@ policy file might look like
 This example shows how to download the binary SELinux policy module and
 calling semodule to install it.
 
-.. _xslt_processing:
+
 
 XSLT Processing
 ^^^^^^^^^^^^^^^
 
 This IPA action policy will be processed as any other IPA action policy.
 
-.. _configure_selinux_policy_modules_via_selinux_policy_booleans_with_ipa_config_policy:
+
 
 Configure SELinux policy modules via SELinux policy booleans with IPA config policy
 ----------------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ file may look like this:
        </selinux_boolean>
      </ipaconfig>
 
-.. _xslt_processing_1:
+
 
 XSLT Processing
 ^^^^^^^^^^^^^^^
@@ -126,7 +126,7 @@ result as defined by XSL metadata
        <exec_with_args command_name="/usr/sbin/setsebool" user="root"/>
      </md:output_handler>
 
-.. _manage_the_relation_of_linux_users_to_selinux_users_with_ipa_role_policy:
+
 
 Manage the relation of Linux users to SELinux users with IPA role policy
 ----------------------------------------------------------------------------------------------
@@ -213,7 +213,7 @@ the admin role he will be mapped to staff_u.
        </role>
      </iparole>
 
-.. _xslt_processing_2:
+
 
 XSLT Processing
 ^^^^^^^^^^^^^^^
@@ -223,7 +223,7 @@ into the LDB of the IPA client. Further processing has to be done
 elsewhere, because the XSLT engine has no knowledge of the
 user-host-role association.
 
-.. _pam_ipa_and_pam_responder:
+
 
 pam_ipa and PAM Responder
 ^^^^^^^^^^^^^^^^^^^^^^^^^

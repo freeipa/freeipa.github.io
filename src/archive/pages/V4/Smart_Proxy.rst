@@ -43,7 +43,7 @@ from IPA, but given the nature of these requests I anticipate
 domain-specific requirements that a generic IPA RESTful API can't
 provide.
 
-.. _foreman_specific_api:
+
 
 Foreman-specific API
 ----------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ Foreman-specific API
 |                 |           | hostgroup       |                 |
 +-----------------+-----------+-----------------+-----------------+
 
-.. _more_generic_api:
+
 
 More Generic API
 ----------------------------------------------------------------------------------------------

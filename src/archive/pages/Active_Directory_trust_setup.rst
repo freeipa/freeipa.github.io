@@ -16,7 +16,7 @@ Prerequisites
   can follow article `Setting up Active Directory domain for testing
   purposes <Setting_up_Active_Directory_domain_for_testing_purposes>`__.
 
-.. _ipv6_stack_usage:
+
 
 IPv6 stack usage
 ----------------
@@ -46,7 +46,7 @@ where *interface0* is your specialized interface.
 kernel level** and this is recommended way to develop networking
 applications for a long time already.
 
-.. _trusts_and_windows_server_2003_r2:
+
 
 Trusts and Windows Server 2003 R2
 ---------------------------------
@@ -131,7 +131,7 @@ Install required packages
 
 ``# yum install -y "*ipa-server" "*ipa-server-trust-ad" bind bind-dyndb-ldap``
 
-.. _configure_host_name:
+
 
 Configure host name
 -------------------
@@ -146,7 +146,7 @@ Install IPA server
 
 ``# ipa-server-install -a mypassword1 -p mypassword2 --domain=``\ *``ipa_domain``*\ `` --realm=``\ *``IPA_DOMAIN``*\ `` --setup-dns --no-forwarders -U``
 
-.. _login_as_admin:
+
 
 Login as admin
 --------------
@@ -158,7 +158,7 @@ To obtain a ticket-granting ticket, run the follwing command:
 The password is your admin user's password (from ``-a`` option in the
 ``ipa-server-install`` comand).
 
-.. _make_sure_ipa_users_are_available_to_the_system_services:
+
 
 Make sure IPA users are available to the system services
 --------------------------------------------------------
@@ -170,7 +170,7 @@ Both above commands should return information about the admin user. If
 above commands fail, restart the ``sssd`` service
 (``service sssd restart``), and try them again.
 
-.. _configure_ipa_server_for_cross_forest_trusts:
+
 
 Configure IPA server for cross-forest trusts
 --------------------------------------------
@@ -181,7 +181,7 @@ When planning access of AD users to IPA clients, make sure to run
 ipa-adtrust-install on every IPA master these IPA clients will be
 connecting to.
 
-.. _cross_forest_trust_checklist:
+
 
 Cross-forest trust checklist
 ============================
@@ -189,7 +189,7 @@ Cross-forest trust checklist
 Before establishing a cross-forest trust, some additional configuration
 must be performed.
 
-.. _datetime_settings:
+
 
 Date/time settings
 ------------------
@@ -202,14 +202,14 @@ match.
 Firewall configuration
 ----------------------
 
-.. _on_ad_dc:
+
 
 On AD DC
 ----------------------------------------------------------------------------------------------
 
 Windows Firewall configuration (to be added).
 
-.. _on_ipa_server:
+
 
 On IPA server
 ----------------------------------------------------------------------------------------------
@@ -311,7 +311,7 @@ restart of the ``iptables`` service:
 
 ``# service iptables restart``
 
-.. _dns_configuration:
+
 
 DNS configuration
 -----------------
@@ -324,7 +324,7 @@ configuration, no changes are required. When the testing DNS domains are
 not part of shared DNS tree visible to both IPA and AD, customer DNS
 zone forwarders can be created:
 
-.. _conditional_dns_forwarders:
+
 
 Conditional DNS forwarders
 ----------------------------------------------------------------------------------------------
@@ -346,7 +346,7 @@ IPA version 3 and 4 are different.
 
 ``# ipa dnsforwardzone-add ``\ *``ad_domain``*\ `` --forwarder=``\ *``ad_ip_address``*\ `` --forward-policy=only``
 
-.. _if_ad_is_subdomain_of_ipa:
+
 
 If AD is subdomain of IPA
 ----------------------------------------------------------------------------------------------
@@ -382,7 +382,7 @@ And second, add the DNS zone for the IPA domain on the AD DC:
 
    ``C:\> dnscmd 127 0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Secondary ``\ *``ipa_ip_address``*
 
-.. _if_ipa_is_subdomain_of_ad:
+
 
 If IPA is subdomain of AD
 ----------------------------------------------------------------------------------------------
@@ -398,7 +398,7 @@ On AD DC, add an A record and a NS record for the IPA domain:
    | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address``*
    | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*
 
-.. _verify_dns_configuration:
+
 
 Verify DNS configuration
 ----------------------------------------------------------------------------------------------
@@ -419,17 +419,17 @@ On IPA server:
 | ``# dig SRV _ldap._tcp.``\ *``ipa_domain``*
 | ``# dig SRV _ldap._tcp.``\ *``ad_domain``*
 
-.. _establish_and_verify_cross_forest_trust:
+
 
 Establish and verify cross-forest trust
 =======================================
 
-.. _add_trust_with_ad_domain:
+
 
 Add trust with AD domain
 ------------------------
 
-.. _when_ad_administrator_credentials_are_available:
+
 
 When AD administrator credentials are available
 ----------------------------------------------------------------------------------------------
@@ -464,7 +464,7 @@ server:
 -  ```SetInformationTrustedDomain`` <http://msdn.microsoft.com/en-us/library/cc234385.aspx>`__
    to tell the AD server that the IPA server can handle AES encryption
 
-.. _when_ad_administrator_credentials_arent_available:
+
 
 When AD administrator credentials aren't available
 ----------------------------------------------------------------------------------------------
@@ -495,7 +495,7 @@ forest:
 
 ``# ipa trustdomain-find "ad_domain"``
 
-.. _edit_etckrb5.conf:
+
 
 Edit /etc/krb5.conf
 -------------------
@@ -546,7 +546,7 @@ Restart KDC and sssd
 | ``# service krb5kdc restart``
 | ``# service sssd restart``
 
-.. _allow_access_for_users_from_ad_domain_to_protected_resources:
+
 
 Allow access for users from AD domain to protected resources
 ------------------------------------------------------------
@@ -563,7 +563,7 @@ mapping is performed in two steps:
    default group for all incoming trusted domain users mapped to this
    group
 
-.. _create_external_and_posix_groups_for_trusted_domain_users:
+
 
 Create external and POSIX groups for trusted domain users
 ----------------------------------------------------------------------------------------------
@@ -576,7 +576,7 @@ Create POSIX group for external ``ad_admins_external`` group:
 
 ``# ipa group-add --desc=``\ *``'ad_domain``*\ `` admins' ad_admins``
 
-.. _add_trusted_domain_users_to_the_external_group:
+
 
 Add trusted domain users to the external group
 ----------------------------------------------------------------------------------------------
@@ -590,7 +590,7 @@ Enter.
 whitespace, etc, make sure to either use non-interpolation quotes (') or
 to escape any specials characters with a backslash (\).
 
-.. _add_external_group_to_posix_group:
+
 
 Add external group to POSIX group
 ----------------------------------------------------------------------------------------------
@@ -600,12 +600,12 @@ Allow members of ``ad_admins_external`` group to be associated with
 
 ``# ipa group-add-member ad_admins --groups ad_admins_external``
 
-.. _test_cross_forest_trust:
+
 
 Test cross-forest trust
 =======================
 
-.. _using_ssh:
+
 
 Using SSH
 ---------
@@ -619,7 +619,7 @@ lower-case. Also, make sure you preserve the case of the username, i.e.
 if username is Administrator, log in as Administrator@\ *ad_domain*, not
 administrator@\ *ad_domain*.
 
-.. _using_samba_shares:
+
 
 Using Samba shares
 ------------------
@@ -651,7 +651,7 @@ To access the share from a Windows machine:
 **NOTE**: This method can be used for testing purposes only, as file
 sharing is not yet supported in RHEL 6.4.
 
-.. _using_kerberized_web_applications:
+
 
 Using Kerberized web applications
 ---------------------------------
@@ -682,12 +682,12 @@ actual IPA domain (in caps) and to restart the apache service:
 
 ``# service httpd restart``
 
-.. _debugging_trust:
+
 
 Debugging trust
 ===============
 
-.. _general_debugging_guidelines:
+
 
 General debugging guidelines
 ----------------------------
@@ -740,7 +740,7 @@ What you can do is following (assumes Fedora 20+ or RHEL 7+):
 | ``    /var/log/httpd/error_log``
 | ``    /var/log/samba/log.*``
 
-.. _failures_due_to_exhausted_dna_range_on_replica:
+
 
 Failures due to exhausted DNA range on replica
 ----------------------------------------------

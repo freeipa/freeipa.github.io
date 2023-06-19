@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _email_updates:
+
 
 Email Updates
 -------------
@@ -8,7 +8,7 @@ Email Updates
 For occasional updates on our progress, suscribe to
 `freeipa-interest <https://www.redhat.com/mailman/listinfo/freeipa-interest>`__
 
-.. _freeipa_news:
+
 
 FreeIPA News
 ------------
@@ -209,7 +209,7 @@ FreeIPA News
 -  FreeIPA Milestone 1 `released <Downloads>`__. *(August 01, 2007)*
 -  FreeIPA site launched. *(June 21, 2007)*
 
-.. _freeipa_in_the_news:
+
 
 FreeIPA in the News
 -------------------

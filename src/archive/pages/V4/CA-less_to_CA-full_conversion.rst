@@ -8,7 +8,7 @@ Allow converting an existing CA-less IPA deployment to CA-full.
 Use Cases
 ---------
 
-.. _ipa_ca_install:
+
 
 IPA CA install
 ----------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ Upgrade
 
 N/A
 
-.. _how_to_test14:
+
 
 How to Test
 -----------

@@ -11,7 +11,7 @@ Basic is easier to configure, while Full gives better user experience.
 It's recommended to start with Basic configuration, and after it's
 verified, add the missing information for Full configuration.
 
-.. _basic_configuration:
+
 
 Basic Configuration
 -------------------
@@ -39,7 +39,7 @@ You *don't have* LDAP synchronization. I.e., whenever a new user login,
 he will have to manually fill in his details - First/Last names and
 mail.
 
-.. _full_configuration:
+
 
 Full Configuration
 ------------------

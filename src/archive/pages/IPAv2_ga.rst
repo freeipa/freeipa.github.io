@@ -5,7 +5,7 @@ The FreeIPA project team is pleased to announce the availability of the
 
 It is available in Fedora 15 and Fedora rawhide.
 
-.. _known_issues:
+
 
 Known Issues
 ------------

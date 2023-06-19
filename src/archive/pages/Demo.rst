@@ -62,7 +62,7 @@ with a `DNS <DNS>`__ service and a publicly accessible domain
 ``demo1.freeipa.org`` to allow both testing the DNS management interface
 and DNS dynamic updates.
 
-.. _quick_start:
+
 
 Quick Start
 ===========
@@ -80,7 +80,7 @@ easy steps:
 
    # yum install freeipa-client
 
-.. _configure_freeipa_client:
+
 
 2. Configure FreeIPA client
 ---------------------------
@@ -137,7 +137,7 @@ it's users:
    $ getent group employees
    employees:*:1120000005:employee,manager
 
-.. _try_to_log_in_as_freeipa_user:
+
 
 3. Try to log in as FreeIPA user
 --------------------------------
@@ -156,7 +156,7 @@ it's users:
    Valid starting       Expires              Service principal
    06/04/2014 04:33:25  06/05/2014 04:33:25  krbtgt/DEMO1.FREEIPA.ORG@DEMO1.FREEIPA.ORG
 
-.. _try_other_features:
+
 
 4. Try other features
 ---------------------
@@ -177,7 +177,7 @@ In case the demo instance is out of order or you would like to ask for
 an enhancement, please `contact the FreeIPA
 team <Contribute#Communication>`__.
 
-.. _other_options:
+
 
 Other Options
 =============

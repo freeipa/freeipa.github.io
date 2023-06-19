@@ -29,7 +29,7 @@ Details of this example are as follows
 | ``Bind account = "ejabberd"``
 | ``Bind password = "secret123"``
 
-.. _create_bind_account_in_freeipa:
+
 
 Create Bind account in FreeIPA
 ------------------------------
@@ -71,7 +71,7 @@ password here.
 | ``adding new entry "uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com"``
 | ``[root@ds01 ~]#``
 
-.. _create_group_in_freeipa:
+
 
 Create Group in FreeIPA
 -----------------------
@@ -90,7 +90,7 @@ jabber users.
 | ``  GID: 1668600006``
 | ``[root@ds01 ~]#``
 
-.. _enable_epel_repository:
+
 
 Enable EPEL repository
 ----------------------
@@ -102,7 +102,7 @@ To do this, run the following on your soon to be, jabber server.
 
 ``[root@jabber02 ~]# rpm -Uvh ``\ ```http://mirror01.th.ifl.net/epel/5/i386/epel-release-5-4.noarch.rpm`` <http://mirror01.th.ifl.net/epel/5/i386/epel-release-5-4.noarch.rpm>`__
 
-.. _install_ejabberd_package:
+
 
 Install ejabberd package
 ------------------------
@@ -111,7 +111,7 @@ Install the ejabberd package by running the following
 
 ``[root@jabber02 ~]# yum install -y ejabberd``
 
-.. _edit_configuration_file_to_use_tls_for_communication_between_the_server_and_your_jabber_clients:
+
 
 Edit Configuration file to use TLS for communication between the Server and your Jabber clients
 -----------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ so it reads as follows
 
 Make sure you save your configuration file.
 
-.. _edit_configuration_file_to_enable_ldap_authentication_and_group_validation:
+
 
 Edit Configuration file to enable LDAP authentication and Group validation
 --------------------------------------------------------------------------
@@ -182,7 +182,7 @@ Verify that your service has started correctly after your changes.
 | ``ejabberd 2.1.11 is running in that node``
 | ``[root@jabber02 ~]#``
 
-.. _open_tcp_ports_on_local_server:
+
 
 Open TCP ports on local Server
 ------------------------------
@@ -195,7 +195,7 @@ our clients.
 | ``iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]``
 | ``[root@jabber02 ~]#``
 
-.. _configure_xmpp_client_on_a_workstation:
+
 
 Configure XMPP Client on a Workstation
 --------------------------------------
@@ -242,7 +242,7 @@ Once you have accepted the certificate, you will see that your login
 attempt failed. This is because we have not added any users to the
 "jabber_users" group yet.
 
-.. _add_users_to_the_jabber_users_group:
+
 
 Add user(s) to the "jabber_users" group
 ---------------------------------------

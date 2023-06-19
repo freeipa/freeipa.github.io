@@ -46,7 +46,7 @@ other unforseen issues.
 .. _dhcp_failover:
 
 DHCP failover
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DHCP supports a failover mechanism, where two hosts can exchange leases
 between the failover pair. However, it is limited to two hosts.
@@ -62,7 +62,7 @@ details, but still points at the same dhcpServiceDN
 .. _ldap_lease_storage:
 
 LDAP Lease storage
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The current DHCP schema for LDAP supports storage of DHCP leases in the
 LDAP storage backend. That way arbitratry numbers of servers will always

@@ -20,19 +20,19 @@ All these steps are done withing Okta itself, see proposed mappings for
 .. _ldap_version:
 
 LDAP Version
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This can be any of them, I chose Sun because it had some of the right
 attributes, but it doesn't matter.
 
 Objects
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Unique Identifier Attribute: ``ipauniqueid``
 -  DN Attribute - ``dn``
 
 User
-~~~~
+----------------------------------------------------------------------------------------------
 
 -  Object Class - ``posixaccount``
 -  Account Lock Attribute - ``nsaccountlock``
@@ -43,19 +43,19 @@ User
 .. _extra_user_attributes:
 
 Extra User Attributes
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 I didn't fill any of these out.
 
 Group
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Object Class - ``posixgroup``
 -  Member Attribute - ``member``
 -  User Attribute - ``memberof``
 
 Role
-~~~~
+----------------------------------------------------------------------------------------------
 
 I'm not sure this actually is mapped correctly:
 
@@ -65,7 +65,7 @@ I'm not sure this actually is mapped correctly:
 .. _search_base:
 
 Search Base
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Replace ``dc=example,dc=com`` with your realm.
 

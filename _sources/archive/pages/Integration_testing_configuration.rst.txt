@@ -37,7 +37,7 @@ in two ways:
 .. _using_yamljson_configuration_file:
 
 Using YAML/JSON configuration file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The configuration file defines a few globals, and a list of *domains*
 that consist of *hosts*. Each host entry corresponds to a machine with a
@@ -139,7 +139,7 @@ the ``ipa-test-config`` command:
 .. _setting_environment_variables:
 
 Setting Environment Variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For compatibility with existing tests, configuration may be passed via
 environment variables. Let's dive into simplest possible

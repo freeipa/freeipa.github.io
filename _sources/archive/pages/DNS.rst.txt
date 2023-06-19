@@ -15,7 +15,7 @@ assumptions and goals that should be always considered when assessing
 enhancements or other requests to this component.
 
 Assumptions
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  DNS is hard to manage and lot of admins who want to deploy FreeIPA
    would have difficulties setting up DNS properly.
@@ -24,7 +24,7 @@ Assumptions
    admins.
 
 Goals
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Provide an integrated DNS server which can be used to ease FreeIPA
    deployment ("get you going").
@@ -90,7 +90,7 @@ caveat includes inventing your own top-level domain like ``int.``)
 .. _internal_only_domains:
 
 Internal-only domains
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 It is perfectly fine to configure certain DNS zones to respond only to
 clients in certain subnets or to apply other kinds of access control.
@@ -101,7 +101,7 @@ previous section.**
 .. _dns_views_split_horizon_dns:
 
 DNS views / split-horizon DNS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 General advice about DNS views is **do not use them** because views make
 DNS deployment harder to maintain and security benefits are questionable

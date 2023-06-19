@@ -83,7 +83,7 @@ Interoperability with other systems
 -  `HowTo/FreeIPA_on_banana_pi <HowTo/FreeIPA_on_banana_pi>`__
 
 Windows
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Implementing FreeIPA in a mixed Environment (Windows/Linux) - Step
    by
@@ -92,7 +92,7 @@ Windows
    FreeIPA <Windows_authentication_against_FreeIPA>`__
 
 UNIX
-~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Generic LDAP configuration <HowTo/LDAP>`__
 -  `FreeBSD client
@@ -112,7 +112,7 @@ UNIX
 ----------------------------------
 
 General
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `FreeIPA demonstration tools <FreeIPA_demonstration_tools>`__
 -  `SUDO client
@@ -124,7 +124,7 @@ General
 .. _mail_services:
 
 Mail Services
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Dovecot Integration <Dovecot_Integration>`__
 -  `Dovecot IMAPS Integration with FreeIPA using Single Sign
@@ -142,7 +142,7 @@ Mail Services
 .. _web_services:
 
 Web Services
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Setting up MediaWiki to run against
    FreeIPA <Setting_up_MediaWiki_to_run_against_FreeIPA>`__
@@ -165,7 +165,7 @@ Web Services
 .. _web_infrastructure:
 
 Web Infrastructure
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Squid Integration with FreeIPA using Single Sign
    On <Squid_Integration_with_FreeIPA_using_Single_Sign_On>`__
@@ -179,13 +179,13 @@ Web Infrastructure
 .. _instant_messaging:
 
 Instant Messaging
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `eJabberd Integration with FreeIPA using LDAP Group
    memberships <eJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships>`__
 
 Virtualization
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Authenticating libvirt (with VNC) against
    IPA <Libvirt_with_VNC_Consoles>`__
@@ -211,7 +211,7 @@ OpenStack
    (FreeIPA) <https://www.rdoproject.org/documentation/keystone-integration-with-idm/>`__
 
 Certificates
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Lets Encrypt With
    FreeIPA <https://github.com/antevens/letsencrypt-freeipa>`__: Scripts
@@ -233,7 +233,7 @@ Certificates
    LDAP <Howto/Client_Certificate_Authentication_with_LDAP>`__
 
 Authentication
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Creating a binddn for Foreman <Creating_a_binddn_for_Foreman>`__
 -  `YubiRadius integration with group-validated FreeIPA Users using
@@ -261,7 +261,7 @@ Authentication
    host <Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host>`__
 
 Storage
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Setup Kerberised NFS server on ONTAP with
    FreeIPA <https://whyistheinternetbroken.wordpress.com/2020/03/24/nfs-kerberos-ontap-freeipa/>`__
@@ -281,14 +281,14 @@ Storage
 .. _content_distribution_systems:
 
 Content Distribution Systems
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Plan: FreeIPA and OpenShift Enterprise integration with
    Puppet <Plan:_FreeIPA_and_OpenShift_Enterprise_integration_with_Puppet>`__
 -  `Using IPA's CA for Puppet <Using_IPA's_CA_for_Puppet>`__
 
 Logging
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Howto/Centralised Logging with
    Logstash/ElasticSearch/Kibana <Howto/Centralised_Logging_with_Logstash/ElasticSearch/Kibana>`__
@@ -296,7 +296,7 @@ Logging
 .. _fancy_things_user_avatars_etc.:
 
 Fancy things (user Avatars etc.)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Adding Display Pictures/Avatars to Red Hat
    IDM/FreeIPA <https://www.dalemacartney.com/2013/12/05/adding-display-picturesavatars-red-hat-idmfreeipa/>`__

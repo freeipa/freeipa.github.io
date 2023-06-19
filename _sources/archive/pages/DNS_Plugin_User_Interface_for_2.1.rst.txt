@@ -79,7 +79,7 @@ Highlights:
 .. _dns_resource_records_view:
 
 DNS Resource Records View
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The main control element should be a table will all records for the
 chosen DNS zone, **one line per each DNS resource record**. The actual
@@ -132,7 +132,7 @@ record, a [+] mark is placed to column **More Types**.
 .. _dns_resource_records_details_view:
 
 DNS Resource Records Details View
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This window should provide a simple way to actually view/edit/add new
 record types for given DNS record. Each record type should should be in
@@ -141,7 +141,7 @@ an own section named after the record type.
 .. _more_ideas:
 
 More Ideas
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Order DNS resource record table by **data**, i.e. values of *A*,
    *AAAA* or *CNAME*\ s record types of the zone records. The list would

@@ -27,7 +27,7 @@ server.
 .. _new_attributes_in_topology_objects:
 
 New attributes in topology objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The suffix and segment entries will be extended to manage monitoring
 requests and responses
@@ -57,7 +57,7 @@ by a segment the information refers
 .. _plugin_operation:
 
 plugin operation
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The topology plugin monitors updates to the ipaReplTopoMonitorRequest
 attribute, if this attribute is replaced wit a new monitoringID it
@@ -68,7 +68,7 @@ will be replicated to the other replicas
 .. _monitoring_procedure:
 
 Monitoring procedure
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A client, CLI or GUI, initiates a monitoring cycle by modifying the
 ipaReplTopoMonitorRequest attribute on one server. It then contacts
@@ -87,7 +87,7 @@ listed. The state of the agreement will be:
 .. _required_actions:
 
 Required actions
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If all agreements are "green", no actions required
 
@@ -120,17 +120,15 @@ Feature Management
 ------------------
 
 UI
-~~
 
 TODO
 
 CLI
-~~~
 
 TODO
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 TODO
 

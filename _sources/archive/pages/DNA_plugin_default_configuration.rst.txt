@@ -85,7 +85,7 @@ would be: 515899392-517996543 and for groups would be:
 .. _first_server_initial_local_configuration:
 
 First server initial local configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
    ::
 
@@ -128,7 +128,7 @@ First server initial local configuration
 .. _server_global_configuration:
 
 Server global configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Three entries are pre-created by the configuration scripts.
 
@@ -191,7 +191,7 @@ selected at installation.
 .. _replicas_initial_local_configuration:
 
 replicas initial local configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
    ::
 

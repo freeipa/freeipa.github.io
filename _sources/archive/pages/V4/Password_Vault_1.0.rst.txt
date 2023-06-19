@@ -45,7 +45,7 @@ security:
 .. _standard_vault:
 
 Standard Vault
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A standard vault will use the KRA's standard transport and storage
 encryption as described above. Any authorized vault members, vault
@@ -55,7 +55,7 @@ to use a password/keys.
 .. _symmetric_vault:
 
 Symmetric Vault
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With symmetric vault the secrets are additionally protected with a
 symmetric key generated from a vault password. The client will encrypt
@@ -67,7 +67,7 @@ have to use a shared vault password.
 .. _asymmetric_vault:
 
 Asymmetric Vault
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With asymmetric vault (drop box) the secrets are additionally protected
 with asymmetric keys. The client will archive the secrets using the

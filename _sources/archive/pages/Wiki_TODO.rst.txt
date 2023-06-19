@@ -1,5 +1,5 @@
 Tasks
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Publish presentations
 -  Merge `Documentation <Documentation>`__ with
@@ -26,7 +26,7 @@ Tasks
 .. _texts_from_mailing_list_eligible_for_wiki:
 
 Texts from mailing list eligible for wiki
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `AD trusts & HBACs &
    such <https://www.redhat.com/archives/freeipa-users/2014-March/msg00295.html>`__
@@ -68,7 +68,7 @@ Texts from mailing list eligible for wiki
 .. _blog_posts_eligible_for_wiki:
 
 Blog posts eligible for wiki
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `Adam Young’s blog - FreeIPA
 tag <http://adam.younglogic.com/category/software/freeipa/>`__
@@ -76,7 +76,7 @@ tag <http://adam.younglogic.com/category/software/freeipa/>`__
 .. _pages_marked_for_removal:
 
 Pages marked for removal
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This are the pages that are suggested to be removed / moved to obsolete.
 
@@ -89,7 +89,7 @@ This are the pages that are suggested to be removed / moved to obsolete.
 .. _orphaned_or_deeply_buried_pages_that_seem_to_contain_relevant_info:
 
 Orphaned (or deeply buried) pages that seem to contain relevant info
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `NetApp_integration_in_a_mixed_environment <NetApp_integration_in_a_mixed_environment>`__
    (December 2012)
@@ -99,6 +99,6 @@ Orphaned (or deeply buried) pages that seem to contain relevant info
 .. _needs_a_minor_reformatting:
 
 Needs a minor reformatting
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `HowTo/Writing_how_to_documentation_on_the_wiki <HowTo/Writing_how_to_documentation_on_the_wiki>`__

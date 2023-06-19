@@ -78,7 +78,7 @@ The \`whoami\` command does not require any arguments. It uses implicit
 authenticated identity as its input.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No configuration is needed
 
@@ -149,7 +149,7 @@ Below is a short summary demonstrating possible test cases for the
 .. _using_host_principal:
 
 Using host principal
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 

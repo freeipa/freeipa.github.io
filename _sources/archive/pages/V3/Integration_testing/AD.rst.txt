@@ -6,7 +6,7 @@ Test assumptions on the Active Directory side
 .. _dns_has_to_be_setup_manually_on_ad.:
 
 DNS has to be setup manually on AD.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `DNS configuration
 instructions <Active_Directory_trust_setup#DNS_configuration>`__
@@ -14,7 +14,7 @@ instructions <Active_Directory_trust_setup#DNS_configuration>`__
 .. _active_directory_posix_support:
 
 Active Directory Posix support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Active Directory used for this Integration test should have support for
 POSIX attributes installed, as described in:
@@ -29,7 +29,7 @@ Active Directory, please refer to the steps described in the
 .. _object_existing_in_active_directory:
 
 Object existing in Active Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On Active Directory side, the following objects should exist:
 

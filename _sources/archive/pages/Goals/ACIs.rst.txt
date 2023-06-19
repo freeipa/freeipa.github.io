@@ -9,7 +9,7 @@ Assumptions
 .. _read_permissions_for_normal_users_do_not_harm:
 
 Read permissions for normal users do not harm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When work on IPA started most of the information stored was needed
 without authentication by machines, it was all (NIS maps equivalent

@@ -20,7 +20,7 @@ you manually configure proper offset in */var/lib/ipa/ca_serialno*.
 .. _procedure_to_install_and_promote_a_new_self_signed_replica:
 
 Procedure to install and promote a new self-signed replica
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. Install a replica
 

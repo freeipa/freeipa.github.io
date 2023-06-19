@@ -35,7 +35,7 @@ It is expected to be easily integrated with different monitoring tools.
 .. _mvp_acceptance_criteria:
 
 MVP Acceptance Criteria
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  a program that can be run, on-demand or via cron/systemd timer, which
    executes health checks.
@@ -95,7 +95,7 @@ All tools run without issue during upstream integration testing.
 .. _related_tickets:
 
 Related Tickets
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `#1749 Need way to remove dangling managed
    groups <https://pagure.io/freeipa/issue/1749>`__
@@ -131,7 +131,7 @@ the package is installed.
 .. _running_it_manually:
 
 Running it manually
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ipa-healthcheck command will run nightly by default.
 
@@ -156,7 +156,7 @@ correct issues and wants to double-check that something is resolved.
 .. _repairing_issues:
 
 Repairing Issues
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Repairing an issue involves the administrator making the suggested
 changes to their system.
@@ -168,7 +168,7 @@ Design
 ------
 
 Independence
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The healthcheck tool will reside in its own upstream git repository. It
 will import IPA existing modules for LDAP support, certificate handling,
@@ -197,14 +197,14 @@ differing imports, data types, etc. So there will be an ipa-4-6, ipa-4-7
 and master branches eventually.
 
 Errors
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Error messages should be descriptive without being paragraphs long. It
 is very possible that external documentation will be needed to aid a
 user in resolving some issues.
 
 Severity
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Severity of a problem is defined as:
 
@@ -228,7 +228,7 @@ A success value is reported so an administrator can know that all checks
 have executed.
 
 Analysis
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The main flaw of this decentralized design is that it is decentralized.
 For example, we require one and only one CRL generator. There is no way
@@ -242,7 +242,7 @@ role. If it is them then they check the config to confirm they are
 configured appropriate. If not they raise an error.
 
 Framework
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The healthcheck plugin framework will be thin, consisting of:
 
@@ -259,7 +259,7 @@ exception, and will be cleared if a subsequent run of the plugin is
 successful.
 
 Plugins
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Plugins will define a name to be used to in part to record as the
 ``ipaErrorSource`` and to select when manually running individual tests
@@ -397,7 +397,7 @@ Reporting the error via LDAP would provide at least one window into
 alerting users that the IPA upgrade has failed.
 
 Execution
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As the plugins execute for any given test there will be one of two
 outcomes: success or failure. Middle ground may be represented in
@@ -459,7 +459,7 @@ implementation)
 -  days before certificate expiration warnings appear
 
 Operation
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Kerberos credentials will be required for some operations. Ideally this
 can be handled as a bind using the host principal. Bind to LDAP will be
@@ -467,7 +467,7 @@ done using ldapi which should provide read access to any data not
 available as the host.
 
 Installation
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ipa-healthcheck command and plugins will be distributed as a
 separate tarball so will be a separate package. The freeipa-server
@@ -492,13 +492,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 TBD. It may be possible to make the output readable by the UI and
 display the exceptions.
 
 CLI
-~~~
 
 ipa-healthcheck:
 

@@ -10,7 +10,7 @@ Migration from different identity management solution
 .. _migrating_from_nis_to_freeipa:
 
 Migrating from NIS to FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `related RHEL Guide for detailed
 steps <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/migrating-from-nis.html>`__
@@ -18,7 +18,7 @@ steps <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/
 .. _migrating_from_ldap_to_freeipa:
 
 Migrating from LDAP to FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `related RHEL Guide
 chapter <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/Migrating_from_a_Directory_Server_to_IPA.html>`__
@@ -29,7 +29,7 @@ from OpenLDAP to FreeIPA.
 .. _migrating_from_other_freeipa_to_freeipa:
 
 Migrating from other FreeIPA to FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If you want to start a new FreeIPA deployment and you cannot simply
 create FreeIPA replica as for example *realm* is now different, new
@@ -60,7 +60,7 @@ Migrating existing FreeIPA deployment
 .. _upgrading_to_new_freeipa_release:
 
 Upgrading to new FreeIPA release
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `Upgrade <Upgrade>`__ page.
 
@@ -112,7 +112,7 @@ General procedure
 .. _migrating_to_different_platform_or_os:
 
 Migrating to different platform or OS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Sometimes, FreeIPA server package update within one operating system may
 not be an option. In that case, the following general procedure can be

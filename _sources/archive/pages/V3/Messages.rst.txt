@@ -13,7 +13,7 @@ other messages on clients along with the normal command output.
 .. _additional_considersations:
 
 Additional considersations
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The client validates the response it receives from the server. If it
 gets any extra items, the validation fails. Relaxing our validation is
@@ -24,7 +24,7 @@ Design
 ------
 
 Backend
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Introduce a "capability" mechanism for backwards-incompatible API
 changes. The first capability will be "messages": a client with this
@@ -60,7 +60,7 @@ clients affected by issue
 `#3294 <https://fedorahosted.org/freeipa/ticket/3294>`__.
 
 Frontend
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In the CLI, messages will be logged to stderr with the appropriate
 severity for their type. Debug messages will not be shown unless

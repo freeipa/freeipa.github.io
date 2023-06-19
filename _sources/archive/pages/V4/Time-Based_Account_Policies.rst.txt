@@ -43,7 +43,7 @@ certain time zone, and UTC.
 .. _host_local_time:
 
 Host Local Time
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Host local time approach is meant for those hosts that are most likely
 to be found across different time zones and for some reason it's
@@ -61,7 +61,7 @@ should be very sure they want to use this.
 .. _time_zones:
 
 Time Zones
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In this approach, the time is thought of as of a time at a certain time
 zone. This might be appropriate when the time settings should reflect a
@@ -71,7 +71,7 @@ user time zones is calculated by the *libical* library. Daylight saving
 time is taken into account.
 
 UTC
-~~~
+----------------------------------------------------------------------------------------------
 
 Sometimes the rules should apply for a certain time that is the same for
 the whole globe throughout the year. That's why UTC is also supported.
@@ -220,7 +220,6 @@ applies at a given time.
 These possibilities should be reflected both in the WebUI and CLI.
 
 UI
---
 
 A new page will need to be created for listing and creation of time rule
 objects. The creation page should allow creation/modification of a time
@@ -239,7 +238,6 @@ service sections. User should be able to add more time policies for an
 HBAC rule by the name of the policy.
 
 CLI
----
 
 CLI will need to introduce new commands for the addition of the time
 rules as well as adding these newly created rules to HBAC rules.

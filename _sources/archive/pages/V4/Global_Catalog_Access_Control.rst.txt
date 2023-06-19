@@ -28,7 +28,7 @@ associated with the Global Catalog subtree.
 .. _ldap_simple_bind_authentication:
 
 LDAP simple bind authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A request for LDAP simple bind authentication will be transformed into a
 PAM authentication request. A special PAM service will be provided to
@@ -46,7 +46,7 @@ valid accounts from the trusted Active Directory forests.
 .. _sasl_gssapi_authentication:
 
 SASL GSSAPI authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For Kerberos-based authentication SASL GSSAPI method is provided. A
 special mapping rule is defined in the *cn=config* of the Global Catalog
@@ -57,7 +57,7 @@ Global Catalog subtree.
 .. _sasl_gss_spnego_authentication:
 
 SASL GSS-SPNEGO authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Windows client machines utilize SASL GSS-SPNEGO for the authentication,
 using their machine accounts. This mechanism is currently not supported

@@ -12,7 +12,7 @@ the operating system vendor.
 Solaris 8/9/10
 ==============
 
-.. _configuring_client_authentication:
+
 
 Configuring Client Authentication
 ---------------------------------
@@ -53,7 +53,7 @@ Configuring Client Authentication
    `here <ConfiguringUnixClients#Client_Configuration_Files>`__.
 #. Restart the ldap_cachemgr and ncsd.
 
-.. _configuring_client_tls:
+
 
 Configuring Client TLS
 ----------------------
@@ -87,7 +87,7 @@ correct TLS profile. The TLS profile should have:
    /etc/init.d/nscd stop
    /etc/init.d/nscd start
 
-.. _additional_resources:
+
 
 Additional Resources
 --------------------
@@ -95,7 +95,7 @@ Additional Resources
 .. _freeipa_users_mailing_list_threads:
 
 freeipa-users mailing list threads
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Solaris 10 client configuration using
    profile <https://www.redhat.com/archives/freeipa-users/2014-October/msg00132.html>`__
@@ -105,7 +105,7 @@ freeipa-users mailing list threads
 .. _documentation_bugs:
 
 Documentation bugs
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Update the DUA profile included in
    IPA <https://bugzilla.redhat.com/show_bug.cgi?id=815515>`__
@@ -285,7 +285,7 @@ and then create the following link:
 files <ConfiguringUnixClients#Client_Configuration_Files>`__). These
 files are same as the ones used for Solaris 8+.
 
-.. _configuring_client_authentication_1:
+
 
 Configuring Client Authentication
 ---------------------------------
@@ -297,7 +297,7 @@ provided in the client directories:
 -  /etc/pam.conf
 -  /etc/nsswitch.conf
 
-.. _configuring_client_tls_1:
+
 
 Configuring Client TLS
 ----------------------

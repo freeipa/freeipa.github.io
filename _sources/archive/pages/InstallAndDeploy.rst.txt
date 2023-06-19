@@ -11,7 +11,7 @@ software, and to get it installed and configured on your system. It also
 provides information on common problems and possible solutions.
 
 Assumptions
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA relies on a script to automate many of the installation tasks.
 This script makes a number of assumptions.
@@ -42,7 +42,7 @@ This script makes a number of assumptions.
 .. _required_ports:
 
 Required Ports
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA makes use of the following ports:
 
@@ -64,7 +64,7 @@ IPA will not function correctly.
 .. _file_systems:
 
 File Systems
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The default root directory for users' home directories is ``/home``, but
 it is the responsibility of the system administrator to ensure that
@@ -82,7 +82,7 @@ If a suitable directory and mechanism are not available for the creation
 of home directories, users may not be able to log in successfully.
 
 DNS
-~~~
+----------------------------------------------------------------------------------------------
 
 It is recommended that you use DNS to facilitate Service Discovery in
 IPA. Service Discovery refers to the way that IPA clients find (or
@@ -162,7 +162,7 @@ information on how these technologies work together.
 .. _configuring_etchosts:
 
 Configuring /etc/hosts
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You need to ensure that your ``/etc/hosts`` file is configured
 correctly, or the **ipa-\*** commands may not work correctly.
@@ -181,7 +181,7 @@ hosts file:
 .. _hardware_requirements:
 
 Hardware Requirements
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The following table contains guidelines for Directory Server disk space
 and memory requirements based on on the number of entries that your
@@ -363,7 +363,7 @@ You can now proceed to test the configuration.
 .. _testing_the_configuration:
 
 Testing the Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The following examples assume that you are using EXAMPLE.COM as your
 realm.
@@ -600,7 +600,7 @@ set up a complete master replica of the IPA server.
 .. _updating_dns_for_ipa_replicas:
 
 Updating DNS for IPA Replicas
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 After you have configured a new IPA replica, you should update your DNS
 entries so that IPA clients can discover the new server. For example,

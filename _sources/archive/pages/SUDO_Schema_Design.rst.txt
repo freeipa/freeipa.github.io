@@ -82,7 +82,7 @@ will look like this:
 ``cn=SUDOers,dc=example,dc=com.``
 
 Rules
-~~~~~
+----------------------------------------------------------------------------------------------
 
 The rule object will be similar to the one defined by the standard SUDO
 schema but with additional attributes and will use DNs instead of string
@@ -494,7 +494,7 @@ Let us look at each of the attributes and its use more closely.
 .. _sudo_rules_and_hbac_rules:
 
 SUDO rules and HBAC rules
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When a user invokes SUDO he needs to authenticate. On the managed hosts
 the SSSD will do the access control enforcement for those
@@ -562,7 +562,7 @@ HBAC rules we will implement them later based on the feedback from the
 community.
 
 Defaults
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As in the standard SUDO schema the "default" options will be represented
 by the same rule object but with a special name: cn=defaults. This
@@ -570,7 +570,7 @@ allows to maintain consistency in the lookups between old and new
 schema.
 
 Summary
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To summarize the schema for the new SUDO rule object will look like
 this:
@@ -777,7 +777,7 @@ New attributes and objects added by this design:
 | ``                X-ORIGIN 'IPA v2' )``
 
 Examples
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Default rule
 
@@ -821,7 +821,7 @@ command as a local root on centrally managed "superuser" account.
 .. _why_we_must_support_netgroups_in_the_sudo_rules:
 
 Why we must support netgroups in the SUDO rules?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Current SUDO client when needs to evaluate whether user is allowed to
 execute the command or not works the following way:
@@ -862,7 +862,7 @@ time there will be no more need for the SUDO compat configuration.
 .. _open_questions:
 
 Open questions
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Is it Ok to not allow specifying external users and groups by uid and
    gid?

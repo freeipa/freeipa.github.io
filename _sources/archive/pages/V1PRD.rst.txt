@@ -64,7 +64,7 @@ Server Requirements
 .. _req1_create_centralized_identity_server:
 
 [Req1]: Create centralized identity server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req1.1]: The IPA server will be a combination of the following
    technologies
@@ -99,7 +99,7 @@ Server Requirements
 .. _req2_create_central_authentication_point_ipa_server_install:
 
 [Req2] Create central authentication point IPA server install
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req2.1]: In addition to Kerberos and Directory Server, there will be
    an optional ability to install integrated freeRadius and Samba 3
@@ -202,7 +202,7 @@ Server Requirements
 .. _req3_create_provisioninginitial_configuration_tool_for_ipa_server:
 
 [Req3] Create provisioning/Initial configuration tool for IPA server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req3.1]: Create a server provisioning tool that easily hooks
    together the following
@@ -262,7 +262,7 @@ Server Requirements
 .. _req4define_default_schemas_for_ipa_server:
 
 [Req4]Define default schemas for IPA server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req4.1]: Additional schema will be required to store user and
    authentication information.
@@ -280,7 +280,7 @@ Server Requirements
 .. _req5kerberize_jboss_middleware:
 
 [Req5]Kerberize JBoss Middleware
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req5.1] Add additional kerberos support will to JBoss core
    authentication module that will allow it to accept Kerberos
@@ -301,7 +301,7 @@ Server Requirements
 .. _req6_replication_and_failover_requirements:
 
 [Req6] Replication and Failover Requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req6.1] The IPA server should support all the Replication features
    of Fedora Directory Server including 4 way multimaster replication
@@ -329,7 +329,7 @@ Server Requirements
 .. _req7_migration_requirements:
 
 [Req7] Migration Requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req7.1] The IPA server shall provide a method for easily migrating
    user identities from an existing directory or identity store into the
@@ -351,7 +351,7 @@ Server Requirements
 .. _req8_server_platform_support:
 
 [Req8] Server Platform Support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req 8.1] The IPA Server 1.0 should run on
 
@@ -377,7 +377,7 @@ IPA Client Requirements
 .. _req9_client_configuration:
 
 [Req9] Client configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req9.1]Create client config to allow admins to easily join Linux
    systems to an IPA domain.
@@ -435,7 +435,7 @@ IPA Client Requirements
 .. _req10_client_support:
 
 [Req10] Client Support
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req10.1]The following platform should be supported as clients of the
    IPA product
@@ -549,7 +549,7 @@ User Interface
 .. _req14_general_ui_requirements:
 
 [Req14] General UI Requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The IPA server shall provide an interface for management of Identity
 (and in the future, Policy & Audit) information.
@@ -595,7 +595,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req15_administrator_access_control_and_delegation:
 
 [Req15] Administrator Access Control and Delegation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req15.1] Administrators are assigned administrative privileges by
    existing administrators
@@ -613,7 +613,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req16_creationediting:
 
 [Req16] Creation/Editing
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req16.1] Suggest user account and dynamic generation of user account
    field values e.g. mail address and login name from full name, uid
@@ -656,7 +656,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req17_discovery:
 
 [Req17] Discovery
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req17.1] Require mechanisms to reduce candidate list
 
@@ -669,7 +669,7 @@ The IPA server shall provide an interface for management of Identity
 -  [Req17.4] Configuration of default display attributes per class
 
 [Req18]Deletion
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req18.1]V1.0 of the IPA server will support 2 modes of account
    removal
@@ -687,7 +687,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req19_policy:
 
 [Req19] Policy
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req19.1] Only administrators will be able to reset forgotten
    passwords. There will be no user self service password reset for
@@ -713,7 +713,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req20_radius_policy:
 
 [Req20] RADIUS Policy
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req20.1] Allow users to be placed in a group or role that specifies
    RADIUS users. Allow or disallow RADIUS access based on this
@@ -721,7 +721,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req21administrator_management_of_groups:
 
 [Req21]Administrator Management of Groups
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req21.1] Select groups to add a user to
 -  [Req21.2] Select users to add to a groupindividually, (V2 may allow
@@ -738,7 +738,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req22non_administrative_user_use:
 
 [Req22]Non Administrative user use
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req22.1] Allow general search facility
 -  [Req22.2] Editing of own data (where allowed)
@@ -754,7 +754,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req23user_self_management:
 
 [Req23]User Self Management
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  [Req23.1] Users will automatically log in to the web and cli
    interfaces of the IPA server using Kerberos. From there, they will be
@@ -790,7 +790,7 @@ The IPA server shall provide an interface for management of Identity
 .. _req24gui_server_policies:
 
 [Req24]GUI Server Policies
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In general the GUI is not to entertain general management of the LDAP
 server, in fact a goal is to disguise the fact that an LDAP server
@@ -838,7 +838,7 @@ server product
 .. _host_management:
 
 Host Management
-^^^^^^^^^^^^^^^
+---------------
 
 -  v1.0 will not provide any mechanism for managing host or server
    entries
@@ -848,7 +848,7 @@ Host Management
 .. _netgroups_and_host_based_access_control:
 
 Netgroups and Host Based access control
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------
 
 A common requirement for access management systems is user
 authorization, such as that used for host based access control. This
@@ -859,7 +859,7 @@ updated IPA release can support this feature.
 .. _windows_file_and_print_services_cifs:
 
 Windows file and print services (CIFS)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 The IPA product will not be able to provide authentication services for
 Windows file and print services
@@ -867,7 +867,7 @@ Windows file and print services
 .. _user_interface_features_not_in_version_1.0:
 
 User Interface features Not in version 1.0
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------
 
 #. Computer management
 #. Host based access control i.e. nis netgroups

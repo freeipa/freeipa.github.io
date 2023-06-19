@@ -54,7 +54,7 @@ Look for more detailed roadmap information at `Roadmap <Roadmap>`__
 .. _domain_levels:
 
 Domain levels
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please visit following page `Domain Levels <Domain_Levels>`__ to get
 information about domain levels and features which are provided by them.

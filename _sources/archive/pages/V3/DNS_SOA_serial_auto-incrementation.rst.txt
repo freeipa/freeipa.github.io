@@ -150,7 +150,7 @@ Feature Managment
 
 
 Major configuration options and enablement
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 SOA serial is managed internally by bind-dyndb-ldap plugin. New boolean
 option ``serial_autoincrement`` was added to ``/etc/named.conf``. Value
@@ -158,13 +158,11 @@ option ``serial_autoincrement`` was added to ``/etc/named.conf``. Value
 
 There is no command for enabling/disabling this feature.
 
-WebUI
-~~~~~
+WebUI~
 
 WebUI doesn't manage this option.
 
 CLI
-~~~
 
 New option for ``ipa-server-install``:
 
@@ -304,7 +302,7 @@ test2.example.com. are not equal).
 .. _variant_with_delayed_serial_write:
 
 Variant with delayed serial write
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``When updating zone serial:``
 | ``if (old serial value < time())``
@@ -320,7 +318,7 @@ Variant with delayed serial write
 .. _variant_with_modified_search_operation:
 
 Variant with modified search operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Modify search operation for zone serial to return:
 

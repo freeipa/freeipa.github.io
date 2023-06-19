@@ -51,17 +51,18 @@ ticket for the service.</p>
 </section>
 <section id="use-cases">
 <span id="use-cases3"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="strong-authentication-on-selected-system">
-<span id="id1"></span><h2>Strong Authentication on Selected System<a class="headerlink" href="#strong-authentication-on-selected-system" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h1>Strong Authentication on Selected System<a class="headerlink" href="#strong-authentication-on-selected-system" title="Permalink to this heading">¶</a></h1>
 <section id="user-story">
-<h3>User story<a class="headerlink" href="#user-story" title="Permalink to this heading">¶</a></h3>
+<h2>User story<a class="headerlink" href="#user-story" title="Permalink to this heading">¶</a></h2>
 <p>As an Administrator, I want to setup authentication to a critical system
 in my infrastructure (gateway VPN, accounting system) to only allow IdM
 users authenticated via strong authentication methods (2FA). I do not
 want to require strong authentication on other systems.</p>
 </section>
 <section id="description">
-<h3>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h3>
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>A realm has two servers configured for ssh which use the following
 principals configured with authentication indicators:</p>
 <ul class="simple">
@@ -73,11 +74,11 @@ he can access both systems via ssh. However, when the administrator logs
 in using just a password, he can only access lowsecurity.example.com.</p>
 </section>
 </section>
-</section>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="background">
-<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading">¶</a></h2>
+<h1>Background<a class="headerlink" href="#background" title="Permalink to this heading">¶</a></h1>
 <p>The IETF draft for Authentication Indicators is available here:
 <a class="reference external" href="https://tools.ietf.org/html/draft-jain-kitten-krb-auth-indicator-01">https://tools.ietf.org/html/draft-jain-kitten-krb-auth-indicator-01</a></p>
 <p>The MIT Kerberos project for Authentication Indicators is available
@@ -87,7 +88,7 @@ as of the 1.14 release. Our changes are mostly limited to the kdb plugin
 and the UI/CLI.</p>
 </section>
 <section id="overview-1">
-<span id="id2"></span><h2>Overview<a class="headerlink" href="#overview-1" title="Permalink to this heading">¶</a></h2>
+<span id="id2"></span><h1>Overview<a class="headerlink" href="#overview-1" title="Permalink to this heading">¶</a></h1>
 <figure class="align-default" id="id9">
 <img alt="Indicators.png" src="../../../_images/Indicators.png" />
 <figcaption>
@@ -96,9 +97,9 @@ and the UI/CLI.</p>
 </figure>
 </section>
 <section id="enable-optional-otp-preauth">
-<span id="id3"></span><h2>Enable Optional OTP Preauth<a class="headerlink" href="#enable-optional-otp-preauth" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h1>Enable Optional OTP Preauth<a class="headerlink" href="#enable-optional-otp-preauth" title="Permalink to this heading">¶</a></h1>
 <section id="server-side">
-<h3>Server Side<a class="headerlink" href="#server-side" title="Permalink to this heading">¶</a></h3>
+<h2>Server Side<a class="headerlink" href="#server-side" title="Permalink to this heading">¶</a></h2>
 <p>Currently, if OTP is enabled for a user (even optionally), only the otp
 preauth mechanism is returned. Once we have authentication indicators,
 it is the otp preauth mechanism that will set the indicator. Thus, we
@@ -115,7 +116,7 @@ factor, we can enable other preauthentication mechanisms (encrypted
 challenge/timestamp) for 1FA.</p>
 </section>
 <section id="client-side">
-<span id="id4"></span><h3>Client Side<a class="headerlink" href="#client-side" title="Permalink to this heading">¶</a></h3>
+<span id="id4"></span><h2>Client Side<a class="headerlink" href="#client-side" title="Permalink to this heading">¶</a></h2>
 <p>The kinit utility should work out of the box. Versions that did not
 support OTP previously failed authentication. However, with the above
 server change these clients now work for 1FA only. Further, clients
@@ -130,14 +131,14 @@ We need to make this optional.</p>
 </section>
 </section>
 <section id="insert-authentication-indicators-during-authentication-asreq">
-<span id="id5"></span><h2>Insert Authentication Indicators During Authentication (ASReq)<a class="headerlink" href="#insert-authentication-indicators-during-authentication-asreq" title="Permalink to this heading">¶</a></h2>
+<span id="id5"></span><h1>Insert Authentication Indicators During Authentication (ASReq)<a class="headerlink" href="#insert-authentication-indicators-during-authentication-asreq" title="Permalink to this heading">¶</a></h1>
 <p>Once the above task is done, we can start inserting authentication
 indicators. This is a simple configuration change to the KDB plugin to
 return a specially formatted user string for the otp preauthentication
 mechanism.</p>
 </section>
 <section id="verify-authentication-indicators-during-ticket-issuance-tgsreq">
-<span id="id6"></span><h2>Verify Authentication Indicators During Ticket Issuance (TGSReq)<a class="headerlink" href="#verify-authentication-indicators-during-ticket-issuance-tgsreq" title="Permalink to this heading">¶</a></h2>
+<span id="id6"></span><h1>Verify Authentication Indicators During Ticket Issuance (TGSReq)<a class="headerlink" href="#verify-authentication-indicators-during-ticket-issuance-tgsreq" title="Permalink to this heading">¶</a></h1>
 <p>During a TGS request, the KDC will load the service principal from KDB
 like normal. In this case, we simply need to return a tl_data string
 with the key as “require_auth” and the value a space separated list of
@@ -148,7 +149,6 @@ this new attribute. It will also require a patch to FreeIPA’s KDB to
 support this new schema.</p>
 <p>Once the KDC has a list of acceptable indicators, it can make the proper
 policy evaluation.</p>
-</section>
 </section>
 <section id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
@@ -164,8 +164,9 @@ policy evaluation.</p>
 </tr>
 </tbody>
 </table>
+</section>
 <section id="otprequired-bind-control">
-<span id="id7"></span><h2>OTPRequired Bind Control<a class="headerlink" href="#otprequired-bind-control" title="Permalink to this heading">¶</a></h2>
+<span id="id7"></span><h1>OTPRequired Bind Control<a class="headerlink" href="#otprequired-bind-control" title="Permalink to this heading">¶</a></h1>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>OID</p></th>
@@ -180,7 +181,7 @@ policy evaluation.</p>
 </table>
 </section>
 <section id="kdb-string-attributes">
-<span id="id8"></span><h2>KDB String Attributes<a class="headerlink" href="#kdb-string-attributes" title="Permalink to this heading">¶</a></h2>
+<span id="id8"></span><h1>KDB String Attributes<a class="headerlink" href="#kdb-string-attributes" title="Permalink to this heading">¶</a></h1>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Principal Type</p></th>
@@ -208,16 +209,12 @@ policy evaluation.</p>
 </tbody>
 </table>
 </section>
-</section>
 <section id="feature-management">
 <span id="feature-management3"></span><h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
-<section id="ui">
-<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>UI</p>
 <p>Services should gain checkboxes for the required authentication
 indicators.</p>
-</section>
-<section id="cli">
-<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>CLI</p>
 <p>Overview of the CLI commands. Example:</p>
 <table class="docutils align-default">
 <thead>
@@ -234,7 +231,6 @@ indicators.</p>
 </tr>
 </tbody>
 </table>
-</section>
 </section>
 <section id="upgrades">
 <h1>Upgrades<a class="headerlink" href="#upgrades" title="Permalink to this heading">¶</a></h1>

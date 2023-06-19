@@ -67,7 +67,7 @@ mentioned in the ipa-server-install case apply.
 .. _certificate_rotation:
 
 Certificate rotation
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Neither the Dogtag CA nor Certmonger are installed on IPA servers in
 this scenario. Before the server certificates expire, new ones must be
@@ -79,7 +79,7 @@ expire.
 .. _kdc_pkinit_considerations:
 
 KDC pkinit considerations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In the future, another certificate will be needed for the KDC. It will
 be specified using the --pkinit_pkcs and --pkinit_pin options, similarly
@@ -90,7 +90,7 @@ Currently KDC pkinit is disabled.
 .. _affected_commands:
 
 Affected commands
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA's cert plugin and cert-\* commands will not be available at all.
 Calling them will result in CommandError (code 905) No online help will
@@ -107,7 +107,7 @@ affects the following commands:
 -  service-disable
 
 Clients
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Clients in a CA-less IPA installation will work normally, except host
 certificates will not be assigned automatically.
@@ -131,7 +131,7 @@ added to the server with:
 .. _why___root_ca_file:
 
 Why --root-ca-file?
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA requires the user to specify the root CA to be trusted. This done to
 ensure that all replicas and clients trust the IPA certificates, no
@@ -152,7 +152,7 @@ Certificate management FAQ
 .. _how_to_check_what_format_files_are:
 
 How to check what format files are?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Use the handy ``file`` command.
 
@@ -180,7 +180,7 @@ To check a PKCS#12 file, you need to know the password:
 .. _how_many_certs_are_there_in_a_file:
 
 How many certs are there in a file?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For PKCS#12 files, use ``pk12util -l`` (see previous section).
 
@@ -214,7 +214,7 @@ the number of blocks. A certificate will look like this:
 .. _how_to_extact_certs_or_or_combine_certs_into_files:
 
 How to extact certs or or combine certs into files?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _pem_files:
 
@@ -302,7 +302,7 @@ Again, substitute a unique serial number for $RANDOM.
 .. _how_to_check_that_my_certificates_will_be_usable:
 
 How to check that my certificates will be usable?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To inspect PKCS#12 files, use ``pk12util -l``. For other files, import
 them in a NSS database and use ``certutil -L``. See above for details.
@@ -326,19 +326,17 @@ Feature Managment
 -----------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 The --http_pkcs12, --dirsrv_pkcs12, --http_pin, --dirsrv_pin options to
 ipa-server-install and ipa-replica-prepare work again. The
 --root-ca-file option was added to ipa-server-install.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The feature can be installed as detailed above. There is no supported
 way to enable a CA once a CA-less IPA is installed, or to revert to

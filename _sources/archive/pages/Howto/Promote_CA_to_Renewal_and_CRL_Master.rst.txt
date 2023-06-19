@@ -37,7 +37,7 @@ Procedure in FreeIPA 4.0 or later
 .. _identifying_current_first_master:
 
 Identifying current first master
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The hostname of the renewal master can be determined from LDAP:
 
@@ -79,7 +79,7 @@ otherwise it is a clone.
 .. _reconfiguring_a_ca_as_a_clone:
 
 Reconfiguring a CA as a clone
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _configure_clone_renewal:
 
@@ -148,7 +148,7 @@ Restart Apache:
 .. _reconfigure_a_ca_as_the_new_master:
 
 Reconfigure a CA as the new master
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _configure_ca_renewal:
 
@@ -224,7 +224,7 @@ Procedure in FreeIPA < 4.0
 .. _identifying_current_first_master_1:
 
 Identifying current first master
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This can be determined by looking at the certificates managed by
 certmonger on each CA
@@ -241,7 +241,7 @@ If it contains ``restart_pkicad`` then it is a CA renewal clone.
 .. _reconfiguring_a_ca_as_a_clone_1:
 
 Reconfiguring a CA as a clone
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This step changes current *first master* into a standard clone.
 
@@ -362,7 +362,7 @@ Restart Apache:
 .. _reconfigure_a_ca_as_the_new_master_1:
 
 Reconfigure a CA as the new master
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _unconfigure_the_clone_renewal:
 

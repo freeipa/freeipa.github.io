@@ -11,7 +11,7 @@ Steps to enable DNSSEC support:
 .. _dnssec_key_master:
 
 DNSSEC key master
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To enable DNSSEC in FreeIPA topology, exactly one FreeIPA replica has to
 act as *the DNSSEC key master*. This replica is responsible for proper
@@ -49,7 +49,7 @@ satisfies your DNSSEC configuration requirements.
 .. _enable_zone_signing:
 
 Enable zone signing
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Zones are not signed by default. Zone signing has to be enabled per zone
 using following command:
@@ -78,7 +78,7 @@ Signing zones in FreeIPA
 .. _add_a_zone_to_be_signed:
 
 Add a zone to be signed
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa dnszone-add example.test. --dnssec=true``
 
@@ -90,7 +90,7 @@ or
 .. _verify_if_zone_is_signed:
 
 Verify if zone is signed
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Verify using *dig* utility if answer contains RRSIG record. This may
 take a few minutes until proper key are distributed to all replicas in
@@ -111,7 +111,7 @@ topology.
 .. _key_types_ksk_and_zsk:
 
 Key types: KSK and ZSK
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DNSSEC zones typically contain two types of DNSSEC keys.
 
@@ -150,7 +150,7 @@ following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
 .. _get_the_ds_record:
 
 Get the DS record
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The DS record of the zone, has to be uploaded to parent zone, otherwise
 chain of trust can not be completed.
@@ -165,7 +165,7 @@ Output of the *dnssec-dsfromkey* is the DS record for zone
 .. _add_ds_record_into_parent_zone:
 
 Add DS record into parent zone
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Following example shows how to add DS record of *example.test.* zone
 into a parent zone *test.* which is managed by IPA:
@@ -183,7 +183,7 @@ trust from the parent zone.
 .. _confirm_ds_record_upload:
 
 Confirm DS record upload
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Verify that DS record is available from the parent zone:
 
@@ -209,7 +209,7 @@ above:
 .. _verify_dnssec_chain_of_trust:
 
 Verify DNSSEC chain of trust
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If DS record was successfully uploaded to parent zone, the check if
 chain of trust can be established should follow, to make sure the
@@ -231,7 +231,7 @@ DNSSEC in isolated networks
 .. _create_signed_root_zone:
 
 Create signed root zone
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 How to create the root zone is explained in article `DNS in isolated
 networks <Howto/DNS_in_isolated_networks>`__. Please note that update of
@@ -248,7 +248,7 @@ You can enable DNSSEC zone signing for it:
 .. _configure_trusted_key_on_clients:
 
 Configure trusted key on clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Local resolvers need to know KSK of your root zone because it is entry
 point to the chain of trust from root zone to all other zones.
@@ -282,7 +282,7 @@ migration, DNSSEC signing may be broken and you may need to recreate new
 keys.
 
 Requirements
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  only one DNSSEC master can be active in topology
 -  DNSSEC master can be migrated only to IPA server where
@@ -293,7 +293,7 @@ Requirements
       just disable dnssec master
 
 Steps
-~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _disable_current_dnssec_key_master:
 

@@ -163,8 +163,9 @@ be acquired by a same thread. The <strong>lock should be reentrant</strong>.</p>
 </ul>
 <p>The basic idea to reorder locking mechanism is that a write thread
 acquires the SC lock in PREOP and release it in POSTOP.</p>
+</section>
 <section id="first-try">
-<span id="id28"></span><h2>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h2>
+<span id="id28"></span><h1>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h1>
 <p>A first
 <a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1305923">patch</a> was</p>
 <ul class="simple">
@@ -184,7 +185,7 @@ scope of the SC</p></li>
 </ul>
 </section>
 <section id="second-patch">
-<span id="id29"></span><h2>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h2>
+<span id="id29"></span><h1>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h1>
 <p>Because we can not guaranty the order the plugins are called, the
 acquisition/release of the lock should be done a step above:
 <strong>BE_PREOP</strong> / <strong>BE_POST</strong>.</p>
@@ -219,7 +220,7 @@ systematically the problem ( &gt; 3 times out of 4). The fix makes it
 successful almost more than 9 times out of 10. The last time it hit an
 other issue.</p>
 <section id="case-not-fixed">
-<span id="id30"></span><h3>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h3>
+<span id="id30"></span><h2>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h2>
 <p>An other issue is related to plugins or tasks <strong>starting transaction</strong>
 and accessing DB pages (under the txn) before doing internal updates.
 Indeed, the txn will lock the DB pages (in read) that can not be access
@@ -285,7 +286,6 @@ case runs)</p>
 <div class="line">``       443 READ          1 WAIT    userRoot/entryrdn.db      page          3``</div>
 <div class="line">``        ……``</div>
 </div>
-</section>
 </section>
 </section>
 

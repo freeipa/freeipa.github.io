@@ -33,7 +33,7 @@ the corresponding IPA user.
 .. _from_ipa_to_samba:
 
 From IPA to Samba
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When the password of an IPA user is modified the clear text password
 will be recorded in the DS change log records. The Change Log Monitor
@@ -48,7 +48,7 @@ to set the password of the corresponding Samba user.
 .. _from_samba_to_ipa:
 
 From Samba to IPA
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When the password of a Samba user is modified, Samba will compute the
 encryption keys before storing it in the DS, so the clear text password

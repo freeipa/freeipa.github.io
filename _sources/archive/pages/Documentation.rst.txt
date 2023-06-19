@@ -71,7 +71,7 @@ components that compose the entire solution.
 -  `Trusts <Trusts>`__
 -  `Client <Client>`__
 
-.. _additional_resources:
+
 
 Additional Resources
 --------------------
@@ -153,7 +153,7 @@ Additional Resources
 Tester Documentation
 ====================
 
-.. _test_plans:
+
 
 Test Plans
 ----------
@@ -183,7 +183,7 @@ FreeIPA 3.3 & SSSD 1.11
 .. _freeipa_server_presentations:
 
 FreeIPA server presentations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `FreeIPA 3.3 Trust features <Media:FreeIPA33-trust.pdf>`__
 -  `Blending FreeIPA in a Certificate
@@ -197,7 +197,7 @@ FreeIPA server presentations
 .. _sssd_client_presentations:
 
 SSSD client presentations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `SSSD Active Directory Improvements in
    1.11 <Media:FreeIPA33-sssd-1-11-ad-improvements.pdf>`__
@@ -214,7 +214,7 @@ FreeIPA 3.0 & SSSD 1.9.2
 .. _freeipa_server_presentations_1:
 
 FreeIPA server presentations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `FreeIPA Trust Basics <Media:Freeipa30_Trust_Basics.pdf>`__
    (`ODP <Media:Freeipa30_Trust_Basics.odp>`__)
@@ -234,7 +234,7 @@ FreeIPA server presentations
 .. _sssd_client_presentations_1:
 
 SSSD client presentations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `SSSD AD Provider Feature <Media:Freeipa30_sssd-ad-provider.pdf>`__
    (`ODP <Media:Freeipa30_sssd-ad-provider.odp>`__)

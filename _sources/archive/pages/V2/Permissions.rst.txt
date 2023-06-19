@@ -108,7 +108,7 @@ Here is a breakdown of what the various objects look like.
 .. _permission_entry:
 
 permission entry
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A permission entry and an aci pointing at that permission. The
 permission links back to the ACI though the permission description. The
@@ -132,7 +132,7 @@ ACI is stored in ``dc=example,dc=com``.
 .. _privilege_entry:
 
 privilege entry
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A privilege entry using the example permission. Note the other
 permissions that make up this privilege. It is a member of the heldesk
@@ -157,7 +157,7 @@ role.
 .. _role_entry:
 
 role entry
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The helpdesk role. Note that the memberOf permissions have carried
 forward. This role has no current members of its own.

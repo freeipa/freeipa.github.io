@@ -243,7 +243,7 @@ Authorization can be done by specifying the allowed users, groups,
 attribute with in an entry or even a filter.
 
 Attributes can be specified in the AuthLDAPURL value such that those
-values are set as environment variables of the form "AUTHENTICATE_", so
+values are set as environment variables of the form "AUTHENTICATE\_", so
 any arbitrary list of values may be provided.
 
 .. _proposed_additional_variables:
@@ -263,120 +263,124 @@ We are in need of a way for Apache modules to pass information about the
 authenticated user beyond the login name (in REMOTE_USER) to the
 application. That way the applications do not need to implement all
 possible authentication mechanisms (Kerberos, SAML, LDAP, ...) and can
-depend on specialized mod_auth_\* modules to do it, while being able to
+depend on specialized mod_auth\_\* modules to do it, while being able to
 know what user to populate and maintain in their internal user database.
 
 We propose Apache modules that wish to pass information about users to
 applications adopt the following environment variable names:
 
-+----------------+----------------+----------------+----------------+
-| Variable name  | Semantics      | Possible       | Example        |
-|                |                | source         | `mod_l         |
-|                |                |                | ookup_identity |
-|                |                |                |  <http://www.a |
-|                |                |                | delton.com/apa |
-|                |                |                | che/mod_lookup |
-|                |                |                | _identity/>`__ |
-|                |                |                | configuration  |
-+================+================+================+================+
-| REMO           | c              | POSIX call     | Look           |
-| TE_USER_GROUPS | olon-separated | getgrouplist;  | upOutputGroups |
-|                | list of group  | sssd dbus call | REMO           |
-|                | names the user | o              | TE_USER_GROUPS |
-|                | is in          | rg.freedesktop | :              |
-|                |                | .sssd.infopipe |                |
-|                |                | .GetUserGroups |                |
-+----------------+----------------+----------------+----------------+
-| REMOTE         | number of user | alternate way  | Lookup         |
-| _USER_GROUP_N, | groups and     | to get the     | UserGroupsIter |
-| REMOTE         | individual     | list of        | REM            |
-| _USER_GROUP_1, | group names    | groups,        | OTE_USER_GROUP |
-| REMOTE         |                | avoiding the   |                |
-| _USER_GROUP_2, |                | split needed   |                |
-| ...            |                | with           |                |
-|                |                | REMO           |                |
-|                |                | TE_USER_GROUPS |                |
-+----------------+----------------+----------------+----------------+
-| REM            | Equivalent of  | pw_gecos field | L              |
-| OTE_USER_GECOS | the GECOS      | of result of   | ookupUserGECOS |
-|                | value from the | POSIX call     | REM            |
-|                | password file, | getpwname; IPA | OTE_USER_GECOS |
-|                | could be full  | attribute      | or             |
-|                | name.          | gecos, sssd    | LookupUserAttr |
-|                |                | dbus call      | gecos          |
-|                |                | org.freedeskt  | REM            |
-|                |                | op.sssd.infopi | OTE_USER_GECOS |
-|                |                | pe.GetUserAttr |                |
-|                |                | gecos          |                |
-+----------------+----------------+----------------+----------------+
-| REMO           | domain the     |                |                |
-| TE_USER_DOMAIN | user was       |                |                |
-|                | authenticated  |                |                |
-|                | in (could be   |                |                |
-|                | the domain in  |                |                |
-|                | sssd, nss,     |                |                |
-|                | LDAP, etc.)    |                |                |
-+----------------+----------------+----------------+----------------+
-| REM            | user's email   | IPA attribute  | LookupUserAttr |
-| OTE_USER_EMAIL | address        | mail,          | mail           |
-|                |                | sssd-dbus      | REM            |
-|                |                | attribute mail | OTE_USER_EMAIL |
-+----------------+----------------+----------------+----------------+
-| REMOTE_US      | list of groups |                |                |
-| ER_GROUPS_JSON | the user is    |                |                |
-|                | in, formatted  |                |                |
-|                | as JSON string |                |                |
-+----------------+----------------+----------------+----------------+
-| REMOTE_        | user's first   | IPA attribute  | LookupUserAttr |
-| USER_FIRSTNAME | name           | givenname,     | givenname      |
-|                |                | sssd-dbus      | REMOTE_        |
-|                |                | attribute      | USER_FIRSTNAME |
-|                |                | givenname      |                |
-+----------------+----------------+----------------+----------------+
-| REMOTE_U       | user's middle  |                |                |
-| SER_MIDDLENAME | name           |                |                |
-+----------------+----------------+----------------+----------------+
-| REMOTE         | user's last    | IPA attribute  | LookupUserAttr |
-| _USER_LASTNAME | name           | sn, sssd-dbus  | sn             |
-|                |                | attribute sn   | REMOTE         |
-|                |                |                | _USER_LASTNAME |
-+----------------+----------------+----------------+----------------+
-| REMOTE         | user's full    | IPA attribute  | LookupUserAttr |
-| _USER_FULLNAME | name formatted | cn or          | cn             |
-|                | as one string  | displayname,   | REMOTE         |
-|                | (similar to    | sssd-dbus      | _USER_FULLNAME |
-|                | and possibly   | attribute cn   | or             |
-|                | the same as    | or displayname | LookupUserAttr |
-|                | REMO           |                | displayname    |
-|                | TE_USER_GECOS) |                | REMOTE         |
-|                |                |                | _USER_FULLNAME |
-+----------------+----------------+----------------+----------------+
-| REMOT          | organizational | IPA attribute  | LookupUserAttr |
-| E_USER_ORGUNIT | unit to which  | ou, sssd-dbus  | ou             |
-|                | the user       | attribute ou   | REMOT          |
-|                | belongs        |                | E_USER_ORGUNIT |
-+----------------+----------------+----------------+----------------+
-| REMOTE_US      | SID, GUID, or  | IPA attribute  | LookupUserAttr |
-| ER_EXTERNAL_ID | other unique   | ipaUniqueId,   | ipaUniqueId    |
-|                | identifier     | 389 DS         | REMOTE_US      |
-|                | from the       | attribute      | ER_EXTERNAL_ID |
-|                | external       | nsUniqueID, AD |                |
-|                | identity       | attribute      |                |
-|                | provider; used | objectSid      |                |
-|                | to reconcile   |                |                |
-|                | account after  |                |                |
-|                | login change   |                |                |
-+----------------+----------------+----------------+----------------+
-| EXTER          | when external  |                |                |
-| NAL_AUTH_ERROR | authentication |                |                |
-|                | fails (and     |                |                |
-|                | REMOTE_USER is |                |                |
-|                | not set), this |                |                |
-|                | variable can   |                |                |
-|                | contain error  |                |                |
-|                | describing the |                |                |
-|                | reason         |                |                |
-+----------------+----------------+----------------+----------------+
++-----------------------------------------------------------------------+----------------+----------------+----------------+
+| +----------------+----------------+----------------+----------------+ |                |                |                |
++=======================================================================+================+================+================+
+| Variable name                                                         | Semantics      | Possible       | Example        |
+|                                                                       |                | source         | `mod_l         |
+|                                                                       |                |                | ookup_identity |
+|                                                                       |                |                | <http://www.a  |
+|                                                                       |                |                | delton.com/apa |
+|                                                                       |                |                | che/mod_lookup |
+|                                                                       |                |                | _identity/>`__ |
+|                                                                       |                |                | configuration  |
+| +================+================+================+================+ |                |                |                |
+| REMO                                                                  | c              | POSIX call     | Look           |
+| TE_USER_GROUPS                                                        | olon-separated | getgrouplist;  | upOutputGroups |
+|                                                                       | list of group  | sssd dbus call | REMO           |
+|                                                                       | names the user | o              | TE_USER_GROUPS |
+|                                                                       | is in          | rg.freedesktop | :              |
+|                                                                       |                | .sssd.infopipe |                |
+|                                                                       |                | .GetUserGroups |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE                                                                | number of user | alternate way  | Lookup         |
+| _USER_GROUP_N,                                                        | groups and     | to get the     | UserGroupsIter |
+| REMOTE                                                                | individual     | list of        | REM            |
+| _USER_GROUP_1,                                                        | group names    | groups,        | OTE_USER_GROUP |
+| REMOTE                                                                |                | avoiding the   |                |
+| _USER_GROUP_2,                                                        |                | split needed   |                |
+| ...                                                                   |                | with           |                |
+|                                                                       |                | REMO           |                |
+|                                                                       |                | TE_USER_GROUPS |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REM                                                                   | Equivalent of  | pw_gecos field | L              |
+| OTE_USER_GECOS                                                        | the GECOS      | of result of   | ookupUserGECOS |
+|                                                                       | value from the | POSIX call     | REM            |
+|                                                                       | password file, | getpwname; IPA | OTE_USER_GECOS |
+|                                                                       | could be full  | attribute      | or             |
+|                                                                       | name.          | gecos, sssd    | LookupUserAttr |
+|                                                                       |                | dbus call      | gecos          |
+|                                                                       |                | org.freedeskt  | REM            |
+|                                                                       |                | op.sssd.infopi | OTE_USER_GECOS |
+|                                                                       |                | pe.GetUserAttr |                |
+|                                                                       |                | gecos          |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMO                                                                  | domain the     |                |                |
+| TE_USER_DOMAIN                                                        | user was       |                |                |
+|                                                                       | authenticated  |                |                |
+|                                                                       | in (could be   |                |                |
+|                                                                       | the domain in  |                |                |
+|                                                                       | sssd, nss,     |                |                |
+|                                                                       | LDAP, etc.)    |                |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REM                                                                   | user's email   | IPA attribute  | LookupUserAttr |
+| OTE_USER_EMAIL                                                        | address        | mail,          | mail           |
+|                                                                       |                | sssd-dbus      | REM            |
+|                                                                       |                | attribute mail | OTE_USER_EMAIL |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE_US                                                             | list of groups |                |                |
+| ER_GROUPS_JSON                                                        | the user is    |                |                |
+|                                                                       | in, formatted  |                |                |
+|                                                                       | as JSON string |                |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE\_                                                              | user's first   | IPA attribute  | LookupUserAttr |
+| USER_FIRSTNAME                                                        | name           | givenname,     | givenname      |
+|                                                                       |                | sssd-dbus      | REMOTE\_       |
+|                                                                       |                | attribute      | USER_FIRSTNAME |
+|                                                                       |                | givenname      |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE_U                                                              | user's middle  |                |                |
+| SER_MIDDLENAME                                                        | name           |                |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE                                                                | user's last    | IPA attribute  | LookupUserAttr |
+| _USER_LASTNAME                                                        | name           | sn, sssd-dbus  | sn             |
+|                                                                       |                | attribute sn   | REMOTE         |
+|                                                                       |                |                | _USER_LASTNAME |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE                                                                | user's full    | IPA attribute  | LookupUserAttr |
+| _USER_FULLNAME                                                        | name formatted | cn or          | cn             |
+|                                                                       | as one string  | displayname,   | REMOTE         |
+|                                                                       | (similar to    | sssd-dbus      | _USER_FULLNAME |
+|                                                                       | and possibly   | attribute cn   | or             |
+|                                                                       | the same as    | or displayname | LookupUserAttr |
+|                                                                       | REMO           |                | displayname    |
+|                                                                       | TE_USER_GECOS) |                | REMOTE         |
+|                                                                       |                |                | _USER_FULLNAME |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOT                                                                 | organizational | IPA attribute  | LookupUserAttr |
+| E_USER_ORGUNIT                                                        | unit to which  | ou, sssd-dbus  | ou             |
+|                                                                       | the user       | attribute ou   | REMOT          |
+|                                                                       | belongs        |                | E_USER_ORGUNIT |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| REMOTE_US                                                             | SID, GUID, or  | IPA attribute  | LookupUserAttr |
+| ER_EXTERNAL_ID                                                        | other unique   | ipaUniqueId,   | ipaUniqueId    |
+|                                                                       | identifier     | 389 DS         | REMOTE_US      |
+|                                                                       | from the       | attribute      | ER_EXTERNAL_ID |
+|                                                                       | external       | nsUniqueID, AD |                |
+|                                                                       | identity       | attribute      |                |
+|                                                                       | provider; used | objectSid      |                |
+|                                                                       | to reconcile   |                |                |
+|                                                                       | account after  |                |                |
+|                                                                       | login change   |                |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
+| EXTER                                                                 | when external  |                |                |
+| NAL_AUTH_ERROR                                                        | authentication |                |                |
+|                                                                       | fails (and     |                |                |
+|                                                                       | REMOTE_USER is |                |                |
+|                                                                       | not set), this |                |                |
+|                                                                       | variable can   |                |                |
+|                                                                       | contain error  |                |                |
+|                                                                       | describing the |                |                |
+|                                                                       | reason         |                |                |
+| +----------------+----------------+----------------+----------------+ |                |                |                |
++-----------------------------------------------------------------------+----------------+----------------+----------------+
+
 
 The character set for values should be UTF-8.
 

@@ -40,7 +40,7 @@ that a script fails it has to be rerun after fixing described issue.
 .. _smartcard_login_activation:
 
 Smartcard Login activation
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The main purpose of this script is to obtain all master's hostnames
 which are in topology and for each of them call 'ipa service-mod
@@ -49,7 +49,7 @@ to be called with authenticated user. Whether there is a correct ticket
 or not is the first check (step) of the script.
 
 OCSP
-~~~~
+----------------------------------------------------------------------------------------------
 
 The script for turning on the OSCP has to be sure that the
 ``ipa-ca.domain.com`` is resolvable because otherwise the issuing of
@@ -78,7 +78,7 @@ The reversal script for turning of OSCP check will do steps above in
 reversal order. The only thing which will be skipped is step 1.
 
 PKINIT
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 The script will check the PKINIT status on the master (e.g. by running
 ``ipa pkinit-status --server FQDN``) and if it is not configured, will
@@ -99,12 +99,10 @@ piped to a shell script that will configure the desired functionality on
 the master.
 
 UI
-~~
 
 No UI required.
 
 CLI
-~~~
 
 ``ipa-advise`` has new topics:
 
@@ -135,7 +133,7 @@ ipa-advise enable_client_certificate_logins_on_clients
 ========== ===========================================
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No configuration required.
 

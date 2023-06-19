@@ -82,7 +82,7 @@ Key Challenges
 .. _ldap_adapter_type:
 
 LDAP Adapter Type
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 While JIRA offers a wide range of LDAP Adapters, it does not (yet) offer
 a FreeIPA Adapter out of the box. We chose the Generic LDAP adapter, and
@@ -104,7 +104,7 @@ Other Candidate Adapters
 .. _rfc_schemas_freeipa_trees:
 
 RFC Schemas + FreeIPA Trees
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are several different LDAP RFC Schemas. FreeIPA uses the RFC
 2307bis schema (with users stored under ``cn=accounts, cn=users``), but
@@ -130,7 +130,7 @@ https://www.redhat.com/archives/freeipa-users/2015-June/msg00547.html
 .. _e_mail_attribute_and_bind_type:
 
 E-Mail Attribute and Bind Type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We managed to get users synced from FreeIPA, and able to authenticate
 and thus log in to JIRA fairly easily. However the email field was
@@ -154,7 +154,7 @@ Manager user!
 .. _replicating_users_and_groups:
 
 Replicating Users and Groups
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Users
 ^^^^^

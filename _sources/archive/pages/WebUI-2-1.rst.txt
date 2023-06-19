@@ -9,7 +9,7 @@ design documents for aspects of the 2.1 release.
 .. _entity_navigation:
 
 Entity Navigation
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The action panel on the left will be replaced with a third level of tabs
 and integrated support on the top.
@@ -21,7 +21,7 @@ The search box will be available from anywhere within the entity
 .. _entitlement_support:
 
 Entitlement support
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ability to register, view, and consume entitlements from a candlepin
 based server.
@@ -29,7 +29,7 @@ based server.
 .. _dns_enhancements:
 
 DNS Enhancements
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `DNS Plugin User Interface for
 2.1 <FreeIPAv2:DNS_Plugin_User_Interface_for_2.1>`__
@@ -40,7 +40,7 @@ along common use cases.
 .. _automount_support:
 
 Automount Support
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Automount support was originally slated for 2.0, but was cut due to time
 constraints.

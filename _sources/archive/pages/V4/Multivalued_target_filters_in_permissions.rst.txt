@@ -59,7 +59,7 @@ Design
 .. _multi_valued_ipapermtargetfilter:
 
 Multi-valued ipapermtargetfilter
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``ipapermtargetfilter`` attribute, and its corresponding
 ``rawfilter`` option, will become multi-valued. When more than one value
@@ -69,7 +69,7 @@ create the ACI.
 .. _multivalued___memberof:
 
 Multivalued --memberof
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently the ``--memberof`` option of ``permission-mod`` sets the
 targetfilter to ``(memberof=``\ *``groupname``*\ ``)``.
@@ -138,7 +138,7 @@ in the permission & ACI plugins).
 .. _raw_targetfilter_vs._extratargetfilter:
 
 Raw targetfilter vs. extratargetfilter
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In CLI, ``ipapermtargetfilter`` will be accessible as ``--rawfilter``.
 Setting the option affects the type & memberof virtual attributes. On
@@ -162,13 +162,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 The necessary UI design and changes should be done as part of
 `V3/Permissions V2 <V3/Permissions_V2>`__.
 
 CLI
-~~~
 
 Permission ``--memberof`` and ``--filter`` options will now accept
 multiple values.

@@ -13,7 +13,7 @@ related to upgrade process.
 .. _words_of_caution:
 
 Words of caution
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Note that the server is in a **maintenance mode** during upgrade and
    does not respond to requests!
@@ -29,7 +29,7 @@ Versioned upgrade notes
 .. _freeipa_3.3.0_or_newer:
 
 FreeIPA 3.3.0 or newer
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A FreeIPA server can be upgraded simply by installing updated rpms. The
 server does not need to be shut down in advance.
@@ -54,7 +54,7 @@ Conditions
 .. _freeipa_3.1.0___freeipa_3.3.0:
 
 FreeIPA 3.1.0 - FreeIPA 3.3.0
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A FreeIPA server can be upgraded simply by installing updated rpms. The
 server does not need to be shut down in advance. Note that the server is
@@ -79,7 +79,7 @@ Conditions
 .. _upgrade_in_special_environment_e.g._fedup:
 
 Upgrade in special environment (e.g. FedUp)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please note that if you are doing the upgrade in special environment
 (e.g. FedUp) which does not allow running the LDAP server during upgrade

@@ -161,7 +161,7 @@ user and machine.
 .. _order_of_operation:
 
 Order of operation
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The maps are a triple of (host, user, selinuxuser)
 
@@ -187,7 +187,7 @@ disabled then the rule is ignored.
 .. _evaluating_rules:
 
 Evaluating Rules
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When a user attempts to log in we'll know two things: the uid of the
 user logging in and the name of the host we're on.
@@ -228,7 +228,7 @@ Do this until the list is exhausted. The final state is the context to
 set.
 
 Examples
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 These rules are in the form (host, user, mapping).
 

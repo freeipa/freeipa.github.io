@@ -50,38 +50,36 @@ Feature Management
 ==================
 
 UI
---
 
 **TODO**
 
 CLI
----
 
 .. _ipa_certrequest_find_cahandle:
 
 ``ipa certrequest-find <cahandle>``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Search for or list pending certificate requests for the given CA.
 
 .. _ipa_certrequest_show_cahandle_requestid:
 
 ``ipa certrequest-show <cahandle> <requestId>``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Show detail of the given certificate request.
 
 .. _ipa_certrequest_approve_cahandle_requestid:
 
 ``ipa certrequest-approve <cahandle> <requestId>``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Approve the certificate request, resulting in certificate issuance.
 
 .. _ipa_certrequest_reject_profileid:
 
 ``ipa certrequest-reject <profileId>``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Reject the certificate request.
 

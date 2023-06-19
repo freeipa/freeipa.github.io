@@ -50,12 +50,10 @@ Feature Management
 ==================
 
 UI
---
 
 A prerequisite for other feature. No other direct impact.
 
 CLI
----
 
 Variations with following additional option variations of *group-find*
 command can be now executed:

@@ -44,7 +44,7 @@ code is checked to verify the check has passed. The command can also be
 issued manually on master.
 
 IPv4/IPv6
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The --master and --replica parameters support both hostnames and IP
 addresses. If an IP address is provided, then it will check that

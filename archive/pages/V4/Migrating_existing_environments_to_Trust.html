@@ -49,8 +49,9 @@ attributes.</p>
 </section>
 <section id="use-cases">
 <h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="store-posix-attributes-and-ssh-keys-for-ad-users">
-<span id="id1"></span><h2>Store POSIX attributes and SSH keys for AD users<a class="headerlink" href="#store-posix-attributes-and-ssh-keys-for-ad-users" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h1>Store POSIX attributes and SSH keys for AD users<a class="headerlink" href="#store-posix-attributes-and-ssh-keys-for-ad-users" title="Permalink to this heading">¶</a></h1>
 <p>Define POSIX attributes or SSH users for AD users and let them be
 applied when the AD user authenticates to <a class="reference external" href="Client">clients</a> running
 SSSD with <em>ID Views</em> support or via <a class="reference external" href="V3/Serving_legacy_clients_for_trusts">legacy compat LDAP
@@ -60,7 +61,7 @@ situation when Linux admins would like to manually define POSIX
 attributes for AD users, but AD policy do not allow it.</p>
 </section>
 <section id="migration-from-the-sync-to-the-trust-solution">
-<span id="id2"></span><h2>Migration from the Sync to the Trust solution<a class="headerlink" href="#migration-from-the-sync-to-the-trust-solution" title="Permalink to this heading">¶</a></h2>
+<span id="id2"></span><h1>Migration from the Sync to the Trust solution<a class="headerlink" href="#migration-from-the-sync-to-the-trust-solution" title="Permalink to this heading">¶</a></h1>
 <p>Utilize <em>ID Views</em> interface to configure needed POSIX attributes for
 existing users synchronized with <em>Winsync</em> and move them back to AD. The
 mechanism follows simple procedure:</p>
@@ -76,21 +77,21 @@ planned for next releases in ticket
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4524">#4524</a> }}</p>
 </section>
 <section id="per-hostgroup-override-of-freeipa-user-posix-attributes">
-<span id="id3"></span><h2>Per hostgroup override of FreeIPA user POSIX attributes<a class="headerlink" href="#per-hostgroup-override-of-freeipa-user-posix-attributes" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h1>Per hostgroup override of FreeIPA user POSIX attributes<a class="headerlink" href="#per-hostgroup-override-of-freeipa-user-posix-attributes" title="Permalink to this heading">¶</a></h1>
 <p>Use <em>ID Views</em> mechanism to override FreeIPA user POSIX attributes on
 specified servers that may not yet be using the unified domain ones.
 This option is useful for example for users migrated from NIS.</p>
 </section>
-</section>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="id-views">
-<span id="id4"></span><h2>ID Views<a class="headerlink" href="#id-views" title="Permalink to this heading">¶</a></h2>
+<span id="id4"></span><h1>ID Views<a class="headerlink" href="#id-views" title="Permalink to this heading">¶</a></h1>
 <p>A new concept of <em>ID Views</em> is introduced. Every ID View is a collection
 of user and group <em>overrides</em> that applies to specified hosts or as a
 default to all hosts. Each <em>override</em> is bound to an AD or IPA user.</p>
 <section id="user-overrides">
-<span id="id5"></span><h3>User Overrides<a class="headerlink" href="#user-overrides" title="Permalink to this heading">¶</a></h3>
+<span id="id5"></span><h2>User Overrides<a class="headerlink" href="#user-overrides" title="Permalink to this heading">¶</a></h2>
 <p>Following list of user attributes can be overridden in an <em>ID View</em>:</p>
 <ul class="simple">
 <li><p><strong>uid</strong>: user login name</p></li>
@@ -103,7 +104,7 @@ default to all hosts. Each <em>override</em> is bound to an AD or IPA user.</p>
 </ul>
 </section>
 <section id="group-overrides">
-<span id="id6"></span><h3>Group Overrides<a class="headerlink" href="#group-overrides" title="Permalink to this heading">¶</a></h3>
+<span id="id6"></span><h2>Group Overrides<a class="headerlink" href="#group-overrides" title="Permalink to this heading">¶</a></h2>
 <p>Following list of group attributes can be overridden in an <em>ID View</em>:</p>
 <ul class="simple">
 <li><p><strong>cn</strong>: group name</p></li>
@@ -112,7 +113,7 @@ default to all hosts. Each <em>override</em> is bound to an AD or IPA user.</p>
 </section>
 </section>
 <section id="data-flow">
-<span id="id7"></span><h2>Data Flow<a class="headerlink" href="#data-flow" title="Permalink to this heading">¶</a></h2>
+<span id="id7"></span><h1>Data Flow<a class="headerlink" href="#data-flow" title="Permalink to this heading">¶</a></h1>
 <p><img alt="User-views.png" src="../../../_images/User-views.png" /> In an environment with a <a class="reference external" href="Trusts">Trust</a>, the SSSD
 on the FreeIPA server reads the data from AD and immediately apply the
 overrides from the <em>default view</em> which are defined in the FreeIPA LDAP
@@ -123,7 +124,7 @@ have to read client specific view data on their own from the FreeIPA
 LDAP tree and apply them on their own.</p>
 </section>
 <section id="id-ranges">
-<span id="id8"></span><h2>ID Ranges<a class="headerlink" href="#id-ranges" title="Permalink to this heading">¶</a></h2>
+<span id="id8"></span><h1>ID Ranges<a class="headerlink" href="#id-ranges" title="Permalink to this heading">¶</a></h1>
 <p>ID ranges are used in FreeIPA to avoid collisions of POSIX IDs from
 different domains especially if the POSIX IDs are algorithmically
 generated. Although it would be possible to create a special range type
@@ -139,11 +140,11 @@ changing the offending POSIX ID. The requirement that the POSIX IDs used
 in the views must match given ranges would make this feature more
 cumbersome to use without adding additional protection.</p>
 </section>
-</section>
 <section id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="proposed-schema">
-<span id="id9"></span><h2>Proposed schema<a class="headerlink" href="#proposed-schema" title="Permalink to this heading">¶</a></h2>
+<span id="id9"></span><h1>Proposed schema<a class="headerlink" href="#proposed-schema" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line">`` attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME ‘ipaAnchorUUID’ DESC ‘Unique Anchor Identifier’ EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN ‘IPA v4’)``</div>
 <div class="line">`` attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME ‘ipaOriginalUid’ DESC ‘Original UID of overriden user’ EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN ‘IPA v4’)``</div>
@@ -155,7 +156,7 @@ cumbersome to use without adding additional protection.</p>
 </div>
 </section>
 <section id="container">
-<h2>Container<a class="headerlink" href="#container" title="Permalink to this heading">¶</a></h2>
+<h1>Container<a class="headerlink" href="#container" title="Permalink to this heading">¶</a></h1>
 <p>ID Views will be stored in containers below
 <code class="docutils literal notranslate"><span class="pre">cn=views,cn=accounts,$SUFFIX</span></code> with containers for users and groups.
 The objectclasses look similar to posixAccount and posixGroup
@@ -168,14 +169,14 @@ must use the compat tree.</p>
 well and the slapi-nis plugin for the compat tree.</p>
 </section>
 <section id="sssd">
-<h2>SSSD<a class="headerlink" href="#sssd" title="Permalink to this heading">¶</a></h2>
+<h1>SSSD<a class="headerlink" href="#sssd" title="Permalink to this heading">¶</a></h1>
 <p>On the SSSD side the override is done as late as possible. The AD users
 and group are looked up via the <em>extdom plugin</em> which return only the
 default view for any client. SSSD on the client will check which view
 the client should apply and load the overrides for the given view
 separately.</p>
 <section id="sssd-ipa-backend">
-<span id="id10"></span><h3>SSSD IPA backend<a class="headerlink" href="#sssd-ipa-backend" title="Permalink to this heading">¶</a></h3>
+<span id="id10"></span><h2>SSSD IPA backend<a class="headerlink" href="#sssd-ipa-backend" title="Permalink to this heading">¶</a></h2>
 <p>On startup the IPA backend has to look up the host entry of the client
 on the IPA server and determine the view for the client and save this
 information to the cache. If there is no entry the default view is
@@ -214,7 +215,7 @@ cover cases where the object is looked up by the name, but only the IDs
 are overridden.</p>
 </section>
 <section id="sssd-responders-nss-pam-infopipe-and-others">
-<span id="id11"></span><h3>SSSD responders (NSS, PAM, InfoPipe and others)<a class="headerlink" href="#sssd-responders-nss-pam-infopipe-and-others" title="Permalink to this heading">¶</a></h3>
+<span id="id11"></span><h2>SSSD responders (NSS, PAM, InfoPipe and others)<a class="headerlink" href="#sssd-responders-nss-pam-infopipe-and-others" title="Permalink to this heading">¶</a></h2>
 <p>If there are override values available for a requested object the
 responders must apply the overrides before returning the data to the
 clients.</p>
@@ -255,7 +256,7 @@ can be passed to the new sysdb calls to tell them if they could bypass
 the override lookups or not.</p>
 </section>
 <section id="sssd-ipa-server-mode">
-<span id="id12"></span><h3>SSSD (IPA server mode)<a class="headerlink" href="#sssd-ipa-server-mode" title="Permalink to this heading">¶</a></h3>
+<span id="id12"></span><h2>SSSD (IPA server mode)<a class="headerlink" href="#sssd-ipa-server-mode" title="Permalink to this heading">¶</a></h2>
 <p>The main purpose of the IPA server mode of SSSD is to look up the users
 and groups from the trusted domains so that they are available for
 standard POSIX calls like getpwnam().</p>
@@ -283,7 +284,7 @@ visible on call clients assigned to the xyz view as well.</p></li>
 </ul>
 </section>
 <section id="sssd-cache-layout">
-<span id="id13"></span><h3>SSSD Cache layout<a class="headerlink" href="#sssd-cache-layout" title="Permalink to this heading">¶</a></h3>
+<span id="id13"></span><h2>SSSD Cache layout<a class="headerlink" href="#sssd-cache-layout" title="Permalink to this heading">¶</a></h2>
 <p>The cached entry of an AD object on IPA clients and servers will contain
 both the original AD data and the override value from the default view.
 As show in the following figure.</p>
@@ -327,7 +328,7 @@ un-qualified override name to allow searches with those names as well).</p>
 </section>
 </section>
 <section id="slapi-nis-plugin-compat-tree">
-<span id="slapi-nis-plugincompat-tree"></span><h2>slapi-nis plugin/compat tree<a class="headerlink" href="#slapi-nis-plugin-compat-tree" title="Permalink to this heading">¶</a></h2>
+<span id="slapi-nis-plugincompat-tree"></span><h1>slapi-nis plugin/compat tree<a class="headerlink" href="#slapi-nis-plugin-compat-tree" title="Permalink to this heading">¶</a></h1>
 <p>The compat tree offers a simplified LDAP tree with user and group data
 for legacy clients. No data for this tree is stored on disk but it is
 always created on the fly. It has to be noted that legacy clients might
@@ -388,29 +389,25 @@ used to replace original memberUid value. Otherwise original memberUid
 value is copied over. This approach ensures memberUid values are correct
 with regards to the overrides of the current view.</p>
 </section>
-</section>
 <section id="feature-management">
 <h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
-<section id="ui">
-<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>UI</p>
 <section id="view-management">
-<span id="id14"></span><h3>View management<a class="headerlink" href="#view-management" title="Permalink to this heading">¶</a></h3>
+<span id="id14"></span><h2>View management<a class="headerlink" href="#view-management" title="Permalink to this heading">¶</a></h2>
 <p>A page to list all view and a page to change the attributes of the view
 object are needed (see CLI section below for details).</p>
 </section>
 <section id="management-of-the-overrides">
-<span id="id15"></span><h3>Management of the overrides<a class="headerlink" href="#management-of-the-overrides" title="Permalink to this heading">¶</a></h3>
+<span id="id15"></span><h2>Management of the overrides<a class="headerlink" href="#management-of-the-overrides" title="Permalink to this heading">¶</a></h2>
 <p>Default Trust View should prevent adding IPA users’ and groups’
 overrides, i.e. only AD users overrides can be added to Default Trust
 View.</p>
 <p>Additionally, Default Trust View itself should be protected from
 deletion.</p>
+<p>CLI</p>
 </section>
-</section>
-<section id="cli">
-<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
 <section id="view-management-1">
-<span id="id16"></span><h3>View management<a class="headerlink" href="#view-management-1" title="Permalink to this heading">¶</a></h3>
+<span id="id16"></span><h2>View management<a class="headerlink" href="#view-management-1" title="Permalink to this heading">¶</a></h2>
 <p>Views must be added, displayed, modified and deleted. Imo the object for
 the default view does not need any changes and should not be deleted, so
 the tool can reject any attempt to change the default view.</p>
@@ -418,7 +415,7 @@ the tool can reject any attempt to change the default view.</p>
 an IPA host.</p>
 </section>
 <section id="management-of-the-overrides-1">
-<span id="id17"></span><h3>Management of the overrides<a class="headerlink" href="#management-of-the-overrides-1" title="Permalink to this heading">¶</a></h3>
+<span id="id17"></span><h2>Management of the overrides<a class="headerlink" href="#management-of-the-overrides-1" title="Permalink to this heading">¶</a></h2>
 <p>It must be possible to add, display, modify and delete an override
 object for any trusted user or group in any view.</p>
 <p>Since user and groups have different attributes there should be a
@@ -498,12 +495,11 @@ override.</p></td>
 </section>
 </section>
 <section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
 <p>Feature is activated during <code class="docutils literal notranslate"><span class="pre">ipa-adtrust-install</span></code> given it mostly
 targets <a class="reference external" href="Trusts">trusted</a> users. The existence of the view container
 <code class="docutils literal notranslate"><span class="pre">cn=views,cn=accounts,$SUFFIX</span></code> is used as an indicator if the ID Views
 are enabled or not.</p>
-</section>
 </section>
 <section id="updates-and-upgrades">
 <h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
@@ -542,8 +538,9 @@ testing, or create a new one. We will use
 uid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com),1218200513(domain users@tbad.idm.lab.eng.brq.redhat.com)
 </pre></div>
 </div>
+</section>
 <section id="use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view">
-<span id="id18"></span><h2>Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View<a class="headerlink" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view" title="Permalink to this heading">¶</a></h2>
+<span id="id18"></span><h1>Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View<a class="headerlink" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view" title="Permalink to this heading">¶</a></h1>
 <p>Now, we can try to override a attribute for this testing user. We will
 use the ‘Default Trust View’, which is always applied for AD users and
 can only contain overrides for AD users and groups. Let’s change the UID
@@ -566,7 +563,7 @@ uid=5555(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=1218201156(testuser@tbad.
 <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">idoverrideuser-add</span> <span class="pre">--help</span></code>.</p>
 </section>
 <section id="use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view">
-<span id="id19"></span><h2>Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View<a class="headerlink" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view" title="Permalink to this heading">¶</a></h2>
+<span id="id19"></span><h1>Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View<a class="headerlink" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view" title="Permalink to this heading">¶</a></h1>
 <p>For host-specific views, we cannot use Default Trust View, since that
 one is not host specific, it is always applied. We add a new ID view
 using the <code class="docutils literal notranslate"><span class="pre">idview-add</span></code> command.</p>
@@ -614,7 +611,7 @@ uid=6666(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=5555(testuser@tbad.idm.la
 </div>
 </section>
 <section id="use-case-migration-from-the-sync-to-the-trust-solution">
-<span id="id20"></span><h2>Use Case: Migration from the Sync to the Trust solution<a class="headerlink" href="#use-case-migration-from-the-sync-to-the-trust-solution" title="Permalink to this heading">¶</a></h2>
+<span id="id20"></span><h1>Use Case: Migration from the Sync to the Trust solution<a class="headerlink" href="#use-case-migration-from-the-sync-to-the-trust-solution" title="Permalink to this heading">¶</a></h1>
 <p>To migrate from winsync to trusts you will need to take following steps:</p>
 <div class="line-block">
 <div class="line">`` 1. Create a trust with the synced domain``</div>
@@ -625,7 +622,6 @@ uid=6666(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=5555(testuser@tbad.idm.la
 </div>
 <p><a class="reference external" href="Category:FreeIPA_V4_Test_Plan">Category:FreeIPA V4 Test Plan</a>
 <a class="reference external" href="Category:FreeIPA_Test_Plan">Category:FreeIPA Test Plan</a></p>
-</section>
 </section>
 
 

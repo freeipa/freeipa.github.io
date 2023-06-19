@@ -88,7 +88,6 @@ The priority of choosing the ntp service is the following: chrony, ntpd,
 openntpd.
 
 CLI
----
 
 As stated above, you don’t need any other settings and flags in order to
 select the ntp service; the ntp module detects the time server

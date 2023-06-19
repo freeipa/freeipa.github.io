@@ -57,7 +57,6 @@ Feature Management
 ==================
 
 UI
-~~
 
 The UI will need a new field for the bind type.
 
@@ -66,7 +65,6 @@ setting non-default ``bindtype`` on permissions in privileges, should be
 disabled in the UI.
 
 CLI
-~~~
 
 See Design.
 

@@ -1,8 +1,6 @@
 Widgets
 =======
 
-````
-
 | ``ipa_widget``
 | `` + ipa_text_widget``
 | `` + ipa_checkbox_widget``
@@ -20,8 +18,6 @@ Widgets
 Sections
 ========
 
-````
-
 | ``ipa_details_section``
 | `` + ipa_details_list_section``
 | `` + ipa_hbac_details_general_section``
@@ -29,8 +25,6 @@ Sections
 
 Facets
 ======
-
-````
 
 | ``ipa_facet``
 | `` + ipa_association_facet``
@@ -49,7 +43,6 @@ Facets
 Entities
 ========
 
-````
 
 | ``ipa_entity``
 | `` + ipa_group``
@@ -61,7 +54,7 @@ Entities
 Dialogs
 =======
 
-````
+
 
 | ``ipa_dialog``
 | `` + ipa_add_dialog``
@@ -78,7 +71,7 @@ Dialogs
 Commands
 ========
 
-````
+
 
 | ``ipa_command``
 | `` + ipa_batch_command``

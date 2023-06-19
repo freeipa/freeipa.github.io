@@ -12,7 +12,7 @@ Design
 .. _ipa_client:
 
 IPA Client
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `IPA Client Design Overview <FreeIPAv2:IPA_Client_Design_Overview>`__
 -  `Service Controller
@@ -21,7 +21,7 @@ IPA Client
 .. _ipa_server:
 
 IPA Server
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _system_management:
 
@@ -116,7 +116,7 @@ Default configurations for IPA components
 .. _ipa_server_reference_pages:
 
 IPA Server Reference Pages
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Schema Available in DS in IPA
    v1 <http://freeipa.org/static/IPAV1Available.html>`__
@@ -127,7 +127,7 @@ User Interface Design
 ---------------------
 
 Usability
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Usability Testing
    Materials <FreeIPAv2:Usability_Testing_Materials>`__
@@ -136,12 +136,12 @@ Usability
 .. _design_1:
 
 Design
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `WebUI-2-1 <FreeIPAv2:WebUI-2-1>`__
 
 Testing
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `UI Unit Tests <FreeIPAv2:UI_Unit_Tests>`__
 -  `Selenium <FreeIPAv2:Selenium>`__
@@ -162,7 +162,7 @@ be buildable.
 .. _ipa_server_1:
 
 IPA Server
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The server using the new XML-RPC framework. This is the same repository
 as the V1 code. All work for V2 has been done in the master branch.
@@ -184,7 +184,7 @@ retrieve the file:
 .. _ipa_client_1:
 
 IPA Client
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The client components.
 
@@ -196,7 +196,7 @@ SSSD:
 .. _dns_integration_1:
 
 DNS integration
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _dynamic_loading_of_dlz_drivers:
 
@@ -255,7 +255,7 @@ Developer Documentation
 .. _documentation_repository:
 
 Documentation Repository
-^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------
 
 -  `Git doc repository for v2.1 and
    later <http://git.fedorahosted.org/git/?p=docs/freeipa-guide.git>`__

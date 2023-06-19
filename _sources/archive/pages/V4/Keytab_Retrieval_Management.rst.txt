@@ -34,7 +34,7 @@ expects principal and a list of user or groups which should be allowed
 .. _access_control:
 
 Access Control
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 New system permissions to allow non-admin users to manage keytab rights:
 
@@ -58,7 +58,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 User and Host details facets will be extended with association widgets.
 One for each combination of operation and entity:
@@ -74,7 +73,6 @@ One for each combination of operation and entity:
    -  User Groups
 
 CLI
-~~~
 
 | `` ipa host-allow-retrieve-keytab HOSTNAME --users=STR --groups=STR --hosts=STR --hostgroups=STR``
 | `` ipa host-disallow-retrieve-keytab HOSTNAME --users=STR --groups=STR --hosts=STR --hostgroups=STR``

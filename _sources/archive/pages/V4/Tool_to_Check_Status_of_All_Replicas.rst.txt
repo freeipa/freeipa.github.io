@@ -114,13 +114,11 @@ master server will be checked during replica installation. If entry for
 SNMP service will be present, then tool will be enabled.
 
 UI
---
 
 All command line possibilities can be accesible via web browser FreeIPA
 interface.
 
 CLI
----
 
 Command to gain information could be something like ipa replica-status .
 Command will use a net-snmp client, which sends a request to all agents

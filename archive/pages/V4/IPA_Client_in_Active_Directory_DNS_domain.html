@@ -45,14 +45,15 @@ migrating 10k client systems.</p>
 </section>
 <section id="use-cases">
 <h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="user-story">
-<h2>User Story<a class="headerlink" href="#user-story" title="Permalink to this heading">¶</a></h2>
+<h1>User Story<a class="headerlink" href="#user-story" title="Permalink to this heading">¶</a></h1>
 <p>As an Administrator with a big number of Linux machines in a DNS domain
 controlled by Active Directory, I want to join them to the IdM Server so
 that they can benefit from it’s Linux focused features.</p>
 </section>
 <section id="details">
-<h2>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h2>
+<h1>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h1>
 <p>Allow FreeIPA client to respond a host name in a DNS domain belonging to
 a domain from a trusted Active Directory forest.</p>
 <p>If Active Directory forest example.com uses DNS zone <em>example.com</em>, and
@@ -67,7 +68,6 @@ cannot be part of the Active Directory forest by itself, it should be
 possible to have a DNS host name for FreeIPA client as a part of a DNS
 domain of existing Active Directory domain and still allow single
 sign-on operations.</p>
-</section>
 </section>
 <section id="theory-and-practice-of-a-forest-trust-interaction">
 <span id="id1"></span><h1>Theory and practice of a forest trust interaction<a class="headerlink" href="#theory-and-practice-of-a-forest-trust-interaction" title="Permalink to this heading">¶</a></h1>
@@ -97,8 +97,9 @@ request to FreeIPA domain controller for a Kerberos service principal on
 a host within DNS zone owned by Active Directory. This means no Kerberos
 authentication is possible against such FreeIPA machines from Windows
 systems.</p>
+</section>
 <section id="a-subdomain-of-ad-that-only-has-ipa-machines">
-<span id="id2"></span><h2>A subdomain of AD that only has IPA machines<a class="headerlink" href="#a-subdomain-of-ad-that-only-has-ipa-machines" title="Permalink to this heading">¶</a></h2>
+<span id="id2"></span><h1>A subdomain of AD that only has IPA machines<a class="headerlink" href="#a-subdomain-of-ad-that-only-has-ipa-machines" title="Permalink to this heading">¶</a></h1>
 <p>What if there is a subdomain of Active Directory that only contains
 Linux machines enrolled into FreeIPA realm? In such case Active
 Directory needs to be told that this DNS domain belongs to FreeIPA. This
@@ -106,7 +107,7 @@ is done with the help of `ipa realmdomains-mod
 –add-domain=sub.ad.domain` and re-establishing trust to AD.</p>
 </section>
 <section id="enrolling-to-freeipa-realm">
-<span id="id3"></span><h2>Enrolling to FreeIPA realm<a class="headerlink" href="#enrolling-to-freeipa-realm" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h1>Enrolling to FreeIPA realm<a class="headerlink" href="#enrolling-to-freeipa-realm" title="Permalink to this heading">¶</a></h1>
 <p>When FreeIPA client <em>ipa-client.ipa.domain</em> is enrolled into FreeIPA
 realm, following is done:</p>
 <ol class="arabic simple">
@@ -254,15 +255,15 @@ of a Kerberos realm different to <em>EXAMPLE.COM</em> but a CNAME record
 <em>ipa-client.example.com</em> can point to A/AAAA DNS record
 <em>ipa-client.ipa.example.com</em> to allow Kerberos authentication.</p>
 </section>
-</section>
 <section id="possible-solutions">
 <span id="id4"></span><h1>Possible solutions<a class="headerlink" href="#possible-solutions" title="Permalink to this heading">¶</a></h1>
 <p>Depending on what is required to achieve, there are two solutions
 possible. In both cases we assume proper enrollment of the client to
 FreeIPA by means of <em>ipa-client-install</em> tool which would set up SSSD
 with ‘ipa’ identity provider.</p>
+</section>
 <section id="no-single-sign-on-required">
-<span id="id5"></span><h2>No single sign-on required<a class="headerlink" href="#no-single-sign-on-required" title="Permalink to this heading">¶</a></h2>
+<span id="id5"></span><h1>No single sign-on required<a class="headerlink" href="#no-single-sign-on-required" title="Permalink to this heading">¶</a></h1>
 <p>When no single sign-on (Kerberos authentication) required, we still
 should make sure Kerberos configuration is set up to allow SSSD to
 communicate with FreeIPA masters.</p>
@@ -302,7 +303,7 @@ Kerberos credentials obtained on the FreeIPA client as part of the
 OpenSSH logon can be used to authenticate against other Active Directory
 resources.</p>
 <section id="handling-of-ssl-certificates">
-<span id="id6"></span><h3>Handling of SSL certificates<a class="headerlink" href="#handling-of-ssl-certificates" title="Permalink to this heading">¶</a></h3>
+<span id="id6"></span><h2>Handling of SSL certificates<a class="headerlink" href="#handling-of-ssl-certificates" title="Permalink to this heading">¶</a></h2>
 <p>For SSL-based service protection (HTTPS, IMAPS, etc), a certificate with
 dNSName extension records covering all system hostnames is required due
 to the fact that both original (A/AAAA) and CNAME record names need to
@@ -335,7 +336,7 @@ mapping in <em>/etc/krb5.conf</em> above.</p>
 </section>
 </section>
 <section id="single-sign-on-required">
-<span id="id7"></span><h2>Single sign-on required<a class="headerlink" href="#single-sign-on-required" title="Permalink to this heading">¶</a></h2>
+<span id="id7"></span><h1>Single sign-on required<a class="headerlink" href="#single-sign-on-required" title="Permalink to this heading">¶</a></h1>
 <p>When single sign-on is required, moving FreeIPA client outside DNS zone
 <em>example.com</em> is the pre-requisite. A CNAME record
 <em>ipa-client.example.com</em> can then be created to point to the A/AAAA
@@ -353,7 +354,7 @@ be relaxed:</p>
 <p>For OpenSSH server there is a specific option <em>GSSAPIStrictAcceptorCheck
 no</em> to achieve the same.</p>
 <section id="handling-of-ssl-certificates-1">
-<span id="id8"></span><h3>Handling of SSL certificates<a class="headerlink" href="#handling-of-ssl-certificates-1" title="Permalink to this heading">¶</a></h3>
+<span id="id8"></span><h2>Handling of SSL certificates<a class="headerlink" href="#handling-of-ssl-certificates-1" title="Permalink to this heading">¶</a></h2>
 <p>For SSL-based service protection (HTTPS, IMAPS, etc), a certificate with
 dNSName extension records covering all system hostnames is required due
 to the fact that both original (A/AAAA) and CNAME record names need to
@@ -381,7 +382,6 @@ SSL certificate with dNSName extension record for
 <div class="line">``      -K <a class="reference external" href="mailto:host/ipa-client&#46;ipa&#46;example&#46;com&#37;&#52;&#48;IPA&#46;EXAMPLE&#46;COM">host/ipa-client<span>&#46;</span>ipa<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>IPA<span>&#46;</span>EXAMPLE<span>&#46;</span>COM</a> ``</div>
 <div class="line">``      -U id-kp-serverAuth``</div>
 </div>
-</section>
 </section>
 </section>
 

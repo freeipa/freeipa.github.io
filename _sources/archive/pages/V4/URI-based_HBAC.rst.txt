@@ -44,7 +44,7 @@ SSSD able to determine authorization based on it, and give services some
 way to communicate with SSSD in terms of URI-based HBAC.
 
 Schema
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 URI is a part of HBAC rule. It is interpreted as a prefix which decides
 whether the HBAC rule that would otherwise match (if it wasn't for this
@@ -90,7 +90,7 @@ IPA provider in SSSD.
    sssd_pam.png
 
 Evaluation
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are multiple possible approaches to comparing the requested
 resource's URI with URI in HBAC. In all of them, I use only the part of
@@ -118,7 +118,7 @@ of selecting HBAC rules to evaluate in terms of matching URI.
 .. _example___how_it_can_not_work:
 
 Example - how it can not work
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Consider webapp that has, among others, these pages:
 http://hostname.net/app/auth/user1 http://hostname.net/app/auth/user42
@@ -222,7 +222,7 @@ would be hardly accepted
 .. _example___how_it_works:
 
 Example - how it works
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Using the previous notion, we would in many cases create a pair of rules
 for subsets we wish to exclude some users from – an ALLOW rule allowing
@@ -267,7 +267,7 @@ allows admin access to http://hostname.net/app/auth/admin, the implicit
 DENY making this the exclusive access right for admin.
 
 Compatibility
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If there is no URI in PAM request, we match any HBAC rule that would
 match without this feature. In that case, we presume the application is
@@ -295,13 +295,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 There are two new fields in HBAC rule details for adding URI separated
 into two parts: scheme+host+port and path
 
 CLI
-~~~
 
 There are subcommands for "ipa" command to list and modify URI, these
 are generated automatically.

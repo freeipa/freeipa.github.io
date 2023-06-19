@@ -25,7 +25,7 @@ User stories
 .. _future_extensions:
 
 Future extensions
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  As FreeIPA administrator, I want to have ability to use DNS locations
    for location-awareness even though FreeIPA DNS is not used by my
@@ -50,7 +50,7 @@ Future extensions
 .. _external_dns_services_to_consider:
 
 External DNS services to consider
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 +------------------------------------+--------------------------------+
 | **Service**                        | **Expected difficulty**        |
@@ -145,7 +145,7 @@ Implementation
 .. _microsoft_dns_without_active_directory:
 
 Microsoft DNS without Active Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As far as I can tell, Windows DNS 2016 without AD does not support
 GSS-TSIG, I did not find any way to set plain TSIG, and it does not
@@ -159,7 +159,7 @@ not FreeIPA's bussiness.
 .. _microsoft_active_directory:
 
 Microsoft Active Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Windows DNS server integrated with AD supports
 `GSS-TSIG <https://technet.microsoft.com/en-us/library/cc961412.aspx>`__.
@@ -188,12 +188,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 How the feature will be managed via the Web UI.
 
 CLI
-~~~
 
 Overview of the CLI commands. Example:
 
@@ -207,7 +205,7 @@ Overview of the CLI commands. Example:
 +------------+--------------------------------------------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Any configuration options? Any commands to enable/disable the feature or
 turn on/off its parts?

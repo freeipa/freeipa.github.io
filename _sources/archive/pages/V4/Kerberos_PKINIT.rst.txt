@@ -110,7 +110,7 @@ Implementation
 .. _addition_of_a_special_profile_with_kerberos_kdc_specific_extensions:
 
 Addition of a special profile with Kerberos KDC specific extensions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A profile named **KDCs_PKINIT_Certs** is added to Dogtag and is loaded
 into the LDAP store by means of an upgrade script.
@@ -118,7 +118,7 @@ into the LDAP store by means of an upgrade script.
 .. _changes_to_certificate_management_plugin:
 
 Changes to certificate management plugin
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Certificate management plugin (`cert.py`) is changed to allow generating
 PKINIT-compatible certificate for KDC using the **KDCs_PKINIT_Certs**
@@ -134,7 +134,7 @@ As a result, each KDC will have own certificate issued for
 .. _creation_of_a_special_principal_for_anonymous_pkinit:
 
 Creation of a special principal for Anonymous PKINIT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A special principal, \`WELLKNOWN/ANONYMOUS@REALM`, is created during KDC
 configuration stage. A pre-authentication is set to be required for the
@@ -143,7 +143,7 @@ principal because PKINIT use requires pre-authentication mechanism.
 .. _freeipa_server_and_replica_installer_changes:
 
 FreeIPA server and replica installer changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 MIT Kerberos KDC can be built with either NSS and OpenSSL libraries for
 PKINIT support. Depending on the compile time default, when KDC is
@@ -161,7 +161,7 @@ support issuing certificates in ceparate private and public key files.
 
 
 Backup and Restore
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When backing the server up, KDC certificate pair needs to be backed up.
 When restoring, KDC certificate pair needs to be properly restored,
@@ -189,7 +189,7 @@ principal name. More details can be found in the PKINIT section of the
 **krb5.conf** manual page.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 [STRIKEOUT:For deployment with integrated CA PKINIT is always enabled.
 For deployments with external CA it is possible to supply externally
@@ -285,7 +285,7 @@ issuing self-signed PKINIT certificates.
 .. _update_sep_1_2017:
 
 Update Sep 1 2017
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Following information should be incorporated in the design page in order
 to be up to date with what was implemented in FreeIPA 4.5.x

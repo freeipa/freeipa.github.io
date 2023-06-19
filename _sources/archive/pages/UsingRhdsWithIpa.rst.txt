@@ -35,7 +35,7 @@ account.
 .. _dit_assumptions:
 
 DIT Assumptions
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The freeIPA DIT assumes the following:
 
@@ -62,7 +62,7 @@ instance that you can analyze and use as a basis for RHDS.
 .. _examining_the_dit:
 
 Examining the DIT
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **To examine the DIT, run the following command:**
 

@@ -24,7 +24,7 @@ Design
 .. _exteding_id_range_schema_to_support_various_types_of_id_ranges:
 
 Exteding ID Range schema to support various types of ID Ranges
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Schema
 ^^^^^^
@@ -58,7 +58,7 @@ This is enforced via CLI and UI validation, not in LDAP itself.
 .. _detecting_the_id_range_type_for_the_ad_trusted_domain:
 
 Detecting the ID range type for the AD trusted domain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To avoid the need of specifying the range parameters, such as type,
 range size and base, we query the AD DC.
@@ -151,7 +151,6 @@ Feature Management
 ==================
 
 UI
-~~
 
 TODO: **ipaRangeType** needs to be made available via UI.
 https://fedorahosted.org/freeipa/ticket/3759
@@ -160,12 +159,11 @@ TODO: **range_type** needs to be made available via UI.
 https://fedorahosted.org/freeipa/ticket/3049
 
 CLI
-~~~
 
 .. _idrange_add:
 
 idrange-add
-^^^^^^^^^^^
+-----------
 
 An *--type* option has been added to the *idrange-add* command. Note
 that *idrange-mod* does not have this option. Since *--type* corrseponds
@@ -175,7 +173,7 @@ values for **ipaRangeType** attribute.
 .. _trust_add:
 
 trust-add
-^^^^^^^^^
+---------
 
 An *--range-type* option has been added to the *trust-add* command. All
 range types except *ipa-local* are allowed as values. Further validation

@@ -34,7 +34,7 @@ version of FreeIPA an all the participating domain controllers.
 .. _domain_level_compliance:
 
 Domain Level Compliance
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Checking if the Domain Level can be upgraded relies on the ability to
 check if all servers in the Domain satisfy minimum requirements that
@@ -60,7 +60,7 @@ various distributions.
 .. _raising_the_domain_level:
 
 Raising the Domain Level
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A CLI/UI command will be provided to allow raising the Domain Level.
 This command will embed the knowledge necessary to determine if an
@@ -78,7 +78,7 @@ cannot be easily undone.
 .. _effects_of_a_raise_in_level_on_the_domain:
 
 Effects of a raise in level on the Domain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 All servers MUST monitor the Domain Level attribute. Upon replication if
 the Domain Level is raised then all server features that are affected by
@@ -100,7 +100,7 @@ that will require a domain level change.
 .. _storing_domain_levels:
 
 Storing Domain levels
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Domain levels supported by the server should be stored in the server
 record and automatically updated during upgrade. The level is stored in
@@ -116,18 +116,16 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Add page for setting the domain level to Server Configuration tab.
 
 CLI
-~~~
 
 There should be a command to raise *global* domain level. Server
 supported domain level(s) is automated, based on server version.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Presence of domain level is mandatory for all servers since the initial
 version.

@@ -37,7 +37,7 @@ To always have verbose mode set on the client, create
 | ``verbose=True``
 
 Merging
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The order that file configuration files are read is:
 

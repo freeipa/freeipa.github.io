@@ -11,7 +11,7 @@ Use Cases
 .. _ipa_ca_install:
 
 IPA CA install
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Allow installing the IPA CA on top of an existing CA-less deployment.
 
@@ -69,17 +69,15 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 N/A
 
 Installers
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `the design <#Design>`__.
 

@@ -5,7 +5,7 @@ Overview
 others
 
 Forewords
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is a new proposal (Jan 2013) to support Location Based discovery in
 FreeIPA. It was inspired by `this <FreeIPAv2:DNS_Location_Discovery>`__
@@ -17,7 +17,7 @@ different FreeIPA DNS servers, that are local to the location being
 considered.
 
 Introduction
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Service Discovery is a process whereby a client uses information stored
 in the network to find servers that offer a specific service. It is
@@ -114,7 +114,7 @@ Assumptions
 .. _current_use_of_srv_records:
 
 Current use of SRV records
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Client queries for SRV records located in the domain/realm
 (``example.com`` in the following example) and gets back all servers.
@@ -153,7 +153,7 @@ Design (so-called DNAME per client)
 .. _the_discovery_protocol:
 
 The Discovery Protocol
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The main point about this protocol is the recognition that all we really
 need is to find a specific (set of) server(s) that a specific client
@@ -183,7 +183,7 @@ SRV Records and otherwise adds little overhead.
 .. _client_implementation:
 
 Client Implementation
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Because currently used SRV records are multiple and to allow the case
 where a host may actually be using a domain name that is also already
@@ -227,7 +227,7 @@ information.
 .. _server_side_implementation:
 
 Server side implementation
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _basic_solution:
 
@@ -404,7 +404,7 @@ code a lot more compicated and critical.
 .. _overall_implementation_proposal:
 
 Overall implementation proposal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Given that the basic solution is relatively simple and require minimal
 if no client changes we should consider implementing at least part of
@@ -419,7 +419,7 @@ freeipa framework to mark and group clients and locations.
 .. _security_considerations6:
 
 Security Considerations
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 TBD
 
@@ -468,7 +468,7 @@ Zone file sizes:
 | ``10097345  nodname.db.signed``
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Version 1 of this proposal introduces separate sets of SRV records for
 each location.
@@ -545,7 +545,7 @@ Following diagram summarizes proposed behavior (version 1):
 .. _comparison_with_microsoft_active_directory_sites:
 
 Comparison with Microsoft Active Directory Sites
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Some administrators might be familiar with concept of `Active Directory
 Sites <https://technet.microsoft.com/en-us/library/cc754697.aspx>`__.
@@ -597,17 +597,15 @@ Implementation
 TBD
 
 UI
-~~
 
 TBD
 
 CLI
-~~~
 
 TBD
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 TBD
 

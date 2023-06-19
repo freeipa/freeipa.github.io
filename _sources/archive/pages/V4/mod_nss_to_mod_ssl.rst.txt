@@ -38,7 +38,7 @@ The certificate and private key will be stored in
 .. _new_install:
 
 New install
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Installing a new server using mod_ssl is likely to be conceptually
 simpler than the upgrade case but the vast majority of the support code
@@ -60,7 +60,7 @@ The tasks roughly break down into:
 .. _upgrading_an_existing_installation:
 
 Upgrading an existing installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Upgrading is going to be fragile in cases where users have modified
 nss.conf for their own purposes. There is no plan currently to try to
@@ -84,7 +84,7 @@ backup/restore as well.
 .. _ipa_server_certinstall:
 
 ipa-server-certinstall
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Will need to change to handle file-based certificates. This will likely
 end up as copying files to the proper location(s) in the filesystem.
@@ -92,7 +92,7 @@ end up as copying files to the proper location(s) in the filesystem.
 
 
 Backup and Restore
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA typically doesn't allow one to backup and restore different versions
 but code will be needed to catch the case where a user forces the issue.
@@ -100,7 +100,7 @@ Some mechanism would be needed to detect this case and call the upgrade
 script in this case.
 
 certmonger
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Parallel changes are going to be required in certmonger because it uses
 the Apache mod_nss database as its source of CA trust. It may be that
@@ -109,7 +109,7 @@ using OpenSSL. This is TBD. Great care will be needed to ensure that
 updated certmonger will continue to work with older IPA.
 
 FIPS
-~~~~
+----------------------------------------------------------------------------------------------
 
 NSS can detect when FIPS is enabled and automatically enable the NSSFIPS
 option in mod_nss. It remains to be seen what if anything will need to
@@ -119,7 +119,7 @@ that can be set.
 .. _open_questions:
 
 Open questions
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 After an upgrade, should we delete the Server-Cert from /etc/httpd/alias
 to avoid confusion? It might be wise to leave it available for the
@@ -150,17 +150,15 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 N/A
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Replace:
 
@@ -220,7 +218,7 @@ TBD: Add sample of a properly tracked mod_ssl cert
 .. _new_installations:
 
 New installations
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No user-provided options should impact functionality.
 
@@ -228,7 +226,7 @@ No user-provided options should impact functionality.
 -  Install CA-less
 
 Upgrades
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  In-place upgrade from F-26
 -  In-place upgrade from F-27
@@ -236,7 +234,7 @@ Upgrades
 .. _creating_replicas_from_mod_nss_to_mod_ssl_masters:
 
 Creating replicas from mod_nss to mod_ssl masters
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Create replica from DL0 master
 
@@ -251,12 +249,12 @@ Creating replicas from mod_nss to mod_ssl masters
 .. _replacing_certificates:
 
 Replacing certificates
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Use ipa-server-certinstall to replace the Apache cert
 
 Renewal
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Move time to near expiration of the PEM-based certificates and force a
 renewal and ensure that:
@@ -268,13 +266,13 @@ renewal and ensure that:
 This will need to be done for the new install and upgrade cases.
 
 KRA
-~~~
+----------------------------------------------------------------------------------------------
 
 -  Test basic vault operations (TBD)
 -  KRA REST operations
 
 Uninstall
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ssl.conf is restored
 -  nss.conf is restored if previously installed

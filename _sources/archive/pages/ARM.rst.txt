@@ -27,7 +27,7 @@ new timeout. Add an override file and pass this in via
 --pki-config-override. The override file will consist of:
 
 | ``[DEFAULT]``
-| ``startup_timeout=900 ``
+| startup_timeout=900 
 
 This alone is not sufficient. You'll also need to increase the startup
 timeout for systemd.

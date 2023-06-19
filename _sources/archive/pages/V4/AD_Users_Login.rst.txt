@@ -46,18 +46,16 @@ Feature Management
 ------------------
 
 UI
-~~
 
 New menu specification for AD users which shows idoverrideuser facet
 with changed titles to 'Profile'.
 
 CLI
-~~~
 
 No CLI.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each AD user which wants to log in into FreeIPA WebUI has to have
 created idoverrideuser.

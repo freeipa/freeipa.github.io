@@ -35,7 +35,7 @@ Use Cases
 .. _catastrophic_hardware_failure_on_a_machine.:
 
 Catastrophic hardware failure on a machine.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Backup would be full-metal or VM snapshot
 -  Restore would be full-metal or restore VM snapshot
@@ -61,7 +61,7 @@ this case a re-init would be required.
 .. _failed_upgrade_on_an_isolated_machine.:
 
 Failed upgrade on an isolated machine.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The OS is still fine but the IPA data is somehow corrupted in such a way
 that you want to restore to a known good state.
@@ -78,7 +78,7 @@ state <V3/Backup_and_Restore#Returning_to_a_known_good_state>`__
 .. _restore_accidentally_deleted_data:
 
 Restore Accidentally deleted data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This will need to be covered separately. There are currently no tools or
 processes for restoring individual LDAP entries. This will be
@@ -93,7 +93,7 @@ investigated with help from the 389-ds team. The issues are:
 .. _returning_to_a_known_good_state:
 
 Returning to a known good state
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Because we lack the ability to restore individual entries, the most that
 one can do is restore to a last known good state. This requires that ALL
@@ -115,7 +115,7 @@ Design
 .. _basic_process:
 
 Basic Process
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As stated previously, there are four basic types of backup/restore, of
 which we will provide scripts/process for two.
@@ -132,7 +132,7 @@ This design covers only the middle two.
 .. _full_ipa_backup:
 
 Full IPA backup
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _files_for_full_ipa_backup:
 
@@ -186,7 +186,7 @@ match the data (e.g. IPA is configured to start bind but the bind
 packages aren't installed). This can be a future enhancement.
 
 LDAP
-~~~~
+----------------------------------------------------------------------------------------------
 
 The db2bak method should be used to perform the LDAP backup. This will
 also back up (and can restore) the changelog. The scripts provided by
@@ -241,7 +241,7 @@ installed) or both the IPA (userRoot) and dogtag (ipara) backends.
 .. _file_naming_convention:
 
 File Naming Convention
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Files will be stored in /var/lib/ipa/backup
 
@@ -262,7 +262,7 @@ ipa-data--%Y-%m-%d-%H-%M-%S.bak
 .. _version_wrapper:
 
 Version wrapper
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We will want to maintain some metadata with each backup file. I propose
 we include:
@@ -284,7 +284,7 @@ Data restore should be allowed on any host.
 .. _restore_validation:
 
 Restore Validation
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Backing up is easy, restoring is hard, especially verifying that you
 actually backed everything up (and restored it properly).
@@ -319,7 +319,7 @@ masters will need to be reinitialized from the restored master:
 ``# ipa-replica-manage re-initialize --from=``
 
 Replication
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Because we are going to backup and restore the changelog we should be ok
 when it comes to replication.
@@ -347,7 +347,7 @@ This could potentially strand a number of servers.
 
 
 External Impact
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The sssd service will need a restart. If the assumption is that the
 server is not in a known good state then it would be good practice to
@@ -360,7 +360,7 @@ include other daemons.
 .. _more_on_partial_restores:
 
 More on partial restores
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Quite a bit of infrastructure is required to be able to pick and choose
 what to restore from a backup. In order to provide per-entry restoration
@@ -381,7 +381,7 @@ groups and groups can be members of other objects (HBAC, sudo, etc) we
 need to restore that as well.
 
 Qualifying
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Here is a list of some things to test
 
@@ -396,7 +396,7 @@ Here is a list of some things to test
 .. _open_questions:
 
 Open Questions
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _size_of_backup:
 
@@ -437,7 +437,7 @@ Implementation
 .. _full_restore:
 
 Full Restore
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If you do a full backup without the logs and do a restoration into a FS
 that doesn't have an installed IPA server then tomcat will not stop.
@@ -446,7 +446,7 @@ the instance creation process. If the directory structure is created
 manually then things will work.
 
 Uninstall
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The backup files are NOT removed on uninstall. When it comes to data, I
 prefer not to delete things automatically.
@@ -454,7 +454,7 @@ prefer not to delete things automatically.
 .. _development_notes_semi_interesting_testing:
 
 Development notes (semi-interesting testing)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As part of developing the backups I tried a couple of fairly outlandish
 things. Here are those things and the outcomes. I'm not sure if these
@@ -512,7 +512,7 @@ that certmonger could fix all the certs for us using: ipa-getcert
 resubmit.
 
 References
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Administration_Guide/Populating_Directory_Databases-Backing_Up_and_Restoring_Data.html#Backing_Up_and_Restoring_Data-Restoring_Databases_That_Include_Replicated_Entries
 -  https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Administration_Guide/Managing_Replication-Initializing_Consumers.html#Initializing_Consumers-Filesystem_Replica_Initialization
@@ -523,14 +523,12 @@ Feature Management
 ------------------
 
 UI
-~~
 
 The backup/restore commands will need to be executed as root so it is
 unlikely that system backup/recovery can be managed from the UI. It
 could also represent a chicken-and-egg problem on restoration.
 
 CLI
-~~~
 
 There will be two basic, standalone commands:
 
@@ -576,7 +574,7 @@ Full list of files and directories to back up
 ---------------------------------------------
 
 Directories
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  /usr/share/ipa/html
 -  /etc/pki-ca
@@ -591,7 +589,7 @@ Directories
 -  /var/lock/dirsrv
 
 Files
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  /etc/named.conf
 -  /etc/sysconfig/pki-ca
@@ -638,7 +636,7 @@ Files
 -  /var/lib/dirsrv/slapd-PKI-IPA
 
 Logs
-~~~~
+----------------------------------------------------------------------------------------------
 
 This is a mix of files and directories
 
@@ -707,7 +705,7 @@ How to Test
 .. _general_test_outline:
 
 General test outline
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Install server
 -  Do a LDAP search for ``uid=admin,cn=users,cn=accounts,$SUFFIX``. Note
@@ -726,7 +724,7 @@ General test outline
 .. _test_full_backup_and_restore:
 
 Test Full Backup and Restore
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The "Do backup & restore" steps are:
 
@@ -737,7 +735,7 @@ The "Do backup & restore" steps are:
 .. _test_backup_and_restore_with_removed_users:
 
 Test Backup and Restore with Removed Users
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The "Do backup & restore" steps are:
 
@@ -753,7 +751,7 @@ At the end of the test, remove user ``ipatest_user1``
 .. _test_backup_and_restore_with_selinux_booleans_off:
 
 Test Backup and Restore with SELinux Booleans Off
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The "Do backup & restore" steps are:
 
@@ -768,7 +766,7 @@ After restoring, check that the above booleans are on.
 .. _test_backup_and_restore_from_heavily_upgraded_instance:
 
 Test Backup and Restore from heavily upgraded instance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Start with a master that has been in-place-upgraded since there was a
 separate 389-ds instance for IPA.
@@ -782,7 +780,7 @@ Backup and Restore is NOT a method of eliminating that extra instance.
 .. _data_backup_only:
 
 Data backup only
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ``ipa-backup --data``
 -  Add a new user
@@ -792,7 +790,7 @@ Data backup only
 .. _online_data_restore:
 
 Online data restore
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ``ipa-backup --data``
 -  Add a new user
@@ -803,7 +801,7 @@ Online data restore
 .. _encryptiondecryption_of_backup_files:
 
 Encryption/decryption of Backup files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ``ipa-backup --gpg --gpg-keyring=/path/to/keyring``
 -  ``ipa-server-install --uninstall -U``
@@ -812,7 +810,7 @@ Encryption/decryption of Backup files
 .. _clientreplica_installation_with_restored_master:
 
 Client/Replica installation with restored Master
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ``ipa-backup``
 -  ``ipa-restore``

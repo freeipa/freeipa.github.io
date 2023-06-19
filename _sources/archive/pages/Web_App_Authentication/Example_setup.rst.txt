@@ -209,7 +209,7 @@ retrieve with curl using
 .. _successful_negotiate:
 
 Successful Negotiate
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We can restart the Apache now
 
@@ -279,7 +279,7 @@ No login form will be shown.
 .. _failed_negotiate:
 
 Failed Negotiate
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Note the ErrorDocument client-side redirect to **/application/login2**
 -- it is there as a fallback to the login form in case the user has no
@@ -437,7 +437,7 @@ will still fail and logon form will be shown.
 .. _access_control_with_user_groups_using_pam_access:
 
 Access control with user groups using pam_access
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The host-based access control (HBAC) in IPA can control access of users
 to services running on various hosts. The HBAC rules can use user groups
@@ -527,7 +527,7 @@ database first and then create session for this new user.
 .. _additional_attributes:
 
 Additional attributes
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Applications expect not just the login name of a user to be present --
 they might need their email address to send them notifications, they
@@ -688,7 +688,7 @@ http://www.freeipa.org/page/Environment_Variables#Proposed_Additional_Variables.
 .. _application_level_roles:
 
 Application-level roles
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Web applications make it very easy to handle and add new users but most
 applications will sooner or later need to start distinguishing different
@@ -737,7 +737,7 @@ additional attributes need to be handled separately. For example, when
 mod_proxy_ajp is used to hand over the request from Apache to tomcat,
 only REMOTE_USER and then environment variables that start with AJP\_
 are passed. So the environment variables populated by
-mod_lookup_identity need to be prefixed with AJP_. In Apache
+mod_lookup_identity need to be prefixed with AJP\_. In Apache
 configuration:
 
 ::
@@ -764,7 +764,7 @@ breaching the authentication/access control:
      RequestHeader set X-THE-USER-EMAIL %{REMOTE_USER_EMAIL}e env=REMOTE_USER_EMAIL
 
 On the application end, in case of CGI script, the incoming HTTP request
-headers are presented as environment variables prefixed with HTTP_, with
+headers are presented as environment variables prefixed with HTTP\_, with
 dashes turned into underscores, so the application code would need to be
 along the lines of
 

@@ -30,7 +30,7 @@ on authconfig.
 .. _package_dependency:
 
 Package dependency
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA currently has a dependency on authconfig package (freeipa-client
 package).
@@ -38,7 +38,7 @@ package).
 .. _client_installation:
 
 Client installation
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently authconfig is triggered during client install to:
 
@@ -79,7 +79,7 @@ authconfig, other distributions must implement their own routines to
 configure the authentication mechanisms.
 
 Backup/restore
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The commands ipa-backup and ipa-restore both need to save/restore the
 current configuration. ipa-backup is calling:
@@ -96,7 +96,7 @@ to restore the saved configuration.
 .. _ipa_advise_plugins:
 
 ipa-advise plugins
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ipa-advise command provides configuration advices for various use cases.
 For instance, ipa-advise config-server-for-smart-card-auth produces a
@@ -122,7 +122,7 @@ Design
 .. _general_decisions:
 
 General decisions
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  As authselect may not be available on all distributions, we need to
    keep the same strategy as implemented by the current code: rely on
@@ -146,7 +146,7 @@ General decisions
 .. _new_client_installation:
 
 New client installation
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently, the algorithm for PAM stack configuration is the following:
 
@@ -207,7 +207,7 @@ approach: append (or replace) the ``NISDOMAIN=value`` line in the file
 .. _client_uninstallation:
 
 Client uninstallation
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The client uninstallation needs to revert the system to the same state
 as before client install. In order to do this, the client installation
@@ -231,7 +231,7 @@ sssd profile without any feature.
 .. _new_server_installation:
 
 New server installation
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The server-specific install code is not impacted by this migration (only
 the client-part of the installation is).
@@ -239,7 +239,7 @@ the client-part of the installation is).
 
 
 Backup and restore
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Backup
 ^^^^^^
@@ -272,7 +272,7 @@ with a warning. Unattended restore will fail.
 .. _ipa_advise_plugins_1:
 
 ipa-advise plugins
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _config_client_for_smart_card_auth_plugin:
 
@@ -309,7 +309,7 @@ ipa-advise can be generated on a recent FreeIPA server and run on a
 RHEL5 system, meaning that we can keep them.
 
 Upgrade
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _migration_for_older_clients:
 
@@ -383,7 +383,7 @@ They can be run on fedora-based distributions.
 .. _upgrade_1:
 
 Upgrade
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  upgrade must keep the mkhomedir flag (if the server was installed
    with --mkhomedir, then the authselect config obtained after upgrade
@@ -395,7 +395,7 @@ Upgrade
 .. _new_installations:
 
 New installations
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  new client installation must install the sssd profile, with or
    without the with-mkhomedir feature (depending on the presence of

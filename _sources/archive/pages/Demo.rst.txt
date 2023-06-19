@@ -71,7 +71,7 @@ To test the Web UI, simply go to the hostname link above, log in and
 click around! To test integration with a personal system, follow a few
 easy steps:
 
-.. _install_required_packages:
+
 
 1. Install required packages
 ----------------------------

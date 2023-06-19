@@ -21,7 +21,7 @@ Use Cases
 .. _smart_card_authentication:
 
 Smart Card Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is the primary use case for this feature. FreeIPA administrators
 should be able to issue Smart Cards (or X509 certificates in general) to
@@ -42,7 +42,7 @@ to FreeIPA and if it is available before hand at all.
 .. _client_certificate_authentication:
 
 Client Certificate Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `PKI <PKI>`__ needs to be able to issue user certificates that can be
 used for user certificate authentication against server, for example to
@@ -53,7 +53,7 @@ used for user certificate authentication against server, for example to
 .. _smime_and_user_signing_certificates:
 
 S/MIME and User Signing Certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Certificates can be used not only for user authentication, but also for
 signing (`S/MIME <http://en.wikipedia.org/wiki/S/MIME>`__). Mail user
@@ -84,7 +84,7 @@ the proposed use cases:
 .. _storing_user_certificates:
 
 Storing User Certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Service and Host certificates are currently stored in the entries
 themselves, when the certificate is request by the ``cert-request``
@@ -112,7 +112,7 @@ stored in user entry.
 .. _searching_certificates_by_clients:
 
 Searching Certificates by Clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In both cases, when (user) certificate is stored in an entry or not,
 clients searching user authenticating with such certificate (read -
@@ -164,7 +164,7 @@ attributes* option.
 .. _certificate_identity_mapping:
 
 Certificate Identity Mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As noted in the *Match on custom certificate attributes* option, admin
 should be able to specify custom rules for extracting the selected
@@ -223,7 +223,7 @@ combination of the fields for the matching.
 .. _changes_to_certificate_bookkeeping:
 
 Changes to Certificate Bookkeeping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This design changes the default expectation of current cert management
 API for hosts and services as it always expected ``userCertificate`` to
@@ -261,7 +261,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 When viewing an active user's entry in FreeIPA WebUI the number of
 certificates issued to the user will be displayed along with a button to
@@ -275,7 +274,6 @@ when a suitable `Certificate Profile <V4/Certificate_Profiles>`__ to
 handle this task is configured.
 
 CLI
-~~~
 
 Both ``userCertificate`` values for externally issued certificates and
 the special matching attribute (``ipaUserCertMatch``) can be added with
@@ -304,7 +302,7 @@ Base64 encoded blob between ``-----BEGIN CERTIFICATE-----`` and
 multiple certificates in one call.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A **per certificate profile configuration** (`Certificate Profile
 design <V4/Certificate_Profiles>`__) should be added, allowing admin
@@ -336,7 +334,7 @@ How to Test
 .. _using_freeipadogtag_pki_to_issue_user_certificates:
 
 Using FreeIPA/Dogtag PKI to issue user certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  create/import a new certificate profile for handling requests for
    user certificates. For quick testing of the feature you can just
@@ -405,7 +403,7 @@ Tweedale <https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom
 .. _using_cli_commands_to_manager_user_certificates:
 
 Using CLI commands to manager user certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  generate one or more self-signed certificates using e.g. OpenSSL
 
@@ -488,7 +486,7 @@ Using CLI commands to manager user certificates
 .. _using_sssd_to_lookup_users_by_certificate:
 
 Using SSSD to lookup users by certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Starting with `version
 1.13.0 <https://fedorahosted.org/sssd/wiki/Releases/Notes-1.13.0>`__
@@ -524,7 +522,7 @@ them. To test this feature *sssd-dbus* package must be installed.
 .. _use_case_smart_card_authentication_using_sssd_and_freeipa:
 
 Use case: smart card authentication using SSSD and FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Nathan Kinder put together blog series focused on practical provisioning
 of Smart Cards using OpenSC and testing it with FreeIPA:

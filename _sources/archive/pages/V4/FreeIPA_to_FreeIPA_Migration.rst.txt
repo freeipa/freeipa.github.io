@@ -25,7 +25,7 @@ Use Cases
 .. _user_stories:
 
 User stories
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As a company manager, I want to modernize name of the company and change
 domain accordingly to maintain uniformity. In such a case, I want to be
@@ -113,12 +113,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Web UI management for this feature is not yet considered.
 
 CLI
-~~~
 
 TODO
 
@@ -129,7 +127,7 @@ Command Options Description
 ======= ======= ===========
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA must be installed and migration enabled on target server:
 

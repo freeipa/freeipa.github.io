@@ -8,7 +8,7 @@ Fine-grained access to parts of the DIT
 We need to be able to say WHO can do WHAT to WHOM
 
 Writes
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 The WHO can be:
 
@@ -33,7 +33,7 @@ The WHOM can be:
 -  self
 
 Reads
-~~~~~
+----------------------------------------------------------------------------------------------
 
 Any user can read any other user or group. This is simply the unix way.
 Some attributes such as password will always be protected. This was
@@ -48,7 +48,7 @@ We will not by default grant read access to:
 
 
 Other rights
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The interesting rights that 389 DS provides that IPA would use are:
 read, write, add, delete, search, and selfwrite.
@@ -56,7 +56,7 @@ read, write, add, delete, search, and selfwrite.
 
 
 Anonymous Access
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently there is read access to the entire subtree (minus a few
 important attributes like userPassword) for anonymous users. In order to
@@ -81,7 +81,7 @@ From a high level we will:
 
 
 Task Groups and ACIs
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For the purposes of this discussion one task == one ACI "group". These
 groups will be stored outside of cn=accounts so they don't interfere
@@ -112,7 +112,7 @@ The ACIs will be stored in cn=accounts, the same way as in v1.
 
 
 Role Groups
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We will also have role groups. A role is a collection of tasks or other
 roles. These will be things like helpdesk, user admin, group admin,
@@ -156,7 +156,7 @@ in the IPA world.
 
 
 The bottom line
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  An ACI grants permissions to a task group. There is a single ACI for
    each task group. One may group ACIs together by adding their task
@@ -167,7 +167,7 @@ The bottom line
 
 
 ACI Details
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An ACI is made up 3 major components that we're interested in:
 
@@ -316,7 +316,7 @@ And add that role to the task for changing passwords:
 .. _use_cases11:
 
 Use Cases
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 
 
@@ -373,7 +373,7 @@ Additional UI Capabilities Needed
 
 
 Delegate anything
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  add users/groups/systems/other
 -  delete users/groups/systems/other
@@ -384,7 +384,7 @@ Delegate anything
 
 
 New ACI Parser
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  a fuller ACI class that can handle more complex syntax
 
@@ -396,7 +396,7 @@ New ACI Parser
 
 
 UI Requirements
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 It is difficult to select an individual ACI over LDAP. What we will do
 instead is slurp in all of them and prove that to the UI to display.
@@ -493,7 +493,7 @@ These would be for v3 or beyond.
 
 
 Limit Bind Rules
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We can add on additional bind rules for making changes if desired by:
 

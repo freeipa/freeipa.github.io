@@ -87,13 +87,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 How the feature will be managed via the UI will be handled in ticket
 2792
 
 CLI
-~~~
 
 The feature affects the following commands: ipa user-unlock ipa
 user-status

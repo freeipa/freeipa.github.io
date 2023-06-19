@@ -37,7 +37,7 @@ The image above represent the final architecture implementing external
 authentication.
 
 Workflows
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The classic workflow where mod_auth_gssapi obtains a ticket and stores
 it in a credential cache to be used by the ipa sever framework changes
@@ -92,7 +92,7 @@ Applications operations
 .. _main_changes:
 
 Main Changes
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A few key changes to the current FreeIPA framework setup are needed:
 
@@ -139,18 +139,16 @@ Feature Management
 ------------------
 
 UI
-~~
 
 How the feature will be managed via the Web UI.
 
 CLI
-~~~
 
 Authntication plugins for the CLI are TBD, the first goal is to get the
 browser workflow working.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Any configuration options? Any commands to enable/disable the feature or
 turn on/off its parts?

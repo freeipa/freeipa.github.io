@@ -36,7 +36,7 @@ Internal Logic
 --------------
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The Monitor service for the SSSD will maintain its configuration within
 an LDB database. Available configuration options for the Monitor will
@@ -58,7 +58,7 @@ For further detail, see the Configuration Store section below.
 .. _service_control:
 
 Service Control
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 At startup, the Monitor service will fork off each of the enabled SSSD
 services into their own, managed child process. Each child process will
@@ -78,7 +78,7 @@ may trigger the service to shut down completely.
 .. _service_monitoring:
 
 Service Monitoring
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The child services will be monitored in two ways.
 
@@ -98,7 +98,7 @@ Appendix
 .. _configuration_store:
 
 Configuration Store
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The configuration store can will be represented by LDB which give a
 flexibility of the memory mapped LDAP. The structure of the
@@ -125,7 +125,7 @@ Further configuration options pending.
 .. _d_bus_methods:
 
 D-BUS Methods
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Services
 ^^^^^^^^

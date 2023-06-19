@@ -53,7 +53,7 @@ default targeted type in RHEL6.
 .. _default_ssl_apache_config:
 
 Default SSL apache config
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Before carrying out configuration of the web server on a system with
 ipa-admintools:
@@ -135,7 +135,7 @@ any problems here then backtrack and amend before proceeding.
 .. _adding_namebased_virtual_sites_with_ssl:
 
 Adding NameBased Virtual Sites with SSL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To allow IPA to handle the certificates there's some work that needs to
 be carried out in the IPA topology before the web server is further
@@ -245,7 +245,7 @@ server as required.
 .. _adding_kerberos_authentication_to_the_sites:
 
 Adding kerberos authentication to the sites
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With the sites having communication to the clients encrypted with SSL
 authentication can then be added. This authentication can be added

@@ -29,7 +29,7 @@ Configuring Solaris 10 as an IPA Client
 .. _pamldapkrb5_configuration:
 
 PAM/LDAP/KRB5 configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 /etc/hosts should contain the fully-qualified name of the IPA Solaris
 client
@@ -134,7 +134,7 @@ on the Solaris machine as /etc/krb5/krb5.keytab
 .. _nfs_v4_configuration_only_solaris_10:
 
 NFS v4 Configuration (only Solaris 10)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. On the IPA server, Obtain a Kerberos ticket for the **admin** user.
 
@@ -252,7 +252,7 @@ You can use the following command to test the configuration:
     # mount -F nfs -o vers=4 -o sec=krb5 ipaserver.example.com:/ /data
 
 Troubleshooting
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. If the **mount** command hangs and you see this error:
 

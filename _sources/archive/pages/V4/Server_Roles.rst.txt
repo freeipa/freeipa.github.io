@@ -39,7 +39,7 @@ Design
 .. _server_roles:
 
 Server Roles
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The systemd-service -> server role mapping will be done entirely by the
 python code which will consume existing service entries and map them to
@@ -92,7 +92,7 @@ enabled/configured roles.
 .. _server_attributes:
 
 Server Attributes
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each server may have one or more attributes described a more specific
 functionality provided by one or more masters fulfilling the role: e. g.
@@ -126,7 +126,7 @@ role, e.g. setting 'CA renewal master' attribute on a server without CA
 role will raise an error.
 
 Implementation
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The feature will be implemented in the following steps:
 
@@ -172,8 +172,7 @@ Feature Management
 
 .. _web_ui:
 
-Web UI
-~~~~~~
+Web UI~
 
 WebUI will feature a new ``IPA server -> Topology -> Server roles``
 section, which will display a list of all server roles. Each role will
@@ -192,7 +191,6 @@ each master after clicking the node. This may be implemented later
 during 4.5 development timeframe.
 
 CLI
-~~~
 
 .. _enhanced_commands:
 

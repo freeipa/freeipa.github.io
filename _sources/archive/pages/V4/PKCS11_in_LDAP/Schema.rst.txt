@@ -45,7 +45,7 @@ Attribute types
 .. _uniqued_identifier:
 
 Uniqued identifier
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ipk11UniqueId
 
@@ -61,7 +61,7 @@ Uniqued identifier
 .. _common_metadata:
 
 Common metadata
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Metadata attributes common to multiple object classes.
 
@@ -227,7 +227,7 @@ Metadata attributes common to multiple object classes.
 .. _certificate_metadata:
 
 Certificate metadata
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Metadata attributes specific to certificates.
 
@@ -290,7 +290,7 @@ Metadata attributes specific to certificates.
 .. _common_key_metadata:
 
 Common key metadata
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Metadata attributes common to all key object classes.
 
@@ -344,7 +344,7 @@ Metadata attributes common to all key object classes.
 .. _public_key_metadata:
 
 Public key metadata
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Metadata attributes specific to public and secret keys.
 
@@ -406,7 +406,7 @@ Metadata attributes specific to public and secret keys.
 .. _private_key_metadata:
 
 Private key metadata
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Metadata attributes specific to private and secret keys.
 
@@ -534,7 +534,7 @@ Metadata attributes specific to private and secret keys.
 .. _encoded_key_data:
 
 Encoded key data
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In PKCS#11 objects are defined as sets of attributes, but for keys and
 certificates there should be the possibility to store the complete
@@ -581,7 +581,7 @@ entity in one attribute in a specific format.
 .. _wrapping_key_reference:
 
 Wrapping key reference
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ipaWrappingKey
 
@@ -628,7 +628,7 @@ Object classes
 .. _structural_object_class:
 
 Structural object class
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For use in a PKCS#11 only database a structural objectclass is defined.
 
@@ -645,7 +645,7 @@ For use in a PKCS#11 only database a structural objectclass is defined.
 .. _storage_objects:
 
 Storage objects
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This schema defines a mapping of PKCS#11 storage object classes
 CKO_CERTIFICATE, CKO_PUBLIC_KEY and CKO_PRIVATE_KEY. These objectclasses
@@ -745,7 +745,7 @@ are auxiliary and can be used to extend other objects.
 .. _encoded_key_data_1:
 
 Encoded key data
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ipaPublicKeyObject
 
@@ -800,7 +800,7 @@ PKCS#11 mapping
 .. _attribute_types_1:
 
 Attribute types
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Boolean attributes
 
@@ -1194,7 +1194,7 @@ CKM_RSA_PKCS_OAEP_TPM_1_1          rsaPkcsOaepTpm11
 .. _object_classes_1:
 
 Object classes
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `ipk11X509Certificate <#Storage_objects>`__
 
@@ -1609,7 +1609,7 @@ LDAP. Default values depend on LDAP object classes present in the
 object.
 
 ipk11publickey
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ================== =====
 Attribute          Value
@@ -1627,7 +1627,7 @@ ipk11wrap          False
 ================== =====
 
 ipk11privatekey
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ======================= =====
 Attribute               Value
@@ -1650,7 +1650,7 @@ ipk11wrapwithtrusted    False
 ======================= =====
 
 ipk11secretkey
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ======================= =====
 Attribute               Value

@@ -65,7 +65,7 @@ following subsections.
 .. _freeipa_must_manage_dogtag_acls_that_refer_to_freeipa_entities:
 
 FreeIPA must manage Dogtag ACLs that refer to FreeIPA entities
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When authorising operations for externally-authenticated principals,
 Dogtag looks up an ``IAuthzManager`` plugin instance based on the realm
@@ -85,7 +85,7 @@ later in this document.
 .. _freeipa_must_configure_dogtag_to_perform_cert_request_validation_and_authorisation:
 
 FreeIPA must configure Dogtag to perform cert request validation and authorisation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently, certificates are requested with the RA Agent credential.
 FreeIPA-defined certificate profiles are configured to use the
@@ -156,7 +156,7 @@ are no old servers in the topology.
 .. _domain_level_2:
 
 Domain Level 2
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The way to solve this challenge is to introduce a new *domain level* (at
 time of writing, this will be DL 2). It is not possible to upgrade to a
@@ -205,7 +205,7 @@ Server configuration changes
 ----------------------------
 
 SSSD
-~~~~
+----------------------------------------------------------------------------------------------
 
 The ``sssd-dbus`` package, which provides the *InfoPipe* D-Bus
 responder, is required.
@@ -234,7 +234,7 @@ seems to have special treatment and does not result in the required
 behaviour.
 
 SELinux
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 SELinux must be configured to allow Apache to query the SSSD InfoPipe.
 
@@ -243,7 +243,7 @@ SELinux must be configured to allow Apache to query the SSSD InfoPipe.
    $ sudo setsebool -P httpd_dbus_sssd 1
 
 httpd
-~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``mod_lookup_identity`` package is required.
 
@@ -292,7 +292,7 @@ configured to present a certificate will still do so.
 .. _pki_tomcatd:
 
 ``pki-tomcatd``
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``pki-tomcatd`` deployment must be updated to accept external
 authentication. In ``/etc/pki/pki-tomcat/server.xml``:
@@ -306,7 +306,7 @@ authentication. In ``/etc/pki/pki-tomcat/server.xml``:
      address=&quot;localhost&quot; /&gt;
 
 ``CS.cfg``
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``/etc/pki/pki-tomcat/{ca,kra}/CS.cfg`` must be updated to define an
 ``IAuthzManager`` plugin instance for the FreeIPA realm.

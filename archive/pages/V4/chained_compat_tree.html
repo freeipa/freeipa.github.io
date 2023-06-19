@@ -69,8 +69,9 @@ entries</em> or <em>duplicated twin entries</em>.</p>
 <strong>ipaca</strong>.</p>
 <p><strong>ipaca</strong> contains the certificate information and is not impacted by
 this design.</p>
+</section>
 <section id="containers">
-<h3>containers<a class="headerlink" href="#containers" title="Permalink to this heading">¶</a></h3>
+<h2>containers<a class="headerlink" href="#containers" title="Permalink to this heading">¶</a></h2>
 <p><strong>userRoot</strong> DIT has multiple containers: <strong>users</strong>, <strong>groups</strong>,
 <strong>hosts</strong>, <strong>computers</strong>, <strong>sudo rules</strong>, <strong>hbac rules</strong>… and a
 special container <strong>compat</strong>. All containers are stored in LDAP DB files
@@ -91,7 +92,7 @@ The entries in that container <strong>are not</strong> replicated to the others
 servers, instead each server manage its own set of mapped entries.</p>
 </section>
 <section id="schema-compat-container">
-<span id="id2"></span><h3>Schema Compat container<a class="headerlink" href="#schema-compat-container" title="Permalink to this heading">¶</a></h3>
+<span id="id2"></span><h2>Schema Compat container<a class="headerlink" href="#schema-compat-container" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>compat</strong> container stores entries into in-memory maps</p>
 <p>The entries can be retrieved with LDAP search. LDAP search request can
 lookup the original entry (i.e.
@@ -114,7 +115,7 @@ groups or computers) that is mapped</p>
 </figure>
 </section>
 <section id="formating-keyword-deref">
-<span id="id3"></span><h3>Formating keyword: deref<a class="headerlink" href="#formating-keyword-deref" title="Permalink to this heading">¶</a></h3>
+<span id="id3"></span><h2>Formating keyword: deref<a class="headerlink" href="#formating-keyword-deref" title="Permalink to this heading">¶</a></h2>
 <p>A <strong>Formating definition</strong> contains a set <a class="reference external" href="https://www.freeipa.org/page/FreeIPAv2:Schema_Compatibility_Plug-in_Design#Back_End">format
 specifiers</a>.
 The specifier <em>schema-compat-entry-attribute</em> describes with <em>keywords</em>
@@ -138,7 +139,6 @@ users/groups/computer that are in the DB</strong>.</p>
 </figcaption>
 </figure>
 </section>
-</section>
 <section id="primary-instance">
 <span id="id4"></span><h2>Primary instance<a class="headerlink" href="#primary-instance" title="Permalink to this heading">¶</a></h2>
 <p>Because of performance (no index) and robustness (deadlocks) concerns,
@@ -151,8 +151,9 @@ secondary.</p>
 <p><span class="caption-text">GC_slapi_nis_img_sec_inst_overview.png</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
+</section>
 <section id="compat-chained-backend">
-<span id="id5"></span><h3>Compat chained backend<a class="headerlink" href="#compat-chained-backend" title="Permalink to this heading">¶</a></h3>
+<span id="id5"></span><h2>Compat chained backend<a class="headerlink" href="#compat-chained-backend" title="Permalink to this heading">¶</a></h2>
 <p>The compat containers on the primary instance are chained to the
 secondary instance.</p>
 <p>All operations are replayed on the secondary instance. Write operation
@@ -165,7 +166,6 @@ secondary instance TBD. ACI evaluation is done locally
 mostly rely on group membership and we do not want to provision
 groups/users on secondary instance.</p>
 </section>
-</section>
 <section id="secondary-instance">
 <span id="id6"></span><h2>Secondary instance<a class="headerlink" href="#secondary-instance" title="Permalink to this heading">¶</a></h2>
 <p>A secondary instance will run with RFC 2307 schema. This instance will
@@ -174,8 +174,9 @@ duplicate/transformed from entries that are in the primary instance
 (posix schema). Only few containers entries (users, groups and
 computers) from the primary instance are stored in the secondary
 instance.</p>
+</section>
 <section id="rfc2307-map-plugin">
-<span id="id7"></span><h3>RFC2307 map plugin<a class="headerlink" href="#rfc2307-map-plugin" title="Permalink to this heading">¶</a></h3>
+<span id="id7"></span><h2>RFC2307 map plugin<a class="headerlink" href="#rfc2307-map-plugin" title="Permalink to this heading">¶</a></h2>
 <p>The original entries, that are updated on the primary instance, are
 retrieved with a sync-repl lookup. There is <strong>one sync-repl</strong> instance
 <strong>per</strong> container (in the figure above only <em>users</em> container is
@@ -241,13 +242,13 @@ kind of RUV</p></li>
 </ul>
 </section>
 <section id="compat-backend">
-<span id="id8"></span><h3>compat backend<a class="headerlink" href="#compat-backend" title="Permalink to this heading">¶</a></h3>
+<span id="id8"></span><h2>compat backend<a class="headerlink" href="#compat-backend" title="Permalink to this heading">¶</a></h2>
 <p>The compat backend on the secondary instance is read-only. Internal
 updates to that backend will need the flag
 <em>SLAPI_OP_FLAG_BYPASS_REFERRALS</em>.</p>
 </section>
 <section id="formating-keyword-deref-1">
-<span id="id9"></span><h3>Formating keyword deref<a class="headerlink" href="#formating-keyword-deref-1" title="Permalink to this heading">¶</a></h3>
+<span id="id9"></span><h2>Formating keyword deref<a class="headerlink" href="#formating-keyword-deref-1" title="Permalink to this heading">¶</a></h2>
 <p>The formating <strong>deref</strong> keyword is an expensive keyword. It was already
 an expensive keyword when Schema compat plugin was running on primary
 instance. It will also be expensive with the proposed design.</p>
@@ -295,7 +296,6 @@ plugin should use the appropriate flag</p></li>
 <li><p>provision the remote ‘dc=compat,’ with a sync_repl (prefered)</p></li>
 <li><p>change the name ‘primary/secondary’ into posix/rfc2307 instance</p></li>
 </ul>
-</section>
 </section>
 </section>
 

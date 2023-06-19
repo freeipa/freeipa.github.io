@@ -67,7 +67,6 @@ Feature Management
 ------------------
 
 CLI
-~~~
 
 .. _dnszone_add:
 
@@ -144,7 +143,6 @@ The IPA server hostname is removed from all NS records in IPA managed
 DNS zones (including records outside of the zone apex).
 
 UI
-~~
 
 -  Hide ``--ip-address`` field in adding new zone dialog
 -  Hide ``--admin-email`` field in adding new zone dialog
@@ -166,7 +164,7 @@ Test Plan
 .. _adding_zone:
 
 Adding zone
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  IPA servers with DNS: ipa-dns1.example.com, ipa-dns2.example.com)
 -  IPA servers without DNS: ipa.example.com
@@ -298,7 +296,7 @@ Add zone with relative admin-email
 .. _modifying_zone:
 
 Modifying zone
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Zone *zone.test.* exists with values:
 
@@ -374,7 +372,7 @@ Modify zone with relative admin-email
 .. _install_serverreplica:
 
 Install server/replica
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Command: ``ipa-server-install --setup-dns`` or
    ``ipa-replica-install --setup-dns`` or ``ipa-dns-install``
@@ -384,7 +382,7 @@ Install server/replica
 .. _remove_replica:
 
 Remove replica
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Command: ``ipa-replica-manage del replica.example.com``
 -  Assumption: replica is with DNS installation

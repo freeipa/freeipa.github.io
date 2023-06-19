@@ -8,7 +8,7 @@ other.
 .. _dnssec_zone_signing:
 
 DNSSEC zone signing
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DNSSEC zone signing allows protect your DNS records. IPA supports zone
 signing without additional manual configuration. You just need to set up
@@ -19,7 +19,7 @@ to be signed using ``dnszone-mod example.com. --dnssec=true`` command.
 .. _dnssec_records_validation:
 
 DNSSEC records validation
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DNSSEC records validation allows to validate signed DNS records from
 other servers to protect you against spoofed addresses. IPA installer
@@ -41,7 +41,7 @@ Use Cases
 .. _zone_records_signing:
 
 Zone records signing
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA allows to enable zones signing per zone. IPA automatically does the
 most of steps that had to be done manually before.
@@ -63,7 +63,7 @@ work <Troubleshooting#DNSSEC_signing_does_not_work>`__.
 .. _records_validation:
 
 Records validation
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Record validation is done by the BIND server itself.
 
@@ -95,7 +95,7 @@ following way:
 .. _adding_forwarders:
 
 Adding forwarders
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the DNSSEC validation is enabled, forwarders must support DNSSEC.
 
@@ -110,7 +110,7 @@ Support <https://fedorahosted.org/bind-dyndb-ldap/wiki/BIND9/Design/DNSSEC/Keys/
 (Low level)
 
 Schema
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Logical structure of entries is listed
 `here <https://fedorahosted.org/bind-dyndb-ldap/wiki/BIND9/Design/DNSSEC/Keys/Shortterm#LDAPschema>`__.
@@ -123,7 +123,7 @@ Schema for keys is defined `here <PKCS11_in_LDAP/Schema>`__.
 .. _detection_if_forwarders_are_dnssec_capable:
 
 Detection if forwarders are DNSSEC capable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Detection was improved in **IPA 4.2**, this section describes IPA 4.2
 only.
@@ -131,7 +131,7 @@ only.
 .. _global_forwarders:
 
 Global forwarders
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Check is done against the root zone.
 
@@ -156,7 +156,7 @@ Check is done against the root zone.
 .. _forward_zones:
 
 Forward zones
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Check is done against the forward zone. Check consists of 2 steps:
 
@@ -214,7 +214,7 @@ Implementation
 .. _how_dns_zone_gets_signed_in_ipa:
 
 How DNS zone gets signed in IPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. **All DNS replicas** During replica installation, a keypair is
    generated in local HSM and public key is then stored into LDAP.
@@ -274,7 +274,7 @@ How DNS zone gets signed in IPA
 .. _softhsm_configuration:
 
 SoftHSM configuration
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each replica creates own local SoftHSM storage. IPA uses own
 configuration of SoftHSM. To access right database you need to configure
@@ -299,7 +299,7 @@ SoftHSM tokens are stored in directory:
 .. _opendnssec_configuration:
 
 OpenDNSSEC configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 OpenDNSSEC is required only at IPA DNSSEC master server.
 
@@ -323,7 +323,7 @@ Default values can be changed in *kasp.xml* file
 .. _directory_permissions:
 
 Directory permissions
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DNSSEC related files has to be accessible for several daemons, under
 **ods** (openddnssec) and **named** user. Following list shows required
@@ -347,7 +347,7 @@ directory to proper mode, owner and group.
 .. _ldap_default_pkcs11_values:
 
 LDAP default PKCS#11 values
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  IPA PKCS#11 schema: `V4/PKCS11 in
    LDAP/Schema <V4/PKCS11_in_LDAP/Schema>`__
@@ -422,7 +422,7 @@ CKA_WRAP           ipk11Wrap          true
 .. _dnssec_master_key_attributes:
 
 DNSSEC Master Key Attributes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Master key is generated only by IPA DNSSEC Master server, with following
 values (default values are not listed):
@@ -446,7 +446,7 @@ attribute **CKA_WRAP** to **false**.
 .. _replica_keys_attributes:
 
 Replica Keys Attributes
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each replica generates own replica key pair during install (upgrade)
 with following values (attributes with default values are not listed):
@@ -501,7 +501,7 @@ Private keys should stay unchanged, to allow unwrap already wrapped keys
 in LDAP.
 
 Dependencies
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Softhsm > 2
 -  opendnssec
@@ -509,7 +509,7 @@ Dependencies
 
 
 Backup and Restore
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Following directories/files must be backed up:
 
@@ -539,12 +539,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 Enabling DNSSEC signing:
 
@@ -556,7 +554,7 @@ Disabling DNSSEC signing:
 -  ``ipa dnszone-mod --dnssec=false``
 
 Installers
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Install DNSSEC master:
 
@@ -571,7 +569,7 @@ Reenable DNSSEC master (**IPA 4.2**):
 -  ``ipa-dns-install --dnssec-master --kasp-db=<path to kasp.db file from disabled master>``
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 N/A
 
@@ -598,14 +596,14 @@ Test Plan
 ---------
 
 Prerequisites
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 QE is going to need DNS servers which has option "dnssec-enable yes;" in
 named.conf. This option has to be enabled on the whole chain of
 forwarders used by testing machines.
 
 Tests
-~~~~~
+----------------------------------------------------------------------------------------------
 
 Integration `DNSSEC
 test <https://git.fedorahosted.org/cgit/freeipa.git/tree/ipatests/test_integration/test_dnssec.py>`__

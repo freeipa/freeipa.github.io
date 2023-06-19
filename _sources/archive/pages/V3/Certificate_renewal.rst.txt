@@ -177,7 +177,7 @@ Short term plan
 ---------------
 
 Warn
-~~~~
+----------------------------------------------------------------------------------------------
 
 certmonger can track certificates and make a note into a file what
 certificate(s) need to be renewed. IPA can read this file and display
@@ -201,7 +201,7 @@ Medium term plan
 ----------------
 
 Renew
-~~~~~
+----------------------------------------------------------------------------------------------
 
 certmonger will be trained to talk directly to the CA and can renew all
 but the CA root certificate. This renewal will only happen on the master
@@ -255,7 +255,7 @@ Long term plan
 .. _renewing_the_ca_certificate:
 
 Renewing the CA certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Renewing the CA is a special case because it will require refreshing all
 clients and servers in IPA. The renewal process is expected always to be
@@ -267,7 +267,7 @@ handled by SSSD.
 .. _subordinate_ca_renewal:
 
 Subordinate CA renewal
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the CA is installed as a subordinate of another then by definition
 this is going to be a manual renewal process. The same problems of
@@ -281,7 +281,7 @@ Special cases
 .. _rekeying_the_ca:
 
 Rekeying the CA
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Rekeying of the CA requires a new CA install. This may also be
 necessary/desired as the CA ages and certificates are revoked, unused,
@@ -291,7 +291,7 @@ the old one and slowly migrate all users to the new one.
 .. _rekeying_a_server_cert:
 
 Rekeying a server cert
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If an IPA service wants new keys it can do this now using either
 certmonger or can generate a CSR and use the ipa cert-request command.

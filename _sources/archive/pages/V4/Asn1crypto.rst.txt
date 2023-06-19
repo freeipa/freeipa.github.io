@@ -35,7 +35,7 @@ Implementation
 --------------
 
 asn1crypto
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA can be ported to asn1crypto now. X.509 parsing is stable.
 asn1crypto 0.22 has `known
@@ -44,7 +44,7 @@ Kerberos' ASN.1 data that contains explicit application tags. It only
 affects *python-kdcproxy*. The issue will be solved soonish.
 
 FreeIPA
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Four modules must be ported:
 
@@ -57,14 +57,14 @@ and some additional places that import PyASN1Error. asn1crypto simply
 raises ValueError in case of an error.
 
 kdcproxy
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The *python-kdcproxy* package also depends on pyasn1. The next release
 will have support for *asn1crypto*, too. Progress is track
 `upstream <https://github.com/latchset/kdcproxy/issues/33>`__.
 
 Dependencies
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Add *python[23]-asn1crypto*
 -  Remove *python[23]-pyasn1* and *python[23]-pyasn1_modules*

@@ -47,8 +47,7 @@ implementation phase.
 
 .. _feature_managment_cli:
 
-Feature Managment: CLI
-----------------------
+Feature Managment: CLI-------------------
 
 Developers can use the ``-e rpc_protocol=xmlrpc`` option to ``ipa`` to
 use the old protocol.

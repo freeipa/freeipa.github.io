@@ -22,7 +22,7 @@ Changes to the LDIF files will only affect new installations.
 .. _aci_changes:
 
 ACI Changes
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ACI changes will need to be documented and done manually by IPA
 administrators.
@@ -30,7 +30,7 @@ administrators.
 .. _other_changes:
 
 Other Changes
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This applies to Plugins, indices and other IPA core configuration. This
 may have applicability during a new installation to replace the current
@@ -122,7 +122,7 @@ A few rules:
 .. _special_considerations:
 
 Special Considerations
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Plugins
 ^^^^^^^
@@ -139,7 +139,7 @@ If an index changes we need to run a task to build the index.
 .. _use_cases107:
 
 Use Cases
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Here are some concrete use cases:
 

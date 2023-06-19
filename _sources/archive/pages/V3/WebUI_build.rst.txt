@@ -23,7 +23,7 @@ further optimized by JavaScript compiler.
 .. _introducing_dojo:
 
 Introducing Dojo
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This feature has two topics which are closely related: AMD modules with
 AMD loader, and a builder. A loader from a dojo/dojo library is used as
@@ -50,7 +50,7 @@ Libraries:
    uglify.js compiler. Usually no need to use it alone.
 
 Uglify.js
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Builder transforms AMD packages into single or more files and does basic
 minimization like stripping of comments. For further minimization a
@@ -64,7 +64,7 @@ node.js when all target platforms will support it.
 .. _building_freeipa:
 
 Building FreeIPA
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Web UI JavaScript files can be divided into three sets: third party
 libraries, FreeIPA code and Dojo library. Lets call them layers. FreeIPA
@@ -76,7 +76,7 @@ therefore on FreeIPA layer.
 .. _amd_module_wrapping:
 
 AMD module wrapping
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Dojo/util/build tool (builder) is used as a builder of both FreeIPA and
 Dojo layer. The builder works best with AMD modules. Full modification
@@ -88,7 +88,7 @@ be converted to proper modules - with single purpose and clean
 dependencies, gradually in a future. Same applies on Web UI tests.
 
 Build
-~~~~~
+----------------------------------------------------------------------------------------------
 
 A build of FreeIPA layer is done by calling *util/make-ui.sh*. This
 script is run at make-all phase of an RPM build. Make-ui.sh is not
@@ -102,7 +102,7 @@ future (in dojo upstream or by custom patch).
 .. _new_directory_structure:
 
 New directory structure
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Web UI directory structure was change because the old one didn't suffice
 new needs which are:
@@ -127,7 +127,7 @@ All FreeIPA layer JS sources were move to src/freeipa folder. Libraries
 .. _development_profiles:
 
 Development profiles
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Several approaches of debugging of UI can be considered when developing
 UI. Developer can either use a machine with installed FreeIPA or he can
@@ -168,12 +168,12 @@ Use Cases
 ---------
 
 Users
-~~~~~
+----------------------------------------------------------------------------------------------
 
 None
 
 Developers
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Note: all commands are run from install/ui directory of FreeIPA source
 dir.

@@ -180,7 +180,7 @@ users.
 .. _hbac_rules:
 
 HBAC rules
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We will start from the end -- from the FreeIPA HBAC service. It is just
 a string which distinguishes one service from another. Running
@@ -211,7 +211,7 @@ work properly.
 .. _pam_service:
 
 PAM service
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On the IPA-enrolled machine on which the web application is being
 configured, we need to define the PAM service to use sssd. We create
@@ -226,7 +226,7 @@ need file **/etc/pam.d/reporting-prod** with content
    account required   pam_sss.so
 
 mod_authnz_pam
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The module **mod_authnz_pam** adds access control checks to
 authentication phase of HTTP request processing in Apache. The typical
@@ -263,7 +263,7 @@ service (which possibly more strict rules) for this part:
    </Location>
 
 Overview
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The **mod_authnz_pam** module can be configured with any other module
 which uses the ``require`` Apache directive. The deployment matrix then
@@ -446,7 +446,7 @@ SAML
 ----
 
 As mentioned above, when the Web application / framework is amended to
-be able to process REMOTE_USER and REMOTE_USER_GROUP_\* environment
+be able to process REMOTE_USER and REMOTE_USER_GROUP\_\* environment
 variables, it's then just a matter of configuration of the front-end
 server to enable a particular mechanism of external authentication. For
 example, for SAML (Security Assertion Markup Language),
@@ -472,13 +472,13 @@ References
 ----------
 
 OpenStack
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Nathan Kinder's https://blog-nkinder.rhcloud.com/?p=130
 -  Adam Young's http://adam.younglogic.com/2015/03/key-fed-lookup-redux/
 
 Spacewalk
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In Spacewalk 2.1, it is possible to use both the Kerberos
 authentication, and the form-based PAM authentication, including the
@@ -488,7 +488,7 @@ https://fedorahosted.org/spacewalk/wiki/SpacewalkAndIPA for full
 documentation of the feature.
 
 Satellite
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Based on Spacewalk upstream, the capability is now also available in
 Satellite 5.7 and documented in the `Using Identity Management for
@@ -496,7 +496,7 @@ Authentication <https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/
 chapter of the Installation Guide.
 
 Foreman
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In Foreman 1.5, the external authentication is fully implemented as
 described on this page -- see the `tracking
@@ -508,14 +508,14 @@ manual <http://theforeman.org/manuals/1.6/index.html#5.7ExternalAuthentication>`
 .. _satellite_6:
 
 Satellite 6
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Based on Foreman upstream, the capability is now also available in
 Satellite 6.0:
 https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.1/html/User_Guide/sect-Using-IdM-for-Authentication.html
 
 ManageIQ
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The support for external authentication is now in manageiq master:
 https://github.com/ManageIQ/manageiq/commit/e0423c18d48380ff8d490ccb08291d2098fde69f.
@@ -526,7 +526,7 @@ https://github.com/ManageIQ/guides/blob/master/external_auth.md and
 https://github.com/ManageIQ/guides/blob/master/external_auth/configuration.md.
 
 CloudForms
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Based on the ManageIQ upstream, the capability is now also available in
 CFME 5.3 and documented in the
@@ -534,7 +534,7 @@ CFME 5.3 and documented in the
 chapter of the Settings and Operations Guide.
 
 OpenDayLight
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `Federated Authentication Utilizing Apache &
 SSSD <https://jdennis.fedorapeople.org/doc/sssd_configuration.pdf>`__ by
@@ -546,7 +546,7 @@ Videos
 .. _using_os_level_identity_authentication_and_access_control_for_web_applications:
 
 Using OS-level identity, authentication, and access control for Web applications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Presentation at DevConf
    2015 <http://www.adelton.com/docs/idm/os-auth-stack-for-web-applications>`__
@@ -557,7 +557,7 @@ Using OS-level identity, authentication, and access control for Web applications
 .. _identity_management_in_red_hat_enterprise_linux_web_application_authentication_series:
 
 Identity management in Red Hat Enterprise Linux: Web Application Authentication Series
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Part I: Current standard: logon forms and cookie-based sessions
    https://www.youtube.com/watch?v=Qdv8waOk6UE
@@ -570,7 +570,7 @@ Identity management in Red Hat Enterprise Linux: Web Application Authentication 
    {{#ev:youtube|uG1rxZ4ydUE}}
 
 Django
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  External Authentication for Django Projects
    https://www.youtube.com/watch?v=62_jD-8zV4M
@@ -579,7 +579,7 @@ Django
 .. _foreman_demo:
 
 Foreman demo
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  External authentication with and installer improvements, presented by
    Marek Hulán
@@ -592,7 +592,7 @@ Presentations
 .. _external_and_federated_identities_on_the_web:
 
 External and Federated Identities on the Web
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `ApacheCon Core Europe 2015
    presentation <http://www.adelton.com/docs/idm/external-and-federated-identities>`__
@@ -602,7 +602,7 @@ External and Federated Identities on the Web
 .. _using_os_level_identity_authentication_and_access_control_for_web_applications_1:
 
 Using OS-level identity, authentication, and access control for Web applications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Developer Conference 2015
    presentation <http://www.adelton.com/docs/idm/os-auth-stack-for-web-applications>`__
@@ -612,7 +612,7 @@ Using OS-level identity, authentication, and access control for Web applications
 .. _external_identity_and_authentication_providers_for_apache_http_server:
 
 External Identity and Authentication Providers For Apache HTTP Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `ApacheCon Europe 2014
    presentation <http://www.adelton.com/docs/idm/apache-external-idm-auth>`__
@@ -622,7 +622,7 @@ External Identity and Authentication Providers For Apache HTTP Server
 .. _identity_management_scaling_out_and_up:
 
 Identity Management Scaling Out and Up
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `LinuxCon Europe 2014
    presentation <http://www.adelton.com/docs/idm/idm-scaling-out-and-up>`__
@@ -632,7 +632,7 @@ Identity Management Scaling Out and Up
 .. _external_authentication_for_django_projects:
 
 External Authentication for Django Projects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `EuroPython 2015
    presetnation <http://www.adelton.com/django/external-authentication-for-django-projects>`__

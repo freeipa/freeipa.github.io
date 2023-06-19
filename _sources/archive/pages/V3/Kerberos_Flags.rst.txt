@@ -39,12 +39,10 @@ Feature Managment
 =================
 
 UI
-~~
 
 A new checkbox is needed to set/display the status of this flag.
 
 CLI
-~~~
 
 Add a new Bool option to the service and host commands, ok-as-delegate.
 

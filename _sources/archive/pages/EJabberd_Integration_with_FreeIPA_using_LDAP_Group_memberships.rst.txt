@@ -223,9 +223,9 @@ another server, I will replace this screenshot shortly).
 See the below picture for comparison.
 
 .. figure:: Add_Account_-_Server_Settings.png
-   :alt: Add_Account_-_Server_Settings.png
+   :alt: Add_Account\_-_Server_Settings.png
 
-   Add_Account_-_Server_Settings.png
+   Add_Account\_-_Server_Settings.png
 
 Once you have finished, click the add button. If you enable the account,
 it will attempt to connect and ask you to accept the SSL certificate

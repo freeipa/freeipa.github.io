@@ -309,7 +309,7 @@ authorization over LDAP.</p>
 <p>Authorization can be done by specifying the allowed users, groups,
 attribute with in an entry or even a filter.</p>
 <p>Attributes can be specified in the AuthLDAPURL value such that those
-values are set as environment variables of the form “<a href="#id9"><span class="problematic" id="id10">AUTHENTICATE_</span></a>”, so
+values are set as environment variables of the form “AUTHENTICATE_”, so
 any arbitrary list of values may be provided.</p>
 </section>
 <section id="proposed-additional-variables">
@@ -325,62 +325,183 @@ for authorization.</p>
 authenticated user beyond the login name (in REMOTE_USER) to the
 application. That way the applications do not need to implement all
 possible authentication mechanisms (Kerberos, SAML, LDAP, …) and can
-depend on specialized <a href="#id11"><span class="problematic" id="id12">mod_auth_</span></a>* modules to do it, while being able to
+depend on specialized mod_auth_* modules to do it, while being able to
 know what user to populate and maintain in their internal user database.</p>
 <p>We propose Apache modules that wish to pass information about users to
 applications adopt the following environment variable names:</p>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Variable name</p></th>
-<th class="head"><p>Semantics</p></th>
-<th class="head"><p>Possible
-source</p></th>
-<th class="head"><p>Example
-<a href="#id7"><span class="problematic" id="id8">`</span></a>mod_l
-ookup_identity</p>
-<blockquote>
-<div><p>&lt;<a class="reference external" href="http://www.a">http://www.a</a></p>
-</div></blockquote>
-<p>delton.com/apa
-che/mod_lookup
-_identity/&gt;`__
-configuration</p>
+<tr class="row-odd"><th class="head"><table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
 </th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>REMO
-TE_USER_GROUPS</p></td>
-<td><p>c
-olon-separated
-list of group
-names the user
-is in</p></td>
-<td><p>POSIX call
-getgrouplist;
-sssd dbus call
-o
-rg.freedesktop
-.sssd.infopipe
-.GetUserGroups</p></td>
-<td><p>Look
-upOutputGroups
+<tr class="row-even"><td><p>Variable name</p>
+<p>+================+================+================+================+
 REMO
-TE_USER_GROUPS
-:</p></td>
-</tr>
-<tr class="row-odd"><td><p>REMOTE
+TE_USER_GROUPS</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOTE
 _USER_GROUP_N,
 REMOTE
 _USER_GROUP_1,
 REMOTE
 _USER_GROUP_2,
-…</p></td>
-<td><p>number of user
+…</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REM
+OTE_USER_GECOS</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMO
+TE_USER_DOMAIN</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REM
+OTE_USER_EMAIL</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOTE_US
+ER_GROUPS_JSON</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOTE_
+USER_FIRSTNAME</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOTE_U
+SER_MIDDLENAME
++—————-+—————-+—————-+—————-+
+REMOTE
+_USER_LASTNAME</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOTE
+_USER_FULLNAME</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOT
+E_USER_ORGUNIT</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>REMOTE_US
+ER_EXTERNAL_ID</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p>EXTER
+NAL_AUTH_ERROR</p>
+<table class="docutils align-default">
+<tbody>
+</tbody>
+</table>
+</td>
+<td><p>Semantics</p>
+<p>c
+olon-separated
+list of group
+names the user
+is in</p>
+<p>number of user
 groups and
 individual
-group names</p></td>
-<td><p>alternate way
+group names</p>
+<p>Equivalent of
+the GECOS
+value from the
+password file,
+could be full
+name.</p>
+<p>domain the
+user was
+authenticated
+in (could be
+the domain in
+sssd, nss,
+LDAP, etc.)</p>
+<p>user’s email
+address</p>
+<p>list of groups
+the user is
+in, formatted
+as JSON string</p>
+<p>user’s first
+name</p>
+<p>user’s middle
+name</p>
+<p>user’s last
+name</p>
+<p>user’s full
+name formatted
+as one string
+(similar to
+and possibly
+the same as
+REMO
+TE_USER_GECOS)</p>
+<p>organizational
+unit to which
+the user
+belongs</p>
+<p>SID, GUID, or
+other unique
+identifier
+from the
+external
+identity
+provider; used
+to reconcile
+account after
+login change</p>
+<p>when external
+authentication
+fails (and
+REMOTE_USER is
+not set), this
+variable can
+contain error
+describing the
+reason</p>
+</td>
+<td><p>Possible
+source</p>
+<p>POSIX call
+getgrouplist;
+sssd dbus call
+o
+rg.freedesktop
+.sssd.infopipe
+.GetUserGroups</p>
+<p>alternate way
 to get the
 list of
 groups,
@@ -388,21 +509,8 @@ avoiding the
 split needed
 with
 REMO
-TE_USER_GROUPS</p></td>
-<td><p>Lookup
-UserGroupsIter
-REM
-OTE_USER_GROUP</p></td>
-</tr>
-<tr class="row-even"><td><p>REM
-OTE_USER_GECOS</p></td>
-<td><p>Equivalent of
-the GECOS
-value from the
-password file,
-could be full
-name.</p></td>
-<td><p>pw_gecos field
+TE_USER_GROUPS</p>
+<p>pw_gecos field
 of result of
 POSIX call
 getpwname; IPA
@@ -412,8 +520,50 @@ dbus call
 org.freedeskt
 op.sssd.infopi
 pe.GetUserAttr
-gecos</p></td>
-<td><p>L
+gecos</p>
+<p>IPA attribute
+mail,
+sssd-dbus
+attribute mail</p>
+<p>IPA attribute
+givenname,
+sssd-dbus
+attribute
+givenname</p>
+<p>IPA attribute
+sn, sssd-dbus
+attribute sn</p>
+<p>IPA attribute
+cn or
+displayname,
+sssd-dbus
+attribute cn
+or displayname</p>
+<p>IPA attribute
+ou, sssd-dbus
+attribute ou</p>
+<p>IPA attribute
+ipaUniqueId,
+389 DS
+attribute
+nsUniqueID, AD
+attribute
+objectSid</p>
+</td>
+<td><p>Example
+<a class="reference external" href="http://www.adelton.com/apache/mod_lookup_identity/">mod_l
+ookup_identity</a>
+configuration</p>
+<p>Look
+upOutputGroups
+REMO
+TE_USER_GROUPS
+:</p>
+<p>Lookup
+UserGroupsIter
+REM
+OTE_USER_GROUP</p>
+<p>L
 ookupUserGECOS
 REM
 OTE_USER_GECOS
@@ -421,92 +571,20 @@ or
 LookupUserAttr
 gecos
 REM
-OTE_USER_GECOS</p></td>
-</tr>
-<tr class="row-odd"><td><p>REMO
-TE_USER_DOMAIN</p></td>
-<td><p>domain the
-user was
-authenticated
-in (could be
-the domain in
-sssd, nss,
-LDAP, etc.)</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>REM
-OTE_USER_EMAIL</p></td>
-<td><p>user’s email
-address</p></td>
-<td><p>IPA attribute
-mail,
-sssd-dbus
-attribute mail</p></td>
-<td><p>LookupUserAttr
+OTE_USER_GECOS</p>
+<p>LookupUserAttr
 mail
 REM
-OTE_USER_EMAIL</p></td>
-</tr>
-<tr class="row-odd"><td><p>REMOTE_US
-ER_GROUPS_JSON</p></td>
-<td><p>list of groups
-the user is
-in, formatted
-as JSON string</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><a href="#id13"><span class="problematic" id="id14">REMOTE_</span></a>
-USER_FIRSTNAME</p></td>
-<td><p>user’s first
-name</p></td>
-<td><p>IPA attribute
-givenname,
-sssd-dbus
-attribute
-givenname</p></td>
-<td><p>LookupUserAttr
+OTE_USER_EMAIL</p>
+<p>LookupUserAttr
 givenname
-<a href="#id15"><span class="problematic" id="id16">REMOTE_</span></a>
-USER_FIRSTNAME</p></td>
-</tr>
-<tr class="row-odd"><td><p>REMOTE_U
-SER_MIDDLENAME</p></td>
-<td><p>user’s middle
-name</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>REMOTE
-_USER_LASTNAME</p></td>
-<td><p>user’s last
-name</p></td>
-<td><p>IPA attribute
-sn, sssd-dbus
-attribute sn</p></td>
-<td><p>LookupUserAttr
+REMOTE_
+USER_FIRSTNAME</p>
+<p>LookupUserAttr
 sn
 REMOTE
-_USER_LASTNAME</p></td>
-</tr>
-<tr class="row-odd"><td><p>REMOTE
-_USER_FULLNAME</p></td>
-<td><p>user’s full
-name formatted
-as one string
-(similar to
-and possibly
-the same as
-REMO
-TE_USER_GECOS)</p></td>
-<td><p>IPA attribute
-cn or
-displayname,
-sssd-dbus
-attribute cn
-or displayname</p></td>
-<td><p>LookupUserAttr
+_USER_LASTNAME</p>
+<p>LookupUserAttr
 cn
 REMOTE
 _USER_FULLNAME
@@ -514,59 +592,16 @@ or
 LookupUserAttr
 displayname
 REMOTE
-_USER_FULLNAME</p></td>
-</tr>
-<tr class="row-even"><td><p>REMOT
-E_USER_ORGUNIT</p></td>
-<td><p>organizational
-unit to which
-the user
-belongs</p></td>
-<td><p>IPA attribute
-ou, sssd-dbus
-attribute ou</p></td>
-<td><p>LookupUserAttr
+_USER_FULLNAME</p>
+<p>LookupUserAttr
 ou
 REMOT
-E_USER_ORGUNIT</p></td>
-</tr>
-<tr class="row-odd"><td><p>REMOTE_US
-ER_EXTERNAL_ID</p></td>
-<td><p>SID, GUID, or
-other unique
-identifier
-from the
-external
-identity
-provider; used
-to reconcile
-account after
-login change</p></td>
-<td><p>IPA attribute
-ipaUniqueId,
-389 DS
-attribute
-nsUniqueID, AD
-attribute
-objectSid</p></td>
-<td><p>LookupUserAttr
+E_USER_ORGUNIT</p>
+<p>LookupUserAttr
 ipaUniqueId
 REMOTE_US
-ER_EXTERNAL_ID</p></td>
-</tr>
-<tr class="row-even"><td><p>EXTER
-NAL_AUTH_ERROR</p></td>
-<td><p>when external
-authentication
-fails (and
-REMOTE_USER is
-not set), this
-variable can
-contain error
-describing the
-reason</p></td>
-<td></td>
-<td></td>
+ER_EXTERNAL_ID</p>
+</td>
 </tr>
 </tbody>
 </table>

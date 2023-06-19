@@ -72,7 +72,7 @@ the same or different identity.
 .. _one_server_loss___first_master:
 
 One Server Loss - First Master
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the first master is lost, other master with a full `CA <PKI>`__ (if
 it is not a CA-less deployment) needs to be nominated as the new first
@@ -101,7 +101,7 @@ configuration also needs to reflect new FreeIPA Server hostnames.
 .. _one_server_loss___any_other_server:
 
 One Server Loss - Any other server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When the first master is still running, procedure to recover a lost
 FreeIPA Server is more straightforward:
@@ -124,7 +124,7 @@ whether the deployment is rebuild-able from what is left or not.
 .. _first_master_is_still_alive:
 
 First Master is still alive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If first master is still alive `One Server Loss - Any other
 server <#One_Server_Loss_-_Any_other_server>`__ procedure can be
@@ -133,7 +133,7 @@ followed to rebuild every lost server and restore the environment.
 .. _first_master_is_lost:
 
 First Master is lost
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If there was an installation with a `CA <PKI>`__ and at least one master
 with `CA <PKI>`__ is available then first follow the procedure `One
@@ -149,7 +149,7 @@ Therefore, this case needs to be treated as a **total loss scenario**.
 .. _this_is_a_ca_less_deployment:
 
 This is a CA-less deployment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In a `CA-less deployment <V3/CA-less_install>`__ all masters are equal
 and `One Server Loss - Any other
@@ -201,7 +201,7 @@ reluctant to build custom backup and restore scripts.
 .. _backup_and_restore_scripts:
 
 Backup and restore scripts
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `FreeIPA 3.2 <Releases/3.2.0>`__ introduced experimental `backup and
 restore scripts <V3/Backup_and_Restore>`__. See man pages for
@@ -218,7 +218,7 @@ Recovering from a snapshot
 .. _nothing_left_other_than_the_snapshot:
 
 Nothing left other than the snapshot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Boot the snapshot VM and follow the procedure
 `CA <#Several_Server_Loss_-_There_is_a_full_%5B%5BPKI>`__ master|Several
@@ -230,7 +230,7 @@ updated to be the first master.
 .. _something_is_left_other_than_the_snapshot:
 
 Something is left other than the snapshot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is the situation when there are remnants of the old infrastructure
 that do not allow to fully rebuild (they for example miss an FreeIPA

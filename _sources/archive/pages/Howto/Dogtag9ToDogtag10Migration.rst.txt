@@ -32,7 +32,7 @@ There are 2 options for the procedure:
 .. _migrating_freeipa_servers_with_ca:
 
 Migrating FreeIPA servers with CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Baseline of the procedure:
 

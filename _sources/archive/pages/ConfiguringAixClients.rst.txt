@@ -149,7 +149,7 @@ able to login. According to previous testing not setting registry to
 LDAP is not preventing IPA users to login, but is preventing them to
 change passwords.
 
-.. _configuring_client_ssh_access:
+
 
 Configuring Client SSH Access
 -----------------------------
@@ -270,7 +270,7 @@ password.
 
            # ssh admin@ipaclient.example.com
 
-.. _system_login:
+
 
 System Login
 ------------

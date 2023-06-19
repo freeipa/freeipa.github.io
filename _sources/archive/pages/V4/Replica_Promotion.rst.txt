@@ -34,7 +34,7 @@ Design
 .. _bootstrapping_problem:
 
 Bootstrapping problem
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The only real issue in allowing a streamlined installation for a replica
 is that we need “some” trusted credentials that allow to create the
@@ -103,7 +103,7 @@ Bootstrapping Workflows
 .. _secrets_sharing_problem:
 
 Secrets sharing problem
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Regardless which bootstrapping method is chosen there are a number of
 secrets/keys known by an IPA server that need to be shared between all
@@ -132,7 +132,7 @@ get access to private keys and other highly sensitive secrets.
 .. _new_replica_install_workflow:
 
 New replica install workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This feature may depend on a new features, like a plugin to `manage the
 replication topology <V4/Manage_replication_topology>`__. It requires
@@ -411,7 +411,7 @@ Certificates/keys that still need to be transferred to replicas:
 .. _sharing_secrets_securely:
 
 Sharing Secrets Securely
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Requirements:
 
@@ -586,7 +586,7 @@ as additional path components" facility is available to all handlers,
 but only ``ca_wrapped`` uses it (as of September 2019).
 
 Upgrades
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To make sure that upgraded replicas can be used as the source servers
 for spawning replicas, all necessary infrastructure will need to be
@@ -596,7 +596,7 @@ generation.
 
 
 Backward Compatibility
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Backport candidates for better compatibility with older FreeIPA or
 `Directory Server <Directory_Server>`__ versions:
@@ -620,12 +620,12 @@ How to Test
 -----------
 
 Prerequisites
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Two machines that will become IPA masters.
 
 Testing
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. Install a first IPA server - or - upgrade an existing one to the bits
 including this feature and raise the domain level to 1.

@@ -22,7 +22,7 @@ On Active Directory side, objects in following description should exist.
 .. _on_forest_root_ad:
 
 On forest root AD
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  A test group
 
@@ -116,7 +116,7 @@ On forest root AD
 .. _on_child_subdomain_ad:
 
 On child (subdomain) AD
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  A user group
 
@@ -156,7 +156,7 @@ On child (subdomain) AD
 .. _on_tree_root_ad:
 
 On tree root AD
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  A user group
 

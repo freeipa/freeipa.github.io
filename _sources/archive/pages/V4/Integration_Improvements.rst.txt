@@ -34,7 +34,7 @@ privileges are only required to install compiler and some build
 dependencies, but not for virtualenvs and configuration.
 
 Scope
-~~~~~
+----------------------------------------------------------------------------------------------
 
 The scope of the proposal is limited to Python client libraries. The
 Python packages and ``IPA_CONFDIR`` env var neither include FreeIPA
@@ -50,7 +50,7 @@ Debian-like platforms with systemd. Other platforms like Windows, BSD,
 macOS, and Linux distributions with System V Init are out of scope.
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Example:
 
@@ -110,14 +110,14 @@ Use Cases
 .. _lead_engineers:
 
 Lead Engineers
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Christian Heimes (IPA/CS)
 
 .. _supporting_engineers:
 
 Supporting Engineers
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Adam Young (OpenStack Platform)
 -  Rob Crittenden (OpenStack Platform)
@@ -130,7 +130,7 @@ Design & Implementation
 .. _api_for_local_configuration_directory:
 
 API for local configuration directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 At the moment FreeIPA has multuple ways to load a different config file
 than the default ``default.conf`` from ``/etc/ipa``.
@@ -218,7 +218,7 @@ Tickets / PRs
 .. _add_package_dependencies_for_distribution_with_pip:
 
 Add package dependencies for distribution with pip
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With FreeIPA's recent move to setuptools, the Python build system
 supports wheels. Wheels https://wheel.readthedocs.io/en/latest/ is the
@@ -338,7 +338,7 @@ Tickets / PRs
 .. _ipaplatform_auto_configuration:
 
 ipaplatform auto-configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``ipaplatform`` package is an abstraction layer for platform and
 distribution specific settings and services. The other FreeIPA packages
@@ -404,7 +404,7 @@ Tickets / PRs
 .. _ipaplatform_debian_support:
 
 ipaplatform Debian support
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA upstream does not include platform configuration for
 Debian-based distributions. In order to support development and
@@ -423,7 +423,7 @@ Tickets / PRs
 .. _pypi_packages:
 
 PyPI packages
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **details TBD**
 
@@ -445,7 +445,7 @@ metadata (dependency on ``ipalib``) and no code. The ``ipaserver`` and
 -  freeipa
 
 Upgrade
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Package dependencies must be synced between RPM spec and setup.py /
 ipasetup.py.

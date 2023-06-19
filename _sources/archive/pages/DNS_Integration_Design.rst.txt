@@ -27,7 +27,7 @@ authentication, integrity and confidentiality. It is defined in RFC
 .. _support_in_dnspython:
 
 Support in dnspython
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The `dnspython <http://www.dnspython.org/>`__ library doesn't have
 support for GSS-TSIG. As a workaround, we could just make a simple
@@ -55,7 +55,7 @@ will ship the driver ourselves.
 .. _ldap_driver:
 
 LDAP driver
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Here are some notes and things we should keep in mind when writing the
 driver.
@@ -102,7 +102,7 @@ driver.
    information.
 
 Schema
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 This schema is based on the `SDB
 Schema <http://www.venaas.no/ldap/bind-sdb/dnszone-schema.txt>`__.

@@ -44,7 +44,7 @@ these servers will queue up until the servers either reconnect or the
 changelog fills, potentially causing lost updates.
 
 Version
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In this context Version means data version for the purposes of
 determining if an upgrade is incompatible. Not every IPA update may
@@ -68,7 +68,7 @@ version. The IPA plugin will use those hooks to register the version.
 .. _version_format:
 
 Version format
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The version will be stored as a date which will make comparisons a lot
 easier (e.g. 201003081732).
@@ -76,7 +76,7 @@ easier (e.g. 201003081732).
 .. _ipa_management_utilities:
 
 IPA management utilities
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The IPA management utilities will send their installed version when they
 communicate to the IPA XML-RPC server. The server will use this version

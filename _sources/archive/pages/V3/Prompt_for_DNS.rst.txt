@@ -53,12 +53,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 How the feature will be manged via the UI
 
 CLI
-~~~
 
 
 

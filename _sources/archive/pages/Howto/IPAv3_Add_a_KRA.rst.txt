@@ -17,26 +17,24 @@ Prerequisites
 
 This procedure is only tested to work with the above versions
 
-.. _install_and_configure_ipa_server:
-
 Install and configure IPA server
 ================================
 
-.. _make_sure_all_packages_are_up_to_date:
+
 
 Make sure all packages are up to date
 -------------------------------------
 
 ``# yum update -y``
 
-.. _install_required_packages:
+
 
 Install required packages
 -------------------------
 
 ``# yum install -y freeipa-server bind bind-dyndb-ldap pki-kra``
 
-.. _install_ipa_server:
+
 
 Install IPA server
 ------------------

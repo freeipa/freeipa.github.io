@@ -67,7 +67,7 @@ Examples
 .. _add_menu_item:
 
 Add menu item
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Example with specified dependencies and recommended phase.
 
@@ -96,7 +96,7 @@ Example with specified dependencies and recommended phase.
 .. _remove_menu_item:
 
 Remove menu item
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -104,7 +104,7 @@ Remove menu item
        menu.remove_item('identity/dhcp');
 
 Query
-~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -114,7 +114,7 @@ Query
 .. _observing_menu_store:
 
 Observing menu store
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -141,12 +141,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 No visible UI changes.
 
 CLI
-~~~
 
 No CLI changes.
 

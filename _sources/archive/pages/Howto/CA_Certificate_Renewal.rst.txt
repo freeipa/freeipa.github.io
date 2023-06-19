@@ -50,7 +50,7 @@ Procedure in IPA < 4.1
 .. _request_renewed_certificate:
 
 Request renewed certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On a random FreeIPA server with CA installed run:
 
@@ -67,7 +67,7 @@ certificate to ``ipa.crt`` in PEM format.
 .. _renew_ca_certificate_on_ca_servers:
 
 Renew CA Certificate on CA Servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On all FreeIPA servers **with CA** installed, run:
 
@@ -89,7 +89,7 @@ On all FreeIPA servers run:
 .. _renew_ca_certificate_on_freeipa_clients:
 
 Renew CA Certificate on FreeIPA clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On all FreeIPA servers and FreeIPA clients run
 
@@ -121,7 +121,7 @@ You can query the Apache database to find out what this currently is:
 .. _renew_the_certificate:
 
 Renew the Certificate
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Give the CSR to your external CA and have them issue you a new
 certificate. This document assumes that the resulting certificate is
@@ -164,7 +164,7 @@ output. It needs to be renew_ca_cert:
 .. _install_the_new_ca_certificate_on_your_ipa_master_ca:
 
 Install the new CA certificate on your IPA master CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The CA needs to be shut down in order to update its certificate:
 
@@ -224,7 +224,7 @@ Add to LDAP:
 .. _install_new_ca_on_other_ipa_masters_with_a_ca:
 
 Install new CA on other IPA masters with a CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The CA needs to be shut down in order to update its certificate:
 
@@ -263,7 +263,7 @@ Restart the world
 .. _install_new_ca_on_other_ipa_masters_without_a_ca:
 
 Install new CA on other IPA masters without a CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Copy the updated CA to the machine. I'm assuming it is in /root/ipa.crt.
 
@@ -296,7 +296,7 @@ Restart the world
 .. _install_the_new_ca_on_all_ipa_client_machines:
 
 Install the new CA on all IPA client machines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Retrieve the updated IPA CA, I've put it into /root/ipa.crt.
 

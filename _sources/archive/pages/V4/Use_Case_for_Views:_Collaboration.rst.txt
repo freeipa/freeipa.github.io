@@ -200,7 +200,7 @@ attempting to create a coherent local view of multiple upstream domains.
 .. _metadirectory_block:
 
 Metadirectory block
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The metadirectory block has been implemented by an instance of OpenLDAP
 configured with a single database of type "meta". This database proxies
@@ -248,7 +248,7 @@ users regardless of which identity source contains them.
 .. _override_block:
 
 Override block
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The override block is implemented by an OpenLDAP server having two "hdb"
 style databases. One database contains posix group definitions, with a

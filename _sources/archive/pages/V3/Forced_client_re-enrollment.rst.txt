@@ -112,12 +112,10 @@ Feature Managment
 =================
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 N/A
 

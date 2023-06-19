@@ -15,7 +15,7 @@ contributing!
 .. _what_to_do:
 
 What to do
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You can update or extend current articles referenced from
 `Documentation <Documentation>`__ or add new content you would like to

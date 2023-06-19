@@ -9,7 +9,7 @@ Reporting bugs or Features
 .. _security_bugs_and_flaws:
 
 Security Bugs and Flaws
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Please inform us about all security-related bugs and flaws before you
    make the information public. It will give us chance to release a
@@ -20,7 +20,7 @@ Security Bugs and Flaws
    their hard work!
 
 Tracking
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  We use `Pagure <https://pagure.io/freeipa/issues>`__ for the upstream
    development, so all RFEs or bug reports should go primarily there.
@@ -98,7 +98,7 @@ Development
 .. _contribute_code:
 
 Contribute code
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Contribute code <Contribute/Code>`__ by submitting bug fixes or new
    features. Help us make FreeIPA great!
@@ -108,7 +108,7 @@ Contribute code
    developers should keep in mind).
 
 Translate
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Would you like to see FreeIPA translated to your native language? Become
 a translator!
@@ -144,7 +144,7 @@ Testing
 .. _help_us_test:
 
 Help Us Test
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Help us test and verify the project by simply using it in your
    environment.
@@ -154,7 +154,7 @@ Help Us Test
 .. _contribute_tests:
 
 Contribute Tests
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Contribute tests <Contribute/Tests>`__ by creating test plans or
    writing new automatized tests that can be run in `FreeIPA integration
@@ -166,7 +166,7 @@ Documentation
 .. _contribute_documentation:
 
 Contribute documentation
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Help with documenting <Contribute/Documentation>`__ new features or
    adding more information

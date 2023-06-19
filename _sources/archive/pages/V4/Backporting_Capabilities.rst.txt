@@ -38,7 +38,7 @@ features to maintenance branches, while respecting these rules.
 .. _freeipa_master_branch:
 
 FreeIPA master branch
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The master branch uses a two-element API versioning scheme, 2.x, where
 'x' is a number that increases with each API change.
@@ -68,7 +68,7 @@ Server >= '2.54' Old API         New API\*
 .. _maintenance_api_branches:
 
 Maintenance API branches
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently, the API of a maintenance branch must remain fully backwards
 compatible with the version it was branched from. (Alternatively it may
@@ -198,7 +198,7 @@ will accompany this design, since they depend on the particular feature
 being backported.
 
 Limitations
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This scheme only allows "official" branches, over which the core FreeIPA
 team has full control. Third-party extensions are encouraged to adopt a

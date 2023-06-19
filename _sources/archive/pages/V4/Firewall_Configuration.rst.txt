@@ -119,7 +119,7 @@ Implementation
 .. _dbus_method_overview:
 
 DBus Method Overview
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Firewall configuration uses NetworkManager and FirewallD DBus methods.
 Interaction with DBus includes a bus address and a method call. Here is
@@ -197,7 +197,6 @@ Feature Management
 ------------------
 
 CLI
-~~~
 
 There are no dedicated commands. This only adds the "--no-firewall"
 option to ipa-server-install.
@@ -205,7 +204,7 @@ option to ipa-server-install.
 
 
 Major configuration options and enablement
-==========================================
+----------------------------------------------------------------------------------------------
 
 Any commands to enable/disable the feature or turn on/off its parts?
 
@@ -281,6 +280,6 @@ Continuous Integration during implementation or review phase.
 
 
 RFE Author
-==========
+----------------------------------------------------------------------------------------------
 
 Justin Brown <justin.brown ON fandingo PERIOD org>

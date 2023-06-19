@@ -33,7 +33,7 @@ Use Cases
 .. _user_certificates:
 
 User certificates
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are many use cases for issuing certificates to user
 entities/principals from a sub-CA. The sub-CA acts as a "scope"
@@ -60,7 +60,7 @@ user will configure the VPN server to use that CA certificate for client
 certificate verification.
 
 Puppet
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 A `blog
 post <http://jcape.name/2012/01/16/using-the-freeipa-pki-with-puppet/>`__
@@ -80,7 +80,7 @@ applies not only to Puppet but in many situations.)
 .. _default_sub_cas_for_host_service_and_user_certificates:
 
 Default sub-CAs for host, service and user certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA user Baptiste Agasse requested having separate domains for host
 and user certificates by default:
@@ -100,7 +100,7 @@ Design
 ------
 
 Terminology
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 *sub-CA*
    A lightweight sub-CA in the Dogtag CA instance, and its
@@ -121,7 +121,7 @@ Terminology
 .. _high_level_design_considerations:
 
 High-level design considerations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _nested_sub_cas:
 
@@ -184,7 +184,7 @@ than the host authority).
 .. _ca_plugin:
 
 ``ca`` plugin
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Lightweight CAs, in addition to having a representation within the
 Dogtag deployment, have a representation in the FreeIPA directory, for
@@ -304,7 +304,7 @@ permissions are initially granted to the *CA Administrator* role.
 .. _key_replication:
 
 Key replication
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Key replication will be handled by Dogtag's
 ``ExternalProcessKeyRetriever`` (part of Dogtag), which will be
@@ -359,7 +359,7 @@ the existing mechanism, which shall continue to be used for replica
 promotion).
 
 Renewal
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A mechanism must be provided to renew lightweight CA certificates. A
 Dogtag REST API shall be provided for renewal of the certificate. When
@@ -418,7 +418,7 @@ and how renewal occurs, possible approaches include:
       lightweight CA renewal.
 
 Installation
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _set_up_dogtag_key_replication:
 
@@ -466,7 +466,7 @@ RA Agent priviliges will be dropped.
 .. _dogtag_signing_key_retrieval:
 
 Dogtag signing key retrieval
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To avoid reimplementing a Custodia client in Java (a substantial
 effort), we configure Dogtag's ``ExternalProcessKeyRetriever`` to
@@ -480,7 +480,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 The web UI must be enhanced to allow the user to indicate which CA a
 certificate request should be directed to, and to indicate the CA of any
@@ -494,7 +493,6 @@ The web UI for retrieving certificates must be extended to include the
 ability to download a chained certificate.
 
 CLI
-~~~
 
 CLI commands for creating and adminstering lightweight CAs will be
 created, with appropriate ACIs for authorization.
@@ -681,7 +679,7 @@ certificate.
    format.
 
 Certmonger
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For *service* administration use cases, certificates will be requested
 via certmonger, in accordance with the existing use pattern where
@@ -728,7 +726,7 @@ Apache and nginx expect a sequence of PEM-encoded certificates, so PEM
 is a baseline requirement.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA must be deployed with the Dogtag RA in order to use these
 features. No other configuration is required.
@@ -739,9 +737,9 @@ Upgrade
 As part of the upgrade process:
 
 -  Dogtag key replication shall be configured using the steps described
-   at Set up Dogtag key replication_.
+   at Set up Dogtag key replication\_.
 -  The schema (including Dogtag schema) shall be updated.
--  The ``ipa`` CA object shall be created (see Default CAs_).
+-  The ``ipa`` CA object shall be created (see Default CAs\_).
 
 
 

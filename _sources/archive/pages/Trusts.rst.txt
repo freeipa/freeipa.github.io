@@ -9,7 +9,7 @@ components.
 .. _integrating_linux_systems_into_active_directory:
 
 Integrating Linux systems into Active Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `Dmitri Pal <User:dpal>`__'s talk on
 `devconf.cz <http://devconf.cz>`__ on the subject of Active Directory
@@ -72,7 +72,7 @@ Linux 7.2 and you can find comprehensive coverage of the feature in the
 Guide <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Windows_Integration_Guide/active-directory-trust.html>`__
 
 Designs
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Introducing Active Directory Trust Feature <IPAv3_AD_trust>`__
 -  `Serving legacy clients for AD
@@ -84,7 +84,7 @@ Designs
 -  `Global Catalog Support <V3/Trust_GC_support>`__
 
 HOWTOs
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Configuration
 ^^^^^^^^^^^^^
@@ -101,7 +101,7 @@ Troubleshooting
    SSSD <https://docs.pagure.org/SSSD.sssd/users/troubleshooting.html>`__
 
 Blogs
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `Red Hat blogs on Identity
    Management <http://rhelblog.redhat.com/tag/identity-management/>`__

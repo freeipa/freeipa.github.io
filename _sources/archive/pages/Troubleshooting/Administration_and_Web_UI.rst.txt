@@ -51,8 +51,7 @@ Web UI
 
 .. _cannot_authenticate_to_web_ui:
 
-Cannot authenticate to Web UI
------------------------------
+Cannot authenticate to Web UI---------------------------
 
 -  Make sure that the user can authenticate in CLI, e.g. with
    ``kinit $USER``

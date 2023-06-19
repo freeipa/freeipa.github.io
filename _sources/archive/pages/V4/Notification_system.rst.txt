@@ -22,7 +22,7 @@ Open questions
 .. _hook_locations:
 
 Hook locations
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Where to place the hooks that would be in charge of sending
 notifications?
@@ -34,7 +34,7 @@ events we're interested in (eg. user creation directly through LDAP).
 .. _method_of_transport:
 
 Method of transport
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 What method of transport for messages generated on changes/warnings
 would be the best?
@@ -48,7 +48,7 @@ components (fedmsg for python, dbus for C)?
 .. _expiring_passwords:
 
 Expiring passwords
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 How to poll for expiring passwords and certificates?
 
@@ -58,14 +58,14 @@ How often? Performance implications?
 .. _user_scripts:
 
 User scripts
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Should the system be general enough to allow for running user scripts?
 
 .. _reaction_to_hooks:
 
 Reaction to hooks
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Do we want for FreeIPA to be able to react to the hooks?
 
@@ -75,6 +75,6 @@ implications?
 .. _performance_issues:
 
 Performance issues
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 How will the hooks impact performance when they are/are not used?

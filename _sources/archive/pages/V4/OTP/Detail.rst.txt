@@ -8,7 +8,7 @@ Requirements, Workflows and Use Cases
 .. _radius_proxy:
 
 RADIUS Proxy
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 *Prerequisite:* Company has a 3rd party 2FA authentication server
 provided by a vendor. All known commonly used authentication servers
@@ -70,7 +70,7 @@ support authentication via RADIUS protocol.
 .. _native_otp:
 
 Native OTP
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  IPA users should be able to authenticate using passwords as it is now
    until as specific administrative action is taken against their
@@ -148,7 +148,7 @@ Native OTP
 .. _common_use_cases:
 
 Common use cases
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Requiring all users to authenticate two factor all the time might be
    a challenge. There should be a way to accept either just password or
@@ -164,7 +164,7 @@ Common use cases
 .. _future_use_cases_current_non_goals:
 
 Future use cases (current non goals)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Administrative interface should allow creating different reports
    about tokens and user assignments.
@@ -180,7 +180,7 @@ Future use cases (current non goals)
 .. _non_goals:
 
 Non goals
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Replay attack prevention
 
@@ -188,7 +188,7 @@ Design
 ======
 
 Architecture
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -225,7 +225,7 @@ owned by us, so no specification is necessary. However, the LDAP daemon
 .. _token_types:
 
 Token Types
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  TOTP (time-based) tokens are fully supported.
 -  HOTP (counter-based) tokens are somewhat functional, but not
@@ -233,7 +233,7 @@ Token Types
    extremely costly in a replicated environement.
 
 Logic
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  There will be a global policy in the ipaConfig (so it is replicated)
    to control authentication methods across the deployment. There also
@@ -339,7 +339,7 @@ Logic
 .. _lost_token_processing:
 
 Lost Token Processing
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  In the case of the external RADIUS server is configured for user
    account the lost token processing is completely opaque and delegated
@@ -373,7 +373,7 @@ Lost Token Processing
 .. _ds_bind_plugin_logic:
 
 DS Bind Plugin Logic
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  User will be looked up by his DN.
 -  Tokens assigned to this user will be looked up by user DN they belong
@@ -391,7 +391,7 @@ DS Bind Plugin Logic
 .. _top_token_container:
 
 Top Token Container
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 

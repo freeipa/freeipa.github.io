@@ -75,14 +75,14 @@ Selfsign CA files
 .. _nss_database:
 
 NSS database
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The NSS database containing certs and keys is in ``/etc/httpd/alias``.
 
 .. _noise_file:
 
 Noise file
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A noise file is generally put at ``/etc/httpd/alias/noise.txt``. Fill it
 with random data whenever you need it:
@@ -94,14 +94,14 @@ Be sure to remove the file after it's used.
 .. _nss_database_password:
 
 NSS database password
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The NSS database password is stored in ``/etc/httpd/alias/pwdfile.txt``.
 
 .. _serial_number:
 
 Serial number
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The file ``/var/lib/ipa/ca_serialno`` contains the CA's serial numbers
 in INI format:

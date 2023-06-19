@@ -99,12 +99,10 @@ Feature Managment
 =================
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 See Overview
 

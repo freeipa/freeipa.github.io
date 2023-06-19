@@ -99,12 +99,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Currently the feature is aimed for use in CLI in the first stage.
 
 CLI
-~~~
 
 Overview of the CLI commands. The only change is to modify existing
 group management commands to allow specifying trusted domain users
@@ -130,7 +128,7 @@ through fully qualified names:
 +---------------------+----------------------+----------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Upgrade
 -------

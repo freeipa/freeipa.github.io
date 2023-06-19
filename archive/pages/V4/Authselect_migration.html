@@ -55,13 +55,14 @@ accepts the feature with-mkhomedir but not with-smartcard.</p>
 <span id="id1"></span><h1>Current implementation<a class="headerlink" href="#current-implementation" title="Permalink to this heading">¶</a></h1>
 <p>This section lists the components of FreeIPA that are currently relying
 on authconfig.</p>
+</section>
 <section id="package-dependency">
-<span id="id2"></span><h2>Package dependency<a class="headerlink" href="#package-dependency" title="Permalink to this heading">¶</a></h2>
+<span id="id2"></span><h1>Package dependency<a class="headerlink" href="#package-dependency" title="Permalink to this heading">¶</a></h1>
 <p>FreeIPA currently has a dependency on authconfig package (freeipa-client
 package).</p>
 </section>
 <section id="client-installation">
-<span id="id3"></span><h2>Client installation<a class="headerlink" href="#client-installation" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h1>Client installation<a class="headerlink" href="#client-installation" title="Permalink to this heading">¶</a></h1>
 <p>Currently authconfig is triggered during client install to:</p>
 <ul class="simple">
 <li><p>configure NIS. the commands below is used</p></li>
@@ -96,7 +97,7 @@ authconfig, other distributions must implement their own routines to
 configure the authentication mechanisms.</p>
 </section>
 <section id="backup-restore">
-<h2>Backup/restore<a class="headerlink" href="#backup-restore" title="Permalink to this heading">¶</a></h2>
+<h1>Backup/restore<a class="headerlink" href="#backup-restore" title="Permalink to this heading">¶</a></h1>
 <p>The commands ipa-backup and ipa-restore both need to save/restore the
 current configuration. ipa-backup is calling:</p>
 <p>`` authconfig –savebackup ``</p>
@@ -106,7 +107,7 @@ ipa-restore is calling</p>
 <p>to restore the saved configuration.</p>
 </section>
 <section id="ipa-advise-plugins">
-<span id="id4"></span><h2>ipa-advise plugins<a class="headerlink" href="#ipa-advise-plugins" title="Permalink to this heading">¶</a></h2>
+<span id="id4"></span><h1>ipa-advise plugins<a class="headerlink" href="#ipa-advise-plugins" title="Permalink to this heading">¶</a></h1>
 <p>ipa-advise command provides configuration advices for various use cases.
 For instance, ipa-advise config-server-for-smart-card-auth produces a
 shell script that can be executed in order to configure the server to
@@ -126,11 +127,11 @@ a system with nss-pam-ldapd as a FreeIPA client.</p></li>
 system with nss-ldap as a FreeIPA client.</p></li>
 </ul>
 </section>
-</section>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+</section>
 <section id="general-decisions">
-<span id="id5"></span><h2>General decisions<a class="headerlink" href="#general-decisions" title="Permalink to this heading">¶</a></h2>
+<span id="id5"></span><h1>General decisions<a class="headerlink" href="#general-decisions" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>As authselect may not be available on all distributions, we need to
 keep the same strategy as implemented by the current code: rely on
@@ -153,7 +154,7 @@ any more for new client installations on fedora-based distributions.</p></li>
 </ul>
 </section>
 <section id="new-client-installation">
-<span id="id6"></span><h2>New client installation<a class="headerlink" href="#new-client-installation" title="Permalink to this heading">¶</a></h2>
+<span id="id6"></span><h1>New client installation<a class="headerlink" href="#new-client-installation" title="Permalink to this heading">¶</a></h1>
 <p>Currently, the algorithm for PAM stack configuration is the following:</p>
 <div class="line-block">
 <div class="line"><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">``</span></a></div>
@@ -168,7 +169,7 @@ any more for new client installations on fedora-based distributions.</p></li>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">done</span></code></div>
 </div>
 <section id="no-sssd-and-noac-options">
-<span id="id15"></span><h3>–no-sssd and –noac options<a class="headerlink" href="#no-sssd-and-noac-options" title="Permalink to this heading">¶</a></h3>
+<span id="id15"></span><h2>–no-sssd and –noac options<a class="headerlink" href="#no-sssd-and-noac-options" title="Permalink to this heading">¶</a></h2>
 <p>With the migration to authselect and the choice of using sssd profile,
 we will now refuse the –no-sssd and -noac options for fedora-based
 distributions. This can be achieved by adding a tasks method (i.e. with
@@ -177,7 +178,7 @@ check in the client installer that refuses the option in case
 is_nosssd_supported returns False.</p>
 </section>
 <section id="pam-stack-configuration">
-<span id="id16"></span><h3>PAM stack configuration<a class="headerlink" href="#pam-stack-configuration" title="Permalink to this heading">¶</a></h3>
+<span id="id16"></span><h2>PAM stack configuration<a class="headerlink" href="#pam-stack-configuration" title="Permalink to this heading">¶</a></h2>
 <p>Calls to the authconfig tool are completely replaced by calls to
 authselect, picking the sssd profile. PAM configuration steps are moved
 into a separate class following bridge oop pattern. All related code is
@@ -185,12 +186,12 @@ under ipaplatform/redhat/authconfig.py, ensuring that only fedora-based
 distributions are impacted by the modifications.</p>
 </section>
 <section id="mkhomedir-option">
-<span id="id17"></span><h3>–mkhomedir option<a class="headerlink" href="#mkhomedir-option" title="Permalink to this heading">¶</a></h3>
+<span id="id17"></span><h2>–mkhomedir option<a class="headerlink" href="#mkhomedir-option" title="Permalink to this heading">¶</a></h2>
 <p>The homedir creation can also be enabled with authselect with:
 <code class="docutils literal notranslate"><span class="pre">authselect</span> <span class="pre">select</span> <span class="pre">sssd</span> <span class="pre">with-mkhomedir</span></code>.</p>
 </section>
 <section id="nis-domain-configuration">
-<span id="id18"></span><h3>NIS domain configuration<a class="headerlink" href="#nis-domain-configuration" title="Permalink to this heading">¶</a></h3>
+<span id="id18"></span><h2>NIS domain configuration<a class="headerlink" href="#nis-domain-configuration" title="Permalink to this heading">¶</a></h2>
 <p>Authconfig is currently used in the client installer to configure the
 NIS domain. It is also possible to configure the NIS domain without a
 call to authconfig tool, by <a class="reference external" href="https://access.redhat.com/articles/2278">direct modification of a config
@@ -200,7 +201,7 @@ approach: append (or replace) the <code class="docutils literal notranslate"><sp
 </section>
 </section>
 <section id="client-uninstallation">
-<span id="id19"></span><h2>Client uninstallation<a class="headerlink" href="#client-uninstallation" title="Permalink to this heading">¶</a></h2>
+<span id="id19"></span><h1>Client uninstallation<a class="headerlink" href="#client-uninstallation" title="Permalink to this heading">¶</a></h1>
 <p>The client uninstallation needs to revert the system to the same state
 as before client install. In order to do this, the client installation
 will store the profile used pre-installation in the system store
@@ -220,14 +221,14 @@ installation and will apply the default authselect profile, namely the
 sssd profile without any feature.</p>
 </section>
 <section id="new-server-installation">
-<span id="id20"></span><h2>New server installation<a class="headerlink" href="#new-server-installation" title="Permalink to this heading">¶</a></h2>
+<span id="id20"></span><h1>New server installation<a class="headerlink" href="#new-server-installation" title="Permalink to this heading">¶</a></h1>
 <p>The server-specific install code is not impacted by this migration (only
 the client-part of the installation is).</p>
 </section>
 <section id="backup-and-restore">
-<h2>Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h2>
+<h1>Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h1>
 <section id="backup">
-<h3>Backup<a class="headerlink" href="#backup" title="Permalink to this heading">¶</a></h3>
+<h2>Backup<a class="headerlink" href="#backup" title="Permalink to this heading">¶</a></h2>
 <p>The authselect tool offers the “current” command to retrieve the current
 configuration (profile and enabled features). For instance:</p>
 <div class="line-block">
@@ -238,7 +239,7 @@ configuration (profile and enabled features). For instance:</p>
 configuration inside a new file in the backup directory.</p>
 </section>
 <section id="restore">
-<h3>Restore<a class="headerlink" href="#restore" title="Permalink to this heading">¶</a></h3>
+<h2>Restore<a class="headerlink" href="#restore" title="Permalink to this heading">¶</a></h2>
 <p>Note: only full restore is impacted by this feature. Data-only restore
 does not touch the authentication configuration.</p>
 <p>The ipa-restore command needs to read the saved configuration from the
@@ -251,9 +252,9 @@ with a warning. Unattended restore will fail.</p>
 </section>
 </section>
 <section id="ipa-advise-plugins-1">
-<span id="id21"></span><h2>ipa-advise plugins<a class="headerlink" href="#ipa-advise-plugins-1" title="Permalink to this heading">¶</a></h2>
+<span id="id21"></span><h1>ipa-advise plugins<a class="headerlink" href="#ipa-advise-plugins-1" title="Permalink to this heading">¶</a></h1>
 <section id="config-client-for-smart-card-auth-plugin">
-<span id="id22"></span><h3>config-client-for-smart-card-auth plugin<a class="headerlink" href="#config-client-for-smart-card-auth-plugin" title="Permalink to this heading">¶</a></h3>
+<span id="id22"></span><h2>config-client-for-smart-card-auth plugin<a class="headerlink" href="#config-client-for-smart-card-auth-plugin" title="Permalink to this heading">¶</a></h2>
 <p>This plugin configures a FreeIPA client for smart card authentication.
 Instead of calling</p>
 <p>`` authconfig –enablesssd –enablesssdauth –enablesmartcard ‘ ‘–smartcardmodule=sssd –smartcardaction=1 –updateall``</p>
@@ -261,13 +262,13 @@ Instead of calling</p>
 <p>`` authselect enable-feature with-smartcard``</p>
 </section>
 <section id="config-fedora-authconfig-plugin">
-<span id="id23"></span><h3>config-fedora-authconfig plugin<a class="headerlink" href="#config-fedora-authconfig-plugin" title="Permalink to this heading">¶</a></h3>
+<span id="id23"></span><h2>config-fedora-authconfig plugin<a class="headerlink" href="#config-fedora-authconfig-plugin" title="Permalink to this heading">¶</a></h2>
 <p>This plugin configures Fedora 18/19 client without the use of sssd.
 These versions are not suppported any more and the plugin can be
 dropped.</p>
 </section>
 <section id="other-plugins">
-<span id="id24"></span><h3>other plugins<a class="headerlink" href="#other-plugins" title="Permalink to this heading">¶</a></h3>
+<span id="id24"></span><h2>other plugins<a class="headerlink" href="#other-plugins" title="Permalink to this heading">¶</a></h2>
 <p>The other plugins (config-redhat-sssd-before-1-9,
 config-redhat-nss-pam-ldapd and config-redhat-nss-ldap) are related to
 RHEL 5, where authselect will not be available. The scripts produced by
@@ -276,14 +277,14 @@ RHEL5 system, meaning that we can keep them.</p>
 </section>
 </section>
 <section id="upgrade">
-<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h2>
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
 <section id="migration-for-older-clients">
-<span id="id25"></span><h3>Migration for older clients<a class="headerlink" href="#migration-for-older-clients" title="Permalink to this heading">¶</a></h3>
+<span id="id25"></span><h2>Migration for older clients<a class="headerlink" href="#migration-for-older-clients" title="Permalink to this heading">¶</a></h2>
 <p>Client upgrade will not modify the configuration since the PAM stack
 configuration is already in place.</p>
 </section>
 <section id="migration-for-older-servers">
-<span id="id26"></span><h3>Migration for older servers<a class="headerlink" href="#migration-for-older-servers" title="Permalink to this heading">¶</a></h3>
+<span id="id26"></span><h2>Migration for older servers<a class="headerlink" href="#migration-for-older-servers" title="Permalink to this heading">¶</a></h2>
 <p>The server has to be migrated to authselect to make sure that backup and
 restore code works properly for new servers and also for older servers.
 If no migration was implemented, this would imply that backup/restore
@@ -318,7 +319,6 @@ may contain</p></li>
 </div>
 </section>
 </section>
-</section>
 <section id="use-cases">
 <h1>Use cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
 <p>As this migration is mainly internal, it will not modify the interfaces
@@ -338,8 +338,9 @@ profile and features:</p>
 <h1>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">¶</a></h1>
 <p>The tests need to focus on 2 main parts, new installations and upgrades.
 They can be run on fedora-based distributions.</p>
+</section>
 <section id="upgrade-1">
-<span id="id27"></span><h2>Upgrade<a class="headerlink" href="#upgrade-1" title="Permalink to this heading">¶</a></h2>
+<span id="id27"></span><h1>Upgrade<a class="headerlink" href="#upgrade-1" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>upgrade must keep the mkhomedir flag (if the server was installed
 with –mkhomedir, then the authselect config obtained after upgrade
@@ -350,7 +351,7 @@ warning if the client was installed with authconfig).</p></li>
 </ul>
 </section>
 <section id="new-installations">
-<span id="id28"></span><h2>New installations<a class="headerlink" href="#new-installations" title="Permalink to this heading">¶</a></h2>
+<span id="id28"></span><h1>New installations<a class="headerlink" href="#new-installations" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>new client installation must install the sssd profile, with or
 without the with-mkhomedir feature (depending on the presence of
@@ -364,7 +365,6 @@ without the with-mkhomedir feature (depending on the presence of
 –mkhomedir flag)</p></li>
 <li><p>backup/restore must work with a new server installation</p></li>
 </ul>
-</section>
 </section>
 
 

@@ -94,7 +94,7 @@ filter <#transformation_of_filter>`__
 .. _aliasing_uniquemember_and_member:
 
 Aliasing uniquemember and member
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The schema contains the definition of the attribute (name, matching
 rules, single/multi value, origin...). The schema allows **aliasing**.
@@ -140,7 +140,7 @@ The limitations and drawbacks are
 .. _groups_containing_real_attribute_uniquemember:
 
 groups containing real attribute uniquemember
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In order to
 `integrate <https://www.howtovmlinux.com/articles/vmware/vcenter/integrate-freeipa-idm-with-vcsa-vcenter-server-for-user-authentications.html>`__
@@ -158,7 +158,7 @@ updated in sync.
 .. _groups_containing_virtual_attribute_uniquemember:
 
 groups containing virtual attribute uniquemember
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The transformation of attribute name could be achieved with MEP plugin
 and COS plugin. The MEP plugin is a POST update plugin that allows a
@@ -225,7 +225,7 @@ The advantage is:
 .. _implement_a_new_ldap_control:
 
 Implement a new LDAP control
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 LDAP V3 allows control. We could implement a 389-ds specific control
 
@@ -264,7 +264,7 @@ Advantages are:
 .. _transformation_of_filter:
 
 transformation of filter
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The use case requires a transformation of the filter component so that
 

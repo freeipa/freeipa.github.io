@@ -18,7 +18,7 @@ Design
 .. _certificate_issuance_during_installation:
 
 Certificate issuance during installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 During FreeIPA installation, 3 different certificates are requested:
 
@@ -89,7 +89,7 @@ temporarily reconfigure IPA CA helper to use
 .. _refactor_certificate_processing_code_to_use_python_cryptography:
 
 Refactor certificate processing code to use python-cryptography
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Using python-nss for certificate processing has several problems,
 including:

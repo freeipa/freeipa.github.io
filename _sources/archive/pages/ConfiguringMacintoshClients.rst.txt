@@ -28,10 +28,10 @@ The current version of IPA does not provide for automatic configuration
 of Macintosh clients. Configuring authentication is a manual process and
 is described below.
 
-.. _configuring_kerberos:
+
 
 Configuring Kerberos
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. Ensure that **/System/Library/CFMSupport/Kerberos** is version 4.2 or
 higher. If that directory does not exist or is the wrong version,
@@ -91,7 +91,7 @@ own IPA server name, Kerberos realm and domain details.
 .. _enabling_kerberos_authentication:
 
 Enabling Kerberos Authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You now need to modify the ``/private/etc/authorization`` file to allow
 Kerberos authentication.
@@ -139,7 +139,7 @@ These instructions are specific to Mac OS X 10.4 (Tiger).
 .. _creating_the_ldap_configuration:
 
 Creating the LDAP Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. Launch **/Applications/Utilities/Directory Access**.
 
@@ -166,7 +166,7 @@ checkbox is cleared.
 .. _setting_up_the_ldap_service_configuration_options:
 
 Setting up the LDAP Service Configuration Options
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 1. Select the newly-created LDAP configuration and then click **Edit**.
 
@@ -239,7 +239,7 @@ options.
 .. _configuring_the_ldap_authorization_options:
 
 Configuring the LDAP Authorization Options
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You now need to add the LDAP service to the list of locations used to
 search for user authentication information.
@@ -284,7 +284,7 @@ authentication without asking for a password:
 
    # ssh admin@ipaserver.example.com
 
-.. _configuring_client_ssh_access:
+
 
 Configuring Client SSH Access
 -----------------------------

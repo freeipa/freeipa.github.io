@@ -18,7 +18,7 @@ Procedure in current IPA
 ------------------------
 
 Prerequisite
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The certificate in mysite.crt must be signed by a CA known by the
 service you are loading the certificate into. If it is not the case, you
@@ -34,7 +34,7 @@ Note: the command ipa-certupdate must be executed on all the IPA hosts
 .. _configuration_of_the_3rd_part_certificate:
 
 Configuration of the 3rd part certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You can install the new bundle using:
 
@@ -58,7 +58,7 @@ Procedure in IPA < 4.1
 .. _prerequisite_1:
 
 Prerequisite
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The certificate in mysite.crt must be signed by a CA known by the
 service you are loading the certificate into. If it is not the case, you
@@ -121,7 +121,7 @@ On the clients, you need to run only the following:
 .. _configuration_of_the_3rd_part_certificate_1:
 
 Configuration of the 3rd part certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 First we want to create a new PKCS12 archive containing the
 aforementioned certificates:

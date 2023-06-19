@@ -45,7 +45,6 @@ Feature Management
 ==================
 
 UI
---
 
 UI will need to implement new page in IPA Server - Trusts section,
 similarly to "DNS Global Configuration", except this one would be named
@@ -58,12 +57,11 @@ selecting an existing group in FreeIPA domain or use the default hidden
 group "SMB Default Group".
 
 CLI
----
 
 .. _trustconfig_show:
 
 trustconfig-show
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``trustconfig-show`` will display configuration of FreeIPA domain,
 stored in ``cn=$DOMAIN,cn=$TYPE,cn=etc,$SUFFIX``. When the trust is not
@@ -78,7 +76,7 @@ Required command options:
 .. _trustconfig_mod:
 
 trustconfig-mod
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``trustconfig-mod`` will allow Administrator to modify selected
 attributes which would not cause breakage of current trust

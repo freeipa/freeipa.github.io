@@ -18,12 +18,10 @@ Feature management
 ==================
 
 CLI
----
 
 .. _web_ui:
 
-Web UI
-------
+Web UI----
 
 Replication
 -----------

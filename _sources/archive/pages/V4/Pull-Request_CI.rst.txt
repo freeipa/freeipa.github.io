@@ -53,7 +53,7 @@ on GitHub PRs. The following has to be addressed in this design:
 -  Deployment of test runners
 
 Requirements
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Test results and logs are easily accessible to developers and
    community
@@ -72,7 +72,7 @@ Requirements
 .. _overview_1:
 
 Overview
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Collection of machines called *test runners* are monitoring GitHub PRs.
 Test runners can be running anywhere, they just need to have credentials
@@ -94,7 +94,7 @@ commit status.
 .. _multi_host_environment_provisioning:
 
 Multi-host environment provisioning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Hosts are provisioned as virtual machines (VM). To speed up the
 provisioning and to alleviate issues with broken dependencies, VM
@@ -106,7 +106,7 @@ Atlas <https://atlas.hashicorp.com/freeipa>`__.
 .. _github_integration:
 
 GitHub integration
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Test runners communicate through with GitHub through its API. Each pull
 request has a collection of `GitHub commit
@@ -118,7 +118,7 @@ project <https://github.com/cockpit-project/cockpit/tree/master/test>`__.
 .. _task_execution:
 
 Task execution
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For each PR, a build and a series of test suites have to be executed.
 The test runners use a common algorithm to determine the priority of all
@@ -128,7 +128,7 @@ top-priority task, starts executing it, and marks it in progress.
 .. _publishing_test_results_and_artifacts:
 
 Publishing test results and artifacts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Once the task finishes, the artifacts (rpms, logs) are uploaded and a
 URL is created. Currently, the artifacts are uploaded and stored on

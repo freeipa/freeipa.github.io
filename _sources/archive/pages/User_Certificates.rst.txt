@@ -78,7 +78,7 @@ ipa cert-policy GROUP --autoapprove=[yes|no]
 .. _agent_identification:
 
 Agent Identification
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 All IPA work is currently performed by the Same User agent inside
 Dogtag. This bypasses the PKI auditing framework. Host certificates will

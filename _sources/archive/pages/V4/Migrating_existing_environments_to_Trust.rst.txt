@@ -23,7 +23,7 @@ Use Cases
 .. _store_posix_attributes_and_ssh_keys_for_ad_users:
 
 Store POSIX attributes and SSH keys for AD users
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Define POSIX attributes or SSH users for AD users and let them be
 applied when the AD user authenticates to `clients <Client>`__ running
@@ -37,7 +37,7 @@ attributes for AD users, but AD policy do not allow it.
 .. _migration_from_the_sync_to_the_trust_solution:
 
 Migration from the Sync to the Trust solution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Utilize *ID Views* interface to configure needed POSIX attributes for
 existing users synchronized with *Winsync* and move them back to AD. The
@@ -56,7 +56,7 @@ planned for next releases in ticket
 .. _per_hostgroup_override_of_freeipa_user_posix_attributes:
 
 Per hostgroup override of FreeIPA user POSIX attributes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Use *ID Views* mechanism to override FreeIPA user POSIX attributes on
 specified servers that may not yet be using the unified domain ones.
@@ -68,7 +68,7 @@ Design
 .. _id_views:
 
 ID Views
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A new concept of *ID Views* is introduced. Every ID View is a collection
 of user and group *overrides* that applies to specified hosts or as a
@@ -102,7 +102,7 @@ Following list of group attributes can be overridden in an *ID View*:
 .. _data_flow:
 
 Data Flow
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 |User-views.png| In an environment with a `Trust <Trusts>`__, the SSSD
 on the FreeIPA server reads the data from AD and immediately apply the
@@ -116,7 +116,7 @@ LDAP tree and apply them on their own.
 .. _id_ranges:
 
 ID Ranges
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ID ranges are used in FreeIPA to avoid collisions of POSIX IDs from
 different domains especially if the POSIX IDs are algorithmically
@@ -140,7 +140,7 @@ Implementation
 .. _proposed_schema:
 
 Proposed schema
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | `` attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME 'ipaAnchorUUID' DESC 'Unique Anchor Identifier' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')``
 | `` attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME 'ipaOriginalUid' DESC 'Original UID of overriden user' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')``
@@ -151,7 +151,7 @@ Proposed schema
 | `` objectClasses: (2.16.840.1.113730.3.8.12.34 NAME 'ipaOverrideTarget' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) X-ORIGIN 'IPA v4' )``
 
 Container
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ID Views will be stored in containers below
 ``cn=views,cn=accounts,$SUFFIX`` with containers for users and groups.
@@ -167,7 +167,7 @@ On the server side we have to modify SSSD running in IPA server mode as
 well and the slapi-nis plugin for the compat tree.
 
 SSSD
-~~~~
+----------------------------------------------------------------------------------------------
 
 On the SSSD side the override is done as late as possible. The AD users
 and group are looked up via the *extdom plugin* which return only the
@@ -349,7 +349,7 @@ un-qualified override name to allow searches with those names as well).
 .. _slapi_nis_plugincompat_tree:
 
 slapi-nis plugin/compat tree
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The compat tree offers a simplified LDAP tree with user and group data
 for legacy clients. No data for this tree is stored on disk but it is
@@ -426,7 +426,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 .. _view_management:
 
@@ -449,7 +448,6 @@ Additionally, Default Trust View itself should be protected from
 deletion.
 
 CLI
-~~~
 
 .. _view_management_1:
 
@@ -527,7 +525,7 @@ Currently implemented commands:
 +----------------------+----------------------------------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Feature is activated during ``ipa-adtrust-install`` given it mostly
 targets `trusted <Trusts>`__ users. The existence of the view container
@@ -586,7 +584,7 @@ Check that the user UID, GID and group membership is returned correctly:
 .. _use_case_store_posix_attributes_and_ssh_keys_for_ad_users_using_default_trust_view:
 
 Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Now, we can try to override a attribute for this testing user. We will
 use the 'Default Trust View', which is always applied for AD users and
@@ -616,7 +614,7 @@ In a similiar way, you can override GID, or other attributes, see
 .. _use_case_store_posix_attributes_and_ssh_keys_for_ad_users_using_host_specific_id_view:
 
 Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For host-specific views, we cannot use Default Trust View, since that
 one is not host specific, it is always applied. We add a new ID view
@@ -674,7 +672,7 @@ our client, than on the server:
 .. _use_case_migration_from_the_sync_to_the_trust_solution:
 
 Use Case: Migration from the Sync to the Trust solution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To migrate from winsync to trusts you will need to take following steps:
 

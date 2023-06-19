@@ -37,7 +37,7 @@ for more details.
 .. _download_install_or_remove_selinux_policy_modules_with_ipa_action_policy:
 
 Download, install or remove SELinux policy modules with IPA action policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An IPA action policy has three parts, , and (see `FreeIPAv2:Overall
 Design of Policy Related
@@ -81,7 +81,7 @@ This IPA action policy will be processed as any other IPA action policy.
 .. _configure_selinux_policy_modules_via_selinux_policy_booleans_with_ipa_config_policy:
 
 Configure SELinux policy modules via SELinux policy booleans with IPA config policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 SELinux policies can include conditional section to allow runtime
 modification without having to load a new policy. These conditional
@@ -129,7 +129,7 @@ result as defined by XSL metadata
 .. _manage_the_relation_of_linux_users_to_selinux_users_with_ipa_role_policy:
 
 Manage the relation of Linux users to SELinux users with IPA role policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To give or take certain privileges to/from a user with the help of
 SELinux we have to connect three SELinux element, namely

@@ -64,12 +64,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 See Design
 

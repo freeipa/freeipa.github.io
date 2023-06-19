@@ -157,7 +157,7 @@ requirements and constraints that need to be factored in.
 .. _choosing_a_common_ldap_server:
 
 Choosing a Common LDAP server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The architecture requires that Samba and IPA share the same data store.
 This means that both of them need to be able to work using the same
@@ -178,7 +178,7 @@ Directory Server as a back end.
 .. _choosing_a_shared_kdc:
 
 Choosing a Shared KDC
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The diagram's architecture also assumes that Samba and IPA will share
 the same KDC; this KDC must be able to serve both Windows and UNIX/Linux

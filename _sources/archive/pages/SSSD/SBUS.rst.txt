@@ -12,7 +12,7 @@ The D-BUS protocol has four primary components:
 .. _the_d_bus_server:
 
 The D-BUS Server
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A common source of confusion, the D-BUS server is not a server in the
 traditional sense. Rather than accepting connections and listening for
@@ -22,7 +22,7 @@ establishing connections.
 .. _the_d_bus_connection:
 
 The D-BUS Connection
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is the workhorse of the D-BUS protocol. Once a D-BUS connection has
 been made to a D-BUS server, it becomes a peer-to-peer connection.
@@ -32,7 +32,7 @@ either end can initiate them.
 .. _the_d_bus_message:
 
 The D-BUS Message
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 D-BUS messages come in three primary forms. These are D-BUS method
 calls, D-BUS Signals and D-BUS errors. D-BUS signals and D-BUS errors
@@ -57,7 +57,7 @@ http://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol
 .. _the_d_bus_system_bus:
 
 The D-BUS System Bus
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The system bus is a special implementation of the D-BUS protocol. It was
 designed by the freedesktop project to handle communication between the
@@ -84,7 +84,7 @@ project, but will implement only a subset of D-BUS features.
 .. _sssd_infrastructure:
 
 SSSD Infrastructure
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The SSSD makes use of the event library developed by the Samba project.
 This event library implements a very robust mainloop for processes.
@@ -99,7 +99,7 @@ tree.
 .. _sbus_server:
 
 SBUS Server
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The SBUS server will be run on one side or the other of any SSSD process
 that requires communication from other processes. Some examples of this

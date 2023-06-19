@@ -31,7 +31,7 @@ HOTP (counter-based; RFC 4226) or TOTP (time-based; RFC 6238).
 .. _administrator_managed_hardware_tokens:
 
 Administrator-Managed Hardware Tokens
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Two types of hardware tokens exist: programmable and non-programmable.
 Both types are often purchased by an administrator in bulk and then
@@ -73,7 +73,7 @@ require per-user assignment after the import is complete.
 .. _user_managed_tokens:
 
 User-Managed Tokens
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An administrator enables token support for a user (or globally) but does
 not create any software tokens. The user is able to log in with just the
@@ -97,7 +97,7 @@ due to browser limitations.
 .. _token_synchronization:
 
 Token Synchronization
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If a token goes out of sync, the user should be able to re-synchronize
 it. This should be possible regardless of what type of token it is and
@@ -213,7 +213,7 @@ Token Synchronization
 ---------------------
 
 HTTPS
-~~~~~
+----------------------------------------------------------------------------------------------
 
 Support for synchronizing a token is available at /session/sync_token
 using a POST request. This request takes the following parameters:
@@ -233,7 +233,7 @@ header.
 .. _ldap_bind_control:
 
 LDAP Bind Control
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Token synchronization is available via a bind control when doing a
 simple bind. The OID of the control is: 2.16.840.1.113730.3.8.10.6. The
@@ -272,7 +272,7 @@ Only administrators may change the User Auth Type (globally or
 per-user).
 
 Helpdesk
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 One tricky situation that is not yet accounted for is the helpdesk
 scenario where a non-admin needs to perform some tasks related to
@@ -328,12 +328,11 @@ Feature Management
 ==================
 
 UI
---
 
 .. _authentication_methods_1:
 
 Authentication Methods
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 System-wide authentication methods will be available on the Server
 settings tab.
@@ -344,7 +343,7 @@ page.
 .. _radius_proxy_server_configuration:
 
 RADIUS Proxy Server Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Administrators will have the RADIUS Servers tab available for managing
 RADIUS proxy servers. These servers can be assigned to individual users
@@ -353,7 +352,7 @@ on the specific user's detail page.
 .. _otp_tokens:
 
 OTP Tokens
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A tab for managing tokens will be available on the user self-service
 page. This will permit the addition, deletion and editing of
@@ -365,12 +364,11 @@ users.
 A link to a synchronization page is provided at the FreeIPA login page.
 
 CLI
----
 
 .. _existing_commands_modified:
 
 Existing Commands Modified
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 +------------+--------------------------------------------------------+
 | Command    | Options                                                |
@@ -384,7 +382,7 @@ Existing Commands Modified
 .. _new_radius_proxy_commands:
 
 New RADIUS Proxy Commands
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 +------------------+--------------------------------------------------+
 | Command          | Options                                          |
@@ -406,7 +404,7 @@ New RADIUS Proxy Commands
 .. _new_otp_token_commands:
 
 New OTP Token Commands
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 +---------------------------+-----------------------------------------+
 | Command                   | Options                                 |
@@ -492,7 +490,7 @@ Configuration
 .. _creating_a_user:
 
 Creating a User
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We need to create a user to use when testing OTP. For the duration of
 this guide, I will call this user: ``otpuser``.
@@ -541,7 +539,7 @@ this guide, I will call this user: ``otpuser``.
 .. _enabling_otp_and_radius:
 
 Enabling OTP and RADIUS
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Before OTP or RADIUS can be used, they needs to be enabled (either
 globally or per-user). This involves setting the User Auth Type to
@@ -567,7 +565,7 @@ globally or per-user). This involves setting the User Auth Type to
 .. _logging_in:
 
 Logging In
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _default_method:
 
@@ -622,7 +620,7 @@ Self-Managed Tokens
 .. _software_tokens:
 
 Software Tokens
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Make sure you have FreeOTP
 `Android <https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=en>`__
@@ -649,7 +647,7 @@ permitted to remove the last active token.
 .. _programmable_hardware_tokens:
 
 Programmable Hardware Tokens
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This test will require a YubiKey token.
 
@@ -684,7 +682,7 @@ work for authentication, but you are unable to modify them in any way.
 .. _importing_tokens:
 
 Importing Tokens
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Testing the importing of non-programmable hardware tokens is much more
 difficult. It requires access to a hardware token and its
@@ -746,7 +744,7 @@ Test Outline
 ------------
 
 Preparation
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Create a normal user
 #. Ensure the user can login 1FA
@@ -754,7 +752,7 @@ Preparation
 .. _global_otp_test:
 
 Global OTP Test
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Enable OTP globally
 #. Ensure the user can login 1FA
@@ -787,7 +785,7 @@ Global OTP Test
 .. _local_otp_test:
 
 Local OTP Test
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Enable OTP per-user
 #. Ensure the user can login 1FA
@@ -820,7 +818,7 @@ Local OTP Test
 .. _user_permissions_test:
 
 User Permissions Test
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Login as the user.
 #. Ensure the user can create self-managed TOTP, HOTP tokens

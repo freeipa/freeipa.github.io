@@ -89,7 +89,7 @@ The following aspects of the system are not discussed here:
 .. _ipa_enabled_platform_applications:
 
 IPA-Enabled Platform Applications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 These applications currently either do not exist or are not IPA-enabled.
 So far we have identified two applications: the Policy Kit Back-End
@@ -144,7 +144,7 @@ the Design section below.
 .. _local_storage_cache:
 
 Local Storage (Cache)
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | Local storage is also referred to as cache.
 | The purposes of the cache are to:
@@ -268,7 +268,7 @@ Design section below.
 .. _ipa_related_components:
 
 IPA-Related Components
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The IPA-related components are installed as part of the IPA package.
 Among others, the following binaries will be installed:
@@ -404,7 +404,7 @@ connection.
 .. _alternatives_to_the_ipa_provider:
 
 Alternatives to the IPA Provider
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In future we plan to support bindings with other providers, for example
 with AD. The data provider will be modified to create a pluggable
@@ -415,7 +415,7 @@ revisited later.
 .. _data_flow_in_the_system:
 
 Data Flow in the System
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The Data Provider is the main source of the remote data that processes
 need. The following section describes how processes interact with the
@@ -774,7 +774,7 @@ will be implemented in much the same way as in the Data Provider:
 .. _access_control_decision:
 
 Access Control Decision
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 While processing the authentication initiated via the PAM stack, the
 client must ensure that the user trying to access the host has not only
@@ -831,7 +831,7 @@ of operations in this scenario will be as follows:
 .. _pluggable_architecture:
 
 Pluggable Architecture
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In future the PAM responder will be extended to allow 3rd party
 applications to install hooks into its processing loop. This feature
@@ -917,7 +917,7 @@ handler component is responsible for:
 .. _merging_policies:
 
 Merging Policies
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The policy downloader will implement the default merge method that will
 merge the policies based on their priority as defined in the IPA server.
@@ -929,7 +929,7 @@ modules will be determined later.
 .. _transforming_policies:
 
 Transforming Policies
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The policies are downloaded in the form of XML blobs and stored (cached)
 in the file system as files. In addition, the XML policies need to be
@@ -1222,7 +1222,7 @@ Policy Downloader and its plug-ins. When writing code the considerations
 described below should be taken into account.
 
 Threads
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Avoid creating threads until it is absolutely necessary. Threads in
 general create a level of complexity that is much harder to implement
@@ -1236,7 +1236,7 @@ and test. If forced to use threads make sure that you:
 .. _buffer_copying:
 
 Buffer copying
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Avoid copying data around if it is not required, but if you reference
 external data make sure it does not get out of scope or deallocated
@@ -1245,7 +1245,7 @@ while you still hold a pointer to it.
 .. _blocking_and_asynchronous_processing:
 
 Blocking and Asynchronous Processing
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The process should never block during the data retrieval operation. The
 main loop and the event library would take care of this. Refer to the

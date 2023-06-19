@@ -31,7 +31,7 @@ Use Cases
 .. _a_load_balancing_cluster_of_http_server_that_allow_gssapikrb5_negotiation:
 
 A load balancing cluster of HTTP server that allow GSSAPI/Krb5 negotiation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The load balancing servers need to be able to share the same Service
 Principal Name (SPN) for ``HTTP/public-http-server-name@REALM`` and key
@@ -68,7 +68,7 @@ available.
 .. _new_extended_operation:
 
 New Extended operation
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 New Extended operation OID: **2.16.840.1.113730.3.8.10.5**
 
@@ -141,7 +141,7 @@ out a keytab after receiving the reply.
 .. _access_control:
 
 Access Control
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 It would be nice, at this point to be able to have a way to express
 access control related to actions taken by extended operations rather
@@ -159,7 +159,7 @@ available in LDAP - *sub-types*.
 .. _new_schema:
 
 New Schema
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Attributes:
 
@@ -192,7 +192,7 @@ operation.
 .. _new_acis:
 
 New ACIs
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The extended operation uses 2 named sub-types: read_keys/write_keys. The
 read_keys sub-type identify the ability to retrieve a key, while
@@ -230,7 +230,7 @@ ipaAllowedToPerform attribute. CLI equivalent for the LDIF above is:
 .. _compatibility_with_older_freeipa_servers:
 
 Compatibility with older FreeIPA servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa-getkeytab`` falls back to the old extended operation for fetching
 new keys when an old server does not have the new extended operation.
@@ -253,12 +253,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A.
 
 CLI
-~~~
 
 ``ipa-getkeytab`` has a new ``-r`` switch:
 
@@ -272,7 +270,7 @@ How to Test
 .. _use_case_a_load_balancing_cluster_of_http_server_that_allow_gssapikrb5_negotiation_tbd:
 
 Use Case: A load balancing cluster of HTTP server that allow GSSAPI/Krb5 negotiation (TBD)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Install FreeIPA server with DNS on a host, e.g. with hostname
    ``server.example.test``

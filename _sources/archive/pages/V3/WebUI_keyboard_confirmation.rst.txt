@@ -19,7 +19,7 @@ Feature design
 --------------
 
 Confirmation
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Confirmation is the dialog's default positive action. It corresponds to
 the purpose of the dialog ie. 'Add user', 'Disable user', 'Remove DNS
@@ -37,7 +37,7 @@ these are:
 -  selects - opens a list of options
 
 Cancellation
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Cancellation is default negative action. It corresponds to a negation of
 dialog's purpose. Usually it is the action associated with the last

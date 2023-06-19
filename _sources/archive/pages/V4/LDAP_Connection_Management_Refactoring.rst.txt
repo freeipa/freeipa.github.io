@@ -18,7 +18,7 @@ Use Cases
 .. _in_framework:
 
 In framework
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When working with a framework, you can use api.Backend.ldap2.
 
@@ -29,7 +29,7 @@ time limits.
 .. _local_server:
 
 Local server
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When you're writing a script that needs to connect to a local server,
 you need to explicitly connect and disconnect from the LDAP server. The
@@ -49,7 +49,7 @@ following code will connect with LDAPI and use external bind:
 .. _remove_server:
 
 Remove server
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When connecting to a remote server, use LDAPClient. An example with
 LDAPClient and simple_bind():
@@ -69,7 +69,7 @@ Proper usage
 ------------
 
 api.Backend.ldap2
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Use whenever accessing local directory server
 -  Connect only at start and end of script
@@ -79,7 +79,7 @@ api.Backend.ldap2
 .. _restarting_directory_server:
 
 Restarting Directory Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Use start(), stop() and restart() methods of DsInstance
 
@@ -91,7 +91,7 @@ Restarting Directory Server
 .. _adhoc_connections:
 
 Adhoc connections
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 api.Backend.ldap2 should be always preferred if connecting to the local
 server. In the cases, where you need to establish a connection to other
@@ -103,7 +103,7 @@ server, you can use an adhoc connection.
 -  Make sure to properly close the connection when it is no longer used
 
 ldap2
-~~~~~
+----------------------------------------------------------------------------------------------
 
 -  No time_limit and size_limit by default
 -  Set time_limit=None and size_limit=None to respect values in ipa
@@ -118,7 +118,7 @@ refactoring effort.
 .. _merge_ipadmin_to_ldapclient:
 
 Merge IPAdmin to LDAPClient
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPAdmin was merged into LDAPClient and removed completely. The following
 changes were made in ipaldap:
@@ -129,7 +129,7 @@ changes were made in ipaldap:
       server is start / restarted.
 
 -  Used simple_bind(), external_bind() and gssapi_bind() instead of
-   their do_\* alternatives, which were removed.
+   their do\_\* alternatives, which were removed.
 -  Removed user name from external_bind() and always set it to effective
    user name.
 -  Removed obsolete and unused IPAdmin properties
@@ -159,7 +159,7 @@ changes were made in ipaldap:
 .. _use_ldapi_when_connecting_to_localhost:
 
 Use ldapi when connecting to localhost
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When a local connection is established, it should use ldapi whenever
 possible. api.Backend.ldap2 was configured to use ldapi. Some adhoc
@@ -171,7 +171,7 @@ rpc still respects the ipa config file.
 .. _use_a_shared_ldap_connection_in_installers_and_install_tools:
 
 Use a shared LDAP connection in installers and install tools
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In installers and install tools, an ldap connection (if needed) should
 be established at the start of the script and properly closed at the end

@@ -139,7 +139,7 @@ acquires the SC lock in PREOP and release it in POSTOP.
 .. _first_try:
 
 First try
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A first
 `patch <https://bugzilla.redhat.com/attachment.cgi?id=1305923>`__ was
@@ -161,7 +161,7 @@ This **first patch** failed because:
 .. _second_patch:
 
 Second patch
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Because we can not guaranty the order the plugins are called, the
 acquisition/release of the lock should be done a step above:

@@ -115,12 +115,10 @@ Feature Management
 ==================
 
 UI
---
 
 N/A
 
 CLI
----
 
 N/A
 

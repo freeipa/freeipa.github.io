@@ -47,7 +47,7 @@ Proposed Implementation
 -----------------------
 
 Assumptions
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  IPA Server already configured (with or without Windows AD trust)
 -  Puppet Master & Agents are IPA Clients
@@ -63,7 +63,7 @@ Assumptions
 .. _initial_setup_of_ipa_and_puppet:
 
 Initial Setup of IPA and Puppet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Enroll Puppet Master as a host + service in IPA
 
@@ -80,7 +80,7 @@ Initial Setup of IPA and Puppet
 .. _puppet_ipaopenshift_module_in_detail:
 
 Puppet IPA/OpenShift Module in Detail
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Puppet's init script selects IPA setup = True
 #. NTP is configured from Agent -> IPA Server

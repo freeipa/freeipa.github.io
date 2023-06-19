@@ -43,7 +43,7 @@ plugins to load. We can call this file a plugin index. It's located in
 */usr/share/ipa/ui/js/freeipa/plugins.js*.
 
 Structure
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Plugin index is a simple AMD module with array *plugins* containing
 plugin names.
@@ -60,7 +60,7 @@ plugin names.
 .. _index_regeneration:
 
 Index regeneration
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Plugin index is dynamically created by wsgi script:
 */usr/share/ipa/wsgi/plugins.py*. Httpd rewrite rule hides this fact and
@@ -105,8 +105,7 @@ registration phase after all plugins are loaded.
 
 .. _extending_ui:
 
-Extending UI
-------------
+Extending UI----------
 
 At this point plugins can do whatever they want to do. In future we
 should provide more or less stable plugin API. Consumers of the API
@@ -127,7 +126,7 @@ Both cases of adding new UI fields are not straightforward.
 .. _modifying_page_spec:
 
 Modifying page spec
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Spec of most pages are enclosed in function calls which are usually
 evaluated right before creating a page. All spec should be moved to
@@ -139,7 +138,7 @@ phase.
 .. _modifying_already_created_pages:
 
 Modifying already created pages
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Facets don't support content recreation. They expects that
 *create(container)* method is called only once. New rules for facets and
@@ -164,12 +163,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 N/A
 

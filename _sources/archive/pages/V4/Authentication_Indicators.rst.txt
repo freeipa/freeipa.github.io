@@ -25,7 +25,7 @@ Use Cases
 .. _strong_authentication_on_selected_system:
 
 Strong Authentication on Selected System
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 
 
@@ -54,7 +54,7 @@ Design
 ------
 
 Background
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The IETF draft for Authentication Indicators is available here:
 https://tools.ietf.org/html/draft-jain-kitten-krb-auth-indicator-01
@@ -69,7 +69,7 @@ and the UI/CLI.
 .. _overview_1:
 
 Overview
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. figure:: Indicators.png
    :alt: Indicators.png
@@ -79,7 +79,7 @@ Overview
 .. _enable_optional_otp_preauth:
 
 Enable Optional OTP Preauth
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 
 
@@ -124,7 +124,7 @@ We need to make this optional.
 .. _insert_authentication_indicators_during_authentication_asreq:
 
 Insert Authentication Indicators During Authentication (ASReq)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Once the above task is done, we can start inserting authentication
 indicators. This is a simple configuration change to the KDB plugin to
@@ -134,7 +134,7 @@ mechanism.
 .. _verify_authentication_indicators_during_ticket_issuance_tgsreq:
 
 Verify Authentication Indicators During Ticket Issuance (TGSReq)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 During a TGS request, the KDC will load the service principal from KDB
 like normal. In this case, we simply need to return a tl_data string
@@ -160,7 +160,7 @@ krb5 >= 1.14.0 (freeipa-server only) N/A
 .. _otprequired_bind_control:
 
 OTPRequired Bind Control
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 === ============
 OID Contents
@@ -171,7 +171,7 @@ TBD None (empty)
 .. _kdb_string_attributes:
 
 KDB String Attributes
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 +-------------------+---------------+--------------+------------------------------+
 | Principal Type    | Configuration | Key          | Value                        |
@@ -189,13 +189,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Services should gain checkboxes for the required authentication
 indicators.
 
 CLI
-~~~
 
 Overview of the CLI commands. Example:
 

@@ -66,8 +66,9 @@ centralization and security on multiple levels.</p>
 <p>For this feature, we need to add the URI to HBAC rule in FreeIPA, make
 SSSD able to determine authorization based on it, and give services some
 way to communicate with SSSD in terms of URI-based HBAC.</p>
+</section>
 <section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h2>
+<h1>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">¶</a></h1>
 <p>URI is a part of HBAC rule. It is interpreted as a prefix which decides
 whether the HBAC rule that would otherwise match (if it wasn’t for this
 feature) matches (the URI attribute is a prefix of resource’s URI) or it
@@ -110,7 +111,7 @@ IPA provider in SSSD.</p>
 </figure>
 </section>
 <section id="evaluation">
-<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">¶</a></h2>
+<h1>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">¶</a></h1>
 <p>There are multiple possible approaches to comparing the requested
 resource’s URI with URI in HBAC. In all of them, I use only the part of
 URI after hostname as hostname and service are already matched as part
@@ -136,7 +137,7 @@ feature.</p></li>
 </ul>
 </section>
 <section id="example-how-it-can-not-work">
-<span id="id1"></span><h2>Example - how it can not work<a class="headerlink" href="#example-how-it-can-not-work" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h1>Example - how it can not work<a class="headerlink" href="#example-how-it-can-not-work" title="Permalink to this heading">¶</a></h1>
 <p>Consider webapp that has, among others, these pages:
 <a class="reference external" href="http://hostname.net/app/auth/user1">http://hostname.net/app/auth/user1</a> <a class="reference external" href="http://hostname.net/app/auth/user42">http://hostname.net/app/auth/user42</a>
 <a class="reference external" href="http://hostname.net/app/auth/admin">http://hostname.net/app/auth/admin</a></p>
@@ -231,7 +232,7 @@ semantics which</p></li>
 </ul>
 </section>
 <section id="example-how-it-works">
-<span id="id2"></span><h2>Example - how it works<a class="headerlink" href="#example-how-it-works" title="Permalink to this heading">¶</a></h2>
+<span id="id2"></span><h1>Example - how it works<a class="headerlink" href="#example-how-it-works" title="Permalink to this heading">¶</a></h1>
 <p>Using the previous notion, we would in many cases create a pair of rules
 for subsets we wish to exclude some users from – an ALLOW rule allowing
 access to certain subset of users, and a DENY rule which is the same
@@ -273,7 +274,7 @@ allows admin access to <a class="reference external" href="http://hostname.net/a
 DENY making this the exclusive access right for admin.</p>
 </section>
 <section id="compatibility">
-<h2>Compatibility<a class="headerlink" href="#compatibility" title="Permalink to this heading">¶</a></h2>
+<h1>Compatibility<a class="headerlink" href="#compatibility" title="Permalink to this heading">¶</a></h1>
 <p>If there is no URI in PAM request, we match any HBAC rule that would
 match without this feature. In that case, we presume the application is
 not interested in URI. This means effectively ignoring URI and matching
@@ -291,19 +292,14 @@ application didn’t include URI in the request.</p>
 <p>I haven’t however, found any better solution that would be fully
 backwards-compatible. I’d be glad for suggestions.</p>
 </section>
-</section>
 <section id="feature-management">
 <h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
-<section id="ui">
-<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>UI</p>
 <p>There are two new fields in HBAC rule details for adding URI separated
 into two parts: scheme+host+port and path</p>
-</section>
-<section id="cli">
-<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>CLI</p>
 <p>There are subcommands for “ipa” command to list and modify URI, these
 are generated automatically.</p>
-</section>
 </section>
 <section id="how-to-test">
 <span id="how-to-test39"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>

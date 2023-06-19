@@ -96,7 +96,7 @@ After a clean IPA installation, there is no automount location defined.
 .. _creating_new_locations:
 
 Creating new locations
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountlocation-add LOCATION_NAME``
 
@@ -109,14 +109,14 @@ auto.master map.
 .. _listing_all_locations:
 
 Listing all locations
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountlocation-find``
 
 .. _searching_for_locations:
 
 Searching for locations
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountlocation-find SEARCH_STRING``
 
@@ -125,7 +125,7 @@ All locations with SEARCH_STRING in their name will be listed.
 .. _exporting_automount_data_for_locations:
 
 Exporting automount data for locations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountlocation-tofiles LOCATION_NAME``
 
@@ -135,7 +135,7 @@ can't connect to LDAP to retrieve the automount data.
 .. _deleting_locations:
 
 Deleting locations
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountlocation-del LOCATION_NAME``
 
@@ -145,7 +145,7 @@ keys).
 .. _creating_maps:
 
 Creating maps
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountmap-add LOCATION_NAME MAP_NAME``
 
@@ -157,7 +157,7 @@ MAP_NAME is the name of the new indirect map.
 .. _creating_indirect_maps:
 
 Creating indirect maps
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An indirect map represents a common mountpoint for specific keys. An
 indirect map is equivalent to an automount file listed in
@@ -177,21 +177,21 @@ MOUNT_POINT is the mount point such as "/mnt".
 .. _listing_all_maps_in_a_location:
 
 Listing all maps in a location
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountmap-find LOCATION_NAME``
 
 .. _displaying_maps:
 
 Displaying maps
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountmap-show LOCATION_NAME MAP_NAME``
 
 .. _deleting_maps:
 
 Deleting maps
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountmap-del LOCATION_NAME MAP_NAME``
 
@@ -202,7 +202,7 @@ link to this map ARE NOT deleted, because they are stored in another map
 .. _creating_keys:
 
 Creating keys
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Keys in automount have 2 roles:
 
@@ -220,21 +220,21 @@ contain a path to this device along with mount options.
 .. _listing_all_keys_in_a_specific_map:
 
 Listing all keys in a specific map
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountkey-find LOCATION_NAME MAP_NAME``
 
 .. _deleting_keys:
 
 Deleting keys
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``ipa automountkey-del LOCATION_NAME MAP_NAME KEY_NAME``
 
 .. _using_automount_information_from_ldap_on_clients:
 
 Using automount information from LDAP on clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Assumptions:
 
@@ -277,7 +277,7 @@ should not be confused with the certmonger ``ipa-getcert`` command.
 .. _cert_get:
 
 cert-get
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Retrieve an issued certificate. This is not implemented in the selfsign
 CA.
@@ -285,7 +285,7 @@ CA.
 .. _cert_remove_hold:
 
 cert-remove-hold
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Removes a certificate hold put on hold using the ``cert-revoke``. This
 is not implemented in the selfsign CA.
@@ -293,7 +293,7 @@ is not implemented in the selfsign CA.
 .. _cert_request:
 
 cert-request
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Provide a Certificate Signing Request (CSR) and receive back a server
 certificate.
@@ -310,7 +310,7 @@ rejected.
 .. _cert_revoke:
 
 cert-revoke
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Revoke a certificate and add it to the CRL. This is not implemented in
 the selfsign CA. The revocation reasons, as defined by RFC 5280, are:
@@ -329,7 +329,7 @@ the selfsign CA. The revocation reasons, as defined by RFC 5280, are:
 .. _cert_status:
 
 cert-status
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Return the status of a certificate request. The dogtag CA issues
 certificates immediately so generally this will always be issued. This
@@ -486,7 +486,7 @@ the highest priority wins.
 .. _add_new_policy:
 
 Add new policy
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Not all aspects of the policy are required but policies are not
 additive. So if your global policy sets maxlife to 99 days and you don't
@@ -496,7 +496,7 @@ defaults to no policy set on max life.
 .. _delete_policy:
 
 Delete policy
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This allows you to remove the password policy from a given group. Any
 users that were in that group will use the next highest policy or the
@@ -505,7 +505,7 @@ global policy. The global policy cannot be removed.
 .. _modify_policy:
 
 Modify policy
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is used both for modifying per-group policy and the global policy.
 If no --group option is passed in then the global policy is modified.
@@ -513,7 +513,7 @@ If no --group option is passed in then the global policy is modified.
 .. _show_policy:
 
 Show policy
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are 3 options with this plugin:
 
@@ -568,13 +568,13 @@ Manage users.
 .. _lock_a_user_account:
 
 Lock a user account
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 user-lock will lock a user account, preventing them from logging in.
 
 .. _unlock_user_account:
 
 Unlock user account
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 user-unlock will unlock a user account.

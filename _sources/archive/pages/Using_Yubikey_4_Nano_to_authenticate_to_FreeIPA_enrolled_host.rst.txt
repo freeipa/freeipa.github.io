@@ -58,7 +58,7 @@ Useful if you've lost PIN/PUK.
 .. _first_we_need_to_get_the_yubikey_blocked:
 
 First we need to get the Yubikey blocked
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------
 
 Blocking the yubikey is straighforward. First enter wrong PIN tree times
 then enter wrong PUK tree times.
@@ -73,7 +73,7 @@ then enter wrong PUK tree times.
 .. _now_we_can_reset_it:
 
 Now we can reset it
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 ``# yubico-piv-tool -a reset``
 
@@ -98,21 +98,21 @@ Create certificate
 .. _generate_private_key:
 
 Generate Private Key
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 ``# yubico-piv-tool --key=$KEY -a generate -s 9a -A RSA2048 -o pub.pem``
 
 .. _generate_certificate_signing_request:
 
 Generate Certificate Signing Request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 ``# yubico-piv-tool -a verify -a request -s 9a -P $PIN -S '/CN=test/O=EXAMPLE.ORG/' -i pub.pem -o req.pem``
 
 .. _sign_certificate_signing_request:
 
 Sign Certificate Signing Request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 In production environment the CSR is sent to Security Administrator (or
 similar role) and he will provide the certificate. But for testing it's
@@ -132,7 +132,7 @@ The CA certificate (will be needed later) can be exported to file:
 .. _import_the_certificate_into_yubikey:
 
 Import the certificate into Yubikey
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------
 
 ``# yubico-piv-tool --key=$KEY -a import-certificate -i cert.pem -s 9a``
 

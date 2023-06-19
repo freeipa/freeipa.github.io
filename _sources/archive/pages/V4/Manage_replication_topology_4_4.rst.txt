@@ -30,7 +30,7 @@ topics are:
 .. _ipacsreplica_manange_changes:
 
 ipa(cs)replica manange changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The long term plan is to completely deprecate ``ipa-csreplica-manage``
 tool. ``ipa-replica-manage`` will be used only for management of winsync
@@ -39,7 +39,7 @@ agreements, assuming domain level 1.
 .. _ipa_csreplica_manage:
 
 ipa-csreplica-manage
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The only remaining goal before depracation is to transform
 ``set-renewal-master`` into an API command. It will be done according to
@@ -49,7 +49,7 @@ The only remaining goal before depracation is to transform
 .. _ipa_replica_manage:
 
 ipa-replica-manage
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``del``: FreeIPA 4.3 changes allows to transform ``del`` command into an
 API method: ``server_del``.
@@ -78,7 +78,7 @@ Non goals in FreeIPA 4.4 release:
 -  modify re-initialize and force-sync commands of both tools.
 
 ``server_del``
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 New API method, will do the same as current ``ipa-replica-manage del``
 on domain level 1. It will work only with domain level 1 because domain
@@ -98,7 +98,7 @@ Arguments and options:
 -  ``--ignore-last-services`` Will skip last services check.
 
 uninstallation
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In the past uninstallation was 2-3 step process:
 
@@ -138,7 +138,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 .. _topology_graph:
 
@@ -217,7 +216,6 @@ Server management
    server*. `#5588 <https://fedorahosted.org/freeipa/ticket/5588>`__
 
 CLI
-~~~
 
 Overview of new or modified CLI commands.
 
@@ -235,7 +233,7 @@ Overview of new or modified CLI commands.
 +----------------------------------+----------------------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Nothing new.
 

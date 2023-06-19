@@ -195,14 +195,14 @@ Variables
 ---------
 
 Naming
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: Use low case multi word underscore separated
 notation for naming variables. HIGHLY RECOMMENDED: Make name meaningful.
 MUST: Never use Hungarian notation when naming variables.
 
 Declaring
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 RECOMMENDED: One declaration per line is preferred.
 
@@ -236,7 +236,7 @@ RECOMMENDED: Don't initialize static or global variables to 0 or NULL.
 .. _use_of_typedefs:
 
 Use of Typedefs
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: Avoid using typedefs. Typedefs obscure structures
 and make it harder to understand and debug.
@@ -244,7 +244,7 @@ and make it harder to understand and debug.
 .. _declaring_structures:
 
 Declaring Structures
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DISCRETION: When defining structure or union try make it easy to read.
 You may use some form of alignment if you see that this might make it
@@ -253,7 +253,7 @@ more readable.
 .. _global_variables:
 
 Global Variables
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: Avoid using global variables. They make for very
 poor code. Should be used only if no other way can be found. They tend
@@ -265,7 +265,7 @@ Functions
 .. _external_function_declarations:
 
 External Function Declarations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: Avoid situations where you have to explicitly list
 out external function. The header files should in general take care of
@@ -275,7 +275,7 @@ for review of the header file hierarchy.
 .. _declaring_module_functions:
 
 Declaring Module Functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DISCRETION: It up to the developer to define the order of the functions
 in the module and thus declare functions at the top or use a native flow
@@ -284,7 +284,7 @@ of the module and avoid forward function declarations.
 .. _order_of_the_functions:
 
 Order of the Functions
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DISCRETION: It is up to the developer which approach to use: whether to
 write the main function at the top of the module and then all the
@@ -295,7 +295,7 @@ additional comments to help identify how the module is structured.
 .. _naming_functions:
 
 Naming Functions
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 MUST: For function names use multi word underscore separate naming
 convention like this monitor_task_init(struct task_server \*task); MUST:
@@ -304,7 +304,7 @@ Never use Hungarian notation when naming functions.
 .. _indenting_functions:
 
 Indenting Functions
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DISCRETION: It is up to the developer which pattern to use when
 indenting the function parameters if function has long name and has to
@@ -315,7 +315,7 @@ pattern used in the module.
 .. _function_declaration:
 
 Function Declaration
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DISCRETION: It is up to the developer whether to put the return type of
 the function and modifiers (static for example) in front of the function
@@ -333,7 +333,7 @@ example:
 .. _function_parameters:
 
 Function Parameters
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 RECOMMENDED: Try to always put "input" arguments before "output"
 arguments, if you have arguments that provide both input an output put
@@ -345,7 +345,7 @@ them between the pure-input and the pure-output ones.
 .. _use_of_const:
 
 Use of Const
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 RECOMMENDED: If appropriate, always use the const modifier for pointers
 passed to the function. This makes the intentions of the function more
@@ -355,7 +355,7 @@ optimizations.
 .. _tools_to_use:
 
 Tools to Use
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 RECOMMENDED: Creating lists and queues was already done a lot of times.
 When possible, use some common functions for manipulating these to avoid
@@ -367,7 +367,7 @@ Conditions and Statements
 -------------------------
 
 Condition
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 RECOMMENDED: Use the full condition syntax like (NULL == str) rather
 than (!str).
@@ -375,7 +375,7 @@ than (!str).
 .. _if_statements:
 
 IF Statements
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: If-else statements should have the following form:
 
@@ -443,7 +443,7 @@ like this:
 | ``   }``
 
 Loops
-~~~~~
+----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: For, while and until statements should take a
 similar form:
@@ -481,7 +481,7 @@ Strings
 .. _internationalized_i18n_strings:
 
 Internationalized (i18n) Strings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the string will be internationalized (e.g. is marked with \_()) and
 it has more than one format substitution you

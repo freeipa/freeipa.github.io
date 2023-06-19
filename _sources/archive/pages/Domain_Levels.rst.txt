@@ -14,7 +14,7 @@ Details on `design page <V4/Domain_Levels>`__
 .. _current_domain_level:
 
 Current domain level
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To get value of current domain level, please execute the following
 command:
@@ -27,7 +27,7 @@ command:
 .. _increase_domain_level:
 
 Increase domain level
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To increase domain level, please use the following command:
 
@@ -62,7 +62,7 @@ Features
 .. _replica_promotion:
 
 Replica promotion
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Details on `design page <V4/Replica_Promotion>`__
 
@@ -72,6 +72,6 @@ Howto install replica: `release notes
 .. _topology_management_plugin:
 
 Topology management plugin
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Details on `design page <V4/Manage_replication_topology>`__

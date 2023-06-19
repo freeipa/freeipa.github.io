@@ -10,7 +10,7 @@ and seamlessly connect to a NFS share provided by the Dell EMC Unity
 system.
 
 Assumption
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA installation already configured (4.x) CentOS/Fedora/Ubuntu
 FreeIPA client already configured

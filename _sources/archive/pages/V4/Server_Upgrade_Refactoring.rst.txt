@@ -34,7 +34,7 @@ Design
 .. _make_upgrade_process_more_deterministic:
 
 Make upgrade process more deterministic
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `Freeipa-devel list
 discussion <http://www.redhat.com/archives/freeipa-devel/2014-December/msg00183.html>`__
@@ -107,7 +107,7 @@ The **execute** method of the class, returns only 2 values
 .. _merge_server_update_commands_into_the_one_command:
 
 Merge server update commands into the one command
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Related ticket:
 `#4834 <https://fedorahosted.org/freeipa/ticket/4834>`__,
@@ -160,7 +160,7 @@ ipa-server-upgrade characteristics
 .. _prevent_to_run_ipa_if_version_mismatch:
 
 Prevent to run IPA if version mismatch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Related ticket: `#3849 <https://fedorahosted.org/freeipa/ticket/3849>`__
 
@@ -206,14 +206,14 @@ check.
 .. _refactor_ipa_upgradeconfig_into_modulesplugins_used_by_ipa_server_update:
 
 Refactor ipa-upgradeconfig into modules/plugins used by ipa-server-update
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This will be done during the installer refactoring.
 
 .. _requirements_for_using_updates_in_containers:
 
 Requirements for using updates in containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Upgrade must run before first start of IPA services (if required)
 -  Switching between images based on different OS distribution is not
@@ -232,7 +232,7 @@ Implementation
 .. _storing_configuration_version_and_platform_place_format:
 
 Storing configuration version and platform (place, format)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ipapython.version.IPA_VENDOR_VERSION variable is used to determine
 IPA version. The format is 4.1.2-0.fc21.
@@ -251,12 +251,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 +-----------------------------------+-----------------------------------+
 | Command                           | Options                           |
@@ -288,7 +286,7 @@ CLI
 +-----------------------------------+-----------------------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 N/A
 

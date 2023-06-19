@@ -14,7 +14,7 @@ TSIG key configuration
 .. _generate_a_new_tsig_key:
 
 Generate a new TSIG key
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname``
 | ``Kkeyname.+165+03160``
@@ -22,7 +22,7 @@ Generate a new TSIG key
 .. _copy_and_paste_key_from_key_file_to_named.conf:
 
 Copy and paste key from key file to named.conf
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``$ cat Kkeyname.+165+0316.private``
 | ``Private-key-format: v1.3``
@@ -44,7 +44,7 @@ Dynamic updates
 ---------------
 
 Server
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Normal rules for `BIND dynamic update policies
 apply <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies>`__.
@@ -59,7 +59,7 @@ DNS dynamic updates are enabled for your zone:
 ``$ ipa dnszone-mod example.com. --dynamic-update=1``
 
 Client
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 For ``nsupdate`` from ``bind-utils`` package you have to either use
 option ``-y algorithm:keyname:keyvalue`` or ``-k keyfilename`` option.
@@ -79,7 +79,7 @@ Zone transfers
 .. _server_1:
 
 Server
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA user interface will not allow you to configure allow-transfer
 policy directly because it expects that allow-transfer consists only of
@@ -102,7 +102,7 @@ realm name in ``dc=ipa,dc=example`` components.
 .. _client_1:
 
 Client
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 The syntax for ``dig`` from ``bind-utils`` package is the same as for
 ``nsupdate``. You have to either use option

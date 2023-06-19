@@ -18,14 +18,14 @@ Use Cases
 
 
 User Story
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As an Administrator with a big number of Linux machines in a DNS domain
 controlled by Active Directory, I want to join them to the IdM Server so
 that they can benefit from it’s Linux focused features.
 
 Details
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Allow FreeIPA client to respond a host name in a DNS domain belonging to
 a domain from a trusted Active Directory forest.
@@ -81,7 +81,7 @@ systems.
 .. _a_subdomain_of_ad_that_only_has_ipa_machines:
 
 A subdomain of AD that only has IPA machines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 What if there is a subdomain of Active Directory that only contains
 Linux machines enrolled into FreeIPA realm? In such case Active
@@ -92,7 +92,7 @@ is done with the help of \`ipa realmdomains-mod
 .. _enrolling_to_freeipa_realm:
 
 Enrolling to FreeIPA realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When FreeIPA client *ipa-client.ipa.domain* is enrolled into FreeIPA
 realm, following is done:
@@ -271,7 +271,7 @@ with 'ipa' identity provider.
 .. _no_single_sign_on_required:
 
 No single sign-on required
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When no single sign-on (Kerberos authentication) required, we still
 should make sure Kerberos configuration is set up to allow SSSD to
@@ -358,7 +358,7 @@ mapping in */etc/krb5.conf* above.
 .. _single_sign_on_required:
 
 Single sign-on required
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When single sign-on is required, moving FreeIPA client outside DNS zone
 *example.com* is the pre-requisite. A CNAME record

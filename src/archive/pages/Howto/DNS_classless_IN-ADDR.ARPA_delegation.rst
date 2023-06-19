@@ -46,7 +46,7 @@ Example
 .. _on_server_ipa2.example.:
 
 On server ipa2.example.
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Create auxiliary zone ``0/26.100.51.198.in-addr.arpa.``:
 
@@ -61,7 +61,7 @@ On server ipa2.example.
 .. _on_server_ipa1.example.:
 
 On server ipa1.example.
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Create classfull zone ``100.51.198.in-addr.arpa.``:
 
@@ -79,7 +79,7 @@ On server ipa1.example.
    -  ``ipa dnsrecord-add 100.51.198.in-addr.arpa. 0/26 --ns-rec=ipa1.example.``
 
 Testing
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Following command should always return the same results, no matter what
 DNS server you queried:

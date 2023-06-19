@@ -203,7 +203,7 @@ references several of these CertTransformationRules, as seen in the
 following diagram: |CertMappingSchemaA.dot.png|
 
 CertMappingRuleset
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This object represents the ways a data item might need to be formatted
 to achieve a particular CSR result, for all the different CSR generation
@@ -220,7 +220,7 @@ helpers.
    objectClasses: (2.16.840.1.113730.3.8.21.2.5 NAME 'ipaCertMappingRuleset' SUP top STRUCTURAL MUST ( cn $ description $ ipaCertTransformation ) X-ORIGIN 'IPA v4.5' )
 
 CertTransformationRule
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This object represents a particular way of transforming data, for a
 particular CSR generation helper.
@@ -249,7 +249,7 @@ helper to which the rule belongs. |CertMappingSchemaB.dot.png|
 .. _certmappingruleset_1:
 
 CertMappingRuleset
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This object represents the ways a data item might need to be formatted
 to achieve a particular CSR result, for all the different CSR generation

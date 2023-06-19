@@ -172,7 +172,7 @@ special care should be taken when upgrading.
 .. _removed_default_permissions:
 
 Removed default permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If a default permission was removed, the upgrade process will simply
 create a new default permission. This is consistent with to how all IPA
@@ -181,7 +181,7 @@ upgrades work.
 .. _changed_attribute_lists:
 
 Changed attribute lists
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If only the attribute list differs from a past default, the permission
 updater will set the *included*/*excluded* lists of the new default
@@ -193,7 +193,7 @@ versions. Be sure to check the result after updating.
 .. _other_aci_changes:
 
 Other ACI changes
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If any other changes were made to a default permission, the updater
 emits a warning and does not create the new permission. In this case,
@@ -293,7 +293,7 @@ would allow users to read all default user attributes except
 .. _cli_api:
 
 CLI & API
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``permission-{mod,find}`` commands will gain two new options,
 ``--includedattrs`` (API: ``ipapermincludedattr``) and
@@ -348,7 +348,7 @@ the ``update_managed_permissions`` server plugin
 .. _replacing_legacy_default_permissions:
 
 Replacing legacy default permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Another entry in the ``managed_permissions``\ template, ``replaces``,
 will be used for replacing legacy permissions with new managed ones.
@@ -394,7 +394,7 @@ difference between the old default and the pre-existing permission.
 .. _removing_the_global_anonymous_read_aci:
 
 Removing the global anonymous read ACI
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 After the permission updater successfully runs, it will look for an ACI
 named "Enable Anonymous access" in $SUFFIX, and remove it.
@@ -425,13 +425,11 @@ Feature Managment
 =================
 
 UI
-~~
 
 The immutable aspects of Managed permissions are grayed out in the Web
 UI.
 
 CLI
-~~~
 
 See the CLI & API section in Design.
 

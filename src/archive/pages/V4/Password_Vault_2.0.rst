@@ -59,7 +59,7 @@ security:
 .. _standard_vault:
 
 Standard Vault
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A standard vault will use the KRA's standard transport and storage
 encryption as described above. Any authorized vault members, vault
@@ -69,7 +69,7 @@ to use a password/keys.
 .. _symmetric_vault:
 
 Symmetric Vault
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With symmetric vault the secrets are additionally protected with a
 symmetric key generated from a vault password. The client will encrypt
@@ -81,7 +81,7 @@ have to use a shared vault password.
 .. _asymmetric_vault:
 
 Asymmetric Vault
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With asymmetric vault (drop box) the secrets are additionally protected
 with asymmetric keys. The client will archive the secrets using the
@@ -2015,7 +2015,7 @@ For example:
    vault_client = VaultClient(connection)
 
 vaultcontianer_find()
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method returns a list of subcontainers within the provided
 container. By default each list element will contain the basic
@@ -2028,7 +2028,7 @@ requested as well.
        return self.connection.vaultcontianer_find(parent_id, attributes)
 
 vaultcontainer_get()
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method returns the attributes of the container specified by the ID.
 By default it will return the basic attributes, but additional
@@ -2042,7 +2042,7 @@ attributes can be requested as well.
        return self.connection.vaultcontainer_get(container_id, attributes)
 
 vaultcontainer_add()
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method creates a new container.
 
@@ -2054,7 +2054,7 @@ This method creates a new container.
        self.connection.vaultcontainer_add(container_id, description)
 
 vaultcontainer_del()
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method removes an existing vault.
 
@@ -2064,7 +2064,7 @@ This method removes an existing vault.
        self.connection.vaultcontainer_del(container_id)
 
 vault_find()
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method returns a list of available vaults within the provided
 container. By default each list element will contain the basic
@@ -2085,7 +2085,7 @@ For example:
        print vault.id + ": " + vault.description
 
 vault_get()
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method returns the attributes of the vault specified by the ID. By
 default it will return the basic attributes, but additional attributes
@@ -2112,7 +2112,7 @@ For example:
        print " - " + member
 
 vault_add()
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method creates a new vault on the server.
 
@@ -2219,7 +2219,7 @@ vault public and private keys, and the escrow public key:
        escrow_public_key=...)
 
 vault_update()
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method stores changes to the vault object to the server.
 
@@ -2229,7 +2229,7 @@ This method stores changes to the vault object to the server.
        self.connection.vault_update(vault)
 
 vault_change_type()
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method modifies the type of an existing vault.
 
@@ -2293,7 +2293,7 @@ To convert an asymmetric vault into a standard vault:
        vault_private_key=vault_private_key)
 
 vault_change_escrow()
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method modifies the escrow info of an existing vault.
 
@@ -2368,7 +2368,7 @@ To unescrow a vault:
    vault_change_escrow("Vault", escrow=False)
 
 vault_del()
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method removes an existing vault on the server.
 
@@ -2378,7 +2378,7 @@ This method removes an existing vault on the server.
        self.connection.vault_del(vault_id)
 
 vault_archive()
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method archives a blob of data into a vault replacing existing
 data.
@@ -2465,7 +2465,7 @@ or key:
        data="mydata")
 
 vault_retrieve()
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method retrieves a blob of data stored in a vault and decrypt it
 based on the vault type.
@@ -2562,7 +2562,7 @@ by providing the escrow private key:
    data = vault_client.vault_retrieve("EscrowedAsymmetricVault", escrow_private_key=...)
 
 vaultsecret_archive()
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method encrypt a secret based on the vault type and archive it into
 a collection of secrets in the vault.
@@ -2667,7 +2667,7 @@ vault private key:
        vault_private_key=...)
 
 vaultsecret_retrieve()
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method retrieves a secret from a collection of secrets in a vault
 and decrypt it based on the vault type.
@@ -2741,7 +2741,7 @@ by providing the escrow private key:
    secret = vault_retrieve("EscrowedAsymmetricVault", secret_id="mysecret", escrow_private_key=...)
 
 vault_change_password()
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method will change the vault password if the current password is
 known, or change the vault private key if the current vault private key
@@ -2816,7 +2816,7 @@ An owner can change the keys of an asymmetric vault as follows:
        new_vault_private_key=...)
 
 vault_reset_password()
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method will request a vault password reset in case the current
 password or private key is lost. Password reset will only work if the
@@ -2877,7 +2877,7 @@ An owner can request a key reset for an asymmetric vault as follows:
        new_vault_private_key=...)
 
 approve_vault_password_reset()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method can be used by an escrow officer to reset vault password.
 
@@ -2911,7 +2911,7 @@ This method can be used by an escrow officer to reset vault password.
            self.connection.update_vault(vault)
 
 reject_vault_password_reset()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This method can be used by an escrow officer to reject password reset
 request.
@@ -2951,7 +2951,7 @@ Container resource
 .. _put_iparestvaults:
 
 PUT /ipa/rest/vaults/
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An admin can use this operation to create a container. This operation
 will be wrapped in IPAConnection.create_container().
@@ -2959,7 +2959,7 @@ will be wrapped in IPAConnection.create_container().
 .. _get_iparestvaults:
 
 GET /ipa/rest/vaults/
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A user can use this operation to return the container attributes and the
 list of vaults in the container. This operation will be wrappped in
@@ -2995,7 +2995,7 @@ Vault resource
 .. _get_iparestvaults_1:
 
 GET /ipa/rest/vaults//
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A member can use this operation to get the vault info. This operation
 will be wrappped in IPAConnection.get_vault().
@@ -3026,7 +3026,7 @@ Response:
 .. _post_iparestvaults:
 
 POST /ipa/rest/vaults/
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A user can use this operation to add a vault into a container. This
 operation will be wrappped in IPAConnection.create_vault().
@@ -3054,7 +3054,7 @@ The server will return the normalized values of the vault attributes:
 .. _post_iparestvaults_1:
 
 POST /ipa/rest/vaults//
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An owner can use this operation to modify a vault. This operation will
 be wrapped in IPAConnection.update_vault().
@@ -3083,7 +3083,7 @@ modification:
 .. _delete_iparestvaults:
 
 DELETE /ipa/rest/vaults/
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An admin can use this operation to remove a container and all vaults in
 it. This operation will be wrapped in IPAConnection.remove_container().
@@ -3091,7 +3091,7 @@ it. This operation will be wrapped in IPAConnection.remove_container().
 .. _delete_iparestvaults_1:
 
 DELETE /ipa/rest/vaults//
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 An owner can use this operation will remove a vault. This operation will
 be wrapped in IPAConnection.remove_vault().
@@ -3126,7 +3126,7 @@ For example:
 .. _get_iparestvaultssecrets:
 
 GET /ipa/rest/vaults///secrets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A member can use this operation to return the encrypted secrets as
 base-64 encoded data. This operation will be wrapped in
@@ -3145,7 +3145,7 @@ deserialized using JSON.
 .. _put_iparestvaultssecrets:
 
 PUT /ipa/rest/vaults///secrets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A member can use this operation to store base-64 encoded encrypted
 secrets. This operation will be wrapped in
@@ -3568,7 +3568,7 @@ Frequently Asked Questions
 .. _why_use_python_cryptography_instead_of_python_nss:
 
 Why use Python Cryptography instead of Python NSS?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Although IPA and Dogtag have been using Python NSS, the Python
 Cryptography is simpler to use and it can support various crypto
@@ -3578,7 +3578,7 @@ recommended to use Python Cryptography for new development.
 .. _can_different_vault_members_use_different_vault_passwords:
 
 Can different vault members use different vault passwords?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No. There is only one vault password per vault, and it has to be shared
 with all members.
@@ -3586,7 +3586,7 @@ with all members.
 .. _can_the_secrets_in_the_same_vault_be_archived_with_different_passwords:
 
 Can the secrets in the same vault be archived with different passwords?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No. There's only one vault password per vault and it will be used to
 encrypt all secrets.
@@ -3594,7 +3594,7 @@ encrypt all secrets.
 .. _will_the_secrets_in_the_same_vault_encrypted_with_different_encryption_keys:
 
 Will the secrets in the same vault encrypted with different encryption keys?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No. All secrets in the same vault are encrypted with a single encryption
 key which is generated from the vault password and the secret salt.
@@ -3602,7 +3602,7 @@ key which is generated from the vault password and the secret salt.
 .. _can_a_vault_have_more_than_one_escrow_officer:
 
 Can a vault have more than one escrow officer?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Yes. A vault can be assigned a pair of escrow public and private keys.
 The escrow public key will be stored as an attribute in the vault such

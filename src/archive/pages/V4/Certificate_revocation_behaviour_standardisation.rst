@@ -153,7 +153,7 @@ the subject principal's entry.
 .. _differences_from_current_behaviour:
 
 Differences from current behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 None.
 
@@ -177,7 +177,7 @@ revocation reason.
 .. _differences_from_current_behaviour_1:
 
 Differences from current behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Revocation behaviour needs to be removed from the ``service-mod`` and
 ``host-mod`` commands. (**Backwards compatibility concern.**)
@@ -202,7 +202,7 @@ revocation reason.
 .. _differences_from_current_behaviour_2:
 
 Differences from current behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Revocation behaviour needs to be removed from the
 ``service-remove-cert`` and ``host-remove-cert`` commands. (**Backwards
@@ -243,7 +243,7 @@ certificates, so that an administrator may take appropriate actions.
 .. _differences_from_current_behaviour_3:
 
 Differences from current behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``user-del`` and ``user-disable`` commands need to have the
 revocation behaviour implemented.
@@ -262,7 +262,7 @@ shall not remove the revoked certificate from LDAP entries.
 .. _differences_from_current_behaviour_4:
 
 Differences from current behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 None.
 
@@ -292,7 +292,7 @@ much a burden to ``getcert rekey`` *and* ``ipa cert-revoke``?
 .. _differences_from_current_behaviour_5:
 
 Differences from current behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``ipa`` renewal helper needs to be updated to invoke ``cert-revoke``
 and ``{user,host,service}-remove-cert`` (or equivalent) after a

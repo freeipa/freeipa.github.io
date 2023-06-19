@@ -22,7 +22,7 @@ Use Cases
 .. _community_sites:
 
 Community Sites
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Community Sites wishing to use FreeIPA might have user bases too large
 or geographically diverse to make administrator-initiated resets
@@ -35,7 +35,7 @@ Design
 .. _high_level_architecture_and_workflow:
 
 High-Level Architecture and Workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. A user has forgotten their password and navigates to the forgot
    password page.
@@ -80,7 +80,7 @@ without compromising on the security of the FreeIPA core for users who
 opt not to enable self-service password reset.
 
 Dependencies
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The self-service password reset will be built on the existing
 self-service portal, and so adds few new dependencies.

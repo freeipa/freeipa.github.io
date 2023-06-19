@@ -1000,8 +1000,7 @@ PROJECT.**
 
 .. _web_uicli:
 
-14. Web UI/ClI
---------------
+14. Web UI/CLI-----------
 
 -  [14.1] Improve UI/CLI to support pluggable architecture.
    **(Planned)**

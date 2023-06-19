@@ -280,7 +280,7 @@ Create the ACME object heirarchy under ``ou=acme,o=ipaca``:
    ou: challenges
 
 Schema
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -403,7 +403,7 @@ for details.
 .. _authentication_to_ca:
 
 Authentication to CA
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The PKI backend must authenticate to Dogtag. The IPA RA credential is
 not suitable because the ``pki-tomcatd`` process cannot access it.
@@ -456,7 +456,7 @@ Requirements for the certificate profile configuration are described in
 `#Profile <#Profile>`__.
 
 Profile
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ACME profile shall be called ``acmeServerCert``. As with other
 *included profiles* it is defined as a template:
@@ -551,7 +551,7 @@ Scalability
 .. _pruning_expired_certificates:
 
 Pruning expired certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **Not yet implemented.**
 
@@ -564,7 +564,7 @@ https://pagure.io/dogtagpki/issue/1750.
 .. _pruning_expired_acme_objects:
 
 Pruning expired ACME objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **Not yet implemented.**
 
@@ -591,7 +591,7 @@ inactive (all orders have expired and been removed; an active ACME
 client will create new orders to renew the certificates it manages).
 
 Nonces
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 ACME protocol nonces are currently created in the LDAP database. They
 are therefore replicated. The performance impact has not been measured

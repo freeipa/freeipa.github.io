@@ -23,7 +23,7 @@ Related ticket(s):
 
 
 Use Cases
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. We have already a big number of users. With new year it is required
    to add couple thousands of users within a short period of time.
@@ -31,7 +31,7 @@ Use Cases
    than 40K users.
 
 Design
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Adding user is part of the ongoing administration of a freeipa
 deployment. Few users can be added at a time but administrator may also
@@ -341,7 +341,7 @@ following ticket `5916 <https://fedorahosted.org/freeipa/ticket/5916>`__
 is to track this remaining part
 
 Implementation
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _user_add_cli:
 
@@ -384,7 +384,7 @@ Those improvements are available since **Release 0.55**
 
 
 Feature Management
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 UI
 ^^
@@ -408,7 +408,7 @@ Related ticket(s):
 .. _use_cases_1:
 
 Use Cases
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Increase the usability of user-find command because with many users
    searches in LDAP take too long and may result into timeout.
@@ -416,7 +416,7 @@ Use Cases
 .. _design_1:
 
 Design
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _dont_do_extra_search_for_ipasshpubkey_attribute:
 
@@ -529,12 +529,12 @@ section <http://www.freeipa.org/page/V4/Performance_Improvements#.2A-find>`__
 .. _implementation_1:
 
 Implementation
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _feature_management_1:
 
 Feature Management
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _ui_1:
 
@@ -559,7 +559,7 @@ Configuration
 N/A
 
 Upgrade
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 N/A
 
@@ -575,7 +575,7 @@ Issue here are similar to user-find issues.
 .. _use_cases_2:
 
 Use Cases
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Increase the usability of host-find command because with many host
    searches in LDAP take too long and may result into timeout.
@@ -583,7 +583,7 @@ Use Cases
 .. _design_2:
 
 Design
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _dont_do_extra_search_for_ipasshpubkey_attribute_1:
 
@@ -618,12 +618,12 @@ section <http://www.freeipa.org/page/V4/Performance_Improvements#.2A-find>`__
 .. _implementation_2:
 
 Implementation
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _feature_management_2:
 
 Feature Management
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _ui_2:
 
@@ -645,7 +645,7 @@ N/A
 .. _upgrade_1:
 
 Upgrade
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 N/A
 
@@ -660,7 +660,7 @@ commands
 .. _typical_provisioning_ldapadd_entries_migrate_ds...:
 
 typical provisioning: ldapadd entries, migrate-ds...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _use_case:
 
@@ -927,51 +927,54 @@ steps:
 -  provisioning without memberof
 -  fixup of memberof
 
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| steps     | Plugin    | Duration  | ADD       | MOD       | SRCH      |
-|           | enabled   |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| memberof  | slapi-nis | retroCL   | style="wi | |         | |         |
-|           |           |           | dth:100px | style="wi | style="wi |
-|           |           |           | st        | dth:100px | dth:250px |
-|           |           |           | yle="text |   style   |   s       |
-|           |           |           | -align:ce | ="text-al | tyle="tex |
-|           |           |           | nter;"|Nb | ign:cente | t-align:c |
-|           |           |           |           | r;"|Cumul | enter;"|% |
-|           |           |           |           |   srch    |   srch    |
-|           |           |           |           |           |           |
-|           |           |           |           |  duration |  duration |
-|           |           |           |           | | Nb*1ms  | | vs step |
-|           |           |           |           |           |           |
-|           |           |           |           |           |  duration |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| style="wi | N         | N         | N         | 48min     | 143K      |
-| dth:100px |           |           |           |           |           |
-| s         |           |           |           |           |           |
-| tyle="tex |           |           |           |           |           |
-| t-align:l |           |           |           |           |           |
-| eft;"|Pro |           |           |           |           |           |
-| visioning |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| Fixup     |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| inet      | Y         | N         | N         | 2h        | 200       |
-| orgperson |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| |         | Y         | N         | N         | 4h20      | 0         |
-| ipahost\* |           |           |           |           |           |
-| | rules   |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| **Total   | N+Y       | N         | N         | **7h**    | 143K      |
-| Pro       |           |           |           |           |           |
-| v+fixup** |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-|           |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
-| **Total   | Y         | N         | N         | *         | ~140K     |
-| regular   |           |           |           | *~8days** |           |
-| Prov.**   |           |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+-----------+
++---------------------------------------------------------------------------+-----------+----------+-----------+-----------+-----------+-----------+---------+
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
++===========================================================================+===========+==========+===========+===========+===========+===========+=========+
+| steps                                                                     | Plugin    | Duration | ADD       | MOD       | SRCH      |           |         |
+|                                                                           | enabled   |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+| memberof                                                                  | slapi-nis | retroCL  | style="wi |           |           |           |         |
+|                                                                           |           |          | dth:100px | style="wi | style="wi |           |         |
+|                                                                           |           |          | st        | dth:100px | dth:250px |           |         |
+|                                                                           |           |          | yle="text | style     | s         |           |         |
+|                                                                           |           |          | -align:ce | ="text-al | tyle="tex |           |         |
+|                                                                           |           |          | nter;"    | Nb        | ign:cente | t-align:c |         |
+|                                                                           |           |          |           | r;"       | Cumul     | enter;"   | %       |
+|                                                                           |           |          |           | srch      | srch      |           |         |
+|                                                                           |           |          |           |           |           |           |         |
+|                                                                           |           |          |           | duration  | duration  |           |         |
+|                                                                           |           |          |           |           | Nb*1ms    |           | vs step |
+|                                                                           |           |          |           |           |           |           |         |
+|                                                                           |           |          |           |           | duration  |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+| style="wi                                                                 | N         | N        | N         | 48min     | 143K      |           |         |
+| dth:100px                                                                 |           |          |           |           |           |           |         |
+| s                                                                         |           |          |           |           |           |           |         |
+| tyle="tex                                                                 |           |          |           |           |           |           |         |
+| t-align:l                                                                 |           |          |           |           |           |           |         |
+| eft;"                                                                     | Pro       |          |           |           |           |           |         |
+| visioning                                                                 |           |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+| Fixup                                                                     |           |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+| inet                                                                      | Y         | N        | N         | 2h        | 200       |           |         |
+| orgperson                                                                 |           |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+|                                                                           |           | Y        | N         | N         | 4h20      | 0         |         |
+| ipahost\*                                                                 |           |          |           |           |           |           |         |
+|                                                                           | rules     |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+| **Total                                                                   | N+Y       | N        | N         | **7h**    | 143K      |           |         |
+| Pro                                                                       |           |          |           |           |           |           |         |
+| v+fixup**                                                                 |           |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+|                                                                           |           |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
+| **Total                                                                   | Y         | N        | N         | *         | ~140K     |           |         |
+| regular                                                                   |           |          |           | *~8days** |           |           |         |
+| Prov.**                                                                   |           |          |           |           |           |           |         |
+| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
++---------------------------------------------------------------------------+-----------+----------+-----------+-----------+-----------+-----------+---------+
 
 .. _memberof_plugin:
 
@@ -1871,7 +1874,7 @@ but perf hit is not due to nested groups.
 .. _all_commands:
 
 all commands
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Caching issue described in
 `1 <http://www.freeipa.org/page/V4/Performance_Improvements#broken_SchemaCache>`__
@@ -1880,7 +1883,7 @@ affects all IPA commands.
 .. _all_commands_working_with_members_and_indirect_members:
 
 all commands working with members and indirect members
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Related ticket(s):
 `#4995 <https://fedorahosted.org/freeipa/ticket/4995>`__
@@ -1892,7 +1895,7 @@ option *--no-members* that can be public visible.
 Summary: option *--no-members* is publicly visible for all commands
 
 \*-find
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _members_and_indirect_members_processing:
 

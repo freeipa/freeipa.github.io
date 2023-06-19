@@ -125,7 +125,7 @@ are several layers of logging available:
 .. _freeipa_frameworks_python_code_logging:
 
 FreeIPA framework's Python code logging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA has a global configuration file in ``/etc/ipa/default.conf``.
 Settings in this file apply to all instances of the FreeIPA python code,
@@ -144,7 +144,7 @@ entries from other Apache modules.
 .. _logging_the_activity_of_apache_modules:
 
 Logging the activity of Apache modules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA does only uses the logging functionality available in Apache.
 Its documentation is available at the `Apache
@@ -153,7 +153,7 @@ website <https://httpd.apache.org/docs/current/logs.html>`__.
 .. _logging_of_samba_client_operations:
 
 Logging of Samba client operations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA utilizes Python bindings to Samba libraries to set-up trusts to
 Active Directory. These libraries have their own logging facility. The
@@ -285,7 +285,7 @@ exchanges.
 .. _logging_of_kdc_operations:
 
 Logging of KDC operations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each Kerberos request to obtain an initial (TGT) or a service ticket
 will be reflected in the KDC logs. The KDC writes its log in the

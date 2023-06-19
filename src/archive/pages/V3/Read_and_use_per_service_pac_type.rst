@@ -115,7 +115,6 @@ Feature Managment
 =================
 
 UI
-~~
 
 UI related changes were added by ticket
 `#2184 <https://fedorahosted.org/freeipa/ticket/2184>`__. Some fixes are
@@ -127,7 +126,6 @@ configuration (it does not make sense for services and hosts). See
 `#3484 <https://fedorahosted.org/freeipa/ticket/3484>`__.
 
 CLI
-~~~
 
 CLI related changes were added by ticket
 `#2184 <https://fedorahosted.org/freeipa/ticket/2184>`__. Some fixes are

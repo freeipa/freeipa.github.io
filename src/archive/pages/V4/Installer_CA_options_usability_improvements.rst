@@ -20,7 +20,7 @@ Use Cases
 .. _external_ca_install:
 
 External CA install
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Automatically determine which certificate is IPA CA certificate
 -  Use 1, 2, or more certificate files in PEM, DER or PKCS#7 format
@@ -28,7 +28,7 @@ External CA install
 .. _ca_less_install:
 
 CA-less install
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Automatically determine which CA certificate to trust
 -  Use 1 or more certificate files in PEM, DER, PKCS#7 or PKCS#12 format
@@ -40,7 +40,7 @@ Design
 .. _external_ca_install_1:
 
 External CA install
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Replace ``--external_cert_file`` and ``--external_ca_file`` options of
 ``ipa-server-install`` with a single ``--external-cert-file`` option.
@@ -54,7 +54,7 @@ from the available certificates.
 .. _ca_less_install_1:
 
 CA-less install
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Replace ``--dirsrv_pkcs12`` and ``--http_pkcs12`` options of
 ``ipa-server-install`` and ``ipa-replica-prepare`` with
@@ -105,17 +105,15 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 N/A
 
 Installers
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `the design <#Design>`__.
 

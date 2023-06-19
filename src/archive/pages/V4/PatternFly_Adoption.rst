@@ -29,7 +29,7 @@ Adoption parts:
 .. _use_patternfly_css:
 
 Use PatternFly CSS
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  PatternFly and Bootstrap 3 uses Less for CSS build. FreeIPA as well,
    however PF and BS uses NodeJS lessc for the task. FreeIPA uses
@@ -42,7 +42,7 @@ Use PatternFly CSS
 .. _fluid_layout:
 
 Fluid layout
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  abandon absolute layout which cause elements overlap on non-standard
    browser configuration (locale with longer strings, forced bigger
@@ -51,7 +51,7 @@ Fluid layout
    screens, and on the other hand, usable apps on smaller screens
 
 Navigation
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  use Two-Level navigation with dropdown
    <https://www.patternfly.org/wikis/patterns/navigation/primary-navigation-bar/#drop_down_menu>
@@ -62,7 +62,7 @@ Navigation
 .. _implement_login_page:
 
 Implement Login Page
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  https://www.patternfly.org/wikis/patterns/user-authentication/loginlogout/
 -  required to implement support for standalone pages
@@ -73,7 +73,7 @@ Implement Login Page
 .. _adapt_forms:
 
 Adapt forms
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  https://www.patternfly.org/widgets/#forms
 -  new styles for almost every element
@@ -89,7 +89,7 @@ Adapt forms
 .. _adapt_tables:
 
 Adapt tables
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  https://www.patternfly.org/widgets/#tables
 -  add "Last" and "First" buttons into pager to support going to the
@@ -104,7 +104,7 @@ Adapt tables
 .. _pagefacet_controls:
 
 Page(facet) controls
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  convert link buttons to regular buttons
 -  reorder input elements and buttons in facet header. Search facets
@@ -115,7 +115,7 @@ Page(facet) controls
 .. _move_actions_into_action_dropdown:
 
 Move actions into action dropdown
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  action dropdown is a dropdown list in controls section of a facet
    header
@@ -130,7 +130,7 @@ Move actions into action dropdown
 .. _activity_notification:
 
 Activity notification
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  old activity indicator are not very visible and users tend to
    overlook them because they are positioned in a place different from
@@ -143,7 +143,7 @@ Activity notification
 .. _event_notification:
 
 Event notification
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  "error", "success", "warning", "info" notification should use
    consistent style and same implementation across application
@@ -151,7 +151,7 @@ Event notification
 .. _better_error_handling:
 
 Better Error handling
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  multivalued widget should highlight only inputs with error and do not
    show duplicate required error message
@@ -164,7 +164,7 @@ Better Error handling
 .. _user_menu:
 
 User menu
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  user menu should added to navigation (related to
    `#Navigation <#Navigation>`__)
@@ -176,7 +176,7 @@ User menu
    -  navigating to user's profile
 
 Dependencies
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 fontawesome-fonts, open-sans-fonts, python-lesscpy
 
@@ -186,12 +186,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 As described in `#Design <#Design>`__ section.
 
 CLI
-~~~
 
 no impact
 

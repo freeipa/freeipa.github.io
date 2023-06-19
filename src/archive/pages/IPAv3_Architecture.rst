@@ -119,7 +119,7 @@ interested in:
 -  libndr_krb5
 
 SMBD
-~~~~
+----------------------------------------------------------------------------------------------
 
 The SMBD daemon is useful basically only as a transport for MS-RPC over
 named pipes. The default configuration should be limited to exposing
@@ -128,7 +128,7 @@ are not necessary for setting up the trust relationships and serving the
 data necessary to keep them working.
 
 EPMD
-~~~~
+----------------------------------------------------------------------------------------------
 
 The EPM Daemon is a very tiny and simple yet fundamental daemon that
 allow Windows machines to connect directly to MS-RPC Services over
@@ -136,7 +136,7 @@ TCP/IP. This will be either a separate binary or a process forked out by
 SMBD at startup.
 
 Netlogon/LSA/SAMR
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is the core component of Samba that allows IPA to be configured as
 a trusted Forest by Windows. The implementation may comprise separate
@@ -173,7 +173,7 @@ generally exposed together with the LSA interface and complements it in
 some places.
 
 libndr_krb5
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ... Finally the libndr_krb5 library provides the means for packing and
 unpacking authorization structures used by Windows, including the MS-PAC

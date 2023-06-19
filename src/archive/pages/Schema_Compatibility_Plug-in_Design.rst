@@ -24,7 +24,7 @@ which is "served" by the data in the cache.
 .. _internal_representation:
 
 Internal Representation
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 At the topmost level, the map cache is a table. Each entry in the table
 contains the name of a top-level container entry and a table of sets.
@@ -150,7 +150,7 @@ character itself also needs to be escaped whenever it appears.
 .. _implemented_functions:
 
 Implemented Functions
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 first(EXPRESSION[,DEFAULT])
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

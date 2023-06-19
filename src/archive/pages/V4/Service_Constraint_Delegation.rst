@@ -108,12 +108,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 TBD https://fedorahosted.org/freeipa/ticket/5044
 
 CLI
-~~~
 
 Overview of the CLI commands.
 
@@ -136,7 +134,7 @@ servicedelegationtarget-remove_member TARGET --principals={PRINC,PRINC2}
 ============================================ ===========================
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 N/A
 

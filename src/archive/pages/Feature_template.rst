@@ -63,12 +63,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 How the feature will be managed via the Web UI.
 
 CLI
-~~~
 
 Overview of the CLI commands. Example:
 
@@ -82,7 +80,7 @@ Overview of the CLI commands. Example:
 +------------+--------------------------------------------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Any configuration options? Any commands to enable/disable the feature or
 turn on/off its parts?

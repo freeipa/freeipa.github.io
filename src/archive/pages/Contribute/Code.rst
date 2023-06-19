@@ -54,7 +54,7 @@ environment.
 .. _understanding_the_source_code:
 
 Understanding the source code
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To have a better understanding of how the code works (how the pieces fit
 together, etc), you can read the `"Extending FreeIPA Guide"
@@ -84,7 +84,7 @@ Change the code
 This is the best part - do the changes to FreeIPA code!
 
 Debugging
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To debug the code you can do:
 
@@ -118,7 +118,7 @@ Then, you just need to run:
 .. _update_pagure_ticket:
 
 Update Pagure ticket
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We use Pagure for work coordination. Please be so kind and assign the
 ticket you are working on to yourself. It is just a few clicks and it
@@ -144,7 +144,7 @@ knowing about each other.
 .. _update_code:
 
 Update code
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Before completing the patch, please just make sure your contribution
 complies with couple simple rules.
@@ -182,7 +182,7 @@ development repositories, so make sure other developers know about it.
 .. _update_documentation:
 
 Update documentation
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Note that if your code change warrants an update in upstream
 documentation (especially if the related Trac ticket had *Affects
@@ -235,7 +235,7 @@ trivial.
 .. _commit_message_requirements:
 
 Commit message requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The pull request must contain a commit message following the template
 present in the source tree (.git-commit-template):
@@ -304,7 +304,7 @@ Work through Code Review process
 .. _tracking_reviews:
 
 Tracking reviews
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 All review related information is tracked in `pull request
 queue <https://github.com/freeipa/freeipa/pulls>`__
@@ -312,7 +312,7 @@ queue <https://github.com/freeipa/freeipa/pulls>`__
 .. _pr_submitter_responsibilities:
 
 PR Submitter responsibilities
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A patch may not be merged upstream until it has received an approval -
 ACK label and passes all mandatory pull request CI checks.
@@ -337,7 +337,7 @@ patch or submitter sends a new version of the patch.
 .. _pr_reviewer_responsibilities:
 
 PR Reviewer responsibilities
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You can also contribute to FreeIPA by reviewing pull requests. When you
 start reviewing a PR, add your name to the Assignees list in order to

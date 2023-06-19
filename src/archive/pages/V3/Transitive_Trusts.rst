@@ -152,12 +152,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 TODO.
 
 CLI
-~~~
 
 Since discovery of the domains belonging to the trusted forest can be
 run by an administrator at will, new CLI command is required. **ipa

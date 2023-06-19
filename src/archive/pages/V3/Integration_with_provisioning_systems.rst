@@ -77,7 +77,6 @@ Feature Management
 ==================
 
 UI
-~~
 
 There is no UI exposure other than userClass attribute should be visible
 and selectable in the automember management UI. (not done in initial
@@ -85,7 +84,6 @@ implementation, `link to
 ticket <https://fedorahosted.org/freeipa/ticket/3590>`__)
 
 CLI
-~~~
 
 Host-add and user-add (not done in initial implementation, `link to
 ticket <https://fedorahosted.org/freeipa/ticket/3588>`__) commands would

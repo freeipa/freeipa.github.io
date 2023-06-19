@@ -69,7 +69,6 @@ The feature will provide 3 different configuration items:
 -  the mapping information for a given user
 
 CLI
-~~~
 
 Configuration
 ^^^^^^^^^^^^^
@@ -187,7 +186,6 @@ The output will contain the matching user names, grouped by domain:
 | ``----------------------------``
 
 UI
-~~
 
 -  Add a new tab below "Authentication", with the title "Certificate
    Identity Mapping"
@@ -209,7 +207,7 @@ design for SSSD modifications is out of scope.
 .. _high_level_schema:
 
 High Level schema
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The feature will be delivered as a new plugin in FreeIPA and
 modifications in existing plugins (user, host).
@@ -219,7 +217,7 @@ LDAP backend, thus requiring new schema and permissions/ACIs in order to
 protect the data.
 
 LDAP
-~~~~
+----------------------------------------------------------------------------------------------
 
 .. _objectclasses_and_attributes:
 
@@ -278,7 +276,7 @@ Example
 .. _access_control:
 
 Access control
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 New privilege: **Certificate Identity Mapping Administrators**
 

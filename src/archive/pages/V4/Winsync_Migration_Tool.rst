@@ -29,21 +29,21 @@ Design
 ------
 
 Requirements
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  An established trust with the AD domain in question
 
 .. _the_detection_of_the_realm_to_use:
 
 The detection of the realm to use
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Realm name of the AD users will be provided by the user.
 
 .. _detection_of_the_applicable_users:
 
 Detection of the applicable users
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The winsynced users will be detected using the
 "(&(objectclass=ntuser)(ntUserDomainId=*))" LDAP filter on the
@@ -52,7 +52,7 @@ cn=users,$SUFFIX subtree.
 .. _migration_procedure_for_one_user:
 
 Migration procedure for one user
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For each user, we will create an user ID override with the following
 attributes from the original winsynced entry:
@@ -72,7 +72,6 @@ Feature Management
 ------------------
 
 CLI
-~~~
 
 =================== ===============
 Command             Options

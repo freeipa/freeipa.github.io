@@ -133,7 +133,7 @@ following in cron:
 This will set the range to s0 and thus all VMs can then use this replay
 cache for the credentials.
 
-.. _firewall_configuration:
+
 
 Firewall configuration
 ----------------------

@@ -156,12 +156,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 How the feature will be manged via the UI
 
 CLI
-~~~
 
 Overview of the CLI commands
 

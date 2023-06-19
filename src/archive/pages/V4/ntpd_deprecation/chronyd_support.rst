@@ -102,7 +102,6 @@ All changes related to --force-ntp option and ntpd replacement should be
 reflected into man pages.
 
 CLI
-~~~
 
 The ipa-{server,replica}-install did not support the --ntp-server option
 so support has been added with the new option --ntp-pool as well. The

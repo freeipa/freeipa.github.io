@@ -94,7 +94,7 @@ without any password needed. We will try both of them.
 .. _ipa_replica_server_in_ipaservers_group:
 
 IPA replica server in ipaservers group
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is may be the easiest way to get it done. The "only" thing to be
 done is to have already enrolled replica machine added into
@@ -288,7 +288,7 @@ ipa-server and replica1 machine**:
 .. _ipa_client_enrolled_and_promoted_to_replica_with_one_time_password_in_one_step:
 
 IPA client enrolled and promoted to replica with One Time Password in one step
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **On the IPA server** we should add new host and copy *OTP* (Random
 password):
@@ -446,4 +446,3 @@ And all ipaservers should display same info:
    Number of entries returned 3
    ----------------------------
 
---------------

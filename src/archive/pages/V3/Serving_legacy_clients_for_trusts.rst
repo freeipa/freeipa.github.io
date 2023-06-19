@@ -42,7 +42,7 @@ tree will be served by a modified slapi-nis plugin which will be able to
 augment queries to main IPA tree with requests to SSSD cache.
 
 Authentication
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are two types of Kerberos based authentication involved. First and
 preferred one, if the client can handle Kerberos authentication it
@@ -86,11 +86,11 @@ Implementation
    install or upgrade
 #. ipa-adtrust-install configures additional directory server plugin to
    serve trusted domains tree
-#. Directory server plugin uses getpwnam_r(), getgrnam_r() and related
+#. Directory server plugin uses getpwnam\_r(), getgrnam\_r() and related
    calls to obtain information about AD user. For IPA users the
    information is fetched directly from the LDAP. For this purpose
    slapi-nis plugin would be extended to allow queries against SSSD
-   (getpwnam_/getgrnam_r) instead of LDAP directory.
+   (getpwnam\_/getgrnam\_r) instead of LDAP directory.
 #. Directory server plugin will provide bind pre-op hook to perform
    authentication for AD user. The DN for AD user will be virtual one,
    handled by the previous plugin.
@@ -110,12 +110,10 @@ Feature Management
 ==================
 
 UI
-~~
 
 The feature is transparent and not exposed in UI
 
 CLI
-~~~
 
 The feature is not directly exposed in CLI.
 
@@ -158,7 +156,7 @@ with their short descriptions.
 .. _sssd_1.9_and_after:
 
 SSSD 1.9 and after
-------------------
+----------------------------------------------------------------------------------------------
 
 SSSD 1.9 and onwards natively supports IPA cross-realm trusts with AD.
 No need to explicitly use AD compatibility tree
@@ -166,7 +164,7 @@ No need to explicitly use AD compatibility tree
 .. _sssd_1.11:
 
 SSSD 1.11
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Additionally, on IPA master **sssd.conf** will have **ipa_server_mode =
 true** set. This is the mode that will allow IPA master to ask SSSD for

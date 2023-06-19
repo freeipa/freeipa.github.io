@@ -18,7 +18,7 @@ Use Cases
 .. _forwarding_queries_per_a_zone:
 
 Forwarding queries per a zone
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Generally using global forwarders is all or nothing solution. Using
 forward zones give more control to admin, which zones and how should be
@@ -126,7 +126,7 @@ Forward zones are enabled by default.
 .. _forward_policy:
 
 Forward Policy
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``forward-policy = {first, only, none}``, default: **first**
 
@@ -159,7 +159,7 @@ Forward Policy
 .. _new_ipa_commands:
 
 New IPA commands
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  ``dnsforwardzone-add``, to add a new forward zone
 -  ``dnsforwardzone-mod``, to modify a forward zone
@@ -179,7 +179,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 A new page *Network Services/DNS/DNS Forward Zones* in WebUI. This page
 handle all required operations: show current list of forward zones, add
@@ -191,7 +190,6 @@ Forward zone consists of a name, forwarders, forwarding policy, and
 enabled/disabled status
 
 CLI
-~~~
 
 .. _dnsforwardzone_:
 
@@ -384,7 +382,7 @@ How to Test
 .. _basic_configuration:
 
 Basic configuration
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. install *IPA server* with DNS, do not set up forwarders
 #. Set up an *external DNS server* (IP: 192.0.2.200)
@@ -395,7 +393,7 @@ Basic configuration
 .. _test_a_forward_zone_with_forwarding_only_policy:
 
 Test a forward zone with forwarding only policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. use the basic configuration above
 #. test zone *example.test* using dig: **$ dig @ A host.example.test.**
@@ -409,7 +407,7 @@ Test a forward zone with forwarding only policy
 .. _test_a_forward_zone_with_forwarding_none_policy:
 
 Test a forward zone with forwarding none policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. use the basic configuration above
 #. test zone *example.test* using dig: **$ dig @ A host.example.test.**
@@ -432,7 +430,7 @@ Test Plan
 .. _unit_tests:
 
 Unit tests
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Create forward zone:
 

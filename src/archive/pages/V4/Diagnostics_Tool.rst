@@ -33,7 +33,7 @@ Design
 .. _design_goals:
 
 Design goals
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Ability to gather information and problems from the current instance.
 -  Ability to gather information from the remote instances (replicas and
@@ -47,7 +47,7 @@ Design goals
 .. _tool_high_level_overview:
 
 Tool high-level overview
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To meet the high level goals defined above, the tool needs to be able to
 **gather information** from the IPA master, **analyze** it and **preform
@@ -75,7 +75,7 @@ described with the following diagram:
 .. _fetching_reports_from_other_replicas:
 
 Fetching reports from other replicas
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 However, in the scenario above, any Doctors that want to check not only
 health of one replica, but health of the whole deployment will not have
@@ -116,7 +116,7 @@ limited to IPA replicas, but it can also check health of IPA clients.
 .. _connection_fallbacks:
 
 Connection fallbacks
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In general, ipa-diagnose will use admin's credentials (kerberos ticket)
 to SSH into other hosts. In case of infrastructure failure (KDC not
@@ -129,7 +129,7 @@ Implementation
 .. _implementation_goals:
 
 Implementation goals
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Provide pluggable API for drop-in Doctors and Reporters
 -  Tool should be resiliant to plugin failures and missing dependencies
@@ -137,7 +137,7 @@ Implementation goals
 .. _reporter_plugin:
 
 Reporter plugin
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each reporter is a small modular plugin implementing a simple interface,
 which aims to provide single or multiple pieces of information about the
@@ -146,7 +146,7 @@ system.
 .. _doctor_plugin:
 
 Doctor plugin
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each doctor is a small modular plugin which consumes information
 produced by the reporters, and performs additional checks on the system.
@@ -154,7 +154,7 @@ produced by the reporters, and performs additional checks on the system.
 .. _report_format:
 
 Report format
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 
 
@@ -162,7 +162,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Both CLI and WebUI interface is available. Web User interface is
 provided as a plugin to the Cockpit project.
@@ -170,7 +169,6 @@ provided as a plugin to the Cockpit project.
 the FreIPA WebUI.
 
 CLI
-~~~
 
 Overview of the CLI commands. Example:
 
@@ -183,7 +181,7 @@ ipa-diagnose [--help]
 ============ ====================
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Upgrade
 -------

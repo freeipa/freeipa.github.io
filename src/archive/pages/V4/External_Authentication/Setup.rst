@@ -34,7 +34,7 @@ FreeIPA Server Configuration
 .. _installing_the_web_ui_plug_in:
 
 Installing the Web UI Plug-in
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To to download, install and configure the web UI plug-in, run on your
 FreeIPA server:
@@ -81,7 +81,7 @@ to generate the keys and how to add them to the smart card.
 .. _authenticating_to_the_web_ui_using_a_freeipa_ca_signed_certificate:
 
 Authenticating to the Web UI Using a FreeIPA CA-signed Certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To create a new account and authenticate to the web UI using a
 certificate issued by the FreeIPA certificate authority (CA):
@@ -129,7 +129,7 @@ You are now able to authenticate to the web UI using the certificate.
 .. _authenticating_to_the_web_ui_using_a_certificate_signed_by_an_external_ca:
 
 Authenticating to the Web UI using a Certificate Signed by an External CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If you are running FreeIPA with certificates signed by an external
 certificate authority (CA), the certificates are usually stored in a
@@ -178,7 +178,7 @@ You are now able to authenticate to the web UI using the certificate.
 .. _verifying_the_web_ui_log_in_using_the_command_line:
 
 Verifying the Web UI Log-in Using the Command Line
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To verify the authentication to the web UI with certificates using the
 command line, run:

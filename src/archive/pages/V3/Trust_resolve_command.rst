@@ -33,7 +33,6 @@ Feature Management
 ==================
 
 UI
---
 
 Since SID resolution may potentially take time at server side, SID
 resolution should be done as asynchronous task. This is implemented via
@@ -42,12 +41,11 @@ type 'sid' will be used to query 'trust-resolve' command and it in case
 of successful resolution will be replaced by the returned value.
 
 CLI
----
 
 .. _trust_resolve:
 
 trust-resolve
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``trust-resolve`` displays SIDs and names they resolved to.
 

@@ -50,12 +50,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 See the "configuration options and enablement" section for info on
 manual upgrades.

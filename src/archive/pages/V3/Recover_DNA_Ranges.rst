@@ -249,7 +249,7 @@ The overall logic for deleting a master and saving the range(s):
 .. _hosts_that_are_down:
 
 Hosts that are down
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We need specially handling for hosts that are not up. This could be
 either a temporary or a permanent issue. I think that when modifying a
@@ -272,12 +272,10 @@ Feature Managment
 =================
 
 UI
-~~
 
 It will not have a UI component.
 
 CLI
-~~~
 
 The ipa-replica-manage tool.
 

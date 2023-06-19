@@ -10,7 +10,7 @@ corporation. As the organization grows in size, the technical needs will
 drive the scope and scale of the identity management solutions required.
 
 Scenario
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Ms. N. Zappa has just come back from a masters degree program in
 Jakarta. While living in Indonesia, she established connections with
@@ -34,7 +34,7 @@ is done against the Cloud Providers Authentication Database.
 .. _initial_setup:
 
 Initial Setup
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The contractor sets up three applications for Zappas. A static web
 server, remote backups, and email. The email server is a managed
@@ -51,7 +51,7 @@ provider can scale up by allocating more virtual machines.
 .. _contractor_with_multiple_clients:
 
 Contractor with multiple Clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Zappas is not the only company the web services company manages. They
 have a portfolio of customers. The cloud deployment approach matches
@@ -76,7 +76,7 @@ external issue first.
 .. _external_identity_management:
 
 External Identity Management
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 After a few months of operations, she realizes that she is having a much
 lower rate of return customers than she anticipated. She wants to
@@ -120,7 +120,7 @@ federate her customer focused applications more easily.
 .. _internal_identity_management:
 
 Internal Identity Management
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Her business grows and she gets an office manager. She rents space at a
 local warehouse and a small office nearby. They set up accounts with a
@@ -155,7 +155,7 @@ There are patterns that show up in all implementations of IdM systems.
 Recognizing them will help in implementation of future systems.
 
 Delegation
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Her organization may look simple, but Zappa's Imports has most of the
 identity management needs of a large organization. She has distinct
@@ -181,7 +181,7 @@ first, both are handled by Ms. Zappa. By the end, are performed by
 employees who have been delegated the authority to perform these tasks.
 
 Ownership
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Probably the largest question in cloud IdM integration is who owns the
 information. The Zappas customer list and suppliers list are probably
@@ -198,7 +198,7 @@ grows to the size to hire one.
 .. _avoiding_lock_in:
 
 Avoiding Lock In
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Although companies like Zappa's are not going to be jumping from one
 cloud provider to another each week, they still want to avoid vendor
@@ -243,7 +243,7 @@ cycle.
 .. _techno_mix:
 
 Techno Mix
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The information systems are now a mix of in-house, application service
 provider, and cloud hosted applications. Zappa's works mainly with two
@@ -264,7 +264,7 @@ and pay for the usage of the cloud out of separate accounts.
 .. _authentication_tokens:
 
 Authentication Tokens
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For authentication of employees, Zappa's has moved from a
 userid/password model to a cryptographically secure system, based on

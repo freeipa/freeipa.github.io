@@ -117,13 +117,11 @@ Feature Management
 ==================
 
 UI
-~~
 
 No change to UI needed. The change is done under-the-hood and in the
 installation tools.
 
 CLI
-~~~
 
 No change to CLI needed.
 

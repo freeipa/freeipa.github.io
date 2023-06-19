@@ -52,7 +52,7 @@ in the rest of this document.
 .. _domain_resolution_order_storage_and_interpretation:
 
 Domain resolution order storage and interpretation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The domain resolution order will be stored as a part of Global
 configuration object. If the attribute exists and is not empty ( i.e.
@@ -76,7 +76,7 @@ application.
 .. _global_vs._local_domain_resolution_order_settings:
 
 Global vs. local domain resolution order settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There will be a means to manage a global domain resolution order
 applicable for all enrolled hosts in the IPA domain. The global settings
@@ -88,7 +88,7 @@ tested on selected hostgroup and then applied globally when desired.
 .. _domain_resolution_order_management:
 
 Domain resolution order management
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The feature will provide a simple API for the management of the domain
 resolution order. More sophisticated API may be provided later if demand
@@ -114,7 +114,7 @@ domain was removed or disabled.
 .. _domain_resolution_order_validation:
 
 Domain resolution order validation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Finally, any modification of the domain resolution order must ensure
 that each of the specified domain names corresponds either to that of
@@ -148,13 +148,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 The WebUI should provide a way to view and manipulate the domain
 resolution order under the ``Configuration`` tab.
 
 CLI
-~~~
 
 The ``config`` object will gain ``domain-resolution-order`` option which
 contains the raw attribute value which can be displayed by
@@ -164,7 +162,7 @@ Higher level commands may be considered in the future if there is a
 demand for better user experience.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The feature is considered disabled if the domain resolution order is
 absent in the configuration and applied ID view. In this case the client
@@ -206,7 +204,7 @@ log in using short name, we may do the following:
 .. _example_1_create_a_global_resolution_order:
 
 Example 1: Create a global resolution order
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 just directly set the value of ``--domain-resolution-order`` attribute
 to the desired value:
@@ -223,7 +221,7 @@ to the desired value:
 .. _example_1_more_conductive_to_automation:
 
 Example 1 more conductive to automation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  store to FreeIPA domain name in the temporary file which will store
    the entries of interest:
@@ -255,7 +253,7 @@ the order of operations.
 .. _example_2_creating_local_override_of_global_resolution_order:
 
 Example 2: creating local override of global resolution order
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Let's say that we have a machine named 'special.ipa.test' and we wish
 that just users coming from the child domains of trusted forest

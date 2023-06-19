@@ -41,7 +41,7 @@ TGT.
 .. _credentials_expiration:
 
 Credentials Expiration
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Sometimes the user may need to run long jobs that take hours to
 complete. If the job tries to access other kerberos enabled services
@@ -153,7 +153,7 @@ days from that point on.
 .. _security_concerns:
 
 Security Concerns
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The only drawback of this solution is that an arbitrary program can be
 developed to automatically renew the kerberos tickets bypassing IPA
@@ -186,7 +186,7 @@ expired as we posses the user secret.
 .. _security_concerns_1:
 
 Security Concerns
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The main issue with this approach is the need to cache passwords on the
 client, this is a quite relevant security concern. This approach allows
@@ -206,7 +206,7 @@ ticket renewal approach.
 .. _solution_for_host_use_case:
 
 Solution for Host Use Case
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are several components of the IPA client that would require
 kerberos authentication:
@@ -235,7 +235,7 @@ client components.
 .. _solution_for_user_use_case:
 
 Solution for User Use Case
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For the user case we decided that it would be an overhead to implement
 the logic described above inside the IPA client. We agreed that by

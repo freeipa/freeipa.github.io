@@ -110,7 +110,7 @@ Create new IPA group for mailbox access
 From your IPA server, create a new group for your users to store their
 mailbox
 
-| ``[root@ds01 ~]# ipa group-add``
+| ``[root@ds01~]# ipa group-add``
 | `` Group name: mailusers``
 | `` Description: Mail User Group``
 | `` --------------------``

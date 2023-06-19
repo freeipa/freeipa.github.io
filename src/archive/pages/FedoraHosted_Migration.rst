@@ -32,7 +32,7 @@ Issue tracker
 .. _used_fields:
 
 Used fields
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  **Reported by**
 -  **Owned by**
@@ -66,7 +66,7 @@ Some of the fields are not used so often but in general a support for
 custom fields are o way to mimic them is needed.
 
 API
-~~~
+----------------------------------------------------------------------------------------------
 
 Our process uses linking of various resources together, e.g. in "Patch
 link", "Red Hat Bugzilla'", "Design link" fields. These fields are often
@@ -78,7 +78,7 @@ welcome.
 .. _ticket_numbers:
 
 Ticket numbers
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA Trac instance has over 6000 ticket in total and around 1200
 opened ticket. When a ticket is fixed a commit message contains a link
@@ -89,13 +89,13 @@ keep this information by migrating to new tracker system and ideally
 keep the same ticket numbers so that redirection rule can be made .
 
 Hosting
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Trac was maintain by Fedora Infra, it worked well. Would be nice to
 avoid self-hosted solution.
 
 Requirements
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  support of custom fields
 -  support of API
@@ -105,7 +105,7 @@ Requirements
 .. _nice_to_have:
 
 Nice to have
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  API token support
 -  hosted solution
@@ -116,7 +116,7 @@ Possible Replacements
 ---------------------
 
 GitHub
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Pros
 ^^^^
@@ -142,7 +142,7 @@ Notes
 -  Board https://www.zenhub.com/
 
 Pagure.io
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _pros_1:
 

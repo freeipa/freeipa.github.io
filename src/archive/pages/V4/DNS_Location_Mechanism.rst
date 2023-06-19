@@ -5,7 +5,7 @@ Overview
 others
 
 Forewords
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is a new proposal (Jan 2013) to support Location Based discovery in
 FreeIPA. It was inspired by `earlier
@@ -28,7 +28,7 @@ proposals <#Comparison_of_proposals>`__ for further information about
 the differences.
 
 Introduction
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Service Discovery is a process whereby a client uses information stored
 in the network to find servers that offer a specific service. It is
@@ -141,7 +141,7 @@ Assumptions
 .. _current_use_of_srv_records5:
 
 Current use of SRV records
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Client queries for SRV records located in the domain/realm
 (``example.com`` in the following example) and gets back all servers.
@@ -203,7 +203,6 @@ they become available. (This depends on particular implementation on the
 client side.)
 
 UI
-~~
 
 It seems as natural fit to somehow show locations in Topology Graph.
 Details TBD
@@ -217,7 +216,6 @@ Details TBD
 -  How to add/delete/edit locations?
 
 CLI
-~~~
 
  =========================================================================== ======================= ======================= =================== 
   +-----------------------+-----------------------+-----------------------+                                                                      
@@ -346,7 +344,7 @@ Notes:
       servers for this location."
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA DNS servers will automatically generate distinct DNS SRV and DNAME
 records for each location as necessary. To function properly, this
@@ -398,7 +396,7 @@ This should work out of the box.
 .. _interaction_with_hand_made_records:
 
 Interaction with hand-made records
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Side-effect of DNAME-redirecting ``_udp`` and ``_tcp`` subdomains is
 that all original names under these subdomains will become
@@ -477,7 +475,7 @@ There are several options:
    locations.
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Clients will query name ``_ldap._tcp.example.com.`` as usual but this
 name will be redirected to location-specific sub-tree:
@@ -527,7 +525,7 @@ name will be redirected to location-specific sub-tree:
 .. _compatibility_tests:
 
 Compatibility tests
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  FreeIPA client installer:
 
@@ -626,7 +624,7 @@ page <https://fedorahosted.org/bind-dyndb-ldap/wiki/Design/RecordGenerator>`__.
 .. _example_1:
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. figure:: ExampleLocationsV3.svg
    :alt: ExampleLocationsV3.svg
@@ -667,7 +665,7 @@ Example
 .. _interaction_with_hand_made_records_1:
 
 Interaction with hand-made records
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Auto-generated CNAME records avoid problem with occluded/invisible
 subdomains in ``_udp`` and ``_tcp`` sub-trees.
@@ -688,7 +686,7 @@ This approach also avoids synchronization problem because hand-made
 records do not need to be copied into ``_locations`` sub-tree.
 
 Compatibility
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Given that client's will see only CNAME, from client's perspective
 version 3 should have the same or better properties than `version
@@ -751,7 +749,7 @@ Comparison of proposals
 .. _comparison_with_microsoft_active_directory_sites5:
 
 Comparison with Microsoft Active Directory Sites
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Some administrators might be familiar with concept of `Active Directory
 Sites <https://technet.microsoft.com/en-us/library/cc754697.aspx>`__.
@@ -841,7 +839,7 @@ order):
 .. _dns_server_configuration:
 
 DNS server configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This FreeIPA feature depends on two sub-features of bind-dyndb-ldap:
 
@@ -861,7 +859,7 @@ advertised to clients), the DNS name of the location will be put into
 .. _cname_data_generation:
 
 CNAME data generation
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA must create ``idnsTemplateObject`` at all SRV records belongs to
 IPA services in FreeIPA primary DNS domain.
@@ -891,7 +889,7 @@ user-defined variable ``ipalocation``, and suffix ``._locations``.
 .. _records_generated_for_ipa_services:
 
 Records generated for IPA services
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **One in IPA domain:**
 
@@ -928,7 +926,7 @@ Records generated for IPA services
 .. _location_data_generation:
 
 Location data generation
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We have to modify FreeIPA Python code responsible for generating DNS
 records in installers etc. so FreeIPA is able to automatically generate
@@ -949,7 +947,7 @@ and then again with modified priority and weight for each DNS location.
 .. _ldap_data_structure:
 
 LDAP Data structure
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _objectclasses_and_attributes:
 
@@ -1018,7 +1016,7 @@ Servers LDAP structure
 .. _ipa_commands_affected_by_this_feature:
 
 IPA commands affected by this feature
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When following commands are executed, resulting of that commands might
 result into a need to update location records
@@ -1077,7 +1075,7 @@ removed
 .. _permissions_and_privileges:
 
 permissions and privileges
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 *DNS Administrator* privilege must have read and write access to
 locations

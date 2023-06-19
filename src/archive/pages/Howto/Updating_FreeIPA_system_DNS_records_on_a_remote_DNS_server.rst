@@ -26,7 +26,7 @@ Examples
 .. _show_list_of_required_records:
 
 Show list of required records
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This can be handy in a case you have hosted external DNS and management
 is done via GUI to see records that have to be updated manually.
@@ -50,7 +50,7 @@ The list of records can look for example like this:
 .. _generating_a_file_with_freeipa_dns_data_for_nsupdate_utility:
 
 Generating a file with FreeIPA DNS data for *nsupdate* utility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Option ``--out FILE`` will store DNS data in *nsupdate* format in file
 *FILE*.
@@ -103,7 +103,7 @@ For more details please see *man nsupdate*.
 .. _using_nsupdate_with_tsig:
 
 Using *nsupdate* with TSIG
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `TSIG <https://tools.ietf.org/html/rfc2845>`__ mechanism allows to use
 nsupdate utility with securely by using a shared key. The DNS server
@@ -135,7 +135,7 @@ be found `here <Howto/DNS_updates_and_zone_transfers_with_TSIG>`__
 .. _using_nsupdate_with_gss_tsig:
 
 Using *nsupdate* with GSS-TSIG
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `GSS-TSIG <https://tools.ietf.org/html/rfc3645>`__ mechanism uses
 `GSS-API <https://tools.ietf.org/html/rfc2743>`__ for getting secret
@@ -158,7 +158,7 @@ Run *nsupdate* with option ``-g``
 .. _using_nsupdate_without_authentication:
 
 Using *nsupdate* without authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Using *nsupdate* without authentication is discouraged. However if you
 really need this, then set up DNS server to allow dynamic updates from

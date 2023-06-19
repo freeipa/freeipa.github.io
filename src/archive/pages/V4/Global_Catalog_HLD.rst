@@ -95,7 +95,7 @@ in 389-ds directory server environment.
 .. _freeipa_schema_to_gc_schema_mapping:
 
 FreeIPA schema to GC schema mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To perform data transformation from the primary FreeIPA LDAP instance to
 GC instance, a plugin that consumes original LDAP objects from the
@@ -111,7 +111,7 @@ documentation <https://git.fedorahosted.org/cgit/slapi-nis.git/tree/doc/format-s
 .. _equality_and_attribute_syntax_rules_mapping:
 
 Equality and attribute syntax rules mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Global Catalog instance schema is derived from a schema published by
 Microsoft through WSPP program as MS-ADSC document,

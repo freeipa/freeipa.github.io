@@ -18,7 +18,7 @@ Use Cases
 .. _self_service_user_registration:
 
 Self-service user registration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the FreeIPA server owner wishes to allow anonymous registration, the
 self-service portal allows users to input a set of preconfigured fields
@@ -37,7 +37,7 @@ Design
 .. _stand_alone_web_application:
 
 Stand Alone Web Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The self-service portal is designed as a stand-alone application that
 communicates with the FreeIPA server using only ipalib and the RPC. The
@@ -47,7 +47,7 @@ never needs to directly interact with anonymous users.
 .. _self_service_registration:
 
 Self-Service Registration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Self-service registration is designed to make use of FreeIPA's new
 staged user feature. When users sign up for FreeIPA, the self-service
@@ -62,7 +62,7 @@ FreeIPA server, and the user is dropped to a completion page.
 .. _administrator_notification:
 
 Administrator Notification
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When a user has registered, the adminstrator is sent an email describing
 the new user. Confirmation or rejection of new users should be performed
@@ -74,7 +74,7 @@ actually dispatch the email/notice/carrier pigeon. I think this solution
 is over-engineered and will increase development time.
 
 Extension
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 With the core framework of the Self-Service Portal built, the software
 should be easily extensible so that other self-service use cases
@@ -101,7 +101,7 @@ is performed entirely by the ipalib API, as well as the actual sending
 of the command over RPC.
 
 Dependencies
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The portal should be built using a Python web framework, in order to
 simplify development and avoid having to write code directly interacting
@@ -121,7 +121,7 @@ FreeIPA core and by design cannot be interacted with via the FreeIPA
 WebUI or CLI.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The application will require some configuration to use. A user account
 on the FreeIPA server with the permissions required by the self-service

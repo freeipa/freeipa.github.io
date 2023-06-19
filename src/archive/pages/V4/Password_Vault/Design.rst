@@ -54,7 +54,7 @@ can be stored on an IPA server, or offline (preferred for security
 paranoid situations).
 
 Definitions
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  **Secret** - A *Secret* is a password or key that a user or service
    wants to securely archive in the Password Vault.
@@ -88,7 +88,7 @@ Definitions
 .. _authentication_and_authorization:
 
 Authentication and Authorization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For simplicity, the workflow diagrams in this document do not show
 details about authentication or authorization. This section describes
@@ -108,7 +108,7 @@ them.
 .. _common_workflows:
 
 Common Workflows
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The following workflows apply to the common use-cases of archiving and
 retrieving secrets from the Password Vault.
@@ -160,7 +160,7 @@ Vault Password Reset
 .. _service_workflows:
 
 Service Workflows
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The following workflows apply to the use case where a service is storing
 secrets in the Password Vault. These workflows assume that the process
@@ -236,7 +236,7 @@ Retrieval of service vault password (automated)
 .. _escrow_workflows:
 
 Escrow Workflows
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _archival_1:
 
@@ -320,7 +320,7 @@ need to be defined. Consider this section as a work in progress.
 .. _drm_namespace:
 
 DRM Namespace
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The namespace used to store secrets in the DRM needs to be defined. We
 likely want a naming scheme that gives each user a namespace. One
@@ -331,7 +331,7 @@ possible naming scheme is:
 .. _ldap_implementation_details:
 
 LDAP Implementation Details
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _escrow_officer_assignment:
 
@@ -365,12 +365,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 TBD
 
 CLI
-~~~
 
 TBD
 

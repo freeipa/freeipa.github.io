@@ -58,7 +58,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 It requires new WebUI part which will be able to show certificates on
 user|host|service's details pages. It could be done by multivalued
@@ -77,7 +76,6 @@ example, mark two certificates as revoked, one as deleted and then hit
 the save button and wait whether everything went correctly.
 
 CLI
-~~~
 
 There will be new options in ``cert-find``. Options which can specify
 who owns the certificates which we want to find. For instance to be

@@ -1,7 +1,7 @@
 .. _what_are_rids_and_rid_ranges:
 
 What are RIDs and RID ranges
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 RIDs are unique 32-bit identifiers of the user/group objects in the
 scope one Active Directory domain. The RID is the last part of the SID,
@@ -11,7 +11,7 @@ is the RID. RID range is the analog of the ID range.
 .. _the_purpose_of_primary_and_secondary_rid_range:
 
 The purpose of primary and secondary RID range
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If we want to export user / group objects from IPA to the Active
 Directory, we need to generate SIDs for them. The whole SID but the last
@@ -58,7 +58,7 @@ from other LDAP/NIS systems might.
 .. _constraints_on_id_ranges:
 
 Constraints on ID ranges
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _any_domain:
 

@@ -51,7 +51,7 @@ Note: this is not typical.
 Configuring the IPA Client
 ==========================
 
-.. _configuring_client_authentication:
+
 
 Configuring Client Authentication
 ---------------------------------
@@ -90,7 +90,7 @@ should see output similar to the following:
       If your IPA server and client are not in the same domain, the
       setup script will prompt you for the information that it requires.
 
-.. _configuring_kerberos:
+
 
 Configuring Kerberos
 --------------------
@@ -122,7 +122,7 @@ deployment.
     .example.com = EXAMPLE.COM
     example.com = EXAMPLE.COM
 
-.. _configuring_client_tls:
+
 
 Configuring Client TLS
 ----------------------
@@ -174,7 +174,7 @@ directly:
    If more than one CA certificate is required, concatenate these
    certificates into a single file.
 
-.. _configuring_nfs_v4_with_kerberos:
+
 
 Configuring NFS v4 with Kerberos
 --------------------------------
@@ -227,7 +227,7 @@ configuration:
 
     # mount -v -t nfs4 -o sec=krb5 ipaserver.example.com:/ /mnt
 
-.. _configuring_client_ssh_access:
+
 
 Configuring Client SSH Access
 -----------------------------
@@ -276,7 +276,7 @@ This should succeed without asking for a password.
 
     # ssh admin@ipaclient.example.com
 
-.. _configuring_host_based_access_control:
+
 
 Configuring Host-Based Access Control
 -------------------------------------

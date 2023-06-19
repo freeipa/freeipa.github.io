@@ -44,7 +44,7 @@ included then this is treated as a bulk enrollment.
 These requests use the XML-RPC API.
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -62,7 +62,7 @@ one-time password. This password allows a user to authenticate over LDAP
 .. _example_1:
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 

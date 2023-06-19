@@ -49,7 +49,7 @@ Design
 .. _copying_cn_to_san_dnsname:
 
 Copying CN to SAN dNSName
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This measure involves the creation of a new Dogtag profile component
 that, on profiles that enable it, performs the following steps:
@@ -80,7 +80,7 @@ must run first; any such requirement must be clearly documented.
 .. _san_only_certificate_support:
 
 SAN-only certificate support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Let's first clarify the requirement for SAN-only certificates:
 
@@ -207,7 +207,7 @@ particular). This will be achieved with the following changes.
 .. _wildcard_certificates:
 
 Wildcard certificates
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA currently does not support wildcard certificates, although
 `ticket #3475 <https://fedorahosted.org/freeipa/ticket/3475>`__ is an

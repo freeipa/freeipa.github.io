@@ -1,7 +1,7 @@
 .. _draft_version___work_in_progress_to_be_completed:
 
 \**\* DRAFT VERSION - WORK IN PROGRESS TO BE COMPLETED \**\*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Following on from the previous documentation for an IPA backend to
 protect Apache it's not unusual to require only a subset of users to

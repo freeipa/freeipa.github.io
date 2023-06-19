@@ -99,13 +99,11 @@ Feature Managment
 =================
 
 UI
-~~
 
 UI will need to allow updating these new attributes in *Settings* tab in
 *IPA Server* -> *Trusts* section.
 
 CLI
-~~~
 
 CLI should allow editing of these new attributes. They should not be
 displayed by default in *trust-show* or *trust-find* command, but only

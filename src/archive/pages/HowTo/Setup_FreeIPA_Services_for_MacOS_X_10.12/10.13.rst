@@ -108,7 +108,7 @@ IPA Enrollment
 .. _name_workstation:
 
 Name workstation
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Open terminal
 -  sudo scutil --set HostName workstation.yourdomain.com
@@ -116,7 +116,7 @@ Name workstation
 .. _add_via_freeipa_web_console:
 
 Add via freeIPA web console
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Open IPA web console (https://yourserver.yourdomain.com)
 #. Sign on as a Directory Manager
@@ -130,7 +130,7 @@ Add via freeIPA web console
 .. _generate_keytab_on_ipa_server:
 
 Generate keytab on IPA server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. su root
 #. kinit admin
@@ -151,7 +151,7 @@ Generate keytab on IPA server
 .. _retrieve_keytab_from_server:
 
 Retrieve keytab from server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. From the workstation run *sftp admin@yourserver.yourdomain.com*
 #. sftp> get workstation.keytab /etc/krb5.keytab
@@ -258,7 +258,7 @@ Make Accounts Mobile (Off-network Access)
 .. _if_filevault_already_enabled:
 
 If FileVault already enabled
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  fdesetup add -usertoadd username
 -  Enter user’s password at prompt

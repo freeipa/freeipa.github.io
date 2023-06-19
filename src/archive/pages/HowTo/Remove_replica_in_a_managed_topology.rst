@@ -63,7 +63,7 @@ Safely removing a replica
 .. _removing_a_leaf_replica:
 
 Removing a "leaf" replica
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Assuming the following replication topology:
 
@@ -81,7 +81,7 @@ the replication agreements A-->B and B-->A
 .. _removing_an_internal_replica:
 
 Removing an "internal" replica
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Assume that in the above topology the internal node C should be removed.
 

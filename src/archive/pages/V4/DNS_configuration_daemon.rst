@@ -33,7 +33,7 @@ BIND:
 .. _synchronization_of_dns_records:
 
 Synchronization of DNS records
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  copying DNS records from to LDAP DB to BIND
 -  copying DNS records from BIND to LDAP DB
@@ -43,7 +43,7 @@ Synchronization of DNS records
 .. _managing_master_zones:
 
 Managing master zones
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  creating new zones in BIND (source LDAP DB)
 -  removing zones from BIND (added by FreeIPA)
@@ -60,7 +60,7 @@ Managing master zones
 .. _managing_forward_zones:
 
 Managing forward zones
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  creating new zones in BIND (source LDAP DB)
 -  removing zones from BIND (added by FreeIPA)
@@ -71,7 +71,7 @@ Managing forward zones
 .. _bind_configuration_global_and_per_dns_server:
 
 BIND configuration (global and per DNS server)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  set global forward policy (*dnsconfig-mod --forward-policy=ENUM*)
 -  set global forwarders (*dnsconfig-mod --forwarder=STR*)
@@ -79,7 +79,7 @@ BIND configuration (global and per DNS server)
 .. _bind_configuration_per_server:
 
 BIND configuration (per server)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  SOA mname (authoritative server) override (*dnsserver-mod
    --soa-mname-override=DNSNAME*)
@@ -87,12 +87,12 @@ BIND configuration (per server)
 .. _ipa_dns_locations:
 
 IPA DNS Locations
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  CNAME record mappings per server, generated dynamically in BIND
 
 DNSSEC
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  There is no need for special care, BIND does inline zone signing
    automatically when configured. There is quite big code implemented on
@@ -115,17 +115,15 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Same as now, no changes expected (*ipa dns\** commands).
 
 CLI
-~~~
 
 Same as now, no changes expected (*ipa dns\** commands).
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 TBD
 

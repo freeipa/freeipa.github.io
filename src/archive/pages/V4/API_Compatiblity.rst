@@ -20,7 +20,7 @@ Design
 .. _backward_compatibility_with_old_servers:
 
 Backward compatibility with old servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Current server code check client version and rejects requests from
 clients newer than the server. In order to allow the client to talk to
@@ -49,7 +49,7 @@ unknown arguments.
 .. _forward_compatibility:
 
 Forward compatibility
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Current server is backward compatible with old clients, except when an
 incompatible change is made to the API. To allow backward incompatible
@@ -125,7 +125,7 @@ Implementation
 .. _backward_compatibility_with_old_servers_1:
 
 Backward compatibility with old servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The interface definitions for old API versions are bundled in
 ``ipaclient.remote_plugins.compat.``\ *``major``*\ ``_``\ *``minor``*
@@ -135,7 +135,7 @@ definitions, except they contain no code, only parameter definitions.
 .. _forward_compatibility_1:
 
 Forward compatibility
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _versioned_commands_1:
 
@@ -182,7 +182,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Not applicable - UI currently uses ``json_metadata`` API call to
 retrieve information about objects, commands and parameters from server.
@@ -190,12 +189,11 @@ It's reflecting current version and changing this is not in a scope of
 this design.
 
 CLI
-~~~
 
 TBD
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Client
 ^^^^^^
@@ -221,7 +219,7 @@ How to Use
 .. _backward_compatibility_with_old_servers_2:
 
 Backward compatibility with old servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``ipa`` command line tool will now work on new clients enrolled
 against old server:
@@ -243,7 +241,7 @@ On clients without this feature, this would fail:
 .. _forward_compatibility_2:
 
 Forward compatibility
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _versioned_commands_2:
 
@@ -480,7 +478,7 @@ Test Plan
 .. _regression_testing:
 
 Regression testing
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 New IPA client (resp. server) MUST behave exactly the same as the old
 IPA client (resp. server) when communicating with the old IPA server
@@ -489,13 +487,13 @@ IPA client (resp. server) when communicating with the old IPA server
 .. _feature_testing:
 
 Feature testing
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 TBD
 
 .. _test_plan_1:
 
 Test Plan
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 `Thin Client V4.4 test plan <V4/Thin_Client/Test_Plan>`__

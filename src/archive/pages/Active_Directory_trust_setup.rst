@@ -99,7 +99,9 @@ requirement for any Active Directory cross-forest trust.
 IPA domain is ``ipadomain.example.com``, and the IP address of IPA
 server is ``10.16.78.61``, the command:
 
-``C:\> dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
+::
+
+   ``C:\> dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
 
 should look like this:
 
@@ -112,19 +114,17 @@ between all NetBIOS names. NetBIOS names of the IPA domain and AD domain
 must be different. In addtion, NetBIOS names of the IPA server and AD DC
 server must be different.
 
-.. _install_and_configure_ipa_server:
-
 Install and configure IPA server
 ================================
 
-.. _make_sure_all_packages_are_up_to_date:
+
 
 Make sure all packages are up to date
 -------------------------------------
 
 ``# yum update -y``
 
-.. _install_required_packages:
+
 
 Install required packages
 -------------------------
@@ -135,10 +135,11 @@ Install required packages
 
 Configure host name
 -------------------
+::
 
-``# hostnamectl set-hostname ``\ *``ipa_hostname``*
+   ``# hostnamectl set-hostname ``\ *``ipa_hostname``*
 
-.. _install_ipa_server:
+
 
 Install IPA server
 ------------------
@@ -196,7 +197,7 @@ Date/time settings
 Make sure both timezone settings and date/time settings on both servers
 match.
 
-.. _firewall_configuration:
+
 
 Firewall configuration
 ----------------------
@@ -204,14 +205,14 @@ Firewall configuration
 .. _on_ad_dc:
 
 On AD DC
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Windows Firewall configuration (to be added).
 
 .. _on_ipa_server:
 
 On IPA server
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA uses the following ports to communicate with its services:
 
@@ -326,11 +327,13 @@ zone forwarders can be created:
 .. _conditional_dns_forwarders:
 
 Conditional DNS forwarders
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On AD DC, add conditional forwarder for IPA domain:
 
-``C:\> dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
+::
+
+   ``C:\> dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
 
 On IPA server, add conditional forwarder for AD domain. The command in
 IPA version 3 and 4 are different.
@@ -346,7 +349,7 @@ IPA version 3 and 4 are different.
 .. _if_ad_is_subdomain_of_ipa:
 
 If AD is subdomain of IPA
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the AD domain is a subdomain of the IPA domain (e.g. AD domain is
 ``addomain.ipadomain.example.com`` and IPA domain is
@@ -370,31 +373,35 @@ from master (IPA server) to slave (AD server).
 
 To do this, first explicitly allow the transfer of the zone on IPA
 server:
+::
 
-``# ipa dnszone-mod ``\ *``ipa_domain``*\ `` --allow-transfer=``\ *``ad_ip_address``*
+   ``# ipa dnszone-mod ``\ *``ipa_domain``*\ `` --allow-transfer=``\ *``ad_ip_address``*
 
 And second, add the DNS zone for the IPA domain on the AD DC:
+::
 
-``C:\> dnscmd 127 0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Secondary ``\ *``ipa_ip_address``*
+   ``C:\> dnscmd 127 0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Secondary ``\ *``ipa_ip_address``*
 
 .. _if_ipa_is_subdomain_of_ad:
 
 If IPA is subdomain of AD
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the IPA domain is a subdomain of the AD domain (e.g. IPA domain is
-``ipadomain.addomain.example.com`` and AD domain is
-``addomain.example.com``), configure DNS as follows.
+ipadomain.addomain.example.com and AD domain is
+addomain.example.com), configure DNS as follows.
 
 On AD DC, add an A record and a NS record for the IPA domain:
 
-| ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address``*
-| ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*
+::
+
+   | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address``*
+   | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*
 
 .. _verify_dns_configuration:
 
 Verify DNS configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To make sure both AD and IPA servers can see each other, check if SRV
 records are being properly resolved.
@@ -425,7 +432,7 @@ Add trust with AD domain
 .. _when_ad_administrator_credentials_are_available:
 
 When AD administrator credentials are available
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``# ipa trust-add --type=ad ``\ *``ad_domain``*\ `` --admin Administrator --password``
 
@@ -460,7 +467,7 @@ server:
 .. _when_ad_administrator_credentials_arent_available:
 
 When AD administrator credentials aren't available
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``# ipa trust-add --type=ad "ad_domain" --trust-secret``
 
@@ -559,7 +566,7 @@ mapping is performed in two steps:
 .. _create_external_and_posix_groups_for_trusted_domain_users:
 
 Create external and POSIX groups for trusted domain users
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Create external group in IPA for trusted domain admins:
 
@@ -572,7 +579,7 @@ Create POSIX group for external ``ad_admins_external`` group:
 .. _add_trusted_domain_users_to_the_external_group:
 
 Add trusted domain users to the external group
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``# ipa group-add-member ad_admins_external --external '``\ *``ad_netbios``*\ ``\Domain Admins'``
 
@@ -586,7 +593,7 @@ to escape any specials characters with a backslash (\).
 .. _add_external_group_to_posix_group:
 
 Add external group to POSIX group
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Allow members of ``ad_admins_external`` group to be associated with
 ``ad_admins`` POSIX group:
@@ -657,16 +664,18 @@ can be used.
 To add Kerberos authentication to an existing web application, the
 following Apache configuration is needed:
 
-| ``<Location "/mywebapp">``
-| ``   AuthType Kerberos``
-| ``   AuthName "IPA Kerberos authentication"``
-| ``   KrbMethodNegotiate on``
-| ``   KrbMethodK5Passwd on``
-| ``   KrbServiceName HTTP``
-| ``   KrbAuthRealms ``\ *``IPA_DOMAIN``*
-| ``   Krb5Keytab /etc/httpd/conf/ipa.keytab``
-| ``   KrbSaveCredentials off``
-| ``   Require valid-user``
+::
+
+   | ``<Location "/mywebapp">``
+   | ``   AuthType Kerberos``
+   | ``   AuthName "IPA Kerberos authentication"``
+   | ``   KrbMethodNegotiate on``
+   | ``   KrbMethodK5Passwd on``
+   | ``   KrbServiceName HTTP``
+   | ``   KrbAuthRealms ``\ *``IPA_DOMAIN``*
+   | ``   Krb5Keytab /etc/httpd/conf/ipa.keytab``
+   | ``   KrbSaveCredentials off``
+   | ``   Require valid-user``
 
 Make sure you replace *IPA_DOMAIN* in the above configuration with your
 actual IPA domain (in caps) and to restart the apache service:

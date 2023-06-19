@@ -39,7 +39,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 Hook the new command into the web UI: to the user and host pages. Add a
 new action 'Rebuild auto membership', and place it appropriately on
@@ -61,7 +60,6 @@ all the hosts (using --type=hostgroup).
    This makes it possible to rebuild automembership for a single host.
 
 CLI
-~~~
 
 ``ipa automember-rebuild`` can be used to rebuild membership for all
 objects of certain type:

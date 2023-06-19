@@ -68,19 +68,17 @@ Feature Management
 ------------------
 
 UI
-~~
 
 TLNs are added as a property of tree root domains of the forest,
 appropriate panel needs to be extended to display them.
 
 CLI
-~~~
 
 When TLNs are added as a property of tree root domains of the forest,
 appropriate attribute need to be handled by **trust-show** command.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No configuration options.
 

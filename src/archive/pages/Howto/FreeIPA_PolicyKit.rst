@@ -86,7 +86,7 @@ and not as 'Administrator' in Settings -> Users.
 .. _hbac_rule:
 
 HBAC Rule
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If FreeIPA has not been configured to *allow_all* for any service on any
 host, you will have to add a HBAC Service named **polkit-1**, if this

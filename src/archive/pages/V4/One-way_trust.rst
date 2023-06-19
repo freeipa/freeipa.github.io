@@ -115,7 +115,7 @@ and groups.
 .. _security_of_two_way_trust_solution:
 
 Security of two-way trust solution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 It should be noted that existing two-way trust solution as implemented
 by IPA is not giving any additional rights compared to one-way trust as
@@ -274,7 +274,6 @@ Feature management
 ==================
 
 CLI
----
 
 The newly created trust will become one-way only, no additional options
 will be needed. To force creating a two-way trust, pass **--two-way**
@@ -296,8 +295,7 @@ agent.
 
 .. _web_ui:
 
-Web UI
-------
+Web UI----
 
 No changes in Web UI are required if we wouldn't expose two-way trust
 option.

@@ -80,7 +80,7 @@ configuration to your named.conf.
 .. _adding_a_conditional_forwarder_on_the_freeipa_side:
 
 Adding a conditional forwarder on the FreeIPA side
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If FreeIPA is configured with DNS, you can use following command:
 
@@ -102,7 +102,7 @@ domain ad.domain to the specified forwarders.
 .. _adding_a_conditional_forwarder_on_the_ad_side:
 
 Adding a conditional forwarder on the AD side
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If DNS resolution does not work on the AS side, e.g. 'ping
 server.ipa.domain' does not work on the command prompt a conditional
@@ -136,7 +136,7 @@ added.
 .. _adding_a_common_forwarder:
 
 Adding a common forwarder
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As an alternative to add conditional forwarders to the configuration of
 the FreeIPA and AD servers a common forwarder can be used which routes
@@ -195,7 +195,7 @@ Now you should call
 .. _some_sanity_checks:
 
 Some sanity checks
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The following commands can be used to check that smbd and winbindd are
 basically working:
@@ -206,7 +206,7 @@ basically working:
 .. _populating_ipantsecurityidentifier_sid_for_existing_users_and_groups:
 
 Populating ipaNTSecurityIdentifier (SID) for existing users and groups
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 After running ipa-adtrust-install new users and groups will
 automatically get the needed attributes and objectclasses to be used
@@ -336,7 +336,7 @@ groups of the IPA domain.
 .. _allowing_individual_access_with_.k5login:
 
 Allowing individual access with .k5login
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If only a few users from a trusted domain shall be allowed to access the
 client or if users from the trusted domain shall access the client as a
@@ -351,7 +351,7 @@ user.
 .. _allowing_global_access_for_a_trusted_domain:
 
 Allowing global access for a trusted domain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If all users from a trusted domain should be allowed to access the
 client the .k5login approach will not scale. Here the following line can
@@ -379,7 +379,7 @@ asking for a password.
 .. _configuring_putty_for_sso:
 
 Configuring Putty for SSO
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. In *Connection - Data*, set Auto-login username to "user@ad.realm".
    Be cautious, this field is case sensitive. To configure
@@ -403,7 +403,7 @@ the IPA domain.
 .. _creating_an_external_group_and_adding_objects:
 
 Creating an external group and adding objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To create an external group the '--external' option was added to 'ipa
 group-add'
@@ -419,7 +419,7 @@ SID of the object must be known:
 .. _adding_an_external_group_to_an_ipa_group:
 
 Adding an external group to an IPA group
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 External groups can a added like local groups to other groups:
 
@@ -459,7 +459,7 @@ IPA server.
 .. _server_side_ipa_client:
 
 Server side (IPA client)
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 One or more share have to be created in the samba configuration by
 either adding them to /etc/smb.conf or by using 'net conf addshare' for
@@ -488,7 +488,7 @@ domain names to be used.
 .. _client_side_windows:
 
 Client side (Windows)
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To access the share on the IPA client either
 

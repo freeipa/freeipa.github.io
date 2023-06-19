@@ -73,7 +73,7 @@ look as follows:
 .. _certmonger_considerations_for_issuing_puppet_certificates_by_ipa_ca:
 
 Certmonger considerations for issuing Puppet certificates by IPA CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `certmonger <certmonger>`__ provides -T option allowing to specify
    certificate profile name, which could be used to include Puppet's
@@ -89,7 +89,7 @@ Certmonger considerations for issuing Puppet certificates by IPA CA
 .. _considerations_for_mod_ssl_sslrequire_and_require_expr_directives:
 
 Considerations for `mod_ssl <http://httpd.apache.org/docs/current/mod/mod_ssl.html>`__ `SSLRequire <http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#sslrequire>`__ and `Require <http://httpd.apache.org/docs/current/mod/mod_authz_core.html#reqexpr>`__ `expr <http://httpd.apache.org/docs/current/expr.html>`__ directives
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Sample configuration of mod_ssl including SSLRequire directive is
 included in:
@@ -120,7 +120,7 @@ exceptions:
 .. _considerations_for_certificate_request_handling:
 
 Considerations for certificate request handling
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA is currently using combination of *virtual operations*, *ACI*,
 *managedby*, and *Get Effective Rights* to determine whether entity
@@ -161,7 +161,7 @@ Here are some sample suggestions for profile processing:
 .. _certificate_profile_considerations_for_issuing_puppet_certificates_by_ipa_ca:
 
 Certificate profile considerations for issuing Puppet certificates by IPA CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 IPA is required to support at least two certificate profiles in case of
 multiple Puppet deployments within IPA, There are two possible profile
@@ -211,12 +211,10 @@ Feature Management
 ------------------
 
 UI
-~~
 
 TBD
 
 CLI
-~~~
 
 TBD
 

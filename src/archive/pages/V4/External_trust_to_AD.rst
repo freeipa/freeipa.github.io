@@ -50,13 +50,11 @@ Feature Management
 ------------------
 
 UI
-~~
 
 An option 'external trust' needs to be added to Web UI, corresponding to
 '--external' flag in 'trust-add' command in CLI.
 
 CLI
-~~~
 
 An external trust creation can be requested by passing additional flag
 '--external=true' to the 'trust-add' command. The flag defaults to
@@ -69,7 +67,7 @@ trust-add --external=true/false
 ========= =====================
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No configuration options needed.
 

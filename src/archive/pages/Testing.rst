@@ -13,7 +13,7 @@ Requirements for 100% test passing:
 -  freeipa-server-trust-ad must be installed (AD trust is not necessary)
 
 Setup
-~~~~~
+----------------------------------------------------------------------------------------------
 
 The tests allow customization through the use of a required, local
 configuration directory, ~/.ipa. This can be created with:
@@ -45,7 +45,7 @@ For Developers
 .. _fast_test:
 
 Fast test
-~~~~~~~~~
+~
 
 Often during development phase one needs to quickly check whether Python
 code is OK and whether basic tests (which don't require access to IPA
@@ -114,7 +114,7 @@ certain number to be returned and may raise an error.
 .. _in_tree_testing:
 
 In-tree testing
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 It is possible to execute the tests inside the tree rather than from the
 packaged files. This can make it faster to develop tests or test changes
@@ -165,7 +165,7 @@ Optional tests
 .. _lite_server:
 
 Lite server
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The lite-server is a lightweight WSGI server that can be used to
 simplify web framework debugging in the source tree. Lite server info
@@ -224,7 +224,7 @@ across potentially multiple virtual machines.
 .. _install_1:
 
 Install
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To run the `integration tests <V3/Integration_testing>`__ you need to
 have the pythonX-ipatests package installed.
@@ -240,7 +240,7 @@ All the files containing actual test implementations are located in the
 *test\_* prefix.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To properly configure the environment, see `integration testing
 configuration page <Integration_testing_configuration>`__.
@@ -256,7 +256,7 @@ can be done in two ways:
 .. _run_tests:
 
 Run tests
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To run the whole integration test suite, run the following:
 

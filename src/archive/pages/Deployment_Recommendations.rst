@@ -6,7 +6,7 @@ Infrastructure
 --------------
 
 DNS
-~~~
+----------------------------------------------------------------------------------------------
 
 `DNS <DNS>`__ is deliberately listed first as DNS plays an important
 role in identity management functionality, especially
@@ -90,7 +90,7 @@ article <DNS#Benefits_of_integrated_DNS>`__.
 .. _kerberos_realm_name:
 
 Kerberos realm name
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When you are installing first FreeIPA server you are always defining a
 Kerberos realm name for this installation. When selecting the realm name
@@ -109,7 +109,7 @@ please follow these rules:
 .. _multi_site_deployment_awareness:
 
 Multi-site deployment awareness
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA servers and clients may be distributed in various geographical
 locations. `DNS Location mechanism <V4/DNS_Location_Mechanism>`__ allows
@@ -127,7 +127,7 @@ can be used instead of deploying DNS server for each location but such
 setups are typically less resilient.
 
 PKI
-~~~
+----------------------------------------------------------------------------------------------
 
 When `PKI <PKI>`__ service is configured, FreeIPA hosts and services may
 obtain signed certificates from FreeIPA CA. Certificates can then be
@@ -146,7 +146,7 @@ certificate environment:
    configure own CA, but uses signed host certificates from external CA.
 
 Servers/Replicas
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _freeipa_server_exclusivity:
 
@@ -198,7 +198,7 @@ Deployment example with 16 FreeIPA servers
 Deployment example with 12 FreeIPA servers
 
 Clients
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Every client should have at least 2 `DNS <DNS>`__ servers configured in
 ``/etc/resolv.conf`` for resiliency. Update resolv.conf and *DHCPd*

@@ -23,7 +23,7 @@ Before FreeIPA can be installed, make sure that FreeIPA prerequisites
 are fulfilled, namely a static hostname or sane DNS resolution.
 
 RAM
-~~~
+----------------------------------------------------------------------------------------------
 
 freeIPA requires an absolute minimum of 1.2GB to install with a CA. 2GB
 is recommended for a demo/test system.
@@ -31,7 +31,7 @@ is recommended for a demo/test system.
 .. _static_hostname:
 
 Static Hostname
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Kerberos authentication relies on a static hostname, if the hostname
 changes, Kerberos authentication may break. Thus, the testing machine
@@ -41,7 +41,7 @@ static one configured in ``/etc/hostname``
 .. _dns_rules:
 
 DNS Rules
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A properly configured DNS is the cornerstone of a working FreeIPA
 system. Without a properly working DNS configuration Kerberos and SSL
@@ -143,7 +143,7 @@ FreeIPA!
 .. _administrative_users_in_freeipa:
 
 Administrative users in FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To be able to perform any administrative task you need to authenticate
 to the server. During the configuration step you have been prompted to
@@ -167,7 +167,7 @@ info <KerberosService>`__).
 .. _help_system_in_freeipa:
 
 Help system in FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You can use the ticket acquired as a result of the operation described
 above to perform different administrative tasks. The first task that we
@@ -192,7 +192,7 @@ addition of the information. To get more information, run:
 .. _adding_your_first_user:
 
 Adding your first user
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Run ``ipa help user`` to see help on the user operations. Keep in mind
 that the password management is a separate step and operation so after a
@@ -234,7 +234,7 @@ a password change.
 .. _web_user_interface:
 
 Web User Interface
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Next step is to try the web UI. Make sure that your administrative
 ticket is valid by running

@@ -25,7 +25,7 @@ There are two options for Certificate authorities in IPA: dogtag and
 selfsign.
 
 dogtag
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 dogtag gives us a full CA that can do all the things you'd expect a CA
 to do:
@@ -37,7 +37,7 @@ to do:
 -  and lots more that we don't necessarily use
 
 selfsign
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 selfsign self-signed CA using certutil to generate certificates. This CA
 resides in the Apache NSS database (``/etc/httpd/alias``). This also
@@ -65,7 +65,7 @@ Servers
 -------
 
 Apache
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 Apache uses the NSS database in ``/etc/httpd/alias``. mod_nss is the SSL
 engine.
@@ -81,7 +81,7 @@ At a minimum you'll find 3 certificates here:
 If using dogtag then the RA agent certificate will also reside here.
 
 389-ds
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 389-ds uses the NSS database in ``/etc/dirsrv/slapd-INSTANCE``.
 
@@ -136,12 +136,12 @@ only put into /etc/ipa/ca.crt.
 .. _dogtag_1:
 
 dogtag
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _selfsign_1:
 
 selfsign
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _what_happens_during_an_ipa_command_request:
 

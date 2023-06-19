@@ -46,7 +46,7 @@ A FreeIPA instance contains two main backends: **UserRoot** and
 this design.
 
 containers
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 **userRoot** DIT has multiple containers: **users**, **groups**,
 **hosts**, **computers**, **sudo rules**, **hbac rules**... and a
@@ -70,7 +70,7 @@ servers, instead each server manage its own set of mapped entries.
 .. _schema_compat_container:
 
 Schema Compat container
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The **compat** container stores entries into in-memory maps
 
@@ -97,7 +97,7 @@ groups or computers) that is mapped
 .. _formating_keyword_deref:
 
 Formating keyword: deref
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A **Formating definition** contains a set `format
 specifiers <https://www.freeipa.org/page/FreeIPAv2:Schema_Compatibility_Plug-in_Design#Back_End>`__.
@@ -141,7 +141,7 @@ The primary contains all FreeIPA posix entries
 .. _compat_chained_backend:
 
 Compat chained backend
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The compat containers on the primary instance are chained to the
 secondary instance.
@@ -172,7 +172,7 @@ instance.
 .. _rfc2307_map_plugin:
 
 RFC2307 map plugin
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The original entries, that are updated on the primary instance, are
 retrieved with a sync-repl lookup. There is **one sync-repl** instance
@@ -246,7 +246,7 @@ RFC2307 map plugin spawn a dedicated thread that
 .. _compat_backend:
 
 compat backend
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The compat backend on the secondary instance is read-only. Internal
 updates to that backend will need the flag
@@ -255,7 +255,7 @@ updates to that backend will need the flag
 .. _formating_keyword_deref_1:
 
 Formating keyword deref
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The formating **deref** keyword is an expensive keyword. It was already
 an expensive keyword when Schema compat plugin was running on primary

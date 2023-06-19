@@ -15,7 +15,7 @@ outside of the location will be used.
 .. _information_good_to_know:
 
 Information good to know
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Only IPA system services are supported.
 -  IPA DNS subsystem must be installed.
@@ -43,7 +43,7 @@ Example
 -------
 
 Topology
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. figure:: Dns_location_topology.svg
    :alt: dns_location_topology.svg
@@ -53,13 +53,13 @@ Topology
 .. _installation_server:
 
 Installation (server)
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please note the following steps are just examples, in real world, do not
 forget to add additional replication agreements as backup to prevents
 disconnect topology.
 
-| ``[root@berlin ~]# ipa-server-install --setup-dns``
+| ``[root@berlin ~
 | ``[root@prague1 ~]# ipa-replica-install --setup-dns``
 | ``[root@prague2 ~]# ipa-replica-install --setup-dns``
 | ``[root@paris1 ~]# ipa-replica-install --setup-dns``
@@ -69,7 +69,7 @@ disconnect topology.
 .. _adding_locations:
 
 Adding locations
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Use **location-add** command to create a new location.
 
@@ -79,7 +79,7 @@ Use **location-add** command to create a new location.
 .. _adding_servers_to_locations:
 
 Adding servers to locations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Use **server-mod** command to add server into location. Server can be
 member of only one location.
@@ -93,7 +93,7 @@ member of only one location.
 .. _advanced_configuration:
 
 Advanced configuration
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _setting_service_weight:
 
@@ -128,7 +128,7 @@ To change default TTL use **dnszone-mod** command.
 .. _installation_client:
 
 Installation (client)
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Client must have set the proper resolver which belongs to the location
 where clients are supposed to be located in. Preferred is to configure
@@ -155,7 +155,7 @@ If resolvers are properly set, you can install clients by using
 **ipa-client-install**.
 
 Verification
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 We can use **dig** to verify returned DNS records
 
@@ -204,7 +204,7 @@ some records are missing in IPA domain, you can use this command
 .. _example_with_non_freeipa_dns_servers:
 
 Example with non-FreeIPA DNS servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The first example assumed that you have at least one FreeIPA DNS server
 in each location. With same effort the same feature can be implemented

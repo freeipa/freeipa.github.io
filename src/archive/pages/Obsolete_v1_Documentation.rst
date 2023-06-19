@@ -37,19 +37,19 @@ styles in wikis (remember, I'm a writer, I'm fussy) so this could change
 and at times not make much sense.
 
 Headings
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Just use the normal wiki headings and use common sense. Use the TOC as a
 guideline to determine if the result is sensible or not.
 
 Filenames
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Filenames and directories should be tagged <tt> inline. If they're part
 of a <pre> set it doesn't matter.
 
 Commands
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Use **bold** ('''bold'''). Don't include the path unless it seems
 absolutely necessary. Distinguish between user and superuser commands
@@ -68,12 +68,12 @@ default.
 .. _rpms_packages_etc.:
 
 RPMs, Packages, etc.
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Use **``bold true-type``** ('''<tt>bold true-type</tt>''').
 
 GUI
-~~~
+----------------------------------------------------------------------------------------------
 
 Most elements on a GUI will be in bold as well, such as field labels,
 button names, etc.
@@ -87,7 +87,7 @@ quotes.
 .. _attributes_parameters_etc.:
 
 Attributes, Parameters, etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Probably bold, unless I or somebody else comes up with a better idea.
 They're mostly part of commands, which are bold, so it seems logical.
@@ -97,7 +97,7 @@ docbook...
 .. _notes_and_stuff:
 
 Notes and stuff
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 I've started doing this. Time will tell...
 

@@ -9,7 +9,7 @@ select from several project delivery streams.
 .. _releases_in_os_distributions:
 
 Releases in OS Distributions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is the safest option, most major distributions contains tested
 FreeIPA versions:
@@ -28,7 +28,7 @@ FreeIPA versions:
 .. _releases_in_copr:
 
 Releases in COPR
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Before the newest FreeIPA packages get to a distro they are often
 released in the `Fedora COPR <https://copr.fedorainfracloud.org/>`__
@@ -46,7 +46,7 @@ build service. You can select from following active repositories:
 .. _releases_in_container:
 
 Releases in Container
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As described in `Docker <Docker>`__ page, the team also maintains PoC
 container release of FreeIPA:
@@ -57,7 +57,7 @@ container release of FreeIPA:
 .. _bleeding_edge:
 
 Bleeding Edge
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If you feel adventurous, you can also try the latest greatest nightly
 build of FreeIPA, in a nightly repo:
@@ -66,7 +66,7 @@ build of FreeIPA, in a nightly repo:
    repository <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-master-nightly/>`__
 
 Sources
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If you want to `build <Build>`__ FreeIPA yourself, you can check the
 sources stored on the project Pagure:

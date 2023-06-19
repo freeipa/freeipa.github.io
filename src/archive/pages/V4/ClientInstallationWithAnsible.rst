@@ -22,10 +22,10 @@ allowing the automation of IdM client configuration.
 Use Cases
 ---------
 
-.. _ipa_client_configuration:
+
 
 IPA client configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A sysadmin has already deployed IdM on one or more servers, and wants to
 configure one or more nodes as IdM clients using Ansible. The sysadmin
@@ -74,7 +74,7 @@ a backed up host keytab from previous enrollment.
 .. _ipa_client_unconfiguration:
 
 IPA client unconfiguration
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A sysadmin has already deployed IPA client on a host (either using
 Ansible or with the ipa-client-install command line), and wants to
@@ -107,7 +107,7 @@ Implementation
 .. _ansible_ipaclient_module:
 
 Ansible ipaclient module
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ansible ipaclient module is a module performing the equivalent of
 ipa-client-install. In this first version, it is written as a wrapper
@@ -174,7 +174,7 @@ Ansible.
 .. _ansible_ipahost_module:
 
 Ansible ipahost module
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Note: Ansible already provides `Identity
 Modules <http://docs.ansible.com/ansible/latest/list_of_identity_modules.html>`__
@@ -274,7 +274,7 @@ objectclasses and attributes already exist in the host entry.
 .. _ansible_ipaclient_role:
 
 Ansible ipaclient role
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ipaclient role takes a "state" parameter allowing to either
 configure or unconfigure IPA client. It combines the installation of ipa
@@ -359,7 +359,7 @@ Example of inventory file:
 .. _using_the_ansible_ipaclient_module_to_unconfigure_ipa:
 
 Using the Ansible ipaclient module to unconfigure IPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Create a playbook calling the ipaclient module, with state=absent
 
@@ -380,7 +380,7 @@ Call the playbook
 .. _using_the_ansible_role_ipaclient_to_unconfigure_ipa:
 
 Using the Ansible role ipaclient to unconfigure IPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Create a playbook calling the ipaclient role, with state=absent
 
@@ -400,7 +400,7 @@ Call the playbook
 .. _use_the_ipaclient_module_to_configure_ipa_client_by_providing_username_and_password:
 
 Use the ipaclient module to configure IPA client by providing username and password
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Create a playbook calling the ipaclient module, with state=present. The
 module takes principal and password as arguments.
@@ -475,7 +475,7 @@ or provided in a file:
 .. _use_the_ipahost_and_ipaclient_modules_to_configure_ipa_client_by_providing_an_otp_password:
 
 Use the ipahost and ipaclient modules to configure IPA client by providing an OTP password
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Create a playbook calling ipahost module in order to create an OTP
 password for the managed node, then calling ipaclient module to
@@ -524,7 +524,7 @@ password instead of the admin keytab:
 .. _use_the_ipaclient_role_to_configure_ipa_client:
 
 Use the ipaclient role to configure IPA client
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Create a playbook calling ipaclient role.
 

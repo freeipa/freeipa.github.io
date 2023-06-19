@@ -6,7 +6,7 @@ How to start
 .. _find_something_to_start_with:
 
 Find something to start with
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You can either add a new test case that you think is missing in an
 existing plan, or you can develop new automated test for a feature or
@@ -36,7 +36,7 @@ this, there are test related fields that indicate the status:
 .. _update_trac_ticket:
 
 Update Trac ticket
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Should you choose to contribute a test with an existing ticket, click
 *Modify ticket* and select *accept* in box Action. The owner of a ticket
@@ -133,7 +133,7 @@ repository. The process is also summarized bellow.
 .. _committing_doesnt_apply_for_the_temp_commit:
 
 Committing (doesn’t apply for the temp commit)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Follow the commit message guidelines listed in `Commit message
    requirements <Contribute/Code#Commit_message_requirements>`__
@@ -152,7 +152,7 @@ Note: “Fixes” is used when providing a fix for the raised issue.
 .. _temp_commit:
 
 Temp commit
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When making changes to the tests, also include a separate temp commit.
 The purpose of the temp commit is to execute the new changes in the
@@ -217,7 +217,7 @@ the whole suite.
 .. _creating_pull_request:
 
 Creating Pull Request
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Provide the same title and summary as in the commit message
 #. Add yourself to the list of Assignees
@@ -229,7 +229,7 @@ Creating Pull Request
 .. _reviewing_the_pull_request:
 
 Reviewing the pull request
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Review all the steps from *Prior to starting the implementation* and
    *Prior to committing*
@@ -241,7 +241,7 @@ Reviewing the pull request
    finalized, provide an appropriate label (e.g. ACK).
 
 Merging
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Copy the link to the successful temp commit and include it in the
    comments

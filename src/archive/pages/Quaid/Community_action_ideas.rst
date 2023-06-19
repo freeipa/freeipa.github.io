@@ -36,7 +36,7 @@ branded upstreams.
 .. _the_problems:
 
 The problems
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  The CLA is print, sign, and FAX/mail. This raises barriers for easy
    participation in what should be the easiest way to participate. It
@@ -68,7 +68,7 @@ The problems
 .. _questions_to_ponder:
 
 Questions to ponder
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  What are the contribution goals?
 -  What have FreeIPA's experience been with the CLA?
@@ -84,7 +84,7 @@ Questions to ponder
 .. _bold_solutions:
 
 Bold solutions
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Gain a number of advantages and no real negatives by switching
    hosting to Fedora Infrastructure.
@@ -135,7 +135,7 @@ Bold solutions
 .. _how_quaid_is_going_to_do_this:
 
 How quaid is going to do this
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Volunteer to run migration and future maintainence via existing
    involvement in Fedora Infrastructure

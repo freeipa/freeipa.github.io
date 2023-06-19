@@ -32,7 +32,7 @@ confusion that my terms added. After some discussion, we came up with a
 different set of terms, that I would like to get some feedback on.
 
 Terms
-~~~~~
+----------------------------------------------------------------------------------------------
 
 From the point of view of any given object:
 
@@ -114,7 +114,7 @@ Netgroup foo")
 .. _enrollment_or_not_enrollment:
 
 Enrollment? Or Not Enrollment?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 So here's the challenge: The term "enroll" is overloaded. There are
 others that the thesaurus has that are workable: Enlistment ,

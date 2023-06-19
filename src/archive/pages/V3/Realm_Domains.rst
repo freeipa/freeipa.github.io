@@ -56,7 +56,6 @@ Feature Managment
 =================
 
 UI
-~~
 
 A new page needs to be added to UI. This page will be able to handle all
 mentioned operations with realm domains: display the current list, add a
@@ -64,7 +63,6 @@ new domain, remove an existing domain. The new page will be added under
 'Identity' section.
 
 CLI
-~~~
 
 .. _realmdomains_show:
 

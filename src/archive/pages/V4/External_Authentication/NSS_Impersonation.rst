@@ -174,7 +174,7 @@ Issues
 ------
 
 mod_lookup_identity
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The correct functionality depends on the order in which mod_nss and
 mod_lookup_identity are loaded. By default, on RHEL 7.2, mod_nss uses
@@ -195,7 +195,7 @@ to force mod_lookup_identity to be run after mod_nss.
 New release mod_lookup_identity-0.9.7 was done to address this issue.
 
 mod_nss
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Second issue is the fact that as shown by the access_log above, the
 r->user and REMOTE_USER are set back to the SSL_CLIENT_CERT value in the

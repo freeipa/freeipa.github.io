@@ -103,12 +103,10 @@ Feature Management
 ==================
 
 UI
---
 
 -  SHA256 fingerprints are displayed instead of MD5.
 
 CLI
----
 
 Displaying server's FIPS mode status:
 

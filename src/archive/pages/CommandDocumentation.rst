@@ -35,7 +35,7 @@ Getting help
 .. _ipa__commands:
 
 ipa- commands
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To get help from a standalone command use either the --help option or
 see the man page:
@@ -67,7 +67,7 @@ see the man page:
 .. _framework_commands_ipa:
 
 Framework commands (ipa)
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There are a number of different ways to get help from the ``ipa``
 command.
@@ -180,7 +180,7 @@ Rules of the Road
 .. _standalone_commands:
 
 Standalone commands
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Every standalone command must have:
 
@@ -190,7 +190,7 @@ Every standalone command must have:
 .. _framework_commands:
 
 Framework commands
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Framework commands must have:
 

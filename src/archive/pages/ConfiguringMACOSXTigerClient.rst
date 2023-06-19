@@ -1,4 +1,4 @@
-.. _ipa_client_configuration:
+
 
 IPA Client Configuration
 ========================
@@ -41,7 +41,7 @@ ssh
 
 -  ssh admin@ipaserver.example.com
 
-.. _system_login:
+
 
 system login
 ------------
@@ -63,11 +63,12 @@ nfsv4/kerberos
 
 Browser - firefox
 -----------------
+::
 
-| ``Do the normal kerberos configuration for firefox. ``
-| ``Open firefox. goto ``\ ```about:config`` <about:config>`__
-| `` set network.negotiate-auth.delegation-uris to .example.com``
-| `` set network.negotiate-auth.trusted-uris to .example.com``
-
-| ``Goto ``\ ```https://ipaserver.example.com`` <https://ipaserver.example.com>`__
-| ``If you have a valid kerberos ticket, you should be authenticated at this point.``
+   | ``Do the normal kerberos configuration for firefox. ``
+   | ``Open firefox. goto ``\ ```about:config`` <about:config>`__
+   | `` set network.negotiate-auth.delegation-uris to .example.com``
+   | `` set network.negotiate-auth.trusted-uris to .example.com``
+   
+   | ``Goto ``\ ```https://ipaserver.example.com`` <https://ipaserver.example.com>`__
+   | ``If you have a valid kerberos ticket, you should be authenticated at this point.``

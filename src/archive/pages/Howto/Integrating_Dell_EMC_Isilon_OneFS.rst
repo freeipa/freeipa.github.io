@@ -24,7 +24,7 @@ methods:
 .. _using_the_web_ui:
 
 Using the web UI
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | Access --> Authentication Providers --> LDAP
 | + Add an LDAP provider
@@ -36,10 +36,10 @@ Using the web UI
 | Then enter the password for the DN and Isilon OneFS should be
   connected to FreeIPA via LDAP.
 
-.. _using_the_command_line:
+
 
 Using the command-line
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | Get the status of authentication providers before beginning the
   configuration: ``isi auth status``

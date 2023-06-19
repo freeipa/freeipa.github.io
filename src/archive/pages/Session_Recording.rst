@@ -156,7 +156,7 @@ controlled either centrally or locally.
 .. _client_side_components:
 
 Client-side components
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  **Tlog-rec** – the recording process which is invoked in place of the
    user's shell when he/she logs into the system. The recording process
@@ -182,7 +182,7 @@ Client-side components
 .. _server_side_components:
 
 Server-side components
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  **FreeIPA** - the central integrated security management solution,
    which stores and provides information of who, where, and how to
@@ -198,50 +198,51 @@ Server-side components
 
 Control and Data Flow
 ---------------------
+::
 
-| ````
-| ``           Servers            Network               Clients``
-| ``     _____________________               _______________________________``
-| ``    |  _________________  |             |  ___________________          |``
-| ``    | |                 | |             | |                   |         |``
-| ``    | |     FreeIPA     |====(control)===>|       SSSD        |         |``
-| ``    | |_________________| |             | |___________________|         |``
-| ``    |         /\          |             |     ||          /\            |``
-| ``    |         ||          |             |     ||          ||            |``
-| ``    |      (control)      |             |  (control)   (control)        |``
-| ``    |   ......||.......   |             |     ||  ........||.........   |``
-| ``    |  : Administrator :  |             |     || :   Administrator   :  |``
-| ``    |   '''''''''''''''   |             |     ||  '''||'''''''''||'''   |``
-| ``    |                     |             |     ||  (control)  (control)  |``
-| ``    |   ...............   |             |     ||     ||         ||      |``
-| ``    |  :    Auditor    :  |             |  ___\/_____\/__   ____\/____  |``
-| ``    |   ''/\'''''''/\''   |             | |              | |          | |``
-| ``    |     ||       ||     |             | |   Tlog-rec   | |  Auditd  | |``
-| ``    |   (data)   (data)   |             | |______________| |__________| |``
-| ``    |  ___||__   __||___  |             |        ||             ||      |``
-| ``    | |       | |       | |             |        ||          ___\/____  |``
-| ``    | | Tlog- | | WebUI | |             |        ||         |         | |``
-| ``    | | play  | | (TBD) | |             |        ||         | Aushape | |``
-| ``    | |_______| |_______| |             |        ||         |_________| |``
-| ``    |     /\       /\     |             |        ||             ||      |``
-| ``    |     ||       ||     |             |      (data)         (data)    |``
-| ``    |   (data)   (data)   |             |        ||             ||      |``
-| ``    |  ___||_______||___  |             |     ___\/_____________\/___   |``
-| ``    | |                 | |             |    |                       |  |``
-| ``    | |                 | |             |    |        Rsyslog        |  |``
-| ``    | |                 | |             |    | - - - - - - - - - - - |  |``
-| ``    | |  Elasticsearch  |<====(data)=========|        Fluentd        |  |``
-| ``    | |                 | |             |    | - - - - - - - - - - - |  |``
-| ``    | |                 | |             |    |        Logstash       |  |``
-| ``    | |_________________| |             |    |_______________________|  |``
-| ``    |_____________________|             |_______________________________|``
+   | ````
+   | ``           Servers            Network               Clients``
+   | ``     _____________________               _______________________________``
+   | ``    |  _________________  |             |  ___________________          |``
+   | ``    | |                 | |             | |                   |         |``
+   | ``    | |     FreeIPA     |====(control)===>|       SSSD        |         |``
+   | ``    | |_________________| |             | |___________________|         |``
+   | ``    |         /\          |             |     ||          /\            |``
+   | ``    |         ||          |             |     ||          ||            |``
+   | ``    |      (control)      |             |  (control)   (control)        |``
+   | ``    |   ......||.......   |             |     ||  ........||.........   |``
+   | ``    |  : Administrator :  |             |     || :   Administrator   :  |``
+   | ``    |   '''''''''''''''   |             |     ||  '''||'''''''''||'''   |``
+   | ``    |                     |             |     ||  (control)  (control)  |``
+   | ``    |   ...............   |             |     ||     ||         ||      |``
+   | ``    |  :    Auditor    :  |             |  ___\/_____\/__   ____\/____  |``
+   | ``    |   ''/\'''''''/\''   |             | |              | |          | |``
+   | ``    |     ||       ||     |             | |   Tlog-rec   | |  Auditd  | |``
+   | ``    |   (data)   (data)   |             | |______________| |__________| |``
+   | ``    |  ___||__   __||___  |             |        ||             ||      |``
+   | ``    | |       | |       | |             |        ||          ___\/____  |``
+   | ``    | | Tlog- | | WebUI | |             |        ||         |         | |``
+   | ``    | | play  | | (TBD) | |             |        ||         | Aushape | |``
+   | ``    | |_______| |_______| |             |        ||         |_________| |``
+   | ``    |     /\       /\     |             |        ||             ||      |``
+   | ``    |     ||       ||     |             |      (data)         (data)    |``
+   | ``    |   (data)   (data)   |             |        ||             ||      |``
+   | ``    |  ___||_______||___  |             |     ___\/_____________\/___   |``
+   | ``    | |                 | |             |    |                       |  |``
+   | ``    | |                 | |             |    |        Rsyslog        |  |``
+   | ``    | |                 | |             |    | - - - - - - - - - - - |  |``
+   | ``    | |  Elasticsearch  |<====(data)=========|        Fluentd        |  |``
+   | ``    | |                 | |             |    | - - - - - - - - - - - |  |``
+   | ``    | |                 | |             |    |        Logstash       |  |``
+   | ``    | |_________________| |             |    |_______________________|  |``
+   | ``    |_____________________|             |_______________________________|``
 
 The control flow differs by case.
 
 .. _standalone_local_control:
 
 Standalone local control
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The recorded user's POSIX entry is specified as ``tlog-rec``, and the
 actual user's shell is set for all users in the global configuration of
@@ -258,7 +259,7 @@ wasn't, it starts the shell specified in the global configuration.
 .. _local_control_via_sssd:
 
 Local control via SSSD
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 SSSD is configured to enable session recording for all, or specific
 users and/or groups. This is done by adding a ``session_recording``
@@ -278,7 +279,7 @@ variable added by SSSD and starts the actual user shell.
 .. _central_control_via_sssd_and_freeipa:
 
 Central control via SSSD and FreeIPA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 FreeIPA is instructed to add directory entries specifying which hosts
 and users should have recording enabled and with which tlog-rec settings
@@ -310,7 +311,7 @@ shell.
 .. _further_control_and_data_flow:
 
 Further control and data flow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Other tlog-rec configuration, not mentioned above, is specified in
 tlog-rec's global configuration file ``/etc/tlog/tlog-rec.conf``.
@@ -339,7 +340,7 @@ Audit recording details
 -----------------------
 
 Control
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 At the moment we leave the task of configuring auditd for tracking of
 specific user activities to the administrator, either manually or using
@@ -363,17 +364,18 @@ Extra session creation data (production/test environment, tenant, etc.)
 can be logged directly from PAM modules (e.g. pam_sss) using audit
 facilities and will go to audit.log or journal. A few PAM modules log
 there already. This is done via libaudit as well.
+::
 
-| ````
-| ``     Kernel                   Userspace``
-| ``    ____________``
-| ``    __________  |                                 | auditd   <== audit.rules``
-| ``              | | Rules and            | Rules    | auditctl <== command line``
-| ``     Audit    | | messages             |<=API=====| SSSD?``
-| ``              |<===netlink==| libaudit |``
-| ``    subsystem | |                      | Messages | auditctl <== command line``
-| ``    __________| |                      |<=API=====| Aplications``
-| ``    ____________|                                 | PAM modules (pam_sss?)``
+   | ````
+   | ``     Kernel                   Userspace``
+   | ``    ____________``
+   | ``    __________  |                                 | auditd   <== audit.rules``
+   | ``              | | Rules and            | Rules    | auditctl <== command line``
+   | ``     Audit    | | messages             |<=API=====| SSSD?``
+   | ``              |<===netlink==| libaudit |``
+   | ``    subsystem | |                      | Messages | auditctl <== command line``
+   | ``    __________| |                      |<=API=====| Aplications``
+   | ``    ____________|                                 | PAM modules (pam_sss?)``
 
 There's one caveat regarding automatic configuration, though (citing
 Miloslav Trmač):
@@ -394,21 +396,22 @@ Miloslav Trmač):
    and then to disable the IPA-based run-time audit rule generation.)
 
 Data
-~~~~
+----------------------------------------------------------------------------------------------
 
 We need to convert audit data to JSON before storing it in
 ElasticSearch.
+::
 
-| ````
-| ``     Kernel                   Userspace``
-| ``    ____________``
-| ``    __________  |``
-| ``              | |           | auditd  => | audit.log``
-| ``     Audit    | | Messages  |            | audispd => | plugin1``
-| ``              |====netlink=>|                         | plugin2``
-| ``    subsystem | |           |                         | pluginN``
-| ``    __________| |           |                         | aushape``
-| ``    ____________|           | systemd => journal``
+   | ````
+   | ``     Kernel                   Userspace``
+   | ``    ____________``
+   | ``    __________  |``
+   | ``              | |           | auditd  => | audit.log``
+   | ``     Audit    | | Messages  |            | audispd => | plugin1``
+   | ``              |====netlink=>|                         | plugin2``
+   | ``    subsystem | |           |                         | pluginN``
+   | ``    __________| |           |                         | aushape``
+   | ``    ____________|           | systemd => journal``
 
 A new tool called "Aushape" is being developed to support live
 conversion of audit events to JSON, while running as an audispd plugin.
@@ -441,15 +444,16 @@ the terminal session (à la https://showterm.io/ and
 https://asciinema.org/). The session terminal I/O will need to be
 augmented by audit records, such as files accessed, processes executed,
 etc. All of them searchable and correlated in the same UI.
+::
 
-| ````
-| ``   __-----------__                 ,----------------------------.``
-| ``  |--___________--|   Queries      |          Browser           |``
-| ``  |               | <------------- |----------------------------|``
-| ``  | ElasticSearch | I/O and audit  | Search I/O and audit       |``
-| ``  |               | -------------> | Playback I/O and audit     |``
-| :literal:`  `--___________--'                | Rewind to time and matches \|`
-| :literal:`                                   `----------------------------'`
+   | ````
+   | ``   __-----------__                 ,----------------------------.``
+   | ``  |--___________--|   Queries      |          Browser           |``
+   | ``  |               | <------------- |----------------------------|``
+   | ``  | ElasticSearch | I/O and audit  | Search I/O and audit       |``
+   | ``  |               | -------------> | Playback I/O and audit     |``
+   | :literal:`  `--___________--'                | Rewind to time and matches \|`
+   | :literal:`                                   `----------------------------'`
 
 .. _development_plan:
 
@@ -466,7 +470,7 @@ a tlog pre-release and a minor release of SSSD, containing the features
 below.
 
 Features
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Local configuration of session recording via SSSD.
 -  No integration with FreeIPA.
@@ -497,7 +501,7 @@ Phase 1.
 .. _features_1:
 
 Features
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Non-UTF-8 terminal charsets supported by converting them to UTF-8
    within JSON messages.
@@ -529,7 +533,7 @@ below.
 .. _features_2:
 
 Features
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Central configuration of session recording in FreeIPA: who, where and
    how to record. Tlog-rec configuration LDAP entries can be tied to
@@ -554,7 +558,7 @@ Features
 .. _user_stories_1:
 
 User stories
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Specific user stories handled by this phase include the following.
 

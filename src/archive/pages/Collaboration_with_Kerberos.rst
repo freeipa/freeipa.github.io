@@ -264,7 +264,7 @@ to describing the authentication mechanisms.
 .. _logging_in_with_a_saslgssapi_client:
 
 Logging in with a SASL/GSSAPI client
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Much work has been done recently on adapting web IdP authentication to
 the Simple Authentication and Security Layer
@@ -295,7 +295,7 @@ public/private key pair as well as the kx509 certificate.
 .. _logging_in_with_a_browser:
 
 Logging in with a browser
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Note that this section relies on the ability to transfer a TGT over http
 to a browser, which can then store it in the client's local ticket

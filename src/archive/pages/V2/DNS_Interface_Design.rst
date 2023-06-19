@@ -33,7 +33,7 @@ complex steps
 .. _new_per_type_structured_api:
 
 1. New per-type structured API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  New API shall be implemented for all supported resource record types
 
@@ -188,7 +188,7 @@ DNS record.
 .. _improved_validation:
 
 2. Improved validation
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 DNS record validation should be improved so that most common user errors
 are detected and reported by IPA client and by *bind-dyndb-ldap* plugin

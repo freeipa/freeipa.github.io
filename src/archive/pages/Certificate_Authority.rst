@@ -54,7 +54,7 @@ This is a three-step process:
 .. _detailed_instructions:
 
 Detailed instructions
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Run ``ipa-server-install`` with whatever arguments are appropriate for
 your environment and include the ``--external_ca`` flag:
@@ -104,7 +104,7 @@ certificates.
 .. _install_and_replace:
 
 Install and Replace
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To use the Install and Replace method do the following:
 
@@ -122,7 +122,7 @@ To use the Install and Replace method do the following:
 .. _install_with_your_own_certificates:
 
 Install with your own certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To use the Install your own method do the following:
 
@@ -148,7 +148,7 @@ operations.
 .. _request_a_certificate:
 
 Request a certificate
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You start with a Certificate Signing Request (CSR). In our case this is
 a base-64 encoded PKCS#10 request which looks something like:
@@ -205,7 +205,7 @@ There is also a short-cut method though it isn't working today (Oct 9).
 .. _put_a_cert_on_hold:
 
 Put a cert on hold
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -214,7 +214,7 @@ Put a cert on hold
 .. _remove_a_cert_from_hold:
 
 Remove a cert from hold
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -223,7 +223,7 @@ Remove a cert from hold
 .. _revoke_a_certificate:
 
 Revoke a certificate
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -234,7 +234,7 @@ Revoke a certificate
 .. _retrieve_a_revoked_certificate:
 
 Retrieve a revoked certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ::
 
@@ -292,7 +292,7 @@ When requesting a certificate a number of things happen:
 .. _managedby_attribute:
 
 managedBy attribute
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This is a multi-value attribute that contains the distinguished name of
 all hosts that are allowed to write the userCertificate attribute of
@@ -300,7 +300,7 @@ this service. Use the service-add-host and service-remove-host to
 control access.
 
 Example
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This example demonstrates the steps need to be taken by an administrator
 and a client machine that is attempting to request a certificate for
@@ -343,7 +343,7 @@ What this does
 .. _vpn_example:
 
 VPN Example
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Lets consider the case of a VPN server. On an IPA client we want to set
 up a VPN tunnel to a remote host, perhaps at another company. To do this

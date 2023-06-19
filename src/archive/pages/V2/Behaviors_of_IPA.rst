@@ -83,7 +83,7 @@ Following are some overall actions that are common through all the site:
 .. _common_screen_areas:
 
 Common Screen Areas
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Across the site, there are some areas of the screen that either appear
 always, or quite often. Here's a description of some of those areas, and
@@ -200,7 +200,7 @@ Common behaviors:
 .. _create_host_and_create_service_130a_and_160a:
 
 Create Host and Create Service (130a and 160a)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  When the user clicks on the “Resolve” button, the contents of the
    text field are submitted to be resolved.
@@ -283,7 +283,7 @@ Common behaviors:
 .. _add_host_to_host_group_or_net_group_pop_ups_139a_and_154a:
 
 Add Host to Host Group or Net Group Pop-ups (139a and 154a)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  In a special case, the system will allow the user to add a host as
    “unmanaged”. The case is defined as follows:
@@ -309,7 +309,7 @@ Specific Screens
 .. _decouple_private_group_118a:
 
 Decouple Private Group (118a)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  On entry, the “Decouple” button is disabled and the check-box is
    unchecked
@@ -318,7 +318,7 @@ Decouple Private Group (118a)
 .. _group_details_119:
 
 Group Details (119)
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  This note applies only if no data are stored for POSIX Group and GID
 -  POSIX group check-box is unchecked and GID Checkbox and data entry

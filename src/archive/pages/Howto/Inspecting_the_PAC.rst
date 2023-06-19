@@ -32,7 +32,7 @@ using the PAC.
 .. _ad_client:
 
 AD client
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 By default **net ads kerberos pac** tries to get a Kerberos service
 ticket for the local host (HOSTNAME$@AD.DOMAIN) for an AD user given by
@@ -71,7 +71,7 @@ cases.
 .. _freeipa_client:
 
 FreeIPA client
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A client enrolled to a FreeIPA server has a host keytab as well but the
 AD-style HOSTNAME$@KRB.REALM host principals are not available. With the

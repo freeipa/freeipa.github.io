@@ -59,7 +59,7 @@ Identity Management:
 .. _ssh_configuration:
 
 SSH Configuration
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For SSH with keytabs configuration, follow
 `these <https://wiki.idm.lab.bos.redhat.com/export/idmwiki/SSH_with_Keytabs_for_OpenShift>`__
@@ -108,7 +108,7 @@ Additional Configuration
 ------------------------
 
 krb5.conf
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On both the Broker and Node machines, edit ``/etc/krb5.conf`` for the
 following lines:
@@ -126,7 +126,7 @@ realm, e.g. user@ADDOMAIN.EXAMPLE.COM.
 Restart the KDC: ``service krb5kdc restart``.
 
 mod_auth_kerb
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 On the Broker machine, within both broker & console apps
 ``/var/www/openshift/[broker | console]/httpd/conf.d/``, edit
@@ -168,7 +168,7 @@ Test & Debug Setup & Configuration
 ----------------------------------
 
 RHEL
-~~~~
+----------------------------------------------------------------------------------------------
 
 On an IPA Client/Developer machine:
 
@@ -227,7 +227,7 @@ stating ``Specified realm 'ADDOMAIN' not allowed by configuration``,
 then review your Apache configuration `above <#modauthkerb>`__.
 
 Windows
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 cURL
 ^^^^

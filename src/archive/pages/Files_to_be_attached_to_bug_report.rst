@@ -9,7 +9,7 @@ should be sanitized or transported over a secure channel.
 .. _ipa_server_install:
 
 ipa-server-install
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _generic_failure:
 
@@ -138,7 +138,7 @@ Client part failed
 .. _ipa_replica_install:
 
 ipa-replica-install
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _generic_failure_1:
 
@@ -171,7 +171,7 @@ From both *master* and *replica*
 .. _ipa_dns_install:
 
 ipa-dns-install
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `ipa-server-install DNS
 part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#DNS_part_failed>`__
@@ -179,7 +179,7 @@ part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#DNS_part_f
 .. _ipa_ca_install:
 
 ipa-ca-install
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``date -R``
 | ``/var/log/ipareplica-ca-install.log``
@@ -190,7 +190,7 @@ part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Dogtag_CA_
 .. _ipa_kra_install:
 
 ipa-kra-install
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``date -R``
 | ``/var/log/ipaserver-kra-install.log``
@@ -201,7 +201,7 @@ part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Dogtag_KRA
 .. _ipa_adtrust_install:
 
 ipa-adtrust-install
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See `ipa-server-install AD Trust
 part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#AD_Trust_installation_failed>`__.
@@ -209,7 +209,7 @@ part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#AD_Trust_i
 .. _i_have_no_idea:
 
 I HAVE NO IDEA
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Then provide everything you can ;-)
 
@@ -263,7 +263,7 @@ FreeIPA CLI failed
 .. _kerberos_related_errors:
 
 Kerberos related errors
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``KRB5_TRACE=/dev/stderr ipa --debug ping``
 
@@ -276,7 +276,7 @@ From the server:
 .. _internal_server_error:
 
 Internal server error
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please execute steps **on the server** which is returning an internal
 error.
@@ -310,7 +310,7 @@ FreeIPA WebUI failed
 .. _login_failed:
 
 Login failed
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please execute steps **on the server** with FreeIPA server installed.
 
@@ -336,7 +336,7 @@ Epilogue:
 .. _other_failures:
 
 Other failures
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Usually seen as 50x HTTP error in WebUI.
 
@@ -348,7 +348,7 @@ Usually seen as 50x HTTP error in WebUI.
 .. _internal_server_error_1:
 
 Internal server error
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please follow `FreeIPA CLI failed: Internal server
 error <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Internal_server_error>`__

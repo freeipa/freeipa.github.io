@@ -14,7 +14,7 @@ Use Cases
 .. _external_provisioning_system:
 
 External Provisioning System
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 
 
@@ -56,7 +56,7 @@ The following supported workflows are expected:
 .. _privilege_separation_for_employee_entry_and_activation:
 
 Privilege Separation for Employee Entry and Activation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _user_story_1:
 
@@ -75,7 +75,7 @@ Design
 .. _user_status:
 
 User status
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In User Life Cycle, a user account is stored in a LDAP repository as an
 entry in the DIT. A user account follows a workflow that changes the
@@ -122,7 +122,7 @@ status of the user. There are 3 differents status:
    -  the ldap entry of active accounts is stored: *cn=accounts,$SUFFIX*
 
 workflows
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``The main workflow allows  moves: ``\ *``stage``*\ `` ``\ **``-->``**\ `` ``\ *``active``*\ `` ``\ **``<-->``**\ `` ``\ *``delete``*
 
@@ -914,7 +914,7 @@ Show User
      Kerberos keys available: False
 
 Placeholders
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When an entry is created using FreeIPA CLI
 `user-add <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#user-add>`__,
@@ -1022,7 +1022,7 @@ the added value for **homeDirectory** will be **/home/net/tuser**
 .. _staging_container:
 
 Staging container
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _staging_tree:
 
@@ -1261,7 +1261,7 @@ attributes:
 .. _active_container:
 
 Active container
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _active_tree:
 
@@ -1360,7 +1360,7 @@ The freeipa CLI creates an entry like:
 .. _delete_container:
 
 Delete container
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _delete_tree:
 
@@ -1440,7 +1440,7 @@ A entry in Delete container is looking like
    nsAccountLock: True
 
 Authentication
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ``Authentication is not allowed with ``\ *``Stage``*\ `` and ``\ *``Delete``*\ `` entries. Authentication can be done with simple bind or through an external mechanism (like GSSAPI).``
 
@@ -1521,7 +1521,7 @@ password it used when the entry was *Active*.
 .. _permissions_and_acis:
 
 Permissions and ACIs
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 New permissions should be created:
 
@@ -1598,7 +1598,7 @@ Proposed Script Workflow
 .. _affected_directory_server_plugins:
 
 Affected Directory Server Plugins
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Active FreeIPA plugins that are active in any user-related operation
 need to be checked or updated, to avoid interference with users in
@@ -1897,7 +1897,7 @@ krb keys already exists in the entry (see
 .. _future_enhancements:
 
 Future enhancements
-~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _deletion_of_active_user:
 
@@ -1924,7 +1924,7 @@ still need to be defined. Consider this section as a work in progress.
 .. _freeipa_tickets:
 
 FreeIPA tickets
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `#3911 <https://fedorahosted.org/freeipa/ticket/3911>`__: [RFE] Allow
    managing users add/modify/delete via LDAP client
@@ -1937,7 +1937,7 @@ FreeIPA tickets
 .. _directory_server_tickets:
 
 389 Directory Server tickets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _scoping_of_plugins:
 
@@ -1975,7 +1975,6 @@ Feature Management
 ------------------
 
 UI
-~~
 
 When user provisioning is enabled, add new tab to *Identity* section -
 *Staged Users*. There should be 2 user sections:
@@ -1990,7 +1989,6 @@ described in section `#Major configuration options and
 enablement <#Major_configuration_options_and_enablement>`__.
 
 CLI
-~~~
 
 .. _user_add:
 
@@ -2079,7 +2077,7 @@ should:
 .. _heterogeneous_environment:
 
 Heterogeneous Environment
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If there is an environment with FreeIPA servers supporting the feature
 and olded FreeIPA servers, there may be issues with the life-cycle
@@ -2106,7 +2104,7 @@ How to Test
 .. _external_provisioning_system_1:
 
 External Provisioning System
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 .. _adding_new_user:
 
@@ -2410,7 +2408,7 @@ Second option is to preserve the user via LDAP MODRDN command directly:
 .. _privilege_separation_for_employee_entry_and_activation_1:
 
 Privilege Separation for Employee Entry and Activation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In following example, we will simulate adding a user in 2 steps. First,
 adding a *Stage User* by a Helpdesk administrator without a permission

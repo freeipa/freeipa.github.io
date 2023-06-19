@@ -59,7 +59,7 @@ Implementation
 --------------
 
 Request
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The current request looks like this:
 
@@ -122,7 +122,7 @@ a new OID.
 .. _processing_the_request:
 
 Processing the request
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The extdom plugin will call getgrouplist() and the resolve the fully
 qualified names by calling getgrgid(). By default groups from the local
@@ -143,7 +143,7 @@ Additionally the extdom plugin call getpwnam() with user-view code to
 get the data of the POSIX user entry.
 
 Response
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently the response looks like:
 
@@ -220,7 +220,7 @@ The extdom plugin is automatically configured during
 ipa-adtrust-install. No additional configuration is needed.
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 No additional configuration is needed. If chosen a new OID can indicate
 that the feature is available.
@@ -236,7 +236,7 @@ call into the plugin.
 .. _integration_tests_with_sssd:
 
 Integration tests with SSSD
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The user-visible effect of this feature is that group members, POSIX
 attributes and user's group memberships can all be resolved with the
@@ -258,7 +258,7 @@ doesn't use the plugin but connects to the server directly!
 .. _manual_tests_of_the_plugin:
 
 Manual tests of the plugin
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Besides running integration tests with a separate IPA client the plugin
 can be exercised manually on the server as well and since the extdom

@@ -41,7 +41,7 @@ Procedure
 .. _page_renaming_procedure:
 
 Page renaming procedure
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Use the link for `What links here <Special:Whatlinkshere>`__ to
    establish a list of pages or redirects that need to be fixed with the

@@ -76,7 +76,7 @@ Run:
    java -jar selenium-server-standalone.jar
 
 Firefox
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Starting Selenium version 3.0 Firefox requires its own
 `Geckodriver <https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver>`__.
@@ -92,7 +92,7 @@ where user has write access. Otherwise tests might fail with Permission
 denied error because they are unable to write to log file.
 
 Chrome/Chromium
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. download repo file and install browser
 #. download chromedriver according to platform at
@@ -102,7 +102,7 @@ Chrome/Chromium
 .. _internet_explorer:
 
 Internet Explorer
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. download ``IEDriverServer.exe``. Note: 32 version seems to work
    better even on 64bit Windows.
@@ -114,7 +114,7 @@ Internet Explorer
 .. _x_virtual_framebuffer:
 
 X virtual framebuffer
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If one wants to run test without classical X-system started, one can use
 xvbf.
@@ -135,7 +135,7 @@ Run:
 .. _make_it_quick:
 
 Make it quick
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To avoid doing all the configuration by hand, `attached
 script <#Attachments>`__ configures Fedora server for you.
@@ -176,7 +176,7 @@ environmental variables.
 .. _configuration_file:
 
 Configuration file
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Is located in ``$HOME/.ipa/ui_test.conf``. It's a
 `YAML <http://www.yaml.org/>`__ file, therefore it requires to have YAML
@@ -251,7 +251,7 @@ Example of configuration file:
 .. _environmental_variables:
 
 Environmental variables
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Environmental variables are mapped to configuration options according to
 following table. Environmental variable names are designed to be similar
@@ -295,7 +295,7 @@ like ``--logging-level=INFO``
 .. _in_tree:
 
 In tree
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  All Web UI tests:
 
@@ -318,7 +318,7 @@ In tree
 .. _test_package:
 
 Test package
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  All Web UI tests:
 

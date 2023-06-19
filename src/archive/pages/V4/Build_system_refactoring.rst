@@ -91,7 +91,6 @@ Feature Management
 ------------------
 
 CLI
-~~~
 
 +----------------+----------------------------------------------------+
 | Command        | Desired effect                                     |
@@ -121,7 +120,7 @@ CLI
 +----------------+----------------------------------------------------+
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 configure script will have several configuration options (replacing
 RPM-specific SPEC file magic).
@@ -173,7 +172,7 @@ Platforms which are missing some of the tools will be able to use
 the build or check.
 
 Versioning
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Current versioning scheme is partly responsible for the slow build.
 Developer build with IPA_VERSION_IS_GIT_SNAPSHOT=1 changes version
@@ -254,7 +253,7 @@ MAKEFLAGS like this:
 so it applies to all make jobs by default.
 
 Developer
-~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  First round - build & install RPMs once to get all the depedencies
    and scriptlets ran:
@@ -304,7 +303,7 @@ As an optimization for lower-bandwidth/high-latency links you can use
 | ``$ rsync -rlK /tmp/vm/ root@``\ ``:/``
 
 Tester
-~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``$ autoreconf -i``
 | ``$ ./configure``
@@ -319,7 +318,7 @@ will produce RPMs suitable for further FreeIPA testing.
 .. _release_engineer:
 
 Release engineer
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``$ autoreconf -i``
 | ``$ ./configure``
@@ -328,7 +327,7 @@ Release engineer
 will produce version.tar.gz suitable for further packaging
 
 Packager
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``$ autoreconf -i``
 | ``$ ./configure``
@@ -340,7 +339,7 @@ to take all installed files and just package them.
 .. _packager___client_only_build:
 
 Packager - client only build
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 | ``$ autoreconf -i``
 | ``$ ./configure --disable-server --without-ipatests``
@@ -355,7 +354,7 @@ Note: This use case does not fully work yet. See progress in
 .. _translation_maintainer:
 
 Translation maintainer
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  Generate a new ``.pot`` file for Zanata:
 

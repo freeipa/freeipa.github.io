@@ -169,7 +169,7 @@ Advice
 .. _advice_for_server_implementors:
 
 Advice for Server Implementors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Nothing special is required to support the SUBNET and SUBNET6 RRs in a
 DNS server software.
@@ -211,7 +211,7 @@ below.
 .. _advice_for_dns_administrators:
 
 Advice for DNS Administrators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Because of efficience considerations, DNS administrators are encouraged
 to publish the network tree only once under a DNS domain of their
@@ -228,7 +228,7 @@ network which in our view is a manageable overhead.
 .. _advice_for_client_implementors:
 
 Advice for Client Implementors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Location discovery requires a number of successive DNS queries to
 succeed. If efficient network trees are used with e.g. 20 subnets per
@@ -248,7 +248,7 @@ Alternative Solutions
 ---------------------
 
 DHCP
-~~~~
+----------------------------------------------------------------------------------------------
 
 DHCP could be extended to include an option that tells the client the
 site it is in. The granularity of such an approach would be reasonable
@@ -260,7 +260,7 @@ that do not use it an use static IP configuration instead.
 .. _the_resolver_sortlist_option:
 
 The resolver "sortlist" option
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Some DNS resolvers recognize an option called "sortlist" that specifies
 a set of subnets that are "local" to the client. The resolve uses this
@@ -279,7 +279,7 @@ from a location point of view.
 .. _use_dns_subdomains:
 
 Use DNS subdomains
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Each location could have its associated DNS subdomain, which could be
 used to publish SRV records. This approach has the drawbacks that many
@@ -290,7 +290,7 @@ purposes.
 .. _use_ldap_for_location_discovery:
 
 Use LDAP for location discovery
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Instead of DNS, LDAP could be used to store the location and subnet
 information. In this case, the LDAP server could also take care of the
@@ -304,7 +304,7 @@ service.
 .. _use_remote_procedure_calls:
 
 Use Remote Procedure Calls
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Instead of a client resolving its site, a remote procedure call approach
 could be used. This would solve the unauthenicated access to the

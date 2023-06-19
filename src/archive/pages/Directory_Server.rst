@@ -22,7 +22,7 @@ EXAMPLE.COM), certificates are stored in a second suffix, ``o=ipaca``.
 .. _accessing_data:
 
 Accessing Data
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Access to different parts of the Directory Server tree is protected by
 DS ACI configuration. Some parts of the tree (like users) can be open
@@ -36,7 +36,7 @@ user'convenient way.
 .. _modifying_data:
 
 Modifying Data
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As Directory Server is communicating with standard
 `LDAPv3 <http://www.ietf.org/rfc/rfc2251.txt>`__ protocol, standard LDAP
@@ -103,7 +103,7 @@ Documentation
 .. _project_documentation:
 
 Project documentation
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `389 Directory Server project
    pages <http://directory.fedoraproject.org/>`__
@@ -113,7 +113,7 @@ Project documentation
 .. _technical_articles:
 
 Technical articles
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  `SyncRepl - LDAP synchronization
    protocol <http://www.port389.org/docs/389ds/design/content-synchronization-plugin.html>`__

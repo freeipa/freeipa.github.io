@@ -11,7 +11,7 @@ Configuring Windows as an IPA Client
 This document describes the procedures required to configure both
 Windows XP Pro and Windows 2000 Pro as IPA clients.
 
-.. _configuring_client_authentication:
+
 
 Configuring Client Authentication
 ---------------------------------

@@ -87,14 +87,12 @@ Feature management
 ==================
 
 CLI
----
 
 no changes
 
 .. _web_ui:
 
-Web UI
-------
+Web UI----
 
 no changes
 

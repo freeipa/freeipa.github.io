@@ -114,7 +114,7 @@ performed in-place (i.e. no copy of the profile template is made).
 .. _filesystem_storage:
 
 Filesystem storage
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Profile templates are currently stored as:
 
@@ -140,7 +140,7 @@ Schema changes
 .. _certificate_profile_objects:
 
 Certificate profile objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``ipaCertProfile`` object class shall be updated with a new optional
 integer attribute for storing the version of the profile:
@@ -169,7 +169,7 @@ starting value of ``0``.
 .. _ipa_master_entries:
 
 IPA master entries
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Information about IPA masters is stored in entries
 ``cn=$FQDN,cn=masters,cn=ipa,cn=etc,$SUFFIX``. These entries shall be
@@ -197,7 +197,7 @@ Changes to ``ipa-server-upgrade``
 .. _ipa_version_update:
 
 IPA version update
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``/usr/share/ipa/master-entry.ldif`` template shall be updated to
 include the current IPA version information, according to the *IPA
@@ -210,7 +210,7 @@ performed by ``ipa-server-upgrade``.
 .. _profile_update:
 
 Profile update
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 *Note that the IPA version update\_ must be performed before profile
 updates.*
@@ -241,7 +241,7 @@ template and update the profile.
 .. _dealing_with_modified_profiles:
 
 Dealing with modified profiles
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The ``certprofile`` plugin currently allows included profiles to be
 modified. Admins may have modified the configurations of included

@@ -32,14 +32,12 @@ Feature Management
 ------------------
 
 UI
-~~
 
 The Web UI will be extended to support the new 'usercertificate'
 attribute in a consistent manner in respect with the other LDAP objects
 that are providing it.
 
 CLI
-~~~
 
 ========================== ==============
 Command                    Options
@@ -50,12 +48,12 @@ idoverrideuser-remove-cert --certificate=
 ========================== ==============
 
 Configuration
-~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This feature has no configuration impacts on the FreeIPA side.
 
 Upgrade
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The server's schema will be updated to support the 'usercertificate'
 attribute for the ID override objects as an extension to the

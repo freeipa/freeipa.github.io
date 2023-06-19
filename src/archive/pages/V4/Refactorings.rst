@@ -140,7 +140,7 @@ Switch test suite to pytest
 contact: pviktori
 
 Benefits
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 -  It would be easier to add classes to the tests and configure our CI
    to run only selected class of tests and for example avoid running

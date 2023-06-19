@@ -214,7 +214,7 @@ Automatic Cert Provisioning
 .. _ipa_client_design:
 
 IPA Client Design
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To be able to request a certificate from the IPA client automatically
 there should be a utility tightly integrated with the IPA client that
@@ -303,7 +303,7 @@ following main points should be assumed and not changed:
 .. _server_policy_about_clients:
 
 Server Policy about Clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Though the clients would have the capability to request new certificates
 or track and renew old ones it does not mean that the server would
@@ -331,7 +331,7 @@ The list of the values can be later extended if needed.
 .. _command_line_utility:
 
 Command Line Utility
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Now it is time to talk about the data that utility would collect. At its
 core, the tool's function is very similar to that of ipa-getkeytab, so
@@ -416,7 +416,7 @@ The status commend will list the contents of the cert data in the LDB.
 .. _data_stored_in_ldb:
 
 Data Stored in LDB
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The data stored in the LDB will look like this:
 

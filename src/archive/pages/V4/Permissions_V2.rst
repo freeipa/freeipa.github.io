@@ -28,7 +28,7 @@ Design
 .. _v2_permissions:
 
 V2 permissions
-~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This document describes the semantics of "V2" permissions. These are
 permissions with a "V2" flag.
@@ -42,7 +42,7 @@ servers.
 .. _permission_flags:
 
 Permission flags
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Permission objects can have flags in their "ipaPermissionType"
 attribute. Currently we use one such flag, SYSTEM, which means that the
@@ -64,7 +64,7 @@ the old semantics.
 .. _data_in_the_permission_entry:
 
 Data in the permission entry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The new permission objects will contain all data needed to generate (or
 check) the ACI. This means IPA code will no longer need to parse ACIs
@@ -124,7 +124,7 @@ permissions <V3/Managed_Read_permissions>`__.)
 .. _moving_acis_out_of_the_root:
 
 Moving ACIs out of the root
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 ACIs will be created on appropriate containers, rather than in the
 $SUFFIX. This will increase performance of LDAP operations, as fewer
@@ -135,7 +135,7 @@ The location of the ACI will be determined by ``ipaPermLocation``.
 .. _optionattribute_mapping:
 
 Option/Attribute mapping
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Due to technical reasons, API parameters need to be named the same as
 LDAP attributes. (This assumption runs rather deep in the framework, and
@@ -191,20 +191,20 @@ existing entry; wildcards or non-existent DNs are not allowed.
 .. _add_noaci_command:
 
 add_noaci command
-~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There is no expectation of backwards compatibility for
 ``permission_add_noaci``. This command will be marked as internal.
 
 Examples
-~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 See the Test Plan below.
 
 .. _compatibility_with_old_clients:
 
 Compatibility with old clients
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 For clients which report an API version lower than the one of this
 feature, the output will be modified to keep basic compatibility. A new
@@ -223,7 +223,7 @@ single-valued, and a 'ldap:///' prefix will be added to it.
 .. _modifying_and_upgrading_permissions:
 
 Modifying and Upgrading Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 A permission object can not be modified if:
 
@@ -254,7 +254,7 @@ by the new ACI.
 .. _adding_and_deleting_permissions:
 
 Adding and Deleting Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When adding, the ACI is inserted after the permission entry.
 
@@ -263,7 +263,7 @@ When deleting, the ACI is deleted first, then the permission entry.
 .. _mass_update:
 
 Mass update
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Old permisisons can be updated to V2 by running the process in
 "Modifying and Upgrading Permissions" on all permissions without the
@@ -280,7 +280,7 @@ old-style permisisons can be created on old servers.)
 .. _findshow_for_old_permissions:
 
 Find/show for old permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Old-style permissions will continue be recognized by
 permission-{find,show} commands.
@@ -300,14 +300,13 @@ options.
 .. _read_rights:
 
 Read rights
-~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The "read", "search", and "compare" rights are added to "write", "add",
 "delete", and "all" in the list of rights that can be granted
 (ipaPermRight).
 
 UI
-~~
 
 The UI will need to be updated to use the attribute names in the API,
 see the "Option/Attribute mapping" section.
@@ -320,7 +319,6 @@ Feature Management
 .. _ui_1:
 
 UI
-~~
 
 As part of the related `ticket
 2355 <https://fedorahosted.org/freeipa/ticket/2355>`__, The UI is
@@ -328,7 +326,6 @@ reorganized to allow type, filter, subtree, targetgroup to be specified
 independently.
 
 CLI
-~~~
 
 -  As part of the related `ticket
    2355 <https://fedorahosted.org/freeipa/ticket/2355>`__, the type,

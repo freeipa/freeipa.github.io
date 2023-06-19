@@ -47,7 +47,7 @@ Creating new schema requires considereing a number of factors.
 .. _naming_conventions:
 
 Naming Conventions
-~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If the schema is very FreeIPA specific we try to namespace attributes
 and objectclasses by using the prefix 'ipa' in fron of attribute and
@@ -57,7 +57,7 @@ advice to use meaningful prefixes nonetheless to avoid potential future
 name clashes with other popular schema.
 
 OIDs
-~~~~
+----------------------------------------------------------------------------------------------
 
 The FreeIPA project have been assigned its own OID space under the
 original 389ds OID space. The FreeIPA toplevel OID is:
@@ -70,7 +70,7 @@ you will need, you can get an allotment reserved too.
 .. _objectclasses_and_attribute_types:
 
 ObjectClasses and Attribute types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Please chose the most appropriate type for attributes, it is important
 to make sure you think through each attribute syntax, and equality, as

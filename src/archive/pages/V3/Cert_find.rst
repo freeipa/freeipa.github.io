@@ -177,7 +177,6 @@ Feature Management
 ==================
 
 UI
-~~
 
 The UI should be similar to the command line. It is unclear how date
 formatting will be handled but bare text boxes would be usable for a
@@ -188,7 +187,6 @@ narrowing down the terms, by adding dates, serial numbers, etc. The
 searchs are all AND, there is no way to do an OR (limitation of CS).
 
 CLI
-~~~
 
 Overview of the CLI commands
 

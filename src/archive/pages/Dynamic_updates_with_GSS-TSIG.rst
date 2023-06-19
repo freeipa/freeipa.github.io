@@ -26,7 +26,7 @@ command ``ipa-server-install --setup-dns`` or ``ipa-dns-setup``.
 .. _configuring_gss_tsig:
 
 Configuring GSS-TSIG
-~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 First, we have to configure the BIND on our DNS server to use GSS-TSIG
 for authenticating dynamic updates:
@@ -79,7 +79,7 @@ Now we can start named and set it up to always start when booting:
 .. _dynamic_update_policy:
 
 Dynamic update policy
-~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 As a next step, configure `dynamic update
 policies <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies>`__

@@ -54,7 +54,7 @@ plugins running on *AD* instance. These plugins will do the same jobs as
 `slapi-nis <https://git.fedorahosted.org/cgit/slapi-nis.git/tree/doc/format-specifiers.txt>`__
 
 Provisioning
-~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Provisioning relies on `content
 synchronization <http://www.port389.org/docs/389ds/design/content-synchronization-plugin.html>`__
@@ -176,4 +176,4 @@ Persistant stage
 ^^^^^^^^^^^^^^^^
 
 Transformations
-~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------

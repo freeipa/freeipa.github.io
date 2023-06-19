@@ -38,7 +38,7 @@ Software Selection.
 
 Ensure that the server is up to date:
 
-| ``[root@ipa ~]# yum install deltarpm``
+| ``[root@ipa ~
 | ``...``
 | ``[root@ipa ~]# yum update``
 | ``...``

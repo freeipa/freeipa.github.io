@@ -75,7 +75,7 @@ The centralized log collection problem has 2 basic parts:
 .. _centralized_logging_server:
 
 Centralized Logging Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Currently, the most used and advanced open source solutions are the
 centralized servers based on
@@ -99,7 +99,7 @@ details how to download and run the preconfigured REK server.
 .. _log_gathering_and_transport:
 
 Log Gathering and Transport
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To meet the defined use cases, at least following logs have to be
 gathered from the **FreeIPA server**:
@@ -130,7 +130,7 @@ gathered from the **FreeIPA server**:
   information and usage.
 
 Results
-~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Current the proof of concept project contains:
 

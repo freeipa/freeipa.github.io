@@ -131,7 +131,7 @@ hosts.
 .. _additional_roles:
 
 Additional roles
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 You can define any additional custom roles that are required by the
 tests using the following environment variables.
@@ -360,12 +360,10 @@ Feature Managment
 =================
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 See above
 

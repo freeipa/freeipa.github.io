@@ -21,7 +21,7 @@ Use Cases
 .. _automated_ca_certificate_renewal:
 
 Automated CA certificate renewal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 When the CA certificate is nearing its expiration time, it should be
 automatically renewed. The renewed certificate will use the same keypair
@@ -32,7 +32,7 @@ This only works for self-signed CA certificates in CA-ful installs.
 .. _manual_ca_certificate_renewal:
 
 Manual CA certificate renewal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Allow admin to manually renew the CA certificate and possibly change its
 chaining (self-signed → signed by external CA, signed by external CA →
@@ -46,7 +46,7 @@ This works for any CA certificate in CA-ful installs.
 .. _manual_install_of_ca_certificate:
 
 Manual install of CA certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 In CA-less installs, CA certificate renewal is completely in charge of a
 3rd party CA. Provide means of installing CA certificates obtained from
@@ -59,7 +59,7 @@ Design
 .. _shared_certificate_store:
 
 Shared certificate store
-~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 CA certificates will be stored in entries under
 ``cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*:
@@ -218,7 +218,7 @@ The new schema used for the entries is:
 .. _automatic_renewal_of_ipa_ca_certificate:
 
 Automatic renewal of IPA CA certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The CA certificate managed by Dogtag will be tracked by certmonger. If
 the certificate is self-signed, it will be automatically renewed. If the
@@ -229,7 +229,7 @@ manually. The error is syslogged with ALERT severity.
 .. _ca_certificate_management_utility:
 
 CA certificate management utility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There will be new utility to manage CA certificates,
 ``ipa-cacert-manage``. It will have several subcommands:
@@ -281,7 +281,7 @@ There will be new utility to manage CA certificates,
 .. _client_certificate_update_utility:
 
 Client certificate update utility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 There will be new utility, ``ipa-certupdate``, for updating CA
 certificates on clients with up-to-date data from LDAP. Until **phase
@@ -317,17 +317,15 @@ Feature Management
 ------------------
 
 UI
-~~
 
 N/A
 
 CLI
-~~~
 
 See `design <#CA_certificate_management_utility>`__.
 
 Installers
-~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 N/A
 
@@ -353,7 +351,7 @@ How to Test
 .. _automated_ca_certificate_renewal_1:
 
 Automated CA certificate renewal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Install IPA server with CA (either self-signed or signed by external
    CA)
@@ -387,7 +385,7 @@ Automated CA certificate renewal
 .. _manual_ca_certificate_renewal_1:
 
 Manual CA certificate renewal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Install IPA server with CA (either self-signed or signed by external
    CA)
@@ -418,7 +416,7 @@ Manual CA certificate renewal
 .. _manual_install_of_ca_certificate_1:
 
 Manual install of CA certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Install IPA server
 #. Run ``ipa-cacert-manage install`` to install the CA certificate
@@ -427,7 +425,7 @@ Manual install of CA certificate
 .. _manual_update_of_local_ca_certificate_files:
 
 Manual update of local CA certificate files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 #. Install IPA server(s) and possibly client(s)
 #. Renew or install CA certificate(s)

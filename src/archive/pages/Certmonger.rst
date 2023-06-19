@@ -29,7 +29,7 @@ certmonger and passed in using the -p or -P options.
 .. _get_a_list_of_currently_tracked_certificates:
 
 Get a list of currently tracked certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 The difference between "all" and "IPA-issued" is subtle. An IPA-issued
 certificate means it was issued using the API provided by IPA. It does
@@ -40,7 +40,7 @@ can be tracked by certmonger but are not issued by the API.
 .. _certmonger_cas:
 
 Certmonger "CAs"
-~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 Certmonger uses helpers to communicate with CAs. These are listed and
 defined using the command ``getcert-list-cas`` and ``getcert-add-ca``
@@ -138,7 +138,7 @@ just a shortcut.
 .. _request_a_new_certificate:
 
 Request a new certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 This will generate a new key pair, create a CSR and request a
 certificate from the IPA server configured in ``/etc/ipa/default.conf``,
@@ -168,7 +168,7 @@ NSS
 .. _manually_renew_a_certificate:
 
 Manually renew a certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 If you want to manually renew a certificate prior to its expiration
 date, run:
@@ -178,7 +178,7 @@ date, run:
 .. _stop_tracking_a_certificate:
 
 Stop tracking a certificate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------------------------------------
 
 To tell certmonger to forget about a certificate and stop tracking it
 run:

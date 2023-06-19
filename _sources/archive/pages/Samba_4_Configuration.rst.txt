@@ -43,7 +43,7 @@ Create SAMBA_HOME/etc/smb.conf:
            path      = SAMBA_HOME/var/locks/sysvol
            read only = no
 
-.. _copying_examples:
+
 
 Copying Examples
 ================
@@ -51,7 +51,7 @@ Copying Examples
 Copy the examples folder from Samba source directory into Samba
 installation folder.
 
-.. _provisioning_samba_backend:
+
 
 Provisioning Samba Backend
 ==========================
@@ -81,7 +81,7 @@ Execute the following command to provision Samba backend:
    LDAP Backend Admin DN: CN=Manager,DC=samba,DC=example,DC=com
    LDAP Admin Password:   Secret123
 
-.. _starting_ds_instance:
+
 
 Starting DS Instance
 ====================
@@ -91,7 +91,7 @@ Starting DS Instance
    % cd SAMBA_HOME
    % private/ldap/slapd-samba4/start-slapd
 
-.. _enabling_ds_change_log:
+
 
 Enabling DS Change Log
 ======================
@@ -122,7 +122,7 @@ Restart DS:
    % private/ldap/slapd-samba4/stop-slapd
    % private/ldap/slapd-samba4/start-slapd
 
-.. _starting_samba:
+
 
 Starting Samba
 ==============
@@ -132,7 +132,7 @@ Starting Samba
    % cd SAMBA_HOME
    % sbin/samba -i -M single
 
-.. _create_sync_user_account:
+
 
 Create Sync User Account
 ========================
@@ -168,7 +168,7 @@ Verify:
    -D "cn=Sync,cn=Users,dc=samba,dc=example,dc=com" -w Secret123 \
    -b "dc=samba,dc=example,dc=com" -s base
 
-.. _enable_clear_text_password:
+
 
 Enable Clear Text Password
 ==========================

@@ -1,6 +1,6 @@
 **HowTo/Setup FreeIPA Services for MacOS X 10.12 and 10.13**
 
-.. _dns_setup:
+
 
 DNS Setup
 ---------
@@ -16,7 +16,7 @@ Either,
 
 Or, configure your DHCP service to set your IPA server as primary DNS.
 
-.. _ssl_setup:
+
 
 SSL Setup
 ---------
@@ -36,7 +36,7 @@ SSL Setup
 -  Exit Keychain Access and authenticate to apply changes
 -  Move the ca.crt file to /etc/ipa
 
-.. _kerberos_setup:
+
 
 Kerberos Setup
 --------------
@@ -100,12 +100,12 @@ Edit/create the file /etc/krb5.conf as shown below:
 
 -  Verify by running “kinit username”
 
-.. _ipa_enrollment:
+
 
 IPA Enrollment
 --------------
 
-.. _name_workstation:
+
 
 Name workstation
 ----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ Name workstation
 -  Open terminal
 -  sudo scutil --set HostName workstation.yourdomain.com
 
-.. _add_via_freeipa_web_console:
+
 
 Add via freeIPA web console
 ----------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ Add via freeIPA web console
 #. Click the Add and Edit button.
 #. Add the workstation’s MAC addresses
 
-.. _generate_keytab_on_ipa_server:
+
 
 Generate keytab on IPA server
 ----------------------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ Generate keytab on IPA server
        Keytab: True
        Managed by: workstation.yourdomain.com
 
-.. _retrieve_keytab_from_server:
+
 
 Retrieve keytab from server
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ Retrieve keytab from server
 #. Verify on freeIPA web GUI that Kerberos key is present (Identity >
    Host > workstation)
 
-.. _directory_utility_setup:
+
 
 Directory Utility Setup
 -----------------------
@@ -239,14 +239,14 @@ UserShell               loginShell
 #. Open terminal and run test “dscacheutil -q user -a name
    *yourusername*\ ”
 
-.. _allow_mobile_accounts_a_user_profile:
+
 
 Allow Mobile Accounts A User Profile
 ------------------------------------
 
 -  From a terminal, run 'chmod 0777 /Users'
 
-.. _make_accounts_mobile_off_network_access:
+
 
 Make Accounts Mobile (Off-network Access)
 -----------------------------------------
@@ -255,7 +255,7 @@ Make Accounts Mobile (Off-network Access)
    /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount
    -n *username*'
 
-.. _if_filevault_already_enabled:
+
 
 If FileVault already enabled
 ----------------------------------------------------------------------------------------------
@@ -263,7 +263,7 @@ If FileVault already enabled
 -  fdesetup add -usertoadd username
 -  Enter user’s password at prompt
 
-.. _migrate_user_profile_for_mobile_account:
+
 
 Migrate User Profile for Mobile Account
 ---------------------------------------
@@ -277,7 +277,7 @@ Migrate User Profile for Mobile Account
 **Alternative method: backup user profile with time machine and migrate
 user profile to network account**
 
-.. _mobilenetwork_account_known_issues:
+
 
 Mobile/Network Account Known Issues
 -----------------------------------
@@ -312,7 +312,7 @@ Mobile/Network Account Known Issues
 
    -  Fix: Upgrade to OS X 10.12
 
-.. _migrate_user_profile_issues:
+
 
 Migrate User Profile Issues
 ---------------------------
@@ -328,7 +328,7 @@ Migrate User Profile Issues
 
 -  Adobe CC products require re-install
 
-.. _configuring_multiple_workstations:
+
 
 Configuring Multiple Workstations
 ---------------------------------

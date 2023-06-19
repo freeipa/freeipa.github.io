@@ -24,7 +24,7 @@ servers in the topology, the result of the query is conatained in the
 topology segments and can be listed or visualized by contacting any
 server.
 
-.. _new_attributes_in_topology_objects:
+
 
 New attributes in topology objects
 ----------------------------------------------------------------------------------------------
@@ -34,10 +34,12 @@ requests and responses
 
 Extension of the ipaReplicationTopologyConfig entry:
 
-| ``cn=``\ ``,cn=topology,``
-| ``objectclass: ipaReplicationTopologyConfig``
-| ``ipaReplTopoConfigRoot: < dn >``
-| ``ipaReplTopoMonitorRequest: ``
+::
+
+   | ``cn=``\ ``,cn=topology,``
+   | ``objectclass: ipaReplicationTopologyConfig``
+   | ``ipaReplTopoConfigRoot: < dn >``
+   | ``ipaReplTopoMonitorRequest: ``
 
 The request ID is used to map the monitoring responses to a request, to
 trigger a new request a ldap replace operation for this attribute is
@@ -54,7 +56,7 @@ For each agreement a replication state attribute is added ";left"
 ";right" indicate to which of the two agreements that can be represented
 by a segment the information refers
 
-.. _plugin_operation:
+
 
 plugin operation
 ----------------------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ checks the status of the local agreements and updates the
 ipaReplTopoState attributes in the corresponding segments. These updates
 will be replicated to the other replicas
 
-.. _monitoring_procedure:
+
 
 Monitoring procedure
 ----------------------------------------------------------------------------------------------
@@ -84,7 +86,7 @@ listed. The state of the agreement will be:
 | ``red: agreement is not working (no more refinements yet)``
 | ``grey: no response for the monitoring request with the given monitoringID was received``
 
-.. _required_actions:
+
 
 Required actions
 ----------------------------------------------------------------------------------------------
@@ -137,14 +139,14 @@ Upgrade
 
 TODO
 
-.. _how_to_test30:
+
 
 How to Test
 -----------
 
 TODO
 
-.. _test_plan30:
+
 
 Test Plan
 ---------

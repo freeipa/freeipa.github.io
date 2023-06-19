@@ -1,11 +1,11 @@
 *This page is a work in progress.*
 
-.. _requirements_workflows_and_use_cases:
+
 
 Requirements, Workflows and Use Cases
 =====================================
 
-.. _radius_proxy:
+
 
 RADIUS Proxy
 ----------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ support authentication via RADIUS protocol.
    timeout of each retry. The secret, timeout and retries are expected
    to be the same across all RADIUS servers of the same set.
 
-.. _native_otp:
+
 
 Native OTP
 ----------------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ Native OTP
    is no Kerberos ticket, the system should prompt user for
    re-authentication by locking his screen as soon as he gets online.
 
-.. _common_use_cases:
+
 
 Common use cases
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ Common use cases
 -  There should be a way to define and centrally manage which services
    would require which kind of the authentication.
 
-.. _future_use_cases_current_non_goals:
+
 
 Future use cases (current non goals)
 ----------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ Future use cases (current non goals)
 -  Ability to bulk assign multiple tokens
 -  Support of the offline authentication
 
-.. _non_goals:
+
 
 Non goals
 ----------------------------------------------------------------------------------------------
@@ -222,7 +222,7 @@ No other dependencies are required. The 3rd party RADIUS daemon is not
 owned by us, so no specification is necessary. However, the LDAP daemon
 (389) will gain an implementation of RFC 6238.
 
-.. _token_types:
+
 
 Token Types
 ----------------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@ Logic
    caller. If the caller is companion daemon it would in turn reply to
    KDC and KDC will reply to the client with a TGT.
 
-.. _lost_token_processing:
+
 
 Lost Token Processing
 ----------------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@ Lost Token Processing
 -  This logic will be adjusted later if/when other more sophisticated
    lost token methods are implemented.
 
-.. _ds_bind_plugin_logic:
+
 
 DS Bind Plugin Logic
 ----------------------------------------------------------------------------------------------
@@ -388,7 +388,7 @@ DS Bind Plugin Logic
 -  If any of the token codes matched the authentication is successful
    and the reply will be sent to the caller.
 
-.. _top_token_container:
+
 
 Top Token Container
 ----------------------------------------------------------------------------------------------

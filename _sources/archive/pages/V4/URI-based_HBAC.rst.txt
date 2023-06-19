@@ -115,7 +115,7 @@ of selecting HBAC rules to evaluate in terms of matching URI.
    this adds no dependency and is a big boost to usability of the
    feature.
 
-.. _example___how_it_can_not_work:
+
 
 Example - how it can not work
 ----------------------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ would be hardly accepted
 -  DENY rules will probably never be accepted
 -  There are better and simpler solutions, described further
 
-.. _example___how_it_works:
+
 
 Example - how it works
 ----------------------------------------------------------------------------------------------
@@ -304,7 +304,7 @@ CLI
 There are subcommands for "ipa" command to list and modify URI, these
 are generated automatically.
 
-.. _how_to_test39:
+
 
 How to Test
 -----------

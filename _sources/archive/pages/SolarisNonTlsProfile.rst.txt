@@ -1,4 +1,4 @@
-.. _sample_non_tls_profile_for_solaris:
+
 
 Sample Non TLS Profile for Solaris
 ==================================

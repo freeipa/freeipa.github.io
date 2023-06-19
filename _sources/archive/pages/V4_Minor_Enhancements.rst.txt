@@ -1,4 +1,4 @@
-.. _enhancements_addressed_in_the_current_release:
+
 
 Enhancements Addressed in the Current Release
 ---------------------------------------------
@@ -46,7 +46,7 @@ Enhancements Addressed in the Current Release
 |                        |                        |                 |
 +------------------------+------------------------+-----------------+
 
-.. _previous_versions:
+
 
 Previous versions
 -----------------

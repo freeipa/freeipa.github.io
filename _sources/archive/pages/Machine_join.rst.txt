@@ -31,7 +31,7 @@ Options
 -  -q: quiet mode, errors only
 -  -d: debug mode
 
-.. _authenticated_join:
+
 
 Authenticated join
 ------------------
@@ -51,7 +51,7 @@ Example
    # kinit admin
    # ipa-join
 
-.. _bulk_enrollment:
+
 
 Bulk enrollment
 ---------------
@@ -59,7 +59,7 @@ Bulk enrollment
 A bulk host is defined as a pre-created host entry that contains a
 one-time password. This password allows a user to authenticate over LDAP
 
-.. _example_1:
+
 
 Example
 ----------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ Example
 
    # ipa-join -w secret123
 
-.. _things_to_test:
+
 
 Things to test
 --------------

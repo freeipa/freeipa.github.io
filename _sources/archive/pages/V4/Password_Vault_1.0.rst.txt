@@ -42,7 +42,7 @@ A vault is uniquely identified by its name within its container. See
 There are three types of vault which may offer additional level of
 security:
 
-.. _standard_vault:
+
 
 Standard Vault
 ----------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ encryption as described above. Any authorized vault members, vault
 owners, or escrow officers can read and write the secrets without having
 to use a password/keys.
 
-.. _symmetric_vault:
+
 
 Symmetric Vault
 ----------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ receiving them from the server. Any authorized vault members, vault
 owners, or escrow officers can read and write the secrets, but they will
 have to use a shared vault password.
 
-.. _asymmetric_vault:
+
 
 Asymmetric Vault
 ----------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ vaults. The container is created automatically when the first private
 vault is created. When the service is removed, the container and its
 contents will be removed automatically.
 
-.. _access_control:
+
 
 Access Control
 --------------
@@ -146,12 +146,12 @@ Authenticate as an IPA user:
 
 The vault is ready to use.
 
-.. _vault_management:
+
 
 Vault Management
 ================
 
-.. _listing_accessible_vaults:
+
 
 Listing accessible vaults
 -------------------------
@@ -220,7 +220,7 @@ To find user vaults, specify --user :
    Number of entries returned 1
    ----------------------------
 
-.. _displaying_vault_info:
+
 
 Displaying vault info
 ---------------------
@@ -255,7 +255,7 @@ To display the complete vault info:
      Owner users: admin
      objectclass: top, ipaVault
 
-.. _creating_a_new_vault:
+
 
 Creating a new vault
 --------------------
@@ -335,7 +335,7 @@ key:
      Description: Asymmetric vault
      Type: asymmetric
 
-.. _archiving_data:
+
 
 Archiving data
 --------------
@@ -379,7 +379,7 @@ the vault public key is stored in one of vault attributes.
    Archived data into vault "AsymmetricVault"
    ------------------------------------------
 
-.. _retrieving_data:
+
 
 Retrieving data
 ---------------
@@ -423,7 +423,7 @@ With an asymmetric vault the operation requires a private key:
    Retrieved data from vault "AsymmetricVault"
    -------------------------------------------
 
-.. _modifying_a_vault:
+
 
 Modifying a vault
 -----------------
@@ -451,7 +451,7 @@ For example, to change vault description:
      Description: This is a private vault
      Type: standard
 
-.. _changing_vault_passwordkeys:
+
 
 Changing vault password/keys
 ----------------------------
@@ -517,7 +517,7 @@ command):
    Archived data into vault "AsymmetricVault"
    ------------------------------------------
 
-.. _removing_a_vault:
+
 
 Removing a vault
 ----------------
@@ -537,12 +537,12 @@ For example:
    Deleted vault "PrivateVault"
    ----------------------------
 
-.. _access_control_1:
+
 
 Access Control
 ==============
 
-.. _adding_vault_member:
+
 
 Adding vault member
 -------------------
@@ -562,7 +562,7 @@ For example:
    Added members to "MyVault " vault
    ---------------------------------
 
-.. _removing_vault_member:
+
 
 Removing vault member
 ---------------------
@@ -583,7 +583,7 @@ For example:
    Removed members from "MyVault " vault
    -------------------------------------
 
-.. _adding_vault_owner:
+
 
 Adding vault owner
 ------------------
@@ -603,7 +603,7 @@ For example:
    Added owners from "MyVault " vault
    ----------------------------------
 
-.. _removing_vault_owner:
+
 
 Removing vault owner
 --------------------
@@ -624,12 +624,12 @@ For example:
    Removed owners from "MyVault " vault
    ------------------------------------
 
-.. _service_operations:
+
 
 Service Operations
 ==================
 
-.. _creating_service_vault_password:
+
 
 Creating service vault password
 -------------------------------
@@ -652,7 +652,7 @@ a new secret into a private vault:
    Archived data into vault "http_password"
    ----------------------------------------
 
-.. _provisioning_service_vault_password_for_service_instance:
+
 
 Provisioning service vault password for service instance
 --------------------------------------------------------
@@ -705,7 +705,7 @@ For example:
    Archived data into vault "password"
    -----------------------------------
 
-.. _retrieving_service_vault_password_for_service_instance:
+
 
 Retrieving service vault password for service instance
 ------------------------------------------------------
@@ -722,7 +722,7 @@ service private key stored locally:
    Retrieved data from vault "password"
    ------------------------------------
 
-.. _changing_service_vault_password:
+
 
 Changing service vault password
 -------------------------------
@@ -768,12 +768,12 @@ The following command can be used to display vault configuration:
    ...
    -----END CERTIFICATE-----
 
-.. _ldap_directory:
+
 
 LDAP Directory
 ==============
 
-.. _directory_structure:
+
 
 Directory Structure
 -------------------
@@ -824,7 +824,7 @@ Object classes:
 See also `LDAP schema for PKCS#11
 data <http://www.freeipa.org/page/V4/PKCS11_in_LDAP/Schema>`__.
 
-.. _access_control_list:
+
 
 Access Control List
 -------------------

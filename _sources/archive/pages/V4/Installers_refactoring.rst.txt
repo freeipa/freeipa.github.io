@@ -26,7 +26,7 @@ There's going to be an inheritance hierarchy of classes from the most
 general one containing all the common options for all installers to more
 and more specific classes for each of the installers.
 
-.. _class_hierarchy:
+
 
 Class hierarchy
 ---------------
@@ -34,7 +34,7 @@ Class hierarchy
 The below figure shows the implemented class hierarchy. Find the
 description of the most important classes below:
 
-- The ServiceInstallInterface class is the base class for all the
+The ServiceInstallInterface class is the base class for all the
 installers. It contains the most general options (knobs) that are
 usually required for any service installer to have - domain, realm,
 hostname, replica file etc. - The HostNameInstaller class contains
@@ -53,7 +53,7 @@ specific options
 
    Installers_class_hierarchy.svg
 
-.. _limiting_options_scope:
+
 
 Limiting options scope
 ----------------------
@@ -114,7 +114,7 @@ implemented in each special class for each installer (e.g. for replica
 installation, this is done in CompatServerReplicaInstal class which
 inherits from ServerReplicaInstall).
 
-.. _future_plan:
+
 
 Future plan
 ===========

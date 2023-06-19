@@ -32,9 +32,11 @@ An example of a an entry is:
 
 A PAM Service group is defined as:
 
-| ``objectClasses: (2.16.840.1.113730.3.8.4.XX NAME 'ipaHBACServiceGroup' ``
-| ``DESC 'IPA HBAC service group object class' SUP nestedGroup STRUCTURAL``
-| ``X-ORIGIN 'IPA v2' )``
+::
+
+   | ``objectClasses: (2.16.840.1.113730.3.8.4.XX NAME 'ipaHBACServiceGroup' ``
+   | ``DESC 'IPA HBAC service group object class' SUP nestedGroup STRUCTURAL``
+   | ``X-ORIGIN 'IPA v2' )``
 
 A sample group entry looks like:
 
@@ -50,6 +52,8 @@ A sample group entry looks like:
 
 The all rule for services will be handled by a new attribute,
 serviceCategory, in the ipaHBACRule objectclass.
+
+::
 
 | ``attributeTypes: (2.16.840.1.113730.3.8.3.XX NAME 'serviceCategory' DESC``
 | ``'Additional classification for services' EQUALITY caseIgnoreMatch ORDERING ``

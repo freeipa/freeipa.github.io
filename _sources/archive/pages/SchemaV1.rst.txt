@@ -1,9 +1,9 @@
-.. _ipa_v1.0_schema_and_dit_layout:
+
 
 IPA v1.0 Schema and DIT layout
 ==============================
 
-.. _dit_layout:
+
 
 DIT Layout
 ----------
@@ -60,7 +60,7 @@ make it something that replaces the pilotObject above and allows
 discovery data like this to go there? We could add all sorts of stuff,
 like place to add people, place to add computers etc.).
 
-.. _people_schema:
+
 
 People Schema
 -------------
@@ -73,7 +73,7 @@ People use:
 -  sambaSamAccount (samba)
 -  inetUser
 
-.. _groups_schema:
+
 
 Groups Schema
 -------------

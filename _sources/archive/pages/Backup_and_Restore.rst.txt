@@ -1,4 +1,4 @@
-.. _what_is_backup_and_restore:
+
 
 What is Backup and Restore?
 ===========================
@@ -25,7 +25,7 @@ There are two classes of the disaster scenarios:
    user or by a software bug, and the deletion was propagated to all
    servers, given that FreeIPA is a multi-master solution.
 
-.. _server_loss_cases:
+
 
 Server Loss Cases
 =================
@@ -56,7 +56,7 @@ whole deployment without `CA <PKI>`__ (`CA-less
 installation <V3/CA-less_install>`__). Then all FreeIPA Servers are
 equal and there is no distinction between them.
 
-.. _one_server_loss:
+
 
 One Server Loss
 ---------------
@@ -69,7 +69,7 @@ about following a remove/cleanup procedure and then installing a new
 server on the same or different hardware, or provisioning a new VM with
 the same or different identity.
 
-.. _one_server_loss___first_master:
+
 
 One Server Loss - First Master
 ----------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ be updated to reflect the new FreeIPA topology. If FreeIPA clients were
 configured to explicitly connect to specific servers, their
 configuration also needs to reflect new FreeIPA Server hostnames.
 
-.. _one_server_loss___any_other_server:
+
 
 One Server Loss - Any other server
 ----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ FreeIPA Server is more straightforward:
    procedure <https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/creating-the-replica.html>`__
    to deploy a new master on a hardware/VM of your choice
 
-.. _several_server_loss:
+
 
 Several Server Loss
 -------------------
@@ -121,7 +121,7 @@ Several Server Loss
 If several servers are lost at the same time, one needs to determine
 whether the deployment is rebuild-able from what is left or not.
 
-.. _first_master_is_still_alive:
+
 
 First Master is still alive
 ----------------------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ If first master is still alive `One Server Loss - Any other
 server <#One_Server_Loss_-_Any_other_server>`__ procedure can be
 followed to rebuild every lost server and restore the environment.
 
-.. _first_master_is_lost:
+
 
 First Master is lost
 ----------------------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ If there is no master with a `CA <PKI>`__ left, the deployment
 effectively lost an ability to rebuild itself from what is left.
 Therefore, this case needs to be treated as a **total loss scenario**.
 
-.. _this_is_a_ca_less_deployment:
+
 
 This is a CA-less deployment
 ----------------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ and `One Server Loss - Any other
 server <#One_Server_Loss_-_Any_other_server>`__ procedure can be
 followed to rebuild the environment
 
-.. _total_infrastructure_loss:
+
 
 Total Infrastructure Loss
 =========================
@@ -168,7 +168,7 @@ case we suggest that you run one of your replicas (with full
 a VM then periodically stop this VM and have a full snapshot of it and
 then bring it back again.
 
-.. _why_snapshot_and_not_backup_and_restore_scripts:
+
 
 Why snapshot and not backup and restore scripts?
 ------------------------------------------------
@@ -198,7 +198,7 @@ crucial. We feel that using less risky procedures would enable FreeIPA
 users to recover faster. This is the main reason why FreeIPA team was
 reluctant to build custom backup and restore scripts.
 
-.. _backup_and_restore_scripts:
+
 
 Backup and restore scripts
 ----------------------------------------------------------------------------------------------
@@ -210,12 +210,12 @@ backup and restore FreeIPA software and/or the database. A feedback from
 real user deployments is essential for decision if the scripts should be
 further developed by the FreeIPA team.
 
-.. _recovering_from_a_snapshot:
+
 
 Recovering from a snapshot
 --------------------------
 
-.. _nothing_left_other_than_the_snapshot:
+
 
 Nothing left other than the snapshot
 ----------------------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ is completed, there is a restored and functional deployment but the VM
 is now the first master. We recommend that other server is nominated and
 updated to be the first master.
 
-.. _something_is_left_other_than_the_snapshot:
+
 
 Something is left other than the snapshot
 ----------------------------------------------------------------------------------------------
@@ -293,7 +293,7 @@ in parallel only for a limited amount of time needed to create a
 sufficient restored FreeIPA infrastructure to limit data inconsistencies
 between these two disconnected FreeIPA realms.
 
-.. _recovering_freeipa_clients:
+
 
 Recovering FreeIPA clients
 --------------------------
@@ -318,7 +318,7 @@ need changes as well:
    experience inconsistent login behavior on FreeIPA
    `clients <Client>`__.
 
-.. _data_loss_cases:
+
 
 Data Loss Cases
 ===============

@@ -1,7 +1,7 @@
 There are 2 steps to getting `OKTA <https://www.okta.com/>`__ and
 FreeIPA to talk together.
 
-.. _the_agent:
+
 
 1.The Agent
 -----------
@@ -9,7 +9,7 @@ FreeIPA to talk together.
 Download the correct agent and install it on your FreeIPA Server. This
 is all well documented and supported within OKTA.
 
-.. _attribute_mapping:
+
 
 2. Attribute Mapping
 --------------------
@@ -17,7 +17,7 @@ is all well documented and supported within OKTA.
 All these steps are done withing Okta itself, see proposed mappings for
 *LDAP Configuration*.
 
-.. _ldap_version:
+
 
 LDAP Version
 ----------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ User
 -  Password Attribute - ``userpassword``
 -  Password Expiration Attribute - ``krbpasswordexpiration``
 
-.. _extra_user_attributes:
+
 
 Extra User Attributes
 ----------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ I'm not sure this actually is mapped correctly:
 -  Object Class - ``role``
 -  Member Attribute - ``member``
 
-.. _search_base:
+
 
 Search Base
 ----------------------------------------------------------------------------------------------

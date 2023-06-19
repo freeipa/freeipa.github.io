@@ -63,7 +63,7 @@ FreeIPA implementation of GC service will use following approach:
 Implementation
 ==============
 
-.. _gc_schema_mapping:
+
 
 GC schema mapping
 -----------------
@@ -129,7 +129,7 @@ mapped to those of 389-ds.
    1.2.840.11.3556.1.1.1.6 1.3.6.1.4.1.1466.115.121.1.5
    ======================= =============================
 
-.. _auxiliary_classes:
+
 
 Auxiliary classes
 -----------------
@@ -140,7 +140,7 @@ support mechanism to specify multiple superior classes in the schema. In
 result, we need to explicitly add these classes to the objects of a
 specific objectClass type on creation.
 
-.. _tree_structure_correctness:
+
 
 Tree structure correctness
 --------------------------

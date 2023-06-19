@@ -52,7 +52,7 @@ user-visible changes associated with this effort.
 Design
 ======
 
-.. _overview_of_dogtag_external_authentication_support:
+
 
 Overview of Dogtag external authentication support
 --------------------------------------------------
@@ -62,7 +62,7 @@ Design page: http://pki.fedoraproject.org/wiki/GSS-API_authentication
 The most important changes that affect FreeIPA are discussed in the
 following subsections.
 
-.. _freeipa_must_manage_dogtag_acls_that_refer_to_freeipa_entities:
+
 
 FreeIPA must manage Dogtag ACLs that refer to FreeIPA entities
 ----------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ rather than "internal" Dogtag users and groups.
 Technical details about these ACLs and management thereof are provided
 later in this document.
 
-.. _freeipa_must_configure_dogtag_to_perform_cert_request_validation_and_authorisation:
+
 
 FreeIPA must configure Dogtag to perform cert request validation and authorisation
 ----------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ that will check CA ACLs and validate the CSR. FreeIPA must add the
 Technical details about the validation program and profile configuration
 are provided later.
 
-.. _migration_considerations:
+
 
 Migration considerations
 ------------------------
@@ -153,7 +153,7 @@ authentication for certificate requests, or even upgrade profile
 configurations**. Upgrading the profiles must be deferred until there
 are no old servers in the topology.
 
-.. _domain_level_2:
+
 
 Domain Level 2
 ----------------------------------------------------------------------------------------------
@@ -199,7 +199,7 @@ After setting domain level = 2:
 New installations (which will automatically be in DL 2) will no longer
 create the RA Agent account or certificates.
 
-.. _server_configuration_changes:
+
 
 Server configuration changes
 ----------------------------
@@ -279,7 +279,7 @@ This imposes a burden on the client: it must provide the query string if
 it wishes to use SPNEGO authentication. This is not a problem because
 the only client of significance is the IPA framework, which we control.
 
-.. _client_certificate:
+
 
 Client certificate
 ^^^^^^^^^^^^^^^^^^
@@ -289,7 +289,7 @@ The ``NSSVerifyClient require`` directive shall be relaxed to
 authentication can be used for affected resources. Codepaths that are
 configured to present a certificate will still do so.
 
-.. _pki_tomcatd:
+
 
 ``pki-tomcatd``
 ----------------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ Directives to be added:
    authz.instance.IPAAuthz.searchBase=cn=IPA,cn=aclResources
    authz.instance.IPAAuthz.realm=${ACTUAL_REALM}
 
-.. _dogtag_acl_management:
+
 
 Dogtag ACL management
 ---------------------
@@ -345,14 +345,14 @@ management) during installation and upgrade.
 
 **TODO**: detail the various operations and provide example ACLs.
 
-.. _adding_externalprocessconstraint_to_profile_configurations:
+
 
 Adding ``ExternalProcessConstraint`` to profile configurations
 --------------------------------------------------------------
 
 **TODO** describe when and how this will occur
 
-.. _the_ipa_pki_validate_cert_request_program:
+
 
 The ``ipa-pki-validate-cert-request`` program
 ---------------------------------------------
@@ -388,7 +388,7 @@ output, exit status, etc, is yet to be finalised.
 Implementation
 ==============
 
-.. _dogtag_client_credential_cache:
+
 
 Dogtag client credential cache
 ------------------------------

@@ -30,7 +30,7 @@ Use Cases
 List of all DNS operation that are done by FreeIPA and have effect to
 BIND:
 
-.. _synchronization_of_dns_records:
+
 
 Synchronization of DNS records
 ----------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ Synchronization of DNS records
 -  creating reverse records from A records (*dnszone-mod
    --allow-sync-ptr=BOOL; dnsconfig-mod --allow-sync-ptr=BOOL*)
 
-.. _managing_master_zones:
+
 
 Managing master zones
 ----------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ Managing master zones
 -  enabling DNSSEC inline signing per zone (*dnszone-mod --dnssec=BOOL*)
 -  setting NSEC3PARAM record (*dnszone-mod --nsec3param-rec=STR*)
 
-.. _managing_forward_zones:
+
 
 Managing forward zones
 ----------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ Managing forward zones
 -  set forwarders (*dnsforwardzone-mod --forwarder=STR*)
 -  set forward-policy (*dnsforwardzone-mod --forward-policy=ENUM*)
 
-.. _bind_configuration_global_and_per_dns_server:
+
 
 BIND configuration (global and per DNS server)
 ----------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ BIND configuration (global and per DNS server)
 -  set global forward policy (*dnsconfig-mod --forward-policy=ENUM*)
 -  set global forwarders (*dnsconfig-mod --forwarder=STR*)
 
-.. _bind_configuration_per_server:
+
 
 BIND configuration (per server)
 ----------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ BIND configuration (per server)
 -  SOA mname (authoritative server) override (*dnsserver-mod
    --soa-mname-override=DNSNAME*)
 
-.. _ipa_dns_locations:
+
 
 IPA DNS Locations
 ----------------------------------------------------------------------------------------------

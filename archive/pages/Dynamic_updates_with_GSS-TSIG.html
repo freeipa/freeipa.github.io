@@ -48,13 +48,13 @@ FreeIPA.</p>
 </div>
 </section>
 <section id="configuring-the-name-server">
-<span id="id1"></span><h1>Configuring the name server<a class="headerlink" href="#configuring-the-name-server" title="Permalink to this heading">¶</a></h1>
+<h1>Configuring the name server<a class="headerlink" href="#configuring-the-name-server" title="Permalink to this heading">¶</a></h1>
 <p>FreeIPA configures DNS server for you (on the same machine as FreeIPA
 replica). You can safely skip step “Configuring GSS-TSIG” if you ran
 command <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span> <span class="pre">--setup-dns</span></code> or <code class="docutils literal notranslate"><span class="pre">ipa-dns-setup</span></code>.</p>
 </section>
 <section id="configuring-gss-tsig">
-<span id="id2"></span><h1>Configuring GSS-TSIG<a class="headerlink" href="#configuring-gss-tsig" title="Permalink to this heading">¶</a></h1>
+<h1>Configuring GSS-TSIG<a class="headerlink" href="#configuring-gss-tsig" title="Permalink to this heading">¶</a></h1>
 <p>First, we have to configure the BIND on our DNS server to use GSS-TSIG
 for authenticating dynamic updates:</p>
 <p><code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code> must contain this:</p>
@@ -87,12 +87,12 @@ is not done, BIND older than 9.8.0 will not start and will exit with
 very misleading error messages.</p>
 <p>Next we must add the DNS service principal and acquire the keytab. We’ll
 also add the host service for our client.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># kinit admin</span></code></div>
-<div class="line"><a href="#id3"><span class="problematic" id="id4">``</span></a>Password for <a class="reference external" href="mailto:admin&#37;&#52;&#48;EXAMPLE&#46;COM">admin<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>: ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-addservice DNS/dns.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Keytab successfully retrieved and stored in: /etc/named.keytab</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# kinit admin``
+| ``Password for admin@EXAMPLE.COM: ``
+| ``# ipa-addservice DNS/dns.example.com``
+| ``# ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab``
+| ``Keytab successfully retrieved and stored in: /etc/named.keytab``
+</pre></div>
 </div>
 <p>Note: Set appropriate file permissions for file <code class="docutils literal notranslate"><span class="pre">/etc/named.keytab</span></code>.
 This file is usually owned by user <code class="docutils literal notranslate"><span class="pre">named</span></code> with mode <code class="docutils literal notranslate"><span class="pre">400</span></code> on RHEL
@@ -105,7 +105,7 @@ and Fedora systems.</p>
 </div>
 </section>
 <section id="dynamic-update-policy">
-<span id="id5"></span><h1>Dynamic update policy<a class="headerlink" href="#dynamic-update-policy" title="Permalink to this heading">¶</a></h1>
+<h1>Dynamic update policy<a class="headerlink" href="#dynamic-update-policy" title="Permalink to this heading">¶</a></h1>
 <p>As a next step, configure <a class="reference external" href="http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies">dynamic update
 policies</a>
 according to your requirements.</p>
@@ -146,17 +146,17 @@ IP address matches updated name (in reverse tree).</p>
 </div>
 </section>
 <section id="configuring-the-client">
-<span id="id6"></span><h1>Configuring the client<a class="headerlink" href="#configuring-the-client" title="Permalink to this heading">¶</a></h1>
+<h1>Configuring the client<a class="headerlink" href="#configuring-the-client" title="Permalink to this heading">¶</a></h1>
 <p>We will now get the keytab on the client and use it right away with
 kinit. (This step is not required if the client was enrolled by
 <code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code> script or host keytab is already in place for
 other reasons.)</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># kinit admin</span></code></div>
-<div class="line"><a href="#id7"><span class="problematic" id="id8">``</span></a>Password for <a class="reference external" href="mailto:admin&#37;&#52;&#48;EXAMPLE&#46;COM">admin<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>: ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-addservice host/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># kinit -k -t /etc/named.keytab host/client.example.com&#64;EXAMPLE.COM</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# kinit admin``
+| ``Password for admin@EXAMPLE.COM: ``
+| ``# ipa-addservice host/client.example.com``
+| ``# ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab``
+| ``# kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM``
+</pre></div>
 </div>
 <p>Notice that we aren’t required to type any password during <code class="docutils literal notranslate"><span class="pre">kinit</span></code>.
 All actions from now will be done under account

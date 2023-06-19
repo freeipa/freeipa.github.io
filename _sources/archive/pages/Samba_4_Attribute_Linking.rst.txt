@@ -11,7 +11,7 @@ DS provides Linked Attributes and Referential Integrity plugins which
 can be used to achieve the same goal. Samba provisioning tool should be
 modified to utilize these plugins.
 
-.. _attribute_linking:
+
 
 Attribute Linking
 =================
@@ -54,12 +54,12 @@ new entry:
    dn: CN=Administrator,CN=Users,DC=example,DC=com
    memberOf: CN=Enterprise Admins,CN=Users,DC=example,DC=com
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _openldap_configuration:
+
 
 OpenLDAP Configuration
 ----------------------
@@ -87,7 +87,7 @@ source4/setup/refint.conf:
    refint_modifiersName cn=samba-admin,cn=samba
    refint_attributes ${LINK_ATTRS}
 
-.. _provisioning_tool:
+
 
 Provisioning Tool
 -----------------
@@ -110,12 +110,12 @@ attribute linking in OpenLDAP:
            { "MEMBER_ATTR" : att ,
              "MEMBEROF_ATTR" : lnkattr[att] })
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
 
-.. _ds_configuration:
+
 
 DS Configuration
 ----------------
@@ -146,7 +146,7 @@ The Referential Integrity Plugin should be configured as follows:
 The attributes must have an equality index. See also `this
 page <Obsolete:Samba_4_Attribute_Indexing>`__.
 
-.. _provisioning_tool_1:
+
 
 Provisioning Tool
 -----------------
@@ -162,7 +162,7 @@ There is a minor issue in DS:
 -  `Use proper attribute names for plugin
    parameters <https://bugzilla.redhat.com/show_bug.cgi?id=527500>`__
 
-.. _samba_patches:
+
 
 Samba Patches
 =============

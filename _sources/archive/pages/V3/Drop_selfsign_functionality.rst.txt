@@ -20,7 +20,7 @@ Previously, IPA had a "self-signed" mode, where certificate management
 was done without pki-ca. This mode will be replaced by CA-less mode on
 upgrade.
 
-.. _use_cases115:
+
 
 Use Cases
 =========
@@ -56,7 +56,7 @@ The self-sign CAs were incapable of replication. With this change,
 replicas can be created given appropriate (possibly wildcard) server
 certificates.
 
-.. _manual_certificate_management:
+
 
 Manual certificate management
 =============================
@@ -67,19 +67,19 @@ no longer runs the commands manually is to provide flexibility for users
 that need it. If you want a simple solution, please use IPA's default
 Dogtag backend.
 
-.. _selfsign_ca_files:
+
 
 Selfsign CA files
 -----------------
 
-.. _nss_database:
+
 
 NSS database
 ----------------------------------------------------------------------------------------------
 
 The NSS database containing certs and keys is in ``/etc/httpd/alias``.
 
-.. _noise_file:
+
 
 Noise file
 ----------------------------------------------------------------------------------------------
@@ -91,14 +91,14 @@ with random data whenever you need it:
 
 Be sure to remove the file after it's used.
 
-.. _nss_database_password:
+
 
 NSS database password
 ----------------------------------------------------------------------------------------------
 
 The NSS database password is stored in ``/etc/httpd/alias/pwdfile.txt``.
 
-.. _serial_number:
+
 
 Serial number
 ----------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ Export the CA cert:
 
 ``   /usr/bin/pk12util -d /etc/httpd/alias -o /etc/httpd/alias/cacert.p12 -n "$REALM IPA CA" -w /etc/httpd/alias/pwdfile.txt -k /etc/httpd/alias/pwdfile.txt``
 
-.. _generating_a_certificate_request:
+
 
 Generating a certificate request
 --------------------------------
@@ -167,7 +167,7 @@ Example values:
 -  HOSTNAME=ipaserver.ipadomain.example.com
 -  CERTREQ_FILENAME=/tmp/service.csr
 
-.. _issuing_a_certificate:
+
 
 Issuing a certificate
 ---------------------
@@ -234,7 +234,7 @@ This will put a PEM-encoded certificate in $CERT_FILENAME.
 You may want to import the certificate into the DB, and track it; see
 below.
 
-.. _importing_issued_certificate_into_the_database:
+
 
 Importing issued certificate into the database
 ----------------------------------------------
@@ -249,7 +249,7 @@ Example values:
 -  CERT_DER_FILENAME=/tmp/service.der
 -  CERT_NICKNAME=Server-Cert
 
-.. _exporting_server_cert_into_pkcs12:
+
 
 Exporting server cert into PKCS#12
 ----------------------------------
@@ -266,7 +266,7 @@ Example values:
 The resulting file can be given to ``ipa-replica-prepare``, with
 contents of /etc/httpd/alias/pwdfile.txt as the password.
 
-.. _tracking_a_certificate_with_certmonger:
+
 
 Tracking a certificate with certmonger
 --------------------------------------
@@ -282,7 +282,7 @@ Implementation
 No additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

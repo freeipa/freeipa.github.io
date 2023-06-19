@@ -1,4 +1,4 @@
-.. _quick_start:
+
 
 Quick Start
 -----------
@@ -37,12 +37,12 @@ first execution of ipa-run-tests. It makes assumptions about the number
 of certificates issued. New certificates are issued as part of test
 execution which it is not expecting.
 
-.. _for_developers:
+
 
 For Developers
 --------------
 
-.. _fast_test:
+
 
 Fast test
 ~
@@ -73,7 +73,7 @@ run
 | ``$ ./autogen.sh``
 | ``$ make fastcheck``
 
-.. _full_test_run:
+
 
 Full test run
 ^^^^^^^^^^^^^
@@ -111,7 +111,7 @@ Note that some of the tests make certain assumptions about the data on
 the server. Some tests, for example, pull all entries and expect a
 certain number to be returned and may raise an error.
 
-.. _in_tree_testing:
+
 
 In-tree testing
 ----------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ You can copy this from /etc/ipa/default.conf.
 | ``$ cp /etc/ipa/default.conf ~/.ipa/``
 | ``$ cp /etc/ipa/ca.crt ~/.ipa/``
 
-.. _run_the_tests:
+
 
 Run the tests
 '''''''''''''
@@ -147,7 +147,7 @@ Run the tests
 | ``$ kinit admin``
 | ``$ PYTHONPATH=. python3 ipatests/ipa-run-tests``
 
-.. _optional_tests:
+
 
 Optional tests
 ''''''''''''''
@@ -162,7 +162,7 @@ Optional tests
 -  To test the ldap updater you need to store password for Directory
    Managed to ~/.ipa/.dmpw file.
 
-.. _lite_server:
+
 
 Lite server
 ----------------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ The lite-server is a lightweight WSGI server that can be used to
 simplify web framework debugging in the source tree. Lite server info
 can be found `here <http://www.freeipa.org/page/Testing/Lite_server>`__.
 
-.. _remote_testing:
+
 
 Remote testing
 --------------
@@ -205,7 +205,7 @@ Finally you need to retrieve the CA from the IPA master and put it into
 Now you should be good-to-go to run the XML-RPC tests against a remote
 server.
 
-.. _web_ui_testing:
+
 
 Web UI testing
 --------------
@@ -213,7 +213,7 @@ Web UI testing
 Web UI testing is covered by `unit tests <FreeIPAv2:UI_Unit_Tests>`__
 and `integration tests <Web_UI_Integration_Tests>`__.
 
-.. _integration_tests:
+
 
 Integration tests
 -----------------
@@ -221,7 +221,7 @@ Integration tests
 Integration tests test IPA installations in multiple configurations
 across potentially multiple virtual machines.
 
-.. _install_1:
+
 
 Install
 ----------------------------------------------------------------------------------------------
@@ -253,7 +253,7 @@ can be done in two ways:
 -  `environment
    variables <Integration_testing_configuration#Setting_Environment_Variables>`__
 
-.. _run_tests:
+
 
 Run tests
 ----------------------------------------------------------------------------------------------

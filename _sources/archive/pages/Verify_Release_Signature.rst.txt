@@ -1,4 +1,4 @@
-.. _signing_keys:
+
 
 Signing keys
 ------------
@@ -12,7 +12,7 @@ Release tarballs are signed by our FreeIPA Master Signing Key.
 Note: releases prior to 2017-11-29 were signed by following key:
 4A8BA48C2AED933BD495C509A1FBA5F7EF8C4869.
 
-.. _verifying_signature:
+
 
 Verifying signature
 -------------------

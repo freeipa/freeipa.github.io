@@ -51,7 +51,7 @@ optionally IPA can handle the login details afterwards.</p>
 workplace.</p>
 </section>
 <section id="ipa-sssd-configuration">
-<span id="ipasssd-configuration"></span><h1>IPA/SSSD Configuration<a class="headerlink" href="#ipa-sssd-configuration" title="Permalink to this heading">¶</a></h1>
+<h1>IPA/SSSD Configuration<a class="headerlink" href="#ipa-sssd-configuration" title="Permalink to this heading">¶</a></h1>
 <p>SSSD does not need any special configuration however if:</p>
 <p>`` ipa-getcert list``</p>
 <p>shows any errors such as CA_UNREACHABLE when there are multiple replicas
@@ -62,14 +62,14 @@ the server is accepting requests against the IPA topology and kerberos
 tickets are being generated before continuing.</p>
 </section>
 <section id="apache-configuration">
-<span id="id1"></span><h1>Apache Configuration<a class="headerlink" href="#apache-configuration" title="Permalink to this heading">¶</a></h1>
+<h1>Apache Configuration<a class="headerlink" href="#apache-configuration" title="Permalink to this heading">¶</a></h1>
 <p>There are several parts to this. Initially the default host will be
 configured to ensure there are no basic issues before adding the
 complexity of SNI. This guide assumes selinux is enforcing with the
 default targeted type in RHEL6.</p>
 </section>
 <section id="default-ssl-apache-config">
-<span id="id2"></span><h1>Default SSL apache config<a class="headerlink" href="#default-ssl-apache-config" title="Permalink to this heading">¶</a></h1>
+<h1>Default SSL apache config<a class="headerlink" href="#default-ssl-apache-config" title="Permalink to this heading">¶</a></h1>
 <p>Before carrying out configuration of the web server on a system with
 ipa-admintools:</p>
 <p>`` ipa service-add HTTP/``</p>
@@ -128,7 +128,7 @@ IPA server and with the certificate requested being served. If there are
 any problems here then backtrack and amend before proceeding.</p>
 </section>
 <section id="adding-namebased-virtual-sites-with-ssl">
-<span id="id3"></span><h1>Adding NameBased Virtual Sites with SSL<a class="headerlink" href="#adding-namebased-virtual-sites-with-ssl" title="Permalink to this heading">¶</a></h1>
+<h1>Adding NameBased Virtual Sites with SSL<a class="headerlink" href="#adding-namebased-virtual-sites-with-ssl" title="Permalink to this heading">¶</a></h1>
 <p>To allow IPA to handle the certificates there’s some work that needs to
 be carried out in the IPA topology before the web server is further
 configured.</p>
@@ -165,9 +165,9 @@ apache.</p>
 itself can be configured for it.</p>
 <p>Configure Apache to use name based virtual hosts on port 443 (in
 addition to the standard 80):</p>
-<div class="line-block">
-<div class="line">`` NameVirtualHost <a href="#id4"><span class="problematic" id="id5">*</span></a>:80``</div>
-<div class="line">`` NameVirtualHost <a href="#id6"><span class="problematic" id="id7">*</span></a>:443``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| `` NameVirtualHost *:80``
+| `` NameVirtualHost *:443``
+</pre></div>
 </div>
 <p>Optionally add a redirect from non-SSL to SSL if you want it as a
 requirement:</p>
@@ -216,7 +216,7 @@ the certificates.</p>
 server as required.</p>
 </section>
 <section id="adding-kerberos-authentication-to-the-sites">
-<span id="id8"></span><h1>Adding kerberos authentication to the sites<a class="headerlink" href="#adding-kerberos-authentication-to-the-sites" title="Permalink to this heading">¶</a></h1>
+<h1>Adding kerberos authentication to the sites<a class="headerlink" href="#adding-kerberos-authentication-to-the-sites" title="Permalink to this heading">¶</a></h1>
 <p>With the sites having communication to the clients encrypted with SSL
 authentication can then be added. This authentication can be added
 without SSL but be aware that if fallback is enabled in mod_auth_kerb
@@ -234,9 +234,13 @@ httpd_config_t type (default for anything in /etc/httpd/) but only the
 contents has the httpd_keytabs_t type.</p>
 <p>The default keytab for the host (for any ‘default’ site requests) can be
 obtained via:</p>
-<p>`` ipa-getkeytab -s <a href="#id9"><span class="problematic" id="id10">``</span></a>:literal:` -p HTTP/<cite>uname -n</cite> -k /etc/httpd/keytabs/default`</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
+</pre></div>
+</div>
 <p>To get a site specific keytab use:</p>
-<p>`` ipa-getkeytab -s <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
+</pre></div>
+</div>
 <p>Although segregation of keytabs isn’t necessarily required (all hosts
 could use the default keytab in principle) separation allows for fine
 grained controls later on when integrating with other systems.</p>

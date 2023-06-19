@@ -1,4 +1,4 @@
-.. _overview_2732:
+
 
 Overview (`#2732 <https://fedorahosted.org/freeipa/ticket/2732>`__)
 -------------------------------------------------------------------
@@ -10,7 +10,7 @@ output and only one warning can be displayed at a time.
 Provide a mechanism for displaying arbitrary number of warnings and
 other messages on clients along with the normal command output.
 
-.. _additional_considersations:
+
 
 Additional considersations
 ----------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ severity for their type. Debug messages will not be shown unless
 The Web UI will display warnings and above in a modal message box. In
 the future, another notification mechanism may be added.
 
-.. _use_cases10f:
+
 
 Use Cases
 ---------
@@ -110,7 +110,7 @@ will be equivalent to:
 | ``   if client_has_capability(version, 'messages'):``
 | ``       result.setdefault('messages', []).append(BadIdeaWarning())``
 
-.. _rfe_authors:
+
 
 RFE authors
 -----------

@@ -45,7 +45,7 @@ Parameters:
    "big-endian"
 -  dnaBitLength: integer. Default: 8
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
@@ -72,7 +72,7 @@ Definitions
        int bitLength;
    }
 
-.. _parsing_configuration:
+
 
 Parsing Configuration
 ---------------------
@@ -103,7 +103,7 @@ dna_parse_config_entry():
 
    entry->bitLength = slapi_entry_attr_get_int(e, DNA_BIT_LENGTH);
 
-.. _finding_first_free_value:
+
 
 Finding First Free Value
 ------------------------

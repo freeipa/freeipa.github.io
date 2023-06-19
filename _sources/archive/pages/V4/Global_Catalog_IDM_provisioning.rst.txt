@@ -24,7 +24,7 @@ Catalog needs.
 This document describes the provisioning from *primary* instance and the
 transformation of entries on the *AD* instance.
 
-.. _use_case:
+
 
 Use Case
 --------
@@ -64,12 +64,12 @@ dedicated client thread, that will run **RefreshandPersist** mode (see
 `RefreshAndPersist <https://tools.ietf.org/html/rfc4533#page-16>`__)
 with or without cookie.
 
-.. _content_synchronization_protocol_elements:
+
 
 Content synchronization protocol elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _sync_request_control:
+
 
 Sync Request Control
 ''''''''''''''''''''
@@ -88,7 +88,7 @@ synchronization
 | ``         reloadHint BOOLEAN DEFAULT FALSE``
 | ``     }``
 
-.. _sync_info_message:
+
 
 Sync Info Message
 '''''''''''''''''
@@ -118,7 +118,7 @@ In persist stage, when multiple entries are deleted, it uses several
 sync info messages with **refreshDeletes=TRUE** and the set of syncUUIDs
 deleted.
 
-.. _sync_state_control:
+
 
 Sync state control
 ''''''''''''''''''
@@ -143,7 +143,7 @@ For *MOD/MODDN* entry, state is **modify**. For *DEL* entry, state is
 Note: in this implementation we assume we will not receive
 SearchResultReference message.
 
-.. _refresh_stage:
+
 
 Refresh stage
 ^^^^^^^^^^^^^
@@ -170,7 +170,7 @@ enters in a **Present** phase sending all entries that have been
 added/modified/moddn since the cookie timestamp. They are send with
 LDAP_RES_SEARCH_ENTRY msg with sync control.
 
-.. _persistant_stage:
+
 
 Persistant stage
 ^^^^^^^^^^^^^^^^

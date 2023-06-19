@@ -47,7 +47,7 @@ based authentication internal workflow also changes slightly but it is
 substantially the same as the Negotiate workflow so it won't be
 explicitly covered.
 
-.. _external_authentication_workflow:
+
 
 External Authentication workflow
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -64,7 +64,7 @@ External Authentication workflow
    the Apache user and the 'ipaapi' user used to run the framework.
 #. The workflow proceeds with step X described later.
 
-.. _negotiate_authentication_with_kerberos_credentials_workflow:
+
 
 Negotiate authentication with kerberos credentials workflow
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -77,7 +77,7 @@ Negotiate authentication with kerberos credentials workflow
    the Apache user and the 'ipaapi' user used to run the framework.
 #. The wrokflow proceeds with step X described later.
 
-.. _applications_operations:
+
 
 Applications operations
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -89,7 +89,7 @@ Applications operations
    the actual s4u2proxy operation as well as the context establishment
    operation between HTTP and LDAP.
 
-.. _main_changes:
+
 
 Main Changes
 ----------------------------------------------------------------------------------------------
@@ -196,7 +196,7 @@ implementation or review phase. This can be also link to `source in
 cgit <https://git.fedorahosted.org/cgit/freeipa.git/>`__ with the test,
 if appropriate.
 
-.. _external_links:
+
 
 External links
 --------------

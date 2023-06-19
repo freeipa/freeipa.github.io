@@ -3,7 +3,7 @@ Overview
 
 This page contains a list of bugs encountered during the development.
 
-.. _samba_bugs:
+
 
 Samba Bugs
 ==========

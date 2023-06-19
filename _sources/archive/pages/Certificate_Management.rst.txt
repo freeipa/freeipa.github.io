@@ -12,7 +12,7 @@ will be using kerberos keytab to authenticate to IPA server.
 Overview
 ========
 
-.. _certificate_management_interfaces:
+
 
 Certificate Management Interfaces
 ---------------------------------
@@ -146,7 +146,7 @@ the certificates issued to a given host.
 -  Get a new certificate. There should be a way to request a certificate
    for host (or service) from the UI and command line.
 
-.. _access_control:
+
 
 Access Control
 --------------
@@ -161,7 +161,7 @@ would be able to perform any of the certificate related operations. The
 name of the group will default to "administrators" but would be
 changeable in a specific configuration entry (see below).
 
-.. _actual_operations:
+
 
 Actual Operations
 -----------------
@@ -179,7 +179,7 @@ and then immediately retrieve the certificate. If might require some
 polling logic to make sure that we do not time out a bit prematurely if
 it took a bit longer for CA to issue a certificate.
 
-.. _automatic_cert_provisioning:
+
 
 Automatic Cert Provisioning
 ---------------------------
@@ -211,7 +211,7 @@ Automatic Cert Provisioning
   case of a bug or some misconfiguration it can have unrepairable impact
   on the customer environment.
 
-.. _ipa_client_design:
+
 
 IPA Client Design
 ----------------------------------------------------------------------------------------------
@@ -300,7 +300,7 @@ following main points should be assumed and not changed:
    decide that it would be beneficial to access this data through data
    provider.
 
-.. _server_policy_about_clients:
+
 
 Server Policy about Clients
 ----------------------------------------------------------------------------------------------
@@ -328,7 +328,7 @@ renew a certificate. In IPA v2 there will be 3 supported values.
 
 The list of the values can be later extended if needed.
 
-.. _command_line_utility:
+
 
 Command Line Utility
 ----------------------------------------------------------------------------------------------
@@ -413,7 +413,7 @@ The status commend will list the contents of the cert data in the LDB.
      --requests  List only information about outstanding requests
      --tracking  List only information about tracked certificates
 
-.. _data_stored_in_ldb:
+
 
 Data Stored in LDB
 ----------------------------------------------------------------------------------------------
@@ -449,12 +449,12 @@ The data stored in the LDB will look like this:
 The policy downloader will look at the data taken from these LDB entries
 and take appropriate action.
 
-.. _implementation_details:
+
 
 Implementation Details
 ======================
 
-.. _proposed_administrative_interfaces:
+
 
 Proposed Administrative Interfaces
 ----------------------------------
@@ -464,39 +464,41 @@ lacking details. For example the certificate request should contain
 information whether we are requesting the certificate for the service or
 for the host itself.
 
-| ``   ./ipa request-certificate [--ca=``\ ``] [--request_type=``\ ``] ``
-| ``   where``
-| ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-| ``       ``\ ``      'pkcs10' is a default request type supported by default CA plugin``
-| ``       ``\ ``           certificate request``
-| ``   returning               error_code, error_message, issued_certificate``
-| ``  ``
-| ``   ./ipa revoke-certificate [--ca=``\ ``] [--reason=``\ ``] ``
-| ``   where``
-| ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-| ``       ``\ ``     certificate serial number of the certificate to be revoked``
-| ``       ``\ `` certificate revocation reason``
-| ``   returning               error_code, error_message``
-| ``  ``
-| ``   ./ipa take-certificate-off-hold [--ca=``\ ``]  ``
-| ``   where``
-| ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-| ``       ``\ ``     certificate serial number of the certificate to be taken off hold``
-| ``   returning               error_code, error_message``
-| ``  ``
-| ``   ./ipa check_request_status [--ca=``\ ``] ``
-| ``   where``
-| ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-| ``       ``\ ``        is request id of the request to be verified``
-| ``   returning               error_code, error_message, certificate_serial_number``
-| ``  ``
-| ``   ./ipa get-certificate [--ca=``\ ``] ``
-| ``   where``
-| ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-| ``       ``\ ``     certificate serial number (of previously generated certificate) to be retrieved``
-| ``   returning               error_code, error_message, issued_certificate``
+::
 
-.. _multiple_ca_support:
+   | ``   ./ipa request-certificate [--ca=``\ ``] [--request_type=``\ ``] ``
+   | ``   where``
+   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
+   | ``       ``\ ``      'pkcs10' is a default request type supported by default CA plugin``
+   | ``       ``\ ``           certificate request``
+   | ``   returning               error_code, error_message, issued_certificate``
+   | ``  ``
+   | ``   ./ipa revoke-certificate [--ca=``\ ``] [--reason=``\ ``] ``
+   | ``   where``
+   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
+   | ``       ``\ ``     certificate serial number of the certificate to be revoked``
+   | ``       ``\ `` certificate revocation reason``
+   | ``   returning               error_code, error_message``
+   | ``  ``
+   | ``   ./ipa take-certificate-off-hold [--ca=``\ ``]  ``
+   | ``   where``
+   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
+   | ``       ``\ ``     certificate serial number of the certificate to be taken off hold``
+   | ``   returning               error_code, error_message``
+   | ``  ``
+   | ``   ./ipa check_request_status [--ca=``\ ``] ``
+   | ``   where``
+   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
+   | ``       ``\ ``        is request id of the request to be verified``
+   | ``   returning               error_code, error_message, certificate_serial_number``
+   | ``  ``
+   | ``   ./ipa get-certificate [--ca=``\ ``] ``
+   | ``   where``
+   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
+   | ``       ``\ ``     certificate serial number (of previously generated certificate) to be retrieved``
+   | ``   returning               error_code, error_message, issued_certificate``
+
+
 
 Multiple CA Support
 -------------------
@@ -536,7 +538,7 @@ the service a certificate is requested for.
 | ``           # . . .``
 | ``           return (error_code, error_message, issued_certificate)``
 
-.. _configuration_entry:
+
 
 Configuration Entry
 -------------------
@@ -575,7 +577,7 @@ Object class will look like this:
 | ``   MAY (member $ hostCApolicy) ``
 | ``   X-ORIGIN 'IPA v2' )``
 
-.. _additional_research:
+
 
 Additional Research
 ===================

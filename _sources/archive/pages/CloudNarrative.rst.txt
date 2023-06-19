@@ -31,7 +31,7 @@ has set up an account with the Cloud provider. The Zappa account has two
 users associated with it: nzappa and the contractor. This authentication
 is done against the Cloud Providers Authentication Database.
 
-.. _initial_setup:
+
 
 Initial Setup
 ----------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ own infrastructure. Because the web applications are run on shared
 servers, they are responsive. If the overall load increases, the Cloud
 provider can scale up by allocating more virtual machines.
 
-.. _contractor_with_multiple_clients:
+
 
 Contractor with multiple Clients
 ----------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ addition, the web services firm is itself a client of the cloud
 provider, with systems that are somewhat comparable to those that they
 are setting up for Zappas.
 
-.. _initial_growth:
+
 
 Initial Growth
 --------------
@@ -73,7 +73,7 @@ authenticating people outside of her company. These are two fairly
 different directions. They can happen in either order. Lets look at the
 external issue first.
 
-.. _external_identity_management:
+
 
 External Identity Management
 ----------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ another. However, all of them support external authentication. She
 decides to extract the IdM out into a dedicated system in order to
 federate her customer focused applications more easily.
 
-.. _internal_identity_management:
+
 
 Internal Identity Management
 ----------------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ certainly one of the actions she will want to delegate to the CTO, who
 will later delegate it to the Operations Manager when Zappa's Imports
 grows to the size to hire one.
 
-.. _avoiding_lock_in:
+
 
 Avoiding Lock In
 ----------------------------------------------------------------------------------------------
@@ -240,7 +240,7 @@ countries. The full time Human Resources manager has contracted to a
 small number of staffing firms for filling the variations the yearly
 cycle.
 
-.. _techno_mix:
+
 
 Techno Mix
 ----------------------------------------------------------------------------------------------
@@ -261,7 +261,7 @@ significant. Auditing the systems becomes a requirement for legal and
 financial reasons. Different portions of Zappa's have different budgets,
 and pay for the usage of the cloud out of separate accounts.
 
-.. _authentication_tokens:
+
 
 Authentication Tokens
 ----------------------------------------------------------------------------------------------

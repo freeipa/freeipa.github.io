@@ -40,7 +40,7 @@ of 4.4 release. Each individual topic should have its own use cases,
 design, implementation and feature management section.</p>
 </section>
 <section id="slow-user-add">
-<span id="id1"></span><h1>Slow user-add<a class="headerlink" href="#slow-user-add" title="Permalink to this heading">¶</a></h1>
+<h1>Slow user-add<a class="headerlink" href="#slow-user-add" title="Permalink to this heading">¶</a></h1>
 <p>Adding of higher number of users is slowing with the numbers of users
 added.</p>
 <p>Related ticket(s):
@@ -75,7 +75,7 @@ operational. Some controls can be skipped or updates (like group
 membership) can be postponed to the end of the provisioning. RFE should
 be created for these improvements.</p>
 <section id="performance-slow-down-of-clis">
-<span id="id2"></span><h2>Performance slow down of CLIs<a class="headerlink" href="#performance-slow-down-of-clis" title="Permalink to this heading">¶</a></h2>
+<h2>Performance slow down of CLIs<a class="headerlink" href="#performance-slow-down-of-clis" title="Permalink to this heading">¶</a></h2>
 <p>There is slight difference between CLIs like <em>user-add</em>, <em>user-activate</em>
 or <em>user-undelete</em> but regarding the performance they are all doing
 similar phases:</p>
@@ -111,23 +111,24 @@ mechanism and then being bound with the entry mapping the kerberos
 principal. GSSAPI Kerberos authentication is also using LDAP server so
 the complete authentication is looking like (note the delay between the
 connection open and the BIND:</p>
-<p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:</span></code><strong>``14:35:24``</strong>`` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:</span></code><strong>``14:35:27``</strong>`` +0100] conn=86 op=0 BIND dn=”” method=sasl version=3 mech=GSSAPI``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn=&quot;uid=admin,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span></code></div>
-<div class="line"><a href="#id3"><span class="problematic" id="id4">``</span></a>…. ``</div>
-<div class="line"><a href="#id5"><span class="problematic" id="id6">``</span></a>…. ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;MOD(s) to add the users into the related groups&gt;</span></code></div>
-<div class="line"><a href="#id7"><span class="problematic" id="id8">``</span></a>…. ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+
+| ``[11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
+| ``...``
+| ``[11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
+| ``[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
+| ``[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
+| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
+| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
+| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
+| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn=&quot;uid=admin,cn=users,cn=accounts,``\ ``&quot;``
+| ``.... ``
+| ``.... ``
+| ``&lt;MOD(s) to add the users into the related groups&gt;``
+| ``.... ``
+</pre></div>
 </div>
-<p id="kerberos-authentication-cost">kerberos authentication cost</p>
+<p>kerberos authentication cost</p>
 <p>The reason of the duration (3s in above example) taken by kerberos
 authentication is that kerberos is doing several LDAP lookup and some of
 them are quite expensive:</p>
@@ -175,7 +176,7 @@ requests coming <em>ldapi/root</em>.</p></li>
 fixing <strong>schema compat</strong> because it is an easy fix. 389-ds server,
 <em>assuming</em> that a local agent (<em>ldapi</em> interface) bound as <em>root</em> (like
 kerberos) is not interested by the schema compat mapped entries.</p>
-<p id="ldap-bind-cost">ldap bind cost</p>
+<p>ldap bind cost</p>
 <p>The ldap BIND itself is not expensive. In the above example, it lasts
 around 0.012s that is not significant (0.1%) regarding the complete
 user-add duration (take a base time of 10s). Looking at the top
@@ -184,7 +185,7 @@ top consumer.</p>
 <p>For this reason we did not do specific improvement on LDAP BIND</p>
 </section>
 <section id="control-and-ldap-searches">
-<span id="id9"></span><h3>Control and LDAP searches<a class="headerlink" href="#control-and-ldap-searches" title="Permalink to this heading">¶</a></h3>
+<h3>Control and LDAP searches<a class="headerlink" href="#control-and-ldap-searches" title="Permalink to this heading">¶</a></h3>
 <p>Adding a freeipa user mainly consist in add user entry and update the
 group(s) the user entry belongs to. Before and after each of those two
 steps, there are several LDAP searchs like: reading the config
@@ -209,7 +210,7 @@ only one lookup of ipaconfig is done.</p>
 </div>
 </section>
 <section id="add-user">
-<span id="id10"></span><h3>Add user<a class="headerlink" href="#add-user" title="Permalink to this heading">¶</a></h3>
+<h3>Add user<a class="headerlink" href="#add-user" title="Permalink to this heading">¶</a></h3>
 <p>The add of the user account is looking like</p>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">[05/Apr/2016:13:57:31 +0200] conn=75540 op=13 ADD dn=&quot;uid=tb51420,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span></code></div>
@@ -249,7 +250,7 @@ operation), major gain (even for other use case). This is the one that
 was implement.</p>
 </section>
 <section id="update-of-the-group-membership">
-<span id="id11"></span><h3>Update of the group membership<a class="headerlink" href="#update-of-the-group-membership" title="Permalink to this heading">¶</a></h3>
+<h3>Update of the group membership<a class="headerlink" href="#update-of-the-group-membership" title="Permalink to this heading">¶</a></h3>
 <p>When a user is added it is by default added to the group
 ‘’cn=ipausers,cn=groups,cn=accounts,”. This updates last around 15% of
 the duration of the CLI.
@@ -284,28 +285,29 @@ operation), <strong>major gain</strong> (even for other use case). This is the o
 that was implemented.</p>
 </section>
 <section id="broken-schemacache">
-<span id="id12"></span><h3>broken SchemaCache<a class="headerlink" href="#broken-schemacache" title="Permalink to this heading">¶</a></h3>
+<h3>broken SchemaCache<a class="headerlink" href="#broken-schemacache" title="Permalink to this heading">¶</a></h3>
 <p>Due <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5787">#5787</a> every IPA
 command call downloads the LDAP schema first without any caching. It
 took 40-60% of time of user-add command without groups.</p>
-<p><code class="docutils literal notranslate"><span class="pre">Profiler output:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">170386 function calls (170213 primitive calls) in ``\</span> <span class="pre">**``0.680</span></code><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">``</span></a>seconds``**</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Ordered by: cumulative time</span></code></div>
-<div class="line">`` ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ncalls  tottime  percall  cumtime  percall filename:lineno(function)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)</span></code></div>
-<div class="line">``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``</div>
-<div class="line">``  1    0.000    0.000    <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``0.470``**\</span> <span class="pre">``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)</span></code></div>
-<div class="line">`` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Profiler output:``
+
+| ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
+| ``Ordered by: cumulative time``
+| `` ``
+| ``ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
+| ``...``
+| ``206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
+| ``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
+| ``  1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
+| `` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
+| ``...``
+</pre></div>
 </div>
 <p>This performance issue will be resolved by fixing
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5787">#5787</a>.</p>
 </section>
 <section id="option-noprivate-is-not-efficient">
-<span id="id19"></span><h3>option –noprivate is not efficient<a class="headerlink" href="#option-noprivate-is-not-efficient" title="Permalink to this heading">¶</a></h3>
+<h3>option –noprivate is not efficient<a class="headerlink" href="#option-noprivate-is-not-efficient" title="Permalink to this heading">¶</a></h3>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5788">#5788</a></p>
 <p>With option –noprivate postcallback of user_add command executes
@@ -313,7 +315,7 @@ user-mod command for simple value change. This is ineffective and
 internal ldap mod call should be executed.</p>
 </section>
 <section id="cli-framework">
-<span id="id20"></span><h3>CLI framework<a class="headerlink" href="#cli-framework" title="Permalink to this heading">¶</a></h3>
+<h3>CLI framework<a class="headerlink" href="#cli-framework" title="Permalink to this heading">¶</a></h3>
 <p>The following
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Directory_Server">implementation</a>
 drop the CLI duration from 10s to 3s. However, looking at the time spent
@@ -327,7 +329,7 @@ is to track this remaining part</p>
 <section id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
 <section id="user-add-cli">
-<span id="id21"></span><h2>User-add CLI<a class="headerlink" href="#user-add-cli" title="Permalink to this heading">¶</a></h2>
+<h2>User-add CLI<a class="headerlink" href="#user-add-cli" title="Permalink to this heading">¶</a></h2>
 <p>The improvement described in <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Control_and_LDAP_searches">Control and LDAP
 searches</a>
 was implemented since <strong>4.3.4</strong> with the ticket
@@ -335,7 +337,7 @@ was implemented since <strong>4.3.4</strong> with the ticket
 <a class="reference external" href="https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=7f0d018c66da1fe2adedd45aa9f5a63c913e4527">commit</a></p>
 </section>
 <section id="directory-server">
-<span id="id22"></span><h2>Directory Server<a class="headerlink" href="#directory-server" title="Permalink to this heading">¶</a></h2>
+<h2>Directory Server<a class="headerlink" href="#directory-server" title="Permalink to this heading">¶</a></h2>
 <p>The improvement seen in
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#authenticate">authenticate</a>
 was implemented in slapi-nis plugin.</p>
@@ -368,7 +370,7 @@ that file, where the perf improvement are</p>
 </section>
 </section>
 <section id="slow-user-find">
-<span id="id23"></span><h1>Slow user-find<a class="headerlink" href="#slow-user-find" title="Permalink to this heading">¶</a></h1>
+<h1>Slow user-find<a class="headerlink" href="#slow-user-find" title="Permalink to this heading">¶</a></h1>
 <p>High number of users stored in LDAP causes slowdown of the IPA command.</p>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5281">#5281</a>,
@@ -376,17 +378,17 @@ that file, where the perf improvement are</p>
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3376">#3376</a>,
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4995">#4995</a></p>
 </section>
-<section id="use-cases-1">
-<span id="id24"></span><h1>Use Cases<a class="headerlink" href="#use-cases-1" title="Permalink to this heading">¶</a></h1>
+<section id="id1">
+<h1>Use Cases<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic simple">
 <li><p>Increase the usability of user-find command because with many users
 searches in LDAP take too long and may result into timeout.</p></li>
 </ol>
 </section>
-<section id="design-1">
-<span id="id25"></span><h1>Design<a class="headerlink" href="#design-1" title="Permalink to this heading">¶</a></h1>
+<section id="id2">
+<h1>Design<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h1>
 <section id="don-t-do-extra-search-for-ipasshpubkey-attribute">
-<span id="dont-do-extra-search-for-ipasshpubkey-attribute"></span><h2>Don’t do extra search for ipasshpubkey attribute<a class="headerlink" href="#don-t-do-extra-search-for-ipasshpubkey-attribute" title="Permalink to this heading">¶</a></h2>
+<h2>Don’t do extra search for ipasshpubkey attribute<a class="headerlink" href="#don-t-do-extra-search-for-ipasshpubkey-attribute" title="Permalink to this heading">¶</a></h2>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3376">#3376</a>,
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5281">#5281</a></p>
@@ -425,7 +427,7 @@ downloaded separately</p>
 increase speed rapidly.</p>
 </section>
 <section id="remove-userpassword-krbprincipalkey-attributes-from-search-results">
-<span id="id26"></span><h2>Remove userPassword, krbPrincipalKey attributes from search results<a class="headerlink" href="#remove-userpassword-krbprincipalkey-attributes-from-search-results" title="Permalink to this heading">¶</a></h2>
+<h2>Remove userPassword, krbPrincipalKey attributes from search results<a class="headerlink" href="#remove-userpassword-krbprincipalkey-attributes-from-search-results" title="Permalink to this heading">¶</a></h2>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5281">#5281</a></p>
 <p><em>userPassword</em> and <em>krbPrincipalKey</em> attributes require extra search.
@@ -461,7 +463,7 @@ time.</p>
 compatible.</p>
 </section>
 <section id="processing-members">
-<span id="id27"></span><h2>processing members<a class="headerlink" href="#processing-members" title="Permalink to this heading">¶</a></h2>
+<h2>processing members<a class="headerlink" href="#processing-members" title="Permalink to this heading">¶</a></h2>
 <p>user-find does not process members (groups, roles, sudorules, hbacrules,
 …) by default.</p>
 <p>However with option –all</p>
@@ -475,20 +477,20 @@ memberships.</p>
 section</a></p>
 </section>
 </section>
-<section id="implementation-1">
-<span id="id28"></span><h1>Implementation<a class="headerlink" href="#implementation-1" title="Permalink to this heading">¶</a></h1>
+<section id="id3">
+<h1>Implementation<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h1>
 </section>
-<section id="feature-management-1">
-<span id="id29"></span><h1>Feature Management<a class="headerlink" href="#feature-management-1" title="Permalink to this heading">¶</a></h1>
-<section id="ui-1">
-<span id="id30"></span><h2>UI<a class="headerlink" href="#ui-1" title="Permalink to this heading">¶</a></h2>
+<section id="id4">
+<h1>Feature Management<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h1>
+<section id="id5">
+<h2>UI<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <p>WebUI is not affected, because it uses user-show heavily instead of
 user-find. From user find it requires only list of primary keys.</p>
 <p>user-find –pkey-only with 2000 users</p>
 <p><code class="docutils literal notranslate"><span class="pre">708478 function calls (694369 primitive calls) in 1.889 seconds</span></code></p>
 </section>
-<section id="cli-1">
-<span id="id31"></span><h2>CLI<a class="headerlink" href="#cli-1" title="Permalink to this heading">¶</a></h2>
+<section id="id6">
+<h2>CLI<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
@@ -500,31 +502,31 @@ user-find. From user find it requires only list of primary keys.</p>
 <p>N/A</p>
 </section>
 <section id="slow-host-find">
-<span id="id32"></span><h1>Slow host-find<a class="headerlink" href="#slow-host-find" title="Permalink to this heading">¶</a></h1>
+<h1>Slow host-find<a class="headerlink" href="#slow-host-find" title="Permalink to this heading">¶</a></h1>
 <p>High number of hosts stored in LDAP causes slowdown of the IPA command.</p>
 <p>Issue here are similar to user-find issues.</p>
 </section>
-<section id="use-cases-2">
-<span id="id33"></span><h1>Use Cases<a class="headerlink" href="#use-cases-2" title="Permalink to this heading">¶</a></h1>
+<section id="id7">
+<h1>Use Cases<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic simple">
 <li><p>Increase the usability of host-find command because with many host
 searches in LDAP take too long and may result into timeout.</p></li>
 </ol>
 </section>
-<section id="design-2">
-<span id="id34"></span><h1>Design<a class="headerlink" href="#design-2" title="Permalink to this heading">¶</a></h1>
-<section id="dont-do-extra-search-for-ipasshpubkey-attribute-1">
-<span id="id35"></span><h2>Don’t do extra search for ipasshpubkey attribute<a class="headerlink" href="#dont-do-extra-search-for-ipasshpubkey-attribute-1" title="Permalink to this heading">¶</a></h2>
+<section id="id8">
+<h1>Design<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h1>
+<section id="id9">
+<h2>Don’t do extra search for ipasshpubkey attribute<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h2>
 <p>See
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Slow_user-find">user-find</a></p>
 </section>
-<section id="remove-userpassword-krbprincipalkey-attributes-from-search-results-1">
-<span id="id36"></span><h2>Remove userPassword, krbPrincipalKey attributes from search results<a class="headerlink" href="#remove-userpassword-krbprincipalkey-attributes-from-search-results-1" title="Permalink to this heading">¶</a></h2>
+<section id="id10">
+<h2>Remove userPassword, krbPrincipalKey attributes from search results<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h2>
 <p>See
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Slow_user-find">user-find</a></p>
 </section>
-<section id="processing-members-1">
-<span id="id37"></span><h2>processing members<a class="headerlink" href="#processing-members-1" title="Permalink to this heading">¶</a></h2>
+<section id="id11">
+<h2>processing members<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa host-find</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: cannot connect to '</span></code><code class="docutils literal notranslate"><span class="pre">`https://ipa.example.com/ipa/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/json">https://ipa.example.com/ipa/json</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">': Gateway Timeout</span></code></div>
@@ -535,35 +537,35 @@ memberships.</p>
 section</a></p>
 </section>
 </section>
-<section id="implementation-2">
-<span id="id38"></span><h1>Implementation<a class="headerlink" href="#implementation-2" title="Permalink to this heading">¶</a></h1>
+<section id="id12">
+<h1>Implementation<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h1>
 </section>
-<section id="feature-management-2">
-<span id="id39"></span><h1>Feature Management<a class="headerlink" href="#feature-management-2" title="Permalink to this heading">¶</a></h1>
-<section id="ui-2">
-<span id="id40"></span><h2>UI<a class="headerlink" href="#ui-2" title="Permalink to this heading">¶</a></h2>
+<section id="id13">
+<h1>Feature Management<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h1>
+<section id="id14">
+<h2>UI<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="cli-2">
-<span id="id41"></span><h2>CLI<a class="headerlink" href="#cli-2" title="Permalink to this heading">¶</a></h2>
+<section id="id15">
+<h2>CLI<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="configuration-1">
-<span id="id42"></span><h2>Configuration<a class="headerlink" href="#configuration-1" title="Permalink to this heading">¶</a></h2>
+<section id="id16">
+<h2>Configuration<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h2>
 <p>N/A</p>
 </section>
 </section>
-<section id="upgrade-1">
-<span id="id43"></span><h1>Upgrade<a class="headerlink" href="#upgrade-1" title="Permalink to this heading">¶</a></h1>
+<section id="id17">
+<h1>Upgrade<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h1>
 <p>N/A</p>
 </section>
 <section id="improvements-of-other-commands">
-<span id="id44"></span><h1>Improvements of other commands<a class="headerlink" href="#improvements-of-other-commands" title="Permalink to this heading">¶</a></h1>
+<h1>Improvements of other commands<a class="headerlink" href="#improvements-of-other-commands" title="Permalink to this heading">¶</a></h1>
 <p>Side effects/benefits from user commands related changes to other IPA
 commands</p>
 </section>
 <section id="typical-provisioning-ldapadd-entries-migrate-ds">
-<span id="id45"></span><h1>typical provisioning: ldapadd entries, migrate-ds…<a class="headerlink" href="#typical-provisioning-ldapadd-entries-migrate-ds" title="Permalink to this heading">¶</a></h1>
+<h1>typical provisioning: ldapadd entries, migrate-ds…<a class="headerlink" href="#typical-provisioning-ldapadd-entries-migrate-ds" title="Permalink to this heading">¶</a></h1>
 <section id="use-case">
-<span id="id46"></span><h2>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h2>
+<h2>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>We are migrating (see <a class="reference external" href="http://www.freeipa.org/page/V4/FreeIPA_to_FreeIPA_Migration">this
 RFE</a>)
@@ -631,9 +633,9 @@ Backends From Plugin Operations</p></li>
 </ul>
 </section>
 <section id="provisioning-throughput-and-ds-tuning">
-<span id="id47"></span><h2>Provisioning throughput and DS tuning<a class="headerlink" href="#provisioning-throughput-and-ds-tuning" title="Permalink to this heading">¶</a></h2>
+<h2>Provisioning throughput and DS tuning<a class="headerlink" href="#provisioning-throughput-and-ds-tuning" title="Permalink to this heading">¶</a></h2>
 <section id="entry-cache-tuning">
-<span id="id48"></span><h3>Entry cache tuning<a class="headerlink" href="#entry-cache-tuning" title="Permalink to this heading">¶</a></h3>
+<h3>Entry cache tuning<a class="headerlink" href="#entry-cache-tuning" title="Permalink to this heading">¶</a></h3>
 <p>The following table shows the duration of import depending of the
 <strong>entry cache</strong> size (domain). Tests have been done with different size
 (10Mb, 50Mb, 100Mb) of <strong>db cache</strong>, it had almost no impact on the
@@ -682,7 +684,7 @@ much benefit</p></li>
 file system cache.</p>
 </section>
 <section id="database-cache-tuning">
-<span id="id49"></span><h3>database cache tuning<a class="headerlink" href="#database-cache-tuning" title="Permalink to this heading">¶</a></h3>
+<h3>database cache tuning<a class="headerlink" href="#database-cache-tuning" title="Permalink to this heading">¶</a></h3>
 <p>Tuning of this attribute usually requires some iterating tests. In fact
 having a large cache allows to cache more DB pages but can be a problem
 during checkpointing. On the other side, db pages are also file pages.
@@ -700,7 +702,7 @@ to save memory (for file system cache), it would be recommended to give
 the priority to entry cache</p>
 </section>
 <section id="database-locks">
-<span id="id50"></span><h3>database locks<a class="headerlink" href="#database-locks" title="Permalink to this heading">¶</a></h3>
+<h3>database locks<a class="headerlink" href="#database-locks" title="Permalink to this heading">¶</a></h3>
 <p>During tests it appears that the default number of database locks was
 too low. This can be monitored with</p>
 <div class="line-block">
@@ -714,9 +716,9 @@ too low. This can be monitored with</p>
 </section>
 </section>
 <section id="provisioning-throughput-and-ds-plugins">
-<span id="id51"></span><h2>Provisioning throughput and DS plugins<a class="headerlink" href="#provisioning-throughput-and-ds-plugins" title="Permalink to this heading">¶</a></h2>
+<h2>Provisioning throughput and DS plugins<a class="headerlink" href="#provisioning-throughput-and-ds-plugins" title="Permalink to this heading">¶</a></h2>
 <section id="small-db-10k-entries">
-<span id="id52"></span><h3>Small DB (10K entries)<a class="headerlink" href="#small-db-10k-entries" title="Permalink to this heading">¶</a></h3>
+<h3>Small DB (10K entries)<a class="headerlink" href="#small-db-10k-entries" title="Permalink to this heading">¶</a></h3>
 <p>The dataset is:</p>
 <ul class="simple">
 <li><p>5K users - each user is member of 10 users group</p></li>
@@ -755,12 +757,12 @@ Duration
 width:100px
 style=”
 text-align:
-center;”<a href="#id53"><span class="problematic" id="id54">|</span></a>Nb</p></td>
+center;” Nb</p></td>
 <td><p>style=”
 width:100px
 style=”tex
 t-align:cen
-ter;”<a href="#id55"><span class="problematic" id="id56">|</span></a>Cumul
+ter;”  Cumul
 srch
 duration</p></td>
 </tr>
@@ -855,7 +857,7 @@ operation and the number of members.</p>
 </table>
 </section>
 <section id="medium-db-100k-entries">
-<span id="id57"></span><h3>Medium DB (100K entries)<a class="headerlink" href="#medium-db-100k-entries" title="Permalink to this heading">¶</a></h3>
+<h3>Medium DB (100K entries)<a class="headerlink" href="#medium-db-100k-entries" title="Permalink to this heading">¶</a></h3>
 <p>The dataset is:</p>
 <ul class="simple">
 <li><p>50K users</p></li>
@@ -866,148 +868,16 @@ operation and the number of members.</p>
 <li><p>100 hbacrules</p></li>
 </ul>
 <p>The following table shows value of provisioning of a medium DB in two
-steps:</p>
-<ul class="simple">
-<li><p>provisioning without memberof</p></li>
-<li><p>fixup of memberof</p></li>
-</ul>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><table class="docutils align-default">
-<tbody>
-</tbody>
-</table>
-</th>
-<th class="head"></th>
-<th class="head"></th>
-<th class="head"></th>
-<th class="head"></th>
-<th class="head"></th>
-<th class="head"></th>
-<th class="head"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>steps</p>
-<table class="docutils align-default">
-<tbody>
-</tbody>
-</table>
-<p>memberof</p>
-<table class="docutils align-default">
-<tbody>
-</tbody>
-</table>
-<p>style=”wi
-dth:100px
-s
-tyle=”tex
-t-align:l
-eft;”
-visioning
-+———–+———–+———–+———–+———–+———–+
-Fixup
-+———–+———–+———–+———–+———–+———–+
-inet
-orgperson
-+———–+———–+———–+———–+———–+———–+</p>
-<p>ipahost*</p>
-<table class="docutils align-default">
-<tbody>
-</tbody>
-</table>
-<p><strong>Total
-Pro
-v+fixup</strong>
-+———–+———–+———–+———–+———–+———–+</p>
-<table class="docutils align-default">
-<tbody>
-</tbody>
-</table>
-<p><strong>Total
-regular
-Prov.</strong>
-+———–+———–+———–+———–+———–+———–+</p>
-</td>
-<td><p>Plugin
-enabled</p>
-<p>slapi-nis</p>
-<p>N</p>
-<p>Pro</p>
-<p>Y</p>
-<p>rules</p>
-<p>N+Y</p>
-<p>Y</p>
-</td>
-<td><p>Duration</p>
-<p>retroCL</p>
-<p>N</p>
-<p>N</p>
-<p>Y</p>
-<p>N</p>
-<p>N</p>
-</td>
-<td><p>ADD</p>
-<p>style=”wi
-dth:100px
-st
-yle=”text
--align:ce
-nter;”</p>
-<p>N</p>
-<p>N</p>
-<p>N</p>
-<p>N</p>
-<p>N</p>
-</td>
-<td><p>MOD</p>
-<p>style=”wi
-dth:100px
-style
-=”text-al
-Nb
-r;”
-srch</p>
-<p>duration</p>
-<p>48min</p>
-<p>2h</p>
-<p>N</p>
-<p><strong>7h</strong></p>
-<ul class="simple">
-<li></li>
-</ul>
-<p><em>~8days*</em></p>
-</td>
-<td><p>SRCH</p>
-<p>style=”wi
-dth:250px
-s
-tyle=”tex
-ign:cente
-Cumul
-srch</p>
-<p>duration
-Nb*1ms</p>
-<p>duration</p>
-<p>143K</p>
-<p>200</p>
-<p>4h20</p>
-<p>143K</p>
-<p>~140K</p>
-</td>
-<td><p>t-align:c
-enter;”</p>
-<p>0</p>
-</td>
-<td><p>%</p>
-<p>vs step</p>
-</td>
-</tr>
-</tbody>
-</table>
+steps: provisioning without memberof and fixup of memberof.</p>
+<figure class="align-default" id="id18">
+<img alt="performance_improvements.png" src="../../../_images/performance_improvements.png" />
+<figcaption>
+<p><span class="caption-text">performance_improvements.png</span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 </section>
 <section id="memberof-plugin">
-<span id="id58"></span><h3>Memberof plugin<a class="headerlink" href="#memberof-plugin" title="Permalink to this heading">¶</a></h3>
+<h3>Memberof plugin<a class="headerlink" href="#memberof-plugin" title="Permalink to this heading">¶</a></h3>
 <p>According to the measurements (see
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Small_DB_.2810K_entries.29">table</a>),
 the major bootleneck is the memberof plugin. Disabling memberof during
@@ -1026,7 +896,7 @@ replica, the replicated updates will be slow because of memberof being
 enabled but it will not be worse than now.</p>
 </section>
 <section id="schema-compat-plugin">
-<span id="id59"></span><h3>Schema compat plugin<a class="headerlink" href="#schema-compat-plugin" title="Permalink to this heading">¶</a></h3>
+<h3>Schema compat plugin<a class="headerlink" href="#schema-compat-plugin" title="Permalink to this heading">¶</a></h3>
 <p>According to the measurements (see
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Small_DB_.2810K_entries.29">table</a>),
 the schema compat plugin <strong>is not</strong> a performance bottleneck. However,
@@ -1040,7 +910,7 @@ Compat during provisioning and to reenable it later. Preferably is to
 reenable it after the fixup, but then it will require one more restart.</p>
 </section>
 <section id="retrocl-plugin">
-<span id="id60"></span><h3>RetroCL plugin<a class="headerlink" href="#retrocl-plugin" title="Permalink to this heading">¶</a></h3>
+<h3>RetroCL plugin<a class="headerlink" href="#retrocl-plugin" title="Permalink to this heading">¶</a></h3>
 <p>According to the measurements (see
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Small_DB_.2810K_entries.29">table</a>),
 the Retro CL plugin <strong>is not</strong> a performance bottleneck. However,
@@ -1102,7 +972,7 @@ after improving provision is not worse than before.</p></li>
 </section>
 </section>
 <section id="proposed-improvements">
-<span id="id61"></span><h2>Proposed improvements<a class="headerlink" href="#proposed-improvements" title="Permalink to this heading">¶</a></h2>
+<h2>Proposed improvements<a class="headerlink" href="#proposed-improvements" title="Permalink to this heading">¶</a></h2>
 <section id="algorithm">
 <h3>Algorithm<a class="headerlink" href="#algorithm" title="Permalink to this heading">¶</a></h3>
 <p>The CLI that will do the provisioning of a given ldif file will:</p>
@@ -1112,57 +982,53 @@ tune DS during provisioning and avoid ACL cost.</p></li>
 <li><p>Parse ldif file to check that each provisioned entry matches one of
 the condition:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=inetorgperson)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipausergroup)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahost)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahostgroup)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipasudorule)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahbacrule)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``(objectClass=inetorgperson)``
+| ``(objectClass=ipausergroup)``
+| ``(objectClass=ipahost)``
+| ``(objectClass=ipahostgroup)``
+| ``(objectClass=ipasudorule)``
+| ``(objectClass=ipahbacrule)``
+</pre></div>
 </div>
 <ul class="simple">
-<li><p>Compute and set the appropriate <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning">db
-cache</a>
-size and <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#database_locks">db
-locks</a></p></li>
+<li><p>Compute and set the appropriate <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning">db cache</a>
+size and <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#database_locks">db locks</a></p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=config,cn=ldbm database,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: nsslapd-dbcachesize</span></code></div>
-<div class="line"><a href="#id62"><span class="problematic" id="id63">``</span></a>nsslapd-dbcachesize: ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: nsslapd-db-locks</span></code></div>
-<div class="line"><a href="#id64"><span class="problematic" id="id65">``</span></a>nsslapd-db-locks: ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
+| ``changetype: modify``
+| ``replace: nsslapd-dbcachesize``
+| ``nsslapd-dbcachesize: ``
+| ``-``
+| ``replace: nsslapd-db-locks``
+| ``nsslapd-db-locks: ``
+</pre></div>
 </div>
 <ul class="simple">
-<li><p>Compute and set the appropriate <em>domain</em> <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning">entry
-cache</a>
-size</p></li>
+<li><p>Compute and set the appropriate <em>domain</em> <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning">entry cache</a> size</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: nsslapd-cachememsize</span></code></div>
-<div class="line"><a href="#id66"><span class="problematic" id="id67">``</span></a>nsslapd-cachememsize: ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
+| ``changetype: modify``
+| ``replace: nsslapd-cachememsize``
+| ``nsslapd-cachememsize: ``
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Disable memberof</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=MemberOf Plugin,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: nsslapd-pluginEnabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-pluginEnabled: off</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
+| ``changetype: modify``
+| ``replace: nsslapd-pluginEnabled``
+| ``nsslapd-pluginEnabled: off``
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Disable Schema Compat</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Schema Compatibility,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: nsslapd-pluginEnabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-pluginEnabled: off</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
+| ``changetype: modify``
+| ``replace: nsslapd-pluginEnabled``
+| ``nsslapd-pluginEnabled: off``
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>stop ipa (that will stop DS)</p></li>
@@ -1204,8 +1070,8 @@ size</p></li>
 </ul>
 </section>
 <section id="provisioning-constraints">
-<span id="id68"></span><h3>Provisioning constraints<a class="headerlink" href="#provisioning-constraints" title="Permalink to this heading">¶</a></h3>
-<p id="provisioning-server-is-offline">Provisioning server is offline</p>
+<h3>Provisioning constraints<a class="headerlink" href="#provisioning-constraints" title="Permalink to this heading">¶</a></h3>
+<p>Provisioning server is offline</p>
 <p>Provisioning is done on a server where the memberof plugin is disabled.
 That means <strong>memberof</strong> attribute is <strong>invalid</strong> on that server until
 provisioning/fixup is completed.</p>
@@ -1225,7 +1091,7 @@ invalid data</p>
 </ul>
 </li>
 </ul>
-<p id="replication-being-late">Replication being late</p>
+<p>Replication being late</p>
 <p>Disabling memberof during provisioning allows a <em>faster</em> provisioning.
 Actually much faster than the same update on a replica where memberof is
 enabled.</p>
@@ -1247,7 +1113,7 @@ rights it can create security issue.</p>
 topology unless it is planed to reinitialize all replicas from the
 provisioned one.</p></li>
 </ul>
-<p id="fixup-procedure">Fixup procedure</p>
+<p>Fixup procedure</p>
 <p>Fixup is a procedure to compute the <strong>memberof</strong> attribute for a <strong>set
 of entries</strong>. This set is selected with a filter so if for example we
 added <em>host</em> entries, we can run the fixup command using the
@@ -1280,7 +1146,7 @@ need to be fixup) as well as already existing ones (that do not need
 fixup).</p>
 </section>
 <section id="provisioning-command">
-<span id="id69"></span><h3>provisioning command<a class="headerlink" href="#provisioning-command" title="Permalink to this heading">¶</a></h3>
+<h3>provisioning command<a class="headerlink" href="#provisioning-command" title="Permalink to this heading">¶</a></h3>
 <p>The administrator who wants to do a bulk load of a set of LDAP entries
 that are contained in a ldif-file can use the command:</p>
 <ul class="simple">
@@ -1292,13 +1158,13 @@ password</p>
 </section>
 </section>
 <section id="detailed-descriptions-of-each-provisioning-costs">
-<span id="id70"></span><h2>Detailed descriptions of each provisioning costs<a class="headerlink" href="#detailed-descriptions-of-each-provisioning-costs" title="Permalink to this heading">¶</a></h2>
+<h2>Detailed descriptions of each provisioning costs<a class="headerlink" href="#detailed-descriptions-of-each-provisioning-costs" title="Permalink to this heading">¶</a></h2>
 <p>The objectif is to determine what makes memberof plugin so expensive
 compare to memberof fixup. The following paragraphs are a summary of the
 tests/results. No design or improvements are described in those
 paragraphs.</p>
 <section id="summary-of-the-test">
-<span id="id71"></span><h3>summary of the test<a class="headerlink" href="#summary-of-the-test" title="Permalink to this heading">¶</a></h3>
+<h3>summary of the test<a class="headerlink" href="#summary-of-the-test" title="Permalink to this heading">¶</a></h3>
 <p>The provisioning adds in the following order users, groups of users,
 hosts, groups of hosts, sudorules and hbacrules. The specifications
 entries are:</p>
@@ -1474,8 +1340,8 @@ disabled is <strong>3.3 times less</strong> presented in the table below</p>
 </table>
 </section>
 <section id="provisioning-with-memberof-plugin">
-<span id="id72"></span><h3>provisioning with memberof plugin<a class="headerlink" href="#provisioning-with-memberof-plugin" title="Permalink to this heading">¶</a></h3>
-<p id="add-users">add users</p>
+<h3>provisioning with memberof plugin<a class="headerlink" href="#provisioning-with-memberof-plugin" title="Permalink to this heading">¶</a></h3>
+<p>add users</p>
 <p>The add of <strong>one</strong> user triggers the following operations (1 direct, 31
 internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
@@ -1502,7 +1368,7 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 <div class="line">``       retroCL log of MOD user (adding its private group)``</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">(*) Searches are identicals</span></code></div>
 </div>
-<p id="add-a-usergroup">add a usergroup</p>
+<p>add a usergroup</p>
 <p>The add of <strong>one</strong> user group triggers the following operations:</p>
 <ul class="simple">
 <li><p>If the group is empty (1 direct, 31 internals): 3 ADDs, 2 MODs,
@@ -1570,7 +1436,7 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 <div class="line">``       for each member (102)``</div>
 <div class="line">``               RetroCL log for above MODs (MOD member to add ‘memberof’)``</div>
 </div>
-<p id="add-host">add host</p>
+<p>add host</p>
 <p>The add of <strong>one</strong> host triggers : 2 ADD, 7 SRCHs</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
 <div class="line-block">
@@ -1583,7 +1449,7 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 <div class="line">``       add host``</div>
 <div class="line">``       RetroCL add``</div>
 </div>
-<p id="add-a-hostgroup">add a hostgroup</p>
+<p>add a hostgroup</p>
 <p>The add of <strong>one</strong> host group triggers the following operations:</p>
 <ul class="simple">
 <li><p>If the group is empty (1 direct, 39 internals): 5 ADDs, 3 MODs,
@@ -1614,84 +1480,86 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 <li><p>If the hostgroup contains 42 members (40 direct, 2 nested) (1 direct,
 895 internals): 90 ADDs, 88 MODs, 718 SRCHs</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD hostgroup with 42 members (nested)</span></code></div>
-<div class="line">``   718 SRCH``</div>
-<div class="line">``       1 search (uniqueness ipaUniqueID)``</div>
-<div class="line">``       4 membership search (2 identical)``</div>
-<div class="line">``       5 search of the alt networkgroup (3 for ‘member’, 1 for ‘memberuser’, 1 for ‘memberhost’)``</div>
-<div class="line">``       for each member (42): total = 84srch``</div>
-<div class="line">``               2 search of the member entry (identical BUG)``</div>
-<div class="line">``    ``</div>
-<div class="line">``       for each member (42): total = 84``</div>
-<div class="line">``               1 search of ‘member’ ``</div>
-<div class="line">``               1 search of ‘fqdn’``</div>
-<div class="line">``       10 search to find groups owning hostgroup (4 identical )``</div>
-<div class="line">``       for each member (42): total = 252srch [405-&gt;1125]``</div>
-<div class="line">``           /* related to the MOD ‘memberof’ of the member <a href="#id73"><span class="problematic" id="id74">*</span></a>/``</div>
-<div class="line">``           1 search to find the member “member memberUser memberHost”``</div>
-<div class="line">``           1 search to find groups owning member``</div>
-<div class="line">``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``</div>
-<div class="line">``           2 search member during MOD (identical BUG ?)``</div>
-<div class="line">``       for each member (42): total = 252srch [1125-&gt;1760]``</div>
-<div class="line">``           /* related to the second “BUGGY” MOD ‘memberof’ of the member <a href="#id75"><span class="problematic" id="id76">*</span></a>/``</div>
-<div class="line">``           1 search to find the member “member memberUser memberHost”``</div>
-<div class="line">``           1 search to find groups owning member``</div>
-<div class="line">``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``</div>
-<div class="line">``           2 search member during MOD (identical BUG ?)``</div>
-<div class="line">``    87 MOD``</div>
-<div class="line">``       for each host in hostgroup [418]``</div>
-<div class="line">``           update ‘memberof’ for hostgroup and alt networkgroup``</div>
-<div class="line">``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``</div>
-<div class="line">``           update ‘memberof’ for hostgroup and alt networkgroup``</div>
-<div class="line">``       update hostgroup for ‘mepmanageentry’``</div>
-<div class="line">``        ``</div>
-<div class="line">``    90 ADD``</div>
-<div class="line">``      add hostgroup``</div>
-<div class="line">``      add alt networkgroup``</div>
-<div class="line">``      88 RetroCL add due to MODs``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+
+| ``ADD hostgroup with 42 members (nested)``
+| ``   718 SRCH``
+| ``       1 search (uniqueness ipaUniqueID)``
+| ``       4 membership search (2 identical)``
+| ``       5 search of the alt networkgroup (3 for &#39;member&#39;, 1 for &#39;memberuser&#39;, 1 for &#39;memberhost&#39;)``
+| ``       for each member (42): total = 84srch``
+| ``               2 search of the member entry (identical BUG)``
+| ``    ``
+| ``       for each member (42): total = 84``
+| ``               1 search of &#39;member&#39; ``
+| ``               1 search of &#39;fqdn&#39;``
+| ``       10 search to find groups owning hostgroup (4 identical )``
+| ``       for each member (42): total = 252srch [405-&gt;1125]``
+| ``           /* related to the MOD &#39;memberof&#39; of the member */``
+| ``           1 search to find the member &quot;member memberUser memberHost&quot;``
+| ``           1 search to find groups owning member``
+| ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
+| ``           2 search member during MOD (identical BUG ?)``
+| ``       for each member (42): total = 252srch [1125-&gt;1760]``
+| ``           /* related to the second &quot;BUGGY&quot; MOD &#39;memberof&#39; of the member */``
+| ``           1 search to find the member &quot;member memberUser memberHost&quot;``
+| ``           1 search to find groups owning member``
+| ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
+| ``           2 search member during MOD (identical BUG ?)``
+| ``    87 MOD``
+| ``       for each host in hostgroup [418]``
+| ``           update &#39;memberof&#39; for hostgroup and alt networkgroup``
+| ``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
+| ``           update &#39;memberof&#39; for hostgroup and alt networkgroup``
+| ``       update hostgroup for &#39;mepmanageentry&#39;``
+| ``        ``
+| ``    90 ADD``
+| ``      add hostgroup``
+| ``      add alt networkgroup``
+| ``      88 RetroCL add due to MODs``
+</pre></div>
 </div>
-<p id="add-sudorules">add sudorules</p>
+<p>add sudorules</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations 47 ADDs, 45 MODs and 918 SRCH</p>
-<p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD sudorules 25 users/20 hosts</span></code></div>
-<div class="line">``   918 SRCH``</div>
-<div class="line">``       1 search (uniqueness ipaUniqueID)``</div>
-<div class="line">``           /* Follow comes slapi-nis ‘cn=sudoers,cn=Schema Compatibility’ <a href="#id77"><span class="problematic" id="id78">*</span></a>/``</div>
-<div class="line">``               for each memberHost (20): 40``</div>
-<div class="line">``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``</div>
-<div class="line">``                   ``</div>
-<div class="line">``               for each memberuser (25): 25``</div>
-<div class="line">``                   1 search ‘cn’``</div>
-<div class="line">``               for each memberHost (20): 20``</div>
-<div class="line">``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``</div>
-<div class="line">``               for each memberUser (25): 25 ``</div>
-<div class="line">``                   1 search ‘uid’``</div>
-<div class="line">``               for each memberHost (20): 20``</div>
-<div class="line">``                   1 search host (ipaNisNetgroup)``</div>
-<div class="line">``               for each memberHost (20): 20``</div>
-<div class="line">``                   1 search host (objectclass=ipaHost)``</div>
-<div class="line">``               for each memberUser (25): 50``</div>
-<div class="line">``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``</div>
-<div class="line">``               for each memberUser (25):  25``</div>
-<div class="line">``                   1 search user (objectclass=ipaNisNetgroup)``</div>
-<div class="line">``       10 searchs to find if add sudorules belong to a group``</div>
-<div class="line">``       For each memberUser (25):``</div>
-<div class="line">``           /* search all groups it can belong to <a href="#id79"><span class="problematic" id="id80">*</span></a>/``</div>
-<div class="line">``           10 search based on member ‘memberof’``</div>
-<div class="line">``   45 MOD``</div>
-<div class="line">``       for each users:``</div>
-<div class="line">``           update memberof attribute to add the ‘ipaUniqueID=xxx,cn=sudorules,cn=sudo,``<code class="docutils literal notranslate"><span class="pre">' value</span></code></div>
-<div class="line">``       for each host:``</div>
-<div class="line">``           update memberof attribute to add the ‘ipaUniqueID=xxx,cn=sudorules,cn=sudo,``<code class="docutils literal notranslate"><span class="pre">' value</span></code></div>
-<div class="line">``   47 ADD``</div>
-<div class="line">``       add sudorule``</div>
-<div class="line">``       RetroCL add sudorule + 45 updates of memberof (MODs)``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+
+| ``ADD sudorules 25 users/20 hosts``
+| ``   918 SRCH``
+| ``       1 search (uniqueness ipaUniqueID)``
+| ``           /* Follow comes slapi-nis &#39;cn=sudoers,cn=Schema Compatibility&#39; */``
+| ``               for each memberHost (20): 40``
+| ``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
+| ``                   ``
+| ``               for each memberuser (25): 25``
+| ``                   1 search &#39;cn&#39;``
+| ``               for each memberHost (20): 20``
+| ``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
+| ``               for each memberUser (25): 25 ``
+| ``                   1 search &#39;uid&#39;``
+| ``               for each memberHost (20): 20``
+| ``                   1 search host (ipaNisNetgroup)``
+| ``               for each memberHost (20): 20``
+| ``                   1 search host (objectclass=ipaHost)``
+| ``               for each memberUser (25): 50``
+| ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
+| ``               for each memberUser (25):  25``
+| ``                   1 search user (objectclass=ipaNisNetgroup)``
+| ``       10 searchs to find if add sudorules belong to a group``
+| ``       For each memberUser (25):``
+| ``           /* search all groups it can belong to */``
+| ``           10 search based on member &#39;memberof&#39;``
+| ``   45 MOD``
+| ``       for each users:``
+| ``           update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``&#39; value``
+| ``       for each host:``
+| ``           update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``&#39; value``
+| ``   47 ADD``
+| ``       add sudorule``
+| ``       RetroCL add sudorule + 45 updates of memberof (MODs)``
+</pre></div>
 </div>
-<p id="add-hbacrules">add hbacrules</p>
+<p>add hbacrules</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations 47 ADDs, 45 MODs and 1313 SRCH</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
@@ -1714,11 +1582,11 @@ internal operations 47 ADDs, 45 MODs and 1313 SRCH</p>
 </div>
 </section>
 <section id="provisioning-without-memberof-plugin">
-<span id="id81"></span><h3>provisioning without memberof plugin<a class="headerlink" href="#provisioning-without-memberof-plugin" title="Permalink to this heading">¶</a></h3>
-<p id="add-user-1">add user</p>
+<h3>provisioning without memberof plugin<a class="headerlink" href="#provisioning-without-memberof-plugin" title="Permalink to this heading">¶</a></h3>
+<p>add user</p>
 <p>The add of <strong>one</strong> user gives same results as <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#add_users">add user with memberof
 plugin</a></p>
-<p id="add-usergroup-no-memberof">add usergroup (no memberof)</p>
+<p>add usergroup (no memberof)</p>
 <p>The add of <strong>one</strong> user group triggers the following operations:</p>
 <ul class="simple">
 <li><p>If the group is empty (1 direct, 19 internals): 3 ADDs, 2 MODs,
@@ -1751,10 +1619,10 @@ MOD, 813 SRCH)</p></li>
 <div class="line">``       user group``</div>
 <div class="line">``       RetroCL for user_group and MOD DNA``</div>
 </div>
-<p id="add-host-1">add host</p>
+<p>add host</p>
 <p>The add of <strong>one</strong> host gives same results as <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#add_host">add host with memberof
 plugin</a></p>
-<p id="add-hostgroup">add hostgroup</p>
+<p>add hostgroup</p>
 <p>The add of <strong>one</strong> hostgroup triggers the following operations:</p>
 <ul class="simple">
 <li><p>If the hostgroup is empty (1 direct, 34 internals): 5 ADDs, 3 MODs,
@@ -1794,72 +1662,74 @@ SRCHs</strong>.</p>
 <div class="line">``      add alt networkgroup``</div>
 <div class="line">``       RetroCL add due to MODs``</div>
 </div>
-<p id="add-sudorule">add sudorule</p>
+<p>add sudorule</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations: 2 ADD, 0 MOD, 243 SRCH</p>
-<p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD sudorules 25 users/20 hosts</span></code></div>
-<div class="line">``   243 SRCH``</div>
-<div class="line">``       1 search (uniqueness ipaUniqueID)``</div>
-<div class="line">``               for each memberHost (20): 40``</div>
-<div class="line">``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``</div>
-<div class="line">``                   ``</div>
-<div class="line">``               for each memberuser (25): 25``</div>
-<div class="line">``                   1 search ‘cn’``</div>
-<div class="line">``               for each memberHost (20): 20``</div>
-<div class="line">``                   1 search host ‘cn’ ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``</div>
-<div class="line">``               for each memberUser (25): 25 ``</div>
-<div class="line">``                   1 search ‘uid’((objectclass=posixAccount))``</div>
-<div class="line">``               for each memberHost (20): 20``</div>
-<div class="line">``                   1 search host ‘cn’ ((objectclass=ipaNisNetgroup))``</div>
-<div class="line">``               for each memberHost (20): 20``</div>
-<div class="line">``                   1 search host ‘fqdn’ (objectclass=ipaHost)``</div>
-<div class="line">``               for each memberUser (25): 50``</div>
-<div class="line">``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``</div>
-<div class="line">``               for each memberUser (25):  25``</div>
-<div class="line">``                   1 search user (objectclass=ipaNisNetgroup)``</div>
-<div class="line">``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``</div>
-<div class="line">`` ``</div>
-<div class="line">``       For each memberUser (25):``</div>
-<div class="line">``           /* search all groups it can belong to <a href="#id82"><span class="problematic" id="id83">*</span></a>/``</div>
-<div class="line">``           10 search based on member ‘memberof’``</div>
-<div class="line">`` ``</div>
-<div class="line">``   0 MOD``</div>
-<div class="line">`` ``</div>
-<div class="line">``   2 ADD``</div>
-<div class="line">``       add sudorule``</div>
-<div class="line">``       RetroCL add sudorule``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+
+| ``ADD sudorules 25 users/20 hosts``
+| ``   243 SRCH``
+| ``       1 search (uniqueness ipaUniqueID)``
+| ``               for each memberHost (20): 40``
+| ``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
+| ``                   ``
+| ``               for each memberuser (25): 25``
+| ``                   1 search &#39;cn&#39;``
+| ``               for each memberHost (20): 20``
+| ``                   1 search host &#39;cn&#39; ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
+| ``               for each memberUser (25): 25 ``
+| ``                   1 search &#39;uid&#39;((objectclass=posixAccount))``
+| ``               for each memberHost (20): 20``
+| ``                   1 search host &#39;cn&#39; ((objectclass=ipaNisNetgroup))``
+| ``               for each memberHost (20): 20``
+| ``                   1 search host &#39;fqdn&#39; (objectclass=ipaHost)``
+| ``               for each memberUser (25): 50``
+| ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
+| ``               for each memberUser (25):  25``
+| ``                   1 search user (objectclass=ipaNisNetgroup)``
+| ``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
+| `` ``
+| ``       For each memberUser (25):``
+| ``           /* search all groups it can belong to */``
+| ``           10 search based on member &#39;memberof&#39;``
+| `` ``
+| ``   0 MOD``
+| `` ``
+| ``   2 ADD``
+| ``       add sudorule``
+| ``       RetroCL add sudorule``
+</pre></div>
 </div>
-<p id="add-hbacrules-1">add hbacrules</p>
+<p>add hbacrules</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations 2ADD, 0 MOD, 13 SRCH</p>
-<p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD hbacrule 25 users/20 hosts</span></code></div>
-<div class="line">``   13 SRCH``</div>
-<div class="line">``       1 search (uniqueness ipaUniqueID)``</div>
-<div class="line">``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``</div>
-<div class="line">``       1 unindexed search in sudorules if one of them owns the added hbacrule``</div>
-<div class="line">`` ``</div>
-<div class="line">``           (&amp;(&amp;(objectclass=ipaSudoRule)``</div>
-<div class="line">``               (!(compatVisible=FALSE))``</div>
-<div class="line">``               (!(ipaEnabledFlag=FALSE)))``</div>
-<div class="line">``             (<a href="#id84"><span class="problematic" id="id85">|</span></a>(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``<a href="#id86"><span class="problematic" id="id87">``</span></a>)                                  ``</div>
-<div class="line">``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">))</span></code></div>
-<div class="line">``           )``</div>
-<div class="line">`` ``</div>
-<div class="line">``   0 MOD``</div>
-<div class="line">`` ``</div>
-<div class="line">``   2 ADD``</div>
-<div class="line">``       add hbacrule``</div>
-<div class="line">``       RetroCL add hbacrule``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+
+| ``ADD hbacrule 25 users/20 hosts``
+| ``   13 SRCH``
+| ``       1 search (uniqueness ipaUniqueID)``
+| ``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
+| ``       1 unindexed search in sudorules if one of them owns the added hbacrule``
+| `` ``
+| ``           (&amp;(&amp;(objectclass=ipaSudoRule)``
+| ``               (!(compatVisible=FALSE))``
+| ``               (!(ipaEnabledFlag=FALSE)))``
+| ``             (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+| ``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+| ``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+| ``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
+| ``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+| ``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
+| ``           )``
+| `` ``
+| ``   0 MOD``
+| `` ``
+| ``   2 ADD``
+| ``       add hbacrule``
+| ``       RetroCL add hbacrule``
+</pre></div>
 </div>
-<p id="memberof-fixup">memberof fixup</p>
+<p>memberof fixup</p>
 <table class="docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p>filter OC</p></td>
@@ -1898,13 +1768,13 @@ but perf hit is not due to nested groups.</p>
 </section>
 </section>
 <section id="all-commands">
-<span id="id88"></span><h1>all commands<a class="headerlink" href="#all-commands" title="Permalink to this heading">¶</a></h1>
+<h1>all commands<a class="headerlink" href="#all-commands" title="Permalink to this heading">¶</a></h1>
 <p>Caching issue described in
 <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#broken_SchemaCache">1</a>
 affects all IPA commands.</p>
 </section>
 <section id="all-commands-working-with-members-and-indirect-members">
-<span id="id89"></span><h1>all commands working with members and indirect members<a class="headerlink" href="#all-commands-working-with-members-and-indirect-members" title="Permalink to this heading">¶</a></h1>
+<h1>all commands working with members and indirect members<a class="headerlink" href="#all-commands-working-with-members-and-indirect-members" title="Permalink to this heading">¶</a></h1>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4995">#4995</a></p>
 <p>Get member and indirect members is resource consuming operation and
@@ -1915,7 +1785,7 @@ option <em>–no-members</em> that can be public visible.</p>
 <section id="find">
 <h1>*-find<a class="headerlink" href="#find" title="Permalink to this heading">¶</a></h1>
 <section id="members-and-indirect-members-processing">
-<span id="id90"></span><h2>members and indirect members processing<a class="headerlink" href="#members-and-indirect-members-processing" title="Permalink to this heading">¶</a></h2>
+<h2>members and indirect members processing<a class="headerlink" href="#members-and-indirect-members-processing" title="Permalink to this heading">¶</a></h2>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4995">#4995</a></p>
 <p><code class="docutils literal notranslate"><span class="pre">host-find (2000 hosts):</span></code></p>
@@ -1947,7 +1817,7 @@ option <em>–no-members</em> that can be public visible.</p>
 <strong>get_primary_key_from_dn</strong></p>
 <p>Possible solutions:</p>
 <section id="do-not-fetch-members-by-default">
-<span id="id91"></span><h3>Do not fetch members by default<a class="headerlink" href="#do-not-fetch-members-by-default" title="Permalink to this heading">¶</a></h3>
+<h3>Do not fetch members by default<a class="headerlink" href="#do-not-fetch-members-by-default" title="Permalink to this heading">¶</a></h3>
 <p>This change is related to all *-find commands. Fetching members and
 indirect members is expensive operation for find commands. By default
 *-find commands will not do members processing. To get members in
@@ -1961,7 +1831,7 @@ hidden in CLI for *-find commands</p>
 option</p>
 </section>
 <section id="temporal-caching-of-members-during-find-command">
-<span id="id92"></span><h3>Temporal caching of members during *-find command<a class="headerlink" href="#temporal-caching-of-members-during-find-command" title="Permalink to this heading">¶</a></h3>
+<h3>Temporal caching of members during *-find command<a class="headerlink" href="#temporal-caching-of-members-during-find-command" title="Permalink to this heading">¶</a></h3>
 <p><strong>This has not been implemented in 4.4, due technical issues with cache.
 Prototype of the cache does not cover corner cases, so time was not
 reduced as much as listed here. There was only minor enhancement and was

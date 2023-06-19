@@ -33,7 +33,7 @@
           <div class="body" role="main">
             
   <section id="windows-authentication-against-freeipa">
-<span id="id1"></span><h1>Windows authentication against FreeIPA<a class="headerlink" href="#windows-authentication-against-freeipa" title="Permalink to this heading">¶</a></h1>
+<h1>Windows authentication against FreeIPA<a class="headerlink" href="#windows-authentication-against-freeipa" title="Permalink to this heading">¶</a></h1>
 <p>This article describes direct integration between FreeIPA and Windows
 machine, i.e. <strong>without involving Active Directory</strong> server. This
 article <strong>does not</strong> apply to configurations where <a class="reference external" href="Trust">trust between AD and
@@ -63,7 +63,7 @@ native 2FA inside enterprise across multiple platforms. But please do
 it open source way otherwise we would not recommend you ;-)</p></li>
 </ol>
 <section id="freeipa-is-not-an-active-directory-server">
-<span id="id2"></span><h2>FreeIPA is not an Active Directory server<a class="headerlink" href="#freeipa-is-not-an-active-directory-server" title="Permalink to this heading">¶</a></h2>
+<h2>FreeIPA is not an Active Directory server<a class="headerlink" href="#freeipa-is-not-an-active-directory-server" title="Permalink to this heading">¶</a></h2>
 <p>FreeIPA is not a re-implementation of Microsoft Active Directory.
 FreeIPA is focused on Linux (and other standards compliant) systems.</p>
 <p>For this reason FreeIPA without configured <a class="reference external" href="Trusts">AD trust</a> can
@@ -80,49 +80,48 @@ trust</a>.)</p>
 limitations.</p>
 </section>
 <section id="configure-freeipa">
-<span id="id3"></span><h2>Configure FreeIPA<a class="headerlink" href="#configure-freeipa" title="Permalink to this heading">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1. Create the host principal in the web interface</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2. Create IPA users to correspond to Windows users</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">3. Reset the user's IPA password to a known password using the web interface or CLI,</span></code></div>
-<div class="line">``   the user will be prompted to change at first log in.``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">4. On the IPA server run</span></code></div>
-<div class="line">`` ipa-getkeytab -s [kdc DNS name]``</div>
-<div class="line">``               -p host/[machine-name]``</div>
-<div class="line">``               -e  arcfour-hmac``</div>
-<div class="line">``               -k krb5.keytab.[machine-name]``</div>
-<div class="line">``               -P``</div>
-<div class="line">`` At the prompt enter a random MACHINE_PASSWORD``</div>
-<div class="line">`` (you will enter this later on the windows machine too).``</div>
-<div class="line">`` <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``Note:</span></code><a href="#id4"><span class="problematic" id="id5">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``you</span></code><a href="#id6"><span class="problematic" id="id7">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``can</span></code><a href="#id8"><span class="problematic" id="id9">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``change</span></code><a href="#id10"><span class="problematic" id="id11">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``the</span></code><a href="#id12"><span class="problematic" id="id13">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``-e</span></code><a href="#id14"><span class="problematic" id="id15">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``argument</span></code><a href="#id16"><span class="problematic" id="id17">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``to</span></code><a href="#id18"><span class="problematic" id="id19">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``include</span></code><a href="#id20"><span class="problematic" id="id21">``</span></a><a href="#id22"><span class="problematic" id="id23">``</span></a><a href="#id24"><span class="problematic" id="id25">``</span></a>also``**</div>
-<div class="line">`` <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``AES</span></code><a href="#id26"><span class="problematic" id="id27">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``enctypes</span></code><a href="#id28"><span class="problematic" id="id29">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``from</span></code><a href="#id30"><span class="problematic" id="id31">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``FreeIPA</span></code><a href="#id32"><span class="problematic" id="id33">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``2.1.4</span></code><a href="#id34"><span class="problematic" id="id35">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``and</span></code><a href="#id36"><span class="problematic" id="id37">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``higher.``**\</span> <span class="pre">`` (FreeIPA ticket ``\</span> <span class="pre">```2038</span></code> &lt;<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2038">https://fedorahosted.org/freeipa/ticket/2038</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-</div>
-<div class="line-block">
-<div class="line">`` <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``Note:</span></code><a href="#id38"><span class="problematic" id="id39">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``Windows</span></code><a href="#id40"><span class="problematic" id="id41">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``machines</span></code><a href="#id42"><span class="problematic" id="id43">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``names</span></code><a href="#id44"><span class="problematic" id="id45">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``cannot</span></code><a href="#id46"><span class="problematic" id="id47">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``exceed</span></code><a href="#id48"><span class="problematic" id="id49">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``15</span></code><a href="#id50"><span class="problematic" id="id51">``</span></a><a href="#id52"><span class="problematic" id="id53">``</span></a><a href="#id54"><span class="problematic" id="id55">``</span></a>characters``**</div>
-<div class="line">``  – pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``</div>
+<h2>Configure FreeIPA<a class="headerlink" href="#configure-freeipa" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``1. Create the host principal in the web interface``
+| ``2. Create IPA users to correspond to Windows users``
+| ``3. Reset the user&#39;s IPA password to a known password using the web interface or CLI,``
+| ``   the user will be prompted to change at first log in.``
+| ``4. On the IPA server run``
+| `` ipa-getkeytab -s [kdc DNS name]``
+| ``               -p host/[machine-name]``
+| ``               -e  arcfour-hmac``
+| ``               -k krb5.keytab.[machine-name]``
+| ``               -P``
+| `` At the prompt enter a random MACHINE_PASSWORD``
+| `` (you will enter this later on the windows machine too).``
+| `` ``\ **``Note:``\ ````\ ``you``\ ````\ ``can``\ ````\ ``change``\ ````\ ``the``\ ````\ ``-e``\ ````\ ``argument``\ ````\ ``to``\ ````\ ``include``\ ````\ ``also``**
+| `` ``\ **``AES``\ ````\ ``enctypes``\ ````\ ``from``\ ````\ ``FreeIPA``\ ````\ ``2.1.4``\ ````\ ``and``\ ````\ ``higher.``**\ `` (FreeIPA ticket ``\ ```2038`` &lt;https://fedorahosted.org/freeipa/ticket/2038&gt;`__\ ``)``
+
+| `` ``\ **``Note:``\ ````\ ``Windows``\ ````\ ``machines``\ ````\ ``names``\ ````\ ``cannot``\ ````\ ``exceed``\ ````\ ``15``\ ````\ ``characters``**
+| ``  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``
+</pre></div>
 </div>
 </section>
 <section id="configure-windows-ksetup">
-<span id="id56"></span><h2>Configure Windows (ksetup)<a class="headerlink" href="#configure-windows-ksetup" title="Permalink to this heading">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1. ksetup /setdomain [REALM NAME]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2. ksetup /addkdc [REALM NAME] [kdc DNS name]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">5. ksetup /mapuser * *</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">6. Run gpedit.msc, open the key called:</span></code></div>
-<div class="line">`` “Network Security: Configure encryption types allowed for Kerberos”``</div>
-<div class="line">`` under:``</div>
-<div class="line">``   Computer Configuration``</div>
-<div class="line">``     Windows Settings``</div>
-<div class="line">``       Security Settings``</div>
-<div class="line">``         Local Policies``</div>
-<div class="line">``           Security Options``</div>
-<div class="line">`` and deselect everything except RC4_HMAC_MD5``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">7. *** REBOOT ***</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">8. Add local user accounts for all users that need to be able to log in.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">9. Log in as [user]&#64;[REALM] with the initial password, you will be prompted</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">to change the password then logged in.</span></code></div>
+<h2>Configure Windows (ksetup)<a class="headerlink" href="#configure-windows-ksetup" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``1. ksetup /setdomain [REALM NAME]``
+| ``2. ksetup /addkdc [REALM NAME] [kdc DNS name]``
+| ``3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]``
+| ``4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)``
+| ``5. ksetup /mapuser * *``
+| ``6. Run gpedit.msc, open the key called:``
+| `` &quot;Network Security: Configure encryption types allowed for Kerberos”``
+| `` under:``
+| ``   Computer Configuration``
+| ``     Windows Settings``
+| ``       Security Settings``
+| ``         Local Policies``
+| ``           Security Options``
+| `` and deselect everything except RC4_HMAC_MD5``
+| ``7. *** REBOOT ***``
+| ``8. Add local user accounts for all users that need to be able to log in.``
+| ``9. Log in as [user]@[REALM] with the initial password, you will be prompted``
+| ``to change the password then logged in.``
+</pre></div>
 </div>
 <p><strong>Note: Configuring encryption types is not needed from FreeIPA 2.1.4
 and higher.</strong> (FreeIPA ticket

@@ -20,14 +20,14 @@ Details of this example are as follows
 #. IPA Client: workstation01.example.com
 #. IPA User: user1
 
-.. _add_system_to_ipa_domain_ensure_dns_is_working_correctly_otherwise_this_step_will_fail:
+
 
 Add system to IPA Domain (ensure DNS is working correctly otherwise this step will fail)
 ----------------------------------------------------------------------------------------
 
 ``# ipa-client-install -U -p admin -w mysecretpassword``
 
-.. _install_squid_and_set_service_to_start_on_boot:
+
 
 Install Squid and set service to start on boot
 ----------------------------------------------
@@ -35,7 +35,7 @@ Install Squid and set service to start on boot
 | ``# yum install squid``
 | ``# chkconfig squid on``
 
-.. _edit_etcsquidsquid.conf_to_configure_kerberos_authentication:
+
 
 Edit /etc/squid/squid.conf to configure kerberos authentication
 ---------------------------------------------------------------
@@ -67,7 +67,7 @@ And finally deny all other access to this proxy
 
 ``http_access deny all``
 
-.. _generate_a_kerberos_keytab_for_squid_http_access:
+
 
 Generate a kerberos keytab for Squid HTTP access
 ------------------------------------------------
@@ -94,7 +94,7 @@ if successful, you will see the below output:
 
 ``Keytab successfully retrieved and stored in: /etc/squid/krb5.keytab``
 
-.. _change_the_permissions_of_the_keytab_to_allow_squid_to_read_the_file_note_this_should_be_kept_secure_so_only_grant_enough_privileges_as_absolutely_necessary.:
+
 
 Change the permissions of the keytab to allow Squid to read the file (Note, this should be kept secure, so only grant enough privileges as absolutely necessary.)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ Change the permissions of the keytab to allow Squid to read the file (Note, this
 | ``# chown root:squid /etc/squid/krb5.keytab``
 | ``# chmod 640 /etc/squid/krb5.keytab``
 
-.. _add_keytab_location_to_etcsysconfigsquid:
+
 
 Add keytab location to /etc/sysconfig/squid
 -------------------------------------------
@@ -112,7 +112,7 @@ Add the below lines at the end of the file /etc/sysconfig/squid
 | ``KRB5_KTNAME=/etc/squid/krb5.keytab``
 | ``export KRB5_KTNAME``
 
-.. _restart_squid:
+
 
 Restart squid
 -------------
@@ -121,7 +121,7 @@ Restart squid
 | ``Stopping squid: ................                           [  OK  ]``
 | ``Starting squid: .                                          [  OK  ]``
 
-.. _open_port_3128_in_iptables:
+
 
 Open Port 3128 in IPTables
 --------------------------
@@ -129,7 +129,7 @@ Open Port 3128 in IPTables
 | ``# iptables -I INPUT -p tcp --dport 3128 -j ACCEPT``
 | ``# service iptables save``
 
-.. _configure_browser_on_ipa_client:
+
 
 Configure browser on IPA Client
 -------------------------------
@@ -145,7 +145,7 @@ Configure browser on IPA Client
 #. Check the tickbox that says "Use this proxy server for all protocols"
 #. Click Ok, then click Close.
 
-.. _verify_your_configuration:
+
 
 Verify your configuration
 -------------------------

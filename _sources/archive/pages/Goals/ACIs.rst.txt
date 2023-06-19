@@ -1,4 +1,4 @@
-.. _access_control_in_freeipa:
+
 
 Access control in FreeIPA
 =========================
@@ -6,7 +6,7 @@ Access control in FreeIPA
 Assumptions
 -----------
 
-.. _read_permissions_for_normal_users_do_not_harm:
+
 
 Read permissions for normal users do not harm
 ----------------------------------------------------------------------------------------------

@@ -39,12 +39,12 @@ commands is available through the \`help\` command:
 
 ``ipa help COMMAND``
 
-.. _command_conventions:
+
 
 Command conventions
 ===================
 
-.. _command_output:
+
 
 Command output
 ==============
@@ -66,7 +66,7 @@ LDAP. Explicitly hidden attributes (if retrieved) are displayed as well.
 
 Note: These options might make it into the global options in the future.
 
-.. _plugin_modules:
+
 
 Plugin modules
 ==============
@@ -93,7 +93,7 @@ into one or more groups, so that each client can use a different set.
 EVERY AUTOMOUNT MAP AND KEY NEED TO BE PART OF AN AUTOMOUNT LOCATION.
 After a clean IPA installation, there is no automount location defined.
 
-.. _creating_new_locations:
+
 
 Creating new locations
 ----------------------------------------------------------------------------------------------
@@ -106,14 +106,14 @@ created.
 If successful the new location is automatically populated with an
 auto.master map.
 
-.. _listing_all_locations:
+
 
 Listing all locations
 ----------------------------------------------------------------------------------------------
 
 ``ipa automountlocation-find``
 
-.. _searching_for_locations:
+
 
 Searching for locations
 ----------------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ Searching for locations
 
 All locations with SEARCH_STRING in their name will be listed.
 
-.. _exporting_automount_data_for_locations:
+
 
 Exporting automount data for locations
 ----------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Exporting automount data for locations
 This command might be useful, if (for whatever reason) some clients
 can't connect to LDAP to retrieve the automount data.
 
-.. _deleting_locations:
+
 
 Deleting locations
 ----------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ Deleting locations
 This command deletes a location and EVERYTHING IN IT (ALL maps and
 keys).
 
-.. _creating_maps:
+
 
 Creating maps
 ----------------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ part of.
 
 MAP_NAME is the name of the new indirect map.
 
-.. _creating_indirect_maps:
+
 
 Creating indirect maps
 ----------------------------------------------------------------------------------------------
@@ -174,21 +174,21 @@ and the hard(er) way:
 
 MOUNT_POINT is the mount point such as "/mnt".
 
-.. _listing_all_maps_in_a_location:
+
 
 Listing all maps in a location
 ----------------------------------------------------------------------------------------------
 
 ``ipa automountmap-find LOCATION_NAME``
 
-.. _displaying_maps:
+
 
 Displaying maps
 ----------------------------------------------------------------------------------------------
 
 ``ipa automountmap-show LOCATION_NAME MAP_NAME``
 
-.. _deleting_maps:
+
 
 Deleting maps
 ----------------------------------------------------------------------------------------------
@@ -199,7 +199,7 @@ This command deletes the map and EVERYTHING IN IT (ALL keys). Keys that
 link to this map ARE NOT deleted, because they are stored in another map
 (usually auto.master).
 
-.. _creating_keys:
+
 
 Creating keys
 ----------------------------------------------------------------------------------------------
@@ -217,21 +217,21 @@ MOUNT_INFO the name of a map. Otherwise, KEY_NAME should be the
 directory name we want the device to be mounted to and MOUNT_INFO should
 contain a path to this device along with mount options.
 
-.. _listing_all_keys_in_a_specific_map:
+
 
 Listing all keys in a specific map
 ----------------------------------------------------------------------------------------------
 
 ``ipa automountkey-find LOCATION_NAME MAP_NAME``
 
-.. _deleting_keys:
+
 
 Deleting keys
 ----------------------------------------------------------------------------------------------
 
 ``ipa automountkey-del LOCATION_NAME MAP_NAME KEY_NAME``
 
-.. _using_automount_information_from_ldap_on_clients:
+
 
 Using automount information from LDAP on clients
 ----------------------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ cert
 Manage certificates that are issued by the IPA CA server. This command
 should not be confused with the certmonger ``ipa-getcert`` command.
 
-.. _cert_get:
+
 
 cert-get
 ----------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@ cert-get
 Retrieve an issued certificate. This is not implemented in the selfsign
 CA.
 
-.. _cert_remove_hold:
+
 
 cert-remove-hold
 ----------------------------------------------------------------------------------------------
@@ -290,7 +290,7 @@ cert-remove-hold
 Removes a certificate hold put on hold using the ``cert-revoke``. This
 is not implemented in the selfsign CA.
 
-.. _cert_request:
+
 
 cert-request
 ----------------------------------------------------------------------------------------------
@@ -307,7 +307,7 @@ match the subject format IPA was configured with at install time (by
 default CN=<fqdn, o=IPA). CSRs not matching this format will be
 rejected.
 
-.. _cert_revoke:
+
 
 cert-revoke
 ----------------------------------------------------------------------------------------------
@@ -326,7 +326,7 @@ the selfsign CA. The revocation reasons, as defined by RFC 5280, are:
 -  9 - privilegeWithdrawn
 -  10 - aACompromise
 
-.. _cert_status:
+
 
 cert-status
 ----------------------------------------------------------------------------------------------
@@ -470,7 +470,7 @@ Used to set or reset a user's password.
 Any password not set by the user will require a reset the first time the
 user logs in.
 
-.. _password_policy_pwpolicy:
+
 
 Password Policy: pwpolicy
 -------------------------
@@ -483,7 +483,7 @@ higher the value, the higher the priority. What this means is that if a
 user is in multiple groups with password policies set then the one with
 the highest priority wins.
 
-.. _add_new_policy:
+
 
 Add new policy
 ----------------------------------------------------------------------------------------------
@@ -493,7 +493,7 @@ additive. So if your global policy sets maxlife to 99 days and you don't
 set one in your group policy this does not default to 99 days, it
 defaults to no policy set on max life.
 
-.. _delete_policy:
+
 
 Delete policy
 ----------------------------------------------------------------------------------------------
@@ -502,7 +502,7 @@ This allows you to remove the password policy from a given group. Any
 users that were in that group will use the next highest policy or the
 global policy. The global policy cannot be removed.
 
-.. _modify_policy:
+
 
 Modify policy
 ----------------------------------------------------------------------------------------------
@@ -510,7 +510,7 @@ Modify policy
 This is used both for modifying per-group policy and the global policy.
 If no --group option is passed in then the global policy is modified.
 
-.. _show_policy:
+
 
 Show policy
 ----------------------------------------------------------------------------------------------
@@ -565,14 +565,14 @@ user
 
 Manage users.
 
-.. _lock_a_user_account:
+
 
 Lock a user account
 ----------------------------------------------------------------------------------------------
 
 user-lock will lock a user account, preventing them from logging in.
 
-.. _unlock_user_account:
+
 
 Unlock user account
 ----------------------------------------------------------------------------------------------

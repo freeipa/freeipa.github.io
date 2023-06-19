@@ -1,4 +1,4 @@
-.. _ipa_certificate_renewal:
+
 
 IPA Certificate Renewal
 =======================
@@ -15,7 +15,7 @@ requires.
 
 The following certificates are issued for our two CA types.
 
-.. _dogtag_ca:
+
 
 Dogtag CA
 ---------
@@ -146,7 +146,7 @@ Dogtag CA
    -  issued by IPA RA agent
    -  monitored by certmonger
 
-.. _selfsign_ca:
+
 
 Selfsign CA
 -----------
@@ -171,7 +171,7 @@ This document is going to focus on renewing Dogtag CA certificates. The
 solutions are broken into short, medium and long-term, moving from more
 manual to more automated.
 
-.. _short_term_plan:
+
 
 Short term plan
 ---------------
@@ -195,7 +195,7 @@ Information on renewals can be found at:
 -  http://docs.redhat.com/docs/en-US/Red_Hat_Certificate_System/8.1/html/Admin_Guide/Renewing_Certificates.html
 -  http://docs.redhat.com/docs/en-US/Red_Hat_Certificate_System/8.1/html/Admin_Guide/renewing-certificates.html
 
-.. _medium_term_plan:
+
 
 Medium term plan
 ----------------
@@ -237,7 +237,7 @@ will not revoke old CA subsystem certificates when a new one is issued.
 This differs from what we do with IPA host and service certificates that
 we issue.
 
-.. _renewing_the_agent_cert:
+
 
 Renewing the agent cert
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -247,12 +247,12 @@ is stored in the PKI-IPA LDAP database and will need to be updated when
 the certificate is renewed. If it isn't then the agent will fail to
 authenticate.
 
-.. _long_term_plan:
+
 
 Long term plan
 --------------
 
-.. _renewing_the_ca_certificate:
+
 
 Renewing the CA certificate
 ----------------------------------------------------------------------------------------------
@@ -264,7 +264,7 @@ a manual process.
 Updating the CA in the shared NSS database in /etc/pki/nssdb may be
 handled by SSSD.
 
-.. _subordinate_ca_renewal:
+
 
 Subordinate CA renewal
 ----------------------------------------------------------------------------------------------
@@ -273,12 +273,12 @@ If the CA is installed as a subordinate of another then by definition
 this is going to be a manual renewal process. The same problems of
 sharing the updated CA certificate apply.
 
-.. _special_cases:
+
 
 Special cases
 -------------
 
-.. _rekeying_the_ca:
+
 
 Rekeying the CA
 ----------------------------------------------------------------------------------------------
@@ -288,7 +288,7 @@ necessary/desired as the CA ages and certificates are revoked, unused,
 etc, as maintenance. We will need a way to install a new CA alongside
 the old one and slowly migrate all users to the new one.
 
-.. _rekeying_a_server_cert:
+
 
 Rekeying a server cert
 ----------------------------------------------------------------------------------------------

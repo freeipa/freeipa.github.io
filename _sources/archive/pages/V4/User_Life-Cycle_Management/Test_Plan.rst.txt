@@ -3,7 +3,7 @@
 Test Plan
 =========
 
-.. _common_setup:
+
 
 Common setup
 ------------

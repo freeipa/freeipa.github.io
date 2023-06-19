@@ -34,7 +34,7 @@ Terminology
    The IPA CA, any lightweight CA hosted in the Dogtag instance, or any
    other CA that FreeIPA can cause to revoke certificates.
 
-.. _design_guidelines:
+
 
 Design guidelines
 -----------------
@@ -80,7 +80,7 @@ principals. This situation does not arise in normal use.
 Use Cases
 =========
 
-.. _issuance_of_a_new_certificate_non_renewal:
+
 
 Issuance of a new certificate (non-renewal)
 -------------------------------------------
@@ -89,7 +89,7 @@ A host, service or user certificate is being requested for some new
 purpose. The subject may already have certificates for other purposes.
 Existing certificates *must not be revoked*.
 
-.. _renewal_due_to_impending_expiry:
+
 
 Renewal due to impending expiry
 -------------------------------
@@ -99,7 +99,7 @@ new certificate is issued, it does no harm to revoke the old
 certificate. But it is *not necessary to revoke* the old certificate,
 because it will soon expire.
 
-.. _renewal_for_other_reasons:
+
 
 Renewal for other reasons
 -------------------------
@@ -110,7 +110,7 @@ Name, etc.) As a simplifying assumption, we'll treat all revocation
 reasons the same way. It is therefore *necessary to revoke* the
 certificate that is being replaced (and only that certificate).
 
-.. _revocation_without_renewal:
+
 
 Revocation without renewal
 --------------------------
@@ -128,7 +128,7 @@ disable/preserve a user but *not revoke certificates*?
 Design
 ======
 
-.. _cert_request:
+
 
 ``cert-request``
 ----------------
@@ -150,14 +150,14 @@ behaviour is for ``ipa cert-request`` to **never revoke any
 certificate**, nor remove any ``userCertificate`` attribute value from
 the subject principal's entry.
 
-.. _differences_from_current_behaviour:
+
 
 Differences from current behaviour
 ----------------------------------------------------------------------------------------------
 
 None.
 
-.. _hostserviceuser_mod:
+
 
 ``{host,service,user}-mod``
 ---------------------------
@@ -174,7 +174,7 @@ certificates), so explicit ``cert-revoke`` is still needed. Furthermore,
 forcing the operator to use ``cert-revoke`` allows them to specify a
 revocation reason.
 
-.. _differences_from_current_behaviour_1:
+
 
 Differences from current behaviour
 ----------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ Differences from current behaviour
 Revocation behaviour needs to be removed from the ``service-mod`` and
 ``host-mod`` commands. (**Backwards compatibility concern.**)
 
-.. _hostserviceuser_remove_cert:
+
 
 ``{host,service,user}-remove-cert``
 -----------------------------------
@@ -199,7 +199,7 @@ certificates), so explicit ``cert-revoke`` is still needed. Furthermore,
 forcing the operator to use ``cert-revoke`` allows them to specify a
 revocation reason.
 
-.. _differences_from_current_behaviour_2:
+
 
 Differences from current behaviour
 ----------------------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ Revocation behaviour needs to be removed from the
 ``service-remove-cert`` and ``host-remove-cert`` commands. (**Backwards
 compatibility concern.**)
 
-.. _hostserviceuser_deldisable:
+
 
 ``{host,service,user}-{del,disable}``
 -------------------------------------
@@ -240,7 +240,7 @@ be removed from the entry**. The revocation reason shall be
 Command output shall be updated to advise of any non-IPA-managed
 certificates, so that an administrator may take appropriate actions.
 
-.. _differences_from_current_behaviour_3:
+
 
 Differences from current behaviour
 ----------------------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ revocation behaviour implemented.
 The affected commands need to be enhanced to report the non-IPA-managed
 certificates.
 
-.. _ipa_cert_revoke:
+
 
 ``ipa cert-revoke``
 -------------------
@@ -259,7 +259,7 @@ certificates.
 The ``cert-revoke`` command shall revoke the nominated certificate. It
 shall not remove the revoked certificate from LDAP entries.
 
-.. _differences_from_current_behaviour_4:
+
 
 Differences from current behaviour
 ----------------------------------------------------------------------------------------------
@@ -289,7 +289,7 @@ certificate from the principal's entry**.
 expectations? If you're rekeying due to compromise, surely it is not too
 much a burden to ``getcert rekey`` *and* ``ipa cert-revoke``?
 
-.. _differences_from_current_behaviour_5:
+
 
 Differences from current behaviour
 ----------------------------------------------------------------------------------------------

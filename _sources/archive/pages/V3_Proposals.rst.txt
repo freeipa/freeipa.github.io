@@ -1,4 +1,4 @@
-.. _useful_links:
+
 
 Useful links
 ============
@@ -17,7 +17,7 @@ Superseded
    Discovery <FreeIPAv2:DNS_Location_Discovery>`__ - How to manage
    locations and nearest server discovery for clients
 
-.. _v3_designs___accepted:
+
 
 V3 Designs - accepted
 =====================

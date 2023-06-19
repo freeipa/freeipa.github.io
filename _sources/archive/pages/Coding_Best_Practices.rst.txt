@@ -9,7 +9,7 @@ things.
 Current
 =======
 
-.. _decorator_based_plugin_registration:
+
 
 Decorator-based plugin registration
 -----------------------------------
@@ -32,7 +32,7 @@ to:
 
 Note that it's necessary to name the decorator ``register``.
 
-.. _split_long_translatable_strings:
+
 
 Split long translatable strings
 -------------------------------
@@ -52,7 +52,7 @@ the affected part needs to be re-translated. Example:
 Note that the strings should *only* be split when they are changed,
 because after a split all parts have to be re-translated.
 
-.. _do_not_use_star_imports:
+
 
 Do not use star imports
 -----------------------
@@ -78,7 +78,7 @@ or
 
 See https://fedorahosted.org/freeipa/ticket/2653, and PEP8
 
-.. _use_the_admintool_framework_for_installationmanagement_scripts:
+
 
 Use the admintool framework for installation/management scripts
 ---------------------------------------------------------------
@@ -98,7 +98,7 @@ Finished
 For these items, all code in IPA was updated and, if applicable, the old
 way of doing things was disabled.
 
-.. _ldapentry_dict_like_api:
+
 
 LDAPEntry dict-like API
 -----------------------

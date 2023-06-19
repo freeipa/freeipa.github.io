@@ -4,7 +4,7 @@ Overview
 This document describes the procedure to install and configure Samba for
 the integrated environment with IPA.
 
-.. _installing_samba:
+
 
 Installing Samba
 ================
@@ -13,7 +13,7 @@ Install Samba 4. The installation directory will be referred to as
 SAMBA_HOME. Replace any occurence of SAMBA_HOME in this document with
 the actual path.
 
-.. _configuring_samba:
+
 
 Configuring Samba
 =================
@@ -38,7 +38,7 @@ Create SAMBA_HOME/etc/smb.conf:
            path = SAMBA_HOME/var/locks/sysvol
            read only = no
 
-.. _provisioning_samba_backend:
+
 
 Provisioning Samba Backend
 ==========================
@@ -57,7 +57,7 @@ Execute the following command to provision Samba backend:
     --host-name=buildsamba02 --host-ip=127.0.0.1 \
     --slapd-path=/usr/sbin/ns-slapd --setup-ds-path=/usr/sbin/setup-ds.pl
 
-.. _starting_ds_instance:
+
 
 Starting DS Instance
 ====================
@@ -67,7 +67,7 @@ Starting DS Instance
    % cd SAMBA_HOME
    % private/ldap/slapd-samba4/start-slapd
 
-.. _enabling_ds_change_log:
+
 
 Enabling DS Change Log
 ======================
@@ -91,7 +91,7 @@ Restart DS:
    % private/ldap/slapd-samba4/stop-slapd
    % private/ldap/slapd-samba4/start-slapd
 
-.. _installing_syncback_module:
+
 
 Installing Syncback Module
 ==========================
@@ -117,7 +117,7 @@ the @LIST as follows:
     ded_dn_out_fds,show_deleted,new_partition,partition
    distinguishedName: @MODULES
 
-.. _starting_samba:
+
 
 Starting Samba
 ==============
@@ -127,7 +127,7 @@ Starting Samba
    % cd SAMBA_HOME
    % sbin/samba -i -M single
 
-.. _enabling_clear_text_password:
+
 
 Enabling Clear Text Password
 ============================

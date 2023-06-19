@@ -2,7 +2,7 @@ This page contains troubleshooting advice for FreeIPA server
 installation. For trouble shooting other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.
 
-.. _server_installation:
+
 
 Server Installation
 ===================
@@ -18,7 +18,7 @@ check it's logs as well. The most useful logs are the following:
 -  ``/var/log/pki/pki-tomcat/ca/system``
 -  ``/var/log/pki/pki-tomcat/ca/debug``
 
-.. _pki_selinux_policy_not_loaded_properly:
+
 
 pki-selinux policy not loaded properly
 ======================================
@@ -30,7 +30,7 @@ failed to load its policy. The best thing to do is to force re-install
 ``pki-selinux`` (and check for any errors in the /var/log/messages file
 or journal).
 
-.. _replica_installation:
+
 
 Replica Installation
 ====================
@@ -39,7 +39,7 @@ When installation crashes, check installation log in
 ``/var/log/ipareplica-install.log``. When CA is being installed on a
 replica, check the aforementioned `PKI <PKI>`__ logs as well.
 
-.. _migrating_from_rhel_6centos_6:
+
 
 Migrating from RHEL 6/CentOS 6
 ------------------------------
@@ -89,7 +89,7 @@ Migrating from RHEL 6/CentOS 6
 
          # /usr/share/pki/scripts/restore-subsystem-user.py -v
 
-.. _replica_installation_fails_with_invalid_credentials:
+
 
 Replica Installation fails with Invalid Credentials
 ---------------------------------------------------
@@ -111,7 +111,7 @@ This can happen when the ipa-replica-install command is called with
 Once they are synchronized (either manually or with NTP or chrony),
 ipa-replica-install should succeed
 
-.. _client_installation:
+
 
 Client Installation
 ===================
@@ -122,7 +122,7 @@ mode if you run ``ipa-client-install`` with ``--debug`` option. (Log
 files always contain debug information, so you do not need to re-run
 installation with ``--debug`` option.)
 
-.. _installation_breaks_on_decodingdownloading_ca_certificate:
+
 
 Installation breaks on decoding/downloading CA certificate
 ----------------------------------------------------------
@@ -146,7 +146,7 @@ Installation breaks on decoding/downloading CA certificate
       ``# ldapdelete -Y GSSAPI "cn=CAcert,cn=ipa,cn=etc,dc=example,dc=test"``
       ``# ipa-ldap-updater --upgrade``
 
-.. _failed_to_update_dns_records:
+
 
 Failed to update DNS records
 ----------------------------
@@ -162,7 +162,7 @@ When client cannot update the DNS record in FreeIPA managed DNS zone:
    for **both UDP and TCP** (`related user
    case <https://www.redhat.com/archives/freeipa-users/2015-March/msg00693.html>`__)
 
-.. _installation_breaks_on_joining_realm:
+
 
 Installation breaks on Joining realm
 ------------------------------------

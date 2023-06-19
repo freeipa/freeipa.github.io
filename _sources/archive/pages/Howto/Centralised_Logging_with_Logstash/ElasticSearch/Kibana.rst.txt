@@ -12,7 +12,7 @@ servers to receive and parse logs and a cluster of 5 ElasticSearch
 database servers. Kibana is used as the interface to view log data from
 the ES cluster.
 
-.. _base_log_sending:
+
 
 Base Log Sending
 ----------------
@@ -25,7 +25,7 @@ The basic rsyslog configuration is modified by adding the file
 This will get rsyslog sending everything it receives to logserver via
 UDP on port 5544.
 
-.. _advanced_log_sending:
+
 
 Advanced Log Sending
 --------------------
@@ -77,7 +77,7 @@ that match "my_environment=Dev" AND "my_project=IPA".
 The other rsyslog properties that are sent are my current best-guess at
 what I need when reviewing the logs through the Kibana UI.
 
-.. _getting_dirsrv_logs_sending:
+
 
 Getting dirsrv Logs Sending
 ---------------------------
@@ -105,7 +105,7 @@ access and errors log files. The log files are polled every 2 seconds
 new log data is pulled in by rsyslog and then sent on to the Logstash
 server(s) via the logstash.conf file above.
 
-.. _logstash_configuration:
+
 
 Logstash Configuration
 ----------------------

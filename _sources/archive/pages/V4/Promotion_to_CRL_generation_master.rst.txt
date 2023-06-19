@@ -89,7 +89,7 @@ required services. It will use interfaces provided in cainstance.py:
 | ``        :param setup_crlgen: if True enable CRL generation, if False, disable``
 | ``        """``
 
-.. _feature_management___cli:
+
 
 Feature management - CLI
 ========================
@@ -139,7 +139,7 @@ Enable CRL generation on the local host
 | ``# kinit admin``
 | ``# ipa-crlgen-manage enable``
 
-.. _requirements_for_the_ipa_crlgen_manage_script:
+
 
 Requirements for the ipa-crlgen-manage script
 ---------------------------------------------
@@ -188,7 +188,7 @@ With "disable" subcommand:
    Master <https://www.freeipa.org/page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`__
    and exit with 0.
 
-.. _requirements_for_the_ipa_server_install___uninstall_script:
+
 
 Requirements for the ipa-server-install --uninstall script
 ----------------------------------------------------------
@@ -214,7 +214,7 @@ Test Plan
 
 ¯\_(ツ)_/¯
 
-.. _future_considerations:
+
 
 Future considerations
 =====================

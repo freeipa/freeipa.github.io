@@ -22,7 +22,7 @@ guides and posts found in Internet. Some of the more helpful were:
 client and the authentication server, i.e. password will be trasmitted
 as CLEAR TEXT, consider this with respect to your environment.**
 
-.. _install_a_new_server:
+
 
 Install a new server
 --------------------
@@ -38,12 +38,14 @@ Software Selection.
 
 Ensure that the server is up to date:
 
-| ``[root@ipa ~
-| ``...``
-| ``[root@ipa ~]# yum update``
-| ``...``
+::
 
-.. _install_configure_and_test_ipa_server:
+   | ``[root@ipa ~
+   | ``...``
+   | ``[root@ipa ~]# yum update``
+   | ``...``
+
+
 
 Install, configure and test IPA Server
 --------------------------------------
@@ -284,7 +286,7 @@ should enter “password762405” in the password field):
 If everything up to now is working as expected, you can proceed with the
 installation and configuration of the RADIUS frontend.
 
-.. _install_configure_and_test_radius_server_as_a_frontend_to_ipa:
+
 
 Install, configure and test RADIUS Server as a frontend to IPA
 --------------------------------------------------------------

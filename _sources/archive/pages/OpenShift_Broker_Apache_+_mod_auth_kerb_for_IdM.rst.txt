@@ -15,7 +15,7 @@ Notes:
 -  There are two apache configurations, one "Broker" and one "Console" -
    they share the same keytab
 
-.. _apache-configuration:
+
 
 Apache configuration:
 
@@ -101,7 +101,7 @@ Restart services:
    $ service openshift-broker restart
    $ service openshift-console restart
 
-.. _test:
+
 
 Test
 

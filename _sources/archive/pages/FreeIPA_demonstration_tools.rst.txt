@@ -78,7 +78,9 @@ Now we'll show the easiest way to try out FreeIPA:
    (example:
    'http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/'):
 
-``./ipa-base-prepare.sh --createbase --repo $selected_repository ``
+::
+
+   ``./ipa-base-prepare.sh --createbase --repo $selected_repository ``
 
 -  Prepare installation image:
 

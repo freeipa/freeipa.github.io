@@ -54,7 +54,7 @@ certificate field</p>
 </dd>
 </dl>
 <section id="data-rules">
-<span id="id1"></span><h2>Data rules<a class="headerlink" href="#data-rules" title="Permalink to this heading">¶</a></h2>
+<h2>Data rules<a class="headerlink" href="#data-rules" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Include data attribute values</p></li>
 <li><p>Include literal values</p></li>
@@ -67,7 +67,7 @@ attacks</p></li>
 </ul>
 </section>
 <section id="syntax-rules">
-<span id="id2"></span><h2>Syntax rules<a class="headerlink" href="#syntax-rules" title="Permalink to this heading">¶</a></h2>
+<h2>Syntax rules<a class="headerlink" href="#syntax-rules" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Distinguish between generated config files and command-line arguments</p></li>
 <li><p>For openssl: produce and reference new config file sections</p></li>
@@ -80,7 +80,7 @@ are going to be rendered</p></li>
 </section>
 </section>
 <section id="planned-implementation">
-<span id="id3"></span><h1>Planned implementation<a class="headerlink" href="#planned-implementation" title="Permalink to this heading">¶</a></h1>
+<h1>Planned implementation<a class="headerlink" href="#planned-implementation" title="Permalink to this heading">¶</a></h1>
 <p>We will use Jinja2 for templating. Data rules and syntax rules will both
 be snippets of Jinja2 markup. The formatting process will be as follows:</p>
 <ol class="arabic simple">
@@ -96,7 +96,7 @@ this rendering.</p></li>
 with its function (e.g. a command line or a config file)</p></li>
 </ol>
 <section id="data-available-during-final-render">
-<span id="id4"></span><h2>Data available during final render<a class="headerlink" href="#data-available-during-final-render" title="Permalink to this heading">¶</a></h2>
+<h2>Data available during final render<a class="headerlink" href="#data-available-during-final-render" title="Permalink to this heading">¶</a></h2>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">subject</span></code></dt><dd><p>dict of data from the IPA object corresponding to the subject of this
 certificate</p>
@@ -106,7 +106,7 @@ certificate</p>
 </dl>
 </section>
 <section id="special-features">
-<span id="id5"></span><h2>Special features<a class="headerlink" href="#special-features" title="Permalink to this heading">¶</a></h2>
+<h2>Special features<a class="headerlink" href="#special-features" title="Permalink to this heading">¶</a></h2>
 <p>Some less-than-obvious features will be required to support generating
 the needed configs. Some of them will require extensions to the Jinja2
 language, others just require specific usage of the tools that Jinja2
@@ -137,28 +137,28 @@ example <code class="docutils literal notranslate"><span class="pre">{%</span> <
 <p>Example syntax rule:</p>
 <p><code class="docutils literal notranslate"><span class="pre">subjectAltName=&#64;{% section %}{{datarules|join('\n')}}{% endsection %}</span></code></p>
 <p>Example composed config template:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[ req ]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">prompt = no</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">encrypt_key = no</span></code></div>
-<div class="line"><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">``</span></a></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">CN={{subject.username}}{% endsection %}</span></code></div>
-<div class="line"><a href="#id10"><span class="problematic" id="id11">``</span></a><a href="#id12"><span class="problematic" id="id13">``</span></a></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">req_extensions = exts</span></code></div>
-<div class="line"><a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">``</span></a></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[ exts ]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">subjectAltName=&#64;{% section %}email={{subject.email}}{% endsection %}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``[ req ]``
+| ``prompt = no``
+| ``encrypt_key = no``
+| ````
+| ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
+| ``CN={{subject.username}}{% endsection %}``
+| ````
+| ``req_extensions = exts``
+| ````
+| ``[ exts ]``
+| ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
+</pre></div>
 </div>
 </section>
 </section>
 <section id="current-status">
-<span id="id18"></span><h1>Current status<a class="headerlink" href="#current-status" title="Permalink to this heading">¶</a></h1>
+<h1>Current status<a class="headerlink" href="#current-status" title="Permalink to this heading">¶</a></h1>
 <p>The code <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2016-July/msg00462.html">currently under
 review</a>
 implements most of the features described above, with some exceptions:</p>
 <section id="macros-not-tags">
-<span id="id19"></span><h2>Macros, not tags<a class="headerlink" href="#macros-not-tags" title="Permalink to this heading">¶</a></h2>
+<h2>Macros, not tags<a class="headerlink" href="#macros-not-tags" title="Permalink to this heading">¶</a></h2>
 <p>It was convenient to use jinja2 macros to implement some of the
 <a class="reference external" href="#Special_features">#Special features</a> instead of adding new tags
 which requires extending the parser. So, instead of
@@ -169,7 +169,7 @@ rules with no data are implemented using jinja2 macros. If the macros
 turn out to be problematic, we may want to move to using tags after all.</p>
 </section>
 <section id="rule-suppression">
-<span id="id20"></span><h2>Rule suppression<a class="headerlink" href="#rule-suppression" title="Permalink to this heading">¶</a></h2>
+<h2>Rule suppression<a class="headerlink" href="#rule-suppression" title="Permalink to this heading">¶</a></h2>
 <p>It is important that the final output does not contain
 partially-constructed strings, reference empty sections, or provide
 command-line flags missing their arguments. So, we must be able to
@@ -193,9 +193,9 @@ for example:</p>
 </section>
 </section>
 <section id="alternatives-considered">
-<span id="id21"></span><h1>Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permalink to this heading">¶</a></h1>
+<h1>Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permalink to this heading">¶</a></h1>
 <section id="template-languages">
-<span id="id22"></span><h2>Template languages<a class="headerlink" href="#template-languages" title="Permalink to this heading">¶</a></h2>
+<h2>Template languages<a class="headerlink" href="#template-languages" title="Permalink to this heading">¶</a></h2>
 <p>Several possible tools were considered and tested for implementing these
 relationships before settling on jinja2:</p>
 <ul class="simple">
@@ -215,7 +215,7 @@ language would need to be defined and implemented.</p></li>
 </ul>
 </section>
 <section id="data-interpolation">
-<span id="id23"></span><h2>Data interpolation<a class="headerlink" href="#data-interpolation" title="Permalink to this heading">¶</a></h2>
+<h2>Data interpolation<a class="headerlink" href="#data-interpolation" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="http://blog.benjaminlipton.com/2016/07/19/csr-generation-templating.html">This blog
 post</a>
 (<a class="reference external" href="V4/Automatic_Certificate_Request_Generation/Thinking_About_Templating_Post">archived
@@ -223,8 +223,8 @@ here</a>)
 analyzes some alternative ways of using jinja2 to format rules, besides
 the current option of substituting data rules into syntax rules.</p>
 </section>
-<section id="rule-suppression-1">
-<span id="id24"></span><h2>Rule suppression<a class="headerlink" href="#rule-suppression-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h2>Rule suppression<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>In retrospect, the definitions of the syntaxrule, datarule, and
 datafield macros are difficult to understand and modify, in part because
 it is difficult to avoid introducing unintended whitespace into the

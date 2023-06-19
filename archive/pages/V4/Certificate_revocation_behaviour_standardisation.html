@@ -65,7 +65,7 @@ other CA that FreeIPA can cause to revoke certificates.</p>
 </dl>
 </section>
 <section id="design-guidelines">
-<span id="id1"></span><h2>Design guidelines<a class="headerlink" href="#design-guidelines" title="Permalink to this heading">¶</a></h2>
+<h2>Design guidelines<a class="headerlink" href="#design-guidelines" title="Permalink to this heading">¶</a></h2>
 <p>The following guidelines inform this design. They are important
 considerations, not unbreakable rules. Deviations should be justified.</p>
 <ul class="simple">
@@ -105,20 +105,20 @@ principals. This situation does not arise in normal use.</p>
 <section id="use-cases">
 <h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
 <section id="issuance-of-a-new-certificate-non-renewal">
-<span id="id2"></span><h2>Issuance of a new certificate (non-renewal)<a class="headerlink" href="#issuance-of-a-new-certificate-non-renewal" title="Permalink to this heading">¶</a></h2>
+<h2>Issuance of a new certificate (non-renewal)<a class="headerlink" href="#issuance-of-a-new-certificate-non-renewal" title="Permalink to this heading">¶</a></h2>
 <p>A host, service or user certificate is being requested for some new
 purpose. The subject may already have certificates for other purposes.
 Existing certificates <em>must not be revoked</em>.</p>
 </section>
 <section id="renewal-due-to-impending-expiry">
-<span id="id3"></span><h2>Renewal due to impending expiry<a class="headerlink" href="#renewal-due-to-impending-expiry" title="Permalink to this heading">¶</a></h2>
+<h2>Renewal due to impending expiry<a class="headerlink" href="#renewal-due-to-impending-expiry" title="Permalink to this heading">¶</a></h2>
 <p>A certificate is requested to renew an existing certificate. After the
 new certificate is issued, it does no harm to revoke the old
 certificate. But it is <em>not necessary to revoke</em> the old certificate,
 because it will soon expire.</p>
 </section>
 <section id="renewal-for-other-reasons">
-<span id="id4"></span><h2>Renewal for other reasons<a class="headerlink" href="#renewal-for-other-reasons" title="Permalink to this heading">¶</a></h2>
+<h2>Renewal for other reasons<a class="headerlink" href="#renewal-for-other-reasons" title="Permalink to this heading">¶</a></h2>
 <p>A certificate could be renewed before its expiration time is near, for
 any reason (e.g. re-key due to compromise, add a Subject Alternative
 Name, etc.) As a simplifying assumption, we’ll treat all revocation
@@ -126,7 +126,7 @@ reasons the same way. It is therefore <em>necessary to revoke</em> the
 certificate that is being replaced (and only that certificate).</p>
 </section>
 <section id="revocation-without-renewal">
-<span id="id5"></span><h2>Revocation without renewal<a class="headerlink" href="#revocation-without-renewal" title="Permalink to this heading">¶</a></h2>
+<h2>Revocation without renewal<a class="headerlink" href="#revocation-without-renewal" title="Permalink to this heading">¶</a></h2>
 <p>A certificate (or its subject) may cease operation such that revocation
 is required. If a single certificate requires revocation, in the common
 case, it should also be removed from the subject’s <code class="docutils literal notranslate"><span class="pre">userCertificate</span></code>
@@ -140,7 +140,7 @@ disable/preserve a user but <em>not revoke certificates</em>?</p>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 <section id="cert-request">
-<span id="id6"></span><h2><code class="docutils literal notranslate"><span class="pre">cert-request</span></code><a class="headerlink" href="#cert-request" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">cert-request</span></code><a class="headerlink" href="#cert-request" title="Permalink to this heading">¶</a></h2>
 <p>Based on the use cases above, requesting a new certificate is
 <em>sometimes</em> associated with a desire to revoke <em>one</em> certificate.
 Revocation as a default behaviour is wrong.</p>
@@ -157,11 +157,11 @@ certificate</strong>, nor remove any <code class="docutils literal notranslate">
 the subject principal’s entry.</p>
 </section>
 <section id="differences-from-current-behaviour">
-<span id="id7"></span><h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour" title="Permalink to this heading">¶</a></h2>
+<h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour" title="Permalink to this heading">¶</a></h2>
 <p>None.</p>
 </section>
 <section id="host-service-user-mod">
-<span id="hostserviceuser-mod"></span><h2><code class="docutils literal notranslate"><span class="pre">{host,service,user}-mod</span></code><a class="headerlink" href="#host-service-user-mod" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">{host,service,user}-mod</span></code><a class="headerlink" href="#host-service-user-mod" title="Permalink to this heading">¶</a></h2>
 <p>Removal of a <code class="docutils literal notranslate"><span class="pre">userCertificate</span></code> attribute value <strong>shall not revoke the
 certificate</strong>.</p>
 <p>Rationale: The <code class="docutils literal notranslate"><span class="pre">cert-revoke</span></code> command already provides revocation
@@ -173,13 +173,13 @@ certificates), so explicit <code class="docutils literal notranslate"><span clas
 forcing the operator to use <code class="docutils literal notranslate"><span class="pre">cert-revoke</span></code> allows them to specify a
 revocation reason.</p>
 </section>
-<section id="differences-from-current-behaviour-1">
-<span id="id8"></span><h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h2>Differences from current behaviour<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>Revocation behaviour needs to be removed from the <code class="docutils literal notranslate"><span class="pre">service-mod</span></code> and
 <code class="docutils literal notranslate"><span class="pre">host-mod</span></code> commands. (<strong>Backwards compatibility concern.</strong>)</p>
 </section>
 <section id="host-service-user-remove-cert">
-<span id="hostserviceuser-remove-cert"></span><h2><code class="docutils literal notranslate"><span class="pre">{host,service,user}-remove-cert</span></code><a class="headerlink" href="#host-service-user-remove-cert" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">{host,service,user}-remove-cert</span></code><a class="headerlink" href="#host-service-user-remove-cert" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">{host,service,user}-remove-cert</span></code> commands <strong>shall not revoke
 certificates</strong>.</p>
 <p>Rationale: The <code class="docutils literal notranslate"><span class="pre">cert-revoke</span></code> command already provides revocation
@@ -191,14 +191,14 @@ certificates), so explicit <code class="docutils literal notranslate"><span clas
 forcing the operator to use <code class="docutils literal notranslate"><span class="pre">cert-revoke</span></code> allows them to specify a
 revocation reason.</p>
 </section>
-<section id="differences-from-current-behaviour-2">
-<span id="id9"></span><h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour-2" title="Permalink to this heading">¶</a></h2>
+<section id="id2">
+<h2>Differences from current behaviour<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <p>Revocation behaviour needs to be removed from the
 <code class="docutils literal notranslate"><span class="pre">service-remove-cert</span></code> and <code class="docutils literal notranslate"><span class="pre">host-remove-cert</span></code> commands. (<strong>Backwards
 compatibility concern.</strong>)</p>
 </section>
 <section id="host-service-user-del-disable">
-<span id="hostserviceuser-deldisable"></span><h2><code class="docutils literal notranslate"><span class="pre">{host,service,user}-{del,disable}</span></code><a class="headerlink" href="#host-service-user-del-disable" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">{host,service,user}-{del,disable}</span></code><a class="headerlink" href="#host-service-user-del-disable" title="Permalink to this heading">¶</a></h2>
 <p>When deleting or disabling a user, host or service it makes sense to
 revoke certifiates. (<strong>QUESTION</strong> counterexamples?) Should
 <code class="docutils literal notranslate"><span class="pre">{host,service,user}-{del,disable}</span></code> revoke certificates, or not?</p>
@@ -224,20 +224,20 @@ be removed from the entry</strong>. The revocation reason shall be
 <p>Command output shall be updated to advise of any non-IPA-managed
 certificates, so that an administrator may take appropriate actions.</p>
 </section>
-<section id="differences-from-current-behaviour-3">
-<span id="id10"></span><h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour-3" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h2>Differences from current behaviour<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">user-del</span></code> and <code class="docutils literal notranslate"><span class="pre">user-disable</span></code> commands need to have the
 revocation behaviour implemented.</p>
 <p>The affected commands need to be enhanced to report the non-IPA-managed
 certificates.</p>
 </section>
 <section id="ipa-cert-revoke">
-<span id="id11"></span><h2><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-revoke</span></code><a class="headerlink" href="#ipa-cert-revoke" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-revoke</span></code><a class="headerlink" href="#ipa-cert-revoke" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">cert-revoke</span></code> command shall revoke the nominated certificate. It
 shall not remove the revoked certificate from LDAP entries.</p>
 </section>
-<section id="differences-from-current-behaviour-4">
-<span id="id12"></span><h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour-4" title="Permalink to this heading">¶</a></h2>
+<section id="id4">
+<h2>Differences from current behaviour<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p>None.</p>
 </section>
 <section id="certmonger">
@@ -259,8 +259,8 @@ certificate from the principal’s entry</strong>.</p>
 expectations? If you’re rekeying due to compromise, surely it is not too
 much a burden to <code class="docutils literal notranslate"><span class="pre">getcert</span> <span class="pre">rekey</span></code> <em>and</em> <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-revoke</span></code>?</p>
 </section>
-<section id="differences-from-current-behaviour-5">
-<span id="id13"></span><h2>Differences from current behaviour<a class="headerlink" href="#differences-from-current-behaviour-5" title="Permalink to this heading">¶</a></h2>
+<section id="id5">
+<h2>Differences from current behaviour<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">ipa</span></code> renewal helper needs to be updated to invoke <code class="docutils literal notranslate"><span class="pre">cert-revoke</span></code>
 and <code class="docutils literal notranslate"><span class="pre">{user,host,service}-remove-cert</span></code> (or equivalent) after a
 successfull renewal.</p>

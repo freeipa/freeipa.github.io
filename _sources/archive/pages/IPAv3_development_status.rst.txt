@@ -19,14 +19,14 @@ solution: `"IPA and AD" integration. <IPA_and_AD>`__
 Effort
 ======
 
-.. _system_integration:
+
 
 System Integration
 ------------------
 
 -  `Architecture <Obsolete:IPAv3_Architecture>`__
 
-.. _backend_synchronization:
+
 
 Backend Synchronization
 -----------------------
@@ -35,7 +35,7 @@ Backend Synchronization
 -  `Task List <Obsolete:IPAv3_Synchronization_Task_List>`__
 -  `Technical Notes <Obsolete:IPAv3_Technical_Notes>`__
 
-.. _kerberos_integration:
+
 
 Kerberos Integration
 --------------------
@@ -47,7 +47,7 @@ The Kerberos integration effort is tracked here:
 -  `Attempt to itemize tasks for the
    effort <http://k5wiki.kerberos.org/wiki/Task-List_for_Samba4_Port_(Andrew_Bartlett)>`__
 
-.. _new_dns_interface:
+
 
 New DNS Interface
 -----------------

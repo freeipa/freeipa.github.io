@@ -1,4 +1,4 @@
-.. _wiki_structure:
+
 
 Wiki structure
 ==============

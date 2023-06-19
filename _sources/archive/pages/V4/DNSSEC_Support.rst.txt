@@ -5,7 +5,7 @@ Please note that **DNSSEC zone signing** and **DNSSEC records
 validation** are two different features, which can coexist without each
 other.
 
-.. _dnssec_zone_signing:
+
 
 DNSSEC zone signing
 ----------------------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ just one IPA DNS server as **DNSSEC key master** using
 ``ipa-dns-install --dnssec-master`` command, and enable particular zones
 to be signed using ``dnszone-mod example.com. --dnssec=true`` command.
 
-.. _dnssec_records_validation:
+
 
 DNSSEC records validation
 ----------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ Note: **IPA 4.2** checks forwarders in forwarding zones too
 Use Cases
 ---------
 
-.. _zone_records_signing:
+
 
 Zone records signing
 ----------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ More information can be found here: `Howto/DNSSEC <Howto/DNSSEC>`__.
 Troubleshooting: `DNSSEC signing does not
 work <Troubleshooting#DNSSEC_signing_does_not_work>`__.
 
-.. _records_validation:
+
 
 Records validation
 ----------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ following way:
 | ``    dnssec-validation no;``
 | ``}``
 
-.. _adding_forwarders:
+
 
 Adding forwarders
 ----------------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ Schema for DNSSEC metada is defined
 
 Schema for keys is defined `here <PKCS11_in_LDAP/Schema>`__.
 
-.. _detection_if_forwarders_are_dnssec_capable:
+
 
 Detection if forwarders are DNSSEC capable
 ----------------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ Detection if forwarders are DNSSEC capable
 Detection was improved in **IPA 4.2**, this section describes IPA 4.2
 only.
 
-.. _global_forwarders:
+
 
 Global forwarders
 ----------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ Check is done against the root zone.
    #. failed: forwarder does not support DNSSEC
    #. pass: forwarder supports DNSSEC
 
-.. _forward_zones:
+
 
 Forward zones
 ----------------------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ Steps:
 Implementation
 --------------
 
-.. _how_dns_zone_gets_signed_in_ipa:
+
 
 How DNS zone gets signed in IPA
 ----------------------------------------------------------------------------------------------
@@ -271,7 +271,7 @@ How DNS zone gets signed in IPA
 #. **All DNS replicas** BIND (bind-pkcs11 required) reads key metadata
    and uses local HSM to sign the DNS data.
 
-.. _softhsm_configuration:
+
 
 SoftHSM configuration
 ----------------------------------------------------------------------------------------------
@@ -296,7 +296,7 @@ SoftHSM tokens are stored in directory:
 
 ``/var/lib/ipa/dnssec/tokens``
 
-.. _opendnssec_configuration:
+
 
 OpenDNSSEC configuration
 ----------------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ Default key parameters:
 Default values can be changed in *kasp.xml* file
 (*/etc/opendnssec/kasp.xml*).
 
-.. _directory_permissions:
+
 
 Directory permissions
 ----------------------------------------------------------------------------------------------
@@ -344,7 +344,7 @@ file modes, owner and group per directory/file:
 owner group. Is required to modify all files and subdirs in token's
 directory to proper mode, owner and group.
 
-.. _ldap_default_pkcs11_values:
+
 
 LDAP default PKCS#11 values
 ----------------------------------------------------------------------------------------------
@@ -355,7 +355,7 @@ LDAP default PKCS#11 values
 If any LDAP attribute is not present in entry, then a particular default
 value is used.
 
-.. _dnssec_master_key:
+
 
 DNSSEC Master Key
 ^^^^^^^^^^^^^^^^^
@@ -378,7 +378,7 @@ CKA_WRAP              ipk11Wrap            true
 CKA_WRAP_WITH_TRUSTED ipk11WrapWithTrusted false
 ===================== ==================== =============
 
-.. _replica_private_key:
+
 
 Replica Private Key
 ^^^^^^^^^^^^^^^^^^^
@@ -400,7 +400,7 @@ CKA_UNWRAP              ipk11Unwrap             true
 CKA_WRAP_WITH_TRUSTED   ipk11WrapWithTrusted    false
 ======================= ======================= =============
 
-.. _replica_public_key:
+
 
 Replica Public Key
 ^^^^^^^^^^^^^^^^^^
@@ -419,7 +419,7 @@ CKA_VERIFY_RECOVER ipk11VerifyRecover false
 CKA_WRAP           ipk11Wrap          true
 ================== ================== =============
 
-.. _dnssec_master_key_attributes:
+
 
 DNSSEC Master Key Attributes
 ----------------------------------------------------------------------------------------------
@@ -435,7 +435,7 @@ values (default values are not listed):
 -  CKA_WRAP: true
 -  CKA_UNWRAP: true
 
-.. _disabling_old_master_key:
+
 
 Disabling Old Master Key
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -443,7 +443,7 @@ Disabling Old Master Key
 If new master key is generated, the old key must be disable by setting
 attribute **CKA_WRAP** to **false**.
 
-.. _replica_keys_attributes:
+
 
 Replica Keys Attributes
 ----------------------------------------------------------------------------------------------
@@ -475,20 +475,22 @@ with following values (attributes with default values are not listed):
 
 Public replica key is also stored in LDAP database:
 
-| ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
-| ``objectclass: ipk11Object``
-| ``objectclass: ipk11PublicKey``
-| ``objectclass: ipaPublicKeyObject``
-| ``objectclass: top``
-| ``ipk11UniqueId: ``
-| ``ipk11Label: ``
-| ``ipaPublicKey: <public key in SubjectPublicKeyInfo (RFC 5280) form>``
-| ``ipk11Id': ``\ ``,``
-| ``ipk11Wrap: true``
-| ``ipk11Verify: false``
-| ``ipk11VerifyRecover: false``
+::
 
-.. _disabling_old_replica_keys:
+   | ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
+   | ``objectclass: ipk11Object``
+   | ``objectclass: ipk11PublicKey``
+   | ``objectclass: ipaPublicKeyObject``
+   | ``objectclass: top``
+   | ``ipk11UniqueId: ``
+   | ``ipk11Label: ``
+   | ``ipaPublicKey: <public key in SubjectPublicKeyInfo (RFC 5280) form>``
+   | ``ipk11Id': ``\ ``,``
+   | ``ipk11Wrap: true``
+   | ``ipk11Verify: false``
+   | ``ipk11VerifyRecover: false``
+
+
 
 Disabling old replica keys
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -579,7 +581,7 @@ Upgrade
 Required enabling/configuring ipa-dnskeysyncd service instance on each
 DNS replica
 
-.. _how_to_test24:
+
 
 How to test
 -----------
@@ -590,7 +592,7 @@ Follow instructions in this `howto <Howto/DNSSEC>`__, to test DNSSEC:
 -  enable signing per zone
 -  create root zone, create zone and verify chain of trust
 
-.. _test_plan24:
+
 
 Test Plan
 ---------

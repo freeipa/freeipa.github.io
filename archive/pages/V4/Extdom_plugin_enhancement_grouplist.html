@@ -90,44 +90,44 @@ everything what is needed will be available.</p>
 <section id="request">
 <h1>Request<a class="headerlink" href="#request" title="Permalink to this heading">¶</a></h1>
 <p>The current request looks like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">/* We expect the following request:</span></code></div>
-<div class="line">`` * ExtdomRequestValue ::= SEQUENCE {``</div>
-<div class="line">`` *    inputType ENUMERATED {``</div>
-<div class="line">`` *        sid (1),``</div>
-<div class="line">`` *        name (2),``</div>
-<div class="line">`` *        posix uid (3),``</div>
-<div class="line">`` *        posix gid (3)``</div>
-<div class="line">`` *    },``</div>
-<div class="line">`` *    requestType ENUMERATED {``</div>
-<div class="line">`` *        simple (1),``</div>
-<div class="line">`` *        full (2)``</div>
-<div class="line">`` *    },``</div>
-<div class="line">`` *    data InputData``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id1"><span class="problematic" id="id2">*</span></a><a href="#id3"><span class="problematic" id="id4">``</span></a></div>
-<div class="line">`` * InputData ::= CHOICE {``</div>
-<div class="line">`` *    sid OCTET STRING,``</div>
-<div class="line">`` *    name NameDomainData``</div>
-<div class="line">`` *    uid PosixUid,``</div>
-<div class="line">`` *    gid PosixGid``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id5"><span class="problematic" id="id6">*</span></a><a href="#id7"><span class="problematic" id="id8">``</span></a></div>
-<div class="line">`` * NameDomainData ::= SEQUENCE {``</div>
-<div class="line">`` *    domain_name OCTET STRING,``</div>
-<div class="line">`` *    object_name OCTET STRING``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id9"><span class="problematic" id="id10">*</span></a><a href="#id11"><span class="problematic" id="id12">``</span></a></div>
-<div class="line">`` * PosixUid ::= SEQUENCE {``</div>
-<div class="line">`` *    domain_name OCTET STRING,``</div>
-<div class="line">`` *    uid INTEGER``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id13"><span class="problematic" id="id14">*</span></a><a href="#id15"><span class="problematic" id="id16">``</span></a></div>
-<div class="line">`` * PosixGid ::= SEQUENCE {``</div>
-<div class="line">`` *    domain_name OCTET STRING,``</div>
-<div class="line">`` *    gid INTEGER``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id17"><span class="problematic" id="id18">*</span></a>/``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``/* We expect the following request:``
+| `` * ExtdomRequestValue ::= SEQUENCE {``
+| `` *    inputType ENUMERATED {``
+| `` *        sid (1),``
+| `` *        name (2),``
+| `` *        posix uid (3),``
+| `` *        posix gid (3)``
+| `` *    },``
+| `` *    requestType ENUMERATED {``
+| `` *        simple (1),``
+| `` *        full (2)``
+| `` *    },``
+| `` *    data InputData``
+| `` * }``
+| `` *``
+| `` * InputData ::= CHOICE {``
+| `` *    sid OCTET STRING,``
+| `` *    name NameDomainData``
+| `` *    uid PosixUid,``
+| `` *    gid PosixGid``
+| `` * }``
+| `` *``
+| `` * NameDomainData ::= SEQUENCE {``
+| `` *    domain_name OCTET STRING,``
+| `` *    object_name OCTET STRING``
+| `` * }``
+| `` *``
+| `` * PosixUid ::= SEQUENCE {``
+| `` *    domain_name OCTET STRING,``
+| `` *    uid INTEGER``
+| `` * }``
+| `` *``
+| `` * PosixGid ::= SEQUENCE {``
+| `` *    domain_name OCTET STRING,``
+| `` *    gid INTEGER``
+| `` * }``
+| `` */``
+</pre></div>
 </div>
 <p>Basically only a new request type must be added, e.g.</p>
 <div class="line-block">
@@ -148,7 +148,7 @@ or 256 to the values. Nevertheless I think it is less error prone to use
 a new OID.</p>
 </section>
 <section id="processing-the-request">
-<span id="id19"></span><h1>Processing the request<a class="headerlink" href="#processing-the-request" title="Permalink to this heading">¶</a></h1>
+<h1>Processing the request<a class="headerlink" href="#processing-the-request" title="Permalink to this heading">¶</a></h1>
 <p>The extdom plugin will call getgrouplist() and the resolve the fully
 qualified names by calling getgrgid(). By default groups from the local
 IPA domain are returned unqualified and the local domain name should be
@@ -168,43 +168,43 @@ get the data of the POSIX user entry.</p>
 <section id="response">
 <h1>Response<a class="headerlink" href="#response" title="Permalink to this heading">¶</a></h1>
 <p>Currently the response looks like:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">/* We send to follwing response:</span></code></div>
-<div class="line">`` * ExtdomResponseValue ::= SEQUENCE {``</div>
-<div class="line">`` *    responseType ENUMERATED {``</div>
-<div class="line">`` *        sid (1),``</div>
-<div class="line">`` *        name (2),``</div>
-<div class="line">`` *        posix_user (3),``</div>
-<div class="line">`` *        posix_group (4)``</div>
-<div class="line">`` *    },``</div>
-<div class="line">`` *    data OutputData``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id20"><span class="problematic" id="id21">*</span></a><a href="#id22"><span class="problematic" id="id23">``</span></a></div>
-<div class="line">`` * OutputData ::= CHOICE {``</div>
-<div class="line">`` *    sid OCTET STRING,``</div>
-<div class="line">`` *    name NameDomainData,``</div>
-<div class="line">`` *    user PosixUser,``</div>
-<div class="line">`` *    group PosixGroup``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id24"><span class="problematic" id="id25">*</span></a><a href="#id26"><span class="problematic" id="id27">``</span></a></div>
-<div class="line">`` * NameDomainData ::= SEQUENCE {``</div>
-<div class="line">`` *    domain_name OCTET STRING,``</div>
-<div class="line">`` *    object_name OCTET STRING``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id28"><span class="problematic" id="id29">*</span></a><a href="#id30"><span class="problematic" id="id31">``</span></a></div>
-<div class="line">`` * PosixUser ::= SEQUENCE {``</div>
-<div class="line">`` *    domain_name OCTET STRING,``</div>
-<div class="line">`` *    user_name OCTET STRING,``</div>
-<div class="line">`` *    uid INTEGER``</div>
-<div class="line">`` *    gid INTEGER``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id32"><span class="problematic" id="id33">*</span></a><a href="#id34"><span class="problematic" id="id35">``</span></a></div>
-<div class="line">`` * PosixGroup ::= SEQUENCE {``</div>
-<div class="line">`` *    domain_name OCTET STRING,``</div>
-<div class="line">`` *    group_name OCTET STRING,``</div>
-<div class="line">`` *    gid INTEGER``</div>
-<div class="line">`` * }``</div>
-<div class="line">`` <a href="#id36"><span class="problematic" id="id37">*</span></a>/``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``/* We send to follwing response:``
+| `` * ExtdomResponseValue ::= SEQUENCE {``
+| `` *    responseType ENUMERATED {``
+| `` *        sid (1),``
+| `` *        name (2),``
+| `` *        posix_user (3),``
+| `` *        posix_group (4)``
+| `` *    },``
+| `` *    data OutputData``
+| `` * }``
+| `` *``
+| `` * OutputData ::= CHOICE {``
+| `` *    sid OCTET STRING,``
+| `` *    name NameDomainData,``
+| `` *    user PosixUser,``
+| `` *    group PosixGroup``
+| `` * }``
+| `` *``
+| `` * NameDomainData ::= SEQUENCE {``
+| `` *    domain_name OCTET STRING,``
+| `` *    object_name OCTET STRING``
+| `` * }``
+| `` *``
+| `` * PosixUser ::= SEQUENCE {``
+| `` *    domain_name OCTET STRING,``
+| `` *    user_name OCTET STRING,``
+| `` *    uid INTEGER``
+| `` *    gid INTEGER``
+| `` * }``
+| `` *``
+| `` * PosixGroup ::= SEQUENCE {``
+| `` *    domain_name OCTET STRING,``
+| `` *    group_name OCTET STRING,``
+| `` *    gid INTEGER``
+| `` * }``
+| `` */``
+</pre></div>
 </div>
 <p>Here a new responds type e.g.</p>
 <p><code class="docutils literal notranslate"><span class="pre">posix_user_grouplist (5)</span></code></p>
@@ -239,12 +239,12 @@ ipa-adtrust-install. No additional configuration is needed.</p>
 that the feature is available.</p>
 </section>
 <section id="how-to-test">
-<span id="how-to-test25"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
 <p>It is possible to test the new feature using an IPA client or directly
 call into the plugin.</p>
 </section>
 <section id="integration-tests-with-sssd">
-<span id="id38"></span><h1>Integration tests with SSSD<a class="headerlink" href="#integration-tests-with-sssd" title="Permalink to this heading">¶</a></h1>
+<h1>Integration tests with SSSD<a class="headerlink" href="#integration-tests-with-sssd" title="Permalink to this heading">¶</a></h1>
 <p>The user-visible effect of this feature is that group members, POSIX
 attributes and user’s group memberships can all be resolved with the
 help of the extdom plugin.</p>
@@ -263,7 +263,7 @@ on the command line.</p></li>
 </ol>
 </section>
 <section id="manual-tests-of-the-plugin">
-<span id="id39"></span><h1>Manual tests of the plugin<a class="headerlink" href="#manual-tests-of-the-plugin" title="Permalink to this heading">¶</a></h1>
+<h1>Manual tests of the plugin<a class="headerlink" href="#manual-tests-of-the-plugin" title="Permalink to this heading">¶</a></h1>
 <p>Besides running integration tests with a separate IPA client the plugin
 can be exercised manually on the server as well and since the extdom
 plugin uses standard libc and SSS interfaces IPA users can be requested
@@ -272,58 +272,58 @@ server without established trust which I think would make it possible to
 include it in the CI tests as well.</p>
 <p>The current version of the extdom plugin can be manually tested in the
 following way:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat extdom_req_user_admin.asc</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Example Example.Sid2NameRequestValue</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">inputType 2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">requestType 1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">data name</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">data.name.domain_name ipa20.devel</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">data.name.object_name admin</span></code></div>
-<div class="line"><a href="#id40"><span class="problematic" id="id41">``</span></a>$ asn1Coding extdom_req.asn extdom_req_user_admin.asc ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Parse: done.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">var=Example, value=Example.Sid2NameRequestValue</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">var=inputType, value=2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">var=requestType, value=1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">var=data, value=name</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">var=data.name.domain_name, value=ipa20.devel</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">var=data.name.object_name, value=admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">name:NULL  type:SEQUENCE</span></code></div>
-<div class="line">``  name:inputType  type:ENUMERATED  value:0x02``</div>
-<div class="line">``  name:requestType  type:ENUMERATED  value:0x01``</div>
-<div class="line">``  name:data  type:CHOICE``</div>
-<div class="line">``    name:name  type:SEQUENCE``</div>
-<div class="line">``      name:domain_name  type:OCT_STR  value:69706132302e646576656c``</div>
-<div class="line">``      name:object_name  type:OCT_STR  value:61646d696e``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Coding: SUCCESS</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-----------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Number of bytes=30</span></code></div>
-<div class="line"><a href="#id42"><span class="problematic" id="id43">``</span></a>30 1c 0a 01 02 0a 01 01 30 14 04 0b 69 70 61 32 30 2e 64 65 76 65 6c 04 05 61 64 6d 69 6e ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-----------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">OutputFile=extdom_req_user_admin.out</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Writing: done.</span></code></div>
-<div class="line"><a href="#id44"><span class="problematic" id="id45">``</span></a>$ cat extdom_req_user_admin.out | base64 ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ldapexop -Y GSSAPI 2.16.840.1.113730.3.8.10.4::MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SASL/GSSAPI authentication started</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SASL username: admin&#64;IPA20.DEVEL</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SASL SSF: 56</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SASL data security layer installed.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># extended operation response</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">oid: 2.16.840.1.113730.3.8.10.4</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">data:: MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA=</span></code></div>
-<div class="line">`` =``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ echo -n MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA== |base64 -d &gt; extdom_resp_user_admin.bin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ asn1Decoding extdom_resp.asn extdom_resp_user_admin.bin Example.Sid2NameResponseValue</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Parse: done.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Decoding: SUCCESS</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DECODING RESULT:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">name:NULL  type:SEQUENCE</span></code></div>
-<div class="line">``  name:responseType  type:ENUMERATED  value:0x01``</div>
-<div class="line">``  name:data  type:CHOICE``</div>
-<div class="line">``    name:sid  type:OCT_STR  value:532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030``</div>
-<div class="line"><a href="#id46"><span class="problematic" id="id47">``</span></a>$ echo  532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030 | xxd -r -p ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">S-1-5-21-1223289188-3198440353-3300211032-500</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ cat extdom_req_user_admin.asc``
+| ``Example Example.Sid2NameRequestValue``
+| ``inputType 2``
+| ``requestType 1``
+| ``data name``
+| ``data.name.domain_name ipa20.devel``
+| ``data.name.object_name admin``
+| ``$ asn1Coding extdom_req.asn extdom_req_user_admin.asc ``
+| ``Parse: done.``
+| ``var=Example, value=Example.Sid2NameRequestValue``
+| ``var=inputType, value=2``
+| ``var=requestType, value=1``
+| ``var=data, value=name``
+| ``var=data.name.domain_name, value=ipa20.devel``
+| ``var=data.name.object_name, value=admin``
+| ``name:NULL  type:SEQUENCE``
+| ``  name:inputType  type:ENUMERATED  value:0x02``
+| ``  name:requestType  type:ENUMERATED  value:0x01``
+| ``  name:data  type:CHOICE``
+| ``    name:name  type:SEQUENCE``
+| ``      name:domain_name  type:OCT_STR  value:69706132302e646576656c``
+| ``      name:object_name  type:OCT_STR  value:61646d696e``
+| ``Coding: SUCCESS``
+| ``-----------------``
+| ``Number of bytes=30``
+| ``30 1c 0a 01 02 0a 01 01 30 14 04 0b 69 70 61 32 30 2e 64 65 76 65 6c 04 05 61 64 6d 69 6e ``
+| ``-----------------``
+| ``OutputFile=extdom_req_user_admin.out``
+| ``Writing: done.``
+| ``$ cat extdom_req_user_admin.out | base64 ``
+| ``MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu``
+| ``$ ldapexop -Y GSSAPI 2.16.840.1.113730.3.8.10.4::MBwKAQIKAQEwFAQLaXBhMjAuZGV2ZWwEBWFkbWlu``
+| ``SASL/GSSAPI authentication started``
+| ``SASL username: admin@IPA20.DEVEL``
+| ``SASL SSF: 56``
+| ``SASL data security layer installed.``
+| ``# extended operation response``
+| ``oid: 2.16.840.1.113730.3.8.10.4``
+| ``data:: MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA=``
+| `` =``
+| ``$ echo -n MDIKAQEELVMtMS01LTIxLTEyMjMyODkxODgtMzE5ODQ0MDM1My0zMzAwMjExMDMyLTUwMA== |base64 -d &gt; extdom_resp_user_admin.bin``
+| ``$ asn1Decoding extdom_resp.asn extdom_resp_user_admin.bin Example.Sid2NameResponseValue``
+| ``Parse: done.``
+| ``Decoding: SUCCESS``
+| ``DECODING RESULT:``
+| ``name:NULL  type:SEQUENCE``
+| ``  name:responseType  type:ENUMERATED  value:0x01``
+| ``  name:data  type:CHOICE``
+| ``    name:sid  type:OCT_STR  value:532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030``
+| ``$ echo  532d312d352d32312d313232333238393138382d333139383434303335332d333330303231313033322d353030 | xxd -r -p ``
+| ``S-1-5-21-1223289188-3198440353-3300211032-500``
+</pre></div>
 </div>
 </section>
 <section id="rfe-author">

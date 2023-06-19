@@ -12,7 +12,7 @@ All new code should adhere to these standards but please do not go back
 and make wholesale formatting changes to the old code. It just confuses
 things and is generally a waste of time.
 
-.. _why_coding_guidelines:
+
 
 Why Coding Guidelines?
 ======================
@@ -57,7 +57,7 @@ this or that rule is mandatory or not.
 Rules
 =====
 
-.. _general_rules:
+
 
 General Rules
 -------------
@@ -70,7 +70,7 @@ trivial change. MUST: If you are fixing a bug, attach the patch to the
 bug report. HIGHLY RECOMMENDED: Much of IPA uses Python so we have an
 enforced style in many cases already but consistency is important.
 
-.. _spaces_and_indentation:
+
 
 Spaces and Indentation
 ----------------------
@@ -87,7 +87,7 @@ level in the previous line
 
 :\* if all else fails, just indent 8 spaces.
 
-.. _length_of_line:
+
 
 Length of Line
 --------------
@@ -100,22 +100,25 @@ Comments
 
 MUST: Use only C style comments /\* \*/ not C++. MUST: When commenting
 use the following styles:
+::
 
-| ``   /*``
-| ``    * VERY important single-line comments look like this.``
-| ``    */``
+  | ``   /*``
+  | ``    * VERY important single-line comments look like this.``
+  | ``    */``
 
-``   /* Most single-line comments look like this. */``
+  ``   /* Most single-line comments look like this. */``
 
-| ``   /*``
-| ``    * Multi-line comments look like this. Make them real sentences. Fill``
-| ``    * them so they look like real paragraphs.``
-| ``    */``
+  | ``   /*``
+  | ``    * Multi-line comments look like this. Make them real sentences. Fill``
+  | ``    * them so they look like real paragraphs.``
+  | ``    */``
 
 Avoid:
 
-| ``   /* Multiline comments``
-| ``      that look like this */``
+::
+
+  | ``   /* Multiline comments``
+  | ``      that look like this */``
 
 HIGHLY RECOMMENDED: Avoid useless comments that do not add value to the
 code.
@@ -134,26 +137,30 @@ IFDEF
 HIGHLY RECOMMENDED: When using #ifdefs, it's nice to add comments in the
 pairing #endif:
 
-| ``  #ifndef _HEADER_H_``
-| ``  #define _HEADER_H_``
-| ``  ``
-| ``  /* something here */``
-| ``  ``
-| ``  #endif /* !_HEADER_H_ */``
+::
+
+  | ``  #ifndef _HEADER_H_``
+  | ``  #define _HEADER_H_``
+  | ``  ``
+  | ``  /* something here */``
+  | ``  ``
+  | ``  #endif /* !_HEADER_H_ */``
 
 or:
 
-| ``  #ifdef HAVE_PTHREADS``
-| ``  ``
-| ``  /* some code here */``
-| ``  ``
-| ``  #else /* !HAVE_PTHREADS */``
-| ``  ``
-| ``  /* some other code here */``
-| ``  ``
-| ``  #endif /* HAVE_PTHREADS */``
+::
 
-.. _include_files:
+  | ``  #ifdef HAVE_PTHREADS``
+  | ``  ``
+  | ``  /* some code here */``
+  | ``  ``
+  | ``  #else /* !HAVE_PTHREADS */``
+  | ``  ``
+  | ``  /* some other code here */``
+  | ``  ``
+  | ``  #endif /* HAVE_PTHREADS */``
+
+
 
 Include Files
 -------------
@@ -174,22 +181,23 @@ Macros
 HIGHLY RECOMMENDED: Macros that are unsafe should be in upper-case. This
 also applies to macros that span multiple lines:
 
-| ``  #define MY_MACRO(a, b) do {   \``
-| ``               foo((a) + (b));  \``
-| ``               bar(a);          \``
-| ``  } while (0)``
+::
+
+  | ``  #define MY_MACRO(a, b) do {   \``
+  | ``               foo((a) + (b));  \``
+  | ``               bar(a);          \``
+  | ``  } while (0)``
 
 Notice that arguments should be in parentheses if there's a risk. Also
 notice that a is referenced two times, and hence the macro is dangerous.
 Wrapping the body in do { } while (0) makes it safe to use it like this:
 
-| ``  if (expr)``
-| ``      MY_MACRO(x, y);``
+::
+  | ``  if (expr)``
+  | ``      MY_MACRO(x, y);``
 
-| Notice the semicolon is used after the invocation, not in the macro
-  definition.
-| Otherwise, if a macro is safe (for example a simple wrapping
-  function), then the case can be lower-case.
+Notice the semicolon is used after the invocation, not in the macro definition.
+Otherwise, if a macro is safe (for example a simple wrapping function), then the case can be lower-case.
 
 Variables
 ---------
@@ -206,26 +214,33 @@ Declaring
 
 RECOMMENDED: One declaration per line is preferred.
 
-| ``   int foo;``
-| ``   int bar;``
+::
+
+  | ``   int foo;``
+  | ``   int bar;``
 
 instead of
 
-``  int foo, bar;``
+::
+
+  ``  int foo, bar;``
 
 HIGHLY RECOMMENDED: Initialize at declaration time when possible.
 
 RECOMMENDED: Avoid complex variable initializations (like calling
 functions) when declaring variables like:
 
-``  int foobar = get_foobar(baz);``
+::
+
+  ``  int foobar = get_foobar(baz);``
 
 but split it in:
+::
 
-| ``  int foobar;``
-| ``  ``
-| ``  foobar = get_foobar(baz);``
-| ``  ...``
+  | ``  int foobar;``
+  | ``  ``
+  | ``  foobar = get_foobar(baz);``
+  | ``  ...``
 
 HIGHLY RECOMMENDED: Always declare all variables at the top of the
 function, normally try to avoid declaring local variables in internal
@@ -233,7 +248,7 @@ loops.
 
 RECOMMENDED: Don't initialize static or global variables to 0 or NULL.
 
-.. _use_of_typedefs:
+
 
 Use of Typedefs
 ----------------------------------------------------------------------------------------------
@@ -241,7 +256,7 @@ Use of Typedefs
 HIGHLY RECOMMENDED: Avoid using typedefs. Typedefs obscure structures
 and make it harder to understand and debug.
 
-.. _declaring_structures:
+
 
 Declaring Structures
 ----------------------------------------------------------------------------------------------
@@ -250,7 +265,7 @@ DISCRETION: When defining structure or union try make it easy to read.
 You may use some form of alignment if you see that this might make it
 more readable.
 
-.. _global_variables:
+
 
 Global Variables
 ----------------------------------------------------------------------------------------------
@@ -262,7 +277,7 @@ to be not thread/async safe
 Functions
 ---------
 
-.. _external_function_declarations:
+
 
 External Function Declarations
 ----------------------------------------------------------------------------------------------
@@ -272,7 +287,7 @@ out external function. The header files should in general take care of
 the external function declaration. If this is not the case it is subject
 for review of the header file hierarchy.
 
-.. _declaring_module_functions:
+
 
 Declaring Module Functions
 ----------------------------------------------------------------------------------------------
@@ -281,7 +296,7 @@ DISCRETION: It up to the developer to define the order of the functions
 in the module and thus declare functions at the top or use a native flow
 of the module and avoid forward function declarations.
 
-.. _order_of_the_functions:
+
 
 Order of the Functions
 ----------------------------------------------------------------------------------------------
@@ -292,7 +307,7 @@ supporting functions or start with supporting functions and have the
 main one at the bottom. Both approaches are acceptable. One can use
 additional comments to help identify how the module is structured.
 
-.. _naming_functions:
+
 
 Naming Functions
 ----------------------------------------------------------------------------------------------
@@ -301,7 +316,7 @@ MUST: For function names use multi word underscore separate naming
 convention like this monitor_task_init(struct task_server \*task); MUST:
 Never use Hungarian notation when naming functions.
 
-.. _indenting_functions:
+
 
 Indenting Functions
 ----------------------------------------------------------------------------------------------
@@ -312,7 +327,7 @@ be split between multiple lines. The pattern however MUST be consistent
 across the module so if you are fixing somebodies code continue with the
 pattern used in the module.
 
-.. _function_declaration:
+
 
 Function Declaration
 ----------------------------------------------------------------------------------------------
@@ -327,10 +342,12 @@ after the function declaration. HIGHLY RECOMMENDED: Do not put spaces
 before or after parenthesis in the declaration of the parameters. For
 example:
 
-| ``  OK:  int foo(int bar, int baz);``
-| ``  NOT OK: bad ( arg1 , arg2 );``
+::
 
-.. _function_parameters:
+  | ``  OK:  int foo(int bar, int baz);``
+  | ``  NOT OK: bad ( arg1 , arg2 );``
+
+
 
 Function Parameters
 ----------------------------------------------------------------------------------------------
@@ -339,10 +356,13 @@ RECOMMENDED: Try to always put "input" arguments before "output"
 arguments, if you have arguments that provide both input an output put
 them between the pure-input and the pure-output ones.
 
-| ``  OK: foo(int in1, void *in2, char **ou1);``
-| ``  NOT OK: voo(char **ou1, int in1);``
 
-.. _use_of_const:
+::
+
+  | ``  OK: foo(int in1, void *in2, char **ou1);``
+  | ``  NOT OK: voo(char **ou1, int in1);``
+
+
 
 Use of Const
 ----------------------------------------------------------------------------------------------
@@ -352,7 +372,7 @@ passed to the function. This makes the intentions of the function more
 clearer, plus allows the compiler to catch more bugs and make some
 optimizations.
 
-.. _tools_to_use:
+
 
 Tools to Use
 ----------------------------------------------------------------------------------------------
@@ -361,7 +381,7 @@ RECOMMENDED: Creating lists and queues was already done a lot of times.
 When possible, use some common functions for manipulating these to avoid
 mistakes.
 
-.. _conditions_and_statements:
+
 
 Conditions and Statements
 -------------------------
@@ -372,75 +392,87 @@ Condition
 RECOMMENDED: Use the full condition syntax like (NULL == str) rather
 than (!str).
 
-.. _if_statements:
+
 
 IF Statements
 ----------------------------------------------------------------------------------------------
 
 HIGHLY RECOMMENDED: If-else statements should have the following form:
 
-| ``   if (``\ *``condition``*\ ``) {``
-| ``       /* do some work */``
-| ``   }``
+::
 
-| ``   if (``\ *``condition``*\ ``) {``
-| ``       /* do some work */``
-| ``   } else {``
-| ``       /* do some other work */``
-| ``   }``
+  | ``   if (``\ *``condition``*\ ``) {``
+  | ``       /* do some work */``
+  | ``   }``
+
+  | ``   if (``\ *``condition``*\ ``) {``
+  | ``       /* do some work */``
+  | ``   } else {``
+  | ``       /* do some other work */``
+  | ``   }``
 
 HIGHLY RECOMMENDED: Balance the braces in the if and else in an if-else
 statement if either has only one line:
 
-| ``   if (condition) {``
-| ``       /*``
-| ``        * stuff that takes up more than one``
-| ``        * line``
-| ``        */``
-| ``   } else {``
-| ``       /* stuff that only uses one line */``
-| ``   }``
+::
+
+  | ``   if (condition) {``
+  | ``       /*``
+  | ``        * stuff that takes up more than one``
+  | ``        * line``
+  | ``        */``
+  | ``   } else {``
+  | ``       /* stuff that only uses one line */``
+  | ``   }``
 
 HIGHLY RECOMMENDED: The corollary is also true; don't use braces if
 there's only one line for both:
 
-| ``   if (foo)``
-| ``       bar();``
-| ``   else``
-| ``       baz();``
+::
+
+  | ``   if (foo)``
+  | ``       bar();``
+  | ``   else``
+  | ``       baz();``
 
 Allowed approach is to use braces if there is only one line:
 
-| ``   if (foo) {``
-| ``       bar();``
-| ``   } else {``
-| ``       baz();``
-| ``   }``
+::
+
+  | ``   if (foo) {``
+  | ``       bar();``
+  | ``   } else {``
+  | ``       baz();``
+  | ``   }``
 
 HIGHLY RECOMMENDED: Avoid last-return-in-else problem. Code should look
 like this:
 
-| ``   int foo(int bar)``
-| ``   {``
-| ``       if (something) {``
-| ``           /* stuff done here */``
-| ``           return 1;            ``
-| ``       }``
-| ``   ``
-| ``       return 0;``
-| ``   }``
+::
+
+  | ``   int foo(int bar)``
+  | ``   {``
+  | ``       if (something) {``
+  | ``           /* stuff done here */``
+  | ``           return 1;            ``
+  | ``       }``
+  | ``   ``
+  | ``       return 0;``
+  | ``   }``
 
 **NOT** like this:
 
-| ``   int foo(int bar)``
-| ``   {``
-| ``       if (something) {``
-| ``           /* stuff done here */``
-| ``           return 1;            ``
-| ``       } else {``
-| ``           return 0;``
-| ``       }``
-| ``   }``
+::
+
+  | ``   int foo(int bar)``
+  | ``   {``
+  | ``       if (something) {``
+  | ``           /* stuff done here */``
+  | ``           return 1;            ``
+  | ``       } else {``
+  | ``           return 0;``
+  | ``       }``
+  | ``   }``
 
 Loops
 ----------------------------------------------------------------------------------------------
@@ -448,37 +480,41 @@ Loops
 HIGHLY RECOMMENDED: For, while and until statements should take a
 similar form:
 
-| ``   for (``\ *``initialization;``\ ````\ ``condition;``\ ````\ ``update``*\ ``) {``
-| ``       /* iterate here */``
-| ``   }``
+::
 
-| ``   while (``\ *``condition``*\ ``) {``
-| ``       /* do some work */``
-| ``   }``
+  | ``   for (``\ *``initialization;``\ ````\ ``condition;``\ ````\ ``update``*\ ``) {``
+  | ``       /* iterate here */``
+  | ``   }``
+
+  | ``   while (``\ *``condition``*\ ``) {``
+  | ``       /* do some work */``
+  | ``   }``
 
 Switch
 ^^^^^^
 
 HIGHLY RECOMMENDED: Use the following style for the switch statements
 
-| ``  switch (var) {``
-| ``  case 0:``
-| ``      break;``
-| ``  case 1:``
-| ``      printf("meh.\n");``
-| ``      /* FALLTHROUGH */``
-| ``  case 2:``
-| ``      printf("2\n");``
-| ``      break;``
-| ``  default:``
-| ``      /* Always have default */``
-| ``      break;``
-| ``  }``
+::
+
+  | ``  switch (var) {``
+  | ``  case 0:``
+  | ``      break;``
+  | ``  case 1:``
+  | ``      printf("meh.\n");``
+  | ``      /* FALLTHROUGH */``
+  | ``  case 2:``
+  | ``      printf("2\n");``
+  | ``      break;``
+  | ``  default:``
+  | ``      /* Always have default */``
+  | ``      break;``
+  | ``  }``
 
 Strings
 -------
 
-.. _internationalized_i18n_strings:
+
 
 Internationalized (i18n) Strings
 ----------------------------------------------------------------------------------------------

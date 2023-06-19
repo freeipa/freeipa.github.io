@@ -4,7 +4,7 @@ Overview
 Chrome/Chromium is available from Fedora and Google. Kerberos support is
 available in version 9.0 or later.
 
-.. _adding_chrome_repository:
+
 
 Adding Chrome Repository
 ========================
@@ -31,12 +31,12 @@ Create /etc/yum.repos.d/google.repo:
    gpgcheck=1
    gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
 
-.. _installing_chrome:
+
 
 Installing Chrome
 =================
 
-.. _fedora_1:
+
 
 Fedora
 ------
@@ -56,7 +56,7 @@ Install Chromium:
 
    % yum install chromium
 
-.. _google_1:
+
 
 Google
 ------
@@ -76,12 +76,12 @@ Install Chrome:
 
    % yum install google-chrome-unstable
 
-.. _running_chrome:
+
 
 Running Chrome
 ==============
 
-.. _fedora_2:
+
 
 Fedora
 ------
@@ -94,7 +94,7 @@ Run Chromium with Kerberos:
     --auth-server-whitelist="*.example.com"\
     --auth-negotiate-delegate-whitelist="*.example.com"
 
-.. _google_2:
+
 
 Google
 ------
@@ -115,7 +115,7 @@ AuthScheme policy [4, 7]:
    { "AuthServerWhitelist": "*.example.com",
    "AuthNegotiateDelegateWhitelist": "*.example.com" }
 
-.. _installing_ca_certificate:
+
 
 Installing CA Certificate
 =========================

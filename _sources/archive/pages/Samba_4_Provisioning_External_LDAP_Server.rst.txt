@@ -35,7 +35,7 @@ On the other hand, external LDAP server has the following advantages:
 There are some changes that need to be make in order to support external
 LDAP server.
 
-.. _current_code:
+
 
 Current Code
 ============
@@ -91,7 +91,7 @@ The tool will perform the following operations:
 
 -  Stop LDAP server.
 
-.. _proposed_solution:
+
 
 Proposed Solution
 =================
@@ -113,7 +113,7 @@ LDAP server which you can customize later on. Then you need to run the
 provisioning tool again to setup Samba using the LDAP server that you
 have created earlier.
 
-.. _creating_ldap_server:
+
 
 Creating LDAP Server
 --------------------
@@ -145,7 +145,7 @@ A new optional parameter (--ldap-dir) will be added to the provisioning
 tool to specify the LDAP server directory. The default value is
 SAMBA_HOME/private/ldap.
 
-.. _setting_up_samba:
+
 
 Setting up Samba
 ----------------
@@ -177,7 +177,7 @@ random password.
 Examples
 ========
 
-.. _configuring_samba_with_internal_ldap_server:
+
 
 Configuring Samba with Internal LDAP Server
 -------------------------------------------
@@ -190,7 +190,7 @@ Configuring Samba with Internal LDAP Server
    --ldapadminpass=Secret123 --ldap-backend-type=fedora-ds \
    --slapd-path=/usr/sbin/ns-slapd --setup-ds-path=/usr/sbin/setup-ds.pl
 
-.. _configuring_samba_with_external_ldap_server:
+
 
 Configuring Samba with External LDAP Server
 -------------------------------------------

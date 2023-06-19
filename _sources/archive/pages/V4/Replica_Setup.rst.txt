@@ -5,7 +5,7 @@ test FreeIPA replica feature.
    replica1.example.test, replica2.example.test) are only for better
    orientation and these names do not take effect on setup.
 
-.. _ipa_server_configuration:
+
 
 IPA server configuration
 ------------------------
@@ -75,7 +75,7 @@ configure ipa-server
 
 --------------
 
-.. _ipa_replica_configuration:
+
 
 IPA replica configuration
 -------------------------
@@ -91,7 +91,7 @@ without any password needed. We will try both of them.
 
 --------------
 
-.. _ipa_replica_server_in_ipaservers_group:
+
 
 IPA replica server in ipaservers group
 ----------------------------------------------------------------------------------------------
@@ -285,7 +285,7 @@ ipa-server and replica1 machine**:
 
 --------------
 
-.. _ipa_client_enrolled_and_promoted_to_replica_with_one_time_password_in_one_step:
+
 
 IPA client enrolled and promoted to replica with One Time Password in one step
 ----------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-.. _how_to_debug_freeipa_privilege_separation_issues:
+
 
 How to debug FreeIPA privilege separation issues
 ================================================
@@ -113,7 +113,7 @@ access regardless of the endpoint and lack of a cookie results in
 automatic GSSAPI negotiation. The session cookie is effectively just an
 optimization.
 
-.. _logging_in_freeipa_management_framework:
+
 
 Logging in FreeIPA management framework
 ---------------------------------------
@@ -122,7 +122,7 @@ With multiple components involved in a user request processing, it is
 important to enable logging properly in all relevant components. There
 are several layers of logging available:
 
-.. _freeipa_frameworks_python_code_logging:
+
 
 FreeIPA framework's Python code logging
 ----------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ debug logs. For the server side of the framework a restart of the
 ``/var/log/httpd/error_log`` and will be intermixed with other log
 entries from other Apache modules.
 
-.. _logging_the_activity_of_apache_modules:
+
 
 Logging the activity of Apache modules
 ----------------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ FreeIPA does only uses the logging functionality available in Apache.
 Its documentation is available at the `Apache
 website <https://httpd.apache.org/docs/current/logs.html>`__.
 
-.. _logging_of_samba_client_operations:
+
 
 Logging of Samba client operations
 ----------------------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ by the FreeIPA management framework via a D-BUS request, its output is
 returned back to the framework and is logged into Apache'a ``error_log``
 along the other log entries of the framework.
 
-.. _logging_of_gss_proxy:
+
 
 Logging of GSS-Proxy
 --------------------
@@ -282,7 +282,7 @@ be seen by the response from GSS-Proxy telling that "The routine must be
 called again to complete its function". This is a normal flow for GSSAPI
 exchanges.
 
-.. _logging_of_kdc_operations:
+
 
 Logging of KDC operations
 ----------------------------------------------------------------------------------------------
@@ -318,7 +318,7 @@ the log that this request was actually done as a S4U2Proxy operation,
 performing constrained delegation for the client ``admin@..`` which is
 the original user Kerberos principal.
 
-.. _ccache_storage:
+
 
 ccache storage
 --------------

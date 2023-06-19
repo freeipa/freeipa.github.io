@@ -12,7 +12,7 @@ used for.
 Use Cases
 =========
 
-.. _custom_extension_values:
+
 
 Custom extension values
 -----------------------
@@ -27,7 +27,7 @@ in certificate fields or extensions, it will be possible to import a
 profile that supports that use case as long as Dogtag supports the
 certificate extension(s) to be included.
 
-.. _dnp3_sav5:
+
 
 DNP3 SAv5
 ---------
@@ -67,7 +67,7 @@ Terminology
    the FreeIPA directory, containing FreeIPA-specific configuration,
    distinguishing it from other profiles in Dogtag.
 
-.. _profile_backend:
+
 
 Profile backend
 ---------------
@@ -77,7 +77,7 @@ behaviours while abstracting the Dogtag integration. The profile
 management *plugin* shall invoke the profile backend to do the work of
 communicating with Dogtag.
 
-.. _profile_formats:
+
 
 Profile formats
 ----------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ the "raw" property list format which is also (at the current time) the
 internal storage format. Initial work will focus on the raw format, but
 it should be simple to distinguish between and support both formats.
 
-.. _listing_profiles:
+
 
 Listing profiles
 ----------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ The list of all Dogtag profiles is retrieved via the Dogtag REST API:
 
    GET /ca/rest/profiles
 
-.. _profile_import:
+
 
 Profile import
 ----------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ Failure modes:
 -  Profile ID already in use
 -  Bad profile content
 
-.. _retrieve_profile:
+
 
 Retrieve profile
 ----------------------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ Failure modes:
 
 -  Profile ID unknown
 
-.. _delete_profile:
+
 
 Delete profile
 ----------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ Failure modes:
 If a profile is enabled and a FreeIPA admin attempts to delete it, we
 shall raise ``StillActive`` or a similar exception.
 
-.. _enabledisable_profile:
+
 
 Enable/disable profile
 ----------------------------------------------------------------------------------------------
@@ -190,7 +190,7 @@ made based on the profile state without requiring a round-trip to Dogtag
 to find out and to avoid blind attempts of operations that could fail
 according to profile enabled/disabled state (e.g. profile deletion).
 
-.. _certificate_profiles_plugin:
+
 
 Certificate Profiles plugin
 ---------------------------
@@ -200,7 +200,7 @@ profiles. It will allow privileged users to import, modify or remove
 FreeIPA-managed profiles in Dogtag and manage the FreeIPA-specific
 profile configuration.
 
-.. _enabling_or_disabling_profiles:
+
 
 Enabling or disabling profiles
 ----------------------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ can be used to issue a certificate to a particular subject princpial.
 These rules can be created, modified, disabled or enabled by privileged
 users. See the CA ACL section below.
 
-.. _storing_issued_certificates:
+
 
 Storing issued certificates
 ----------------------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ Schema:
      STRUCTURAL MUST ( cn $ description $ ipaCertProfileStoreIssued )
      X-ORIGIN 'IPA v4.2' )
 
-.. _ca_acls_plugin:
+
 
 CA ACLs plugin
 --------------
@@ -317,7 +317,7 @@ necessarily the subject principal.
 
 See also the ``ipa caacl-*`` commands in the CLI section below.
 
-.. _permissions_1:
+
 
 Permissions
 ----------------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@ granted to the *CA Administrator* role.
 ``System: Manage CA ACL membership``
    Manage CA, profile, user, host and service membership.
 
-.. _schema_1:
+
 
 Schema
 ----------------------------------------------------------------------------------------------
@@ -394,7 +394,7 @@ this design. They will be used by the Sub-CAs feature.
          $ serviceCategory $ memberCa $ memberProfile $ memberService )
        X-ORIGIN 'IPA v4.2' )
 
-.. _default_ca_acl:
+
 
 Default CA ACL
 ----------------------------------------------------------------------------------------------
@@ -439,21 +439,21 @@ Feature Management
 
 UI
 
-.. _profile_management_ui:
+
 
 Profile management UI~
 
 A grid UI shall be provided that lists FreeIPA-managed profiles and
 allows editing of their FreeIPA-specific configuration.
 
-.. _ca_acl_management_ui:
+
 
 CA ACL management UI~
 
 A web UI allowing creation and management of CA ACLs will be added. It
 will work similarly to the HBAC UI.
 
-.. _certificate_management_ui:
+
 
 Certificate management UI~
 
@@ -473,7 +473,7 @@ renewal or revocation will be shown.
 
 CLI
 
-.. _ipa_certprofile_import_id_options:
+
 
 ``ipa certprofile-import ID [options]``
 ----------------------------------------------------------------------------------------------
@@ -490,7 +490,7 @@ Options:
 ``--file=FILE``
    Name of file containing profile data (Dogtag raw format)
 
-.. _ipa_certprofile_mod_id_options:
+
 
 ``ipa certprofile-mod ID [options]``
 ----------------------------------------------------------------------------------------------
@@ -503,7 +503,7 @@ Options:
    Name of file containing profile data (Dogtag raw format) with which
    to update Dogtag.
 
-.. _ipa_certprofile_del_id:
+
 
 ``ipa certprofile-del ID``
 ----------------------------------------------------------------------------------------------
@@ -514,7 +514,7 @@ Dogtag prior to deletion.
 Certificates issued using the profile will be kept around; no special
 action is taken in this regard.
 
-.. _ipa_certprofile_find_criteria_options:
+
 
 ``ipa certprofile-find [CRITERIA] [options]``
 ----------------------------------------------------------------------------------------------
@@ -532,7 +532,7 @@ Case insensitive substring or keyword match on the description is
 desirable, to aid users in locating the right profile for a particular
 purpose.
 
-.. _ipa_certprofile_show_id_options:
+
 
 ``ipa certprofile-show ID [options]``
 ----------------------------------------------------------------------------------------------
@@ -542,7 +542,7 @@ Display the properties of a Certificate Profile.
 ``--out=FILE``
    Write the Dogtag profile data (Dogtag raw format) to the named file.
 
-.. _ipa_caacl_find:
+
 
 ``ipa caacl-find``
 ----------------------------------------------------------------------------------------------
@@ -562,14 +562,14 @@ Search for CA ACLs.
 ``--servicecat=['all']``
    Service category. Mutually exclusive with service members.
 
-.. _ipa_caacl_show_name:
+
 
 ``ipa caacl-show NAME``
 ----------------------------------------------------------------------------------------------
 
 Show details of named CA ACL.
 
-.. _ipa_caacl_add_name:
+
 
 ``ipa caacl-add NAME``
 ----------------------------------------------------------------------------------------------
@@ -587,7 +587,7 @@ Create a CA ACL. New CA ACLs are initially enabled.
 ``--servicecat=['all']``
    Service category. Mutually exclusive with service members.
 
-.. _ipa_caacl_mod_name:
+
 
 ``ipa caacl-mod NAME``
 ----------------------------------------------------------------------------------------------
@@ -607,28 +607,28 @@ Modify the named CA ACL.
 ``--setattr``, ``--addattr``, ``--delattr``
    As per other IPA framework commands.
 
-.. _ipa_caacl_del_name:
+
 
 ``ipa caacl-del NAME``
 ----------------------------------------------------------------------------------------------
 
 Delete the CA ACL.
 
-.. _ipa_caacl_enable_name:
+
 
 ``ipa caacl-enable NAME``
 ----------------------------------------------------------------------------------------------
 
 Enable the named CA ACL.
 
-.. _ipa_caacl_disable_name:
+
 
 ``ipa caacl-disable NAME``
 ----------------------------------------------------------------------------------------------
 
 Disabled the named CA ACL.
 
-.. _ipa_caacl_add_profile_name:
+
 
 ``ipa caacl-add-profile NAME``
 ----------------------------------------------------------------------------------------------
@@ -638,7 +638,7 @@ Add profile(s) to the CA ACL.
 ``--certprofiles=STR``
    Certificate Profiles to add.
 
-.. _ipa_caacl_remove_profile_name:
+
 
 ``ipa caacl-remove-profile NAME``
 ----------------------------------------------------------------------------------------------
@@ -648,7 +648,7 @@ Remove profile(s) from the CA ACL.
 ``--certprofiles=STR``
    Certificate Profiles to remove.
 
-.. _ipa_caacl_add_user_name:
+
 
 ``ipa caacl-add-user NAME``
 ----------------------------------------------------------------------------------------------
@@ -658,7 +658,7 @@ Remove profile(s) from the CA ACL.
 ``--groups``
    Add user group(s)
 
-.. _ipa_caacl_remove_user_name:
+
 
 ``ipa caacl-remove-user NAME``
 ----------------------------------------------------------------------------------------------
@@ -668,7 +668,7 @@ Remove profile(s) from the CA ACL.
 ``--groups``
    Remove user group(s)
 
-.. _ipa_caacl_add_host_name:
+
 
 ``ipa caacl-add-host NAME``
 ----------------------------------------------------------------------------------------------
@@ -678,7 +678,7 @@ Remove profile(s) from the CA ACL.
 ``--hostgroups``
    Add host group(s)
 
-.. _ipa_caacl_remove_host_name:
+
 
 ``ipa caacl-remove-host NAME``
 ----------------------------------------------------------------------------------------------
@@ -688,7 +688,7 @@ Remove profile(s) from the CA ACL.
 ``--hostgroups``
    Remove host group(s)
 
-.. _ipa_caacl_add_service_name:
+
 
 ``ipa caacl-add-service NAME``
 ----------------------------------------------------------------------------------------------
@@ -696,7 +696,7 @@ Remove profile(s) from the CA ACL.
 ``--services``
    Add service(s)
 
-.. _ipa_caacl_remove_service_name:
+
 
 ``ipa caacl-remove-service NAME``
 ----------------------------------------------------------------------------------------------
@@ -704,7 +704,7 @@ Remove profile(s) from the CA ACL.
 ``--services``
    Remove service(s)
 
-.. _ipa_cert_request:
+
 
 ``ipa cert-request``
 ----------------------------------------------------------------------------------------------
@@ -738,7 +738,7 @@ they are replicated. This involves setting
 ``subsystem.1.class=com.netscape.cmscore.profile.LDAPProfileSubsystem``
 in Dogtag's ``CS.cfg`` and importing profiles.
 
-.. _upgrading_default_profiles:
+
 
 Upgrading default profiles
 --------------------------
@@ -748,7 +748,7 @@ be updated, an upgrade script can call invoke the profile backend to
 update it. Any changes to the behaviour of included profiles should be
 adequately documented in release notes.
 
-.. _handling_inconsistent_profiles:
+
 
 Handling inconsistent profiles
 ------------------------------
@@ -760,7 +760,7 @@ attempted. This behaviour must be clearly explained and administrators
 who have custom profiles encouraged to check for inconsistencies prior
 to upgrade.
 
-.. _adding_default_ca_acl:
+
 
 Adding default CA ACL
 ---------------------

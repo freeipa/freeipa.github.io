@@ -32,7 +32,7 @@ FreeIPA currently has no special support for wildcard certificates, but
 with support for custom certificate profiles, we can create and use a
 profile for issuing wildcard certificates.
 
-.. _creating_a_wildcard_certificate_profile_in_freeipa:
+
 
 Creating a wildcard certificate profile in FreeIPA
 --------------------------------------------------

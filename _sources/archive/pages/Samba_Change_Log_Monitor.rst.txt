@@ -20,7 +20,7 @@ Samba operations that need to be synchronized to IPA are:
 
 Other operations will be ignored.
 
-.. _adding_samba_user:
+
 
 Adding Samba User
 =================
@@ -37,7 +37,7 @@ Consider the following example:
 
 This operation will generate 2 change log records.
 
-.. _updating_dna_plugin:
+
 
 Updating DNA Plugin
 -------------------
@@ -69,7 +69,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208030510Z
    -
 
-.. _adding_user_object:
+
 
 Adding User Object
 ------------------
@@ -126,7 +126,7 @@ The content of the changes attribute is:
    modifyTimestamp: 20091208030510Z
    sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1004
 
-.. _modifying_samba_user:
+
 
 Modifying Samba User
 ====================
@@ -143,7 +143,7 @@ Consider the following example:
 
 This operation example will generate 1 change log record.
 
-.. _modifying_user_object:
+
 
 Modifying User Object
 ---------------------
@@ -192,7 +192,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208030951Z
    -
 
-.. _deleting_samba_user:
+
 
 Deleting Samba User
 ===================
@@ -206,7 +206,7 @@ Consider the following example:
 
 This operation will generate 1 change log record.
 
-.. _deleting_user_object:
+
 
 Deleting User Object
 --------------------
@@ -222,17 +222,17 @@ Deleting User Object
    changeTime: 20091208031201Z
    changeType: delete
 
-.. _locking_samba_user:
+
 
 Locking Samba User
 ==================
 
-.. _unlocking_samba_user:
+
 
 Unlocking Samba User
 ====================
 
-.. _adding_samba_group:
+
 
 Adding Samba Group
 ==================
@@ -250,7 +250,7 @@ Consider the following example:
 
 This operation will generate 2 change log records.
 
-.. _updating_dna_plugin_1:
+
 
 Updating DNA Plugin
 -------------------
@@ -282,7 +282,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208080540Z
    -
 
-.. _adding_group_object:
+
 
 Adding Group Object
 -------------------
@@ -321,7 +321,7 @@ The content of the changes attribute is:
    modifyTimestamp: 20091208080540Z
    sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1005
 
-.. _adding_group_member:
+
 
 Adding Group Member
 -------------------
@@ -352,7 +352,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208080540Z
    -
 
-.. _modifying_samba_group:
+
 
 Modifying Samba Group
 =====================
@@ -369,7 +369,7 @@ Consider the following example:
 
 This operation will generate 2 change log records.
 
-.. _modifying_user_object_1:
+
 
 Modifying User Object
 ---------------------
@@ -400,7 +400,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208083534Z
    -
 
-.. _modifying_group_object:
+
 
 Modifying Group Object
 ----------------------
@@ -431,7 +431,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208083534Z
    -
 
-.. _deleting_samba_group:
+
 
 Deleting Samba Group
 ====================
@@ -445,7 +445,7 @@ Consider the following example:
 
 This operation generates 2 change log records.
 
-.. _modifying_user_object_2:
+
 
 Modifying User Object
 ---------------------
@@ -476,7 +476,7 @@ The content of the changes attribute is:
    modifytimestamp: 20091208084310Z
    -
 
-.. _deleting_group_object:
+
 
 Deleting Group Object
 ---------------------
@@ -492,17 +492,17 @@ Deleting Group Object
    changeTime: 20091208084310Z
    changeType: delete
 
-.. _adding_samba_host:
+
 
 Adding Samba Host
 =================
 
-.. _modifying_samba_host:
+
 
 Modifying Samba Host
 ====================
 
-.. _deleting_samba_host:
+
 
 Deleting Samba Host
 ===================

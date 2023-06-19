@@ -16,7 +16,7 @@ grant authorisation.
 
 This document describes how the application can retrieve those groups
 
-.. _use_cases7:
+
 
 Use Cases
 ---------
@@ -53,7 +53,7 @@ is **uniqueMember** or the returned groups.
 In conclusion: the data transformation **only** require a filter
 transformation.
 
-.. _how_to_use7:
+
 
 How to use
 ----------
@@ -91,7 +91,7 @@ The following paragraphs detail the evaluated solutions. Among them the
 one that is implemented: `transformation of
 filter <#transformation_of_filter>`__
 
-.. _aliasing_uniquemember_and_member:
+
 
 Aliasing uniquemember and member
 ----------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ The limitations and drawbacks are
 -  *uniqueMember* and *member* have different syntax, DS will process
    *uniqueMember* with *member* syntax (and matching rules).
 
-.. _groups_containing_real_attribute_uniquemember:
+
 
 groups containing real attribute uniquemember
 ----------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ It is more complex for the admin, may impact performance as the group
 size will double and risky as 'member' and 'uniquemember' must be
 updated in sync.
 
-.. _groups_containing_virtual_attribute_uniquemember:
+
 
 groups containing virtual attribute uniquemember
 ----------------------------------------------------------------------------------------------
@@ -222,7 +222,7 @@ The advantage is:
 
 -  Require few changes
 
-.. _implement_a_new_ldap_control:
+
 
 Implement a new LDAP control
 ----------------------------------------------------------------------------------------------
@@ -261,7 +261,7 @@ Advantages are:
 -  It is quite limited change (decoding a control and applying it when
    returning entries)
 
-.. _transformation_of_filter:
+
 
 transformation of filter
 ----------------------------------------------------------------------------------------------

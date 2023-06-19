@@ -26,7 +26,7 @@ Design
 
 Adoption parts:
 
-.. _use_patternfly_css:
+
 
 Use PatternFly CSS
 ----------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Use PatternFly CSS
    PatternFly and Bootstrap are packaged to Fedora, FreeIPA should make
    effort to use the system packages.
 
-.. _fluid_layout:
+
 
 Fluid layout
 ----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ Navigation
    level. It's not a hard rule but a UX recommendation (related to
    number of items human brain can remember together)
 
-.. _implement_login_page:
+
 
 Implement Login Page
 ----------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ Implement Login Page
 -  requires to hide dialogs which don't belong to current facet to
    prevent having dialog over login screen when unauthenticated
 
-.. _adapt_forms:
+
 
 Adapt forms
 ----------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ Adapt forms
 -  abandon table layout in sections
 -  two columns of form sections can be displayed on large screens
 
-.. _adapt_tables:
+
 
 Adapt tables
 ----------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ Adapt tables
 -  enable various styles for odd and even rows
 -  hovered row should be highlighted
 
-.. _pagefacet_controls:
+
 
 Page(facet) controls
 ----------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ Page(facet) controls
    PatternFly, and actions on the right. Details facets should have
    everything on the left.
 
-.. _move_actions_into_action_dropdown:
+
 
 Move actions into action dropdown
 ----------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ Move actions into action dropdown
    (when dropdown menu is visible), all actions should require
    confirmation in order to prevent accidental invocation of an action.
 
-.. _activity_notification:
+
 
 Activity notification
 ----------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ Activity notification
 -  this behavior could be further extended by providing context related
    activity indicators instead of a global one (future goal)
 
-.. _event_notification:
+
 
 Event notification
 ----------------------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ Event notification
 -  "error", "success", "warning", "info" notification should use
    consistent style and same implementation across application
 
-.. _better_error_handling:
+
 
 Better Error handling
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ Better Error handling
 -  first focusable widget with error should be automatically focused.
    User can then quickly correct his mistake.
 
-.. _user_menu:
+
 
 User menu
 ----------------------------------------------------------------------------------------------

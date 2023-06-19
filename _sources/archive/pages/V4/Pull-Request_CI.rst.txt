@@ -69,7 +69,7 @@ Requirements
    -  Up to 3 PRs can be tested simultaneously. Additional PRs may
       increase the time.
 
-.. _overview_1:
+
 
 Overview
 ----------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ Once the task is finished, a publicly accessible URL with links to the
 artifacts (rpms, logs) is announced along with the task result in a
 commit status.
 
-.. _multi_host_environment_provisioning:
+
 
 Multi-host environment provisioning
 ----------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ provider and the templates themselves will be vargant boxes. The boxes
 are published and accessible on `HashiCorp
 Atlas <https://atlas.hashicorp.com/freeipa>`__.
 
-.. _github_integration:
+
 
 GitHub integration
 ----------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ with it. These are used for all communication. This was inspired by the
 `Cockpit
 project <https://github.com/cockpit-project/cockpit/tree/master/test>`__.
 
-.. _task_execution:
+
 
 Task execution
 ----------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ The test runners use a common algorithm to determine the priority of all
 waiting tasks for all pull requests. Idle test runner picks the
 top-priority task, starts executing it, and marks it in progress.
 
-.. _publishing_test_results_and_artifacts:
+
 
 Publishing test results and artifacts
 ----------------------------------------------------------------------------------------------

@@ -24,7 +24,7 @@ be installed from your AIX media:
 -  openssl
 -  modcrypt.base (for gssd)
 
-.. _configuring_the_ipa_client_on_aix_5.3:
+
 
 Configuring the IPA Client on AIX 5.3
 =====================================
@@ -39,7 +39,7 @@ replace these with the hostnames that apply to your deployment.
            IPA server = ipaserver.example.com
            IPA client = ipaclient.example.com
 
-.. _configuring_kerberos_and_ldap:
+
 
 Configuring Kerberos and LDAP
 -----------------------------
@@ -399,7 +399,7 @@ For users not found in the netgroup you'll get a log entry like this in
 ``Aug 24 10:38:30 ipaaix auth|security:info syslog: ssh: failed login attempt for UNKNOWN_USER from x.x.x.x``
 ``Aug 24 10:38:30 ipaaix auth|security:info sshd[348394]: Failed none for invalid user admin from x.x.x.x port 34085 ssh2``
 
-.. _additional_help:
+
 
 Additional help
 ---------------

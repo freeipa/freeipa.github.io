@@ -50,7 +50,7 @@ Verification
 
    % ipa-finduser admin
 
-.. _web_ui:
+
 
 Web UI
 ======
@@ -70,7 +70,7 @@ Click Configure Firefox button.
 
 Reload the page.
 
-.. _ldap_client:
+
 
 LDAP Client
 ===========
@@ -88,7 +88,7 @@ LDAP Client
 
    % ldapsearch -Y GSSAPI -b dc=example,dc=com
 
-.. _configure_listen_host:
+
 
 Configure Listen Host
 =====================
@@ -111,7 +111,7 @@ Restart DS:
 
    % service dirsrv restart
 
-.. _configure_kerberos:
+
 
 Configure Kerberos
 ==================
@@ -133,7 +133,7 @@ Restart Kerberos:
 
    % service krb5kdc restart
 
-.. _enable_change_log:
+
 
 Enable Change Log
 =================
@@ -159,7 +159,7 @@ Restart DS:
 
    % ldapsearch -h ipa.example.com -p 389 -x -D "cn=Directory Manager" -w Secret123 -b "cn=changelog"
 
-.. _create_sync_user_account:
+
 
 Create Sync User Account
 ========================

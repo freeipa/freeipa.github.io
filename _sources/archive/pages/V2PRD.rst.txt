@@ -8,7 +8,7 @@ months of the release of freeIPAv1 that will:
 -  Provide v2 Identity functionality (machine and service identity)
 -  Provide initial Policy and Audit functionality
 
-.. _general_overview:
+
 
 General overview
 ================
@@ -110,7 +110,7 @@ Glossary
 -  Access policy = Policy describing the rules by which an authenticated
    user can connect to a resource
 
-.. _detailed_requirements:
+
 
 Detailed Requirements
 =====================
@@ -131,7 +131,7 @@ Deployment
 
 -  [6] Support IPv6
 
-.. _user_identity_and_user_authentication:
+
 
 User Identity and User Authentication
 -------------------------------------
@@ -168,7 +168,7 @@ User Identity and User Authentication
 
 -  [83] Improved password aging and password policies.
 
-.. _machine_identity_and_authentication:
+
 
 Machine Identity and Authentication
 -----------------------------------
@@ -226,7 +226,7 @@ Machine Identity and Authentication
 -  [21] Enable identification of printers
 -  [22] ??? Secure Attention Key
 
-.. _service_identity:
+
 
 Service Identity
 ----------------
@@ -242,7 +242,7 @@ Service Identity
    services on different machines (cluster use case)
 -  [29] Just one certificate for the machine not one for each service
 
-.. _certificate_system_integration:
+
 
 Certificate System Integration
 ------------------------------
@@ -256,7 +256,7 @@ Certificate System Integration
 -  [32] NOT FOR THIS VERSION. Allow the organization to not use the
    included certificate system but have IPA call out to a different CA
 
-.. _home_directory_encryption_integration:
+
 
 Home Directory Encryption Integration
 -------------------------------------
@@ -285,7 +285,7 @@ Policy
 -  [44] Question: Should we build an authorization engine that is
    pluggable to support different representations of policy.
 
-.. _centrally_manage_access_control_policy:
+
 
 Centrally manage Access control policy
 --------------------------------------
@@ -327,7 +327,7 @@ Centrally manage Access control policy
    -  Network location / topology
    -  System identity
 
-.. _administrative_delegation_and_scoping:
+
 
 Administrative Delegation and Scoping
 -------------------------------------
@@ -347,7 +347,7 @@ Administrative Delegation and Scoping
    "owned" by the administrative domain.
 -  [62] Enable migration of existing sudo config into IPA
 
-.. _centrally_manage_selinux_policy:
+
 
 Centrally manage SELinux policy
 -------------------------------
@@ -357,7 +357,7 @@ Centrally manage SELinux policy
 -  [64] PERHAPS NOT IN V2. Map and SELinux policies to groups of
    machines and deliver the policy to the right machine.
 
-.. _system_configuration_and_lockdown:
+
 
 System Configuration and Lockdown
 ---------------------------------
@@ -405,7 +405,7 @@ Audit
 -  [79] IPA should be able to control which users, groups, machines will
    have key stroke logging enabled
 
-.. _security_of_system:
+
 
 Security of System
 ------------------

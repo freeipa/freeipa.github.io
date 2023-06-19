@@ -1,4 +1,4 @@
-.. _kerberos_principal_aliases_support:
+
 
 Kerberos principal aliases support
 ==================================

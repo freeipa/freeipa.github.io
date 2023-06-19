@@ -7,7 +7,7 @@ for more information). While it may seem to be insufficient, it is a
 feature that FreeIPA team does not plan to include as a FreeIPA core
 feature.
 
-.. _password_self_service_weaknesses:
+
 
 Password self-service weaknesses
 ================================
@@ -27,7 +27,7 @@ vulnerable and can be abused. While they are fine for a low security
 system like a mailing list or a free mail service, we do not see it as
 secure enough for FreeIPA and we do not plan to include it in the core.
 
-.. _possible_solutions:
+
 
 Possible solutions
 ==================
@@ -54,7 +54,7 @@ At some point in future we might develop a self-service portal solution
 but it will be treated as a separate project following the principals
 outlined above.
 
-.. _rd_party_projects:
+
 
 3rd party projects
 ------------------

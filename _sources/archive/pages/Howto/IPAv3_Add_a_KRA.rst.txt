@@ -44,12 +44,12 @@ Install IPA server
 **NOTE**: This configures IPA with its own DNS server. This is not an
 absolute requirement.
 
-.. _install_the_kra:
+
 
 Install the KRA
 ===============
 
-.. _create_kra_installation_configuration_file:
+
 
 Create KRA installation configuration file
 ------------------------------------------
@@ -98,7 +98,7 @@ installation.
    pki_storage_nickname=storageCert cert-pki-kra
    pki_transport_nickname=transportCert cert-pki-kra
 
-.. _update_ipa_proxy_configuration:
+
 
 Update IPA proxy configuration
 ------------------------------
@@ -145,33 +145,33 @@ Replace /etc/httpd/conf.d/ipa-pki-proxy.conf with this:
        ProxyPassReverse ajp://localhost:8009
    </LocationMatch>
 
-.. _restart_httpd:
+
 
 Restart httpd
 -------------
 
 ``# systemctl restart httpd.service``
 
-.. _add_the_kra:
+
 
 Add the KRA
 -----------
 
 ``# pkispawn -s KRA -f /path/to/kra.cfg``
 
-.. _restart_tomcat:
+
 
 Restart Tomcat
 ==============
 
 ``# systemctl restart pki-tomcatd@pki-tomcat.service``
 
-.. _configure_a_browser_for_kra_adminisrtrative_work:
+
 
 Configure a browser for KRA adminisrtrative work
 ================================================
 
-.. _copy_the_agent_pkcs12_file:
+
 
 Copy the Agent PKCS#12 file
 ---------------------------
@@ -184,7 +184,7 @@ Firefox. Fix permissions as needed.
 | ``# cp /root/ca-agent.p12 /home/someuser``
 | ``# chown someuser /home/someuser/ca-agent.p12``
 
-.. _import_the_cert:
+
 
 Import the cert
 ---------------
@@ -199,7 +199,7 @@ Enter the path to ca-agent.p12
 Enter the PKCS#12 password (the Directory manager password, mypassword2
 in the example)
 
-.. _test_the_cert:
+
 
 Test the cert
 -------------
@@ -216,7 +216,7 @@ Select Agent Services and you should be prompted to select a client
 certificate to use. If you imported the certificate correctly then
 selecting it and clicking Ok should display the CA agent page.
 
-.. _issue_and_recover_a_certificate:
+
 
 Issue and Recover a Certificate
 -------------------------------

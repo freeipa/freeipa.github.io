@@ -1,4 +1,4 @@
-.. _create_a_system_account:
+
 
 Create a System Account
 -----------------------
@@ -13,7 +13,7 @@ well.
 Note the complete DN of your system account. The foreman example uses
 "uid=foreman,cn=sysaccounts,cn=etc,dc=example,dc=com" (without quotes).
 
-.. _connect_isilon_onefs_to_freeipa:
+
 
 Connect Isilon OneFS to FreeIPA
 -------------------------------
@@ -21,7 +21,7 @@ Connect Isilon OneFS to FreeIPA
 Isilon OneFS can be configured to connect to LDAP using one of the two
 methods:
 
-.. _using_the_web_ui:
+
 
 Using the web UI
 ----------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ Using the command-line
 | ``--server-uris="``\ ```ldaps://`` <ldaps://>`__\ ``" \``
 | ``--groupnet=``
 
-.. _double_checking_the_ldap_configuration:
+
 
 Double-checking the LDAP configuration
 --------------------------------------

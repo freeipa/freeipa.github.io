@@ -17,12 +17,12 @@ authentication that are used. Service principals can then define a set
 of authentication indicators which are required in order to obtain a
 ticket for the service.
 
-.. _use_cases3:
+
 
 Use Cases
 ---------
 
-.. _strong_authentication_on_selected_system:
+
 
 Strong Authentication on Selected System
 ----------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ MIT Kerberos now contains all the plumbing for Authentication Indicators
 as of the 1.14 release. Our changes are mostly limited to the kdb plugin
 and the UI/CLI.
 
-.. _overview_1:
+
 
 Overview
 ----------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ Overview
 
    Indicators.png
 
-.. _enable_optional_otp_preauth:
+
 
 Enable Optional OTP Preauth
 ----------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ Once authentications through ipa-otpd enforce the presence of a second
 factor, we can enable other preauthentication mechanisms (encrypted
 challenge/timestamp) for 1FA.
 
-.. _client_side:
+
 
 Client Side
 ^^^^^^^^^^^
@@ -121,7 +121,7 @@ SSSD will have to learn how to handle receiving both encrypted challenge
 and OTP when FAST is present. Currently, it should force the use of OTP.
 We need to make this optional.
 
-.. _insert_authentication_indicators_during_authentication_asreq:
+
 
 Insert Authentication Indicators During Authentication (ASReq)
 ----------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ indicators. This is a simple configuration change to the KDB plugin to
 return a specially formatted user string for the otp preauthentication
 mechanism.
 
-.. _verify_authentication_indicators_during_ticket_issuance_tgsreq:
+
 
 Verify Authentication Indicators During Ticket Issuance (TGSReq)
 ----------------------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ New Dependencies                     Backup and Restore
 krb5 >= 1.14.0 (freeipa-server only) N/A
 ==================================== ==================
 
-.. _otprequired_bind_control:
+
 
 OTPRequired Bind Control
 ----------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ OID Contents
 TBD None (empty)
 === ============
 
-.. _kdb_string_attributes:
+
 
 KDB String Attributes
 ----------------------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ KDB String Attributes
 | Service (TGS Req) | N/A           | require_auth |                              |
 +-------------------+---------------+--------------+------------------------------+
 
-.. _feature_management3:
+
 
 Feature Management
 ------------------
@@ -214,7 +214,7 @@ Troubleshooting
 
 TBD
 
-.. _how_to_test3:
+
 
 How to Test
 -----------
@@ -225,7 +225,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan3:
+
 
 Test Plan
 ---------

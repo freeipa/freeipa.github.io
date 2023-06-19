@@ -1,4 +1,4 @@
-.. _downloading_freeipa:
+
 
 Downloading FreeIPA
 -------------------
@@ -6,7 +6,7 @@ Downloading FreeIPA
 When you want to download and use the latest FreeIPA release, you can
 select from several project delivery streams.
 
-.. _releases_in_os_distributions:
+
 
 Releases in OS Distributions
 ----------------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ FreeIPA versions:
 -  `Debian <https://www.debian.org/>`__ - `FreeIPA
    package <https://packages.debian.org/sid/net/freeipa-server>`__
 
-.. _releases_in_copr:
+
 
 Releases in COPR
 ----------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ build service. You can select from following active repositories:
 -  `FreeIPA 4.5.x COPR
    Repository <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-5/>`__
 
-.. _releases_in_container:
+
 
 Releases in Container
 ----------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ container release of FreeIPA:
 -  `FreeIPA Server on Docker
    Hub <https://hub.docker.com/r/freeipa/freeipa-server/>`__
 
-.. _bleeding_edge:
+
 
 Bleeding Edge
 ----------------------------------------------------------------------------------------------
@@ -74,14 +74,14 @@ sources stored on the project Pagure:
 -  `Latest Released Sources <https://releases.pagure.org/freeipa/>`__
 -  `Steps on verifying the release <Verify_Release_Signature>`__
 
-.. _upgrading_freeipa:
+
 
 Upgrading FreeIPA
 -----------------
 
 Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
 
-.. _installing_and_using_freeipa:
+
 
 Installing and Using FreeIPA
 ----------------------------
@@ -90,7 +90,7 @@ See `Documentation <Documentation>`__ or `Quick Start
 Guide <Quick_Start_Guide>`__ for further information about what you can
 do with your new and shiny FreeIPA server!
 
-.. _recent_releases:
+
 
 Recent Releases
 ---------------

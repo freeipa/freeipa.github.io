@@ -27,7 +27,7 @@ topics are:
    ipa-replica-manage and ipa-csreplica-manage
    tools <https://www.redhat.com/archives/freeipa-devel/2015-October/msg00454.html>`__.
 
-.. _ipacsreplica_manange_changes:
+
 
 ipa(cs)replica manange changes
 ----------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ The long term plan is to completely deprecate ``ipa-csreplica-manage``
 tool. ``ipa-replica-manage`` will be used only for management of winsync
 agreements, assuming domain level 1.
 
-.. _ipa_csreplica_manage:
+
 
 ipa-csreplica-manage
 ----------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ The only remaining goal before depracation is to transform
 `server roles design page <V4/Server_Roles>`__. `ticket
 #5689 <https://fedorahosted.org/freeipa/ticket/5689>`__
 
-.. _ipa_replica_manage:
+
 
 ipa-replica-manage
 ----------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ Feature Management
 
 UI
 
-.. _topology_graph:
+
 
 Topology graph
 ^^^^^^^^^^^^^^
@@ -202,7 +202,7 @@ Summary:
 
 Server roles won't be displayed in the topology graph in 4.4 release.
 
-.. _server_management:
+
 
 Server management
 ^^^^^^^^^^^^^^^^^
@@ -237,7 +237,7 @@ Configuration
 
 Nothing new.
 
-.. _how_to_test22:
+
 
 How to Test
 -----------
@@ -248,7 +248,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan22:
+
 
 Test Plan
 ---------

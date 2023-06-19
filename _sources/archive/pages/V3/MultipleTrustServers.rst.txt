@@ -9,7 +9,7 @@ Each FreeIPA server in the realm has potential to serve as domain
 controller in the cross-forest realm trust. This page outlines design
 for implementing multiple servers support in FreeIPA.
 
-.. _use_cases10g:
+
 
 Use Cases
 =========

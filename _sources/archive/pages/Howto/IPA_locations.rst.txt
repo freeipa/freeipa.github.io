@@ -1,4 +1,4 @@
-.. _short_feature_description:
+
 
 Short feature description
 -------------------------
@@ -12,7 +12,7 @@ IPA servers outside location work as backup servers. In case that all
 IPA servers in the particular location failed to respond, servers from
 outside of the location will be used.
 
-.. _information_good_to_know:
+
 
 Information good to know
 ----------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ Topology
 
    dns_location_topology.svg
 
-.. _installation_server:
+
 
 Installation (server)
 ----------------------------------------------------------------------------------------------
@@ -59,14 +59,16 @@ Please note the following steps are just examples, in real world, do not
 forget to add additional replication agreements as backup to prevents
 disconnect topology.
 
-| ``[root@berlin ~
-| ``[root@prague1 ~]# ipa-replica-install --setup-dns``
-| ``[root@prague2 ~]# ipa-replica-install --setup-dns``
-| ``[root@paris1 ~]# ipa-replica-install --setup-dns``
-| ``[root@paris2 ~]# ipa-replica-install``
-| ``[root@paris3 ~]# ipa-replica-install --setup-dns``
+::
 
-.. _adding_locations:
+   | ``[root@berlin ~
+   | ``[root@prague1 ~]# ipa-replica-install --setup-dns``
+   | ``[root@prague2 ~]# ipa-replica-install --setup-dns``
+   | ``[root@paris1 ~]# ipa-replica-install --setup-dns``
+   | ``[root@paris2 ~]# ipa-replica-install``
+   | ``[root@paris3 ~]# ipa-replica-install --setup-dns``
+
+
 
 Adding locations
 ----------------------------------------------------------------------------------------------
@@ -76,7 +78,7 @@ Use **location-add** command to create a new location.
 | ``[root@berlin ~]# ipa location-add czechrep --description="Czech republic clients"``
 | ``[root@berlin ~]# ipa location-add france --description="France clients"``
 
-.. _adding_servers_to_locations:
+
 
 Adding servers to locations
 ----------------------------------------------------------------------------------------------
@@ -90,12 +92,12 @@ member of only one location.
 | ``[root@berlin ~]# ipa server-mod paris2.example.com --location=france``
 | ``[root@berlin ~]# ipa server-mod paris3.example.com --location=france``
 
-.. _advanced_configuration:
+
 
 Advanced configuration
 ----------------------------------------------------------------------------------------------
 
-.. _setting_service_weight:
+
 
 Setting service weight
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -110,7 +112,7 @@ information about weight please see `RFC 2783 page
 
 ``[root@berlin ~]# ipa server-mod paris2.example.com --service-weight=2000``
 
-.. _lowering_ttl:
+
 
 Lowering TTL
 ^^^^^^^^^^^^
@@ -125,7 +127,7 @@ To change default TTL use **dnszone-mod** command.
 
 ``[root@berlin ~]# ipa dnszone-mod example.com. --default-ttl=3600``
 
-.. _installation_client:
+
 
 Installation (client)
 ----------------------------------------------------------------------------------------------
@@ -191,7 +193,7 @@ Server/client inside *france* location
 | ``0 2000 389 paris2.example.com.``
 | ``0 100 389 paris3.example.com.``
 
-.. _get_list_of_all_required_records:
+
 
 Get list of all required records
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -201,7 +203,7 @@ list of all required system records, and location records. Eventually if
 some records are missing in IPA domain, you can use this command
 **without --dry-run** option to fix missing system records.
 
-.. _example_with_non_freeipa_dns_servers:
+
 
 Example with non-FreeIPA DNS servers
 ----------------------------------------------------------------------------------------------

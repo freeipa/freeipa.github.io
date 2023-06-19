@@ -1,4 +1,4 @@
-.. _document_conventions:
+
 
 Document Conventions
 --------------------
@@ -65,7 +65,7 @@ directory in order to run the commands as described above. This is not
 the case for the superuser, who has ``/usr/sbin`` in the path by
 default.
 
-.. _rpms_packages_etc.:
+
 
 RPMs, Packages, etc.
 ----------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ Links
 When referring to a link (e.g., on the WebUI), enclose it in double
 quotes.
 
-.. _attributes_parameters_etc.:
+
 
 Attributes, Parameters, etc.
 ----------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ They're mostly part of commands, which are bold, so it seems logical.
 Some things are italic, but I don't have a definite system yet. I miss
 docbook...
 
-.. _notes_and_stuff:
+
 
 Notes and stuff
 ----------------------------------------------------------------------------------------------

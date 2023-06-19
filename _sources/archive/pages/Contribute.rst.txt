@@ -1,12 +1,12 @@
 Communication
 =============
 
-.. _reporting_bugs_or_features:
+
 
 Reporting bugs or Features
 --------------------------
 
-.. _security_bugs_and_flaws:
+
 
 Security Bugs and Flaws
 ----------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ Tracking
    link <https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=ipa>`__
    (component *ipa*).
 
-.. _code_of_conduct:
+
 
 Code of Conduct
 ---------------
@@ -43,7 +43,7 @@ Whatever way of communication or contribution mean you choose with the
 FreeIPA project, please respect our `Code of
 Conduct <https://github.com/freeipa/freeipa/blob/master/CODE_OF_CONDUCT.md>`__.
 
-.. _mailing_lists:
+
 
 Mailing Lists
 -------------
@@ -71,7 +71,7 @@ IRC
 We also hang out on the libera.chat IRC servers (irc.libera.chat) in the
 *#freeipa* channel.
 
-.. _how_can_i_help:
+
 
 How Can I Help?
 ===============
@@ -80,7 +80,7 @@ There are different areas, where FreeIPA project would welcome your
 help! Read all the pointers below, if there is anything unclear, feel
 free to ask!
 
-.. _how_to_start:
+
 
 How To Start
 ------------
@@ -95,7 +95,7 @@ future milestones first is preferred (check milestones in the
 Development
 -----------
 
-.. _contribute_code:
+
 
 Contribute code
 ----------------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ Weblate <https://translate.fedoraproject.org/projects/freeipa/>`__
 instance for translations, managed by Fedora Project. A Fedora Project
 account is needed.
 
-.. _how_to_translate:
+
 
 How to translate
 ^^^^^^^^^^^^^^^^
@@ -141,7 +141,7 @@ How to translate
 Testing
 -------
 
-.. _help_us_test:
+
 
 Help Us Test
 ----------------------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ Help Us Test
 -  `Testing page <Testing>`__ is good start point and contains the
    information about execution of existing test suites.
 
-.. _contribute_tests:
+
 
 Contribute Tests
 ----------------------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ Contribute Tests
 Documentation
 -------------
 
-.. _contribute_documentation:
+
 
 Contribute documentation
 ----------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@
           <div class="body" role="main">
             
   <p><strong>Draft</strong> Using IPA DNS for OpenShift - setup how-to</p>
-<p id="install-plugins-on-broker">Install plugins on Broker</p>
+<p>Install plugins on Broker</p>
 <ul class="simple">
 <li><p>FYI: The default plugin for OpenShift Origin is its own BIND
 installation. OpenShift Enterprise already uses nsupdate by default.</p>
@@ -72,7 +72,7 @@ look like this (make the file if it doesn’t exist):</p></li>
 <span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
 </pre></div>
 </div>
-<p id="get-ipa-keytab-for-dns">Get IPA Keytab for DNS</p>
+<p>Get IPA Keytab for DNS</p>
 <p>We need to give the Broker <em>another</em> keytab to update the IPA Server’s
 DNS. We will 1) enroll it as a service for DNS, 2) update the policy so
 it is allowed to update CNAME records, and 3) get the keytab over to the
@@ -101,7 +101,7 @@ kinit -kt /etc/dns.keytab -p DNS/$BROKER_FQDN
 <li><p>Change the ownership: <code class="docutils literal notranslate"><span class="pre">chown</span> <span class="pre">apache:apache</span> <span class="pre">/etc/dns.keytab</span></code></p></li>
 <li><p>Restart the broker service: <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code></p></li>
 </ul>
-<p id="to-test">To test</p>
+<p>To test</p>
 <p>I suggest testing three ways:</p>
 <ol class="arabic simple">
 <li><p>Manually with nsupdate tool. If this fails, you know it’s a
@@ -111,7 +111,7 @@ it is an OpenShift configuration issue with nsupdate.</p></li>
 <li><p>With RHC command line tools. If this fails, then it is an OpenShift
 issue with either MongoDB or ActiveMQ/MCollective.</p></li>
 </ol>
-<p id="manually">Manually</p>
+<p>Manually</p>
 <p>First we should manually see if nsupdate works on our <strong>Broker machine</strong>
 to see if it can correctly update its zone:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[root@broker]# kinit -kt /etc/dns.keytab DNS/$BROKER_FQDN
@@ -136,7 +136,7 @@ machine in the realm (admin, client, anything)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># ipa dns-resolve $YOUR_TEST_APP_FQDN</span>
 </pre></div>
 </div>
-<p id="with-openshift-enterprise">With OpenShift Enterprise</p>
+<p>With OpenShift Enterprise</p>
 <p>On the OSE Broker, move into the broker directory, remove the
 Gemfile.lock (NOT Gemfile!), and locally install the :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># cd /var/www/openshift/broker</span>
@@ -154,7 +154,7 @@ console:</p>
 </pre></div>
 </div>
 <p>If you are successful, the rails console will return with “nil”.</p>
-<p id="possible-issue">Possible issue</p>
+<p>Possible issue</p>
 <p>The Broker will grab the TSIG Key/value, not the GSS-TSIG
 keytab/principal. Within
 <code class="docutils literal notranslate"><span class="pre">/usr/lib/rub/gems/1.8/gems/openshift-origin-dns-nsupdate-xxxx/config/initializers</span></code>,
@@ -164,7 +164,7 @@ edit the file: <code class="docutils literal notranslate"><span class="pre">open
 IPA’s keytab.</p>
 <p>Once you edit this, restart the broker service:
 <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code></p>
-<p id="with-rhc-command-line-tools">With RHC command-line tools</p>
+<p>With RHC command-line tools</p>
 <p>Note that if you didn’t update the manual test to delete the CNAME
 record for the FQDN, you will need to choose another test FQDN.</p>
 <p>On your client machine:</p>

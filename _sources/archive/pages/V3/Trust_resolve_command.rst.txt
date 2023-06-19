@@ -42,7 +42,7 @@ of successful resolution will be replaced by the returned value.
 
 CLI
 
-.. _trust_resolve:
+
 
 trust-resolve
 ----------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ External Impact
 
 N/A
 
-.. _design_page_authors:
+
 
 Design page authors
 ===================

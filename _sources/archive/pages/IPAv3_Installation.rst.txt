@@ -18,7 +18,7 @@ Obsolete:
    slapi-nis python-tgexpandingformwidget python-cherrypy pyOpenSSL \
    python-nss python-assets python-wehjit python-lxml
 
-.. _hosts_file:
+
 
 Hosts File
 ==========
@@ -31,7 +31,7 @@ Edit /etc/hosts:
    ::1           localhost6.localdomain6 localhost6
    192.168.1.100 ipa1.example.com ipa1
 
-.. _installing_released_binaries:
+
 
 Installing Released Binaries
 ============================
@@ -40,7 +40,7 @@ Installing Released Binaries
 
    % yum install ipa-server
 
-.. _installing_daily_build:
+
 
 Installing Daily Build
 ======================
@@ -54,7 +54,7 @@ Create a .repo file in /etc/yum.repos.d:
    baseurl=http://nalin.fedorapeople.org/freeipa-devel/12/i386/
    gpgcheck=0
 
-.. _building_from_source_code:
+
 
 Building from Source Code
 =========================

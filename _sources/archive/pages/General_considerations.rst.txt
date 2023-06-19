@@ -6,7 +6,7 @@ proposal. Following list of questions can help you to find holes in the
 design. The proposed design should be linked from `V4
 Proposals <V4_Proposals>`__ section.
 
-.. _ldap_related_questions:
+
 
 LDAP Related Questions
 ----------------------
@@ -27,7 +27,7 @@ LDAP Related Questions
 -  Are you planning to also import schema defined by a third party that
    is not yet a part of FreeIPA?
 
-.. _integration_and_source_control_related_questions:
+
 
 Integration and source control related questions
 ------------------------------------------------
@@ -45,7 +45,7 @@ Integration and source control related questions
    else?
 -  Who will have commit privileges to the code?
 
-.. _process_related_questions:
+
 
 Process related questions
 -------------------------
@@ -61,7 +61,7 @@ integrated and supported as a part of FreeIPA core functionality.*
    conventions?
 -  Are you going to publish and review designs? Where?
 
-.. _implementation_related_questions:
+
 
 Implementation related questions
 --------------------------------

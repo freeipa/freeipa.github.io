@@ -33,14 +33,14 @@
           <div class="body" role="main">
             
   <section id="alternative-sudo-schema-proposal">
-<span id="id1"></span><h1>Alternative SUDO Schema Proposal<a class="headerlink" href="#alternative-sudo-schema-proposal" title="Permalink to this heading">¶</a></h1>
+<h1>Alternative SUDO Schema Proposal<a class="headerlink" href="#alternative-sudo-schema-proposal" title="Permalink to this heading">¶</a></h1>
 <section id="abstract">
 <h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">¶</a></h2>
 <p>This page describes a proposal for the LDAP schema objects to support
 centrally managed SUDO rules.</p>
 </section>
 <section id="design-considerations">
-<span id="id2"></span><h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Permalink to this heading">¶</a></h2>
+<h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Permalink to this heading">¶</a></h2>
 <p>The SUDO rules can already be loaded into an LDAP server and managed
 centrally. The schema for the solutions is described here:
 <a class="reference external" href="http://www.sudo.ws/sudo/sudoers.ldap.man.html">1</a>. The SUDO client
@@ -106,7 +106,7 @@ regardless of the order the records returned.</p></li>
 </ul>
 </section>
 <section id="proposed-schema">
-<span id="id3"></span><h2>Proposed Schema<a class="headerlink" href="#proposed-schema" title="Permalink to this heading">¶</a></h2>
+<h2>Proposed Schema<a class="headerlink" href="#proposed-schema" title="Permalink to this heading">¶</a></h2>
 <p>Sudo rules should be located in some part of the tree. Assume that
 <strong>SUDOers</strong> will be used as a name of the container. Then the full DN
 will look like this:</p>
@@ -235,20 +235,19 @@ just for the sake of the clean design and maintainability.
 The attribute then can look like this:</p>
 </li>
 </ul>
-<div class="line-block">
-<div class="line"><a href="#id4"><span class="problematic" id="id5">``</span></a>attributeTypes: ( 2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                  NAME ‘hostMask’ ``</div>
-<div class="line">``                  DESC ‘IP mask to identify a subnet.’ ``</div>
-<div class="line">``                  EQUALITY caseIgnoreMatch``</div>
-<div class="line">``                  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                  ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                  SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                  X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: ( 2.16.840.1.113730.3.8.7.TBD ``
+| ``                  NAME &#39;hostMask&#39; ``
+| ``                  DESC &#39;IP mask to identify a subnet.&#39; ``
+| ``                  EQUALITY caseIgnoreMatch``
+| ``                  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                  ORDERING caseIgnoreMatch ``
+| ``                  SUBSTR caseIgnoreSubstringsMatch ``
+| ``                  X-ORIGIN &#39;IPA v2&#39; )``
+
+The values it will hold may look like IPv4 or IPv6 addresses or
+expressed using the CIDR notation for example:
+</pre></div>
 </div>
-<blockquote>
-<div><p>The values it will hold may look like IPv4 or IPv6 addresses or
-expressed using the CIDR notation for example:</p>
-</div></blockquote>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">128.138.243.0</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">128.138.204.0/24</span></code></div>
@@ -261,42 +260,40 @@ attribute <strong>ipNetmaskNumber</strong> but this attribute is defines as sing
 value attribute which would create a limitation on specifying
 multiple masks in one entry.</p>
 </div></blockquote>
-<div class="line-block">
-<div class="line"><a href="#id6"><span class="problematic" id="id7">``</span></a>attributeTypes: ( nisSchema.1.21 ``</div>
-<div class="line">``                  NAME ‘ipNetmaskNumber’``</div>
-<div class="line">``                  DESC ‘IP netmask as a dotted decimal, eg. 255.255.255.0, omitting leading zeros’``</div>
-<div class="line">``                  EQUALITY caseIgnoreIA5Match``</div>
-<div class="line">``                  SYNTAX ‘IA5String{128}’ SINGLE-VALUE )``</div>
-</div>
-<blockquote>
-<div><p>Or we reuse an attribute already defined in the schema for the
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: ( nisSchema.1.21 ``
+| ``                  NAME &#39;ipNetmaskNumber&#39;``
+| ``                  DESC &#39;IP netmask as a dotted decimal, eg. 255.255.255.0, omitting leading zeros&#39;``
+| ``                  EQUALITY caseIgnoreIA5Match``
+| ``                  SYNTAX &#39;IA5String{128}&#39; SINGLE-VALUE )``
+
+Or we reuse an attribute already defined in the schema for the
 external (unmanaged) hosts. This can also be a good option since we
 need to also support hosts that run SUDO but are not a part of the
 IPA universe and thus must be directly listed in the rule. However in
 this case we would have to have a special prefixing inside the
-attribute value to distinguish the two.</p>
-</div></blockquote>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘externalHost’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing host names.’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+attribute value to distinguish the two.
+</pre></div>
 </div>
-<blockquote>
-<div><p>After a brief evaluation I suggest including both attributes. The
-<strong>externalHost</strong> for external names not otherwise managed by the
-system and the <strong>hostMask</strong> for the net mask or subnet specification
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;externalHost&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing host names.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+After a brief evaluation I suggest including both attributes. The
+**externalHost** for external names not otherwise managed by the
+system and the **hostMask** for the net mask or subnet specification
 as define by SUDO syntax. The management plugin should implement
 strict syntax checking rules to make sure that this string has the
 right format and matches the expectation. When synthesizing entries
 the compat plugin will take the value of this attribute verbatim, add
 a prefix and stick into the outgoing attribute. No syntax checking
-will be performed.</p>
-</div></blockquote>
+will be performed.
+</pre></div>
+</div>
 <ul>
 <li><p><strong>sudoCommand</strong> (required per spec)</p>
 <p>According to SODO manual this is: a Unix command with optional
@@ -378,57 +375,56 @@ cn=SUDOcmdgrp,dc=… container.</p>
 </ul>
 </li>
 </ul>
-<div class="line-block">
-<div class="line"><a href="#id8"><span class="problematic" id="id9">``</span></a>objectClasses: (2.16.840.1.113730.3.8.8.TBD ``</div>
-<div class="line">``                NAME ‘ipaSudoCmd’ ``</div>
-<div class="line">``                DESC ‘IPA object class for SUDO command’``</div>
-<div class="line">``                STRUCTURAL ``</div>
-<div class="line">``                MUST ( ipaUniqueID $ sudoCmd ) ``</div>
-<div class="line">``                MAY  ( memberOf $ description ) ``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id10"><span class="problematic" id="id11">``</span></a>objectClasses: (2.16.840.1.113730.3.8.8.TBD ``</div>
-<div class="line">``                NAME ‘ipaSudoCmdGrp’ ``</div>
-<div class="line">``                DESC ‘IPA object class to store groups of SUDO commands’ ``</div>
-<div class="line">``                SUP groupOfNames ``</div>
-<div class="line">``                MUST ( ipaUniqueID )``</div>
-<div class="line">``                STRUCTURAL``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line">`` ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘sudoCmd’``</div>
-<div class="line">``                 DESC ‘Command(s) to be executed by sudo’``</div>
-<div class="line">``                 EQUALITY caseExactMatch ``</div>
-<div class="line">``                 ORDERING caseExactMatch ``</div>
-<div class="line">``                 SUBSTR caseExactSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id12"><span class="problematic" id="id13">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘memberAllowCmd’ ``</div>
-<div class="line">``                 DESC ‘Reference to a command or group of the commands.’ ``</div>
-<div class="line">``                 SUP distinguishedName ``</div>
-<div class="line">``                 EQUALITY distinguishedNameMatch ``</div>
-<div class="line">``                 ORDERING distinguishedNameMatch ``</div>
-<div class="line">``                 SUBSTR distinguishedNameMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id14"><span class="problematic" id="id15">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘memberDenyCmd’ ``</div>
-<div class="line">``                 DESC ‘Reference to a command or group of the commands.’ ``</div>
-<div class="line">``                 SUP distinguishedName ``</div>
-<div class="line">``                 EQUALITY distinguishedNameMatch ``</div>
-<div class="line">``                 ORDERING distinguishedNameMatch ``</div>
-<div class="line">``                 SUBSTR distinguishedNameMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id16"><span class="problematic" id="id17">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘cmdCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for commands’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmd&#39; ``
+| ``                DESC &#39;IPA object class for SUDO command&#39;``
+| ``                STRUCTURAL ``
+| ``                MUST ( ipaUniqueID $ sudoCmd ) ``
+| ``                MAY  ( memberOf $ description ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmdGrp&#39; ``
+| ``                DESC &#39;IPA object class to store groups of SUDO commands&#39; ``
+| ``                SUP groupOfNames ``
+| ``                MUST ( ipaUniqueID )``
+| ``                STRUCTURAL``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| `` ``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;sudoCmd&#39;``
+| ``                 DESC &#39;Command(s) to be executed by sudo&#39;``
+| ``                 EQUALITY caseExactMatch ``
+| ``                 ORDERING caseExactMatch ``
+| ``                 SUBSTR caseExactSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberAllowCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberDenyCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;cmdCategory&#39; ``
+| ``                 DESC &#39;Additional classification for commands&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN &#39;IPA v2&#39; )``
+</pre></div>
 </div>
 <ul>
 <li><p><strong>sudoOption</strong> (optional per spec)</p>
@@ -440,12 +436,12 @@ for this attribute so we will define and analogous attribute of the
 same type.</p>
 </li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                NAME ‘ipaSudoOpt’``</div>
-<div class="line">``                DESC ‘Options(s) followed by sudo’``</div>
-<div class="line">``                EQUALITY caseExactIA5Match``</div>
-<div class="line">``                SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributetype ( 2.16.840.1.113730.3.8.7.TBD``
+| ``                NAME &#39;ipaSudoOpt&#39;``
+| ``                DESC &#39;Options(s) followed by sudo&#39;``
+| ``                EQUALITY caseExactIA5Match``
+| ``                SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
+</pre></div>
 </div>
 <ul>
 <li><p><strong>sudoRunAs</strong> - is deprecated</p></li>
@@ -475,85 +471,82 @@ aggregate uses the command can be run as. To point to those objects
 we need a DN style attribute.</p>
 </li>
 </ul>
-<div class="line-block">
-<div class="line"><a href="#id18"><span class="problematic" id="id19">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAs’ ``</div>
-<div class="line">``                 DESC ‘Reference to a user or group that the commands can be run as.’ ``</div>
-<div class="line">``                 SUP memberUser``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAs&#39; ``
+| ``                 DESC &#39;Reference to a user or group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+Secondarily we need to allow the sudo commands to be run as users
+that are not managed.
+</pre></div>
 </div>
-<blockquote>
-<div><p>Secondarily we need to allow the sudo commands to be run as users
-that are not managed.</p>
-</div></blockquote>
-<div class="line-block">
-<div class="line"><a href="#id20"><span class="problematic" id="id21">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAsExtUser’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing user name the command can be run as’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-</div>
-<blockquote>
-<div><p>We will not support referencing external users by the uid only by
-login name.</p>
-<p>Lastly we need to support an option to run as any user. This can be
-accomplished by using a special value “ALL” in the
-“ipaSudoRunAsExtUser” attribute. The draback of this solution is that
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtUser&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing user name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+We will not support referencing external users by the uid only by
+login name.
+
+Lastly we need to support an option to run as any user. This can be
+accomplished by using a special value &quot;ALL&quot; in the
+&quot;ipaSudoRunAsExtUser&quot; attribute. The draback of this solution is that
 it potentially creates a naming collision between a local user named
-“all” and this spacial value. it also introduces special processing
+&quot;all&quot; and this spacial value. it also introduces special processing
 and handling of the attribute.
 Alternatively we can create a special attribute similar to the
 userCategory attribute in the association object to express notion of
-“all” users or all “external users” or “all trusted users” etc.
+&quot;all&quot; users or all &quot;external users&quot; or &quot;all trusted users&quot; etc.
 Though it is a very corner case and this approach seems a bit an
 overkill it allows a cleaner and consistent logic across the board of
-how we handle user entries in the system as a whole.</p>
-</div></blockquote>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘ipaSudoRunAsUserCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for users’ ``</div>
-<div class="line">``                 SUP userCategory``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+how we handle user entries in the system as a whole.
+</pre></div>
 </div>
-<blockquote>
-<div><p>The only value that will be supported so far is “all”.</p>
-<p>For the run as group we will need to have very similar handling.</p>
-</div></blockquote>
-<div class="line-block">
-<div class="line"><a href="#id22"><span class="problematic" id="id23">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAsGroup’ ``</div>
-<div class="line">``                 DESC ‘Reference to group that the commands can be run as.’ ``</div>
-<div class="line">``                 SUP memberUser``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsUserCategory&#39; ``
+| ``                 DESC &#39;Additional classification for users&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+The only value that will be supported so far is &quot;all&quot;.
+
+For the run as group we will need to have very similar handling.
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><a href="#id24"><span class="problematic" id="id25">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAsExtGroup’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing group name the command can be run as’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsGroup&#39; ``
+| ``                 DESC &#39;Reference to group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtGroup&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing group name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+We will not support referencing external groups by the gid only by
+group name.
+</pre></div>
 </div>
-<blockquote>
-<div><p>We will not support referencing external groups by the gid only by
-group name.</p>
-</div></blockquote>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘ipaSudoRunAsGroupCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for groups’ ``</div>
-<div class="line">``                 SUP userCategory``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsGroupCategory&#39; ``
+| ``                 DESC &#39;Additional classification for groups&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+</pre></div>
 </div>
 </section>
 <section id="sudo-rules-and-hbac-rules">
-<span id="id26"></span><h2>SUDO rules and HBAC rules<a class="headerlink" href="#sudo-rules-and-hbac-rules" title="Permalink to this heading">¶</a></h2>
+<h2>SUDO rules and HBAC rules<a class="headerlink" href="#sudo-rules-and-hbac-rules" title="Permalink to this heading">¶</a></h2>
 <p>When a user invokes SUDO he needs to authenticate. On the managed hosts
 the SSSD will do the access control enforcement for those
 authentications using HBAC rules. If the authentication is not allowed
@@ -576,45 +569,44 @@ administrator will be able to add other more granular access rules at
 his discretion.</p></li>
 </ul>
 <p>The pre configured data template will look like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaobject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipahbacservicegroup</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: nestedGroup</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupOfNames</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: SUDO</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">description: Default group of SUDO related services</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=sudo,cn=hbacservices,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaobject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipahbacservice</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: sudo</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">memberOf:'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">description: Login service for sudo</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=sudo-i,cn=hbacservices,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaobject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipahbacservice</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: sudo-i</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">memberOf:'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">description: Login service for sudo-i</span></code></div>
-</div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=SUDO Login,cn=hbac,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaAssociation</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaHBACRule</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: SUDO Login</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">description: Default HBAC rule to allow authentication via SUDO commands.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaEnabledFlag: false</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">accessRuleType: allow</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">userCategory: all</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">hostCategory: all</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">sourceHostCategory: all</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">memberService: 'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: ipaobject``
+| ``objectClass: ipahbacservicegroup``
+| ``objectClass: nestedGroup``
+| ``objectClass: groupOfNames``
+| ``objectClass: top``
+| ``cn: SUDO``
+| ``description: Default group of SUDO related services``
+| ``dn: cn=sudo,cn=hbacservices,cn=accounts,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: ipaobject``
+| ``objectClass: ipahbacservice``
+| ``cn: sudo``
+| ``memberOf:&#39;cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX&#39;``
+| ``description: Login service for sudo``
+| ``dn: cn=sudo-i,cn=hbacservices,cn=accounts,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: ipaobject``
+| ``objectClass: ipahbacservice``
+| ``cn: sudo-i``
+| ``memberOf:&#39;cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX&#39;``
+| ``description: Login service for sudo-i``
+
+| ``dn: cn=SUDO Login,cn=hbac,cn=accounts,$SUFFIX``
+| ``changetype add``
+| ``objectClass: top``
+| ``objectClass: ipaAssociation``
+| ``objectClass: ipaHBACRule``
+| ``cn: SUDO Login``
+| ``description: Default HBAC rule to allow authentication via SUDO commands.``
+| ``ipaEnabledFlag: false``
+| ``accessRuleType: allow``
+| ``userCategory: all``
+| ``hostCategory: all``
+| ``sourceHostCategory: all``
+| ``memberService: &#39;cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX&#39;``
+</pre></div>
 </div>
 <p>If we realize that we need a more tight coupling between the SUDO and
 HBAC rules we will implement them later based on the feedback from the
@@ -632,205 +624,205 @@ schema.</p>
 <p>To summarize the schema for the new SUDO rule object will look like
 this:</p>
 <p>Existing objects already defined in the IPA schema:</p>
-<div class="line-block">
-<div class="line"><a href="#id27"><span class="problematic" id="id28">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.3.1 ``</div>
-<div class="line">``                 NAME ‘ipaUniqueID’ ``</div>
-<div class="line">``                 DESC ‘Unique identifier’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id29"><span class="problematic" id="id30">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.3.5 ``</div>
-<div class="line">``                 NAME ‘memberUser’ ``</div>
-<div class="line">``                 DESC ‘Reference to a principal that performs an action (usually user).’ ``</div>
-<div class="line">``                 SUP distinguishedName ``</div>
-<div class="line">``                 EQUALITY distinguishedNameMatch ``</div>
-<div class="line">``                 ORDERING distinguishedNameMatch ``</div>
-<div class="line">``                 SUBSTR distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id31"><span class="problematic" id="id32">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.3.6 ``</div>
-<div class="line">``                 NAME ‘userCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for users’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.3.7</span></code></div>
-<div class="line">``                 NAME ‘memberHost’ ``</div>
-<div class="line">``                 DESC ‘Reference to a device where the operation takes place (usually host).’ ``</div>
-<div class="line">``                 SUP distinguishedName ``</div>
-<div class="line">``                 EQUALITY distinguishedNameMatch ``</div>
-<div class="line">``                 ORDERING distinguishedNameMatch ``</div>
-<div class="line">``                 SUBSTR distinguishedNameMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id33"><span class="problematic" id="id34">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.3.8 ``</div>
-<div class="line">``                 NAME ‘hostCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for hosts’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.3.9</span></code></div>
-<div class="line">``                 NAME ‘ipaEnabledFlag’ ``</div>
-<div class="line">``                 DESC ‘The flag to show if the association is active or should be ignored’ ``</div>
-<div class="line">``                 EQUALITY booleanMatch ``</div>
-<div class="line">``                 ORDERING booleanMatch ``</div>
-<div class="line">``                 SUBSTR booleanMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id35"><span class="problematic" id="id36">``</span></a>objectClasses: (2.16.840.1.113730.3.8.4.6 ``</div>
-<div class="line">``                NAME ‘ipaAssociation’ ``</div>
-<div class="line">``                ABSTRACT ``</div>
-<div class="line">``                MUST ( ipaUniqueID    $ cn ) ``</div>
-<div class="line">``                MAY  ( memberUser     $ userCategory $ ``</div>
-<div class="line">``                       memberHost     $ hostCategory $ ``</div>
-<div class="line">``                       ipaEnabledFlag $ description ) ``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.3.11</span></code></div>
-<div class="line">``                 NAME ‘externalHost’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing host names.’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id37"><span class="problematic" id="id38">``</span></a>objectClasses: (2.16.840.1.113730.3.8.4.3 ``</div>
-<div class="line">``                NAME ‘nestedGroup’ ``</div>
-<div class="line">``                DESC ‘Group that supports nesting’ ``</div>
-<div class="line">``                SUP groupOfNames ``</div>
-<div class="line">``                STRUCTURAL ``</div>
-<div class="line">``                MAY memberOf ``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id39"><span class="problematic" id="id40">``</span></a>attributeTypes ( 2.16.840.1.113730.3.8.3.13 ``</div>
-<div class="line">``                 NAME ‘accessRuleType’ ``</div>
-<div class="line">``                 DESC ‘The flag to represent if it is allow or deny rule.’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Note: valid values for accessRuleType are &quot;allow&quot; or &quot;deny&quot;</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.3.1 ``
+| ``                 NAME &#39;ipaUniqueID&#39; ``
+| ``                 DESC &#39;Unique identifier&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.5 ``
+| ``                 NAME &#39;memberUser&#39; ``
+| ``                 DESC &#39;Reference to a principal that performs an action (usually user).&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.6 ``
+| ``                 NAME &#39;userCategory&#39; ``
+| ``                 DESC &#39;Additional classification for users&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.7``
+| ``                 NAME &#39;memberHost&#39; ``
+| ``                 DESC &#39;Reference to a device where the operation takes place (usually host).&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.8 ``
+| ``                 NAME &#39;hostCategory&#39; ``
+| ``                 DESC &#39;Additional classification for hosts&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.9``
+| ``                 NAME &#39;ipaEnabledFlag&#39; ``
+| ``                 DESC &#39;The flag to show if the association is active or should be ignored&#39; ``
+| ``                 EQUALITY booleanMatch ``
+| ``                 ORDERING booleanMatch ``
+| ``                 SUBSTR booleanMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.4.6 ``
+| ``                NAME &#39;ipaAssociation&#39; ``
+| ``                ABSTRACT ``
+| ``                MUST ( ipaUniqueID    $ cn ) ``
+| ``                MAY  ( memberUser     $ userCategory $ ``
+| ``                       memberHost     $ hostCategory $ ``
+| ``                       ipaEnabledFlag $ description ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.11``
+| ``                 NAME &#39;externalHost&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing host names.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.4.3 ``
+| ``                NAME &#39;nestedGroup&#39; ``
+| ``                DESC &#39;Group that supports nesting&#39; ``
+| ``                SUP groupOfNames ``
+| ``                STRUCTURAL ``
+| ``                MAY memberOf ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes ( 2.16.840.1.113730.3.8.3.13 ``
+| ``                 NAME &#39;accessRuleType&#39; ``
+| ``                 DESC &#39;The flag to represent if it is allow or deny rule.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN &#39;IPA v2&#39;)``
+| ``Note: valid values for accessRuleType are &quot;allow&quot; or &quot;deny&quot;``
+</pre></div>
 </div>
 <p>New attributes and objects added by this design:</p>
-<div class="line-block">
-<div class="line"><a href="#id41"><span class="problematic" id="id42">``</span></a>objectClasses: (2.16.840.1.113730.3.8.8.TBD ``</div>
-<div class="line">``                NAME ‘ipaSudoCmd’ ``</div>
-<div class="line">``                DESC ‘IPA object class for SUDO command’``</div>
-<div class="line">``                STRUCTURAL ``</div>
-<div class="line">``                MUST ( ipaUniqueID $ sudoCmd ) ``</div>
-<div class="line">``                MAY  ( memberOf $ description ) ``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id43"><span class="problematic" id="id44">``</span></a>objectClasses: (2.16.840.1.113730.3.8.8.TBD ``</div>
-<div class="line">``                NAME ‘ipaSudoCmdGrp’ ``</div>
-<div class="line">``                DESC ‘IPA object class to store groups of SUDO commands’ ``</div>
-<div class="line">``                SUP groupOfNames ``</div>
-<div class="line">``                MUST ( ipaUniqueID )``</div>
-<div class="line">``                STRUCTURAL``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘sudoCmd’``</div>
-<div class="line">``                 DESC ‘Command(s) to be executed by sudo’``</div>
-<div class="line">``                 EQUALITY caseExactMatch ``</div>
-<div class="line">``                 ORDERING caseExactMatch ``</div>
-<div class="line">``                 SUBSTR caseExactSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id45"><span class="problematic" id="id46">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘memberAllowCmd’ ``</div>
-<div class="line">``                 DESC ‘Reference to a command or group of the commands that are allowed by the rule.’ ``</div>
-<div class="line">``                 SUP distinguishedName ``</div>
-<div class="line">``                 EQUALITY distinguishedNameMatch ``</div>
-<div class="line">``                 ORDERING distinguishedNameMatch ``</div>
-<div class="line">``                 SUBSTR distinguishedNameMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id47"><span class="problematic" id="id48">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘memberDenyCmd’ ``</div>
-<div class="line">``                 DESC ‘Reference to a command or group of the commands that are denied by the rule.’ ``</div>
-<div class="line">``                 SUP distinguishedName ``</div>
-<div class="line">``                 EQUALITY distinguishedNameMatch ``</div>
-<div class="line">``                 ORDERING distinguishedNameMatch ``</div>
-<div class="line">``                 SUBSTR distinguishedNameMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id49"><span class="problematic" id="id50">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘cmdCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for commands’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘externalUser’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing user names.’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘ipaSudoOpt’``</div>
-<div class="line">``                 DESC ‘Options(s) followed by sudo’``</div>
-<div class="line">``                 EQUALITY caseExactIA5Match``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
-<div class="line"><a href="#id51"><span class="problematic" id="id52">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAs’ ``</div>
-<div class="line">``                 DESC ‘Reference to a user or group that the commands can be run as.’ ``</div>
-<div class="line">``                 SUP memberUser``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id53"><span class="problematic" id="id54">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAsExtUser’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing user name the command can be run as’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘ipaSudoRunAsUserCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for users’ ``</div>
-<div class="line">``                 SUP userCategory``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id55"><span class="problematic" id="id56">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAsGroup’ ``</div>
-<div class="line">``                 DESC ‘Reference to group that the commands can be run as.’ ``</div>
-<div class="line">``                 SUP memberUser``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id57"><span class="problematic" id="id58">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘ipaSudoRunAsExtGroup’ ``</div>
-<div class="line">``                 DESC ‘Multivalue string attribute that allows storing group name the command can be run as’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
-<div class="line">``                 NAME ‘ipaSudoRunAsGroupCategory’ ``</div>
-<div class="line">``                 DESC ‘Additional classification for groups’ ``</div>
-<div class="line">``                 SUP userCategory``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id59"><span class="problematic" id="id60">``</span></a>attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``</div>
-<div class="line">``                 NAME ‘hostMask’ ``</div>
-<div class="line">``                 DESC ‘IP mask to identify a subnet.’ ``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
-<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
-<div class="line"><a href="#id61"><span class="problematic" id="id62">``</span></a>objectClasses: (2.16.840.1.113730.3.8.8.TBD ``</div>
-<div class="line">``                NAME ‘ipaSudoRule’ ``</div>
-<div class="line">``                SUP ipaAssociation ``</div>
-<div class="line">``                STRUCTURAL ``</div>
-<div class="line">``                MAY ( externalUser $ ``</div>
-<div class="line">``                      externalHost $ hostMask $ ``</div>
-<div class="line">``                      memberAllowCmd $ memberDenyCmd $ cmdCategory $``</div>
-<div class="line">``                      ipaSudoOpt $``</div>
-<div class="line">``                      ipaSudoRunAs $ ipaSudoRunAsExtUser $ ipaSudoRunAsUserCategory $``</div>
-<div class="line">``                      ipaSudoRunAsGroup $ ipaSudoRunAsExtGroup $ ipaSudoRunAsGroupCategory ) ``</div>
-<div class="line">``                X-ORIGIN ‘IPA v2’ )``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmd&#39; ``
+| ``                DESC &#39;IPA object class for SUDO command&#39;``
+| ``                STRUCTURAL ``
+| ``                MUST ( ipaUniqueID $ sudoCmd ) ``
+| ``                MAY  ( memberOf $ description ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmdGrp&#39; ``
+| ``                DESC &#39;IPA object class to store groups of SUDO commands&#39; ``
+| ``                SUP groupOfNames ``
+| ``                MUST ( ipaUniqueID )``
+| ``                STRUCTURAL``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;sudoCmd&#39;``
+| ``                 DESC &#39;Command(s) to be executed by sudo&#39;``
+| ``                 EQUALITY caseExactMatch ``
+| ``                 ORDERING caseExactMatch ``
+| ``                 SUBSTR caseExactSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberAllowCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands that are allowed by the rule.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberDenyCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands that are denied by the rule.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;cmdCategory&#39; ``
+| ``                 DESC &#39;Additional classification for commands&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;externalUser&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing user names.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoOpt&#39;``
+| ``                 DESC &#39;Options(s) followed by sudo&#39;``
+| ``                 EQUALITY caseExactIA5Match``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAs&#39; ``
+| ``                 DESC &#39;Reference to a user or group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtUser&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing user name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsUserCategory&#39; ``
+| ``                 DESC &#39;Additional classification for users&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsGroup&#39; ``
+| ``                 DESC &#39;Reference to group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtGroup&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing group name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsGroupCategory&#39; ``
+| ``                 DESC &#39;Additional classification for groups&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;hostMask&#39; ``
+| ``                 DESC &#39;IP mask to identify a subnet.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoRule&#39; ``
+| ``                SUP ipaAssociation ``
+| ``                STRUCTURAL ``
+| ``                MAY ( externalUser $ ``
+| ``                      externalHost $ hostMask $ ``
+| ``                      memberAllowCmd $ memberDenyCmd $ cmdCategory $``
+| ``                      ipaSudoOpt $``
+| ``                      ipaSudoRunAs $ ipaSudoRunAsExtUser $ ipaSudoRunAsUserCategory $``
+| ``                      ipaSudoRunAsGroup $ ipaSudoRunAsExtGroup $ ipaSudoRunAsGroupCategory ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+</pre></div>
 </div>
 </section>
 <section id="examples">
@@ -876,7 +868,7 @@ command as a local root on centrally managed “superuser” account.</p>
 </div>
 </section>
 <section id="why-we-must-support-netgroups-in-the-sudo-rules">
-<span id="id63"></span><h2>Why we must support netgroups in the SUDO rules?<a class="headerlink" href="#why-we-must-support-netgroups-in-the-sudo-rules" title="Permalink to this heading">¶</a></h2>
+<h2>Why we must support netgroups in the SUDO rules?<a class="headerlink" href="#why-we-must-support-netgroups-in-the-sudo-rules" title="Permalink to this heading">¶</a></h2>
 <p>Current SUDO client when needs to evaluate whether user is allowed to
 execute the command or not works the following way:</p>
 <ul class="simple">
@@ -914,7 +906,7 @@ completely eliminated and admins would be able to turn it off. By that
 time there will be no more need for the SUDO compat configuration.</p>
 </section>
 <section id="open-questions">
-<span id="id64"></span><h2>Open questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">¶</a></h2>
+<h2>Open questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">¶</a></h2>
 <ul>
 <li><p>Is it Ok to not allow specifying external users and groups by uid and
 gid?</p>

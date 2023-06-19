@@ -31,7 +31,7 @@ maintained by the administrator, which can decide to increase it to
 activate new functionality after a migration from an older to a newer
 version of FreeIPA an all the participating domain controllers.
 
-.. _domain_level_compliance:
+
 
 Domain Level Compliance
 ----------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ will be considered at level "0" which will be defined as something
 compatible with version 3.3.0/4.1.0 of FreeIPA as currently released by
 various distributions.
 
-.. _raising_the_domain_level:
+
 
 Raising the Domain Level
 ----------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ The Domain Level cannot be lowered as raising the Domain Level can cause
 changes to the tree (new schema, changes in behavior and data) that
 cannot be easily undone.
 
-.. _effects_of_a_raise_in_level_on_the_domain:
+
 
 Effects of a raise in level on the Domain
 ----------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ domain. In particular, races due to the delayed activation (replication
 may take some time) must be taken in account when designing new features
 that will require a domain level change.
 
-.. _storing_domain_levels:
+
 
 Storing Domain levels
 ----------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ Upgrade
 Server supported domain level is automatically raised during upgrade to
 next version.
 
-.. _how_to_test18:
+
 
 How to Test
 -----------

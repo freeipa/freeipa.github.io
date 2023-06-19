@@ -1,4 +1,4 @@
-.. _draft_version___work_in_progress_to_be_completed:
+
 
 \**\* DRAFT VERSION - WORK IN PROGRESS TO BE COMPLETED \**\*
 ----------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-.. _apache_configuration_changes:
+
 
 Apache Configuration Changes
 ----------------------------
@@ -12,14 +12,14 @@ provide the next time the RPM is installed.
 
 This program will be installed in /usr/sbin/ipa-upgrade-template
 
-.. _ldif_changes:
+
 
 LDIF Changes
 ------------
 
 Changes to the LDIF files will only affect new installations.
 
-.. _aci_changes:
+
 
 ACI Changes
 ----------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ ACI Changes
 ACI changes will need to be documented and done manually by IPA
 administrators.
 
-.. _other_changes:
+
 
 Other Changes
 ----------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ A few rules:
 #. If a DN does exist the default values are skipped
 #. Only the first rule on a line is respected
 
-.. _special_considerations:
+
 
 Special Considerations
 ----------------------------------------------------------------------------------------------
@@ -136,14 +136,14 @@ Indexes
 
 If an index changes we need to run a task to build the index.
 
-.. _use_cases107:
+
 
 Use Cases
 ----------------------------------------------------------------------------------------------
 
 Here are some concrete use cases:
 
-.. _adding_a_new_plugin:
+
 
 Adding a new plugin
 ^^^^^^^^^^^^^^^^^^^
@@ -177,7 +177,7 @@ plugin configuration as an update:
 This will add the entry to a running IPA server if it doesn't already
 exist. The library itself will have been added by the RPM installer.
 
-.. _adding_a_new_index:
+
 
 Adding a new index
 ^^^^^^^^^^^^^^^^^^

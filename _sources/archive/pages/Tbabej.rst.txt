@@ -1,4 +1,4 @@
-.. _tomáš_babej:
+
 
 Tomáš Babej
 ===========

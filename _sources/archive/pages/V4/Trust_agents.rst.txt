@@ -54,7 +54,7 @@ will not cause validation issues. This is an important consideration
 because currently FreeIPA does not have concept of sites and site-local
 communication.
 
-.. _design_and_implementation:
+
 
 Design and Implementation
 =========================
@@ -90,7 +90,7 @@ CLI
 
 no changes
 
-.. _web_ui:
+
 
 Web UI----
 

@@ -53,7 +53,7 @@ IPA
    DNS <Obsolete:Merging_IPA_and_Samba_DNS>`__
 -  `Configuring Samba <Obsolete:IPA_Configuring_Samba>`__
 
-.. _synchronization_tool:
+
 
 Synchronization Tool
 ====================

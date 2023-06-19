@@ -50,7 +50,7 @@ consist in 3 different efforts:</p>
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="certificate-issuance-during-installation">
-<span id="id1"></span><h1>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Permalink to this heading">¶</a></h1>
+<h1>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Permalink to this heading">¶</a></h1>
 <p>During FreeIPA installation, 3 different certificates are requested:</p>
 <ul class="simple">
 <li><p>a certificate for the renew agent (CN=IPA RA,O=$DOMAIN) stored in
@@ -94,7 +94,7 @@ auth.instance_id, meaning that it allows submission without
 authentication.</p>
 </section>
 <section id="ldap-http-server-certificate">
-<span id="ldaphttp-server-certificate"></span><h2>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Permalink to this heading">¶</a></h2>
+<h2>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Permalink to this heading">¶</a></h2>
 <p>These certificate must be requested and tracked using IPA CA helper,
 with the profile caIPAserviceCert. This profile is defined in Dogtag
 with auth.instance_id=raCertAuth, meaning that the submission must be
@@ -116,7 +116,7 @@ caIPAserviceCert</p></li>
 </section>
 </section>
 <section id="refactor-certificate-processing-code-to-use-python-cryptography">
-<span id="id2"></span><h1>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Permalink to this heading">¶</a></h1>
+<h1>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Permalink to this heading">¶</a></h1>
 <p>Using python-nss for certificate processing has several problems,
 including:</p>
 <ul class="simple">
@@ -130,7 +130,7 @@ code to use python-cryptography instead of python-nss. This is largely a
 mechanical procedure. Aspects of this refactoring where substantive
 changes were required are detailed in the following subsections.</p>
 <section id="dealing-with-distinguished-names">
-<span id="id3"></span><h2>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Permalink to this heading">¶</a></h2>
+<h2>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Permalink to this heading">¶</a></h2>
 <p>Whereas python-nss exposed DNs as strings (in LDAP order),
 python-cryptography exposes <code class="docutils literal notranslate"><span class="pre">cryptography.x509.name.Name</span></code> objects.
 FreeIPA often needs to work with <code class="docutils literal notranslate"><span class="pre">ipapython.dn.DN</span></code> objects, as well as
@@ -147,7 +147,7 @@ fact that “flattened” DNs should still compare equal, the lack of proper
 handling is unlikely to cause problems.</p>
 </section>
 <section id="dealing-with-known-othername-types">
-<span id="id4"></span><h2>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Permalink to this heading">¶</a></h2>
+<h2>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Permalink to this heading">¶</a></h2>
 <p>python-cryptography exposes a single type
 <code class="docutils literal notranslate"><span class="pre">cryptography.x509.general_name.OtherName</span></code> for OtherName GeneralNames.
 There are no hooks for informing python-cryptography of more specific
@@ -163,7 +163,7 @@ function that is applied a list of
 returning the resulting list.</p>
 </section>
 <section id="avoiding-pkcs-10-friendlyname-attribute">
-<span id="id5"></span><h2>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Permalink to this heading">¶</a></h2>
+<h2>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">dogtag-ipa-ca-renew-agent</span></code> Certmonger renewal helper needs to
 determine the NSSDB nickname of the certificate being renewed.
 Certmonger includes this datum in the <em>friendlyName</em> attribute in the
@@ -179,7 +179,7 @@ environment variable as the key to look up the NSSDB nickname.</p>
 <p>All CSR-related <em>pyasn1</em> definitions and decoding were removed.</p>
 </section>
 <section id="decoding-certificate-subject-alternative-name-extension">
-<span id="id6"></span><h2>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Permalink to this heading">¶</a></h2>
+<h2>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Permalink to this heading">¶</a></h2>
 <p>python-cryptography does successfully decode certificates with
 unrecognised <em>critical</em> extensions, because the decoding of extensions
 is deferred until the user attempts to access the <code class="docutils literal notranslate"><span class="pre">extensions</span></code>

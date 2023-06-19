@@ -85,7 +85,7 @@ support creation of automember tasks:
 -  permission: ``Add Automember Rebuild Membership Task``
 -  underlying ACI for the permission listed above
 
-.. _how_to_test12:
+
 
 How to Test
 -----------

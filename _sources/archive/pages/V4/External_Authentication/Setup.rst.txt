@@ -1,4 +1,4 @@
-.. _ipa_server_authentication_with_user_certificate_or_smart_card_setup:
+
 
 IPA Server Authentication with User Certificate or Smart Card Setup
 ===================================================================
@@ -21,7 +21,7 @@ into FreeIPA 4.5.0. The setup described below is not required anymore**
 
 --------------
 
-.. _freeipa_server_configuration:
+
 
 FreeIPA Server Configuration
 ----------------------------
@@ -31,7 +31,7 @@ FreeIPA Server Configuration
 
 --------------
 
-.. _installing_the_web_ui_plug_in:
+
 
 Installing the Web UI Plug-in
 ----------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ FreeIPA server:
 
 --------------
 
-.. _example_authentication_using_a_certificate:
+
 
 Example Authentication Using a Certificate
 ------------------------------------------
@@ -78,7 +78,7 @@ However, smart cards additionally require a hardware reader and a driver
 for the smart card. Follow your smart card provider's documentation, how
 to generate the keys and how to add them to the smart card.
 
-.. _authenticating_to_the_web_ui_using_a_freeipa_ca_signed_certificate:
+
 
 Authenticating to the Web UI Using a FreeIPA CA-signed Certificate
 ----------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ You are now able to authenticate to the web UI using the certificate.
 
 --------------
 
-.. _authenticating_to_the_web_ui_using_a_certificate_signed_by_an_external_ca:
+
 
 Authenticating to the Web UI using a Certificate Signed by an External CA
 ----------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ You are now able to authenticate to the web UI using the certificate.
 
 --------------
 
-.. _verifying_the_web_ui_log_in_using_the_command_line:
+
 
 Verifying the Web UI Log-in Using the Command Line
 ----------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ command line, run:
 
 --------------
 
-.. _developer_notes:
+
 
 Developer NOTES
 ---------------

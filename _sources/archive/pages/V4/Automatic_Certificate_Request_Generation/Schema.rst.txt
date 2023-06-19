@@ -127,7 +127,7 @@ Note: ``%opensslSection`` is a hypothetical openssl-specific directive
 that would create a new config file section for the components of
 ``%{dn}`` and place a reference to that section in the template output.
 
-.. _certificate_profiles:
+
 
 Certificate Profiles
 ====================
@@ -137,7 +137,7 @@ certificate profile, and represent the way that specific profile is
 configured to build a certificate request. These objects will be
 imported and exported along with the certificate profile.
 
-.. _certprofile_additions:
+
 
 CertProfile additions
 ---------------------
@@ -170,7 +170,7 @@ in CSRs for this certificate profile.
    attributeTypes: (2.16.840.1.113730.3.8.21.1.11 NAME 'ipaCertDataMapping' DESC 'Reference to ipaCertMappingRuleset: How to map data into field values' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.5' )
    objectClasses: (2.16.840.1.113730.3.8.21.2.4 NAME 'ipaCertFieldMappingRule' SUP top STRUCTURAL MUST ( cn $ ipaCertSyntaxMapping $ ipaCertDataMapping ) X-ORIGIN 'IPA v4.5' )
 
-.. _mapping_rules:
+
 
 Mapping Rules
 =============
@@ -191,7 +191,7 @@ represents a command-line option or a config file line) it will need to
 be encoded in the text of the rule. It is difficult to determine whether
 this is a serious problem.
 
-.. _option_a:
+
 
 Option A
 --------
@@ -236,7 +236,7 @@ particular CSR generation helper.
    attributeTypes: (2.16.840.1.113730.3.8.21.1.14 NAME 'ipaCertTransformationHelper' DESC 'Helper to which this transformation is targeted' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )
    objectClasses: (2.16.840.1.113730.3.8.21.2.6 NAME 'ipaCertTransformationRule' SUP top STRUCTURAL MUST ( cn $ ipaCertTransformationTemplate $ ipaCertTransformationHelper ) X-ORIGIN 'IPA v4.5' )
 
-.. _option_b:
+
 
 Option B
 --------
@@ -246,7 +246,7 @@ using LDAP attribute tagging. A CertMappingRuleset has a multi-valued
 attribute to store the rules, and each such attribute is tagged with the
 helper to which the rule belongs. |CertMappingSchemaB.dot.png|
 
-.. _certmappingruleset_1:
+
 
 CertMappingRuleset
 ----------------------------------------------------------------------------------------------

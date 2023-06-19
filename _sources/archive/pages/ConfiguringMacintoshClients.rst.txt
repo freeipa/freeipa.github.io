@@ -3,7 +3,7 @@ Guide <FreeIPAv1:Client_Configuration_Guide>`__
 
 \__TOC_\_
 
-.. _configuring_macintosh_os_x_10.4_as_an_ipa_client:
+
 
 Configuring Macintosh OS X 10.4 as an IPA Client
 ================================================
@@ -19,7 +19,7 @@ from 10.1 or 10.2.
       Before starting the freeIPA installation, ensure that you update
       your system with all the latest packages.
 
-.. _configuring_kerberos_authentication:
+
 
 Configuring Kerberos Authentication
 -----------------------------------
@@ -88,7 +88,7 @@ own IPA server name, Kerberos realm and domain details.
        kdc = ipaserver.example.com:88
        }
 
-.. _enabling_kerberos_authentication:
+
 
 Enabling Kerberos Authentication
 ----------------------------------------------------------------------------------------------
@@ -129,14 +129,14 @@ entry.
 
 7. Restart the machine to enable Kerberos authentication.
 
-.. _configuring_ldap_authorization:
+
 
 Configuring LDAP Authorization
 ------------------------------
 
 These instructions are specific to Mac OS X 10.4 (Tiger).
 
-.. _creating_the_ldap_configuration:
+
 
 Creating the LDAP Configuration
 ----------------------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ selected.
 9. Ensure that the **Enable** checkbox is selected, and that the **SSL**
 checkbox is cleared.
 
-.. _setting_up_the_ldap_service_configuration_options:
+
 
 Setting up the LDAP Service Configuration Options
 ----------------------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ For example:
 7. Click **OK** finish setting up the LDAP service configuration
 options.
 
-.. _configuring_the_ldap_authorization_options:
+
 
 Configuring the LDAP Authorization Options
 ----------------------------------------------------------------------------------------------
@@ -254,7 +254,7 @@ step, and then click **Add**.
 3. Click **Apply** to update the LDAP configuration, and then exit the
 Directory Access application.
 
-.. _configuring_ntp:
+
 
 Configuring NTP
 ---------------
@@ -262,7 +262,7 @@ Configuring NTP
 -  Open the **Date&Time** utility and point it to
    *ipaserver.example.com* to automatically set the date and time.
 
-.. _accessing_the_ipa_server_via_ssh:
+
 
 Accessing the IPA Server via SSH
 --------------------------------
@@ -289,7 +289,7 @@ authentication without asking for a password:
 Configuring Client SSH Access
 -----------------------------
 
-.. _configuring_system_login:
+
 
 Configuring System Login
 ------------------------

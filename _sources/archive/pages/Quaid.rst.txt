@@ -11,14 +11,14 @@ http://fedoraproject.org/wiki/User:Quaid is canonical.
 This page/namespace is being used for a writing sandbox to check
 content, ideas, etc. before moving them across the rest of the wiki.
 
-.. _whats_in_the_sandbox:
+
 
 What's in the sandbox
 ---------------------
 
 -  `User:Quaid/Community_action_ideas <User:Quaid/Community_action_ideas>`__
 
-.. _tasks_worked_for_freeipa_community:
+
 
 Tasks worked for FreeIPA community
 ----------------------------------

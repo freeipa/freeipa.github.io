@@ -25,7 +25,7 @@ like `Microsoft Active Directory <Active_Directory_trust_setup>`__.
 Leaflet <Leaflet>`__ • `FreeIPA public demo <Demo>`__ •
 `Blogs/RSS <http://planet.freeipa.org>`__
 
-.. _main_features:
+
 
 Main features
 -------------
@@ -45,7 +45,7 @@ Main features
 -  Extensible management interfaces (CLI, Web UI, XMLRPC and JSONRPC
    API) and Python SDK
 
-.. _getting_involved:
+
 
 Getting involved
 ----------------
@@ -69,7 +69,7 @@ it out, FreeIPA needs your help!
 
 `Learn more <Contribute>`__
 
-.. _recent_releases:
+
 
 Recent Releases
 ---------------
@@ -77,7 +77,7 @@ Recent Releases
 category = FreeIPA Release count = 5 mode = unordered order = descending
 ordermethod = created
 
-.. _public_demo:
+
 
 Public Demo
 -----------

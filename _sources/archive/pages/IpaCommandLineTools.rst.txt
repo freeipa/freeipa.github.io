@@ -1,9 +1,9 @@
-.. _ipa_command_line_tools_and_services:
+
 
 IPA Command-Line Tools and Services
 ===================================
 
-.. _ipa_command_line_tools:
+
 
 IPA Command-Line Tools
 ----------------------
@@ -130,7 +130,7 @@ The following is a list of the available IPA command-line tools.
 
       **Description:** Runs the IPA server installation script.
 
-.. _ipa_services:
+
 
 IPA Services
 ------------

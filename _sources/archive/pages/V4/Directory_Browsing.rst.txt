@@ -22,7 +22,7 @@ There are several options to address these issues:
 #. Virtual List View
 #. Hybrid solution
 
-.. _option_1_using_simple_paged_results_to_retrieve_entries:
+
 
 Option #1: Using Simple Paged Results to retrieve entries
 =========================================================
@@ -51,7 +51,7 @@ This is how it will work:
 #. IPA server users the same connection to retrieve the next 100 users.
 #. The UI shows the results of the second page.
 
-.. _option_2_using_simple_paged_results_to_retrieve_primary_keys:
+
 
 Option #2: Using Simple Paged Results to retrieve primary keys
 ==============================================================
@@ -86,7 +86,7 @@ A complete list of primary keys will be smaller than a complete list of
 entries with the attributes. However, for a large directory it might
 still be a problem.
 
-.. _option_3_virtual_list_view_vlv:
+
 
 Option #3: Virtual List View (VLV)
 ==================================
@@ -114,7 +114,7 @@ This is how it will work:
 #. IPA server returns the results to the UI.
 #. The UI shows the results of that page.
 
-.. _option_4_hybrid_solution:
+
 
 Option #4: Hybrid solution
 ==========================
@@ -129,7 +129,7 @@ using Simple Paged Results.
 When the admin opens the list page, the UI determines which type of
 operation it's going to execute.
 
-.. _configuring_vlv:
+
 
 Configuring VLV
 ===============
@@ -174,7 +174,7 @@ Start DS:
 
    service dirsrv start EXAMPLE-COM
 
-.. _using_vlv:
+
 
 Using VLV
 =========
@@ -185,7 +185,7 @@ Using VLV
    -E \!vlv=0/100/1/0 -E \!sss=uid/givenName/sn \
    "(objectclass=*)" dn givenName sn
 
-.. _using_simple_paged_results:
+
 
 Using Simple Paged Results
 ==========================

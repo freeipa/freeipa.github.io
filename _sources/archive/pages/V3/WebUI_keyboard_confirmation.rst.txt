@@ -1,4 +1,4 @@
-.. _keyboard_confirmation_of_dialogs:
+
 
 Keyboard confirmation of dialogs
 ================================
@@ -13,7 +13,7 @@ positive (confirmation) and negative (cancellation) actions which would
 be executed on corresponding (*enter*/*escape*) key press. It should
 make some common WebUI use-cases quicker.
 
-.. _feature_design:
+
 
 Feature design
 --------------
@@ -47,7 +47,7 @@ Cancellation is initiated by 'escape' key. Same rules apply as in
 confirmation with the exception of known exceptions (there are none yet
 as there are none conflicts with widgets).
 
-.. _dialog_stacking:
+
 
 Dialog stacking
 ---------------
@@ -57,7 +57,7 @@ that when the top one is closed the current most recently opened dialog
 should be the top one. It should also gain focus (preferably on the
 first editable element) to allow keyboard usage.
 
-.. _original_implementation:
+
 
 Original implementation
 -----------------------

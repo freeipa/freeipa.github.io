@@ -59,10 +59,10 @@ The only requirement is that the backup be done with the IPA services
 offline.</p>
 </section>
 <section id="use-cases">
-<span id="use-cases110"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="catastrophic-hardware-failure-on-a-machine">
-<span id="id1"></span><h1>Catastrophic hardware failure on a machine.<a class="headerlink" href="#catastrophic-hardware-failure-on-a-machine" title="Permalink to this heading">¶</a></h1>
+<h1>Catastrophic hardware failure on a machine.<a class="headerlink" href="#catastrophic-hardware-failure-on-a-machine" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>Backup would be full-metal or VM snapshot</p></li>
 <li><p>Restore would be full-metal or restore VM snapshot</p></li>
@@ -78,13 +78,13 @@ your preferred method.</p>
 </ul>
 <p>This carries some limited risk that the packages do not match exactly,
 or that the administrator forgets to install some optional packages like
-bind, bind-dyndb-ldap, samba4-<a href="#id2"><span class="problematic" id="id3">*</span></a>, etc.</p>
+bind, bind-dyndb-ldap, samba4-*, etc.</p>
 <p>Once restored, replication will handle applying any missing changes. The
 replication protocol will detect if a replica is too out of date. In
 this case a re-init would be required.</p>
 </section>
 <section id="failed-upgrade-on-an-isolated-machine">
-<span id="id4"></span><h1>Failed upgrade on an isolated machine.<a class="headerlink" href="#failed-upgrade-on-an-isolated-machine" title="Permalink to this heading">¶</a></h1>
+<h1>Failed upgrade on an isolated machine.<a class="headerlink" href="#failed-upgrade-on-an-isolated-machine" title="Permalink to this heading">¶</a></h1>
 <p>The OS is still fine but the IPA data is somehow corrupted in such a way
 that you want to restore to a known good state.</p>
 <p>This one is a bit more complicated, as it is not predictable what an
@@ -96,7 +96,7 @@ is another matter, see <a class="reference external" href="V3/Backup_and_Restore
 state</a></p>
 </section>
 <section id="restore-accidentally-deleted-data">
-<span id="id5"></span><h1>Restore Accidentally deleted data<a class="headerlink" href="#restore-accidentally-deleted-data" title="Permalink to this heading">¶</a></h1>
+<h1>Restore Accidentally deleted data<a class="headerlink" href="#restore-accidentally-deleted-data" title="Permalink to this heading">¶</a></h1>
 <p>This will need to be covered separately. There are currently no tools or
 processes for restoring individual LDAP entries. This will be
 investigated with help from the 389-ds team. The issues are:</p>
@@ -109,7 +109,7 @@ investigated with help from the 389-ds team. The issues are:</p>
 </ul>
 </section>
 <section id="returning-to-a-known-good-state">
-<span id="id6"></span><h1>Returning to a known good state<a class="headerlink" href="#returning-to-a-known-good-state" title="Permalink to this heading">¶</a></h1>
+<h1>Returning to a known good state<a class="headerlink" href="#returning-to-a-known-good-state" title="Permalink to this heading">¶</a></h1>
 <p>Because we lack the ability to restore individual entries, the most that
 one can do is restore to a last known good state. This requires that ALL
 masters be restored at the same time, and all offline, until they are
@@ -125,7 +125,7 @@ masters before restoring the data.</p>
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="basic-process">
-<span id="id7"></span><h1>Basic Process<a class="headerlink" href="#basic-process" title="Permalink to this heading">¶</a></h1>
+<h1>Basic Process<a class="headerlink" href="#basic-process" title="Permalink to this heading">¶</a></h1>
 <p>As stated previously, there are four basic types of backup/restore, of
 which we will provide scripts/process for two.</p>
 <p>The four possibilities are:</p>
@@ -138,9 +138,9 @@ which we will provide scripts/process for two.</p>
 <p>This design covers only the middle two.</p>
 </section>
 <section id="full-ipa-backup">
-<span id="id8"></span><h1>Full IPA backup<a class="headerlink" href="#full-ipa-backup" title="Permalink to this heading">¶</a></h1>
+<h1>Full IPA backup<a class="headerlink" href="#full-ipa-backup" title="Permalink to this heading">¶</a></h1>
 <section id="files-for-full-ipa-backup">
-<span id="id9"></span><h2>Files for full IPA backup<a class="headerlink" href="#files-for-full-ipa-backup" title="Permalink to this heading">¶</a></h2>
+<h2>Files for full IPA backup<a class="headerlink" href="#files-for-full-ipa-backup" title="Permalink to this heading">¶</a></h2>
 <p>IPA touches hundreds of files. We will need to back up a mix of specific
 files and all files within a set of directories (e.g. certmonger, files
 needed for IPA uninstall, etc).</p>
@@ -150,21 +150,21 @@ are modified/added to IPA.</p>
 <p>The full list is included at the end of this document.</p>
 </section>
 <section id="full-system-backup-process-offline">
-<span id="id10"></span><h2>Full System Backup Process (offline)<a class="headerlink" href="#full-system-backup-process-offline" title="Permalink to this heading">¶</a></h2>
+<h2>Full System Backup Process (offline)<a class="headerlink" href="#full-system-backup-process-offline" title="Permalink to this heading">¶</a></h2>
 <p>This is a raw file-based backup which is why it is done offline. All IPA
 services need to be stopped in order to ensure a safe backup.</p>
 <p>This will include the LDAP DB files so this is a standalone backup. A
 scripted process would include this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipactl stop</span></code></div>
-<div class="line"><a href="#id11"><span class="problematic" id="id12">``</span></a># tar –xattrs –selinux -czf /path/to/backup ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipactl start</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipactl stop``
+| ``# tar --xattrs --selinux -czf /path/to/backup ``
+| ``# ipactl start``
+</pre></div>
 </div>
 <p>Note that this a simplified view and doesn’t include the metadata we
 will package as well.</p>
 </section>
 <section id="full-system-restore-process">
-<span id="id13"></span><h2>Full System Restore Process<a class="headerlink" href="#full-system-restore-process" title="Permalink to this heading">¶</a></h2>
+<h2>Full System Restore Process<a class="headerlink" href="#full-system-restore-process" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># ipactl stop</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># cd / &amp;&amp; tar -xzf /path/to/backup</span></code></div>
@@ -214,7 +214,7 @@ instance data if needed. The possible backends are userRoot (basically
 $SUFFIX) and o=ipaca.</p>
 </section>
 <section id="data-backup-restore-process-online">
-<span id="id14"></span><h2>Data Backup &amp; Restore Process (online)<a class="headerlink" href="#data-backup-restore-process-online" title="Permalink to this heading">¶</a></h2>
+<h2>Data Backup &amp; Restore Process (online)<a class="headerlink" href="#data-backup-restore-process-online" title="Permalink to this heading">¶</a></h2>
 <p>The connection will be made to the ldapi port and using autobind as root
 we will not be required to provide the DM password.</p>
 <p>The default should be to back up and restore both instances (if
@@ -222,19 +222,19 @@ installed) or both the IPA (userRoot) and dogtag (ipara) backends.</p>
 </section>
 </section>
 <section id="file-naming-convention">
-<span id="id15"></span><h1>File Naming Convention<a class="headerlink" href="#file-naming-convention" title="Permalink to this heading">¶</a></h1>
+<h1>File Naming Convention<a class="headerlink" href="#file-naming-convention" title="Permalink to this heading">¶</a></h1>
 <p>Files will be stored in /var/lib/ipa/backup</p>
 <section id="full-backups">
-<span id="id16"></span><h2>Full Backups<a class="headerlink" href="#full-backups" title="Permalink to this heading">¶</a></h2>
+<h2>Full Backups<a class="headerlink" href="#full-backups" title="Permalink to this heading">¶</a></h2>
 <p>ipa-full-%Y-%m-%d-%H-%M-%S.bak</p>
 </section>
 <section id="data-backups">
-<span id="id17"></span><h2>Data Backups<a class="headerlink" href="#data-backups" title="Permalink to this heading">¶</a></h2>
+<h2>Data Backups<a class="headerlink" href="#data-backups" title="Permalink to this heading">¶</a></h2>
 <p>ipa-data–%Y-%m-%d-%H-%M-%S.bak</p>
 </section>
 </section>
 <section id="version-wrapper">
-<span id="id18"></span><h1>Version wrapper<a class="headerlink" href="#version-wrapper" title="Permalink to this heading">¶</a></h1>
+<h1>Version wrapper<a class="headerlink" href="#version-wrapper" title="Permalink to this heading">¶</a></h1>
 <p>We will want to maintain some metadata with each backup file. I propose
 we include:</p>
 <ul class="simple">
@@ -251,11 +251,11 @@ in the future verify that the system can be properly restored.</p></li>
 <p>Data restore should be allowed on any host.</p>
 </section>
 <section id="restore-validation">
-<span id="id19"></span><h1>Restore Validation<a class="headerlink" href="#restore-validation" title="Permalink to this heading">¶</a></h1>
+<h1>Restore Validation<a class="headerlink" href="#restore-validation" title="Permalink to this heading">¶</a></h1>
 <p>Backing up is easy, restoring is hard, especially verifying that you
 actually backed everything up (and restored it properly).</p>
 <section id="full-restoration">
-<span id="id20"></span><h2>Full restoration<a class="headerlink" href="#full-restoration" title="Permalink to this heading">¶</a></h2>
+<h2>Full restoration<a class="headerlink" href="#full-restoration" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Run full backup</p></li>
 <li><p>ipa-server-install –uninstall -U</p></li>
@@ -264,7 +264,7 @@ actually backed everything up (and restored it properly).</p>
 </ol>
 </section>
 <section id="data-restoration">
-<span id="id21"></span><h2>Data restoration<a class="headerlink" href="#data-restoration" title="Permalink to this heading">¶</a></h2>
+<h2>Data restoration<a class="headerlink" href="#data-restoration" title="Permalink to this heading">¶</a></h2>
 <p>In the case of a single IPA master you can:</p>
 <ol class="arabic simple">
 <li><p>Back up data</p></li>
@@ -308,7 +308,7 @@ are in a good state, or we may need to think about extending ipactl to
 include other daemons.</p>
 </section>
 <section id="more-on-partial-restores">
-<span id="id22"></span><h1>More on partial restores<a class="headerlink" href="#more-on-partial-restores" title="Permalink to this heading">¶</a></h1>
+<h1>More on partial restores<a class="headerlink" href="#more-on-partial-restores" title="Permalink to this heading">¶</a></h1>
 <p>Quite a bit of infrastructure is required to be able to pick and choose
 what to restore from a backup. In order to provide per-entry restoration
 we would need the backup in a more readable form, say LDIF, then provide
@@ -340,20 +340,20 @@ well</p></li>
 </ul>
 </section>
 <section id="open-questions">
-<span id="id23"></span><h1>Open Questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">¶</a></h1>
+<h1>Open Questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">¶</a></h1>
 <section id="size-of-backup">
-<span id="id24"></span><h2>Size of backup?<a class="headerlink" href="#size-of-backup" title="Permalink to this heading">¶</a></h2>
+<h2>Size of backup?<a class="headerlink" href="#size-of-backup" title="Permalink to this heading">¶</a></h2>
 <p>Should we attempt to predict the resulting file size and try to
 determine if there is adequate space before starting the backup? We may
 be able to stat each file, sum the size, and check. It would just take a
 bit of time and I/O.</p>
 </section>
 <section id="encrypt-backup-files">
-<span id="id25"></span><h2>Encrypt backup files?<a class="headerlink" href="#encrypt-backup-files" title="Permalink to this heading">¶</a></h2>
+<h2>Encrypt backup files?<a class="headerlink" href="#encrypt-backup-files" title="Permalink to this heading">¶</a></h2>
 <p>Should we prompt for and/or encrypt with gpg the backup files? <strong>Yes</strong></p>
 </section>
 <section id="should-i-delete-everything-before-doing-a-restore">
-<span id="id26"></span><h2>Should I delete everything before doing a restore?<a class="headerlink" href="#should-i-delete-everything-before-doing-a-restore" title="Permalink to this heading">¶</a></h2>
+<h2>Should I delete everything before doing a restore?<a class="headerlink" href="#should-i-delete-everything-before-doing-a-restore" title="Permalink to this heading">¶</a></h2>
 <p>For example, if you have a single master, you do a backup, then you add
 a replica. If you then restore the backup and try to create another
 replica it will fail because the changelog directory already exists. Who
@@ -368,7 +368,7 @@ for them on reinstall.</p>
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="full-restore">
-<span id="id27"></span><h1>Full Restore<a class="headerlink" href="#full-restore" title="Permalink to this heading">¶</a></h1>
+<h1>Full Restore<a class="headerlink" href="#full-restore" title="Permalink to this heading">¶</a></h1>
 <p>If you do a full backup without the logs and do a restoration into a FS
 that doesn’t have an installed IPA server then tomcat will not stop.
 This is because the log files needed by the CA are created on-the-fly by
@@ -381,38 +381,38 @@ manually then things will work.</p>
 prefer not to delete things automatically.</p>
 </section>
 <section id="development-notes-semi-interesting-testing">
-<span id="id28"></span><h1>Development notes (semi-interesting testing)<a class="headerlink" href="#development-notes-semi-interesting-testing" title="Permalink to this heading">¶</a></h1>
+<h1>Development notes (semi-interesting testing)<a class="headerlink" href="#development-notes-semi-interesting-testing" title="Permalink to this heading">¶</a></h1>
 <p>As part of developing the backups I tried a couple of fairly outlandish
 things. Here are those things and the outcomes. I’m not sure if these
 will ever be eventually interesting or helpful, but I don’t want to lose
 anything.</p>
 <section id="backup-uninstall-reinstall-restore-just-the-ldap-server">
-<span id="id29"></span><h2>Backup, uninstall, reinstall, restore JUST the LDAP server<a class="headerlink" href="#backup-uninstall-reinstall-restore-just-the-ldap-server" title="Permalink to this heading">¶</a></h2>
+<h2>Backup, uninstall, reinstall, restore JUST the LDAP server<a class="headerlink" href="#backup-uninstall-reinstall-restore-just-the-ldap-server" title="Permalink to this heading">¶</a></h2>
 <p>So I wanted to verify that the restoration actually worked, so what I
 did was:</p>
-<ol class="arabic simple">
-<li><p>ipa-server-install …</p></li>
-<li><p>kinit admin</p></li>
-<li><p>ipa user-add tuser1</p></li>
-<li><p>ipa user-add tuser2</p></li>
-<li><p>db2bak</p></li>
-<li><p>ipa-server-install –uninstall -U</p></li>
-<li><p>ipa-server-install (same options as above)</p></li>
-<li><p>bak2db</p></li>
-<li><p>ipa-getkeytab -k /etc/dirsrv/ds.keytab -p ldap/<a href="#id30"><span class="problematic" id="id31">`</span></a>hostname` -s
-`hostname` -D ‘cn=directory manager’ -w password</p></li>
-<li><p>service dirsrv restart</p></li>
-<li><p>kdestroy</p></li>
-<li><p>kinit admin</p></li>
-<li><p>ipa-getkeytab -k /etc/httpd/conf/ipa.keytab -p HTTP/<a href="#id32"><span class="problematic" id="id33">`</span></a>hostname` -s
-`hostname`</p></li>
-<li><p>ipa-getkeytab -k /etc/krb5.keytab -p host/<a href="#id34"><span class="problematic" id="id35">`</span></a>hostname` -s `hostname`</p></li>
-<li><p>ipactl restart</p></li>
-<li><p>service sssd restart</p></li>
-<li><p>ipa user-show admin</p></li>
-<li><p>ipa user-find (confirm that I have the 2 new users)</p></li>
-<li><p>id tuser1 (to confirm that sssd is working)</p></li>
-</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#. ipa-server-install ...
+#. kinit admin
+#. ipa user-add tuser1
+#. ipa user-add tuser2
+#. db2bak
+#. ipa-server-install --uninstall -U
+#. ipa-server-install (same options as above)
+#. bak2db
+#. ipa-getkeytab -k /etc/dirsrv/ds.keytab -p ldap/`hostname\` -s
+   \`hostname\` -D &#39;cn=directory manager&#39; -w password
+#. service dirsrv restart
+#. kdestroy
+#. kinit admin
+#. ipa-getkeytab -k /etc/httpd/conf/ipa.keytab -p HTTP/`hostname\` -s
+   \`hostname\`
+#. ipa-getkeytab -k /etc/krb5.keytab -p host/`hostname\` -s \`hostname\`
+#. ipactl restart
+#. service sssd restart
+#. ipa user-show admin
+#. ipa user-find (confirm that I have the 2 new users)
+#. id tuser1 (to confirm that sssd is working)
+</pre></div>
+</div>
 <p>So what does this do? Well, it replaces the CA for one. And it
 invalidates all certificates.</p>
 <p>It is also, if all you have is the data backup, is a way to restore an
@@ -482,7 +482,7 @@ the data component.</p>
 </div>
 </section>
 <section id="full-list-of-files-and-directories-to-back-up">
-<span id="id36"></span><h1>Full list of files and directories to back up<a class="headerlink" href="#full-list-of-files-and-directories-to-back-up" title="Permalink to this heading">¶</a></h1>
+<h1>Full list of files and directories to back up<a class="headerlink" href="#full-list-of-files-and-directories-to-back-up" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="directories">
 <h1>Directories<a class="headerlink" href="#directories" title="Permalink to this heading">¶</a></h1>
@@ -569,7 +569,7 @@ the data component.</p>
 </ul>
 </section>
 <section id="gpg-encryption">
-<span id="id37"></span><h1>GPG encryption<a class="headerlink" href="#gpg-encryption" title="Permalink to this heading">¶</a></h1>
+<h1>GPG encryption<a class="headerlink" href="#gpg-encryption" title="Permalink to this heading">¶</a></h1>
 <p>The backup can be optionally encrypted using GPG. To create a key you
 can run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat &gt;keygen &lt;&lt;EOF</span>
@@ -603,10 +603,10 @@ for desktop folks.</p>
 <code class="docutils literal notranslate"><span class="pre">.gnupg/gpg-agent.conf</span></code> before generating a key.</p>
 </section>
 <section id="how-to-test">
-<span id="how-to-test9"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="general-test-outline">
-<span id="id38"></span><h1>General test outline<a class="headerlink" href="#general-test-outline" title="Permalink to this heading">¶</a></h1>
+<h1>General test outline<a class="headerlink" href="#general-test-outline" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>Install server</p></li>
 <li><p>Do a LDAP search for <code class="docutils literal notranslate"><span class="pre">uid=admin,cn=users,cn=accounts,$SUFFIX</span></code>. Note
@@ -624,7 +624,7 @@ output matches.</p></li>
 </ul>
 </section>
 <section id="test-full-backup-and-restore">
-<span id="id39"></span><h1>Test Full Backup and Restore<a class="headerlink" href="#test-full-backup-and-restore" title="Permalink to this heading">¶</a></h1>
+<h1>Test Full Backup and Restore<a class="headerlink" href="#test-full-backup-and-restore" title="Permalink to this heading">¶</a></h1>
 <p>The “Do backup &amp; restore” steps are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">-v</span></code></p></li>
@@ -633,7 +633,7 @@ output matches.</p></li>
 </ul>
 </section>
 <section id="test-backup-and-restore-with-removed-users">
-<span id="id40"></span><h1>Test Backup and Restore with Removed Users<a class="headerlink" href="#test-backup-and-restore-with-removed-users" title="Permalink to this heading">¶</a></h1>
+<h1>Test Backup and Restore with Removed Users<a class="headerlink" href="#test-backup-and-restore-with-removed-users" title="Permalink to this heading">¶</a></h1>
 <p>The “Do backup &amp; restore” steps are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">-v</span></code></p></li>
@@ -646,7 +646,7 @@ user)</p></li>
 <p>At the end of the test, remove user <code class="docutils literal notranslate"><span class="pre">ipatest_user1</span></code></p>
 </section>
 <section id="test-backup-and-restore-with-selinux-booleans-off">
-<span id="id41"></span><h1>Test Backup and Restore with SELinux Booleans Off<a class="headerlink" href="#test-backup-and-restore-with-selinux-booleans-off" title="Permalink to this heading">¶</a></h1>
+<h1>Test Backup and Restore with SELinux Booleans Off<a class="headerlink" href="#test-backup-and-restore-with-selinux-booleans-off" title="Permalink to this heading">¶</a></h1>
 <p>The “Do backup &amp; restore” steps are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">-v</span></code></p></li>
@@ -658,7 +658,7 @@ user)</p></li>
 <p>After restoring, check that the above booleans are on.</p>
 </section>
 <section id="test-backup-and-restore-from-heavily-upgraded-instance">
-<span id="id42"></span><h1>Test Backup and Restore from heavily upgraded instance<a class="headerlink" href="#test-backup-and-restore-from-heavily-upgraded-instance" title="Permalink to this heading">¶</a></h1>
+<h1>Test Backup and Restore from heavily upgraded instance<a class="headerlink" href="#test-backup-and-restore-from-heavily-upgraded-instance" title="Permalink to this heading">¶</a></h1>
 <p>Start with a master that has been in-place-upgraded since there was a
 separate 389-ds instance for IPA.</p>
 <ul class="simple">
@@ -669,7 +669,7 @@ separate 389-ds instance for IPA.</p>
 <p>Backup and Restore is NOT a method of eliminating that extra instance.</p>
 </section>
 <section id="data-backup-only">
-<span id="id43"></span><h1>Data backup only<a class="headerlink" href="#data-backup-only" title="Permalink to this heading">¶</a></h1>
+<h1>Data backup only<a class="headerlink" href="#data-backup-only" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">--data</span></code></p></li>
 <li><p>Add a new user</p></li>
@@ -678,7 +678,7 @@ separate 389-ds instance for IPA.</p>
 </ul>
 </section>
 <section id="online-data-restore">
-<span id="id44"></span><h1>Online data restore<a class="headerlink" href="#online-data-restore" title="Permalink to this heading">¶</a></h1>
+<h1>Online data restore<a class="headerlink" href="#online-data-restore" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">--data</span></code></p></li>
 <li><p>Add a new user</p></li>
@@ -688,7 +688,7 @@ separate 389-ds instance for IPA.</p>
 </ul>
 </section>
 <section id="encryption-decryption-of-backup-files">
-<span id="encryptiondecryption-of-backup-files"></span><h1>Encryption/decryption of Backup files<a class="headerlink" href="#encryption-decryption-of-backup-files" title="Permalink to this heading">¶</a></h1>
+<h1>Encryption/decryption of Backup files<a class="headerlink" href="#encryption-decryption-of-backup-files" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">--gpg</span> <span class="pre">--gpg-keyring=/path/to/keyring</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-server-install</span> <span class="pre">--uninstall</span> <span class="pre">-U</span></code></p></li>
@@ -696,7 +696,7 @@ separate 389-ds instance for IPA.</p>
 </ul>
 </section>
 <section id="client-replica-installation-with-restored-master">
-<span id="clientreplica-installation-with-restored-master"></span><h1>Client/Replica installation with restored Master<a class="headerlink" href="#client-replica-installation-with-restored-master" title="Permalink to this heading">¶</a></h1>
+<h1>Client/Replica installation with restored Master<a class="headerlink" href="#client-replica-installation-with-restored-master" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-backup</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa-restore</span></code></p></li>

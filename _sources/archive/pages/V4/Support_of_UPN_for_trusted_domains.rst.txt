@@ -93,7 +93,7 @@ on non-upgraded replica will not be able to fill-in the attribute values
 and will not be able to show it until the packages for the FreeIPA
 framework are upgraded.
 
-.. _how_to_test38:
+
 
 How to Test
 -----------

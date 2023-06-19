@@ -1,4 +1,4 @@
-.. _ldap_schema_for_pkcs11_data:
+
 
 LDAP schema for PKCS#11 data
 ============================
@@ -37,12 +37,12 @@ General OIDs used in the schema definition:
 
 All objectclass and attribute type names will be prefixed by ipk11.
 
-.. _attribute_types:
+
 
 Attribute types
 ---------------
 
-.. _uniqued_identifier:
+
 
 Uniqued identifier
 ----------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ Uniqued identifier
 | `` SINGLE-VALUE``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _common_metadata:
+
 
 Common metadata
 ----------------------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ Metadata attributes common to multiple object classes.
 | `` SINGLE-VALUE``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _certificate_metadata:
+
 
 Certificate metadata
 ----------------------------------------------------------------------------------------------
@@ -287,7 +287,7 @@ Metadata attributes specific to certificates.
 | `` SINGLE-VALUE``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _common_key_metadata:
+
 
 Common key metadata
 ----------------------------------------------------------------------------------------------
@@ -341,7 +341,7 @@ Metadata attributes common to all key object classes.
 | `` SINGLE-VALUE``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _public_key_metadata:
+
 
 Public key metadata
 ----------------------------------------------------------------------------------------------
@@ -403,7 +403,7 @@ Metadata attributes specific to public and secret keys.
 | `` SINGLE-VALUE``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _private_key_metadata:
+
 
 Private key metadata
 ----------------------------------------------------------------------------------------------
@@ -531,7 +531,7 @@ Metadata attributes specific to private and secret keys.
 | `` SINGLE-VALUE``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _encoded_key_data:
+
 
 Encoded key data
 ----------------------------------------------------------------------------------------------
@@ -578,7 +578,7 @@ entity in one attribute in a specific format.
 | `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _wrapping_key_reference:
+
 
 Wrapping key reference
 ----------------------------------------------------------------------------------------------
@@ -620,12 +620,12 @@ Wrapping key reference
 | `` EQUALITY distinguishedNameMatch``
 | `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )``
 
-.. _object_classes:
+
 
 Object classes
 --------------
 
-.. _structural_object_class:
+
 
 Structural object class
 ----------------------------------------------------------------------------------------------
@@ -642,7 +642,7 @@ For use in a PKCS#11 only database a structural objectclass is defined.
 | `` MUST   ``\ ```ipk11UniqueId`` <#ipk11UniqueId>`__
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _storage_objects:
+
 
 Storage objects
 ----------------------------------------------------------------------------------------------
@@ -742,7 +742,7 @@ are auxiliary and can be used to extend other objects.
 | `` MAY  ( ``\ ```ipk11KeyType`` <#ipk11KeyType>`__\ `` $ ``\ ```ipk11Local`` <#ipk11Local>`__\ `` )``
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _encoded_key_data_1:
+
 
 Encoded key data
 ----------------------------------------------------------------------------------------------
@@ -792,12 +792,12 @@ Encoded key data
 | `` MUST ``\ ```ipaSecretKeyRef`` <#ipaSecretKeyRef>`__
 | `` X-ORIGIN 'IPA v4' )``
 
-.. _pkcs11_mapping:
+
 
 PKCS#11 mapping
 ---------------
 
-.. _attribute_types_1:
+
 
 Attribute types
 ----------------------------------------------------------------------------------------------
@@ -1191,7 +1191,7 @@ CKM_RSA_PKCS_TPM_1_1               rsaPkcsTpm11
 CKM_RSA_PKCS_OAEP_TPM_1_1          rsaPkcsOaepTpm11
 ================================== =========================
 
-.. _object_classes_1:
+
 
 Object classes
 ----------------------------------------------------------------------------------------------
@@ -1599,7 +1599,7 @@ CKA_CERTIFICATE_CATEGORY CK_CERTIFICATE_CATEGORY_AUTHORITY
 CKA_VALUE                cACertificate
 ======================== =================================
 
-.. _default_values_used_by_freeipa:
+
 
 Default values used by FreeIPA
 ------------------------------

@@ -68,7 +68,7 @@ Feature Management
 
 CLI
 
-.. _dnszone_add:
+
 
 dnszone-add
 ^^^^^^^^^^^
@@ -115,7 +115,7 @@ MNAME with ``dnszone-mod --name-server=nameserver_in_zone`` command.
 Second approach is use the --force option, and create A/AAAA record for
 nameserver later.
 
-.. _dnszone_mod:
+
 
 dnszone-mod
 ^^^^^^^^^^^
@@ -125,7 +125,7 @@ Options:
 -  ``--admin-email`` option: no changes
 -  ``--name-server`` option: same behavior as in ``dnszone-add`` command
 
-.. _ipa_server_installation_with_dns:
+
 
 IPA server installation (with DNS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -134,7 +134,7 @@ Commands: ``ipa-server-install (ipa-replica-install) --setup-dns`` or
 ``ipa-setup-dns`` add replica hostname to each NS record in IPA managed
 DNS zones.
 
-.. _ipa_server_uninstallation_with_dns:
+
 
 IPA server uninstallation (with DNS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -161,7 +161,7 @@ Update documentation..
 Test Plan
 ---------
 
-.. _adding_zone:
+
 
 Adding zone
 ----------------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ Adding zone
 -  IPA servers with DNS: ipa-dns1.example.com, ipa-dns2.example.com)
 -  IPA servers without DNS: ipa.example.com
 
-.. _add_zone_on_server_with_dns:
+
 
 Add zone on server with DNS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -182,7 +182,7 @@ Add zone on server with DNS
    -  idnssoarname: hostmaster
    -  idnssoamname: ipa-dns2.example.com.
 
-.. _add_zone_on_server_without_dns:
+
 
 Add zone on server without DNS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -195,7 +195,7 @@ Add zone on server without DNS
    -  idnssoarname: hostmaster
    -  idnssoamname: ipa-dns1.example.com. # First nameserver is used
 
-.. _add_zone_with_unresolvable_nameserver:
+
 
 Add zone with unresolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -207,7 +207,7 @@ Add zone with unresolvable nameserver
    -  Exception: NotFound: Nameserver unresolvable.address.test. does
       not have a corresponding A/AAAA record
 
-.. _add_zone_with_resolvable_nameserver:
+
 
 Add zone with resolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -220,7 +220,7 @@ Add zone with resolvable nameserver
    -  idnssoarname: hostmaster
    -  idnssoamname: resolvable.nameserver.test.
 
-.. _add_zone_with_relative_nameserver:
+
 
 Add zone with relative nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -231,7 +231,7 @@ Add zone with relative nameserver
    -  Exception: NotFound: Nameserver relative.zone.test. does not have
       a corresponding A/AAAA record
 
-.. _add_zone_with_relative_nameserver_with___force_option:
+
 
 Add zone with relative nameserver with --force option
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -246,7 +246,7 @@ Add zone with relative nameserver with --force option
       MNAME attribute.\nTo edit NS record(s) in zone apex, use command
       'dnsrecord-mod [zone] @ --ns-rec=nameserver'."
 
-.. _add_zone_with_relative_nameserver_and_ip_address_old_client:
+
 
 Add zone with relative nameserver and ip-address (old client)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -260,7 +260,7 @@ Add zone with relative nameserver and ip-address (old client)
 
 -  Note: raise error: no such option --ip-address on new clients
 
-.. _add_zone_with_relative_nameserver_and_ip_address_and___force_old_client:
+
 
 Add zone with relative nameserver and ip-address and --force (old client)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -280,7 +280,7 @@ Add zone with relative nameserver and ip-address and --force (old client)
 
 -  Note: raise error: no such option --ip-address on new clients
 
-.. _add_zone_with_relative_admin_email:
+
 
 Add zone with relative admin-email
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -293,7 +293,7 @@ Add zone with relative admin-email
    -  idnssoarname: it-department
    -  idnssoamname: ipa-dns1.example.com.
 
-.. _modifying_zone:
+
 
 Modifying zone
 ----------------------------------------------------------------------------------------------
@@ -304,7 +304,7 @@ Modifying zone
    -  idnssoarname: hostmaster
    -  idnssoamname: ipa-dns1.example.com.
 
-.. _modify_zone_with_unresolvable_nameserver:
+
 
 Modify zone with unresolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -316,7 +316,7 @@ Modify zone with unresolvable nameserver
    -  Exception: NotFound: Nameserver unresolvable.address.test. does
       not have a corresponding A/AAAA record
 
-.. _modify_zone_with_resolvable_nameserver:
+
 
 Modify zone with resolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -329,7 +329,7 @@ Modify zone with resolvable nameserver
    -  idnssoarname: hostmaster
    -  idnssoamname: resolvable.nameserver.test.
 
-.. _modify_zone_with_relative_nameserver_with_a_record_in_zone:
+
 
 Modify zone with relative nameserver with A record in zone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -342,7 +342,7 @@ Modify zone with relative nameserver with A record in zone
    -  idnssoarname: hostmaster
    -  idnssoamname: relative-with-A-rec-in-zone
 
-.. _modify_zone_with_relative_nameserver_no_aaaaa_record_in_zone_with___force_option:
+
 
 Modify zone with relative nameserver (no A/AAAA record in zone) with --force option
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -357,7 +357,7 @@ Modify zone with relative nameserver (no A/AAAA record in zone) with --force opt
       MNAME attribute.\nTo edit NS record(s) in zone apex, use command
       'dnsrecord-mod [zone] @ --ns-rec=nameserver'."
 
-.. _modify_zone_with_relative_admin_email:
+
 
 Modify zone with relative admin-email
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -369,7 +369,7 @@ Modify zone with relative admin-email
    -  idnssoarname: it-department2
    -  idnssoamname: ipa-dns1.example.com.
 
-.. _install_serverreplica:
+
 
 Install server/replica
 ----------------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ Install server/replica
 -  Result: Installed replica hostname is appended to every IPA managed
    DNS zone apex as nameserver
 
-.. _remove_replica:
+
 
 Remove replica
 ----------------------------------------------------------------------------------------------

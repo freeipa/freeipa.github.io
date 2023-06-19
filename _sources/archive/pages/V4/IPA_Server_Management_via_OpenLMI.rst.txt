@@ -96,7 +96,7 @@ the node being managed.
    `#3506 <https://fedorahosted.org/freeipa/ticket/3506>`__,
    `#2888 <https://fedorahosted.org/freeipa/ticket/2888>`__.
 
-.. _scope_of_work:
+
 
 Scope of work
 =============

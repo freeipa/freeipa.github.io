@@ -7,7 +7,7 @@ development of the next bleeding-edge FreeIPA version we do support and
 maintenance versions present in the stable Fedora releases (see `Fedora
 releases page <https://fedoraproject.org/wiki/Releases>`__).
 
-.. _requests_for_upstream:
+
 
 Requests for upstream
 ---------------------
@@ -18,7 +18,7 @@ planned fixes for both current development and maintenance branch (see
 `FreeIPA roadmap <https://pagure.io/freeipa/roadmap>`__ for more
 details).
 
-.. _where_to_get_freeipa:
+
 
 Where to get FreeIPA
 --------------------
@@ -30,7 +30,7 @@ for other platforms, including EPEL. See `Downloads <Downloads>`__ or
 `Quick Start Guide <Quick_Start_Guide>`__ pages for details where to get
 the developed FreeIPA versions.
 
-.. _current_efforts:
+
 
 Current Efforts
 ---------------
@@ -42,14 +42,14 @@ Current Efforts
 -  **FreeIPA 4.5.x**: stabilization of the `latest feature
    release <Releases/4.5.0>`__
 
-.. _postponedabandoned_efforts:
+
 
 Postponed/Abandoned efforts
 ---------------------------
 
 -  Described on `Postponed <Postponed>`__ page.
 
-.. _future_direction:
+
 
 Future Direction
 ----------------
@@ -80,7 +80,7 @@ Future Direction
    list <http://www.redhat.com/mailman/listinfo/freeipa-devel>`__ first
    please.
 
-.. _notes_about_p_and_a_of_ipa:
+
 
 Notes about P and A of IPA
 --------------------------

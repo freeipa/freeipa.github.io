@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _centralized_identity_management_and_authentication_for_linux:
+
 
 CENTRALIZED IDENTITY MANAGEMENT AND AUTHENTICATION FOR LINUX
 ------------------------------------------------------------

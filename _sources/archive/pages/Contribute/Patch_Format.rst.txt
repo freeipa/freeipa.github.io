@@ -1,4 +1,4 @@
-.. _patch_format:
+
 
 Patch format
 ============
@@ -6,7 +6,7 @@ Patch format
 We have accepted several conventions and techniques that helps keeping
 track of patches, ACKs, and commits.
 
-.. _patch_format_1:
+
 
 Patch format
 ------------
@@ -73,7 +73,7 @@ Format: ``project-username-seq[-update]-description.patch``
 Example patch name:
 ``freeipa-edewata-0019-Certificate-management-for-services.patch``
 
-.. _ensuring_correct_transmission_of_patches:
+
 
 Ensuring correct transmission of patches
 ----------------------------------------

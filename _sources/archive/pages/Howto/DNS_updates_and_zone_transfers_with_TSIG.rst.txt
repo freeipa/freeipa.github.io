@@ -1,4 +1,4 @@
-.. _dns_updates_and_zone_transfers_with_tsig:
+
 
 DNS updates and zone transfers with TSIG
 ========================================
@@ -6,12 +6,12 @@ DNS updates and zone transfers with TSIG
 FreeIPA doesn't have support for TSIG in user interface but it can be
 configured to use TSIG for dynamic updates and zone transfers.
 
-.. _tsig_key_configuration:
+
 
 TSIG key configuration
 ----------------------
 
-.. _generate_a_new_tsig_key:
+
 
 Generate a new TSIG key
 ----------------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ Generate a new TSIG key
 | ``$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname``
 | ``Kkeyname.+165+03160``
 
-.. _copy_and_paste_key_from_key_file_to_named.conf:
+
 
 Copy and paste key from key file to named.conf
 ----------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ Copy and paste key from key file to named.conf
 
 You have to repeat this copy&paste step for every FreeIPA server.
 
-.. _dynamic_updates:
+
 
 Dynamic updates
 ---------------
@@ -71,12 +71,12 @@ or
 
 ``$ nsupdate -k Kkeyname.+165+0316.private``
 
-.. _zone_transfers:
+
 
 Zone transfers
 --------------
 
-.. _server_1:
+
 
 Server
 ----------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ Run this on one of FreeIPA servers:
 Don't forget to replace zone name in ``idnsname`` component of DN and
 realm name in ``dc=ipa,dc=example`` components.
 
-.. _client_1:
+
 
 Client
 ----------------------------------------------------------------------------------------------

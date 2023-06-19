@@ -7,7 +7,7 @@ FreeIPA supports a range of clients, all of which can be configured to
 work with an IPA server. In freeIPA version 1.0, the client installation
 script is only available for a limited range of clients.
 
-.. _purpose_of_this_guide:
+
 
 Purpose of this Guide
 ---------------------
@@ -27,7 +27,7 @@ This guide is aimed at IPA administrators and those who are responsible
 for the installation and day to day operation and maintenance of an IPA
 deployment.
 
-.. _configuring_ipa_clients:
+
 
 Configuring IPA Clients
 =======================
@@ -44,7 +44,7 @@ This guide covers the following topics:
    Clients <FreeIPAv1:ConfiguringMacintoshClients>`__
 -  `Configuring Windows Clients <FreeIPAv1:ConfiguringWindowsClients>`__
 
-.. _configuring_your_browser:
+
 
 Configuring Your Browser
 ========================

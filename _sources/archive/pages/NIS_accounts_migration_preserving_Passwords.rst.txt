@@ -16,7 +16,7 @@ Kerberos keys; SSSD can work instead with FreeIPA to solve this and
 mitigate the user impact on migration by generating the required user
 keys.
 
-.. _enable_ipa_migration_mode:
+
 
 Enable IPA migration mode
 -------------------------
@@ -26,7 +26,7 @@ in the user entry when users successfully bind via LDAPs.
 
 ``# ipa config-mod --enable-migration=true``
 
-.. _export_the_nis_accounts_details:
+
 
 Export the NIS accounts details
 -------------------------------
@@ -39,7 +39,7 @@ the first field is a username and the second field is a DES encrypted
 password. You may want to script the export saving the id/pwd couples in
 a temporary file.
 
-.. _import_users_into_ipa:
+
 
 Import users into IPA
 ---------------------
@@ -61,7 +61,7 @@ configured properly, when users log in for the first time.
 **NOTE**: Use {crypt} for any password taken from an NIS dump or
 /etc/shadow. It defines the password storage scheme that crypt(3) uses.
 
-.. _add_systems_to_the_ipa_domain:
+
 
 Add systems to the IPA Domain
 -----------------------------
@@ -79,7 +79,7 @@ keyword to a number of lines:
 
 ``# passwd: files nis sss``
 
-.. _deploy_the_server_ca_cert_on_the_client_systems:
+
 
 Deploy the server CA cert on the client systems
 -----------------------------------------------

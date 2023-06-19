@@ -60,7 +60,7 @@ attribute for the ID override objects as an extension to the
 'ipaUserOverride' object class. This happens transparently during a
 regular FreeIPA upgrade, hence no custom action needs to be taken.
 
-.. _how_to_test16:
+
 
 How to Test
 -----------
@@ -75,7 +75,7 @@ To test in isolation, the following steps should be taken:
 -  Create an user ID override for the selected user identity
 -  Add/Remove/Read the certificate from the user ID override entry
 
-.. _test_plan16:
+
 
 Test Plan
 ---------

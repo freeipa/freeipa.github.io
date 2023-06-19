@@ -4,7 +4,7 @@ improved that will lower barriers to participation.
 The goal is, make it easy to participate, and from those participants,
 contributors emerge.
 
-.. _community_enablement_ideas:
+
 
 Community enablement ideas
 --------------------------
@@ -22,7 +22,7 @@ Community enablement ideas
 
 -  Update contribution pages to reflect needs beyond code
 
-.. _how_to_solve_the_problems:
+
 
 How to solve the problems
 -------------------------
@@ -33,7 +33,7 @@ goals. The idea is in the spirit of Fedora Hosted, that is, being an
 umbrella over worthwhile projects and letting those projects be uniquely
 branded upstreams.
 
-.. _the_problems:
+
 
 The problems
 ----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ The problems
    make search easier, intuitive page finding, and l10n.
 -  Is it an explicit choice to have the favicon be Shadowman?
 
-.. _questions_to_ponder:
+
 
 Questions to ponder
 ----------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ Questions to ponder
    -  Would the project want documentation contributions via the wiki
       with a
 
-.. _bold_solutions:
+
 
 Bold solutions
 ----------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Bold solutions
       Community <https://fedoraproject.org/wiki/FedoraCommunity>`__
       portal tools.
 
-.. _how_quaid_is_going_to_do_this:
+
 
 How quaid is going to do this
 ----------------------------------------------------------------------------------------------

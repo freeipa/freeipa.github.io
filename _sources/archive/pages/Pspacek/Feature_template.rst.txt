@@ -4,7 +4,7 @@ Overview
 Short overview of the problem set and any background material or
 references one would need to understand the details.
 
-.. _use_cases109:
+
 
 Use Cases
 ---------
@@ -55,7 +55,7 @@ The proposed solution. This may include but is not limited to:
 -  Compatibility with other (older) version of FreeIPA. Think if the
    feature requires a minimum `Domain level <V4/Domain_Levels>`__.
 
-.. _design_assumptions:
+
 
 Design Assumptions
 ----------------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ Upgrade
 
 Any impact on upgrades? Remove this section if not applicable.
 
-.. _how_to_test8:
+
 
 How to Test
 -----------

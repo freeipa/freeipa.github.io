@@ -17,7 +17,7 @@ This is especially common case with virtual machines.
 | https://fedorahosted.org/freeipa/ticket/3374
 | https://fedorahosted.org/freeipa/ticket/3482
 
-.. _use_case:
+
 
 Use Case
 ========
@@ -63,7 +63,7 @@ Additionally, old certificate should be revoked without need for manual
 intervention. For manually revoking the certificate, see the ipa
 cert-revoke command.
 
-.. _security_considerations:
+
 
 Security Considerations
 =======================
@@ -106,7 +106,7 @@ Host entry comparison:
 https://www.redhat.com/archives/freeipa-devel/2013-March/msg00033.html
 (see the bottom of the message)
 
-.. _feature_managment:
+
 
 Feature Managment
 =================
@@ -167,7 +167,7 @@ Assumptions:
   replica using the combination of ``ipa-replica-prepare`` and
   ``ipa-replica-install``.
 
-.. _simulate_backup_and_restore:
+
 
 Simulate backup and restore
 ---------------------------

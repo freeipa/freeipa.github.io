@@ -1,4 +1,4 @@
-.. _otp_schema:
+
 
 OTP Schema
 ==========
@@ -232,7 +232,7 @@ OTP Schema
        MAY ipaUserAuthType
        X-ORIGIN 'FreeIPA' )
 
-.. _otp_acis:
+
 
 OTP ACIs
 ========

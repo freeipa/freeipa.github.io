@@ -16,7 +16,7 @@ The following servers are configured with SSL server certificates:
 -  dogtag uses an NSS database for its LDAP server and the CA itself but
    we don't need visibility into those.
 
-.. _certificate_authorities:
+
 
 Certificate Authorities
 -----------------------
@@ -44,7 +44,7 @@ resides in the Apache NSS database (``/etc/httpd/alias``). This also
 uses the file ``/var/lib/ipa/ca_serialno`` in an attempt to guarantee
 unique serial numbers.
 
-.. _certificate_subjects:
+
 
 Certificate Subjects
 --------------------
@@ -90,7 +90,7 @@ There should be only two certificates here:
 -  CA certificate: the IPA CA certificate
 -  Server-Cert: the SSL server cert for Apache
 
-.. _signing_certificate:
+
 
 Signing Certificate
 -------------------
@@ -101,7 +101,7 @@ object signing certificate to sign the code in
 /usr/share/ipa/html/configure.jar during installation. This is signed
 with the nickname 'Signing-Cert' from the Apache NSS database.
 
-.. _client_authentication:
+
 
 Client authentication
 ---------------------
@@ -111,7 +111,7 @@ connecting to dogtag to do agent commands (request, revoke, etc). This
 uses python-nss and the RA agent certificate created during dogtag
 installation.
 
-.. _ldap_replication:
+
 
 LDAP replication
 ----------------
@@ -119,7 +119,7 @@ LDAP replication
 LDAP replication must use SSL. Because all replicas are provided with an
 SSL certificate (by ``ipa-replica-prepare``) this is straightforward.
 
-.. _what_happens_during_installation:
+
 
 What happens during installation?
 ---------------------------------
@@ -133,17 +133,17 @@ disk:
 This duplication only exists on servers, on client machines the CA is
 only put into /etc/ipa/ca.crt.
 
-.. _dogtag_1:
+
 
 dogtag
 ----------------------------------------------------------------------------------------------
 
-.. _selfsign_1:
+
 
 selfsign
 ----------------------------------------------------------------------------------------------
 
-.. _what_happens_during_an_ipa_command_request:
+
 
 What happens during an ipa command request?
 -------------------------------------------

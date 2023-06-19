@@ -15,7 +15,7 @@ and is primarily an interface to underlying Dogtag capabilities.
 Use Cases
 =========
 
-.. _review_and_approval_of_certificate_requests:
+
 
 Review and approval of certificate requests
 -------------------------------------------
@@ -55,28 +55,28 @@ UI
 
 CLI
 
-.. _ipa_certrequest_find_cahandle:
+
 
 ``ipa certrequest-find <cahandle>``
 ----------------------------------------------------------------------------------------------
 
 Search for or list pending certificate requests for the given CA.
 
-.. _ipa_certrequest_show_cahandle_requestid:
+
 
 ``ipa certrequest-show <cahandle> <requestId>``
 ----------------------------------------------------------------------------------------------
 
 Show detail of the given certificate request.
 
-.. _ipa_certrequest_approve_cahandle_requestid:
+
 
 ``ipa certrequest-approve <cahandle> <requestId>``
 ----------------------------------------------------------------------------------------------
 
 Approve the certificate request, resulting in certificate issuance.
 
-.. _ipa_certrequest_reject_profileid:
+
 
 ``ipa certrequest-reject <profileId>``
 ----------------------------------------------------------------------------------------------
@@ -88,12 +88,12 @@ Upgrade
 
 No upgrade procedures are required.
 
-.. _how_to_test15:
+
 
 How to Test
 ===========
 
-.. _test_plan15:
+
 
 Test Plan
 =========

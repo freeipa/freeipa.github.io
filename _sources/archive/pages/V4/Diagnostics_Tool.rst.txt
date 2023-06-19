@@ -30,7 +30,7 @@ Use Cases
 Design
 ------
 
-.. _design_goals:
+
 
 Design goals
 ----------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ Design goals
    current privileges.
 -  Structured output
 
-.. _tool_high_level_overview:
+
 
 Tool high-level overview
 ----------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ described with the following diagram:
 
    ipa-diagnose-high-level.png
 
-.. _fetching_reports_from_other_replicas:
+
 
 Fetching reports from other replicas
 ----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ in the illustration below:
 Please note, as the example above suggest, that ipa-diagnose is not
 limited to IPA replicas, but it can also check health of IPA clients.
 
-.. _connection_fallbacks:
+
 
 Connection fallbacks
 ----------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ the interactive password authentication.
 Implementation
 --------------
 
-.. _implementation_goals:
+
 
 Implementation goals
 ----------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ Implementation goals
 -  Provide pluggable API for drop-in Doctors and Reporters
 -  Tool should be resiliant to plugin failures and missing dependencies
 
-.. _reporter_plugin:
+
 
 Reporter plugin
 ----------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ Each reporter is a small modular plugin implementing a simple interface,
 which aims to provide single or multiple pieces of information about the
 system.
 
-.. _doctor_plugin:
+
 
 Doctor plugin
 ----------------------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ Doctor plugin
 Each doctor is a small modular plugin which consumes information
 produced by the reporters, and performs additional checks on the system.
 
-.. _report_format:
+
 
 Report format
 ----------------------------------------------------------------------------------------------
@@ -189,14 +189,14 @@ Upgrade
 There is no impact on upgrades, diagnostics plugins should be able to
 work with multiple versions of underlying FreeIPA packages.
 
-.. _how_to_test17:
+
 
 How to Test
 -----------
 
 N/A
 
-.. _test_plan17:
+
 
 Test Plan
 ---------

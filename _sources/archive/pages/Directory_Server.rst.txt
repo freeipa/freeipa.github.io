@@ -9,7 +9,7 @@ where administrator can deploy a number of replicating FreeIPA servers,
 thus distributing the load on Identity Management servers and providing
 higher redundancy at the same point.
 
-.. _data_storage:
+
 
 Data Storage
 ------------
@@ -19,7 +19,7 @@ in the Directory Server. FreeIPA objects are stored in one suffix
 calculated from realm name (e.g. ``dc=example,dc=com`` for a realm
 EXAMPLE.COM), certificates are stored in a second suffix, ``o=ipaca``.
 
-.. _accessing_data:
+
 
 Accessing Data
 ----------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ the permission plugins (run ``ipa help permission`` command for more
 information) which can add DS ACIs allowing that operation in a
 user'convenient way.
 
-.. _modifying_data:
+
 
 Modifying Data
 ----------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ To make the manipulation of the entries easier, the provided CLI and Web
 UI interfaces provide a supported way of performing the modifications.
 Run ``ipa help topics`` to see the list of supported commands.
 
-.. _server_plugins:
+
 
 Server Plugins
 --------------
@@ -100,7 +100,7 @@ read more about backup and restore scenarios and how to approach them.
 Documentation
 -------------
 
-.. _project_documentation:
+
 
 Project documentation
 ----------------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ Project documentation
 -  `Red Hat Directory Server extensive
    documentation <https://access.redhat.com/documentation/en-US/Red_Hat_Directory_Server/>`__
 
-.. _technical_articles:
+
 
 Technical articles
 ----------------------------------------------------------------------------------------------

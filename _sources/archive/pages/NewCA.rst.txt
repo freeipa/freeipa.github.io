@@ -13,7 +13,7 @@ Firefox 3.5 cannot import an IPA CA certificate.
 
 This affects IPA 1.0 through 1.2.1.
 
-.. _instructions_for_issuing_a_new_ca_certificate:
+
 
 Instructions for issuing a new CA certificate
 ---------------------------------------------

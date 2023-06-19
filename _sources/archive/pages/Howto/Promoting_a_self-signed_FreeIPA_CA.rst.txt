@@ -1,4 +1,4 @@
-.. _promote_a_self_signed_freeipa_ca:
+
 
 Promote a self-signed FreeIPA CA
 --------------------------------
@@ -17,7 +17,7 @@ is being replaced with a new replica. Please note, that if you have two
 promoted FreeIPA replicas, certificate serial numbers may clash unless
 you manually configure proper offset in */var/lib/ipa/ca_serialno*.
 
-.. _procedure_to_install_and_promote_a_new_self_signed_replica:
+
 
 Procedure to install and promote a new self-signed replica
 ----------------------------------------------------------------------------------------------

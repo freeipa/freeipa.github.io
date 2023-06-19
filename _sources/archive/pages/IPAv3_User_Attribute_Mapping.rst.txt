@@ -4,12 +4,12 @@ Overview
 This document describes the user attribute mapping from IPA to Samba and
 vice versa in various scenarios.
 
-.. _mapping_ipa_user_to_samba_user:
+
 
 Mapping IPA User to Samba User
 ==============================
 
-.. _ipa_user_doesnt_exist_in_samba:
+
 
 IPA User Doesn't Exist in Samba
 -------------------------------
@@ -47,7 +47,7 @@ primaryGroupID     primaryGroupID
 userAccountControl 512
 ================== ================
 
-.. _ipa_user_exists_in_samba_but_not_linked:
+
 
 IPA User Exists in Samba but Not Linked
 ---------------------------------------
@@ -80,7 +80,7 @@ primaryGroupID     primaryGroupID
 userAccountControl userAccountControl
 ================== ==================
 
-.. _ipa_user_exists_in_samba_and_linked:
+
 
 IPA User Exists in Samba and Linked
 -----------------------------------
@@ -103,12 +103,12 @@ primaryGroupID     primaryGroupID
 userAccountControl userAccountControl
 ================== =============================================
 
-.. _mapping_samba_user_to_ipa_user:
+
 
 Mapping Samba User to IPA User
 ==============================
 
-.. _samba_user_doesnt_exist_in_ipa:
+
 
 Samba User Doesn't Exist in IPA
 -------------------------------
@@ -159,7 +159,7 @@ A new user is generated from Samba attributes and added to IPA:
 | userAccountControl    | userAccountControl                          |
 +-----------------------+---------------------------------------------+
 
-.. _samba_user_exists_in_ipa_but_not_linked:
+
 
 Samba User Exists in IPA but Not Linked
 ---------------------------------------
@@ -193,7 +193,7 @@ sn            sn
 homeDirectory homeDirectory
 ============= =============
 
-.. _samba_user_exists_in_ipa_and_linked:
+
 
 Samba User Exists in IPA and Linked
 -----------------------------------

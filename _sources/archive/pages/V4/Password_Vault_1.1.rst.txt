@@ -20,12 +20,12 @@ New access control list:
    container.
 -  An escrow officer can recover secrets and reset the vault password.
 
-.. _vault_management:
+
 
 Vault Management
 ================
 
-.. _listing_accessible_vaults:
+
 
 Listing accessible vaults
 -------------------------
@@ -128,7 +128,7 @@ To find user vaults, specify --user :
    Number of entries returned 1
    ----------------------------
 
-.. _changing_vault_type:
+
 
 Changing vault type
 -------------------
@@ -196,7 +196,7 @@ must be specified:
      Vault name: test
      Type: standard
 
-.. _changing_vault_password:
+
 
 Changing vault password
 -----------------------
@@ -233,7 +233,7 @@ To change the password silently:
      Vault name: test
      Type: symmetric
 
-.. _changing_vault_keys:
+
 
 Changing vault keys
 -------------------
@@ -254,14 +254,14 @@ For example:
    Modified vault "test"
    ---------------------
 
-.. _access_control:
+
 
 Access Control
 ==============
 
 In Vault 1.1 a service can be added as a vault owner or members.
 
-.. _adding_vault_member:
+
 
 Adding vault member
 -------------------
@@ -281,7 +281,7 @@ For example:
    Added members to "MyVault " vault
    ---------------------------------
 
-.. _removing_vault_member:
+
 
 Removing vault member
 ---------------------
@@ -302,7 +302,7 @@ For example:
    Removed members from "MyVault " vault
    -------------------------------------
 
-.. _adding_vault_owner:
+
 
 Adding vault owner
 ------------------
@@ -322,7 +322,7 @@ For example:
    Added owners from "MyVault " vault
    ----------------------------------
 
-.. _removing_vault_owner:
+
 
 Removing vault owner
 --------------------
@@ -343,7 +343,7 @@ For example:
    Removed owners from "MyVault " vault
    ------------------------------------
 
-.. _managing_vault_containers:
+
 
 Managing vault containers
 -------------------------
@@ -365,7 +365,7 @@ vault.
             [--service <service>|--user <user>|--shared ]
             [--users <users>]  [--groups <groups>] [--services <services>]
 
-.. _reworked_permissions:
+
 
 Reworked permissions
 --------------------

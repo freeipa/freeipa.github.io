@@ -4,7 +4,7 @@ Overview
 The purpose of this page is to outline a plan for binding an encrypted
 disk to a network.
 
-.. _use_case:
+
 
 Use Case
 --------
@@ -72,7 +72,7 @@ This process is entirely automated and the random key can only ever be
 decrypted by the Petera server. This requires network connectivity, but
 no authentication is needed.
 
-.. _other_considerations:
+
 
 Other Considerations
 ====================

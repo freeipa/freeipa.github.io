@@ -1,4 +1,4 @@
-.. _overview_of_d_bus_protocol:
+
 
 Overview of D-BUS Protocol
 --------------------------
@@ -9,7 +9,7 @@ for transmitting signals and method calls to other processes.
 
 The D-BUS protocol has four primary components:
 
-.. _the_d_bus_server:
+
 
 The D-BUS Server
 ----------------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ traditional sense. Rather than accepting connections and listening for
 requests on that connection, the D-BUS server is instead used only for
 establishing connections.
 
-.. _the_d_bus_connection:
+
 
 The D-BUS Connection
 ----------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ been made to a D-BUS server, it becomes a peer-to-peer connection.
 Either end of the connection can listen for method calls or signals, and
 either end can initiate them.
 
-.. _the_d_bus_message:
+
 
 The D-BUS Message
 ----------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ but within the SSSD we will use the nonblocking approach exclusively
 Details of the message specification can be read at
 http://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol
 
-.. _the_d_bus_system_bus:
+
 
 The D-BUS System Bus
 ----------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ In the SSSD, we do not use the system bus due to the heavy traffic that
 it sees from the desktop components. Instead we will rely on using the
 direct connections.
 
-.. _sssd_and_d_bus:
+
 
 SSSD and D-BUS
 --------------
@@ -81,7 +81,7 @@ In the SSSD, we have implemented a version of the D-BUS protocol that we
 call the SBUS. The SBUS is built atop libdbus-1 from the freedesktop
 project, but will implement only a subset of D-BUS features.
 
-.. _sssd_infrastructure:
+
 
 SSSD Infrastructure
 ----------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ SSSD-specific helper functions to simplify this integration. There is a
 library of SBUS tools located within the "sbus" directory in the SSSD
 tree.
 
-.. _sbus_server:
+
 
 SBUS Server
 ----------------------------------------------------------------------------------------------

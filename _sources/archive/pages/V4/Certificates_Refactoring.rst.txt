@@ -15,7 +15,7 @@ consist in 3 different efforts:
 Design
 ------
 
-.. _certificate_issuance_during_installation:
+
 
 Certificate issuance during installation
 ----------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ It is important to use the profile caServerCert as it does not define
 auth.instance_id, meaning that it allows submission without
 authentication.
 
-.. _ldaphttp_server_certificate:
+
 
 LDAP/HTTP server certificate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -86,7 +86,7 @@ temporarily reconfigure IPA CA helper to use
    caIPAserviceCert
 -  restore original values for IPA CA helper
 
-.. _refactor_certificate_processing_code_to_use_python_cryptography:
+
 
 Refactor certificate processing code to use python-cryptography
 ----------------------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ code to use python-cryptography instead of python-nss. This is largely a
 mechanical procedure. Aspects of this refactoring where substantive
 changes were required are detailed in the following subsections.
 
-.. _dealing_with_distinguished_names:
+
 
 Dealing with Distinguished Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -125,7 +125,7 @@ In practice, due to the rarity of multi-value RDNs in practice, and the
 fact that "flattened" DNs should still compare equal, the lack of proper
 handling is unlikely to cause problems.
 
-.. _dealing_with_known_othername_types:
+
 
 Dealing with known OtherName types
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -145,7 +145,7 @@ function that is applied a list of
 ``OtherName`` values of known types into the corresponding subtype,
 returning the resulting list.
 
-.. _avoiding_pkcs_10_friendlyname_attribute:
+
 
 Avoiding PKCS #10 *friendlyName* attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -166,7 +166,7 @@ environment variable as the key to look up the NSSDB nickname.
 
 All CSR-related *pyasn1* definitions and decoding were removed.
 
-.. _decoding_certificate_subject_alternative_name_extension:
+
 
 Decoding certificate Subject Alternative Name extension
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

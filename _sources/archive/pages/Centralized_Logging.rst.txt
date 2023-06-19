@@ -16,7 +16,7 @@ detecting problems in time before they grow in even bigger problems
 (e.g., replication errors) or helps detecting attacks, misbehavior or
 simply configuration problems in the infrastructure and amending them.
 
-.. _freeipa_logs:
+
 
 FreeIPA logs
 ------------
@@ -29,7 +29,7 @@ to structure and produce logs. This applies both for FreeIPA server and
 it's many services, but also for FreeIPA clients, where different
 information lies in different logs (SSSD log, audit log).
 
-.. _use_cases12:
+
 
 Use Cases
 ---------
@@ -59,7 +59,7 @@ set of use cases is tracked:
    clients and have thus very small load) or simply by some of the
    services not running.
 
-.. _proposed_solution:
+
 
 Proposed Solution
 -----------------
@@ -72,7 +72,7 @@ The centralized log collection problem has 2 basic parts:
    **send the interesting logs** to the centralized server and selecting
    **proper and secure transport** for the logs.
 
-.. _centralized_logging_server:
+
 
 Centralized Logging Server
 ----------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ or respective `github
 repo <https://github.com/pschiffe/rsyslog-elasticsearch-kibana>`__ for
 details how to download and run the preconfigured REK server.
 
-.. _log_gathering_and_transport:
+
 
 Log Gathering and Transport
 ----------------------------------------------------------------------------------------------
@@ -163,14 +163,14 @@ Dashboards
 -  `SSSD <Media:Rek-sssd.png>`__: selected client SSSD errors (dashboard
    still in progress)
 
-.. _demo_of_the_kibana_dashboards:
+
 
 Demo of the Kibana Dashboards
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 {{#ev:youtube|7YjA6z5nE0I|640|center}}
 
-.. _other_resources:
+
 
 Other Resources
 ---------------

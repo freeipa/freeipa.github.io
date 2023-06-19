@@ -19,7 +19,7 @@ regardless of the operating system that is used. In other words they
 store all the sessions for all the privileged users on the mission
 critical systems.
 
-.. _what_is_it_about:
+
 
 What is it about?
 -----------------
@@ -34,12 +34,12 @@ The tools and capabilities provided by solution should allow auditor or
 security officer to detect and prove that malicious activity has
 happened in the past, or detect one happening in real time.
 
-.. _user_stories:
+
 
 User Stories
 ============
 
-.. _auditorsecurity_officer:
+
 
 Auditor/Security Officer
 ------------------------
@@ -109,7 +109,7 @@ activity has been conducted by an employee or a contractor:
    -  I want to find all administrative sessions that were recorded last
       week against my file servers in my New Jersey datacenter.
 
-.. _system_administrator:
+
 
 System Administrator
 --------------------
@@ -153,7 +153,7 @@ that to a central storage, where it can be searched, correlated and from
 where it can be played back. Who, where and how is recorded can be
 controlled either centrally or locally.
 
-.. _client_side_components:
+
 
 Client-side components
 ----------------------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ Client-side components
    agent, which streams the audit and session recording data from the
    system to the central server.
 
-.. _server_side_components:
+
 
 Server-side components
 ----------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ Server-side components
 -  **WebUI (TBD)** - playback terminal with the audit trail correlation
    – most likely a custom web UI control.
 
-.. _control_and_data_flow:
+
 
 Control and Data Flow
 ---------------------
@@ -239,7 +239,7 @@ Control and Data Flow
 
 The control flow differs by case.
 
-.. _standalone_local_control:
+
 
 Standalone local control
 ----------------------------------------------------------------------------------------------
@@ -256,7 +256,7 @@ shell for the user. Tlog-rec checks if it was invoked under the special
 name. If it was, it starts the shell extracted from the name. If it
 wasn't, it starts the shell specified in the global configuration.
 
-.. _local_control_via_sssd:
+
 
 Local control via SSSD
 ----------------------------------------------------------------------------------------------
@@ -276,7 +276,7 @@ part of session setup, adds a variable to the user environment telling
 The login program starts ``tlog-rec``. Tlog-rec reads the environment
 variable added by SSSD and starts the actual user shell.
 
-.. _central_control_via_sssd_and_freeipa:
+
 
 Central control via SSSD and FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -308,7 +308,7 @@ The login program starts ``tlog-rec``. Tlog-rec reads the environment
 variables added by SSSD, adjusts its settings and starts the actual user
 shell.
 
-.. _further_control_and_data_flow:
+
 
 Further control and data flow
 ----------------------------------------------------------------------------------------------
@@ -334,7 +334,7 @@ ElasticSearch using one of the available analytic interfaces, such as
 Kibana or Graphana, and can then playback specific sessions on the
 command line with ``tlog-play``, or using the special web UI (TBD).
 
-.. _audit_recording_details:
+
 
 Audit recording details
 -----------------------
@@ -455,12 +455,12 @@ etc. All of them searchable and correlated in the same UI.
    | :literal:`  `--___________--'                | Rewind to time and matches \|`
    | :literal:`                                   `----------------------------'`
 
-.. _development_plan:
+
 
 Development Plan
 ================
 
-.. _phase_0:
+
 
 Phase 0
 -------
@@ -489,7 +489,7 @@ Features
 -  A basic command-line terminal session playback tool will be
    available.
 
-.. _phase_1:
+
 
 Phase 1
 -------
@@ -498,7 +498,7 @@ First production-ready release of tlog and minor releases of FreeIPA,
 SSSD, and auditd, containing the features below, mark completion of
 Phase 1.
 
-.. _features_1:
+
 
 Features
 ----------------------------------------------------------------------------------------------
@@ -521,7 +521,7 @@ Features
    FreeIPA UI. The FreeIPA web UI provides a way to playback and rewind
    terminal I/O recordings, synchronized with audit data.
 
-.. _phase_2:
+
 
 Phase 2
 -------
@@ -530,7 +530,7 @@ Phase 2 is completed by finishing second production-ready release of
 tlog, and major releases of FreeIPA and SSSD, containing the features
 below.
 
-.. _features_2:
+
 
 Features
 ----------------------------------------------------------------------------------------------
@@ -555,7 +555,7 @@ Features
    playback, searching through most of the data and rewinding to
    results.
 
-.. _user_stories_1:
+
 
 User stories
 ----------------------------------------------------------------------------------------------

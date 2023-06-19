@@ -64,7 +64,7 @@ entries</em> or <em>duplicated twin entries</em>.</p>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 <section id="initial-situation">
-<span id="id1"></span><h2>Initial situation<a class="headerlink" href="#initial-situation" title="Permalink to this heading">¶</a></h2>
+<h2>Initial situation<a class="headerlink" href="#initial-situation" title="Permalink to this heading">¶</a></h2>
 <p>A FreeIPA instance contains two main backends: <strong>UserRoot</strong> and
 <strong>ipaca</strong>.</p>
 <p><strong>ipaca</strong> contains the certificate information and is not impacted by
@@ -79,10 +79,10 @@ on disk <strong>except compat</strong> that is stored in memory tables (aka <em>
 A user entry (under <strong>users</strong> container) is duplicated and transformed
 into a user entry under the <strong>compat</strong> container. It is the same for
 <strong>groups</strong> and <strong>computers</strong>.</p>
-<figure class="align-default" id="id10">
+<figure class="align-default" id="id2">
 <img alt="GC_slapi_nis_img_current_situation.png" src="../../../_images/GC_slapi_nis_img_current_situation.png" />
 <figcaption>
-<p><span class="caption-text">GC_slapi_nis_img_current_situation.png</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">GC_slapi_nis_img_current_situation.png</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>The regular containers contain entries conforming posix schema. Those
@@ -92,7 +92,7 @@ The entries in that container <strong>are not</strong> replicated to the others
 servers, instead each server manage its own set of mapped entries.</p>
 </section>
 <section id="schema-compat-container">
-<span id="id2"></span><h2>Schema Compat container<a class="headerlink" href="#schema-compat-container" title="Permalink to this heading">¶</a></h2>
+<h2>Schema Compat container<a class="headerlink" href="#schema-compat-container" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>compat</strong> container stores entries into in-memory maps</p>
 <p>The entries can be retrieved with LDAP search. LDAP search request can
 lookup the original entry (i.e.
@@ -107,15 +107,15 @@ duplicate/transform the updated entries and stores the resulting entries
 into a ‘in-memory’ map. To do this transformation, Schema Compat plugin
 apply a <strong>Formating definition</strong> specific to type of entries (users,
 groups or computers) that is mapped</p>
-<figure class="align-default" id="id11">
+<figure class="align-default" id="id3">
 <img alt="GC_slapi_nis_img_schema_compat.png" src="../../../_images/GC_slapi_nis_img_schema_compat.png" />
 <figcaption>
-<p><span class="caption-text">GC_slapi_nis_img_schema_compat.png</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">GC_slapi_nis_img_schema_compat.png</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="formating-keyword-deref">
-<span id="id3"></span><h2>Formating keyword: deref<a class="headerlink" href="#formating-keyword-deref" title="Permalink to this heading">¶</a></h2>
+<h2>Formating keyword: deref<a class="headerlink" href="#formating-keyword-deref" title="Permalink to this heading">¶</a></h2>
 <p>A <strong>Formating definition</strong> contains a set <a class="reference external" href="https://www.freeipa.org/page/FreeIPAv2:Schema_Compatibility_Plug-in_Design#Back_End">format
 specifiers</a>.
 The specifier <em>schema-compat-entry-attribute</em> describes with <em>keywords</em>
@@ -132,28 +132,28 @@ refers to user <em>dev1</em>. Schema compat does <strong>an internal search</str
 retrieve that user. Then it adds the <em>uid</em> value of that user as value
 of <em>memberUid</em>. In short <strong>deref keyword requires lookup in
 users/groups/computer that are in the DB</strong>.</p>
-<figure class="align-default" id="id12">
+<figure class="align-default" id="id4">
 <img alt="GC_slapi_nis_img_SC_deref.png" src="../../../_images/GC_slapi_nis_img_SC_deref.png" />
 <figcaption>
-<p><span class="caption-text">GC_slapi_nis_img_SC_deref.png</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">GC_slapi_nis_img_SC_deref.png</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="primary-instance">
-<span id="id4"></span><h2>Primary instance<a class="headerlink" href="#primary-instance" title="Permalink to this heading">¶</a></h2>
+<h2>Primary instance<a class="headerlink" href="#primary-instance" title="Permalink to this heading">¶</a></h2>
 <p>Because of performance (no index) and robustness (deadlocks) concerns,
 the Freeipa DS instance is separated into two DS instances: primary and
 secondary.</p>
 <p>The primary contains all FreeIPA posix entries</p>
-<figure class="align-default" id="id13">
+<figure class="align-default" id="id5">
 <img alt="GC_slapi_nis_img_sec_inst_overview.png" src="../../../_images/GC_slapi_nis_img_sec_inst_overview.png" />
 <figcaption>
-<p><span class="caption-text">GC_slapi_nis_img_sec_inst_overview.png</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">GC_slapi_nis_img_sec_inst_overview.png</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="compat-chained-backend">
-<span id="id5"></span><h2>Compat chained backend<a class="headerlink" href="#compat-chained-backend" title="Permalink to this heading">¶</a></h2>
+<h2>Compat chained backend<a class="headerlink" href="#compat-chained-backend" title="Permalink to this heading">¶</a></h2>
 <p>The compat containers on the primary instance are chained to the
 secondary instance.</p>
 <p>All operations are replayed on the secondary instance. Write operation
@@ -167,7 +167,7 @@ mostly rely on group membership and we do not want to provision
 groups/users on secondary instance.</p>
 </section>
 <section id="secondary-instance">
-<span id="id6"></span><h2>Secondary instance<a class="headerlink" href="#secondary-instance" title="Permalink to this heading">¶</a></h2>
+<h2>Secondary instance<a class="headerlink" href="#secondary-instance" title="Permalink to this heading">¶</a></h2>
 <p>A secondary instance will run with RFC 2307 schema. This instance will
 store on disk DB entries (conforming RFC 2307 schema). These entries are
 duplicate/transformed from entries that are in the primary instance
@@ -176,7 +176,7 @@ computers) from the primary instance are stored in the secondary
 instance.</p>
 </section>
 <section id="rfc2307-map-plugin">
-<span id="id7"></span><h2>RFC2307 map plugin<a class="headerlink" href="#rfc2307-map-plugin" title="Permalink to this heading">¶</a></h2>
+<h2>RFC2307 map plugin<a class="headerlink" href="#rfc2307-map-plugin" title="Permalink to this heading">¶</a></h2>
 <p>The original entries, that are updated on the primary instance, are
 retrieved with a sync-repl lookup. There is <strong>one sync-repl</strong> instance
 <strong>per</strong> container (in the figure above only <em>users</em> container is
@@ -242,13 +242,13 @@ kind of RUV</p></li>
 </ul>
 </section>
 <section id="compat-backend">
-<span id="id8"></span><h2>compat backend<a class="headerlink" href="#compat-backend" title="Permalink to this heading">¶</a></h2>
+<h2>compat backend<a class="headerlink" href="#compat-backend" title="Permalink to this heading">¶</a></h2>
 <p>The compat backend on the secondary instance is read-only. Internal
 updates to that backend will need the flag
 <em>SLAPI_OP_FLAG_BYPASS_REFERRALS</em>.</p>
 </section>
-<section id="formating-keyword-deref-1">
-<span id="id9"></span><h2>Formating keyword deref<a class="headerlink" href="#formating-keyword-deref-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h2>Formating keyword deref<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>The formating <strong>deref</strong> keyword is an expensive keyword. It was already
 an expensive keyword when Schema compat plugin was running on primary
 instance. It will also be expensive with the proposed design.</p>
@@ -264,10 +264,10 @@ local backend.</p>
 <p>With the new implementation, the secondary instance (AD instance) does
 not contain locally the posix entries. So the internal search will
 retrieve them with a chained suffix to the primary (posix) instance.</p>
-<figure class="align-default" id="id14">
+<figure class="align-default" id="id6">
 <img alt="GC_slapi_nis_img_sec_inst_deref.png" src="../../../_images/GC_slapi_nis_img_sec_inst_deref.png" />
 <figcaption>
-<p><span class="caption-text">GC_slapi_nis_img_sec_inst_deref.png</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">GC_slapi_nis_img_sec_inst_deref.png</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Improving deref keyword (for example <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1364144">adding member to a large static

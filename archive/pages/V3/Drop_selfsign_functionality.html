@@ -51,7 +51,7 @@ was done without pki-ca. This mode will be replaced by CA-less mode on
 upgrade.</p>
 </section>
 <section id="use-cases">
-<span id="use-cases115"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic simple">
 <li><p>User upgrades a server that uses the self-signed CA</p></li>
 <li><p>The CA functionality is removed.</p></li>
@@ -82,32 +82,32 @@ replicas can be created given appropriate (possibly wildcard) server
 certificates.</p>
 </section>
 <section id="manual-certificate-management">
-<span id="id1"></span><h1>Manual certificate management<a class="headerlink" href="#manual-certificate-management" title="Permalink to this heading">¶</a></h1>
+<h1>Manual certificate management<a class="headerlink" href="#manual-certificate-management" title="Permalink to this heading">¶</a></h1>
 <p>This section shows commands that the removed selfsign backend ran behind
 the scenes. This serves as a baseline or tutorial – the reason why IPA
 no longer runs the commands manually is to provide flexibility for users
 that need it. If you want a simple solution, please use IPA’s default
 Dogtag backend.</p>
 <section id="selfsign-ca-files">
-<span id="id2"></span><h2>Selfsign CA files<a class="headerlink" href="#selfsign-ca-files" title="Permalink to this heading">¶</a></h2>
+<h2>Selfsign CA files<a class="headerlink" href="#selfsign-ca-files" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="nss-database">
-<span id="id3"></span><h2>NSS database<a class="headerlink" href="#nss-database" title="Permalink to this heading">¶</a></h2>
+<h2>NSS database<a class="headerlink" href="#nss-database" title="Permalink to this heading">¶</a></h2>
 <p>The NSS database containing certs and keys is in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias</span></code>.</p>
 </section>
 <section id="noise-file">
-<span id="id4"></span><h2>Noise file<a class="headerlink" href="#noise-file" title="Permalink to this heading">¶</a></h2>
+<h2>Noise file<a class="headerlink" href="#noise-file" title="Permalink to this heading">¶</a></h2>
 <p>A noise file is generally put at <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/noise.txt</span></code>. Fill it
 with random data whenever you need it:</p>
 <p>``   head -c12 /dev/random | sha1sum | cut -d’ ‘ -f1 &gt; /etc/httpd/alias/noise.txt``</p>
 <p>Be sure to remove the file after it’s used.</p>
 </section>
 <section id="nss-database-password">
-<span id="id5"></span><h2>NSS database password<a class="headerlink" href="#nss-database-password" title="Permalink to this heading">¶</a></h2>
+<h2>NSS database password<a class="headerlink" href="#nss-database-password" title="Permalink to this heading">¶</a></h2>
 <p>The NSS database password is stored in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/pwdfile.txt</span></code>.</p>
 </section>
 <section id="serial-number">
-<span id="id6"></span><h2>Serial number<a class="headerlink" href="#serial-number" title="Permalink to this heading">¶</a></h2>
+<h2>Serial number<a class="headerlink" href="#serial-number" title="Permalink to this heading">¶</a></h2>
 <p>The file <code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/ca_serialno</span></code> contains the CA’s serial numbers
 in INI format:</p>
 <div class="line-block">
@@ -150,7 +150,7 @@ these files are not removed by the upgrade.</p>
 <p>``   /usr/bin/pk12util -d /etc/httpd/alias -o /etc/httpd/alias/cacert.p12 -n “$REALM IPA CA” -w /etc/httpd/alias/pwdfile.txt -k /etc/httpd/alias/pwdfile.txt``</p>
 </section>
 <section id="generating-a-certificate-request">
-<span id="id7"></span><h2>Generating a certificate request<a class="headerlink" href="#generating-a-certificate-request" title="Permalink to this heading">¶</a></h2>
+<h2>Generating a certificate request<a class="headerlink" href="#generating-a-certificate-request" title="Permalink to this heading">¶</a></h2>
 <p>Create a noise file (see above).</p>
 <p>``   /usr/bin/certutil -d /etc/httpd/alias -R -s CN=$HOSTNAME,O=IPA -o $CERTREQ_FILENAME -k rsa -g 2048 -z /etc/httpd/alias/noise.txt -f /etc/httpd/alias/pwdfile.txt -a``</p>
 <p>Example values:</p>
@@ -160,7 +160,7 @@ these files are not removed by the upgrade.</p>
 </ul>
 </section>
 <section id="issuing-a-certificate">
-<span id="id8"></span><h2>Issuing a certificate<a class="headerlink" href="#issuing-a-certificate" title="Permalink to this heading">¶</a></h2>
+<h2>Issuing a certificate<a class="headerlink" href="#issuing-a-certificate" title="Permalink to this heading">¶</a></h2>
 <p>First generate a certificate request (see above). Then run:</p>
 <div class="line-block">
 <div class="line">``   NEXT_SERIAL=$(($NEXT_SERIAL + 1))  # (be sure to also store the number on disk!)``</div>
@@ -223,7 +223,7 @@ steps are left entirely to the user. Answer:</p>
 below.</p>
 </section>
 <section id="importing-issued-certificate-into-the-database">
-<span id="id9"></span><h2>Importing issued certificate into the database<a class="headerlink" href="#importing-issued-certificate-into-the-database" title="Permalink to this heading">¶</a></h2>
+<h2>Importing issued certificate into the database<a class="headerlink" href="#importing-issued-certificate-into-the-database" title="Permalink to this heading">¶</a></h2>
 <p>If you have a PEM certificate, open it in an editor, remove the start
 and end markers, and save it in a new file. This will be a</p>
 <p>``   /usr/bin/certutil -d /etc/httpd/alias -A -i $CERT_DER_FILENAME -n $CERT_NICKNAME -a -t ,,``</p>
@@ -234,7 +234,7 @@ and end markers, and save it in a new file. This will be a</p>
 </ul>
 </section>
 <section id="exporting-server-cert-into-pkcs-12">
-<span id="exporting-server-cert-into-pkcs12"></span><h2>Exporting server cert into PKCS#12<a class="headerlink" href="#exporting-server-cert-into-pkcs-12" title="Permalink to this heading">¶</a></h2>
+<h2>Exporting server cert into PKCS#12<a class="headerlink" href="#exporting-server-cert-into-pkcs-12" title="Permalink to this heading">¶</a></h2>
 <p>Run:</p>
 <p>``   /usr/bin/pk12util -o $CERT_PKCS_FILENAME -n $CERT_NICKNAME -d /etc/httpd/alias -k /etc/httpd/alias/pwdfile.txt -w /etc/httpd/alias/pwdfile.txt``</p>
 <p>Example values:</p>
@@ -246,7 +246,7 @@ and end markers, and save it in a new file. This will be a</p>
 contents of /etc/httpd/alias/pwdfile.txt as the password.</p>
 </section>
 <section id="tracking-a-certificate-with-certmonger">
-<span id="id10"></span><h2>Tracking a certificate with certmonger<a class="headerlink" href="#tracking-a-certificate-with-certmonger" title="Permalink to this heading">¶</a></h2>
+<h2>Tracking a certificate with certmonger<a class="headerlink" href="#tracking-a-certificate-with-certmonger" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line">``   systemctl enable certmonger.service``</div>
 <div class="line">``   systemctl start certmonger.service``</div>
@@ -260,7 +260,7 @@ contents of /etc/httpd/alias/pwdfile.txt as the password.</p>
 implementation phase.</p>
 </section>
 <section id="feature-managment">
-<span id="id11"></span><h1>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h1>
+<h1>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h1>
 <p>N/A</p>
 </section>
 <section id="major-configuration-options-and-enablement">

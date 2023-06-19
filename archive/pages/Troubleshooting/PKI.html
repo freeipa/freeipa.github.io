@@ -35,7 +35,7 @@
   <p>This page contains <strong>PKI</strong> troubleshooting advice. For other issues,
 refer to the index at <a class="reference external" href="Troubleshooting">Troubleshooting</a>.</p>
 <section id="ipa-won-t-start-expired-certificates">
-<span id="ipa-wont-start-expired-certificates"></span><h1>IPA won’t start, expired certificates<a class="headerlink" href="#ipa-won-t-start-expired-certificates" title="Permalink to this heading">¶</a></h1>
+<h1>IPA won’t start, expired certificates<a class="headerlink" href="#ipa-won-t-start-expired-certificates" title="Permalink to this heading">¶</a></h1>
 <p>Where available (&gt;= v4.8.0?), the <code class="docutils literal notranslate"><span class="pre">ipa-cert-fix</span></code> command can be used
 to recover from expired system certificate scenarios. See <a class="reference external" href="https://frasertweedale.github.io/blog-redhat/posts/2019-05-24-ipa-cert-fix.html">blog
 post</a>.</p>
@@ -53,13 +53,13 @@ which by default is good for 20 years. It is very unlikely you need to
 do this.</p>
 </section>
 <section id="pki-tomcatd-fails-to-start">
-<span id="id1"></span><h1>PKI-tomcatd fails to start<a class="headerlink" href="#pki-tomcatd-fails-to-start" title="Permalink to this heading">¶</a></h1>
+<h1>PKI-tomcatd fails to start<a class="headerlink" href="#pki-tomcatd-fails-to-start" title="Permalink to this heading">¶</a></h1>
 <p>After an upgrade of IPA packages, pki-tomcatd fails to start. See
 <a class="reference external" href="https://floblanc.wordpress.com/2017/09/11/troubleshooting-freeipa-pki-tomcatd-fails-to-start/">Troubleshooting pki-tomcatd fails to
 start</a>.</p>
 </section>
 <section id="authentication-errors">
-<span id="id2"></span><h1>Authentication Errors<a class="headerlink" href="#authentication-errors" title="Permalink to this heading">¶</a></h1>
+<h1>Authentication Errors<a class="headerlink" href="#authentication-errors" title="Permalink to this heading">¶</a></h1>
 <p>If you see something like
 <code class="docutils literal notranslate"><span class="pre">4301</span> <span class="pre">(RPC</span> <span class="pre">failed</span> <span class="pre">at</span> <span class="pre">server.</span> <span class="pre">Certificate</span> <span class="pre">operation</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">completed:</span> <span class="pre">FAILURE</span></code>
 <code class="docutils literal notranslate"><span class="pre">(Authentication</span> <span class="pre">Error))</span></code> or <code class="docutils literal notranslate"><span class="pre">Invalid</span> <span class="pre">Credential</span></code> the likely culprit
@@ -78,13 +78,17 @@ distribution run that as it will check for this condition.</p>
 <p>For IPA &gt;= 4.7.0:</p>
 <p><code class="docutils literal notranslate"><span class="pre"># openssl x509 -noout -serial -in /var/lib/ipa/ra-agent.pem</span></code></p>
 <p>The serial number should match the value of the 2nd integer at:</p>
-<p><a href="#id3"><span class="problematic" id="id4">``</span></a># ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``
+</pre></div>
+</div>
 <p>(use port 7389 for 2.x servers)</p>
 <p>If they are different this suggests that one has been renewed. Only the
 most recent is allowed by dogtag. To repair this, go to the master with
 the most recent certificate:</p>
 <p>For IPA &lt; 4.7.0:</p>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a># certutil -L -d /etc/httpd/alias -n ipaCert -a &gt; /tmp/ra.crt ``</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# certutil -L -d /etc/httpd/alias -n ipaCert -a &gt; /tmp/ra.crt ``
+</pre></div>
+</div>
 <p>This will export all the certificates. Edit this file and remove all but
 the first certificate, You can double-check the result with:</p>
 <p><code class="docutils literal notranslate"><span class="pre"># openssl x509 -text -in /tmp/ra.crt</span></code></p>
@@ -104,7 +108,7 @@ restarting the tomcat process, either pki-cad (for IPA 3.0) or
 <a class="reference external" href="mailto:pki-tomcatd&#37;&#52;&#48;pki-tomcat&#46;service">pki-tomcatd<span>&#64;</span>pki-tomcat<span>&#46;</span>service</a>.</p>
 </section>
 <section id="crl-gets-very-old">
-<span id="id7"></span><h1>CRL gets very old<a class="headerlink" href="#crl-gets-very-old" title="Permalink to this heading">¶</a></h1>
+<h1>CRL gets very old<a class="headerlink" href="#crl-gets-very-old" title="Permalink to this heading">¶</a></h1>
 <p>If the main CRL file containing the list of invalidated certificates is
 old and not updated, make sure you check that:</p>
 <ul class="simple">
@@ -117,7 +121,7 @@ case</a>)</p></li>
 </ul>
 </section>
 <section id="external-ca-renewal-with-ipa-cacert-manage-fails">
-<span id="id8"></span><h1>External CA renewal with ipa-cacert-manage fails<a class="headerlink" href="#external-ca-renewal-with-ipa-cacert-manage-fails" title="Permalink to this heading">¶</a></h1>
+<h1>External CA renewal with ipa-cacert-manage fails<a class="headerlink" href="#external-ca-renewal-with-ipa-cacert-manage-fails" title="Permalink to this heading">¶</a></h1>
 <p>The second step of external CA renewal may fail for a number of reasons:</p>
 <ul>
 <li><p>Subject name mismatch</p>

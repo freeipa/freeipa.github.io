@@ -15,7 +15,7 @@ FreeIPA project has 1 active repository:
    -  `Code browser <https://pagure.io/freeipa/commits/master>`__
    -  `Contribution howto <Contribute/Code>`__
 
-.. _read_access:
+
 
 Read access
 ===========
@@ -24,7 +24,7 @@ As said in the beginning, the code can be freely retrieved, feel free to
 `build <build>`__ and `test <Testing>`__ and
 `contribute <contribute>`__!
 
-.. _write_access:
+
 
 Write access
 ============
@@ -36,7 +36,7 @@ functional. The list is kept short to make sure that all committers know
 what should be pushed, when, to which branch(es) and with appropriate
 bookkeeping in bug trackers.
 
-.. _push_policy:
+
 
 Push policy
 -----------
@@ -59,7 +59,7 @@ After a patch is pushed, committer needs to do the following:
    Bugzilla into POST state so that downstream is notified about the
    finished work.
 
-.. _process_tools:
+
 
 Process tools
 -------------

@@ -6,7 +6,7 @@ Directory <http://en.wikipedia.org/wiki/Active_Directory>`__ servers are
 provided through integration with `Samba <http://samba.org>`__
 components.
 
-.. _integrating_linux_systems_into_active_directory:
+
 
 Integrating Linux systems into Active Directory
 ----------------------------------------------------------------------------------------------

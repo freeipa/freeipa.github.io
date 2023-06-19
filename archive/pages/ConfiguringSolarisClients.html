@@ -55,119 +55,105 @@ Solaris operating systems as an IPA client.</p>
 <section id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
 <section id="configuring-solaris-10-as-an-ipa-client">
-<span id="id1"></span><h2>Configuring Solaris 10 as an IPA Client<a class="headerlink" href="#configuring-solaris-10-as-an-ipa-client" title="Permalink to this heading">¶</a></h2>
+<h2>Configuring Solaris 10 as an IPA Client<a class="headerlink" href="#configuring-solaris-10-as-an-ipa-client" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="pam-ldap-krb5-configuration">
-<span id="pamldapkrb5-configuration"></span><h2>PAM/LDAP/KRB5 configuration<a class="headerlink" href="#pam-ldap-krb5-configuration" title="Permalink to this heading">¶</a></h2>
+<h2>PAM/LDAP/KRB5 configuration<a class="headerlink" href="#pam-ldap-krb5-configuration" title="Permalink to this heading">¶</a></h2>
 <p>/etc/hosts should contain the fully-qualified name of the IPA Solaris
 client</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id2"><span class="problematic" id="id3">``</span></a>10.14.1.48      ipasolaris.example.com       ipasolaris loghost ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``10.14.1.48      ipasolaris.example.com       ipasolaris loghost ``
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <p>/etc/resolv.conf should be configured to point to the correct DNS server
 that can resolve at least the IPA Solaris client and the ipa server
 names.</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id4"><span class="problematic" id="id5">``</span></a>search example.com ``</div>
-<div class="line">`` nameserver bindserver.example.com ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``search example.com ``
+| `` nameserver bindserver.example.com ``
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <p>/etc/nsswitch.conf should be configured to do password and group look up
 via LDAP</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id6"><span class="problematic" id="id7">``</span></a>passwd:     files ldap[NOTFOUND=return] ``</div>
-<div class="line">`` group:      files ldap[NOTFOUND=return] ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``passwd:     files ldap[NOTFOUND=return] ``
+| `` group:      files ldap[NOTFOUND=return] ``
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <p>/etc/pam.conf should be configured appropriately to use pam kerberos
 first.</p>
 <p>These lines show how to do pam kerberos authentication for console
 login.</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id8"><span class="problematic" id="id9">``</span></a>login   auth requisite          pam_authtok_get.so.1 ``</div>
-<div class="line">`` login   auth sufficient         pam_krb5.so.1 ``</div>
-<div class="line">`` login   auth required           pam_dhkeys.so.1 ``</div>
-<div class="line">`` login   auth required           pam_unix_cred.so.1 ``</div>
-<div class="line">`` login   auth required           pam_unix_auth.so.1 use_first_pass ``</div>
-<div class="line">`` login   auth required           pam_dial_auth.so.1 ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``login   auth requisite          pam_authtok_get.so.1 ``
+| `` login   auth sufficient         pam_krb5.so.1 ``
+| `` login   auth required           pam_dhkeys.so.1 ``
+| `` login   auth required           pam_unix_cred.so.1 ``
+| `` login   auth required           pam_unix_auth.so.1 use_first_pass ``
+| `` login   auth required           pam_dial_auth.so.1 ``
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <p>/etc/ldap.conf should be configured as shown below</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id10"><span class="problematic" id="id11">``</span></a>ldap_version 3 ``</div>
-<div class="line">`` base dc=example,dc=com ``</div>
-<div class="line">`` nss_base_passwd dc=example,dc=com?sub ``</div>
-<div class="line">`` nss_base_group dc=example,dc=com?sub ``</div>
-<div class="line">`` nss_schema rfc2307bis ``</div>
-<div class="line">`` nss_map_objectclass shadowAccount posixAccount ``</div>
-<div class="line">`` nss_map_attribute uniqueMember member ``</div>
-<div class="line">`` nss_initgroups_ignoreusers root,dirsrv ``</div>
-<div class="line">`` nss_reconnect_maxsleeptime 8 ``</div>
-<div class="line">`` nss_reconnect_sleeptime 1 ``</div>
-<div class="line">`` bind_timelimit 5 ``</div>
-<div class="line">`` timelimit 15 ``</div>
-<div class="line">`` nss_srv_domain example.com ``</div>
-<div class="line">`` uri <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```ldap://ipaserver.example.com</span></code> &lt;<a class="reference external" href="ldap://ipaserver.example.com">ldap://ipaserver.example.com</a>&gt;`__`` ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``ldap_version 3 ``
+| `` base dc=example,dc=com ``
+| `` nss_base_passwd dc=example,dc=com?sub ``
+| `` nss_base_group dc=example,dc=com?sub ``
+| `` nss_schema rfc2307bis ``
+| `` nss_map_objectclass shadowAccount posixAccount ``
+| `` nss_map_attribute uniqueMember member ``
+| `` nss_initgroups_ignoreusers root,dirsrv ``
+| `` nss_reconnect_maxsleeptime 8 ``
+| `` nss_reconnect_sleeptime 1 ``
+| `` bind_timelimit 5 ``
+| `` timelimit 15 ``
+| `` nss_srv_domain example.com ``
+| `` uri ``\ ```ldap://ipaserver.example.com`` &lt;ldap://ipaserver.example.com&gt;`__\ `` ``
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <p>/etc/krb5/krb5.conf should be configured as follows for kerberos clients
 to get kerberos tickets..</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">[libdefaults]</div>
-<div class="line">default_realm = EXAMPLE.COM</div>
-<div class="line">[realms]</div>
-<div class="line">EXAMPLE.COM = {</div>
-<div class="line">kdc = ipaserver.example.com:88</div>
-<div class="line">admin_server = ipaserver.example.com:749</div>
-<div class="line">}</div>
-<div class="line">[domain_realm]</div>
-<div class="line">.example.com = EXAMPLE.COM</div>
-<div class="line">example.com = EXAMPLE.COM</div>
-<div class="line">[logging]</div>
-<div class="line">default = <a class="reference external" href="FILE:/var/krb5/kdc.log">FILE:/var/krb5/kdc.log</a></div>
-<div class="line">kdc = <a class="reference external" href="FILE:/var/krb5/kdc.log">FILE:/var/krb5/kdc.log</a></div>
-<div class="line">kdc_rotate = {</div>
-<div class="line">period = 1d</div>
-<div class="line">versions = 10</div>
-<div class="line">}</div>
-<div class="line">[appdefaults]</div>
-<div class="line">kinit = {</div>
-<div class="line">renewable = true</div>
-<div class="line">forwardable= true</div>
-<div class="line">}</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="p">[</span><span class="n">libdefaults</span><span class="p">]</span>
+<span class="o">|</span> <span class="n">default_realm</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="o">|</span> <span class="p">[</span><span class="n">realms</span><span class="p">]</span>
+<span class="o">|</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">=</span> <span class="p">{</span>
+<span class="o">|</span> <span class="n">kdc</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">88</span>
+<span class="o">|</span> <span class="n">admin_server</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">749</span>
+<span class="o">|</span> <span class="p">}</span>
+<span class="o">|</span> <span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
+<span class="o">|</span> <span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="o">|</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="o">|</span> <span class="p">[</span><span class="n">logging</span><span class="p">]</span>
+<span class="o">|</span> <span class="n">default</span> <span class="o">=</span> <span class="n">FILE</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">krb5</span><span class="o">/</span><span class="n">kdc</span><span class="o">.</span><span class="n">log</span>
+<span class="o">|</span> <span class="n">kdc</span> <span class="o">=</span> <span class="n">FILE</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">krb5</span><span class="o">/</span><span class="n">kdc</span><span class="o">.</span><span class="n">log</span>
+<span class="o">|</span> <span class="n">kdc_rotate</span> <span class="o">=</span> <span class="p">{</span>
+<span class="o">|</span> <span class="n">period</span> <span class="o">=</span> <span class="mi">1</span><span class="n">d</span>
+<span class="o">|</span> <span class="n">versions</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="o">|</span> <span class="p">}</span>
+<span class="o">|</span> <span class="p">[</span><span class="n">appdefaults</span><span class="p">]</span>
+<span class="o">|</span> <span class="n">kinit</span> <span class="o">=</span> <span class="p">{</span>
+<span class="o">|</span> <span class="n">renewable</span> <span class="o">=</span> <span class="n">true</span>
+<span class="o">|</span> <span class="n">forwardable</span><span class="o">=</span> <span class="n">true</span>
+<span class="o">|</span> <span class="p">}</span>
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <p>/etc/krb5/krb5.keytab - On the IPA server, add a service principal for
 the Solaris client machine and generate a keytab file. Place this keytab
 on the Solaris machine as /etc/krb5/krb5.keytab</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">`` # ipa-addservice host/solarisipaclient.example.com ``</div>
-<div class="line">``  # ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| `` # ipa-addservice host/solarisipaclient.example.com ``
+| ``  # ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc ``
+</pre></div>
 </div>
-</div></blockquote>
 <hr class="docutils" />
 <blockquote>
 <div><p>NOTE: Perform the above mentioned configuration and then reboot the
 Solaris machine so that all the configuration changes are picked up.</p>
 </div></blockquote>
-<hr class="docutils" />
 </section>
+<hr class="docutils" />
 <section id="nfs-v4-configuration-only-solaris-10">
-<span id="id12"></span><h2>NFS v4 Configuration (only Solaris 10)<a class="headerlink" href="#nfs-v4-configuration-only-solaris-10" title="Permalink to this heading">¶</a></h2>
+<h2>NFS v4 Configuration (only Solaris 10)<a class="headerlink" href="#nfs-v4-configuration-only-solaris-10" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>On the IPA server, Obtain a Kerberos ticket for the <strong>admin</strong> user.</p></li>
 </ol>
@@ -205,35 +191,31 @@ utility.</p>
 shares using your Kerberos credentials.</p>
 </section>
 <section id="configuring-solaris-9-as-an-ipa-client">
-<span id="id13"></span><h2>Configuring Solaris 9 as an IPA Client<a class="headerlink" href="#configuring-solaris-9-as-an-ipa-client" title="Permalink to this heading">¶</a></h2>
+<h2>Configuring Solaris 9 as an IPA Client<a class="headerlink" href="#configuring-solaris-9-as-an-ipa-client" title="Permalink to this heading">¶</a></h2>
 <p>Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id14"><span class="problematic" id="id15">``</span></a>login   auth requisite          pam_authtok_get.so.1 ``</div>
-<div class="line">`` login   auth  sufficient        pam_krb5.so.1 use_first_pass ``</div>
-<div class="line">`` login   auth  sufficient        pam_unix.so.1 use_first_pass ``</div>
-<div class="line">`` login   auth required           pam_dhkeys.so.1 ``</div>
-<div class="line">`` login   auth required           pam_unix_auth.so.1 ``</div>
-<div class="line">`` login   auth required           pam_dial_auth.so.1 ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``login   auth requisite          pam_authtok_get.so.1 ``
+| `` login   auth  sufficient        pam_krb5.so.1 use_first_pass ``
+| `` login   auth  sufficient        pam_unix.so.1 use_first_pass ``
+| `` login   auth required           pam_dhkeys.so.1 ``
+| `` login   auth required           pam_unix_auth.so.1 ``
+| `` login   auth required           pam_dial_auth.so.1 ``
+</pre></div>
 </div>
-</div></blockquote>
 </section>
 <section id="configuring-solaris-8-as-an-ipa-client">
-<span id="id16"></span><h2>Configuring Solaris 8 as an IPA Client<a class="headerlink" href="#configuring-solaris-8-as-an-ipa-client" title="Permalink to this heading">¶</a></h2>
+<h2>Configuring Solaris 8 as an IPA Client<a class="headerlink" href="#configuring-solaris-8-as-an-ipa-client" title="Permalink to this heading">¶</a></h2>
 <p>Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><a href="#id17"><span class="problematic" id="id18">``</span></a>login   auth  sufficient        /usr/lib/security/pam_krb5.so ``</div>
-<div class="line">`` login   auth required   /usr/lib/security/pam_unix.so use_first_pass ``</div>
-<div class="line">`` login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1 ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``login   auth  sufficient        /usr/lib/security/pam_krb5.so ``
+| `` login   auth required   /usr/lib/security/pam_unix.so use_first_pass ``
+| `` login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1 ``
+</pre></div>
 </div>
-</div></blockquote>
 </section>
 </section>
 <section id="testing-the-configuration">
-<span id="id19"></span><h1>Testing the configuration<a class="headerlink" href="#testing-the-configuration" title="Permalink to this heading">¶</a></h1>
+<h1>Testing the configuration<a class="headerlink" href="#testing-the-configuration" title="Permalink to this heading">¶</a></h1>
 <p>When the Solaris machine is configured per the above instructions, the
 following tests should work.</p>
 <section id="kinit">
@@ -246,18 +228,18 @@ following tests should work.</p>
 </section>
 <section id="getent">
 <h2>getent<a class="headerlink" href="#getent" title="Permalink to this heading">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Perform the following commands to make sure that getent in Solaris</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">works with IPA.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">getent passwd admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">getent group ipausers</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``Perform the following commands to make sure that getent in Solaris``
+| ``works with IPA.``
+| ``getent passwd admin``
+| ``getent group ipausers``
+</pre></div>
 </div>
 </section>
 <section id="console-login">
-<span id="id20"></span><h2>console login<a class="headerlink" href="#console-login" title="Permalink to this heading">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">At the console of the solaris machine, provide an IPA user name</span></code></div>
-<div class="line"><a href="#id21"><span class="problematic" id="id22">``</span></a>and their Kerberos password to login. ``</div>
+<h2>console login<a class="headerlink" href="#console-login" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``At the console of the solaris machine, provide an IPA user name``
+| ``and their Kerberos password to login. ``
+</pre></div>
 </div>
 </section>
 <section id="ssh">
@@ -269,7 +251,7 @@ following tests should work.</p>
 </div>
 </section>
 <section id="nfs-v4">
-<span id="id23"></span><h2>NFS v4<a class="headerlink" href="#nfs-v4" title="Permalink to this heading">¶</a></h2>
+<h2>NFS v4<a class="headerlink" href="#nfs-v4" title="Permalink to this heading">¶</a></h2>
 <p>You can use the following command to test the configuration:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mount -F nfs -o vers=4 -o sec=krb5 ipaserver.example.com:/ /data</span>
 </pre></div>

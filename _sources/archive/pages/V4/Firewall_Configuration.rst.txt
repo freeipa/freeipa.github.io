@@ -116,7 +116,7 @@ Implementation
 
 -  Documentation: manpages, user guide.
 
-.. _dbus_method_overview:
+
 
 DBus Method Overview
 ----------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ Replication
 
 No impact.
 
-.. _restore_and_uninstall:
+
 
 Restore and Uninstall
 ---------------------
@@ -267,7 +267,7 @@ tests that I'm considering at this point.
 -  lxml, dbus, or both Python modules missing.
 -  Authorization denials to DBus system bus.
 -  Missing NetworkManager, FirewallD, or both services.
--  Invalid, missing, or inaccessible /etc/firewalld/zones/*.
+-  Invalid, missing, or inaccessible /etc/firewalld/zones/\*.
 
 -  Fedora 19+ and RHEL 7+ platforms.
 -  Python 2.7.

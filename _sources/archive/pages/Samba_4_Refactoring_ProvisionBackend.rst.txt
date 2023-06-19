@@ -7,7 +7,7 @@ statements to control the path of the code. To improve manageability the
 code should be refactored into several classes utilizing more
 object-oriented techniques.
 
-.. _class_hierarchy:
+
 
 Class Hierarchy
 ===============

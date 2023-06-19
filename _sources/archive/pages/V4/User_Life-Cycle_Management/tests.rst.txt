@@ -8,7 +8,7 @@ Implemented in
 Like other tests in the test_xmlrpc suite, these tests should run on a
 clean IPA installation, or possibly after other similar tests.
 
-.. _section-1:
+
 
 Cleanup
 

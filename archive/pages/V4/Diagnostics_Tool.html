@@ -61,7 +61,7 @@ anonymyzed information bundle of the FreeIPA deployment.</p>
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="design-goals">
-<span id="id1"></span><h1>Design goals<a class="headerlink" href="#design-goals" title="Permalink to this heading">¶</a></h1>
+<h1>Design goals<a class="headerlink" href="#design-goals" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>Ability to gather information and problems from the current instance.</p></li>
 <li><p>Ability to gather information from the remote instances (replicas and
@@ -74,7 +74,7 @@ current privileges.</p></li>
 </ul>
 </section>
 <section id="tool-high-level-overview">
-<span id="id2"></span><h1>Tool high-level overview<a class="headerlink" href="#tool-high-level-overview" title="Permalink to this heading">¶</a></h1>
+<h1>Tool high-level overview<a class="headerlink" href="#tool-high-level-overview" title="Permalink to this heading">¶</a></h1>
 <p>To meet the high level goals defined above, the tool needs to be able to
 <strong>gather information</strong> from the IPA master, <strong>analyze</strong> it and <strong>preform
 additional checks</strong> and <strong>produce the results</strong> both in human-friendly
@@ -91,15 +91,15 @@ replica)</p></li>
 </ul>
 <p>The simplified overall structure of the diagnosis tool itself is best
 described with the following diagram:</p>
-<figure class="align-default" id="id9">
+<figure class="align-default" id="id1">
 <img alt="ipa-diagnose-high-level.png" src="../../../_images/Ipa-diagnose-high-level.png" />
 <figcaption>
-<p><span class="caption-text">ipa-diagnose-high-level.png</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">ipa-diagnose-high-level.png</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="fetching-reports-from-other-replicas">
-<span id="id3"></span><h1>Fetching reports from other replicas<a class="headerlink" href="#fetching-reports-from-other-replicas" title="Permalink to this heading">¶</a></h1>
+<h1>Fetching reports from other replicas<a class="headerlink" href="#fetching-reports-from-other-replicas" title="Permalink to this heading">¶</a></h1>
 <p>However, in the scenario above, any Doctors that want to check not only
 health of one replica, but health of the whole deployment will not have
 necessary information. Consider a Doctor plugin which will try to detect
@@ -109,10 +109,10 @@ from both the replicas.</p>
 <p>Therefore, a mechanism to fetch the reports from replicas needs to be
 introduced. Following diagram describes the simplest case with one
 master and one replica:</p>
-<figure class="align-default" id="id10">
+<figure class="align-default" id="id2">
 <img alt="ipa-diagnose-simple-fetch.png" src="../../../_images/Ipa-diagnose-simple-fetch.png" />
 <figcaption>
-<p><span class="caption-text">ipa-diagnose-simple-fetch.png</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">ipa-diagnose-simple-fetch.png</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>However, in case of more complicated replication topology, we cannot be
@@ -125,17 +125,17 @@ diagnosis results from other replicas, and convey that information back
 to the original master which initiated the check.</p>
 <p>In the non-ideal case, the health check of the deployment might look as
 in the illustration below:</p>
-<figure class="align-default" id="id11">
+<figure class="align-default" id="id3">
 <img alt="ipa-diagnose-complex-fetch.png" src="../../../_images/Ipa-diagnose-complex-fetch.png" />
 <figcaption>
-<p><span class="caption-text">ipa-diagnose-complex-fetch.png</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">ipa-diagnose-complex-fetch.png</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Please note, as the example above suggest, that ipa-diagnose is not
 limited to IPA replicas, but it can also check health of IPA clients.</p>
 </section>
 <section id="connection-fallbacks">
-<span id="id4"></span><h1>Connection fallbacks<a class="headerlink" href="#connection-fallbacks" title="Permalink to this heading">¶</a></h1>
+<h1>Connection fallbacks<a class="headerlink" href="#connection-fallbacks" title="Permalink to this heading">¶</a></h1>
 <p>In general, ipa-diagnose will use admin’s credentials (kerberos ticket)
 to SSH into other hosts. In case of infrastructure failure (KDC not
 being available), will downgrade through other auth mechanisms down to
@@ -145,25 +145,25 @@ the interactive password authentication.</p>
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="implementation-goals">
-<span id="id5"></span><h1>Implementation goals<a class="headerlink" href="#implementation-goals" title="Permalink to this heading">¶</a></h1>
+<h1>Implementation goals<a class="headerlink" href="#implementation-goals" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>Provide pluggable API for drop-in Doctors and Reporters</p></li>
 <li><p>Tool should be resiliant to plugin failures and missing dependencies</p></li>
 </ul>
 </section>
 <section id="reporter-plugin">
-<span id="id6"></span><h1>Reporter plugin<a class="headerlink" href="#reporter-plugin" title="Permalink to this heading">¶</a></h1>
+<h1>Reporter plugin<a class="headerlink" href="#reporter-plugin" title="Permalink to this heading">¶</a></h1>
 <p>Each reporter is a small modular plugin implementing a simple interface,
 which aims to provide single or multiple pieces of information about the
 system.</p>
 </section>
 <section id="doctor-plugin">
-<span id="id7"></span><h1>Doctor plugin<a class="headerlink" href="#doctor-plugin" title="Permalink to this heading">¶</a></h1>
+<h1>Doctor plugin<a class="headerlink" href="#doctor-plugin" title="Permalink to this heading">¶</a></h1>
 <p>Each doctor is a small modular plugin which consumes information
 produced by the reporters, and performs additional checks on the system.</p>
 </section>
 <section id="report-format">
-<span id="id8"></span><h1>Report format<a class="headerlink" href="#report-format" title="Permalink to this heading">¶</a></h1>
+<h1>Report format<a class="headerlink" href="#report-format" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="feature-management">
 <h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
@@ -202,11 +202,11 @@ the FreIPA WebUI.</p>
 work with multiple versions of underlying FreeIPA packages.</p>
 </section>
 <section id="how-to-test">
-<span id="how-to-test17"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
 <p>N/A</p>
 </section>
 <section id="test-plan">
-<span id="test-plan17"></span><h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
 <p>Given the nature of the tool, it should be covered by integration tests,
 which would break/misconfigure IPA in particular way, and detect,
 whether ipa-diagnose can properly detect / advise / fix the issue.</p>

@@ -9,7 +9,7 @@ based on serial number.
 
 This RFE is being worked as https://fedorahosted.org/freeipa/ticket/2528
 
-.. _use_cases112:
+
 
 Use Cases
 =========
@@ -39,7 +39,7 @@ searching. This is left as an exercise for the user.
 Design
 ======
 
-.. _dogtag_capabilities:
+
 
 Dogtag capabilities
 -------------------
@@ -82,7 +82,7 @@ The interface provides 32 different search options:
 -  validNotBeforeFrom : Valid not before start date
 -  validNotBeforeTo : Valid not before end date
 
-.. _what_ipa_will_provide:
+
 
 What IPA will provide
 ---------------------
@@ -117,7 +117,7 @@ certificates. In this case we have no control over the search limit. We
 may still want to impose a limit on the amount of data returned to the
 client.
 
-.. _access_control:
+
 
 Access Control
 --------------
@@ -129,7 +129,7 @@ be an authenticated IPA user to execute the command.
 The interface is available internally on port 8080 which is not a port
 we advertise as needing to be open generally.
 
-.. _dogtag_details:
+
 
 Dogtag details
 --------------
@@ -156,7 +156,7 @@ There are a series of boolean elements that control how the search is
 done, in addition to optional extra elements depending on what you are
 searching for (subject, revocation reason, etc).
 
-.. _current_bugs:
+
 
 Current bugs
 ------------

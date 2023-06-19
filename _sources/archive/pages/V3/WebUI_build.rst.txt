@@ -1,4 +1,4 @@
-.. _amd_modules_and_web_ui_build:
+
 
 AMD modules and Web UI build
 ============================
@@ -20,7 +20,7 @@ The main idea is transform FreeIPA JavaScript files into AMD modules and
 build them with a builder into single file, then the file will be
 further optimized by JavaScript compiler.
 
-.. _introducing_dojo:
+
 
 Introducing Dojo
 ----------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ platforms. For easier usage a wrapper scripted was developed:
 *util/uglifyjs/uglify SOURCE TARGET*. It will be better to run under
 node.js when all target platforms will support it.
 
-.. _building_freeipa:
+
 
 Building FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ has small size. No bigger optimization techniques are required here.
 Dojo is already prepared for optimization. The focus of optimization is
 therefore on FreeIPA layer.
 
-.. _amd_module_wrapping:
+
 
 AMD module wrapping
 ----------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ against already built library. The layer is built even though there are
 dependency errors, it's not a blocker but it will be nice to fix it in a
 future (in dojo upstream or by custom patch).
 
-.. _new_directory_structure:
+
 
 New directory structure
 ----------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ Following directories in a ui directory were created:
 All FreeIPA layer JS sources were move to src/freeipa folder. Libraries
 (jquery, jquery ui, bbq, json2) were moved to src/libs.
 
-.. _development_profiles:
+
 
 Development profiles
 ----------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ the Web UI uses JSON files stored in test/data directory which simulates
 JSON-RPC communication. Because there is no communication with server,
 we can call this approach an 'offline version'.
 
-.. _offline_version:
+
 
 Offline version
 ^^^^^^^^^^^^^^^
@@ -148,7 +148,7 @@ or source codes of dojo/dojo library by changing of symbolic links in
 script was developed. The script can also set \`git update-index
 --assume-unchanged\` to prevent git from notifying about this change.
 
-.. _test_server:
+
 
 Test server
 ^^^^^^^^^^^
@@ -178,7 +178,7 @@ Developers
 Note: all commands are run from install/ui directory of FreeIPA source
 dir.
 
-.. _make_new_freeipa_layer_build:
+
 
 Make new FreeIPA layer build
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -187,7 +187,7 @@ Make new FreeIPA layer build
    of RPM build.
 -  run $ util/make-ui.sh
 
-.. _set_environment_to_debug_source_codes_of_freeipa_layer_using_offline_version:
+
 
 Set environment to debug source codes of FreeIPA layer using offline version
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -203,7 +203,7 @@ Set environment to debug source codes of FreeIPA layer using offline version
    -  when using Chrome, run it with --disable-web-security option
       otherwise XHR won't work
 
-.. _set_environment_to_debug_built_freeipa_layer_using_offline_version:
+
 
 Set environment to debug built FreeIPA layer using offline version
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -213,7 +213,7 @@ Set environment to debug built FreeIPA layer using offline version
 -  note: this doesn't create the compiled version, you have to run it
    separately
 
-.. _copy_source_codes_of_freeipa_layer_on_test_server:
+
 
 Copy source codes of FreeIPA layer on test server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -224,14 +224,14 @@ Copy source codes of FreeIPA layer on test server
 -  run $ util/sync.sh --help to get more information about others
    folders (images, root dir, libs) and option shortcuts
 
-.. _copy_built_freeipa_layer_on_test_server:
+
 
 Copy built FreeIPA layer on test server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  $ util/sync.sh --host root@test.example.com --freeipa --compiled
 
-.. _update_internal.py_strings_for_web_ui_on_test_server:
+
 
 Update internal.py (strings for Web UI) on test server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -240,7 +240,7 @@ Update internal.py (strings for Web UI) on test server
 -  note: --restart restarts httpd on test server (systemctl restart
    httpd.service). Required for changes to take effect.
 
-.. _clone_dojo_repositories:
+
 
 Clone Dojo repositories
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -260,7 +260,7 @@ Clone Dojo repositories
 
 -  can be fine-tuned by running with different options, check --help
 
-.. _make_new_dojo_lib_build:
+
 
 Make new Dojo lib build
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -271,7 +271,7 @@ Make new Dojo lib build
    layer.include list
 -  run $ util/make-dojo.sh
 
-.. _make_new_builder_build:
+
 
 Make new Builder build
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -326,14 +326,14 @@ Dependencies
 rhino 1.7R3 on build machine (minimum version with common JS modules
 support)
 
-.. _impact_on_other_development_teams:
+
 
 Impact on other development teams
 ---------------------------------
 
 No impact.
 
-.. _impact_to_web_ui_and_other_components:
+
 
 Impact to Web UI and other components
 -------------------------------------

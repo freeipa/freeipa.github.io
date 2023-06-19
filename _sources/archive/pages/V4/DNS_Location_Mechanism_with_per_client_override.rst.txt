@@ -111,7 +111,7 @@ Assumptions
    -  In principle this might be done using "DNS view per location" but
       then IPA needs integration with DNS views on external servers.
 
-.. _current_use_of_srv_records:
+
 
 Current use of SRV records
 ----------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ typically have the same priority (0) and weight (100):
    ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
    ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
 
-.. _use_cases6:
+
 
 Use Cases
 ---------
@@ -145,12 +145,12 @@ Use Cases
    service which is using ``SRV`` records can be hacked in this way.
    This might require specifying location on per-zone basics.
 
-.. _design_so_called_dname_per_client:
+
 
 Design (so-called DNAME per client)
 -----------------------------------
 
-.. _the_discovery_protocol:
+
 
 The Discovery Protocol
 ----------------------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ Local negative caching may help in avoiding excessive queries if the
 administrator chooses not to configure the servers to support per client
 SRV Records and otherwise adds little overhead.
 
-.. _client_implementation:
+
 
 Client Implementation
 ----------------------------------------------------------------------------------------------
@@ -224,12 +224,12 @@ implications, please read the `#Security
 Considerations <#Security_Considerations>`__ section for more
 information.
 
-.. _server_side_implementation:
+
 
 Server side implementation
 ----------------------------------------------------------------------------------------------
 
-.. _basic_solution:
+
 
 Basic solution
 ^^^^^^^^^^^^^^
@@ -239,7 +239,7 @@ create a set of records for each client. However this is a very
 heavyweight and error prone process as it requires the creation of many
 records for each client.
 
-.. _a_more_rational_solution:
+
 
 A more rational solution
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -263,7 +263,7 @@ LDAP service over the TCP protocol by using the name
 ``_ldap._tcp._location.X.example.com`` it would be automatically
 redirected to the record ``_ldap._tcp.Y._locations.example.com``
 
-.. _advanced_freeipa_solution:
+
 
 Advanced FreeIPA solution
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -285,7 +285,7 @@ be synthesized by the driver if not present using a default
 configuration. However to make this more useful the plugin shouldn't
 just use one single default, but should have a default 'per server'.
 
-.. _related_tickets_incomplete_list:
+
 
 Related tickets (incomplete list)
 '''''''''''''''''''''''''''''''''
@@ -296,7 +296,7 @@ Related tickets (incomplete list)
    [RFE <https://fedorahosted.org/freeipa/ticket/2008>`__ IPA should
    support and manage DNS sites]
 
-.. _roamingremote_clients:
+
 
 Roaming/Remote clients
 ''''''''''''''''''''''
@@ -314,7 +314,7 @@ address over a VPN tunnel and so on. In general relying on IP address
 information may or may not work. (There is also the minor issue that we
 do not yet support views in the bind-dyndb-ldap plugin.)
 
-.. _addressing_the_multiple_locations_problem:
+
 
 Addressing the multiple locations problem
 '''''''''''''''''''''''''''''''''''''''''
@@ -349,7 +349,7 @@ so the defaults do not kick in. However this is rather final. Maybe the
 clients needs a preference but that preference can be overridden in some
 circumstances.
 
-.. _choosing_the_right_location:
+
 
 Choosing the right location
 '''''''''''''''''''''''''''
@@ -374,7 +374,7 @@ only local servers in their SRV records.
 This is quite powerful and would neatly solve many issues connected with
 roaming clients.
 
-.. _dns_slave_server_problem:
+
 
 DNS Slave server problem
 ''''''''''''''''''''''''
@@ -401,7 +401,7 @@ as response performance and solve the slave server issue and perhaps
 even DNSSEC related issues. It has a major drawback, it would make the
 code a lot more compicated and critical.
 
-.. _overall_implementation_proposal:
+
 
 Overall implementation proposal
 ----------------------------------------------------------------------------------------------
@@ -416,14 +416,14 @@ that full dynamic support can lately be easily added to bind-dyndb-ldap
 support as well as adding the necessary additional schema and UI to the
 freeipa framework to mark and group clients and locations.
 
-.. _security_considerations6:
+
 
 Security Considerations
 ----------------------------------------------------------------------------------------------
 
 TBD
 
-.. _client_implementation_1:
+
 
 Client Implementation
 ^^^^^^^^^^^^^^^^^^^^^
@@ -440,7 +440,7 @@ with mutual authentication, integrity and confidentiality options
 required. Use of DNSSEC and full DNS signature verification may be
 considered an additional requirement in some cases.
 
-.. _server_implementation:
+
 
 Server Implementation
 ^^^^^^^^^^^^^^^^^^^^^
@@ -542,7 +542,7 @@ Following diagram summarizes proposed behavior (version 1):
 -  **[5]** Server returns SRV records configured for this location
    (priority for servers located in CZ (Brno))
 
-.. _comparison_with_microsoft_active_directory_sites:
+
 
 Comparison with Microsoft Active Directory Sites
 ----------------------------------------------------------------------------------------------
@@ -575,7 +575,7 @@ One thing is common to AD Sites and FreeIPA DNS Locations:
    highest priority) are assumed to be *optimal* choice for clients
    assigned to that particular site.
 
-.. _summary_of_meeting_2016_02_04:
+
 
 Summary of meeting 2016-02-04
 -----------------------------
@@ -614,14 +614,14 @@ Upgrade
 
 TBD
 
-.. _how_to_test6:
+
 
 How to Test
 -----------
 
 TBD
 
-.. _test_plan6:
+
 
 Test Plan
 ---------

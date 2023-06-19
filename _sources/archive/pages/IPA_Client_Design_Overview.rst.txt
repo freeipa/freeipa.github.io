@@ -45,7 +45,7 @@ and introduce new entities and terms as we progress.
 Description
 ===========
 
-.. _high_level_diagram:
+
 
 High-Level Diagram
 ------------------
@@ -86,7 +86,7 @@ The following aspects of the system are not discussed here:
    That page (PAGE TBD) shows the integration of the audit client
    components with the components described here.
 
-.. _ipa_enabled_platform_applications:
+
 
 IPA-Enabled Platform Applications
 ----------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ These applications currently either do not exist or are not IPA-enabled.
 So far we have identified two applications: the Policy Kit Back-End
 Daemon (PKBED) and the Info Pipe Daemon (IPD).
 
-.. _policy_kit_back_end_daemon:
+
 
 Policy Kit Back-End Daemon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -120,7 +120,7 @@ Policy Kit Back-End Daemon
 
 The IPA plug-in for the PKBED will be discussed later.
 
-.. _info_pipe_daemon:
+
 
 Info Pipe Daemon
 ^^^^^^^^^^^^^^^^
@@ -141,7 +141,7 @@ information to any application that needs it.
 A more detailed diagram of the Info Pipe Daemon design is available in
 the Design section below.
 
-.. _local_storage_cache:
+
 
 Local Storage (Cache)
 ----------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ Forms of storage:
 -  LDB
 -  File system
 
-.. _details_about_forms_of_storage:
+
 
 Details about Forms of Storage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -249,7 +249,7 @@ LDB
 | Access to LDB is provided via an LDB library that the Info Pipe will
   use to access data.
 
-.. _file_system:
+
 
 File System
 ^^^^^^^^^^^
@@ -265,7 +265,7 @@ cache. An example of such case would be a centrally defined policy that
 would be locally enforced using Policy Kit. See more details in the
 Design section below.
 
-.. _ipa_related_components:
+
 
 IPA-Related Components
 ----------------------------------------------------------------------------------------------
@@ -302,7 +302,7 @@ Among others, the following binaries will be installed:
 All of the executables listed above run in the system context, while PAM
 and NSS libraries can be loaded by any process from user space.
 
-.. _low_level_process_diagram:
+
 
 Low-Level Process Diagram
 -------------------------
@@ -362,7 +362,7 @@ Legend:
    -  The thick, blue line identifies the fact that the downloaded XML
       data will be stored in the file system cache.
 
-.. _detailed_design:
+
 
 Detailed Design
 ===============
@@ -370,7 +370,7 @@ Detailed Design
 This section provides a more detailed description of the components
 depicted on the low-level diagram.
 
-.. _service_controller:
+
 
 Service Controller
 ------------------
@@ -387,7 +387,7 @@ Implementation details related to the Service Controller can be found on
 the following page:
 `FreeIPAv2:SSSD/Service_Controller_Daemon <FreeIPAv2:SSSD/Service_Controller_Daemon>`__.
 
-.. _data_provider:
+
 
 Data Provider
 -------------
@@ -401,7 +401,7 @@ authenticated connection. We will use certificates or machine keytabs
 (TBD) provisioned during the enrolment process to authenticate this
 connection.
 
-.. _alternatives_to_the_ipa_provider:
+
 
 Alternatives to the IPA Provider
 ----------------------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ interface that would allow machines to be a part of a non-IPA domain.
 This is outside the scope of the IPA v2 project, however, and will be
 revisited later.
 
-.. _data_flow_in_the_system:
+
 
 Data Flow in the System
 ----------------------------------------------------------------------------------------------
@@ -421,7 +421,7 @@ The Data Provider is the main source of the remote data that processes
 need. The following section describes how processes interact with the
 Data Provider.
 
-.. _overview_1:
+
 
 Overview
 ^^^^^^^^
@@ -435,7 +435,7 @@ aspects of the interprocess communication pipe.
    Data Provider Digram|Diagram shows the data flow, libraries and
    interfaces
 
-.. _data_management_interface:
+
 
 Data Management Interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -463,7 +463,7 @@ from the application. The interface consists of two parts:
 
 Internally the data abstraction layer will implement the cache logic.
 
-.. _cache_logic:
+
 
 Cache Logic
 ^^^^^^^^^^^
@@ -512,7 +512,7 @@ the data from the LDB.
   error will be propagated to the calling application.
 | Different categories of data will have different life spans.
 
-.. _cache_logic_glossary:
+
 
 Cache Logic Glossary
 ''''''''''''''''''''
@@ -529,7 +529,7 @@ Cache Logic Glossary
    This qualifies as a cache miss (slowest response) and will require a
    real-time cache refresh before replying to the client.
 
-.. _online_cache_logic_by_example:
+
 
 Online Cache Logic By Example
 '''''''''''''''''''''''''''''
@@ -570,7 +570,7 @@ In the worst case, where a user makes requests less often than the cache
 timeout, we still only see one IPA request per user request greater than
 five minutes.
 
-.. _dbus_p2p:
+
 
 DBUS P2P
 ^^^^^^^^
@@ -585,7 +585,7 @@ requests going from client to server (data provider) will be data
 More details about DBUS can be found here:
 `1 <http://dbus.freedesktop.org/doc/api/html/group__DBus.html>`__
 
-.. _asynchronous_processing:
+
 
 Asynchronous Processing
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -603,7 +603,7 @@ the Event library developed in the scope of the Samba project
 documented. The IPA team will add more detail to this aspect of the
 design as the Event library is investigated further.
 
-.. _data_provider_overview:
+
 
 Data Provider Overview
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -628,7 +628,7 @@ Data Provider Overview
   Handler will also trigger a signal to the client that the data is
   ready.
 
-.. _what_data_can_be_requested:
+
 
 What Data can be Requested
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -650,7 +650,7 @@ several special requests that have already been identified:
    Provider and cannot be easily reused as-is on the server side if
    needed.
 
-.. _authoritative_sources_of_data:
+
 
 Authoritative Sources of Data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -771,7 +771,7 @@ will be implemented in much the same way as in the Data Provider:
 -  The results are passed back to the calling application via a standard
    interface.
 
-.. _access_control_decision:
+
 
 Access Control Decision
 ----------------------------------------------------------------------------------------------
@@ -828,7 +828,7 @@ of operations in this scenario will be as follows:
    hashed or encrypted form in the LDB to allow user authentication if
    the machine is offline.
 
-.. _pluggable_architecture:
+
 
 Pluggable Architecture
 ----------------------------------------------------------------------------------------------
@@ -838,7 +838,7 @@ applications to install hooks into its processing loop. This feature
 will not be implemented in the v2 time frame, and consequently its
 detailed design has been deferred.
 
-.. _nss_and_extension_library:
+
 
 NSS and Extension Library
 -------------------------
@@ -886,7 +886,7 @@ It is important to realise that calling the NSS interface from within
 the implementation of any component discussed on this page shall be done
 with extreme caution to avoid endless loops during data lookups.
 
-.. _policy_downloader:
+
 
 Policy Downloader
 -----------------
@@ -914,7 +914,7 @@ handler component is responsible for:
 -  Transforming the policies into configuration files or storing them in
    the LDB.
 
-.. _merging_policies:
+
 
 Merging Policies
 ----------------------------------------------------------------------------------------------
@@ -926,7 +926,7 @@ differently. In these cases, a specific merge plug-in can be installed
 to handle a specific type of policy file. The interface of the plug-in
 modules will be determined later.
 
-.. _transforming_policies:
+
 
 Transforming Policies
 ----------------------------------------------------------------------------------------------
@@ -987,7 +987,7 @@ launched by the policy downloader after rendering is complete for those
 policies that are marked as the “default” ones (i.e. requiring merge
 with the local files).
 
-.. _ipa_plug_in_into_policy_kit_back_end_daemon:
+
 
 IPA Plug-in into Policy Kit Back-End Daemon
 -------------------------------------------
@@ -1034,7 +1034,7 @@ of the role to the set of actions. The resulting answer will then be
 returned to the calling process. This logic is shown on the diagram as
 “Data Lookup Logic”.
 
-.. _info_pipe_daemon_1:
+
 
 Info Pipe Daemon
 ----------------
@@ -1078,7 +1078,7 @@ data. The Response Handler will be responsible for sending retrieved
 data or operation status (in case of create/update/delete) to the
 process that requested the operation.
 
-.. _name_collision_resolution_logic:
+
 
 Name Collision Resolution Logic
 -------------------------------
@@ -1120,7 +1120,7 @@ perform additional checks to ensure that the account being added does
 not create duplicates and warn the caller of the issue, but this is out
 of scope of the current design.
 
-.. _ldb_data_organization:
+
 
 LDB Data Organization
 ---------------------
@@ -1173,7 +1173,7 @@ account that it would have to store information for the multiple,
 trusted IPA (or other domains). How “trust” would affect the DIT is yet
 to be determined.
 
-.. _service_skeleton:
+
 
 Service Skeleton
 ----------------
@@ -1191,7 +1191,7 @@ To address these common tasks a skeleton of the service will be created.
 It will be reused by different daemons as a shared library that would
 provide a common framework for the daemons.
 
-.. _building_blocks:
+
 
 Building Blocks
 ---------------
@@ -1210,7 +1210,7 @@ IPA client:
    (comes from
    `3 <http://dbus.freedesktop.org/doc/dbus/api/html/index.html>`__)
 
-.. _general_implementation_considerations:
+
 
 General Implementation Considerations
 -------------------------------------
@@ -1233,7 +1233,7 @@ and test. If forced to use threads make sure that you:
 -  Use only reentrant functions
 -  Do not use static data
 
-.. _buffer_copying:
+
 
 Buffer copying
 ----------------------------------------------------------------------------------------------
@@ -1242,7 +1242,7 @@ Avoid copying data around if it is not required, but if you reference
 external data make sure it does not get out of scope or deallocated
 while you still hold a pointer to it.
 
-.. _blocking_and_asynchronous_processing:
+
 
 Blocking and Asynchronous Processing
 ----------------------------------------------------------------------------------------------

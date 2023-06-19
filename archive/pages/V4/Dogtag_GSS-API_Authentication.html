@@ -75,13 +75,13 @@ user-visible changes associated with this effort.</p>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 <section id="overview-of-dogtag-external-authentication-support">
-<span id="id1"></span><h2>Overview of Dogtag external authentication support<a class="headerlink" href="#overview-of-dogtag-external-authentication-support" title="Permalink to this heading">¶</a></h2>
+<h2>Overview of Dogtag external authentication support<a class="headerlink" href="#overview-of-dogtag-external-authentication-support" title="Permalink to this heading">¶</a></h2>
 <p>Design page: <a class="reference external" href="http://pki.fedoraproject.org/wiki/GSS-API_authentication">http://pki.fedoraproject.org/wiki/GSS-API_authentication</a></p>
 <p>The most important changes that affect FreeIPA are discussed in the
 following subsections.</p>
 </section>
 <section id="freeipa-must-manage-dogtag-acls-that-refer-to-freeipa-entities">
-<span id="id2"></span><h2>FreeIPA must manage Dogtag ACLs that refer to FreeIPA entities<a class="headerlink" href="#freeipa-must-manage-dogtag-acls-that-refer-to-freeipa-entities" title="Permalink to this heading">¶</a></h2>
+<h2>FreeIPA must manage Dogtag ACLs that refer to FreeIPA entities<a class="headerlink" href="#freeipa-must-manage-dogtag-acls-that-refer-to-freeipa-entities" title="Permalink to this heading">¶</a></h2>
 <p>When authorising operations for externally-authenticated principals,
 Dogtag looks up an <code class="docutils literal notranslate"><span class="pre">IAuthzManager</span></code> plugin instance based on the realm
 of the principal. FreeIPA must configure this plugin instance, and must
@@ -96,7 +96,7 @@ rather than “internal” Dogtag users and groups.</p>
 later in this document.</p>
 </section>
 <section id="freeipa-must-configure-dogtag-to-perform-cert-request-validation-and-authorisation">
-<span id="id3"></span><h2>FreeIPA must configure Dogtag to perform cert request validation and authorisation<a class="headerlink" href="#freeipa-must-configure-dogtag-to-perform-cert-request-validation-and-authorisation" title="Permalink to this heading">¶</a></h2>
+<h2>FreeIPA must configure Dogtag to perform cert request validation and authorisation<a class="headerlink" href="#freeipa-must-configure-dogtag-to-perform-cert-request-validation-and-authorisation" title="Permalink to this heading">¶</a></h2>
 <p>Currently, certificates are requested with the RA Agent credential.
 FreeIPA-defined certificate profiles are configured to use the
 <code class="docutils literal notranslate"><span class="pre">raCertAuth</span></code> plugin which enables immediate issuance of the
@@ -120,7 +120,7 @@ that will check CA ACLs and validate the CSR. FreeIPA must add the
 are provided later.</p>
 </section>
 <section id="migration-considerations">
-<span id="id4"></span><h2>Migration considerations<a class="headerlink" href="#migration-considerations" title="Permalink to this heading">¶</a></h2>
+<h2>Migration considerations<a class="headerlink" href="#migration-considerations" title="Permalink to this heading">¶</a></h2>
 <p>Existing deployments of FreeIPA cannot be updated to a new version that
 supports Dogtag GSS-API authentication all at once. There is inevitably
 a period where interoperation of old and new server versions is
@@ -156,7 +156,7 @@ configurations</strong>. Upgrading the profiles must be deferred until there
 are no old servers in the topology.</p>
 </section>
 <section id="domain-level-2">
-<span id="id5"></span><h2>Domain Level 2<a class="headerlink" href="#domain-level-2" title="Permalink to this heading">¶</a></h2>
+<h2>Domain Level 2<a class="headerlink" href="#domain-level-2" title="Permalink to this heading">¶</a></h2>
 <p>The way to solve this challenge is to introduce a new <em>domain level</em> (at
 time of writing, this will be DL 2). It is not possible to upgrade to a
 particular domain level unless all servers in the topology support that
@@ -198,7 +198,7 @@ Dogtag database. (This is not an essential step; more of a tidy-up).</p></li>
 create the RA Agent account or certificates.</p>
 </section>
 <section id="server-configuration-changes">
-<span id="id6"></span><h2>Server configuration changes<a class="headerlink" href="#server-configuration-changes" title="Permalink to this heading">¶</a></h2>
+<h2>Server configuration changes<a class="headerlink" href="#server-configuration-changes" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="sssd">
 <h2>SSSD<a class="headerlink" href="#sssd" title="Permalink to this heading">¶</a></h2>
@@ -262,7 +262,7 @@ and proceed the old-fashioned way.</p>
 it wishes to use SPNEGO authentication. This is not a problem because
 the only client of significance is the IPA framework, which we control.</p>
 <section id="client-certificate">
-<span id="id7"></span><h3>Client certificate<a class="headerlink" href="#client-certificate" title="Permalink to this heading">¶</a></h3>
+<h3>Client certificate<a class="headerlink" href="#client-certificate" title="Permalink to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">NSSVerifyClient</span> <span class="pre">require</span></code> directive shall be relaxed to
 <code class="docutils literal notranslate"><span class="pre">NSSVerifyClient</span> <span class="pre">optional</span></code>. This is needed so that GSS-API
 authentication can be used for affected resources. Codepaths that are
@@ -270,7 +270,7 @@ configured to present a certificate will still do so.</p>
 </section>
 </section>
 <section id="pki-tomcatd">
-<span id="id8"></span><h2><code class="docutils literal notranslate"><span class="pre">pki-tomcatd</span></code><a class="headerlink" href="#pki-tomcatd" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">pki-tomcatd</span></code><a class="headerlink" href="#pki-tomcatd" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">pki-tomcatd</span></code> deployment must be updated to accept external
 authentication. In <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/server.xml</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&amp;lt;Connector port=&amp;quot;8009&amp;quot;
@@ -294,7 +294,7 @@ authz.instance.IPAAuthz.realm=${ACTUAL_REALM}
 </div>
 </section>
 <section id="dogtag-acl-management">
-<span id="id9"></span><h2>Dogtag ACL management<a class="headerlink" href="#dogtag-acl-management" title="Permalink to this heading">¶</a></h2>
+<h2>Dogtag ACL management<a class="headerlink" href="#dogtag-acl-management" title="Permalink to this heading">¶</a></h2>
 <p>Previously, FreeIPA added attribute values to the main Dogtag ACLs entry
 (<code class="docutils literal notranslate"><span class="pre">cn=aclResources,o=ipaca</span></code>) to allow the RA Agent to perform required
 operations.</p>
@@ -312,11 +312,11 @@ management) during installation and upgrade.</p>
 <p><strong>TODO</strong>: detail the various operations and provide example ACLs.</p>
 </section>
 <section id="adding-externalprocessconstraint-to-profile-configurations">
-<span id="id10"></span><h2>Adding <code class="docutils literal notranslate"><span class="pre">ExternalProcessConstraint</span></code> to profile configurations<a class="headerlink" href="#adding-externalprocessconstraint-to-profile-configurations" title="Permalink to this heading">¶</a></h2>
+<h2>Adding <code class="docutils literal notranslate"><span class="pre">ExternalProcessConstraint</span></code> to profile configurations<a class="headerlink" href="#adding-externalprocessconstraint-to-profile-configurations" title="Permalink to this heading">¶</a></h2>
 <p><strong>TODO</strong> describe when and how this will occur</p>
 </section>
 <section id="the-ipa-pki-validate-cert-request-program">
-<span id="id11"></span><h2>The <code class="docutils literal notranslate"><span class="pre">ipa-pki-validate-cert-request</span></code> program<a class="headerlink" href="#the-ipa-pki-validate-cert-request-program" title="Permalink to this heading">¶</a></h2>
+<h2>The <code class="docutils literal notranslate"><span class="pre">ipa-pki-validate-cert-request</span></code> program<a class="headerlink" href="#the-ipa-pki-validate-cert-request-program" title="Permalink to this heading">¶</a></h2>
 <p>The program to be executed by <code class="docutils literal notranslate"><span class="pre">ExternalProcessConstraint</span></code> for
 FreeIPA-managed profiles shall be installed at
 <code class="docutils literal notranslate"><span class="pre">/usr/libexec/ipa/ipa-pki-validate-cert-request</span></code>.</p>
@@ -345,7 +345,7 @@ output, exit status, etc, is yet to be finalised.</p>
 <section id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
 <section id="dogtag-client-credential-cache">
-<span id="id12"></span><h2>Dogtag client credential cache<a class="headerlink" href="#dogtag-client-credential-cache" title="Permalink to this heading">¶</a></h2>
+<h2>Dogtag client credential cache<a class="headerlink" href="#dogtag-client-credential-cache" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">ipa-pki-validate-cert-request</span></code> program must use a proxy ticket to
 operate on behalf of the authenticated user when talking back to
 FreeIPA. <em>mod_auth_gssapi</em> must be configured to establish a credential

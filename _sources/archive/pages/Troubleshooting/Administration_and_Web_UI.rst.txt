@@ -2,12 +2,12 @@ This page contains troubleshooting advice for the FreeIPA
 **administration framework** and **Web UI**. For other issues, refer to
 the index at `Troubleshooting <Troubleshooting>`__.
 
-.. _administration_framework:
+
 
 Administration Framework
 ========================
 
-.. _privilege_separation:
+
 
 Privilege Separation
 --------------------
@@ -18,7 +18,7 @@ Separation <Troubleshooting/PrivilegeSeparation>`__ page describes this
 setup in detail, including how to debug privilege separation related
 issues.
 
-.. _ipa_command_returns_internal_server_error:
+
 
 ipa command returns Internal Server Error
 -----------------------------------------
@@ -26,7 +26,7 @@ ipa command returns Internal Server Error
 -  See ``/var/log/httpd/error_log`` for traceback and potentially for
    more related information
 
-.. _ipa_command_crashes_or_returns_no_data:
+
 
 ipa command crashes or returns no data
 --------------------------------------
@@ -44,12 +44,12 @@ ipa command crashes or returns no data
       ``httpd`` service
    -  Run the command again
 
-.. _web_ui:
+
 
 Web UI
 ======
 
-.. _cannot_authenticate_to_web_ui:
+
 
 Cannot authenticate to Web UI---------------------------
 
@@ -65,7 +65,7 @@ Cannot authenticate to Web UI---------------------------
    thread <https://www.redhat.com/archives/freeipa-users/2015-April/msg00605.html>`__)
 -  Search for any related errors in ``/var/log/httpd/error_log``
 
-.. _browser_shows_err_cert_common_name_invalid___missing_subject_alternative_name_extension_in_certificate:
+
 
 Browser shows ERR_CERT_COMMON_NAME_INVALID - missing Subject Alternative Name extension in certificate
 ------------------------------------------------------------------------------------------------------

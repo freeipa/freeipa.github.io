@@ -35,7 +35,7 @@ tracking, etc), validation and likely more.
 The certificate and private key will be stored in
 /etc/pki/tls/{certs|private} unencrypted and named httpd.{crt|key}.
 
-.. _new_install:
+
 
 New install
 ----------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ The tasks roughly break down into:
 -  handle installing via PKCS#12
 -  identify where the NSS db is the center of the universe and change
 
-.. _upgrading_an_existing_installation:
+
 
 Upgrading an existing installation
 ----------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ The tasks roughly break down into:
 This is likely to be implemented as a generic upgrade task to use in
 backup/restore as well.
 
-.. _ipa_server_certinstall:
+
 
 ipa-server-certinstall
 ----------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ option in mod_nss. It remains to be seen what if anything will need to
 change in mod_ssl. If FIPS is needed then there is an SSLFIPS option
 that can be set.
 
-.. _open_questions:
+
 
 Open questions
 ----------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ For each case one can confirm basic functionality with:
 
 TBD: Add sample of a properly tracked mod_ssl cert
 
-.. _new_installations:
+
 
 New installations
 ----------------------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ Upgrades
 -  In-place upgrade from F-26
 -  In-place upgrade from F-27
 
-.. _creating_replicas_from_mod_nss_to_mod_ssl_masters:
+
 
 Creating replicas from mod_nss to mod_ssl masters
 ----------------------------------------------------------------------------------------------
@@ -246,7 +246,7 @@ Creating replicas from mod_nss to mod_ssl masters
 
    -  4.5
 
-.. _replacing_certificates:
+
 
 Replacing certificates
 ----------------------------------------------------------------------------------------------

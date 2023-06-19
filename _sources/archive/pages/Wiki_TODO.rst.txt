@@ -23,7 +23,7 @@ Tasks
       should be marked as such on the wiki and had a pointer to the
       guide.
 
-.. _texts_from_mailing_list_eligible_for_wiki:
+
 
 Texts from mailing list eligible for wiki
 ----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ Texts from mailing list eligible for wiki
 -  `AD trust showing offline after
    reboot <https://www.redhat.com/archives/freeipa-users/2014-May/msg00157.html>`__
 
-.. _blog_posts_eligible_for_wiki:
+
 
 Blog posts eligible for wiki
 ----------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Blog posts eligible for wiki
 `Adam Young’s blog - FreeIPA
 tag <http://adam.younglogic.com/category/software/freeipa/>`__
 
-.. _pages_marked_for_removal:
+
 
 Pages marked for removal
 ----------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ This are the pages that are suggested to be removed / moved to obsolete.
    FAQ, and quite obsolete anyway. This needs to be updated&renamed or
    removed.
 
-.. _orphaned_or_deeply_buried_pages_that_seem_to_contain_relevant_info:
+
 
 Orphaned (or deeply buried) pages that seem to contain relevant info
 ----------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ Orphaned (or deeply buried) pages that seem to contain relevant info
 -  `NexentaStor_integration_in_a_mixed_environment <NexentaStor_integration_in_a_mixed_environment>`__
    (December 2012)
 
-.. _needs_a_minor_reformatting:
+
 
 Needs a minor reformatting
 ----------------------------------------------------------------------------------------------

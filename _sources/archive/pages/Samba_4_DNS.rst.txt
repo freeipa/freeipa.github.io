@@ -16,7 +16,7 @@ Installation
 Configuration
 =============
 
-.. _configuring_domain_zone:
+
 
 Configuring Domain Zone
 -----------------------
@@ -75,7 +75,7 @@ Edit zone data file /var/named/dynamic/example.com.zone:
 
    _kerberos               IN TXT  EXAMPLE.COM
 
-.. _configuring_reverse_mapping:
+
 
 Configuring Reverse Mapping
 ---------------------------
@@ -98,7 +98,7 @@ Create reverse mapping file /var/named/192.168.1.rev:
    100                     IN PTR                  ns1.example.com.
    101                     IN PTR                  samba1.example.com.
 
-.. _configuring_file_ownership:
+
 
 Configuring File Ownership
 --------------------------
@@ -117,7 +117,7 @@ Copy zone configuration file:
    % cp $INSTALL_DIR/named.conf /etc/named-samba.conf
    % chown named.named /etc/named-samba.conf
 
-.. _configuring_dns:
+
 
 Configuring DNS
 ---------------
@@ -155,7 +155,7 @@ Restart DNS:
 
    % service named restart
 
-.. _multiple_samba_instances:
+
 
 Multiple Samba Instances
 ========================

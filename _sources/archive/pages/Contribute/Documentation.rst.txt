@@ -2,7 +2,7 @@ FreeIPA team welcome help in all documentation related areas, especially
 with adding articles, HOWTOs or just updating information on this
 community wiki.
 
-.. _updating_wiki:
+
 
 Updating wiki
 -------------
@@ -12,7 +12,7 @@ is very easy. You just need to log in with your `Fedora project
 account <https://admin.fedoraproject.org/accounts/>`__ and start
 contributing!
 
-.. _what_to_do:
+
 
 What to do
 ----------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ Trac <https://fedorahosted.org/freeipa/query?status=assigned&status=new&status=r
 for the list of known bugs or missing enhancements to this wiki and help
 us!
 
-.. _contributing_downstream_guides:
+
 
 Contributing downstream guides
 ------------------------------

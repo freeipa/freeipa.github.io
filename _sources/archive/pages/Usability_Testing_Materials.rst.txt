@@ -22,7 +22,7 @@ Overview
   are definitely planing a lot of changes. Your suggestions would also
   be very helpful.
 
-.. _help_desk_update_user:
+
 
 Help Desk: Update User
 ======================
@@ -34,7 +34,7 @@ Help Desk: Update User
 -  `Screens for the task (Part
    2) <http://www.freeipa.org/wiki/images/6/6b/Update_user2.pdf>`__
 
-.. _user_update_my_account:
+
 
 User: Update My Account
 =======================
@@ -72,7 +72,7 @@ Automount
 -  `Screens for the
    task <http://www.freeipa.org/wiki/images/8/84/Automount.pdf>`__
 
-.. _host_based_access_control_rules:
+
 
 Host-Based Access Control Rules
 ===============================
@@ -84,7 +84,7 @@ Host-Based Access Control Rules
 -  `Additional screens for the rule's time range management
    tasks <http://www.freeipa.org/wiki/images/4/4e/Time.pdf>`__
 
-.. _cloning_roles:
+
 
 Cloning Roles
 =============
@@ -94,7 +94,7 @@ Cloning Roles
 -  `Screens for the
    task <http://www.freeipa.org/wiki/images/b/bb/Clone_Role.pdf>`__
 
-.. _define_a_configuration_policy:
+
 
 Define a Configuration Policy
 =============================
@@ -104,7 +104,7 @@ Define a Configuration Policy
 -  `Screens for the
    task <http://www.freeipa.org/wiki/images/2/28/Config_Policy.pdf>`__
 
-.. _additional_questions:
+
 
 Additional Questions
 ====================

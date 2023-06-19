@@ -22,7 +22,7 @@ optionally IPA can handle the login details afterwards.
 This documentation is an example from my own implementations at my
 workplace.
 
-.. _ipasssd_configuration:
+
 
 IPA/SSSD Configuration
 ----------------------
@@ -40,7 +40,7 @@ to see which server is being used for certificate requests. Ensure that
 the server is accepting requests against the IPA topology and kerberos
 tickets are being generated before continuing.
 
-.. _apache_configuration:
+
 
 Apache Configuration
 --------------------
@@ -50,7 +50,7 @@ configured to ensure there are no basic issues before adding the
 complexity of SNI. This guide assumes selinux is enforcing with the
 default targeted type in RHEL6.
 
-.. _default_ssl_apache_config:
+
 
 Default SSL apache config
 ----------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ all is well the browser should show a certificate chain starting at the
 IPA server and with the certificate requested being served. If there are
 any problems here then backtrack and amend before proceeding.
 
-.. _adding_namebased_virtual_sites_with_ssl:
+
 
 Adding NameBased Virtual Sites with SSL
 ----------------------------------------------------------------------------------------------
@@ -183,8 +183,10 @@ itself can be configured for it.
 Configure Apache to use name based virtual hosts on port 443 (in
 addition to the standard 80):
 
-| `` NameVirtualHost *:80``
-| `` NameVirtualHost *:443``
+::
+
+     | `` NameVirtualHost *:80``
+     | `` NameVirtualHost *:443``
 
 Optionally add a redirect from non-SSL to SSL if you want it as a
 requirement:
@@ -242,7 +244,7 @@ the certificates.
 This procedure can be repeated for additional virtual hosts off the same
 server as required.
 
-.. _adding_kerberos_authentication_to_the_sites:
+
 
 Adding kerberos authentication to the sites
 ----------------------------------------------------------------------------------------------
@@ -269,11 +271,15 @@ contents has the httpd_keytabs_t type.
 The default keytab for the host (for any 'default' site requests) can be
 obtained via:
 
-`` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
+::
+
+     `` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
 
 To get a site specific keytab use:
 
-`` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
+::
+
+     `` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
 
 Although segregation of keytabs isn't necessarily required (all hosts
 could use the default keytab in principle) separation allows for fine

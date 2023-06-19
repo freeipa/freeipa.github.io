@@ -2,12 +2,12 @@ There are several use cases where administrators may choose to migrate
 either to FreeIPA, either on the same platform or OS or on different.
 This page shows several procedures for different use cases:
 
-.. _migration_from_different_identity_management_solution:
+
 
 Migration from different identity management solution
 -----------------------------------------------------
 
-.. _migrating_from_nis_to_freeipa:
+
 
 Migrating from NIS to FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ Migrating from NIS to FreeIPA
 See `related RHEL Guide for detailed
 steps <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/migrating-from-nis.html>`__
 
-.. _migrating_from_ldap_to_freeipa:
+
 
 Migrating from LDAP to FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ or read `how GNOME project
 migrated <https://www.dragonsreach.it/2014/10/12/the-gnome-infrastructures-freeipa-move-behind-the-scenes/>`__
 from OpenLDAP to FreeIPA.
 
-.. _migrating_from_other_freeipa_to_freeipa:
+
 
 Migrating from other FreeIPA to FreeIPA
 ----------------------------------------------------------------------------------------------
@@ -52,19 +52,19 @@ manually, by exporting the LDIF from old FreeIPA instance, selecting the
 records to be migrated, updating the attributes in batch (e.g. new
 realm) and adding the cleaned LDIF to new FreeIPA.
 
-.. _migrating_existing_freeipa_deployment:
+
 
 Migrating existing FreeIPA deployment
 -------------------------------------
 
-.. _upgrading_to_new_freeipa_release:
+
 
 Upgrading to new FreeIPA release
 ----------------------------------------------------------------------------------------------
 
 See `Upgrade <Upgrade>`__ page.
 
-.. _general_procedure:
+
 
 General procedure
 ^^^^^^^^^^^^^^^^^
@@ -109,7 +109,7 @@ General procedure
 #. After the FreeIPA upgrade is confirmed to be successful, remaining
    FreeIPA server may be upgraded using the same procedure, one by one.
 
-.. _migrating_to_different_platform_or_os:
+
 
 Migrating to different platform or OS
 ----------------------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ applied:
 #. Old FreeIPA servers can be now uninstalled with
    ``ipa-server-install --uninstall``
 
-.. _migrating_identity_management_in_rhelcentos:
+
 
 Migrating Identity Management in RHEL/CentOS
 --------------------------------------------

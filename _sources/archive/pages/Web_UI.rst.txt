@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _the_web_ui_component:
+
 
 The Web UI Component
 ====================
@@ -29,7 +29,7 @@ Web UI has two operation modes:
    -  used for members of 'admins' group and users with a role assigned
    -  complete interface available
 
-.. _access_point:
+
 
 Access point
 ------------
@@ -50,7 +50,7 @@ dialog is displayed on failure. In such case user may try to re-login
 (ie. after he obtained a valid Kerberos ticket) or he can use
 forms-based authentication.
 
-.. _password_reset_when_expired:
+
 
 Password reset when expired
 ---------------------------
@@ -60,7 +60,7 @@ upon login in Web UI. Password reset form is automatically provided when
 logging in using expired password and forms-based authentication. Other
 option is to use */ipa/ui/password_reset.html* special page.
 
-.. _special_pages:
+
 
 Special pages
 -------------

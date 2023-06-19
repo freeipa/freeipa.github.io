@@ -16,7 +16,7 @@ as there may be multiples automount locations on a sincle DHCP location
 for example. This would be managed by seperating each DHCP configuration
 into cn=Location,cn=dhcp in the tree.
 
-.. _v4_and_v6:
+
 
 v4 and v6
 ---------
@@ -33,7 +33,7 @@ At this time, ISC-DHCP does not support authentication to LDAP via
 GSSAPI. This will need to be added, and commited as patches. Until this
 support exists, simple binds must be used.
 
-.. _dhcp_server_groups:
+
 
 DHCP server groups
 ------------------
@@ -43,7 +43,7 @@ same network segment, the servers may become inconsistent causing
 duplicate leases to be allocated. This will create address conflicts and
 other unforseen issues.
 
-.. _dhcp_failover:
+
 
 DHCP failover
 ----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ in failover mode per-location. Each servers failover options must be
 placed into it's dhcpServer object, so that each server has a the pair's
 details, but still points at the same dhcpServiceDN
 
-.. _ldap_lease_storage:
+
 
 LDAP Lease storage
 ----------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ yet at this stage. This will need to be added. Initially, with only a
 single ISC-DHCP server on a physical network segment, we will avoid
 potential inconsistent network issues.
 
-.. _seperate_389ds_database:
+
 
 Seperate 389ds database
 ^^^^^^^^^^^^^^^^^^^^^^^

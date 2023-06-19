@@ -12,7 +12,7 @@ cost-savings by eliminating repetitive human effort.
 Dogtag PKI has implemented an ACME server. The purpose of this design is
 to use the Dogtag ACME service to support ACME use cases in FreeIPA.
 
-.. _acme_overview:
+
 
 ACME overview
 =============
@@ -51,7 +51,7 @@ ACME also defines operations for certificate revocation and account key
 rollover. RFC 8555 does not state whether ACME servers or clients are
 required to support these operations.
 
-.. _use_cases_stories:
+
 
 Use cases (stories)
 ===================
@@ -148,7 +148,7 @@ deprecated or removed. Examples of what the commands may look like
 Design
 ======
 
-.. _overview_of_dogtag_acme_service:
+
 
 Overview of Dogtag ACME service
 -------------------------------
@@ -180,7 +180,7 @@ configuration has been implemented. This means that until a distributed
 configuration source is implemented, the Dogtag ACME service must be
 configured on a per-server basis.
 
-.. _design_at_a_glance:
+
 
 Design at a glance
 ------------------
@@ -199,7 +199,7 @@ in its own subsection.
 -  Add the ``ipa-ca.$DOMAIN`` DNS name to the FreeIPA HTTP certificate
    to enable ACME clients to use that domain name.
 
-.. _deploying_the_acme_service:
+
 
 Deploying the ACME service
 --------------------------
@@ -400,7 +400,7 @@ the Dogtag CA. ``issuer.conf`` must have ownership ``pkiuser:pkiuser``
 and mode ``200``. See `#Authentication to CA <#Authentication_to_CA>`__
 for details.
 
-.. _authentication_to_ca:
+
 
 Authentication to CA
 ----------------------------------------------------------------------------------------------
@@ -487,7 +487,7 @@ differences:
       policyset.serverCertSet.9.default.class_id=sanToCNDefaultImpl
       policyset.serverCertSet.9.default.name=SAN to CN Default     
 
-.. _replicated_configuration:
+
 
 Replicated configuration
 ------------------------
@@ -514,7 +514,7 @@ The configuration source will either need to execute a persistent search
 (preferred) or regularly poll the LDAP configuration object and look for
 changes to the configuration.
 
-.. _tls_requirements:
+
 
 TLS requirements
 ----------------
@@ -548,7 +548,7 @@ This change was implemented in https://pagure.io/freeipa/issue/8186.
 Scalability
 -----------
 
-.. _pruning_expired_certificates:
+
 
 Pruning expired certificates
 ----------------------------------------------------------------------------------------------
@@ -561,7 +561,7 @@ certificates, with knobs to enable/disable (DISABLED by default). This
 scenario is not ACME-specific and there is an existing ticket:
 https://pagure.io/dogtagpki/issue/1750.
 
-.. _pruning_expired_acme_objects:
+
 
 Pruning expired ACME objects
 ----------------------------------------------------------------------------------------------
@@ -652,7 +652,7 @@ The test setup is a single FreeIPA server with CA role, and a single
 client. All steps in the test scenarios outlined below are on the client
 unless stated otherwise.
 
-.. _enabling_acme_service:
+
 
 Enabling ACME service
 ---------------------
@@ -664,7 +664,7 @@ Enabling ACME service
 #. [Client] Use *Curl* to request ACME directory object again; should
    succeed.
 
-.. _certbot_http_challenge:
+
 
 Certbot HTTP challenge
 ----------------------
@@ -672,7 +672,7 @@ Certbot HTTP challenge
 #. Register account.
 #. Request certificate using ``--standalone`` HTTP server. Succeeds.
 
-.. _certbot_dns_challenge:
+
 
 Certbot DNS challenge
 ---------------------
@@ -684,7 +684,7 @@ Assume account already registered (previous test).
 #. Request certificate using ``dns-01`` challenge and ``--manual`` mode
    with hooks to create/clean up required TXT records. Succeeds.
 
-.. _certbot_revocation:
+
 
 Certbot revocation
 ------------------
@@ -697,7 +697,7 @@ successfully issued (previous tests).
 #. Revoke a certificate. Succeeds.
 #. Confirm via ``ipa cert-show`` command that certificate was revoked.
 
-.. _mod_md_http_challenge:
+
 
 mod_md HTTP challenge
 ---------------------

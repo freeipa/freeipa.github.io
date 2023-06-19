@@ -1,4 +1,4 @@
-.. _setting_up_active_directory_domain_for_testing_purposes:
+
 
 Setting up Active Directory domain for testing purposes
 =======================================================
@@ -11,7 +11,7 @@ them to QCOW2 format suitable for KVM and run original VMs under Linux.
 
 Commands in following text are shown with ``typewriter font``.
 
-.. _before_you_start:
+
 
 Before you start
 ----------------
@@ -38,7 +38,7 @@ You will need:
 
    -  ``sudo yum install -y kvm libvirt qemu virt-manager``
 
-.. _download_and_unpack_original_images:
+
 
 Download and unpack original images
 -----------------------------------
@@ -62,7 +62,7 @@ For fast download run the following commands in terminal: '''
 
 '''
 
-.. _convert_original_vhd_image_for_kvm:
+
 
 Convert original VHD image for KVM
 ----------------------------------
@@ -82,7 +82,7 @@ will show < 10 % for a long time and then it finishes.
 Output file (WS2008R2Fullx64Ent.qcow2) should have approximately same
 size as original file (WS2008R2Fullx64Ent.vhd).
 
-.. _define_a_new_virtual_machine_for_ad_domain_controller:
+
 
 Define a new virtual machine for AD domain controller
 -----------------------------------------------------
@@ -145,7 +145,7 @@ Define a new virtual machine for AD domain controller
 
 The new VM will be started automatically.
 
-.. _the_first_start:
+
 
 The first start
 ---------------
@@ -159,7 +159,7 @@ three character classes. Password "ADMIN4lab" should work. **Important
 note**: Passwords for computer Administrator and Active Directory
 administrator are not same.
 
-.. _creating_a_new_active_directory_domain:
+
 
 Creating a new Active Directory domain
 --------------------------------------

@@ -60,10 +60,10 @@ just configuration.</p></li>
 </ol>
 </section>
 <section id="procedure-in-freeipa-4-0-or-later">
-<span id="id1"></span><h1>Procedure in FreeIPA 4.0 or later<a class="headerlink" href="#procedure-in-freeipa-4-0-or-later" title="Permalink to this heading">¶</a></h1>
+<h1>Procedure in FreeIPA 4.0 or later<a class="headerlink" href="#procedure-in-freeipa-4-0-or-later" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="identifying-current-first-master">
-<span id="id2"></span><h1>Identifying current first master<a class="headerlink" href="#identifying-current-first-master" title="Permalink to this heading">¶</a></h1>
+<h1>Identifying current first master<a class="headerlink" href="#identifying-current-first-master" title="Permalink to this heading">¶</a></h1>
 <p>The hostname of the renewal master can be determined from LDAP:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ldapsearch -H ldap://$HOSTNAME -D &#39;cn=Directory Manager&#39; -W -b &#39;cn=masters,cn=ipa,cn=etc,dc=example,dc=com&#39; &#39;(&amp;(cn=CA)(ipaConfigString=caRenewalMaster))&#39; dn
 Enter LDAP Password:
@@ -97,14 +97,14 @@ CA:</p>
 otherwise it is a clone.</p>
 </section>
 <section id="reconfiguring-a-ca-as-a-clone">
-<span id="id3"></span><h1>Reconfiguring a CA as a clone<a class="headerlink" href="#reconfiguring-a-ca-as-a-clone" title="Permalink to this heading">¶</a></h1>
+<h1>Reconfiguring a CA as a clone<a class="headerlink" href="#reconfiguring-a-ca-as-a-clone" title="Permalink to this heading">¶</a></h1>
 <section id="configure-clone-renewal">
-<span id="id4"></span><h2>Configure clone renewal<a class="headerlink" href="#configure-clone-renewal" title="Permalink to this heading">¶</a></h2>
+<h2>Configure clone renewal<a class="headerlink" href="#configure-clone-renewal" title="Permalink to this heading">¶</a></h2>
 <p>This is done automatically when you configure some other CA as renewal
 master.</p>
 </section>
 <section id="stop-crl-generation">
-<span id="id5"></span><h2>Stop CRL generation<a class="headerlink" href="#stop-crl-generation" title="Permalink to this heading">¶</a></h2>
+<h2>Stop CRL generation<a class="headerlink" href="#stop-crl-generation" title="Permalink to this heading">¶</a></h2>
 <p>Stop CA service:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl stop pki-tomcatd@pki-tomcat</span>
 </pre></div>
@@ -118,7 +118,7 @@ master.</p>
 </div>
 </section>
 <section id="stop-certificate-status-update-task">
-<span id="id6"></span><h2>Stop Certificate Status Update Task<a class="headerlink" href="#stop-certificate-status-update-task" title="Permalink to this heading">¶</a></h2>
+<h2>Stop Certificate Status Update Task<a class="headerlink" href="#stop-certificate-status-update-task" title="Permalink to this heading">¶</a></h2>
 <p>Remove the values of <code class="docutils literal notranslate"><span class="pre">ca.transitRecordPageSize</span></code> and
 <code class="docutils literal notranslate"><span class="pre">ca.transitMaxRecords</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/ca/CS.cfg</span></code>.</p>
 <p>Set the value of <code class="docutils literal notranslate"><span class="pre">ca.certStatusUpdateInterval</span></code> in
@@ -144,16 +144,16 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 </section>
 </section>
 <section id="reconfigure-a-ca-as-the-new-master">
-<span id="id7"></span><h1>Reconfigure a CA as the new master<a class="headerlink" href="#reconfigure-a-ca-as-the-new-master" title="Permalink to this heading">¶</a></h1>
+<h1>Reconfigure a CA as the new master<a class="headerlink" href="#reconfigure-a-ca-as-the-new-master" title="Permalink to this heading">¶</a></h1>
 <section id="configure-ca-renewal">
-<span id="id8"></span><h2>Configure CA renewal<a class="headerlink" href="#configure-ca-renewal" title="Permalink to this heading">¶</a></h2>
+<h2>Configure CA renewal<a class="headerlink" href="#configure-ca-renewal" title="Permalink to this heading">¶</a></h2>
 <p>Run the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-csreplica-manage set-renewal-master</span>
 </pre></div>
 </div>
 </section>
 <section id="start-crl-generation">
-<span id="id9"></span><h2>Start CRL generation<a class="headerlink" href="#start-crl-generation" title="Permalink to this heading">¶</a></h2>
+<h2>Start CRL generation<a class="headerlink" href="#start-crl-generation" title="Permalink to this heading">¶</a></h2>
 <p>Stop CA service:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl stop pki-tomcatd@pki-tomcat</span>
 </pre></div>
@@ -167,7 +167,7 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 </div>
 </section>
 <section id="start-certificate-status-update-task">
-<span id="id10"></span><h2>Start Certificate Status Update Task<a class="headerlink" href="#start-certificate-status-update-task" title="Permalink to this heading">¶</a></h2>
+<h2>Start Certificate Status Update Task<a class="headerlink" href="#start-certificate-status-update-task" title="Permalink to this heading">¶</a></h2>
 <p>Set the values <code class="docutils literal notranslate"><span class="pre">ca.transitRecordPageSize</span></code> and <code class="docutils literal notranslate"><span class="pre">ca.transitMaxRecords</span></code>
 in <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/ca/CS.cfg</span></code> ca.transitRecordPageSize=200
 ca.transitMaxRecords=1000000</p>
@@ -192,10 +192,10 @@ RewriteRule on the last line:</p>
 </section>
 </section>
 <section id="procedure-in-freeipa-4-0">
-<span id="id11"></span><h1>Procedure in FreeIPA &lt; 4.0<a class="headerlink" href="#procedure-in-freeipa-4-0" title="Permalink to this heading">¶</a></h1>
+<h1>Procedure in FreeIPA &lt; 4.0<a class="headerlink" href="#procedure-in-freeipa-4-0" title="Permalink to this heading">¶</a></h1>
 </section>
-<section id="identifying-current-first-master-1">
-<span id="id12"></span><h1>Identifying current first master<a class="headerlink" href="#identifying-current-first-master-1" title="Permalink to this heading">¶</a></h1>
+<section id="id1">
+<h1>Identifying current first master<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <p>This can be determined by looking at the certificates managed by
 certmonger on each CA</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert list -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; | grep post-save</span>
@@ -205,11 +205,11 @@ certmonger on each CA</p>
 <p>If it contains <code class="docutils literal notranslate"><span class="pre">renew_ca_cert</span></code> then it is the CA renewal master.</p>
 <p>If it contains <code class="docutils literal notranslate"><span class="pre">restart_pkicad</span></code> then it is a CA renewal clone.</p>
 </section>
-<section id="reconfiguring-a-ca-as-a-clone-1">
-<span id="id13"></span><h1>Reconfiguring a CA as a clone<a class="headerlink" href="#reconfiguring-a-ca-as-a-clone-1" title="Permalink to this heading">¶</a></h1>
+<section id="id2">
+<h1>Reconfiguring a CA as a clone<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h1>
 <p>This step changes current <em>first master</em> into a standard clone.</p>
 <section id="unconfigure-the-master-renewal">
-<span id="id14"></span><h2>Unconfigure the master renewal<a class="headerlink" href="#unconfigure-the-master-renewal" title="Permalink to this heading">¶</a></h2>
+<h2>Unconfigure the master renewal<a class="headerlink" href="#unconfigure-the-master-renewal" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot;</span>
 <span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot;</span>
 <span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot;</span>
@@ -224,8 +224,8 @@ certmonger on each CA</p>
 </pre></div>
 </div>
 </section>
-<section id="configure-clone-renewal-1">
-<span id="id15"></span><h2>Configure clone renewal<a class="headerlink" href="#configure-clone-renewal-1" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h2>Configure clone renewal<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <p>First see if the renewal CA is available:</p>
 <p><code class="docutils literal notranslate"><span class="pre"># getcert list-cas</span></code></p>
 <p>Look for a /var/lib/certmonger/cas/ca_renewal</p>
@@ -261,8 +261,8 @@ certmonger on each CA</p>
 </pre></div>
 </div>
 </section>
-<section id="stop-crl-generation-1">
-<span id="id16"></span><h2>Stop CRL generation<a class="headerlink" href="#stop-crl-generation-1" title="Permalink to this heading">¶</a></h2>
+<section id="id4">
+<h2>Stop CRL generation<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p>Stop CA service:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service pki-cad stop</span>
 </pre></div>
@@ -291,10 +291,10 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 </div>
 </section>
 </section>
-<section id="reconfigure-a-ca-as-the-new-master-1">
-<span id="id17"></span><h1>Reconfigure a CA as the new master<a class="headerlink" href="#reconfigure-a-ca-as-the-new-master-1" title="Permalink to this heading">¶</a></h1>
+<section id="id5">
+<h1>Reconfigure a CA as the new master<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h1>
 <section id="unconfigure-the-clone-renewal">
-<span id="id18"></span><h2>Unconfigure the clone renewal<a class="headerlink" href="#unconfigure-the-clone-renewal" title="Permalink to this heading">¶</a></h2>
+<h2>Unconfigure the clone renewal<a class="headerlink" href="#unconfigure-the-clone-renewal" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot;</span>
 <span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot;</span>
 <span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot;</span>
@@ -309,8 +309,8 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 </pre></div>
 </div>
 </section>
-<section id="configure-ca-renewal-1">
-<span id="id19"></span><h2>Configure CA renewal<a class="headerlink" href="#configure-ca-renewal-1" title="Permalink to this heading">¶</a></h2>
+<section id="id6">
+<h2>Configure CA renewal<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
 <p>Get the CA certificate database pin:</p>
 <p><code class="docutils literal notranslate"><span class="pre"># grep internal= /var/lib/pki-ca/conf/password.conf</span></code></p>
 <p>Configure renewal</p>
@@ -328,8 +328,8 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 </pre></div>
 </div>
 </section>
-<section id="start-crl-generation-1">
-<span id="id20"></span><h2>Start CRL generation<a class="headerlink" href="#start-crl-generation-1" title="Permalink to this heading">¶</a></h2>
+<section id="id7">
+<h2>Start CRL generation<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h2>
 <p>Stop CA service:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service pki-cad stop</span>
 </pre></div>

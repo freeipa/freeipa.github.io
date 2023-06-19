@@ -44,7 +44,7 @@ FreeIPA deployments** in RHEL for new versions of FreeIPA, which means
 older versions of FreeIPA servers/client and Domain Level 0 are **not
 supported**.
 
-.. _multiple_servers_in_topology:
+
 
 Multiple servers in topology
 ----------------------------
@@ -81,7 +81,7 @@ http://www.freeipa.org/page/V4/Replace_NSS_with_OpenSSL
 -  **Dependencies**: No new dependencies should be introduced.
 -  **Backup and Restore**: There should be nothing new to back up.
 
-.. _multiple_servers_in_topology_1:
+
 
 Multiple servers in topology
 ----------------------------

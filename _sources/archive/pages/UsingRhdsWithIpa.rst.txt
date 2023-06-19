@@ -1,4 +1,4 @@
-.. _installing_red_hat_directory_server:
+
 
 Installing Red Hat Directory Server
 ===================================
@@ -7,12 +7,12 @@ You should follow the documented procedures for installing Red Hat
 Directory Server. These are available online at
 ` <http://www.redhat.com/docs/manuals/dir-server/>`__\ http://www.redhat.com/docs/manuals/dir-server/
 
-.. _using_red_hat_directory_server_with_ipa:
+
 
 Using Red Hat Directory Server with IPA
 =======================================
 
-.. _schema_requirements:
+
 
 Schema Requirements
 -------------------
@@ -20,7 +20,7 @@ Schema Requirements
 IPA uses the standard Red Hat Directory Server (RHDS) schema, combined
 with the MIT Kerberos schema.
 
-.. _dit_requirements:
+
 
 DIT Requirements
 ----------------
@@ -32,7 +32,7 @@ because RHDS does not support subtree renames, and complex scripting may
 be required for a successful migration if this is not taken into
 account.
 
-.. _dit_assumptions:
+
 
 DIT Assumptions
 ----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ installation. This is very straight forward and could be completed in 10
 - 15 minutes. The freeIPA installation provides a 389 Directory Server
 instance that you can analyze and use as a basis for RHDS.
 
-.. _examining_the_dit:
+
 
 Examining the DIT
 ----------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ Examining the DIT
 Alternatively, you can install the gq package to examine both the DIT
 and the schema.
 
-.. _downloading_and_installing_freeipa:
+
 
 Downloading and Installing freeIPA
 ==================================

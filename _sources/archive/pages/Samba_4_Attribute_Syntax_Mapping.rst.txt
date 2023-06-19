@@ -9,7 +9,7 @@ Fedora DS:
 -  DN with String
 -  Presentation Address
 
-.. _proposed_solution:
+
 
 Proposed Solution
 =================

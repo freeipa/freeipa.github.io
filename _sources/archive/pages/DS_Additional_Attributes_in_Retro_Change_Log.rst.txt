@@ -135,7 +135,7 @@ methods:
 -  retrocl_postob()
 -  write_replog_db()
 
-.. _global_variables:
+
 
 Global Variables
 ----------------
@@ -145,7 +145,7 @@ Global Variables
    int retrocl_nattributes = 0;
    char **retrocl_attributes = NULL;
 
-.. _reading_new_parameters:
+
 
 Reading New Parameters
 ----------------------
@@ -169,7 +169,7 @@ Reading New Parameters
 
    slapi_ch_array_free(retrocl_attributes);
 
-.. _getting_nsuniqueid_attribute:
+
 
 Getting nsUniqueId Attribute
 ----------------------------
@@ -184,7 +184,7 @@ Getting nsUniqueId Attribute
 
    ...
 
-.. _generating_isreplicated_attribute:
+
 
 Generating isReplicated Attribute
 ---------------------------------
@@ -199,7 +199,7 @@ Generating isReplicated Attribute
 
    ...
 
-.. _getting_user_defined_attributes:
+
 
 Getting User-defined Attributes
 -------------------------------

@@ -26,7 +26,7 @@ replacement of Puppet CA with IPA CA was
 in the past, but it failed to distinguish Puppet certificates from other
 certificates issued by IPA.
 
-.. _use_cases106:
+
 
 Use Cases
 ---------
@@ -70,7 +70,7 @@ look as follows:
 
 -  CN=, OU=, O=
 
-.. _certmonger_considerations_for_issuing_puppet_certificates_by_ipa_ca:
+
 
 Certmonger considerations for issuing Puppet certificates by IPA CA
 ----------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ Certmonger considerations for issuing Puppet certificates by IPA CA
 
       -  -N 'CN=`hostname --fqdn`, OU=' -T
 
-.. _considerations_for_mod_ssl_sslrequire_and_require_expr_directives:
+
 
 Considerations for `mod_ssl <http://httpd.apache.org/docs/current/mod/mod_ssl.html>`__ `SSLRequire <http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#sslrequire>`__ and `Require <http://httpd.apache.org/docs/current/mod/mod_authz_core.html#reqexpr>`__ `expr <http://httpd.apache.org/docs/current/expr.html>`__ directives
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ exceptions:
 -  Require expr %{SSL_CLIENT_S_DN_OU} eq ""
 -  Require expr %{SSL_CLIENT_S_DN_OU} in {""}
 
-.. _considerations_for_certificate_request_handling:
+
 
 Considerations for certificate request handling
 ----------------------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ Here are some sample suggestions for profile processing:
          otherwise IPA assumes that only IPA's default profile is
          allowed
 
-.. _certificate_profile_considerations_for_issuing_puppet_certificates_by_ipa_ca:
+
 
 Certificate profile considerations for issuing Puppet certificates by IPA CA
 ----------------------------------------------------------------------------------------------

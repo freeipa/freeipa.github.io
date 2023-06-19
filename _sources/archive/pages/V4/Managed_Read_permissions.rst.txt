@@ -63,7 +63,7 @@ selected by privileges:
 | ``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
 | ``  Type: user``
 
-.. _documentation_draft:
+
 
 Documentation draft
 ===================
@@ -125,7 +125,7 @@ permissions follows:
 -  Revoke Certificate
 -  Write IPA Configuration
 
-.. _upgrade_considerations:
+
 
 Upgrade considerations
 ----------------------
@@ -169,7 +169,7 @@ to managed ones, e.g.
 If the default permissions that come with IPA have been modified,
 special care should be taken when upgrading.
 
-.. _removed_default_permissions:
+
 
 Removed default permissions
 ----------------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ If a default permission was removed, the upgrade process will simply
 create a new default permission. This is consistent with to how all IPA
 upgrades work.
 
-.. _changed_attribute_lists:
+
 
 Changed attribute lists
 ----------------------------------------------------------------------------------------------
@@ -190,7 +190,7 @@ permission to match the modifications.
 Note that the updater considers default values from all past IPA
 versions. Be sure to check the result after updating.
 
-.. _other_aci_changes:
+
 
 Other ACI changes
 ----------------------------------------------------------------------------------------------
@@ -226,7 +226,7 @@ deleted).
 Design
 ======
 
-.. _managed_permissions:
+
 
 Managed Permissions
 -------------------
@@ -290,7 +290,7 @@ For example, this permission:
 would allow users to read all default user attributes except
 ``givenName``, plus additionally ``favoriteColor``.
 
-.. _cli_api:
+
 
 CLI & API
 ----------------------------------------------------------------------------------------------
@@ -318,7 +318,7 @@ error to ise the API options ``subtree``, ``extratargetfilter``,
 ``target``, ``memberof``, ``targetgroup``, or ``type`` with a managed
 permission.)
 
-.. _default_permission_updater:
+
 
 Default Permission Updater
 --------------------------
@@ -345,7 +345,7 @@ The format of the managed_permissions templates will be documented in
 the ``update_managed_permissions`` server plugin
 (`link <https://git.fedorahosted.org/cgit/freeipa.git/tree/ipaserver/install/plugins/update_managed_permissions.py>`__).
 
-.. _replacing_legacy_default_permissions:
+
 
 Replacing legacy default permissions
 ----------------------------------------------------------------------------------------------
@@ -391,7 +391,7 @@ attributes, the permission is upgraded as notmal but with
 ``ipapermincludedattr`` and ``ipapermexcludedattr`` set to reflect the
 difference between the old default and the pre-existing permission.
 
-.. _removing_the_global_anonymous_read_aci:
+
 
 Removing the global anonymous read ACI
 ----------------------------------------------------------------------------------------------
@@ -419,7 +419,7 @@ Implementation
 No additional requirements or changes discovered during the
 implementation phase.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

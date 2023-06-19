@@ -28,7 +28,7 @@ as it creates keys on the client system. This has 2 bad side effects:
 Use Cases
 ---------
 
-.. _a_load_balancing_cluster_of_http_server_that_allow_gssapikrb5_negotiation:
+
 
 A load balancing cluster of HTTP server that allow GSSAPI/Krb5 negotiation
 ----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ Because we need to process a request we need to create a new extended
 operation similar to the ``setkeytab`` extended operation already
 available.
 
-.. _new_extended_operation:
+
 
 New Extended operation
 ----------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ again indicating type and optionally a value.
 This is the information actually needed by a client to be able to write
 out a keytab after receiving the reply.
 
-.. _access_control:
+
 
 Access Control
 ----------------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ permissions that tie a specific extended operation to them.
 For this a new schema is necessary, based on a nice feature that is
 available in LDAP - *sub-types*.
 
-.. _new_schema:
+
 
 New Schema
 ----------------------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ would really happen, a useless attribute may end up being added to an
 object, but that wouldn't change the security properties of the
 operation.
 
-.. _new_acis:
+
 
 New ACIs
 ----------------------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ ipaAllowedToPerform attribute. CLI equivalent for the LDIF above is:
 
 ``ipa service-allow-retrieve-keytab HTTP/www.example.com --hosts={clustermember1.example.com,clustermember2.example.com,clustermember3.example.com}``
 
-.. _compatibility_with_older_freeipa_servers:
+
 
 Compatibility with older FreeIPA servers
 ----------------------------------------------------------------------------------------------
@@ -262,12 +262,12 @@ CLI
 
 ``  -r, --retrieve                                           Retrieve current keys without changing them``
 
-.. _how_to_test28:
+
 
 How to Test
 -----------
 
-.. _use_case_a_load_balancing_cluster_of_http_server_that_allow_gssapikrb5_negotiation_tbd:
+
 
 Use Case: A load balancing cluster of HTTP server that allow GSSAPI/Krb5 negotiation (TBD)
 ----------------------------------------------------------------------------------------------

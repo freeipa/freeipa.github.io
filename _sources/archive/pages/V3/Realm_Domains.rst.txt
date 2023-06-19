@@ -18,7 +18,7 @@ commands:
 -  **``realmdomains-show``**
 -  **``realmdomains-mod``**
 
-.. _use_cases10j:
+
 
 Use Cases
 =========
@@ -50,7 +50,7 @@ Add two new IPA commands:
    domains
 -  **``realmdomains-mod``**, to modify the list
 
-.. _feature_managment:
+
 
 Feature Managment
 =================
@@ -64,7 +64,7 @@ new domain, remove an existing domain. The new page will be added under
 
 CLI
 
-.. _realmdomains_show:
+
 
 realmdomains-show
 ^^^^^^^^^^^^^^^^^
@@ -73,7 +73,7 @@ realmdomains-show
 domains, stored in
 **``cn=Realm``\ ````\ ``Domains,cn=ipa,cn=etc,$SUFFIX``**.
 
-.. _realmdomains_mod:
+
 
 realmdomains-mod
 ^^^^^^^^^^^^^^^^
@@ -109,7 +109,7 @@ The following checks will be performed:
 Questions
 ---------
 
-.. _dnszone_:
+
 
 dnszone-\*
 ^^^^^^^^^^
@@ -175,7 +175,7 @@ External Impact
 
 N/A
 
-.. _design_page_authors:
+
 
 Design page authors
 ===================

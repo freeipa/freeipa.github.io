@@ -18,7 +18,7 @@ several subfolders:
 -  results: This folder contains test results. Test results file names
    follow this naming pattern: -results.html.
 
-.. _installing_selenium_server:
+
 
 Installing Selenium Server
 ==========================
@@ -31,7 +31,7 @@ symbolic link to that file:
 
    % ln -s selenium-server-standalone-2.0b3.jar selenium-server-standalone.jar
 
-.. _configuring_firefox:
+
 
 Configuring Firefox
 ===================
@@ -46,14 +46,14 @@ To open Firefox's profile manager:
 
    % firefox -ProfileManager -no-remote
 
-.. _importing_ipa_ca_certificate:
+
 
 Importing IPA CA Certificate
 ----------------------------
 
 Import /etc/ipa/ca.crt into Firefox.
 
-.. _importing_selenium_ca_certificate:
+
 
 Importing Selenium CA Certificate
 ---------------------------------
@@ -69,7 +69,7 @@ Extract cybervillainsCA.cer into a temporary folder:
 Import sslSupport/cybervillainsCA.cer into Firefox. The temporary folder
 can be removed now.
 
-.. _ssl_certificate:
+
 
 SSL Certificate
 ---------------
@@ -77,7 +77,7 @@ SSL Certificate
 Open http://localhost. Accept and store all untrusted IPA certificates
 if asked.
 
-.. _disabling_add_on_notification:
+
 
 Disabling Add-on Notification
 -----------------------------
@@ -88,7 +88,7 @@ Open about:config in Firefox, then add the following preference:
 -  Type: boolean
 -  Value: false
 
-.. _running_tests_using_selenium_server:
+
 
 Running Tests using Selenium Server
 ===================================
@@ -133,15 +133,15 @@ results in the specified path.
 
 The is the path to the HTML test suite. The is the path for the output.
 
-.. _running_tests_using_selenium_ide:
+
 
 Running Tests using Selenium IDE
 ================================
 
 Install `Selenium IDE <http://seleniumhq.org/download/>`__ in Firefox.
-Open Selenium IDE, then open a test suite (*-suite.html).
+Open Selenium IDE, then open a test suite (\*-suite.html).
 
-.. _writing_tests_using_selenium_ide:
+
 
 Writing Tests using Selenium IDE
 ================================

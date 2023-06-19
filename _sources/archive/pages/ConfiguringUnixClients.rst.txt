@@ -7,7 +7,7 @@ how to configure different operating systems to authenticate against an
 IPA server. For additional information and support we suggest contacting
 the operating system vendor.
 
-.. _solaris_8910:
+
 
 Solaris 8/9/10
 ==============
@@ -92,7 +92,7 @@ correct TLS profile. The TLS profile should have:
 Additional Resources
 --------------------
 
-.. _freeipa_users_mailing_list_threads:
+
 
 freeipa-users mailing list threads
 ----------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ freeipa-users mailing list threads
 -  `Patch to update Solaris
    documentation <https://www.redhat.com/archives/freeipa-devel/2014-April/msg00286.html>`__
 
-.. _documentation_bugs:
+
 
 Documentation bugs
 ----------------------------------------------------------------------------------------------
@@ -112,12 +112,12 @@ Documentation bugs
 -  `Update the Solaris 10 client
    documentation <https://bugzilla.redhat.com/show_bug.cgi?id=815533>`__
 
-.. _solaris_67:
+
 
 Solaris 6/7
 ===========
 
-.. _building_nss_ldap_openldap_and_pam_ldap:
+
 
 Building nss_ldap, OpenLDAP, and pam_ldap
 -----------------------------------------
@@ -210,7 +210,7 @@ then run make and make install:
    /usr/local/bin/make
    /usr/local/bin/make install
 
-.. _installing_pam_ldap_and_nss_ldap:
+
 
 Installing pam_ldap and nss_ldap
 --------------------------------
@@ -310,7 +310,7 @@ Because nss_ldap and pam_ldap have been compiled with TLS, it is
 possible to do authentication with these clients using TLS. Due to time
 constraints, this implementation is untested.
 
-.. _hp_ux_11.0:
+
 
 HP-UX 11.0
 ==========
@@ -331,7 +331,7 @@ Example profiles are provided
    uid=proxyagent,ou=profile,dc=example,dc=com. This user needs to exist
    on the Directory Server.
 
-.. _configuring_client_authentication_2:
+
 
 Configuring Client Authentication
 ---------------------------------
@@ -421,7 +421,7 @@ on how to do this are in the HP-UX Client Configuration Guide on p.65.
 
 5. Configure the cron job to refresh the profile.
 
-.. _configuring_client_tls_2:
+
 
 Configuring Client TLS
 ----------------------
@@ -466,7 +466,7 @@ on the server.
 
    cn=hpux_11.0_tls,ou=profile,dc=example,dc=com
 
-.. _hp_ux_11i_v.1_and_2:
+
 
 HP-UX 11i v.1 and 2
 ===================
@@ -477,7 +477,7 @@ is almost the same as the HP-UX 11.0. The only difference is that the
 automount services is LDAP-enabled in HP-UX-11i, and is therefore
 configured in the HP-UX 11i client profile.
 
-.. _configuring_client_authentication_3:
+
 
 Configuring Client Authentication
 ---------------------------------
@@ -501,7 +501,7 @@ descriptor for automounts:
 
 3. Create the /etc/ldap.conf file if it does not exist.
 
-.. _configuring_client_tls_3:
+
 
 Configuring Client TLS
 ----------------------
@@ -541,12 +541,12 @@ being created:
 The simple instructions on how to set up the machine using these files
 are detailed on p.63 of the HP-UX Client Configuration Guide.
 
-.. _aix_5.1:
+
 
 AIX 5.1
 =======
 
-.. _building_nss_ldap:
+
 
 Building nss_ldap
 -----------------
@@ -602,7 +602,7 @@ compilation should have created the following files:
 
 These are the files that need to be installed on each client.
 
-.. _installing_and_configuring_nss_ldap:
+
 
 Installing and Configuring nss_ldap
 -----------------------------------
@@ -658,7 +658,7 @@ sample ldap.conf is provided in the Appendix. Copy this file to
 
 10. Modify /etc/nsswitch.conf to add ldap as appropriate.
 
-.. _configuring_client_tls_4:
+
 
 Configuring Client TLS
 ----------------------
@@ -669,12 +669,12 @@ to time constraints, these steps are untested.
 
 **The following steps? Nothing provided here.**
 
-.. _aix_5.2:
+
 
 AIX 5.2
 =======
 
-.. _configuring_client_authentication_4:
+
 
 Configuring Client Authentication
 ---------------------------------
@@ -739,7 +739,7 @@ correct. An example is shown below.
 
    hosts = nis_ldap, bind, nis, local
 
-.. _configuring_client_tls_5:
+
 
 Configuring Client TLS
 ----------------------
@@ -749,19 +749,19 @@ the clients and the server when performing operations such as account
 lookups. It is possible to set up TLS for AIX 5.2. A full set of
 instructions will be provided at a later date.
 
-.. _aix_5.3:
+
 
 AIX 5.3
 =======
 
-.. _configuring_client_authentication_5:
+
 
 Configuring Client Authentication
 ---------------------------------
 
 Use the same configuration as for AIX 5.2.
 
-.. _configuring_client_tls_6:
+
 
 Configuring Client TLS
 ----------------------
@@ -824,7 +824,7 @@ the following commands on the ldap01 server:
    flush-secldapclntd
    start-secldapclntd
 
-.. _aix_sudo:
+
 
 AIX Sudo
 ========
@@ -834,7 +834,7 @@ the same way Linux clients do, although it needs a little more effort to
 get it working. For further details on how to setup this functionality
 on AIX see: `SUDO Integration for AIX <SUDO_Integration_for_AIX>`__.
 
-.. _aix_enabling_password_change_on_client:
+
 
 AIX : Enabling password change on client
 ========================================
@@ -865,7 +865,7 @@ Example:
    The secldapclntd daemon started successfully.
    root@localhost - PROD#
 
-.. _client_configuration_files:
+
 
 Client Configuration Files
 ==========================
@@ -876,7 +876,7 @@ Client Configuration Files
 -  `ldap_client_file <SolarisLdapClientFile>`__
 -  `ldap_client_cred <SolarisLdapClientCred>`__
 
-.. _sample_profiles:
+
 
 Sample Profiles
 ===============
@@ -887,7 +887,7 @@ Solaris
 -  `Sample Non-TLS Profile for Solaris <SolarisNonTlsProfile>`__
 -  `Sample TLS Profile for Solaris <SolarisTlsProfile>`__
 
-.. _hp_ux:
+
 
 HP-UX
 -----

@@ -48,7 +48,7 @@ scenario of deadlock because acquiring locks in the opposite order.</p>
 problem and describe a solution</p>
 </section>
 <section id="use-case">
-<span id="id1"></span><h1>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h1>
+<h1>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h1>
 <p>A admin is adding a IPA user to a GROUP_A, this triggers an update of
 the user (to update memberof attribute) that will update the related
 Schema Compat entry. At the same time a SRCH of a Schema Compat entry
@@ -59,57 +59,57 @@ search filter.</p>
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 <p>Just to give an example of a typical scenario of the deadlock here is
 how deadlocking threads are looking like</p>
-<div class="line-block">
-<div class="line">``   Thread 34 (Thread 0x7f2f4f7fe700 (LWP 22764)):``</div>
-<div class="line">``   #0  0x00007f2f99f776d5 in pthread_cond_wait&#64;&#64;GLIBC_2.3.2 ()``</div>
-<div class="line">``   ..``</div>
-<div class="line">``   /<a href="#id2"><span class="problematic" id="id3">*</span></a><a href="#id4"><span class="problematic" id="id5">``</span></a></div>
-<div class="line">``    * The page owning the group is held by an other TXN``</div>
-<div class="line">``    <a href="#id6"><span class="problematic" id="id7">*</span></a>/``</div>
-<div class="line">``   #5  0x00007f2f936a8132 in __db_lget ()``</div>
-<div class="line">``   ..``</div>
-<div class="line">``   #12 0x00007f2f8e583fba in _entryrdn_index_read ()``</div>
-<div class="line">``   …``</div>
-<div class="line">``   /<a href="#id8"><span class="problematic" id="id9">*</span></a><a href="#id10"><span class="problematic" id="id11">``</span></a></div>
-<div class="line">``    * It need to evaluate a group in the main DB``</div>
-<div class="line">``    <a href="#id12"><span class="problematic" id="id13">*</span></a>/``</div>
-<div class="line">``   #19 0x00007f2f9c3fdf5e in search_internal_callback_pb ()``</div>
-<div class="line">``   #20 0x00007f2f91d1900f in acllas__user_ismember_of_group ()``</div>
-<div class="line">``   ..``</div>
-<div class="line">``   #27 0x00007f2f91d249f7 in acl_access_allowed_main ()``</div>
-<div class="line">``   ..``</div>
-<div class="line">``   /* A search in the scope of Schema Compat, needs to``</div>
-<div class="line">``    * evaluate if the requestor as access right to an entry``</div>
-<div class="line">``    * This search holds the SC map lock``</div>
-<div class="line">``    <a href="#id14"><span class="problematic" id="id15">*</span></a>/``</div>
-<div class="line">``   #31 0x00007f2f9c3c50da in slapi_filter_test_ext ()``</div>
-<div class="line">``   #32 0x00007f2f8c7bfcda in backend_search_set_cb ()``</div>
-<div class="line">``   #33 0x00007f2f8c7d103f in map_data_foreach_map ()``</div>
-<div class="line">``   #34 0x00007f2f8c7bfa46 in backend_search_group_cb ()``</div>
-<div class="line">``   #35 0x00007f2f8c7d0f80 in map_data_foreach_domain ()``</div>
-<div class="line">``   #36 0x00007f2f8c7bf101 in backend_search_cb ()``</div>
-<div class="line">``   #37 0x00007f2f9c3f8db8 in plugin_call_func ()``</div>
-<div class="line">``   #38 0x00007f2f9c3f9043 in plugin_call_plugins ()``</div>
-<div class="line">``   #39 0x00007f2f9c3ecfdb in op_shared_search ()``</div>
-<div class="line">``   #40 0x00007f2f9c8e511e in do_search ()``</div>
-<div class="line">``   ``</div>
-<div class="line">``   ===============================``</div>
-<div class="line">``   Thread 11 (Thread 0x7f2f43fe7700 (LWP 22787)):``</div>
-<div class="line">``   /<a href="#id16"><span class="problematic" id="id17">*</span></a><a href="#id18"><span class="problematic" id="id19">``</span></a></div>
-<div class="line">``    * The MOD needs to update the SC map and acquire its lock``</div>
-<div class="line">``    <a href="#id20"><span class="problematic" id="id21">*</span></a>/``</div>
-<div class="line">``   #0  0x00007f2f99f7703e in pthread_rwlock_wrlock ()``</div>
-<div class="line">``   #1  0x00007f2f8c7c49d5 in backend_shr_modify_cb.part.20 ()``</div>
-<div class="line">``   #2  0x00007f2f8c7c5171 in backend_shr_betxn_post_modify_cb ()``</div>
-<div class="line">``   ``</div>
-<div class="line">``   /<a href="#id22"><span class="problematic" id="id23">*</span></a><a href="#id24"><span class="problematic" id="id25">``</span></a></div>
-<div class="line">``    * We are in BETXN_POST, so DB pages impacted by the MOD are hold``</div>
-<div class="line">``    <a href="#id26"><span class="problematic" id="id27">*</span></a>/``</div>
-<div class="line">``   #3  0x00007f2f9c3f8db8 in plugin_call_func ()``</div>
-<div class="line">``   #4  0x00007f2f9c3f9043 in plugin_call_plugins ()``</div>
-<div class="line">``   #5  0x00007f2f8e58c9d1 in ldbm_back_modify ()``</div>
-<div class="line">``   #6  0x00007f2f9c3e655b in op_shared_modify ()``</div>
-<div class="line">``   #7  0x00007f2f9c3e791f in do_modify ()``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``   Thread 34 (Thread 0x7f2f4f7fe700 (LWP 22764)):``
+| ``   #0  0x00007f2f99f776d5 in pthread_cond_wait@@GLIBC_2.3.2 ()``
+| ``   ..``
+| ``   /*``
+| ``    * The page owning the group is held by an other TXN``
+| ``    */``
+| ``   #5  0x00007f2f936a8132 in __db_lget ()``
+| ``   ..``
+| ``   #12 0x00007f2f8e583fba in _entryrdn_index_read ()``
+| ``   ...``
+| ``   /*``
+| ``    * It need to evaluate a group in the main DB``
+| ``    */``
+| ``   #19 0x00007f2f9c3fdf5e in search_internal_callback_pb ()``
+| ``   #20 0x00007f2f91d1900f in acllas__user_ismember_of_group ()``
+| ``   ..``
+| ``   #27 0x00007f2f91d249f7 in acl_access_allowed_main ()``
+| ``   ..``
+| ``   /* A search in the scope of Schema Compat, needs to``
+| ``    * evaluate if the requestor as access right to an entry``
+| ``    * This search holds the SC map lock``
+| ``    */``
+| ``   #31 0x00007f2f9c3c50da in slapi_filter_test_ext ()``
+| ``   #32 0x00007f2f8c7bfcda in backend_search_set_cb ()``
+| ``   #33 0x00007f2f8c7d103f in map_data_foreach_map ()``
+| ``   #34 0x00007f2f8c7bfa46 in backend_search_group_cb ()``
+| ``   #35 0x00007f2f8c7d0f80 in map_data_foreach_domain ()``
+| ``   #36 0x00007f2f8c7bf101 in backend_search_cb ()``
+| ``   #37 0x00007f2f9c3f8db8 in plugin_call_func ()``
+| ``   #38 0x00007f2f9c3f9043 in plugin_call_plugins ()``
+| ``   #39 0x00007f2f9c3ecfdb in op_shared_search ()``
+| ``   #40 0x00007f2f9c8e511e in do_search ()``
+| ``   ``
+| ``   ===============================``
+| ``   Thread 11 (Thread 0x7f2f43fe7700 (LWP 22787)):``
+| ``   /*``
+| ``    * The MOD needs to update the SC map and acquire its lock``
+| ``    */``
+| ``   #0  0x00007f2f99f7703e in pthread_rwlock_wrlock ()``
+| ``   #1  0x00007f2f8c7c49d5 in backend_shr_modify_cb.part.20 ()``
+| ``   #2  0x00007f2f8c7c5171 in backend_shr_betxn_post_modify_cb ()``
+| ``   ``
+| ``   /*``
+| ``    * We are in BETXN_POST, so DB pages impacted by the MOD are hold``
+| ``    */``
+| ``   #3  0x00007f2f9c3f8db8 in plugin_call_func ()``
+| ``   #4  0x00007f2f9c3f9043 in plugin_call_plugins ()``
+| ``   #5  0x00007f2f8e58c9d1 in ldbm_back_modify ()``
+| ``   #6  0x00007f2f9c3e655b in op_shared_modify ()``
+| ``   #7  0x00007f2f9c3e791f in do_modify ()``
+</pre></div>
 </div>
 <p>The basic of the deadlock is two locks taken in the opposite order. 3
 ideas came to my mind to fix it</p>
@@ -165,7 +165,7 @@ be acquired by a same thread. The <strong>lock should be reentrant</strong>.</p>
 acquires the SC lock in PREOP and release it in POSTOP.</p>
 </section>
 <section id="first-try">
-<span id="id28"></span><h1>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h1>
+<h1>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h1>
 <p>A first
 <a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1305923">patch</a> was</p>
 <ul class="simple">
@@ -185,7 +185,7 @@ scope of the SC</p></li>
 </ul>
 </section>
 <section id="second-patch">
-<span id="id29"></span><h1>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h1>
+<h1>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h1>
 <p>Because we can not guaranty the order the plugins are called, the
 acquisition/release of the lock should be done a step above:
 <strong>BE_PREOP</strong> / <strong>BE_POST</strong>.</p>
@@ -220,60 +220,60 @@ systematically the problem ( &gt; 3 times out of 4). The fix makes it
 successful almost more than 9 times out of 10. The last time it hit an
 other issue.</p>
 <section id="case-not-fixed">
-<span id="id30"></span><h2>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h2>
+<h2>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h2>
 <p>An other issue is related to plugins or tasks <strong>starting transaction</strong>
 and accessing DB pages (under the txn) before doing internal updates.
 Indeed, the txn will lock the DB pages (in read) that can not be access
 (even in read) by others threads.</p>
 <p>The deadlock is then looking like</p>
-<div class="line-block">
-<div class="line">``  thread 11 read a DB page (index) under a txn, then adds an entry ``</div>
-<div class="line">``          dnaHostname=``<code class="docutils literal notranslate"><span class="pre">+dnaPortNum=389,cn=posix-ids,cn=dna,cn=ipa,cn=etc,</span></code></div>
-<div class="line">``  ``</div>
-<div class="line">``  ``</div>
-<div class="line">``  Thread 11 (Thread 0x7f8861820700 (LWP 66191)):                                                                                               ``</div>
-<div class="line">``  #0  0x00007f888d0a88e4 in futex_abstimed_wait ``</div>
-<div class="line">``  #1  __pthread_rwlock_wrlock_full (abstime=0x0, rwlock=0x5559b577bc40) at pthread_rwlock_common.c:803``</div>
-<div class="line">``  #2  __GI___pthread_rwlock_wrlock (rwlock=0x5559b577bc40) at pthread_rwlock_wrlock.c:27``</div>
-<div class="line">``  #3  0x00007f887f826bed in backend_be_pre_write_cb ()``</div>
-<div class="line">``  #4  0x00007f888f733aba in plugin_call_func ``</div>
-<div class="line">``  #5  0x00007f888f733d44 in plugin_call_list ``</div>
-<div class="line">``  #6  plugin_call_plugins ``</div>
-<div class="line">``  #7  0x00007f88817e67c7 in ldbm_back_add ``</div>
-<div class="line">``  #8  0x00007f888f6d7b12 in op_shared_add ``</div>
-<div class="line">``  #9  0x00007f888f6d8333 in add_internal_pb ``</div>
-<div class="line">``  #10 0x00007f888f6d905e in slapi_add_internal_pb ``</div>
-<div class="line">``  #11 0x00007f8883cdd3fc in dna_update_shared_config ``</div>
-<div class="line">``      &lt; here a txn is started&gt;``</div>
-<div class="line">``  #12 0x00007f8883ce0252 in dna_update_config_event ``</div>
-<div class="line">``  #13 0x00007f888f6faa5c in eq_call_all ``</div>
-<div class="line">``  #14 eq_loop (arg=``<a href="#id31"><span class="problematic" id="id32">``</span></a>) ``</div>
-<div class="line">``  #15 0x00007f888d70708b in _pt_root ``</div>
-<div class="line">``  #16 0x00007f888d0a336d in start_thread ``</div>
-<div class="line">``  #17 0x00007f888cb92bbf in clone () ``</div>
-<div class="line">``  ``</div>
-<div class="line">``  ===============================================``</div>
-<div class="line">``  This thread acquires SC map lock but evaluate aci that need DB access``</div>
-<div class="line">``  ``</div>
-<div class="line">``  Thread 56 (Thread 0x7f884a7f2700 (LWP 66237)):``</div>
-<div class="line">``  #0  0x00007f888d0a990b in futex_wait_cancelable (private=``<code class="docutils literal notranslate"><span class="pre">, expected=0, futex_word=0x7f887a380a08) at ../sysdeps/unix/sysv/linux/futex-internal.h:88</span></code></div>
-<div class="line">``  …``</div>
-<div class="line">``  #14 0x00007f88858adef5 in __dbc_get ``</div>
-<div class="line">``  …``</div>
-<div class="line">``  #25 0x00007f888f73884e in search_internal_callback_pb ``</div>
-<div class="line">``  ..``</div>
-<div class="line">``  #27 0x00007f8884b803da in acllas__user_ismember_of_group ``</div>
-<div class="line">``  #41 0x00007f888f70052d in slapi_filter_test_ext ``</div>
-<div class="line">``  #42 0x00007f887f829932 in backend_search_set_cb ()``</div>
-<div class="line">``  #43 0x00007f887f839e4f in map_data_foreach_map ()``</div>
-<div class="line">``  #44 0x00007f887f829616 in backend_search_group_cb ()``</div>
-<div class="line">``  #45 0x00007f887f839d90 in map_data_foreach_domain ()``</div>
-<div class="line">``  #46 0x00007f887f828cd8 in backend_search_cb ()``</div>
-<div class="line">``  #47 0x00007f888f733aba in plugin_call_func ``</div>
-<div class="line">``  #48 0x00007f888f733d44 in plugin_call_list ``</div>
-<div class="line">``  #49 plugin_call_plugins ``</div>
-<div class="line">``  #50 0x00007f888f728410 in op_shared_search ``</div>
-<div class="line">``  #51 0x00005559b29ef577 in do_search ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``  thread 11 read a DB page (index) under a txn, then adds an entry ``
+| ``          dnaHostname=``\ ``+dnaPortNum=389,cn=posix-ids,cn=dna,cn=ipa,cn=etc,``
+| ``  ``
+| ``  ``
+| ``  Thread 11 (Thread 0x7f8861820700 (LWP 66191)):                                                                                               ``
+| ``  #0  0x00007f888d0a88e4 in futex_abstimed_wait ``
+| ``  #1  __pthread_rwlock_wrlock_full (abstime=0x0, rwlock=0x5559b577bc40) at pthread_rwlock_common.c:803``
+| ``  #2  __GI___pthread_rwlock_wrlock (rwlock=0x5559b577bc40) at pthread_rwlock_wrlock.c:27``
+| ``  #3  0x00007f887f826bed in backend_be_pre_write_cb ()``
+| ``  #4  0x00007f888f733aba in plugin_call_func ``
+| ``  #5  0x00007f888f733d44 in plugin_call_list ``
+| ``  #6  plugin_call_plugins ``
+| ``  #7  0x00007f88817e67c7 in ldbm_back_add ``
+| ``  #8  0x00007f888f6d7b12 in op_shared_add ``
+| ``  #9  0x00007f888f6d8333 in add_internal_pb ``
+| ``  #10 0x00007f888f6d905e in slapi_add_internal_pb ``
+| ``  #11 0x00007f8883cdd3fc in dna_update_shared_config ``
+| ``      &lt; here a txn is started&gt;``
+| ``  #12 0x00007f8883ce0252 in dna_update_config_event ``
+| ``  #13 0x00007f888f6faa5c in eq_call_all ``
+| ``  #14 eq_loop (arg=``\ ``) ``
+| ``  #15 0x00007f888d70708b in _pt_root ``
+| ``  #16 0x00007f888d0a336d in start_thread ``
+| ``  #17 0x00007f888cb92bbf in clone () ``
+| ``  ``
+| ``  ===============================================``
+| ``  This thread acquires SC map lock but evaluate aci that need DB access``
+| ``  ``
+| ``  Thread 56 (Thread 0x7f884a7f2700 (LWP 66237)):``
+| ``  #0  0x00007f888d0a990b in futex_wait_cancelable (private=``\ ``, expected=0, futex_word=0x7f887a380a08) at ../sysdeps/unix/sysv/linux/futex-internal.h:88``
+| ``  ...``
+| ``  #14 0x00007f88858adef5 in __dbc_get ``
+| ``  ...``
+| ``  #25 0x00007f888f73884e in search_internal_callback_pb ``
+| ``  ..``
+| ``  #27 0x00007f8884b803da in acllas__user_ismember_of_group ``
+| ``  #41 0x00007f888f70052d in slapi_filter_test_ext ``
+| ``  #42 0x00007f887f829932 in backend_search_set_cb ()``
+| ``  #43 0x00007f887f839e4f in map_data_foreach_map ()``
+| ``  #44 0x00007f887f829616 in backend_search_group_cb ()``
+| ``  #45 0x00007f887f839d90 in map_data_foreach_domain ()``
+| ``  #46 0x00007f887f828cd8 in backend_search_cb ()``
+| ``  #47 0x00007f888f733aba in plugin_call_func ``
+| ``  #48 0x00007f888f733d44 in plugin_call_list ``
+| ``  #49 plugin_call_plugins ``
+| ``  #50 0x00007f888f728410 in op_shared_search ``
+| ``  #51 0x00005559b29ef577 in do_search ``
+</pre></div>
 </div>
 <p>The db_stat output of the locked pages is showing Thread 11 transaction
 (80005604) that is blocking many readers (in the way reproducible test

@@ -28,7 +28,7 @@ write purposes, it is only accessible in read-only mode. Any change to
 the information shall come through the domain controllers responsible
 for a domain in question.
 
-.. _supported_naming_contexts:
+
 
 Supported naming contexts
 -------------------------
@@ -38,7 +38,7 @@ Naming Context, Configuration Naming Context, and Domain Naming Context.
 The scope for Global Catalog service in FreeIPA is limited to Domain
 Naming Context in initial implementation.
 
-.. _supported_ports_and_protocols:
+
 
 Supported ports and protocols
 -----------------------------
@@ -51,7 +51,7 @@ over DCE RPC protocol stack. Samba implements corresponding
 functionality for user and group name lookups with the help of the
 primary FreeIPA LDAP server instance.
 
-.. _global_catalog_provisioning:
+
 
 Global Catalog provisioning
 ---------------------------
@@ -64,7 +64,7 @@ Catalog in Active Directory. Unlike the original **slapi-nis** module,
 the data is stored in a proper LDAP backend so it is persistent across
 the directory server restarts.
 
-.. _gc_tree_structure:
+
 
 GC tree structure
 -----------------
@@ -81,7 +81,7 @@ units available. As result, object-specific containers are children of
 the forest domain suffix: e.g. for users a subtree of
 **cn=users,dc=example,dc=com** is used.
 
-.. _gc_schema_mapping:
+
 
 GC schema mapping
 -----------------
@@ -92,7 +92,7 @@ Directory clients consuming Global Catalog service. However, the Global
 Catalog schema itself requires transformation so that it could be used
 in 389-ds directory server environment.
 
-.. _freeipa_schema_to_gc_schema_mapping:
+
 
 FreeIPA schema to GC schema mapping
 ----------------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ define transformations of the LDAP objects. A detailed description of
 the formatting language is provided in the `slapi-nis
 documentation <https://git.fedorahosted.org/cgit/slapi-nis.git/tree/doc/format-specifiers.txt>`__.
 
-.. _equality_and_attribute_syntax_rules_mapping:
+
 
 Equality and attribute syntax rules mapping
 ----------------------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ mapped to those of 389-ds.
    1.2.840.11.3556.1.1.1.6 1.3.6.1.4.1.1466.115.121.1.5
    ======================= =============================
 
-.. _auxiliary_classes:
+
 
 Auxiliary classes
 -----------------
@@ -185,7 +185,7 @@ support mechanism to specify multiple superior classes in the schema. In
 result, we need to explicitly add these classes to the objects of a
 specific objectClass type on creation.
 
-.. _tree_structure_correctness:
+
 
 Tree structure correctness
 --------------------------

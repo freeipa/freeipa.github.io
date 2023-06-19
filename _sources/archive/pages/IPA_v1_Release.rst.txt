@@ -1,4 +1,4 @@
-.. _ipa_v1_release:
+
 
 IPA v1 Release
 ==============

@@ -26,7 +26,7 @@ Create /usr/local/samba/etc/smb.conf for the replica:
            netbios name    = samba2
            ...
 
-.. _provisioning_fedora_ds_backend:
+
 
 Provisioning Fedora DS Backend
 ==============================
@@ -91,7 +91,7 @@ Edit /usr/local/samba/private/ldap/99_ad.ldif, replace
    % cd /usr/local/samba/private/ldap
    % /usr/sbin/setup-ds.pl --file=fedorads.inf
 
-.. _starting_fedora_ds:
+
 
 Starting Fedora DS
 ==================
@@ -101,7 +101,7 @@ Starting Fedora DS
    % cd /usr/local/samba/private/ldap
    % slapd-samba/start-slapd
 
-.. _configuring_multi_master_replication:
+
 
 Configuring Multi-Master Replication
 ====================================
@@ -144,7 +144,7 @@ Download `mmr.pl <Media:mmr.txt>`__ script to configure MMR:
    --base cn=Schema,cn=Configuration,dc=domain1,dc=com \
    --create
 
-.. _provisioning_samba:
+
 
 Provisioning Samba
 ==================
@@ -166,7 +166,7 @@ Provisioning Samba
    DOMAIN SID:     S-1-5-21-3010954269-3145692404-1112636010
    Admin password: Secret123
 
-.. _joining_samba_domain:
+
 
 Joining Samba Domain
 ====================
@@ -209,7 +209,7 @@ Add the entry to Samba master:
    % cd /usr/local/samba/bin
    % ./ldbadd -H ldap://samba1.domain1.com -p -U Administrator --password=Secret123 <file>
 
-.. _starting_samba_replica:
+
 
 Starting Samba Replica
 ======================
@@ -219,7 +219,7 @@ Starting Samba Replica
    % cd /usr/local/samba/sbin
    % ./samba -i -M single -d 3
 
-.. _enable_change_log:
+
 
 Enable Change Log
 =================

@@ -1,4 +1,4 @@
-.. _sample_non_tls_profile_for_hpux:
+
 
 Sample Non TLS Profile for HPUX
 ===============================

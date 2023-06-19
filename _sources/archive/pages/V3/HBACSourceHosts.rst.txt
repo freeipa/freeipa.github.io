@@ -22,7 +22,7 @@ help and it will not be possible to use them from the CLI. They will
 however remain in the API and when called directly using the API, will
 raise appropriate exceptions informing the user about their deprecation.
 
-.. _use_cases118:
+
 
 Use Cases
 =========
@@ -80,7 +80,7 @@ invocation of these commands and options.
 Modify existing unit tests to take into account the new behavior of
 these commands and options.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

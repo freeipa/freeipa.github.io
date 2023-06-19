@@ -58,7 +58,7 @@ Subtrees/tokens:
    -  private key and certificate objects
    -  read and write access to individual objects for their owner
 
-.. _how_applications_interact_with_pkcs11:
+
 
 How applications interact with PKCS#11
 --------------------------------------

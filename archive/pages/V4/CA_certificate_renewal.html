@@ -49,14 +49,14 @@ which consists of distribution of CA certificates to IPA clients.</p>
 <h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="automated-ca-certificate-renewal">
-<span id="id1"></span><h1>Automated CA certificate renewal<a class="headerlink" href="#automated-ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
+<h1>Automated CA certificate renewal<a class="headerlink" href="#automated-ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
 <p>When the CA certificate is nearing its expiration time, it should be
 automatically renewed. The renewed certificate will use the same keypair
 and subject name as the old certificate.</p>
 <p>This only works for self-signed CA certificates in CA-ful installs.</p>
 </section>
 <section id="manual-ca-certificate-renewal">
-<span id="id2"></span><h1>Manual CA certificate renewal<a class="headerlink" href="#manual-ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
+<h1>Manual CA certificate renewal<a class="headerlink" href="#manual-ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
 <p>Allow admin to manually renew the CA certificate and possibly change its
 chaining (self-signed → signed by external CA, signed by external CA →
 self-signed, signed by external CA → signed by other external CA)
@@ -66,7 +66,7 @@ use the same keypair and subject name as the old certificate.</p>
 <p>This works for any CA certificate in CA-ful installs.</p>
 </section>
 <section id="manual-install-of-ca-certificate">
-<span id="id3"></span><h1>Manual install of CA certificate<a class="headerlink" href="#manual-install-of-ca-certificate" title="Permalink to this heading">¶</a></h1>
+<h1>Manual install of CA certificate<a class="headerlink" href="#manual-install-of-ca-certificate" title="Permalink to this heading">¶</a></h1>
 <p>In CA-less installs, CA certificate renewal is completely in charge of a
 3rd party CA. Provide means of installing CA certificates obtained from
 such a CA (<strong>phase 1</strong>) and automatically distribute them to all systems
@@ -76,28 +76,28 @@ in the domain (<strong>phase 2</strong>).</p>
 <h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="shared-certificate-store">
-<span id="id4"></span><h1>Shared certificate store<a class="headerlink" href="#shared-certificate-store" title="Permalink to this heading">¶</a></h1>
+<h1>Shared certificate store<a class="headerlink" href="#shared-certificate-store" title="Permalink to this heading">¶</a></h1>
 <p>CA certificates will be stored in entries under
 <code class="docutils literal notranslate"><span class="pre">cn=certificates,cn=ipa,cn=etc,</span></code><em>``suffix``</em>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,</span></code><em>``suffix``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaCertificate</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: pkiCA</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipaKeyPolicy</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: cn=EXAMPLE.COM IPA CA</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22</span></code></div>
-<div class="line"><a href="#id5"><span class="problematic" id="id6">``</span></a>ipaPublicKey: <a href="#id7"><span class="problematic" id="id8">``</span></a><em>``DER-encoded public key``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaConfigString: ipaCA</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaConfigString: compatCA</span></code></div>
-<div class="line"><a href="#id9"><span class="problematic" id="id10">``</span></a>cACertificate;binary:: <a href="#id11"><span class="problematic" id="id12">``</span></a><em>``DER-encoded certificate 1``</em></div>
-<div class="line"><a href="#id13"><span class="problematic" id="id14">``</span></a>cACertificate;binary:: <a href="#id15"><span class="problematic" id="id16">``</span></a><em>``DER-encoded certificate 2``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaKeyTrust: trusted</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
+| ``objectClass: ipaCertificate``
+| ``objectClass: pkiCA``
+| ``objectClass: ipaKeyPolicy``
+| ``cn: cn=EXAMPLE.COM IPA CA``
+| ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
+| ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
+| ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
+| ``ipaPublicKey: ``\ *``DER-encoded public key``*
+| ``ipaConfigString: ipaCA``
+| ``ipaConfigString: compatCA``
+| ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
+| ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
+| ``ipaKeyTrust: trusted``
+| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
+| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
+| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
+| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
+</pre></div>
 </div>
 <p>Each entry represents a set of certificates using a single subject name
 and public key and contains trust policy for the set of certificates
@@ -224,7 +224,7 @@ host (for automatic renewal).</p>
 </div>
 </section>
 <section id="automatic-renewal-of-ipa-ca-certificate">
-<span id="id17"></span><h1>Automatic renewal of IPA CA certificate<a class="headerlink" href="#automatic-renewal-of-ipa-ca-certificate" title="Permalink to this heading">¶</a></h1>
+<h1>Automatic renewal of IPA CA certificate<a class="headerlink" href="#automatic-renewal-of-ipa-ca-certificate" title="Permalink to this heading">¶</a></h1>
 <p>The CA certificate managed by Dogtag will be tracked by certmonger. If
 the certificate is self-signed, it will be automatically renewed. If the
 certificate is signed by an external CA, the renewal attempt will fail
@@ -232,7 +232,7 @@ with an error, advising the administrator to renew the certificate
 manually. The error is syslogged with ALERT severity.</p>
 </section>
 <section id="ca-certificate-management-utility">
-<span id="id18"></span><h1>CA certificate management utility<a class="headerlink" href="#ca-certificate-management-utility" title="Permalink to this heading">¶</a></h1>
+<h1>CA certificate management utility<a class="headerlink" href="#ca-certificate-management-utility" title="Permalink to this heading">¶</a></h1>
 <p>There will be new utility to manage CA certificates,
 <code class="docutils literal notranslate"><span class="pre">ipa-cacert-manage</span></code>. It will have several subcommands:</p>
 <ul>
@@ -264,7 +264,7 @@ Install the new CA certificate.</p>
 </li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">install</span></code><em>``options``</em><a href="#id19"><span class="problematic" id="id20">``</span></a><a href="#id21"><span class="problematic" id="id22">``</span></a><em>``file``</em></p>
+<li><p><code class="docutils literal notranslate"><span class="pre">install</span></code><em>``options``</em> <em>``file``</em></p>
 <p>Install CA certificate from a PEM file.
 The available options are:</p>
 <ul>
@@ -279,7 +279,7 @@ The available options are:</p>
 </ul>
 </section>
 <section id="client-certificate-update-utility">
-<span id="id23"></span><h1>Client certificate update utility<a class="headerlink" href="#client-certificate-update-utility" title="Permalink to this heading">¶</a></h1>
+<h1>Client certificate update utility<a class="headerlink" href="#client-certificate-update-utility" title="Permalink to this heading">¶</a></h1>
 <p>There will be new utility, <code class="docutils literal notranslate"><span class="pre">ipa-certupdate</span></code>, for updating CA
 certificates on clients with up-to-date data from LDAP. Until <strong>phase
 2</strong> is complete, running it manually will be the only way to update the
@@ -329,10 +329,10 @@ to look for CA certificates both in this entry and in
 servers.</p>
 </section>
 <section id="how-to-test">
-<span id="how-to-test13"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
 </section>
-<section id="automated-ca-certificate-renewal-1">
-<span id="id24"></span><h1>Automated CA certificate renewal<a class="headerlink" href="#automated-ca-certificate-renewal-1" title="Permalink to this heading">¶</a></h1>
+<section id="id1">
+<h1>Automated CA certificate renewal<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic">
 <li><p>Install IPA server with CA (either self-signed or signed by external
 CA)</p></li>
@@ -369,8 +369,8 @@ CA_WORKING status</p></li>
 </li>
 </ol>
 </section>
-<section id="manual-ca-certificate-renewal-1">
-<span id="id25"></span><h1>Manual CA certificate renewal<a class="headerlink" href="#manual-ca-certificate-renewal-1" title="Permalink to this heading">¶</a></h1>
+<section id="id2">
+<h1>Manual CA certificate renewal<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic simple">
 <li><p>Install IPA server with CA (either self-signed or signed by external
 CA)</p></li>
@@ -402,8 +402,8 @@ certificate were added to the LDAP certificate store and to the
 </li>
 </ol>
 </section>
-<section id="manual-install-of-ca-certificate-1">
-<span id="id26"></span><h1>Manual install of CA certificate<a class="headerlink" href="#manual-install-of-ca-certificate-1" title="Permalink to this heading">¶</a></h1>
+<section id="id3">
+<h1>Manual install of CA certificate<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic simple">
 <li><p>Install IPA server</p></li>
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">ipa-cacert-manage</span> <span class="pre">install</span></code> to install the CA certificate</p></li>
@@ -411,7 +411,7 @@ certificate were added to the LDAP certificate store and to the
 </ol>
 </section>
 <section id="manual-update-of-local-ca-certificate-files">
-<span id="id27"></span><h1>Manual update of local CA certificate files<a class="headerlink" href="#manual-update-of-local-ca-certificate-files" title="Permalink to this heading">¶</a></h1>
+<h1>Manual update of local CA certificate files<a class="headerlink" href="#manual-update-of-local-ca-certificate-files" title="Permalink to this heading">¶</a></h1>
 <ol class="arabic simple">
 <li><p>Install IPA server(s) and possibly client(s)</p></li>
 <li><p>Renew or install CA certificate(s)</p></li>

@@ -93,7 +93,7 @@ Note: the permission entry will look like this:
 | ``objectClass: ipapermissionv2``
 | ``objectClass: top``
 
-.. _section-1:
+
 
 Cleanup
 

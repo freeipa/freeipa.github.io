@@ -6,7 +6,7 @@ design page covers the improvements(topics) which will be done in scope
 of 4.4 release. Each individual topic should have its own use cases,
 design, implementation and feature management section.
 
-.. _slow_user_add:
+
 
 Slow user-add
 -------------
@@ -49,7 +49,7 @@ operational. Some controls can be skipped or updates (like group
 membership) can be postponed to the end of the provisioning. RFE should
 be created for these improvements.
 
-.. _performance_slow_down_of_clis:
+
 
 Performance slow down of CLIs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -93,23 +93,26 @@ principal. GSSAPI Kerberos authentication is also using LDAP server so
 the complete authentication is looking like (note the delay between the
 connection open and the BIND:
 
-``Details:``
 
-| ``[11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
-| ``...``
-| ``[11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI``
-| ``[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
-| ``[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"``
-| ``.... ``
-| ``.... ``
-| ``<MOD(s) to add the users into the related groups>``
-| ``.... ``
+::
 
-.. _kerberos_authentication_cost:
+   ``Details:``
+
+   | ``[11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
+   | ``...``
+   | ``[11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI``
+   | ``[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
+   | ``[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
+   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI``
+   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
+   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI``
+   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"``
+   | ``.... ``
+   | ``.... ``
+   | ``<MOD(s) to add the users into the related groups>``
+   | ``.... ``
+
+
 
 kerberos authentication cost
                             
@@ -164,7 +167,7 @@ fixing **schema compat** because it is an easy fix. 389-ds server,
 *assuming* that a local agent (*ldapi* interface) bound as *root* (like
 kerberos) is not interested by the schema compat mapped entries.
 
-.. _ldap_bind_cost:
+
 
 ldap bind cost
               
@@ -177,7 +180,7 @@ top consumer.
 
 For this reason we did not do specific improvement on LDAP BIND
 
-.. _control_and_ldap_searches:
+
 
 Control and LDAP searches
 '''''''''''''''''''''''''
@@ -207,7 +210,7 @@ The request that is expensive is :
 | ``[05/Apr/2016:13:57:33 +0200] conn=75540 op=17 SRCH base="``\ ``" scope=2 filter="(|(member=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberUser=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberHost=uid=tb51420,cn=users,cn=accounts,``\ ``))" attrs=""``
 | ``[05/Apr/2016:13:57:33 +0200] conn=75540 op=17 RESULT err=0 tag=101 nentries=0 etime=0.275000``
 
-.. _add_user:
+
 
 Add user
 ''''''''
@@ -251,7 +254,7 @@ Because of the fix in schema compat being very simple (skip internal
 operation), major gain (even for other use case). This is the one that
 was implement.
 
-.. _update_of_the_group_membership:
+
 
 Update of the group membership
 ''''''''''''''''''''''''''''''
@@ -290,7 +293,7 @@ Because the fix in **schema compat** being very simple (skip internal
 operation), **major gain** (even for other use case). This is the one
 that was implemented.
 
-.. _broken_schemacache:
+
 
 broken SchemaCache
 ''''''''''''''''''
@@ -299,23 +302,25 @@ Due `#5787 <https://fedorahosted.org/freeipa/ticket/5787>`__ every IPA
 command call downloads the LDAP schema first without any caching. It
 took 40-60% of time of user-add command without groups.
 
-``Profiler output:``
+::
 
-| ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
-| ``Ordered by: cumulative time``
-| `` ``
-| ``ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-| ``...``
-| ``206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
-| ``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
-| ``  1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
-| `` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-| ``...``
+   ``Profiler output:``
+
+   | ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
+   | ``Ordered by: cumulative time``
+   | `` ``
+   | ``ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
+   | ``...``
+   | ``206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
+   | ``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
+   | ``  1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
+   | `` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
+   | ``...``
 
 This performance issue will be resolved by fixing
 `#5787 <https://fedorahosted.org/freeipa/ticket/5787>`__.
 
-.. _option___noprivate_is_not_efficient:
+
 
 option --noprivate is not efficient
 '''''''''''''''''''''''''''''''''''
@@ -327,7 +332,7 @@ With option --noprivate postcallback of user_add command executes
 user-mod command for simple value change. This is ineffective and
 internal ldap mod call should be executed.
 
-.. _cli_framework:
+
 
 CLI framework
 '''''''''''''
@@ -343,7 +348,7 @@ is to track this remaining part
 Implementation
 ----------------------------------------------------------------------------------------------
 
-.. _user_add_cli:
+
 
 User-add CLI
 ^^^^^^^^^^^^
@@ -354,7 +359,7 @@ was implemented since **4.3.4** with the ticket
 `5463 <https://fedorahosted.org/freeipa/ticket/5463>`__ and
 `commit <https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=7f0d018c66da1fe2adedd45aa9f5a63c913e4527>`__
 
-.. _directory_server:
+
 
 Directory Server
 ^^^^^^^^^^^^^^^^
@@ -392,7 +397,7 @@ UI
 CLI
 ^^^
 
-.. _slow_user_find:
+
 
 Slow user-find
 --------------
@@ -405,7 +410,7 @@ Related ticket(s):
 `#3376 <https://fedorahosted.org/freeipa/ticket/3376>`__,
 `#4995 <https://fedorahosted.org/freeipa/ticket/4995>`__
 
-.. _use_cases_1:
+
 
 Use Cases
 ----------------------------------------------------------------------------------------------
@@ -413,12 +418,12 @@ Use Cases
 #. Increase the usability of user-find command because with many users
    searches in LDAP take too long and may result into timeout.
 
-.. _design_1:
+
 
 Design
 ----------------------------------------------------------------------------------------------
 
-.. _dont_do_extra_search_for_ipasshpubkey_attribute:
+
 
 Don't do extra search for ipasshpubkey attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -464,7 +469,7 @@ for each user (2000 times for this case)
 Fetching *ipsshpubkey* together with all attributes in one search will
 increase speed rapidly.
 
-.. _remove_userpassword_krbprincipalkey_attributes_from_search_results:
+
 
 Remove userPassword, krbPrincipalKey attributes from search results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -507,7 +512,7 @@ for each user (2000 times for this case)
 Note: this change causes that the output of user-find is not backward
 compatible.
 
-.. _processing_members:
+
 
 processing members
 ^^^^^^^^^^^^^^^^^^
@@ -526,17 +531,17 @@ memberships.
 Fro more details please read `\*-find
 section <http://www.freeipa.org/page/V4/Performance_Improvements#.2A-find>`__
 
-.. _implementation_1:
+
 
 Implementation
 ----------------------------------------------------------------------------------------------
 
-.. _feature_management_1:
+
 
 Feature Management
 ----------------------------------------------------------------------------------------------
 
-.. _ui_1:
+
 
 UI
 ^^
@@ -548,7 +553,7 @@ user-find --pkey-only with 2000 users
 
 ``708478 function calls (694369 primitive calls) in 1.889 seconds``
 
-.. _cli_1:
+
 
 CLI
 ^^^
@@ -563,7 +568,7 @@ Upgrade
 
 N/A
 
-.. _slow_host_find:
+
 
 Slow host-find
 --------------
@@ -572,7 +577,7 @@ High number of hosts stored in LDAP causes slowdown of the IPA command.
 
 Issue here are similar to user-find issues.
 
-.. _use_cases_2:
+
 
 Use Cases
 ----------------------------------------------------------------------------------------------
@@ -580,12 +585,12 @@ Use Cases
 #. Increase the usability of host-find command because with many host
    searches in LDAP take too long and may result into timeout.
 
-.. _design_2:
+
 
 Design
 ----------------------------------------------------------------------------------------------
 
-.. _dont_do_extra_search_for_ipasshpubkey_attribute_1:
+
 
 Don't do extra search for ipasshpubkey attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -593,7 +598,7 @@ Don't do extra search for ipasshpubkey attribute
 See
 `user-find <http://www.freeipa.org/page/V4/Performance_Improvements#Slow_user-find>`__
 
-.. _remove_userpassword_krbprincipalkey_attributes_from_search_results_1:
+
 
 Remove userPassword, krbPrincipalKey attributes from search results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -601,7 +606,7 @@ Remove userPassword, krbPrincipalKey attributes from search results
 See
 `user-find <http://www.freeipa.org/page/V4/Performance_Improvements#Slow_user-find>`__
 
-.. _processing_members_1:
+
 
 processing members
 ^^^^^^^^^^^^^^^^^^
@@ -615,41 +620,41 @@ memberships.
 For more details please read `\*-find
 section <http://www.freeipa.org/page/V4/Performance_Improvements#.2A-find>`__
 
-.. _implementation_2:
+
 
 Implementation
 ----------------------------------------------------------------------------------------------
 
-.. _feature_management_2:
+
 
 Feature Management
 ----------------------------------------------------------------------------------------------
 
-.. _ui_2:
+
 
 UI
 ^^
 
-.. _cli_2:
+
 
 CLI
 ^^^
 
-.. _configuration_1:
+
 
 Configuration
 ^^^^^^^^^^^^^
 
 N/A
 
-.. _upgrade_1:
+
 
 Upgrade
 ----------------------------------------------------------------------------------------------
 
 N/A
 
-.. _improvements_of_other_commands:
+
 
 Improvements of other commands
 ------------------------------
@@ -657,12 +662,12 @@ Improvements of other commands
 Side effects/benefits from user commands related changes to other IPA
 commands
 
-.. _typical_provisioning_ldapadd_entries_migrate_ds...:
+
 
 typical provisioning: ldapadd entries, migrate-ds...
 ----------------------------------------------------------------------------------------------
 
-.. _use_case:
+
 
 Use case
 ^^^^^^^^
@@ -733,12 +738,12 @@ Related opened tickets
 -  `48812 <https://fedorahosted.org/389/ticket/48812>`__: Exclude
    Backends From Plugin Operations
 
-.. _provisioning_throughput_and_ds_tuning:
+
 
 Provisioning throughput and DS tuning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _entry_cache_tuning:
+
 
 Entry cache tuning
 ''''''''''''''''''
@@ -780,7 +785,7 @@ If the machine has enough memory, the **entry cache could range from
 100Mb to 400Mb**. This tuning should leave enough free memory for the
 file system cache.
 
-.. _database_cache_tuning:
+
 
 database cache tuning
 '''''''''''''''''''''
@@ -804,7 +809,7 @@ In my tests tuning of db cache has no noticeable impact. So if we need
 to save memory (for file system cache), it would be recommended to give
 the priority to entry cache
 
-.. _database_locks:
+
 
 database locks
 ''''''''''''''
@@ -820,12 +825,12 @@ too low. This can be monitored with
 
 ``One rule of thumb, for large provisioning, is to set database lock to the half of number of provisioned users and hosts.``
 
-.. _provisioning_throughput_and_ds_plugins:
+
 
 Provisioning throughput and DS plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _small_db_10k_entries:
+
 
 Small DB (10K entries)
 ''''''''''''''''''''''
@@ -858,7 +863,7 @@ are enabled:
 |             |             |             | width:100px | width:100px |
 |             |             |             | style="     | style="tex  |
 |             |             |             | text-align: | t-align:cen |
-|             |             |             | center;"|Nb | ter;"|Cumul |
+|             |             |             | center;" Nb | ter;"  Cumul|
 |             |             |             |             | srch        |
 |             |             |             |             | duration    |
 +-------------+-------------+-------------+-------------+-------------+
@@ -907,7 +912,7 @@ operation and the number of members.
 | Duration    | 58s         | 61s         | 136s        | 33s         |
 +-------------+-------------+-------------+-------------+-------------+
 
-.. _medium_db_100k_entries:
+
 
 Medium DB (100K entries)
 ''''''''''''''''''''''''
@@ -922,61 +927,14 @@ The dataset is:
 -  100 hbacrules
 
 The following table shows value of provisioning of a medium DB in two
-steps:
+steps: provisioning without memberof and fixup of memberof.
 
--  provisioning without memberof
--  fixup of memberof
+.. figure:: performance_improvements.png
+   :alt: performance_improvements.png
 
-+---------------------------------------------------------------------------+-----------+----------+-----------+-----------+-----------+-----------+---------+
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-+===========================================================================+===========+==========+===========+===========+===========+===========+=========+
-| steps                                                                     | Plugin    | Duration | ADD       | MOD       | SRCH      |           |         |
-|                                                                           | enabled   |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-| memberof                                                                  | slapi-nis | retroCL  | style="wi |           |           |           |         |
-|                                                                           |           |          | dth:100px | style="wi | style="wi |           |         |
-|                                                                           |           |          | st        | dth:100px | dth:250px |           |         |
-|                                                                           |           |          | yle="text | style     | s         |           |         |
-|                                                                           |           |          | -align:ce | ="text-al | tyle="tex |           |         |
-|                                                                           |           |          | nter;"    | Nb        | ign:cente | t-align:c |         |
-|                                                                           |           |          |           | r;"       | Cumul     | enter;"   | %       |
-|                                                                           |           |          |           | srch      | srch      |           |         |
-|                                                                           |           |          |           |           |           |           |         |
-|                                                                           |           |          |           | duration  | duration  |           |         |
-|                                                                           |           |          |           |           | Nb*1ms    |           | vs step |
-|                                                                           |           |          |           |           |           |           |         |
-|                                                                           |           |          |           |           | duration  |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-| style="wi                                                                 | N         | N        | N         | 48min     | 143K      |           |         |
-| dth:100px                                                                 |           |          |           |           |           |           |         |
-| s                                                                         |           |          |           |           |           |           |         |
-| tyle="tex                                                                 |           |          |           |           |           |           |         |
-| t-align:l                                                                 |           |          |           |           |           |           |         |
-| eft;"                                                                     | Pro       |          |           |           |           |           |         |
-| visioning                                                                 |           |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-| Fixup                                                                     |           |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-| inet                                                                      | Y         | N        | N         | 2h        | 200       |           |         |
-| orgperson                                                                 |           |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-|                                                                           |           | Y        | N         | N         | 4h20      | 0         |         |
-| ipahost\*                                                                 |           |          |           |           |           |           |         |
-|                                                                           | rules     |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-| **Total                                                                   | N+Y       | N        | N         | **7h**    | 143K      |           |         |
-| Pro                                                                       |           |          |           |           |           |           |         |
-| v+fixup**                                                                 |           |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-|                                                                           |           |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-| **Total                                                                   | Y         | N        | N         | *         | ~140K     |           |         |
-| regular                                                                   |           |          |           | *~8days** |           |           |         |
-| Prov.**                                                                   |           |          |           |           |           |           |         |
-| +-----------+-----------+-----------+-----------+-----------+-----------+ |           |          |           |           |           |           |         |
-+---------------------------------------------------------------------------+-----------+----------+-----------+-----------+-----------+-----------+---------+
+   performance_improvements.png
 
-.. _memberof_plugin:
+
 
 Memberof plugin
 '''''''''''''''
@@ -1000,7 +958,7 @@ occurs. The user experience of provisioning will be better than now. On
 replica, the replicated updates will be slow because of memberof being
 enabled but it will not be worse than now.
 
-.. _schema_compat_plugin:
+
 
 Schema compat plugin
 ''''''''''''''''''''
@@ -1019,7 +977,7 @@ In conlusion, it gives an extra throughput benefice to disable Schema
 Compat during provisioning and to reenable it later. Preferably is to
 reenable it after the fixup, but then it will require one more restart.
 
-.. _retrocl_plugin:
+
 
 RetroCL plugin
 ''''''''''''''
@@ -1075,7 +1033,7 @@ Conclusions
 -  slow replication of provisioned data existed before, so the situation
    after improving provision is not worse than before.
 
-.. _proposed_improvements:
+
 
 Proposed improvements
 ^^^^^^^^^^^^^^^^^^^^^
@@ -1090,48 +1048,55 @@ The CLI that will do the provisioning of a given ldif file will:
 -  Parse ldif file to check that each provisioned entry matches one of
    the condition:
 
-| ``(objectClass=inetorgperson)``
-| ``(objectClass=ipausergroup)``
-| ``(objectClass=ipahost)``
-| ``(objectClass=ipahostgroup)``
-| ``(objectClass=ipasudorule)``
-| ``(objectClass=ipahbacrule)``
+::
 
--  Compute and set the appropriate `db
-   cache <http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning>`__
-   size and `db
-   locks <http://www.freeipa.org/page/V4/Performance_Improvements#database_locks>`__
+   | ``(objectClass=inetorgperson)``
+   | ``(objectClass=ipausergroup)``
+   | ``(objectClass=ipahost)``
+   | ``(objectClass=ipahostgroup)``
+   | ``(objectClass=ipasudorule)``
+   | ``(objectClass=ipahbacrule)``
 
-| ``dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-dbcachesize``
-| ``nsslapd-dbcachesize: ``
-| ``-``
-| ``replace: nsslapd-db-locks``
-| ``nsslapd-db-locks: ``
+-  Compute and set the appropriate `db cache
+   <http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning>`__
+   size and `db locks <http://www.freeipa.org/page/V4/Performance_Improvements#database_locks>`__
 
--  Compute and set the appropriate *domain* `entry
-   cache <http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning>`__
-   size
+::
 
-| ``dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-cachememsize``
-| ``nsslapd-cachememsize: ``
+   | ``dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
+   | ``changetype: modify``
+   | ``replace: nsslapd-dbcachesize``
+   | ``nsslapd-dbcachesize: ``
+   | ``-``
+   | ``replace: nsslapd-db-locks``
+   | ``nsslapd-db-locks: ``
+
+-  Compute and set the appropriate *domain* `entry cache <http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning>`__ size
+
+::
+
+   | ``dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
+   | ``changetype: modify``
+   | ``replace: nsslapd-cachememsize``
+   | ``nsslapd-cachememsize: ``
 
 -  Disable memberof
 
-| ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-pluginEnabled``
-| ``nsslapd-pluginEnabled: off``
+::
+
+   | ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
+   | ``changetype: modify``
+   | ``replace: nsslapd-pluginEnabled``
+   | ``nsslapd-pluginEnabled: off``
 
 -  Disable Schema Compat
 
-| ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-pluginEnabled``
-| ``nsslapd-pluginEnabled: off``
+::
+
+   | ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
+   | ``changetype: modify``
+   | ``replace: nsslapd-pluginEnabled``
+   | ``nsslapd-pluginEnabled: off``
 
 -  stop ipa (that will stop DS)
 -  **start DS**
@@ -1164,12 +1129,12 @@ The CLI that will do the provisioning of a given ldif file will:
 -  **stop DS**
 -  **start ipa**
 
-.. _provisioning_constraints:
+
 
 Provisioning constraints
 ''''''''''''''''''''''''
 
-.. _provisioning_server_is_offline:
+
 
 Provisioning server is offline
                               
@@ -1193,7 +1158,7 @@ would be to run the provisioning on the IPA master and provision on
 
    -  Note that the replication to the IPA master will be stopped
 
-.. _replication_being_late:
+
 
 Replication being late
                       
@@ -1223,7 +1188,7 @@ in conlusion:
    topology unless it is planed to reinitialize all replicas from the
    provisioned one.
 
-.. _fixup_procedure:
+
 
 Fixup procedure
                
@@ -1260,7 +1225,7 @@ server where it already exists others users. In that case the filter
 need to be fixup) as well as already existing ones (that do not need
 fixup).
 
-.. _provisioning_command:
+
 
 provisioning command
 ''''''''''''''''''''
@@ -1275,7 +1240,7 @@ that are contained in a ldif-file can use the command:
 *password_file* is a readable file that contains the *directory manager*
 password
 
-.. _detailed_descriptions_of_each_provisioning_costs:
+
 
 Detailed descriptions of each provisioning costs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1285,7 +1250,7 @@ compare to memberof fixup. The following paragraphs are a summary of the
 tests/results. No design or improvements are described in those
 paragraphs.
 
-.. _summary_of_the_test:
+
 
 summary of the test
 '''''''''''''''''''
@@ -1388,12 +1353,12 @@ Hbacrules    1313
 \            4320
 ============ ===============
 
-.. _provisioning_with_memberof_plugin:
+
 
 provisioning with memberof plugin
 '''''''''''''''''''''''''''''''''
 
-.. _add_users:
+
 
 add users
          
@@ -1425,7 +1390,7 @@ internals): 6 ADDs, 4 MODs, 22SRCHs
 | ``       retroCL log of MOD user (adding its private group)``
 | ``(*) Searches are identicals``
 
-.. _add_a_usergroup:
+
 
 add a usergroup
                
@@ -1497,7 +1462,7 @@ ADD usergroup with 100 user member and 2 nested groups
 | ``       for each member (102)``
 | ``               RetroCL log for above MODs (MOD member to add 'memberof')``
 
-.. _add_host:
+
 
 add host
         
@@ -1515,7 +1480,7 @@ The add of **one** host triggers : 2 ADD, 7 SRCHs
 | ``       add host``
 | ``       RetroCL add``
 
-.. _add_a_hostgroup:
+
 
 add a hostgroup
                
@@ -1549,45 +1514,48 @@ The add of **one** host group triggers the following operations:
 -  If the hostgroup contains 42 members (40 direct, 2 nested) (1 direct,
    895 internals): 90 ADDs, 88 MODs, 718 SRCHs
 
-``Details:``
 
-| ``ADD hostgroup with 42 members (nested)``
-| ``   718 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``       4 membership search (2 identical)``
-| ``       5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')``
-| ``       for each member (42): total = 84srch``
-| ``               2 search of the member entry (identical BUG)``
-| ``    ``
-| ``       for each member (42): total = 84``
-| ``               1 search of 'member' ``
-| ``               1 search of 'fqdn'``
-| ``       10 search to find groups owning hostgroup (4 identical )``
-| ``       for each member (42): total = 252srch [405->1125]``
-| ``           /* related to the MOD 'memberof' of the member */``
-| ``           1 search to find the member "member memberUser memberHost"``
-| ``           1 search to find groups owning member``
-| ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-| ``           2 search member during MOD (identical BUG ?)``
-| ``       for each member (42): total = 252srch [1125->1760]``
-| ``           /* related to the second "BUGGY" MOD 'memberof' of the member */``
-| ``           1 search to find the member "member memberUser memberHost"``
-| ``           1 search to find groups owning member``
-| ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-| ``           2 search member during MOD (identical BUG ?)``
-| ``    87 MOD``
-| ``       for each host in hostgroup [418]``
-| ``           update 'memberof' for hostgroup and alt networkgroup``
-| ``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
-| ``           update 'memberof' for hostgroup and alt networkgroup``
-| ``       update hostgroup for 'mepmanageentry'``
-| ``        ``
-| ``    90 ADD``
-| ``      add hostgroup``
-| ``      add alt networkgroup``
-| ``      88 RetroCL add due to MODs``
+::
 
-.. _add_sudorules:
+   ``Details:``
+
+   | ``ADD hostgroup with 42 members (nested)``
+   | ``   718 SRCH``
+   | ``       1 search (uniqueness ipaUniqueID)``
+   | ``       4 membership search (2 identical)``
+   | ``       5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')``
+   | ``       for each member (42): total = 84srch``
+   | ``               2 search of the member entry (identical BUG)``
+   | ``    ``
+   | ``       for each member (42): total = 84``
+   | ``               1 search of 'member' ``
+   | ``               1 search of 'fqdn'``
+   | ``       10 search to find groups owning hostgroup (4 identical )``
+   | ``       for each member (42): total = 252srch [405->1125]``
+   | ``           /* related to the MOD 'memberof' of the member */``
+   | ``           1 search to find the member "member memberUser memberHost"``
+   | ``           1 search to find groups owning member``
+   | ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
+   | ``           2 search member during MOD (identical BUG ?)``
+   | ``       for each member (42): total = 252srch [1125->1760]``
+   | ``           /* related to the second "BUGGY" MOD 'memberof' of the member */``
+   | ``           1 search to find the member "member memberUser memberHost"``
+   | ``           1 search to find groups owning member``
+   | ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
+   | ``           2 search member during MOD (identical BUG ?)``
+   | ``    87 MOD``
+   | ``       for each host in hostgroup [418]``
+   | ``           update 'memberof' for hostgroup and alt networkgroup``
+   | ``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
+   | ``           update 'memberof' for hostgroup and alt networkgroup``
+   | ``       update hostgroup for 'mepmanageentry'``
+   | ``        ``
+   | ``    90 ADD``
+   | ``      add hostgroup``
+   | ``      add alt networkgroup``
+   | ``      88 RetroCL add due to MODs``
+
+
 
 add sudorules
              
@@ -1595,43 +1563,45 @@ add sudorules
 Adding **one** sudorule with 25 users/20 hosts, triggers the following
 internal operations 47 ADDs, 45 MODs and 918 SRCH
 
-``Details:``
+::
 
-| ``ADD sudorules 25 users/20 hosts``
-| ``   918 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``           /* Follow comes slapi-nis 'cn=sudoers,cn=Schema Compatibility' */``
-| ``               for each memberHost (20): 40``
-| ``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-| ``                   ``
-| ``               for each memberuser (25): 25``
-| ``                   1 search 'cn'``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-| ``               for each memberUser (25): 25 ``
-| ``                   1 search 'uid'``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host (ipaNisNetgroup)``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host (objectclass=ipaHost)``
-| ``               for each memberUser (25): 50``
-| ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-| ``               for each memberUser (25):  25``
-| ``                   1 search user (objectclass=ipaNisNetgroup)``
-| ``       10 searchs to find if add sudorules belong to a group``
-| ``       For each memberUser (25):``
-| ``           /* search all groups it can belong to */``
-| ``           10 search based on member 'memberof'``
-| ``   45 MOD``
-| ``       for each users:``
-| ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
-| ``       for each host:``
-| ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
-| ``   47 ADD``
-| ``       add sudorule``
-| ``       RetroCL add sudorule + 45 updates of memberof (MODs)``
+   ``Details:``
 
-.. _add_hbacrules:
+   | ``ADD sudorules 25 users/20 hosts``
+   | ``   918 SRCH``
+   | ``       1 search (uniqueness ipaUniqueID)``
+   | ``           /* Follow comes slapi-nis 'cn=sudoers,cn=Schema Compatibility' */``
+   | ``               for each memberHost (20): 40``
+   | ``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
+   | ``                   ``
+   | ``               for each memberuser (25): 25``
+   | ``                   1 search 'cn'``
+   | ``               for each memberHost (20): 20``
+   | ``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
+   | ``               for each memberUser (25): 25 ``
+   | ``                   1 search 'uid'``
+   | ``               for each memberHost (20): 20``
+   | ``                   1 search host (ipaNisNetgroup)``
+   | ``               for each memberHost (20): 20``
+   | ``                   1 search host (objectclass=ipaHost)``
+   | ``               for each memberUser (25): 50``
+   | ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
+   | ``               for each memberUser (25):  25``
+   | ``                   1 search user (objectclass=ipaNisNetgroup)``
+   | ``       10 searchs to find if add sudorules belong to a group``
+   | ``       For each memberUser (25):``
+   | ``           /* search all groups it can belong to */``
+   | ``           10 search based on member 'memberof'``
+   | ``   45 MOD``
+   | ``       for each users:``
+   | ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
+   | ``       for each host:``
+   | ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
+   | ``   47 ADD``
+   | ``       add sudorule``
+   | ``       RetroCL add sudorule + 45 updates of memberof (MODs)``
+
+
 
 add hbacrules
              
@@ -1657,12 +1627,12 @@ internal operations 47 ADDs, 45 MODs and 1313 SRCH
 | ``       add hbacrule``
 | ``       RetroCL add hbacrule + 45 updates of memberof (MODs)``
 
-.. _provisioning_without_memberof_plugin:
+
 
 provisioning without memberof plugin
 ''''''''''''''''''''''''''''''''''''
 
-.. _add_user_1:
+
 
 add user
         
@@ -1670,7 +1640,7 @@ add user
 The add of **one** user gives same results as `add user with memberof
 plugin <http://www.freeipa.org/page/V4/Performance_Improvements#add_users>`__
 
-.. _add_usergroup_no_memberof:
+
 
 add usergroup (no memberof)
                            
@@ -1707,7 +1677,7 @@ The add of **one** user group triggers the following operations:
 | ``       user group``
 | ``       RetroCL for user_group and MOD DNA``
 
-.. _add_host_1:
+
 
 add host
         
@@ -1715,7 +1685,7 @@ add host
 The add of **one** host gives same results as `add host with memberof
 plugin <http://www.freeipa.org/page/V4/Performance_Improvements#add_host>`__
 
-.. _add_hostgroup:
+
 
 add hostgroup
              
@@ -1759,7 +1729,7 @@ SRCHs**.
 | ``      add alt networkgroup``
 | ``       RetroCL add due to MODs``
 
-.. _add_sudorule:
+
 
 add sudorule
             
@@ -1767,41 +1737,44 @@ add sudorule
 Adding **one** sudorule with 25 users/20 hosts, triggers the following
 internal operations: 2 ADD, 0 MOD, 243 SRCH
 
-``Details:``
 
-| ``ADD sudorules 25 users/20 hosts``
-| ``   243 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``               for each memberHost (20): 40``
-| ``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-| ``                   ``
-| ``               for each memberuser (25): 25``
-| ``                   1 search 'cn'``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host 'cn' ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-| ``               for each memberUser (25): 25 ``
-| ``                   1 search 'uid'((objectclass=posixAccount))``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host 'cn' ((objectclass=ipaNisNetgroup))``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host 'fqdn' (objectclass=ipaHost)``
-| ``               for each memberUser (25): 50``
-| ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-| ``               for each memberUser (25):  25``
-| ``                   1 search user (objectclass=ipaNisNetgroup)``
-| ``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
-| `` ``
-| ``       For each memberUser (25):``
-| ``           /* search all groups it can belong to */``
-| ``           10 search based on member 'memberof'``
-| `` ``
-| ``   0 MOD``
-| `` ``
-| ``   2 ADD``
-| ``       add sudorule``
-| ``       RetroCL add sudorule``
+::
 
-.. _add_hbacrules_1:
+   ``Details:``
+
+   | ``ADD sudorules 25 users/20 hosts``
+   | ``   243 SRCH``
+   | ``       1 search (uniqueness ipaUniqueID)``
+   | ``               for each memberHost (20): 40``
+   | ``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
+   | ``                   ``
+   | ``               for each memberuser (25): 25``
+   | ``                   1 search 'cn'``
+   | ``               for each memberHost (20): 20``
+   | ``                   1 search host 'cn' ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
+   | ``               for each memberUser (25): 25 ``
+   | ``                   1 search 'uid'((objectclass=posixAccount))``
+   | ``               for each memberHost (20): 20``
+   | ``                   1 search host 'cn' ((objectclass=ipaNisNetgroup))``
+   | ``               for each memberHost (20): 20``
+   | ``                   1 search host 'fqdn' (objectclass=ipaHost)``
+   | ``               for each memberUser (25): 50``
+   | ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
+   | ``               for each memberUser (25):  25``
+   | ``                   1 search user (objectclass=ipaNisNetgroup)``
+   | ``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
+   | `` ``
+   | ``       For each memberUser (25):``
+   | ``           /* search all groups it can belong to */``
+   | ``           10 search based on member 'memberof'``
+   | `` ``
+   | ``   0 MOD``
+   | `` ``
+   | ``   2 ADD``
+   | ``       add sudorule``
+   | ``       RetroCL add sudorule``
+
+
 
 add hbacrules
              
@@ -1809,32 +1782,34 @@ add hbacrules
 Adding **one** sudorule with 25 users/20 hosts, triggers the following
 internal operations 2ADD, 0 MOD, 13 SRCH
 
-``Details:``
+::
 
-| ``ADD hbacrule 25 users/20 hosts``
-| ``   13 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
-| ``       1 unindexed search in sudorules if one of them owns the added hbacrule``
-| `` ``
-| ``           (&(&(objectclass=ipaSudoRule)``
-| ``               (!(compatVisible=FALSE))``
-| ``               (!(ipaEnabledFlag=FALSE)))``
-| ``             (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
-| ``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
-| ``           )``
-| `` ``
-| ``   0 MOD``
-| `` ``
-| ``   2 ADD``
-| ``       add hbacrule``
-| ``       RetroCL add hbacrule``
+   ``Details:``
 
-.. _memberof_fixup:
+   | ``ADD hbacrule 25 users/20 hosts``
+   | ``   13 SRCH``
+   | ``       1 search (uniqueness ipaUniqueID)``
+   | ``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
+   | ``       1 unindexed search in sudorules if one of them owns the added hbacrule``
+   | `` ``
+   | ``           (&(&(objectclass=ipaSudoRule)``
+   | ``               (!(compatVisible=FALSE))``
+   | ``               (!(ipaEnabledFlag=FALSE)))``
+   | ``             (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+   | ``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+   | ``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+   | ``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
+   | ``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+   | ``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
+   | ``           )``
+   | `` ``
+   | ``   0 MOD``
+   | `` ``
+   | ``   2 ADD``
+   | ``       add hbacrule``
+   | ``       RetroCL add hbacrule``
+
+
 
 memberof fixup
               
@@ -1871,7 +1846,7 @@ Note the 389-ds memberof `RFE
 performace with the current use case. In fact, freeipa uses nested group
 but perf hit is not due to nested groups.
 
-.. _all_commands:
+
 
 all commands
 ----------------------------------------------------------------------------------------------
@@ -1880,7 +1855,7 @@ Caching issue described in
 `1 <http://www.freeipa.org/page/V4/Performance_Improvements#broken_SchemaCache>`__
 affects all IPA commands.
 
-.. _all_commands_working_with_members_and_indirect_members:
+
 
 all commands working with members and indirect members
 ----------------------------------------------------------------------------------------------
@@ -1897,7 +1872,7 @@ Summary: option *--no-members* is publicly visible for all commands
 \*-find
 ----------------------------------------------------------------------------------------------
 
-.. _members_and_indirect_members_processing:
+
 
 members and indirect members processing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1935,7 +1910,7 @@ As is show in output of profiler, the most time consuming operations are
 
 Possible solutions:
 
-.. _do_not_fetch_members_by_default:
+
 
 Do not fetch members by default
 '''''''''''''''''''''''''''''''
@@ -1955,7 +1930,7 @@ hidden in CLI for \*-find commands
 Note: user-find already does not return members in result without --all
 option
 
-.. _temporal_caching_of_members_during__find_command:
+
 
 Temporal caching of members during \*-find command
 ''''''''''''''''''''''''''''''''''''''''''''''''''

@@ -11,7 +11,7 @@ order to utilize the plugin without any changes, Samba code needs to be
 changed such that it stores the SID in the string format. The SID will
 be stored in sambaSID attribute which is part of Samba 3 schema.
 
-.. _current_code:
+
 
 Current Code
 ============
@@ -25,7 +25,7 @@ In Samba code the SID may exist in 3 different formats:
 The mapping code always converts the SID into binary format before
 storing it into the DS.
 
-.. _sid_structure:
+
 
 SID Structure
 -------------
@@ -41,7 +41,7 @@ The SID structure is defined in librpc/gen_ndr/security.h:
        uint32_t sub_auths[15];
    };
 
-.. _conversion_methods:
+
 
 Conversion Methods
 ------------------
@@ -68,7 +68,7 @@ The string conversion methods are defined in libcli/security/dom_sid.c:
    // convert SID structure to string
    char *dom_sid_string(TALLOC_CTX *mem_ctx, const struct dom_sid *sid);
 
-.. _attribute_syntax:
+
 
 Attribute Syntax
 ----------------
@@ -140,7 +140,7 @@ into binary.
        return ldb_handler_copy(ldb, mem_ctx, in, out);
    }
 
-.. _attribute_mapping:
+
 
 Attribute Mapping
 -----------------
@@ -204,7 +204,7 @@ source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:
        return ldb_val_dup(ctx, val);
    }
 
-.. _attribute_dereferencing:
+
 
 Attribute Dereferencing
 -----------------------
@@ -240,7 +240,7 @@ The attribute uses Octet String (binary) syntax.
      SINGLE-VALUE
      )
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
@@ -252,7 +252,7 @@ by different backends as well.
 To minimize the risks, the changes should be done specifically for DS
 only.
 
-.. _attribute_mapping_1:
+
 
 Attribute Mapping
 -----------------
@@ -300,7 +300,7 @@ Then the following method should be added:
        }
    }
 
-.. _attribute_dereferencing_1:
+
 
 Attribute Dereferencing
 -----------------------
@@ -327,7 +327,7 @@ read the string SID value and convert it into SID structure.
        }
    }
 
-.. _schema_1:
+
 
 Schema
 ------
@@ -344,7 +344,7 @@ schema conversion is located at source4/setup/schema-map-fedora-ds-1.0:
 Issues
 ======
 
-.. _attribute_dereferencing_2:
+
 
 Attribute Dereferencing
 -----------------------
@@ -354,7 +354,7 @@ in OpenLDAP, a new attribute deferencing module needs to be created for
 the DS. See also `this
 page <Obsolete:Samba_4_Attribute_Dereferencing>`__.
 
-.. _schema_mapping:
+
 
 Schema Mapping
 --------------

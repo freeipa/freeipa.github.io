@@ -36,7 +36,7 @@ Use Cases
 Design
 ------
 
-.. _server_roles:
+
 
 Server Roles
 ----------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ availability will also be implemented later during modularization
 efforts. The initial implementation will thus only display only
 enabled/configured roles.
 
-.. _server_attributes:
+
 
 Server Attributes
 ----------------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ The feature will be implemented in the following steps:
 Feature Management
 ------------------
 
-.. _web_ui:
+
 
 Web UI~
 
@@ -192,7 +192,7 @@ during 4.5 development timeframe.
 
 CLI
 
-.. _enhanced_commands:
+
 
 Enhanced commands
 ^^^^^^^^^^^^^^^^^
@@ -230,7 +230,7 @@ Enhanced commands
 
    ipa config-mod --ca-renewal-master-server=server1.example.com
 
-.. _new_commands:
+
 
 New Commands
 ^^^^^^^^^^^^
@@ -250,7 +250,7 @@ Upgrade
 Since there are no changes to LDAP structure/schema, no special upgrade
 procedure is necessary.
 
-.. _how_to_test35:
+
 
 How to Test
 -----------

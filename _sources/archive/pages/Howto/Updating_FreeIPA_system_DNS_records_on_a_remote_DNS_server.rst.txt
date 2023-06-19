@@ -1,4 +1,4 @@
-.. _short_feature_description:
+
 
 Short feature description
 -------------------------
@@ -12,7 +12,7 @@ the option ``--dry-run`` can provide list of required DNS records and
 option ``--out FILE`` can export data in *nsupdate* util format. This
 can be used directly with ``nsupdate`` util.
 
-.. _supported_in_versions:
+
 
 Supported in versions
 ---------------------
@@ -23,7 +23,7 @@ Supported in versions
 Examples
 --------
 
-.. _show_list_of_required_records:
+
 
 Show list of required records
 ----------------------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ The list of records can look for example like this:
 | ``   ipa-ca.example.com. 86400 IN A 192.0.2.36``
 | ``   ipa-ca.example.com. 86400 IN AAAA 2001:db8:0:224e:21a:4aff:fe23:1523``
 
-.. _generating_a_file_with_freeipa_dns_data_for_nsupdate_utility:
+
 
 Generating a file with FreeIPA DNS data for *nsupdate* utility
 ----------------------------------------------------------------------------------------------
@@ -55,21 +55,23 @@ Generating a file with FreeIPA DNS data for *nsupdate* utility
 Option ``--out FILE`` will store DNS data in *nsupdate* format in file
 *FILE*.
 
-| ``[user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate``
-| ``  IPA DNS records:``
-| ``   ...``
-| ``[user@ipa ~]$ cat ipa-records.nsupdate ``
-| ``; IPA DNS records``
-| ``update delete _kerberos-master._tcp.example.com. SRV``
-| ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``update delete _kerberos-master._udp.example.com. SRV``
-| ``update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``.....``
-| ``update delete ipa-ca.example.com. AAAA``
-| ``update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523``
-| ``send``
+::
 
-.. _notes_about_exported_nsupdate_file:
+   | ``[user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate``
+   | ``  IPA DNS records:``
+   | ``   ...``
+   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
+   | ``; IPA DNS records``
+   | ``update delete _kerberos-master._tcp.example.com. SRV``
+   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+   | ``update delete _kerberos-master._udp.example.com. SRV``
+   | ``update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+   | ``.....``
+   | ``update delete ipa-ca.example.com. AAAA``
+   | ``update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523``
+   | ``send``
+
+
 
 Notes about exported *nsupdate* file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -90,17 +92,19 @@ beginning of the file):
 
 Example:
 
-| ``[user@ipa ~]$ cat ipa-records.nsupdate ``
-| ``zone example.com.``
-| ``server 192.0.2.222``
-| ``; IPA DNS records``
-| ``update delete _kerberos-master._tcp.example.com. SRV``
-| ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``...``
+::
+
+   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
+   | ``zone example.com.``
+   | ``server 192.0.2.222``
+   | ``; IPA DNS records``
+   | ``update delete _kerberos-master._tcp.example.com. SRV``
+   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+   | ``...``
 
 For more details please see *man nsupdate*.
 
-.. _using_nsupdate_with_tsig:
+
 
 Using *nsupdate* with TSIG
 ----------------------------------------------------------------------------------------------
@@ -132,7 +136,7 @@ or with ``-y algorithm:keyname:secret`` option:
 More details about *nsupdate* with TSIG and how to generate keyfiles can
 be found `here <Howto/DNS_updates_and_zone_transfers_with_TSIG>`__
 
-.. _using_nsupdate_with_gss_tsig:
+
 
 Using *nsupdate* with GSS-TSIG
 ----------------------------------------------------------------------------------------------
@@ -155,7 +159,7 @@ Run *nsupdate* with option ``-g``
 | ``[user@ipa ~]$ kinit principal-allowed-to-update-records@REALM``
 | ``[user@ipa ~]$ nsupdate -g ipa-records.nsupdate``
 
-.. _using_nsupdate_without_authentication:
+
 
 Using *nsupdate* without authentication
 ----------------------------------------------------------------------------------------------

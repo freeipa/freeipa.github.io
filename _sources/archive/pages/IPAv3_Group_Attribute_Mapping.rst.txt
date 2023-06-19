@@ -4,12 +4,12 @@ Overview
 This document describes the group attribute mapping from IPA to Samba
 and vice versa in various scenarios.
 
-.. _mapping_ipa_group_to_samba_group:
+
 
 Mapping IPA Group to Samba Group
 ================================
 
-.. _ipa_group_doesnt_exist_in_samba:
+
 
 IPA Group Doesn't Exist in Samba
 --------------------------------
@@ -47,7 +47,7 @@ objectGUID     samba.objectGUID
 objectSid      samba.objectSid
 ============== ================
 
-.. _ipa_group_exists_in_samba_but_not_linked:
+
 
 IPA Group Exists in Samba but Not Linked
 ----------------------------------------
@@ -74,7 +74,7 @@ objectGUID     samba.objectGUID
 objectSid      samba.objectSid
 ============== ================
 
-.. _ipa_group_exists_in_samba_and_linked:
+
 
 IPA Group Exists in Samba and Linked
 ------------------------------------
@@ -93,12 +93,12 @@ objectSid        ipa.objectSid
 
 There is no need to update IPA group.
 
-.. _mapping_samba_group_to_ipa_group:
+
 
 Mapping Samba Group to IPA Group
 ================================
 
-.. _samba_group_doesnt_exist_in_ipa:
+
 
 Samba Group Doesn't Exist in IPA
 --------------------------------
@@ -117,7 +117,7 @@ objectGUID  objectGUID
 objectSid   objectSid
 =========== ===========================================
 
-.. _samba_group_exists_in_ipa:
+
 
 Samba Group Exists in IPA
 -------------------------

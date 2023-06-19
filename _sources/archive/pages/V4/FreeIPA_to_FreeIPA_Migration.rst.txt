@@ -22,7 +22,7 @@ significantly less options to run properly.
 Use Cases
 ---------
 
-.. _user_stories:
+
 
 User stories
 ----------------------------------------------------------------------------------------------

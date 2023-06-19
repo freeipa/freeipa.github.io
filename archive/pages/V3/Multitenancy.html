@@ -50,7 +50,7 @@ developers has a GID of 2100, but in the other company asmith has a UID
 of 87687 and developers has a GID of 6332. Both need to exist in the IdM
 server and be distinguishable from the other.</p>
 <section id="ipa-status">
-<span id="id1"></span><h2>IPA Status<a class="headerlink" href="#ipa-status" title="Permalink to this heading">¶</a></h2>
+<h2>IPA Status<a class="headerlink" href="#ipa-status" title="Permalink to this heading">¶</a></h2>
 <p>IPA currently has a completely flat data model. All data is stored in
 two instances: one for the IPA user and host database, and one for the
 PKI CA. The Kerberos server would only serve out tickets for a single
@@ -69,11 +69,11 @@ example.com would have a corresponding realm EXAMPLE.COM.</p>
 </section>
 </section>
 <section id="required-changes">
-<span id="id2"></span><h1>Required Changes<a class="headerlink" href="#required-changes" title="Permalink to this heading">¶</a></h1>
+<h1>Required Changes<a class="headerlink" href="#required-changes" title="Permalink to this heading">¶</a></h1>
 <p>These are the changes necessary to the FreeIPA server to support a cloud
 deployment and multi-tenancy.</p>
 <section id="directory-server-dit-layout">
-<span id="id3"></span><h2>Directory Server DIT Layout<a class="headerlink" href="#directory-server-dit-layout" title="Permalink to this heading">¶</a></h2>
+<h2>Directory Server DIT Layout<a class="headerlink" href="#directory-server-dit-layout" title="Permalink to this heading">¶</a></h2>
 <p>Each tenant in the Identity Management system would be limited to a
 subtree named after the tenant: cn={TENANT},cn=tenants,$suffix. This
 subtree would have a DIT Layout similar to the main DIT Layout; it will
@@ -100,7 +100,7 @@ Instead FreeIPA should allow tenants to opt-in in new features when that
 involves touching their subtree rather then forcing it on them.</p>
 </section>
 <section id="new-api">
-<span id="id4"></span><h2>New API<a class="headerlink" href="#new-api" title="Permalink to this heading">¶</a></h2>
+<h2>New API<a class="headerlink" href="#new-api" title="Permalink to this heading">¶</a></h2>
 <p>ipa run-as will be used by the administrative users to run commands for
 a tenat. For example, to add a user to a tenant named “community”:</p>
 <p>ipa run-as community user-add gwashington –first George –last
@@ -109,7 +109,7 @@ Washington</p>
 command in ipalib/plugins/batch.py.</p>
 </section>
 <section id="directory-server-plugins">
-<span id="id5"></span><h2>Directory Server Plugins<a class="headerlink" href="#directory-server-plugins" title="Permalink to this heading">¶</a></h2>
+<h2>Directory Server Plugins<a class="headerlink" href="#directory-server-plugins" title="Permalink to this heading">¶</a></h2>
 <p>Some configuration changes will need to be made around a number of the
 Directory Server plug-ins with regards to scope. We will likely need
 separate configuration entries to restrict the plug-ins to each tenant
@@ -124,7 +124,7 @@ well):</p>
 </ol>
 </section>
 <section id="baseldap-plugin">
-<span id="id6"></span><h2>BaseLDAP plugin<a class="headerlink" href="#baseldap-plugin" title="Permalink to this heading">¶</a></h2>
+<h2>BaseLDAP plugin<a class="headerlink" href="#baseldap-plugin" title="Permalink to this heading">¶</a></h2>
 <p>Instead of just reading the BaseDN out of the configuration file, the
 base DN needs to be calculated based on the Kerberos principal of the
 calling user. This value should be cached in the WSGI application so
@@ -147,14 +147,14 @@ ability to identify which users and tenants can manage and control DNS
 entries. The simpler solution is to modify BIND Dyn DB.</p>
 </section>
 <section id="certificate-authority">
-<span id="id7"></span><h2>Certificate Authority<a class="headerlink" href="#certificate-authority" title="Permalink to this heading">¶</a></h2>
+<h2>Certificate Authority<a class="headerlink" href="#certificate-authority" title="Permalink to this heading">¶</a></h2>
 <p>We would continue to have only one CA, and have IPA submit all
 Certificate requests as a single Agent. The IPA server will ensure that
 a user can only request certificates for entities within their own
 subtree.</p>
 </section>
 <section id="ipa-client">
-<span id="id8"></span><h2>IPA-CLIENT<a class="headerlink" href="#ipa-client" title="Permalink to this heading">¶</a></h2>
+<h2>IPA-CLIENT<a class="headerlink" href="#ipa-client" title="Permalink to this heading">¶</a></h2>
 <p>When enrolling a host, the principal used to authenticate with the IPA
 server will determine which subtree will hold host. This involves
 changing the LDAP configuration information in the following client

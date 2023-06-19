@@ -31,7 +31,7 @@ mapping are
 ```_kerberos`` <https://web.mit.edu/kerberos/krb5-1.15/doc/admin/realm_config.html#mapping-hostnames-onto-kerberos-realms>`__
 TXT DNS records. (FreeIPA DNS adds these automatically.)
 
-.. _considerations_for_active_directory_integration:
+
 
 Considerations for Active Directory integration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -72,7 +72,7 @@ records <https://web.mit.edu/kerberos/krb5-1.15/doc/admin/realm_config.html#mapp
 pointing to the FreeIPA realm name in each of them for proper discovery
 of network resources by FreeIPA clients.
 
-.. _dns_server:
+
 
 DNS server
 ^^^^^^^^^^
@@ -87,7 +87,7 @@ much more difficult and error prone. Full list of benefits of using the
 integrated DNS service can be found in the `DNS
 article <DNS#Benefits_of_integrated_DNS>`__.
 
-.. _kerberos_realm_name:
+
 
 Kerberos realm name
 ----------------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ please follow these rules:
    (``EXAMPLE``\ **``.COM``**)
 -  One FreeIPA installation always represents single Kerberos realm.
 
-.. _multi_site_deployment_awareness:
+
 
 Multi-site deployment awareness
 ----------------------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ certificate environment:
 Servers/Replicas
 ----------------------------------------------------------------------------------------------
 
-.. _freeipa_server_exclusivity:
+
 
 FreeIPA server exclusivity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -165,7 +165,7 @@ several primary reasons:
 -  It is easier to migrate the FreeIPA server to newer platform
    (affecting for example RHEL-6 and RHEL-7 deployments)
 
-.. _number_of_servers:
+
 
 Number of servers
 ^^^^^^^^^^^^^^^^^
@@ -210,14 +210,14 @@ own SSH keys and performs few more operations. IPA CLI also uses the
 same port to communicate to IPA master. Thus, it is required to have
 access to HTTPS (443) from a client side.
 
-.. _disaster_recovery:
+
 
 Disaster recovery
 -----------------
 
 Please refer to `Backup and Restore <Backup_and_Restore>`__ article.
 
-.. _active_directory_integration:
+
 
 Active Directory Integration
 ----------------------------
@@ -265,7 +265,7 @@ Kerberos solution or from other FreeIPA deployment (see tickets
 `#3656 <https://fedorahosted.org/freeipa/ticket/3656>`__ and
 `#4285 <https://fedorahosted.org/freeipa/ticket/4285>`__).
 
-.. _extending_freeipa:
+
 
 Extending FreeIPA
 -----------------

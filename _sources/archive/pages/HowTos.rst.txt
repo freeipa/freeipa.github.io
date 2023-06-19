@@ -1,4 +1,4 @@
-.. _working_with_freeipa:
+
 
 Working with FreeIPA
 --------------------
@@ -52,7 +52,7 @@ Working with FreeIPA
    mod_nss <http://akasurde.github.io/ocsp-mod-nss-httpd-centos.html#ocsp-mod-nss-httpd-centos>`__
 -  `Wildcard certificates <Howto/Wildcard_certificates>`__
 
-.. _interoperability_with_other_systems:
+
 
 Interoperability with other systems
 -----------------------------------
@@ -106,7 +106,7 @@ UNIX
 -  `HowTo/Setup FreeIPA Services for MacOS X
    10.12/10.13 <HowTo/Setup_FreeIPA_Services_for_MacOS_X_10.12/10.13>`__
 
-.. _rd_party_applications_integration:
+
 
 3rd party Applications Integration
 ----------------------------------
@@ -121,7 +121,7 @@ General
 -  `SUDO Integration for RHEL 5.8 <SUDO_Integration_for_RHEL_5.8>`__
 -  `SUDO Integration for AIX <SUDO_Integration_for_AIX>`__
 
-.. _mail_services:
+
 
 Mail Services
 ----------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ Mail Services
    (see related
    `discussion <http://www.redhat.com/archives/freeipa-devel/2013-September/msg00408.html>`__)
 
-.. _web_services:
+
 
 Web Services
 ----------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ Web Services
 -  `Setting up The Bug Genie to authenticate users against
    FreeIPA <HowTos/Setting_up_The_Bug_Genie_to_authenticate_users_against_FreeIPA>`__
 
-.. _web_infrastructure:
+
 
 Web Infrastructure
 ----------------------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ Web Infrastructure
 -  `FreeIPA behind load
    balancer <https://www.adelton.com/freeipa/freeipa-behind-load-balancer>`__
 
-.. _instant_messaging:
+
 
 Instant Messaging
 ----------------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ Storage
 -  `Integrating Dell EMC Isilon OneFS with
    IPA <Howto/Integrating_Dell_EMC_Isilon_OneFS>`__
 
-.. _content_distribution_systems:
+
 
 Content Distribution Systems
 ----------------------------------------------------------------------------------------------
@@ -293,7 +293,7 @@ Logging
 -  `Howto/Centralised Logging with
    Logstash/ElasticSearch/Kibana <Howto/Centralised_Logging_with_Logstash/ElasticSearch/Kibana>`__
 
-.. _fancy_things_user_avatars_etc.:
+
 
 Fancy things (user Avatars etc.)
 ----------------------------------------------------------------------------------------------

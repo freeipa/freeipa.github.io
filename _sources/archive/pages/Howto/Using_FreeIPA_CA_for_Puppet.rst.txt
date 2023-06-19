@@ -4,7 +4,7 @@ along with Puppet Labs'
 `instructions <http://docs.puppetlabs.com/puppet/3/reference/config_ssl_external_ca.html#option-1-single-ca>`__
 on setting up Puppet with an external Certificate Authority.
 
-.. _initial_setup:
+
 
 Initial Setup
 -------------
@@ -32,7 +32,7 @@ Initial Setup
       # create the puppet agent service
       $ ipa service-add puppet/puppet.example.com
 
-.. _puppet_master_setup:
+
 
 Puppet Master setup
 -------------------
@@ -122,7 +122,7 @@ On the machine for the Puppet Master:
       NSSRequireSafeNegotiation   off
 
       Listen 8140
-      &lt;VirtualHost _default_:8140&gt;
+      &lt;VirtualHo8140&gt;
           ServerName  puppetmaster.example.com
           ServerAdmin puppetmaster@example.com
 
@@ -163,7 +163,7 @@ On the machine for the Puppet Master:
       $ firewall-cmd --add-port=8140/tcp
       $ service httpd restart
 
-.. _puppet_agent_setup:
+
 
 Puppet Agent setup
 ------------------

@@ -48,7 +48,7 @@ The following should be implemented:
 Implementation
 ==============
 
-.. _global_catalog_service:
+
 
 Global Catalog service
 ----------------------
@@ -71,7 +71,7 @@ needs to be developed for testing and development purposes. This tool
 will use the existing 'ipaserver.install.dsinstance' code and configure
 the instance based on existing parameters for the original instance.
 
-.. _discovery_of_the_trusted_domains_partnerships:
+
 
 Discovery of the trusted domain's partnerships
 ----------------------------------------------
@@ -85,7 +85,7 @@ All imported domains need to have SID filtration set up for them
 according to the rules described in `this MSDN
 article <http://technet.microsoft.com/en-us/library/cc755673%28v=ws.10%29.aspx>`__
 
-.. _kerberos_dal_driver_modifications:
+
 
 Kerberos DAL driver modifications
 ---------------------------------
@@ -117,7 +117,7 @@ In SSSD following tickets were opened to track these changes:
 https://fedorahosted.org/sssd/ticket/2080 and
 https://fedorahosted.org/sssd/ticket/2093.
 
-.. _realm_and_domain_mapping_for_forest_domains:
+
 
 Realm and domain mapping for forest domains
 -------------------------------------------

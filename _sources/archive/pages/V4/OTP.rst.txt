@@ -20,7 +20,7 @@ proprietary RADIUS servers. This provides a path for gradual migration.
 Use Cases
 =========
 
-.. _native_otp_support:
+
 
 Native OTP Support
 ------------------
@@ -28,7 +28,7 @@ Native OTP Support
 All tokens used with FreeIPA native OTP support must implement either
 HOTP (counter-based; RFC 4226) or TOTP (time-based; RFC 6238).
 
-.. _administrator_managed_hardware_tokens:
+
 
 Administrator-Managed Hardware Tokens
 ----------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ on the first login, both password and a token code are required. While
 the user can view this token, he or she does not manage it. Hence, no
 modifications should be permitted.
 
-.. _programmable_tokens:
+
 
 Programmable Tokens
 ^^^^^^^^^^^^^^^^^^^
@@ -58,7 +58,7 @@ adequate open source support, such as YubiKeys, FreeIPA will provide a
 single command which automates the entire process (CLI-only due to
 browser limitations).
 
-.. _non_programmable_tokens:
+
 
 Non-programmable Tokens
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -70,7 +70,7 @@ server-side command (CLI-only; not generally available to regular users)
 to import all of these tokens in a single pass. This may or may not
 require per-user assignment after the import is complete.
 
-.. _user_managed_tokens:
+
 
 User-Managed Tokens
 ----------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ criteria apply except that they must be created and managed by the user
 like software tokens. Programming of hardware tokens will be CLI-only
 due to browser limitations.
 
-.. _token_synchronization:
+
 
 Token Synchronization
 ----------------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ the CLI, without having to log in via Kerberos. The general process for
 this is that the user must enter his or her password and two token codes
 in a row. This confirms possession of the token.
 
-.. _proprietary_otp_support:
+
 
 Proprietary OTP Support
 -----------------------
@@ -131,7 +131,7 @@ tokens in the 3rd-party system.
 Design
 ======
 
-.. _high_level_architecture_and_workflow:
+
 
 High-Level Architecture and Workflow
 ------------------------------------
@@ -177,7 +177,7 @@ High-Level Architecture and Workflow
    ensure that no user can delete or disable the last active token
    assigned to him or her.
 
-.. _authentication_methods:
+
 
 Authentication Methods
 ----------------------
@@ -207,7 +207,7 @@ the user has no tokens defined.
 The ``disabled`` value can only be set globally and forces the user of
 "password" on all users, regardless of their per-user settings.
 
-.. _token_synchronization_1:
+
 
 Token Synchronization
 ---------------------
@@ -230,7 +230,7 @@ password is sent over the wire.
 The result of the operation is returned in the X-IPA-TokenSync-Result
 header.
 
-.. _ldap_bind_control:
+
 
 LDAP Bind Control
 ----------------------------------------------------------------------------------------------
@@ -329,7 +329,7 @@ Feature Management
 
 UI
 
-.. _authentication_methods_1:
+
 
 Authentication Methods
 ----------------------------------------------------------------------------------------------
@@ -340,7 +340,7 @@ settings tab.
 Per-user authentication methods will be available on the User's detail
 page.
 
-.. _radius_proxy_server_configuration:
+
 
 RADIUS Proxy Server Configuration
 ----------------------------------------------------------------------------------------------
@@ -349,7 +349,7 @@ Administrators will have the RADIUS Servers tab available for managing
 RADIUS proxy servers. These servers can be assigned to individual users
 on the specific user's detail page.
 
-.. _otp_tokens:
+
 
 OTP Tokens
 ----------------------------------------------------------------------------------------------
@@ -365,7 +365,7 @@ A link to a synchronization page is provided at the FreeIPA login page.
 
 CLI
 
-.. _existing_commands_modified:
+
 
 Existing Commands Modified
 ----------------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ Existing Commands Modified
 |            | --radius-username=STR                                  |
 +------------+--------------------------------------------------------+
 
-.. _new_radius_proxy_commands:
+
 
 New RADIUS Proxy Commands
 ----------------------------------------------------------------------------------------------
@@ -401,7 +401,7 @@ New RADIUS Proxy Commands
 | radiusproxy-show |                                                  |
 +------------------+--------------------------------------------------+
 
-.. _new_otp_token_commands:
+
 
 New OTP Token Commands
 ----------------------------------------------------------------------------------------------
@@ -444,7 +444,7 @@ New OTP Token Commands
 |                           | --second-code                           |
 +---------------------------+-----------------------------------------+
 
-.. _otp_import_command:
+
 
 OTP Import Command
 ^^^^^^^^^^^^^^^^^^
@@ -470,7 +470,7 @@ that higher counter/watermark values do not get erased, the
 ipa-otp-counter plugin will enforce the highest counter/watermark value
 and issue fix-up replications if an error is detected.
 
-.. _new_dependencies:
+
 
 New Dependencies
 ================
@@ -479,7 +479,7 @@ New Dependencies
 -  python-yubico (implicit: pyusb)
 -  libverto-devel
 
-.. _how_to_test31:
+
 
 How to Test
 ===========
@@ -487,7 +487,7 @@ How to Test
 Configuration
 -------------
 
-.. _creating_a_user:
+
 
 Creating a User
 ----------------------------------------------------------------------------------------------
@@ -536,7 +536,7 @@ this guide, I will call this user: ``otpuser``.
    Enter new password: 
    Enter it again: 
 
-.. _enabling_otp_and_radius:
+
 
 Enabling OTP and RADIUS
 ----------------------------------------------------------------------------------------------
@@ -562,12 +562,12 @@ globally or per-user). This involves setting the User Auth Type to
 | Per-User | Identity -> otpuser -> User authentication types         |
 +----------+----------------------------------------------------------+
 
-.. _logging_in:
+
 
 Logging In
 ----------------------------------------------------------------------------------------------
 
-.. _default_method:
+
 
 Default Method
 ^^^^^^^^^^^^^^
@@ -577,7 +577,7 @@ configuration automatically, so ``su - otpuser`` should work out of the
 box. Testing with this method is preferred as it will test SSSD OTP
 support as well.
 
-.. _kinit_method:
+
 
 kinit Method
 ^^^^^^^^^^^^
@@ -612,12 +612,12 @@ message once OTP is configured:
 
 Upstream work is ongoing to remove the need for FAST.
 
-.. _self_managed_tokens:
+
 
 Self-Managed Tokens
 -------------------
 
-.. _software_tokens:
+
 
 Software Tokens
 ----------------------------------------------------------------------------------------------
@@ -644,7 +644,7 @@ Feel free to add, edit and delete as many tokens as you'd like. You can
 try this with both HOTP and TOTP tokens. Notice that you are not
 permitted to remove the last active token.
 
-.. _programmable_hardware_tokens:
+
 
 Programmable Hardware Tokens
 ----------------------------------------------------------------------------------------------
@@ -660,7 +660,7 @@ to overwrite.
 This token should work exactly the same as a software token in the
 previous example. All the same policy should apply.
 
-.. _admin_managed_tokens:
+
 
 Admin-Managed Tokens
 --------------------
@@ -679,7 +679,7 @@ Notice that when you log back in
 (`V4/OTP#Logging_In <V4/OTP#Logging_In>`__) as ``otpuser``, these tokens
 work for authentication, but you are unable to modify them in any way.
 
-.. _importing_tokens:
+
 
 Importing Tokens
 ----------------------------------------------------------------------------------------------
@@ -691,7 +691,7 @@ files: ``ipatests/test_ipaserver/data/*.xml``. However, you will not be
 able to test their functionality since this data does not correspond
 with an actual hardware token.
 
-.. _token_synchronization_2:
+
 
 Token Synchronization
 ---------------------
@@ -709,7 +709,7 @@ Try to log in with this bad code to confirm failure. To synchronize, run
 ``ipa otptoken-sync`` or click the "Sync OTP Token" link on the Web UI
 Login page.
 
-.. _radius_proxy:
+
 
 RADIUS Proxy
 ------------
@@ -738,7 +738,7 @@ Dependencies
 For tests, we will require the python-pyotp package. This provides an
 independant implementation of OATH (TOTP/HOTP) to test against.
 
-.. _test_outline:
+
 
 Test Outline
 ------------
@@ -749,7 +749,7 @@ Preparation
 #. Create a normal user
 #. Ensure the user can login 1FA
 
-.. _global_otp_test:
+
 
 Global OTP Test
 ----------------------------------------------------------------------------------------------
@@ -782,7 +782,7 @@ Global OTP Test
 
 #. Cleanup
 
-.. _local_otp_test:
+
 
 Local OTP Test
 ----------------------------------------------------------------------------------------------
@@ -815,7 +815,7 @@ Local OTP Test
 
 #. Cleanup
 
-.. _user_permissions_test:
+
 
 User Permissions Test
 ----------------------------------------------------------------------------------------------

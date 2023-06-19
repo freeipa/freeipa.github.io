@@ -25,7 +25,7 @@ combinations of options -- see the respective sections.
 Design
 ------
 
-.. _v2_permissions:
+
 
 V2 permissions
 ----------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ permission will be converted to V2 whenever it is modified.
 Assigning permissions to privileges will still be possible on older IPA
 servers.
 
-.. _permission_flags:
+
 
 Permission flags
 ----------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ For compatibility with old versions of IPA, all new flags must be
 accompanied by SYSTEM. Permissions with *only* the SYSTEM flag retain
 the old semantics.
 
-.. _data_in_the_permission_entry:
+
 
 Data in the permission entry
 ----------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ permissions <V3/Managed_Read_permissions>`__.)
 
 ``   ipaPermTarget: uid=*,cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
 
-.. _moving_acis_out_of_the_root:
+
 
 Moving ACIs out of the root
 ----------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ ACIs need to be checked for an entry.
 
 The location of the ACI will be determined by ``ipaPermLocation``.
 
-.. _optionattribute_mapping:
+
 
 Option/Attribute mapping
 ----------------------------------------------------------------------------------------------
@@ -188,7 +188,7 @@ filter and subtree to be added in same permission)
 Also Note that ``subtree`` (ipapermlocation) must now always refer to an
 existing entry; wildcards or non-existent DNs are not allowed.
 
-.. _add_noaci_command:
+
 
 add_noaci command
 ----------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ Examples
 
 See the Test Plan below.
 
-.. _compatibility_with_old_clients:
+
 
 Compatibility with old clients
 ----------------------------------------------------------------------------------------------
@@ -220,7 +220,7 @@ values rather than single-element lists.
 For ``subtree`` (ipapermlocation), the entry will also be made
 single-valued, and a 'ldap:///' prefix will be added to it.
 
-.. _modifying_and_upgrading_permissions:
+
 
 Modifying and Upgrading Permissions
 ----------------------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ by the new ACI.
 
 6. If the location (subtree) changed, the new ACI is added.
 
-.. _adding_and_deleting_permissions:
+
 
 Adding and Deleting Permissions
 ----------------------------------------------------------------------------------------------
@@ -260,7 +260,7 @@ When adding, the ACI is inserted after the permission entry.
 
 When deleting, the ACI is deleted first, then the permission entry.
 
-.. _mass_update:
+
 
 Mass update
 ----------------------------------------------------------------------------------------------
@@ -277,7 +277,7 @@ The decision on when/if to do this has been postponed.
 old-style permissions, need to be in place in any case, because
 old-style permisisons can be created on old servers.)
 
-.. _findshow_for_old_permissions:
+
 
 Find/show for old permissions
 ----------------------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ The find command will iterate through all old-stryle permissions, do the
 "output-only" upgrade on each one, and filter the result based on given
 options.
 
-.. _read_rights:
+
 
 Read rights
 ----------------------------------------------------------------------------------------------
@@ -316,7 +316,7 @@ see the "Option/Attribute mapping" section.
 Feature Management
 ------------------
 
-.. _ui_1:
+
 
 UI
 

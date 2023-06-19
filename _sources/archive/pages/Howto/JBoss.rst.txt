@@ -1,9 +1,9 @@
-.. _using_ipa_services_for_jboss_eapas:
+
 
 Using IPA services for JBoss EAP/AS
 ===================================
 
-.. _the_versions_used:
+
 
 The versions used
 -----------------
@@ -16,7 +16,7 @@ with it (https://bugzilla.redhat.com/show_bug.cgi?id=1014028). We will
 assume JBoss is run from the .zip extracted in some directory. If
 rpm-based installation is used, some paths might be different.
 
-.. _ipa_enrolled_client:
+
 
 IPA-enrolled client
 -------------------
@@ -35,7 +35,7 @@ In the following examples, we will assume that the realm used is
 EXAMPLE.NET, the IPA server is ipa.example.com and the JBoss server runs
 on www.example.com.
 
-.. _starting_standalone_jboss:
+
 
 Starting standalone JBoss
 -------------------------
@@ -76,7 +76,7 @@ should work:
 
 We can stop the JBoss server now.
 
-.. _service_principal:
+
 
 Service principal
 -----------------
@@ -93,7 +93,7 @@ server:
 | ``$ kinit admin``
 | ``$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab``
 
-.. _configure_jboss_to_use_spnego_authentication:
+
 
 Configure JBoss to use SPNEGO authentication
 --------------------------------------------

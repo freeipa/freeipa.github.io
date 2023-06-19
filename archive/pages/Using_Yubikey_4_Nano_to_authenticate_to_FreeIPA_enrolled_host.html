@@ -46,19 +46,19 @@ on Yubikey 4 Nano.</p></li>
 <li><p><a class="reference external" href="https://developers.yubico.com/yubico-piv-tool/YubiKey_PIV_introduction.html">https://developers.yubico.com/yubico-piv-tool/YubiKey_PIV_introduction.html</a></p></li>
 </ul>
 <section id="prepare-yubikey">
-<span id="id1"></span><h2>Prepare yubikey<a class="headerlink" href="#prepare-yubikey" title="Permalink to this heading">¶</a></h2>
+<h2>Prepare yubikey<a class="headerlink" href="#prepare-yubikey" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 <section id="install-packages">
-<span id="id2"></span><h1>Install packages<a class="headerlink" href="#install-packages" title="Permalink to this heading">¶</a></h1>
+<h1>Install packages<a class="headerlink" href="#install-packages" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># dnf install -y ykpers yubico-piv-tool pcsc-lite opensc</span></code></p>
 </section>
 <section id="start-pcscd">
-<span id="id3"></span><h1>Start pcscd<a class="headerlink" href="#start-pcscd" title="Permalink to this heading">¶</a></h1>
+<h1>Start pcscd<a class="headerlink" href="#start-pcscd" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># systemctl start systemctl start pcscd</span></code></p>
 </section>
 <section id="verify-readers">
-<span id="id4"></span><h1>Verify readers<a class="headerlink" href="#verify-readers" title="Permalink to this heading">¶</a></h1>
+<h1>Verify readers<a class="headerlink" href="#verify-readers" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># opensc-tool --list-readers</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">Detected readers (pcsc)</span></code></div>
@@ -76,11 +76,11 @@ on Yubikey 4 Nano.</p></li>
 </div>
 </section>
 <section id="reset-yubikey-optional">
-<span id="id5"></span><h1>Reset Yubikey (optional)<a class="headerlink" href="#reset-yubikey-optional" title="Permalink to this heading">¶</a></h1>
+<h1>Reset Yubikey (optional)<a class="headerlink" href="#reset-yubikey-optional" title="Permalink to this heading">¶</a></h1>
 <p>Useful if you’ve lost PIN/PUK.</p>
 </section>
 <section id="first-we-need-to-get-the-yubikey-blocked">
-<span id="id6"></span><h1>First we need to get the Yubikey blocked<a class="headerlink" href="#first-we-need-to-get-the-yubikey-blocked" title="Permalink to this heading">¶</a></h1>
+<h1>First we need to get the Yubikey blocked<a class="headerlink" href="#first-we-need-to-get-the-yubikey-blocked" title="Permalink to this heading">¶</a></h1>
 <p>Blocking the yubikey is straighforward. First enter wrong PIN tree times
 then enter wrong PUK tree times.</p>
 <div class="line-block">
@@ -93,11 +93,11 @@ then enter wrong PUK tree times.</p>
 </div>
 </section>
 <section id="now-we-can-reset-it">
-<span id="id7"></span><h1>Now we can reset it<a class="headerlink" href="#now-we-can-reset-it" title="Permalink to this heading">¶</a></h1>
+<h1>Now we can reset it<a class="headerlink" href="#now-we-can-reset-it" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a reset</span></code></p>
 </section>
 <section id="set-new-management-key-pin-and-puk">
-<span id="id8"></span><h1>Set new Management Key, PIN and PUK<a class="headerlink" href="#set-new-management-key-pin-and-puk" title="Permalink to this heading">¶</a></h1>
+<h1>Set new Management Key, PIN and PUK<a class="headerlink" href="#set-new-management-key-pin-and-puk" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># KEY=$(hexdump -v -e '/1 &quot;%x&quot;' /dev/urandom | head -c 48)</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># PIN=$(hexdump -v -e '/1 &quot;%u&quot;' /dev/urandom | head -c 6)</span></code></div>
@@ -110,18 +110,18 @@ then enter wrong PUK tree times.</p>
 </div>
 </section>
 <section id="create-certificate">
-<span id="id9"></span><h1>Create certificate<a class="headerlink" href="#create-certificate" title="Permalink to this heading">¶</a></h1>
+<h1>Create certificate<a class="headerlink" href="#create-certificate" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="generate-private-key">
-<span id="id10"></span><h1>Generate Private Key<a class="headerlink" href="#generate-private-key" title="Permalink to this heading">¶</a></h1>
+<h1>Generate Private Key<a class="headerlink" href="#generate-private-key" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool --key=$KEY -a generate -s 9a -A RSA2048 -o pub.pem</span></code></p>
 </section>
 <section id="generate-certificate-signing-request">
-<span id="id11"></span><h1>Generate Certificate Signing Request<a class="headerlink" href="#generate-certificate-signing-request" title="Permalink to this heading">¶</a></h1>
+<h1>Generate Certificate Signing Request<a class="headerlink" href="#generate-certificate-signing-request" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a verify -a request -s 9a -P $PIN -S '/CN=test/O=EXAMPLE.ORG/' -i pub.pem -o req.pem</span></code></p>
 </section>
 <section id="sign-certificate-signing-request">
-<span id="id12"></span><h1>Sign Certificate Signing Request<a class="headerlink" href="#sign-certificate-signing-request" title="Permalink to this heading">¶</a></h1>
+<h1>Sign Certificate Signing Request<a class="headerlink" href="#sign-certificate-signing-request" title="Permalink to this heading">¶</a></h1>
 <p>In production environment the CSR is sent to Security Administrator (or
 similar role) and he will provide the certificate. But for testing it’s
 OK to generate self-sign CA certificate and use it to sign the request.</p>
@@ -137,10 +137,10 @@ OK to generate self-sign CA certificate and use it to sign the request.</p>
 <p><code class="docutils literal notranslate"><span class="pre"># certutil -d /tmp/nssdb/ -f pwfile -L -n ca -a -o ca.pem</span></code></p>
 </section>
 <section id="import-the-certificate-into-yubikey">
-<span id="id13"></span><h1>Import the certificate into Yubikey<a class="headerlink" href="#import-the-certificate-into-yubikey" title="Permalink to this heading">¶</a></h1>
+<h1>Import the certificate into Yubikey<a class="headerlink" href="#import-the-certificate-into-yubikey" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool --key=$KEY -a import-certificate -i cert.pem -s 9a</span></code></p>
 <section id="assign-the-certificate-to-freeipa-user">
-<span id="id14"></span><h2>Assign the certificate to FreeIPA user<a class="headerlink" href="#assign-the-certificate-to-freeipa-user" title="Permalink to this heading">¶</a></h2>
+<h2>Assign the certificate to FreeIPA user<a class="headerlink" href="#assign-the-certificate-to-freeipa-user" title="Permalink to this heading">¶</a></h2>
 <p>user-add-cert command expects only the base64 encoded blob:</p>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">- `tail -n +2</span></code> omits the —–BEGIN CERTIFICATE—- line`</div>
@@ -153,26 +153,26 @@ OK to generate self-sign CA certificate and use it to sign the request.</p>
 </div>
 </section>
 <section id="enable-support-on-freeipa-client">
-<span id="id15"></span><h2>Enable support on FreeIPA client<a class="headerlink" href="#enable-support-on-freeipa-client" title="Permalink to this heading">¶</a></h2>
+<h2>Enable support on FreeIPA client<a class="headerlink" href="#enable-support-on-freeipa-client" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
-<section id="install-packages-1">
-<span id="id16"></span><h1>Install packages<a class="headerlink" href="#install-packages-1" title="Permalink to this heading">¶</a></h1>
+<section id="id1">
+<h1>Install packages<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># dnf install -y opensc python{2,3}-sssdconfig</span></code></p>
 </section>
 <section id="add-smart-card-to-etc-pki-nssdb">
-<span id="add-smart-card-to-etcpkinssdb"></span><h1>Add Smart Card to /etc/pki/nssdb<a class="headerlink" href="#add-smart-card-to-etc-pki-nssdb" title="Permalink to this heading">¶</a></h1>
+<h1>Add Smart Card to /etc/pki/nssdb<a class="headerlink" href="#add-smart-card-to-etc-pki-nssdb" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># modutil -dbdir /etc/pki/nssdb -add &quot;OpenSC&quot; -libfile opensc-pkcs11.so</span></code></p>
 </section>
 <section id="start-and-enable-pc-smart-card-daemon">
-<span id="id17"></span><h1>Start and enable PC Smart Card Daemon<a class="headerlink" href="#start-and-enable-pc-smart-card-daemon" title="Permalink to this heading">¶</a></h1>
+<h1>Start and enable PC Smart Card Daemon<a class="headerlink" href="#start-and-enable-pc-smart-card-daemon" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># systemctl start pcscd.service pcscd.socket</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># systemctl enable pcscd.service pcscd.socket</span></code></div>
 </div>
 </section>
 <section id="enable-authentication-using-certificates-in-sssd">
-<span id="id18"></span><h1>Enable authentication using certificates in SSSD<a class="headerlink" href="#enable-authentication-using-certificates-in-sssd" title="Permalink to this heading">¶</a></h1>
+<h1>Enable authentication using certificates in SSSD<a class="headerlink" href="#enable-authentication-using-certificates-in-sssd" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># python &lt;&lt; EOF</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">from SSSDConfig import SSSDConfig</span></code></div>
@@ -184,7 +184,7 @@ OK to generate self-sign CA certificate and use it to sign the request.</p>
 </div>
 </section>
 <section id="disable-ocsp-if-oscp-unreachable">
-<span id="id19"></span><h1>Disable OCSP (if oscp unreachable)<a class="headerlink" href="#disable-ocsp-if-oscp-unreachable" title="Permalink to this heading">¶</a></h1>
+<h1>Disable OCSP (if oscp unreachable)<a class="headerlink" href="#disable-ocsp-if-oscp-unreachable" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># python &lt;&lt; EOF</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">from SSSDConfig import SSSDConfig</span></code></div>
@@ -196,11 +196,11 @@ OK to generate self-sign CA certificate and use it to sign the request.</p>
 </div>
 </section>
 <section id="import-ca-certificates-for-smart-cards">
-<span id="id20"></span><h1>Import CA certificates for Smart Cards<a class="headerlink" href="#import-ca-certificates-for-smart-cards" title="Permalink to this heading">¶</a></h1>
+<h1>Import CA certificates for Smart Cards<a class="headerlink" href="#import-ca-certificates-for-smart-cards" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># certutil -d /etc/pki/nssdb -A -i ca.pem -n &quot;Smart Card CA ($RANDOM)&quot; -t T,,</span></code></p>
 </section>
 <section id="restart-sssd">
-<span id="id21"></span><h1>Restart SSSD<a class="headerlink" href="#restart-sssd" title="Permalink to this heading">¶</a></h1>
+<h1>Restart SSSD<a class="headerlink" href="#restart-sssd" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre"># systemctl restart sssd.service</span></code></p>
 </section>
 

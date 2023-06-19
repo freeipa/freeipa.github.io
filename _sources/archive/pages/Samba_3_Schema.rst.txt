@@ -1,11 +1,11 @@
-.. _samba_schema:
+
 
 Samba Schema
 ============
 
 This schema is defined in /etc/dirsrv/schema/60samba.ldif.
 
-.. _attribute_types:
+
 
 Attribute Types
 ---------------
@@ -32,7 +32,7 @@ rid              NT RID
 primaryGroupID   NT Primary Group ID
 ================ ===========================================
 
-.. _object_classes:
+
 
 Object Classes
 --------------
@@ -43,14 +43,14 @@ Name         Description
 sambaAccount Samba Auxiliary Account
 ============ =======================
 
-.. _samba_3_schema:
+
 
 Samba 3 Schema
 ==============
 
 This schema is defined in /etc/dirsrv/schema/60samba3.ldif.
 
-.. _attribute_types_1:
+
 
 Attribute Types
 ---------------
@@ -140,7 +140,7 @@ Attribute Types
 | sambaTrustFlags         | Trust Password Flags                      |
 +-------------------------+-------------------------------------------+
 
-.. _object_classes_1:
+
 
 Object Classes
 --------------

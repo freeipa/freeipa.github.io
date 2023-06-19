@@ -1,4 +1,4 @@
-.. _enhancements_addressed_in_the_current_release:
+
 
 Enhancements Addressed in the Current Release
 ---------------------------------------------

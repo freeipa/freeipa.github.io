@@ -12,7 +12,7 @@ ticket can also be renewed before it is expired. The ticket cannot be
 renewd past the maximum renewal time. This page deals with acquiring
 and/or renewing TGTs.
 
-.. _host_ticket:
+
 
 Host Ticket
 -----------
@@ -28,7 +28,7 @@ a new TGT at any time. If a TGT is expired a new one will be requested
 before performing an operation that requires exchange of kerberos
 credentials.
 
-.. _user_ticket:
+
 
 User Ticket
 -----------
@@ -38,7 +38,7 @@ that will proxy requests down to the IPA Data Provider. The result will
 be the generation of a credential cache for the user containing the User
 TGT.
 
-.. _credentials_expiration:
+
 
 Credentials Expiration
 ----------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ broader kerberos adoption.
 
 The requirement to solve this problem was added to the IPA PRD.
 
-.. _other_considerations:
+
 
 Other Considerations
 --------------------
@@ -70,7 +70,7 @@ Design
 
 There are several different approaches that address the requirements.
 
-.. _kerberos_renewal_approach:
+
 
 Kerberos Renewal Approach
 -------------------------
@@ -150,7 +150,7 @@ the screensaver. This will generate a new PAM authentication which will
 allow us to obtain a completely new TGT extending renewal time to 14
 days from that point on.
 
-.. _security_concerns:
+
 
 Security Concerns
 ----------------------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ developed to automatically renew the kerberos tickets bypassing IPA
 policy checks since they are enforced on a client. But still this seems
 to be a viable solution for v2 even considering this issue.
 
-.. _alternative_approach:
+
 
 Alternative Approach
 --------------------
@@ -183,7 +183,7 @@ differences being that the user passwords are captured and stored on the
 client, and that renewal could happen even if the ticket is actually
 expired as we posses the user secret.
 
-.. _security_concerns_1:
+
 
 Security Concerns
 ----------------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ renewal time and before a ticket is expired but should not be used
 unless there is a critical need for it (very long, completely unattended
 jobs on very secure systems.
 
-.. _suggested_solution:
+
 
 Suggested Solution
 ------------------
@@ -203,7 +203,7 @@ Suggested Solution
 After some discussion we decided that we will use a slightly modified
 ticket renewal approach.
 
-.. _solution_for_host_use_case:
+
 
 Solution for Host Use Case
 ----------------------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ library will be created. This library will be implemented SSSD
 developers and shared with others team members who are working on the
 client components.
 
-.. _solution_for_user_use_case:
+
 
 Solution for User Use Case
 ----------------------------------------------------------------------------------------------

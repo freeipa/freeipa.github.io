@@ -38,7 +38,7 @@ admin's intention.
 Also, a ``_kerberos TXT`` record containing the realm name should be
 added to the DNS zone as a part of this process.
 
-.. _use_cases2:
+
 
 Use Cases
 =========
@@ -88,7 +88,7 @@ normalizer should lowercase the arguments and strip the trailing dot.
 
 Add new unit tests to cover these newly added functionalities.
 
-.. _feature_management2:
+
 
 Feature Management
 ==================
@@ -101,7 +101,7 @@ CLI
 
 N/A
 
-.. _major_configuration_options_and_enablement2:
+
 
 Major configuration options and enablement
 ==========================================
@@ -113,7 +113,7 @@ Replication
 
 N/A
 
-.. _updates_and_upgrades2:
+
 
 Updates and Upgrades
 ====================
@@ -125,14 +125,14 @@ Dependencies
 
 N/A
 
-.. _external_impact2:
+
 
 External Impact
 ===============
 
 N/A
 
-.. _rfe_author2:
+
 
 RFE Author
 ==========

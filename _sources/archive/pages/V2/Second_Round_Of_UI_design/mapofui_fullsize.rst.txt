@@ -1,4 +1,4 @@
-.. _map_of_the_ui___full_size:
+
 
 Map of the UI - Full Size
 =========================

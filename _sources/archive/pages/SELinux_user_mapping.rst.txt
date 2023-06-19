@@ -117,7 +117,7 @@ seeAlso may not be defined if a user, usercat, host or hostcat is
 defined. The use must either link to an HBAC rule or define everything
 in the SELinux map.
 
-.. _selinux_user_syntax:
+
 
 SELinux user syntax
 -------------------
@@ -158,7 +158,7 @@ default context.
 SSSD evaluates the maps to determine the correct context based on the
 user and machine.
 
-.. _order_of_operation:
+
 
 Order of operation
 ----------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ Since we can potentially point to another association (HBAC) which has
 its own enabled flag both will need to be evaluated. If either is
 disabled then the rule is ignored.
 
-.. _evaluating_rules:
+
 
 Evaluating Rules
 ----------------------------------------------------------------------------------------------
@@ -240,7 +240,7 @@ Our user, ``joe.user``, is a member of the groups ``admins`` and
 We have a hostgroup, ``webservers``, which contains the hosts
 ``web1.example.com`` and ``web2.example.com>/code>``
 
-.. _example_1:
+
 
 Example 1
 ^^^^^^^^^
@@ -253,7 +253,7 @@ because hosts are evaluated first.
 
 If joe.user logs in from any other host he gets ``guest_u``
 
-.. _example_2:
+
 
 Example 2
 ^^^^^^^^^

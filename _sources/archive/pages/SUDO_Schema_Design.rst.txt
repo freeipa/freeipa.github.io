@@ -1,4 +1,4 @@
-.. _alternative_sudo_schema_proposal:
+
 
 Alternative SUDO Schema Proposal
 ================================
@@ -9,7 +9,7 @@ Abstract
 This page describes a proposal for the LDAP schema objects to support
 centrally managed SUDO rules.
 
-.. _design_considerations:
+
 
 Design Considerations
 ---------------------
@@ -70,7 +70,7 @@ referencing of the entries.
    regardless of the order the records returned.
 -  The new schema should allow disabling rules without deleting them.
 
-.. _proposed_schema:
+
 
 Proposed Schema
 ---------------
@@ -201,14 +201,16 @@ Let us look at each of the attributes and its use more closely.
    just for the sake of the clean design and maintainability.
    The attribute then can look like this:
 
-| ``attributeTypes: ( 2.16.840.1.113730.3.8.7.TBD ``
-| ``                  NAME 'hostMask' ``
-| ``                  DESC 'IP mask to identify a subnet.' ``
-| ``                  EQUALITY caseIgnoreMatch``
-| ``                  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                  ORDERING caseIgnoreMatch ``
-| ``                  SUBSTR caseIgnoreSubstringsMatch ``
-| ``                  X-ORIGIN 'IPA v2' )``
+::
+
+   | ``attributeTypes: ( 2.16.840.1.113730.3.8.7.TBD ``
+   | ``                  NAME 'hostMask' ``
+   | ``                  DESC 'IP mask to identify a subnet.' ``
+   | ``                  EQUALITY caseIgnoreMatch``
+   | ``                  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                  ORDERING caseIgnoreMatch ``
+   | ``                  SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                  X-ORIGIN 'IPA v2' )``
 
    The values it will hold may look like IPv4 or IPv6 addresses or
    expressed using the CIDR notation for example:
@@ -223,11 +225,13 @@ Let us look at each of the attributes and its use more closely.
    value attribute which would create a limitation on specifying
    multiple masks in one entry.
 
-| ``attributeTypes: ( nisSchema.1.21 ``
-| ``                  NAME 'ipNetmaskNumber'``
-| ``                  DESC 'IP netmask as a dotted decimal, eg. 255.255.255.0, omitting leading zeros'``
-| ``                  EQUALITY caseIgnoreIA5Match``
-| ``                  SYNTAX 'IA5String{128}' SINGLE-VALUE )``
+::
+
+   | ``attributeTypes: ( nisSchema.1.21 ``
+   | ``                  NAME 'ipNetmaskNumber'``
+   | ``                  DESC 'IP netmask as a dotted decimal, eg. 255.255.255.0, omitting leading zeros'``
+   | ``                  EQUALITY caseIgnoreIA5Match``
+   | ``                  SYNTAX 'IA5String{128}' SINGLE-VALUE )``
 
    Or we reuse an attribute already defined in the schema for the
    external (unmanaged) hosts. This can also be a good option since we
@@ -236,14 +240,16 @@ Let us look at each of the attributes and its use more closely.
    this case we would have to have a special prefixing inside the
    attribute value to distinguish the two.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'externalHost' ``
-| ``                 DESC 'Multivalue string attribute that allows storing host names.' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
+
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'externalHost' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing host names.' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
 
    After a brief evaluation I suggest including both attributes. The
    **externalHost** for external names not otherwise managed by the
@@ -334,55 +340,57 @@ Let us look at each of the attributes and its use more closely.
       container while the sudo groups will be stored in the
       cn=SUDOcmdgrp,dc=... container.
 
-| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
-| ``                NAME 'ipaSudoCmd' ``
-| ``                DESC 'IPA object class for SUDO command'``
-| ``                STRUCTURAL ``
-| ``                MUST ( ipaUniqueID $ sudoCmd ) ``
-| ``                MAY  ( memberOf $ description ) ``
-| ``                X-ORIGIN 'IPA v2' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
-| ``                NAME 'ipaSudoCmdGrp' ``
-| ``                DESC 'IPA object class to store groups of SUDO commands' ``
-| ``                SUP groupOfNames ``
-| ``                MUST ( ipaUniqueID )``
-| ``                STRUCTURAL``
-| ``                X-ORIGIN 'IPA v2' )``
-| `` ``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'sudoCmd'``
-| ``                 DESC 'Command(s) to be executed by sudo'``
-| ``                 EQUALITY caseExactMatch ``
-| ``                 ORDERING caseExactMatch ``
-| ``                 SUBSTR caseExactSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'memberAllowCmd' ``
-| ``                 DESC 'Reference to a command or group of the commands.' ``
-| ``                 SUP distinguishedName ``
-| ``                 EQUALITY distinguishedNameMatch ``
-| ``                 ORDERING distinguishedNameMatch ``
-| ``                 SUBSTR distinguishedNameMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'memberDenyCmd' ``
-| ``                 DESC 'Reference to a command or group of the commands.' ``
-| ``                 SUP distinguishedName ``
-| ``                 EQUALITY distinguishedNameMatch ``
-| ``                 ORDERING distinguishedNameMatch ``
-| ``                 SUBSTR distinguishedNameMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'cmdCategory' ``
-| ``                 DESC 'Additional classification for commands' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v2' )``
+   | ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+   | ``                NAME 'ipaSudoCmd' ``
+   | ``                DESC 'IPA object class for SUDO command'``
+   | ``                STRUCTURAL ``
+   | ``                MUST ( ipaUniqueID $ sudoCmd ) ``
+   | ``                MAY  ( memberOf $ description ) ``
+   | ``                X-ORIGIN 'IPA v2' )``
+   | ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+   | ``                NAME 'ipaSudoCmdGrp' ``
+   | ``                DESC 'IPA object class to store groups of SUDO commands' ``
+   | ``                SUP groupOfNames ``
+   | ``                MUST ( ipaUniqueID )``
+   | ``                STRUCTURAL``
+   | ``                X-ORIGIN 'IPA v2' )``
+   | `` ``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'sudoCmd'``
+   | ``                 DESC 'Command(s) to be executed by sudo'``
+   | ``                 EQUALITY caseExactMatch ``
+   | ``                 ORDERING caseExactMatch ``
+   | ``                 SUBSTR caseExactSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+   | ``                 X-ORIGIN 'IPA v2' )``
+
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'memberAllowCmd' ``
+   | ``                 DESC 'Reference to a command or group of the commands.' ``
+   | ``                 SUP distinguishedName ``
+   | ``                 EQUALITY distinguishedNameMatch ``
+   | ``                 ORDERING distinguishedNameMatch ``
+   | ``                 SUBSTR distinguishedNameMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'memberDenyCmd' ``
+   | ``                 DESC 'Reference to a command or group of the commands.' ``
+   | ``                 SUP distinguishedName ``
+   | ``                 EQUALITY distinguishedNameMatch ``
+   | ``                 ORDERING distinguishedNameMatch ``
+   | ``                 SUBSTR distinguishedNameMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'cmdCategory' ``
+   | ``                 DESC 'Additional classification for commands' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v2' )``
 
 -  **sudoOption** (optional per spec)
 
@@ -393,11 +401,13 @@ Let us look at each of the attributes and its use more closely.
    for this attribute so we will define and analogous attribute of the
    same type.
 
-| ``attributetype ( 2.16.840.1.113730.3.8.7.TBD``
-| ``                NAME 'ipaSudoOpt'``
-| ``                DESC 'Options(s) followed by sudo'``
-| ``                EQUALITY caseExactIA5Match``
-| ``                SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
+::
+
+   | ``attributetype ( 2.16.840.1.113730.3.8.7.TBD``
+   | ``                NAME 'ipaSudoOpt'``
+   | ``                DESC 'Options(s) followed by sudo'``
+   | ``                EQUALITY caseExactIA5Match``
+   | ``                SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
 
 -  **sudoRunAs** - is deprecated
 
@@ -423,23 +433,27 @@ Let us look at each of the attributes and its use more closely.
    aggregate uses the command can be run as. To point to those objects
    we need a DN style attribute.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAs' ``
-| ``                 DESC 'Reference to a user or group that the commands can be run as.' ``
-| ``                 SUP memberUser``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
+
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAs' ``
+   | ``                 DESC 'Reference to a user or group that the commands can be run as.' ``
+   | ``                 SUP memberUser``
+   | ``                 X-ORIGIN 'IPA v2' )``
 
    Secondarily we need to allow the sudo commands to be run as users
    that are not managed.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAsExtUser' ``
-| ``                 DESC 'Multivalue string attribute that allows storing user name the command can be run as' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
+
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAsExtUser' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing user name the command can be run as' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
 
    We will not support referencing external users by the uid only by
    login name.
@@ -457,41 +471,48 @@ Let us look at each of the attributes and its use more closely.
    overkill it allows a cleaner and consistent logic across the board of
    how we handle user entries in the system as a whole.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'ipaSudoRunAsUserCategory' ``
-| ``                 DESC 'Additional classification for users' ``
-| ``                 SUP userCategory``
-| ``                 X-ORIGIN 'IPA v2' )``
+
+::
+   
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'ipaSudoRunAsUserCategory' ``
+   | ``                 DESC 'Additional classification for users' ``
+   | ``                 SUP userCategory``
+   | ``                 X-ORIGIN 'IPA v2' )``
 
    The only value that will be supported so far is "all".
 
    For the run as group we will need to have very similar handling.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAsGroup' ``
-| ``                 DESC 'Reference to group that the commands can be run as.' ``
-| ``                 SUP memberUser``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAsExtGroup' ``
-| ``                 DESC 'Multivalue string attribute that allows storing group name the command can be run as' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAsGroup' ``
+   | ``                 DESC 'Reference to group that the commands can be run as.' ``
+   | ``                 SUP memberUser``
+   | ``                 X-ORIGIN 'IPA v2' )``
+
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAsExtGroup' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing group name the command can be run as' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
 
    We will not support referencing external groups by the gid only by
    group name.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'ipaSudoRunAsGroupCategory' ``
-| ``                 DESC 'Additional classification for groups' ``
-| ``                 SUP userCategory``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
 
-.. _sudo_rules_and_hbac_rules:
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'ipaSudoRunAsGroupCategory' ``
+   | ``                 DESC 'Additional classification for groups' ``
+   | ``                 SUP userCategory``
+   | ``                 X-ORIGIN 'IPA v2' )``
+
+
 
 SUDO rules and HBAC rules
 ----------------------------------------------------------------------------------------------
@@ -519,43 +540,45 @@ SUDO authentication problem.
 
 The pre configured data template will look like this:
 
-| ``dn: cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX``
-| ``changetype: add``
-| ``objectClass: ipaobject``
-| ``objectClass: ipahbacservicegroup``
-| ``objectClass: nestedGroup``
-| ``objectClass: groupOfNames``
-| ``objectClass: top``
-| ``cn: SUDO``
-| ``description: Default group of SUDO related services``
-| ``dn: cn=sudo,cn=hbacservices,cn=accounts,$SUFFIX``
-| ``changetype: add``
-| ``objectClass: ipaobject``
-| ``objectClass: ipahbacservice``
-| ``cn: sudo``
-| ``memberOf:'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'``
-| ``description: Login service for sudo``
-| ``dn: cn=sudo-i,cn=hbacservices,cn=accounts,$SUFFIX``
-| ``changetype: add``
-| ``objectClass: ipaobject``
-| ``objectClass: ipahbacservice``
-| ``cn: sudo-i``
-| ``memberOf:'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'``
-| ``description: Login service for sudo-i``
+::
 
-| ``dn: cn=SUDO Login,cn=hbac,cn=accounts,$SUFFIX``
-| ``changetype add``
-| ``objectClass: top``
-| ``objectClass: ipaAssociation``
-| ``objectClass: ipaHBACRule``
-| ``cn: SUDO Login``
-| ``description: Default HBAC rule to allow authentication via SUDO commands.``
-| ``ipaEnabledFlag: false``
-| ``accessRuleType: allow``
-| ``userCategory: all``
-| ``hostCategory: all``
-| ``sourceHostCategory: all``
-| ``memberService: 'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'``
+   | ``dn: cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX``
+   | ``changetype: add``
+   | ``objectClass: ipaobject``
+   | ``objectClass: ipahbacservicegroup``
+   | ``objectClass: nestedGroup``
+   | ``objectClass: groupOfNames``
+   | ``objectClass: top``
+   | ``cn: SUDO``
+   | ``description: Default group of SUDO related services``
+   | ``dn: cn=sudo,cn=hbacservices,cn=accounts,$SUFFIX``
+   | ``changetype: add``
+   | ``objectClass: ipaobject``
+   | ``objectClass: ipahbacservice``
+   | ``cn: sudo``
+   | ``memberOf:'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'``
+   | ``description: Login service for sudo``
+   | ``dn: cn=sudo-i,cn=hbacservices,cn=accounts,$SUFFIX``
+   | ``changetype: add``
+   | ``objectClass: ipaobject``
+   | ``objectClass: ipahbacservice``
+   | ``cn: sudo-i``
+   | ``memberOf:'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'``
+   | ``description: Login service for sudo-i``
+
+   | ``dn: cn=SUDO Login,cn=hbac,cn=accounts,$SUFFIX``
+   | ``changetype add``
+   | ``objectClass: top``
+   | ``objectClass: ipaAssociation``
+   | ``objectClass: ipaHBACRule``
+   | ``cn: SUDO Login``
+   | ``description: Default HBAC rule to allow authentication via SUDO commands.``
+   | ``ipaEnabledFlag: false``
+   | ``accessRuleType: allow``
+   | ``userCategory: all``
+   | ``hostCategory: all``
+   | ``sourceHostCategory: all``
+   | ``memberService: 'cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX'``
 
 If we realize that we need a more tight coupling between the SUDO and
 HBAC rules we will implement them later based on the feedback from the
@@ -577,204 +600,208 @@ this:
 
 Existing objects already defined in the IPA schema:
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.1 ``
-| ``                 NAME 'ipaUniqueID' ``
-| ``                 DESC 'Unique identifier' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.5 ``
-| ``                 NAME 'memberUser' ``
-| ``                 DESC 'Reference to a principal that performs an action (usually user).' ``
-| ``                 SUP distinguishedName ``
-| ``                 EQUALITY distinguishedNameMatch ``
-| ``                 ORDERING distinguishedNameMatch ``
-| ``                 SUBSTR distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.6 ``
-| ``                 NAME 'userCategory' ``
-| ``                 DESC 'Additional classification for users' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.7``
-| ``                 NAME 'memberHost' ``
-| ``                 DESC 'Reference to a device where the operation takes place (usually host).' ``
-| ``                 SUP distinguishedName ``
-| ``                 EQUALITY distinguishedNameMatch ``
-| ``                 ORDERING distinguishedNameMatch ``
-| ``                 SUBSTR distinguishedNameMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.8 ``
-| ``                 NAME 'hostCategory' ``
-| ``                 DESC 'Additional classification for hosts' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.9``
-| ``                 NAME 'ipaEnabledFlag' ``
-| ``                 DESC 'The flag to show if the association is active or should be ignored' ``
-| ``                 EQUALITY booleanMatch ``
-| ``                 ORDERING booleanMatch ``
-| ``                 SUBSTR booleanMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.4.6 ``
-| ``                NAME 'ipaAssociation' ``
-| ``                ABSTRACT ``
-| ``                MUST ( ipaUniqueID    $ cn ) ``
-| ``                MAY  ( memberUser     $ userCategory $ ``
-| ``                       memberHost     $ hostCategory $ ``
-| ``                       ipaEnabledFlag $ description ) ``
-| ``                X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.3.11``
-| ``                 NAME 'externalHost' ``
-| ``                 DESC 'Multivalue string attribute that allows storing host names.' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.4.3 ``
-| ``                NAME 'nestedGroup' ``
-| ``                DESC 'Group that supports nesting' ``
-| ``                SUP groupOfNames ``
-| ``                STRUCTURAL ``
-| ``                MAY memberOf ``
-| ``                X-ORIGIN 'IPA v2' )``
-| ``attributeTypes ( 2.16.840.1.113730.3.8.3.13 ``
-| ``                 NAME 'accessRuleType' ``
-| ``                 DESC 'The flag to represent if it is allow or deny rule.' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 X-ORIGIN 'IPA v2')``
-| ``Note: valid values for accessRuleType are "allow" or "deny"``
+::
+
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.1 ``
+   | ``                 NAME 'ipaUniqueID' ``
+   | ``                 DESC 'Unique identifier' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.5 ``
+   | ``                 NAME 'memberUser' ``
+   | ``                 DESC 'Reference to a principal that performs an action (usually user).' ``
+   | ``                 SUP distinguishedName ``
+   | ``                 EQUALITY distinguishedNameMatch ``
+   | ``                 ORDERING distinguishedNameMatch ``
+   | ``                 SUBSTR distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.6 ``
+   | ``                 NAME 'userCategory' ``
+   | ``                 DESC 'Additional classification for users' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.7``
+   | ``                 NAME 'memberHost' ``
+   | ``                 DESC 'Reference to a device where the operation takes place (usually host).' ``
+   | ``                 SUP distinguishedName ``
+   | ``                 EQUALITY distinguishedNameMatch ``
+   | ``                 ORDERING distinguishedNameMatch ``
+   | ``                 SUBSTR distinguishedNameMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.8 ``
+   | ``                 NAME 'hostCategory' ``
+   | ``                 DESC 'Additional classification for hosts' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.9``
+   | ``                 NAME 'ipaEnabledFlag' ``
+   | ``                 DESC 'The flag to show if the association is active or should be ignored' ``
+   | ``                 EQUALITY booleanMatch ``
+   | ``                 ORDERING booleanMatch ``
+   | ``                 SUBSTR booleanMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``objectClasses: (2.16.840.1.113730.3.8.4.6 ``
+   | ``                NAME 'ipaAssociation' ``
+   | ``                ABSTRACT ``
+   | ``                MUST ( ipaUniqueID    $ cn ) ``
+   | ``                MAY  ( memberUser     $ userCategory $ ``
+   | ``                       memberHost     $ hostCategory $ ``
+   | ``                       ipaEnabledFlag $ description ) ``
+   | ``                X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.3.11``
+   | ``                 NAME 'externalHost' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing host names.' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``objectClasses: (2.16.840.1.113730.3.8.4.3 ``
+   | ``                NAME 'nestedGroup' ``
+   | ``                DESC 'Group that supports nesting' ``
+   | ``                SUP groupOfNames ``
+   | ``                STRUCTURAL ``
+   | ``                MAY memberOf ``
+   | ``                X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes ( 2.16.840.1.113730.3.8.3.13 ``
+   | ``                 NAME 'accessRuleType' ``
+   | ``                 DESC 'The flag to represent if it is allow or deny rule.' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+   | ``                 X-ORIGIN 'IPA v2')``
+   | ``Note: valid values for accessRuleType are "allow" or "deny"``
 
 New attributes and objects added by this design:
 
-| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
-| ``                NAME 'ipaSudoCmd' ``
-| ``                DESC 'IPA object class for SUDO command'``
-| ``                STRUCTURAL ``
-| ``                MUST ( ipaUniqueID $ sudoCmd ) ``
-| ``                MAY  ( memberOf $ description ) ``
-| ``                X-ORIGIN 'IPA v2' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
-| ``                NAME 'ipaSudoCmdGrp' ``
-| ``                DESC 'IPA object class to store groups of SUDO commands' ``
-| ``                SUP groupOfNames ``
-| ``                MUST ( ipaUniqueID )``
-| ``                STRUCTURAL``
-| ``                X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'sudoCmd'``
-| ``                 DESC 'Command(s) to be executed by sudo'``
-| ``                 EQUALITY caseExactMatch ``
-| ``                 ORDERING caseExactMatch ``
-| ``                 SUBSTR caseExactSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'memberAllowCmd' ``
-| ``                 DESC 'Reference to a command or group of the commands that are allowed by the rule.' ``
-| ``                 SUP distinguishedName ``
-| ``                 EQUALITY distinguishedNameMatch ``
-| ``                 ORDERING distinguishedNameMatch ``
-| ``                 SUBSTR distinguishedNameMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'memberDenyCmd' ``
-| ``                 DESC 'Reference to a command or group of the commands that are denied by the rule.' ``
-| ``                 SUP distinguishedName ``
-| ``                 EQUALITY distinguishedNameMatch ``
-| ``                 ORDERING distinguishedNameMatch ``
-| ``                 SUBSTR distinguishedNameMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'cmdCategory' ``
-| ``                 DESC 'Additional classification for commands' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v2' )``
-| ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'externalUser' ``
-| ``                 DESC 'Multivalue string attribute that allows storing user names.' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'ipaSudoOpt'``
-| ``                 DESC 'Options(s) followed by sudo'``
-| ``                 EQUALITY caseExactIA5Match``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAs' ``
-| ``                 DESC 'Reference to a user or group that the commands can be run as.' ``
-| ``                 SUP memberUser``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAsExtUser' ``
-| ``                 DESC 'Multivalue string attribute that allows storing user name the command can be run as' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'ipaSudoRunAsUserCategory' ``
-| ``                 DESC 'Additional classification for users' ``
-| ``                 SUP userCategory``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAsGroup' ``
-| ``                 DESC 'Reference to group that the commands can be run as.' ``
-| ``                 SUP memberUser``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'ipaSudoRunAsExtGroup' ``
-| ``                 DESC 'Multivalue string attribute that allows storing group name the command can be run as' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'ipaSudoRunAsGroupCategory' ``
-| ``                 DESC 'Additional classification for groups' ``
-| ``                 SUP userCategory``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
-| ``                 NAME 'hostMask' ``
-| ``                 DESC 'IP mask to identify a subnet.' ``
-| ``                 EQUALITY caseIgnoreMatch``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 X-ORIGIN 'IPA v2' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
-| ``                NAME 'ipaSudoRule' ``
-| ``                SUP ipaAssociation ``
-| ``                STRUCTURAL ``
-| ``                MAY ( externalUser $ ``
-| ``                      externalHost $ hostMask $ ``
-| ``                      memberAllowCmd $ memberDenyCmd $ cmdCategory $``
-| ``                      ipaSudoOpt $``
-| ``                      ipaSudoRunAs $ ipaSudoRunAsExtUser $ ipaSudoRunAsUserCategory $``
-| ``                      ipaSudoRunAsGroup $ ipaSudoRunAsExtGroup $ ipaSudoRunAsGroupCategory ) ``
-| ``                X-ORIGIN 'IPA v2' )``
+::
+
+   | ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+   | ``                NAME 'ipaSudoCmd' ``
+   | ``                DESC 'IPA object class for SUDO command'``
+   | ``                STRUCTURAL ``
+   | ``                MUST ( ipaUniqueID $ sudoCmd ) ``
+   | ``                MAY  ( memberOf $ description ) ``
+   | ``                X-ORIGIN 'IPA v2' )``
+   | ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+   | ``                NAME 'ipaSudoCmdGrp' ``
+   | ``                DESC 'IPA object class to store groups of SUDO commands' ``
+   | ``                SUP groupOfNames ``
+   | ``                MUST ( ipaUniqueID )``
+   | ``                STRUCTURAL``
+   | ``                X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'sudoCmd'``
+   | ``                 DESC 'Command(s) to be executed by sudo'``
+   | ``                 EQUALITY caseExactMatch ``
+   | ``                 ORDERING caseExactMatch ``
+   | ``                 SUBSTR caseExactSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'memberAllowCmd' ``
+   | ``                 DESC 'Reference to a command or group of the commands that are allowed by the rule.' ``
+   | ``                 SUP distinguishedName ``
+   | ``                 EQUALITY distinguishedNameMatch ``
+   | ``                 ORDERING distinguishedNameMatch ``
+   | ``                 SUBSTR distinguishedNameMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'memberDenyCmd' ``
+   | ``                 DESC 'Reference to a command or group of the commands that are denied by the rule.' ``
+   | ``                 SUP distinguishedName ``
+   | ``                 EQUALITY distinguishedNameMatch ``
+   | ``                 ORDERING distinguishedNameMatch ``
+   | ``                 SUBSTR distinguishedNameMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'cmdCategory' ``
+   | ``                 DESC 'Additional classification for commands' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v2' )``
+   | ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'externalUser' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing user names.' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'ipaSudoOpt'``
+   | ``                 DESC 'Options(s) followed by sudo'``
+   | ``                 EQUALITY caseExactIA5Match``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAs' ``
+   | ``                 DESC 'Reference to a user or group that the commands can be run as.' ``
+   | ``                 SUP memberUser``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAsExtUser' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing user name the command can be run as' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'ipaSudoRunAsUserCategory' ``
+   | ``                 DESC 'Additional classification for users' ``
+   | ``                 SUP userCategory``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAsGroup' ``
+   | ``                 DESC 'Reference to group that the commands can be run as.' ``
+   | ``                 SUP memberUser``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'ipaSudoRunAsExtGroup' ``
+   | ``                 DESC 'Multivalue string attribute that allows storing group name the command can be run as' ``
+   | ``                 EQUALITY caseIgnoreMatch ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+   | ``                 NAME 'ipaSudoRunAsGroupCategory' ``
+   | ``                 DESC 'Additional classification for groups' ``
+   | ``                 SUP userCategory``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+   | ``                 NAME 'hostMask' ``
+   | ``                 DESC 'IP mask to identify a subnet.' ``
+   | ``                 EQUALITY caseIgnoreMatch``
+   | ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+   | ``                 ORDERING caseIgnoreMatch ``
+   | ``                 SUBSTR caseIgnoreSubstringsMatch ``
+   | ``                 X-ORIGIN 'IPA v2' )``
+   | ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+   | ``                NAME 'ipaSudoRule' ``
+   | ``                SUP ipaAssociation ``
+   | ``                STRUCTURAL ``
+   | ``                MAY ( externalUser $ ``
+   | ``                      externalHost $ hostMask $ ``
+   | ``                      memberAllowCmd $ memberDenyCmd $ cmdCategory $``
+   | ``                      ipaSudoOpt $``
+   | ``                      ipaSudoRunAs $ ipaSudoRunAsExtUser $ ipaSudoRunAsUserCategory $``
+   | ``                      ipaSudoRunAsGroup $ ipaSudoRunAsExtGroup $ ipaSudoRunAsGroupCategory ) ``
+   | ``                X-ORIGIN 'IPA v2' )``
 
 Examples
 ----------------------------------------------------------------------------------------------
@@ -818,7 +845,7 @@ command as a local root on centrally managed "superuser" account.
 | `` ipaUniqueID: f4453480-cc53-11dd-ad8b-0abc200c9a67``
 | `` sudoCmd: /bin/su``
 
-.. _why_we_must_support_netgroups_in_the_sudo_rules:
+
 
 Why we must support netgroups in the SUDO rules?
 ----------------------------------------------------------------------------------------------
@@ -859,7 +886,7 @@ host groups for years to come until the need need for the netgroups is
 completely eliminated and admins would be able to turn it off. By that
 time there will be no more need for the SUDO compat configuration.
 
-.. _open_questions:
+
 
 Open questions
 ----------------------------------------------------------------------------------------------

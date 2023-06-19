@@ -6,7 +6,7 @@ infrastructure even if DNS is managed by some non-FreeIPA DNS server.
 FreeIPA should update its DNS records in external DNS during
 installation and replica management.
 
-.. _user_stories:
+
 
 User stories
 ------------
@@ -22,7 +22,7 @@ User stories
    -  For now **only with FreeIPA installers and replica management
       tools will be integrated with external DNS**.
 
-.. _future_extensions:
+
 
 Future extensions
 ----------------------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ Future extensions
       scope <https://www.redhat.com/archives/freeipa-devel/2014-December/msg00044.html>`__
       of this proposal.
 
-.. _external_dns_services_to_consider:
+
 
 External DNS services to consider
 ----------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ considerations <General_considerations>`__ page.
 Implementation
 --------------
 
-.. _microsoft_dns_without_active_directory:
+
 
 Microsoft DNS without Active Directory
 ----------------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ unsigned DNS update is an easy thing to do. It is up to the reader to
 decide if it is wise to run infrastructure this way or not, but it is
 not FreeIPA's bussiness.
 
-.. _microsoft_active_directory:
+
 
 Microsoft Active Directory
 ----------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ Upgrade
 
 Any impact on upgrades? Remove this section if not applicable.
 
-.. _how_to_test19:
+
 
 How to Test
 -----------
@@ -226,7 +226,7 @@ needs to be able to follow the steps and demonstrate the new features.
 The chapter may be divided in sub-sections per `Use
 Case <#Use_Cases>`__.
 
-.. _test_plan19:
+
 
 Test Plan
 ---------

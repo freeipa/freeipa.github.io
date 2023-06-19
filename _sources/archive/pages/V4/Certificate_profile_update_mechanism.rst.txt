@@ -70,7 +70,7 @@ requirements.
 Design
 ======
 
-.. _design_at_a_glance:
+
 
 Design at a glance
 ------------------
@@ -91,7 +91,7 @@ that is supported by all CA masters in the topology shall be selected.
 If the current version of that profile is lower than the selected
 version, the profile shall be updated in Dogtag.
 
-.. _profile_template_versioning:
+
 
 Profile template versioning
 ---------------------------
@@ -111,7 +111,7 @@ version of FreeIPA, the ``template-version`` is incremented. If the
 profile does not require a newer version of FreeIPA, the changes are
 performed in-place (i.e. no copy of the profile template is made).
 
-.. _filesystem_storage:
+
 
 Filesystem storage
 ----------------------------------------------------------------------------------------------
@@ -132,12 +132,12 @@ shall use the following schema:
 Each template file shall contain a ``template-version`` directive
 asserting the template version.
 
-.. _schema_changes:
+
 
 Schema changes
 --------------
 
-.. _certificate_profile_objects:
+
 
 Certificate profile objects
 ----------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ integer attribute for storing the version of the profile:
 The absense of the ``ipaCertProfile`` attribute value implies the
 starting value of ``0``.
 
-.. _ipa_master_entries:
+
 
 IPA master entries
 ----------------------------------------------------------------------------------------------
@@ -189,12 +189,12 @@ master.
 
 I lean towards 3, or 2.
 
-.. _changes_to_ipa_server_upgrade:
+
 
 Changes to ``ipa-server-upgrade``
 ---------------------------------
 
-.. _ipa_version_update:
+
 
 IPA version update
 ----------------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ dictionary shall be updated to include this datum.
 This is small enhancement to the domain level bounds update already
 performed by ``ipa-server-upgrade``.
 
-.. _profile_update:
+
 
 Profile update
 ----------------------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ the LDAP ``certprofile`` object to discover its current version. If the
 ``template-version`` exceeds the current profile version, format the
 template and update the profile.
 
-.. _dealing_with_modified_profiles:
+
 
 Dealing with modified profiles
 ----------------------------------------------------------------------------------------------

@@ -107,7 +107,7 @@ status on individual masters.
 Implementation
 --------------
 
-.. _addition_of_a_special_profile_with_kerberos_kdc_specific_extensions:
+
 
 Addition of a special profile with Kerberos KDC specific extensions
 ----------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ Addition of a special profile with Kerberos KDC specific extensions
 A profile named **KDCs_PKINIT_Certs** is added to Dogtag and is loaded
 into the LDAP store by means of an upgrade script.
 
-.. _changes_to_certificate_management_plugin:
+
 
 Changes to certificate management plugin
 ----------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ there is no need to store the public certificate in the LDAP at all.
 As a result, each KDC will have own certificate issued for
 \`krbtgt/REALM@REALM\` using **KDCs_PKINIT_Certs** profile.
 
-.. _creation_of_a_special_principal_for_anonymous_pkinit:
+
 
 Creation of a special principal for Anonymous PKINIT
 ----------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ A special principal, \`WELLKNOWN/ANONYMOUS@REALM`, is created during KDC
 configuration stage. A pre-authentication is set to be required for the
 principal because PKINIT use requires pre-authentication mechanism.
 
-.. _freeipa_server_and_replica_installer_changes:
+
 
 FreeIPA server and replica installer changes
 ----------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@ PKINIT cert request being routed to a CA master which does not hold the
 plugin. In this case the upgrader will issue a warning and fall back to
 issuing self-signed PKINIT certificates.
 
-.. _update_sep_1_2017:
+
 
 Update Sep 1 2017
 ----------------------------------------------------------------------------------------------
@@ -347,10 +347,12 @@ The ticket granting ticket (TGT) obtained as result of the **kinit -n**
 request can only be used to create a FAST channel for second factor
 authentication:
 
-| ``   kinit -n``
-| ``   klist``
-| ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
-| ``   kinit -T $ARMOR_CCACHE principal@REALM ``
+::
+
+   | ``   kinit -n``
+   | ``   klist``
+   | ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
+   | ``   kinit -T $ARMOR_CCACHE principal@REALM ``
 
 **-T** option of kinit allows to specify existing credentials cache with
 a valid TGT to create a FAST channel between the Kerberos client and the

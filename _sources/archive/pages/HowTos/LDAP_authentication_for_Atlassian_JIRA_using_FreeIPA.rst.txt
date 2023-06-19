@@ -20,7 +20,7 @@ See:
 https://confluence.atlassian.com/display/JIRA/Connecting+to+an+LDAP+Directory
 https://confluence.atlassian.com/display/DEV/How+to+write+LDAP+search+filters
 
-.. _integration_path:
+
 
 Integration Path
 ----------------
@@ -74,12 +74,12 @@ JIRA (might) be making against FreeIPA
       com.atlassian.crowd.directory.SpringLDAPConnector, and got partial
       results.
 
-.. _key_challenges:
+
 
 Key Challenges
 --------------
 
-.. _ldap_adapter_type:
+
 
 LDAP Adapter Type
 ----------------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ While JIRA offers a wide range of LDAP Adapters, it does not (yet) offer
 a FreeIPA Adapter out of the box. We chose the Generic LDAP adapter, and
 were able to configure this for FreeIPA.
 
-.. _other_candidate_adapters:
+
 
 Other Candidate Adapters
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -101,7 +101,7 @@ Other Candidate Adapters
 -  **Other Adapters:** It is possible that other adapters can also be
    persuaded to work, with more or less additional configuration.
 
-.. _rfc_schemas_freeipa_trees:
+
 
 RFC Schemas + FreeIPA Trees
 ----------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ attribute).
 See https://www.freeipa.org/page/Directory_Server and
 https://www.redhat.com/archives/freeipa-users/2015-June/msg00547.html
 
-.. _e_mail_attribute_and_bind_type:
+
 
 E-Mail Attribute and Bind Type
 ----------------------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ database, make sure the user configured is a limited user (member of the
 default ipa-users group is sufficient). e.g. don't use the Directory
 Manager user!
 
-.. _replicating_users_and_groups:
+
 
 Replicating Users and Groups
 ----------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ get this to work change:
 -  **Member Schema Settings / Group Members Attribute** from
    ``uniqueMember`` to ``Member``
 
-.. _the_final_configuration:
+
 
 The Final Configuration
 -----------------------

@@ -22,7 +22,7 @@ setup of a replication topology and in the actions to remove a replica.
 the following sections will make recommendations for designig a
 replication topology and how to procede when a replica has to be removed
 
-.. _designing_a_replication_topology:
+
 
 Designing a replication topology
 --------------------------------
@@ -55,12 +55,12 @@ In type 3 there is a good balance, all replicas are connected to others
 vial different paths, also no replica has more than three replication
 connections to handle
 
-.. _safely_removing_a_replica:
+
 
 Safely removing a replica
 -------------------------
 
-.. _removing_a_leaf_replica:
+
 
 Removing a "leaf" replica
 ----------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ The command removes the master entry for A and this will trigger that
 the topoloy plugin removes the segment connecting A and B an will remove
 the replication agreements A-->B and B-->A
 
-.. _removing_an_internal_replica:
+
 
 Removing an "internal" replica
 ----------------------------------------------------------------------------------------------

@@ -13,7 +13,7 @@ be possible in some limited cases.
 
 Source is available at https://github.com/freeipa/freeipa-healthcheck
 
-.. _minimum_viable_product:
+
 
 Minimum Viable Product
 ----------------------
@@ -32,7 +32,7 @@ The tool must include:
 
 It is expected to be easily integrated with different monitoring tools.
 
-.. _mvp_acceptance_criteria:
+
 
 MVP Acceptance Criteria
 ----------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ MVP Acceptance Criteria
 -  a human-readable version of the output is available (e.g. via a CLI
    result printer).
 
-.. _high_level_architecture:
+
 
 High-level Architecture
 -----------------------
@@ -92,7 +92,7 @@ are ok.
 
 All tools run without issue during upstream integration testing.
 
-.. _related_tickets:
+
 
 Related Tickets
 ----------------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ file has the wrong permissions, expected X and got Y).
 By default the collector will execute once nightly on every master where
 the package is installed.
 
-.. _running_it_manually:
+
 
 Running it manually
 ----------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ status.
 Running it manually is useful if an administrator is attempting to
 correct issues and wants to double-check that something is resolved.
 
-.. _repairing_issues:
+
 
 Repairing Issues
 ----------------------------------------------------------------------------------------------
@@ -356,7 +356,7 @@ Replication
 -  DNA ranges
 -  Unused RUVs
 
-.. _ad_trust:
+
 
 AD Trust
 ^^^^^^^^

@@ -9,12 +9,12 @@ OpenLDAP. It needs to be modified to work with DS.
 This is a prerequisite for `storing SID in string
 format <Obsolete:Samba_4_Storing_SID_in_String_Format>`__.
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _provisioning_tool:
+
 
 Provisioning Tool
 -----------------
@@ -30,7 +30,7 @@ OpenLDAP and DS:
    elif ldap_backend.ldap_backend_type == "openldap":
        tdb_modules_list = ["extended_dn_out_dereference"]
 
-.. _module_definition:
+
 
 Module Definition
 -----------------
@@ -46,7 +46,7 @@ source/dsdb/samdb/ldb_modules/extended_dn_out.c:
        .init_context = extended_dn_out_dereference_init,
    };
 
-.. _initialization_method:
+
 
 Initialization Method
 ---------------------
@@ -66,7 +66,7 @@ entryUUID.
        }
    }
 
-.. _search_method:
+
 
 Search Method
 -------------
@@ -89,7 +89,7 @@ search request.
            req);
    }
 
-.. _callback_function:
+
 
 Callback Function
 -----------------
@@ -106,7 +106,7 @@ The callback function calls a handler function.
            &msg->elements[i].values[j]);
    }
 
-.. _handler_function:
+
 
 Handler Function
 ----------------
@@ -133,12 +133,12 @@ The handler function uses OpenLDAP-specific attribute entryUUID.
        }
    }
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
 
-.. _provisioning_tool_1:
+
 
 Provisioning Tool
 -----------------
@@ -154,7 +154,7 @@ OpenLDAP and DS:
    elif ldap_backend.ldap_backend_type == "openldap":
        tdb_modules_list = ["extended_dn_out_openldap"]
 
-.. _module_definition_1:
+
 
 Module Definition
 -----------------
@@ -176,7 +176,7 @@ extended_dn_out_openldap and extended_dn_out_fds modules:
        .init_context = extended_dn_out_fds_init,
    };
 
-.. _initialization_method_1:
+
 
 Initialization Method
 ---------------------
@@ -214,7 +214,7 @@ supply the appropriate attribute list for the backend.
        return extended_dn_out_dereference_init(module, attrs);
    }
 
-.. _search_method_1:
+
 
 Search Method
 -------------
@@ -251,7 +251,7 @@ callback function for the backend.
        return extended_dn_out_search(module, req, extended_callback_fds);
    }
 
-.. _callback_function_1:
+
 
 Callback Function
 -----------------
@@ -284,7 +284,7 @@ handler function.
        return extended_callback(req, ares, handler_dereference_fds);
    }
 
-.. _handler_function_1:
+
 
 Handler Function
 ----------------

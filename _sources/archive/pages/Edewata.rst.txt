@@ -1,4 +1,4 @@
-.. _ipa_v2:
+
 
 IPA v2
 ======
@@ -8,7 +8,7 @@ IPA v2
 -  `FreeIPAv2:Selenium <FreeIPAv2:Selenium>`__
 -  `Candlepin <Candlepin>`__
 
-.. _ipa_v3:
+
 
 IPA v3
 ======

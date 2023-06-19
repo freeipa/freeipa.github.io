@@ -5,7 +5,7 @@ As part of the development process, a reliable build machine is needed
 to perform continuous integration. The machine should build Samba 4 on
 Fedora/RHEL and test it against 389 DS as a backend.
 
-.. _build_status:
+
 
 Build Status
 ============

@@ -11,7 +11,7 @@ page <Obsolete:IPAv3_Synchronization_Process>`__.
 
    Ipa3-synchronization-tool.png
 
-.. _change_log_monitor:
+
 
 Change Log Monitor
 ==================
@@ -19,7 +19,7 @@ Change Log Monitor
 The Change Log Monitor monitors changes occuring in DS then invoke the
 Synchronization Agent to process the update.
 
-.. _syncback_module:
+
 
 Syncback Module
 ===============
@@ -28,7 +28,7 @@ The Syncback Module intercepts update requests coming into Samba just
 like DS plugin then invoke the Synchronization Agent to process the
 update. See also `this page <Obsolete:Samba_Syncback_Module>`__.
 
-.. _synchronization_agent:
+
 
 Synchronization Agent
 =====================
@@ -39,7 +39,7 @@ object using the Mapping Engine, then updates the corresponding object
 in the other tree. See also `this
 page <Obsolete:Synchronization_Agent‏‎>`__.
 
-.. _mapping_engine:
+
 
 Mapping Engine
 ==============
@@ -48,7 +48,7 @@ The Mapping Engine transforms objects from one format into another using
 a set of mapping rules. See also `this
 page <Obsolete:Mapping_Engine>`__.
 
-.. _synchronization_manager:
+
 
 Synchronization Manager
 =======================

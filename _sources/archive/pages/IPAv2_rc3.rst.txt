@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _overview_of_freeipa_v2_release_candidate_2:
+
 
 Overview of FreeIPA v2 Release Candidate 2
 ------------------------------------------
@@ -15,7 +15,7 @@ problems are found this will become the final release.
    on our mailing list:
    `mailto:freeipa-users@redhat.com <mailto:freeipa-users@redhat.com>`__
 
-.. _main_highlights_of_release_candidate_3:
+
 
 Main Highlights of Release Candidate 3
 --------------------------------------
@@ -28,7 +28,7 @@ areas of the project. Modifications include but are not limited to:
 -  Use TLS for CA replication
 -  Setting up Winsync agreements has been fixed
 
-.. _focus_of_the_release_candidate_testing:
+
 
 Focus of the Release Candidate Testing
 --------------------------------------
@@ -41,7 +41,7 @@ Focus of the Release Candidate Testing
    `section <https://fedoraproject.org/wiki/Features/FreeIPAv2#How_To_Test>`__
    outlines the areas that we are mostly interested to test.
 
-.. _significant_changes_since_rc_2:
+
 
 Significant Changes Since RC 2
 ------------------------------
@@ -49,7 +49,7 @@ Significant Changes Since RC 2
 To see all the tickets addressed since rc2 see the following
 `1 <https://fedorahosted.org/freeipa/milestone/2.0.3.%20Bug%20Fixing%20%28GA%29link>`__.
 
-.. _repositories_and_installation:
+
 
 Repositories and Installation
 -----------------------------
@@ -61,7 +61,7 @@ Repositories and Installation
    available from the updates-testing repository. Please make sure to
    enable this repository before you proceed with installation.
 
-.. _known_issues:
+
 
 Known Issues
 ------------

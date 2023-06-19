@@ -17,12 +17,12 @@ is gone as well.
 A master does not receive a range until the DNA plugin is first used, so
 it is perfectly possible for a master to have no defined range.
 
-.. _use_cases10k:
+
 
 Use Cases
 =========
 
-.. _a_master_has_run_out_of_ids:
+
 
 A master has run out of IDs
 ---------------------------
@@ -34,7 +34,7 @@ The admin is going to need to evaluate the current range usage and
 re-adjust as necessary. This may involve manually splitting an existing
 range or extending past the initial 200k entries we configure.
 
-.. _way_ipa_mmr_delete_one_lose_half_the_range:
+
 
 3-way IPA MMR, delete one, lose half the range
 ----------------------------------------------
@@ -68,7 +68,7 @@ master A dnaMaxValue goes to 100500.
 If master B is deleted we lose half the range which will quickly lead to
 the previous use case.
 
-.. _dead_master_lose_the_range:
+
 
 Dead master, lose the range
 ---------------------------
@@ -103,7 +103,7 @@ The tool will be an extension to ipa-replica-manage to list and modify
 the on-deck range. I don't believe we want to allow modifying the active
 range itself.
 
-.. _additional_aci_permissions:
+
 
 Additional ACI Permissions
 --------------------------
@@ -122,7 +122,7 @@ will look like:
 A new permission will need to be added and included in the privilege
 'Replication Administrators'.
 
-.. _setting_the_on_deck_range:
+
 
 Setting the on-deck range
 -------------------------
@@ -138,7 +138,7 @@ it.
 
 We will NOT try to modify the current DNA range configuration.
 
-.. _determining_if_a_replica_has_a_range:
+
 
 Determining if a replica has a range
 ------------------------------------
@@ -156,7 +156,7 @@ replica, something like:
 
 dnaRemainingValues will be 0.
 
-.. _enhancing_ipa_replica_manage:
+
 
 Enhancing ipa-replica-manage
 ----------------------------
@@ -246,7 +246,7 @@ The overall logic for deleting a master and saving the range(s):
    on-deck and set that
 #. Report errors as needed
 
-.. _hosts_that_are_down:
+
 
 Hosts that are down
 ----------------------------------------------------------------------------------------------
@@ -266,7 +266,7 @@ Implementation
    message was added that any range on the host would be lost, but no
    additional prompts were added.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

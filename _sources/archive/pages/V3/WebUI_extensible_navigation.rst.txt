@@ -64,7 +64,7 @@ This proxy has following methods:
 Examples
 --------
 
-.. _add_menu_item:
+
 
 Add menu item
 ----------------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ Example with specified dependencies and recommended phase.
        phase.on('profile', add_item);
    });
 
-.. _remove_menu_item:
+
 
 Remove menu item
 ----------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ Query
        // get added item
        var item = menu.get({name: 'identity/dhcp'})[0];
 
-.. _observing_menu_store:
+
 
 Observing menu store
 ----------------------------------------------------------------------------------------------

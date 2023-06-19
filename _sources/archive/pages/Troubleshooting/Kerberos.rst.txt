@@ -2,7 +2,7 @@ This page contains **Kerberos** troubleshooting advice, including
 **trusts**. For other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.
 
-.. _kinit_does_not_work:
+
 
 kinit does not work
 ===================
@@ -19,7 +19,7 @@ kinit does not work
    server are running
 -  Check for errors in ``/var/log/krb5kdc.log``
 
-.. _service_does_not_start:
+
 
 Service does not start
 ======================
@@ -58,7 +58,7 @@ Service does not start
 -  Make sure that the **system time difference** on the host and FreeIPA
    server is not greater than 5 minutes
 
-.. _cannot_authenticate_on_client:
+
 
 Cannot authenticate on client
 =============================
@@ -73,7 +73,7 @@ guide <https://fedorahosted.org/sssd/wiki/Troubleshooting>`__ for
 troubleshooting problems on clients, including tips for gathering SSSD
 log files.
 
-.. _failed_auth_increments_failed_login_count_by_2:
+
 
 Failed auth increments failed login count by 2
 ==============================================
@@ -87,7 +87,7 @@ Failed auth increments failed login count by 2
 
          ipa config-mod --enable-migration=False
 
-.. _cannot_authenticate_user_with_otp_with_google_authenticator:
+
 
 Cannot authenticate user with OTP with Google Authenticator
 ===========================================================
@@ -99,7 +99,7 @@ Cannot authenticate user with OTP with Google Authenticator
    tokens with SHA-1 hash function. `related freeipa-users
    thread <https://www.redhat.com/archives/freeipa-users/2016-November/msg00356.html>`__.
 
-.. _smart_card_authentication:
+
 
 Smart Card authentication
 =========================
@@ -126,7 +126,7 @@ FreeIPA. See
 https://bugs.launchpad.net/ubuntu/+source/samba/+bug/1552249 for more
 details.
 
-.. _cannot_create_trust_with_trust_add:
+
 
 Cannot create trust with trust-add
 ----------------------------------

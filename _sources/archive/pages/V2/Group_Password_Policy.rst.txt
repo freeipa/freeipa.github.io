@@ -27,7 +27,7 @@ provided by the KDC. This means that we check the following:
    passwords that IPA stores, and which a user is prevented from using.
    The default value is zero (0) (disable password history).
 
-.. _policy_types:
+
 
 Policy types
 ------------
@@ -106,7 +106,7 @@ Show the global policy:
 | `` Character classes: 0``
 | `` Min length: 8``
 
-.. _schema_details:
+
 
 Schema details
 --------------

@@ -1,6 +1,6 @@
 \__NOTOC_\_
 
-.. _main_highlights_of_the_beta_1:
+
 
 Main Highlights of the Beta 1
 -----------------------------
@@ -12,7 +12,7 @@ Main Highlights of the Beta 1
 -  Some areas are still very rough and we will appreciate your help with
    those.
 
-.. _focus_of_the_beta_testing:
+
 
 Focus of the Beta Testing
 -------------------------
@@ -27,7 +27,7 @@ Focus of the Beta Testing
    networking issues you find in your environment configuring and using
    IPA with the embedded DNS enabled.
 
-.. _significant_changes_since_alpha_5:
+
 
 Significant Changes Since Alpha 5
 ---------------------------------
@@ -58,7 +58,7 @@ Significant Changes Since Alpha 5
 -  A number of i18n issues have been addressed.
 -  Updated a lot of man pages.
 
-.. _what_is_not_complete:
+
 
 What is not Complete
 --------------------
@@ -69,7 +69,7 @@ What is not Complete
 -  We plan to take advantage of Kerberos 1.9 that was released today but
    we have not finished the integration effort yet.
 
-.. _known_issues:
+
 
 Known Issues
 ------------
@@ -93,7 +93,7 @@ Known Issues
 -  Make sure you enable updates-testing repository on your fedora
    machine.
 
-.. _package_requirements:
+
 
 Package Requirements
 --------------------
@@ -102,7 +102,7 @@ The dogtag CA is an rpm dependency in. It will be configured by default
 when installing IPA. To not configure dogtag pass the ``--selfsign``
 flag to ``ipa-server-install``.
 
-.. _command_line:
+
 
 Command Line
 ------------
@@ -216,7 +216,7 @@ If you find any problems then please file a ticket in the fre iPA track
 https://fedorahosted.org/freeipa/ or open a bug against the freeIPA
 product at the https://bugzilla.redhat.com/
 
-.. _work_continues:
+
 
 Work Continues
 --------------

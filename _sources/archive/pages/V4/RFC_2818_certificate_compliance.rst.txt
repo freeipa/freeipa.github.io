@@ -46,7 +46,7 @@ than 64 characters.
 Design
 ------
 
-.. _copying_cn_to_san_dnsname:
+
 
 Copying CN to SAN dNSName
 ----------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ However, if this is not possible, it would be required that the profile
 configuration introduce the component after the other components which
 must run first; any such requirement must be clearly documented.
 
-.. _san_only_certificate_support:
+
 
 SAN-only certificate support
 ----------------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ shows that:
 -  There is no mechanism that provides for "optional" fields in the
    Subject DN. (A separate profile would be needed).
 
-.. _subjectnamefieldsdefault_profile_policy_component:
+
 
 ``SubjectNameFieldsDefault`` profile policy component
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -169,7 +169,7 @@ The profile policy component shall be called
 ``subjectNameFieldsDefaultImpl``. The ``caIPAserviceCert`` profile shall
 be updated to use this component instead of ``SubjectNameDefault``.
 
-.. _marking_the_san_extension_as_critical:
+
 
 Marking the SAN extension as critical
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -181,7 +181,7 @@ information is present only the subjectAltName extension.
 be possible with another profile component to run at the end, but a less
 intrusive mechanism would be better.
 
-.. _ipa_cert_request_changes:
+
 
 ``ipa cert-request`` changes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -204,7 +204,7 @@ particular). This will be achieved with the following changes.
    target principal. This is to prevent issuance of a certificate that
    omits the target principal.
 
-.. _wildcard_certificates:
+
 
 Wildcard certificates
 ----------------------------------------------------------------------------------------------
@@ -259,12 +259,12 @@ The ``caIPAserviceCert`` profile configuration must be updated to use
 the new profile policy components. Because FreeIPA now owns its
 profiles, this shall be done as part of the FreeIPA upgrade procedure.
 
-.. _how_to_test33:
+
 
 How to Test
 -----------
 
-.. _test_plan33:
+
 
 Test Plan
 ---------

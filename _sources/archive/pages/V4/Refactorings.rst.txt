@@ -1,4 +1,4 @@
-.. _refactorings_and_infrastructure_improvements:
+
 
 Refactorings and infrastructure improvements
 ============================================
@@ -13,7 +13,7 @@ just knows about the topic or can refer you to someone who does.
 Ongoing
 =======
 
-.. _ldap_code_rework:
+
 
 LDAP code rework
 ----------------
@@ -26,7 +26,7 @@ ldap2 <https://fedorahosted.org/freeipa/ticket/2660>`__
 
 Contact: pviktori (installers), jcholast (plugins)
 
-.. _admin_tool_framework:
+
 
 Admin tool framework
 --------------------
@@ -39,7 +39,7 @@ tools <https://fedorahosted.org/freeipa/ticket/2652>`__
 
 Contact: pviktori
 
-.. _i18n_improvements:
+
 
 i18n improvements
 -----------------
@@ -65,7 +65,7 @@ http://www.redhat.com/archives/freeipa-devel/2013-January/msg00063.html
 
 Contact: pviktori
 
-.. _web_ui_extensibility:
+
 
 Web UI extensibility
 --------------------
@@ -83,7 +83,7 @@ Ongoing refactoring to support better extensibility:
 
 Contact: pvoborni
 
-.. _remove_global_api_object:
+
 
 Remove global API object
 ------------------------
@@ -98,7 +98,7 @@ contact: pviktori
 Proposed/Planned
 ================
 
-.. _mutable_command_objects:
+
 
 Mutable Command objects
 -----------------------
@@ -110,7 +110,7 @@ we can set attributes on them to share data between pre/post-callbacks.
 
 contact: pviktori
 
-.. _index_plugin_namespaces_by_classes:
+
 
 Index plugin Namespaces by classes
 ----------------------------------
@@ -125,14 +125,14 @@ dependency.
 
 contact: pviktori
 
-.. _separate_ipapython_ipalib:
+
 
 Separate ipapython & ipalib
 ---------------------------
 
 contact: pviktori
 
-.. _switch_test_suite_to_pytest:
+
 
 Switch test suite to pytest
 ---------------------------

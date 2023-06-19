@@ -5,7 +5,7 @@ Prerequisites
 
    % yum install cvs cyrus-sasl-devel db4-devel libtool-ltdl-devel
 
-.. _building_openldap:
+
 
 Building OpenLDAP
 =================
@@ -33,7 +33,7 @@ Alternative configuration:
    % export CFLAGS="-fno-omit-frame-pointer"
    % ./configure --enable-overlays --enable-modules --enable-dynamic
 
-.. _building_jldap:
+
 
 Building JLDAP
 ==============

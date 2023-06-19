@@ -29,7 +29,7 @@ A faster solution is using the DNA plugin in Fedora DS to generate
 unique SID's across DS instances. Unlike RID Manager, the DNA plugin
 doesn't rely on a single master server.
 
-.. _sid_formats:
+
 
 SID Formats
 ===========
@@ -93,7 +93,7 @@ above domain SID:
 
    S-1-5-21-2314850817-4240058282-4285309656-1158
 
-.. _dna_plugin:
+
 
 DNA Plugin
 ==========
@@ -111,12 +111,12 @@ in two parts:
 When a new user is added into the DS, the plugin will automatically
 assign a full SID value which consists of the domain SID and the RID.
 
-.. _current_code:
+
 
 Current Code
 ============
 
-.. _sam_ldb_module:
+
 
 SAM LDB Module
 --------------
@@ -146,12 +146,12 @@ code is located in source4/dsdb/samdb/ldb_modules/samldb.c:
        samldb_add_step(ac, samldb_notice_sid);
    }
 
-.. _proposed_changes:
+
 
 Proposed Changes
 ================
 
-.. _samba_configuration:
+
 
 Samba Configuration
 -------------------
@@ -197,7 +197,7 @@ The parameter should be defined in source4/param/loadparm.c:
 
    _PUBLIC_ FN_GLOBAL_INTEGER(lp_sid_generator, sid_generator)
 
-.. _sam_ldb_module_1:
+
 
 SAM LDB Module
 --------------
@@ -231,7 +231,7 @@ parameter is set to "internal":
        }
    }
 
-.. _provisioning_tool:
+
 
 Provisioning Tool
 -----------------

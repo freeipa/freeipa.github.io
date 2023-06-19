@@ -20,12 +20,12 @@ Dmitri's comments on the use cases we ought to focus on first:
      currently should set aside and solve after we solve the other use
      cases.
 
-.. _use_cases108:
+
 
 Use cases
 =========
 
-.. _vpn_certificates:
+
 
 VPN certificates
 ----------------
@@ -35,7 +35,7 @@ network so a background service (SSSD or other) acquires a short-lived
 client certificate for connecting to the company VPN (and connects it,
 thus saving the user some time and hassle).
 
-.. _dnp3_smart_grid:
+
 
 DNP3 Smart-Grid
 ---------------
@@ -44,7 +44,7 @@ A DNP3 Smart-Grid user's roles are updated. A new IEC 62351-8
 certificate must be signed by the CA and provided to the DNP3 to be sent
 to outstations on the network.
 
-.. _eap_tls:
+
 
 802.11 EAP-TLS
 --------------
@@ -70,7 +70,7 @@ Nathaniel's comments on
      given a better user experience by migrating to TTLS (old Windows
      excluded of course).
 
-.. _tls_client_authentication_for_other_network_services:
+
 
 TLS client authentication for other network services
 ----------------------------------------------------

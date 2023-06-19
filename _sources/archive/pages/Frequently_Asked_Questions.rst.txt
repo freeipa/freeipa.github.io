@@ -1,9 +1,9 @@
-.. _general_faq:
+
 
 General FAQ
 ===========
 
-.. _whats_available_in_freeipa_now_whats_in_the_pipeline:
+
 
 What's Available in FreeIPA Now? What's in the Pipeline?
 --------------------------------------------------------
@@ -51,7 +51,7 @@ FreeIPA (so far) is an integrated solution combining
 
 Look for more detailed roadmap information at `Roadmap <Roadmap>`__
 
-.. _domain_levels:
+
 
 Domain levels
 ----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ Domain levels
 Please visit following page `Domain Levels <Domain_Levels>`__ to get
 information about domain levels and features which are provided by them.
 
-.. _why_use_freeipa:
+
 
 Why Use FreeIPA?
 ----------------
@@ -99,7 +99,7 @@ evaluation is `ELAPI <https://fedorahosted.org/ELAPI>`__. Another recent
 project is `Centralized Logging <Centralized_Logging>`__. We will
 continue investing into these directions.
 
-.. _what_are_the_problems_freeipa_is_trying_to_solve:
+
 
 What are the problems FreeIPA is trying to solve?
 -------------------------------------------------
@@ -114,7 +114,7 @@ What are the problems FreeIPA is trying to solve?
    vital security information they collect or manage. This makes it
    difficult to synchronize and analyze effectively.
 
-.. _what_are_the_values_behind_the_freeipa_project:
+
 
 What are the values behind the FreeIPA project?
 -----------------------------------------------
@@ -143,19 +143,19 @@ manageable.
    empowering individuals by enabling the delegation of administration
    to rights to the lowest level possible in an organization.
 
-.. _what_license_does_freeipa_use:
+
 
 What License does FreeIPA use?
 ------------------------------
 
 See the `License <License>`__ page for more details
 
-.. _technical_faq:
+
 
 Technical FAQ
 =============
 
-.. _does_freeipa_support_cached_logins_for_example_for_laptops_at_home:
+
 
 Does FreeIPA support cached logins, for example, for laptops at home?
 ---------------------------------------------------------------------
@@ -163,7 +163,7 @@ Does FreeIPA support cached logins, for example, for laptops at home?
 This is supported by FreeIPA's sister project,
 `sssd <https://fedorahosted.org/sssd/>`__
 
-.. _can_freeipa_replace_my_active_directory_server:
+
 
 Can FreeIPA replace my Active Directory Server?
 -----------------------------------------------
@@ -175,7 +175,7 @@ With FreeIPA v3, you can create a `trust with Active
 Directory <IPAv3_AD_trust>`__ and SSO (single sign on) from a Windows
 machine to Linux machine.
 
-.. _why_are_passwords_expired_after_reset:
+
 
 Why are passwords expired after reset?
 --------------------------------------
@@ -183,7 +183,7 @@ Why are passwords expired after reset?
 This is a security feature. For more information on the topic, see `New
 Passwords Expired <New_Passwords_Expired>`__.
 
-.. _why_freeipa_does_not_provide_a_self_service_password_reset_page:
+
 
 Why FreeIPA does not provide a self-service password reset page?
 ----------------------------------------------------------------
@@ -191,21 +191,21 @@ Why FreeIPA does not provide a self-service password reset page?
 This is a security feature. For more information on the topic, see
 `Self-Service Password Reset <Self-Service_Password_Reset>`__.
 
-.. _what_are_the_recommendations_for_freeipa_deployment:
+
 
 What are the recommendations for FreeIPA deployment?
 ----------------------------------------------------
 
 See `Deployment Recommendations <Deployment_Recommendations>`__.
 
-.. _why_is_a_freeipa_client_not_backwards_compatible:
+
 
 Why is a FreeIPA client not backwards compatible?
 -------------------------------------------------
 
 See `Client compatibility <Client#Compatibility>`__ article.
 
-.. _when_will_we_implement_freeipa_to_freeipa_trusts:
+
 
 When will we implement FreeIPA to FreeIPA trusts?
 -------------------------------------------------
@@ -243,7 +243,7 @@ We welcome any help with these engineering efforts! See
 `Contribute <Contribute#Communication>`__ page for ways how to contact
 us.
 
-.. _active_directory_deprecated_identity_management_for_unix_idmu_what_should_i_do:
+
 
 Active Directory deprecated Identity Management for Unix (IDMU), what should I do?
 ----------------------------------------------------------------------------------
@@ -272,7 +272,7 @@ More information about user ID attributes mapping is for example in the
 `RHEL
 Guide <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Windows_Integration_Guide/sssd-ad-integration.html#about-id-mapping>`__.
 
-.. _can_i_install_ipa_on_a_raspberry_pi:
+
 
 Can I install IPA on a Raspberry Pi?
 ------------------------------------

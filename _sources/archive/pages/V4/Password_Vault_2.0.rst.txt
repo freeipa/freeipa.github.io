@@ -1,4 +1,4 @@
-.. _notice___design_document:
+
 
 Notice - Design Document
 ========================
@@ -56,7 +56,7 @@ container ID (e.g. /users/testuser/PrivateVault).
 There are three types of vault which may offer additional level of
 security:
 
-.. _standard_vault:
+
 
 Standard Vault
 ----------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ encryption as described above. Any authorized vault members, vault
 owners, or escrow officers can read and write the secrets without having
 to use a password/keys.
 
-.. _symmetric_vault:
+
 
 Symmetric Vault
 ----------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ receiving them from the server. Any authorized vault members, vault
 owners, or escrow officers can read and write the secrets, but they will
 have to use a shared vault password.
 
-.. _asymmetric_vault:
+
 
 Asymmetric Vault
 ----------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ The /services container is owned by the service admins group so any
 service administrator can create sub-containers for the servers
 (/services/) and the service vaults in it (/services//).
 
-.. _access_control:
+
 
 Access Control
 --------------
@@ -175,12 +175,12 @@ Authenticate as an IPA user:
 
 The vault is ready to use.
 
-.. _container_managerment:
+
 
 Container Managerment
 =====================
 
-.. _listing_available_containers:
+
 
 Listing available containers
 ----------------------------
@@ -255,7 +255,7 @@ Top-level containers can be listed by searching from the root container:
    Number of entries returned 3
    ----------------------------
 
-.. _displaying_container_info:
+
 
 Displaying container info
 -------------------------
@@ -284,7 +284,7 @@ To display a public container's info:
      Container ID: /services/server.example.com/
      Description: Services vault container for server.example.com
 
-.. _adding_a_container:
+
 
 Adding a container
 ------------------
@@ -315,7 +315,7 @@ To add a public container:
      Container name: server.example.com
      Container ID: /services/server.example.com/
 
-.. _modifying_a_container:
+
 
 Modifying a container
 ---------------------
@@ -342,7 +342,7 @@ For example, to change container description:
      Container ID: /services/server.example.com/
      Description: Services vault container for server.example.com
 
-.. _removing_a_container:
+
 
 Removing a container
 --------------------
@@ -360,7 +360,7 @@ For example:
    Deleted vault container "server.example.com"
    --------------------------------------------
 
-.. _adding_container_member:
+
 
 Adding container member
 -----------------------
@@ -384,7 +384,7 @@ For example:
    Number of members added 1
    -------------------------
 
-.. _removing_container_member:
+
 
 Removing container member
 -------------------------
@@ -407,7 +407,7 @@ For example:
    Number of members removed 1
    ---------------------------
 
-.. _adding_container_owner:
+
 
 Adding container owner
 ----------------------
@@ -430,7 +430,7 @@ For example:
    Number of members added 1
    -------------------------
 
-.. _removing_container_owner:
+
 
 Removing container owner
 ------------------------
@@ -453,12 +453,12 @@ For example:
    Number of members removed 1
    ---------------------------
 
-.. _vault_management:
+
 
 Vault Management
 ================
 
-.. _listing_available_vaults:
+
 
 Listing available vaults
 ------------------------
@@ -519,7 +519,7 @@ To find service vaults, specify --services:
    Number of entries returned 1
    ----------------------------
 
-.. _displaying_vault_info:
+
 
 Displaying vault info
 ---------------------
@@ -551,7 +551,7 @@ To display the complete vault info:
      Type: symmetric
      Secret salt: ....
 
-.. _creating_a_new_vault:
+
 
 Creating a new vault
 --------------------
@@ -637,7 +637,7 @@ key:
      Description: Asymmetric vault
      Type: asymmetric
 
-.. _archiving_data:
+
 
 Archiving data
 --------------
@@ -692,7 +692,7 @@ the vault public key is stored in one of vault attributes.
    Archived data into vault "AsymmetricVault"
    ------------------------------------------
 
-.. _retrieving_data:
+
 
 Retrieving data
 ---------------
@@ -734,7 +734,7 @@ With an asymmetric vault the operation requires a private key:
    Retrieved data from vault "AsymmetricVault"
    -------------------------------------------
 
-.. _copying_a_vault:
+
 
 Copying a vault
 ---------------
@@ -773,7 +773,7 @@ To copy a private vault into a new shared vault:
      Vault ID: /shared/NewSharedVault
      Type: standard
 
-.. _modifying_a_vault:
+
 
 Modifying a vault
 -----------------
@@ -846,7 +846,7 @@ key and the new password must be specified:
      Description: Private vault
      Type: symmetric
 
-.. _removing_a_vault:
+
 
 Removing a vault
 ----------------
@@ -866,7 +866,7 @@ For example:
    Deleted vault "PrivateVault"
    ----------------------------
 
-.. _changing_vault_password:
+
 
 Changing vault password
 -----------------------
@@ -901,7 +901,7 @@ private key and the new public key:
    Changed "AsymmetricVault" vault keys
    ------------------------------------
 
-.. _adding_vault_member:
+
 
 Adding vault member
 -------------------
@@ -921,7 +921,7 @@ For example:
    Added members to "MyVault " vault
    ---------------------------------
 
-.. _removing_vault_member:
+
 
 Removing vault member
 ---------------------
@@ -942,7 +942,7 @@ For example:
    Removed members from "MyVault " vault
    -------------------------------------
 
-.. _adding_vault_owner:
+
 
 Adding vault owner
 ------------------
@@ -962,7 +962,7 @@ For example:
    Added owners from "MyVault " vault
    ----------------------------------
 
-.. _removing_vault_owner:
+
 
 Removing vault owner
 --------------------
@@ -983,12 +983,12 @@ For example:
    Removed owners from "MyVault " vault
    ------------------------------------
 
-.. _secret_management:
+
 
 Secret Management
 =================
 
-.. _listing_secrets_in_a_vault:
+
 
 Listing secrets in a vault
 --------------------------
@@ -1053,7 +1053,7 @@ the vault private key:
    Number of entries returned 2
    ----------------------------
 
-.. _adding_a_secret:
+
 
 Adding a secret
 ---------------
@@ -1115,7 +1115,7 @@ With an asymmetric vault the operation requires a private key.
      Secret name: MySecret
      Data: c2VjcmV0
 
-.. _retrieving_a_secret:
+
 
 Retrieving a secret
 -------------------
@@ -1154,7 +1154,7 @@ With an asymmetric vault the operation requires a private key:
 
    $ ipa vaultsecret-show AsymmetricVault MySecret --out secret.txt --private-key-file private.pem
 
-.. _copying_a_secret:
+
 
 Copying a secret
 ----------------
@@ -1217,7 +1217,7 @@ To copy a secret from an asymmetric vault into a symmetric vault:
    Added vault secret "MySecret"
    -----------------------------
 
-.. _modifying_secret_attributes:
+
 
 Modifying secret attributes
 ---------------------------
@@ -1240,7 +1240,7 @@ For example, to modify secret description:
      Description: My secret
      Data: c2VjcmV0
 
-.. _deleting_a_secret:
+
 
 Deleting a secret
 -----------------
@@ -1279,7 +1279,7 @@ With an asymmetric vault the operation requires a vault private key:
    Deleted vault secret "MySecret"
    -------------------------------
 
-.. _escrow_operations:
+
 
 Escrow Operations
 =================
@@ -1287,7 +1287,7 @@ Escrow Operations
 Vault encryption key can be escrowed such that if needed the escrow
 officer can recover the secrets.
 
-.. _creating_a_vault_with_escrow:
+
 
 Creating a vault with escrow
 ----------------------------
@@ -1318,7 +1318,7 @@ An escrowed asymmetric vault can be created with the following command:
      Vault ID: /users/testuser/EscrowedAsymmetricVault
      Vault type: asymmetric
 
-.. _escrowing_an_existing_vault:
+
 
 Escrowing an existing vault
 ---------------------------
@@ -1353,7 +1353,7 @@ A vault owner can unescrow a vault box as follows:
    Modified vault "Vault"
    ----------------------
 
-.. _recovering_an_escrowed_secret:
+
 
 Recovering an escrowed secret
 -----------------------------
@@ -1368,7 +1368,7 @@ private key to decrypt the secret key:
    Retrieved data from vault "EscrowedVault"
    -----------------------------------------
 
-.. _changing_escrowed_vault_password:
+
 
 Changing escrowed vault password
 --------------------------------
@@ -1417,12 +1417,12 @@ If necessary, the escrow officer can reject the request as follows:
    Password change canceled
    ------------------------
 
-.. _service_operations:
+
 
 Service Operations
 ==================
 
-.. _creating_service_vault_password:
+
 
 Creating service vault password
 -------------------------------
@@ -1440,7 +1440,7 @@ a new secret into a private vault:
      Vault ID: /users/admin/ldap_password
      Type: standard
 
-.. _provisioning_service_vault_password_for_service_instance:
+
 
 Provisioning service vault password for service instance
 --------------------------------------------------------
@@ -1492,7 +1492,7 @@ For example:
      Vault ID: /services/server.example.com/LDAP
      Type: asymmetric
 
-.. _retrieving_service_vault_password_for_service_instance:
+
 
 Retrieving service vault password for service instance
 ------------------------------------------------------
@@ -1510,7 +1510,7 @@ service private key stored locally:
      Vault ID: /services/server.example.com/LDAP
      Type: asymmetric
 
-.. _changing_service_vault_password:
+
 
 Changing service vault password
 -------------------------------
@@ -1545,12 +1545,12 @@ This way if there's a compromised instance the service administrator can
 isolate it by changing the service vault password and re-provisioning it
 to non-compromised instances only.
 
-.. _configuration_management:
+
 
 Configuration Management
 ========================
 
-.. _displaying_global_vault_configuration:
+
 
 Displaying global vault configuration
 -------------------------------------
@@ -1564,7 +1564,7 @@ command:
      Maximum secret size: 1024 bytes
      Maximum vault size: 10 secrets
 
-.. _modifying_global_vault_configuration:
+
 
 Modifying global vault configuration
 ------------------------------------
@@ -1585,7 +1585,7 @@ For example, to change the maximum secret size:
 
    $ ipa vault-config-mod --max-secret-size 1024
 
-.. _crypto_library:
+
 
 Crypto Library
 ==============
@@ -1616,7 +1616,7 @@ The `X.509 certificate
 support <https://github.com/pyca/cryptography/issues/1036>`__ is
 supposed to be added in version 0.6.
 
-.. _generating_salt:
+
 
 Generating salt
 ---------------
@@ -1633,7 +1633,7 @@ Python Cryptography:
 
    salt = os.urandom(salt_length)
 
-.. _generating_password_based_symmetric_encryption_key:
+
 
 Generating password-based symmetric encryption key
 --------------------------------------------------
@@ -1737,7 +1737,7 @@ Web Crypto
        symmetric_key = event.target.result;
    };
 
-.. _generating_asymmetric_key_pair:
+
 
 Generating asymmetric key pair
 ------------------------------
@@ -1772,7 +1772,7 @@ PyCrypto:
    private_pem = private_key.exportKey('PEM')
    public_pem = private_key.publickey().exportKey('PEM')
 
-.. _encryption_with_symmetric_algorithm:
+
 
 Encryption with symmetric algorithm
 -----------------------------------
@@ -1850,7 +1850,7 @@ Web Crypto
        data = event.target.result;
    };
 
-.. _encryption_with_asymmetric_algorithm:
+
 
 Encryption with asymmetric algorithm
 ------------------------------------
@@ -1918,7 +1918,7 @@ Web Crypto
        data = event.target.result;
    };
 
-.. _client_api:
+
 
 Client API
 ==========
@@ -1927,7 +1927,7 @@ The Client API provides the client interface to access the vault
 services. The client API will be primarily used to implement the CLI,
 but it can also be used by custom client application.
 
-.. _ipaconnection_class:
+
 
 IPAConnection class
 -------------------
@@ -1936,7 +1936,7 @@ The IPAConnection class represents a connection to the IPA server. It
 will be used internally by the client API to wrap the `Web
 Services <#Web_Services>`__.
 
-.. _vault_class:
+
 
 Vault class
 -----------
@@ -1947,7 +1947,7 @@ accessible to the client.
 ::
 
    class Vault:
-       def __init__(self, id):
+       d
 
            # basic attributes
            self.id = id
@@ -1975,7 +1975,7 @@ accessible to the client.
            self.new_escrowed_secret_key = None
            self.new_escrowed_private_key = None
 
-.. _secret_class:
+
 
 Secret class
 ------------
@@ -1993,7 +1993,7 @@ accessible to the client.
            self.description = description
            self.data = data
 
-.. _vaultclient_class:
+
 
 VaultClient class
 -----------------
@@ -2004,7 +2004,7 @@ an IPAConnection object to communicate with the server.
 ::
 
    class VaultClient:
-       def __init__(self, connection):
+       d
            self.connection = connection
 
 For example:
@@ -2934,7 +2934,7 @@ request.
        if vault_id:
            self.connection.update_vault(vault)
 
-.. _web_services:
+
 
 Web Services
 ============
@@ -2943,12 +2943,12 @@ The vault web services initially may be implemented using the existing
 IPA's XML/JSON RPC framework. In the future it may be converted to use
 REST API as follows.
 
-.. _container_resource:
+
 
 Container resource
 ------------------
 
-.. _put_iparestvaults:
+
 
 PUT /ipa/rest/vaults/
 ----------------------------------------------------------------------------------------------
@@ -2956,7 +2956,7 @@ PUT /ipa/rest/vaults/
 An admin can use this operation to create a container. This operation
 will be wrapped in IPAConnection.create_container().
 
-.. _get_iparestvaults:
+
 
 GET /ipa/rest/vaults/
 ----------------------------------------------------------------------------------------------
@@ -2987,12 +2987,12 @@ Response:
        totalVaults: 2
    }
 
-.. _vault_resource:
+
 
 Vault resource
 --------------
 
-.. _get_iparestvaults_1:
+
 
 GET /ipa/rest/vaults//
 ----------------------------------------------------------------------------------------------
@@ -3023,7 +3023,7 @@ Response:
        escrowed_private_key: null
    }
 
-.. _post_iparestvaults:
+
 
 POST /ipa/rest/vaults/
 ----------------------------------------------------------------------------------------------
@@ -3051,7 +3051,7 @@ The server will return the normalized values of the vault attributes:
        type: "standard"
    }
 
-.. _post_iparestvaults_1:
+
 
 POST /ipa/rest/vaults//
 ----------------------------------------------------------------------------------------------
@@ -3080,7 +3080,7 @@ modification:
        type: "standard"
    }
 
-.. _delete_iparestvaults:
+
 
 DELETE /ipa/rest/vaults/
 ----------------------------------------------------------------------------------------------
@@ -3088,7 +3088,7 @@ DELETE /ipa/rest/vaults/
 An admin can use this operation to remove a container and all vaults in
 it. This operation will be wrapped in IPAConnection.remove_container().
 
-.. _delete_iparestvaults_1:
+
 
 DELETE /ipa/rest/vaults//
 ----------------------------------------------------------------------------------------------
@@ -3096,7 +3096,7 @@ DELETE /ipa/rest/vaults//
 An owner can use this operation will remove a vault. This operation will
 be wrapped in IPAConnection.remove_vault().
 
-.. _secret_resource:
+
 
 Secret resource
 ---------------
@@ -3123,7 +3123,7 @@ For example:
        }
    }
 
-.. _get_iparestvaultssecrets:
+
 
 GET /ipa/rest/vaults///secrets
 ----------------------------------------------------------------------------------------------
@@ -3142,7 +3142,7 @@ To retrieve the secrets, the data needs to be base-64 decoded, then
 decrypted using the vault secret key or vault private key, then
 deserialized using JSON.
 
-.. _put_iparestvaultssecrets:
+
 
 PUT /ipa/rest/vaults///secrets
 ----------------------------------------------------------------------------------------------
@@ -3161,12 +3161,12 @@ To store the secrets, the secret collection needs to be serialized into
 JSON, then encrypted using the vault secret key or the vault public key,
 then base-64 encoded.
 
-.. _ldap_directory:
+
 
 LDAP Directory
 ==============
 
-.. _directory_structure:
+
 
 Directory Structure
 -------------------
@@ -3193,7 +3193,7 @@ under the container.
              + cn=<service vault name>
              + ...
 
-.. _ldap_schema:
+
 
 LDAP Schema
 -----------
@@ -3235,7 +3235,7 @@ Vault entry:
    ipaVaultPendingEscrowedSecretKey:: ...
    ipaVaultPendingEscrowedPrivateKey:: ...
 
-.. _access_control_attributes:
+
 
 Access Control Attributes
 -------------------------
@@ -3354,12 +3354,12 @@ The ACI attributes are defined in the root entry of the vault subtree:
      (version 3.0; acl "Security officer can reset/change vault password/keys";
       allow(write) groupdn="ldap:///cn=security officers,cn=groups,cn=accounts,<suffix>";)
 
-.. _kra_service:
+
 
 KRA Service
 ===========
 
-.. _installing_kra_service:
+
 
 Installing KRA service
 ----------------------
@@ -3371,7 +3371,7 @@ services can be used properly using the following command:
 
    $ ipa-kra-install -p <Directory Manager password>
 
-.. _uninstalling_kra_service:
+
 
 Uninstalling KRA service
 ------------------------
@@ -3383,7 +3383,7 @@ the following command:
 
    $ ipa-kra-uninstall -p <Directory Manager password> --uninstall
 
-.. _kra_authentication:
+
 
 KRA authentication
 ------------------
@@ -3400,7 +3400,7 @@ IPA user's access to the secrets stored in KRA will be determined by IPA
 framework based on the user's membership or ownership of the vaults and
 containers.
 
-.. _mapping_a_vault_into_kra:
+
 
 Mapping a vault into KRA
 ------------------------
@@ -3415,7 +3415,7 @@ key under the following client key ID:
 The namespace is used to distinguish secrets from different applications
 stored in the same KRA. For IPA the namespace will be "ipa".
 
-.. _archiving_secrets_in_kra:
+
 
 Archiving secrets in KRA
 ------------------------
@@ -3483,7 +3483,7 @@ The IPA server will then forward the encrypted data to KRA:
                wrapped_session_key,
                nonce_iv)
 
-.. _retrieving_secrets_from_kra:
+
 
 Retrieving secrets from KRA
 ---------------------------
@@ -3560,12 +3560,12 @@ Testing
 
    $ ./make-test ipatests.test_xmlrpc.test_vault_plugin
 
-.. _frequently_asked_questions:
+
 
 Frequently Asked Questions
 ==========================
 
-.. _why_use_python_cryptography_instead_of_python_nss:
+
 
 Why use Python Cryptography instead of Python NSS?
 ----------------------------------------------------------------------------------------------
@@ -3575,7 +3575,7 @@ Cryptography is simpler to use and it can support various crypto
 backends. Since there is no strict requirement to use NSS, it's
 recommended to use Python Cryptography for new development.
 
-.. _can_different_vault_members_use_different_vault_passwords:
+
 
 Can different vault members use different vault passwords?
 ----------------------------------------------------------------------------------------------
@@ -3583,7 +3583,7 @@ Can different vault members use different vault passwords?
 No. There is only one vault password per vault, and it has to be shared
 with all members.
 
-.. _can_the_secrets_in_the_same_vault_be_archived_with_different_passwords:
+
 
 Can the secrets in the same vault be archived with different passwords?
 ----------------------------------------------------------------------------------------------
@@ -3591,7 +3591,7 @@ Can the secrets in the same vault be archived with different passwords?
 No. There's only one vault password per vault and it will be used to
 encrypt all secrets.
 
-.. _will_the_secrets_in_the_same_vault_encrypted_with_different_encryption_keys:
+
 
 Will the secrets in the same vault encrypted with different encryption keys?
 ----------------------------------------------------------------------------------------------
@@ -3599,7 +3599,7 @@ Will the secrets in the same vault encrypted with different encryption keys?
 No. All secrets in the same vault are encrypted with a single encryption
 key which is generated from the vault password and the secret salt.
 
-.. _can_a_vault_have_more_than_one_escrow_officer:
+
 
 Can a vault have more than one escrow officer?
 ----------------------------------------------------------------------------------------------
@@ -3612,7 +3612,7 @@ but it can be shared by multiple escrow officers, so any of the escrow
 officers will be able to decrypt the vault secret/private key to recover
 the secrets.
 
-.. _to_do:
+
 
 To Do
 =====

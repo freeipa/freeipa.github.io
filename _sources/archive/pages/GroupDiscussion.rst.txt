@@ -1,4 +1,4 @@
-.. _primary_groups_proposals:
+
 
 Primary Groups Proposals
 ========================
@@ -42,7 +42,7 @@ we can think of a possibly better way to handle the problem and actually
 really merge users and Personal Groups concepts in a single "Security
 Principal" so to say.
 
-.. _the_virtual_personal_groups_proposal:
+
 
 The Virtual Personal Groups Proposal
 ------------------------------------
@@ -97,7 +97,7 @@ these legacy systems without compromising the flexibility for newer and
 more capable systems. The only limit would be the 65K users or groups
 per installation which is a hard limit in these systems.
 
-.. _real_groups_proposal:
+
 
 Real Groups Proposal
 --------------------

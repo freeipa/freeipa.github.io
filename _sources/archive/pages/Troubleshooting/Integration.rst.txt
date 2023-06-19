@@ -11,7 +11,7 @@ or know bugs or consult on the
 `freeipa-users <https://lists.fedoraproject.org/archives/list/freeipa-devel@lists.fedorahosted.org/>`__
 mailing list.
 
-.. _sudo_does_not_work_for_hostgroups:
+
 
 sudo does not work for hostgroups
 =================================

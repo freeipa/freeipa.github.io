@@ -13,7 +13,7 @@ The goal of the documentation provided here is:
 -  To help users perform everyday tasks related to freeIPA.
 -  To help identify common problems and how to solve them.
 
-.. _release_notes:
+
 
 Release Notes
 =============
@@ -28,7 +28,7 @@ v1.2.1
 Guides
 ======
 
-.. _installation_and_deployment_guide:
+
 
 Installation and Deployment Guide
 ---------------------------------
@@ -40,7 +40,7 @@ Installation and Deployment Guide
 
 :\*\ `PDF <Media:Installation_and_Deployment_Guide.pdf>`__
 
-.. _client_configuration_guide:
+
 
 Client Configuration Guide
 --------------------------
@@ -53,7 +53,7 @@ Client Configuration Guide
 
 :\*\ `PDF <Media:Client_Configuration_Guide.pdf>`__
 
-.. _administration_guide:
+
 
 Administration Guide
 --------------------
@@ -65,7 +65,7 @@ Administration Guide
 
 :\*\ `PDF <Media:Administration_Guide.pdf>`__
 
-.. _user_guide:
+
 
 User Guide
 ----------
@@ -80,7 +80,7 @@ User Guide
 References
 ==========
 
-.. _administrators_reference:
+
 
 Administrator's Reference
 -------------------------
@@ -94,7 +94,7 @@ Administrator's Reference
 
 :\*\ `PDF <Media:Administration_Reference.pdf>`__
 
-.. _ldap_updater:
+
 
 `LDAP Updater <LdapUpdate>`__
 -----------------------------

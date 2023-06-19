@@ -44,7 +44,7 @@ changed such that it stores the SID in the string format. The SID will
 be stored in sambaSID attribute which is part of Samba 3 schema.</p>
 </section>
 <section id="current-code">
-<span id="id1"></span><h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">¶</a></h1>
+<h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">¶</a></h1>
 <p>In Samba code the SID may exist in 3 different formats:</p>
 <ul class="simple">
 <li><p>SID structure (struct dom_sid)</p></li>
@@ -54,7 +54,7 @@ be stored in sambaSID attribute which is part of Samba 3 schema.</p>
 <p>The mapping code always converts the SID into binary format before
 storing it into the DS.</p>
 <section id="sid-structure">
-<span id="id2"></span><h2>SID Structure<a class="headerlink" href="#sid-structure" title="Permalink to this heading">¶</a></h2>
+<h2>SID Structure<a class="headerlink" href="#sid-structure" title="Permalink to this heading">¶</a></h2>
 <p>The SID structure is defined in librpc/gen_ndr/security.h:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">dom_sid</span> <span class="p">{</span>
     <span class="n">uint8_t</span> <span class="n">sid_rev_num</span><span class="p">;</span>
@@ -66,7 +66,7 @@ storing it into the DS.</p>
 </div>
 </section>
 <section id="conversion-methods">
-<span id="id3"></span><h2>Conversion Methods<a class="headerlink" href="#conversion-methods" title="Permalink to this heading">¶</a></h2>
+<h2>Conversion Methods<a class="headerlink" href="#conversion-methods" title="Permalink to this heading">¶</a></h2>
 <p>The binary conversion methods are defined in librpc/ndr/ndr.c:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">convert</span> <span class="n">SID</span> <span class="n">structure</span> <span class="n">to</span> <span class="n">binary</span>
 <span class="n">_PUBLIC_</span> <span class="n">enum</span> <span class="n">ndr_err_code</span> <span class="n">ndr_push_dom_sid</span><span class="p">(</span>
@@ -87,7 +87,7 @@ storing it into the DS.</p>
 </div>
 </section>
 <section id="attribute-syntax">
-<span id="id4"></span><h2>Attribute Syntax<a class="headerlink" href="#attribute-syntax" title="Permalink to this heading">¶</a></h2>
+<h2>Attribute Syntax<a class="headerlink" href="#attribute-syntax" title="Permalink to this heading">¶</a></h2>
 <p>The SID syntax is defined in source4/lib/ldb-samba/ldif_handlers.c:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_schema_syntax</span> <span class="n">samba_syntaxes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="p">{</span>
@@ -151,7 +151,7 @@ into binary.</p>
 </div>
 </section>
 <section id="attribute-mapping">
-<span id="id5"></span><h2>Attribute Mapping<a class="headerlink" href="#attribute-mapping" title="Permalink to this heading">¶</a></h2>
+<h2>Attribute Mapping<a class="headerlink" href="#attribute-mapping" title="Permalink to this heading">¶</a></h2>
 <p>The SID mapping is defined in
 source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">mapping</span> <span class="k">for</span> <span class="n">OpenLDAP</span>
@@ -209,7 +209,7 @@ source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:</p>
 </div>
 </section>
 <section id="attribute-dereferencing">
-<span id="id6"></span><h2>Attribute Dereferencing<a class="headerlink" href="#attribute-dereferencing" title="Permalink to this heading">¶</a></h2>
+<h2>Attribute Dereferencing<a class="headerlink" href="#attribute-dereferencing" title="Permalink to this heading">¶</a></h2>
 <p>The handler function in extended_dn_out_fds module reads the binary SID
 value.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference_fds</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
@@ -240,14 +240,14 @@ The attribute uses Octet String (binary) syntax.</p>
 </section>
 </section>
 <section id="proposed-changes">
-<span id="id7"></span><h1>Proposed Changes<a class="headerlink" href="#proposed-changes" title="Permalink to this heading">¶</a></h1>
+<h1>Proposed Changes<a class="headerlink" href="#proposed-changes" title="Permalink to this heading">¶</a></h1>
 <p>One option is to change the ldif_canonicalise_objectSid() to convert
 from binary to string. However, this method is used in many places and
 by different backends as well.</p>
 <p>To minimize the risks, the changes should be done specifically for DS
 only.</p>
-<section id="attribute-mapping-1">
-<span id="id8"></span><h2>Attribute Mapping<a class="headerlink" href="#attribute-mapping-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h2>Attribute Mapping<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>The mapping for DS should be changed as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_map_attribute</span> <span class="n">nsuniqueid_attributes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="p">{</span>
@@ -288,8 +288,8 @@ only.</p>
 </pre></div>
 </div>
 </section>
-<section id="attribute-dereferencing-1">
-<span id="id9"></span><h2>Attribute Dereferencing<a class="headerlink" href="#attribute-dereferencing-1" title="Permalink to this heading">¶</a></h2>
+<section id="id2">
+<h2>Attribute Dereferencing<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <p>The handler function in extended_dn_out_fds module should be changed to
 read the string SID value and convert it into SID structure.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference_fds</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
@@ -311,8 +311,8 @@ read the string SID value and convert it into SID structure.</p>
 </pre></div>
 </div>
 </section>
-<section id="schema-1">
-<span id="id10"></span><h2>Schema<a class="headerlink" href="#schema-1" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h2>Schema<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <p>The provisioning tool should be configured such that it doesn’t generate
 the objectSid attribute but instead it uses the sambaSID attribute. The
 schema conversion is located at source4/setup/schema-map-fedora-ds-1.0:</p>
@@ -324,15 +324,15 @@ schema conversion is located at source4/setup/schema-map-fedora-ds-1.0:</p>
 </section>
 <section id="issues">
 <h1>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">¶</a></h1>
-<section id="attribute-dereferencing-2">
-<span id="id11"></span><h2>Attribute Dereferencing<a class="headerlink" href="#attribute-dereferencing-2" title="Permalink to this heading">¶</a></h2>
+<section id="id4">
+<h2>Attribute Dereferencing<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p>In order to change the storage format in DS without affecting the format
 in OpenLDAP, a new attribute deferencing module needs to be created for
 the DS. See also <a class="reference external" href="Obsolete:Samba_4_Attribute_Dereferencing">this
 page</a>.</p>
 </section>
 <section id="schema-mapping">
-<span id="id12"></span><h2>Schema Mapping<a class="headerlink" href="#schema-mapping" title="Permalink to this heading">¶</a></h2>
+<h2>Schema Mapping<a class="headerlink" href="#schema-mapping" title="Permalink to this heading">¶</a></h2>
 <p>Samba 3 schema has a dependency on InetOrgPerson schema which is
 conflicting with AD schema. To solve this the AD schema needs to be
 renamed. See also <a class="reference external" href="Obsolete:Samba_4_Schema_Mapping">this page</a>.</p>

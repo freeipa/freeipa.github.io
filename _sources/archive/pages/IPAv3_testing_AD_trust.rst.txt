@@ -1,7 +1,7 @@
 See up-to-date article `Active Directory trust
 setup <Active_Directory_trust_setup>`__.
 
-.. _testing_trust_between_freeipa_and_ad:
+
 
 Testing trust between FreeIPA and AD
 ====================================
@@ -12,7 +12,7 @@ regularly as new features are added to FreeIPA.
 **NOTE: An updated howtois now
 available**\ `here <Active_Directory_trust_setup>`__
 
-.. _install_freeipa:
+
 
 Install FreeIPA
 ---------------
@@ -54,7 +54,7 @@ discussed in the following section.
 Please do not forget to adjust the firewall settings as recommended by
 ipa-server-install.
 
-.. _setting_up_active_directory_domain_for_testing_purposes:
+
 
 Setting up Active Directory domain for testing purposes
 -------------------------------------------------------
@@ -62,7 +62,7 @@ Setting up Active Directory domain for testing purposes
 Please follow article `Setting up Active Directory domain for testing
 purposes <Setting_up_Active_Directory_domain_for_testing_purposes>`__
 
-.. _check_dns:
+
 
 Check DNS
 ---------
@@ -77,7 +77,7 @@ configurations and test e.g. with
 If DNS fails against the AD domain you can try to add a special
 configuration to your named.conf.
 
-.. _adding_a_conditional_forwarder_on_the_freeipa_side:
+
 
 Adding a conditional forwarder on the FreeIPA side
 ----------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ alternatively you can define it manually in named.conf:
 As result, the FreeIPA DNS server will send all DNS request for the
 domain ad.domain to the specified forwarders.
 
-.. _adding_a_conditional_forwarder_on_the_ad_side:
+
 
 Adding a conditional forwarder on the AD side
 ----------------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ forwarder:
 The command should report that zone FreeIPA.Domain was successfully
 added.
 
-.. _adding_a_common_forwarder:
+
 
 Adding a common forwarder
 ----------------------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ messages.
 This server/VM now can be used as the default forwarder on the FreeIPA
 and AD servers.
 
-.. _prepare_freeipa_server_for_trusts:
+
 
 Prepare FreeIPA server for trusts
 ---------------------------------
@@ -192,7 +192,7 @@ Now you should call
       to change password' you can wait one hour or change the password
       policy with 'ipa pwpolicy-mod --minlife=0'
 
-.. _some_sanity_checks:
+
 
 Some sanity checks
 ----------------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ basically working:
 -  'smbclient -L server.ipa-domain -k'
 -  'wbinfo --online-status'
 
-.. _populating_ipantsecurityidentifier_sid_for_existing_users_and_groups:
+
 
 Populating ipaNTSecurityIdentifier (SID) for existing users and groups
 ----------------------------------------------------------------------------------------------
@@ -250,7 +250,7 @@ is shown when the task starts and
 
 when the task finished successfully.
 
-.. _create_a_trust_to_an_ad_domain:
+
 
 Create a trust to an AD domain
 ------------------------------
@@ -275,7 +275,7 @@ that it is working (Note: the video was taken before we changed the
 command format from "ipa trust-add-ad" to "ipa trust-add --type=ad", the
 latter is the correct command now).
 
-.. _testing_cross_realm_kerberos_configuration:
+
 
 Testing cross-realm Kerberos configuration
 ------------------------------------------
@@ -296,7 +296,7 @@ and also for services from the AD domain
 If you successful request a service ticket from the AD domain you should
 also find a cross-realm TGT 'krbtgt/AD.TEST@IPA.TEST'.
 
-.. _validating_the_trust_from_the_windows_side:
+
 
 Validating the trust from the Windows side
 ------------------------------------------
@@ -310,7 +310,7 @@ second you will be asked if you want to validate the incoming trust as
 well. For the you have to use the admin user and must provide the admin
 password.
 
-.. _configure_ipa_client:
+
 
 Configure IPA client
 --------------------
@@ -333,7 +333,7 @@ list to the sssd section in sssd.conf, e.g.
 Currently the PAC is mainly used to add the remote user to additional
 groups of the IPA domain.
 
-.. _allowing_individual_access_with_.k5login:
+
 
 Allowing individual access with .k5login
 ----------------------------------------------------------------------------------------------
@@ -348,7 +348,7 @@ home directory of the trusted user. For the second case the same content
 has to be put into the .k5login file in the home directory of the IPA
 user.
 
-.. _allowing_global_access_for_a_trusted_domain:
+
 
 Allowing global access for a trusted domain
 ----------------------------------------------------------------------------------------------
@@ -363,7 +363,7 @@ be added to the section for the local realm in /etc/krb5.conf
 See 'info krb5-admin "Configuration Files" "krb5.conf" "realms
 (krb5.conf)"' for more details and examples for auth_to_local.
 
-.. _testing_with_ssh:
+
 
 Testing with ssh
 ----------------
@@ -376,7 +376,7 @@ now log on to the windows server as the test use abc and use putty to
 connect with GSSAPI to the FreeIPA server it should just work without
 asking for a password.
 
-.. _configuring_putty_for_sso:
+
 
 Configuring Putty for SSO
 ----------------------------------------------------------------------------------------------
@@ -390,7 +390,7 @@ Configuring Putty for SSO
 #. In *Session*, set your FreeIPA managed machine *Host name*, save the
    session and connect
 
-.. _adding_remote_users_to_ipa_groups:
+
 
 Adding remote users to IPA groups
 ---------------------------------
@@ -400,7 +400,7 @@ steps. First an "external" group has to be created to hold the
 identifiers of remote objects. Then is group can be added to a group of
 the IPA domain.
 
-.. _creating_an_external_group_and_adding_objects:
+
 
 Creating an external group and adding objects
 ----------------------------------------------------------------------------------------------
@@ -416,7 +416,7 @@ SID of the object must be known:
    ipa group-add-member ext_test --external
    S-1-5-21-2324474119-2878384365-2573063092-513
 
-.. _adding_an_external_group_to_an_ipa_group:
+
 
 Adding an external group to an IPA group
 ----------------------------------------------------------------------------------------------
@@ -438,7 +438,7 @@ configured on this client (see `Configure IPA
 client <#Configure_IPA_client>`__) the remote user is added to IPA
 groups on the client.
 
-.. _freeipa_user_on_windows_desktop:
+
 
 FreeIPA user on Windows Desktop
 -------------------------------
@@ -447,7 +447,7 @@ An FreeIPA user can log in to a Windows Desktop from the trusted domain.
 The domain part of the user name must be the REALM of the IPA domain,
 e.g. 'IPA.TEST\ipauser'.
 
-.. _testing_file_server_cifs_access:
+
 
 Testing File-Server (CIFS) access
 ---------------------------------
@@ -456,7 +456,7 @@ Please note, although the following step can be done on the IPA server
 as on any IPA client, it is not recommended to run a file-serve in the
 IPA server.
 
-.. _server_side_ipa_client:
+
 
 Server side (IPA client)
 ----------------------------------------------------------------------------------------------
@@ -485,7 +485,7 @@ Please note that a very recent version of sssd is needed (currently only
 available in the ipa-devel repository) to allow the short (NetBIOS)
 domain names to be used.
 
-.. _client_side_windows:
+
 
 Client side (Windows)
 ----------------------------------------------------------------------------------------------

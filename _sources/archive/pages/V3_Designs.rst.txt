@@ -1,4 +1,4 @@
-.. _v3.0_feature_designs:
+
 
 V3.0 Feature Designs
 ====================
@@ -10,14 +10,14 @@ V3.0 Feature Designs
 -  `SELinux User Mapping <SELinux_user_mapping>`__
 -  `CA subsystem certificate renewal <V3/Certificate_renewal>`__
 
-.. _v3.1_feature_designs:
+
 
 V3.1 Feature Designs
 ====================
 
 -  `Certificate Find Command <V3/Cert_find>`__
 
-.. _v3.2_feature_designs:
+
 
 V3.2 Feature Designs
 ====================
@@ -70,7 +70,7 @@ V3.2 Feature Designs
 -  `Recover DNA Ranges in replica management <V3/Recover_DNA_Ranges>`__
 -  `Trust resolve command <V3/Trust_resolve_command>`__
 
-.. _v3.3_feature_designs:
+
 
 V3.3 Feature Designs
 ====================
@@ -84,7 +84,7 @@ V3.3 Feature Designs
    cleanup <V3/ipa-server-certinstall_CLI_cleanup>`__
 -  `Transitive Trusts <V3/Transitive_Trusts>`__
 
-.. _internal_changes:
+
 
 Internal Changes
 ================
@@ -94,7 +94,7 @@ Internal Changes
 
 --------------
 
-.. _useful_links:
+
 
 Useful links
 ============

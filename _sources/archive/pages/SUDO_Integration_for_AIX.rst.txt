@@ -23,7 +23,7 @@ sudo package with LDAP support, however it is compiled against OpenLdap
 and not AIX’s LDAP fileset. This means that you'll have to install
 OpenLdap as a dependency on you AIX LPAR.
 
-.. _important_notices:
+
 
 Important Notices
 -----------------
@@ -62,7 +62,7 @@ and I advise you all against it as it might void IBM's warranty.
 However, technically speaking, it should work just fine on the
 ``oem_setup_env`` environment level.
 
-.. _getting_started:
+
 
 Getting started
 ===============
@@ -70,7 +70,7 @@ Getting started
 This section describes the things you need to check, download and setup
 before you can continue.
 
-.. _check_your_current_sudo_setup:
+
 
 Check your current sudo setup
 -----------------------------
@@ -105,7 +105,7 @@ check it by running the following command as root:
 | **``ldap.conf``\ ````\ ``path:``\ ````\ ``/etc/ldap.conf``**
 | **``ldap.secret``\ ````\ ``path:``\ ````\ ``/etc/ldap.secret``**
 
-.. _create_directories:
+
 
 Create directories
 ------------------
@@ -115,7 +115,7 @@ Create directories
 | Create one directory to hold your ca certificate. I'll use
   ``/etc/ipa`` for such purpose.
 
-.. _download_packages:
+
 
 Download packages
 -----------------
@@ -146,7 +146,7 @@ page <http://www.perzl.org/aix/index.php?n=FAQs.FAQs#toolbox-compatibility-issue
 Once all RPM packages are downloaded, upload them all to ``/tmp/sudo``
 on your AIX LPAR.
 
-.. _packages_installation:
+
 
 Packages Installation
 =====================
@@ -177,7 +177,7 @@ Configurations
 Now that the packages have been installed some configuration is required
 to make it all work.
 
-.. _name_resolution_order_configuration:
+
 
 Name resolution order configuration
 -----------------------------------
@@ -221,7 +221,7 @@ sudo rules that bypass the rules on the IPA server, you can do so by
 adding them to ``/etc/sudoers`` as you normally would. This sort of
 surpasses the lack of HBAC support for AIX for this matter.
 
-.. _openldap_configuration:
+
 
 OpenLdap configuration
 ----------------------
@@ -251,7 +251,7 @@ This configuration file has nothing to do with the
 this is OpenLdap’s config for sudo and so its only used by sudo. Don’t
 worry, this won’t conflict with AIX’s LDAP functionality.
 
-.. _ca_certificate:
+
 
 CA Certificate
 --------------
@@ -268,7 +268,7 @@ following command:
 
    wget -O /etc/ipa/ca.crt http://youripaserver.domain.com/ipa/config/ca.crt
 
-.. _all_done:
+
 
 All done
 ========
@@ -300,7 +300,7 @@ are being retrieved from the IPA server and not from your local
 ``/etc/netsvc.conf`` to check for local sudo rules before checking for
 LDAP sudo rules.
 
-.. _about_the_author:
+
 
 About the author
 ================

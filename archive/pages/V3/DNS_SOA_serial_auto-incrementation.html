@@ -58,19 +58,19 @@ is initiated.</p>
 1982</a>.</p>
 </div></blockquote>
 <section id="structure-of-dns-sub-tree-in-ldap">
-<span id="id1"></span><h2>Structure of DNS sub-tree in LDAP<a class="headerlink" href="#structure-of-dns-sub-tree-in-ldap" title="Permalink to this heading">¶</a></h2>
+<h2>Structure of DNS sub-tree in LDAP<a class="headerlink" href="#structure-of-dns-sub-tree-in-ldap" title="Permalink to this heading">¶</a></h2>
 <p>Please get familiar with <a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/DatabaseStructure">the way how DNS data are stored in
 LDAP</a>.</p>
 </section>
 </section>
 <section id="use-cases">
-<span id="use-cases114"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
 <p>Correct serial number is a requirement for functional zone tranfers.
 Corrent zone transfers from IPA to non-IPA DNS server are impossible if
 zone serial number is not incremented after each change.</p>
 </section>
 <section id="design-in-ipa-3-0">
-<span id="id2"></span><h1>Design in IPA 3.0<a class="headerlink" href="#design-in-ipa-3-0" title="Permalink to this heading">¶</a></h1>
+<h1>Design in IPA 3.0<a class="headerlink" href="#design-in-ipa-3-0" title="Permalink to this heading">¶</a></h1>
 <p>Design was discussed on freeipa-devel mailing list: At the beginning (in
 <a class="reference external" href="http://www.redhat.com/archives/freeipa-devel/2012-April/msg00222.html">e-mail thread from April
 2012</a>)
@@ -97,7 +97,7 @@ plugin for BIND.</p></li>
 serial inconsistency.</p>
 </section>
 <section id="very-basic-implementation">
-<span id="id3"></span><h2>Very basic implementation<a class="headerlink" href="#very-basic-implementation" title="Permalink to this heading">¶</a></h2>
+<h2>Very basic implementation<a class="headerlink" href="#very-basic-implementation" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Do not replicate <code class="docutils literal notranslate"><span class="pre">idnsSOASerial</span></code> attribute between IPA servers: Use
 <a class="reference external" href="https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Administration_Guide/fractional-repl-total.html">nsDS5ReplicatedAttributeList</a>
@@ -115,7 +115,7 @@ persistent search.</p></li>
 #67</a>.</p>
 </section>
 <section id="problems-found-after-implementation-to-ipa-3-0">
-<span id="id4"></span><h2>Problems found after implementation to IPA 3.0<a class="headerlink" href="#problems-found-after-implementation-to-ipa-3-0" title="Permalink to this heading">¶</a></h2>
+<h2>Problems found after implementation to IPA 3.0<a class="headerlink" href="#problems-found-after-implementation-to-ipa-3-0" title="Permalink to this heading">¶</a></h2>
 <p>Problem described in following text appears only in environments with at
 least one IPA replica.</p>
 <p>IPA command stores newly added zone to one chosen LDAP server, including
@@ -153,7 +153,7 @@ by the directory server, like the entryusn attribute.</p>
 </div></blockquote>
 </section>
 <section id="feature-managment">
-<span id="id5"></span><h2>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h2>
+<h2>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="major-configuration-options-and-enablement">
 <h2>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h2>
@@ -212,14 +212,14 @@ so <code class="docutils literal notranslate"><span class="pre">psearch</span></
 </section>
 </section>
 <section id="design-in-ipa-3-1">
-<span id="id6"></span><h1>Design in IPA 3.1<a class="headerlink" href="#design-in-ipa-3-1" title="Permalink to this heading">¶</a></h1>
+<h1>Design in IPA 3.1<a class="headerlink" href="#design-in-ipa-3-1" title="Permalink to this heading">¶</a></h1>
 <p>Move SOA serial maintenance from bind-dyndb-ldap to (new) 389 DS plugin:
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3347">IPA ticket #3347</a>.</p>
 <p>DS plugin watches <code class="docutils literal notranslate"><span class="pre">cn=dns</span></code> sub-tree for changes.</p>
 <p>Any change in DNS record in this subtree will increment
 <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute in record’s parent zone.</p>
 <section id="basic-idea">
-<span id="id7"></span><h2>Basic idea<a class="headerlink" href="#basic-idea" title="Permalink to this heading">¶</a></h2>
+<h2>Basic idea<a class="headerlink" href="#basic-idea" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">if objectClass is idnsZone</span></code></div>
 <div class="line">``    increment idnsSOAserial in the same object``</div>
@@ -233,7 +233,7 @@ so <code class="docutils literal notranslate"><span class="pre">psearch</span></
 </div>
 </section>
 <section id="soa-serial-incrementation-algorithm">
-<span id="id8"></span><h2>SOA serial incrementation algorithm<a class="headerlink" href="#soa-serial-incrementation-algorithm" title="Permalink to this heading">¶</a></h2>
+<h2>SOA serial incrementation algorithm<a class="headerlink" href="#soa-serial-incrementation-algorithm" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">OLDSerial = actual idnsSOAserial value</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">timestamp = actual UNIX timestamp</span></code></div>
@@ -245,7 +245,7 @@ so <code class="docutils literal notranslate"><span class="pre">psearch</span></
 </div>
 </section>
 <section id="interaction-with-bind-serial-update-mechanism">
-<span id="id9"></span><h2>Interaction with BIND serial update mechanism<a class="headerlink" href="#interaction-with-bind-serial-update-mechanism" title="Permalink to this heading">¶</a></h2>
+<h2>Interaction with BIND serial update mechanism<a class="headerlink" href="#interaction-with-bind-serial-update-mechanism" title="Permalink to this heading">¶</a></h2>
 <p>BIND does direct SOA serial update (not trigerred by serial
 autoincrement feature) after any dynamic update. We have to catch those
 attempts and ignore them:</p>
@@ -257,7 +257,7 @@ inside BIND. This will save some load from LDAP server.</p></li>
 </ul>
 </section>
 <section id="possible-optimization">
-<span id="id10"></span><h2>Possible optimization<a class="headerlink" href="#possible-optimization" title="Permalink to this heading">¶</a></h2>
+<h2>Possible optimization<a class="headerlink" href="#possible-optimization" title="Permalink to this heading">¶</a></h2>
 <p>Increment serial value at most once per second.</p>
 <p><strong>Problem</strong>: How to solve LDAP server crash?</p>
 <p>Problematic scenario:</p>
@@ -279,7 +279,7 @@ inside BIND. This will save some load from LDAP server.</p></li>
 test2.example.com. are not equal).</p>
 </section>
 <section id="variant-with-delayed-serial-write">
-<span id="id11"></span><h2>Variant with delayed serial write<a class="headerlink" href="#variant-with-delayed-serial-write" title="Permalink to this heading">¶</a></h2>
+<h2>Variant with delayed serial write<a class="headerlink" href="#variant-with-delayed-serial-write" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">When updating zone serial:</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">if (old serial value &lt; time())</span></code></div>
@@ -295,7 +295,7 @@ test2.example.com. are not equal).</p>
 </div>
 </section>
 <section id="variant-with-modified-search-operation">
-<span id="id12"></span><h2>Variant with modified search operation<a class="headerlink" href="#variant-with-modified-search-operation" title="Permalink to this heading">¶</a></h2>
+<h2>Variant with modified search operation<a class="headerlink" href="#variant-with-modified-search-operation" title="Permalink to this heading">¶</a></h2>
 <p>Modify search operation for zone serial to return:</p>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">if (serial value == time())</span></code></div>
@@ -340,25 +340,25 @@ option from IPA 3.0.</p></li>
 some boolean directly in plugin configuration, but nothing else.</p></li>
 </ul>
 </section>
-<section id="replication-1">
-<span id="id13"></span><h2>Replication<a class="headerlink" href="#replication-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h2>Replication<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>No change from IPA 3.0.</p>
 </section>
-<section id="updates-and-upgrades-1">
-<span id="id14"></span><h2>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades-1" title="Permalink to this heading">¶</a></h2>
+<section id="id2">
+<h2>Updates and Upgrades<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">serial_autoincrement</span></code> option in <code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code> with
 <code class="docutils literal notranslate"><span class="pre">serial_remote</span></code> option.</p>
 </section>
-<section id="dependencies-1">
-<span id="id15"></span><h2>Dependencies<a class="headerlink" href="#dependencies-1" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h2>Dependencies<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <p>New version of bind-dyndb-ldap + the new 389 DS plugin.</p>
 </section>
-<section id="external-impact-1">
-<span id="id16"></span><h2>External Impact<a class="headerlink" href="#external-impact-1" title="Permalink to this heading">¶</a></h2>
+<section id="id4">
+<h2>External Impact<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p>Hopefully none.</p>
 </section>
 <section id="impact-on-testing">
-<span id="id17"></span><h2>Impact on testing<a class="headerlink" href="#impact-on-testing" title="Permalink to this heading">¶</a></h2>
+<h2>Impact on testing<a class="headerlink" href="#impact-on-testing" title="Permalink to this heading">¶</a></h2>
 <p>Zone serial should be incremented after each change. Delay between
 record change and serial change should be at most 1 second.</p>
 <p>In IPA 3.0 there was some delay, but prediction for 3.0 is harder.</p>

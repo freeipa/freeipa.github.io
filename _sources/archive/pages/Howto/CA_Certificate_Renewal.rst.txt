@@ -1,6 +1,6 @@
 This page provides manual instructions to renew the IPA CA certificate.
 
-.. _before_you_start:
+
 
 Before you start
 ----------------
@@ -31,7 +31,7 @@ they will need to issue a certificate that is valid from at least Dec
 the system clock on the CA back to the 22nd in order to renew the other
 certificates, then you can bring time forward.
 
-.. _procedure_in_current_ipa:
+
 
 Procedure in current IPA
 ------------------------
@@ -42,12 +42,12 @@ certificate, run:
 
 ``# ipa-cacert-manage renew``
 
-.. _procedure_in_ipa_4.1:
+
 
 Procedure in IPA < 4.1
 ----------------------
 
-.. _request_renewed_certificate:
+
 
 Request renewed certificate
 ----------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ This will get a certificate request file (CSR) in ``/root/ipa.csr``.
 Sign the CSR file with the *external CA* and the save the resulting
 certificate to ``ipa.crt`` in PEM format.
 
-.. _renew_ca_certificate_on_ca_servers:
+
 
 Renew CA Certificate on CA Servers
 ----------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ On all FreeIPA servers run:
    # systemctl restart dirsrv@REALM.service
    # systemctl restart httpd
 
-.. _renew_ca_certificate_on_freeipa_clients:
+
 
 Renew CA Certificate on FreeIPA clients
 ----------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ On all FreeIPA servers and FreeIPA clients run
    # certutil -A -d /etc/pki/nssdb -n 'IPA CA' -t CT,C,C -a -i ipa.crt
    # cp ipa.crt /etc/ipa/ca.crt 
 
-.. _procedure_in_ipa_4.0:
+
 
 Procedure in IPA < 4.0
 ----------------------
@@ -118,7 +118,7 @@ You can query the Apache database to find out what this currently is:
 
 ``# certutil -L -d /etc/httpd/alias``
 
-.. _renew_the_certificate:
+
 
 Renew the Certificate
 ----------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ output. It needs to be renew_ca_cert:
            auto-renew: yes
    ...
 
-.. _install_the_new_ca_certificate_on_your_ipa_master_ca:
+
 
 Install the new CA certificate on your IPA master CA
 ----------------------------------------------------------------------------------------------
@@ -221,7 +221,7 @@ Add to LDAP:
    replace: cacertificate;binary
    cacertificate;binary:<file:///tmp/ipa.der
 
-.. _install_new_ca_on_other_ipa_masters_with_a_ca:
+
 
 Install new CA on other IPA masters with a CA
 ----------------------------------------------------------------------------------------------
@@ -260,7 +260,7 @@ Restart the world
 
 ``# service ipa start``
 
-.. _install_new_ca_on_other_ipa_masters_without_a_ca:
+
 
 Install new CA on other IPA masters without a CA
 ----------------------------------------------------------------------------------------------
@@ -293,7 +293,7 @@ Restart the world
 
 ``# service ipa start``
 
-.. _install_the_new_ca_on_all_ipa_client_machines:
+
 
 Install the new CA on all IPA client machines
 ----------------------------------------------------------------------------------------------

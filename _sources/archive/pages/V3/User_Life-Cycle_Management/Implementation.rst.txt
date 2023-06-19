@@ -1,9 +1,9 @@
-.. _top_level:
+
 
 Top Level
 =========
 
-.. _stageuser_activate:
+
 
 stageuser-activate
 ------------------
@@ -18,7 +18,7 @@ granted the access to do that:
 TODO: need the same aci for 'stage user administrator ' TODO: clarify if
 *admin* is helpdesk or support engineer
 
-.. _user_del:
+
 
 user-del
 --------

@@ -14,7 +14,7 @@ Our network looks like this:
 | ``DNS server:     dns.example.com``
 | ``Client:         client.example.com``
 
-.. _configuring_the_name_server:
+
 
 Configuring the name server
 ---------------------------
@@ -23,7 +23,7 @@ FreeIPA configures DNS server for you (on the same machine as FreeIPA
 replica). You can safely skip step "Configuring GSS-TSIG" if you ran
 command ``ipa-server-install --setup-dns`` or ``ipa-dns-setup``.
 
-.. _configuring_gss_tsig:
+
 
 Configuring GSS-TSIG
 ----------------------------------------------------------------------------------------------
@@ -60,11 +60,13 @@ very misleading error messages.
 Next we must add the DNS service principal and acquire the keytab. We'll
 also add the host service for our client.
 
-| ``# kinit admin``
-| ``Password for admin@EXAMPLE.COM: ``
-| ``# ipa-addservice DNS/dns.example.com``
-| ``# ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab``
-| ``Keytab successfully retrieved and stored in: /etc/named.keytab``
+::
+
+   | ``# kinit admin``
+   | ``Password for admin@EXAMPLE.COM: ``
+   | ``# ipa-addservice DNS/dns.example.com``
+   | ``# ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab``
+   | ``Keytab successfully retrieved and stored in: /etc/named.keytab``
 
 Note: Set appropriate file permissions for file ``/etc/named.keytab``.
 This file is usually owned by user ``named`` with mode ``400`` on RHEL
@@ -76,7 +78,7 @@ Now we can start named and set it up to always start when booting:
 | ``Starting named:                                            [  OK  ]``
 | ``# chkconfig named on``
 
-.. _dynamic_update_policy:
+
 
 Dynamic update policy
 ----------------------------------------------------------------------------------------------
@@ -120,7 +122,7 @@ IP address matches updated name (in reverse tree).
 | ``   ...``
 | ``};``
 
-.. _configuring_the_client:
+
 
 Configuring the client
 ----------------------
@@ -130,12 +132,14 @@ kinit. (This step is not required if the client was enrolled by
 ``ipa-client-install`` script or host keytab is already in place for
 other reasons.)
 
-| ``# kinit admin``
-| ``Password for admin@EXAMPLE.COM: ``
-| ``# ipa-addservice host/client.example.com``
-| ``# ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab``
-| ``# kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM``
+::
 
+   | ``# kinit admin``
+   | ``Password for admin@EXAMPLE.COM: ``
+   | ``# ipa-addservice host/client.example.com``
+   | ``# ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab``
+   | ``# kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM``
+   
 Notice that we aren't required to type any password during ``kinit``.
 All actions from now will be done under account
 ``host/client.example.com@EXAMPLE.COM``.

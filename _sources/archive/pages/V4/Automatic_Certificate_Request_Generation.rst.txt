@@ -32,7 +32,7 @@ should still make things easier for administrators.
 Use Cases
 =========
 
-.. _tls_server_authentication:
+
 
 TLS server authentication
 -------------------------
@@ -40,7 +40,7 @@ TLS server authentication
 Service (or host?) certificate used for authenticating during TLS
 handshake. Has the id-kp-serverAuth extended key usage enabled.
 
-.. _tls_client_authentication:
+
 
 TLS client authentication
 -------------------------
@@ -49,7 +49,7 @@ User certificate used for client authentication during a TLS handshake
 with mutual authentication. Has the id-kp-clientAuth extended key usage
 enabled.
 
-.. _smime_user_signing_certificates:
+
 
 S/MIME User Signing Certificates
 --------------------------------
@@ -58,7 +58,7 @@ User certificate with the id-kp-emailProtection extended key usage
 enabled. Must include an rfc822Name (email address) in the Subject
 Alternate Name extension.
 
-.. _smart_card_authentication:
+
 
 Smart Card Authentication
 -------------------------
@@ -71,7 +71,7 @@ in this use case are performed by the smart card. Thus the user
 interface generating the fields in CSR will need to interact with the
 card to get the completed CSR with signature.
 
-.. _key_escrow:
+
 
 Key Escrow
 ----------
@@ -83,7 +83,7 @@ generally a good idea to maintain a copy of the private key so that data
 can still be retrieved if the main copy is lost. Such certs should not
 be used for non-repudiation, however.
 
-.. _cert_requiring_a_novel_extension:
+
 
 Cert requiring a novel extension
 --------------------------------
@@ -116,7 +116,7 @@ Components:
    into a script that builds a CSR for a particular certificate profile
 -  New UI to collect any unspecified values from user and generate CSR
 
-.. _mapping_data_to_fields:
+
 
 Mapping data to fields
 ----------------------
@@ -263,7 +263,7 @@ for discussion of the template syntax):
      }
    }
 
-.. _certificate_data_formatting:
+
 
 Certificate data formatting
 ---------------------------
@@ -326,12 +326,12 @@ would otherwise be able to read. If the mappings for the profile specify
 data to which the requesting principal does not have access, those
 fields will be left blank unless they have the "required" option set.
 
-.. _certificate_request_workflows:
+
 
 Certificate request workflows
 -----------------------------
 
-.. _freeipa_command_line_client:
+
 
 FreeIPA command-line client
 ----------------------------------------------------------------------------------------------
@@ -350,7 +350,7 @@ FreeIPA command-line client
 #. Cert is returned to the client
 #. Client presents private key and cert to user
 
-.. _freeipa_web_ui:
+
 
 FreeIPA Web UI~
 
@@ -401,21 +401,21 @@ Feature Management
 
 UI
 
-.. _cert_mapping_rule_management_ui:
+
 
 Cert mapping rule management UI~
 
 In the initial prototype, rules will be added or modified by modifying
 config files and no UI is available.
 
-.. _cert_profile_management_ui:
+
 
 Cert profile management UI~
 
 In the initial prototype, mappings for a profile will be added or
 modified by modifying config files and no UI is available.
 
-.. _certificate_request_ui:
+
 
 Certificate request UI~
 
@@ -428,21 +428,21 @@ the CSR to enter.
 
 CLI
 
-.. _cert_mapping_rule_management_ui_1:
+
 
 Cert mapping rule management UI~
 
 In the initial prototype, rules will be added or modified by modifying
 the config files on the client.
 
-.. _cert_profile_management_ui_1:
+
 
 Cert profile management UI~
 
 In the initial prototype, mappings for a profile will be added or
 modified by modifying the config files on the client.
 
-.. _certificate_request_ui_1:
+
 
 Certificate request UI~
 
@@ -481,7 +481,7 @@ TBD
    Options for specifying file/NSS database of existing or new key to
    use, where to write cert, key generation type and size, etc.
 
-.. _configuration_1:
+
 
 Configuration
 -------------
@@ -502,20 +502,22 @@ for upgrades are necessary.
 How to Use
 ==========
 
-.. _tls_server_authentication_1:
+
 
 TLS server authentication
 -------------------------
 
 Certmonger:
 
-`` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
+::
+
+   `` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
 
 IPA CLI:
 
 `` ipa cert-request ``\ :literal:` --autofill --principal=HTTP/`hostname\``
 
-.. _tls_client_authentication_1:
+
 
 TLS client authentication
 -------------------------
@@ -528,7 +530,7 @@ IPA CLI:
 
 `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=caIPAUserCert``
 
-.. _smime_user_signing_certificates_1:
+
 
 S/MIME User Signing Certificates
 --------------------------------
@@ -541,7 +543,7 @@ IPA CLI:
 
 `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=caIPAUserCertSMIME``
 
-.. _smart_card_authentication_1:
+
 
 Smart Card Authentication
 -------------------------
@@ -555,7 +557,7 @@ Smart Card Authentication
 Thanks to `Nathan Kinder <https://blog-nkinder.rhcloud.com/?p=184>`__
 for guidance on smart card interaction.
 
-.. _key_escrow_1:
+
 
 Key Escrow
 ----------
@@ -563,7 +565,7 @@ Key Escrow
 Not directly supported by this design, but any project to add this could
 use the ipa cert-get-requestdata API for its CSR generation.
 
-.. _cert_requiring_a_novel_extension_1:
+
 
 Cert requiring a novel extension
 --------------------------------
@@ -576,7 +578,7 @@ IPA CLI:
 
 `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=FancyExtensionUserCert``
 
-.. _iecuserroles_1:
+
 
 IECUserRoles
 ------------
@@ -596,7 +598,7 @@ IPA CLI:
 Test Plan
 =========
 
-.. _certificate_request_api:
+
 
 Certificate request API
 -----------------------
@@ -615,7 +617,7 @@ Certificate request API
    ``ipa cert-request --autofill`` return an error on a profile with no
    mapping rules.
 
-.. _certificate_profile_management_api:
+
 
 Certificate profile management API
 ----------------------------------
@@ -627,7 +629,7 @@ Certificate profile management API
 -  Test modification of profile with mapping rules
 -  Test export of profile with mapping rules
 
-.. _alternatives_considered:
+
 
 Alternatives Considered
 =======================
@@ -679,7 +681,7 @@ data about a principal this way. Further, the necessary changes to
 Dogtag to implement this are too involved for the time allotted to the
 current project.
 
-.. _mapping_technique:
+
 
 Mapping technique
 -----------------

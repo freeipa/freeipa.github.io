@@ -4,7 +4,7 @@ authentication services for the entire FreeIPA realm, it's users
 services and other components. Kerberos server is one of the base stones
 of a FreeIPA server.
 
-.. _how_it_works:
+
 
 How it works
 ============
@@ -43,7 +43,7 @@ basic identity retrieval function, but also more advanced features, like
 verifying, signing and producing Kerberos ticket MS-PAC extension when
 `Trusts <Trusts>`__ are in place.
 
-.. _kerberos_specific_terminology:
+
 
 Kerberos-Specific Terminology
 =============================

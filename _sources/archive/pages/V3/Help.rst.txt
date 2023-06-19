@@ -10,7 +10,7 @@ additional ticket
 Fix several problems with the ipa tool online help. Individual
 improvements are detailed below.
 
-.. _use_cases119:
+
 
 Use Cases
 =========
@@ -73,7 +73,7 @@ Implementation
 No additional requirements or changes were discovered during the
 implementation phase.
 
-.. _feature_managment:
+
 
 Feature Managment
 =================

@@ -9,7 +9,7 @@ For additional information see the AD Trust design page
 http://freeipa.org/page/IPAv3_AD_trust and the AD Trust testing page
 http://freeipa.org/page/IPAv3_testing_AD_trust.
 
-.. _highlights_since_3.0.0_rc_1:
+
 
 Highlights since 3.0.0 rc 1
 ---------------------------
@@ -59,7 +59,7 @@ Feedback
 Please provide comments, bugs and other feedback via the freeipa-devel
 mailing list: http://www.redhat.com/mailman/listinfo/freeipa-devel
 
-.. _detailed_changelog:
+
 
 Detailed changelog
 ------------------

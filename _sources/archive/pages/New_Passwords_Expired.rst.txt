@@ -5,7 +5,7 @@ immediately expired and require the owner to perform a password change.
 The only exception is for `password synchronization
 agents <PasswordSynchronization>`__.
 
-.. _password_exclusivity:
+
 
 Password Exclusivity
 ====================
@@ -23,7 +23,7 @@ is not satisfied. The password is secret, but 2 (or more) people now
 know it. This means this password does not identify a single entity. It
 is therefore important to remedy this situation as soon as possible.
 
-.. _password_distribution:
+
 
 Password Distribution
 =====================

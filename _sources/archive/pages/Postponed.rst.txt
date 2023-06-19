@@ -1,4 +1,4 @@
-.. _postponed_or_abandoned_efforts:
+
 
 Postponed or abandoned efforts
 ==============================
@@ -10,7 +10,7 @@ suggested.
 To see such pull requests, use `view with label
 postponed <https://github.com/freeipa/freeipa/pulls?utf8=%E2%9C%93&q=is%3Apr+label%3Apostponed>`__.
 
-.. _freeipa_4.x:
+
 
 FreeIPA 4.x
 -----------

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Signing keys" href="Verify_Release_Signature.html" />
+    <link rel="prev" title="Useful links" href="V4_Test_Proposals.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Schema compat plugin can create deadlocks like
+<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1435663">1435663</a>. The
+two operations in that BZ have to be managed by Schema compat so it is
+not possible to workaround that deadlock scenario by ignoring one of
+them. The root cause of the deadlock is that Schema compat maps are
+acting like a backend (with its own lock). Let an operation (SRCH)
+accessing the map then needing access to main backend pages (ACI
+evaluation). An other operation updating the same main backend pages
+then with TXN POST operations access the map. Those two threads are in a
+scenario of deadlock because acquiring locks in the opposite order.</p>
+<p>The purpose of that design is to describe the constraints to fix this
+problem and describe a solution</p>
+</section>
+<section id="use-case">
+<span id="id1"></span><h1>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h1>
+<p>A admin is adding a IPA user to a GROUP_A, this triggers an update of
+the user (to update memberof attribute) that will update the related
+Schema Compat entry. At the same time a SRCH of a Schema Compat entry
+need to evaluate GROUP_A to grant access to attributes present in the
+search filter.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Just to give an example of a typical scenario of the deadlock here is
+how deadlocking threads are looking like</p>
+<div class="line-block">
+<div class="line">``   Thread 34 (Thread 0x7f2f4f7fe700 (LWP 22764)):``</div>
+<div class="line">``   #0  0x00007f2f99f776d5 in pthread_cond_wait&#64;&#64;GLIBC_2.3.2 ()``</div>
+<div class="line">``   ..``</div>
+<div class="line">``   /<a href="#id2"><span class="problematic" id="id3">*</span></a><a href="#id4"><span class="problematic" id="id5">``</span></a></div>
+<div class="line">``    * The page owning the group is held by an other TXN``</div>
+<div class="line">``    <a href="#id6"><span class="problematic" id="id7">*</span></a>/``</div>
+<div class="line">``   #5  0x00007f2f936a8132 in __db_lget ()``</div>
+<div class="line">``   ..``</div>
+<div class="line">``   #12 0x00007f2f8e583fba in _entryrdn_index_read ()``</div>
+<div class="line">``   …``</div>
+<div class="line">``   /<a href="#id8"><span class="problematic" id="id9">*</span></a><a href="#id10"><span class="problematic" id="id11">``</span></a></div>
+<div class="line">``    * It need to evaluate a group in the main DB``</div>
+<div class="line">``    <a href="#id12"><span class="problematic" id="id13">*</span></a>/``</div>
+<div class="line">``   #19 0x00007f2f9c3fdf5e in search_internal_callback_pb ()``</div>
+<div class="line">``   #20 0x00007f2f91d1900f in acllas__user_ismember_of_group ()``</div>
+<div class="line">``   ..``</div>
+<div class="line">``   #27 0x00007f2f91d249f7 in acl_access_allowed_main ()``</div>
+<div class="line">``   ..``</div>
+<div class="line">``   /* A search in the scope of Schema Compat, needs to``</div>
+<div class="line">``    * evaluate if the requestor as access right to an entry``</div>
+<div class="line">``    * This search holds the SC map lock``</div>
+<div class="line">``    <a href="#id14"><span class="problematic" id="id15">*</span></a>/``</div>
+<div class="line">``   #31 0x00007f2f9c3c50da in slapi_filter_test_ext ()``</div>
+<div class="line">``   #32 0x00007f2f8c7bfcda in backend_search_set_cb ()``</div>
+<div class="line">``   #33 0x00007f2f8c7d103f in map_data_foreach_map ()``</div>
+<div class="line">``   #34 0x00007f2f8c7bfa46 in backend_search_group_cb ()``</div>
+<div class="line">``   #35 0x00007f2f8c7d0f80 in map_data_foreach_domain ()``</div>
+<div class="line">``   #36 0x00007f2f8c7bf101 in backend_search_cb ()``</div>
+<div class="line">``   #37 0x00007f2f9c3f8db8 in plugin_call_func ()``</div>
+<div class="line">``   #38 0x00007f2f9c3f9043 in plugin_call_plugins ()``</div>
+<div class="line">``   #39 0x00007f2f9c3ecfdb in op_shared_search ()``</div>
+<div class="line">``   #40 0x00007f2f9c8e511e in do_search ()``</div>
+<div class="line">``   ``</div>
+<div class="line">``   ===============================``</div>
+<div class="line">``   Thread 11 (Thread 0x7f2f43fe7700 (LWP 22787)):``</div>
+<div class="line">``   /<a href="#id16"><span class="problematic" id="id17">*</span></a><a href="#id18"><span class="problematic" id="id19">``</span></a></div>
+<div class="line">``    * The MOD needs to update the SC map and acquire its lock``</div>
+<div class="line">``    <a href="#id20"><span class="problematic" id="id21">*</span></a>/``</div>
+<div class="line">``   #0  0x00007f2f99f7703e in pthread_rwlock_wrlock ()``</div>
+<div class="line">``   #1  0x00007f2f8c7c49d5 in backend_shr_modify_cb.part.20 ()``</div>
+<div class="line">``   #2  0x00007f2f8c7c5171 in backend_shr_betxn_post_modify_cb ()``</div>
+<div class="line">``   ``</div>
+<div class="line">``   /<a href="#id22"><span class="problematic" id="id23">*</span></a><a href="#id24"><span class="problematic" id="id25">``</span></a></div>
+<div class="line">``    * We are in BETXN_POST, so DB pages impacted by the MOD are hold``</div>
+<div class="line">``    <a href="#id26"><span class="problematic" id="id27">*</span></a>/``</div>
+<div class="line">``   #3  0x00007f2f9c3f8db8 in plugin_call_func ()``</div>
+<div class="line">``   #4  0x00007f2f9c3f9043 in plugin_call_plugins ()``</div>
+<div class="line">``   #5  0x00007f2f8e58c9d1 in ldbm_back_modify ()``</div>
+<div class="line">``   #6  0x00007f2f9c3e655b in op_shared_modify ()``</div>
+<div class="line">``   #7  0x00007f2f9c3e791f in do_modify ()``</div>
+</div>
+<p>The basic of the deadlock is two locks taken in the opposite order. 3
+ideas came to my mind to fix it</p>
+<ul class="simple">
+<li><p>Avoid to acquire one of the lock. For example in Thread 32 to not
+call the ACI evaluation. This option is not possible else this would
+mean CVE (anonymous could lookup entry even if they are not allowed
+to do so)</p></li>
+<li><p>Implement a finer grain lock. It does not exist design that describes
+what is protected by map lock. Maps themselves are MT-Safe but the
+meta data of the btree need to be protected (various counters and
+pointers). As I said it is difficult to evaluate all fields that need
+to be protected and those who need are quite spread in the code. So
+redesigning the locking of slapi nis was not my favorite option.</p></li>
+<li><p>Reorder the way locks are taken, so that a write operation first
+acquire the SC map lock before acquiring the DB pages/locks. This is
+the option described in that document</p></li>
+</ul>
+<p>The rest of this document is describing the third option : <strong>Reorder
+locking mechanism</strong></p>
+<p>General comments:</p>
+<ul class="simple">
+<li><p>The deadlock is easily reproducible with the <a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1315173">reproducible test
+case</a>. Now
+the conditions are rare</p>
+<ul>
+<li><p>search/write need to access the same DB page</p></li>
+<li><p>the data must not have been cached (entry cache, group cache) to
+trigger DB get</p></li>
+<li><p>Search/write run at the same time</p></li>
+</ul>
+</li>
+<li><p>Because the impact of this reordering is difficult to anticipate
+(performance, others scenario of deadlocks, crash…), I would
+recommend to <strong>activate it on demand</strong> (config toggle) and <strong>not
+enabled it by default</strong>.</p></li>
+<li><p>It is not possible for performance reason to serialize SRCH requests,
+so this is WRITE operations that need to acquire SC map lock before
+updating DB pages.</p></li>
+<li><p>Schema compat is a <strong>BE_TXN_POSTOP</strong> for write operations</p></li>
+<li><p>Schema compat scopes only parts of the DIT. But even if a direct
+update is out of the scope of SC, it can trigger internal updates
+(from others postop plugin) that are in the scope of SC. So <strong>any
+update should acquire SC map lock</strong></p></li>
+<li><p>if a write operation (that can potentially impact SC) prevents others
+reads/write threads, a read operation should allow others reads and
+block writes until it completes. So <strong>the lock should be a read write
+lock</strong></p></li>
+<li><p>it is unpredicatable (because of plugins) how much time the lock will
+be acquired by a same thread. The <strong>lock should be reentrant</strong>.</p></li>
+</ul>
+<p>The basic idea to reorder locking mechanism is that a write thread
+acquires the SC lock in PREOP and release it in POSTOP.</p>
+<section id="first-try">
+<span id="id28"></span><h2>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h2>
+<p>A first
+<a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1305923">patch</a> was</p>
+<ul class="simple">
+<li><p>Using the already existing BETXN_PREOP (<em>backend_write_cb</em>) to
+acquire the lock in write and already existing BETXN_POSTOP
+(<em>backend_shr_add_cb backend_shr_modify_cb..</em>) to release it.</p></li>
+<li><p>Using per thread variables to make the lock reentrant</p></li>
+<li><p>Using the SC map lock (<em>map_unlock, map_rdlock and map_wrlock</em>)</p></li>
+<li><p>Update <em>map_unlock, map_rdlock and map_wrlock</em> to make it reentrant</p></li>
+</ul>
+<p>This <strong>first patch</strong> failed because:</p>
+<ul class="simple">
+<li><p>Because the order plugin are called does not guaranty that the write
+lock is release <strong>after the last postop</strong> plugin callback is called</p></li>
+<li><p>PREOP was releasing the write lock when the update was out of the
+scope of the SC</p></li>
+</ul>
+</section>
+<section id="second-patch">
+<span id="id29"></span><h2>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h2>
+<p>Because we can not guaranty the order the plugins are called, the
+acquisition/release of the lock should be done a step above:
+<strong>BE_PREOP</strong> / <strong>BE_POST</strong>.</p>
+<p>The lock is more a plugin lock that is specifically protecting the maps.
+It grants multiple reader to proceed in SC plugin but only one writer at
+a time and no reader when the writer is proceeding. So instead of using
+map lock, a new RW <strong>plugin_lock</strong> is used.</p>
+<p>A second patch was</p>
+<ul class="simple">
+<li><p>Registering new BE_PREOP and BE_POSTOP callback to acquire/release
+<strong>plugin_lock</strong></p></li>
+<li><p>BE_PREOP acquire <strong>plugin_lock</strong> whatever is the scope of the
+operation</p></li>
+<li><p>Using per thread variables to make the lock reentrant</p></li>
+<li><p>Using a new <strong>plugin_lock</strong> (initialized in plugin init function)</p></li>
+<li><p>Update <em>map_unlock, map_rdlock and map_wrlock</em> so that they
+acquire/release <strong>plugin_lock</strong>.</p>
+<ul>
+<li><p>in a write thread, map_rdlock and map_wrlock should never acquire
+<strong>plugin_lock</strong> as this is the job of BE_PREOP to actually acquire
+it.</p></li>
+<li><p>similarly in a write thead, <em>map_unlock</em> should never release
+<strong>plugin_lock</strong> because it is the job of BE_POSTOP</p></li>
+<li><p>only a read thread can acquire/release <strong>plugin_lock</strong> (in read)</p></li>
+</ul>
+</li>
+</ul>
+<p>This second patch is fixing the <a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1315173">reproducible test
+case</a>.
+<strong>\o/</strong> Indeed, the reproducible test case was reproducing almost
+systematically the problem ( &gt; 3 times out of 4). The fix makes it
+successful almost more than 9 times out of 10. The last time it hit an
+other issue.</p>
+<section id="case-not-fixed">
+<span id="id30"></span><h3>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h3>
+<p>An other issue is related to plugins or tasks <strong>starting transaction</strong>
+and accessing DB pages (under the txn) before doing internal updates.
+Indeed, the txn will lock the DB pages (in read) that can not be access
+(even in read) by others threads.</p>
+<p>The deadlock is then looking like</p>
+<div class="line-block">
+<div class="line">``  thread 11 read a DB page (index) under a txn, then adds an entry ``</div>
+<div class="line">``          dnaHostname=``<code class="docutils literal notranslate"><span class="pre">+dnaPortNum=389,cn=posix-ids,cn=dna,cn=ipa,cn=etc,</span></code></div>
+<div class="line">``  ``</div>
+<div class="line">``  ``</div>
+<div class="line">``  Thread 11 (Thread 0x7f8861820700 (LWP 66191)):                                                                                               ``</div>
+<div class="line">``  #0  0x00007f888d0a88e4 in futex_abstimed_wait ``</div>
+<div class="line">``  #1  __pthread_rwlock_wrlock_full (abstime=0x0, rwlock=0x5559b577bc40) at pthread_rwlock_common.c:803``</div>
+<div class="line">``  #2  __GI___pthread_rwlock_wrlock (rwlock=0x5559b577bc40) at pthread_rwlock_wrlock.c:27``</div>
+<div class="line">``  #3  0x00007f887f826bed in backend_be_pre_write_cb ()``</div>
+<div class="line">``  #4  0x00007f888f733aba in plugin_call_func ``</div>
+<div class="line">``  #5  0x00007f888f733d44 in plugin_call_list ``</div>
+<div class="line">``  #6  plugin_call_plugins ``</div>
+<div class="line">``  #7  0x00007f88817e67c7 in ldbm_back_add ``</div>
+<div class="line">``  #8  0x00007f888f6d7b12 in op_shared_add ``</div>
+<div class="line">``  #9  0x00007f888f6d8333 in add_internal_pb ``</div>
+<div class="line">``  #10 0x00007f888f6d905e in slapi_add_internal_pb ``</div>
+<div class="line">``  #11 0x00007f8883cdd3fc in dna_update_shared_config ``</div>
+<div class="line">``      &lt; here a txn is started&gt;``</div>
+<div class="line">``  #12 0x00007f8883ce0252 in dna_update_config_event ``</div>
+<div class="line">``  #13 0x00007f888f6faa5c in eq_call_all ``</div>
+<div class="line">``  #14 eq_loop (arg=``<a href="#id31"><span class="problematic" id="id32">``</span></a>) ``</div>
+<div class="line">``  #15 0x00007f888d70708b in _pt_root ``</div>
+<div class="line">``  #16 0x00007f888d0a336d in start_thread ``</div>
+<div class="line">``  #17 0x00007f888cb92bbf in clone () ``</div>
+<div class="line">``  ``</div>
+<div class="line">``  ===============================================``</div>
+<div class="line">``  This thread acquires SC map lock but evaluate aci that need DB access``</div>
+<div class="line">``  ``</div>
+<div class="line">``  Thread 56 (Thread 0x7f884a7f2700 (LWP 66237)):``</div>
+<div class="line">``  #0  0x00007f888d0a990b in futex_wait_cancelable (private=``<code class="docutils literal notranslate"><span class="pre">, expected=0, futex_word=0x7f887a380a08) at ../sysdeps/unix/sysv/linux/futex-internal.h:88</span></code></div>
+<div class="line">``  …``</div>
+<div class="line">``  #14 0x00007f88858adef5 in __dbc_get ``</div>
+<div class="line">``  …``</div>
+<div class="line">``  #25 0x00007f888f73884e in search_internal_callback_pb ``</div>
+<div class="line">``  ..``</div>
+<div class="line">``  #27 0x00007f8884b803da in acllas__user_ismember_of_group ``</div>
+<div class="line">``  #41 0x00007f888f70052d in slapi_filter_test_ext ``</div>
+<div class="line">``  #42 0x00007f887f829932 in backend_search_set_cb ()``</div>
+<div class="line">``  #43 0x00007f887f839e4f in map_data_foreach_map ()``</div>
+<div class="line">``  #44 0x00007f887f829616 in backend_search_group_cb ()``</div>
+<div class="line">``  #45 0x00007f887f839d90 in map_data_foreach_domain ()``</div>
+<div class="line">``  #46 0x00007f887f828cd8 in backend_search_cb ()``</div>
+<div class="line">``  #47 0x00007f888f733aba in plugin_call_func ``</div>
+<div class="line">``  #48 0x00007f888f733d44 in plugin_call_list ``</div>
+<div class="line">``  #49 plugin_call_plugins ``</div>
+<div class="line">``  #50 0x00007f888f728410 in op_shared_search ``</div>
+<div class="line">``  #51 0x00005559b29ef577 in do_search ``</div>
+</div>
+<p>The db_stat output of the locked pages is showing Thread 11 transaction
+(80005604) that is blocking many readers (in the way reproducible test
+case runs)</p>
+<div class="line-block">
+<div class="line">``  80005604 READ          7 HELD    userRoot/entryrdn.db      page          3``</div>
+<div class="line">``       426 READ          1 WAIT    userRoot/entryrdn.db      page          3``</div>
+<div class="line">``       403 READ          1 WAIT    userRoot/entryrdn.db      page          3``</div>
+<div class="line">``       442 READ          1 WAIT    userRoot/entryrdn.db      page          3``</div>
+<div class="line">``       443 READ          1 WAIT    userRoot/entryrdn.db      page          3``</div>
+<div class="line">``        ……``</div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/V4_slapi_nis_locking.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

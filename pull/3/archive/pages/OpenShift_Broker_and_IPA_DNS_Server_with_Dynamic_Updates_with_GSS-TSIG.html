@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Overall_Design_of_Policy_Related_Components.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="OpenShift_Broker_Apache_%2B_mod_auth_kerb_for_IdM.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Draft</strong> Using IPA DNS for OpenShift - setup how-to</p>
+<p id="install-plugins-on-broker">Install plugins on Broker</p>
+<ul class="simple">
+<li><p>FYI: The default plugin for OpenShift Origin is its own BIND
+installation. OpenShift Enterprise already uses nsupdate by default.</p>
+<ul>
+<li><p>The config is found in
+<code class="docutils literal notranslate"><span class="pre">/etc/openshift/plugins.d/openshift-origin-dns-bind.conf</span></code></p></li>
+<li><p>The code is for the plugin in <code class="docutils literal notranslate"><span class="pre">/usr/lib/ruby/gems/1.8/gems</span></code> for
+RHEL, and <code class="docutils literal notranslate"><span class="pre">/usr/share/gems/gems/</span></code> in Fedora.</p></li>
+</ul>
+</li>
+<li><p>Must <em>remove</em> the old plugin first:
+<code class="docutils literal notranslate"><span class="pre">gem</span> <span class="pre">uninstall</span> <span class="pre">openshift-origin-dns-bind</span></code></p></li>
+<li><p>Install the nsupdate plugin
+<code class="docutils literal notranslate"><span class="pre">gem</span> <span class="pre">install</span> <span class="pre">openshift-origin-dns-nsupdate</span></code></p></li>
+<li><p>Move into the plugins directory, <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cd</span> <span class="pre">/etc/openshift/plugins.d/</span></code>
+then move the old configuration:
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">mv</span> <span class="pre">openshift-origin-dns-bind.conf</span> <span class="pre">openshift-origin-dns-bind.conf.orig</span></code></p></li>
+<li><p>Configure the new conf file in
+<code class="docutils literal notranslate"><span class="pre">/etc/openshift/plugins.d/openshift-origin-dns-nsupdate.conf</span></code> to
+look like this (make the file if it doesn’t exist):</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BIND_SERVER</span><span class="o">=</span><span class="s2">&quot;IPA_SERVER_IP_ADDRESS&quot;</span>
+<span class="n">BIND_PORT</span><span class="o">=</span><span class="mi">53</span>
+<span class="n">BIND_ZONE</span><span class="o">=</span><span class="s2">&quot;BROKER_DOMAIN&quot;</span>
+<span class="n">BIND_KRB_PRINCIPAL</span><span class="o">=</span><span class="s2">&quot;DNS/NODE_HOSTNAME@IPA_REALM&quot;</span>
+<span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Mine looks like:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BIND_SERVER</span><span class="o">=</span><span class="s2">&quot;10.16.78.111&quot;</span>
+<span class="n">BIND_PORT</span><span class="o">=</span><span class="mi">53</span>
+<span class="n">BIND_ZONE</span><span class="o">=</span><span class="s2">&quot;idm.lab.bos.redhat.com&quot;</span>
+<span class="n">BIND_KRB_PRINCIPAL</span><span class="o">=</span><span class="s2">&quot;DNS/vm-040.idm.lab.bos.redhat.com@IDM.LAB.BOS.REDHAT.COM&quot;</span>
+<span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
+</pre></div>
+</div>
+<p id="get-ipa-keytab-for-dns">Get IPA Keytab for DNS</p>
+<p>We need to give the Broker <em>another</em> keytab to update the IPA Server’s
+DNS. We will 1) enroll it as a service for DNS, 2) update the policy so
+it is allowed to update CNAME records, and 3) get the keytab over to the
+Broker machine and with correct ownership.</p>
+<p><strong>If ipa-admintools</strong> is installed on the Broker, then you can do the
+following command on the Broker. Else, do it on the IPA Server machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kinit admin
+ipa service-add DNS/$BROKER_FQDN
+ipa dnszone-mod $DNS_ZONE --dynamic-update=true\
+    --update-policy=&quot;grant DNS\047$BROKER_FQDN@REALM wildcard * ANY;&quot;
+</pre></div>
+</div>
+<p><strong>IMPORTANT</strong> the “047” is important and must precede the $BROKER_FQDN
+for correct ascii escaping.</p>
+<p><strong>WARNING</strong> the <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span></code> command rewrites the BIND policy; it
+does not <em>append</em>. The easiest way to not overwrite the default setup
+and just append the policy update is to navigate to the Web UI -&gt; DNS -&gt;
+Settings and add <code class="docutils literal notranslate"><span class="pre">grant</span> <span class="pre">DNS\047$BROKER_FQDN&#64;REALM</span> <span class="pre">wildcard</span> <span class="pre">*</span> <span class="pre">ANY;</span></code> to
+the BIND policy.</p>
+<p><strong>On the Broker host</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-getkeytab -s $IPA_SERVER_HOSTNAME -p DNS/$BROKER_FQDN -k /etc/dns.keytab
+kinit -kt /etc/dns.keytab -p DNS/$BROKER_FQDN
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Change the ownership: <code class="docutils literal notranslate"><span class="pre">chown</span> <span class="pre">apache:apache</span> <span class="pre">/etc/dns.keytab</span></code></p></li>
+<li><p>Restart the broker service: <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code></p></li>
+</ul>
+<p id="to-test">To test</p>
+<p>I suggest testing three ways:</p>
+<ol class="arabic simple">
+<li><p>Manually with nsupdate tool. If this fails, you know it’s a
+Kerberos/IPA/permissions issue, <strong>NOT</strong> an OpenShift or RHC issue.</p></li>
+<li><p>Manually with rails console. If this fails but test #1 succeeds, then
+it is an OpenShift configuration issue with nsupdate.</p></li>
+<li><p>With RHC command line tools. If this fails, then it is an OpenShift
+issue with either MongoDB or ActiveMQ/MCollective.</p></li>
+</ol>
+<p id="manually">Manually</p>
+<p>First we should manually see if nsupdate works on our <strong>Broker machine</strong>
+to see if it can correctly update its zone:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[root@broker]# kinit -kt /etc/dns.keytab DNS/$BROKER_FQDN
+[root@broker]# nsupdate -g
+&amp;gt; server $IPA_SERVER_IP_ADDR
+&amp;gt; zone $BROKER_ZONE
+&amp;gt; update delete $YOUR_TEST_APP_FQDN
+&amp;gt; update add $YOUR_TEST_APP_FQDN 180 CNAME $BROKER_FQDN
+&amp;gt; send
+[root@broker]#
+</pre></div>
+</div>
+<p>You should have no response after <code class="docutils literal notranslate"><span class="pre">send</span></code> - that means it went through.
+Then try the following on the Broker, the IPA Server, and a third
+machine in the realm (admin, client, anything)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@admin</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+</pre></div>
+</div>
+<p>Then on the IPA Server or Broker if the Broker has <code class="docutils literal notranslate"><span class="pre">ipa-admintools</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># ipa dns-resolve $YOUR_TEST_APP_FQDN</span>
+</pre></div>
+</div>
+<p id="with-openshift-enterprise">With OpenShift Enterprise</p>
+<p>On the OSE Broker, move into the broker directory, remove the
+Gemfile.lock (NOT Gemfile!), and locally install the :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># cd /var/www/openshift/broker</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># rm -rf Gemfile.lock</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># bundle --local</span>
+</pre></div>
+</div>
+<p>Then we’ll start the rails console that has access to all the Broker
+gems, create a DNS instance, and create a CNAME record through the rails
+console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># rails console</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mi">001</span><span class="p">:</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">OpenShift</span><span class="p">::</span><span class="n">DnsService</span><span class="o">.</span><span class="n">instance</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mi">002</span><span class="p">:</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">d</span><span class="o">.</span><span class="n">register_application</span> <span class="s2">&quot;testapp1&quot;</span><span class="p">,</span> <span class="s2">&quot;testns1&quot;</span><span class="p">,</span> <span class="s2">&quot;node1.example.com</span>
+<span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">nil</span>
+</pre></div>
+</div>
+<p>If you are successful, the rails console will return with “nil”.</p>
+<p id="possible-issue">Possible issue</p>
+<p>The Broker will grab the TSIG Key/value, not the GSS-TSIG
+keytab/principal. Within
+<code class="docutils literal notranslate"><span class="pre">/usr/lib/rub/gems/1.8/gems/openshift-origin-dns-nsupdate-xxxx/config/initializers</span></code>,
+edit the file: <code class="docutils literal notranslate"><span class="pre">openshift-origin-dns-nsupdate.rb</span></code> to look like
+<a class="reference external" href="https://github.com/openshift/origin-server/pull/2269/files#diff-1">this</a>
+- this addresses an error that sets keyname/value incorrectly if using
+IPA’s keytab.</p>
+<p>Once you edit this, restart the broker service:
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code></p>
+<p id="with-rhc-command-line-tools">With RHC command-line tools</p>
+<p>Note that if you didn’t update the manual test to delete the CNAME
+record for the FQDN, you will need to choose another test FQDN.</p>
+<p>On your client machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@client</span><span class="p">]</span><span class="c1">#  rhc app create APP_NAME APP_TYPE</span>
+</pre></div>
+</div>
+<p>It should not hang anywhere (well, creating name space and such can take
+a minute or two, but not completely hang for longer than that).</p>
+<p>If there are any issues on this side, check to see if ActiveMQ is
+running – note that if you have to restart ActiveMQ, give it at least 5
+minutes before testing again.</p>
+<p>Check to see if MCollective is working with <code class="docutils literal notranslate"><span class="pre">mco</span> <span class="pre">ping</span></code>.</p>
+<p>Check broker development/production logs for any MongoDB issues.</p>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

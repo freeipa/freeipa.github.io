@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="60_Replicas/Test_Plan.html" />
+    <link rel="prev" title="Overview" href="chained_compat_tree.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Use mod_ssl instead of mod_nss in Apache. This is part of a larger move
+away from using NSS to using OpenSSL for crypto.</p>
+<p>The target Fedora release for this is Fedora 28.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>mod_ssl is ubiquitous</p></li>
+<li><p>mod_ssl uses flat PEM files instead of a set of complex tools to
+manipulate a database of certificates.</p></li>
+<li><p>The database backend has changed in NSS from dbm to sqlite. Since
+changes need to be done in the source anyway to support that it is a
+more long-term solution to just drop mod_nss.</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Since inception the mod_nss certificate database is deeply integrated
+into IPA and is or was the source of the RA agent certificate and the CA
+chain. The RA agent cert has already been extracted but the CA chain
+will need to be ripped out as well.</p>
+<p>The installer has a lot of certificate handling code for NSS databases
+but little for managing discrete PEM files. A lot of support code is
+going to be needed and/or other calls abstracted to handle operations
+like CA chain extraction, certmonger integration (request, start/stop
+tracking, etc), validation and likely more.</p>
+<p>The certificate and private key will be stored in
+/etc/pki/tls/{certs|private} unencrypted and named httpd.{crt|key}.</p>
+<section id="new-install">
+<span id="id1"></span><h2>New install<a class="headerlink" href="#new-install" title="Permalink to this heading">¶</a></h2>
+<p>Installing a new server using mod_ssl is likely to be conceptually
+simpler than the upgrade case but the vast majority of the support code
+will be written at this point in order to handle flat files vs databases
+and remove the assumptions that the Apache mod_nss database is the
+center of the universe.</p>
+<p>The tasks roughly break down into:</p>
+<ul class="simple">
+<li><p>generate cert/key as files via certmonger</p></li>
+<li><p>track and untrack the certs</p></li>
+<li><p>identify and install CA certificates where required (probably just
+use /etc/ipa/ca.crt)</p></li>
+<li><p>validate the server certificate and its chain</p></li>
+<li><p>change ssl.conf directives</p></li>
+<li><p>handle installing via PKCS#12</p></li>
+<li><p>identify where the NSS db is the center of the universe and change</p></li>
+</ul>
+</section>
+<section id="upgrading-an-existing-installation">
+<span id="id2"></span><h2>Upgrading an existing installation<a class="headerlink" href="#upgrading-an-existing-installation" title="Permalink to this heading">¶</a></h2>
+<p>Upgrading is going to be fragile in cases where users have modified
+nss.conf for their own purposes. There is no plan currently to try to
+identify or handle these cases.</p>
+<p>The tasks roughly break down into:</p>
+<ul class="simple">
+<li><p>extract cert and key into files</p></li>
+<li><p>stop tracking NSS, start tracking files</p></li>
+<li><p>change ssl.conf directives</p></li>
+<li><p>disable mod_nss engine (leave package installed) and/or change the
+port to something other than 844*.</p></li>
+<li><p>remove IPA includes from nss.conf (cleanliness)</p></li>
+<li><p>add IPA includes to ssl.conf</p></li>
+<li><p>deal with uninstall, ensure restored state is sane</p></li>
+<li><p>potentially remove Server-Cert and chain from database</p></li>
+</ul>
+<p>This is likely to be implemented as a generic upgrade task to use in
+backup/restore as well.</p>
+</section>
+<section id="ipa-server-certinstall">
+<span id="id3"></span><h2>ipa-server-certinstall<a class="headerlink" href="#ipa-server-certinstall" title="Permalink to this heading">¶</a></h2>
+<p>Will need to change to handle file-based certificates. This will likely
+end up as copying files to the proper location(s) in the filesystem.</p>
+</section>
+<section id="backup-and-restore">
+<h2>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h2>
+<p>IPA typically doesn’t allow one to backup and restore different versions
+but code will be needed to catch the case where a user forces the issue.
+Some mechanism would be needed to detect this case and call the upgrade
+script in this case.</p>
+</section>
+<section id="certmonger">
+<h2>certmonger<a class="headerlink" href="#certmonger" title="Permalink to this heading">¶</a></h2>
+<p>Parallel changes are going to be required in certmonger because it uses
+the Apache mod_nss database as its source of CA trust. It may be that
+/etc/pki/nssdb can be used instead, or the client can be switched to
+using OpenSSL. This is TBD. Great care will be needed to ensure that
+updated certmonger will continue to work with older IPA.</p>
+</section>
+<section id="fips">
+<h2>FIPS<a class="headerlink" href="#fips" title="Permalink to this heading">¶</a></h2>
+<p>NSS can detect when FIPS is enabled and automatically enable the NSSFIPS
+option in mod_nss. It remains to be seen what if anything will need to
+change in mod_ssl. If FIPS is needed then there is an SSLFIPS option
+that can be set.</p>
+</section>
+<section id="open-questions">
+<span id="id4"></span><h2>Open questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">¶</a></h2>
+<p>After an upgrade, should we delete the Server-Cert from /etc/httpd/alias
+to avoid confusion? It might be wise to leave it available for the
+upgrade case, or generate a PKCS#12 file of it before removing it.</p>
+<p>I suspect we are going to have to zap nss.conf and replace it with a
+0-length file because the default port for mod_nss is 8443 which is used
+by dogtag. We could pick some other random port to set it to but that
+would raise SELinux issues. Zeroing out the config file seems more
+efficient.</p>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Dependencies</strong>:</p>
+<ul>
+<li><p>updated certmonger</p></li>
+</ul>
+</li>
+<li><p><strong>Contingencies</strong>:</p>
+<ul>
+<li><p>In the case of upgrade failure manual instructions will be needed
+to walk a user through the changes needed to convert to a mod_ssl
+database.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>N/A</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>N/A</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>Replace:</p>
+<ul class="simple">
+<li><p>NSSProtocol -&gt; SSLProtocol. IMHO we should still proactively set the
+protocols we want.</p></li>
+<li><p>NSSCertificateDatabase -&gt; SSLCertificateFile, SSLCertificateKeyFile
+and SSLCertificateChainFile.</p></li>
+</ul>
+<p>Drop:</p>
+<ul class="simple">
+<li><p>NSSNickname</p></li>
+<li><p>NSSRenegotiation</p></li>
+<li><p>NSSRequireSafeNegotiation</p></li>
+<li><p>NSSCipherSuite (use global config cipher settings)</p></li>
+<li><p>NSSPassPhraseDialog</p></li>
+<li><p>NSSOCSP*</p></li>
+</ul>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>See the design section.</p>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>This should be generally invisible to the end-user with the following
+exceptions:</p>
+<ul class="simple">
+<li><p>The case where custom changes have been made to nss.conf. Those
+should be easily portable to ssl.conf in most cases. For those that
+rely on specific mod_nss behavior they will need to re-implement.</p></li>
+<li><p>Users will need to get used to using openssl tools instead of NSS
+tools when managing the Apache certificates. This is going to require
+documentation changes as well. And this is why I want to remove the
+certificates from the database, so users don’t change things here
+expecting it to affect the running server.</p></li>
+</ul>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>The following scenarios will need to be tested.</p>
+<p>For each case one can confirm basic functionality with:</p>
+<ul class="simple">
+<li><p>ipactl restart (does Apache start?)</p></li>
+<li><p>ipa user-show admin (do the cert and chain work?)</p></li>
+<li><p>ipa cert-find</p></li>
+<li><p>getcert list -f /etc/pki/tls/certs/httpd.crt (verify that tracking is
+correct)</p></li>
+</ul>
+<p>TBD: Add sample of a properly tracked mod_ssl cert</p>
+<section id="new-installations">
+<span id="id5"></span><h2>New installations<a class="headerlink" href="#new-installations" title="Permalink to this heading">¶</a></h2>
+<p>No user-provided options should impact functionality.</p>
+<ul class="simple">
+<li><p>Install CA-ful</p></li>
+<li><p>Install CA-less</p></li>
+</ul>
+</section>
+<section id="upgrades">
+<h2>Upgrades<a class="headerlink" href="#upgrades" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>In-place upgrade from F-26</p></li>
+<li><p>In-place upgrade from F-27</p></li>
+</ul>
+</section>
+<section id="creating-replicas-from-mod-nss-to-mod-ssl-masters">
+<span id="id6"></span><h2>Creating replicas from mod_nss to mod_ssl masters<a class="headerlink" href="#creating-replicas-from-mod-nss-to-mod-ssl-masters" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Create replica from DL0 master</p>
+<ul>
+<li><p>3.0</p></li>
+<li><p>4.4</p></li>
+<li><p>4.5</p></li>
+</ul>
+</li>
+<li><p>Create replica from DL1 master</p>
+<ul>
+<li><p>4.5</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="replacing-certificates">
+<span id="id7"></span><h2>Replacing certificates<a class="headerlink" href="#replacing-certificates" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Use ipa-server-certinstall to replace the Apache cert</p></li>
+</ul>
+</section>
+<section id="renewal">
+<h2>Renewal<a class="headerlink" href="#renewal" title="Permalink to this heading">¶</a></h2>
+<p>Move time to near expiration of the PEM-based certificates and force a
+renewal and ensure that:</p>
+<ul class="simple">
+<li><p>The PEM certificate is updated</p></li>
+<li><p>LDAP is updated with the new certificate</p></li>
+<li><p>Apache is restarted</p></li>
+</ul>
+<p>This will need to be done for the new install and upgrade cases.</p>
+</section>
+<section id="kra">
+<h2>KRA<a class="headerlink" href="#kra" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Test basic vault operations (TBD)</p></li>
+<li><p>KRA REST operations</p></li>
+</ul>
+</section>
+<section id="uninstall">
+<h2>Uninstall<a class="headerlink" href="#uninstall" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ssl.conf is restored</p></li>
+<li><p>nss.conf is restored if previously installed</p></li>
+<li><p>The Apache cert and key are removed</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/mod_nss_to_mod_ssl.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="Samba_4_Attribute_Linking.html" />
+    <link rel="prev" title="Overview" href="Samba_4_Attribute_Dereferencing.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Samba relies on the LDAP backend to do attribute indexing. Currently the
+provisioning tool can already configure the indexing on OpenLDAP, but it
+still needs to be modified to configure the indexing on DS.</p>
+</section>
+<section id="attribute-indexing">
+<span id="id1"></span><h1>Attribute Indexing<a class="headerlink" href="#attribute-indexing" title="Permalink to this heading">¶</a></h1>
+<p>AD schema uses the fATTINDEX bit in the searchFlags attribute of an
+attribute type to indicate whether the attribute will be indexed. For
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn</span><span class="p">:</span> <span class="n">Alt</span><span class="o">-</span><span class="n">Security</span><span class="o">-</span><span class="n">Identities</span>
+<span class="n">searchFlags</span><span class="p">:</span> <span class="n">fATTINDEX</span>
+</pre></div>
+</div>
+<p>Finding the attributes that need to be indexed can be done by searching
+the schema subtree using the following filter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">objectclass</span><span class="o">=</span><span class="n">attributeSchema</span><span class="p">)(</span><span class="n">searchFlags</span><span class="p">:</span><span class="mf">1.2.840.113556.1.4.803</span><span class="o">:=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>There are 114 attributes that need indexing in AD schema.</p>
+</section>
+<section id="current-code">
+<span id="id2"></span><h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">¶</a></h1>
+<section id="openldap-configuration">
+<span id="id3"></span><h2>OpenLDAP Configuration<a class="headerlink" href="#openldap-configuration" title="Permalink to this heading">¶</a></h2>
+<p>Indexing an attribute in OpenLDAP can be done by specifying the
+following directive in slapd.conf:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>index ${ATTR} eq
+</pre></div>
+</div>
+</section>
+<section id="provisioning-tool">
+<span id="id4"></span><h2>Provisioning Tool<a class="headerlink" href="#provisioning-tool" title="Permalink to this heading">¶</a></h2>
+<p>The provision_openldap_backend() uses the following code to configure
+attribute indexing in OpenLDAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index_config</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="o">//</span> <span class="n">get</span> <span class="n">indexed</span> <span class="n">attributes</span>
+<span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;linkID&quot;</span><span class="p">,</span> <span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">]</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">expression</span><span class="o">=</span><span class="s2">&quot;(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))&quot;</span><span class="p">,</span>
+    <span class="n">base</span><span class="o">=</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span>
+    <span class="n">scope</span><span class="o">=</span><span class="n">SCOPE_ONELEVEL</span><span class="p">,</span>
+    <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
+
+<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">indexed</span> <span class="n">attribute</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)):</span>
+    <span class="n">index_attr</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="o">//</span> <span class="nb">map</span> <span class="n">objectGUID</span> <span class="n">to</span> <span class="n">entryUUID</span>
+    <span class="k">if</span> <span class="n">index_attr</span> <span class="o">==</span> <span class="s2">&quot;objectGUID&quot;</span><span class="p">:</span>
+        <span class="n">index_attr</span> <span class="o">=</span> <span class="s2">&quot;entryUUID&quot;</span>
+
+    <span class="o">//</span> <span class="n">generate</span> <span class="n">indexing</span> <span class="n">configuration</span>
+    <span class="n">index_config</span> <span class="o">+=</span> <span class="s2">&quot;index &quot;</span> <span class="o">+</span> <span class="n">index_attr</span> <span class="o">+</span> <span class="s2">&quot; eq</span><span class="se">\n</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="default-indexes">
+<span id="id5"></span><h2>Default Indexes<a class="headerlink" href="#default-indexes" title="Permalink to this heading">¶</a></h2>
+<p>The following attributes are indexed by default in DS:</p>
+<ul class="simple">
+<li><p>aci</p></li>
+<li><p>cn</p></li>
+<li><p>entrydn</p></li>
+<li><p>entryusn</p></li>
+<li><p>givenName</p></li>
+<li><p>mail</p></li>
+<li><p>mailAlternateAddress</p></li>
+<li><p>mailHost</p></li>
+<li><p>member</p></li>
+<li><p>memberOf</p></li>
+<li><p>nsUniqueId</p></li>
+<li><p>ntUniqueId</p></li>
+<li><p>ntUserDomainId</p></li>
+<li><p>numsubordinates</p></li>
+<li><p>objectclass</p></li>
+<li><p>owner</p></li>
+<li><p>parentid</p></li>
+<li><p>seeAlso</p></li>
+<li><p>sn</p></li>
+<li><p>telephoneNumber</p></li>
+<li><p>uid</p></li>
+<li><p>uniquemember</p></li>
+</ul>
+<p>All except aci and numsubordinates have an equality index.</p>
+</section>
+<section id="linked-attributes">
+<span id="id6"></span><h2>Linked Attributes<a class="headerlink" href="#linked-attributes" title="Permalink to this heading">¶</a></h2>
+<p>The following attributes are linked, so they need to have an equality
+index. See also <a class="reference external" href="Obsolete:Samba_4_Attribute_Linking">this page</a>.</p>
+<ul class="simple">
+<li><p>bridgeheadTransportList</p></li>
+<li><p>frsComputerReference</p></li>
+<li><p>fRSMemberReference</p></li>
+<li><p>hasMasterNCs</p></li>
+<li><p>hasPartialReplicaNCs</p></li>
+<li><p>managedBy</p></li>
+<li><p>manager</p></li>
+<li><p>member</p></li>
+<li><p>msCOM-PartitionLink</p></li>
+<li><p>msCOM-UserPartitionSetLink</p></li>
+<li><p>msDFSR-ComputerReference</p></li>
+<li><p>msDFSR-MemberReference</p></li>
+<li><p>msDS-AuthenticatedAtDC</p></li>
+<li><p>msDS-HasDomainNCs</p></li>
+<li><p>msDS-hasFullReplicaNCs</p></li>
+<li><p>msDS-hasMasterNCs</p></li>
+<li><p>msDS-KrbTgtLink</p></li>
+<li><p>msDS-MembersForAzRole</p></li>
+<li><p>msDS-NC-RO-Replica-Locations</p></li>
+<li><p>msDS-NonMembers</p></li>
+<li><p>msDS-ObjectReference</p></li>
+<li><p>msDS-OperationsForAzRole</p></li>
+<li><p>msDS-OperationsForAzTask</p></li>
+<li><p>msDS-PSOAppliesTo</p></li>
+<li><p>msDS-TasksForAzRole</p></li>
+<li><p>msDS-TasksForAzTask</p></li>
+<li><p>msSFU30PosixMember</p></li>
+<li><p>netbootServer</p></li>
+<li><p>nonSecurityMember</p></li>
+<li><p>owner</p></li>
+<li><p>privilegeHolder</p></li>
+<li><p>queryPolicyObject</p></li>
+<li><p>serverReference</p></li>
+<li><p>siteObject</p></li>
+</ul>
+<p>The member and owner are already defined in the default indexes and have
+an equality index.</p>
+</section>
+</section>
+<section id="proposed-changes">
+<span id="id7"></span><h1>Proposed Changes<a class="headerlink" href="#proposed-changes" title="Permalink to this heading">¶</a></h1>
+<section id="ds-configuration">
+<span id="id8"></span><h2>DS Configuration<a class="headerlink" href="#ds-configuration" title="Permalink to this heading">¶</a></h2>
+<p>Indexing an attribute in DS can be done by adding the following
+configuration entry:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=${ATTR},cn=default indexes,cn=config,cn=ldbm database,cn=plugins,cn=config
+objectClass: top
+objectClass: nsIndex
+cn: ${ATTR}
+nsSystemIndex: false
+nsIndexType: eq
+</pre></div>
+</div>
+<p>This template should be stored in source4/setup/fedorads-index.ldif.</p>
+</section>
+<section id="provisioning-tool-1">
+<span id="id9"></span><h2>Provisioning Tool<a class="headerlink" href="#provisioning-tool-1" title="Permalink to this heading">¶</a></h2>
+<p>The provision_fds_backend() should use the following code to configure
+attribute indexing in DS. First it will configure the indexes for all
+linked attributes, then it will configure the indexes for all indexed
+attributes as defined in AD schema. The code might generate duplicate
+indexes, but they will be ignored during instance creation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index_config</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="o">//</span> <span class="n">get</span> <span class="n">linked</span> <span class="n">attributes</span>
+<span class="n">lnkattr</span> <span class="o">=</span> <span class="n">get_linked_attributes</span><span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span><span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="p">)</span>
+
+<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">linked</span> <span class="n">attribute</span>
+<span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">lnkattr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+    <span class="o">//</span> <span class="n">generate</span> <span class="n">indexing</span> <span class="n">configuration</span>
+    <span class="n">index_config</span> <span class="o">+=</span> <span class="n">read_and_sub_file</span><span class="p">(</span>
+        <span class="n">setup_path</span><span class="p">(</span><span class="s2">&quot;fedorads-index.ldif&quot;</span><span class="p">),</span>
+        <span class="p">{</span> <span class="s2">&quot;ATTR&quot;</span> <span class="p">:</span> <span class="n">attr</span> <span class="p">})</span>
+
+<span class="o">//</span> <span class="n">get</span> <span class="n">indexed</span> <span class="n">attributes</span>
+<span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;linkID&quot;</span><span class="p">,</span> <span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">]</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">expression</span><span class="o">=</span><span class="s2">&quot;(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))&quot;</span><span class="p">,</span>
+    <span class="n">base</span><span class="o">=</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span>
+    <span class="n">scope</span><span class="o">=</span><span class="n">SCOPE_ONELEVEL</span><span class="p">,</span>
+    <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
+
+<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">indexed</span> <span class="n">attribute</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)):</span>
+
+    <span class="n">attr</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="o">//</span> <span class="nb">map</span> <span class="n">objectGUID</span> <span class="n">to</span> <span class="n">nsUniqueId</span>
+    <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s2">&quot;objectGUID&quot;</span><span class="p">:</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="s2">&quot;nsUniqueId&quot;</span>
+
+    <span class="o">//</span> <span class="n">generate</span> <span class="n">indexing</span> <span class="n">configuration</span>
+    <span class="n">index_config</span> <span class="o">+=</span> <span class="n">read_and_sub_file</span><span class="p">(</span>
+        <span class="n">setup_path</span><span class="p">(</span><span class="s2">&quot;fedorads-index.ldif&quot;</span><span class="p">),</span>
+        <span class="p">{</span> <span class="s2">&quot;ATTR&quot;</span> <span class="p">:</span> <span class="n">attr</span> <span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="samba-patches">
+<span id="id10"></span><h1>Samba Patches<a class="headerlink" href="#samba-patches" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=cf77bf338260e33e7353f1176210d5cac5a6048d">s4:provision - replaced linked_attributes with FDS
+plugins</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://msdn.microsoft.com/en-us/library/ms679765%28VS.85%29.aspx">Search-Flags
+Attribute</a></p></li>
+<li><p><a class="reference external" href="http://msdn.microsoft.com/en-us/library/cc220851%28PROT.13%29.aspx">Attribute
+searchFlags</a></p></li>
+<li><p><a class="reference external" href="http://support.microsoft.com/kb/269181">How to query Active Directory by using a bitwise
+filter</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Samba_4_Attribute_Indexing.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Prerequisites &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="Samba_4_Provisioning_External_LDAP_Server.html" />
+    <link rel="prev" title="LDB" href="Samba_4_Documentation.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">gcc</span> <span class="n">git</span> <span class="n">autoconf</span> <span class="n">make</span> <span class="n">python</span><span class="o">-</span><span class="n">devel</span> <span class="n">perl</span><span class="o">-</span><span class="n">Mozilla</span><span class="o">-</span><span class="n">LDAP</span> \
+<span class="n">perl</span><span class="o">-</span><span class="n">LDAP</span> <span class="n">phpldapadmin</span> <span class="n">openldap</span><span class="o">-</span><span class="n">devel</span> <span class="n">bind</span> <span class="n">ctags</span><span class="o">-</span><span class="n">etags</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-the-source-code">
+<span id="id1"></span><h1>Getting the Source Code<a class="headerlink" href="#getting-the-source-code" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">samba</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">samba</span><span class="o">.</span><span class="n">git</span>
+<span class="o">%</span> <span class="n">cd</span> <span class="n">samba</span>
+</pre></div>
+</div>
+<p>If you need to get a specific version (e.g. release-4-0-0alpha10):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">devel</span> <span class="o">&lt;</span><span class="n">tag</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>To view the list of tags:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">git</span> <span class="n">tag</span>
+</pre></div>
+</div>
+<p>Getting development branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">github</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">endisd</span><span class="o">/</span><span class="n">samba</span><span class="o">.</span><span class="n">git</span>
+<span class="o">%</span> <span class="n">git</span> <span class="n">fetch</span> <span class="n">github</span>
+<span class="o">%</span> <span class="n">git</span> <span class="n">checkout</span> <span class="o">--</span><span class="n">track</span> <span class="o">-</span><span class="n">b</span> <span class="n">development</span> <span class="n">github</span><span class="o">/</span><span class="n">development</span>
+</pre></div>
+</div>
+</section>
+<section id="building-samba">
+<span id="id2"></span><h1>Building Samba<a class="headerlink" href="#building-samba" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">samba</span><span class="o">/</span><span class="n">source4</span>
+<span class="o">%</span> <span class="o">./</span><span class="n">autogen</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">%</span> <span class="o">./</span><span class="n">configure</span><span class="o">.</span><span class="n">developer</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">external</span><span class="o">-</span><span class="n">libtalloc</span> \
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">external</span><span class="o">-</span><span class="n">libtdb</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">external</span><span class="o">-</span><span class="n">libtevent</span> \
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">external</span><span class="o">-</span><span class="n">libldb</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">etags</span> <span class="n">idl_full</span> <span class="n">clean</span> <span class="nb">all</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+</section>
+<section id="testing-samba">
+<span id="id3"></span><h1>Testing Samba<a class="headerlink" href="#testing-samba" title="Permalink to this heading">¶</a></h1>
+<p>To test Samba with standard backend:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">samba</span><span class="o">/</span><span class="n">source4</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">quicktest</span>
+</pre></div>
+</div>
+<p>To test Samba with OpenLDAP backend:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">export</span> <span class="n">OPENLDAP_SLAPD</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">slapd</span>
+<span class="o">%</span> <span class="n">export</span> <span class="n">TEST_LDAP</span><span class="o">=</span><span class="n">yes</span>
+<span class="o">%</span> <span class="n">export</span> <span class="n">TEST_OPTIONS</span><span class="o">=--</span><span class="n">ldap</span><span class="o">=</span><span class="n">openldap</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">quicktest</span>
+</pre></div>
+</div>
+<p>To test Samba with DS backend:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">export</span> <span class="n">FEDORA_DS_ROOT</span><span class="o">=/</span><span class="n">usr</span>
+<span class="o">%</span> <span class="n">export</span> <span class="n">TEST_LDAP</span><span class="o">=</span><span class="n">yes</span>
+<span class="o">%</span> <span class="n">export</span> <span class="n">TEST_OPTIONS</span><span class="o">=--</span><span class="n">ldap</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">quicktest</span>
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://wiki.samba.org/index.php/Samba4">Samba 4</a></p></li>
+<li><p><a class="reference external" href="http://wiki.samba.org/index.php/Samba4/HOWTO">Samba 4/HOWTO</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Samba_4_Installation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Who_Am_I_Command.html" />
+    <link rel="prev" title="Overview" href="User_Certificates.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Corporate or big setups of Identity Management system often requires an
+advanced user life-cycle management capabilities (like staging area for
+new or deleted users) or standard LDAP interface for adding or removing
+users that can be used by provisioning systems.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<section id="external-provisioning-system">
+<span id="id1"></span><h2>External Provisioning System<a class="headerlink" href="#external-provisioning-system" title="Permalink to this heading">¶</a></h2>
+<section id="user-story">
+<h3>User Story<a class="headerlink" href="#user-story" title="Permalink to this heading">¶</a></h3>
+<p>As an Administrator, I want to configure my employee provisioning system
+to manipulate the employee records to FreeIPA via LDAP protocol using
+standard LDAP objectclasses, so that I do not have to request FreeIPA
+specific integration with my provisioning system vendor.</p>
+</section>
+<section id="description">
+<h3>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h3>
+<p>The following supported workflows are expected:</p>
+<ol class="arabic simple">
+<li><p><em>Create a user</em>: provisioning system adds user to staging tree are
+using standard LDAP add. Not all fields that standard FreeIPA user
+has need to be specified. Provisioning system <strong>may or may not</strong> use
+the Freeipa CLI to add the user.</p></li>
+<li><p><em>Activate user</em>: activate user by moving it from staging area to
+active user area. All attributes required by FreeIPA are generated if
+they are missing. All activations of a user accounts <strong>must</strong> be done
+on the same server, else it can leads to replication issues as
+attribute uniqueness can reject some operation.</p></li>
+<li><p><em>Assign group memberships</em>: add group membership to activated user.
+Membership can only be added in active users tree. Staged or deleted
+users have no membership information.</p></li>
+<li><p><em>Update user</em>: modify user attributes</p></li>
+<li><p><em>Change password</em>: administratively change user password</p></li>
+<li><p><em>Delete user</em>: move user from active user tree to staging tree to
+keep it’s attributes (like UID) and settings in case the user returns
+back and need to be restored</p></li>
+<li><p><em>Restore deleted user</em>: move deleted user back to the tree of active
+users</p></li>
+<li><p><em>Lock user</em>: temporarily lock user so that it is not accessible</p></li>
+<li><p><em>Unlock user</em>: unlock temporarily locked user</p></li>
+</ol>
+</section>
+</section>
+<section id="privilege-separation-for-employee-entry-and-activation">
+<span id="id2"></span><h2>Privilege Separation for Employee Entry and Activation<a class="headerlink" href="#privilege-separation-for-employee-entry-and-activation" title="Permalink to this heading">¶</a></h2>
+<section id="user-story-1">
+<span id="id3"></span><h3>User Story<a class="headerlink" href="#user-story-1" title="Permalink to this heading">¶</a></h3>
+<p>As an Administrator, I want to allow Human Resources Administrators to
+add future employees to FreeIPA and in the same time I do not want to
+allow them activating them, so that I can delegate that privilege to my
+Security Administrator after the employee credentials are verified on
+the first day of employment.</p>
+</section>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="user-status">
+<span id="id4"></span><h2>User status<a class="headerlink" href="#user-status" title="Permalink to this heading">¶</a></h2>
+<p>In User Life Cycle, a user account is stored in a LDAP repository as an
+entry in the DIT. A user account follows a workflow that changes the
+status of the user. There are 3 differents status:</p>
+<ul class="simple">
+<li><p>Stage</p>
+<ul>
+<li><p>This is an initial state where some of the user properties may not
+be already set</p></li>
+<li><p>In this state the user account can not be used to authenticate.</p></li>
+<li><p>The ldap entry of a user account is stored: cn=staged
+users,cn=accounts,cn=provisioning,$SUFFIX</p></li>
+<li><p>The staging container usually contains few user account that
+represent the few new comers in the organisation.</p></li>
+</ul>
+</li>
+<li><p>Active</p>
+<ul>
+<li><p>This is the normal state where all necessary properties are set</p></li>
+<li><p>In this state the user account can be used to authenticate (if
+user is <em>enabled</em>)</p></li>
+<li><p>The ldap entry of a user account is stored:
+cn=users,cn=accounts,$SUFFIX</p></li>
+<li><p>The active container contains hundreds/tousands user accounts that
+represent all the people currently in the organisation.</p></li>
+</ul>
+</li>
+<li><p>Delete</p>
+<ul>
+<li><p>This is the state of <em>deleted</em> active user account. Most of its
+properties have been preserved. Unpreserved properties are for
+example membership properties that have been reset</p></li>
+<li><p>The user account can not be used to authenticate</p></li>
+<li><p>The ldap entry of a user account is stored: cn=deleted
+users,cn=accounts,cn=provisioning,$SUFFIX</p></li>
+<li><p>The deleted container contains hundreds/tousands user accounts
+that represent all the people who left the organisation.</p></li>
+<li><p>The deleted container preserves former users to conform legacy,
+law and policies. It can help to recover user properties in case a
+former user returns back to the organization.</p></li>
+</ul>
+</li>
+<li><p>Active account</p>
+<ul>
+<li><p>in addition to active user, a special container contains all the
+active accounts. Accounts are not only users</p></li>
+<li><p>the ldap entry of active accounts is stored: <em>cn=accounts,$SUFFIX</em></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="workflows">
+<h2>workflows<a class="headerlink" href="#workflows" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">The main workflow allows  moves: ``\</span> <span class="pre">*``stage``*\</span> <span class="pre">`` ``\</span> <span class="pre">**</span></code>–&gt;``**`` <a href="#id5"><span class="problematic" id="id6">``</span></a><em>``active``</em>`` <a href="#id7"><span class="problematic" id="id8">``</span></a><strong>``&lt;–&gt;``</strong>`` <a href="#id9"><span class="problematic" id="id10">``</span></a><em>``delete``</em></p>
+<ul class="simple">
+<li><p>stage -&gt; active: The appropriate set of approvals are granted and a
+new comer is now fully operational in the organisation</p></li>
+<li><p>active -&gt; delete: The user leaves temporary the organisation</p></li>
+<li><p>delete -&gt; active: The user join back the organisation and recover
+some of his previous settings</p></li>
+</ul>
+<p>The workflow allows to recreate a user if the entry gets corrupted:</p>
+<ul class="simple">
+<li><p>delete -&gt; stage: The entry got corrupted and was deleted. Moving it
+back to ‘ <em>Stage</em> ‘ the entry can later be activated again. The
+following FreeIPA attribute are preserved: ‘ <em>ipaUniqueID</em> ‘ , ‘
+<em>uidNumber</em> ‘ and ‘ <em>gidNumber</em> ‘.</p></li>
+</ul>
+<p>The workflow allows to add user accounts in:</p>
+<ul class="simple">
+<li><p>stage: the user needs some approval before being active</p></li>
+<li><p>active: the user does not need any approval before being active</p></li>
+</ul>
+<p>The workflow allows to delete user accounts from:</p>
+<ul class="simple">
+<li><p>staging: The user account will never receive the approval in order to
+be active</p></li>
+<li><p>delete: The user will never join back the organisation</p></li>
+</ul>
+<p>Note: delete action will erase permanently the entry from the
+repository. It is a LDAP DEL.</p>
+<p>The workflow allows to modify user account from:</p>
+<ul class="simple">
+<li><p>stage: modify the user account that remains in stage</p></li>
+<li><p>active: modify the user account that remains in active</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                                                 <span class="o">--</span> <span class="n">find</span> <span class="o">---+</span>                     <span class="o">--</span> <span class="n">find</span> <span class="o">--+</span>
+                                                 <span class="o">--</span> <span class="n">show</span> <span class="o">---+</span>                     <span class="o">--</span> <span class="n">show</span> <span class="o">--+</span>
+                                                 <span class="o">--</span> <span class="n">add</span><span class="o">-----+</span>                               <span class="o">|</span>
+                                                 <span class="o">--</span> <span class="n">mod</span> <span class="o">----+</span>                               <span class="o">|</span>
+                                                            <span class="o">|</span>                               <span class="o">|</span>
+                                                            <span class="n">V</span>                               <span class="n">V</span>
+              <span class="o">-------------------</span>                    <span class="o">----------------</span>                  <span class="o">---------------</span>
+ <span class="o">--</span> <span class="n">find</span> <span class="o">--&gt;</span>  <span class="o">|</span>                 <span class="o">|</span>                    <span class="o">|</span>              <span class="o">|</span>                 <span class="o">|</span>              <span class="o">|</span>
+ <span class="o">---</span> <span class="n">mod</span> <span class="o">--&gt;</span>  <span class="o">|</span>                 <span class="o">|</span>                    <span class="o">|</span>              <span class="o">|</span>                 <span class="o">|</span>              <span class="o">|</span>
+ <span class="o">---</span> <span class="n">add</span>  <span class="o">--&gt;</span> <span class="o">|</span>                 <span class="o">|</span>  <span class="o">---</span> <span class="n">activate</span> <span class="o">--&gt;</span>  <span class="o">|</span>              <span class="o">|</span>  <span class="o">---</span> <span class="n">delete</span> <span class="o">--&gt;</span> <span class="o">|</span>              <span class="o">|</span>
+<span class="o">&lt;--</span> <span class="n">delete</span> <span class="o">--</span> <span class="o">|</span>      <span class="n">STAGE</span>      <span class="o">|</span>                    <span class="o">|</span>     <span class="n">ACTIVE</span>   <span class="o">|</span> <span class="o">&lt;--</span> <span class="n">undelete</span> <span class="o">--</span> <span class="o">|</span>    <span class="n">DELETE</span>    <span class="o">|</span> <span class="o">--</span> <span class="n">delete</span> <span class="o">-&gt;</span>
+              <span class="o">|</span>                 <span class="o">|</span>                    <span class="o">|</span>              <span class="o">|</span>                 <span class="o">|</span>              <span class="o">|</span>
+              <span class="o">|</span> <span class="o">&lt;</span><span class="n">plg</span><span class="o">.</span> <span class="n">stageuser</span><span class="o">&gt;|</span>                    <span class="o">|</span>  <span class="o">&lt;</span><span class="n">plg</span> <span class="n">user</span><span class="o">&gt;</span>  <span class="o">|</span>                 <span class="o">|</span>  <span class="o">&lt;</span><span class="n">plg</span><span class="o">.</span> <span class="n">user</span><span class="o">&gt;</span> <span class="o">|</span>
+ <span class="o">--</span> <span class="n">show</span> <span class="o">--&gt;</span>  <span class="o">|</span>                 <span class="o">|</span>                    <span class="o">|</span>              <span class="o">|</span>                 <span class="o">|</span>              <span class="o">|</span>
+              <span class="o">-------------------</span>                    <span class="o">----------------</span>                 <span class="o">---------------</span>
+                       <span class="o">^</span>                                                                      <span class="o">/</span>
+                       \                                                                    <span class="o">/</span>
+                         <span class="o">-----------------------</span> <span class="n">add</span> <span class="p">(</span><span class="n">from</span><span class="o">-</span><span class="n">delete</span> <span class="n">opt</span><span class="o">.</span><span class="p">)</span> <span class="o">---------------------</span>
+</pre></div>
+</div>
+<section id="stageuser-plugin">
+<span id="id11"></span><h3>stageuser plugin<a class="headerlink" href="#stageuser-plugin" title="Permalink to this heading">¶</a></h3>
+<section id="add-a-stage-entry">
+<span id="id12"></span><h4>Add a stage entry<a class="headerlink" href="#add-a-stage-entry" title="Permalink to this heading">¶</a></h4>
+<ul>
+<li><p>Support engineer can use the following command</p>
+<ul>
+<li><p>ipa stageuser-add &lt;<em>user_identifier</em>&gt; –first=&lt;<em>first name</em>&gt;
+–last=&lt;<em>last name</em>&gt;</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">stageuser</span><span class="o">-</span><span class="n">add</span> <span class="n">tuser</span>  <span class="o">--</span><span class="n">first</span><span class="o">=</span><span class="n">test</span> <span class="o">--</span><span class="n">last</span><span class="o">=</span><span class="n">user</span>
+</pre></div>
+</div>
+</li>
+<li><p>if needed, command may specify more details about the user,
+including the password</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">stageuser</span><span class="o">-</span><span class="n">add</span>  <span class="n">tuser</span> <span class="o">--</span><span class="n">first</span><span class="o">=</span><span class="n">Test</span> <span class="o">--</span><span class="n">last</span><span class="o">=</span><span class="n">User</span> <span class="o">--</span><span class="n">random</span> <span class="o">--</span><span class="n">manager</span><span class="o">=</span><span class="n">muser</span> <span class="o">--</span><span class="n">phone</span> <span class="mi">123456789</span>
+</pre></div>
+</div>
+</li>
+<li><p>ipa <em>stageuser-add</em> supports almost the same options as
+<em>user-add</em>, but compare to user-add here is the list of
+differences:</p>
+<ul class="simple">
+<li><p>noprivate: no supported as a stage entry has no private group</p></li>
+<li><p>manager: must be an active user</p></li>
+</ul>
+</li>
+<li><p>Filled with
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Stage_placeholders">placeholders</a>
+the entry will look like</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">tuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalperson</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">posixAccount</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">Test</span> <span class="n">User</span>
+<span class="n">sn</span><span class="p">:</span> <span class="n">User</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">tuser</span>
+<span class="n">uidNumber</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">gidNumber</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">homeDirectory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">tuser</span>
+<span class="n">loginShell</span><span class="p">:</span> <span class="n">autogenerate</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>A stage user can also be created from a former user. There is still
+discussion (see
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2015-July/msg00516.html">1</a>
+and
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2015-August/msg00022.html">2</a>
+) if the former user can be picked up from the ‘Delete’ container or
+from the ‘Active’ container or both.</p></li>
+</ul>
+<p>Currently the proposed interface are</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stageuser</span><span class="o">-</span><span class="n">add</span> <span class="o">&lt;</span><span class="n">uid</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">delete</span>
+
+<span class="ow">or</span>
+
+<span class="n">user</span><span class="o">-</span><span class="n">undel</span> <span class="o">&lt;</span><span class="n">uid</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">to</span><span class="o">-</span><span class="n">stage</span>
+
+<span class="ow">or</span>
+
+<span class="n">user</span><span class="o">-</span><span class="n">unactivate</span> <span class="o">&lt;</span><span class="n">uid</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The drawback of the first CLI (stageuser-add) is that lastname/firstname
+are required option, but when the ‘uid’ entry is taken from the ‘Delete’
+container lastname/firstname are useless.</p>
+</section>
+<section id="provision-stage-entry">
+<span id="id13"></span><h4>Provision stage entry<a class="headerlink" href="#provision-stage-entry" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>As described in the first <a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Use_Cases">Use
+case</a>,
+provisioning systems (external) create the vast majority of <em>Stage</em>
+entries (using or not the FreeIPA CLI).</p>
+<ul>
+<li><p>Provisioned entries <em>MUST</em> follow the following rules</p>
+<ul>
+<li><p>Provisioning system places a staged user entry to <em>cn=staged
+users,cn=accounts,cn=provisioning,SUFFIX</em></p></li>
+<li><p>Entry RDN attribute is ‘ <em>uid</em> ‘ (see <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-May/msg00407.html">Supported Staged
+entries</a>)</p></li>
+</ul>
+</li>
+<li><p>Entry may contain both data and
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Stage_placeholders">placeholders</a>.
+Note that when the entry will become active, some of the
+data/placeholders may be changed.</p></li>
+<li><p>Provisoning system can create an entry with few constraints, that
+mean that the
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Activate_StageUser">activation</a>
+of a stage entry must be done with care. So provisioning systems
+is the main justification why activation will be done using a
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#MODRDN_vs._ADD-DEL">ADD-DEL</a>
+approach</p></li>
+<li><p>A <em>Stage</em> entry does not need to have all attributes that standard
+FreeIPA user has. In order to allow the correct processing of User
+Life Cycle, staged users must have a minimal set of attributes</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">tuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">inetOrgPerson</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">Test</span> <span class="n">User</span>
+<span class="n">sn</span><span class="p">:</span> <span class="n">User</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">tuser</span>
+</pre></div>
+</div>
+</section>
+<section id="activate-stageuser">
+<span id="id14"></span><h4>Activate StageUser<a class="headerlink" href="#activate-stageuser" title="Permalink to this heading">¶</a></h4>
+<p>Activating a user is a major step in the User Life Cycle. It allows
+FreeIPA to start managing the entry and the user to authenticate with
+it. This action is only authorised to Support Engineer.</p>
+<ul>
+<li><p>Support Engineer is using FreeIPA CLI: ipa stageuser-activate
+&lt;<em>user_identifier</em>&gt;</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">stageuser</span><span class="o">-</span><span class="n">activate</span> <span class="n">tuser</span>
+</pre></div>
+</div>
+</li>
+<li><p>The CLI supports only one account ID (no series of accounts can be
+activated in a row)</p></li>
+<li><p>This operation ‘moves’ the entry, using LDAP ADD on the destination
+entry then DEL on the source entry</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Source</span><span class="p">:</span>           <span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">Destination</span><span class="p">:</span>     <span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Error handling</p>
+<ul>
+<li><p>ADD fails, the source entry is preserved and the CLI reports an
+error</p></li>
+<li><p>if DEL fails, the destination entry is removed and the CLI reports
+an error. If it fails to delete destination entry, both entries
+will remain. This is not a concern as the <em>Stage</em> entry will never
+be activated as long as the destination entry exists and have the
+same uid.</p></li>
+</ul>
+</li>
+<li><p>The destination <em>Active</em> LDAP entry is a <em>NEW</em> entry compare to the
+source <em>Stage</em> entry (see <a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management#MODRDN_vs._ADD-DEL">MODRDN vs
+ADD-DEL</a>)</p>
+<ul>
+<li><p>It contains all FreeIPA required objectclasses/attributes
+(including structural objectclasses) <em>(comment: TBL in
+implementation)</em></p></li>
+<li><p>Unsupported objectclasses/attributes present in the <em>Stage</em> entry
+have been removed</p></li>
+</ul>
+</li>
+<li><p>The destination <em>Active</em> LDAP entry is a <em>NEW</em> entry (LDAP ADD). The
+source <em>Stage</em> entry may contain <em>userPassword</em> in an hashed way (see
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Staging_entry_stored_password">http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Staging_entry
+stored
+password</a>).
+To allow the storing of pre-hashed password
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00505.html">ipa-pwd-extop:ipapwd_pre_add</a>
+must relax its control for example if the krb keys already exists in
+the entry.</p></li>
+<li><p><em>Stage</em> container is out of the scope of uid uniqueness plugin, so
+the destination entry can be added even if the source entry still
+exists</p></li>
+<li><p><em>Active</em> and <em>Delete</em> containers are in scope of uid uniqueness
+plugin, so destination entry can not be added if it already exists an
+<em>Active</em> or <em>Delete</em> entry with the same RDN (‘uid’) value. For
+example, it exists <em>jdoe</em> <em>Active</em> or <em>Delete</em> entry that contains
+several <em>uid</em> values. The entry <em>jdoe</em> has been created by a
+provisioning system, in fact Regular Freeipa CLI do not create user
+entry with multiple <em>uid</em>. <em>foo</em> can not be <em>Activate</em> because <em>jdoe</em>
+already have the <em>uid: foo</em> value:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">foo</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="o">...</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">foo</span>
+
+<span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">jdoe</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="o">...</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">jdoe</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<p>or if it exists a <em>Delete</em> entry that already have the ‘’uid: foo value:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">foo</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="o">...</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">foo</span>
+
+<span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">jdoe</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="o">...</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">jdoe</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>There are
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Adjustment_of_DN_syntax_attributes">ajustments</a>
+of DN syntax attributes</p></li>
+</ul>
+<p id="modrdn-vs-add-del">MODRDN vs. ADD-DEL</p>
+<p>When a staged user is moved to active users tree or an active user is
+moved to deleted users tree, there are 2 possible approaches -
+<em>renaming</em> (LDAP MODRDN operation with defining <code class="docutils literal notranslate"><span class="pre">newsuperior</span></code>
+attribute) and <em>moving</em> the LDAP object (LDAP ADD and DEL operations).
+In the end, the result will the same for outer world, but the operation
+will affect DS internals and plugin function.</p>
+<ol class="arabic simple">
+<li><p>Renaming operation is a better approach from atomicity point of view
+(second, delete opration may fail and there would be 2 duplicate
+entries), but it may interfere with both internal DS plugin
+(referential integrity, memberOf, manged entry plugin) and 3rd party
+plugins. They may tend to keep all DN links to the entry unless they
+are modified not to do so when such entry is moved to <em>deleted</em> tree.</p></li>
+<li><p>Moving operation seems cleaner approach as all these plugins
+(including current plugins) will understand the operation in the
+right semantics. However, it is more difficult to control (see
+related tickets) and ability to move a user from <em>staging</em> tree to
+<em>active</em> users tree would require ability to read and write all user
+attributes, including <code class="docutils literal notranslate"><span class="pre">userPassword</span></code>.</p></li>
+</ol>
+<p>Provisioning system does not guarantee to create the stage entry with
+the appropriate set of <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-May/msg00399.html">structural
+objectclasses</a>
+(see <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-May/msg00471.html">Activating staged
+user</a>.
+The active entry requires all the FreeIPA structural
+objectclasses/attributes. It can be addressed:</p>
+<ul class="simple">
+<li><p>Adding <strong>in</strong> the stage entry each missing objectclasses/attributes -
+Remove the unwanted objectclasses/attributes</p></li>
+<li><p>Create a new entry with all the required objectclasses/attributes and
+fill it from values taken in the stage entry</p></li>
+</ul>
+<p>A stage entry is possibly partially initialized (especially with
+provisioning systems), using MODRDN means that this incomplete entry
+becomes active and one can bind with it (if credential are set). So some
+MODs are needed to make it a valid entry, before we can issue the
+MODRDN.</p>
+<p>The <em>second approach is chosen</em> solution because:</p>
+<ul class="simple">
+<li><p>it allows to (see this thread <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-May/msg00411.html">‘Supported Stage
+entries’</a>
+)</p>
+<ul>
+<li><p>filter objectclasses/attributes set in the <em>Stage</em> entry but the
+admin do not want to see in <em>Active</em>. When filling the new entry
+we just need to skip the no wished values/attributes.</p></li>
+<li><p>add objectclasses/attributes necessary for <em>Active</em> entries. The
+new entry contains by default all required OC/Attribute, we need
+to pick values from the <em>Stage</em> entry</p></li>
+</ul>
+</li>
+<li><p>guaranty that <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-May/msg00399.html">structural
+objectclasses</a>
+are present</p></li>
+<li><p>It is most simplest solution to implement.</p></li>
+</ul>
+<p id="adjustment-of-dn-syntax-attributes">Adjustment of DN syntax attributes</p>
+<p>A <em>Stage</em> or <em>Delete</em> user entry may contains DN syntax attributes.
+Referential integrity plugin is not checking the validity of the DN in
+those containers, so they may contain invalid values. When an <em>Active</em>
+entry is deleted (user-del), most of the its DN syntax attributes are
+replaced with empty values except for <em>manager/managedby/secretary</em> that
+are preserved.</p>
+<p>A <em>Stage</em> entry may contain any values in its DN syntax attributes.</p>
+<p>When an entry becomes <em>Active</em> (userstage-activate or user-undel) the
+values of DN syntax attributes need to be checked. The value is
+preserved if it is the DN of an <em>Active</em> entry, else it is replaced with
+an empty value. (see <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00080.html">this
+thread</a>)</p>
+</section>
+<section id="update-stageuser">
+<span id="id15"></span><h4>Update StageUser<a class="headerlink" href="#update-stageuser" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer uses standard FreeIPA calls to modify user
+attributes (including password)</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">stageuser-mod</span> <span class="pre">tuser</span> <span class="pre">--phone=123456789</span></code></p>
+</div></blockquote>
+</li>
+<li><p><em>ipa stageuser-mod</em> supports the same options as <em>user-mod</em>, but more
+control are done when updating a stage user.</p>
+<ol class="arabic simple">
+<li><p><strong>manager</strong> must be an <em>active</em> user</p></li>
+<li><p><strong>nsaccountlock</strong> can not be set. Its value is forced to be <em>True</em>
+by a <strong>COS</strong></p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="delete-stageuser">
+<span id="id16"></span><h4>Delete StageUser<a class="headerlink" href="#delete-stageuser" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer deletes the stage user using the following CLI</p>
+<blockquote>
+<div><p>ipa stageuser-del &lt;<em>user identifier</em>&gt;</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stageuser-del</span></code> triggers LDAP delete operation on LDAP stage entry
+that deletes it permanently</p></li>
+</ol>
+</section>
+<section id="restore-stageuser">
+<span id="id17"></span><h4>Restore StageUser<a class="headerlink" href="#restore-stageuser" title="Permalink to this heading">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">Support engineer can restore a ``\</span> <span class="pre">*``Delete``*\</span> <span class="pre">`` user (under ``\</span> <span class="pre">*``cn=deleted</span></code><a href="#id18"><span class="problematic" id="id19">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``users,cn=accounts,cn=provisioning,SUFFIX``*\</span> <span class="pre">``). ``\</span> <span class="pre">*``Delete``*\</span> <span class="pre">`` user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\</span> <span class="pre">```restore</span></code><a href="#id20"><span class="problematic" id="id21">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``and</span></code><a href="#id22"><span class="problematic" id="id23">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``activate</span></code> &lt;<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User">http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User</a>&gt;`__`` a <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">*``Delete``*\</span> <span class="pre">`` user. Stepping the entry into ``\</span> <span class="pre">*``Stage``*\</span> <span class="pre">`` allows to keep valid properties and update the corrupted ones before making the user ``\</span> <span class="pre">*``Active``*\</span> <span class="pre">``.</span></code></p>
+<ol class="arabic">
+<li><p>Support engineer restore the user using the following CLI</p>
+<blockquote>
+<div><p>ipa stageuser-add –from-preserved</p>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="find-stageuser">
+<span id="id24"></span><h4>Find StageUser<a class="headerlink" href="#find-stageuser" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>authenticate user can find an <em>Stage</em> account with</p>
+<blockquote>
+<div><p>ipa stageuser-find [] []</p>
+</div></blockquote>
+</li>
+<li><p><em>ipa stageuser-find</em> supports the same options as <em>user-find</em> except
+the flag <em>–preserved=&lt;true|false</em> because stageuser-find only deal
+with <em>Stage</em> accounts (not <em>Delete</em> or <em>Active</em>)</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">stageuser</span><span class="o">-</span><span class="n">find</span>
+<span class="o">---------------</span>
+<span class="mi">2</span> <span class="n">users</span> <span class="n">matched</span>
+<span class="o">---------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">kau1</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">kau1</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">181818</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">181818</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">xy2</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">x</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">y</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xy2</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">xy2</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">2</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+</section>
+<section id="show-stageuser">
+<span id="id25"></span><h4>Show StageUser<a class="headerlink" href="#show-stageuser" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>authenticate user can show an <em>Stage</em> account (entry
+<em>uid=LOGIN,cn=staged users,cn=accounts,cn=provisioning,$SUFFIX</em>)</p>
+<blockquote>
+<div><p>ipa stageuser-show &lt;<em>LOGIN</em>&gt;</p>
+</div></blockquote>
+</li>
+</ol>
+</section>
+</section>
+<section id="user-plugin">
+<span id="id26"></span><h3>user plugin<a class="headerlink" href="#user-plugin" title="Permalink to this heading">¶</a></h3>
+<section id="add-an-active-user">
+<span id="id27"></span><h4>Add an active user<a class="headerlink" href="#add-an-active-user" title="Permalink to this heading">¶</a></h4>
+<ul>
+<li><p>Support Engineer has permission to add active users using the
+following FreeIPA CLI : ipa user-add &lt;<em>user_identifier</em>&gt;
+–first=&lt;<em>first name</em>&gt; –last=&lt;<em>last name</em>&gt;</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="n">add</span> <span class="n">tuser</span>  <span class="o">--</span><span class="n">first</span><span class="o">=</span><span class="n">test</span> <span class="o">--</span><span class="n">last</span><span class="o">=</span><span class="n">user</span>
+</pre></div>
+</div>
+</li>
+<li><p>provisioning systems has not the permission to add active user (they
+are only allowed to add <em>Stage</em> entries)</p></li>
+<li><p>if needed, command may specify more details about the user</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="n">add</span>  <span class="n">tuser</span> <span class="o">--</span><span class="n">first</span><span class="o">=</span><span class="n">Test</span> <span class="o">--</span><span class="n">last</span><span class="o">=</span><span class="n">User</span>  <span class="o">--</span><span class="n">manager</span><span class="o">=</span><span class="n">muser</span> <span class="o">--</span><span class="n">phone</span> <span class="mi">123456789</span>
+</pre></div>
+</div>
+</li>
+<li><p>if password is specfies, to allow FreeIPA generate Kerberos keys, the
+following modifications occur</p>
+<ul class="simple">
+<li><p>add <em>krbprincipalaux</em> objectclass and <em>krbPrincipalName</em> attribute</p></li>
+<li><p>When the entry will be added FreeIPA plugin generates
+<em>krbPrincipalKey</em>, <em>krbLastPwdChange</em> and <em>krbPasswordExpiration</em>
+which will allow the user to authenticate by Kerberos</p></li>
+</ul>
+</li>
+<li><p>The active user entry looks like</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: uid=test_user, cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
+objectClass: top
+objectClass: person
+objectClass: organizationalperson
+objectClass: inetorgperson
+objectClass: inetuser
+objectClass: posixaccount
+objectClass: krbprincipalaux
+objectClass: krbticketpolicyaux
+objectClass: ipaobject
+objectClass: ipasshuser
+objectClass: ipaSshGroupOfPubKeys
+homeDirectory: /home/tuser
+uidNumber: 646400009
+gidNumber: 646400009
+ipaUniqueID: 3f1b5cce-e1b8-11e3-86fe-001a4a104ecd
+nsAccountLock: yes
+uid: test_user
+cn: first last
+sn: last
+givenName: first
+gecos: first last
+displayName: first last
+loginShell: /bin/sh
+mail: test_user@domain.com
+krbPrincipalName: test_user@domain.com
+initials: tu
+</pre></div>
+</div>
+</section>
+<section id="assign-group-memberships-already-available">
+<span id="id28"></span><h4>Assign Group Memberships (already available)<a class="headerlink" href="#assign-group-memberships-already-available" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer uses standard FreeIPA calls to assign membership</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">group-add-member</span> <span class="pre">testgroup</span> <span class="pre">--user</span> <span class="pre">tuser</span></code></p>
+</div></blockquote>
+</li>
+<li><p>This command is only available on ‘Active’ entries. When a ‘Stage’
+entry containing <em>memberOf</em> attribute is
+<a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Activate_User">Activate</a>,
+the <em>memberOf</em> attribute is not preserved and membershift is
+recomputed .</p></li>
+</ol>
+</section>
+<section id="update-user-already-available">
+<span id="id29"></span><h4>Update User (already available)<a class="headerlink" href="#update-user-already-available" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer uses standard FreeIPA calls to modify user
+attributes (including password)</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-mod</span> <span class="pre">tuser</span> <span class="pre">--phone=123456789</span></code></p>
+</div></blockquote>
+</li>
+<li><p>Regular user uses standard FreeIPA CLI calls to modify its own entry
+(including password)</p></li>
+<li><p>Standard FreeIPA CLI does not allow to modify</p>
+<p>:* ipaUniqueID</p>
+<p>:* objectclass</p>
+</li>
+<li><p>When updating DN syntax attributes (like <em>–manager</em> option) , if the
+entry is not an <em>Active</em> entry the modification fails.</p></li>
+</ol>
+</section>
+<section id="change-password-already-available">
+<span id="id30"></span><h4>Change Password (already available)<a class="headerlink" href="#change-password-already-available" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer uses standard FreeIPA calls to change user password:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">passwd</span> <span class="pre">tuser</span></code></p>
+</div></blockquote>
+</li>
+<li><p>Regular user uses same CLI to modify the password of its own entry</p></li>
+</ol>
+</section>
+<section id="delete-user">
+<span id="id31"></span><h4>Delete User<a class="headerlink" href="#delete-user" title="Permalink to this heading">¶</a></h4>
+<p>Once activated a user is fully managed by freeIPA. If the user leaves
+the company, his account can be <em>permanently</em> removed (deleting the ldap
+entry) or moved (modrdn) to a ‘Delete’ container (cn=deleted
+users,cn=accounts,cn=provisioning,$SUFFIX) in order to preserve it.</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-del</span> <span class="pre">tuser</span> <span class="pre">[[--no-preserve][--preserve]]</span></code></p>
+</div></blockquote>
+<p>Option <em>–no-preserve</em> and <em>–preserve</em> are mutually exclusive. The
+default option is <em>–no-preserve</em>. A configuration attribute could
+decide what is the default option (see <a class="reference external" href="http://post-office.corp.redhat.com/archives/ipa-and-samba-team-list/2015-March/msg00488.html">global
+policy</a>)<strong>TBD</strong></p>
+<p>If the entry was preserved (moved to <em>Delete</em> container), it can be
+deleted (permanently) with the same command.</p>
+<p>Both <em>Active</em>/<em>Delete</em> containers are under <em>uid</em> attribute uniqueness.
+So for a give value <em>val</em>, it exists either
+<em>uid=val,cn=accounts,$SUFFIX</em> or <em>uid=val,cn=deleted
+users,cn=accounts,cn=provisioning,$SUFFIX</em>. So when the Support engineer
+decides to delete a user, he does not need to specify if the user is in
+<em>Delete</em> or <em>Active</em> state.</p>
+<ol class="arabic">
+<li><p>delete (Permanently) of an active entry</p>
+<ol class="arabic simple">
+<li><p>This is done by a direct ldap delete of the entry.</p></li>
+<li><p>all references to the entry are
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00083.html">removed</a>.
+That is done by <a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Referential_integrity">referential
+integrity</a>
+and
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#MemberOf_plugin">memberof</a>
+that scope <em>Active</em> containers.</p></li>
+</ol>
+</li>
+<li><p>delete (preserve) of an active entry</p>
+<ol class="arabic">
+<li><p>removes <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00427.html">credential
+attributes</a>
+<code class="docutils literal notranslate"><span class="pre">userPassword</span></code> and kerberors keys (krbPrincipalKey,
+krbLastPwdChange and krbPasswordExpiration) attributes to prevent
+any chance of using that entry to bind to LDAP server</p></li>
+<li><p>save <em>manager/managedby/secretary</em> that may get cleared when the
+entry will be moved to Delete container</p></li>
+<li><p>LDAP MODRDN operation on LDAP entry to move the entry (discussed
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00080.html">1</a>
+and
+<a class="reference external" href="http://post-office.corp.redhat.com/archives/ipa-and-samba-team-list/2015-March/msg00492.html">2</a>
+and
+<a class="reference external" href="http://post-office.corp.redhat.com/archives/ipa-and-samba-team-list/2015-March/msg00546.html">3</a>)</p>
+<blockquote>
+<div><p>Source: cn=users,cn=accounts,SUFFIX
+Destination: cn=deleted
+users,cn=accounts,cn=provisioning,SUFFIX</p>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p>all references to the entry must be
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00083.html">removed</a>.
+That is done by <a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Referential_integrity">referential
+integrity</a>
+and
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#MemberOf_plugin">memberof</a>
+that only scope <em>Active</em> containers.</p></li>
+</ol>
+</li>
+<li><p>Replace others existing DN syntax attributes with an <em>Empty</em></p>
+<ol class="arabic simple">
+<li><p>DN syntax attributes contains reference to entries. When the
+user entry is in <em>Delete</em> container, it is no longer in the
+scope of integrity plugin and then may contain invalid values
+(Note: is it usefull ? attribute covered by RI have been
+cleared on MODRDN, attribute not covered may be checked during
+activation rather than clearing them)</p></li>
+<li><p>removing the attribute may not be possible if it is required by
+the schema. So the attribute will be kept with an
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00100.html">Empty</a>
+value.</p></li>
+</ol>
+</li>
+<li><p>restore <em>manager/managedby/secretary</em> with the original values</p>
+<ol class="arabic simple">
+<li><p>if later the entry is
+<a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Activate_StageUser">activated</a>
+or
+<a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Restore_Deleted_User">restored</a>,
+the value of those attributes will be checked.</p></li>
+</ol>
+</li>
+<li><p>Some attributes are preserved, so that a corrupted active entry
+can get deleted/staged/activate and keep its previous settings</p>
+<ol class="arabic simple">
+<li><p>ipaUniqueID</p></li>
+<li><p>uidNumber</p></li>
+<li><p>gidNumber</p></li>
+<li><p><a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00501.html">passwordHistory</a></p></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>delete (Permanently) of a <em>Delete</em> entry</p>
+<ol class="arabic simple">
+<li><p>This is done by a direct ldap delete of the entry.</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="restore-deleted-user">
+<span id="id32"></span><h4>Restore Deleted User<a class="headerlink" href="#restore-deleted-user" title="Permalink to this heading">¶</a></h4>
+<p>Once activated a user is fully managed by freeIPA. If the user leaves
+the company, his account is moved to a ‘Delete’ Status and is hold in a
+separated container (cn=deleted
+users,cn=accounts,cn=provisioning,$SUFFIX). Both Active/Delete
+containers are under uid attribute uniqueness. So for a give value val,
+if the entry was delelte (uid=val,cn=deleted
+users,cn=accounts,cn=provisioning,$SUFFIX) it does not exists
+uid=val,cn=accounts,$SUFFIX.</p>
+<p>Once deleted a user entry still contains some properties that are
+specific to the former user. The user account may becomes <em>Active</em>
+again,</p>
+<ol class="arabic">
+<li><p>Support engineer call the following command</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-undel</span> <span class="pre">tuser</span></code></p>
+</div></blockquote>
+</li>
+<li><p>user-undel triggers LDAP MODRDN operation on LDAP entry to move the
+entry (appropriate
+<a class="reference external" href="https://fedorahosted.org/389/ticket/47553">aci</a> allows only
+support engineer to move the entry)</p>
+<blockquote>
+<div><p>Source: cn=deleted users,cn=accounts,cn=provisioning,SUFFIX
+Destination: cn=users,cn=accounts,SUFFIX
+DS plugin will recompute the memberbship attributes and will add
+<em>nsAccountLock: True</em></p>
+</div></blockquote>
+</li>
+<li><p>There is
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Adjustment_of_DN_syntax_attributes">ajustments</a>
+of DN syntax attributes</p></li>
+</ol>
+</section>
+<section id="lock-user-already-available">
+<span id="id33"></span><h4>Lock User (already available)<a class="headerlink" href="#lock-user-already-available" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer uses standard FreeIPA call:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-disable</span> <span class="pre">tuser</span></code></p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nsAccountLock</span></code> operation attribute is put to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, user cannot
+bind to LDAP. Membership and password attributes are preserved</p></li>
+<li><p>Only <em>Active</em> account can be locked/disabled</p></li>
+</ol>
+</section>
+<section id="unlock-user-already-available">
+<span id="id34"></span><h4>Unlock User (already available)<a class="headerlink" href="#unlock-user-already-available" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Support engineer uses standard FreeIPA call:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-enable</span> <span class="pre">tuser</span></code></p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nsAccountLock</span></code> operation attribute is put to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, user
+operation is restored</p></li>
+<li><p>Only <em>Active</em> account can be unlocked/enabled</p></li>
+</ol>
+</section>
+<section id="find-user">
+<span id="id35"></span><h4>Find User<a class="headerlink" href="#find-user" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>authenticate user can find an <em>Active</em> account (<em>Active</em> container
+<em>cn=users,cn=accounts,$SUFFIX</em>) with</p>
+<blockquote>
+<div><p>ipa user-find [] []</p>
+</div></blockquote>
+</li>
+<li><p>a new flag <em>–preserved=true</em> is used to find the entries from the
+<em>Delete</em> container (<em>cn=deleted
+users,cn=accounts,cn=provisioning,$SUFFIX</em>)</p></li>
+<li><p>by default or if the flag is <em>–preserved=false</em> it only lookup into
+the <em>Active</em> container</p></li>
+</ol>
+<p>In addition if the retrieved entry is <em>preserved</em> it displays a flag:
+<strong>Preserved user: True</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="n">find</span> <span class="o">--</span><span class="n">preserved</span><span class="o">=</span><span class="n">true</span>
+<span class="o">--------------</span>
+<span class="mi">1</span> <span class="n">user</span> <span class="n">matched</span>
+<span class="o">--------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">xy2</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">x</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">y</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xy2</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">xy2</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">1337000003</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">1337000003</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Preserved</span> <span class="n">user</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">1</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+</section>
+<section id="show-user">
+<span id="id36"></span><h4>Show User<a class="headerlink" href="#show-user" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>authenticate user can show an <em>Active</em> account (entry
+<em>uid=LOGIN,cn=users,cn=accounts,$SUFFIX</em>)</p>
+<blockquote>
+<div><p>ipa user-show &lt;<em>LOGIN</em>&gt; []</p>
+</div></blockquote>
+</li>
+<li><p>This command can retrieve <em>Active</em> or <em>Deleted</em> account. If the
+returned account is <em>delete</em> account, it displays a flag: <strong>Preserved
+user: True</strong></p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="n">show</span> <span class="n">xy2</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">xy2</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">x</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">y</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xy2</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">xy2</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">1337000003</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">1337000003</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Preserved</span> <span class="n">user</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="placeholders">
+<h2>Placeholders<a class="headerlink" href="#placeholders" title="Permalink to this heading">¶</a></h2>
+<p>When an entry is created using FreeIPA CLI
+<a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management#user-add">user-add</a>,
+the value of the required attributes need to be specify somewhere.
+Usually it is provided using the CLI options or if absent CLI uses some
+default values.</p>
+<p>A provisioning system when creating an entry needs to provide all
+required attribute or to modify the CLI to adapt the default values.
+That is not really flexible.</p>
+<p>In addition with User Life Cycle, an entry will follow a workflow that
+means that some require attribute value may be unknown at some point of
+the flow and defined later. If a new plugin is developed to generate the
+value, it requires to adapt CLI options/default value.</p>
+<p>Instead of that we will use placeholders. A placeholder is added to the
+entry and contains an initial value (waiting for its final value to be
+set). A placeholder is couple attribute/value that defines the default
+value of a given attribute. The placeholders definitions will be stored
+under the FreeiPa configuration under the following entries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># placeholders for ADD entries
+dn: cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: placeholders
+objectClass: top
+objectClass: extensibleObject
+
+# placeholders for ADDed entries in staging
+dn: cn=stage,cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: stage
+objectClass: top
+objectClass: extensibleObject
+&lt;attrname&gt;: &lt;value&gt;
+...
+
+#placeholders for ADDed entries in active
+dn: cn=active,cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: active
+objectClass: top
+objectClass: extensibleObject
+&lt;attrname&gt;: &lt;value&gt;
+...
+</pre></div>
+</div>
+<section id="syntax">
+<h3>Syntax<a class="headerlink" href="#syntax" title="Permalink to this heading">¶</a></h3>
+<p>attribute name is : ALPHA *(ALPHA / DIGIT / HYPHEN)</p>
+<p>The value of the placeholder may be used in different attribute types
+with different syntaxes, they should follow the most restrictive syntax.
+In case of LDAP, it should follow <em>Printable String</em> syntax (also see
+RFC 4517):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PrintableCharacter</span> <span class="o">=</span> <span class="n">ALPHA</span> <span class="o">/</span> <span class="n">DIGIT</span> <span class="o">/</span> <span class="n">SQUOTE</span> <span class="o">/</span> <span class="n">LPAREN</span> <span class="o">/</span> <span class="n">RPAREN</span> <span class="o">/</span>
+                                <span class="n">PLUS</span> <span class="o">/</span> <span class="n">COMMA</span> <span class="o">/</span> <span class="n">HYPHEN</span> <span class="o">/</span> <span class="n">DOT</span> <span class="o">/</span> <span class="n">EQUALS</span> <span class="o">/</span>
+                                <span class="n">SLASH</span> <span class="o">/</span> <span class="n">COLON</span> <span class="o">/</span> <span class="n">QUESTION</span> <span class="o">/</span> <span class="n">SPACE</span>
+<span class="n">PrintableString</span>    <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">PrintableCharacter</span>
+</pre></div>
+</div>
+</section>
+<section id="mechanism">
+<h3>Mechanism<a class="headerlink" href="#mechanism" title="Permalink to this heading">¶</a></h3>
+<p>When creating an entry, the CLI picks up all definitions found in the
+placeholders (of the container) and add them to the entry. There is no
+modification of the value from what is in the placeholder definition.</p>
+<p>An exception is if the placeholder value starts and finishes with ‘
+<strong>?</strong> ‘, then CLI strip ‘ <strong>?</strong> ‘ from the value before adding it (i.e.
+placeholder value is ‘?autogenerate?’ -&gt; added value is ‘autogenerate’).</p>
+</section>
+<section id="priority">
+<h3>Priority<a class="headerlink" href="#priority" title="Permalink to this heading">¶</a></h3>
+<p>When an entry is created the attribute value is taken in the following
+order:</p>
+<ul class="simple">
+<li><p>CLI option</p></li>
+<li><p>placeholder</p></li>
+<li><p>CLI default value</p></li>
+</ul>
+<p>That means that if the attribute value is defined as a CLI option it
+selects it and the possible values in placeholder or default value are
+ignored. Else if the placeholder attribute exists in the placeholders
+entry it selects the placeholder value and the possible default value is
+ignored. Else it selects the default values.</p>
+</section>
+<section id="limitation-future-enhancement">
+<span id="id37"></span><h3>Limitation - Future enhancement<a class="headerlink" href="#limitation-future-enhancement" title="Permalink to this heading">¶</a></h3>
+<p>A placeholder allows an entry to conform the schema. In that purpose it
+is sufficient to define a single value for a required attribute. If a
+placeholder defines multiple values for an attribute, there is no
+guaranty that all the values will be added in the entry.</p>
+<p>As futur enhancement, we can imagine a placeholder being defined with:
+<em>homeDirectory: /home/net/%{uid}</em>. In that case for user ‘uid=tuser’,
+the added value for <strong>homeDirectory</strong> will be <strong>/home/net/tuser</strong></p>
+</section>
+</section>
+<section id="staging-container">
+<span id="id38"></span><h2>Staging container<a class="headerlink" href="#staging-container" title="Permalink to this heading">¶</a></h2>
+<section id="staging-tree">
+<span id="id39"></span><h3>Staging tree<a class="headerlink" href="#staging-tree" title="Permalink to this heading">¶</a></h3>
+<p>Core part of the feature is to allow provisioning system to add or
+delete users with standard LDAP protocol without a need to understand or
+use FreeIPA API. Standard tree of active FreeIPA users
+(<code class="docutils literal notranslate"><span class="pre">cn=users,cn=accounts,$SUFFIX</span></code>) is not used to avoid collisions or
+misinterpretation of active and staged users by other IdM systems.</p>
+<p>Staging tree should have the following structure:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SUFFIX</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cn=provisioning</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cn=accounts</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cn=staged</span> <span class="pre">users</span></code>: new staged users</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<section id="staging-users-in-a-special-database">
+<span id="id40"></span><h4>Staging Users in a Special Database<a class="headerlink" href="#staging-users-in-a-special-database" title="Permalink to this heading">¶</a></h4>
+<p><em>Stage</em> user container is separated from the <em>Active</em> container. A
+question is to store the containers in separated database or keep them
+in the same database protected by special ACIs. Both approaches have
+pros and cons.</p>
+<p>Pros</p>
+<ul class="simple">
+<li><p>Is naturally separated from standard FreeIPA objects, no need to
+re-configure existing plugins (like attribute uniqueness or memberOf
+plugin) to ignore users in the staging area</p></li>
+<li><p>Easier management in heterogeneous environment when some FreeIPA
+replicas have the feature and and some does not</p></li>
+</ul>
+<p>Cons</p>
+<ul class="simple">
+<li><p>Increased maintenance burden with multiple LDAP databases</p></li>
+<li><p>Increased maintenance burden with replication agreements of the new
+database</p></li>
+</ul>
+</section>
+<section id="staging-users-in-a-normal-suffix-preferred">
+<span id="id41"></span><h4>Staging Users in a Normal Suffix (preferred)<a class="headerlink" href="#staging-users-in-a-normal-suffix-preferred" title="Permalink to this heading">¶</a></h4>
+<p id="pros-1">Pros</p>
+<ul class="simple">
+<li><p>IdM systems are kept idempotent - command to activate a user or
+moving it to deleted users tree can be done against any FreeIPA
+server.</p></li>
+<li><p>No need to manage new databases or replication agreements</p></li>
+</ul>
+<p id="cons-1">Cons</p>
+<ul class="simple">
+<li><p>Staging or deleted users container may interfere with normal users in
+the <code class="docutils literal notranslate"><span class="pre">cn=users,cn=accounts,$SUFFIX</span></code> in older FreeIPA replicas. Even
+though the tree is not visible by standard users due to ACIs, it is
+still visible by plugins.</p></li>
+<li><p>during upgrade from a old instance, the Staging/deleted containers
+will be created if they do not already exists. The use of COS to
+disable potential already existing stage/deleted entry will prevent
+to authenticate with them.</p></li>
+<li><p>Running in a topology with different versions, will require that the
+ACI, containers are replicated</p></li>
+</ul>
+</section>
+</section>
+<section id="stage-placeholders">
+<span id="id42"></span><h3>Stage placeholders<a class="headerlink" href="#stage-placeholders" title="Permalink to this heading">¶</a></h3>
+<p>The placeholders for the staging container are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># placeholders for ADD entries
+dn: cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: placeholders
+objectClass: top
+objectClass: extensibleObject
+
+# placeholders for ADDed entries in staging
+dn: cn=stage,cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: stage
+objectClass: top
+objectClass: extensibleObject
+uidNumber: -1
+gidNumber: -1
+ipaUniqueId: ?autogenerate?
+nsAccountLock: yes
+</pre></div>
+</div>
+</section>
+<section id="stage-entry-requirements">
+<span id="id43"></span><h3>Stage entry requirements<a class="headerlink" href="#stage-entry-requirements" title="Permalink to this heading">¶</a></h3>
+<p>This container can contain entries coming from</p>
+<ul class="simple">
+<li><p>external provisioning systems</p></li>
+<li><p>stageuser CLI (stageuser-add)</p></li>
+<li><p><em>Delete</em> entries</p></li>
+</ul>
+<p>The common requirements from these origins are</p>
+<ul class="simple">
+<li><p>entry must conform the schema</p></li>
+<li><p>Entry RDN attribute is ‘ uid ‘ (see <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-May/msg00407.html">Supported Staged
+entries</a>)</p></li>
+<li><p>entry is disabled (i.e. contains operational attribute
+‘nsAccountLock: True’)</p></li>
+<li><p><em>ipaUniqueID</em> is set to <em>autogenerate</em>. This requirement is not
+enforced for provisioning systems (but for stageuser CLI) but if an
+entry have a different value its value will be reset during
+activation of the <em>Stage</em> entry (stageuser-activate). (see
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00344.html">ipaUniqueID
+reset</a>)</p></li>
+</ul>
+</section>
+<section id="example-of-stage-entry-provisioning-origin">
+<span id="id44"></span><h3>Example of Stage entry (provisioning origin)<a class="headerlink" href="#example-of-stage-entry-provisioning-origin" title="Permalink to this heading">¶</a></h3>
+<p>In addition to the common requirements above, the entry may contains any
+objectclasses/attributes</p>
+</section>
+<section id="example-of-stage-entry-stageuser-add">
+<span id="id45"></span><h3>Example of Stage entry (stageuser-add)<a class="headerlink" href="#example-of-stage-entry-stageuser-add" title="Permalink to this heading">¶</a></h3>
+<p>A <em>staged</em> entry created with FreeIPA CLI is looking like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: uid=test_user, cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
+objectClass: top
+objectClass: person
+objectClass: organizationalperson
+objectClass: inetorgperson
+objectClass: inetuser
+objectClass: posixaccount
+objectClass: krbprincipalaux
+objectClass: krbticketpolicyaux
+objectClass: ipaobject
+objectClass: ipasshuser
+objectClass: ipaSshGroupOfPubKeys
+homeDirectory: /home/tuser
+uidNumber: -1
+gidNumber: -1
+ipaUniqueID: autogenerate
+nsAccountLock: yes
+uid: test_user
+cn: first last
+sn: last
+givenName: first
+gecos: first last
+displayName: first last
+loginShell: /bin/sh
+mail: test_user@domain.com
+krbPrincipalName: test_user@domain.com
+initials: tu
+</pre></div>
+</div>
+<p>In case CLI option/placeholder do not define them, the entries in
+staging will contains those default values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">uid</span></code>: generated from first letter of <code class="docutils literal notranslate"><span class="pre">cn</span></code> and <code class="docutils literal notranslate"><span class="pre">sn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">givenName</span></code>: generated from <code class="docutils literal notranslate"><span class="pre">cn</span></code> by removing the last part of the
+name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">displayName</span></code>: copied from <code class="docutils literal notranslate"><span class="pre">cn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initials</span></code>: first letter of <code class="docutils literal notranslate"><span class="pre">cn</span></code>, first letter of <code class="docutils literal notranslate"><span class="pre">sn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">homeDirectory</span></code>: default value defined in FreeIPA configuration</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gecos</span></code>: copied from <code class="docutils literal notranslate"><span class="pre">cn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loginShell</span></code>: default value defined in FreeIPA configuration</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mail</span></code>: generated from uid and default domain defined in FreeIPA
+configuration</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">krbPrincipalName</span></code>: generate from uid and kerberos realm defined in
+FreeIPA configuration</p></li>
+</ul>
+<p>The way those values are generated is hardcoded in the CLI core.</p>
+</section>
+<section id="example-of-stage-entry-stageuser-undel">
+<span id="id46"></span><h3>Example of Stage entry (stageuser-undel)<a class="headerlink" href="#example-of-stage-entry-stageuser-undel" title="Permalink to this heading">¶</a></h3>
+<p>A <em>staged</em> entry that is created from a former <em>Delete</em> entry mainly
+differs from an entry created by <em>stageuser-add</em> because the following
+attributes:</p>
+<ul class="simple">
+<li><p>uidNumber (with value different from <strong>-1</strong>)</p></li>
+<li><p>gidNumber (with value different from <strong>-1</strong>)</p></li>
+<li><p>ipaUniqueID (with value different from <strong>autogenerate</strong>)</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: uid=test_user, cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
+objectClass: top
+objectClass: person
+objectClass: organizationalperson
+objectClass: inetorgperson
+objectClass: inetuser
+objectClass: posixaccount
+objectClass: krbprincipalaux
+objectClass: krbticketpolicyaux
+objectClass: ipaobject
+objectClass: ipasshuser
+objectClass: ipaSshGroupOfPubKeys
+homeDirectory: /home/tuser
+uidNumber: 646400009
+gidNumber: 646400009
+ipaUniqueID: 3f1b5cce-e1b8-11e3-86fe-001a4a104ecd
+nsAccountLock: yes
+uid: test_user
+cn: first last
+sn: last
+givenName: first
+gecos: first last
+displayName: first last
+loginShell: /bin/sh
+mail: test_user@domain.com
+krbPrincipalName: test_user@domain.com
+initials: tu
+</pre></div>
+</div>
+</section>
+</section>
+<section id="active-container">
+<span id="id47"></span><h2>Active container<a class="headerlink" href="#active-container" title="Permalink to this heading">¶</a></h2>
+<section id="active-tree">
+<span id="id48"></span><h3>Active tree<a class="headerlink" href="#active-tree" title="Permalink to this heading">¶</a></h3>
+<p>Active entries are under <em>cn=users,cn=accounts,SUFFIX</em></p>
+</section>
+<section id="active-placeholders">
+<span id="id49"></span><h3>Active Placeholders<a class="headerlink" href="#active-placeholders" title="Permalink to this heading">¶</a></h3>
+<p>The placeholders for the <em>Active</em> container are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># placeholders for ADD entries
+dn: cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: placeholders
+objectClass: top
+objectClass: extensibleObject
+
+# placeholders for ADDed active entries
+dn: cn=active,cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
+cn: active
+objectClass: top
+objectClass: extensibleObject
+uidNumber: -1
+gidNumber: -1
+ipaUniqueId: ?autogenerate?
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">uidNumber</span></code>: value generated by FreeIPA DNA plugin, based on the
+defined UID range of the server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gidNumber</span></code>: copied from uidNumber</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ipaUniqueId</span></code>(final value generated by FreeIPA IPA UUID plugin)</p></li>
+</ul>
+</section>
+<section id="active-entry-requirements">
+<span id="id50"></span><h3>Active entry requirements<a class="headerlink" href="#active-entry-requirements" title="Permalink to this heading">¶</a></h3>
+<p>The requirements for active entries are</p>
+<ul class="simple">
+<li><p>entry must conform the schema</p></li>
+<li><p>entry RDN is uid</p></li>
+<li><p>entry is enabled (<em>nsAccountLock: False</em> or absent)</p></li>
+<li><p>entry is a <em>objectclass: posixAccount</em> and contains the following
+required attributes</p>
+<ul>
+<li><p>uidNumber (final value generated by FreeIPA DNA plugin)</p></li>
+<li><p>gidNumber (final value generated by FreeIPA DNA plugin)</p></li>
+<li><p>ipaUniqueId (final value generated by FreeIPA IPA UUID plugin)</p></li>
+<li><p>homeDirectory (generated from default FeeIPA configuration
+cn=ipaConfig,cn=etc,$SUFFIX)</p></li>
+<li><p>uid/cn (generated from the CLI)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="example-of-active-entry-user-add">
+<span id="id51"></span><h3>Example of Active entry (user-add)<a class="headerlink" href="#example-of-active-entry-user-add" title="Permalink to this heading">¶</a></h3>
+<p>The freeipa CLI creates an entry like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">test_user</span><span class="p">,</span> <span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalperson</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">inetuser</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">posixaccount</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">krbprincipalaux</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">krbticketpolicyaux</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaobject</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipasshuser</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaSshGroupOfPubKeys</span>
+<span class="n">homeDirectory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">tuser</span>
+<span class="n">uidNumber</span><span class="p">:</span> <span class="mi">646400009</span>
+<span class="n">gidNumber</span><span class="p">:</span> <span class="mi">646400009</span>
+<span class="n">ipaUniqueID</span><span class="p">:</span> <span class="mi">3</span><span class="n">f1b5cce</span><span class="o">-</span><span class="n">e1b8</span><span class="o">-</span><span class="mf">11e3</span><span class="o">-</span><span class="mi">86</span><span class="n">fe</span><span class="o">-</span><span class="mi">001</span><span class="n">a4a104ecd</span>
+<span class="n">nsAccountLock</span><span class="p">:</span> <span class="n">yes</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">test_user</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">first</span> <span class="n">last</span>
+<span class="n">sn</span><span class="p">:</span> <span class="n">last</span>
+<span class="n">givenName</span><span class="p">:</span> <span class="n">first</span>
+<span class="n">gecos</span><span class="p">:</span> <span class="n">first</span> <span class="n">last</span>
+<span class="n">displayName</span><span class="p">:</span> <span class="n">first</span> <span class="n">last</span>
+<span class="n">loginShell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+<span class="n">mail</span><span class="p">:</span> <span class="n">test_user</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+<span class="n">krbPrincipalName</span><span class="p">:</span> <span class="n">test_user</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+<span class="n">initials</span><span class="p">:</span> <span class="n">tu</span>
+<span class="n">memberOf</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">ipausers</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="delete-container">
+<span id="id52"></span><h2>Delete container<a class="headerlink" href="#delete-container" title="Permalink to this heading">¶</a></h2>
+<section id="delete-tree">
+<span id="id53"></span><h3>Delete tree<a class="headerlink" href="#delete-tree" title="Permalink to this heading">¶</a></h3>
+<p>Delete entries are under <em>cn=deleted users,cn=accounts,cn=provisioning,
+SUFFIX</em></p>
+</section>
+<section id="delete-placeholders">
+<span id="id54"></span><h3>Delete placeholders<a class="headerlink" href="#delete-placeholders" title="Permalink to this heading">¶</a></h3>
+<p>N/A No entry are added in the <em>Delete</em> container</p>
+</section>
+<section id="delete-entry-requirements">
+<span id="id55"></span><h3>Delete entry requirements<a class="headerlink" href="#delete-entry-requirements" title="Permalink to this heading">¶</a></h3>
+<p>A <em>Delete</em> entry was create with
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Delete_User">user-del</a>
+and conform the following requirements</p>
+<ul class="simple">
+<li><p>entry must conform the schema</p></li>
+<li><p>entry RDN is uid</p></li>
+<li><p>entry is disabled (nsAccountLock: True)</p></li>
+<li><p>entry is a objectclass: posixAccount and contains the at least the
+following required attributes</p>
+<ul>
+<li><p>uidNumber (value different from <strong>-1</strong>)</p></li>
+<li><p>gidNumber (value different from <strong>-1</strong>)</p></li>
+<li><p>ipaUniqueId (value different from <strong>autogenerate</strong>)</p></li>
+<li><p>homeDirectory</p></li>
+<li><p>uid</p></li>
+<li><p>cn</p></li>
+</ul>
+</li>
+<li><p>entry has no ‘memberof’ attribute</p></li>
+</ul>
+</section>
+<section id="example-of-delete-entry">
+<span id="id56"></span><h3>Example of Delete entry<a class="headerlink" href="#example-of-delete-entry" title="Permalink to this heading">¶</a></h3>
+<p>A entry in Delete container is looking like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">test_user</span><span class="p">,</span> <span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalperson</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">inetuser</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">posixaccount</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">krbprincipalaux</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">krbticketpolicyaux</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaobject</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipasshuser</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaSshGroupOfPubKeys</span>
+<span class="n">homeDirectory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">tuser</span>
+<span class="n">uidNumber</span><span class="p">:</span> <span class="mi">646400009</span>
+<span class="n">gidNumber</span><span class="p">:</span> <span class="mi">646400009</span>
+<span class="n">ipaUniqueID</span><span class="p">:</span> <span class="mi">3</span><span class="n">f1b5cce</span><span class="o">-</span><span class="n">e1b8</span><span class="o">-</span><span class="mf">11e3</span><span class="o">-</span><span class="mi">86</span><span class="n">fe</span><span class="o">-</span><span class="mi">001</span><span class="n">a4a104ecd</span>
+<span class="n">nsAccountLock</span><span class="p">:</span> <span class="n">yes</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">test_user</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">first</span> <span class="n">last</span>
+<span class="n">sn</span><span class="p">:</span> <span class="n">last</span>
+<span class="n">givenName</span><span class="p">:</span> <span class="n">first</span>
+<span class="n">gecos</span><span class="p">:</span> <span class="n">first</span> <span class="n">last</span>
+<span class="n">displayName</span><span class="p">:</span> <span class="n">first</span> <span class="n">last</span>
+<span class="n">loginShell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+<span class="n">mail</span><span class="p">:</span> <span class="n">test_user</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+<span class="n">krbPrincipalName</span><span class="p">:</span> <span class="n">test_user</span><span class="nd">@domain</span><span class="o">.</span><span class="n">com</span>
+<span class="n">initials</span><span class="p">:</span> <span class="n">tu</span>
+<span class="n">nsAccountLock</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Authentication is not allowed with ``\</span> <span class="pre">*``Stage``*\</span> <span class="pre">`` and ``\</span> <span class="pre">*``Delete``*\</span> <span class="pre">`` entries. Authentication can be done with simple bind or through an external mechanism (like GSSAPI).</span></code></p>
+<section id="staging-entry">
+<span id="id57"></span><h3>Staging entry<a class="headerlink" href="#staging-entry" title="Permalink to this heading">¶</a></h3>
+<p>A first idea to prevent this authentication was to prevent credentials
+(password / krb keys) creation in both stageuser-add/stageuser-mod. But
+this is not enough because provisioning system can create entries with
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00440.html">userPassword</a>
+and then allow simple bind. For kerberos authentication, it requires
+kerberos keys that are generated from a plain text password.
+<em>userPassword</em> being stored in an hashed way, we can not generate
+kerberos keys from a stored password. kerberos keys need to be generated
+when the <em>userPassword</em> is set (see
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00462.html_credential">https://www.redhat.com/archives/freeipa-devel/2014-June/msg00462.html
+credential</a>).
+So if a stage entry receives a <em>userPassword</em> then kerberos keys need to
+be generated as well. That means:</p>
+<ul class="simple">
+<li><p>stageuser-add / staguser-mod must support <em>–password</em> option</p></li>
+<li><p><em>ipa-pwd-extop</em> DS plugin must scope <em>Stage</em> container.</p></li>
+</ul>
+<p>To prevent authentication from <em>Stage</em> entry, we can use two methods:</p>
+<ul class="simple">
+<li><p>using a COS (likely a pointer COS), that <em>overwrite</em> the
+<em>nsAccountLock operational attribute.</em>nsAccountLock<em>is added to
+an</em>Active<em>entry when we need to disable (user-disable) it. It
+prevents simple bind as well as kerberos authentication. It is quite
+easy to implement (likely in the</em>.updates’’ files). A drawback is to
+use a DS opertional attribute to do this.</p></li>
+<li><p>using a <em>pre-op</em> DS plugin, that would reject <em>bind</em> (simple or SASL)
+on <em>Stage</em> and <em>Delete</em> containers. It is a bit more complex solution
+and requires a new deliverable.</p></li>
+</ul>
+<p>The <em>COS</em> solution will be use because it seems good enough without
+major drawback</p>
+</section>
+<section id="active-entry">
+<span id="id58"></span><h3>Active entry<a class="headerlink" href="#active-entry" title="Permalink to this heading">¶</a></h3>
+<p>Authentication is allowed with an <em>Active</em> entry (as long as it owns
+credential).</p>
+<p>If this is a newly <em>activated</em> (<em>stageuser-activate</em>) entry it owns
+credentials (userpassword/krb) at the condition <em>userPassword</em> was set
+in the staging area. To <em>activate</em> such entry it requires a
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-June/msg00505.html">change</a>
+in ipa-pwd-extop to relax the setting of pre-hashed password.</p>
+<p>If this is a newly <em>undelete</em> (“user-undelete”) entry, credentials have
+been removed. So it is not possible to authenticate with it before the
+<em>userPassword</em> (user-mod –password) is set (and krb keys generated).</p>
+<p>If this is a <em>True</em> new user (user-add), it is possible to authenticate
+with it at the condition it has <em>userPassword</em> and kerberos keys</p>
+</section>
+<section id="delete-entry">
+<span id="id59"></span><h3>Delete entry<a class="headerlink" href="#delete-entry" title="Permalink to this heading">¶</a></h3>
+<p>Authentication is not allowed with <em>Delete</em> entry. <em>Delete</em> entries are
+kept for legal or regulation reasons but they may become <em>Active</em>
+(user-undelete) or <em>Stage</em> (stageuser-add) again. In that case we do not
+want to preserve any credential because they are likely too old and we
+want the user to assign again new credential.</p>
+<p>So when deleting (user-delete) an <em>Active</em> entry, kerberos keys must be
+cleared. Password attribute must be cleared as well at the exception of
+passwordHistory. <em>passwordHistory</em> will prevent the user to reuse one of
+password it used when the entry was <em>Active</em>.</p>
+</section>
+</section>
+<section id="permissions-and-acis">
+<span id="id60"></span><h2>Permissions and ACIs<a class="headerlink" href="#permissions-and-acis" title="Permalink to this heading">¶</a></h2>
+<p>New permissions should be created:</p>
+<ul class="simple">
+<li><p><em>Add Staged Users</em></p></li>
+<li><p><em>Delete Staged Users</em></p></li>
+<li><p><em>Modify Staged Users</em></p></li>
+<li><p><em>Read Staged Users</em></p></li>
+<li><p><em>Discard Deleted Users</em></p></li>
+<li><p><em>Modify Deleted Users</em></p></li>
+<li><p><em>Read Deleted Users</em></p></li>
+</ul>
+<p><em>Add Deleted Users</em> permission is needed as this operation would be done
+by new DS plugin.</p>
+<p>New privilege should be created:</p>
+<ul class="simple">
+<li><p><em>Staged User Administrators</em>: should contain all permissions listed
+above</p></li>
+<li><p><em>Staged User Provisioning</em>: should contain <em>Add Staged Users</em>
+permission</p></li>
+</ul>
+<p>Following roles should be updated:</p>
+<ul class="simple">
+<li><p><em>User Administrator</em>: should contain <em>Staged User Administrators</em>
+privilege</p></li>
+</ul>
+<section id="allow-moving-staged-users-only">
+<span id="id61"></span><h3>Allow Moving Staged Users Only<a class="headerlink" href="#allow-moving-staged-users-only" title="Permalink to this heading">¶</a></h3>
+<p>We cannot distinguish a situation when a new user is added and when a
+user is moved (copied) from <em>staged</em> or <em>deleted</em> tree. Both require
+<em>add</em> access control on
+<code class="docutils literal notranslate"><span class="pre">cn=staged</span> <span class="pre">users,</span> <span class="pre">cn=accounts,cn=provisioning,SUFFIX</span></code> tree. It is
+therefore difficult to allow <em>helpdesk</em> people only moving an entry from
+<em>staged</em> tree and not allowing creating a new random user.</p>
+<p>The stageuser-activate command selects a stage user and “move” it to the
+active container. The stage user attributes/values may be not
+appropriated to because a true operational active user. The command
+prepares a new user entry, taking the existing values from the stage
+user and the check them, fills the required (for active user) values
+that are missing from the stage entry. So the “helpdesk” people will not
+move entry but always create new user from one the example stored in the
+staging container.</p>
+<p>User life cycle do not “move” entries (LDAP moddn) but create valid user
+and delete stage user/preserved user.</p>
+</section>
+<section id="moving-users-from-staging-tree-automatically">
+<span id="id62"></span><h3>Moving Users from Staging Tree Automatically<a class="headerlink" href="#moving-users-from-staging-tree-automatically" title="Permalink to this heading">¶</a></h3>
+<p>By default, new staged users are moved to active user area manually, by
+running a specified <code class="docutils literal notranslate"><span class="pre">user-add</span></code> command. However, some deployments may
+want to active users automatically. This operation should be done
+periodically using a custom script run on one chosen server (to prevent
+race unexpected conditions when more servers are activating staged
+users).</p>
+<section id="proposed-script-workflow">
+<span id="id63"></span><h4>Proposed Script Workflow<a class="headerlink" href="#proposed-script-workflow" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><em>kinit</em> as a special user (with keytab)</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">user-find</span></code>, search for all staged users</p></li>
+<li><p>For each new staged user:</p>
+<ul>
+<li><p>Activate user with <code class="docutils literal notranslate"><span class="pre">user-add</span></code>, log result</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="affected-directory-server-plugins">
+<span id="id64"></span><h2>Affected Directory Server Plugins<a class="headerlink" href="#affected-directory-server-plugins" title="Permalink to this heading">¶</a></h2>
+<p>Active FreeIPA plugins that are active in any user-related operation
+need to be checked or updated, to avoid interference with users in
+<em>staged</em> or <em>deleted</em> tree, namely:</p>
+<section id="dna-plugin">
+<span id="id65"></span><h3>DNA plugin<a class="headerlink" href="#dna-plugin" title="Permalink to this heading">¶</a></h3>
+<p>This plugin is reponsible to update <em>uidNumber</em> and <em>gidNumber</em>
+attribute. If those attributes have a predefined value (<em>dnaMagicRegen</em>:
+-1), then the plugin generate a new value and replace <em>-1</em> value with
+it. This plugin should not update values of <em>Stage</em> and <em>Delete</em>
+entries. so DNA plugin should exclude <em>cn=provisioning,SUFFIX</em> (relies
+on <a class="reference external" href="https://fedorahosted.org/389/ticket/47828">47828</a>) from its scope
+set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=Posix IDs,cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
+...
+dnaScope: $SUFFIX
+dnaExcludeScope: cn=provisioning,$SUFFIX
+dnaMagicRegen: -1
+dnaFilter: (|(objectClass=posixAccount)(objectClass=posixGroup)(objectClass=ipaIDobject))
+</pre></div>
+</div>
+<p>The following possibilities were evaluated but did not work:</p>
+<ul class="simple">
+<li><p><em>dnaScope: cn=accounts,$SUFFIX</em>. This is not possible because freeipa
+<em>trust</em> requires <em>cn=trusts,SUFFIX</em> (see <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-August/msg00186.html">trusted
+domains</a>)</p></li>
+<li><p><em>dnaFilter:
+(&amp;(|(objectClass=posixAccount)(objectClass=posixGroup)(objectClass=ipaIDobject))(!(entrydn=*cn=provisioning</em>)))*.
+This is not possible because <em>entrydn</em> is not present in the added
+entry when the DNA preop-plugin is called (see <a class="reference external" href="https://www.redhat.com/archives/freeipa-devel/2014-August/msg00198.html">filter
+entrydn</a>)</p></li>
+<li><p><em>trusts domain</em> is sharing the same DS config entry for <em>cn=Posix
+IDs,cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config</em>
+(because it needs the same IPA range). So having a different DNA
+config entry (i.e. “cn=Trust IDs,cn=Distributed Numeric Assignment
+Plugin,cn=plugins,cn=config’’ is not an option)</p></li>
+</ul>
+</section>
+<section id="krbprincipalname-uniqueness">
+<span id="id66"></span><h3>krbPrincipalName uniqueness<a class="headerlink" href="#krbprincipalname-uniqueness" title="Permalink to this heading">¶</a></h3>
+<p>This plugin is reponsible to enforce the uniqueness of an
+<em>krbPrincipalName</em> value in Active and Delete containers. So that a
+given value of <em>krbPrincipalName</em> is unique in both Delete and Active
+containers <em>together</em></p>
+<p>This is important the <em>krbPrincipalName</em> remains unique as for
+regulation, law or policy we need to be able to uniquely identify a user
+(Active or not) with his <em>krbPrincipalName</em></p>
+<p><em>Active</em> and <em>Delete</em> containers are under separated subtrees (see
+<a class="reference external" href="http://post-office.corp.redhat.com/archives/ldap-devel-list/2014-June/msg00158.html">attribute
+uniqueness</a>).
+In order to check simultaneous (requires
+<a class="reference external" href="https://fedorahosted.org/389/ticket/47823">47823</a>) both container
+the plugin configuration contains:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">krbPrincipalName</span> <span class="n">uniqueness</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">...</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAllSubtrees</span><span class="p">:</span> <span class="n">on</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAttributeName</span><span class="p">:</span> <span class="n">krbPrincipalName</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">uniqueness</span><span class="o">-</span><span class="n">across</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">subtrees</span><span class="p">:</span> <span class="n">on</span>
+</pre></div>
+</div>
+</section>
+<section id="krbcanonicalname-uniqueness">
+<span id="id67"></span><h3>krbCanonicalName uniqueness<a class="headerlink" href="#krbcanonicalname-uniqueness" title="Permalink to this heading">¶</a></h3>
+<p>For the same reasons as
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness">krbPrincipalName</a>,
+we apply the following configuration</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">krbCanonicalName</span> <span class="n">uniqueness</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">...</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAllSubtrees</span><span class="p">:</span> <span class="n">on</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAttributeName</span><span class="p">:</span> <span class="n">krbCanonicalName</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">uniqueness</span><span class="o">-</span><span class="n">across</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">subtrees</span><span class="p">:</span> <span class="n">on</span>
+</pre></div>
+</div>
+</section>
+<section id="uid-uniqueness">
+<span id="id68"></span><h3>uid uniqueness<a class="headerlink" href="#uid-uniqueness" title="Permalink to this heading">¶</a></h3>
+<p>For the same reasons as
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness">krbPrincipalName</a>,
+we apply the following configuration</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAllSubtrees</span><span class="p">:</span> <span class="n">on</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAttributeName</span><span class="p">:</span> <span class="n">uid</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">uniqueness</span><span class="o">-</span><span class="n">across</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">subtrees</span><span class="p">:</span> <span class="n">on</span>
+</pre></div>
+</div>
+</section>
+<section id="ipauniqueid-uniquness">
+<span id="id69"></span><h3>ipaUniqueID uniquness<a class="headerlink" href="#ipauniqueid-uniquness" title="Permalink to this heading">¶</a></h3>
+<p>For the same reasons as
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness">krbPrincipalName</a>,
+we apply the following configuration</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">ipaUniqueID</span> <span class="n">uniqueness</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">...</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAllSubtrees</span><span class="p">:</span> <span class="n">on</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginAttributeName</span><span class="p">:</span> <span class="n">ipaUniqueID</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">uniqueness</span><span class="o">-</span><span class="n">across</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">subtrees</span><span class="p">:</span> <span class="n">on</span>
+</pre></div>
+</div>
+<p><em>Stage</em> container is not part of the scope because first provisioning
+system can set any values and stageuser-add CLI creates entries with the
+same value <em>autogenerate</em></p>
+</section>
+<section id="referential-integrity">
+<span id="id70"></span><h3>Referential integrity<a class="headerlink" href="#referential-integrity" title="Permalink to this heading">¶</a></h3>
+<p>This plugin scopes <em>Active account</em> (nsslapd-pluginContainerScope and
+nsslapd-pluginEntryScope). To correctly update the reference in entries
+it requires that an <em>Active account</em> (<strong>A</strong>) refers only <em>Active
+accounts</em> (<strong>B</strong>) (This is a requirement enforced during
+stageuser-active, user-undel, user-mod, user-add). If it follow that
+requirements then:</p>
+<ul class="simple">
+<li><p>entry <em>B</em> is deleted (LDAP DEL) =&gt; entry <em>A</em> is updated removing <em>B</em>
+DN</p></li>
+<li><p>entry <em>B</em> is moved (MODRDN) in <em>Active</em> container =&gt; entry <em>A</em> is
+updated with the new DN</p></li>
+<li><p>entry <em>B</em> is moved (MODRDN) out of <em>Active</em> container (user-del) =&gt;
+entry <em>A</em> is updated removing <em>B</em> DN</p></li>
+</ul>
+<p>If an <em>Active account</em> does not follow this requirement, <em>Active
+account</em> <strong>A</strong> refers an external entry <strong>B</strong> ( in <em>Stage</em> or <em>Delete</em>
+or elsewhere), then the entry <strong>A</strong> may get corrupted</p>
+<ul class="simple">
+<li><p>entry <em>B</em> is deleted (LDAP DEL) =&gt; entry <em>A</em> is <strong>NOT</strong> modified</p></li>
+<li><p>entry <em>B</em> is moved (MODRDN) in <em>Active</em> container =&gt; entry <em>A</em> is
+updated with the new <em>B</em> DN</p></li>
+<li><p>entry <em>B</em> is moved (MODRDN) out of <em>Active</em> container =&gt; entry <em>A</em> is
+<strong>NOT</strong> modified</p></li>
+</ul>
+<p>The configuration of this plugin is :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">referential</span> <span class="n">integrity</span> <span class="n">postoperation</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">...</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginContainerScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEntryScope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+</pre></div>
+</div>
+</section>
+<section id="memberof-plugin">
+<span id="id71"></span><h3>MemberOf plugin<a class="headerlink" href="#memberof-plugin" title="Permalink to this heading">¶</a></h3>
+<p>MemberOf plugins excludes <em>Active</em> and <em>Delete</em> containers that are both
+under <em>cn=provisioning,SUFFX</em> (config attribute
+memberofentryscopeexcludesubtree). Like described in <a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Referential_integrity">referential
+integrity</a>
+if an <em>Active account</em> is member of a group and the account is deleted</p>
+<ul class="simple">
+<li><p>RI remove the (<em>member</em>) account from the group</p></li>
+<li><p>MemberOf plugin removes <em>memberof</em> from the account for the group</p></li>
+</ul>
+<p>the configuration of this plugin is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">MemberOf</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">..</span>
+<span class="n">memberofentryscope</span><span class="p">:</span> <span class="n">SUFFIX</span>
+<span class="n">memberofentryscopeexcludesubtree</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+</pre></div>
+</div>
+</section>
+<section id="managed-entries-plugin">
+<span id="id72"></span><h3>Managed Entries plugin<a class="headerlink" href="#managed-entries-plugin" title="Permalink to this heading">¶</a></h3>
+<p>When a new <em>Active</em> entry is created (ADD or MODRDN), it creates a
+managed entry and adds <em>mepManagedEntry</em> to the entry. When an <em>Active</em>
+entry is deleted (MODRDN or DEL), the managed entry is removed and
+<em>mepManagedEntry</em></p>
+<p>So configuration of that</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">NGP</span> <span class="n">Definition</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Definitions</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Managed</span> <span class="n">Entries</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="o">...</span>
+<span class="n">originscope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">hostgroups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+
+<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">UPG</span> <span class="n">Definition</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Definitions</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Managed</span> <span class="n">Entries</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">SUFFIX</span>
+ <span class="o">...</span>
+<span class="n">originscope</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">SUFFIX</span>
+</pre></div>
+</div>
+<p>When a <em>stage</em> entry is created/deleted it is not in under
+<em>originscope</em>, so no managed entry is added/delete. This is the expected
+behaviour. When a <em>stage</em> entry is activated, it is deleted from the
+stage container and added into the <em>Active</em> container. When it is added
+to the <em>Active</em> container, it falls under the scope of mep plugin and
+its managed entry is created. Here again this is the expected behavior.</p>
+<p>When an <em>Active</em> entry is deleted (permanently (del) or move (modrdn)
+from the <em>Active</em> container), its associated managed entry is deleted.
+This is the expected behavior.</p>
+<p>In conclusion, the current configuration of the mep plugin does not need
+to be change because of user life cycle.</p>
+</section>
+<section id="ipa-uuid-plugin">
+<span id="id73"></span><h3>IPA UUID plugin<a class="headerlink" href="#ipa-uuid-plugin" title="Permalink to this heading">¶</a></h3>
+<p>This plugin excludes <em>Stage</em> and <em>Delete</em> entries (ipaUuidExcludeSubtee)
+from generation of <em>ipaUniqueID</em> (if the current value is <em>autogenerate</em>
+(<em>ipauuidmagicregen</em>)). <em>Delete</em> entries (user-del) will keep the value
+of <em>ipaUniqueID</em>.</p>
+<p>The configuration of that plugin is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">IPA</span> <span class="n">Unique</span> <span class="n">IDs</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">IPA</span> <span class="n">UUID</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">...</span>
+<span class="n">ipaUuidExcludeSubtree</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-compatibility-plugin">
+<span id="id74"></span><h3>Schema Compatibility plugin<a class="headerlink" href="#schema-compatibility-plugin" title="Permalink to this heading">¶</a></h3>
+<p>should not be affected as it is already focused on
+<code class="docutils literal notranslate"><span class="pre">cn=users,</span> <span class="pre">cn=accounts,</span> <span class="pre">SUFFIX</span></code> tree only <strong>TBC</strong></p>
+</section>
+<section id="ipa-modrdn-plugin">
+<span id="id75"></span><h3>IPA MODRDN plugin<a class="headerlink" href="#ipa-modrdn-plugin" title="Permalink to this heading">¶</a></h3>
+<p>This plugin make sure that a targetattribute (<em>krbPrincipaLName</em>) is
+composed of a sourceattribute (RDN) (<em>uid</em>) and a given suffix. For
+example <em>uid=foo,cn=accounts,SUFFIX</em> will have <em>krbPrincipalName: foo&#64;</em>.</p>
+<p>Scoping the plugin to the full SUFFIX mean that <em>Stage</em> and <em>Delete</em>
+entries will be updated if the <em>sourceattribute</em> is modified. It is not
+strictly necessary, but it makes sense that any provisioning entry (even
+<em>Stage</em>) conforms the same rules as <em>Active</em>.</p>
+<p>So this plugin scope will not be restricted to <em>Active</em> entries but to
+the full SUFFIX.</p>
+</section>
+<section id="ipa-kdb">
+<span id="id76"></span><h3>ipa-kdb<a class="headerlink" href="#ipa-kdb" title="Permalink to this heading">¶</a></h3>
+<p><em>Stage</em> and <em>Delete</em> entries should not contain valid kerberos keys. Now
+to be sure <em>Stage</em> or <em>Delete</em> are not used for kerberos authentication,
+ipa-kdb should ignore users in <em>staged</em> or <em>deleted</em></p>
+</section>
+<section id="ipa-pwd-extop">
+<span id="id77"></span><h3>ipa-pwd-extop<a class="headerlink" href="#ipa-pwd-extop" title="Permalink to this heading">¶</a></h3>
+<p>This plugin should scope <em>Stage</em> and <em>Active</em> containers. In fact both
+<em>Stage</em> and <em>Active</em> container may receive <em>userpassword</em> (see
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Authentication">authenticate</a>)
+This plugin should allow the storing of pre-hashed password
+ipa-pwd-extop:ipapwd_pre_add must relax its control for example if the
+krb keys already exists in the entry (see
+<a class="reference external" href="http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Activate_StageUser">user-activate</a>)</p>
+</section>
+</section>
+<section id="future-enhancements">
+<span id="id78"></span><h2>Future enhancements<a class="headerlink" href="#future-enhancements" title="Permalink to this heading">¶</a></h2>
+<section id="deletion-of-active-user">
+<span id="id79"></span><h3>Deletion of active user<a class="headerlink" href="#deletion-of-active-user" title="Permalink to this heading">¶</a></h3>
+<p>When using the FreeIPA CLI
+<a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Delete_User">user-del</a>,
+the entry is moved (MODRDN) from the <em>Active</em> container to the <em>Delete</em>
+container. If the authorized person, issue LDAP DEL (outside of FreeIPA
+framework) on an active user the entry will be deleted permanently from
+the database and its properties lost. It could be interesting to
+implement a new preop DS plugin, which would intercept the LDAP delete
+operation and move the <em>Active</em> entry to the <em>Delete</em> container.</p>
+</section>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="http://www.freeipa.org/page/V3/User_Life-Cycle_Management/Implementation_Implementation_details">http://www.freeipa.org/page/V3/User_Life-Cycle_Management/Implementation
+Implementation
+details</a>
+still need to be defined. Consider this section as a work in progress.</p>
+<section id="freeipa-tickets">
+<span id="id80"></span><h2>FreeIPA tickets<a class="headerlink" href="#freeipa-tickets" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3911">#3911</a>: [RFE] Allow
+managing users add/modify/delete via LDAP client</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3813">#3813</a>: [RFE]
+Provide user lifecycle managment capabilities</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4675">#4675</a>: [RFE]
+prevent newly activated user to be immediatly in the configured
+automember groups</p></li>
+</ul>
+</section>
+<section id="directory-server-tickets">
+<span id="id81"></span><h2>389 Directory Server tickets<a class="headerlink" href="#directory-server-tickets" title="Permalink to this heading">¶</a></h2>
+<section id="scoping-of-plugins">
+<span id="id82"></span><h3>Scoping of plugins<a class="headerlink" href="#scoping-of-plugins" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47527">#47527</a>: Allow
+referential integrity suffixes to be configurable (fixed <em>1.3.2.8</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47621">#47621</a>: make
+referential integrity configuration more flexible (exclude subtree)
+(fixed <em>1.3.2.9</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47525">#47525</a>: Allow
+memberOf to use an alternate config area (fixed <em>1.3.3</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47526">#47526</a>: Allow
+memberOf suffixes to be configurable (fixed <em>1.3.2.8</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47829">#47829</a>: memberof
+scope: allow to exclude subtrees (fixed <em>1.3.3</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47828">#47828</a>: DNA scope:
+allow to exlude some subtrees</p></li>
+</ul>
+</section>
+<section id="others">
+<h3>others<a class="headerlink" href="#others" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47529">#47529</a>: Automember
+plug-in should treat MODRDN operations as ADD operations (fixed
+<em>1.3.3</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47553">#47553</a>: Enhance ACIs
+to have more control over MODRDN operations (fixed <em>1.3.3</em>)</p></li>
+<li><p><a class="reference external" href="https://fedorahosted.org/389/ticket/47823">#47823</a>: Enforce
+attribute uniqueness accross all the scoped subtrees (fixed <em>1.3.3</em>)</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>When user provisioning is enabled, add new tab to <em>Identity</em> section -
+<em>Staged Users</em>. There should be 2 user sections:</p>
+<ul class="simple">
+<li><p>List of <em>staged</em> users. Ability to make the staged user active</p></li>
+<li><p>List of <em>deleted</em> users. Ability to make the deleted user active and
+move either to <em>staged</em> or <em>active</em> users area.</p></li>
+</ul>
+<p>In <em>IPA Server</em> section, <em>Configuration</em> tab, there should be a new
+section <em>User Life-Cycle Management</em> with configuration options
+described in section <a class="reference external" href="#Major_configuration_options_and_enablement">#Major configuration options and
+enablement</a>.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<section id="user-add">
+<span id="id83"></span><h3>user-add<a class="headerlink" href="#user-add" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>New option <code class="docutils literal notranslate"><span class="pre">--from-staged=tuser</span></code>: activates user specified by it’s
+primary key in the <em>staged</em> tree</p></li>
+<li><p>New option <code class="docutils literal notranslate"><span class="pre">--to-staged</span></code>: creates a new user in the staging tree</p></li>
+<li><p>New option <code class="docutils literal notranslate"><span class="pre">--staged-pkey=uid</span></code>: optional, defines alternative
+primary key of the staged user. <code class="docutils literal notranslate"><span class="pre">uid</span></code> is the default</p></li>
+<li><p>New option <code class="docutils literal notranslate"><span class="pre">--from-deleted=tuser</span></code>: specifies primary key of the
+deleted user to be activated</p></li>
+</ul>
+</section>
+<section id="user-find">
+<span id="id84"></span><h3>user-find<a class="headerlink" href="#user-find" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>New option <code class="docutils literal notranslate"><span class="pre">--staged</span></code>: lists staged users instead of active users</p></li>
+<li><p>New option <code class="docutils literal notranslate"><span class="pre">--deleted</span></code>: lists deleted users instead of active users</p></li>
+</ul>
+</section>
+<section id="user-provisioning-is-enabled">
+<h3>user_provisioning_is_enabled<a class="headerlink" href="#user-provisioning-is-enabled" title="Permalink to this heading">¶</a></h3>
+<p>Returns TRUE if <code class="docutils literal notranslate"><span class="pre">cn=provisioning</span></code> exists. Will be used by Web UI to
+find out if the feature is enabled or not.</p>
+</section>
+<section id="config-mod">
+<span id="id85"></span><h3>config-mod<a class="headerlink" href="#config-mod" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>New config options described in section <a class="reference external" href="#Major_configuration_options_and_enablement">#Major configuration options
+and enablement</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>Following global user configuration options should be implemented:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipaStagedUserNumericMagic</span></code>: placeholder for generation of user
+value for numeric attribute types. Default is <strong>-1</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ipaStageDeletedUser</span></code>: move deleted users to <em>deleted</em> users tree
+instead of deleting them permanently. Default is <strong>FALSE</strong></p></li>
+</ul>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">cn=provisioning</span></code> subtree should be replicated.</p>
+<p>Given number of affected plugin configuration described in section
+<a class="reference external" href="#Affected_Directory_Server_Plugins">#Affected Directory Server
+Plugins</a> we should consider
+moving configuration of some of these plugins from <code class="docutils literal notranslate"><span class="pre">cn=config</span></code> to
+replicated tree to enable easier changes in the configuration.</p>
+<p>Attribute uniqueness will scope <em>Active</em> and <em>Delete</em> containers. In
+order to prevent replication issue, <strong>all</strong> activation
+(stageuser-activate) of user account should be done on the <strong>same</strong>
+server.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>Feature should not be enabled by default, but after running a
+configuration script <code class="docutils literal notranslate"><span class="pre">ipa-advanced-provisioning-install</span></code>. The script
+should:</p>
+<ol class="arabic simple">
+<li><p>Check if all replicas are of the current FreeIPA version. If not, it
+should end with error stating that the feature may have negative
+impact on the older FreeIPA versions. There should be a <code class="docutils literal notranslate"><span class="pre">--force</span></code>
+option to overcome this limitation.</p></li>
+<li><p>When check is successful or <code class="docutils literal notranslate"><span class="pre">--force</span></code> flag is used:</p>
+<ol class="arabic simple">
+<li><p>Create <code class="docutils literal notranslate"><span class="pre">cn=provisioning</span></code> structure</p></li>
+<li><p>Add new schema and config options</p></li>
+<li><p>Add new ACIs, permissions, privileges and roles</p></li>
+<li><p>Add new Directory Server plugins</p></li>
+<li><p>Restart Directory Server</p></li>
+</ol>
+</li>
+</ol>
+<section id="heterogeneous-environment">
+<span id="id86"></span><h2>Heterogeneous Environment<a class="headerlink" href="#heterogeneous-environment" title="Permalink to this heading">¶</a></h2>
+<p>If there is an environment with FreeIPA servers supporting the feature
+and olded FreeIPA servers, there may be issues with the life-cycle
+management, like:</p>
+<ul class="simple">
+<li><p>When user delete operation is run against an older FreeIPA server, it
+is not copied to <em>deleted</em> users tree</p></li>
+<li><p>Staged or deleted users in <code class="docutils literal notranslate"><span class="pre">cn=provisioning</span></code> tree may interfere
+with older FreeIPA and it’s DS plugins.</p></li>
+</ul>
+</section>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>Changes in <em>389 Directory Server</em> and <em>slapi-nis</em> packages will be
+required.</p>
+</section>
+<section id="how-to-test">
+<span id="how-to-test41"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<section id="external-provisioning-system-1">
+<span id="id87"></span><h2>External Provisioning System<a class="headerlink" href="#external-provisioning-system-1" title="Permalink to this heading">¶</a></h2>
+<section id="adding-new-user">
+<span id="id88"></span><h3>Adding New User<a class="headerlink" href="#adding-new-user" title="Permalink to this heading">¶</a></h3>
+<p>In following example, we will simulate adding new <em>Stage User</em> by
+provisioning system using the standard inetorgperson objectclass,
+without using any FreeIPA specific attribute.</p>
+<p>Add Stage User with ldapmodify:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ldapmodify -Y GSSAPI</span>
+<span class="n">SASL</span><span class="o">/</span><span class="n">GSSAPI</span> <span class="n">authentication</span> <span class="n">started</span>
+<span class="n">SASL</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span><span class="nd">@RHEL72</span>
+<span class="n">SASL</span> <span class="n">SSF</span><span class="p">:</span> <span class="mi">56</span>
+<span class="n">SASL</span> <span class="n">data</span> <span class="n">security</span> <span class="n">layer</span> <span class="n">installed</span><span class="o">.</span>
+<span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">stageuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+<span class="n">changetype</span><span class="p">:</span> <span class="n">add</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">Stage</span>
+<span class="n">sn</span><span class="p">:</span> <span class="n">User</span>
+
+<span class="n">adding</span> <span class="n">new</span> <span class="n">entry</span> <span class="s2">&quot;uid=stageuser,cn=staged users,cn=accounts,cn=provisioning,dc=rhel72&quot;</span>
+</pre></div>
+</div>
+<p>Show it’s all attributes (see that the account is explicitly disabled by
+nsaccountlock attribute):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa stageuser-show stageuser --all --raw</span>
+  <span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">stageuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">uid</span><span class="p">:</span> <span class="n">stageuser</span>
+  <span class="n">sn</span><span class="p">:</span> <span class="n">User</span>
+  <span class="n">cn</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">has_password</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">has_keytab</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">nsaccountlock</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalPerson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+</pre></div>
+</div>
+<p>Activate the Stage User (may be also done by other admin, with <em>System:
+Add Users</em> permission):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa stageuser-activate stageuser</span>
+<span class="o">------------------------------</span>
+<span class="n">Stage</span> <span class="n">user</span> <span class="n">stageuser</span> <span class="n">activated</span>
+<span class="o">------------------------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">stageuser</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">User</span>
+  <span class="n">Full</span> <span class="n">name</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">stageuser</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Kerberos</span> <span class="n">principal</span><span class="p">:</span> <span class="n">stageuser</span><span class="nd">@RHEL72</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000004</span>
+</pre></div>
+</div>
+<p>Show the resulting activated user which has all the FreeIPA specific
+attributes generated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa user-show stageuser --all --raw</span>
+  <span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">stageuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">uid</span><span class="p">:</span> <span class="n">stageuser</span>
+  <span class="n">givenname</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">sn</span><span class="p">:</span> <span class="n">User</span>
+  <span class="n">cn</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">homedirectory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">stageuser</span>
+  <span class="n">loginshell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">uidnumber</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">gidnumber</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">nsaccountlock</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">has_password</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">has_keytab</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">ipaUniqueID</span><span class="p">:</span> <span class="mi">48</span><span class="n">a58be2</span><span class="o">-</span><span class="n">dc67</span><span class="o">-</span><span class="mf">11e5</span><span class="o">-</span><span class="n">b93e</span><span class="o">-</span><span class="mi">001</span><span class="n">a4a23140a</span>
+  <span class="n">krbPrincipalName</span><span class="p">:</span> <span class="n">stageuser</span><span class="nd">@RHEL72</span>
+  <span class="n">memberof</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">ipausers</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">mepManagedEntry</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">stageuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaobject</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipasshuser</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">krbticketpolicyaux</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">krbprincipalaux</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetuser</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">posixaccount</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaSshGroupOfPubKeys</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">mepOriginEntry</span>
+</pre></div>
+</div>
+<section id="activating-users-automatically">
+<span id="id89"></span><h4>Activating Users Automatically<a class="headerlink" href="#activating-users-automatically" title="Permalink to this heading">¶</a></h4>
+<p>Alternatively, if the Provisioning System does not have any means of
+calling the API operation and you do not want to do it manually, you can
+also setup a cron call (<a class="reference external" href="https://docs.fedoraproject.org/en-US/Fedora/22/html/System_Administrators_Guide/ch-Automating_System_Tasks.html#s2-configuring-cron-jobs">example for
+Fedora</a>)
+that would periodically <em>kinit</em> with a keytab of a service allowed to
+<em>add users</em>, search for staged users and activating them.</p>
+<p>Original situation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa stageuser-find</span>
+<span class="o">---------------</span>
+<span class="mi">2</span> <span class="n">users</span> <span class="n">matched</span>
+<span class="o">---------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">bar</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">bar</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">bar</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bar</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">bar</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">foo</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">foo</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">bar</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">foo</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">foo</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">2</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+<p>The automated activation task example that can be used in cron script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># kinit -kt service.keytab activator/ipa.provisioning.system.rhel72.test
+# for x in `ipa stageuser-find | grep &quot;User login:&quot; | cut -d&quot;:&quot; -f 2`; do
+    ipa stageuser-activate $x;
+done
+------------------------
+Stage user bar activated
+------------------------
+  User login: bar
+  First name: bar
+  Last name: bar
+  Full name: bar bar
+  Display name: bar bar
+  Initials: bb
+  Home directory: /home/bar
+  GECOS: bar bar
+  Login shell: /bin/sh
+  Kerberos principal: bar@RHEL72
+  Email address: bar@rhel72.test
+  UID: 626000005
+  GID: 626000005
+------------------------
+Stage user foo activated
+------------------------
+  User login: foo
+  First name: foo
+  Last name: bar
+  Full name: foo bar
+  Display name: foo bar
+  Initials: fb
+  Home directory: /home/foo
+  GECOS: foo bar
+  Login shell: /bin/sh
+  Kerberos principal: foo@RHEL72
+  Email address: foo@rhel72.test
+  UID: 626000006
+  GID: 626000006
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deleting-a-user">
+<span id="id90"></span><h3>Deleting a User<a class="headerlink" href="#deleting-a-user" title="Permalink to this heading">¶</a></h3>
+<p>When a user account is deleted permanently, Provisioning System should
+simply issue LDAP DEL operation. When the user account is to be
+<em>preserved</em>, it just needs to be moved to specific container.</p>
+<p>Preserving a user can be done with CLI/API call:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa user-find</span>
+<span class="o">...</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">fbar</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Foo</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">fbar</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">foo</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000001</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000001</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">True</span>
+
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">stageuser</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">User</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">stageuser</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+<span class="o">...</span>
+<span class="c1"># ipa user-del fbar --preserve</span>
+<span class="o">-------------------</span>
+<span class="n">Deleted</span> <span class="n">user</span> <span class="s2">&quot;fbar&quot;</span>
+<span class="o">-------------------</span>
+<span class="c1"># ipa user-find --preserved=1</span>
+<span class="o">--------------</span>
+<span class="mi">1</span> <span class="n">user</span> <span class="n">matched</span>
+<span class="o">--------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">fbar</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Foo</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">fbar</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">foo</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000001</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000001</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Preserved</span> <span class="n">user</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">1</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+<p>The preserved user is automatically disabled and can no longer
+authenticate.</p>
+<p>Second option is to preserve the user via LDAP MODRDN command directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ldapmodify -Y GSSAPI</span>
+<span class="n">SASL</span><span class="o">/</span><span class="n">GSSAPI</span> <span class="n">authentication</span> <span class="n">started</span>
+<span class="n">SASL</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span><span class="nd">@RHEL72</span>
+<span class="n">SASL</span> <span class="n">SSF</span><span class="p">:</span> <span class="mi">56</span>
+<span class="n">SASL</span> <span class="n">data</span> <span class="n">security</span> <span class="n">layer</span> <span class="n">installed</span><span class="o">.</span>
+<span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">stageuser</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+<span class="n">changetype</span><span class="p">:</span> <span class="n">modrdn</span>
+<span class="n">newrdn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">stageuser</span>
+<span class="n">deleteoldrdn</span><span class="p">:</span> <span class="mi">0</span>
+<span class="n">newsuperior</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">deleted</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+
+<span class="n">modifying</span> <span class="n">rdn</span> <span class="n">of</span> <span class="n">entry</span> <span class="s2">&quot;uid=stageuser,cn=users,cn=accounts,dc=rhel72&quot;</span>
+
+<span class="c1"># ipa user-find --preserved=1</span>
+<span class="o">---------------</span>
+<span class="mi">2</span> <span class="n">users</span> <span class="n">matched</span>
+<span class="o">---------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">fbar</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Foo</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">fbar</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">foo</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000001</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000001</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Preserved</span> <span class="n">user</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">stageuser</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Stage</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">User</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">stageuser</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000004</span>
+  <span class="n">Account</span> <span class="n">disabled</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Preserved</span> <span class="n">user</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">2</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="privilege-separation-for-employee-entry-and-activation-1">
+<span id="id91"></span><h2>Privilege Separation for Employee Entry and Activation<a class="headerlink" href="#privilege-separation-for-employee-entry-and-activation-1" title="Permalink to this heading">¶</a></h2>
+<p>In following example, we will simulate adding a user in 2 steps. First,
+adding a <em>Stage User</em> by a Helpdesk administrator without a permission
+to add active users and second activating the user by <em>Security
+Administrator</em>.</p>
+<p>First, Stage User is added (<em>System: Add Stage User</em> permission is
+sufficient for that operation):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa stageuser-add barbar --first Bar --last Bar</span>
+<span class="o">-------------------------</span>
+<span class="n">Added</span> <span class="n">stage</span> <span class="n">user</span> <span class="s2">&quot;barbar&quot;</span>
+<span class="o">-------------------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">barbar</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Full</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">Display</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">Initials</span><span class="p">:</span> <span class="n">BB</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">barbar</span>
+  <span class="n">GECOS</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Kerberos</span> <span class="n">principal</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@RHEL72</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
+  <span class="n">Kerberos</span> <span class="n">keys</span> <span class="n">available</span><span class="p">:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>The user is already created with all FreeIPA specific attributes. UID
+and GID are not generated yet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa stageuser-show barbar --all --raw</span>
+  <span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">barbar</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">uid</span><span class="p">:</span> <span class="n">barbar</span>
+  <span class="n">givenname</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">sn</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">cn</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">initials</span><span class="p">:</span> <span class="n">BB</span>
+  <span class="n">homedirectory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">barbar</span>
+  <span class="n">gecos</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">loginshell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">mail</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">uidnumber</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">gidnumber</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="n">has_password</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">has_keytab</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">description</span><span class="p">:</span> <span class="n">__no_upg__</span>
+  <span class="n">displayName</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">ipaUniqueID</span><span class="p">:</span> <span class="n">autogenerate</span>
+  <span class="n">krbPrincipalName</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@RHEL72</span>
+  <span class="n">nsaccountlock</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaobject</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipasshuser</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">krbticketpolicyaux</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">krbprincipalaux</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetuser</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">posixaccount</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaSshGroupOfPubKeys</span>
+</pre></div>
+</div>
+<p>Activate the Stage User (<em>System: Add Users</em> permission is required):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa stageuser-activate barbar</span>
+<span class="o">---------------------------</span>
+<span class="n">Stage</span> <span class="n">user</span> <span class="n">barbar</span> <span class="n">activated</span>
+<span class="o">---------------------------</span>
+  <span class="n">User</span> <span class="n">login</span><span class="p">:</span> <span class="n">barbar</span>
+  <span class="n">First</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Last</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">Full</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">Display</span> <span class="n">name</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">Initials</span><span class="p">:</span> <span class="n">BB</span>
+  <span class="n">Home</span> <span class="n">directory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">barbar</span>
+  <span class="n">GECOS</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">Login</span> <span class="n">shell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">Kerberos</span> <span class="n">principal</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@RHEL72</span>
+  <span class="n">Email</span> <span class="n">address</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">UID</span><span class="p">:</span> <span class="mi">626000003</span>
+  <span class="n">GID</span><span class="p">:</span> <span class="mi">626000003</span>
+</pre></div>
+</div>
+<p>See that the user has all the FreeIPA attributes including UID and GID
+generated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa user-show barbar --all --raw</span>
+  <span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">barbar</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">uid</span><span class="p">:</span> <span class="n">barbar</span>
+  <span class="n">givenname</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">sn</span><span class="p">:</span> <span class="n">Bar</span>
+  <span class="n">cn</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">initials</span><span class="p">:</span> <span class="n">BB</span>
+  <span class="n">homedirectory</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">barbar</span>
+  <span class="n">gecos</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">loginshell</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="n">mail</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@rhel72</span><span class="o">.</span><span class="n">test</span>
+  <span class="n">uidnumber</span><span class="p">:</span> <span class="mi">626000003</span>
+  <span class="n">gidnumber</span><span class="p">:</span> <span class="mi">626000003</span>
+  <span class="n">nsaccountlock</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">has_password</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">has_keytab</span><span class="p">:</span> <span class="n">FALSE</span>
+  <span class="n">displayName</span><span class="p">:</span> <span class="n">Bar</span> <span class="n">Bar</span>
+  <span class="n">ipaUniqueID</span><span class="p">:</span> <span class="mi">9</span><span class="n">d5dddca</span><span class="o">-</span><span class="n">dc66</span><span class="o">-</span><span class="mf">11e5</span><span class="o">-</span><span class="n">b542</span><span class="o">-</span><span class="mi">001</span><span class="n">a4a23140a</span>
+  <span class="n">krbPrincipalName</span><span class="p">:</span> <span class="n">barbar</span><span class="nd">@RHEL72</span>
+  <span class="n">memberof</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">ipausers</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">mepManagedEntry</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">barbar</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">rhel72</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipasshgroupofpubkeys</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaobject</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">person</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">ipasshuser</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetorgperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalperson</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">krbticketpolicyaux</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">krbprincipalaux</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">inetuser</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">posixaccount</span>
+  <span class="n">objectClass</span><span class="p">:</span> <span class="n">mepOriginEntry</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>See <a class="reference external" href="V4/User_Life-Cycle_Management/tests">Unit tests plan</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/User_Life-Cycle_Management.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

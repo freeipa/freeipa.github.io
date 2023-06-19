@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Automember_rebuild_membership.html" />
+    <link rel="prev" title="Overview" href="Authselect_migration.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>It is currently difficult to create a correct CSR to request a
+certificate from FreeIPA, especially when using uncommon certificate
+profiles. The user must coax tools such as openssl into generating a CSR
+that will pass validation by FreeIPA under the selected certificate
+profile. For profiles besides caIPAserviceCert, the user interface
+provides no guidance as to the correct commands or configs to be used
+for this task. This situation is especially disappointing considering
+that in many cases, nearly all of the information that should be
+included in the certificate is already available in LDAP (and in fact
+FreeIPA reads it from there during validation).</p>
+<p>This design aims to improve this situation by automatically generating
+certificate field values from LDAP data where possible. In this model,
+the FreeIPA certificate profile will be augmented to contain a means of
+mapping from LDAP attributes to certificate fields. Additionally, in
+cases where the required data is not in LDAP we can still use the fields
+and constraints specified in the profile to request data from the user,
+validate the responses, and include the data in the correct place in the
+CSR.</p>
+<p><a class="reference external" href="https://blog-ftweedal.rhcloud.com/2015/11/freeipa-pki-current-plans-and-a-future-vision/">This blog
+post</a>
+outlines a vision for how this process could look in the long term.
+However, for the time being we will start with some smaller changes that
+should still make things easier for administrators.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<section id="tls-server-authentication">
+<span id="id1"></span><h2>TLS server authentication<a class="headerlink" href="#tls-server-authentication" title="Permalink to this heading">¶</a></h2>
+<p>Service (or host?) certificate used for authenticating during TLS
+handshake. Has the id-kp-serverAuth extended key usage enabled.</p>
+</section>
+<section id="tls-client-authentication">
+<span id="id2"></span><h2>TLS client authentication<a class="headerlink" href="#tls-client-authentication" title="Permalink to this heading">¶</a></h2>
+<p>User certificate used for client authentication during a TLS handshake
+with mutual authentication. Has the id-kp-clientAuth extended key usage
+enabled.</p>
+</section>
+<section id="s-mime-user-signing-certificates">
+<span id="smime-user-signing-certificates"></span><h2>S/MIME User Signing Certificates<a class="headerlink" href="#s-mime-user-signing-certificates" title="Permalink to this heading">¶</a></h2>
+<p>User certificate with the id-kp-emailProtection extended key usage
+enabled. Must include an rfc822Name (email address) in the Subject
+Alternate Name extension.</p>
+</section>
+<section id="smart-card-authentication">
+<span id="id3"></span><h2>Smart Card Authentication<a class="headerlink" href="#smart-card-authentication" title="Permalink to this heading">¶</a></h2>
+<p>This is a user certificate as well, but (as discussed
+<a class="reference external" href="https://blog-nkinder.rhcloud.com/?p=184">here</a>) may be intended for
+authentication only, not encryption, and therefore have the key and data
+encipherment usage types disabled. Significantly, all signing operations
+in this use case are performed by the smart card. Thus the user
+interface generating the fields in CSR will need to interact with the
+card to get the completed CSR with signature.</p>
+</section>
+<section id="key-escrow">
+<span id="id4"></span><h2>Key Escrow<a class="headerlink" href="#key-escrow" title="Permalink to this heading">¶</a></h2>
+<p>A convenient web-based UI for cert generation would be to generate a
+keypair on the server, and then download it to the client along with the
+signed cert. This may even be a good practice; for encryption it is
+generally a good idea to maintain a copy of the private key so that data
+can still be retrieved if the main copy is lost. Such certs should not
+be used for non-repudiation, however.</p>
+</section>
+<section id="cert-requiring-a-novel-extension">
+<span id="id5"></span><h2>Cert requiring a novel extension<a class="headerlink" href="#cert-requiring-a-novel-extension" title="Permalink to this heading">¶</a></h2>
+<p>An administrator has a need for user certificates containing an
+extension never before used in FreeIPA. They need the value of this
+extension to be constructed form several fields in the user object. (As
+a made-up example, say it should be the user’s street address, city,
+state, and postal code fields, separated by | characters.) They should
+be able to add a profile for these certificates and have the new field
+be automatically populated when they make requests with that profile.</p>
+</section>
+<section id="iecuserroles">
+<h2>IECUserRoles<a class="headerlink" href="#iecuserroles" title="Permalink to this heading">¶</a></h2>
+<p>User certificate with added User Roles extension, OID 1.2.840.10070.8.1,
+for RBAC. This field is currently not understood by FreeIPA or Dogtag
+but is simply passed along from the CSR to the certificate. This is an
+example where user-provided data will be needed until additional
+components are written to store the User Roles data in LDAP.</p>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Components:</p>
+<ul class="simple">
+<li><p>New configuration language to specify mapping from stored data to
+certificate field values</p></li>
+<li><p>Library to read mapping rules, get data for a principal, format it
+into a script that builds a CSR for a particular certificate profile</p></li>
+<li><p>New UI to collect any unspecified values from user and generate CSR</p></li>
+</ul>
+<section id="mapping-data-to-fields">
+<span id="id6"></span><h2>Mapping data to fields<a class="headerlink" href="#mapping-data-to-fields" title="Permalink to this heading">¶</a></h2>
+<p>Goals: Each field in the certificate profile can be generated from the
+data stored by FreeIPA plus supplementary user input. However, the
+mapping can sometimes be nontrivial, and change in ways that are
+unanticipated by the FreeIPA developers. Thus, the profile must have
+control over:</p>
+<ol class="arabic simple">
+<li><p>Which fields to set, how they should be encoded in the cert, and
+constraints on the values.</p></li>
+<li><p>Which of all the relevant object data to include in a field. For
+example, Subject Alternate Names can come from email addresses, LDAP
+object names, DNS names, and various other sources. A certificate
+issuer might want to include only some of the possible SAN types
+available for a particular principal in a particular type of cert.</p></li>
+<li><p>How object data is combined to get the field value. For example, the
+deployment may need the components of the Subject field to go in a
+specific order. Or, a profile may introduce a new certificate field
+that is formatted differently from those previously used; this
+flexibility would allow the profile to derive this field from the
+data without requiring code changes.</p></li>
+</ol>
+<p>As described in the <a class="reference external" href="V4/Certificate_Profiles#Design">certificate profiles
+design</a>, a certificate profile
+consists of a Dogtag profile (defining rules for verifying a CSR and
+transforming it into a cert) as well as some additional data stored
+within FreeIPA.</p>
+<ul class="simple">
+<li><p>Requirement 1 is already provided by Dogtag certificate profiles, so
+we don’t need to do much there.</p></li>
+<li><p>Requirement 2 is the FreeIPA component of the profile. For each field
+(required field or extension) in the certificate profile, the CSR
+generation library will invoke a “mapping rule” that defines how to
+add that field using the chosen helper, plus one or more rules that
+define how FreeIPA object fields can be used to fill in the field
+value. A collection of mapping rules for all known fields and
+extensions will be provided with the FreeIPA client.</p></li>
+<li><p>Requirement 3 means giving administrators/profile creators the
+ability to define their own mapping rules. This allows the CSR
+generation feature to handle advanced use cases that are not yet
+known, without requiring a code release.</p></li>
+</ul>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h3>
+<p>The mapping rules will be specified via configuration files in JSON
+format. For the older design, in which mappings were stored in the IPA
+database, see
+<a class="reference external" href="V4/Automatic_Certificate_Request_Generation/Schema">V4/Automatic_Certificate_Request_Generation/Schema</a>.</p>
+<p>There are two types of configuration files meant to be accessible to
+users: Cert profile configurations contain a JSON array of:</p>
+<ul class="simple">
+<li><p>Cert mapping rule (JSON object) with fields:</p>
+<ul>
+<li><p>“syntax”: name of “syntax” cert mapping rule - name of field and
+how values are combined</p></li>
+<li><p>“data”: JSON array of names of “data” cert mapping rules - defines
+values to include in field</p></li>
+</ul>
+</li>
+</ul>
+<p>Cert mapping rule configurations contain a JSON object with fields:</p>
+<ul class="simple">
+<li><p>“rules”: JSON array of rules with different formats for different
+helper utilities. Each is a JSON object with fields:</p>
+<ul>
+<li><p>“helper”: Target CSR generator (e.g. openssl)</p></li>
+<li><p>“template”: Transformation template (see
+<a class="reference external" href="V4/Automatic_Certificate_Request_Generation/Mapping_Rules">V4/Automatic_Certificate_Request_Generation/Mapping_Rules</a>)</p></li>
+<li><p>“options”: JSON object of key-value pairs altering formatting
+behavior for a specific helper</p></li>
+</ul>
+</li>
+<li><p>“options”: JSON object of key-value pairs altering formatting
+behavior for all helpers</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
+<p>A profile for a user cert could have the following configuration:</p>
+<p><code class="docutils literal notranslate"><span class="pre">userCert.json</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;syntax&quot;</span><span class="p">:</span> <span class="s2">&quot;syntaxSubject&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;dataUsernameCN&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dataSubjectBase&quot;</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;syntax&quot;</span><span class="p">:</span> <span class="s2">&quot;syntaxSAN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;dataEmail&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Then, the definitions of a couple of these cert mapping rules (see
+<a class="reference external" href="V4/Automatic_Certificate_Request_Generation/Mapping_Rules">V4/Automatic_Certificate_Request_Generation/Mapping_Rules</a>
+for discussion of the template syntax):</p>
+<p><code class="docutils literal notranslate"><span class="pre">syntaxSubject.json</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;openssl&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;distinguished_name = {</span><span class="si">% c</span><span class="s2">all openssl.section() %}{{ datarules|reverse|join(&#39;</span><span class="se">\n</span><span class="s2">&#39;) }}{</span><span class="si">% e</span><span class="s2">ndcall %}&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;certutil&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;-s {{ datarules|join(&#39;,&#39;) }}&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;data_source_combinator&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">dataUsernameCN.json</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;openssl&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;CN={{subject.uid.0}}&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;certutil&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;CN={{subject.uid.0|quote}}&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;subject.uid.0&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="certificate-data-formatting">
+<span id="id7"></span><h2>Certificate data formatting<a class="headerlink" href="#certificate-data-formatting" title="Permalink to this heading">¶</a></h2>
+<p>A new library will allow users to generate a script that will build a
+correct CSR. The parameters to the library call will be:</p>
+<ul class="simple">
+<li><p>Certificate principal</p></li>
+<li><p>Certificate profile</p></li>
+<li><p>Target CSR generation helper</p></li>
+</ul>
+<p>For each cert mapping rule in the chosen certificate profile, the
+process will look up the transformation rule matching the targeted
+generator. It will use the templates in these rules to format data from
+the principal’s object in IPA into field values formatted to be accepted
+by that generator, and then use knowledge of the generator to construct
+a full command line or config file to generate the certificate.</p>
+<p>For example, a request targeting openssl would produce a script which
+uses a config file like the following to generate the csr with the
+<code class="docutils literal notranslate"><span class="pre">openssl</span></code> command:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ req ]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">prompt = no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">encrypt_key = no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">distinguished_name = dn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">req_extensions = exts</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ dn ]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">O=DOMAIN.EXAMPLE.COM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CN=user</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ exts ]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">subjectAltName=&#64;SAN</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ SAN ]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">email=user&#64;example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dirName=SANdn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ SANdn ]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">1.DC=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">2.DC=example</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">CN=users</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">UID=user</span></code></div>
+</div>
+<p>The “req” section is required and defines parameters for the openssl req
+command. The “dn” and “exts” sections contain components of the
+distinguished name and x509v3 certificate extensions, respectively.
+Those sections can be named anything and those names are referenced by
+the distinguished_name and req_extensions parameters in the “req”
+section.</p>
+<p>In contrast, a request targeting certutil would produce a command line
+like:</p>
+<p><code class="docutils literal notranslate"><span class="pre">certutil -R -a -s &quot;CN=user,O=DOMAIN.EXAMPLE.COM&quot; --extSAN &quot;email:user&#64;example.com,dn:UID=user;CN=users;DC=example;DC=com&quot;</span></code></p>
+<section id="permissions">
+<h3>Permissions<a class="headerlink" href="#permissions" title="Permalink to this heading">¶</a></h3>
+<p>There are no additional permissions required for this functionality. A
+principal will only be able to request data via this method that they
+would otherwise be able to read. If the mappings for the profile specify
+data to which the requesting principal does not have access, those
+fields will be left blank unless they have the “required” option set.</p>
+</section>
+</section>
+<section id="certificate-request-workflows">
+<span id="id8"></span><h2>Certificate request workflows<a class="headerlink" href="#certificate-request-workflows" title="Permalink to this heading">¶</a></h2>
+<section id="freeipa-command-line-client">
+<span id="id9"></span><h3>FreeIPA command-line client<a class="headerlink" href="#freeipa-command-line-client" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>User runs command to request cert with autogenerated CSR</p></li>
+<li><p>Command-line client requests principal object from server</p></li>
+<li><p>Client prompts for user input for each profile field defined as
+user-specified</p></li>
+<li><p>Client builds a script incorporating server and user data</p></li>
+<li><p>Client runs script, passing data to helper library or program (such
+as openssl or NSS)</p></li>
+<li><p>Helper generates private key and CSR</p></li>
+<li><p>Client submits CSR to server</p></li>
+<li><p>IPA server validates CSR against data in LDAP</p></li>
+<li><p>IPA server forwards CSR to Dogtag, which issues cert</p></li>
+<li><p>Cert is returned to the client</p></li>
+<li><p>Client presents private key and cert to user</p></li>
+</ol>
+</section>
+<section id="freeipa-web-ui">
+<span id="id10"></span><h3>FreeIPA Web UI<a class="headerlink" href="#freeipa-web-ui" title="Permalink to this heading">¶</a></h3>
+<p>This flow works similarly to the command-line client, except that the
+web browser is not able to generate the CSR automatically (although this
+feature existed historically, support for it appears to be declining
+dramatically). So, the browser presents the config file and/or command
+line to the user, who runs the helper manually and enters the CSR back
+into the browser.</p>
+</section>
+<section id="certmonger">
+<h3>Certmonger<a class="headerlink" href="#certmonger" title="Permalink to this heading">¶</a></h3>
+<p>There are two workflows that could be implemented here, depending on
+whether we want certmonger to prompt for more information or just take
+everything on the command line.</p>
+<p><strong>Option 1</strong> for collecting CSR data:</p>
+<ol class="arabic simple">
+<li><p>User runs getcert command passing in alternate profile (-T flag)</p></li>
+<li><p>Getcert synchronously requests CSR data from IPA commandline</p></li>
+<li><p>IPA prompts for user input for each profile field defined as
+user-specified</p></li>
+<li><p>Getcert adds certmonger request including server-generated and
+user-specified data</p></li>
+</ol>
+<p><strong>Option 2</strong> for collecting CSR data:</p>
+<ol class="arabic simple">
+<li><p>User runs getcert command passing in alternate profile (-T flag) and
+any user-specified certificate fields</p></li>
+<li><p>Getcert adds certmonger request including user-specified data</p></li>
+<li><p>Certmonger asynchronously requests CSR data from IPA commandline</p></li>
+<li><p>Certmonger adds IPA-generated data to saved request</p></li>
+</ol>
+<p>In either case, certmonger now proceeds to request certificate as in the
+other cases.</p>
+</section>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>Mapping rules: see
+<a class="reference external" href="V4/Automatic_Certificate_Request_Generation/Mapping_Rules">V4/Automatic_Certificate_Request_Generation/Mapping_Rules</a></p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<section id="cert-mapping-rule-management-ui">
+<span id="id11"></span><h3>Cert mapping rule management UI<a class="headerlink" href="#cert-mapping-rule-management-ui" title="Permalink to this heading">¶</a></h3>
+<p>In the initial prototype, rules will be added or modified by modifying
+config files and no UI is available.</p>
+</section>
+<section id="cert-profile-management-ui">
+<span id="id12"></span><h3>Cert profile management UI<a class="headerlink" href="#cert-profile-management-ui" title="Permalink to this heading">¶</a></h3>
+<p>In the initial prototype, mappings for a profile will be added or
+modified by modifying config files and no UI is available.</p>
+</section>
+<section id="certificate-request-ui">
+<span id="id13"></span><h3>Certificate request UI<a class="headerlink" href="#certificate-request-ui" title="Permalink to this heading">¶</a></h3>
+<p>The UI for issuing a new certificate should be updated according to the
+workflow described in the <a class="reference external" href="#Design">Design section</a>. Once the
+principal and profile are specified, it should query the server for the
+CSR data and prompt the user for any missing information. It should then
+provide the user with the exact config file/command to run to generate
+the CSR to enter.</p>
+</section>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<section id="cert-mapping-rule-management-ui-1">
+<span id="id14"></span><h3>Cert mapping rule management UI<a class="headerlink" href="#cert-mapping-rule-management-ui-1" title="Permalink to this heading">¶</a></h3>
+<p>In the initial prototype, rules will be added or modified by modifying
+the config files on the client.</p>
+</section>
+<section id="cert-profile-management-ui-1">
+<span id="id15"></span><h3>Cert profile management UI<a class="headerlink" href="#cert-profile-management-ui-1" title="Permalink to this heading">¶</a></h3>
+<p>In the initial prototype, mappings for a profile will be added or
+modified by modifying the config files on the client.</p>
+</section>
+<section id="certificate-request-ui-1">
+<span id="id16"></span><h3>Certificate request UI<a class="headerlink" href="#certificate-request-ui-1" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-get-requestdata</span></code></p>
+<p>This is a new method within the FreeIPA CLI that gathers the data needed
+to construct a certificate request, in the format appropriate for the
+specified helper program or library.</p>
+<p>Request parameters:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--principal=PRINCIPAL</span></code></dt><dd><p>Principal to be the subject of cert</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--profile-id=STR</span></code></dt><dd><p>Certificate profile to request</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--format=STR</span></code></dt><dd><p>Output format for CSR data (e.g. “openssl” for openssl config file)</p>
+</dd>
+</dl>
+<p>Response parameters:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">files</span></code></dt><dd><p>Contents of config files needed to generate the request</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">commands</span></code></dt><dd><p>Command lines to run to generate the request</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">user-specified</span></code></dt><dd><p>Fields in the profile that can not be automatically filled and must
+be requested from the user</p>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span></code></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--autofill</span></code></dt><dd><p>Automatically generate a CSR using server data</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--use=STR</span></code></dt><dd><p>Tool to use for building CSR (e.g. openssl)</p>
+</dd>
+<dt>TBD</dt><dd><p>Options for specifying file/NSS database of existing or new key to
+use, where to write cert, key generation type and size, etc.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="configuration-1">
+<span id="id17"></span><h2>Configuration<a class="headerlink" href="#configuration-1" title="Permalink to this heading">¶</a></h2>
+<p>Profiles and mapping rules will be configured using JSON files in
+<code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/csr/{profiles,rules}</span></code>, as described in <a class="reference external" href="V4/Automatic_Certificate_Request_Generation#Mapping_data_to_fields">Mapping data
+to
+fields</a>.</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>As this feature is only part of the client, no special considerations
+for upgrades are necessary.</p>
+</section>
+<section id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<section id="tls-server-authentication-1">
+<span id="id18"></span><h2>TLS server authentication<a class="headerlink" href="#tls-server-authentication-1" title="Permalink to this heading">¶</a></h2>
+<p>Certmonger:</p>
+<p>`` sudo ipa-getcert request <a href="#id19"><span class="problematic" id="id20">``</span></a>:literal:` -K HTTP/<cite>hostname</cite> -N CN=`hostname`,O=EXAMPLE.COM`</p>
+<p>IPA CLI:</p>
+<p>`` ipa cert-request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">:literal:` --autofill --principal=HTTP/`hostname\</span></code></p>
+</section>
+<section id="tls-client-authentication-1">
+<span id="id21"></span><h2>TLS client authentication<a class="headerlink" href="#tls-client-authentication-1" title="Permalink to this heading">¶</a></h2>
+<p>Certmonger:</p>
+<p>`` sudo ipa-getcert request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T caIPAUserCert</span></code></p>
+<p>IPA CLI:</p>
+<p>`` ipa cert-request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` --autofill --principal=${USER} --profile-id=caIPAUserCert</span></code></p>
+</section>
+<section id="smime-user-signing-certificates-1">
+<span id="id22"></span><h2>S/MIME User Signing Certificates<a class="headerlink" href="#smime-user-signing-certificates-1" title="Permalink to this heading">¶</a></h2>
+<p>Certmonger:</p>
+<p>`` sudo ipa-getcert request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T caIPAUserCertSMIME</span></code></p>
+<p>IPA CLI:</p>
+<p>`` ipa cert-request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` --autofill --principal=${USER} --profile-id=caIPAUserCertSMIME</span></code></p>
+</section>
+<section id="smart-card-authentication-1">
+<span id="id23"></span><h2>Smart Card Authentication<a class="headerlink" href="#smart-card-authentication-1" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">`` $ ipa cert-get-requestdata –principal=${USER} –profile-id=caIPAUserCert –helper=openssl –out=user.conf  # Something like this, –out flag may be something else``</div>
+<div class="line">`` $ openssl``</div>
+<div class="line">`` OpenSSL&gt; engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so``</div>
+<div class="line">`` OpenSSL&gt; req -engine pkcs11 -new -key <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -keyform engine -out user.req -text -config user.conf</span></code></div>
+<div class="line">`` $ ipa cert-request user.req –principal=${USER} –profile-id=caIPAUserCert``</div>
+</div>
+<p>Thanks to <a class="reference external" href="https://blog-nkinder.rhcloud.com/?p=184">Nathan Kinder</a>
+for guidance on smart card interaction.</p>
+</section>
+<section id="key-escrow-1">
+<span id="id24"></span><h2>Key Escrow<a class="headerlink" href="#key-escrow-1" title="Permalink to this heading">¶</a></h2>
+<p>Not directly supported by this design, but any project to add this could
+use the ipa cert-get-requestdata API for its CSR generation.</p>
+</section>
+<section id="cert-requiring-a-novel-extension-1">
+<span id="id25"></span><h2>Cert requiring a novel extension<a class="headerlink" href="#cert-requiring-a-novel-extension-1" title="Permalink to this heading">¶</a></h2>
+<p>Certmonger:</p>
+<p>`` sudo ipa-getcert request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T FancyExtensionUserCert</span></code></p>
+<p>IPA CLI:</p>
+<p>`` ipa cert-request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` --autofill --principal=${USER} --profile-id=FancyExtensionUserCert</span></code></p>
+</section>
+<section id="iecuserroles-1">
+<span id="id26"></span><h2>IECUserRoles<a class="headerlink" href="#iecuserroles-1" title="Permalink to this heading">¶</a></h2>
+<p>Certmonger:</p>
+<div class="line-block">
+<div class="line">`` sudo ipa-getcert request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T IECUserRoles \</span></code></div>
+<div class="line">``   -V IECUserRoles=``</div>
+</div>
+<p>IPA CLI:</p>
+<div class="line-block">
+<div class="line">`` ipa cert-request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` --autofill --principal=${USER} --profile-id=IECUserRoles</span></code></div>
+<div class="line">`` ``</div>
+</div>
+</section>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<section id="certificate-request-api">
+<span id="id27"></span><h2>Certificate request API<a class="headerlink" href="#certificate-request-api" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Test that <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-get-requestdata</span></code> produces data for all included
+profiles.</p></li>
+<li><p>Test that <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-get-requestdata</span> <span class="pre">--helper=openssl</span></code> output is
+accepted by openssl for all included profiles.</p></li>
+<li><p>Test that <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span> <span class="pre">--autofill</span></code> generates a certificate for
+all included profiles.</p></li>
+<li><p>Test that <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-get-requestdata</span> <span class="pre">--profile-id=IECUserRoles</span></code>
+outputs IECUserRoles as a user-specified field</p></li>
+<li><p>Test that <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span> <span class="pre">--autofill</span> <span class="pre">--profile-id=IECUserRoles</span></code>
+prompts user for IECUserRoles value</p></li>
+<li><p>Test that <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-get-requestdata</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span> <span class="pre">--autofill</span></code> return an error on a profile with no
+mapping rules.</p></li>
+</ul>
+</section>
+<section id="certificate-profile-management-api">
+<span id="id28"></span><h2>Certificate profile management API<a class="headerlink" href="#certificate-profile-management-api" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Test import of profile with mapping rules</p></li>
+<li><p>Test import of profile referencing nonexistent mapping rule</p></li>
+<li><p>Test import of profile with malformed mapping rules</p></li>
+<li><p>Test import of profile name that already exists</p></li>
+<li><p>Test modification of profile with mapping rules</p></li>
+<li><p>Test export of profile with mapping rules</p></li>
+</ul>
+</section>
+</section>
+<section id="alternatives-considered">
+<span id="id29"></span><h1>Alternatives Considered<a class="headerlink" href="#alternatives-considered" title="Permalink to this heading">¶</a></h1>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h2>
+<p>This was originally to be implemented as the
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-get-requestdata</span></code> API call, but the design was changed to a
+standalone library that can be used client-side. The standalone
+implementation will be easier for users to update, not requiring a
+server upgrade to pick up changes to the code. This will be useful if
+changes are needed to the syntax passed to the helper command, or to add
+new helpers. Since users will want to upgrade their helper utilities, or
+even use multiple versions at the same time, this flexibility may be
+needed.</p>
+<p>It would seem to be most straightforward for the IPA server to submit
+data to Dogtag directly instead of sending it back to the client. Most
+of the data already comes from the server, and submitting data directly
+could hide some of the complexity around supporting multiple helpers.
+However, current Dogtag profiles only accept input in the form of a
+signed CSR, and the signature must happen on the client side because
+that is where the private key is. It is possible to create Dogtag
+profiles that include “profile inputs” other than
+<a class="reference external" href="https://git.fedorahosted.org/cgit/pki.git/tree/base/server/cms/src/com/netscape/cms/profile/input/CertReqInput.java">CertReqInput</a>,
+which is used in the <a class="reference external" href="https://git.fedorahosted.org/cgit/freeipa.git/tree/install/share/profiles/caIPAserviceCert.cfg#n10">existing
+profiles</a>
+to read data from a CSR. For example,
+<a class="reference external" href="https://git.fedorahosted.org/cgit/pki.git/tree/base/server/cms/src/com/netscape/cms/profile/input/GenericInput.java">GenericInput</a>
+seems to allow setting of arbitrary fields in the certificate before it
+gets signed. This might provide a mechanism for IPA to directly add
+additional data to a certificate, allowing the CSR to contain only the
+fields that are supposed to be user-specified. However, this requires
+much deeper integration with Dogtag and may not fit with the larger
+architectural goals for PKI in FreeIPA, so we will not pursue it for
+now.</p>
+<p>Taking a different tactic, we could have Dogtag request any data that is
+missing from the CSR but is required by the certificate profile, either
+from LDAP directly or from IPA (as in <a class="reference external" href="https://blog-ftweedal.rhcloud.com/2015/11/freeipa-pki-current-plans-and-a-future-vision/">the blog
+post</a>
+mentioned earlier). However, as requests to Dogtag are currently all
+made with the same identity, there can be no user-specific privilege
+checking on the call from Dogtag back to LDAP. Thus until <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5011">GSSAPI
+requests to Dogtag</a> are
+implemented there is a risk that a misconfigured profile could expose
+data about a principal this way. Further, the necessary changes to
+Dogtag to implement this are too involved for the time allotted to the
+current project.</p>
+</section>
+<section id="mapping-technique">
+<span id="id30"></span><h2>Mapping technique<a class="headerlink" href="#mapping-technique" title="Permalink to this heading">¶</a></h2>
+<p>An earlier concept of the mapping between IPA data and configs used for
+CSR generation did not include the abstraction of cert mapping rules.
+Instead, each cert profile would contain one or more templates
+describing how to construct a full configuration for different CSR
+generation helpers. This would be a simpler approach because it does’t
+require a new object type for mapping rules. However, mapping rules
+provide a few advantages:</p>
+<ul class="simple">
+<li><p>A wide variety of mapping rules can be provided with IPA, making it
+easier to create new profiles</p></li>
+<li><p>Mapping rules can be made to support multiple CSR generation helpers,
+in which case profiles that use them automatically support multiple
+helpers as well</p></li>
+<li><p>Formatting of the helper-specific config is moved from template into
+code, which can better handle complex formats and different output
+types (config file, command line)</p></li>
+<li><p>Increased knowledge about the format of each field in the certificate
+may make it easier to autogenerate FreeIPA+Dogtag profiles from a
+single source.</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Automatic_Certificate_Request_Generation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

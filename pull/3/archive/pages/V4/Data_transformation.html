@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Diagnostics_Tool.html" />
+    <link rel="prev" title="Overview" href="DNS_configuration_daemon.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>A LDAP entry contains a set of attributes and values. RFCs related to
+LDAP give the possibility to represent an object with different set of
+attributes. For example <a class="reference external" href="https://www.ietf.org/rfc/rfc4519.txt">RFC
+4519</a>, allows a group to
+contain ‘member’ or ‘uniquemember’. Many applications, like Vsphere,
+expect specific attribute (e.g. ‘uniquemember’) where the LDAP entry
+contains an other one (e.g. ‘member’).</p>
+<p>For authorisation purpose, the need of those applications is to retrieve
+the groups that a given entry is <strong>uniquemember</strong> of. The groups,
+containing <em>member</em>, are not retrieved and the application fails to
+grant authorisation.</p>
+<p>This document describes how the application can retrieve those groups</p>
+</section>
+<section id="use-cases">
+<span id="use-cases7"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>An application, like vsphere, uses freeipa (and 389-ds) as its identity
+repository. A given user and the groups it belongs to are stored in
+389-ds LDAP server. When a user logs into vsphere, vsphere authenticates
+and grant authorizations by sending LDAP requests. To retrieve the
+groups the user is member of, it sends the requests</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.347094829</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814140</span> <span class="n">op</span><span class="o">=</span><span class="mi">0</span> <span class="n">BIND</span> <span class="n">dn</span><span class="o">=</span><span class="s2">&quot;uid=&lt;USER_UID&gt;,cn=users,cn=accounts,&lt;SUFFIX&gt;&quot;</span> <span class="n">method</span><span class="o">=</span><span class="mi">128</span> <span class="n">version</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.348379396</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814140</span> <span class="n">op</span><span class="o">=</span><span class="mi">0</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">97</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">0</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span> <span class="n">dn</span><span class="o">=</span><span class="s2">&quot;uid=&lt;USER_UID&gt;,cn=users,cn=accounts,&lt;SUFFIX&gt;&quot;</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="n">L17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.348958886</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814140</span> <span class="n">op</span><span class="o">=</span><span class="mi">1</span> <span class="n">UNBIND</span>
+<span class="o">...</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.382266266</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814141</span> <span class="n">op</span><span class="o">=</span><span class="mi">0</span> <span class="n">BIND</span> <span class="n">dn</span><span class="o">=</span><span class="s2">&quot;uid=ldapsearch,cn=users,cn=accounts,&lt;SUFFIX&gt;&quot;</span> <span class="n">method</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">version</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.383197487</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814141</span> <span class="n">op</span><span class="o">=</span><span class="mi">0</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">97</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">0</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span> <span class="n">dn</span><span class="o">=</span><span class="s2">&quot;uid=ldapsearch,cn=users,cn=accounts,&lt;SUFFIX&gt;&quot;</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.383647394</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814141</span> <span class="n">op</span><span class="o">=</span><span class="mi">1</span> <span class="n">SRCHbase</span><span class="o">=</span><span class="s2">&quot;cn=users,cn=accounts,&lt;SUFFIX&gt;&quot;</span> <span class="n">scope</span><span class="o">=</span><span class="mi">2</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;(&amp;(objectClass=inetOrgPerson)(uid=&lt;USER_UID&gt;))&quot;</span> <span class="n">attrs</span><span class="o">=</span><span class="s2">&quot;sn givenName uid entryuuid&quot;</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.384418722</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814141</span> <span class="n">op</span><span class="o">=</span><span class="mi">1</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">101</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">1</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.386156624</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814141</span> <span class="n">op</span><span class="o">=</span><span class="mi">2</span> <span class="n">SRCH</span> <span class="n">base</span><span class="o">=</span><span class="s2">&quot;cn=groups,cn=accounts,&lt;SUFFIX&gt;&quot;</span> <span class="n">scope</span><span class="o">=</span><span class="mi">2</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;(&amp;(objectClass=groupOfUniqueNames) (uniqueMember=uid=&lt;USER_UID&gt;,cn=users,cn=accounts,&lt;SUFFIX&gt;))&quot;</span> <span class="n">attrs</span><span class="o">=</span><span class="s2">&quot;cn entryuuid&quot;</span>
+<span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="n">Nov</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">24.386799084</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">814141</span> <span class="n">op</span><span class="o">=</span><span class="mi">2</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">101</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">0</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span> <span class="n">notes</span><span class="o">=</span><span class="n">P</span> <span class="n">pr_idx</span><span class="o">=</span><span class="mi">0</span> <span class="n">pr_cookie</span><span class="o">=-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>So there is a SRCH (conn=814141 op=2) of the groups, assuming the groups
+are <strong>groupOfUniqueNames</strong>, that contain the as <strong>uniqueMember</strong>. If the
+group uses <strong>member</strong> rather than <strong>uniqueMember</strong> then the SRCH does
+not return any groups.</p>
+<p>Note that the SRCH that lookup the groups (that contain ) request only
+<strong>cn</strong> and <strong>entryuuid</strong>. So the application <strong>does not check</strong> that the
+is <strong>uniqueMember</strong> or the returned groups.</p>
+<p>In conclusion: the data transformation <strong>only</strong> require a filter
+transformation.</p>
+</section>
+<section id="how-to-use">
+<span id="how-to-use7"></span><h1>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<p>Assuming a group does contain ‘ <em>member</em> ‘ but not ‘ <em>uniquemember</em> ‘,
+the admin should configure filter transformation
+<a class="reference external" href="#plugin_configuration">plugin</a></p>
+<p>Then with those data</p>
+<div class="line-block">
+<div class="line">``   # Vsphere group containing ‘foo’ user``</div>
+<div class="line">``   dn: cn=vsphere_group,cn=groups,cn=accounts,``</div>
+<div class="line">``   objectClass: groupofnames``</div>
+<div class="line">``   member: uid=foo,cn=users,cn=accounts,``</div>
+<div class="line">``   ``</div>
+<div class="line">``   # ‘foo’ user                                                                                                                    ``</div>
+<div class="line">``   dn: uid=foo,cn=users,cn=accounts,``</div>
+<div class="line">``   memberOf: cn=ipausers,cn=groups,cn=accounts,``</div>
+<div class="line">``   memberOf: cn=vsphere_group,cn=groups,cn=accounts,``</div>
+<div class="line">``   cn: f oo``</div>
+<div class="line">``   …``</div>
+</div>
+<p>The following search request will retrieve <em>vsphere_group</em> as
+<em>groupOfUniqueNames</em> having <em>foo</em> as <em>uniqueMember</em></p>
+<div class="line-block">
+<div class="line">``   ldapsearch LLL -D “uid=ldapsearch,cn=users,cn=accounts,``<code class="docutils literal notranslate"><span class="pre">&quot; -W -b &quot;cn=groups,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">&quot; &quot;(&amp;(objectclass=groupofnames)(member=uid=foo,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">))&quot; cn entryuuid</span></code></div>
+<div class="line">``   ``</div>
+<div class="line">``   dn: cn=vsphere_group,cn=groups,cn=accounts,``</div>
+<div class="line">``   cn: vsphere_group``</div>
+</div>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The following paragraphs detail the evaluated solutions. Among them the
+one that is implemented: <a class="reference external" href="#transformation_of_filter">transformation of
+filter</a></p>
+<section id="aliasing-uniquemember-and-member">
+<span id="id1"></span><h2>Aliasing uniquemember and member<a class="headerlink" href="#aliasing-uniquemember-and-member" title="Permalink to this heading">¶</a></h2>
+<p>The schema contains the definition of the attribute (name, matching
+rules, single/multi value, origin…). The schema allows <strong>aliasing</strong>.
+That means that if a search filter component contains an attribute name
+that is an alias, the test of the attribute present in the evaluated
+entry supports any alias value. That also means that if the requested
+attribute is an alias, the returned attribute conform the requested
+attribute name.</p>
+<p>A constraint is all aliased attribute names are sharing the same
+matching rules. So if aliasing standardized attribute names they must
+have same matching rules and have the same number of allowed value.</p>
+<p>An easy way to obtain target attribute in an entry is to alias the
+source and the target attribute. For example in 00core.ldif</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``attributeTypes: ( 2.5.4.31 NAME ( &#39;member&#39; &#39;uniqueMember&#39; )                                                                                       ``
+``  SUP distinguishedName``
+``  X-ORIGIN &#39;RFC 4519&#39; )``
+</pre></div>
+</div>
+<p>The benefits are:</p>
+<ul class="simple">
+<li><p>The set of modifications is very small</p></li>
+<li><p>it is possible to use <em>uniqueMember</em> in the filter</p></li>
+</ul>
+<p>The limitations and drawbacks are</p>
+<ul class="simple">
+<li><p>In case of aliasing <em>uniqueMember</em> and <em>member</em> it changes a
+standardized attribute definition</p></li>
+<li><p>A search request that does not specify to retrieve <em>uniqueMember</em>
+will retrieve <em>member</em>. <a class="reference external" href="#Search_requesting_all_attributes">First</a>
+search fails because ‘’uniqueMember is not returned.</p></li>
+<li><p>A search request that specifies <em>uniqueMember</em> will retrieve
+<em>uniqueMember</em> but not <em>member</em>. This is one attribute or the other
+(replace), there is no option to retrieve both of them.</p></li>
+<li><p><a class="reference external" href="#LDAP_compare_the_target_attribute">comparison</a> comparison
+request fails to compare <em>uniqueMember</em> (but it could be possible to
+fix this)</p></li>
+<li><p><em>uniqueMember</em> and <em>member</em> have different syntax, DS will process
+<em>uniqueMember</em> with <em>member</em> syntax (and matching rules).</p></li>
+</ul>
+</section>
+<section id="groups-containing-real-attribute-uniquemember">
+<span id="id2"></span><h2>groups containing real attribute uniquemember<a class="headerlink" href="#groups-containing-real-attribute-uniquemember" title="Permalink to this heading">¶</a></h2>
+<p>In order to
+<a class="reference external" href="https://www.howtovmlinux.com/articles/vmware/vcenter/integrate-freeipa-idm-with-vcsa-vcenter-server-for-user-authentications.html">integrate</a>
+FreeIPA into VSphere, the application has to check for a given user
+(e.g. foo) which groups it is member of.</p>
+<p>Administrator has to update the LDAP group with <em>‘uniquemember:</em> ‘ (<em>ipa
+group-mod –addattr=’uniquemember=’</em>), although it already exists ‘
+<em>member:</em> ‘.</p>
+<p>It is more complex for the admin, may impact performance as the group
+size will double and risky as ‘member’ and ‘uniquemember’ must be
+updated in sync.</p>
+</section>
+<section id="groups-containing-virtual-attribute-uniquemember">
+<span id="id3"></span><h2>groups containing virtual attribute uniquemember<a class="headerlink" href="#groups-containing-virtual-attribute-uniquemember" title="Permalink to this heading">¶</a></h2>
+<p>The transformation of attribute name could be achieved with MEP plugin
+and COS plugin. The MEP plugin is a POST update plugin that allows a
+transformation of attribute name into a dedicated placeholder entry
+(managed entry).</p>
+<p>It requires a change in the UPG config, so that it adds ‘ <em>objectclass:
+groupofUniquenames</em> ‘ to the UPG. Indeed the UPG will eventually contain
+as ‘ <em>uniquemember</em> ‘ the managing entry DN (user).</p>
+<p>It requires a new Group Private Group (GPG) config, that the only
+purpose is to add the ‘ <em>objectclass: mepOriginEntry</em> ‘ to the group
+where we want to retrieve ‘ <em>uniquemember</em> ‘.</p>
+<figure class="align-default" id="id6">
+<img alt="data_trans_mep_config.png" src="../../../_images/data_trans_mep_config.png" />
+<figcaption>
+<p><span class="caption-text">data_trans_mep_config.png</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>It also requires a couple of cos definitions in “cascading” definitions.
+The first one adds, in the target group, for <strong>each</strong> ‘ <em>member</em> ‘ user
+in the target group, a ‘ <em>mepManagedEntry</em> ‘ that refers to the user
+UPG. The the second cos definition adds, in the target group, for
+<strong>each</strong> ‘ <em>member</em> ‘ user in the target group the ‘ <em>uniquemember</em> ‘
+attribute that is in the user UPG. The value of the ‘ <em>uniquemember</em> ‘
+is the user DN.</p>
+<figure class="align-default" id="id7">
+<img alt="Data_trans_cos_config.png" src="../../../_images/Data_trans_cos_config.png" />
+<figcaption>
+<p><span class="caption-text">Data_trans_cos_config.png</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The cos apply on groups and generate multivalue attribute. To the
+computed values must override any previously existing value. The target
+group has a private group (GPG) so it contains ‘ <em>mepManagedEntry</em> ‘
+referring to it. So the cos will override this value. A plugin (e.g. MEP
+plugin) that needs to retrieve the original value must flag its search
+to ignore virtual attributes.</p>
+<p>The solution above works but with limitation</p>
+<ul class="simple">
+<li><p>It does not work for nested groups.</p></li>
+<li><p>It works for newly created groups and users. Already existing group
+requires to create its GPG. Already existing user requires to update
+its UPG (groupofUniqueName, uniquemember).</p></li>
+<li><p>It requires a change in mep plugins so that when it lookup ‘
+<em>mepManagedEntry</em> ‘ it should ignore virtual attribute values
+(computed by COS).</p></li>
+</ul>
+<p>The drawbacks is:</p>
+<ul class="simple">
+<li><p>it is complex, fragile and limited. It involves several plugins with
+their own configuration. Cascading COS is something looking fragile
+as well as hidden attributes (cos hides local ‘ <em>memManagedEntry</em> ‘
+that is used by MEP).</p></li>
+<li><p>Its performance are poor. It reduces by 10 the response time and by 3
+the throughput.</p></li>
+<li><p>for legacy deployment it requires some changes in UPG and groups.</p></li>
+</ul>
+<p>The advantage is:</p>
+<ul class="simple">
+<li><p>Require few changes</p></li>
+</ul>
+</section>
+<section id="implement-a-new-ldap-control">
+<span id="id4"></span><h2>Implement a new LDAP control<a class="headerlink" href="#implement-a-new-ldap-control" title="Permalink to this heading">¶</a></h2>
+<p>LDAP V3 allows control. We could implement a 389-ds specific control</p>
+<div class="line-block">
+<div class="line">``   controlValue ::= SEQUENCE OF transformationDesc``</div>
+<div class="line">``   ``</div>
+<div class="line">``   transformationDesc ::= SEQUENCE OF {``</div>
+<div class="line">``   replace          Boolean``</div>
+<div class="line">``   sourceAttr       attributeDescription,``</div>
+<div class="line">``   targetAttr       attributeDescription``</div>
+<div class="line">``   }``</div>
+</div>
+<p>A <em>transformationDesc</em> describes the returned attributes of the returned
+entries. If a returned entries contains values for <em>sourceAttr</em> then it
+returns the values with that attribute name <em>targetAttr</em>. If <em>replace</em>
+is True, it does not return <em>sourceAttr</em> values but only <em>targetAttr</em>
+values. If <em>replace</em> is False, it returns the values with both
+<em>sourceAttr</em> and <em>targetAttr</em> attribute names.</p>
+<p>If <em>sourceAttr</em> does not exist then the <em>transformationDesc</em> is ignored.</p>
+<p><em>sourceAttr</em> can be real, virtual or operation attributes.</p>
+<p>The drawback are:</p>
+<ul class="simple">
+<li><p>It does not addess the <a class="reference external" href="#Use_Cases">use case</a> where this is the
+filter that needs to be transformed to find the groups whose given
+user is <strong>uniquemember</strong></p></li>
+<li><p>It requires to publish a new control</p></li>
+<li><p>It requires application code change</p></li>
+</ul>
+<p>Advantages are:</p>
+<ul class="simple">
+<li><p>It is quite limited change (decoding a control and applying it when
+returning entries)</p></li>
+</ul>
+</section>
+<section id="transformation-of-filter">
+<span id="id5"></span><h2>transformation of filter<a class="headerlink" href="#transformation-of-filter" title="Permalink to this heading">¶</a></h2>
+<p>The use case requires a transformation of the filter component so that</p>
+<ul class="simple">
+<li><p>the attributename <strong>uniquemember</strong> is replaced with <strong>member</strong></p></li>
+<li><p>the ava <strong>(objectclass=groupOfUniqueNames)</strong> is replaced with
+<strong>(objectclass=groupOfNames)</strong>.</p></li>
+</ul>
+<p>A new plugin can transform a filter
+(<em>slapi_compute_add_search_rewriter</em>) with a dedicated callback called
+after search preops.</p>
+<p>Here is an example of the plugin configuration</p>
+<div class="line-block">
+<div class="line">``   dn: cn=filter transformation,cn=plugins,cn=config``</div>
+<div class="line">``   objectClass: top``</div>
+<div class="line">``   objectClass: nsSlapdPlugin``</div>
+<div class="line">``   objectClass: extensibleObject``</div>
+<div class="line">``   cn: filter transformation``</div>
+<div class="line">``   nsslapd-pluginPath: libfiltertransformation-plugin                                                                                                               ``</div>
+<div class="line">``   nsslapd-pluginInitfunc: fitler_transformation_init``</div>
+<div class="line">``   nsslapd-pluginType: object``</div>
+<div class="line">``   nsslapd-pluginEnabled: on``</div>
+<div class="line">``   nsslapd-plugin-depends-on-type: database``</div>
+<div class="line">``   nsslapd-plugin-depends-on-named: State Change Plugin``</div>
+<div class="line">``   nsslapd-pluginId: filterTransformation``</div>
+<div class="line">``   nsslapd-pluginConfigArea: cn=filterTransformation,cn=etc,SUFFIX``</div>
+<div class="line">``   nsslapd-pluginDescription: virtual directory information tree views plugin``</div>
+<div class="line">``   ``</div>
+<div class="line">``   dn: cn=filterTransformation,cn=etc,``</div>
+<div class="line">``   objectClass: top``</div>
+<div class="line">``   objectClass: nsContainer``</div>
+<div class="line">``   cn: filterTransformation``</div>
+<div class="line">``   dn: cn=vsphere_uniquemember,cn=filterTransformation,cn=etc,``</div>
+<div class="line">``   objectClass: top``</div>
+<div class="line">``   objectClass: filterTransformationDefinition``</div>
+<div class="line">``   filterTransformationAvaFrom: (uniquemember=*)``</div>
+<div class="line">``   filterTransformationAvaTo: (member=*)``</div>
+<div class="line">``   filterTransformationCondScope: subtree``</div>
+<div class="line">``   filterTransformationCondBase: cn=groups,cn=accounts,``</div>
+<div class="line">``   filterTransformationCondAttr: cn``</div>
+<div class="line">``   filterTransformationCondAttr: entryuuid``</div>
+<div class="line">``   filterTransformationCondBindDn: uid=ldapsearch,cn=users,cn=accounts,``</div>
+<div class="line">``   cn: vsphere_uniquemember``</div>
+<div class="line">``   dn: cn=vsphere_objectclass,cn=filterTransformation,cn=etc,``</div>
+<div class="line">``   objectClass: top``</div>
+<div class="line">``   objectClass: filterTransformationDefinition``</div>
+<div class="line">``   filterTransformationAvaFrom: (objectclass=groupOfUniqueNames)``</div>
+<div class="line">``   filterTransformationAvaTo: (objectclass=groupOfNames)``</div>
+<div class="line">``   filterTransformationCondScope: subtree``</div>
+<div class="line">``   filterTransformationCondBase: cn=groups,cn=accounts,``</div>
+<div class="line">``   filterTransformationCondAttr: cn``</div>
+<div class="line">``   filterTransformationCondAttr: entryuuid``</div>
+<div class="line">``   filterTransformationCondBindDn: uid=ldapsearch,cn=users,cn=accounts,``</div>
+<div class="line">``   cn: vsphere_objectclass``</div>
+</div>
+<p>Definition attributes <em>filterTransformationCond</em> are used to restrict
+the transformation to specific searches. Indeed some applications,
+others than vsphere, may not want those transformation. We can restrict
+the transformation to searches with scope
+<em>filterTransformationCondScope</em>, base search
+<em>filterTransformationCondBase</em>, requested attributes
+<em>filterTransformationCondAttr</em> and bound as
+<em>filterTransformationCondBindDn</em>.</p>
+<p>The drawback are:</p>
+<ul class="simple">
+<li><p>requires to create/deliver/configure a new plugin, but it is not a
+large one</p></li>
+<li><p>It transforms the filter and will return entries that may <strong>not</strong>
+match the original filter. So it is convenient for application that
+does not rely on attributes/values present in the original filter.</p></li>
+</ul>
+<p>The advantages are:</p>
+<ul class="simple">
+<li><p>it is robust and address the use cases</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Data_transformation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

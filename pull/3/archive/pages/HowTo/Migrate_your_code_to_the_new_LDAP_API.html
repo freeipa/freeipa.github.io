@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Details &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Introduction" href="Remove_replica_in_a_managed_topology.html" />
+    <link rel="prev" title="LDAP Overview" href="LDAP.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>A new LDAP API has been introduced to the framework in FreeIPA 3.2 (see
+<a class="reference external" href="V3/LDAP_code">V3/LDAP code</a>). Compatibility with the old legacy API
+has been kept in place but is currently in the process of being
+deprecated. Any attempt to use the old API will cause an exception to be
+raised in FreeIPA 4.0. The old API will be completely removed in FreeIPA
+4.1.</p>
+<p>The new API uses custom dictionary-like objects to represent entries
+instead of <code class="docutils literal notranslate"><span class="pre">(dn,</span> <span class="pre">entry_attrs)</span></code> tuples.</p>
+<p>Adding an entry:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># Before</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">entry_attrs = dict(...)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.add_entry(DN(...), entry_attrs)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># After</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">entry_attrs = dict(...)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">entry = ldap.make_entry(DN(...), entry_attrs)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.add_entry(entry)</span></code></div>
+</div>
+<p>Modifying an entry:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># Before</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn, entry_attrs = ldap.get_entry(...)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">entry_attrs[...] = ...</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.update_entry(dn, entry_attrs)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># After</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">entry = ldap.get_entry(...)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">entry[...] = ...</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.update_entry(entry)</span></code></div>
+</div>
+<p>Searching entries:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># Before</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">result, truncated = ldap.find_entries(...)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">for dn, entry_attrs in result:</span></code></div>
+<div class="line">``    print dn``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># After</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">result, truncated = ldap.find_entries(...)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">for entry in result:</span></code></div>
+<div class="line">``    print entry.dn``</div>
+</div>
+<section id="details">
+<h1>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h1>
+<p>In FreeIPA 3.3 and below, iteration over an entry yields dn and the
+entry itself. This preserves backwards compatibility with the
+python-ldap style:</p>
+<p><code class="docutils literal notranslate"><span class="pre">dn, entry_attrs = ldap.get_entry(...)</span></code></p>
+<p>In FreeIPA 4.0, iterating over an entry will raise an exception, so this
+use can be detected and fixed.</p>
+<p>In FreeIPA 4.1, entries complete the move to a dict-like interface.
+Iteration will yield attribute names.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/HowTo/Migrate_your_code_to_the_new_LDAP_API.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

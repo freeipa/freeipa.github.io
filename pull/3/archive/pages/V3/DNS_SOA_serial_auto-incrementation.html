@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="DNS_realmdomains_integration.html" />
+    <link rel="prev" title="Overview" href="Configurable_SID_Blacklists.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p><em>Short overview of the problem set and any back ground material or
+references one would need to understand the details.</em></p>
+<p>Each DNS zone has <em>serial number</em>, i.e. version number of the zone. Nice
+explanation can be found e.g. in <a class="reference external" href="http://www.zytrax.com/books/dns/ch8/soa.html">Zytrax book about DNS, chapter
+8</a>.</p>
+<p>Quotations from <a class="reference external" href="http://www.zytrax.com/books/dns/">Zytrax DNS book</a>:</p>
+<blockquote>
+<div><p>sn = serial number</p>
+<p>This value MUST increment when any resource record in the zone file
+is updated.</p>
+<p>A slave (Secondary) DNS server will read the master DNS SOA record
+periodically, either on expiry of refresh (defined below) or when it
+receives a NOTIFY and compares arithmetically its current value of sn
+with that received from the master DNS. If the sn value from the
+master is arithmetically HIGHER than that currently stored by the
+slave then a zone transfer (AXFR/IXFR) is initiated. If the value of
+sn from the master DNS SOA is the same or LOWER then no zone transfer
+is initiated.</p>
+</div></blockquote>
+<blockquote>
+<div><p>Note: the arithmetic used by the serial number is defined in <a class="reference external" href="http://tools.ietf.org/html/rfc1982">RFC
+1982</a>.</p>
+</div></blockquote>
+<section id="structure-of-dns-sub-tree-in-ldap">
+<span id="id1"></span><h2>Structure of DNS sub-tree in LDAP<a class="headerlink" href="#structure-of-dns-sub-tree-in-ldap" title="Permalink to this heading">¶</a></h2>
+<p>Please get familiar with <a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/DatabaseStructure">the way how DNS data are stored in
+LDAP</a>.</p>
+</section>
+</section>
+<section id="use-cases">
+<span id="use-cases114"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>Correct serial number is a requirement for functional zone tranfers.
+Corrent zone transfers from IPA to non-IPA DNS server are impossible if
+zone serial number is not incremented after each change.</p>
+</section>
+<section id="design-in-ipa-3-0">
+<span id="id2"></span><h1>Design in IPA 3.0<a class="headerlink" href="#design-in-ipa-3-0" title="Permalink to this heading">¶</a></h1>
+<p>Design was discussed on freeipa-devel mailing list: At the beginning (in
+<a class="reference external" href="http://www.redhat.com/archives/freeipa-devel/2012-April/msg00222.html">e-mail thread from April
+2012</a>)
+various options were discussed. Maintaining single global SOA serial for
+all servers was found as hard problem. Attributes like
+<code class="docutils literal notranslate"><span class="pre">modifyTimestamp</span></code> can’t be used because they can go back in time
+(because of replication).</p>
+<p><a class="reference external" href="http://www.redhat.com/archives/freeipa-devel/2012-May/msg00047.html">In May
+2012</a>
+different approach was proposed: Maintain SOA serial separately for each
+IPA server and do not synchronize serials between IPA servers at all.</p>
+<p>This design is significantly simpler and was implemented in IPA 3.0.</p>
+<section id="advantages">
+<h2>Advantages<a class="headerlink" href="#advantages" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>It is relatively simple to implement.</p></li>
+<li><p>No DS plugin is required, all the logic is part of bind-dyndb-ldap
+plugin for BIND.</p></li>
+</ul>
+</section>
+<section id="disadvantages">
+<h2>Disadvantages<a class="headerlink" href="#disadvantages" title="Permalink to this heading">¶</a></h2>
+<p>Slave DNS servers cannot fall-back to other masters, because of SOA
+serial inconsistency.</p>
+</section>
+<section id="very-basic-implementation">
+<span id="id3"></span><h2>Very basic implementation<a class="headerlink" href="#very-basic-implementation" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Do not replicate <code class="docutils literal notranslate"><span class="pre">idnsSOASerial</span></code> attribute between IPA servers: Use
+<a class="reference external" href="https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Administration_Guide/fractional-repl-total.html">nsDS5ReplicatedAttributeList</a>
+attribute to exclude <code class="docutils literal notranslate"><span class="pre">idnsSOASerial</span></code> from replication.</p></li>
+<li><p>Use persistent search to watch for incoming changes.</p></li>
+<li><p>After each change increment “local” SOA serial number (and write it
+to LDAP - to survive DNS server restart).</p></li>
+<li><p>Always increment stored SOA serial number after DNS server start.
+Data in LDAP could be changed when bind-dyndb-ldap didn’t listen on
+persistent search.</p></li>
+</ol>
+<p>Implementation was done in the scope of <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2554">IPA ticket
+#2554</a> and
+<a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/ticket/67">bind-dyndb-ldap ticket
+#67</a>.</p>
+</section>
+<section id="problems-found-after-implementation-to-ipa-3-0">
+<span id="id4"></span><h2>Problems found after implementation to IPA 3.0<a class="headerlink" href="#problems-found-after-implementation-to-ipa-3-0" title="Permalink to this heading">¶</a></h2>
+<p>Problem described in following text appears only in environments with at
+least one IPA replica.</p>
+<p>IPA command stores newly added zone to one chosen LDAP server, including
+some initial value of <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute. The new zone is
+replicated to other LDAP servers, except <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute.
+This behaviour creates an inconsistent state, where mandatory attribute
+<code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> is not present in some LDAP databases.</p>
+<p>IPA tools and bind-dyndb-ldap are not ready for state where mandatory
+<code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute is missing.</p>
+<ul class="simple">
+<li><p>bind-dyndb-ldap: <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=895083">Red Hat bug
+895083</a>,
+<a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/ticket/103">bind-dyndb-ldap ticket
+#103</a>,
+<a class="reference external" href="http://git.fedorahosted.org/cgit/bind-dyndb-ldap.git/commit/?id=5fcfb292ca07d0aa3a0d1a87baf2f6b35336dba2">hot-fix</a></p></li>
+<li><p>IPA: <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=894143">Red Hat bug
+894143</a>
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3341">FreeIPA ticket
+#3341</a>, <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=894131">Red Hat bug
+894131</a>
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3340">FreeIPA ticket
+#3340</a>,
+<a class="reference external" href="https://fedorahosted.org/freeipa/changeset/55bace6546095d78760be413896c824efe9c2f20/">hot-fix</a></p></li>
+</ul>
+<p>According to <a class="reference external" href="http://lists.fedoraproject.org/pipermail/389-users/2013-January/015436.html">conversation on
+389-users-list</a>
+389 DS is not able to replicate data during ADD operations and don’t
+replicate data during MOD operations. Rich Megginson proposed another
+solution:</p>
+<blockquote>
+<div><p>So <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> is a “local only” attribute that lives in a
+“global” entry.</p>
+<p>I agree that this is an attribute that should be managed internally
+by the directory server, like the entryusn attribute.</p>
+</div></blockquote>
+</section>
+<section id="feature-managment">
+<span id="id5"></span><h2>Feature Managment<a class="headerlink" href="#feature-managment" title="Permalink to this heading">¶</a></h2>
+<section id="major-configuration-options-and-enablement">
+<h3>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h3>
+<p>SOA serial is managed internally by bind-dyndb-ldap plugin. New boolean
+option <code class="docutils literal notranslate"><span class="pre">serial_autoincrement</span></code> was added to <code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code>. Value
+<code class="docutils literal notranslate"><span class="pre">yes</span></code> enables this feature.</p>
+<p>There is no command for enabling/disabling this feature.</p>
+</section>
+<section id="webui">
+<h3>WebUI<a class="headerlink" href="#webui" title="Permalink to this heading">¶</a></h3>
+<p>WebUI doesn’t manage this option.</p>
+</section>
+<section id="cli">
+<h3>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h3>
+<p>New option for <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code>:</p>
+<div class="line-block">
+<div class="line">``   –no-serial-autoincrement``</div>
+<div class="line">``                       Do not enable SOA serial autoincrement``</div>
+</div>
+<p>This feature is enabled by default. Persistent search is required for
+SOA serial auto-increment feature, so <code class="docutils literal notranslate"><span class="pre">--no-persistent-search</span></code> can’t
+be used without <code class="docutils literal notranslate"><span class="pre">--no-serial-autoincrement</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone</span></code> commands are unchanged:</p>
+<ul class="simple">
+<li><p>It is possible to show SOA serial value. Shown value is read from
+single LDAP server. This value can be different on other LDAP
+servers.</p></li>
+<li><p>Any modification via <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span></code> affects only single LDAP
+server (i.e. server which was selected by IPA CLI for particular
+operation).</p></li>
+</ul>
+</section>
+</section>
+<section id="replication">
+<h2>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h2>
+<p>Zone attribute <code class="docutils literal notranslate"><span class="pre">idnsSOASerial</span></code> is not replicated between IPA servers.
+<code class="docutils literal notranslate"><span class="pre">idnsSOASerial</span></code> is added to the <code class="docutils literal notranslate"><span class="pre">nsDS5ReplicatedAttributeList</span></code>
+attribute inside each replication agreement.</p>
+<p>Each write to <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> can potentially trigger same problem as
+described in <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2534">IPA ticket
+#2534</a>.</p>
+</section>
+<section id="updates-and-upgrades">
+<h2>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Option <code class="docutils literal notranslate"><span class="pre">serial_autoincrement</span> <span class="pre">yes</span></code> has to be added to
+<code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code>.</p></li>
+<li><p>Persistent search is required for SOA serial auto-increment feature,
+so <code class="docutils literal notranslate"><span class="pre">psearch</span></code> option has to be switched to <code class="docutils literal notranslate"><span class="pre">yes</span></code>.</p></li>
+</ul>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>bind-dyndb-ldap version &gt;= 2.0 is required.</p></li>
+</ul>
+</section>
+<section id="external-impact">
+<h2>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h2>
+<p>(Hopefully) none.</p>
+</section>
+</section>
+<section id="design-in-ipa-3-1">
+<span id="id6"></span><h1>Design in IPA 3.1<a class="headerlink" href="#design-in-ipa-3-1" title="Permalink to this heading">¶</a></h1>
+<p>Move SOA serial maintenance from bind-dyndb-ldap to (new) 389 DS plugin:
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3347">IPA ticket #3347</a>.</p>
+<p>DS plugin watches <code class="docutils literal notranslate"><span class="pre">cn=dns</span></code> sub-tree for changes.</p>
+<p>Any change in DNS record in this subtree will increment
+<code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute in record’s parent zone.</p>
+<section id="basic-idea">
+<span id="id7"></span><h2>Basic idea<a class="headerlink" href="#basic-idea" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">if objectClass is idnsZone</span></code></div>
+<div class="line">``    increment idnsSOAserial in the same object``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">else if objectClass is idnsRecord</span></code></div>
+<div class="line">``    increment idnsSOAserial in object’s immediate parent``</div>
+<div class="line">``    e.g. change in idnsName=test, idnsName=example.com, cn=dns will increment idnsSOAserial in object idnsName=example.com, cn=dns``</div>
+<div class="line">``    if parent’s objectClass is not idnsZone``</div>
+<div class="line">``         log an error (This should never happen :-))``</div>
+<div class="line">`` else``</div>
+<div class="line">``    do nothing``</div>
+</div>
+</section>
+<section id="soa-serial-incrementation-algorithm">
+<span id="id8"></span><h2>SOA serial incrementation algorithm<a class="headerlink" href="#soa-serial-incrementation-algorithm" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">OLDSerial = actual idnsSOAserial value</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">timestamp = actual UNIX timestamp</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">if (OLDSerial &lt; timestamp)</span></code></div>
+<div class="line">``    newSerial = timestamp``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
+<div class="line">``   newSerial = OLDSerial + 1``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Write newSerial value to particular idnsSOAserial attribute</span></code></div>
+</div>
+</section>
+<section id="interaction-with-bind-serial-update-mechanism">
+<span id="id9"></span><h2>Interaction with BIND serial update mechanism<a class="headerlink" href="#interaction-with-bind-serial-update-mechanism" title="Permalink to this heading">¶</a></h2>
+<p>BIND does direct SOA serial update (not trigerred by serial
+autoincrement feature) after any dynamic update. We have to catch those
+attempts and ignore them:</p>
+<ul class="simple">
+<li><p>A plugin can intercept any modify and manipulate it, including
+suppressing changes to SOA Serial.</p></li>
+<li><p>It should be possible to catch &amp; discard SOA serial modifications
+inside BIND. This will save some load from LDAP server.</p></li>
+</ul>
+</section>
+<section id="possible-optimization">
+<span id="id10"></span><h2>Possible optimization<a class="headerlink" href="#possible-optimization" title="Permalink to this heading">¶</a></h2>
+<p>Increment serial value at most once per second.</p>
+<p><strong>Problem</strong>: How to solve LDAP server crash?</p>
+<p>Problematic scenario:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">numbers</span> <span class="n">represent</span> <span class="n">time</span> <span class="ow">in</span> <span class="s2">&quot;second.millisecond&quot;</span> <span class="nb">format</span><span class="p">)</span>
+
+<span class="mf">1.000</span> <span class="p">:</span> <span class="n">new_serial</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="mf">1.100</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
+<span class="mf">1.100</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">transfer</span> <span class="n">started</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">search</span> <span class="n">result</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">records</span> <span class="ow">and</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">stored</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">search</span> <span class="n">result</span> <span class="ow">is</span> <span class="n">transferred</span> <span class="n">to</span> <span class="n">slaves</span>
+<span class="mf">1.700</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test2</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
+<span class="mf">1.700</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
+<span class="o">&lt;</span><span class="n">no</span> <span class="n">changes</span> <span class="kn">from</span> <span class="nn">now</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Result: Zones on master and it’s slave servers have serial =
+“new_serial” but the zone content is different (records under
+test2.example.com. are not equal).</p>
+<section id="variant-with-delayed-serial-write">
+<span id="id11"></span><h3>Variant with delayed serial write<a class="headerlink" href="#variant-with-delayed-serial-write" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">When updating zone serial:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">if (old serial value &lt; time())</span></code></div>
+<div class="line">``   cancel scheduled serial write (if exists)``</div>
+<div class="line">``   write zone serial = time()``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
+<div class="line">``   schedule serial bump after 1 second``</div>
+<div class="line">``   (do nothing if bump is scheduled already)``</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">When starting Directory Server:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Bump each serial by one.</span></code></div>
+</div>
+</section>
+<section id="variant-with-modified-search-operation">
+<span id="id12"></span><h3>Variant with modified search operation<a class="headerlink" href="#variant-with-modified-search-operation" title="Permalink to this heading">¶</a></h3>
+<p>Modify search operation for zone serial to return:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">if (serial value == time())</span></code></div>
+<div class="line">``   return (serial value - 1)``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
+<div class="line">``   return (serial value)``</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Scenario</span><span class="p">:</span>
+<span class="mf">1.000</span> <span class="p">:</span> <span class="n">new_serial</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="mf">1.100</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
+<span class="mf">1.100</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">transfer</span> <span class="n">started</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">search</span> <span class="n">result</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">records</span> <span class="ow">and</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">stored</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="ow">in</span> <span class="n">search</span> <span class="n">result</span> <span class="ow">is</span> <span class="p">(</span><span class="n">new_serial</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mf">1.500</span> <span class="p">:</span> <span class="n">snapshot</span> <span class="ow">is</span> <span class="n">transferred</span> <span class="n">to</span> <span class="n">slaves</span>
+<span class="mf">1.700</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test2</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
+<span class="mf">1.700</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
+<span class="o">&lt;</span><span class="n">no</span> <span class="n">changes</span> <span class="kn">from</span> <span class="nn">now</span><span class="o">&gt;</span>
+<span class="mf">2.000</span> <span class="p">:</span> <span class="n">now</span> <span class="n">the</span> <span class="n">search</span> <span class="k">for</span> <span class="n">serial</span> <span class="n">value</span> <span class="n">returns</span> <span class="n">new_serial</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">slaves</span> <span class="n">see</span> <span class="n">value</span> <span class="n">incremented</span> <span class="n">by</span> <span class="n">one</span> <span class="kn">from</span> <span class="nn">last</span> <span class="n">zone</span> <span class="n">transfer</span> <span class="p">(</span><span class="mf">1.500</span><span class="p">)</span>
+<span class="mf">9.000</span> <span class="p">:</span> <span class="n">serial</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">unchanged</span> <span class="kn">from</span> <span class="nn">last</span> <span class="n">search</span>
+</pre></div>
+</div>
+<p><strong>Expected result:</strong> Zone data can be inconsistent between master and
+slaves for only one second. Data will be consistent if directory server
+crashed at 1.701 - new zone transfer can be initiated after server
+restart.</p>
+<p><strong>Requirement:</strong> DS plugin have to modify serial value during reads.</p>
+<p><strong>Problem:</strong> It is hard to intercept and modify search operation.</p>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
+<p>Any additional requirements or changes discovered during the
+implementation phase.</p>
+</section>
+<section id="feature-management">
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add new option like <code class="docutils literal notranslate"><span class="pre">serial_remote</span></code> to <code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code>. This
+option should be mutually exclusive with <code class="docutils literal notranslate"><span class="pre">serial_autoincrement</span></code>
+option from IPA 3.0.</p></li>
+<li><p>Do not create UI for enabling/disabling this feature. We can provide
+some boolean directly in plugin configuration, but nothing else.</p></li>
+</ul>
+</section>
+<section id="replication-1">
+<span id="id13"></span><h2>Replication<a class="headerlink" href="#replication-1" title="Permalink to this heading">¶</a></h2>
+<p>No change from IPA 3.0.</p>
+</section>
+<section id="updates-and-upgrades-1">
+<span id="id14"></span><h2>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades-1" title="Permalink to this heading">¶</a></h2>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">serial_autoincrement</span></code> option in <code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code> with
+<code class="docutils literal notranslate"><span class="pre">serial_remote</span></code> option.</p>
+</section>
+<section id="dependencies-1">
+<span id="id15"></span><h2>Dependencies<a class="headerlink" href="#dependencies-1" title="Permalink to this heading">¶</a></h2>
+<p>New version of bind-dyndb-ldap + the new 389 DS plugin.</p>
+</section>
+<section id="external-impact-1">
+<span id="id16"></span><h2>External Impact<a class="headerlink" href="#external-impact-1" title="Permalink to this heading">¶</a></h2>
+<p>Hopefully none.</p>
+</section>
+<section id="impact-on-testing">
+<span id="id17"></span><h2>Impact on testing<a class="headerlink" href="#impact-on-testing" title="Permalink to this heading">¶</a></h2>
+<p>Zone serial should be incremented after each change. Delay between
+record change and serial change should be at most 1 second.</p>
+<p>In IPA 3.0 there was some delay, but prediction for 3.0 is harder.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V3/DNS_SOA_serial_auto-incrementation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

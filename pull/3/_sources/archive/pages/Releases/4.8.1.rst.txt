@@ -1,0 +1,317 @@
+The FreeIPA team would like to announce FreeIPA 4.8.1 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora 30 will be available in the official Fedora repository soon.
+
+.. _highlights_in_4.8.1:
+
+Highlights in 4.8.1
+-------------------
+
+-  5608: [RFE] Add Dogtag configuration extensions
+
+It is now possible to tune Dogtag configuration when creating a CA by
+passing an overlay configuration file with --pki-config-override option.
+Not all options are supported yet and documentation is being worked on.
+
+--------------
+
+-  Release tarball corrections
+
+FreeIPA 4.8.0 release tarball did lack two update files. This release
+adds them back. The files existed in git but weren't installed when
+building distribution packages.
+
+--------------
+
+-  8040: ipa migrade-ds regression
+
+FreeIPA 4.8.0 tightened access to LDAP connections to disallow passing
+plainttext credentials over an insecure connection. This broke 'ipa
+migrate-ds' functionality where in order to migrate to FreeIPA one often
+needs to connect to a legacy LDAP server which might not be using TLS
+certificates.
+
+FreeIPA 4.8.1 restores ability to use insecure LDAP connections in 'ipa
+migrate-ds' for migration purposes only.
+
+Enhancements
+~~~~~~~~~~~~
+
+-  7932 and 7933: index certmap attributes and allow
+   altSecurityIdentities in schema
+
+For certificate mapping operations it is possible to specify
+altSecurityIdentities in the certification mapping filters. The filter
+is applied by SSSD at both FreeIPA and Active Directory LDAP servers.
+While nothing is using altSecurityIdentities in FreeIPA now, the schema
+allows to optimize queries better at LDAP server side. Additionally,
+other certificate mapping attributes are now indexed to allow faster
+operations for environments with a large set of mapping rules.
+
+--------------
+
+-  7991: Profile-based renewal of system certificates
+
+FreeIPA-specific certificates tracked by certmonger can now be renewed
+with preservation of a certificate profile used to issue them. It is
+also possible to change the certificate profile during update. This is
+required to allow updating certain profile-specific attributes of the
+system certificates in future.
+
+--------------
+
+.. _known_issues:
+
+Known Issues
+~~~~~~~~~~~~
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.8.1 is a stabilization release for the features delivered as a
+part of FreeIPA 4.8 series. There are more than 30 bug-fixes details of
+which can be seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+-  5608 [RFE] Add Dogtag configuration extensions
+-  7305 PKINIT status not displayed in the web UI (IPA Server >
+   Configuration)
+-  7329 update_ra_cert_store does not remove private key from NSSDB
+-  7548 Need integration test for --external-ca-type=ms-cs
+-  7597 IPA: IDM drops all custom attributes when moving account from
+   preserved to stage
+-  7677 HSM: ipa ca-add fails with error in ipa-pki-retrieve-key
+-  7810 [F28] Require NSS with fix for p11-kit issue.
+-  7902 389-ds-base-1.4.0.22-1 breaks
+   TestAutomemberFindOrphans.test_find_orphan_automember_rules
+-  7908 Write tests for interactive prompt for NTP options.
+-  7929 ERROR: invalid 'PKINIT enabled server': all masters must have
+   IPA master role enabled
+-  7932 FreeIPA queries rely on missing attribute altsecurityidentities
+-  7933 FreeIPA must index certmap attributes.
+-  7949 test_integration/test_nfs.py fails at cleanup
+-  7991 Use profile-based renewal for system certificates
+-  7996 \`test_selinuxusermap_plugin\` fails against not default SELinux
+   settings
+-  8004 RHEL 8 uses nis-domainname instead of rhel-domainname
+-  8005 User field separator uses '$$' within ipaSELinuxUserMapOrder
+-  8007 Not stable nodeids within pytest
+-  8008 Azure Pipeline slicing
+-  8009 Missing execution bit on \`ipa-run-tests\` within virtualenv
+-  8012
+   test_webui/test_loginscreen.py::TestLoginScreen::()::test_reset_password_and_login_view
+   failure
+-  8013 ipa service-find does not list cifs service created by
+   ipa-client-samba
+-  8015 p11helper: insufficient logging when loading LIBSOFTHSM2_SO
+-  8019 repeated uninstallation of ipa-client-samba crashes
+-  8021 ipa-client-samba can not install samba after uninstallation
+-  8022 azure pipeline: fail if dnf builddep exits on failure
+-  8024 [WebUI] test_webui/test_trust.py failed because of request
+   timeout
+-  8026 Update pr-ci definitions with master_3client topology
+-  8027 test_nfs.py: migrate to master_3client
+-  8029 ipa host-find --pkey-only includes SSH keys in output
+-  8030 azure pipelines fail at "Install prerequisites" of Tox job
+-  8040 ipa migrate-ds fails with internal error.
+
+.. _detailed_changelog_since_4.8.0:
+
+Detailed changelog since 4.8.0
+------------------------------
+
+.. _armando_neto_1:
+
+Armando Neto (1)
+~~~~~~~~~~~~~~~~
+
+-  travis: update container used for testing ipa-4-8 branch
+
+.. _alexander_bokovoy_14:
+
+Alexander Bokovoy (14)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Update translation and code contributors for FreeIPA 4.8.1
+-  Switch ipa-4-8 branch to track Zanata ipa-4-8 branch
+-  Update translations for FreeIPA 4.8 branch
+-  Add Theodor van Nahl to the Contributors.txt
+-  Update translations for FreeIPA 4.8.1
+-  Restore SELinux context for p11-kit config overrides
+-  Change RA agent certificate profile to caSubsystemCert
+-  certmaprule: add negative test for altSecurityIdentities
+-  certmap rules: altSecurityIdentities should only be used for trusted
+   domains
+-  Create indexes for altSecurityIdentities and ipaCertmapData
+   attributes
+-  Add altSecurityIdentities attribute from MS-WSPP schema definition
+-  Use stage and phase attempt counters when saving test artifacts
+-  Use any nodejs version instead of forcing a version before nodejs 11
+-  Fix rpmlint errors for Rawhide
+
+.. _christian_heimes_6:
+
+Christian Heimes (6)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Allow insecure binds for migration
+-  Don't move keys when key backup is disabled
+-  Update comments to explain caSubsystemCert switch
+-  Test external CA with DNS name constraints
+-  Add PKCS#11 module name to p11helper errors
+-  Use nis-domainname.service on all RH platforms
+
+.. _françois_cami_11:
+
+François Cami (11)
+~~~~~~~~~~~~~~~~~~
+
+-  azure-pipelines.yml: switch to Python 3.7
+-  test_nfs.py: switch to master_3repl
+-  ipatests: rename config_replica_resolvconf_with_master_data()
+-  test_nfs.py: switch to
+   tasks.config_replica_resolvconf_with_master_data()
+-  prci_definitions: add master_3client topology
+-  ipapython/admintool.py: use SERVER_NOT_CONFIGURED
+-  ipa-client-samba: remove state on uninstall
+-  ipatests: test ipa-client-samba after --uninstall
+-  ipa-client-samba: remove and restore smb.conf only on first uninstall
+-  ipatests: test multiple invocations of ipa-client-samba --uninstall
+-  ipatests/azure: display actual dnf repo URLs
+
+.. _florence_blanc_renaud_6:
+
+Florence Blanc-Renaud (6)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Nightly test definition: add missing tests
+-  xmlrpc test: add test for preserved > stage user
+-  user-stage: transfer all attributes from preserved to stage user
+-  test_xmlrpc: fix
+   TestAutomemberFindOrphans.test_find_orphan_automember_rules
+-  Azure pipeline: report failure in prepare-build step
+-  upgrade: remove ipaCert and key from /etc/httpd/alias
+
+.. _fraser_tweedale_20:
+
+Fraser Tweedale (20)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Add more tests for --external-ca-profile handling
+-  dsinstance: add proflie when tracking certificate
+-  ipatests: test ipa-server-upgrade in CA-less deployment
+-  Use RENEWAL_CA_NAME and RA_AGENT_PROFILE constants
+-  cainstance: add profile to IPA RA tracking request
+-  upgrade: fix spurious certmonger re-tracking
+-  upgrade: log missing/misconfigured tracking requests
+-  upgrade: update KRA tracking requests
+-  upgrade: always add profile to tracking requests
+-  dogtaginstance: avoid special cases for Server-Cert
+-  dogtag-ipa-ca-renew-agent: always use profile-based renewal
+-  certmonger: use long options when invoking dogtag-ipa-renew-agent
+-  upgrade: add profile to Dogtag tracking requests
+-  dogtaginstance: add profile to tracking requests
+-  ci: add --external-ca-profile tests to gating
+-  ci: add --external-ca-profile tests to nightly
+-  Collapse --external-ca-profile tests into single class
+-  Fix use of incorrect variable
+-  install: fix --external-ca-profile option
+-  move MSCSTemplate classes to ipalib
+
+.. _christian_hermann_1:
+
+Christian Hermann (1)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  configure.ac: don't rely on bashisms
+
+.. _rob_crittenden_3:
+
+Rob Crittenden (3)
+~~~~~~~~~~~~~~~~~~
+
+-  Don't return SSH keys with ipa host-find --pkey-only
+-  httpinstance: add pinfile when tracking certificate
+-  Remove posixAccount from service_find search filter
+
+.. _stanislav_levin_4:
+
+Stanislav Levin (4)
+~~~~~~~~~~~~~~~~~~~
+
+-  Avoid use of '/tmp' for pip operations
+-  Make use of Azure Pipeline slicing
+-  Simplify ipa-run-tests script
+-  Fix \`test_webui.test_selinuxusermap\`
+
+.. _sergey_orlov_3:
+
+Sergey Orlov (3)
+~~~~~~~~~~~~~~~~
+
+-  ipatests: new test for trust with partially unreachable AD topology
+-  ipatests: mark test_domain_resolution_order as expectedly failing
+-  ipatests: add test for sudo with runAsUser and domain resolution
+   order.
+
+.. _sumedh_sidhaye_2:
+
+Sumedh Sidhaye (2)
+~~~~~~~~~~~~~~~~~~
+
+-  Test: Test to check whether ssh from ipa client to ipa master is
+   successful after adding ldap_deref_threshold=0 in sssd.conf
+-  Test: To check ipa replica-manage del does not fail
+
+.. _serhii_tsymbaliuk_3:
+
+Serhii Tsymbaliuk (3)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  WebUI tests: Fix request timeout for test_trust
+-  WebUI: Add PKINIT status field to 'Configuration' page
+-  WebUI tests: Fix timeout issues for reset password tests
+
+.. _tibor_dudlák_4:
+
+Tibor Dudlák (4)
+~~~~~~~~~~~~~~~~
+
+-  Increase ntp_options test timeout
+-  ipatests: refactor TestNTPoptions
+-  ipatests: Add tests for interactive chronyd config
+-  ipatests: Update test tasks for client to be interactive
+
+.. _timo_aaltonen_1:
+
+Timo Aaltonen (1)
+~~~~~~~~~~~~~~~~~
+
+-  install: Add missing scripts to app_DATA.
+
+.. _theodor_van_nahl_1:
+
+Theodor van Nahl (1)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Fix UnboundLocalError in ipa-replica-manage on errors

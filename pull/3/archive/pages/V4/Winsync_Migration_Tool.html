@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="chained_compat_tree.html" />
+    <link rel="prev" title="Overview" href="Who_Am_I_Command.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA has an ability to create IPA-AD trusts, which are the preferable
+way of providing access to the IPA domain for the users from AD.
+However, the previous supported mechanism, which is already deployed in
+many environments was the winsync replication agreement, where the users
+from AD are replicated into the IPA tree and assigned UIDs and GIDs.</p>
+<p>To migrate the deployment from winsync synchronization to cross-realm
+trust, one needs to preserve the UIDs and GIDs that were generated for
+the replicated users.</p>
+<p>IPA 4.1 brings the ability to create user ID overrides for the users
+from the AD domain which is precisely the mechanism we need for the
+seamless migration, without changing the data on the AD side.</p>
+<p>This tool aims to automate the migration process.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>The scope of this tool is to migrate all winsync’ed users from a given
+AD forest.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>An established trust with the AD domain in question</p></li>
+</ul>
+</section>
+<section id="the-detection-of-the-realm-to-use">
+<span id="id1"></span><h2>The detection of the realm to use<a class="headerlink" href="#the-detection-of-the-realm-to-use" title="Permalink to this heading">¶</a></h2>
+<p>Realm name of the AD users will be provided by the user.</p>
+</section>
+<section id="detection-of-the-applicable-users">
+<span id="id2"></span><h2>Detection of the applicable users<a class="headerlink" href="#detection-of-the-applicable-users" title="Permalink to this heading">¶</a></h2>
+<p>The winsynced users will be detected using the
+“(&amp;(objectclass=ntuser)(ntUserDomainId=*))” LDAP filter on the
+cn=users,$SUFFIX subtree.</p>
+</section>
+<section id="migration-procedure-for-one-user">
+<span id="id3"></span><h2>Migration procedure for one user<a class="headerlink" href="#migration-procedure-for-one-user" title="Permalink to this heading">¶</a></h2>
+<p>For each user, we will create an user ID override with the following
+attributes from the original winsynced entry:</p>
+<ul class="simple">
+<li><p>uid</p></li>
+<li><p>uidnumber</p></li>
+<li><p>gidnumber</p></li>
+<li><p>homedirectory</p></li>
+<li><p>gecos</p></li>
+</ul>
+<p>The original user winsynced entry will be removed if the creation of the
+user override was successful.</p>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Options</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ipa-winsync-migrate</p></td>
+<td><p>–ad-realm</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>–unattended -U</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="how-to-test">
+<span id="how-to-test42"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<p>A continuous integration test will be created to test the migration
+procedure.</p>
+</section>
+<section id="author">
+<h1>Author<a class="headerlink" href="#author" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="User:Tbabej">Tomas Babej</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Winsync_Migration_Tool.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

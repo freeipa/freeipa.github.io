@@ -1,3 +1,6 @@
+Directory_Server
+================
+
 This page contains troubleshooting advice for **directory server**
 issues. For other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.

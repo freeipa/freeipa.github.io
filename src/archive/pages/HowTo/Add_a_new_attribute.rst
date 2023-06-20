@@ -1,3 +1,6 @@
+Add_a_new_attribute
+===================
+
 This is a patch from Martin Kosek, annotated to explain how to add an
 LDAP attribute to IPA. You can find the change as commit
 `5af2e17 <https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=5af2e1779ae1a0eca785493c8ed2eb044c8e282a>`__

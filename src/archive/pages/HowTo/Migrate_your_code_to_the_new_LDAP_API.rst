@@ -1,3 +1,6 @@
+Migrate_your_code_to_the_new_LDAP_API
+=====================================
+
 A new LDAP API has been introduced to the framework in FreeIPA 3.2 (see
 `V3/LDAP code <V3/LDAP_code>`__). Compatibility with the old legacy API
 has been kept in place but is currently in the process of being

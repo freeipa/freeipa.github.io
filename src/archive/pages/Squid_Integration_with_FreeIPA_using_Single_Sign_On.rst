@@ -1,3 +1,6 @@
+Squid_Integration_with_FreeIPA_using_Single_Sign_On
+===================================================
+
 **HOWTO: Configure Squid to authenticate IPA users using Kerberos with
 Single Sign On.**
 

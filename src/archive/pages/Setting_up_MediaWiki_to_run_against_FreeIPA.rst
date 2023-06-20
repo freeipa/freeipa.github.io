@@ -1,3 +1,6 @@
+Setting_up_MediaWiki_to_run_against_FreeIPA
+===========================================
+
 **Introduction**
 
 --------------

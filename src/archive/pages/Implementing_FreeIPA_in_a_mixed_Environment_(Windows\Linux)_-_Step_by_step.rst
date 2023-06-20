@@ -1,3 +1,6 @@
+Implementing_FreeIPA_in_a_mixed_Environment_(Windows\Linux)_-_Step_by_step
+==========================================================================
+
 **NOTE**:the information provided on this page was only tested against
 FreeIPA 1.2 and should be considered deprecated for anything newer.
 

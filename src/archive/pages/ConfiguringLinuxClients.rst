@@ -1,3 +1,6 @@
+ConfiguringLinuxClients
+=======================
+
 Can anyone tell me why we're suggesting that RHEL 2.1 be configured
 differently than 3, 4, and 5 should be?
 

@@ -1,3 +1,6 @@
+Setting_up_The_Bug_Genie_to_authenticate_users_against_FreeIPA
+==============================================================
+
 Tested on CentOS 6.5, The Bug Genie 3.2.7.1, FreeIPA 3.0.0-37.el6
 
 Log in as admin. Bottom of the page, click Configure The Bug Genie.

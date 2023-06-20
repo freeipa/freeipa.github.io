@@ -1,3 +1,6 @@
+IPAv3_300_beta2
+===============
+
 \__NOTOC_\_ The FreeIPA team is proud to announce version FreeIPA v3.0.0
 beta 2.
 

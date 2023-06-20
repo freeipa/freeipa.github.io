@@ -1,3 +1,6 @@
+Troubleshooting
+===============
+
 This document should help FreeIPA users who are trying to troubleshoot
 why their setup is not working as expected. After following the steps
 and advises described in this article, users should be able to either

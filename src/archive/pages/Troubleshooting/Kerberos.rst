@@ -1,3 +1,6 @@
+Kerberos
+========
+
 This page contains **Kerberos** troubleshooting advice, including
 **trusts**. For other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.

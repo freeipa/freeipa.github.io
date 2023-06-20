@@ -1,3 +1,6 @@
+Privacy_policy
+==============
+
 
 
 Privacy Statement for the FreeIPA Project

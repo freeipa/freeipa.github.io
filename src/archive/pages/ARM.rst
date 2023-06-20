@@ -1,3 +1,6 @@
+ARM
+===
+
 There has been periodic interest expressed in installing IPA on a SoC
 computer like the Raspberry or Banana Pi. While technically possible
 there are a number of caveats.

@@ -1,3 +1,6 @@
+IpaArchitectureV2
+=================
+
 Extending the FreeIPA commands and elements is possible.
 
 The framework to do so is described

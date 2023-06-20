@@ -1,3 +1,6 @@
+Authenticating_Redmine_with_IPA
+===============================
+
 In order to authenticate against Redmine, read `Redmine LDAP
 guide <http://www.redmine.org/projects/redmine/wiki/RedmineLDAP>`__
 first. Information specific to FreeIPA follows.

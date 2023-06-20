@@ -1,3 +1,6 @@
+DS_Issues_Note
+==============
+
 An update to 389-ds-base has been released in Fedora 17 which works
 correctly with IPA. You can safely update to
 389-ds-base-1.2.11.5-1.fc17.

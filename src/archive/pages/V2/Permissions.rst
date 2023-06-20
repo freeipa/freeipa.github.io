@@ -1,3 +1,6 @@
+Permissions
+===========
+
 \__NOTOC_\_
 
 Introduction

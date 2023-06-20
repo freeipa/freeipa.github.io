@@ -1,3 +1,6 @@
+Files_to_be_attached_to_bug_report
+==================================
+
 
 
 Server instalation failed

@@ -1,3 +1,6 @@
+ConfiguringRhelClients
+======================
+
 Back to `FreeIPAv1:Client Configuration
 Guide <FreeIPAv1:Client_Configuration_Guide>`__
 

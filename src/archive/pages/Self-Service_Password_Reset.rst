@@ -1,3 +1,6 @@
+Self-Service_Password_Reset
+===========================
+
 Self-service password reset feature is often requested by FreeIPA users
 as it is not part of the default user management module. Users with
 forgotten password are expected to contact helpdesk or FreeIPA

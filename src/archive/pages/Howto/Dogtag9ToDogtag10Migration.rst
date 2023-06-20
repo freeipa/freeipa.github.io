@@ -1,3 +1,6 @@
+Dogtag9ToDogtag10Migration
+==========================
+
 FreeIPA version 3.1 and newer introduced support for Dogtag/PKI version
 10 containing features making FreeIPA and CA integration more seamless.
 However, due to changes in architecture of the Dogtag 10 software, there

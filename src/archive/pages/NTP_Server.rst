@@ -1,3 +1,6 @@
+NTP_Server
+==========
+
 `Kerberos <Kerberos>`__ protocol is very
 `sensitive <Troubleshooting#Authentication.2FKerberos>`__ to proper time
 synchronization between KDC and authentication nodes. With time

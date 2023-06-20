@@ -1,3 +1,6 @@
+Coding_Best_Practices
+=====================
+
 Long-term ongoing `refactoring <V4/Refactorings>`__ means that some
 practices you see in FreeIPA's existing code are considered obsolete.
 They should not be used in new code, and old code should be updated when

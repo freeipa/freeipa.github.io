@@ -1,3 +1,6 @@
+IPAv3_AD_trust
+==============
+
 -  Please note that git master of FreeIPA already includes support for
    establishing AD trusts. You can use
    http://freeipa.org/page/IPAv3_testing_AD_trust for instructions on

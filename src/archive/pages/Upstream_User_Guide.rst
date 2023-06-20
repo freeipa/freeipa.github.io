@@ -1,3 +1,6 @@
+Upstream_User_Guide
+===================
+
 Currently, FreeIPA project does not actively maintain any upstream guide
 in a form of a book. The upstream authoritative source of information is
 the this wiki site. Please see

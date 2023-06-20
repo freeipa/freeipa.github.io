@@ -1,3 +1,6 @@
+Installation
+============
+
 This page contains troubleshooting advice for FreeIPA server
 installation. For trouble shooting other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.

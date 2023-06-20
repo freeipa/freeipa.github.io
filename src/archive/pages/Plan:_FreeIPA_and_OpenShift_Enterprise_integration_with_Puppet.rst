@@ -1,3 +1,6 @@
+Plan:_FreeIPA_and_OpenShift_Enterprise_integration_with_Puppet
+==============================================================
+
 NOTICE
 ------
 

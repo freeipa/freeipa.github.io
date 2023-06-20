@@ -1,3 +1,6 @@
+Trust_config_command
+====================
+
 \__NOTOC_\_
 
 Overview

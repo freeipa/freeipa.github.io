@@ -1,3 +1,6 @@
+Replica_Setup
+=============
+
 This text should be straightforward guide to users who want to setup and
 test FreeIPA replica feature.
 
@@ -445,4 +448,3 @@ And all ipaservers should display same info:
    ----------------------------
    Number of entries returned 3
    ----------------------------
-

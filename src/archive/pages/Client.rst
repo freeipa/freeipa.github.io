@@ -1,3 +1,6 @@
+Client
+======
+
 FreeIPA uses standard components and protocols so any
 LDAP/`Kerberos <Kerberos>`__ (and even NIS) client can interoperate with
 FreeIPA `Directory Server <Directory_Server>`__ for basic authentication

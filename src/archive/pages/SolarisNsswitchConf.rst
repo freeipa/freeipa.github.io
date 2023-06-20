@@ -1,3 +1,6 @@
+SolarisNsswitchConf
+===================
+
 The following is a sample /etc/nsswitch.conf file for Solaris IPA
 clients.
 

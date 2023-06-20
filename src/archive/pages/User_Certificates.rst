@@ -1,3 +1,6 @@
+User_Certificates
+=================
+
 `Dogtag <PKI>`__ has support for Asymmetric (PKI) User Keys, but there
 currently exists no way to access them from FreeIPA. Here is a staged
 approach that attempts to show real value at each step without

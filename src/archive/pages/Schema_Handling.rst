@@ -1,3 +1,6 @@
+Schema_Handling
+===============
+
 When developing new features it may be necessary to extended the LDAP
 schema on the server. This operation is delicate, what follows are best
 practices and requirements to handle schema changes in the FreeIPA

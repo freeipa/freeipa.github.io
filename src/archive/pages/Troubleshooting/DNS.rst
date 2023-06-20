@@ -1,3 +1,6 @@
+DNS
+===
+
 This page contains **DNS** and **DNSSEC** troubleshooting advice. For
 other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.

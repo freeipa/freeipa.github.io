@@ -1,3 +1,6 @@
+General_considerations
+======================
+
 This page covers questions that plugin developers that want to extend
 FreeIPA should consider.
 

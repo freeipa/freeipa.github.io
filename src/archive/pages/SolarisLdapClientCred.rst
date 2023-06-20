@@ -1,3 +1,6 @@
+SolarisLdapClientCred
+=====================
+
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
 ::

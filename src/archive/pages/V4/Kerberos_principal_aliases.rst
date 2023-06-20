@@ -1,3 +1,6 @@
+Kerberos_principal_aliases
+==========================
+
 reading this: "The old aliases will be kept unchanged so that the
 user/host/service can continue to use old credentials for
 authentication. " I am thinking ... why are you keeping the old name ?

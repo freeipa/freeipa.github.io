@@ -1,3 +1,6 @@
+DNS
+===
+
 FreeIPA DNS integration allows administrator to manage and serve DNS
 records in a domain using the same CLI or Web UI as when managing
 identities and policies. At the same time, administrator can benefit

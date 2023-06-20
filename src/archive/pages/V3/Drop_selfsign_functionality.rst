@@ -1,3 +1,6 @@
+Drop_selfsign_functionality
+===========================
+
 \__NOTOC_\_
 
 Not to be confused with `V3/Drop_selfsign <V3/Drop_selfsign>`__, a RFE

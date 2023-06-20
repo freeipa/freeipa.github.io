@@ -1,3 +1,6 @@
+tests
+=====
+
 \__NOTOC_\_
 
 Test managed permissions

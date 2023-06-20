@@ -1,3 +1,6 @@
+Thinking_About_Templating_Post
+==============================
+
 Archived from:
 http://blog.benjaminlipton.com/2016/07/19/csr-generation-templating.html
 

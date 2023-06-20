@@ -1,3 +1,6 @@
+V1_warning
+==========
+
 **FreeIPAv1 Related Documentation**
 
 Please note that this content was made for FreeIPA v1 and it may no

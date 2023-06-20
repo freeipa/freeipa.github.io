@@ -1,3 +1,6 @@
+IPA_and_AD
+==========
+
 **'NOTE: This page is obsolete, we have since decided to change strategy
 and use a slightly different trust model to interoperate with AD/Windows
 machines.**'

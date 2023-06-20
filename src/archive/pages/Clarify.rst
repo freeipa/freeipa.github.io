@@ -1,3 +1,6 @@
+Clarify
+=======
+
 .. figure:: Warning_red.svg
    :alt: Warning_red.svg
    :width: 40px

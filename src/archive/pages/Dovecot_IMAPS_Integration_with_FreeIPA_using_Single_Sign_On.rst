@@ -1,3 +1,6 @@
+Dovecot_IMAPS_Integration_with_FreeIPA_using_Single_Sign_On
+===========================================================
+
 **HOWTO: Configure Dovecot to authenticate IPA users using Kerberos with
 Single Sign On.**
 

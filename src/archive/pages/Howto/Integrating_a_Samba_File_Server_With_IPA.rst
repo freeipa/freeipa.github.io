@@ -1,3 +1,6 @@
+Integrating_a_Samba_File_Server_With_IPA
+========================================
+
 `Provided by Loris Santamaria on the freeipa-users@redhat.com
 list. <https://www.redhat.com/archives/freeipa-users/2014-October/msg00458.html>`__
 

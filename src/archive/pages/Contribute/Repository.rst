@@ -1,3 +1,6 @@
+Repository
+==========
+
 FreeIPA project is an open source and as thus offers a free access to
 it's source codes as well as transparent policies how the changes to the
 code are `planned <Roadmap>`__, `executed <Contribute/Code>`__ and

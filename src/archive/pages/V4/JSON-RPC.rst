@@ -1,3 +1,6 @@
+JSON-RPC
+========
+
 Overview
 --------
 

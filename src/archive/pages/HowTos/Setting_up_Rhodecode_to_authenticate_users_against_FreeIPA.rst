@@ -1,3 +1,6 @@
+Setting_up_Rhodecode_to_authenticate_users_against_FreeIPA
+==========================================================
+
 Tested on CentOS 6.5, Rhodecode 2.2.5, FreeIPA 3.0.0-37.el6
 
 First of all, Rhodecode needs an account to connect to LDAP and then

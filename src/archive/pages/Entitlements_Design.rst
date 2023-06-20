@@ -1,3 +1,6 @@
+Entitlements_Design
+===================
+
 Introduction
 ------------
 

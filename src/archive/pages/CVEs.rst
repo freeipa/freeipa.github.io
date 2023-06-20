@@ -1,3 +1,6 @@
+CVEs
+====
+
 CVE content specific to FreeIPA. For more information, refer to the
 Common Vulnerabilities and Exposures (CVE) project:
 

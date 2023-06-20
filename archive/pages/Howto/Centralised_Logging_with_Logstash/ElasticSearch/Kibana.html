@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <title>Kibana &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../../Integrating_a_Samba_File_Server_With_IPA/NTMLSSP.html" />
-    <link rel="prev" title="Creating a wildcard certificate profile in FreeIPA" href="../../Wildcard_certificates.html" />
+    <link rel="next" title="NTMLSSP" href="../../Integrating_a_Samba_File_Server_With_IPA/NTMLSSP.html" />
+    <link rel="prev" title="Wildcard_certificates" href="../../Wildcard_certificates.html" />
    
   <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
   
@@ -32,20 +32,22 @@
 
           <div class="body" role="main">
             
-  <section id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+  <section id="kibana">
+<h1>Kibana<a class="headerlink" href="#kibana" title="Permalink to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This page covers my personal findings when trying to get FreeIPA logs
 sent through to our central log consolidation infrastructure.</p>
 </section>
 <section id="requirements">
-<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h1>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
 <p>These IPA servers are running RHEL 6.6. I have a pair of Logstash
 servers to receive and parse logs and a cluster of 5 ElasticSearch
 database servers. Kibana is used as the interface to view log data from
 the ES cluster.</p>
 </section>
 <section id="base-log-sending">
-<h1>Base Log Sending<a class="headerlink" href="#base-log-sending" title="Permalink to this heading">¶</a></h1>
+<h2>Base Log Sending<a class="headerlink" href="#base-log-sending" title="Permalink to this heading">¶</a></h2>
 <p>The basic rsyslog configuration is modified by adding the file
 /etc/rsyslog.d/logstash.conf</p>
 <p><code class="docutils literal notranslate"><span class="pre">*.* &#64;logserver.example.com:5544</span></code></p>
@@ -53,7 +55,7 @@ the ES cluster.</p>
 UDP on port 5544.</p>
 </section>
 <section id="advanced-log-sending">
-<h1>Advanced Log Sending<a class="headerlink" href="#advanced-log-sending" title="Permalink to this heading">¶</a></h1>
+<h2>Advanced Log Sending<a class="headerlink" href="#advanced-log-sending" title="Permalink to this heading">¶</a></h2>
 <p>Whilst this will work perfectly well for sending basic logs via UDP, for
 bonus points I’m actually doing the following on our Dev IPA servers.
 These servers have the basic rsyslog package replaced by rsyslog7 which
@@ -99,7 +101,7 @@ that match “my_environment=Dev” AND “my_project=IPA”.</p>
 what I need when reviewing the logs through the Kibana UI.</p>
 </section>
 <section id="getting-dirsrv-logs-sending">
-<h1>Getting dirsrv Logs Sending<a class="headerlink" href="#getting-dirsrv-logs-sending" title="Permalink to this heading">¶</a></h1>
+<h2>Getting dirsrv Logs Sending<a class="headerlink" href="#getting-dirsrv-logs-sending" title="Permalink to this heading">¶</a></h2>
 <p>The best way I have so far of doing this is to add another file in the
 /etc/rsyslog.d directory which configures rsyslog to look at external
 log files. /etc/rsyslog.d/dirsrv.conf contains the following:</p>
@@ -124,7 +126,7 @@ new log data is pulled in by rsyslog and then sent on to the Logstash
 server(s) via the logstash.conf file above.</p>
 </section>
 <section id="logstash-configuration">
-<h1>Logstash Configuration<a class="headerlink" href="#logstash-configuration" title="Permalink to this heading">¶</a></h1>
+<h2>Logstash Configuration<a class="headerlink" href="#logstash-configuration" title="Permalink to this heading">¶</a></h2>
 <p>Logstash 1.4.2 is installed via RPM and configured to accept log data.
 Create file /etc/logstash/conf.d/syslog.conf with the following
 contents:</p>
@@ -198,7 +200,7 @@ timestamp that appears in the actual log line. This is an improvement,
 but will only be to the resolution of 1 second.</p>
 </section>
 <section id="issues">
-<h1>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">¶</a></h1>
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>dirsrv logs are timestamped with a resolution that allows dozens of
 log lines to share the same timestamp. Increased resolution of
@@ -212,6 +214,7 @@ passed in the JSON template.</p></li>
 /var/log/localbuffer, where they will simply remain. This is
 sub-optimal.</p></li>
 </ol>
+</section>
 </section>
 
 

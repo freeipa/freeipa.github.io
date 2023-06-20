@@ -1,3 +1,6 @@
+UIPasswordAuth
+==============
+
 By default, the IPA Web UI uses Kerberos Negotiate to perform a single
 sign-on login. This is handled automatically in Firefox if it is
 properly configured and you have a TGT.

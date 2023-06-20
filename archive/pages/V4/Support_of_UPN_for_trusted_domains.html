@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>Support_of_UPN_for_trusted_domains &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="Time-Based_Account_Policies.html" />
-    <link rel="prev" title="Test Plan" href="Sudo_Integration.html" />
+    <link rel="next" title="Time-Based_Account_Policies" href="Time-Based_Account_Policies.html" />
+    <link rel="prev" title="Sudo_Integration" href="Sudo_Integration.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="support-of-upn-for-trusted-domains">
+<h1>Support_of_UPN_for_trusted_domains<a class="headerlink" href="#support-of-upn-for-trusted-domains" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>User principal name (UPN) in Active Directory is the primary form of
 addressing users. UPN has structure of ‘user <a class="reference external" href="mailto:name&#37;&#52;&#48;suffix">name<span>&#64;</span>suffix</a>’ where both
 user name and suffix parts may vary. By default the suffix is the same
@@ -48,13 +50,13 @@ associated with the Active Directory users when accessing resources in
 FreeIPA domain.</p>
 </section>
 <section id="use-cases">
-<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
 <p>As an Active Directory user, I want to login using my <a class="reference external" href="mailto:user&#37;&#52;&#48;EXAMPLE">user<span>&#64;</span>EXAMPLE</a> user
 principal name even if my Active Directory domain is named
 REGION.EXAMPLE.COM.</p>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 <p>Support for UPNs is split to three different components:</p>
 <dl class="simple">
 <dt>Client-side</dt><dd><p>SSSD already supports logon with UPN by asking a KDC to accept
@@ -75,7 +77,7 @@ list of name suffixes and store them in the trusted domain objects.</p>
 </dl>
 </section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 <p>For retrieving name suffixes, IPA framework needs to move to use
 NETLOGON netr_DsRGetForestTrustInformation function instead of
 netr_DsrEnumerateDomainTrusts. This allows to retrieve both domains and
@@ -87,7 +89,7 @@ trusted domains without SID and NetBIOS name, or TLNs need to be stored
 as a property of tree root domains of the forest.</p>
 </section>
 <section id="feature-management">
-<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h2>
 <p>UI</p>
 <p>TLNs are added as a property of tree root domains of the forest,
 appropriate panel needs to be extended to display them.</p>
@@ -96,11 +98,11 @@ appropriate panel needs to be extended to display them.</p>
 appropriate attribute need to be handled by <strong>trust-show</strong> command.</p>
 </section>
 <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>No configuration options.</p>
 </section>
 <section id="upgrade">
-<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h2>
 <p>An attribute ‘ipaNTAdditionalSuffixes’ is added to ‘ipaNTTrustedDomain’
 object class. Replicas which are not upgraded to the FreeIPA version
 which contains the attribute and changed object class definition, will
@@ -110,7 +112,7 @@ and will not be able to show it until the packages for the FreeIPA
 framework are upgraded.</p>
 </section>
 <section id="how-to-test">
-<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h2>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h2>
 <p>In order to test UPN-based logons, create additional name suffixes in
 Active Directory and establish trust to it. After trust is established,
 the name suffixes should be usable when trying to kinit as enterprise
@@ -120,9 +122,10 @@ principal.</p>
 for details of AD naming and how to add UPNs.</p>
 </section>
 <section id="test-plan">
-<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="V4/Support_of_UPN_for_trusted_domains/Test_Plan">Support of UPN for trusted domains V4.4 test
 plan</a></p>
+</section>
 </section>
 
 

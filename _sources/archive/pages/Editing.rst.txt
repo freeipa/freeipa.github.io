@@ -1,3 +1,6 @@
+Editing
+=======
+
 MediaWiki editing
 `information <http://meta.wikimedia.org/wiki/Help:Editing>`__.
 

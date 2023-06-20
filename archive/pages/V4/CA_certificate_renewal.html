@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>CA_certificate_renewal &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="Certificate_Identity_Mapping.html" />
-    <link rel="prev" title="Overview" href="CA-less_to_CA-full_conversion.html" />
+    <link rel="next" title="Certificate_Identity_Mapping" href="Certificate_Identity_Mapping.html" />
+    <link rel="prev" title="CA-less_to_CA-full_conversion" href="CA-less_to_CA-full_conversion.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="ca-certificate-renewal">
+<h1>CA_certificate_renewal<a class="headerlink" href="#ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>Allow automated and manual renewal of IPA CA certificate. Provide an
 utility for manual renewal, including modification of chaining
 (self-signed vs. signed by external CA). Store multiple CA certificates
@@ -46,17 +48,17 @@ in LDAP. Visit <a class="reference external" href="V4/CA_certificate_renewal_(2)
 which consists of distribution of CA certificates to IPA clients.</p>
 </section>
 <section id="use-cases">
-<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="automated-ca-certificate-renewal">
-<h1>Automated CA certificate renewal<a class="headerlink" href="#automated-ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
+<h2>Automated CA certificate renewal<a class="headerlink" href="#automated-ca-certificate-renewal" title="Permalink to this heading">¶</a></h2>
 <p>When the CA certificate is nearing its expiration time, it should be
 automatically renewed. The renewed certificate will use the same keypair
 and subject name as the old certificate.</p>
 <p>This only works for self-signed CA certificates in CA-ful installs.</p>
 </section>
 <section id="manual-ca-certificate-renewal">
-<h1>Manual CA certificate renewal<a class="headerlink" href="#manual-ca-certificate-renewal" title="Permalink to this heading">¶</a></h1>
+<h2>Manual CA certificate renewal<a class="headerlink" href="#manual-ca-certificate-renewal" title="Permalink to this heading">¶</a></h2>
 <p>Allow admin to manually renew the CA certificate and possibly change its
 chaining (self-signed → signed by external CA, signed by external CA →
 self-signed, signed by external CA → signed by other external CA)
@@ -66,17 +68,17 @@ use the same keypair and subject name as the old certificate.</p>
 <p>This works for any CA certificate in CA-ful installs.</p>
 </section>
 <section id="manual-install-of-ca-certificate">
-<h1>Manual install of CA certificate<a class="headerlink" href="#manual-install-of-ca-certificate" title="Permalink to this heading">¶</a></h1>
+<h2>Manual install of CA certificate<a class="headerlink" href="#manual-install-of-ca-certificate" title="Permalink to this heading">¶</a></h2>
 <p>In CA-less installs, CA certificate renewal is completely in charge of a
 3rd party CA. Provide means of installing CA certificates obtained from
 such a CA (<strong>phase 1</strong>) and automatically distribute them to all systems
 in the domain (<strong>phase 2</strong>).</p>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="shared-certificate-store">
-<h1>Shared certificate store<a class="headerlink" href="#shared-certificate-store" title="Permalink to this heading">¶</a></h1>
+<h2>Shared certificate store<a class="headerlink" href="#shared-certificate-store" title="Permalink to this heading">¶</a></h2>
 <p>CA certificates will be stored in entries under
 <code class="docutils literal notranslate"><span class="pre">cn=certificates,cn=ipa,cn=etc,</span></code><em>``suffix``</em>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
@@ -224,7 +226,7 @@ host (for automatic renewal).</p>
 </div>
 </section>
 <section id="automatic-renewal-of-ipa-ca-certificate">
-<h1>Automatic renewal of IPA CA certificate<a class="headerlink" href="#automatic-renewal-of-ipa-ca-certificate" title="Permalink to this heading">¶</a></h1>
+<h2>Automatic renewal of IPA CA certificate<a class="headerlink" href="#automatic-renewal-of-ipa-ca-certificate" title="Permalink to this heading">¶</a></h2>
 <p>The CA certificate managed by Dogtag will be tracked by certmonger. If
 the certificate is self-signed, it will be automatically renewed. If the
 certificate is signed by an external CA, the renewal attempt will fail
@@ -232,7 +234,7 @@ with an error, advising the administrator to renew the certificate
 manually. The error is syslogged with ALERT severity.</p>
 </section>
 <section id="ca-certificate-management-utility">
-<h1>CA certificate management utility<a class="headerlink" href="#ca-certificate-management-utility" title="Permalink to this heading">¶</a></h1>
+<h2>CA certificate management utility<a class="headerlink" href="#ca-certificate-management-utility" title="Permalink to this heading">¶</a></h2>
 <p>There will be new utility to manage CA certificates,
 <code class="docutils literal notranslate"><span class="pre">ipa-cacert-manage</span></code>. It will have several subcommands:</p>
 <ul>
@@ -279,14 +281,14 @@ The available options are:</p>
 </ul>
 </section>
 <section id="client-certificate-update-utility">
-<h1>Client certificate update utility<a class="headerlink" href="#client-certificate-update-utility" title="Permalink to this heading">¶</a></h1>
+<h2>Client certificate update utility<a class="headerlink" href="#client-certificate-update-utility" title="Permalink to this heading">¶</a></h2>
 <p>There will be new utility, <code class="docutils literal notranslate"><span class="pre">ipa-certupdate</span></code>, for updating CA
 certificates on clients with up-to-date data from LDAP. Until <strong>phase
 2</strong> is complete, running it manually will be the only way to update the
 CA certificates after installation.</p>
 </section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 <p>In CA-ful installs, CA certificate renewal is handled by certmonger.
 Automatic renewal is handled by certmonger itself. In manual renewal,
 <code class="docutils literal notranslate"><span class="pre">ipa-cacert-manage</span></code> resubmits the certmonger request for the CA
@@ -306,18 +308,18 @@ the certificate directly to
 allow rollover.</p>
 </section>
 <section id="feature-management">
-<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h2>
 <p>UI</p>
 <p>N/A</p>
 <p>CLI</p>
 <p>See <a class="reference external" href="#CA_certificate_management_utility">design</a>.</p>
 </section>
 <section id="installers">
-<h1>Installers<a class="headerlink" href="#installers" title="Permalink to this heading">¶</a></h1>
+<h2>Installers<a class="headerlink" href="#installers" title="Permalink to this heading">¶</a></h2>
 <p>N/A</p>
 </section>
 <section id="upgrade">
-<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h2>
 <p>Old clients will look for IPA CA certificate in
 <code class="docutils literal notranslate"><span class="pre">cn=CAcert,cn=ipa,cn=etc,</span></code><em>``suffix``</em>. A copy of the most recent
 IPA CA certificate needs to be maintained in this entry for
@@ -329,10 +331,10 @@ to look for CA certificates both in this entry and in
 servers.</p>
 </section>
 <section id="how-to-test">
-<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h2>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="id1">
-<h1>Automated CA certificate renewal<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h2>Automated CA certificate renewal<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic">
 <li><p>Install IPA server with CA (either self-signed or signed by external
 CA)</p></li>
@@ -370,7 +372,7 @@ CA_WORKING status</p></li>
 </ol>
 </section>
 <section id="id2">
-<h1>Manual CA certificate renewal<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h1>
+<h2>Manual CA certificate renewal<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Install IPA server with CA (either self-signed or signed by external
 CA)</p></li>
@@ -403,7 +405,7 @@ certificate were added to the LDAP certificate store and to the
 </ol>
 </section>
 <section id="id3">
-<h1>Manual install of CA certificate<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h1>
+<h2>Manual install of CA certificate<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Install IPA server</p></li>
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">ipa-cacert-manage</span> <span class="pre">install</span></code> to install the CA certificate</p></li>
@@ -411,7 +413,7 @@ certificate were added to the LDAP certificate store and to the
 </ol>
 </section>
 <section id="manual-update-of-local-ca-certificate-files">
-<h1>Manual update of local CA certificate files<a class="headerlink" href="#manual-update-of-local-ca-certificate-files" title="Permalink to this heading">¶</a></h1>
+<h2>Manual update of local CA certificate files<a class="headerlink" href="#manual-update-of-local-ca-certificate-files" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Install IPA server(s) and possibly client(s)</p></li>
 <li><p>Renew or install CA certificate(s)</p></li>
@@ -427,12 +429,13 @@ and the <code class="docutils literal notranslate"><span class="pre">/usr/share/
 </ol>
 </section>
 <section id="test-plan">
-<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h2>
 <p>TODO</p>
 </section>
 <section id="rfe-author">
-<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<h2>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="User:Jcholast">Jan Cholasta</a></p>
+</section>
 </section>
 
 

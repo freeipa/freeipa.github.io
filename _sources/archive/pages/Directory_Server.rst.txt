@@ -1,3 +1,6 @@
+Directory_Server
+================
+
 The FreeIPA Directory Service is built on the `389
 DS <http://directory.fedoraproject.org>`__ LDAP server. It is the base
 stone of the whole Identity Management solution. It serves as a data

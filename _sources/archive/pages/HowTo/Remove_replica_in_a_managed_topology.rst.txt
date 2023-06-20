@@ -1,3 +1,6 @@
+Remove_replica_in_a_managed_topology
+====================================
+
 Introduction
 ------------
 

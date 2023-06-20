@@ -1,3 +1,6 @@
+AD
+==
+
 
 
 Test assumptions on the Active Directory side

@@ -1,3 +1,6 @@
+IPAv3_300_beta1
+===============
+
 The FreeIPA team is proud to announce version FreeIPA v3.0.0 beta 1.
 
 It can be downloaded from http://www.freeipa.org/page/Downloads.

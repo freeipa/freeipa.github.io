@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>Certificates_Refactoring &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="Certs_in_ID_overrides.html" />
-    <link rel="prev" title="Overview" href="Certificate_revocation_behaviour_standardisation.html" />
+    <link rel="next" title="Certs_in_ID_overrides" href="Certs_in_ID_overrides.html" />
+    <link rel="prev" title="Certificate_revocation_behaviour_standardisation" href="Certificate_revocation_behaviour_standardisation.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="certificates-refactoring">
+<h1>Certificates_Refactoring<a class="headerlink" href="#certificates-refactoring" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>FreeIPA code is using certificates in many different ways, through
 various API and tools (NSS, openssl, …) The goal of this refactoring
 is to provide consistent methods to handle certificates, and will
@@ -47,10 +49,10 @@ consist in 3 different efforts:</p>
 </ul>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="certificate-issuance-during-installation">
-<h1>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Permalink to this heading">¶</a></h1>
+<h2>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Permalink to this heading">¶</a></h2>
 <p>During FreeIPA installation, 3 different certificates are requested:</p>
 <ul class="simple">
 <li><p>a certificate for the renew agent (CN=IPA RA,O=$DOMAIN) stored in
@@ -67,7 +69,7 @@ into consideration the profile that will be used for each certificate,
 as well as certmonger’s CA helper responsible for the request and the
 tracking.</p>
 <section id="ipacert">
-<h2>ipaCert<a class="headerlink" href="#ipacert" title="Permalink to this heading">¶</a></h2>
+<h3>ipaCert<a class="headerlink" href="#ipacert" title="Permalink to this heading">¶</a></h3>
 <p>This certificate is requested early in the installation process, after
 Dogtag is configured. At this point, Dogtag has created a certificate
 for ipa-ca-agent in a temporary NSS DB (specified in the pkispawn config
@@ -94,7 +96,7 @@ auth.instance_id, meaning that it allows submission without
 authentication.</p>
 </section>
 <section id="ldap-http-server-certificate">
-<h2>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Permalink to this heading">¶</a></h2>
+<h3>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Permalink to this heading">¶</a></h3>
 <p>These certificate must be requested and tracked using IPA CA helper,
 with the profile caIPAserviceCert. This profile is defined in Dogtag
 with auth.instance_id=raCertAuth, meaning that the submission must be
@@ -116,7 +118,7 @@ caIPAserviceCert</p></li>
 </section>
 </section>
 <section id="refactor-certificate-processing-code-to-use-python-cryptography">
-<h1>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Permalink to this heading">¶</a></h1>
+<h2>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Permalink to this heading">¶</a></h2>
 <p>Using python-nss for certificate processing has several problems,
 including:</p>
 <ul class="simple">
@@ -130,7 +132,7 @@ code to use python-cryptography instead of python-nss. This is largely a
 mechanical procedure. Aspects of this refactoring where substantive
 changes were required are detailed in the following subsections.</p>
 <section id="dealing-with-distinguished-names">
-<h2>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Permalink to this heading">¶</a></h2>
+<h3>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Permalink to this heading">¶</a></h3>
 <p>Whereas python-nss exposed DNs as strings (in LDAP order),
 python-cryptography exposes <code class="docutils literal notranslate"><span class="pre">cryptography.x509.name.Name</span></code> objects.
 FreeIPA often needs to work with <code class="docutils literal notranslate"><span class="pre">ipapython.dn.DN</span></code> objects, as well as
@@ -147,7 +149,7 @@ fact that “flattened” DNs should still compare equal, the lack of proper
 handling is unlikely to cause problems.</p>
 </section>
 <section id="dealing-with-known-othername-types">
-<h2>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Permalink to this heading">¶</a></h2>
+<h3>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Permalink to this heading">¶</a></h3>
 <p>python-cryptography exposes a single type
 <code class="docutils literal notranslate"><span class="pre">cryptography.x509.general_name.OtherName</span></code> for OtherName GeneralNames.
 There are no hooks for informing python-cryptography of more specific
@@ -163,7 +165,7 @@ function that is applied a list of
 returning the resulting list.</p>
 </section>
 <section id="avoiding-pkcs-10-friendlyname-attribute">
-<h2>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Permalink to this heading">¶</a></h2>
+<h3>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Permalink to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">dogtag-ipa-ca-renew-agent</span></code> Certmonger renewal helper needs to
 determine the NSSDB nickname of the certificate being renewed.
 Certmonger includes this datum in the <em>friendlyName</em> attribute in the
@@ -179,7 +181,7 @@ environment variable as the key to look up the NSSDB nickname.</p>
 <p>All CSR-related <em>pyasn1</em> definitions and decoding were removed.</p>
 </section>
 <section id="decoding-certificate-subject-alternative-name-extension">
-<h2>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Permalink to this heading">¶</a></h2>
+<h3>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Permalink to this heading">¶</a></h3>
 <p>python-cryptography does successfully decode certificates with
 unrecognised <em>critical</em> extensions, because the decoding of extensions
 is deferred until the user attempts to access the <code class="docutils literal notranslate"><span class="pre">extensions</span></code>
@@ -195,6 +197,7 @@ subclass (this is a forward-compatiblity measure and ensures commonality
 among higher-level functions that process general names). We <em>do not</em>
 convert known OtherName types into subclasses of <code class="docutils literal notranslate"><span class="pre">OtherName</span></code> at this
 point (the function discuss above can be used to do this).</p>
+</section>
 </section>
 </section>
 

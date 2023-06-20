@@ -1,3 +1,6 @@
+PKI
+===
+
 This page contains **PKI** troubleshooting advice. For other issues,
 refer to the index at `Troubleshooting <Troubleshooting>`__.
 

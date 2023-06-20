@@ -1,3 +1,6 @@
+DNS_Location_Discovery
+======================
+
 **This design is obsolete and was replaced
 by**\ `V3/DNS_Location_Mechanism <V3/DNS_Location_Mechanism>`__\ **.**
 

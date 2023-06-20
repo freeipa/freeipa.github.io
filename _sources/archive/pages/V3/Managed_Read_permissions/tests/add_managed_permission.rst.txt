@@ -1,3 +1,6 @@
+add_managed_permission
+======================
+
 First, create a managed permission entry as follows:
 
 | ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``

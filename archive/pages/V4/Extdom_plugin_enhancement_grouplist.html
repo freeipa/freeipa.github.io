@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>Extdom_plugin_enhancement_grouplist &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="External_Authentication.html" />
-    <link rel="prev" title="Overview" href="Domain_Levels.html" />
+    <link rel="next" title="External_Authentication" href="External_Authentication.html" />
+    <link rel="prev" title="Domain_Levels" href="Domain_Levels.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="extdom-plugin-enhancement-grouplist">
+<h1>Extdom_plugin_enhancement_grouplist<a class="headerlink" href="#extdom-plugin-enhancement-grouplist" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>Currently on FreeIPA <a class="reference external" href="Client">clients</a> the full list of
 group-memberships for users from trusted domains is only available for
 authenticated users. Authentication is needed because the
@@ -47,7 +49,7 @@ domains directly. This data should be made available to the IPA clients
 as well.</p>
 </section>
 <section id="use-cases">
-<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Calling the ‘id’ command on a IPA client or calling getgrouplist() in
 a process should return the full list of secondary groups for any
@@ -56,7 +58,7 @@ in first</p></li>
 </ul>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 <p>The IPA extdom plugin is already called by SSSD running on the IPA
 clients to translate SID to names or POSIX IDs. It can be enhanced to
 return the secondary groups as well.</p>
@@ -85,10 +87,10 @@ user-views. But as long as this feature is implemented after user-views
 everything what is needed will be available.</p>
 </section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="request">
-<h1>Request<a class="headerlink" href="#request" title="Permalink to this heading">¶</a></h1>
+<h2>Request<a class="headerlink" href="#request" title="Permalink to this heading">¶</a></h2>
 <p>The current request looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``/* We expect the following request:``
 | `` * ExtdomRequestValue ::= SEQUENCE {``
@@ -148,7 +150,7 @@ or 256 to the values. Nevertheless I think it is less error prone to use
 a new OID.</p>
 </section>
 <section id="processing-the-request">
-<h1>Processing the request<a class="headerlink" href="#processing-the-request" title="Permalink to this heading">¶</a></h1>
+<h2>Processing the request<a class="headerlink" href="#processing-the-request" title="Permalink to this heading">¶</a></h2>
 <p>The extdom plugin will call getgrouplist() and the resolve the fully
 qualified names by calling getgrgid(). By default groups from the local
 IPA domain are returned unqualified and the local domain name should be
@@ -166,7 +168,7 @@ it can be added later and the extdom plugin can be updated accordingly.</p>
 get the data of the POSIX user entry.</p>
 </section>
 <section id="response">
-<h1>Response<a class="headerlink" href="#response" title="Permalink to this heading">¶</a></h1>
+<h2>Response<a class="headerlink" href="#response" title="Permalink to this heading">¶</a></h2>
 <p>Currently the response looks like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``/* We send to follwing response:``
 | `` * ExtdomResponseValue ::= SEQUENCE {``
@@ -229,22 +231,22 @@ client there are no compatibility concerns because older clients cannot
 request it.</p>
 </section>
 <section id="feature-management">
-<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h2>
 <p>The extdom plugin is automatically configured during
 ipa-adtrust-install. No additional configuration is needed.</p>
 </section>
 <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>No additional configuration is needed. If chosen a new OID can indicate
 that the feature is available.</p>
 </section>
 <section id="how-to-test">
-<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h2>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h2>
 <p>It is possible to test the new feature using an IPA client or directly
 call into the plugin.</p>
 </section>
 <section id="integration-tests-with-sssd">
-<h1>Integration tests with SSSD<a class="headerlink" href="#integration-tests-with-sssd" title="Permalink to this heading">¶</a></h1>
+<h2>Integration tests with SSSD<a class="headerlink" href="#integration-tests-with-sssd" title="Permalink to this heading">¶</a></h2>
 <p>The user-visible effect of this feature is that group members, POSIX
 attributes and user’s group memberships can all be resolved with the
 help of the extdom plugin.</p>
@@ -263,7 +265,7 @@ on the command line.</p></li>
 </ol>
 </section>
 <section id="manual-tests-of-the-plugin">
-<h1>Manual tests of the plugin<a class="headerlink" href="#manual-tests-of-the-plugin" title="Permalink to this heading">¶</a></h1>
+<h2>Manual tests of the plugin<a class="headerlink" href="#manual-tests-of-the-plugin" title="Permalink to this heading">¶</a></h2>
 <p>Besides running integration tests with a separate IPA client the plugin
 can be exercised manually on the server as well and since the extdom
 plugin uses standard libc and SSS interfaces IPA users can be requested
@@ -327,8 +329,9 @@ following way:</p>
 </div>
 </section>
 <section id="rfe-author">
-<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<h2>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="User:Sbose">Sumit Bose</a></p>
+</section>
 </section>
 
 

@@ -1,3 +1,6 @@
+IPAv3_300_rc1
+=============
+
 The FreeIPA team is proud to announce version FreeIPA v3.0.0 rc 1.
 
 It can be downloaded from http://www.freeipa.org/page/Downloads.

@@ -1,3 +1,6 @@
+Using_FreeIPA_CA_for_Puppet
+===========================
+
 Following/updating this (a bit outdated) `blog
 post <http://jcape.name/2012/01/16/using-the-freeipa-pki-with-puppet/>`__
 along with Puppet Labs'

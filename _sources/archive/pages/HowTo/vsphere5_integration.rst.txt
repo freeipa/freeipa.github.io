@@ -1,3 +1,6 @@
+vsphere5_integration
+====================
+
 I'm running vSphere 6.0 (hot off presses last month) and these
 instructions against a vSphere 6 installation and FreeIPA 4.1 (on CentOS
 7.1) do not appear to work anymore. I'm troubleshooting now, but it's

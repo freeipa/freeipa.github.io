@@ -1,3 +1,6 @@
+Writing_how_to_documentation_on_the_wiki
+========================================
+
 Writing a how to page on the wiki is straightforward.
 
 

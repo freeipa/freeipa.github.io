@@ -1,3 +1,6 @@
+Namespace_separation
+====================
+
 The `Web App
 Authentication <http://www.freeipa.org/page/Web_App_Authentication>`__
 using sssd can be used with great benefits in environments where the

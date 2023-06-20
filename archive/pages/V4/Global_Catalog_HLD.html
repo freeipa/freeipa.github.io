@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>Global_Catalog_HLD &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="Global_Catalog_IDM_provisioning.html" />
-    <link rel="prev" title="Overview" href="Global_Catalog_Access_Control.html" />
+    <link rel="next" title="Global_Catalog_IDM_provisioning" href="Global_Catalog_IDM_provisioning.html" />
+    <link rel="prev" title="Global_Catalog_Access_Control" href="Global_Catalog_Access_Control.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="global-catalog-hld">
+<h1>Global_Catalog_HLD<a class="headerlink" href="#global-catalog-hld" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>Global Catalog is a special service that exposes information about
 objects in FreeIPA domain in a way expected by the clients enrolled to
 Active Directory environments. Active Directory domain controllers and
@@ -58,14 +60,14 @@ the information shall come through the domain controllers responsible
 for a domain in question.</p>
 </section>
 <section id="supported-naming-contexts">
-<h1>Supported naming contexts<a class="headerlink" href="#supported-naming-contexts" title="Permalink to this heading">¶</a></h1>
+<h2>Supported naming contexts<a class="headerlink" href="#supported-naming-contexts" title="Permalink to this heading">¶</a></h2>
 <p>There are three naming contexts which exist in Active Directory: Schema
 Naming Context, Configuration Naming Context, and Domain Naming Context.
 The scope for Global Catalog service in FreeIPA is limited to Domain
 Naming Context in initial implementation.</p>
 </section>
 <section id="supported-ports-and-protocols">
-<h1>Supported ports and protocols<a class="headerlink" href="#supported-ports-and-protocols" title="Permalink to this heading">¶</a></h1>
+<h2>Supported ports and protocols<a class="headerlink" href="#supported-ports-and-protocols" title="Permalink to this heading">¶</a></h2>
 <p>FreeIPA Global Catalog service is only available over TCP port 3268 in
 the first implementation phase. Retrieval and update of universal group
 membership cache over TCP port 135 is not planned to be supported. The
@@ -75,7 +77,7 @@ functionality for user and group name lookups with the help of the
 primary FreeIPA LDAP server instance.</p>
 </section>
 <section id="global-catalog-provisioning">
-<h1>Global Catalog provisioning<a class="headerlink" href="#global-catalog-provisioning" title="Permalink to this heading">¶</a></h1>
+<h2>Global Catalog provisioning<a class="headerlink" href="#global-catalog-provisioning" title="Permalink to this heading">¶</a></h2>
 <p>The data in Global Catalog is provisioned from the primary LDAP server
 instance running on the same FreeIPA master. A SYNCREPL mechanism is
 used to retrieve the changes and a modified <strong>slapi-nis</strong> module is used
@@ -85,7 +87,7 @@ the data is stored in a proper LDAP backend so it is persistent across
 the directory server restarts.</p>
 </section>
 <section id="gc-tree-structure">
-<h1>GC tree structure<a class="headerlink" href="#gc-tree-structure" title="Permalink to this heading">¶</a></h1>
+<h2>GC tree structure<a class="headerlink" href="#gc-tree-structure" title="Permalink to this heading">¶</a></h2>
 <p>In Active Directory Global Catalog contains directory data for all
 domains in a forest. For an Active Directory forest with multiple forest
 roots this means multiple domain suffixes exist in the Global Catalog
@@ -98,7 +100,7 @@ the forest domain suffix: e.g. for users a subtree of
 <strong>cn=users,dc=example,dc=com</strong> is used.</p>
 </section>
 <section id="gc-schema-mapping">
-<h1>GC schema mapping<a class="headerlink" href="#gc-schema-mapping" title="Permalink to this heading">¶</a></h1>
+<h2>GC schema mapping<a class="headerlink" href="#gc-schema-mapping" title="Permalink to this heading">¶</a></h2>
 <p>There are two separate mapping processes: first, a data from the primary
 FreeIPA LDAP instance needs to be mapped to a schema expected by Active
 Directory clients consuming Global Catalog service. However, the Global
@@ -106,7 +108,7 @@ Catalog schema itself requires transformation so that it could be used
 in 389-ds directory server environment.</p>
 </section>
 <section id="freeipa-schema-to-gc-schema-mapping">
-<h1>FreeIPA schema to GC schema mapping<a class="headerlink" href="#freeipa-schema-to-gc-schema-mapping" title="Permalink to this heading">¶</a></h1>
+<h2>FreeIPA schema to GC schema mapping<a class="headerlink" href="#freeipa-schema-to-gc-schema-mapping" title="Permalink to this heading">¶</a></h2>
 <p>To perform data transformation from the primary FreeIPA LDAP instance to
 GC instance, a plugin that consumes original LDAP objects from the
 primary FreeIPA LDAP instance will be written. This plugin will use an
@@ -118,7 +120,7 @@ the formatting language is provided in the <a class="reference external" href="h
 documentation</a>.</p>
 </section>
 <section id="equality-and-attribute-syntax-rules-mapping">
-<h1>Equality and attribute syntax rules mapping<a class="headerlink" href="#equality-and-attribute-syntax-rules-mapping" title="Permalink to this heading">¶</a></h1>
+<h2>Equality and attribute syntax rules mapping<a class="headerlink" href="#equality-and-attribute-syntax-rules-mapping" title="Permalink to this heading">¶</a></h2>
 <p>Global Catalog instance schema is derived from a schema published by
 Microsoft through WSPP program as MS-ADSC document,
 <a class="reference external" href="http://msdn.microsoft.com/en-us/library/cc221630.aspx">http://msdn.microsoft.com/en-us/library/cc221630.aspx</a>. Schema files are
@@ -255,7 +257,7 @@ mapped to those of 389-ds.</p>
 </table>
 </section>
 <section id="auxiliary-classes">
-<h1>Auxiliary classes<a class="headerlink" href="#auxiliary-classes" title="Permalink to this heading">¶</a></h1>
+<h2>Auxiliary classes<a class="headerlink" href="#auxiliary-classes" title="Permalink to this heading">¶</a></h2>
 <p>Active Directory schema supports multiple inheritance through use of
 auxiliaryClass and systemAuxiliaryClass attributes. 389-ds does not
 support mechanism to specify multiple superior classes in the schema. In
@@ -263,11 +265,12 @@ result, we need to explicitly add these classes to the objects of a
 specific objectClass type on creation.</p>
 </section>
 <section id="tree-structure-correctness">
-<h1>Tree structure correctness<a class="headerlink" href="#tree-structure-correctness" title="Permalink to this heading">¶</a></h1>
+<h2>Tree structure correctness<a class="headerlink" href="#tree-structure-correctness" title="Permalink to this heading">¶</a></h2>
 <p>Active Directory schema describes types of objects that may contain the
 object of a type through systemPossSuperiors and possSuperiors
 attributes. 389-ds does not support this type enforcement. In result, we
 need to explicitly check these requirements on the object creation.</p>
+</section>
 </section>
 
 

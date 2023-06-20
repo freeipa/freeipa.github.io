@@ -1,3 +1,6 @@
+Environment_Variables
+=====================
+
 Authenticating via Apache will set a number of environment variables,
 depending on the configuration and the authentication method. I'm
 skipping digest authentication because that is not commonly used.

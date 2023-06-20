@@ -1,3 +1,6 @@
+ConfiguringUnixClients
+======================
+
 Introduction
 ============
 

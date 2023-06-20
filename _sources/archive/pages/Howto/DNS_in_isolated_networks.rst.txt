@@ -1,3 +1,6 @@
+DNS_in_isolated_networks
+========================
+
 **Supported in IPA version 4.1 and newer**
 
 Theory

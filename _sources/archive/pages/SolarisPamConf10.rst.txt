@@ -1,3 +1,6 @@
+SolarisPamConf10
+================
+
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
 ::

@@ -1,3 +1,6 @@
+Demo
+====
+
 Installing FreeIPA server on supported platforms is a matter of couple
 minutes, especially when following `Quick Start
 Guide <Quick_Start_Guide>`__. However, for people eager to just try the

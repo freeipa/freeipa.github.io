@@ -1,3 +1,6 @@
+Wildcard_certificates
+=====================
+
 The FreeIPA team sometimes gets asked about wildcard certificate
 support. A wildcard certificate is an X.509 certificate where the DNS-ID
 has a wildcard in it (typically as the most specific domain component,

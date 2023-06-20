@@ -1,3 +1,6 @@
+Administration_and_Web_UI
+=========================
+
 This page contains troubleshooting advice for the FreeIPA
 **administration framework** and **Web UI**. For other issues, refer to
 the index at `Troubleshooting <Troubleshooting>`__.

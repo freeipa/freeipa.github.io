@@ -1,3 +1,6 @@
+Change_Directory_Manager_Password
+=================================
+
 *cn=Directory Manager* password is used by FreeIPA installation tools
 when bootstrapping the `PKI <PKI>`__ installation and for the *admin*
 user in the PKI. While the FreeIPA web service itself does not use the

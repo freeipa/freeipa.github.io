@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The use of sssd &#8212; FreeIPA  documentation</title>
+    <title>Web_App_Authentication &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="The Web UI Component" href="Web_UI.html" />
-    <link rel="prev" title="WebUI 2.1" href="WebUI-2-1.html" />
+    <link rel="next" title="Web_UI" href="Web_UI.html" />
+    <link rel="prev" title="WebUI-2-1" href="WebUI-2-1.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -32,7 +32,9 @@
 
           <div class="body" role="main">
             
-  <p>The typical web applications nowadays use HTTP
+  <section id="web-app-authentication">
+<h1>Web_App_Authentication<a class="headerlink" href="#web-app-authentication" title="Permalink to this heading">¶</a></h1>
+<p>The typical web applications nowadays use HTTP
 <a class="reference external" href="http://en.wikipedia.org/wiki/HTTP_cookie">cookie</a>-based
 authentication sessions, usually with login-form to enter login and
 password pair which is then validated by the application against some
@@ -82,7 +84,7 @@ on a trivial CGI application.</p>
 <p>We do not expect applications to drop their existing functionality that
 served them well, this is merely an additional possibility.</p>
 <section id="the-use-of-sssd">
-<h1>The use of sssd<a class="headerlink" href="#the-use-of-sssd" title="Permalink to this heading">¶</a></h1>
+<h2>The use of sssd<a class="headerlink" href="#the-use-of-sssd" title="Permalink to this heading">¶</a></h2>
 <p>The <a class="reference external" href="https://fedorahosted.org/sssd/">System Security Services Daemon
 (sssd)</a> is present as a standard part
 of the latest Red Hat Enterprise Linux, Fedora, and related
@@ -108,7 +110,7 @@ employees in the finance department to be able to access the accounting
 web application, but not ssh access to the underlying host.</p>
 </section>
 <section id="kerberos">
-<h1>Kerberos<a class="headerlink" href="#kerberos" title="Permalink to this heading">¶</a></h1>
+<h2>Kerberos<a class="headerlink" href="#kerberos" title="Permalink to this heading">¶</a></h2>
 <p>All contemporary web browsers support SPNEGO and Kerberos. When
 accessing <a class="reference external" href="http://server.example.com/">http://server.example.com/</a> or <a class="reference external" href="https://server.example.com/">https://server.example.com/</a>, the
 server can propose <strong>Negotiate</strong> authentication method. If the user
@@ -122,7 +124,7 @@ authenticate to the server.</p>
 and configured</a>.</p>
 </section>
 <section id="application-change-remote-user">
-<h1>Application change: REMOTE_USER<a class="headerlink" href="#application-change-remote-user" title="Permalink to this heading">¶</a></h1>
+<h2>Application change: REMOTE_USER<a class="headerlink" href="#application-change-remote-user" title="Permalink to this heading">¶</a></h2>
 <p>The application then needs to be able to retrieve the result of the
 authentication, the login (principal) of the authenticated user. The
 standard mechanism for CGI deployments is via REMOTE_USER environment
@@ -148,7 +150,7 @@ requires that the user record has certain attributes besides login NOT
 NULL.)</p>
 </section>
 <section id="other-authentication-modules">
-<h1>Other authentication modules<a class="headerlink" href="#other-authentication-modules" title="Permalink to this heading">¶</a></h1>
+<h2>Other authentication modules<a class="headerlink" href="#other-authentication-modules" title="Permalink to this heading">¶</a></h2>
 <p>Besides Kerberos (with mod_auth_gssapi or mod_auth_kerb), there are
 other mechanisms that can be configured in Apache to authenticate:</p>
 <table class="docutils align-default">
@@ -183,7 +185,7 @@ other mechanisms that can be configured in Apache to authenticate:</p>
 </table>
 </section>
 <section id="host-and-service-based-access-control">
-<h1>Host and service based access control<a class="headerlink" href="#host-and-service-based-access-control" title="Permalink to this heading">¶</a></h1>
+<h2>Host and service based access control<a class="headerlink" href="#host-and-service-based-access-control" title="Permalink to this heading">¶</a></h2>
 <p>If mod_auth_gssapi/mod_auth_kerb is configured and application extended
 to consult and trust the REMOTE_USER value, it may have a potentially
 unwanted side effect – any user who is able to get the Kerberos ticket
@@ -203,7 +205,7 @@ separate service, to only give access to a particular set or group of
 users.</p>
 </section>
 <section id="hbac-rules">
-<h1>HBAC rules<a class="headerlink" href="#hbac-rules" title="Permalink to this heading">¶</a></h1>
+<h2>HBAC rules<a class="headerlink" href="#hbac-rules" title="Permalink to this heading">¶</a></h2>
 <p>We will start from the end – from the FreeIPA HBAC service. It is just
 a string which distinguishes one service from another. Running</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">hbacsvc</span><span class="o">-</span><span class="n">find</span>
@@ -227,7 +229,7 @@ allow_all HBAC rule</a> for the mechanism to
 work properly.</p>
 </section>
 <section id="pam-service">
-<h1>PAM service<a class="headerlink" href="#pam-service" title="Permalink to this heading">¶</a></h1>
+<h2>PAM service<a class="headerlink" href="#pam-service" title="Permalink to this heading">¶</a></h2>
 <p>On the IPA-enrolled machine on which the web application is being
 configured, we need to define the PAM service to use sssd. We create
 file named the same as the HBAC service we’ve created with
@@ -240,7 +242,7 @@ need file <strong>/etc/pam.d/reporting-prod</strong> with content</p>
 </div>
 </section>
 <section id="mod-authnz-pam">
-<h1>mod_authnz_pam<a class="headerlink" href="#mod-authnz-pam" title="Permalink to this heading">¶</a></h1>
+<h2>mod_authnz_pam<a class="headerlink" href="#mod-authnz-pam" title="Permalink to this heading">¶</a></h2>
 <p>The module <strong>mod_authnz_pam</strong> adds access control checks to
 authentication phase of HTTP request processing in Apache. The typical
 mod_auth_gssapi/mod_auth_kerb configuration will have</p>
@@ -271,7 +273,7 @@ service (which possibly more strict rules) for this part:</p>
 </div>
 </section>
 <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>mod_authnz_pam</strong> module can be configured with any other module
 which uses the <code class="docutils literal notranslate"><span class="pre">require</span></code> Apache directive. The deployment matrix then
 changes to:</p>
@@ -313,7 +315,7 @@ page</a>
 for detailed configuration steps.</p>
 </section>
 <section id="login-form-using-freeipa">
-<h1>Login form using FreeIPA<a class="headerlink" href="#login-form-using-freeipa" title="Permalink to this heading">¶</a></h1>
+<h2>Login form using FreeIPA<a class="headerlink" href="#login-form-using-freeipa" title="Permalink to this heading">¶</a></h2>
 <p>In many situations, neither Kerberos nor any other authentication method
 which requires some additional setup on client’s side (like
 certificates) can be used or mandated, for practical reasons. Still, if
@@ -382,7 +384,7 @@ page</a>
 has more details about the configuration.</p>
 </section>
 <section id="additional-user-information">
-<h1>Additional user information<a class="headerlink" href="#additional-user-information" title="Permalink to this heading">¶</a></h1>
+<h2>Additional user information<a class="headerlink" href="#additional-user-information" title="Permalink to this heading">¶</a></h2>
 <p>The FreeIPA server can not only store plain login identities and
 passwords for authentication services, it can also hold additional user
 attributes like email addresses, phone numbers, or full names of users,
@@ -480,7 +482,7 @@ sssd:</p>
 than FreeIPA but such setup is beyond the scope of this overview.</p>
 </section>
 <section id="namespace-separation">
-<h1>Namespace Separation<a class="headerlink" href="#namespace-separation" title="Permalink to this heading">¶</a></h1>
+<h2>Namespace Separation<a class="headerlink" href="#namespace-separation" title="Permalink to this heading">¶</a></h2>
 <p>In the above description we have assumed that the admin wants to handle
 all their application users with external authentication and that the
 set of user identities (locally created/managed and the
@@ -491,7 +493,7 @@ setups with externally-authenticated users marked with &#64;REALM and
 multiple IPA server setups.</p>
 </section>
 <section id="saml">
-<h1>SAML<a class="headerlink" href="#saml" title="Permalink to this heading">¶</a></h1>
+<h2>SAML<a class="headerlink" href="#saml" title="Permalink to this heading">¶</a></h2>
 <p>As mentioned above, when the Web application / framework is amended to
 be able to process REMOTE_USER and REMOTE_USER_GROUP_* environment
 variables, it’s then just a matter of configuration of the front-end
@@ -513,17 +515,17 @@ environment variables exactly like mod_lookup_identity does:</p>
 </div>
 </section>
 <section id="references">
-<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="openstack">
-<h1>OpenStack<a class="headerlink" href="#openstack" title="Permalink to this heading">¶</a></h1>
+<h2>OpenStack<a class="headerlink" href="#openstack" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Nathan Kinder’s <a class="reference external" href="https://blog-nkinder.rhcloud.com/?p=130">https://blog-nkinder.rhcloud.com/?p=130</a></p></li>
 <li><p>Adam Young’s <a class="reference external" href="http://adam.younglogic.com/2015/03/key-fed-lookup-redux/">http://adam.younglogic.com/2015/03/key-fed-lookup-redux/</a></p></li>
 </ul>
 </section>
 <section id="spacewalk">
-<h1>Spacewalk<a class="headerlink" href="#spacewalk" title="Permalink to this heading">¶</a></h1>
+<h2>Spacewalk<a class="headerlink" href="#spacewalk" title="Permalink to this heading">¶</a></h2>
 <p>In Spacewalk 2.1, it is possible to use both the Kerberos
 authentication, and the form-based PAM authentication, including the
 HBAC management from FreeIPA and mapping of group membership from the
@@ -532,14 +534,14 @@ identity provider to Spacewalk roles (access rights) – see
 documentation of the feature.</p>
 </section>
 <section id="satellite">
-<h1>Satellite<a class="headerlink" href="#satellite" title="Permalink to this heading">¶</a></h1>
+<h2>Satellite<a class="headerlink" href="#satellite" title="Permalink to this heading">¶</a></h2>
 <p>Based on Spacewalk upstream, the capability is now also available in
 Satellite 5.7 and documented in the <a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/5.7/html/Installation_Guide/ch06s02.html">Using Identity Management for
 Authentication</a>
 chapter of the Installation Guide.</p>
 </section>
 <section id="foreman">
-<h1>Foreman<a class="headerlink" href="#foreman" title="Permalink to this heading">¶</a></h1>
+<h2>Foreman<a class="headerlink" href="#foreman" title="Permalink to this heading">¶</a></h2>
 <p>In Foreman 1.5, the external authentication is fully implemented as
 described on this page – see the <a class="reference external" href="http://projects.theforeman.org/issues/5031">tracking
 issue</a> with links to
@@ -548,13 +550,13 @@ now documented in <a class="reference external" href="http://theforeman.org/manu
 manual</a>.</p>
 </section>
 <section id="satellite-6">
-<h1>Satellite 6<a class="headerlink" href="#satellite-6" title="Permalink to this heading">¶</a></h1>
+<h2>Satellite 6<a class="headerlink" href="#satellite-6" title="Permalink to this heading">¶</a></h2>
 <p>Based on Foreman upstream, the capability is now also available in
 Satellite 6.0:
 <a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.1/html/User_Guide/sect-Using-IdM-for-Authentication.html">https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.1/html/User_Guide/sect-Using-IdM-for-Authentication.html</a></p>
 </section>
 <section id="manageiq">
-<h1>ManageIQ<a class="headerlink" href="#manageiq" title="Permalink to this heading">¶</a></h1>
+<h2>ManageIQ<a class="headerlink" href="#manageiq" title="Permalink to this heading">¶</a></h2>
 <p>The support for external authentication is now in manageiq master:
 <a class="reference external" href="https://github.com/ManageIQ/manageiq/commit/e0423c18d48380ff8d490ccb08291d2098fde69f">https://github.com/ManageIQ/manageiq/commit/e0423c18d48380ff8d490ccb08291d2098fde69f</a>.
 The feature is configured by the console:
@@ -564,23 +566,23 @@ or manually:
 <a class="reference external" href="https://github.com/ManageIQ/guides/blob/master/external_auth/configuration.md">https://github.com/ManageIQ/guides/blob/master/external_auth/configuration.md</a>.</p>
 </section>
 <section id="cloudforms">
-<h1>CloudForms<a class="headerlink" href="#cloudforms" title="Permalink to this heading">¶</a></h1>
+<h2>CloudForms<a class="headerlink" href="#cloudforms" title="Permalink to this heading">¶</a></h2>
 <p>Based on the ManageIQ upstream, the capability is now also available in
 CFME 5.3 and documented in the
 <a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_CloudForms/3.1/html/Management_Engine_5.3_Settings_and_Operations_Guide/chap-Configuration.html">Configuration</a>
 chapter of the Settings and Operations Guide.</p>
 </section>
 <section id="opendaylight">
-<h1>OpenDayLight<a class="headerlink" href="#opendaylight" title="Permalink to this heading">¶</a></h1>
+<h2>OpenDayLight<a class="headerlink" href="#opendaylight" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="https://jdennis.fedorapeople.org/doc/sssd_configuration.pdf">Federated Authentication Utilizing Apache &amp;
 SSSD</a> by
 John Dennis.</p>
 </section>
 <section id="videos">
-<h1>Videos<a class="headerlink" href="#videos" title="Permalink to this heading">¶</a></h1>
+<h2>Videos<a class="headerlink" href="#videos" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="using-os-level-identity-authentication-and-access-control-for-web-applications">
-<h1>Using OS-level identity, authentication, and access control for Web applications<a class="headerlink" href="#using-os-level-identity-authentication-and-access-control-for-web-applications" title="Permalink to this heading">¶</a></h1>
+<h2>Using OS-level identity, authentication, and access control for Web applications<a class="headerlink" href="#using-os-level-identity-authentication-and-access-control-for-web-applications" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.adelton.com/docs/idm/os-auth-stack-for-web-applications">Presentation at DevConf
 2015</a>
@@ -590,7 +592,7 @@ Sadly, the first five minutes of the video are without sound.</p></li>
 </ul>
 </section>
 <section id="identity-management-in-red-hat-enterprise-linux-web-application-authentication-series">
-<h1>Identity management in Red Hat Enterprise Linux: Web Application Authentication Series<a class="headerlink" href="#identity-management-in-red-hat-enterprise-linux-web-application-authentication-series" title="Permalink to this heading">¶</a></h1>
+<h2>Identity management in Red Hat Enterprise Linux: Web Application Authentication Series<a class="headerlink" href="#identity-management-in-red-hat-enterprise-linux-web-application-authentication-series" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Part I: Current standard: logon forms and cookie-based sessions
 <a class="reference external" href="https://www.youtube.com/watch?v=Qdv8waOk6UE">https://www.youtube.com/watch?v=Qdv8waOk6UE</a>
@@ -604,7 +606,7 @@ Sadly, the first five minutes of the video are without sound.</p></li>
 </ul>
 </section>
 <section id="django">
-<h1>Django<a class="headerlink" href="#django" title="Permalink to this heading">¶</a></h1>
+<h2>Django<a class="headerlink" href="#django" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>External Authentication for Django Projects
 <a class="reference external" href="https://www.youtube.com/watch?v=62_jD-8zV4M">https://www.youtube.com/watch?v=62_jD-8zV4M</a>
@@ -612,7 +614,7 @@ Sadly, the first five minutes of the video are without sound.</p></li>
 </ul>
 </section>
 <section id="foreman-demo">
-<h1>Foreman demo<a class="headerlink" href="#foreman-demo" title="Permalink to this heading">¶</a></h1>
+<h2>Foreman demo<a class="headerlink" href="#foreman-demo" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>External authentication with and installer improvements, presented by
 Marek Hulán
@@ -621,10 +623,10 @@ Marek Hulán
 </ul>
 </section>
 <section id="presentations">
-<h1>Presentations<a class="headerlink" href="#presentations" title="Permalink to this heading">¶</a></h1>
+<h2>Presentations<a class="headerlink" href="#presentations" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="external-and-federated-identities-on-the-web">
-<h1>External and Federated Identities on the Web<a class="headerlink" href="#external-and-federated-identities-on-the-web" title="Permalink to this heading">¶</a></h1>
+<h2>External and Federated Identities on the Web<a class="headerlink" href="#external-and-federated-identities-on-the-web" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.adelton.com/docs/idm/external-and-federated-identities">ApacheCon Core Europe 2015
 presentation</a>
@@ -633,7 +635,7 @@ slides</a>)</p></li>
 </ul>
 </section>
 <section id="id1">
-<h1>Using OS-level identity, authentication, and access control for Web applications<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h2>Using OS-level identity, authentication, and access control for Web applications<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.adelton.com/docs/idm/os-auth-stack-for-web-applications">Developer Conference 2015
 presentation</a>
@@ -642,7 +644,7 @@ slides</a>)</p></li>
 </ul>
 </section>
 <section id="external-identity-and-authentication-providers-for-apache-http-server">
-<h1>External Identity and Authentication Providers For Apache HTTP Server<a class="headerlink" href="#external-identity-and-authentication-providers-for-apache-http-server" title="Permalink to this heading">¶</a></h1>
+<h2>External Identity and Authentication Providers For Apache HTTP Server<a class="headerlink" href="#external-identity-and-authentication-providers-for-apache-http-server" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.adelton.com/docs/idm/apache-external-idm-auth">ApacheCon Europe 2014
 presentation</a>
@@ -651,7 +653,7 @@ slides</a>)</p></li>
 </ul>
 </section>
 <section id="identity-management-scaling-out-and-up">
-<h1>Identity Management Scaling Out and Up<a class="headerlink" href="#identity-management-scaling-out-and-up" title="Permalink to this heading">¶</a></h1>
+<h2>Identity Management Scaling Out and Up<a class="headerlink" href="#identity-management-scaling-out-and-up" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.adelton.com/docs/idm/idm-scaling-out-and-up">LinuxCon Europe 2014
 presentation</a>
@@ -660,13 +662,14 @@ slides</a>)</p></li>
 </ul>
 </section>
 <section id="external-authentication-for-django-projects">
-<h1>External Authentication for Django Projects<a class="headerlink" href="#external-authentication-for-django-projects" title="Permalink to this heading">¶</a></h1>
+<h2>External Authentication for Django Projects<a class="headerlink" href="#external-authentication-for-django-projects" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.adelton.com/django/external-authentication-for-django-projects">EuroPython 2015
 presetnation</a>
 (also as <a class="reference external" href="http://www.adelton.com/django/external-authentication-for-django-projects.pdf">PDF
 slides</a>)</p></li>
 </ul>
+</section>
 </section>
 
 

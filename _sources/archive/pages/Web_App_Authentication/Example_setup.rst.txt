@@ -1,3 +1,6 @@
+Example_setup
+=============
+
 In this text we will assume the identity provider used is IPA server and
 we will look at the setup and modifications that might be needed in
 typical web application to be able to use these central identities. We

@@ -1,3 +1,6 @@
+PKI
+===
+
 On CentOS 7 (presumably on Fedora 19+ and RHEL 7) OpenLDAP is packaged
 with it's own cert type, slapd_cert_t. This appears to be unrelated to
 cert_t, as selinux forbids certmonger access. I submitted a bug report

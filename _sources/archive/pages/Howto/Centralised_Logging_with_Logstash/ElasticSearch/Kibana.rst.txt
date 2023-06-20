@@ -1,3 +1,6 @@
+Kibana
+======
+
 Introduction
 ------------
 

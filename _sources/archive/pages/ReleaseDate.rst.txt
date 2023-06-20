@@ -1,3 +1,6 @@
+ReleaseDate
+===========
+
 |Release date| *Released*
 
 `Category:FreeIPA Release <Category:FreeIPA_Release>`__

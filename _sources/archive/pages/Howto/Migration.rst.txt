@@ -1,3 +1,6 @@
+Migration
+=========
+
 There are several use cases where administrators may choose to migrate
 either to FreeIPA, either on the same platform or OS or on different.
 This page shows several procedures for different use cases:

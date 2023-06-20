@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction &#8212; FreeIPA  documentation</title>
+    <title>SSLUsage &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Introduction" href="SUDO_Integration_for_AIX.html" />
-    <link rel="prev" title="Purpose" href="SELinux_user_mapping.html" />
+    <link rel="next" title="SUDO_Integration_for_AIX" href="SUDO_Integration_for_AIX.html" />
+    <link rel="prev" title="SELinux_user_mapping" href="SELinux_user_mapping.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -32,9 +32,11 @@
 
           <div class="body" role="main">
             
-  <p>__NOTOC__</p>
+  <section id="sslusage">
+<h1>SSLUsage<a class="headerlink" href="#sslusage" title="Permalink to this heading">¶</a></h1>
+<p>__NOTOC__</p>
 <section id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>SSL is used in a lot of different places within IPA. This is an attempt
 to explain where it is used, where the certificates come from, and how
 everything inter-operates.</p>
@@ -48,12 +50,12 @@ we don’t need visibility into those.</p></li>
 </ul>
 </section>
 <section id="certificate-authorities">
-<h1>Certificate Authorities<a class="headerlink" href="#certificate-authorities" title="Permalink to this heading">¶</a></h1>
+<h2>Certificate Authorities<a class="headerlink" href="#certificate-authorities" title="Permalink to this heading">¶</a></h2>
 <p>There are two options for Certificate authorities in IPA: dogtag and
 selfsign.</p>
 </section>
 <section id="dogtag">
-<h1>dogtag<a class="headerlink" href="#dogtag" title="Permalink to this heading">¶</a></h1>
+<h2>dogtag<a class="headerlink" href="#dogtag" title="Permalink to this heading">¶</a></h2>
 <p>dogtag gives us a full CA that can do all the things you’d expect a CA
 to do:</p>
 <ul class="simple">
@@ -65,14 +67,14 @@ to do:</p>
 </ul>
 </section>
 <section id="selfsign">
-<h1>selfsign<a class="headerlink" href="#selfsign" title="Permalink to this heading">¶</a></h1>
+<h2>selfsign<a class="headerlink" href="#selfsign" title="Permalink to this heading">¶</a></h2>
 <p>selfsign self-signed CA using certutil to generate certificates. This CA
 resides in the Apache NSS database (<code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias</span></code>). This also
 uses the file <code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/ca_serialno</span></code> in an attempt to guarantee
 unique serial numbers.</p>
 </section>
 <section id="certificate-subjects">
-<h1>Certificate Subjects<a class="headerlink" href="#certificate-subjects" title="Permalink to this heading">¶</a></h1>
+<h2>Certificate Subjects<a class="headerlink" href="#certificate-subjects" title="Permalink to this heading">¶</a></h2>
 <p>dogtag allows us to have great control over the subject of the
 certificates we issue. The profile
 <code class="docutils literal notranslate"><span class="pre">/var/lib/pki-ca/profiles/ca/caIPAserviceCert.cfg</span></code> controls how
@@ -85,10 +87,10 @@ pull the CN out of the request and use only that.</p>
 match the expected subject configured.</p>
 </section>
 <section id="servers">
-<h1>Servers<a class="headerlink" href="#servers" title="Permalink to this heading">¶</a></h1>
+<h2>Servers<a class="headerlink" href="#servers" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="apache">
-<h1>Apache<a class="headerlink" href="#apache" title="Permalink to this heading">¶</a></h1>
+<h2>Apache<a class="headerlink" href="#apache" title="Permalink to this heading">¶</a></h2>
 <p>Apache uses the NSS database in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias</span></code>. mod_nss is the SSL
 engine.</p>
 <p>At a minimum you’ll find 3 certificates here:</p>
@@ -102,7 +104,7 @@ file that allows the browser to be automatically configured</p></li>
 <p>If using dogtag then the RA agent certificate will also reside here.</p>
 </section>
 <section id="ds">
-<h1>389-ds<a class="headerlink" href="#ds" title="Permalink to this heading">¶</a></h1>
+<h2>389-ds<a class="headerlink" href="#ds" title="Permalink to this heading">¶</a></h2>
 <p>389-ds uses the NSS database in <code class="docutils literal notranslate"><span class="pre">/etc/dirsrv/slapd-INSTANCE</span></code>.</p>
 <p>There should be only two certificates here:</p>
 <ul class="simple">
@@ -111,7 +113,7 @@ file that allows the browser to be automatically configured</p></li>
 </ul>
 </section>
 <section id="signing-certificate">
-<h1>Signing Certificate<a class="headerlink" href="#signing-certificate" title="Permalink to this heading">¶</a></h1>
+<h2>Signing Certificate<a class="headerlink" href="#signing-certificate" title="Permalink to this heading">¶</a></h2>
 <p>In order to modify a browser configuration using javascript the code
 must be signed by a signing certificate of a trusted CA. We issue an
 object signing certificate to sign the code in
@@ -119,19 +121,19 @@ object signing certificate to sign the code in
 with the nickname ‘Signing-Cert’ from the Apache NSS database.</p>
 </section>
 <section id="client-authentication">
-<h1>Client authentication<a class="headerlink" href="#client-authentication" title="Permalink to this heading">¶</a></h1>
+<h2>Client authentication<a class="headerlink" href="#client-authentication" title="Permalink to this heading">¶</a></h2>
 <p>The only client authentication done is done by the IPA XML-RPC server
 connecting to dogtag to do agent commands (request, revoke, etc). This
 uses python-nss and the RA agent certificate created during dogtag
 installation.</p>
 </section>
 <section id="ldap-replication">
-<h1>LDAP replication<a class="headerlink" href="#ldap-replication" title="Permalink to this heading">¶</a></h1>
+<h2>LDAP replication<a class="headerlink" href="#ldap-replication" title="Permalink to this heading">¶</a></h2>
 <p>LDAP replication must use SSL. Because all replicas are provided with an
 SSL certificate (by <code class="docutils literal notranslate"><span class="pre">ipa-replica-prepare</span></code>) this is straightforward.</p>
 </section>
 <section id="what-happens-during-installation">
-<h1>What happens during installation?<a class="headerlink" href="#what-happens-during-installation" title="Permalink to this heading">¶</a></h1>
+<h2>What happens during installation?<a class="headerlink" href="#what-happens-during-installation" title="Permalink to this heading">¶</a></h2>
 <p>Regardless of the CA type we install a copy of the CA into two places on
 disk:</p>
 <ul class="simple">
@@ -142,13 +144,13 @@ disk:</p>
 only put into /etc/ipa/ca.crt.</p>
 </section>
 <section id="id1">
-<h1>dogtag<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h2>dogtag<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="id2">
-<h1>selfsign<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h1>
+<h2>selfsign<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="what-happens-during-an-ipa-command-request">
-<h1>What happens during an ipa command request?<a class="headerlink" href="#what-happens-during-an-ipa-command-request" title="Permalink to this heading">¶</a></h1>
+<h2>What happens during an ipa command request?<a class="headerlink" href="#what-happens-during-an-ipa-command-request" title="Permalink to this heading">¶</a></h2>
 <p>We use Kerberos to authenticate to the web server but this
 authentication is done in the clear over HTTP. For LDAP we can use SASL
 which provides encryption as well as authentication.</p>
@@ -177,6 +179,7 @@ the request.</p>
 <p>Newer versions of httplib have dropped some classes we need, notably
 SSLFile and FakeSocket. We have slurped in a copy of what we need in
 ipapython/ipasslfile.py for those systems that don’t have it.</p>
+</section>
 </section>
 
 

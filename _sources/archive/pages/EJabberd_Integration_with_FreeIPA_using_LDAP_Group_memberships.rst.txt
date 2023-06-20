@@ -1,3 +1,6 @@
+EJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships
+==============================================================
+
 **HOWTO: Configure eJabberd to authenticate IPA users using LDAP Group
 memberships.**
 

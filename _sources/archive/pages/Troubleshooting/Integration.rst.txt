@@ -1,3 +1,6 @@
+Integration
+===========
+
 This page contains troubleshooting advice for **integration** of FreeIPA
 with other programs. For other issues, refer to the index at
 `Troubleshooting <Troubleshooting>`__.

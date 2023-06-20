@@ -1,3 +1,6 @@
+Schema
+======
+
 This page is an **obsolete previous version** of the storage components
 of the `Automatic Certificate Request
 Generation <V4/Automatic_Certificate_Request_Generation>`__ design. We

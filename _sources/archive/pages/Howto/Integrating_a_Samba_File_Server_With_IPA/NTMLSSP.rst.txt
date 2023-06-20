@@ -1,3 +1,6 @@
+NTMLSSP
+=======
+
 Getting Windows clients that are not enrolled to FreeIPA domain to be
 able to mount a CIFS share using NTMLSSP.
 

@@ -1,3 +1,6 @@
+Filtering_groups_by_type
+========================
+
 \__NOTOC_\_
 
 Overview

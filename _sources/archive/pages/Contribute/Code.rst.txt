@@ -1,3 +1,6 @@
+Code
+====
+
 This article should serve both as a reference article for already
 seasoned FreeIPA developers, but also as a guide for new people who
 would like to contribute. You can fix an open bug described in chosen

@@ -1,3 +1,6 @@
+Tests
+=====
+
 \__NOTOC_\_
 
 Test permission filters

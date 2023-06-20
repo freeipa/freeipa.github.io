@@ -1,3 +1,6 @@
+Trust_resolve_command
+=====================
+
 \__NOTOC_\_
 
 Overview

@@ -1,3 +1,6 @@
+NetApp_integration_in_a_mixed_environment
+=========================================
+
 **NetApp integration with IPA in a mixed environment**
 
 --------------

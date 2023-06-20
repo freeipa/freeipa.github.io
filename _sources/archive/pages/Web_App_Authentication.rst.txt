@@ -1,3 +1,6 @@
+Web_App_Authentication
+======================
+
 The typical web applications nowadays use HTTP
 `cookie <http://en.wikipedia.org/wiki/HTTP_cookie>`__-based
 authentication sessions, usually with login-form to enter login and

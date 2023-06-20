@@ -1,3 +1,6 @@
+Kerberos
+========
+
 The Kerberos KDC/Kadmin components are implemented using the `MIT
 Kerberos <http://web.mit.edu/kerberos/>`__ software. It provides
 authentication services for the entire FreeIPA realm, it's users

@@ -1,3 +1,6 @@
+Roadmap
+=======
+
 From time perspective, FreeIPA upstream releases are tied to `Fedora
 release schedule <https://fedoraproject.org/wiki/Schedule>`__. The
 development is coordinated so that the most recent FreeIPA bits can be

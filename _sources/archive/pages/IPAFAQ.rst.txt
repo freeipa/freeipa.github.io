@@ -1,3 +1,6 @@
+IPAFAQ
+======
+
 This discussion page serves as the development page for the IPA FAQ.
 Questions and answers are first posted here, finalized, and then moved
 to the content page.

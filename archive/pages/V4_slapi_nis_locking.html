@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>V4_slapi_nis_locking &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Signing keys" href="Verify_Release_Signature.html" />
-    <link rel="prev" title="Useful links" href="V4_Test_Proposals.html" />
+    <link rel="next" title="Verify_Release_Signature" href="Verify_Release_Signature.html" />
+    <link rel="prev" title="V4_Test_Proposals" href="V4_Test_Proposals.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="v4-slapi-nis-locking">
+<h1>V4_slapi_nis_locking<a class="headerlink" href="#v4-slapi-nis-locking" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>Schema compat plugin can create deadlocks like
 <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1435663">1435663</a>. The
 two operations in that BZ have to be managed by Schema compat so it is
@@ -48,7 +50,7 @@ scenario of deadlock because acquiring locks in the opposite order.</p>
 problem and describe a solution</p>
 </section>
 <section id="use-case">
-<h1>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h1>
+<h2>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">¶</a></h2>
 <p>A admin is adding a IPA user to a GROUP_A, this triggers an update of
 the user (to update memberof attribute) that will update the related
 Schema Compat entry. At the same time a SRCH of a Schema Compat entry
@@ -56,7 +58,7 @@ need to evaluate GROUP_A to grant access to attributes present in the
 search filter.</p>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 <p>Just to give an example of a typical scenario of the deadlock here is
 how deadlocking threads are looking like</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``   Thread 34 (Thread 0x7f2f4f7fe700 (LWP 22764)):``
@@ -165,7 +167,7 @@ be acquired by a same thread. The <strong>lock should be reentrant</strong>.</p>
 acquires the SC lock in PREOP and release it in POSTOP.</p>
 </section>
 <section id="first-try">
-<h1>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h1>
+<h2>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">¶</a></h2>
 <p>A first
 <a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1305923">patch</a> was</p>
 <ul class="simple">
@@ -185,7 +187,7 @@ scope of the SC</p></li>
 </ul>
 </section>
 <section id="second-patch">
-<h1>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h1>
+<h2>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">¶</a></h2>
 <p>Because we can not guaranty the order the plugins are called, the
 acquisition/release of the lock should be done a step above:
 <strong>BE_PREOP</strong> / <strong>BE_POST</strong>.</p>
@@ -220,7 +222,7 @@ systematically the problem ( &gt; 3 times out of 4). The fix makes it
 successful almost more than 9 times out of 10. The last time it hit an
 other issue.</p>
 <section id="case-not-fixed">
-<h2>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h2>
+<h3>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">¶</a></h3>
 <p>An other issue is related to plugins or tasks <strong>starting transaction</strong>
 and accessing DB pages (under the txn) before doing internal updates.
 Indeed, the txn will lock the DB pages (in read) that can not be access
@@ -286,6 +288,7 @@ case runs)</p>
 <div class="line">``       443 READ          1 WAIT    userRoot/entryrdn.db      page          3``</div>
 <div class="line">``        ……``</div>
 </div>
+</section>
 </section>
 </section>
 

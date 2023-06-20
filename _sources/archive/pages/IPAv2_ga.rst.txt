@@ -1,3 +1,6 @@
+IPAv2_ga
+========
+
 \__NOTOC_\_ March 25, 2011
 
 The FreeIPA project team is pleased to announce the availability of the

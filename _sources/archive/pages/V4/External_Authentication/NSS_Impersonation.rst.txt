@@ -1,3 +1,6 @@
+NSS_Impersonation
+=================
+
 
 
 Using mod_nss's NSSVerifyClient require + LookupUserByCertificate + GssapiImpersonate

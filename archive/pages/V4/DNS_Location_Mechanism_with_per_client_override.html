@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>DNS_Location_Mechanism_with_per_client_override &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="DNS_configuration_daemon.html" />
-    <link rel="prev" title="Overview" href="DNS_Location_Mechanism.html" />
+    <link rel="next" title="DNS_configuration_daemon" href="DNS_configuration_daemon.html" />
+    <link rel="prev" title="DNS_Location_Mechanism" href="DNS_Location_Mechanism.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,13 +32,15 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="dns-location-mechanism-with-per-client-override">
+<h1>DNS_Location_Mechanism_with_per_client_override<a class="headerlink" href="#dns-location-mechanism-with-per-client-override" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p><strong>Author</strong>: Simo Sorce with help from Petr Spacek, Martin Basti, and
 others</p>
 </section>
 <section id="forewords">
-<h1>Forewords<a class="headerlink" href="#forewords" title="Permalink to this heading">¶</a></h1>
+<h2>Forewords<a class="headerlink" href="#forewords" title="Permalink to this heading">¶</a></h2>
 <p>This is a new proposal (Jan 2013) to support Location Based discovery in
 FreeIPA. It was inspired by <a class="reference external" href="FreeIPAv2:DNS_Location_Discovery">this</a>
 earlier proposal made a while ago. The main difference is that it
@@ -49,7 +51,7 @@ different FreeIPA DNS servers, that are local to the location being
 considered.</p>
 </section>
 <section id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Service Discovery is a process whereby a client uses information stored
 in the network to find servers that offer a specific service. It is
 useful for two reasons. First, it places the information required for
@@ -95,7 +97,7 @@ with a normal DNS the FreeIPA mechanism is augmented by additional
 the FreeIPA DNS plugins.</p>
 </section>
 <section id="assumptions">
-<h1>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading">¶</a></h1>
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Clients are doing DNS SRV lookup specified in <a class="reference external" href="http://tools.ietf.org/html/rfc2782">RFC
 2782</a> to find out information
@@ -145,7 +147,7 @@ then IPA needs integration with DNS views on external servers.</p></li>
 </ul>
 </section>
 <section id="current-use-of-srv-records">
-<h1>Current use of SRV records<a class="headerlink" href="#current-use-of-srv-records" title="Permalink to this heading">¶</a></h1>
+<h2>Current use of SRV records<a class="headerlink" href="#current-use-of-srv-records" title="Permalink to this heading">¶</a></h2>
 <p>Client queries for SRV records located in the domain/realm
 (<code class="docutils literal notranslate"><span class="pre">example.com</span></code> in the following example) and gets back all servers.
 Assuming that all DNS servers responsible for given zone are returning a
@@ -161,7 +163,7 @@ typically have the same priority (0) and weight (100):</p>
 </div>
 </section>
 <section id="use-cases">
-<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Roaming clients should connect to set of ‘nearest’ servers so
 communication is ‘cheap’. When none of nearest servers is reachable,
@@ -174,10 +176,10 @@ This might require specifying location on per-zone basics.</p></li>
 </ul>
 </section>
 <section id="design-so-called-dname-per-client">
-<h1>Design (so-called DNAME per client)<a class="headerlink" href="#design-so-called-dname-per-client" title="Permalink to this heading">¶</a></h1>
+<h2>Design (so-called DNAME per client)<a class="headerlink" href="#design-so-called-dname-per-client" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="the-discovery-protocol">
-<h1>The Discovery Protocol<a class="headerlink" href="#the-discovery-protocol" title="Permalink to this heading">¶</a></h1>
+<h2>The Discovery Protocol<a class="headerlink" href="#the-discovery-protocol" title="Permalink to this heading">¶</a></h2>
 <p>The main point about this protocol is the recognition that all we really
 need is to find a specific (set of) server(s) that a specific client
 needs to find. The second point is that the client has 1 bit of
@@ -202,7 +204,7 @@ administrator chooses not to configure the servers to support per client
 SRV Records and otherwise adds little overhead.</p>
 </section>
 <section id="client-implementation">
-<h1>Client Implementation<a class="headerlink" href="#client-implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Client Implementation<a class="headerlink" href="#client-implementation" title="Permalink to this heading">¶</a></h2>
 <p>Because currently used SRV records are multiple and to allow the case
 where a host may actually be using a domain name that is also already
 used as a zone name (ie the name X.example.com identifies both an actual
@@ -238,16 +240,16 @@ Considerations</a> section for more
 information.</p>
 </section>
 <section id="server-side-implementation">
-<h1>Server side implementation<a class="headerlink" href="#server-side-implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Server side implementation<a class="headerlink" href="#server-side-implementation" title="Permalink to this heading">¶</a></h2>
 <section id="basic-solution">
-<h2>Basic solution<a class="headerlink" href="#basic-solution" title="Permalink to this heading">¶</a></h2>
+<h3>Basic solution<a class="headerlink" href="#basic-solution" title="Permalink to this heading">¶</a></h3>
 <p>The simplest way to implement this scheme on the server side is to just
 create a set of records for each client. However this is a very
 heavyweight and error prone process as it requires the creation of many
 records for each client.</p>
 </section>
 <section id="a-more-rational-solution">
-<h2>A more rational solution<a class="headerlink" href="#a-more-rational-solution" title="Permalink to this heading">¶</a></h2>
+<h3>A more rational solution<a class="headerlink" href="#a-more-rational-solution" title="Permalink to this heading">¶</a></h3>
 <p>A simple but more manageable solution may be to use DNAME records as
 defined by <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC6672">RFC
 6672</a>. The
@@ -265,7 +267,7 @@ LDAP service over the TCP protocol by using the name
 redirected to the record <code class="docutils literal notranslate"><span class="pre">_ldap._tcp.Y._locations.example.com</span></code></p>
 </section>
 <section id="advanced-freeipa-solution">
-<h2>Advanced FreeIPA solution<a class="headerlink" href="#advanced-freeipa-solution" title="Permalink to this heading">¶</a></h2>
+<h3>Advanced FreeIPA solution<a class="headerlink" href="#advanced-freeipa-solution" title="Permalink to this heading">¶</a></h3>
 <p>Although the above implementation works fine for most cases it has 2
 major drawbacks. The first one is poor support for roaming clients as
 they would be permanently referring to a specific location even when
@@ -281,7 +283,7 @@ be synthesized by the driver if not present using a default
 configuration. However to make this more useful the plugin shouldn’t
 just use one single default, but should have a default ‘per server’.</p>
 <section id="related-tickets-incomplete-list">
-<h3>Related tickets (incomplete list)<a class="headerlink" href="#related-tickets-incomplete-list" title="Permalink to this heading">¶</a></h3>
+<h4>Related tickets (incomplete list)<a class="headerlink" href="#related-tickets-incomplete-list" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/ticket/126">bind-dyndb-ldap ticket
 #126</a></p></li>
@@ -291,7 +293,7 @@ support and manage DNS sites]</p></li>
 </ul>
 </section>
 <section id="roaming-remote-clients">
-<h3>Roaming/Remote clients<a class="headerlink" href="#roaming-remote-clients" title="Permalink to this heading">¶</a></h3>
+<h4>Roaming/Remote clients<a class="headerlink" href="#roaming-remote-clients" title="Permalink to this heading">¶</a></h4>
 <p>Roaming clients or Remote clients have one big problem, although they
 may have a default preferred location they move across networks and the
 definition of ‘location’ and ‘closest’ server changes as they move. Yet
@@ -306,7 +308,7 @@ information may or may not work. (There is also the minor issue that we
 do not yet support views in the bind-dyndb-ldap plugin.)</p>
 </section>
 <section id="addressing-the-multiple-locations-problem">
-<h3>Addressing the multiple locations problem<a class="headerlink" href="#addressing-the-multiple-locations-problem" title="Permalink to this heading">¶</a></h3>
+<h4>Addressing the multiple locations problem<a class="headerlink" href="#addressing-the-multiple-locations-problem" title="Permalink to this heading">¶</a></h4>
 <p>The reason to define multiple locations is that we want to redirect
 clients to different servers depending on the location they belong to.
 This only really makes sense if each location has its own (set of)
@@ -334,7 +336,7 @@ clients needs a preference but that preference can be overridden in some
 circumstances.</p>
 </section>
 <section id="choosing-the-right-location">
-<h3>Choosing the right location<a class="headerlink" href="#choosing-the-right-location" title="Permalink to this heading">¶</a></h3>
+<h4>Choosing the right location<a class="headerlink" href="#choosing-the-right-location" title="Permalink to this heading">¶</a></h4>
 <p>So the right location for a client may be a combination of a preference
 and a set of requirements. One example of a requirement that can trump
 any preference is a bandwidth constrained location.</p>
@@ -353,7 +355,7 @@ only local servers in their SRV records.</p>
 roaming clients.</p>
 </section>
 <section id="dns-slave-server-problem">
-<h3>DNS Slave server problem<a class="headerlink" href="#dns-slave-server-problem" title="Permalink to this heading">¶</a></h3>
+<h4>DNS Slave server problem<a class="headerlink" href="#dns-slave-server-problem" title="Permalink to this heading">¶</a></h4>
 <p>Dynamically choosing locations may cause issues with DNS Slaves servers,
 as they wouldn’t be able implement this dynamic mechanism.</p>
 <p>One way to handle this problem is to operate in a ‘degraded’ mode where
@@ -377,7 +379,7 @@ code a lot more compicated and critical.</p>
 </section>
 </section>
 <section id="overall-implementation-proposal">
-<h1>Overall implementation proposal<a class="headerlink" href="#overall-implementation-proposal" title="Permalink to this heading">¶</a></h1>
+<h2>Overall implementation proposal<a class="headerlink" href="#overall-implementation-proposal" title="Permalink to this heading">¶</a></h2>
 <p>Given that the basic solution is relatively simple and require minimal
 if no client changes we should consider implementing at least part of
 this proposal as soon as possible. Implementing DNAME record support in
@@ -389,10 +391,10 @@ support as well as adding the necessary additional schema and UI to the
 freeipa framework to mark and group clients and locations.</p>
 </section>
 <section id="security-considerations">
-<h1>Security Considerations<a class="headerlink" href="#security-considerations" title="Permalink to this heading">¶</a></h1>
+<h2>Security Considerations<a class="headerlink" href="#security-considerations" title="Permalink to this heading">¶</a></h2>
 <p>TBD</p>
 <section id="id1">
-<h2>Client Implementation<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<h3>Client Implementation<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <p>As always DNS replies can be spoofed relatively easily. We recommend
 that SRV records resolution is used only for those clients that normally
 use an additional security protocol to talk to network resources and can
@@ -406,7 +408,7 @@ required. Use of DNSSEC and full DNS signature verification may be
 considered an additional requirement in some cases.</p>
 </section>
 <section id="server-implementation">
-<h2>Server Implementation<a class="headerlink" href="#server-implementation" title="Permalink to this heading">¶</a></h2>
+<h3>Server Implementation<a class="headerlink" href="#server-implementation" title="Permalink to this heading">¶</a></h3>
 <p>Given current integration with BIND (using bind-dyndb-ldap), the only
 way how to handle DNSSEC is to pre-generate all <code class="docutils literal notranslate"><span class="pre">_location</span></code> records
 for each client name at zone loading time. DNSSEC signing will then sign
@@ -431,7 +433,7 @@ names using <code class="docutils literal notranslate"><span class="pre">dnssec-
 </section>
 </section>
 <section id="example">
-<h1>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h1>
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
 <p>Version 1 of this proposal introduces separate sets of SRV records for
 each location.</p>
 <p>Location <code class="docutils literal notranslate"><span class="pre">cz</span></code> will have one set of SRV records:</p>
@@ -499,7 +501,7 @@ returned by DNAME (CNAME).</p></li>
 </ul>
 </section>
 <section id="comparison-with-microsoft-active-directory-sites">
-<h1>Comparison with Microsoft Active Directory Sites<a class="headerlink" href="#comparison-with-microsoft-active-directory-sites" title="Permalink to this heading">¶</a></h1>
+<h2>Comparison with Microsoft Active Directory Sites<a class="headerlink" href="#comparison-with-microsoft-active-directory-sites" title="Permalink to this heading">¶</a></h2>
 <p>Some administrators might be familiar with concept of <a class="reference external" href="https://technet.microsoft.com/en-us/library/cc754697.aspx">Active Directory
 Sites</a>.
 Please note that FreeIPA’s <em>DNS Locations</em> are different in several
@@ -533,7 +535,7 @@ assigned to that particular site.</p></li>
 </ul>
 </section>
 <section id="summary-of-meeting-2016-02-04">
-<h1>Summary of meeting 2016-02-04<a class="headerlink" href="#summary-of-meeting-2016-02-04" title="Permalink to this heading">¶</a></h1>
+<h2>Summary of meeting 2016-02-04<a class="headerlink" href="#summary-of-meeting-2016-02-04" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Participants: Simo Sorce, Petr Spacek, Martin Basti</p></li>
 <li><p>We will start with <a class="reference external" href="V4/DNS_Location_Mechanism">per sub-tree
@@ -550,7 +552,7 @@ so different zones can be assigned to different locations.</p></li>
 </ul>
 </section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 <p>TBD</p>
 <p>UI</p>
 <p>TBD</p>
@@ -558,28 +560,29 @@ so different zones can be assigned to different locations.</p></li>
 <p>TBD</p>
 </section>
 <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>TBD</p>
 </section>
 <section id="upgrade">
-<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h2>
 <p>TBD</p>
 </section>
 <section id="how-to-test">
-<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h2>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h2>
 <p>TBD</p>
 </section>
 <section id="test-plan">
-<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="V4/DNS_Location_Mechanism_with_per_client_override/Test_Plan">DNS Location Mechanism with per client override V4.4 test
 plan</a></p>
 </section>
 <section id="references">
-<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 <p>SRV Records: <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC2782">RFC
 2782</a></p>
 <p>DNAME Records: <a class="reference external" href="http://www.rfc-archive.org/getrfc.php?rfc=RFC6672">RFC
 6672</a></p>
+</section>
 </section>
 
 

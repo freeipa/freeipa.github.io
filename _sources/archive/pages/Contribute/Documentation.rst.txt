@@ -1,3 +1,6 @@
+Documentation
+=============
+
 FreeIPA team welcome help in all documentation related areas, especially
 with adding articles, HOWTOs or just updating information on this
 community wiki.

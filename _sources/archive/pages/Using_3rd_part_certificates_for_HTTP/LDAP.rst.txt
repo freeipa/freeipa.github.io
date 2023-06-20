@@ -1,3 +1,6 @@
+LDAP
+====
+
 The following command will allow you to use a 3rd party certificate
 after initially deploying the FreeIPA system. You will need the
 following files:

@@ -1,3 +1,6 @@
+Test
+====
+
 \__NOTOC_\_ Assume the following host names:
 
 -  ``ipa1.example.com`` for IPA server,

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>Server_Upgrade_Refactoring &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="Service_Constraint_Delegation.html" />
-    <link rel="prev" title="Overview" href="Server_Roles.html" />
+    <link rel="next" title="Service_Constraint_Delegation" href="Service_Constraint_Delegation.html" />
+    <link rel="prev" title="Server_Roles" href="Server_Roles.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="server-upgrade-refactoring">
+<h1>Server_Upgrade_Refactoring<a class="headerlink" href="#server-upgrade-refactoring" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>FreeIPA server becomes full of new features and enhancements over the
 time, which makes upgrade process hard to keep in shape.</p>
 <p>Following improvements, listed in this design, should make server update
@@ -41,7 +43,7 @@ process more deterministic, robust and working well in various update
 environments (%posttrans update, containers, etc.).</p>
 </section>
 <section id="use-cases">
-<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Make update process more deterministic</p></li>
 <li><p>Merge server update commands into the one command
@@ -63,10 +65,10 @@ files with HUGE warning (disallow to execute overall update)</p></li>
 </ul>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="make-upgrade-process-more-deterministic">
-<h1>Make upgrade process more deterministic<a class="headerlink" href="#make-upgrade-process-more-deterministic" title="Permalink to this heading">¶</a></h1>
+<h2>Make upgrade process more deterministic<a class="headerlink" href="#make-upgrade-process-more-deterministic" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="http://www.redhat.com/archives/freeipa-devel/2014-December/msg00183.html">Freeipa-devel list
 discussion</a></p>
 <p>Currently update process do several optimizations which may prevent some
@@ -88,7 +90,7 @@ updates will be same as order in files.</p></li>
 <li><p>Apply updates per file, in specified order from top to bottom.</p></li>
 </ul>
 <section id="ordering-ldap-updates">
-<h2>Ordering LDAP updates<a class="headerlink" href="#ordering-ldap-updates" title="Permalink to this heading">¶</a></h2>
+<h3>Ordering LDAP updates<a class="headerlink" href="#ordering-ldap-updates" title="Permalink to this heading">¶</a></h3>
 <p>All LDAP update files are ordered/executed in alphabetical order. Update
 files should keep the number prefix, but this is not required anymore by
 updater.</p>
@@ -102,13 +104,13 @@ updater.</p>
 </div>
 </section>
 <section id="plugin-the-new-update-file-directive">
-<h2><em>plugin</em> - the new update file directive<a class="headerlink" href="#plugin-the-new-update-file-directive" title="Permalink to this heading">¶</a></h2>
+<h3><em>plugin</em> - the new update file directive<a class="headerlink" href="#plugin-the-new-update-file-directive" title="Permalink to this heading">¶</a></h3>
 <p>Plugins are called from update files, using new directive <strong>plugin:</strong></p>
 <p>Plugins which edits ldap data directly, without using modlists, should
 be in separate files.</p>
 </section>
 <section id="update-plugins-modifications">
-<h2>Update plugins modifications<a class="headerlink" href="#update-plugins-modifications" title="Permalink to this heading">¶</a></h2>
+<h3>Update plugins modifications<a class="headerlink" href="#update-plugins-modifications" title="Permalink to this heading">¶</a></h3>
 <p>Execution order of plugins is specified in .update files. There is no
 need to keep PRE_UPDATE and POST_UPDATE plugin classes and FIRST,
 MIDDLE, LAST order specifications.</p>
@@ -124,7 +126,7 @@ and <em>Postupdate</em> classes.</p>
 </section>
 </section>
 <section id="merge-server-update-commands-into-the-one-command">
-<h1>Merge server update commands into the one command<a class="headerlink" href="#merge-server-update-commands-into-the-one-command" title="Permalink to this heading">¶</a></h1>
+<h2>Merge server update commands into the one command<a class="headerlink" href="#merge-server-update-commands-into-the-one-command" title="Permalink to this heading">¶</a></h2>
 <p>Related ticket:
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4834">#4834</a>,
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3351">#3351</a></p>
@@ -139,7 +141,7 @@ ipa-ldap-updater failed, can break the system.</p>
 <p>To resolve issues mentioned above only one command should do upgrade:
 <code class="docutils literal notranslate"><span class="pre">ipa-server-upgrade</span></code>.</p>
 <section id="ipa-server-upgrade-characteristics">
-<h2>ipa-server-upgrade characteristics<a class="headerlink" href="#ipa-server-upgrade-characteristics" title="Permalink to this heading">¶</a></h2>
+<h3>ipa-server-upgrade characteristics<a class="headerlink" href="#ipa-server-upgrade-characteristics" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>LDAPI only is used for upgrade (no binding using DM password)</p></li>
 <li><p>check the version of configuration and code version, run only if
@@ -174,7 +176,7 @@ cn=config LDAP configurations)</p></li>
 </section>
 </section>
 <section id="prevent-to-run-ipa-if-version-mismatch">
-<h1>Prevent to run IPA if version mismatch<a class="headerlink" href="#prevent-to-run-ipa-if-version-mismatch" title="Permalink to this heading">¶</a></h1>
+<h2>Prevent to run IPA if version mismatch<a class="headerlink" href="#prevent-to-run-ipa-if-version-mismatch" title="Permalink to this heading">¶</a></h2>
 <p>Related ticket: <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3849">#3849</a></p>
 <p><code class="docutils literal notranslate"><span class="pre">ipactl</span> <span class="pre">{start|restart}</span></code></p>
 <ol class="arabic simple">
@@ -217,11 +219,11 @@ IPA.</p>
 check.</p>
 </section>
 <section id="refactor-ipa-upgradeconfig-into-modules-plugins-used-by-ipa-server-update">
-<h1>Refactor ipa-upgradeconfig into modules/plugins used by ipa-server-update<a class="headerlink" href="#refactor-ipa-upgradeconfig-into-modules-plugins-used-by-ipa-server-update" title="Permalink to this heading">¶</a></h1>
+<h2>Refactor ipa-upgradeconfig into modules/plugins used by ipa-server-update<a class="headerlink" href="#refactor-ipa-upgradeconfig-into-modules-plugins-used-by-ipa-server-update" title="Permalink to this heading">¶</a></h2>
 <p>This will be done during the installer refactoring.</p>
 </section>
 <section id="requirements-for-using-updates-in-containers">
-<h1>Requirements for using updates in containers<a class="headerlink" href="#requirements-for-using-updates-in-containers" title="Permalink to this heading">¶</a></h1>
+<h2>Requirements for using updates in containers<a class="headerlink" href="#requirements-for-using-updates-in-containers" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Upgrade must run before first start of IPA services (if required)</p></li>
 <li><p>Switching between images based on different OS distribution is not
@@ -238,10 +240,10 @@ there is no guarantee the IPA will work as expected</p></li>
 </ul>
 </section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="storing-configuration-version-and-platform-place-format">
-<h1>Storing configuration version and platform (place, format)<a class="headerlink" href="#storing-configuration-version-and-platform-place-format" title="Permalink to this heading">¶</a></h1>
+<h2>Storing configuration version and platform (place, format)<a class="headerlink" href="#storing-configuration-version-and-platform-place-format" title="Permalink to this heading">¶</a></h2>
 <p>The ipapython.version.IPA_VENDOR_VERSION variable is used to determine
 IPA version. The format is 4.1.2-0.fc21.</p>
 <p>The platform value consist of ipaplatform file name which is used for a
@@ -252,7 +254,7 @@ IPA 4.2+ servers.</p>
 <strong>ipa_platform</strong></p>
 </section>
 <section id="feature-management">
-<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h2>
 <p>UI</p>
 <p>N/A</p>
 <p>CLI</p>
@@ -305,21 +307,22 @@ given file</p></td>
 </table>
 </section>
 <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>N/A</p>
 </section>
 <section id="how-to-test">
-<h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<h2>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h2>
 <p>Run <code class="docutils literal notranslate"><span class="pre">ipa-server-update</span></code> on various old versions of IPA.</p>
 </section>
 <section id="test-plan">
-<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="http://www.freeipa.org/page/V4/Server_Upgrade_Refactoring/Test_Plan">Test
 Plan</a></p>
 </section>
 <section id="author">
-<h1>Author<a class="headerlink" href="#author" title="Permalink to this heading">¶</a></h1>
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="User:Mbasti">Martin Basti</a></p>
+</section>
 </section>
 
 

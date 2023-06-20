@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Overview &#8212; FreeIPA  documentation</title>
+    <title>AD_User_Short_Names &#8212; FreeIPA  documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <link rel="icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Overview" href="AD_Users_Login.html" />
-    <link rel="prev" title="Overview" href="ACME.html" />
+    <link rel="next" title="AD_Users_Login" href="AD_Users_Login.html" />
+    <link rel="prev" title="ACME" href="ACME.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -32,8 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+  <section id="ad-user-short-names">
+<h1>AD_User_Short_Names<a class="headerlink" href="#ad-user-short-names" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>Currently the ability of FreeIPA/SSSD to resolve and authenticate AD
 users by their short names is quite limited. While
 <code class="docutils literal notranslate"><span class="pre">default_domain_suffix</span></code> option in <code class="docutils literal notranslate"><span class="pre">sssd.conf</span></code> can be used to resolve
@@ -48,7 +50,7 @@ fully-qualified identifiers, use them to authenticate users and cache
 the results.</p>
 </section>
 <section id="use-cases">
-<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>FreeIPA Administrator manages access to Unix resources for AD users
 coming from multiple forests/domains. In order to improve UX for
@@ -68,7 +70,7 @@ fine-grained short name resolution is required</p></li>
 </ul>
 </section>
 <section id="design">
-<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h2>
 <p>NOTE: This design concerns mostly the server-side implementation and
 management of data consumable by SSSD client.</p>
 <p>The ordered list of domains used for resolution of user short name to
@@ -76,7 +78,7 @@ the full-qualified form will be referred to as domain resolution order
 in the rest of this document.</p>
 </section>
 <section id="domain-resolution-order-storage-and-interpretation">
-<h1>Domain resolution order storage and interpretation<a class="headerlink" href="#domain-resolution-order-storage-and-interpretation" title="Permalink to this heading">¶</a></h1>
+<h2>Domain resolution order storage and interpretation<a class="headerlink" href="#domain-resolution-order-storage-and-interpretation" title="Permalink to this heading">¶</a></h2>
 <p>The domain resolution order will be stored as a part of Global
 configuration object. If the attribute exists and is not empty ( i.e.
 contains at least one domain) the client shall extract the ordered list
@@ -95,7 +97,7 @@ interpretation of these rule can, however, be left on the client
 application.</p>
 </section>
 <section id="global-vs-local-domain-resolution-order-settings">
-<h1>Global vs. local domain resolution order settings<a class="headerlink" href="#global-vs-local-domain-resolution-order-settings" title="Permalink to this heading">¶</a></h1>
+<h2>Global vs. local domain resolution order settings<a class="headerlink" href="#global-vs-local-domain-resolution-order-settings" title="Permalink to this heading">¶</a></h2>
 <p>There will be a means to manage a global domain resolution order
 applicable for all enrolled hosts in the IPA domain. The global settings
 can be overriden for selected hosts/hostgroups by attaching a local
@@ -104,7 +106,7 @@ also when no global definition is set so that the feature can first be
 tested on selected hostgroup and then applied globally when desired.</p>
 </section>
 <section id="domain-resolution-order-management">
-<h1>Domain resolution order management<a class="headerlink" href="#domain-resolution-order-management" title="Permalink to this heading">¶</a></h1>
+<h2>Domain resolution order management<a class="headerlink" href="#domain-resolution-order-management" title="Permalink to this heading">¶</a></h2>
 <p>The feature will provide a simple API for the management of the domain
 resolution order. More sophisticated API may be provided later if demand
 for better user experience arises. For example, the following high-level
@@ -127,7 +129,7 @@ resolution order and remove stale domains from it when the trusted
 domain was removed or disabled.</p>
 </section>
 <section id="domain-resolution-order-validation">
-<h1>Domain resolution order validation<a class="headerlink" href="#domain-resolution-order-validation" title="Permalink to this heading">¶</a></h1>
+<h2>Domain resolution order validation<a class="headerlink" href="#domain-resolution-order-validation" title="Permalink to this heading">¶</a></h2>
 <p>Finally, any modification of the domain resolution order must ensure
 that each of the specified domain names corresponds either to that of
 FreeIPA domain or to one of the trusted AD domains stored in LDAP
@@ -135,7 +137,7 @@ backend. In the case of trusted domains, the domain must not be marked
 as disabled.</p>
 </section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 <p>The LDAP schema of the global config object
 (<code class="docutils literal notranslate"><span class="pre">cn=ipaConfig,cn=etc,$SUFFIX</span></code>) and ID view objects will be extended
 by a new objectclass providing the attribute which stores the domain
@@ -155,7 +157,7 @@ responsible to retrieve and parse this value in order to decode the list
 of domains it should consult for short name resolution.</p>
 </section>
 <section id="feature-management">
-<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h2>
 <p>UI</p>
 <p>The WebUI should provide a way to view and manipulate the domain
 resolution order under the <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> tab.</p>
@@ -167,7 +169,7 @@ contains the raw attribute value which can be displayed by
 demand for better user experience.</p>
 </section>
 <section id="configuration">
-<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h1>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>The feature is considered disabled if the domain resolution order is
 absent in the configuration and applied ID view. In this case the client
 shall retain the default behavior when handling incoming users.</p>
@@ -176,7 +178,7 @@ then the client may either keep the default behavior or force all users
 to use fully qualified names to access resources in FreeIPA domain.</p>
 </section>
 <section id="upgrade">
-<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h2>
 <p>Upon upgrade the LDAP schema will be updated and the ipaConfig object
 will be augmented by the new objectclass.</p>
 <p>Since updating the objectclasses of all ID View objects can potentially
@@ -188,7 +190,7 @@ which do not understand domain resolution order will simply ignore it
 and keep original behavior.</p>
 </section>
 <section id="how-to-use">
-<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h1>
+<h2>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">¶</a></h2>
 <p>Consider the following scenario as an example:</p>
 <p>FreeIPA domain ‘ipa.test’ is trusting a forest ‘ad.forest.test’ which
 has two child domains (‘child1.ad.forest.test’,
@@ -197,7 +199,7 @@ has two child domains (‘child1.ad.forest.test’,
 log in using short name, we may do the following:</p>
 </section>
 <section id="example-1-create-a-global-resolution-order">
-<h1>Example 1: Create a global resolution order<a class="headerlink" href="#example-1-create-a-global-resolution-order" title="Permalink to this heading">¶</a></h1>
+<h2>Example 1: Create a global resolution order<a class="headerlink" href="#example-1-create-a-global-resolution-order" title="Permalink to this heading">¶</a></h2>
 <p>just directly set the value of <code class="docutils literal notranslate"><span class="pre">--domain-resolution-order</span></code> attribute
 to the desired value:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa config-mod --domain-resolution-order=&#39;ipa.test:ad.forest.test:child1.ad.forest.test:child2.ad.forest.test&#39;
@@ -210,7 +212,7 @@ to the desired value:</p>
 </div>
 </section>
 <section id="example-1-more-conductive-to-automation">
-<h1>Example 1 more conductive to automation<a class="headerlink" href="#example-1-more-conductive-to-automation" title="Permalink to this heading">¶</a></h1>
+<h2>Example 1 more conductive to automation<a class="headerlink" href="#example-1-more-conductive-to-automation" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>store to FreeIPA domain name in the temporary file which will store
 the entries of interest:</p></li>
@@ -239,7 +241,7 @@ the order of operations.</p>
 </div>
 </section>
 <section id="example-2-creating-local-override-of-global-resolution-order">
-<h1>Example 2: creating local override of global resolution order<a class="headerlink" href="#example-2-creating-local-override-of-global-resolution-order" title="Permalink to this heading">¶</a></h1>
+<h2>Example 2: creating local override of global resolution order<a class="headerlink" href="#example-2-creating-local-override-of-global-resolution-order" title="Permalink to this heading">¶</a></h2>
 <p>Let’s say that we have a machine named ‘special.ipa.test’ and we wish
 that just users coming from the child domains of trusted forest
 (‘child1.ad.forest.test’, ‘child2.ad.forest.test’). Since we observe
@@ -273,12 +275,13 @@ Number of hosts the ID View was applied to: 1
 </div>
 </section>
 <section id="test-plan">
-<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h2>
 <p>Test scenarios that will be transformed to test cases for FreeIPA
 <a class="reference external" href="V3/Integration_testing">Continuous Integration</a> during
 implementation or review phase. This can be also link to <a class="reference external" href="https://git.fedorahosted.org/cgit/freeipa.git/">source in
 cgit</a> with the test,
 if appropriate.</p>
+</section>
 </section>
 
 

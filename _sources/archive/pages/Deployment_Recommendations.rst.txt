@@ -1,3 +1,6 @@
+Deployment_Recommendations
+==========================
+
 Some decisions made before FreeIPA is deployed and adopted are very hard
 to be fixed later, if not impossible. This article therefore digs in the
 most important decisions needed for a successful deployment.

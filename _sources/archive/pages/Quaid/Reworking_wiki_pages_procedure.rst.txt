@@ -1,3 +1,6 @@
+Reworking_wiki_pages_procedure
+==============================
+
 This is the procedure I'm using to work through wiki pages to make them
 easier to index and find. This also creates a series of categories and
 sub-categories, which is an essential tool in MediaWiki.

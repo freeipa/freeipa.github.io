@@ -1,3 +1,6 @@
+Client_Certificate_Authentication_with_LDAP
+===========================================
+
 We can use `user certificates <V4/User_Certificates>`__ to authenticate
 our ldap session.
 

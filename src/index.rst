@@ -52,8 +52,8 @@ Releases
 .. toctree::
    :titlesonly:
 
-   release-notes/4-10-2.rst
-   release-notes/4-9-12.rst
+   /release-notes/4-10-2.rst
+   /release-notes/4-9-12.rst
 
 Getting involved
 ----------------
@@ -94,4 +94,3 @@ Read more on the page `Demo <https://www.freeipa.org/page/Demo>`__.
    About.md
    Contribute.md
    Downloads.md
-   archive.rst

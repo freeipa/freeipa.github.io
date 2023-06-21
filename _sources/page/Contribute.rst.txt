@@ -1,4 +1,1 @@
-Contribute
-==========
-
 .. include:: /Contribute.rst

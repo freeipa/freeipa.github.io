@@ -1,0 +1,475 @@
+The FreeIPA team would like to announce FreeIPA 4.6.4 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora 27 will be available soon.
+
+
+
+Highlights in 4.6.4
+-------------------
+
+-  Several changes to upgrade process so it will be more robust:
+
+   -  The schema compat plugin is disabled during upgrades
+   -  Verify the Custodia keys
+   -  Handle entries that already exist when adding new ones
+   -  Run the upgrade in an empty ccache
+   -  Don't try to backup CS.cfg during upgrade if CA is not configured
+   -  Properly detect whether a KRA is configured
+   -  Set nsds5ReplicaReleaseTimeout to avoid monopolization of a master
+      during replication
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+FreeIPA 4.6.4 is a stabilization release for the features delivered as a
+part of 4.6.0. There are more than 50 bug-fixes details of which can be
+seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+
+
+Resolved tickets
+----------------
+
+-  5638 Port client code to Python 3
+-  5776 webui: some data disappear from user details page after the save
+   action is performed
+-  5813 ipa-kra-install disrupts bind-dyndb-ldap
+-  5922 ipa vault-archive overwrites an existing value without warning
+-  6525 makeapi & makeaci under Python 2/3 generate different files
+-  6531 Refactor the execution flow of \`cert-request\` command
+-  6609 A CA administrator fails to add CA for Insufficient 'add'
+   privilege
+-  6721 While performing ipa-server-upgrade, sssd goes offline and
+   stalls the upgrade process
+-  6851 Don't use ctypes.util.find_library in ipaclient
+-  7012 Users can delete their last active OTP token
+-  7131 Finish Python3 support
+-  7136 ipa-restore command doesn't exit with failure if wrong directory
+   manager's password is provided
+-  7240 ipa-dnskeysyncd broken (and ipactl doesn't tell)
+-  7313 trust integration tests need to override test_establish_trust
+   method when using different trust-add options
+-  7314 Update package metadata
+-  7330 ipa-server-install --uninstall does not return error code on
+   error
+-  7335 Integration tests are not collecting all logs
+-  7342 admins group is not including all permissions of Role "User
+   Administrator"
+-  7357 IntegrationTests do not fail even if the uninstall process fails
+-  7359 [RFE] extend topology plugin to clean up a removed replica ldap/
+   principal
+-  7371 uninstalling replica leaves orphained data in ldap
+-  7374 IPA 'Generate OTP' option in web gui does not show OTP code when
+   no reverse zone is managed
+-  7380 Possible regression for limited OTP characters in host-add
+-  7383 user-add: user creation proceeds when password is wrong
+-  7389 F-27 upgrade to 4.6.3-1 fails with KRA update
+-  7390 cert-request: issuance of malformed certificate causes IPA
+   Internal Error
+-  7393 Installing 4.6.3-1 in rawhide/F28 fails with DuplicateEntry
+   enabling TLS in 389-ds
+-  7394 file conflicts between python2-mod_wsgi and freeipa-server
+-  7397 ipa host-add --ip-address... returns Internal error when
+   forward-policy=none is defined
+-  7411 Simplify CA, TLS and bytes warning configuration of LDAP
+   connections
+-  7424 Improve Realm Domains doc text
+-  7425 ipa-server-install with different IP fails on /usr/sbin/pkispawn
+   -s CA
+-  7432 make fasttest fails on fresh clone. fedora26
+-  7433 CRL url on replicas gets incorrectly redirected
+-  7436 ipa: Please log something after restarting the KDC
+-  7447 test_create_host_with_ip is not fully covering possible return
+   errors
+-  7463 test_webui: add user life-cycles tests
+-  7468 test_host.py::test_host::test_crud is failing in nightly tests
+-  7472 ipa: ERROR: Could not get SOA serial interactively
+-  7473 ERROR: No valid Negotiate header in server response
+-  7474 ipa-server-install --uninstall on replica fails with
+   "NoOptionError: No option 'ldap_uri' in section: 'global'"
+-  7485 Extending webui user group test
+-  7493 ipa-replica-install fails with ERROR 400 Client Error when
+   master has httpd 2.4.33-2.fc27
+-  7503 multiple occurrences of profileId in certprofile causes
+   incorrect behaviour
+-  7505 WebUI tests: Extend netgroup tests
+-  7510 validate_selinuxuser does not allow a period in selinux user
+   identifier
+-  7519 Adding SSH keys for AD users as I created overrides
+-  7520 ipa certmap-match throwing "ipa: ERROR: an internal error has
+   occurred"
+-  7526 IdM servers:/usr/share/ipa/html/ca.crt does not include the
+   complete chain
+-  7535 ipa-restore fails because tmp/etc/ipa/ca.crt is missing
+-  7540 Extend WebUI test_krbpolicy suite with the following test cases:
+-  7542 CLI and Web UI allow to add more then one radius server into
+   radius proxy
+-  7544 ui_tests: extend test_selinuxusermap.py suite
+-  7546 ui_tests: improve "field_validation" method
+-  7547 ui_tests: checkbox click fix
+-  7550 [WebUI] extend host test suite
+
+
+
+Detailed changelog since 4.6.3
+------------------------------
+
+
+
+Alexander Bokovoy (7)
+----------------------------------------------------------------------------------------------
+
+-  group-del: add a warning to logs when password policy could not be
+   removed
+-  pylint3: workaround false positives reported for W1662
+-  idoverrideuser-add: allow adding ssh key in web ui
+-  ACL: Allow hosts to remove services they manage
+-  replication: support error messages from 389-ds 1.3.5 or later
+-  upgrade: treat duplicate entry when updating as not an error
+-  upgrade: Run configuration upgrade under empty ccache collection
+
+
+
+Alexander Koksharov (2)
+----------------------------------------------------------------------------------------------
+
+-  Fix replica_promotion-domlevel0 test failures
+-  preventing ldap principal to be deleted
+
+
+
+Amit Kumar (3)
+----------------------------------------------------------------------------------------------
+
+-  ipa vault-archive overwrites an existing value without warning
+-  Error message while adding idrange with untrusted domain
+-  ipa-advise for smartcards updated
+
+
+
+Aleksei Slaikovskii (3)
+----------------------------------------------------------------------------------------------
+
+-  Radius proxy multiservers fix
+-  Enable and start oddjobd after ipa-restore if it's not running.
+-  Fixing translation problems
+
+
+
+Christian Heimes (27)
+----------------------------------------------------------------------------------------------
+
+-  Revert "Validate the Directory Manager password"
+-  Load certificate files as binary data
+-  Use single Custodia instance in installers
+-  Add nsds5ReplicaReleaseTimeout to replica config
+-  Provide ldap_uri in Custodia uninstaller
+-  Defer import of ipaclient.csrgen
+-  Require more recent glibc on F27
+-  More cleanup after uninstall
+-  Pylint 1.8.3 fixes
+-  Relax message check in test_create_host_with_ip
+-  freeipa-server no longer supports i686 arch on F28
+-  Unified ldap_initialize() function
+-  Fix multiple uninstallation of server
+-  Fix i18n test for Chinese translation
+-  Run API and ACI under Python 2 and 3
+-  Generate same API.txt under Python 2 and 3
+-  Replace wsgi package conflict with config file
+-  Restart named-pkcs11 after KRA installation
+-  Update existing 389-DS cn=RSA,cn=encryption config
+-  Bump python-ldap version to fix syncrepl bug
+-  Bump SELinux policy for DNSSEC
+-  ipa-server-upgrade now checks custodia server keys
+-  DNSSEC code cleanup
+-  DNSSEC: Reformat lines to address PEP8 violations
+-  Decode ODS commands
+-  Run DNSSEC under Python 3
+-  More DNSSEC house keeping
+
+
+
+Felipe Barreto (16)
+----------------------------------------------------------------------------------------------
+
+-  Adding xfail to failing tests
+-  Fixing
+
+TestBackupAndRestore::test_full_backup_and_restore_with_removed_users
+
+-  Adding GSSPROXY_CONF to be backed up on ipa-backup
+-  Fixing cleanup process in test_caless
+-  WebUI Tests: changing the ActionsChains.move_to_element to a new
+   approach
+-  WebUI Tests: fixing test_user.py::test_test_noprivate_posix
+-  WebUI Tests: Changing how the initial load process is done
+-  WebUI Tests: fixing test_range test case
+-  WebUI Tests: changing how the login screen is detected
+-  WebUI Tests: refactoring login method to be more readable
+-  WebUI Tests: fixing test_navigation
+-  WebUI Tests: fixing test_group
+-  WebUI Tests: fixing test_hbac
+-  Check if replication agreement exist before enable/disable it
+-  Make IntegrationTest fail if an error happened during uninstall
+-  IntegrationTests now collects logs from all test methods
+
+
+
+Florence Blanc-Renaud (9)
+----------------------------------------------------------------------------------------------
+
+-  Test for 7526
+-  ipa-server-install: publish complete cert chain in
+
+/usr/share/ipa/html/ca.crt
+
+-  ACI: grant access to admins group instead of admin user
+-  ipa-replica-install: make sure that certmonger picks the right master
+-  ipa-server-install: handle error when calling kdb5_util create
+-  ipa host-add: do not raise exception when reverse record not added
+-  389-ds OTP lasttoken plugin: Add unit test
+-  User must not be able to delete his last active otp token
+-  ipa host-add --ip-address: properly handle NoNameservers
+
+
+
+Fraser Tweedale (14)
+----------------------------------------------------------------------------------------------
+
+-  csrgen: fix when attribute shortname is lower case
+-  csrgen: drive-by docstring
+-  csrgen: support initialising OpenSSL adaptor with key object
+-  py3: fix csrgen error handling
+-  certprofile: add tests for config profileId scenarios
+-  certprofile: reject config with multiple profileIds
+-  install: configure dogtag status request timeout
+-  Fix upgrade (update_replica_config) in single master mode
+-  replica-install: warn when there is only one CA in topology
+-  ldap2: fix implementation of can_add
+-  ipaldap: allow GetEffectiveRights on individual operations
+-  Update IPA CA issuer DN upon renewal
+-  cert-request: avoid internal error when cert malformed
+-  Improve warning message for malformed certificates
+
+
+
+Ganna Kaihorodova (3)
+----------------------------------------------------------------------------------------------
+
+-  Fix trust tests for Posix Support
+-  Fix in IPA's multihost fixture
+-  Overide trust methods for integration tests
+
+
+
+Martin Basti (2)
+----------------------------------------------------------------------------------------------
+
+-  py3: bindmgr: fix iteration over bytes
+-  py3: ipa-dnskeysyncd: fix bytes issues
+
+
+
+Michal Reznik (33)
+----------------------------------------------------------------------------------------------
+
+-  ui_tests: add click_undo_button() func
+-  ui_tests: extend test_selinuxusermap.py suite
+-  ui_tests: improve "field_validation" method
+-  ui_tests: checkbox click fix
+-  ui_tests: introduce new test_misc cases file
+-  ui_driver: extension and modifications related to test_user
+-  ui_tests: extend test_user suite
+-  test_web_ui: extend ui_driver methods
+-  test_webui: add user life-cycles tests
+-  ui_tests: run ipa-get/rmkeytab command on UI host
+-  ui_tests: select_combobox() fixes
+-  ui_tests: test cancel and delete without button
+-  ui_tests: make associations cancelable
+-  ui_tests: add function to run cmd on UI host
+-  ui_tests: add funcs to add/remove users public SSH key
+-  ui_tests: add assert_field_required()
+-  ui_tests: add assert_notification()
+-  ui_tests: add more test cases
+-  ui_tests: add more test cases to test_certification
+-  ui_tests: add_service() support func in test_service
+-  ui_tests: add_host() support func in test_service
+-  ui_tests: change get_http_pkey() function
+-  test_caless: adjust try/except to capture also IOError
+-  ipa_tests: test signing request with subca on replica
+-  test_caless: test PKINIT install and anchor update
+-  tests: move CA related modules to pytest_plugins
+-  test_external_ca: selfsigned->ext_ca->selfsigned
+-  test_tasks: add sign_ca_and_transport() function
+-  paths: add IPA_CACERT_MANAGE and IPA_CERTUPDATE constants
+-  test_renewal_master: add ipa csreplica-manage test
+-  test_help: test "help" command without cache
+-  test_x509: test very long OID
+-  ipa_tests: test subca key replication
+
+
+
+Varun Mylaraiah (4)
+----------------------------------------------------------------------------------------------
+
+-  Extend WebUI test_krbpolicy suite with the following test cases:
+
+test_verifying_button (verify button's action in various scenarios)
+test_negative_value (verify invalid values)
+test_verifying_measurement_unit
+
+-  WebUI tests: Extend netgroup tests with more scenarios
+-  Fixed improper clean-up in test_host::test_kerberos_flags added
+
+closing the notification in kerberos flags
+
+-  WebUI tests: Extend user group tests with more scenarios
+
+
+
+Mohammad Rizwan Yusuf (5)
+----------------------------------------------------------------------------------------------
+
+-  Test to check second replica installation after master restore
+-  Updated the TestExternalCA with the functions introduced for the
+   steps
+
+of external CA installation.
+
+-  When the dirsrv service, which gets started during the first
+
+ipa-server-install --external-ca phase, is not running when the second
+phase is run with --external-cert-file options, the ipa-server-install
+command fail.
+
+-  Before the fix, when ipa-backup was called for the first time, the
+
+LDAP database exported to /var/lib/dirsrv/slapd-/ldif/-userRoot.ldif.
+db2ldif is called for this and it runs under root, hence files were
+owned by root.
+
+-  IANA reserved IP address can not be used as a forwarder. This test
+
+checks if ipa server installation throws an error when 0.0.0.0 is
+specified as forwarder IP address.
+
+
+
+Nathaniel McCallum (3)
+----------------------------------------------------------------------------------------------
+
+-  Revert "Don't allow OTP or RADIUS in FIPS mode"
+-  Increase the default token key size
+-  Fix OTP validation in FIPS mode
+
+
+
+Petr Čech (1)
+----------------------------------------------------------------------------------------------
+
+-  webui:tests: Add tests for realmd domains
+
+
+
+Pavel Picka (2)
+----------------------------------------------------------------------------------------------
+
+-  Adding WebUI Host test cases
+-  WebUI Hostgroups tests cases added
+
+
+
+Petr Vobornik (8)
+----------------------------------------------------------------------------------------------
+
+-  Fix test_server_del::TestLastServices
+-  server-del do not return early if CA renewal master cannot be changed
+-  webui: refresh complex pages after modification
+-  webui tests: fix test_host:test_crud failure
+-  webui:tests: close big notifications in realm domains tests
+-  webui:tests: realm domain add with DNS check
+-  webui:tests: move DNS test data to separate file
+-  fastcheck: do not test context in pycodestyle
+
+
+
+Rob Crittenden (18)
+----------------------------------------------------------------------------------------------
+
+-  Disable Schema Compat plugin during server upgrade
+-  Add tests for ipa-restore with DM password validation check
+-  Validate the Directory Manager password before starting restore
+-  Don't try to set Kerberos extradata when there is no principal
+-  Require mod_nss 1.0.14-7 to fix reverse proxy in mod_nss
+-  Validate the Directory Manager password before starting restore
+-  Log service start/stop/restart message
+-  Update project metadata in ipasetup.py.in
+-  Redirect CRL requests to the http port, not the https port
+-  Allow dot as a valid character in an selinux identity name
+-  Break out of teardown in test_replica_promotion.py if no config
+-  Remove the Continuous installer class, it is unused
+-  Return a value if exceptions are raised in server uninstall
+-  Don't try to backup CS.cfg during upgrade if CA is not configured
+-  Don't return None on mismatched interactive passwords
+-  Fix detection of KRA installation so upgrades can succeed
+-  Move Requires: pythonX-sssdconfig into conditional
+
+
+
+Robbie Harwood (2)
+----------------------------------------------------------------------------------------------
+
+-  Fix elements not being removed in otpd_queue_pop_msgid()
+-  Log errors from NSS during FIPS OTP key import
+
+
+
+Sumit Bose (2)
+----------------------------------------------------------------------------------------------
+
+-  ipa-kdb: update trust information in all workers
+-  ipa-kdb: use magic value to check if ipadb is used
+
+
+
+John L (1)
+----------------------------------------------------------------------------------------------
+
+-  Remove special characters in host_add random OTP generation
+
+
+
+Stanislav Laznicka (7)
+----------------------------------------------------------------------------------------------
+
+-  Travis: ignore 'line break after binary operator'
+-  Allow user administrator to change user homedir
+-  Add absolute_import future imports
+-  Travis: test IPA 4.6 on F27
+-  replica-install: pass --ip-address to client install
+-  Remove py35 env from tox testing
+-  vault: fix vault-retrieve to a file
+
+
+
+Tomas Krizek (2)
+----------------------------------------------------------------------------------------------
+
+-  py3 dnssec: convert hexlify to str
+-  py3: bindmgr: fix bytes issues

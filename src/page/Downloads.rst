@@ -1,4 +1,1 @@
-Downloads
-=========
-
 .. include:: /Downloads.rst

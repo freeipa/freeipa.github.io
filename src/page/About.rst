@@ -1,4 +1,1 @@
-About
-=====
-
 .. include:: /About.rst

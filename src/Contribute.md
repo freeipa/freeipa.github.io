@@ -97,10 +97,7 @@ needed.
 -   visit [Becoming a Fedora Translator
     page](https://fedoraproject.org/wiki/L10N/Guide#Becoming_a_Fedora_Translator)
     and become Fedora Project translator (please follow the steps listed
-    there)
-    -   contacting your [L10N language
-        team](https://fedoraproject.org/wiki/L10N_Teams) may speed up
-        the process
+    there) (contacting your [L10N language team](https://fedoraproject.org/wiki/L10N_Teams) may speed up the process)
 -   visit [FreeIPA
     Weblate](https://translate.fedoraproject.org/projects/freeipa/)
     page, choose your language and translate.

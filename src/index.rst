@@ -26,7 +26,6 @@ like `Microsoft Active Directory <https://www.freeipa.org/page/Active_Directory_
 Leaflet <https://www.freeipa.org/page/Leaflet>`__ • `FreeIPA public demo <https://www.freeipa.org/page/Demo>`__ •
 `Blogs/RSS <http://planet.freeipa.org>`__
 
-.. _main_features:
 
 Main features
 -------------
@@ -46,7 +45,6 @@ Main features
 -  Extensible management interfaces (CLI, Web UI, XMLRPC and JSONRPC
    API) and Python SDK
 
-.. _releases:
 
 Releases
 --------
@@ -56,8 +54,6 @@ Releases
 
    release-notes/4-10-2.rst
    release-notes/4-9-12.rst
-
-.. _getting_involved:
 
 Getting involved
 ----------------

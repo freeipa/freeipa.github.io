@@ -45,21 +45,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "alabaster"
+html_theme = "sphinx_book_theme"
 # html_theme_path = ["themes"]
 
 html_sidebars = {
-    '**': [
-        'about.html',
-        'custom_nav.html',
-        'searchbox.html',
-    ]
-}
-
-html_theme_options = {
-    'logo': 'freeipa-logo-small.png',
-    'github_user': 'freeipa',
-    'github_repo': 'freeipa',
+    "**": ["custom_nav.html"]
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -67,4 +57,5 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 
 html_static_path = ["_static"]
+html_logo = "_static/freeipa-logo-small.png"
 html_favicon = '_static/favicon.png'

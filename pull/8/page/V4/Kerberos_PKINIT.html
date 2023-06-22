@@ -1,0 +1,768 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Kerberos_PKINIT &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4/Kerberos_PKINIT';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V4/Kerberos_PKINIT.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Kerberos_PKINIT</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#addition-of-a-special-profile-with-kerberos-kdc-specific-extensions">Addition of a special profile with Kerberos KDC specific extensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-to-certificate-management-plugin">Changes to certificate management plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-of-a-special-principal-for-anonymous-pkinit">Creation of a special principal for Anonymous PKINIT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#freeipa-server-and-replica-installer-changes">FreeIPA server and replica installer changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade">Upgrade</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-sep-1-2017">Update Sep 1 2017</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use">How to Use</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="kerberos-pkinit">
+<h1>Kerberos_PKINIT<a class="headerlink" href="#kerberos-pkinit" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>Kerberos authentication framework allows to obtain Kerberos tickets
+based on a number of different mechanisms. Standard approach implies use
+of a secret shared by both a Kerberos KDC and a Kerberos client.</p>
+<p>RFC 4556 describes a way to allow initial authentication in Kerberos
+protocol to happen with the help of Public Key Cryptography (PKINIT).</p>
+<p>This feature page describes PKINIT implementation in FreeIPA.</p>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+<p>Following use cases are defined for the scope of this FreeIPA feature:</p>
+<ul class="simple">
+<li><p>As an administrator, I want to enable use of PKINIT for Kerberos
+authentication</p>
+<ul>
+<li><p>By default, FreeIPA CA should issue certificates for the KDCs</p></li>
+<li><p>Externally provided certificates should be accepted as well when
+deploying PKINIT configuration</p></li>
+</ul>
+</li>
+<li><p>As an administrator, I want to allow users to issue certificates that
+can be associated with their Kerberos identities</p></li>
+<li><p>As an administrator, I want to define exact criteria for PKI
+certificates to be accepted for PKINIT purpose by the Kerberos KDC.</p></li>
+<li><p>As an administrator, I want to define exact criteria for PKI
+certificates to be chosen for PKINIT purpose by Kerberos clients.</p></li>
+<li><p>As a user, I want to be able to manage public key certificates
+associated with my Kerberos identity, regardless which CA did issue
+them.</p></li>
+<li><p>As a user, I want to use Anonymous PKINIT feature to obtain an
+initial ticket granting ticket (TGT) to allow FAST exchange with two
+factor authentication without access to a different Kerberos
+principal.</p></li>
+</ul>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<p>MIT Kerberos KDC and a Kerberos client library already support PKINIT
+for initial authentication. The scope of supported functionality is
+defined in the manual page for `krb5.conf` in the section <strong>PKINIT
+Options</strong>.</p>
+<p>From Kerberos perspective, there are two separate actors: a Kerberos
+client has to choose which PKI certificate to use for initial Kerberos
+authentication, and a Kerberos KDC has to decide whether a PKINIT
+authentication request with the selected PKI certificate can be accepted
+to represent operations on behalf of the claimed Kerberos identity.</p>
+<p>PKINIT initial authentication is implemented as a pre-authentication
+scheme in Kerberos protocol. Briefly, RFC 4556 document defines the
+following extensions to RFC 4120:</p>
+<ol class="arabic simple">
+<li><p>The client indicates the use of public-key authentication by
+including a special preauthenticator in the initial request. This
+preauthenticator contains the client’s public-key data and a
+signature.</p></li>
+<li><p>The KDC tests the client’s request against its authentication policy
+and trusted Certification Authorities (CAs).</p></li>
+<li><p>If the request passes the verification tests, the KDC replies as
+usual, but the reply is encrypted using either:</p>
+<ol class="arabic simple">
+<li><p>a key generated through a Diffie-Hellman (DH) key exchange with
+the client, signed using the KDC’s signature key; or</p></li>
+<li><p>a symmetric encryption key, signed using the KDC’s signature key
+and encrypted using the client’s public key.
+Any keying material required by the client to obtain the
+encryption key for decrypting the KDC reply is returned in a
+pre-authentication field accompanying the usual reply.</p></li>
+</ol>
+</li>
+<li><p>The client validates the KDC’s signature, obtains the encryption key,
+decrypts the reply, and then proceeds as usual.</p></li>
+</ol>
+<p>Given that actual work to handle PKINIT is already implemented in MIT
+Kerberos, high level scope for FreeIPA integration includes the
+following changes:</p>
+<ul class="simple">
+<li><p>Changes to the FreeIPA server and replica installers to request
+PKINIT-compatible certificates for use in KDC configuration</p></li>
+<li><p>Addition of a special profile with Kerberos KDC specific extensions</p></li>
+<li><p>Changes to certificate management plugin (<cite>cert.py</cite>) to allow
+generating PKINIT-compatible certificate for KDC using the profile
+defined above</p></li>
+<li><p>Creation of a special principal to assist in Anonymous PKINIT initial
+authentication</p></li>
+</ul>
+<p>Since the <a class="reference external" href="https://www.freeipa.org/page/V4/External_Authentication">External
+Authentication</a>
+workflow now isolates FreeIPA framework from all Kerberos keys/ccaches
+care must be taken to ensure that the password logins to the master
+(e.g. via WebUI) are able to leverage some FAST armoring mechanisms to
+enable login using OTP. To allow this, local anonymous PKINIT may be
+performed using a self-signed KDC keypair. Note that such PKINIT setup
+is not usable on enrolled clients and should be employed only in cases
+when proper external PKINIT certificates signed by IPA CA are not
+available, e.g. in CA-less case or when PKINIT certificate issuance was
+suppressed by installer option. In order to differentiate between
+client-consumable PKINIT and the local variant, the former capability
+will be advertised in LDAP and an API will be provided to display its’
+status on individual masters.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="addition-of-a-special-profile-with-kerberos-kdc-specific-extensions">
+<h2>Addition of a special profile with Kerberos KDC specific extensions<a class="headerlink" href="#addition-of-a-special-profile-with-kerberos-kdc-specific-extensions" title="Permalink to this heading">#</a></h2>
+<p>A profile named <strong>KDCs_PKINIT_Certs</strong> is added to Dogtag and is loaded
+into the LDAP store by means of an upgrade script.</p>
+</section>
+<section id="changes-to-certificate-management-plugin">
+<h2>Changes to certificate management plugin<a class="headerlink" href="#changes-to-certificate-management-plugin" title="Permalink to this heading">#</a></h2>
+<p>Certificate management plugin (<cite>cert.py</cite>) is changed to allow generating
+PKINIT-compatible certificate for KDC using the <strong>KDCs_PKINIT_Certs</strong>
+profile. The difference with normal certificate issuing workflow is that
+the public certificate is not stored in the LDAP entry for the
+coresponding principal, `krbtgt/REALM&#64;REALM`. Since KDC
+pre-authentication pkinit module is configured through `kdc.conf`,
+there is no need to store the public certificate in the LDAP at all.</p>
+<p>As a result, each KDC will have own certificate issued for
+<a class="reference external" href="mailto:`krbtgt/REALM&#37;&#52;&#48;REALM">`krbtgt/REALM<span>&#64;</span>REALM</a>` using <strong>KDCs_PKINIT_Certs</strong> profile.</p>
+</section>
+<section id="creation-of-a-special-principal-for-anonymous-pkinit">
+<h2>Creation of a special principal for Anonymous PKINIT<a class="headerlink" href="#creation-of-a-special-principal-for-anonymous-pkinit" title="Permalink to this heading">#</a></h2>
+<p>A special principal, `WELLKNOWN/ANONYMOUS&#64;REALM`, is created during KDC
+configuration stage. A pre-authentication is set to be required for the
+principal because PKINIT use requires pre-authentication mechanism.</p>
+</section>
+<section id="freeipa-server-and-replica-installer-changes">
+<h2>FreeIPA server and replica installer changes<a class="headerlink" href="#freeipa-server-and-replica-installer-changes" title="Permalink to this heading">#</a></h2>
+<p>MIT Kerberos KDC can be built with either NSS and OpenSSL libraries for
+PKINIT support. Depending on the compile time default, when KDC is
+configured to enable PKINIT, KDC and CA certificates are configured in a
+different way. Both Red Hat Enterprise Linux and Fedora distributions
+build MIT KDC with OpenSSL. Thus, KDC configuration must specify
+separately a private key and a public certificate of the KDC
+certificates.</p>
+<p>Certmonger is capable to generate PKI certificates pair in separate
+files but FreeIPA installer framework does not support this option. This
+means certmonger shim in FreeIPA installer framework is extended to
+support issuing certificates in ceparate private and public key files.</p>
+</section>
+<section id="backup-and-restore">
+<h2>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">#</a></h2>
+<p>When backing the server up, KDC certificate pair needs to be backed up.
+When restoring, KDC certificate pair needs to be properly restored,
+including certmonger tracking of it.</p>
+</section>
+<section id="feature-management">
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">#</a></h2>
+<p>Since anonymous PKINIT will now always be required given the changes
+during Privilege separation, <strong>ipa pkinit-anonymous</strong> command will be
+deprecated and do nothing but issue a warning. This is a safeguard to
+prevent the locking of anonymous principal and hence breaking
+password-based authentication to IPA framework (e.g. WebUI logins).</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">config-show</span></code> will be enhanced to display active KDCs supporting
+client PKINIT. To improve the usability of PKINIT in mixed topologies, a
+separate command (<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">pkinit-status</span></code>) will be provided to query
+PKINIT status on selected master or on the whole topology.</p>
+<p>To allow PKINIT authentication for users, their PKI certificates should
+include SAN extensions that map them directly to their primary Kerberos
+principal name. More details can be found in the PKINIT section of the
+<strong>krb5.conf</strong> manual page.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<p>[STRIKEOUT:For deployment with integrated CA PKINIT is always enabled.
+For deployments with external CA it is possible to supply externally
+signed KDC certificate pair.]</p>
+<p>The exact PKINIT configuration when deploying new replica depends on the
+domain level, FreeIPA version and CA status of the remote master as is
+shown in the following table:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Remote master configuration</p></th>
+<th class="head"><p>PKINIT feature status*</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&lt;4.5, no CA</p></td>
+<td><p>local PKINIT</p></td>
+</tr>
+<tr class="row-odd"><td><p>&lt;4.5 with CA</p></td>
+<td><p>try out full PKINIT, fall back
+to local configuration if it
+fails</p></td>
+</tr>
+<tr class="row-even"><td><p>4.5 no CA, no external PKINIT
+cert</p></td>
+<td><p>local PKINIT</p></td>
+</tr>
+<tr class="row-odd"><td><p>4.5 no CA, external PKINIT cert</p></td>
+<td><p>external PKINIT</p></td>
+</tr>
+<tr class="row-even"><td><p>4.5 with CA</p></td>
+<td><p>full PKINIT</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>status: local PKINIT: locally configured KDC with self-signed
+certificate, external PKINIT: proper PKINIT configured externally
+provided KDC certificate and CA cert, full PKINIT: proper PKINIT
+configured using certificate signed by IPA CA</p></li>
+</ul>
+<p>In addition, <code class="docutils literal notranslate"><span class="pre">ipa-server-certinstall</span></code> command should be extended to
+allow for installing a PKINIT certificate from PKCS#12 file or request a
+new PKINIT keypair signed by integrated CA. This should allow users to
+configure proper PKINIT support for clients post-hoc after
+installing/upgrading masters with no client PKINIT support.</p>
+<p>NOTE: The design does not consider completely disabled anonymous PKINIT
+as a configuration option. In order to emulate disabled PKINIT the
+administrator can provide a PKCS#12 file via <code class="docutils literal notranslate"><span class="pre">ipa-server-certinstall</span></code>
+and just not distribute the trusted CA certificate as a pkinit anchor to
+the clients. In this way the local PKINIT will work but clients would
+not be able to issue anonymous tickets to clients. Since this state will
+be recorded as a ‘external PKINIT’, the upgrade code will not attempt to
+configure full PKINIT.</p>
+</section>
+<section id="upgrade">
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">#</a></h2>
+<p>[STRIKEOUT:On upgrade PKINIT is not automatically enabled. To enable
+PKINIT, run ipa-pkinit-manage command.]</p>
+<p>The exact upgrade path depends on the state of the feature on the
+master. We shall distinguish the following configurations:</p>
+<ul class="simple">
+<li><p>PKINIT is not configured at all (pre 4.5 masters)</p></li>
+<li><p>only local PKINIT w/ self-signed KDC keypair is configured (DL0
+masters, CA-less masters without supplied PKINT certificates)</p></li>
+<li><p>PKINIT is configured with supplied 3rd party certificate</p></li>
+<li><p>full PKINIT is configured with certificates signed by IPA CA</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Server
+co
+nfiguration</p></th>
+<th class="head"><p>absent
+PKINIT</p></th>
+<th class="head"><p>local
+PKINIT</p></th>
+<th class="head"><p>external
+PKINIT</p></th>
+<th class="head"><p>full PKINIT</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>no CA</p></td>
+<td><p>configure
+local
+PKINIT</p></td>
+<td><p>no action</p></td>
+<td><p>no action</p></td>
+<td><p>N/A</p></td>
+</tr>
+<tr class="row-odd"><td><p>with CA on
+the master</p></td>
+<td><p>configure
+full PKINIT</p></td>
+<td><p>configure
+full PKINIT</p></td>
+<td><p>no action</p></td>
+<td><p>no action</p></td>
+</tr>
+<tr class="row-even"><td><p>with CA not
+on the
+master</p></td>
+<td><p>try to
+configure
+full
+PKINIT,
+fallback to
+local
+PKINIT</p></td>
+<td><p>try to
+configure
+full
+PKINIT,
+fallback to
+local
+PKINIT</p></td>
+<td><p>no action</p></td>
+<td><p>no action</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>As can be inferred from the table, there may be failures arising from
+PKINIT cert request being routed to a CA master which does not hold the
+<strong>KDCs_PKINIT_Certs</strong> profile or does not yet possess upgraded cert.py
+plugin. In this case the upgrader will issue a warning and fall back to
+issuing self-signed PKINIT certificates.</p>
+</section>
+<section id="update-sep-1-2017">
+<h2>Update Sep 1 2017<a class="headerlink" href="#update-sep-1-2017" title="Permalink to this heading">#</a></h2>
+<p>Following information should be incorporated in the design page in order
+to be up to date with what was implemented in FreeIPA 4.5.x</p>
+<p>When you install 4.5 with –no-pkinit, the installer will generate
+self-signed certificate for PKINIT. This certificate is only used and
+trusted by IPA Web UI running on the same server to obtain an anonymous
+ticket.</p>
+<p>How to upgrade that certificate to a full-featured PKINIT KDC
+certificate depends on what is your CA.</p>
+<p>A new tool, ipa-pkinit-manage, exists in FreeIPA 4.5.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-pkinit-manage status</span></code></p>
+<p>will tell you current status. “Enabled” means you have properly working
+PKINIT infrastructure on this system. “Disabled” means you only have
+self-signed PKINIT.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-pkinit-manage enable</span></code></p>
+<p>will try to request PKINIT KDC certificate from IdM CA. You should make
+sure that all IdM CAs are at the same level (FreeIPA 4.5+) before
+running this command.</p>
+<p>If you are not using IdM CA (external CA is in use), the tool will tell
+you to use ipa-server-certinstall to install an externally procured KDC
+certificate. That certificate should have following properties:</p>
+<ul class="simple">
+<li><p>it be issued with CN=fqdn,$SUBJECT_BASE</p></li>
+<li><p>it should have Kerberos principal <a class="reference external" href="mailto:krbtgt/REALM&#37;&#52;&#48;REALM">krbtgt/REALM<span>&#64;</span>REALM</a></p></li>
+<li><p>it should have id-pkinit-KPkdc OID (1.3.6.1.5.2.3.5)</p></li>
+</ul>
+<p>You can see /usr/share/ipa/profiles/KDCs_PKINIT_Certs.cfg which is the
+KDC profile we use to issue this certificate with integrated Dogtag CA.
+Compare it to /usr/share/ipa/profiles/caIPAserviceCert.cfg to see the
+difference to a ‘normal’ IPA service certificate.</p>
+</section>
+<section id="how-to-use">
+<h2>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">#</a></h2>
+<p>FreeIPA clients are always configured to trust FreeIPA CA in their
+<strong>/etc/krb5.conf</strong>. Thus, if PKINIT KDC certificate is issued by FreeIPA
+CA, no additional configuration on the client side is needed.</p>
+<p>[STRIKEOUT:To use Anonymous PKINIT, make sure ipa pkinit-anonymous
+enable is run (default if installed with PKINIT enabled).]</p>
+<p>Then any client can use</p>
+<p>``   kinit -n``</p>
+<p>to request an anonymous Kerberos ticket.</p>
+<p>The ticket granting ticket (TGT) obtained as result of the <strong>kinit -n</strong>
+request can only be used to create a FAST channel for second factor
+authentication:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``   kinit -n``
+| ``   klist``
+| ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d&#39; &#39; -f3-)``
+| ``   kinit -T $ARMOR_CCACHE principal@REALM ``
+</pre></div>
+</div>
+<p><strong>-T</strong> option of kinit allows to specify existing credentials cache with
+a valid TGT to create a FAST channel between the Kerberos client and the
+KDC when requesting the initial ticket for the specified
+<strong>principal&#64;REALM</strong>. This allows to safely pass details of the
+multi-factor pre-authentication exchange to the KDC.</p>
+<p>To query whether the master supports client PKINIT via <code class="docutils literal notranslate"><span class="pre">config-show</span></code>:</p>
+<div class="line-block">
+<div class="line">``  $ ipa config-show``</div>
+<div class="line">``  Maximum username length: 32``</div>
+<div class="line">``  Home directory base: /home``</div>
+<div class="line">``  Default shell: /bin/sh``</div>
+<div class="line">``  Default users group: ipausers``</div>
+<div class="line">``  …``</div>
+<div class="line">``  IPA masters supporting PKINIT: master1.ipa.test``</div>
+<div class="line">``  …``</div>
+</div>
+<p>To obtain the same information via <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">pkinit-status</span></code>:</p>
+<div class="line-block">
+<div class="line">``  $ ipa pkinit-status``</div>
+<div class="line">``  Server name: master1.ipa.test``</div>
+<div class="line">``  PKINIT status: enabled``</div>
+<div class="line">``  …``</div>
+<div class="line">``  Server name: replica1.ipa.test``</div>
+<div class="line">``  PKINIT status: disabled``</div>
+<div class="line">``  …``</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#addition-of-a-special-profile-with-kerberos-kdc-specific-extensions">Addition of a special profile with Kerberos KDC specific extensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-to-certificate-management-plugin">Changes to certificate management plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-of-a-special-principal-for-anonymous-pkinit">Creation of a special principal for Anonymous PKINIT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#freeipa-server-and-replica-installer-changes">FreeIPA server and replica installer changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade">Upgrade</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-sep-1-2017">Update Sep 1 2017</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use">How to Use</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

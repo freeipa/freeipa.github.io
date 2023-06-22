@@ -1,0 +1,731 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>DNSSEC &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/DNSSEC';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/Howto/DNSSEC.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DNSSEC</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-dnssec-support-in-freeipa">Enable DNSSEC support in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-key-master">DNSSEC key master</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-zone-signing">Enable zone signing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#signing-zones-in-freeipa">Signing zones in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-zone-to-be-signed">Add a zone to be signed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-if-zone-is-signed">Verify if zone is signed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-types-ksk-and-zsk">Key types: KSK and ZSK</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-ds-record">Get the DS record</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-ds-record-into-parent-zone">Add DS record into parent zone</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confirm-ds-record-upload">Confirm DS record upload</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-dnssec-chain-of-trust">Verify DNSSEC chain of trust</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-in-isolated-networks">DNSSEC in isolated networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-signed-root-zone">Create signed root zone</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-trusted-key-on-clients">Configure trusted key on clients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrate-dnssec-master-to-another-ipa-server">Migrate DNSSEC master to another IPA server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-current-dnssec-key-master">Disable current DNSSEC key master</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-kasp-db-to-safe-location">Copy kasp.db to safe location</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dnssec-key-master-on-target-ipa-server">Install DNSSEC key master on target IPA server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-if-dnssec-signing-still-works">Check if DNSSEC signing still works</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dnssec">
+<h1>DNSSEC<a class="headerlink" href="#dnssec" title="Permalink to this heading">#</a></h1>
+<section id="enable-dnssec-support-in-freeipa">
+<h2>Enable DNSSEC support in FreeIPA<a class="headerlink" href="#enable-dnssec-support-in-freeipa" title="Permalink to this heading">#</a></h2>
+<p>Steps to enable DNSSEC support:</p>
+<ul class="simple">
+<li><p>choose one server which will act as DNSSEC key master</p></li>
+<li><p>enable DNSSEC signing for individulal DNS zones</p></li>
+</ul>
+</section>
+<section id="dnssec-key-master">
+<h2>DNSSEC key master<a class="headerlink" href="#dnssec-key-master" title="Permalink to this heading">#</a></h2>
+<p>To enable DNSSEC in FreeIPA topology, exactly one FreeIPA replica has to
+act as <em>the DNSSEC key master</em>. This replica is responsible for proper
+key generation and rotation.</p>
+<p>Zone signing will not work without DNSSEC key master replica.</p>
+<p>Following command will install DNSSEC key master role to a replica. This
+command can be run on FreeIPA server which is already configured as
+FreeIPA DNS server:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-dns-install --dnssec-master</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">The log file for this installation can be found in /var/log/ipaserver-install.log</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">==============================================================================</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">This program will setup DNS for the FreeIPA Server.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">This includes:</span></code></div>
+<div class="line">``  * Configure DNS (bind)``</div>
+<div class="line">``  * Configure SoftHSM (required by DNSSEC)``</div>
+<div class="line">``  * Configure ipa-dnskeysyncd (required by DNSSEC)``</div>
+<div class="line">``  * Configure ipa-ods-exporter (required by DNSSEC key master)``</div>
+<div class="line">``  * Configure OpenDNSSEC (required by DNSSEC key master)``</div>
+<div class="line">``  * Generate DNSSEC master key (required by DNSSEC key master)``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NOTE: DNSSEC zone signing is not enabled by default</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">DNSSEC support is experimental!</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Plan carefully, current version doesn't allow you to move DNSSEC</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">key master to different server and master cannot be uninstalled</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">To accept the default shown in brackets, press the Enter key.</span></code></div>
+<div class="line"><strong>``Do````````you````````want````````to````````setup````````this````````IPA````````server````````as````````DNSSEC````````key````````master?````````[no]:````````yes``</strong></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Existing BIND configuration detected, overwrite? [no]: yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+</div>
+<p>Please verify the file <em>kasp.xml</em> (<em>/etc/opendnssec/kasp.xml</em>) if it
+satisfies your DNSSEC configuration requirements.</p>
+</section>
+<section id="enable-zone-signing">
+<h2>Enable zone signing<a class="headerlink" href="#enable-zone-signing" title="Permalink to this heading">#</a></h2>
+<p>Zones are not signed by default. Zone signing has to be enabled per zone
+using following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ ipa dnszone-add example.test. --dnssec=true``
+| ``  Zone name: example.test.``
+| ``  Active zone: TRUE``
+| ``. . .``
+| `` Allow query: any;``
+| `` Allow transfer: none;``
+| `` ``\ **``Allow``\ ````\ ``in-line``\ ````\ ``DNSSEC``\ ````\ ``signing:``\ ````\ ``TRUE``**
+</pre></div>
+</div>
+<p>or</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.test. --dnssec=true</span></code></p>
+<p>To disable zone signing use command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.test. --dnssec=false</span></code></p>
+</section>
+<section id="signing-zones-in-freeipa">
+<h2>Signing zones in FreeIPA<a class="headerlink" href="#signing-zones-in-freeipa" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="add-a-zone-to-be-signed">
+<h2>Add a zone to be signed<a class="headerlink" href="#add-a-zone-to-be-signed" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnszone-add example.test. --dnssec=true</span></code></p>
+<p>or</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnszone-add example.test.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnszone-mod --dnssec=true</span></code></div>
+</div>
+</section>
+<section id="verify-if-zone-is-signed">
+<h2>Verify if zone is signed<a class="headerlink" href="#verify-if-zone-is-signed" title="Permalink to this heading">#</a></h2>
+<p>Verify using <em>dig</em> utility if answer contains RRSIG record. This may
+take a few minutes until proper key are distributed to all replicas in
+topology.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig &#64;server.ipa.test. +dnssec example.test. SOA</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; Got answer:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 41379</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 3, ADDITIONAL: 2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; OPT PSEUDOSECTION:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">; EDNS: version: 0, flags: do; udp: 4096</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; QUESTION SECTION:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;example.test.         IN  SOA</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; ANSWER SECTION:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">example.test.      86400   IN  ``\</span> <span class="pre">**``RRSIG``**\</span> <span class="pre">``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...</span></code></div>
+</div>
+</section>
+<section id="key-types-ksk-and-zsk">
+<h2>Key types: KSK and ZSK<a class="headerlink" href="#key-types-ksk-and-zsk" title="Permalink to this heading">#</a></h2>
+<p>DNSSEC zones typically contain two types of DNSSEC keys.</p>
+<dl class="simple">
+<dt>KSK</dt><dd><p>Key Signing Key-pair (long term)
+Private key is used to sign ZSK
+Public key exposed in <strong>DNSKEY 257</strong> record is used to verify
+signatures over ZSK. Hash of the public KSK is stored in DS record in
+the parent zone to create the chain of trust from parent to child
+zones.
+This key is used for signing DNSKEY records in zone.</p>
+</dd>
+<dt>ZSK</dt><dd><p>Zone Signing Key-pair
+Private key is used to sign records
+Public key exposed in <strong>DNSKEY 256</strong> record is used to verify
+signatures over other resource records in the DNS zone.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ dig +rrcomments example.test. DNSKEY``
+| ``...``
+| ``;; ANSWER SECTION:``
+| ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466``
+| ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144``
+</pre></div>
+</div>
+<p>On <strong>DNSSEC key master</strong> all currently used keys can be shown using
+following command (replace <code class="docutils literal notranslate"><span class="pre">ods-enforcer</span></code> by <code class="docutils literal notranslate"><span class="pre">ods-ksmutil</span></code> on RHEL
+7):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
+| ``SQLite database set to: /var/opendnssec/kasp.db``
+| ``Keys:``
+| ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
+| ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+| ``example.test    ``\ **``KSK``**\ ``      ``\ **``ready``**\ ``   ``\ **``waiting``\ ````\ ``for``\ ````\ ``ds-seen``\ ````\ ``(active)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
+</pre></div>
+</div>
+</section>
+<section id="get-the-ds-record">
+<h2>Get the DS record<a class="headerlink" href="#get-the-ds-record" title="Permalink to this heading">#</a></h2>
+<p>The DS record of the zone, has to be uploaded to parent zone, otherwise
+chain of trust can not be completed.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig example.test. DNSKEY &gt; dnskey.txt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-dsfromkey -f dnskey.txt -2 example.test</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">example.test. IN DS ``\</span> <span class="pre">**``60466``**\</span> <span class="pre">`` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956</span></code></div>
+</div>
+<p>Output of the <em>dnssec-dsfromkey</em> is the DS record for zone
+<em>example.test.</em>, which has to be uploaded to parent zone, e.g. <em>test.</em>.</p>
+</section>
+<section id="add-ds-record-into-parent-zone">
+<h2>Add DS record into parent zone<a class="headerlink" href="#add-ds-record-into-parent-zone" title="Permalink to this heading">#</a></h2>
+<p>Following example shows how to add DS record of <em>example.test.</em> zone
+into a parent zone <em>test.</em> which is managed by IPA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  ``\ **``--ds-rec=&quot;60466``\ ````\ ``8``\ ````\ ``2``\ ````\ ``0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956&quot;``**
+</pre></div>
+</div>
+<p>DS record has to be added to the same name as NS record (delegation)
+<strong>in the parent zone</strong>.</p>
+<p>The procedure to add DS record will be different if you are not using
+FreeIPA for managing the parent zone but the end goal is the same - you
+need to get DS records added to the parent zone to establish chain of
+trust from the parent zone.</p>
+</section>
+<section id="confirm-ds-record-upload">
+<h2>Confirm DS record upload<a class="headerlink" href="#confirm-ds-record-upload" title="Permalink to this heading">#</a></h2>
+<p>Verify that DS record is available from the parent zone:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ dig +rrcomments example.test DS ``
+| ``example.test       86400   IN  DS  ``\ **``60466``**\ `` 8 2 0A758A8B ...``
+</pre></div>
+</div>
+<p>After successfull DS record upload to the parent zone, the following
+command has to be executed on DNSSEC key master server to enable key
+rotation. Keytag value has to match KSK keytag as shown in outputs
+above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key ds-seen --zone example.test --keytag ``\ **``60466``**
+</pre></div>
+</div>
+<p><em>ds-seen</em> command will allow the KSK to proceed to the next state:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
+| ``SQLite database set to: /var/opendnssec/kasp.db``
+| ``Keys:``
+| ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
+| ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+| ``example.test    ``\ **``KSK``**\ ``       ``\ **``ready``**\ ``   ``\ **``2016-03-09``\ ````\ ``11:34:38``\ ````\ ``(retire)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
+</pre></div>
+</div>
+</section>
+<section id="verify-dnssec-chain-of-trust">
+<h2>Verify DNSSEC chain of trust<a class="headerlink" href="#verify-dnssec-chain-of-trust" title="Permalink to this heading">#</a></h2>
+<p>If DS record was successfully uploaded to parent zone, the check if
+chain of trust can be established should follow, to make sure the
+records from zone will pass the DNSSEC validation on DNS servers.</p>
+<p>For example this can be done via <code class="docutils literal notranslate"><span class="pre">drill</span></code> utility:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``drill -TD example.test. -k /etc/trusted-key.key``
+| ``drill -TD example.test. SOA -k /etc/trusted-key.key``
+| ``drill -TD host.example.test. A -k /etc/trusted-key.key``
+</pre></div>
+</div>
+<p>All keys/records should be marked as [T] trusted.</p>
+</section>
+<section id="dnssec-in-isolated-networks">
+<h2>DNSSEC in isolated networks<a class="headerlink" href="#dnssec-in-isolated-networks" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="create-signed-root-zone">
+<h2>Create signed root zone<a class="headerlink" href="#create-signed-root-zone" title="Permalink to this heading">#</a></h2>
+<p>How to create the root zone is explained in article <a class="reference external" href="Howto/DNS_in_isolated_networks">DNS in isolated
+networks</a>. Please note that update of
+root hints will be required on all recursive clients as noted in the
+linked article.</p>
+<p>Do not forget to install DNSSEC key master before you enable DNSSEC
+signing.</p>
+<p>You can enable DNSSEC zone signing for it:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod . --dnssec=true</span></code></p>
+</section>
+<section id="configure-trusted-key-on-clients">
+<h2>Configure trusted key on clients<a class="headerlink" href="#configure-trusted-key-on-clients" title="Permalink to this heading">#</a></h2>
+<p>Local resolvers need to know KSK of your root zone because it is entry
+point to the chain of trust from root zone to all other zones.</p>
+<p>Get the KSK key of your root zone:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig &#64;localhost  . DNSKEY</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; QUESTION SECTION:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;.             IN  DNSKEY</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">;; ANSWER SECTION:</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">.          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...</span></code></div>
+<div class="line"><strong>``.````````86400````````IN````````DNSKEY````````257````````3````````8````````AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT````````JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X````````AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD````````qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P````````a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l````````Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt````````Fcs8Xgl7E1s=``</strong></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+</div>
+<p>Put your root zone KSK (denoted by flag value <strong>257</strong>) into
+<em>trusted-key.key</em> file on all DNSSEC clients:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat /etc/trusted-key.key</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">.          86400   IN  DNSKEY  257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s=</span></code></div>
+</div>
+</section>
+<section id="migrate-dnssec-master-to-another-ipa-server">
+<h2>Migrate DNSSEC master to another IPA server<a class="headerlink" href="#migrate-dnssec-master-to-another-ipa-server" title="Permalink to this heading">#</a></h2>
+<p>Supported on version: <strong>IPA 4.2+</strong></p>
+<p>Migration is not recommended. In case of failure DNSSEC caused by
+migration, DNSSEC signing may be broken and you may need to recreate new
+keys.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>only one DNSSEC master can be active in topology</p></li>
+<li><p>DNSSEC master can be migrated only to IPA server where
+<em>ipa-dnskeysyncd</em> is running (IPA 4.1+ with installed DNS)</p></li>
+<li><p>you have zones with enabled DNSSEC signing</p>
+<ul>
+<li><p>if you do not have any zones with DNSSEC signing enabled, you can
+just disable dnssec master</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h2>
+<section id="disable-current-dnssec-key-master">
+<h3>Disable current DNSSEC key master<a class="headerlink" href="#disable-current-dnssec-key-master" title="Permalink to this heading">#</a></h3>
+<p>To disable current DNSSEC master, please reinstall IPA DNS with
+<code class="docutils literal notranslate"><span class="pre">--disable-dnssec-master</span></code> option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipa-dns-install --disable-dnssec-master``
+| ``The log file for this installation can be found in /var/log/ipaserver-install.log``
+| ``==============================================================================``
+| ``This program will setup DNS for the FreeIPA Server.``
+| ``This includes:``
+| ``  * Configure DNS (bind)``
+| ``  * Configure SoftHSM (required by DNSSEC)``
+| ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
+| ``  * Unconfigure ipa-ods-exporter``
+| ``  * Unconfigure OpenDNSSEC``
+| ``No new zones will be signed without DNSSEC key master IPA server.``
+| ``Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key ``
+| ``master server``
+| ``NOTE: DNSSEC zone signing is not enabled by default``
+| ``To accept the default shown in brackets, press the Enter key.``
+| ``Do you want to disable current DNSSEC key master? [no]: ``\ **``yes``**
+| ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
+| `` ``
+| ``...``
+</pre></div>
+</div>
+</section>
+<section id="copy-kasp-db-to-safe-location">
+<h3>Copy kasp.db to safe location<a class="headerlink" href="#copy-kasp-db-to-safe-location" title="Permalink to this heading">#</a></h3>
+<p>This file will be needed on target server.</p>
+<p>`` # scp /var/lib/ipa/ipa-kasp.db.backup <a class="reference external" href="mailto:me&#37;&#52;&#48;my&#46;happy&#46;place">me<span>&#64;</span>my<span>&#46;</span>happy<span>&#46;</span>place</a>:/safe/location/ipa-kasp.db.backup``</p>
+</section>
+<section id="install-dnssec-key-master-on-target-ipa-server">
+<h3>Install DNSSEC key master on target IPA server<a class="headerlink" href="#install-dnssec-key-master-on-target-ipa-server" title="Permalink to this heading">#</a></h3>
+<p>You need kasp.db file from disabled DNSSEC key master, to be able
+restore proper key rotation for existing zones.</p>
+<p>With option <code class="docutils literal notranslate"><span class="pre">--kasp-db=&lt;path</span> <span class="pre">to</span> <span class="pre">original</span> <span class="pre">kasp.db</span> <span class="pre">file&gt;</span></code> installer does
+several additional steps, which. Please do not copy this file to
+location where OpenDNSSEC is expecting to find this file, this will not
+work.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup``
+| ``The log file for this installation can be found in /var/log/ipaserver-install.log``
+| ``==============================================================================``
+| ``This program will setup DNS for the FreeIPA Server.``
+| ``This includes:``
+| ``  * Configure DNS (bind)``
+| ``  * Configure SoftHSM (required by DNSSEC)``
+| ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
+| ``  * Configure ipa-ods-exporter (required by DNSSEC key master)``
+| ``  * Configure OpenDNSSEC (required by DNSSEC key master)``
+| ``  * Generate DNSSEC master key (required by DNSSEC key master)``
+| ``NOTE: DNSSEC zone signing is not enabled by default``
+| ``DNSSEC support is experimental!``
+| ``Plan carefully, replacing DNSSEC key master is not recommended``
+| ``To accept the default shown in brackets, press the Enter key.``
+| ``Do you want to setup this IPA server as DNSSEC key master? [no]: ``\ **``yes``**
+| ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
+| ``...``
+</pre></div>
+</div>
+</section>
+<section id="check-if-dnssec-signing-still-works">
+<h3>Check if DNSSEC signing still works<a class="headerlink" href="#check-if-dnssec-signing-still-works" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>show status if DNSSEC/DNS related services are running (except
+<em>ipa-ods-exporter</em> service which is run only on-demand)</p></li>
+<li><p>check if signed zones are present in OpenDNSSEC ( <a class="reference external" href="Troubleshooting#DNS_keys_are_not_generated_by_OpenDNSSEC">howto
+here</a>).</p></li>
+<li><p>test DNSSEC signatures of current zones using <code class="docutils literal notranslate"><span class="pre">dig</span> <span class="pre">+dnssec</span></code></p></li>
+<li><p>try to add new test zone with enabled DNSSEC signing and test if it
+works</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-dnssec-support-in-freeipa">Enable DNSSEC support in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-key-master">DNSSEC key master</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-zone-signing">Enable zone signing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#signing-zones-in-freeipa">Signing zones in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-zone-to-be-signed">Add a zone to be signed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-if-zone-is-signed">Verify if zone is signed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-types-ksk-and-zsk">Key types: KSK and ZSK</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-ds-record">Get the DS record</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-ds-record-into-parent-zone">Add DS record into parent zone</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confirm-ds-record-upload">Confirm DS record upload</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-dnssec-chain-of-trust">Verify DNSSEC chain of trust</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-in-isolated-networks">DNSSEC in isolated networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-signed-root-zone">Create signed root zone</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-trusted-key-on-clients">Configure trusted key on clients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrate-dnssec-master-to-another-ipa-server">Migrate DNSSEC master to another IPA server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-current-dnssec-key-master">Disable current DNSSEC key master</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-kasp-db-to-safe-location">Copy kasp.db to safe location</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dnssec-key-master-on-target-ipa-server">Install DNSSEC key master on target IPA server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-if-dnssec-signing-still-works">Check if DNSSEC signing still works</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

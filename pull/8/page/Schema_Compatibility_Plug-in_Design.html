@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Schema_Compatibility_Plug-in_Design &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Schema_Compatibility_Plug-in_Design';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Schema_Compatibility_Plug-in_Design.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Schema_Compatibility_Plug-in_Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Schema_Compatibility_Plug-in_Design</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#design-overview">Design Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#map-cache">Map Cache</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-representation">Internal Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-end">Back End</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-entry-contents">Specifying Entry Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implemented-functions">Implemented Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-expression-default">first(EXPRESSION[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-expression-pattern-default">match(EXPRESSION,PATTERN[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regmatch-expression-pattern-default">regmatch(EXPRESSION,PATTERN[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regsub-expression-pattern-template-default">regsub(EXPRESSION,PATTERN,TEMPLATE[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deref-thisattribute-thatattribute">deref(THISATTRIBUTE,THATATTRIBUTE)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#referred-set-thatattribute-thatotherattribute">referred(SET,THATATTRIBUTE,THATOTHERATTRIBUTE)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-separator-expression">merge(SEPARATOR,EXPRESSION[,…])</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="schema-compatibility-plug-in-design">
+<h1>Schema_Compatibility_Plug-in_Design<a class="headerlink" href="#schema-compatibility-plug-in-design" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="design-overview">
+<h1>Design Overview<a class="headerlink" href="#design-overview" title="Permalink to this heading">#</a></h1>
+<p>The Schema Compatibility plugin’s aim is to synthesize a modified view
+of the contents of one part of the directory and to make that view
+visible in another part of the directory. It does this by precomputing
+the contents of its entries at startup-time and refreshing its entries
+as needed.</p>
+<section id="map-cache">
+<h2>Map Cache<a class="headerlink" href="#map-cache" title="Permalink to this heading">#</a></h2>
+<p>The map cache keeps a dynamically-constructed group of sets of entries
+in memory, grouped by the name of their top-level container, and for
+each set of entries maintains a copy of the set’s releative
+distinguished name. The map cache can be used to quickly answer whether
+or not a particular search request crosses into the portion of the DIT
+which is “served” by the data in the cache.</p>
+</section>
+<section id="internal-representation">
+<h2>Internal Representation<a class="headerlink" href="#internal-representation" title="Permalink to this heading">#</a></h2>
+<p>At the topmost level, the map cache is a table. Each entry in the table
+contains the name of a top-level container entry and a table of sets.</p>
+<p>Each set in a container’s table of sets contains the relative
+distinguished name (RDN) of the set, a linked list of map entries, and a
+set of indexes into the list. Each set can also hold a data pointer on
+behalf of the backend.</p>
+<p>Each item in a set’s list of entries contains the entry’s relative
+distinguished name (relative to the set, which is itself relative to the
+group-of-sets container), the entry’s whole distinguished name, a unique
+identifier (which, currently, stores the NDN of the directory server
+entry which was used to create this entry) and a data pointer which is
+kept on behalf of the backend (which, currently, stores a Slapi_DN for
+the directory server entry which was used to create this entry and the
+full Slapi_Entry for the generated entry).</p>
+<p>The set indexes its entry list using an entry’s unique identifier and
+its relative distinguished name.</p>
+</section>
+<section id="back-end">
+<h2>Back End<a class="headerlink" href="#back-end" title="Permalink to this heading">#</a></h2>
+<p>The backend interface module sets up, populates, and maintains the map
+cache. At startup time, it configures the map cache with the list of
+groups of sets of entries, and populates the sets with initial data.
+Using postoperation plugin hooks, the backend interface also notes when
+entries are added, modified, renamed (modrdn’d), or deleted from the
+directory server. It uses this information to create or destroy sets in
+the map cache, and to add, remove, or update entries in the map cache’s
+sets, thereby ensuring that the synthetic data in the map cache is
+always up to date with respect to the current contents of the directory
+server.</p>
+<p>The backend interface reads the configuration it should use for the map
+cache from its configuration area in the directory server. Beneath the
+plugin’s entry, the backend checks for entries with these attributes:</p>
+<ul class="simple">
+<li><p>schema-compat-search-base</p></li>
+<li><p>schema-compat-search-filter</p></li>
+<li><p>schema-compat-container-group</p></li>
+<li><p>schema-compat-container-rdn</p></li>
+<li><p>schema-compat-entry-rdn</p></li>
+<li><p>schema-compat-entry-attribute</p></li>
+<li><p>schema-compat-check-access</p></li>
+</ul>
+<p>The backend then instructs the map cache to prepare to hold a set of
+entries in the given container group (or container groups) with the
+given subcontainer RDN name (or names), and then performs a subtree
+search under the specified base (or bases, if there’s more than one
+“schema-compat-search-base” value) for entries which match the provided
+filter (“schema-compat-search-filter”).</p>
+<p>For entry found, a new entry is generated and “added” to the
+subcontainer, using the format specifier stored in the
+“schema-compat-entry-rdn” and “schema-compat-entry-attribute” attributes
+to construct the RDN and attribute values for the entry in the set.</p>
+<p>Should one of the directory server entries which was used to construct
+one or more entries be modified or removed, the corresponding entries in
+every applicable container are updated or removed. Likewise, if an entry
+is added to the directory server which would correspond to an entry in a
+container, entries are created in the corresponding container.</p>
+</section>
+<section id="specifying-entry-contents">
+<h2>Specifying Entry Contents<a class="headerlink" href="#specifying-entry-contents" title="Permalink to this heading">#</a></h2>
+<p>The “schema-compat-entry-rdn” specifier resembles an RPM format
+specifier, and can include the values of multiple attributes in any part
+of the specifier. The backend composes the string using the attribute
+values stored in the directory server entry, using the format specifier
+as a guide, and names the resulting entry using the subcontainer’s name
+and the generated RDN. Attributes specified using values of the
+“schema-compat-entry-attribute” attribute are then added. If the
+resulting entry fails schema checks, it is automatically given the
+“extensibleObject” object class.</p>
+<p>An example specification for the “schema-compat-entry-rdn” for a user’s
+entry could look something like this:</p>
+<p>`` uid=%{uid}``</p>
+<p>The syntax borrows from RPM’s syntax, which in turn borrows from shell
+syntax, to allow the specification of alternate values to be used when
+the directory server entry doesn’t include a “uid” attribute. Additional
+operators include “#”, “##”, “%”, “%%”, “/”, “//”, which operate in ways
+similar to their shell counterparts (with one notable exception being
+that patterns for the “/” operator can not currently be anchored to the
+beginning or end of the string).</p>
+<p>After the RDN is determined, attributes can be added. Most often, this
+will be done either by specifying a specific value (typically for the
+entry’s object classes) or an existing attribute, like so:</p>
+<div class="line-block">
+<div class="line">`` objectclass=posixAccount``</div>
+<div class="line">`` cn=%{cn}``</div>
+</div>
+<p>A format specifier can actually be interpreted in two ways: it can be
+interpreted as a single value, or it can be interpreted as providing a
+list of values. When the format specifier is being interpreted as a
+single value, any reference to an attribute value which does not also
+specify an alternate value will cause the directory server entry to be
+ignored if the referenced attribute has no value defined for that entry,
+or contains multiple values. In the above example, the RDN is evaluated
+in such a manner.</p>
+<p>For all other attributes, if an attribute is multi-valued, the resulting
+entry will have a corresponding number of values.</p>
+<p>A pair of built-in “function”s are available for importing values from
+other entries.</p>
+<p>A function-like invocation expects a comma-separated list of
+double-quoted arguments. Any arguments which contain a double-quote need
+to escape the double-quote using a ‘' character. Naturally the ‘' this
+character itself also needs to be escaped whenever it appears.</p>
+</section>
+<section id="implemented-functions">
+<h2>Implemented Functions<a class="headerlink" href="#implemented-functions" title="Permalink to this heading">#</a></h2>
+<section id="first-expression-default">
+<h3>first(EXPRESSION[,DEFAULT])<a class="headerlink" href="#first-expression-default" title="Permalink to this heading">#</a></h3>
+<p>Evaluates EXPRESSION, and if one or more values is available, provides
+the first value. If no values result, then DEFAULT is evaluated as an
+expression and the result is provided.</p>
+</section>
+<section id="match-expression-pattern-default">
+<h3>match(EXPRESSION,PATTERN[,DEFAULT])<a class="headerlink" href="#match-expression-pattern-default" title="Permalink to this heading">#</a></h3>
+<p>Selects the value of EXPRESSION which matches the globbing pattern
+PATTERN. If no values match, and a DEFAULT was specified, the DEFAULT is
+produced, otherwise an error occurs.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: dave</span></code></div>
+</div>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>%match(“%{member}”,”b*”)</p></td>
+<td><p>bob</p></td>
+</tr>
+<tr class="row-even"><td><p>%match(“%{member}”,”d*”)</p></td>
+<td><p>dave</p></td>
+</tr>
+<tr class="row-odd"><td><p>%match(“%{member}”,”e*”)</p></td>
+<td><p>FAILS</p></td>
+</tr>
+<tr class="row-even"><td><p>%match(“%{member}”,”e*”,”jim”)</p></td>
+<td><p>jim</p></td>
+</tr>
+<tr class="row-odd"><td><p>%match(“%{member}”,”*”,”jim”)</p></td>
+<td><p>jim (when a single value is required)</p></td>
+</tr>
+<tr class="row-even"><td><p>%match(“%{member}”,”*”,”jim”)</p></td>
+<td><p>bob,dave (when a list is acceptable)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="regmatch-expression-pattern-default">
+<h3>regmatch(EXPRESSION,PATTERN[,DEFAULT])<a class="headerlink" href="#regmatch-expression-pattern-default" title="Permalink to this heading">#</a></h3>
+<p>Selects the value of EXPRESSION which matches the extended regular
+expression PATTERN. If no values match, and a DEFAULT was specified, the
+DEFAULT is produced.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: dave</span></code></div>
+</div>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>%regmatch(“%{member}”,”^b.*”)</p></td>
+<td><p>bob</p></td>
+</tr>
+<tr class="row-even"><td><p>%regmatch(“%{member}”,”^d.*”)</p></td>
+<td><p>dave</p></td>
+</tr>
+<tr class="row-odd"><td><p>%regmatch(“%{member}”,”e”)</p></td>
+<td><p>dave</p></td>
+</tr>
+<tr class="row-even"><td><p>%regmatch(“%{member}”,”^e”)</p></td>
+<td><p>FAILS</p></td>
+</tr>
+<tr class="row-odd"><td><p>%regmatch(“%{member}”,”^e.*”,”jim”)</p></td>
+<td><p>jim</p></td>
+</tr>
+<tr class="row-even"><td><p>%regmatch(“%{member}”,”.*”,”jim”)</p></td>
+<td><p>jim (when a single value is required)</p></td>
+</tr>
+<tr class="row-odd"><td><p>%regmatch(“%{member}”,”.*”,”jim”)</p></td>
+<td><p>bob,dave (when a list is acceptable</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="regsub-expression-pattern-template-default">
+<h3>regsub(EXPRESSION,PATTERN,TEMPLATE[,DEFAULT])<a class="headerlink" href="#regsub-expression-pattern-template-default" title="Permalink to this heading">#</a></h3>
+<p>Selects the value of EXPRESSION which matches the extended regular
+expression PATTERN and uses TEMPLATE to construct the output. If no
+values match, and a DEFAULT was specified, the DEFAULT is produced,
+otherwise an error occurs. The template is used to construct a result
+using the n’th substring from the matched value by using the sequence
+“%n” in the template.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: dave</span></code></div>
+</div>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>%regsub(“%{member}”,”o”,”%0”)</p></td>
+<td><p>bob</p></td>
+</tr>
+<tr class="row-even"><td><p>%regsub(“%{member}”,”o”,”%1”)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>%regsub(“%{member}”,”^o”,”%0”)</p></td>
+<td><p>FAILS</p></td>
+</tr>
+<tr class="row-even"><td><p>%regsub(“%{member}”,”^d(.).*”,”%1”)</p></td>
+<td><p>a</p></td>
+</tr>
+<tr class="row-odd"><td><p>%regsub(“%{member}”,”^(.*)e”,”t%1y”)</p></td>
+<td><p>tdavy</p></td>
+</tr>
+<tr class="row-even"><td><p>%regsub(“%{member}”,”^e”,”%1”)</p></td>
+<td><p>FAILS</p></td>
+</tr>
+<tr class="row-odd"><td><p>%regsub(“%{member}”,”^e.*”,”%1”,”jim”)</p></td>
+<td><p>jim</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="deref-thisattribute-thatattribute">
+<h3>deref(THISATTRIBUTE,THATATTRIBUTE)<a class="headerlink" href="#deref-thisattribute-thatattribute" title="Permalink to this heading">#</a></h3>
+<p>Creates a separated list of the values of THATATTRIBUTE for directory
+entries named by this entry’s THISATTRIBUTE.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: uid=bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: uid=pete</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: uid=bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid: bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: uid=pete</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid: pete</span></code></div>
+</div>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>%deref(“member”,”foo”)</p></td>
+<td><p>FAIL (when a single value is required)</p></td>
+</tr>
+<tr class="row-even"><td><p>%deref(“member”,”foo”)</p></td>
+<td><p>(when a list is acceptable)</p></td>
+</tr>
+<tr class="row-odd"><td><p>%deref(“member”,”uid”)</p></td>
+<td><p>FAIL (when a single value is required)</p></td>
+</tr>
+<tr class="row-even"><td><p>%deref(“member”,”uid”)</p></td>
+<td><p>bob,pete (when a list is acceptable)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="referred-set-thatattribute-thatotherattribute">
+<h3>referred(SET,THATATTRIBUTE,THATOTHERATTRIBUTE)<a class="headerlink" href="#referred-set-thatattribute-thatotherattribute" title="Permalink to this heading">#</a></h3>
+<p>Creates a separated list of the values of THATOTHERATTRIBUTE for
+directory entries which have entries in the current group in the named
+SET and which also have this entry’s name as a value for THATATTRIBUTE.
+Will fail if used in a context where a single value is required.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: uid=bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid: bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">memberOf: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: uid=pete</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid: pete</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">memberOf: cn=group</span></code></div>
+</div>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>%refer
+red(“cn=users”,”memberof”,”foo”)</p></td>
+<td><p>FAIL (when a single value is
+required)</p></td>
+</tr>
+<tr class="row-even"><td><p>%refer
+red(“cn=users”,”memberof”,”foo”)</p></td>
+<td><p>(when a list is acceptable)</p></td>
+</tr>
+<tr class="row-odd"><td><p>%refer
+red(“cn=users”,”memberof”,”uid”)</p></td>
+<td><p>FAIL (when a single value is
+required)</p></td>
+</tr>
+<tr class="row-even"><td><p>%refer
+red(“cn=users”,”memberof”,”uid”)</p></td>
+<td><p>bob,pete (when a list is
+acceptable)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="merge-separator-expression">
+<h3>merge(SEPARATOR,EXPRESSION[,…])<a class="headerlink" href="#merge-separator-expression" title="Permalink to this heading">#</a></h3>
+<p>Evaluates and then creates a list using multiple expressions which can
+evaluate to either single values or lists.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=group</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">membername: jim</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: uid=bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: uid=pete</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: uid=bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid: bob</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: uid=pete</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid: pete</span></code></div>
+</div>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>%merge(“,”,”%{membername}”,”%deref(&quot;member&quot;,&quot;uid&quot;)”)</p></td>
+<td><p>jim,bob,pete</p></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Schema_Compatibility_Plug-in_Design</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#design-overview">Design Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#map-cache">Map Cache</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-representation">Internal Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-end">Back End</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-entry-contents">Specifying Entry Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implemented-functions">Implemented Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-expression-default">first(EXPRESSION[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-expression-pattern-default">match(EXPRESSION,PATTERN[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regmatch-expression-pattern-default">regmatch(EXPRESSION,PATTERN[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regsub-expression-pattern-template-default">regsub(EXPRESSION,PATTERN,TEMPLATE[,DEFAULT])</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deref-thisattribute-thatattribute">deref(THISATTRIBUTE,THATATTRIBUTE)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#referred-set-thatattribute-thatotherattribute">referred(SET,THATATTRIBUTE,THATOTHERATTRIBUTE)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-separator-expression">merge(SEPARATOR,EXPRESSION[,…])</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

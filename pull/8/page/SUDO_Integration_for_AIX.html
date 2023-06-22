@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>SUDO_Integration_for_AIX &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/SUDO_Integration_for_AIX';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/SUDO_Integration_for_AIX.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>SUDO_Integration_for_AIX</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">SUDO_Integration_for_AIX</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-notices">Important Notices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatibility">Compatibility</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting started</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-your-current-sudo-setup">Check your current sudo setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-directories">Create directories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-packages">Download packages</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#packages-installation">Packages Installation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configurations">Configurations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#name-resolution-order-configuration">Name resolution order configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openldap-configuration">OpenLdap configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ca-certificate">CA Certificate</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#all-done">All done</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-author">About the author</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="sudo-integration-for-aix">
+<h1>SUDO_Integration_for_AIX<a class="headerlink" href="#sudo-integration-for-aix" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+<div class="line-block">
+<div class="line">First a little background information regarding sudo on AIX:</div>
+<div class="line">As you might or might not know, sudo can be installed on AIX from
+various packages coming from various sources. IBM provides its own
+version of the sudo package through the <a class="reference external" href="http://www-03.ibm.com/systems/power/software/aix/linux/">AIX toobox for Linux
+applications
+initiative</a>,
+but there are several [newer/better] packages out there.</div>
+</div>
+<p>The problem with integrating sudo on AIX with freeIPA is that most sudo
+packages compiled for AIX are <strong>NOT</strong> compiled with LDAP support.
+Although <a class="reference external" href="http://www.sudo.ws/sudo/readme_ldap.html">sudo’s documentation states that sudo supports different LDAP
+implementations</a>, other
+than OpenLDAP, I suppose it doesn’t work well with AIX’s LDAP filesets.
+That’s just my guess why most sudo packages for AIX aren’t compiled with
+LDAP support.</p>
+<p>The good news is that <a class="reference external" href="https://twitter.com/michaelperzl">Michel
+Perzl</a>, has successfully compiled a
+sudo package with LDAP support, however it is compiled against OpenLdap
+and not AIX’s LDAP fileset. This means that you’ll have to install
+OpenLdap as a dependency on you AIX LPAR.</p>
+<section id="important-notices">
+<h2>Important Notices<a class="headerlink" href="#important-notices" title="Permalink to this heading">#</a></h2>
+<div class="line-block">
+<div class="line"><strong>I cannot assure you that the procedures described on this article
+will work 100% of the time across all the AIX installations out
+there.</strong></div>
+<div class="line">Please proceed with caution and preferably <strong>try this out in a
+non-production environment before doing this in your production AIX
+environment.</strong></div>
+</div>
+<p>What I can assure you: None of my LPARs have presented LDAP/Kerberos
+authentication or SSH issues (performed with IBM’s filesets) after the
+execution of this procedure. So from my perspective its safe to say
+that:</p>
+<ol class="arabic simple">
+<li><p>The OpenLDAP package being installed with the following RPM package
+will not interfere with other LDAP packages, such as the IBM LDAP
+fileset, you might have installed on yout AIX LPAR.</p></li>
+<li><p>The OpenSSL package being installed with the following RPM pacakge
+will not interfere with OpenSSL packages, such as the IBM OpenSSL
+fileset, you might have installed on yout AIX LPAR.</p></li>
+</ol>
+</section>
+<section id="compatibility">
+<h2>Compatibility<a class="headerlink" href="#compatibility" title="Permalink to this heading">#</a></h2>
+<p>I have successfully implemented the procedures described on this article
+on AIX LPARs runnning the following versions of AIX:</p>
+<ul class="simple">
+<li><p>5.3</p></li>
+<li><p>6.1</p></li>
+<li><p>7.1</p></li>
+</ul>
+<p>I have not tested the procedures described on this article on VIO LPARs
+and I advise you all against it as it might void IBM’s warranty.
+However, technically speaking, it should work just fine on the
+<code class="docutils literal notranslate"><span class="pre">oem_setup_env</span></code> environment level.</p>
+</section>
+</section>
+<section id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
+<p>This section describes the things you need to check, download and setup
+before you can continue.</p>
+<section id="check-your-current-sudo-setup">
+<h2>Check your current sudo setup<a class="headerlink" href="#check-your-current-sudo-setup" title="Permalink to this heading">#</a></h2>
+<p>If you are interested in this article its very likely that you already
+have sudo installed on you AIX LPAR and perhaps you inadvertently, or
+luckly, might already be running a LDAP ready sudo binary. If you don’t
+have sudo installed on your LPAR yet, you should disregard the following
+check.</p>
+<p>Before you go any further, removing and installing a different sudo
+packages, check if your current sudo binary was compiled with LDAP
+support. Unless you got your sudo package from Michale’s repository its
+most likely your sudo won’t have LDAP support, however, just to be sure,
+check it by running the following command as root:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">V</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">ldap</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">If your output does not present the highlighted information bellow,
+your sudo is not LDAP ready:</div>
+<div class="line">Configure options: –prefix=/opt/freeware –sbindir=/opt/freeware/sbin
+–libdir=/opt/freeware/lib –mandir=/opt/freeware/man
+–with-logging=syslog –with-logfac=auth –without-pam
+–with-editor=/usr/bin/vi –with-env-editor –with-ignore-dot
+–with-aixauth</div>
+</div>
+<p><strong>–with-ldap</strong> –with-passprompt=[sudo] password for %p:
+–with-tty-tickets</p>
+<div class="line-block">
+<div class="line"><strong>``ldap.conf````````path:````````/etc/ldap.conf``</strong></div>
+<div class="line"><strong>``ldap.secret````````path:````````/etc/ldap.secret``</strong></div>
+</div>
+</section>
+<section id="create-directories">
+<h2>Create directories<a class="headerlink" href="#create-directories" title="Permalink to this heading">#</a></h2>
+<div class="line-block">
+<div class="line">Create one temporary directory to hold the rpm packages you are going
+to download. I’ll use <code class="docutils literal notranslate"><span class="pre">/tmp/sudo</span></code> for such purpose.</div>
+<div class="line">Create one directory to hold your ca certificate. I’ll use
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa</span></code> for such purpose.</div>
+</div>
+</section>
+<section id="download-packages">
+<h2>Download packages<a class="headerlink" href="#download-packages" title="Permalink to this heading">#</a></h2>
+<p>Head to <a class="reference external" href="http://www.perzl.org/aix/index.php">Michael’s website</a> and
+download the following RPM packages on their latest versions:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.perzl.org/aix/index.php?n=Main.Sudo">sudo</a></p></li>
+<li><p><a class="reference external" href="http://www.perzl.org/aix/index.php?n=Main.Openldap">openldap</a></p></li>
+<li><p><a class="reference external" href="http://www.perzl.org/aix/index.php?n=Main.Openssl">openssl</a></p></li>
+<li><p><a class="reference external" href="http://www.perzl.org/aix/index.php?n=Main.Zlib">zlib</a></p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">Head to the <a class="reference external" href="http://www-03.ibm.com/systems/power/software/aix/linux/toolbox/alpha.html#G">AIX Toolbox for Linux Applications
+website</a>
+and download the <code class="docutils literal notranslate"><span class="pre">gettext</span></code> RPM on its latest version. No IBM login
+is required to download packages from the AIX Toolbox.</div>
+</div>
+<p>The reason you should download the gettext RPM package from the AIX
+Toolbox for Linux Applications website and not from Michael’s website is
+because whenever the RPM binary, which is provided by the <code class="docutils literal notranslate"><span class="pre">rpm.rte</span></code>
+fileset, gets updated on AIX (by an TL update for instance) the
+<code class="docutils literal notranslate"><span class="pre">gettext</span></code> libs get overwritten by the fileset, thus breaking rpm on
+your LPAR. Michael provides a much better explanation on this issue on
+his <a class="reference external" href="http://www.perzl.org/aix/index.php?n=FAQs.FAQs#toolbox-compatibility-issue">FAQ
+page</a>.</p>
+<p>Once all RPM packages are downloaded, upload them all to <code class="docutils literal notranslate"><span class="pre">/tmp/sudo</span></code>
+on your AIX LPAR.</p>
+</section>
+</section>
+<section id="packages-installation">
+<h1>Packages Installation<a class="headerlink" href="#packages-installation" title="Permalink to this heading">#</a></h1>
+<p>It should go without saying that if you already have sudo installed on
+your AIX LPAR you should remove it <em>before</em> installing the RPM packages
+you have just downloaded.</p>
+<p>Go to the <code class="docutils literal notranslate"><span class="pre">/tmp/sudo</span></code> directory and test installing the RPM packages
+with the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sudo</span>
+<span class="n">rpm</span> <span class="o">-</span><span class="n">ivh</span> <span class="o">*.</span><span class="n">rpm</span> <span class="o">--</span><span class="n">test</span>
+</pre></div>
+</div>
+<p>In accordance with the <a class="reference external" href="http://en.wikipedia.org/wiki/POSIX">POSIX</a>
+spirit, if no output is given by the RPM command, your test went well
+and you may proceed with installation using the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rpm</span> <span class="o">-</span><span class="n">ivh</span> <span class="o">*.</span><span class="n">rpm</span>
+</pre></div>
+</div>
+</section>
+<section id="configurations">
+<h1>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">#</a></h1>
+<p>Now that the packages have been installed some configuration is required
+to make it all work.</p>
+<section id="name-resolution-order-configuration">
+<h2>Name resolution order configuration<a class="headerlink" href="#name-resolution-order-configuration" title="Permalink to this heading">#</a></h2>
+<p>When Sudo is compiled with LDAP support it consults the Name Service
+Switch file to specify the sudoers search order. Sudo looks for a line
+beginning with <code class="docutils literal notranslate"><span class="pre">sudoers</span></code> and uses this to determine the search order.
+Typically this configuration is hosted on the <code class="docutils literal notranslate"><span class="pre">/etc/nsswitch.conf</span></code>
+configuration file on Linux and other Operating Systems that
+support/rely on that file.</p>
+<div class="line-block">
+<div class="line">On the AIX Operating System, however, the <code class="docutils literal notranslate"><span class="pre">/etc/netsvc.conf</span></code>
+configuration file is used to specify the ordering of name resolution
+for several commands. In a way it has a similar function to the
+<code class="docutils literal notranslate"><span class="pre">/etc/nsswitch.conf</span></code> configuration file on the Linux Operating
+System, although their syntaxes look nothing alike.</div>
+<div class="line">If you check <a class="reference external" href="http://www-01.ibm.com/support/knowledgecenter/ssw_aix_71/com.ibm.aix.files/netsvc.conf.htm">IBM’s netsvc
+documentation</a>
+you will see that nowhere it mentions <code class="docutils literal notranslate"><span class="pre">sudoers</span></code> as a valid syntax
+option. The short and sweet answer to that is because its not a valid
+syntax entry.</div>
+</div>
+<p>In reality what happens is that the fine people from the Sudo project
+decided that, since AIX provides a functionality similar to
+<code class="docutils literal notranslate"><span class="pre">/etc/nsswitch.conf</span></code> through the <code class="docutils literal notranslate"><span class="pre">/etc/netsvc.conf</span></code> configuration
+file, it would be best to “teach” sudo to use <code class="docutils literal notranslate"><span class="pre">/etc/netsvc.conf</span></code>
+instead of having to implement <code class="docutils literal notranslate"><span class="pre">/etc/nsswitch.conf</span></code> on AIX. A very
+smart move I might add! <a class="reference external" href="http://www.sudo.ws/sudoers.ldap.man.html">More on this
+here.</a></p>
+<p>In order tell sudo on your AIX LPAR to request its rules on LDAP if none
+are found on the <code class="docutils literal notranslate"><span class="pre">/etc/sudoers</span></code> file, is by adding the following line
+on the <code class="docutils literal notranslate"><span class="pre">/etc/netsvc.conf</span></code> configuration file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudoers</span> <span class="o">=</span> <span class="n">files</span><span class="p">,</span> <span class="n">ldap</span>
+</pre></div>
+</div>
+<p>The idea behind doing this is that, if you want to have server specific
+sudo rules that bypass the rules on the IPA server, you can do so by
+adding them to <code class="docutils literal notranslate"><span class="pre">/etc/sudoers</span></code> as you normally would. This sort of
+surpasses the lack of HBAC support for AIX for this matter.</p>
+</section>
+<section id="openldap-configuration">
+<h2>OpenLdap configuration<a class="headerlink" href="#openldap-configuration" title="Permalink to this heading">#</a></h2>
+<p>As you may see by running <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-V</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">ldap</span></code>, sudo expect to find
+its ldap configuration on the <code class="docutils literal notranslate"><span class="pre">/etc/ldap.conf</span></code> configuration file.
+This is not an AIX native configuration file and therefore you’ll have
+to create it.</p>
+<div class="line-block">
+<div class="line">Create a file called <code class="docutils literal notranslate"><span class="pre">/etc/ldap.conf</span></code> and add the following content
+to it:</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tls_cacert</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>
+<span class="n">uri</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">youripaserver</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">com</span>
+<span class="n">binddn</span> <span class="n">uid</span><span class="o">=</span><span class="n">sudo</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">sysaccounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<span class="n">bindpw</span> <span class="n">yourclientpassword</span>
+<span class="n">sudoers_base</span> <span class="n">ou</span><span class="o">=</span><span class="n">sudoers</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>Make sure to substitute <em>“youripaserver.domain.com”</em>, <em>“domain”</em>,
+<em>“com”</em> and <em>“yourclientpassword”</em> with the settings you have on your
+IPA environment.</p>
+<p>This configuration file has nothing to do with the
+<code class="docutils literal notranslate"><span class="pre">/etc/security/ldap/ldap.cfg</span></code> file you use to configure AIX’s LDAP,
+this is OpenLdap’s config for sudo and so its only used by sudo. Don’t
+worry, this won’t conflict with AIX’s LDAP functionality.</p>
+</section>
+<section id="ca-certificate">
+<h2>CA Certificate<a class="headerlink" href="#ca-certificate" title="Permalink to this heading">#</a></h2>
+<p>Upload your CA certificate to the directory you created called
+<code class="docutils literal notranslate"><span class="pre">/etc/ipa</span></code>. Make sure to permission the directory 755 and the
+<code class="docutils literal notranslate"><span class="pre">ca.crt</span></code> file 644.</p>
+<p>If you have the proper firewall rules in place and the wget package
+installed on you AIX LPAR you can get this CA certificate by running the
+following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="o">-</span><span class="n">O</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">youripaserver</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="all-done">
+<h1>All done<a class="headerlink" href="#all-done" title="Permalink to this heading">#</a></h1>
+<p>If everything goes as planned your sudo will be working with IPA on your
+AIX LPAR. You may test this by logging into your AIX LPAR with an LDAP
+user and running the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">l</span>
+</pre></div>
+</div>
+<p>If it brings the sudo rules you set up on your IPA server, like the
+example bellow, you are all set.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[thisuser@thisserver]$ sudo -l
+User this user may run the following commands on this server:
+    (root) !/bin/cant_run_this_command
+    (root) NOPASSWD: /bin/this_command_is_fine
+[thisuser@thisserver]$
+</pre></div>
+</div>
+<p>One last thing: Before shouting
+<a class="reference external" href="http://en.wikipedia.org/wiki/Archimedes#Archimedes.27_principle">Eureka</a>,
+make sure that the sudo rules being presented by the <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-l</span></code> command
+are being retrieved from the IPA server and not from your local
+<code class="docutils literal notranslate"><span class="pre">/etc/sudoers</span></code> file as we set the resolution order for sudo on
+<code class="docutils literal notranslate"><span class="pre">/etc/netsvc.conf</span></code> to check for local sudo rules before checking for
+LDAP sudo rules.</p>
+</section>
+<section id="about-the-author">
+<h1>About the author<a class="headerlink" href="#about-the-author" title="Permalink to this heading">#</a></h1>
+<p>If you have any questions fell free to contact me,
+luiz[dot]vianna[at]tivit[dot]com[dot]br on the free-ipa user mailling
+list at freeipa-users[at]redhat[dot]com. Removed the obvious signs to
+avoid unnecessary spam. ;)</p>
+<p><a class="reference external" href="Category:How_to">Category:How to</a></p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">SUDO_Integration_for_AIX</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-notices">Important Notices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatibility">Compatibility</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting started</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-your-current-sudo-setup">Check your current sudo setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-directories">Create directories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-packages">Download packages</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#packages-installation">Packages Installation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configurations">Configurations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#name-resolution-order-configuration">Name resolution order configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openldap-configuration">OpenLdap configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ca-certificate">CA Certificate</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#all-done">All done</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-author">About the author</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

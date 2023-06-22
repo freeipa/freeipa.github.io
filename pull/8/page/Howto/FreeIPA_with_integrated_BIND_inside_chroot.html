@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>FreeIPA_with_integrated_BIND_inside_chroot &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/FreeIPA_with_integrated_BIND_inside_chroot';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/Howto/FreeIPA_with_integrated_BIND_inside_chroot.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>FreeIPA_with_integrated_BIND_inside_chroot</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">FreeIPA_with_integrated_BIND_inside_chroot</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-with-integrated-bind-inside-chroot">IPA with integrated BIND inside chroot</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-chroot-should-not-be-considered-a-security-feature">NOTE: Chroot should not be considered a security feature</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="freeipa-with-integrated-bind-inside-chroot">
+<h1>FreeIPA_with_integrated_BIND_inside_chroot<a class="headerlink" href="#freeipa-with-integrated-bind-inside-chroot" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="ipa-with-integrated-bind-inside-chroot">
+<h1>IPA with integrated BIND inside chroot<a class="headerlink" href="#ipa-with-integrated-bind-inside-chroot" title="Permalink to this heading">#</a></h1>
+<p>This how-to was created on RHEL 6.4 with IPA 3.0.</p>
+<p>Please see this <a class="reference external" href="#NOTE">note</a> about chroots.</p>
+<ul>
+<li><p>Install IPA as usual and add package bind-chroot:</p>
+<ul class="simple">
+<li><p>yum install ipa-server bind bind-chroot bind-dyndb-ldap -y</p></li>
+<li><p>ipa-server-install –setup-dns</p></li>
+</ul>
+</li>
+<li><p>Add required libraries to chroot environment (use do copy or link,
+whatever you prefer)</p>
+<blockquote>
+<div><p>Following script should copy all necessary files to “$CHROOT”:</p>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CP=&quot;cp -Lpcvr&quot;
+ARCH=&quot;64&quot; # empty string should work for x86_32 architecture
+CHROOT=&quot;/var/named/chroot&quot;
+LIB=&quot;$CHROOT/lib$ARCH/&quot;
+USRLIB=&quot;$CHROOT/usr/lib$ARCH/&quot;
+BINDLIB=&quot;$CHROOT/usr/lib$ARCH/bind/&quot;
+ETC=&quot;$CHROOT/etc/&quot;
+
+# urandom is required by Kerberos libraries
+$CP /dev/urandom &quot;$CHROOT/dev/&quot;
+
+# add libraries
+mkdir -p &quot;$LIB&quot;
+$CP /lib$ARCH/libldap-2.4.so.2 &quot;$LIB&quot;
+$CP /lib$ARCH/liblber-2.4.so.2 &quot;$LIB&quot;
+$CP /lib$ARCH/libplds4.so &quot;$LIB&quot;
+$CP /lib$ARCH/libplc4.so &quot;$LIB&quot;
+$CP /lib$ARCH/libnspr4.so &quot;$LIB&quot;
+$CP /lib$ARCH/libcrypt.so.1 &quot;$LIB&quot;
+$CP /lib$ARCH/libfreebl3.so &quot;$LIB&quot;
+mkdir -p &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/libssl3.so &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/libsmime3.so &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/libnss3.so &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/libnssutil3.so &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/libsasl2.so.2 &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/krb5 &quot;$USRLIB&quot;
+$CP /usr/lib$ARCH/sasl2 &quot;$USRLIB&quot;
+
+# add bind-dyndb-ldap library
+$CP /usr/lib$ARCH/bind/ldap.so &quot;$BINDLIB&quot;
+
+# add BIND and Kerberos configuration
+$CP /etc/named.* &quot;$ETC&quot;
+$CP /etc/rndc.* &quot;$ETC&quot;
+
+# add Kerberos configuration
+$CP /etc/krb5.conf &quot;$ETC&quot;
+mkdir -p /etc/ipa
+$CP /etc/ipa/ca.crt &quot;$ETC/ipa&quot;
+
+# Kerberos needs also name-&gt;IP mapping for KDC
+$CP /etc/hosts &quot;$ETC&quot;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In (chrooted) <em>/etc/named.conf</em> and replace LDAPI socket with
+localhost:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">arg</span> <span class="s2">&quot;uri ldap://127.0.0.1:389</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In (chrooted) <em>/etc/krb5.conf</em> comment out includedir line.</p>
+<ul>
+<li><p>Krb5 library initialization will fail if include directory is not
+accesible. <strong>TODO</strong>: Find some nicer way how to handle this
+problem.</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">includedir</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">sss</span><span class="o">/</span><span class="n">pubconf</span><span class="o">/</span><span class="n">krb5</span><span class="o">.</span><span class="n">include</span><span class="o">.</span><span class="n">d</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>BIND should be able to start now.</p></li>
+</ul>
+<hr class="docutils" />
+<p>This article is enhanced version of Dale’s <a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2013-February/msg00411.html">post on freeipa-users
+list</a>.</p>
+<hr class="docutils" />
+<section id="note-chroot-should-not-be-considered-a-security-feature">
+<h2>NOTE: Chroot should not be considered a security feature<a class="headerlink" href="#note-chroot-should-not-be-considered-a-security-feature" title="Permalink to this heading">#</a></h2>
+<p>A chroot jail is often described as being a security feature. In reality
+a chrooted environment is no more secure than a non-chrooted
+environment. The root user is able to “break out” of a chroot jail,
+which is not unexpected behavior of the super user. Non root users are
+not able to escape from a chroot jail, but due to the nature of
+security, one has to assume that an attacker who is sophisticated enough
+to gain local access to a chrooted environment is also sophisticated
+enough to gain root privileges. A chrooted environment is ideal for
+running a process in a minimal environement, it should not be considered
+more secure than a non chrooted environment. Proper Discretionary Access
+Control (DAC) permissions provide the same basic level of security as a
+chrooted environment.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">FreeIPA_with_integrated_BIND_inside_chroot</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-with-integrated-bind-inside-chroot">IPA with integrated BIND inside chroot</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-chroot-should-not-be-considered-a-security-feature">NOTE: Chroot should not be considered a security feature</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

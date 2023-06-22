@@ -1,0 +1,726 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Samba_4_Storing_SID_in_String_Format &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Samba_4_Storing_SID_in_String_Format';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Samba_4_Storing_SID_in_String_Format.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Samba_4_Storing_SID_in_String_Format</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Samba_4_Storing_SID_in_String_Format</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#current-code">Current Code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sid-structure">SID Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-methods">Conversion Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-syntax">Attribute Syntax</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-mapping">Attribute Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-dereferencing">Attribute Dereferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-changes">Proposed Changes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Attribute Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Attribute Dereferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Schema</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#issues">Issues</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Attribute Dereferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-mapping">Schema Mapping</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#patches">Patches</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="samba-4-storing-sid-in-string-format">
+<h1>Samba_4_Storing_SID_in_String_Format<a class="headerlink" href="#samba-4-storing-sid-in-string-format" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
+<p>In order to guarantee uniqueness among multiple Samba instances backed
+by DS, DNA plugin will be used to allocate SID. See also <a class="reference external" href="Obsolete:Samba_4_SID_Allocation_using_DNA_Plugin">this
+page</a>.</p>
+<p>Currently the DNA plugin can only support generating integer or string
+values whereas Samba is storing the SID in binary format in the DS. In
+order to utilize the plugin without any changes, Samba code needs to be
+changed such that it stores the SID in the string format. The SID will
+be stored in sambaSID attribute which is part of Samba 3 schema.</p>
+</section>
+<section id="current-code">
+<h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">#</a></h1>
+<p>In Samba code the SID may exist in 3 different formats:</p>
+<ul class="simple">
+<li><p>SID structure (struct dom_sid)</p></li>
+<li><p>Binary format (NDR-encoded DATA_BLOB)</p></li>
+<li><p>String format (LDIF-encoded char*)</p></li>
+</ul>
+<p>The mapping code always converts the SID into binary format before
+storing it into the DS.</p>
+<section id="sid-structure">
+<h2>SID Structure<a class="headerlink" href="#sid-structure" title="Permalink to this heading">#</a></h2>
+<p>The SID structure is defined in librpc/gen_ndr/security.h:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">dom_sid</span> <span class="p">{</span>
+    <span class="n">uint8_t</span> <span class="n">sid_rev_num</span><span class="p">;</span>
+    <span class="n">int8_t</span> <span class="n">num_auths</span><span class="p">;</span>
+    <span class="n">uint8_t</span> <span class="n">id_auth</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+    <span class="n">uint32_t</span> <span class="n">sub_auths</span><span class="p">[</span><span class="mi">15</span><span class="p">];</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="conversion-methods">
+<h2>Conversion Methods<a class="headerlink" href="#conversion-methods" title="Permalink to this heading">#</a></h2>
+<p>The binary conversion methods are defined in librpc/ndr/ndr.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">convert</span> <span class="n">SID</span> <span class="n">structure</span> <span class="n">to</span> <span class="n">binary</span>
+<span class="n">_PUBLIC_</span> <span class="n">enum</span> <span class="n">ndr_err_code</span> <span class="n">ndr_push_dom_sid</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ndr_push</span> <span class="o">*</span><span class="n">ndr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">ndr_flags</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">dom_sid</span> <span class="o">*</span><span class="n">r</span><span class="p">);</span>
+
+<span class="o">//</span> <span class="n">convert</span> <span class="n">binary</span> <span class="n">to</span> <span class="n">SID</span> <span class="n">structure</span>
+<span class="n">_PUBLIC_</span> <span class="n">enum</span> <span class="n">ndr_err_code</span> <span class="n">ndr_pull_dom_sid</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ndr_pull</span> <span class="o">*</span><span class="n">ndr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">ndr_flags</span><span class="p">,</span> <span class="n">struct</span> <span class="n">dom_sid</span> <span class="o">*</span><span class="n">r</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The string conversion methods are defined in libcli/security/dom_sid.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">convert</span> <span class="n">string</span> <span class="n">to</span> <span class="n">SID</span> <span class="n">structure</span>
+<span class="nb">bool</span> <span class="n">dom_sid_parse</span><span class="p">(</span><span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">sidstr</span><span class="p">,</span> <span class="n">struct</span> <span class="n">dom_sid</span> <span class="o">*</span><span class="n">ret</span><span class="p">);</span>
+
+<span class="o">//</span> <span class="n">convert</span> <span class="n">SID</span> <span class="n">structure</span> <span class="n">to</span> <span class="n">string</span>
+<span class="n">char</span> <span class="o">*</span><span class="n">dom_sid_string</span><span class="p">(</span><span class="n">TALLOC_CTX</span> <span class="o">*</span><span class="n">mem_ctx</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">dom_sid</span> <span class="o">*</span><span class="n">sid</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="attribute-syntax">
+<h2>Attribute Syntax<a class="headerlink" href="#attribute-syntax" title="Permalink to this heading">#</a></h2>
+<p>The SID syntax is defined in source4/lib/ldb-samba/ldif_handlers.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_schema_syntax</span> <span class="n">samba_syntaxes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span>
+        <span class="o">.</span><span class="n">name</span>         <span class="o">=</span> <span class="n">LDB_SYNTAX_SAMBA_SID</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">ldif_read_fn</span>     <span class="o">=</span> <span class="n">ldif_read_objectSid</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">ldif_write_fn</span>    <span class="o">=</span> <span class="n">ldif_write_objectSid</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">canonicalise_fn</span>  <span class="o">=</span> <span class="n">ldif_canonicalise_objectSid</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">comparison_fn</span>    <span class="o">=</span> <span class="n">ldif_comparison_objectSid</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The handlers are defined in source4/lib/lib-samba/ldif_handlers.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">ldif_read_objectSid</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ldb_context</span> <span class="o">*</span><span class="n">ldb</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">mem_ctx</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="ow">in</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="n">out</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">convert</span> <span class="n">string</span> <span class="n">to</span> <span class="n">SID</span> <span class="n">structure</span>
+    <span class="n">sid</span> <span class="o">=</span> <span class="n">dom_sid_parse_length</span><span class="p">(</span><span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">convert</span> <span class="n">SID</span> <span class="n">structure</span> <span class="n">to</span> <span class="n">binary</span>
+    <span class="n">ndr_err</span> <span class="o">=</span> <span class="n">ndr_push_struct_blob</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">ndr_push_flags_fn_t</span><span class="p">)</span><span class="n">ndr_push_dom_sid</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">static</span> <span class="nb">int</span> <span class="n">ldif_write_objectSid</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ldb_context</span> <span class="o">*</span><span class="n">ldb</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">mem_ctx</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="ow">in</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="n">out</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">convert</span> <span class="n">binary</span> <span class="n">to</span> <span class="n">SID</span> <span class="n">structure</span>
+    <span class="n">ndr_err</span> <span class="o">=</span> <span class="n">ndr_pull_struct_blob_all</span><span class="p">(</span><span class="ow">in</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">ndr_pull_flags_fn_t</span><span class="p">)</span><span class="n">ndr_pull_dom_sid</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">convert</span> <span class="n">SID</span> <span class="n">structure</span> <span class="n">to</span> <span class="n">string</span>
+    <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">data_blob_string_const</span><span class="p">(</span><span class="n">dom_sid_string</span><span class="p">(</span><span class="n">mem_ctx</span><span class="p">,</span> <span class="n">sid</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The ldif_canonicalise_objectSid() makes sure that the SID is converted
+into binary.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">ldif_canonicalise_objectSid</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ldb_context</span> <span class="o">*</span><span class="n">ldb</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">mem_ctx</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="ow">in</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="n">out</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="k">if</span> <span class="n">SID</span> <span class="ow">is</span> <span class="n">string</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ldif_comparision_objectSid_isString</span><span class="p">(</span><span class="ow">in</span><span class="p">))</span> <span class="p">{</span>
+
+        <span class="o">//</span> <span class="n">convert</span> <span class="n">string</span> <span class="n">to</span> <span class="n">binary</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ldif_read_objectSid</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="o">//</span> <span class="ow">in</span> <span class="n">case</span> <span class="n">of</span> <span class="n">error</span> <span class="k">return</span> <span class="n">a</span> <span class="n">copy</span>
+            <span class="k">return</span> <span class="n">ldb_handler_copy</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">out</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="o">//</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">string</span> <span class="k">return</span> <span class="n">a</span> <span class="n">copy</span>
+    <span class="k">return</span> <span class="n">ldb_handler_copy</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">out</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="attribute-mapping">
+<h2>Attribute Mapping<a class="headerlink" href="#attribute-mapping" title="Permalink to this heading">#</a></h2>
+<p>The SID mapping is defined in
+source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">mapping</span> <span class="k">for</span> <span class="n">OpenLDAP</span>
+<span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_map_attribute</span> <span class="n">entryuuid_attributes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span>
+        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="s2">&quot;objectSid&quot;</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">MAP_CONVERT</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="o">.</span><span class="n">convert</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="o">.</span><span class="n">remote_name</span> <span class="o">=</span> <span class="s2">&quot;objectSid&quot;</span><span class="p">,</span>
+                <span class="o">.</span><span class="n">convert_local</span> <span class="o">=</span> <span class="n">sid_always_binary</span><span class="p">,</span>
+                <span class="o">.</span><span class="n">convert_remote</span> <span class="o">=</span> <span class="n">val_copy</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="n">mapping</span> <span class="k">for</span> <span class="n">DS</span>
+<span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_map_attribute</span> <span class="n">nsuniqueid_attributes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span>
+        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="s2">&quot;objectSid&quot;</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">MAP_CONVERT</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="o">.</span><span class="n">convert</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="o">.</span><span class="n">remote_name</span> <span class="o">=</span> <span class="s2">&quot;objectSid&quot;</span><span class="p">,</span>
+                <span class="o">.</span><span class="n">convert_local</span> <span class="o">=</span> <span class="n">sid_always_binary</span><span class="p">,</span>
+                <span class="o">.</span><span class="n">convert_remote</span> <span class="o">=</span> <span class="n">val_copy</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The handlers are also defined in
+source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="n">sid_always_binary</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">TALLOC_CTX</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">get</span> <span class="n">SID</span> <span class="n">syntax</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">ldb_schema_attribute_by_name</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="s2">&quot;objectSid&quot;</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">canonicalize</span> <span class="n">SID</span>
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">syntax</span><span class="o">-&gt;</span><span class="n">canonicalise_fn</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">out</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">static</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="n">val_copy</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">TALLOC_CTX</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">no</span> <span class="n">conversion</span> <span class="n">because</span> <span class="n">SID</span> <span class="ow">is</span> <span class="n">already</span> <span class="ow">in</span> <span class="n">binary</span> <span class="nb">format</span>
+    <span class="k">return</span> <span class="n">ldb_val_dup</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="attribute-dereferencing">
+<h2>Attribute Dereferencing<a class="headerlink" href="#attribute-dereferencing" title="Permalink to this heading">#</a></h2>
+<p>The handler function in extended_dn_out_fds module reads the binary SID
+value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference_fds</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">dsdb_openldap_dereference_result</span> <span class="o">**</span><span class="n">dereference_attrs</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span> <span class="n">const</span> <span class="n">DATA_BLOB</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">sid_blob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;objectSID&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sid_blob</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="n">sid_blob</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">#</a></h2>
+<p>The provisioning tool generates the objectSid attribute in 99_ad.ldif.
+The attribute uses Octet String (binary) syntax.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attributeTypes</span><span class="p">:</span> <span class="p">(</span>
+  <span class="mf">1.2.840.113556.1.4.146</span>
+  <span class="n">NAME</span> <span class="s1">&#39;objectSid&#39;</span>
+  <span class="n">EQUALITY</span> <span class="n">octetStringMatch</span>
+  <span class="n">SYNTAX</span> <span class="mf">1.3.6.1.4.1.1466.115.121.1.40</span>
+  <span class="n">SINGLE</span><span class="o">-</span><span class="n">VALUE</span>
+  <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="proposed-changes">
+<h1>Proposed Changes<a class="headerlink" href="#proposed-changes" title="Permalink to this heading">#</a></h1>
+<p>One option is to change the ldif_canonicalise_objectSid() to convert
+from binary to string. However, this method is used in many places and
+by different backends as well.</p>
+<p>To minimize the risks, the changes should be done specifically for DS
+only.</p>
+<section id="id1">
+<h2>Attribute Mapping<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>The mapping for DS should be changed as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_map_attribute</span> <span class="n">nsuniqueid_attributes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span>
+        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="s2">&quot;objectSid&quot;</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">MAP_CONVERT</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="o">.</span><span class="n">convert</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="o">.</span><span class="n">remote_name</span> <span class="o">=</span> <span class="s2">&quot;sambaSID&quot;</span><span class="p">,</span>
+                <span class="o">.</span><span class="n">convert_local</span> <span class="o">=</span> <span class="n">sid_always_string</span><span class="p">,</span>
+                <span class="o">.</span><span class="n">convert_remote</span> <span class="o">=</span> <span class="n">sid_always_binary</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then the following method should be added:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="n">sid_always_string</span><span class="p">(</span>
+    <span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">TALLOC_CTX</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_val</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="k">if</span> <span class="n">SID</span> <span class="ow">is</span> <span class="n">string</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ldif_comparision_objectSid_isString</span><span class="p">(</span><span class="ow">in</span><span class="p">))</span> <span class="p">{</span>
+
+        <span class="o">//</span> <span class="k">return</span> <span class="n">a</span> <span class="n">copy</span>
+        <span class="k">return</span> <span class="n">ldb_handler_copy</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">out</span><span class="p">);</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+        <span class="o">//</span> <span class="n">convert</span> <span class="n">binary</span> <span class="n">to</span> <span class="n">string</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ldif_write_objectSid</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="o">//</span> <span class="ow">in</span> <span class="n">case</span> <span class="n">of</span> <span class="n">error</span> <span class="k">return</span> <span class="n">a</span> <span class="n">copy</span>
+            <span class="k">return</span> <span class="n">ldb_handler_copy</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span> <span class="n">mem_ctx</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">out</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Attribute Dereferencing<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>The handler function in extended_dn_out_fds module should be changed to
+read the string SID value and convert it into SID structure.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference_fds</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">dsdb_openldap_dereference_result</span> <span class="o">**</span><span class="n">dereference_attrs</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span> <span class="n">const</span> <span class="n">DATA_BLOB</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">sidBlob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;sambaSID&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sidBlob</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">convert</span> <span class="n">string</span> <span class="n">into</span> <span class="n">SID</span> <span class="n">structure</span>
+        <span class="n">sid</span> <span class="o">=</span> <span class="n">dom_sid_parse_length</span><span class="p">(</span><span class="n">NULL</span><span class="p">,</span> <span class="n">sidBlob</span><span class="p">);</span>
+
+        <span class="o">//</span> <span class="n">convert</span> <span class="n">SID</span> <span class="n">structure</span> <span class="n">into</span> <span class="n">binary</span>
+        <span class="n">ndr_push_struct_blob</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sid_blob</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">ndr_push_flags_fn_t</span><span class="p">)</span><span class="n">ndr_push_dom_sid</span><span class="p">);</span>
+
+        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="n">sid_blob</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>Schema<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>The provisioning tool should be configured such that it doesn’t generate
+the objectSid attribute but instead it uses the sambaSID attribute. The
+schema conversion is located at source4/setup/schema-map-fedora-ds-1.0:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">objectSid</span>
+<span class="n">objectSid</span><span class="p">:</span><span class="n">sambaSID</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="issues">
+<h1>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">#</a></h1>
+<section id="id4">
+<h2>Attribute Dereferencing<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>In order to change the storage format in DS without affecting the format
+in OpenLDAP, a new attribute deferencing module needs to be created for
+the DS. See also <a class="reference external" href="Obsolete:Samba_4_Attribute_Dereferencing">this
+page</a>.</p>
+</section>
+<section id="schema-mapping">
+<h2>Schema Mapping<a class="headerlink" href="#schema-mapping" title="Permalink to this heading">#</a></h2>
+<p>Samba 3 schema has a dependency on InetOrgPerson schema which is
+conflicting with AD schema. To solve this the AD schema needs to be
+renamed. See also <a class="reference external" href="Obsolete:Samba_4_Schema_Mapping">this page</a>.</p>
+</section>
+</section>
+<section id="patches">
+<h1>Patches<a class="headerlink" href="#patches" title="Permalink to this heading">#</a></h1>
+<p>The following patch has been applied to the source repository:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=bf01937549cd1ebaf327a709ecb104bfc0e0705c">s4:dsdb - Store SID as string in
+FDS</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Samba_4_Storing_SID_in_String_Format</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#current-code">Current Code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sid-structure">SID Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-methods">Conversion Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-syntax">Attribute Syntax</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-mapping">Attribute Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-dereferencing">Attribute Dereferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-changes">Proposed Changes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Attribute Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Attribute Dereferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Schema</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#issues">Issues</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Attribute Dereferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-mapping">Schema Mapping</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#patches">Patches</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

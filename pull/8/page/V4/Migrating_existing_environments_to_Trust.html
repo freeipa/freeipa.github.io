@@ -1,0 +1,1028 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Migrating_existing_environments_to_Trust &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4/Migrating_existing_environments_to_Trust';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V4/Migrating_existing_environments_to_Trust.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Migrating_existing_environments_to_Trust</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#store-posix-attributes-and-ssh-keys-for-ad-users">Store POSIX attributes and SSH keys for AD users</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-from-the-sync-to-the-trust-solution">Migration from the Sync to the Trust solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#per-hostgroup-override-of-freeipa-user-posix-attributes">Per hostgroup override of FreeIPA user POSIX attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id-views">ID Views</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-overrides">User Overrides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#group-overrides">Group Overrides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-flow">Data Flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id-ranges">ID Ranges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-schema">Proposed schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#container">Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd">SSSD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-ipa-backend">SSSD IPA backend</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-responders-nss-pam-infopipe-and-others">SSSD responders (NSS, PAM, InfoPipe and others)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-ipa-server-mode">SSSD (IPA server mode)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-cache-layout">SSSD Cache layout</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slapi-nis-plugin-compat-tree">slapi-nis plugin/compat tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-management">View management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#management-of-the-overrides">Management of the overrides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">View management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Management of the overrides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updates-and-upgrades">Updates and Upgrades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-test">How to Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view">Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view">Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-migration-from-the-sync-to-the-trust-solution">Use Case: Migration from the Sync to the Trust solution</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="migrating-existing-environments-to-trust">
+<h1>Migrating_existing_environments_to_Trust<a class="headerlink" href="#migrating-existing-environments-to-trust" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>When FreeIPA server is configured with <em>Winsync</em> synchronization with
+Active Directory, all users are copied to FreeIPA server with generated
+POSIX attributes (e.g. login name, UID, GID, shell…). Such
+architecture has several downsides, when compared to infrastructure
+based on <a class="reference external" href="Trusts">Cross-Realm Trusts</a>. However, it was very difficult
+to migrate to it given synchronized AD users already had POSIX
+attributes generated.</p>
+<p>New <strong>ID Views</strong> mechanism allows configuring POSIX attributes for AD
+users and thus allows admin to remove such user entity from FreeIPA
+<a class="reference external" href="Directory_Server">Directory Server</a>, leverage <a class="reference external" href="Trusts">Trusts</a>
+and only define the default (or per host group) user (or group) POSIX
+attributes.</p>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="store-posix-attributes-and-ssh-keys-for-ad-users">
+<h2>Store POSIX attributes and SSH keys for AD users<a class="headerlink" href="#store-posix-attributes-and-ssh-keys-for-ad-users" title="Permalink to this heading">#</a></h2>
+<p>Define POSIX attributes or SSH users for AD users and let them be
+applied when the AD user authenticates to <a class="reference external" href="Client">clients</a> running
+SSSD with <em>ID Views</em> support or via <a class="reference external" href="V3/Serving_legacy_clients_for_trusts">legacy compat LDAP
+tree</a>.</p>
+<p>This capability is useful both for migration from Winsync or in a
+situation when Linux admins would like to manually define POSIX
+attributes for AD users, but AD policy do not allow it.</p>
+</section>
+<section id="migration-from-the-sync-to-the-trust-solution">
+<h2>Migration from the Sync to the Trust solution<a class="headerlink" href="#migration-from-the-sync-to-the-trust-solution" title="Permalink to this heading">#</a></h2>
+<p>Utilize <em>ID Views</em> interface to configure needed POSIX attributes for
+existing users synchronized with <em>Winsync</em> and move them back to AD. The
+mechanism follows simple procedure:</p>
+<ol class="arabic simple">
+<li><p>Select a user/group entry to be migrated</p></li>
+<li><p>Create a default or host-based ID View override specifying previously
+used UID or other tools</p></li>
+<li><p>Backup migrated user/group</p></li>
+<li><p>Delete user/group original entry</p></li>
+</ol>
+<p>{{ admon/note | Automated Migration | Automated migration tool is
+planned for next releases in ticket
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4524">#4524</a> }}</p>
+</section>
+<section id="per-hostgroup-override-of-freeipa-user-posix-attributes">
+<h2>Per hostgroup override of FreeIPA user POSIX attributes<a class="headerlink" href="#per-hostgroup-override-of-freeipa-user-posix-attributes" title="Permalink to this heading">#</a></h2>
+<p>Use <em>ID Views</em> mechanism to override FreeIPA user POSIX attributes on
+specified servers that may not yet be using the unified domain ones.
+This option is useful for example for users migrated from NIS.</p>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="id-views">
+<h2>ID Views<a class="headerlink" href="#id-views" title="Permalink to this heading">#</a></h2>
+<p>A new concept of <em>ID Views</em> is introduced. Every ID View is a collection
+of user and group <em>overrides</em> that applies to specified hosts or as a
+default to all hosts. Each <em>override</em> is bound to an AD or IPA user.</p>
+<section id="user-overrides">
+<h3>User Overrides<a class="headerlink" href="#user-overrides" title="Permalink to this heading">#</a></h3>
+<p>Following list of user attributes can be overridden in an <em>ID View</em>:</p>
+<ul class="simple">
+<li><p><strong>uid</strong>: user login name</p></li>
+<li><p><strong>uidNumber</strong>: user UID number</p></li>
+<li><p><strong>gidNumber</strong>: user GID number</p></li>
+<li><p><strong>loginShell</strong>: user login shell</p></li>
+<li><p><strong>gecos</strong>: user GECOS</p></li>
+<li><p><strong>homeDirectory</strong>: user home directory</p></li>
+<li><p><strong>ipaSshPubkey</strong>: user SSH public key(s)</p></li>
+</ul>
+</section>
+<section id="group-overrides">
+<h3>Group Overrides<a class="headerlink" href="#group-overrides" title="Permalink to this heading">#</a></h3>
+<p>Following list of group attributes can be overridden in an <em>ID View</em>:</p>
+<ul class="simple">
+<li><p><strong>cn</strong>: group name</p></li>
+<li><p><strong>gidNumber</strong>: group GID number</p></li>
+</ul>
+</section>
+</section>
+<section id="data-flow">
+<h2>Data Flow<a class="headerlink" href="#data-flow" title="Permalink to this heading">#</a></h2>
+<p><img alt="User-views.png" src="../../_images/User-views.png" /> In an environment with a <a class="reference external" href="Trusts">Trust</a>, the SSSD
+on the FreeIPA server reads the data from AD and immediately apply the
+overrides from the <em>default view</em> which are defined in the FreeIPA LDAP
+tree. The <em>extdom plugin</em> returns this data directly to clients while
+the <em>compat tree</em> reads the data from SSSD and apply the overrides from
+another view if needed for the client. Clients using the <em>extdom plugin</em>
+have to read client specific view data on their own from the FreeIPA
+LDAP tree and apply them on their own.</p>
+</section>
+<section id="id-ranges">
+<h2>ID Ranges<a class="headerlink" href="#id-ranges" title="Permalink to this heading">#</a></h2>
+<p>ID ranges are used in FreeIPA to avoid collisions of POSIX IDs from
+different domains especially if the POSIX IDs are algorithmically
+generated. Although it would be possible to create a special range type
+for the POSIX IDs used in ID Views, they are not needed. The main reason
+is that we have to allow overlaps with all other kind of ID ranges. E.g.
+AD user which where created in the FreeIPA <a class="reference external" href="Directory_Server">Directory
+Server</a> tree by the winsync solution have POSIX IDs
+from the same ID range as IPA users. If we want to migrate them to the
+trust solution we would have to add those POSIX ID in the default view.</p>
+<p>Another reason is that the POSIX IDs in the views are managed manually
+on the FreeIPA side and conflicts and collisions can easily be fixed by
+changing the offending POSIX ID. The requirement that the POSIX IDs used
+in the views must match given ranges would make this feature more
+cumbersome to use without adding additional protection.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="proposed-schema">
+<h2>Proposed schema<a class="headerlink" href="#proposed-schema" title="Permalink to this heading">#</a></h2>
+<div class="line-block">
+<div class="line">`` attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME ‘ipaAnchorUUID’ DESC ‘Unique Anchor Identifier’ EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN ‘IPA v4’)``</div>
+<div class="line">`` attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME ‘ipaOriginalUid’ DESC ‘Original UID of overriden user’ EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN ‘IPA v4’)``</div>
+<div class="line">`` objectClasses: (2.16.840.1.113730.3.8.12.29 NAME ‘ipaIDView’ SUP nsContainer STRUCTURAL MAY ( description ) X-ORIGIN ‘IPA v4’ )``</div>
+<div class="line">`` objectClasses: (2.16.840.1.113730.3.8.12.30 NAME ‘ipaOverrideAnchor’ SUP top STRUCTURAL MUST ( ipaAnchorUUID ) MAY ( description ) X-ORIGIN ‘IPA v4’ )``</div>
+<div class="line">`` objectClasses: (2.16.840.1.113730.3.8.12.31 NAME ‘ipaUserOverride’ DESC ‘Override for User Attributes’ SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid ) X-ORIGIN ‘IPA v4’ )``</div>
+<div class="line">`` objectClasses: (2.16.840.1.113730.3.8.12.32 NAME ‘ipaGroupOverride’ DESC ‘Override for Group Attributes’ SUP ipaOverrideAnchor STRUCTURAL MAY ( gidNumber $ cn ) X-ORIGIN ‘IPA v4’ )``</div>
+<div class="line">`` objectClasses: (2.16.840.1.113730.3.8.12.34 NAME ‘ipaOverrideTarget’ SUP top STRUCTURAL MUST ( ipaAnchorUUID ) X-ORIGIN ‘IPA v4’ )``</div>
+</div>
+</section>
+<section id="container">
+<h2>Container<a class="headerlink" href="#container" title="Permalink to this heading">#</a></h2>
+<p>ID Views will be stored in containers below
+<code class="docutils literal notranslate"><span class="pre">cn=views,cn=accounts,$SUFFIX</span></code> with containers for users and groups.
+The objectclasses look similar to posixAccount and posixGroup
+objectclasses but with only optional (MAY) attributes.</p>
+<p>As view will be applied on the client side so the older clients using
+the extdom plugin only get the default view. If they need a different
+view SSSD has to be updated to a version with view support or the client
+must use the compat tree.</p>
+<p>On the server side we have to modify SSSD running in IPA server mode as
+well and the slapi-nis plugin for the compat tree.</p>
+</section>
+<section id="sssd">
+<h2>SSSD<a class="headerlink" href="#sssd" title="Permalink to this heading">#</a></h2>
+<p>On the SSSD side the override is done as late as possible. The AD users
+and group are looked up via the <em>extdom plugin</em> which return only the
+default view for any client. SSSD on the client will check which view
+the client should apply and load the overrides for the given view
+separately.</p>
+<section id="sssd-ipa-backend">
+<h3>SSSD IPA backend<a class="headerlink" href="#sssd-ipa-backend" title="Permalink to this heading">#</a></h3>
+<p>On startup the IPA backend has to look up the host entry of the client
+on the IPA server and determine the view for the client and save this
+information to the cache. If there is no entry the default view is
+assumed. If the view changes all old override value should be deleted
+and the cached user and group entries should be marked expired to force
+a new lookup. If the new view is the default view the original data can
+be kept and must not be marked expired.</p>
+<p>If there is a view other than the default view assigned to the client
+after looking up the AD user with the extdom plugin it has to be checked
+if there are overrides available for the requested object. The override
+values must be written to the cache as well. If has to be decided if
+they should be saved together with the requested object or as separate
+objects.</p>
+<p>It might be a good idea to safe the override data of the views in
+separate objects, maybe even in a separated tree and add DN attributes
+to the original object and the override data to link both together. With
+this is it easy to invalidate/expired the override value and the
+original data independently, e.g. if the view changes. Additionally if
+the client has the default view the cache layout does not change and
+requests can be processed as it is done now. Only if the client has a
+different view the responders have to check if the original object has
+an attribute which points to an override object and apply the needed
+changes. The main goal is that the responders do not need to know any
+details about how the views work. They only need to know if there is an
+object with override data or not and how to apply them.</p>
+<p>When looking up users and groups on a client with a different view than
+the default view, the views has to be checked first. If a matching entry
+was found for the given name or ID the SID has to be extracted from the
+reference attribute. With the SID the related object is requested via
+the extdom plugin. Finally override data and the original object must be
+saved in the cache. If no override was found for the searched object it
+will be resolved by the extdom plugin as usual, but additionally after
+retrieving the original data it has to be checked with the help of the
+SID if there is an override for the object. This e.g. is necessary to
+cover cases where the object is looked up by the name, but only the IDs
+are overridden.</p>
+</section>
+<section id="sssd-responders-nss-pam-infopipe-and-others">
+<h3>SSSD responders (NSS, PAM, InfoPipe and others)<a class="headerlink" href="#sssd-responders-nss-pam-infopipe-and-others" title="Permalink to this heading">#</a></h3>
+<p>If there are override values available for a requested object the
+responders must apply the overrides before returning the data to the
+clients.</p>
+<p>When processing a request on a client which does not use the default
+view the corresponding override values must be checked first before
+looking at the original values. If a matching override value was found
+the request will continue with the corresponding original object and
+only in the end before the data is returned to the client the overrides
+are applied. (This is the same scheme used for the space replacement
+feature)</p>
+<p>For this new sysdb calls to look up users and groups should be added
+which replace the current sysdb calls used at the entry points of the
+providers. Since there are already quite a number of sysdb calls for
+user and group lookups it is acceptable to add new ones and simplify the
+sysdb interface in a different project. Besides trying to find a
+corresponding view first this new calls should also fold the view data
+into the attributes of the original object by adding the view attributes
+with e.g. a prefix ‘overide’. This will help to reduce additional cache
+lookup later. It has to be note that for group related lookup (getgr*,
+initgroups) the results contain list of group members or group the user
+is a member of where the overrides has to be applied as well. Here the
+override data should be added in a similar fashion with a ‘override’
+prefix. With this all processing can be done with the original data and
+the overrides will only be applied when generating the responses to the
+clients without additional cache lookups. Finally the new calls should
+return a flag if overrides were found for the object which would help to
+speed up generating the responses.</p>
+<p>It would be useful if the main responder context has flag if the host
+has a view at all and it is different from the default view. This will
+help to speed up operations if no overrides have to be applied at all,
+e.g. on the IPA server or classic LDAP setups. At startup the backends
+which support views (currently only IPA) should check if the host
+belongs to a different view and write the name as an attribute to e.g.
+cn=views,cn=sysdb. The actual override data can be added later below.
+The responder can than check if cn=views,cn=sysdb and has a viewName
+attribute set. Only in this case view processing is needed. This flag
+can be passed to the new sysdb calls to tell them if they could bypass
+the override lookups or not.</p>
+</section>
+<section id="sssd-ipa-server-mode">
+<h3>SSSD (IPA server mode)<a class="headerlink" href="#sssd-ipa-server-mode" title="Permalink to this heading">#</a></h3>
+<p>The main purpose of the IPA server mode of SSSD is to look up the users
+and groups from the trusted domains so that they are available for
+standard POSIX calls like getpwnam().</p>
+<p>In IPA server mode SSSD does not have to look up the view because IPA
+server will always and only have the default view.</p>
+<p>In contrast to SSSD running on a client SSSD on the server has to apply
+the default view explicitly because it reads the data directly from AD,
+i.e. the overrides have to be applied before writing the data to the
+cache. The original data can be saved in attributes with e.g. a prefix
+‘ADOriginal’ . SSSD on a client will read the data from the extdom
+plugin where the default view is already applied.</p>
+<p>The following should be noted here:</p>
+<ul class="simple">
+<li><p>all IPA servers and replicas are hardcoded to the default view, it is
+not possible to assign a different view to them</p></li>
+<li><p>all other views are applied on top of the default view:</p>
+<ul>
+<li><p>if the default view e.g. overrides the uidNumber attribute from AD
+the original value from AD is _not_ available to any other view</p></li>
+<li><p>if an override value is changed in the default view and not
+overridden by e.g. view xyz the change in the default view will be
+visible on call clients assigned to the xyz view as well.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="sssd-cache-layout">
+<h3>SSSD Cache layout<a class="headerlink" href="#sssd-cache-layout" title="Permalink to this heading">#</a></h3>
+<p>The cached entry of an AD object on IPA clients and servers will contain
+both the original AD data and the override value from the default view.
+As show in the following figure.</p>
+<figure class="align-default" id="id3">
+<img alt="directory_entries_and_overrides.png" src="../../_images/Directory_entries_and_overrides.png" />
+<figcaption>
+<p><span class="caption-text">directory_entries_and_overrides.png</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The green lines indicate the unmodified data from AD, the red ones those
+attributes where an override value exists in the default view and the
+blue line the override values.</p>
+<p>As shown in the figure the overrides from the default view are already
+applied in the cached entry, i.e. the default attributes for name, UID
+and GID number, gecos, shell and home-directory already contain the
+override values, if any, and the original values from AD are available
+in attributes with the same name but the ‘originalAD’ prefix (the prefix
+can be changed to some other more sensible value, but no collisions are
+expected because SSSD cache attributes are mapped).</p>
+<p>In contrast to store the override data of the default view separately in
+the SSSD cache this scheme has to following advantages:</p>
+<ul class="simple">
+<li><p>for the most common use cases like user and group lookups, no
+additional processing is needed, because the view is already applied.</p></li>
+<li><p>on IPA client with a different view than the default view only the
+other view has to be applied on top of the default view and not both
+the other and the default view on top of the original AD data</p></li>
+<li><p>AD objects with the default view are equivalent to IPA objects. This
+becomes important when we introduce views and overrides for IPA
+objects as well because for IPA objects there will be no overrides in
+the default view, because the IPA objects are the default view be
+definition. Saving the default view separately in the SSSD cache
+would lead to different code paths for IPA and AD objects. With this
+scheme IPA and AD obejcts can be handled in the same way both for the
+default view or an alternative view.</p></li>
+</ul>
+<p>(Please note, I’m currently working on figures for the client case and a
+different view and the case where the name is overriden, here the
+nameAlias will contain the original fully qualified AD name and the
+un-qualified override name to allow searches with those names as well).</p>
+</section>
+</section>
+<section id="slapi-nis-plugin-compat-tree">
+<h2>slapi-nis plugin/compat tree<a class="headerlink" href="#slapi-nis-plugin-compat-tree" title="Permalink to this heading">#</a></h2>
+<p>The compat tree offers a simplified LDAP tree with user and group data
+for legacy clients. No data for this tree is stored on disk but it is
+always created on the fly. It has to be noted that legacy clients might
+be one of the major users of the user-views because chances are that
+they were attached to the legacy systems with legacy ID management which
+should be replaced by IPA.</p>
+<p>In contrast to the extdom plugin it is not possible to determine the
+client based on the DN because connection might be anonymous. The
+Slapi_PBlock contains the IP address of the client in
+SLAPI_CONN_CLIENTNETADDR. Finding the matching client object in the IPA
+tree requires a reverse-DNS lookup which is unreliable.</p>
+<p>Instead of relying on bound user information, slapi-nis will use base
+DN. A view-specific base DN will look like
+cn=myview,cn=views,cn=compat,$SUFFIX. View will be detected and base DN
+will be corrected to substract cn=myview,cn=views. A search then will
+happen against normal compat tree and resulted entries will be subjected
+to processing phase during which overrides from the selected view will
+be applied. As final step, DNs of the resulted entries will be rewritten
+to include cn=myview,cn=views.</p>
+<p>Note that slapi-nis will apply only a host-specific view. For IPA users
+and groups the default values will come from the primary tree, so only
+host-specific view is required anyway. For AD objects default view will
+be ‘Default Trust View’, and it will be applied by SSSD running in the
+server mode on IPA master. Once slapi-nis retrieved these objects from
+SSSD, they further will be amended taking into account the host-specific
+view.</p>
+<p><a class="reference internal" href="../../_images/Override_both.png"><img alt="Override_both.png" src="../../_images/Override_both.png" style="width: 600px;" /></a> In this image both views have override value for the
+AD object A hence both uidNumber and gidNumber are replaced after the
+override of view xyz is applied.</p>
+<p><a class="reference internal" href="../../_images/Override_default_only.png"><img alt="Override_default_only.png" src="../../_images/Override_default_only.png" style="width: 600px;" /></a> In this example there is only a override in
+the default view defined for AD object A. The extdom plugin or the
+compat tree will forward the data return by SSSD unmodified when view
+xyz is requested because there are no override values for AD object A in
+this view.</p>
+<p><a class="reference internal" href="../../_images/Override_xyz_only.png"><img alt="Override_xyz_only.png" src="../../_images/Override_xyz_only.png" style="width: 600px;" /></a> On this figure there is no override in the
+default view defined for the AD object A. SSSD will return the data from
+AD unmodified and the extdom plugin or the compat tree will override the
+gidNumber if view xyz is requested for the AD object A.</p>
+<p>In order to map original objects and overrides, a slapi-nis
+configuration produced by IPA will include specific attribue
+ipaAnchorUUID and objectclass ipaOverrideTarget. The value of
+ipaAnchorUUID will be value of ipaUniqueID prefixed by :IPA:$DOMAIN: for
+IPA users and groups, and value of AD object’s SID prefixed with :SID:
+for AD objects. Resulting value of ipaAnchorUUID thus correspond to the
+RDN value of the override entry, allowing easy match between the two.</p>
+<p>However, groups in the compat tree do not contain member attribute with
+DN to original entries. Instead, groups have memberUid attribute which
+contains values of ‘uid’ attribute of original members of the group,
+flattened for nested groups. This means memberUid attribute requires
+additional processing and there is no way to build ipaAnchorUUID value
+for them. Instead, for each user override IPA framework will maintain
+ipaOriginalUid value, containing original ‘uid’ attribute’s value.</p>
+<p>When group memberUid attribute is processed, slapi-nis will go over each
+value and will search an override which has the same value in
+ipaOriginalUid field (in the current view). If override with the
+ipaOriginalUid value exists, the override’s ‘uid’ attribute’s value is
+used to replace original memberUid value. Otherwise original memberUid
+value is copied over. This approach ensures memberUid values are correct
+with regards to the overrides of the current view.</p>
+</section>
+<section id="feature-management">
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">#</a></h2>
+<p>UI</p>
+<section id="view-management">
+<h3>View management<a class="headerlink" href="#view-management" title="Permalink to this heading">#</a></h3>
+<p>A page to list all view and a page to change the attributes of the view
+object are needed (see CLI section below for details).</p>
+</section>
+<section id="management-of-the-overrides">
+<h3>Management of the overrides<a class="headerlink" href="#management-of-the-overrides" title="Permalink to this heading">#</a></h3>
+<p>Default Trust View should prevent adding IPA users’ and groups’
+overrides, i.e. only AD users overrides can be added to Default Trust
+View.</p>
+<p>Additionally, Default Trust View itself should be protected from
+deletion.</p>
+<p>CLI</p>
+</section>
+<section id="id1">
+<h3>View management<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>Views must be added, displayed, modified and deleted. Imo the object for
+the default view does not need any changes and should not be deleted, so
+the tool can reject any attempt to change the default view.</p>
+<p>The ipa host-* commands must be able to set/modify/delete the view for
+an IPA host.</p>
+</section>
+<section id="id2">
+<h3>Management of the overrides<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>It must be possible to add, display, modify and delete an override
+object for any trusted user or group in any view.</p>
+<p>Since user and groups have different attributes there should be a
+command family for user and another one for groups. It should be
+possible to identify the trusted object by its fully qualified name or
+by its SID.</p>
+<p>The find and show operations should take the fully qualified name or SID
+as an argument and should display the overrides found in any view if not
+a specific view is given by an option.</p>
+<p>Currently implemented commands:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>command</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>idview-add</p></td>
+<td><p>Add a new ID View.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idview-apply</p></td>
+<td><p>Applies ID View to specified hosts or
+current members of specified hostgroups. If
+any other ID View is applied to the host, it
+is overriden.</p></td>
+</tr>
+<tr class="row-even"><td><p>idview-del</p></td>
+<td><p>Delete an ID View.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idview-find</p></td>
+<td><p>Search for an ID View.</p></td>
+</tr>
+<tr class="row-even"><td><p>idview-mod</p></td>
+<td><p>Modify an ID View.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idview-show</p></td>
+<td><p>Display information about an ID View.</p></td>
+</tr>
+<tr class="row-even"><td><p>idview-unapply</p></td>
+<td><p>Clears ID View from specified hosts or
+current members of specified hostgroups.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idoverridegroup-add</p></td>
+<td><p>Add a new Group ID override.</p></td>
+</tr>
+<tr class="row-even"><td><p>idoverridegroup-del</p></td>
+<td><p>Delete an Group ID override.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idoverridegroup-find</p></td>
+<td><p>Search for an Group ID override.</p></td>
+</tr>
+<tr class="row-even"><td><p>idoverridegroup-mod</p></td>
+<td><p>Modify an Group ID override.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idoverridegroup-show</p></td>
+<td><p>Display information about an Group ID
+override.</p></td>
+</tr>
+<tr class="row-even"><td><p>idoverrideuser-add</p></td>
+<td><p>Add a new User ID override.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idoverrideuser-del</p></td>
+<td><p>Delete an User ID override.</p></td>
+</tr>
+<tr class="row-even"><td><p>idoverrideuser-find</p></td>
+<td><p>Search for an User ID override.</p></td>
+</tr>
+<tr class="row-odd"><td><p>idoverrideuser-mod</p></td>
+<td><p>Modify an User ID override.</p></td>
+</tr>
+<tr class="row-even"><td><p>idoverrideuser-show</p></td>
+<td><p>Display information about an User ID
+override.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<p>Feature is activated during <code class="docutils literal notranslate"><span class="pre">ipa-adtrust-install</span></code> given it mostly
+targets <a class="reference external" href="Trusts">trusted</a> users. The existence of the view container
+<code class="docutils literal notranslate"><span class="pre">cn=views,cn=accounts,$SUFFIX</span></code> is used as an indicator if the ID Views
+are enabled or not.</p>
+</section>
+<section id="updates-and-upgrades">
+<h2>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">#</a></h2>
+<p>Since ID views are not enabled by default only the new schema entries
+must be added during updates.</p>
+</section>
+<section id="how-to-test">
+<h2>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">#</a></h2>
+<p>For testing ID Views you will need a FreeIPA 4.1 server, with installed
+<a class="reference external" href="Trusts">AD Trust</a> extension and active trust with AD domain. Please
+refer to <a class="reference external" href="Active_Directory_trust_setup">Setup a trust</a> for the setup
+steps.</p>
+<p>You should end up with working trust:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">------------------------------------------------------------------------</span>
+<span class="n">Added</span> <span class="n">Active</span> <span class="n">Directory</span> <span class="n">trust</span> <span class="k">for</span> <span class="n">realm</span> <span class="s2">&quot;tbad.idm.lab.eng.brq.redhat.com&quot;</span>
+<span class="o">------------------------------------------------------------------------</span>
+  <span class="n">Realm</span> <span class="n">name</span><span class="p">:</span> <span class="n">tbad</span><span class="o">.</span><span class="n">idm</span><span class="o">.</span><span class="n">lab</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">brq</span><span class="o">.</span><span class="n">redhat</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">Domain</span> <span class="n">NetBIOS</span> <span class="n">name</span><span class="p">:</span> <span class="n">TBAD</span>
+  <span class="n">Domain</span> <span class="n">Security</span> <span class="n">Identifier</span><span class="p">:</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">2997650941</span><span class="o">-</span><span class="mi">1802118864</span><span class="o">-</span><span class="mi">3094776726</span>
+  <span class="n">SID</span> <span class="n">blacklist</span> <span class="n">incoming</span><span class="p">:</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span>
+                          <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">17</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span>
+                          <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">19</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">18</span>
+  <span class="n">SID</span> <span class="n">blacklist</span> <span class="n">outgoing</span><span class="p">:</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span>
+                          <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">17</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span>
+                          <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">19</span><span class="p">,</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">18</span>
+  <span class="n">Trust</span> <span class="n">direction</span><span class="p">:</span> <span class="n">Two</span><span class="o">-</span><span class="n">way</span> <span class="n">trust</span>
+  <span class="n">Trust</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Active</span> <span class="n">Directory</span> <span class="n">domain</span>
+  <span class="n">Trust</span> <span class="n">status</span><span class="p">:</span> <span class="n">Established</span> <span class="ow">and</span> <span class="n">verified</span>
+</pre></div>
+</div>
+<p>After the trust has been establish, pick an AD existing user for
+testing, or create a new one. We will use
+<code class="docutils literal notranslate"><span class="pre">testuser&#64;tbad.idm.lab.eng.brq.redhat.com</span></code>.</p>
+<p>Check that the user UID, GID and group membership is returned correctly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-124 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
+uid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com),1218200513(domain users@tbad.idm.lab.eng.brq.redhat.com)
+</pre></div>
+</div>
+</section>
+<section id="use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view">
+<h2>Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View<a class="headerlink" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view" title="Permalink to this heading">#</a></h2>
+<p>Now, we can try to override a attribute for this testing user. We will
+use the ‘Default Trust View’, which is always applied for AD users and
+can only contain overrides for AD users and groups. Let’s change the UID
+of the <code class="docutils literal notranslate"><span class="pre">testuser</span></code> to 5555.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-124 labtool]$ ipa idoverrideuser-add &#39;Default Trust View&#39; testuser@tbad.idm.lab.eng.brq.redhat.com  --uid 5555
+-----------------------------------------------------------------
+Added User ID override &quot;testuser@tbad.idm.lab.eng.brq.redhat.com&quot;
+-----------------------------------------------------------------
+  Anchor to override: testuser@tbad.idm.lab.eng.brq.redhat.com
+  UID: 5555
+</pre></div>
+</div>
+<p>Let’s now check that the user has override UID value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-124 labtool]$ sudo systemctl restart sssd
+[tbabej@vm-124 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
+uid=5555(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com),1218200513(domain users@tbad.idm.lab.eng.brq.redhat.com)
+</pre></div>
+</div>
+<p>In a similiar way, you can override GID, or other attributes, see
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">idoverrideuser-add</span> <span class="pre">--help</span></code>.</p>
+</section>
+<section id="use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view">
+<h2>Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View<a class="headerlink" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view" title="Permalink to this heading">#</a></h2>
+<p>For host-specific views, we cannot use Default Trust View, since that
+one is not host specific, it is always applied. We add a new ID view
+using the <code class="docutils literal notranslate"><span class="pre">idview-add</span></code> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-124 ~]$ ipa idview-add testview --desc &quot;Our new host specific view&quot;
+------------------------
+Added ID View &quot;testview&quot;
+------------------------
+  ID View Name: testview
+  Description: Our new host specific view
+</pre></div>
+</div>
+<p>Having created a host specific view, we need to add a ID override to it.
+This works the same way as with Default Trust View. Suppose we want to
+override UID of our <code class="docutils literal notranslate"><span class="pre">testuser</span></code> to 6666.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-124 ~]$ ipa idoverrideuser-add testview testuser@tbad.idm.lab.eng.brq.redhat.com --uid 6666
+-----------------------------------------------------------------
+Added User ID override &quot;testuser@tbad.idm.lab.eng.brq.redhat.com&quot;
+-----------------------------------------------------------------
+  Anchor to override: testuser@tbad.idm.lab.eng.brq.redhat.com
+  UID: 6666
+</pre></div>
+</div>
+<p>Now we’re ready to apply the view to a specific host. The
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">idview-apply</span></code> command is used for this purpose. The host can be
+specified either via –hosts option or –hostgroups option. Please note
+that –hostgroups option is just a helper, ID view is never associated
+with the hostgroup itself, only with particular hosts. If you pass
+hostgroup to the idview-apply command, the members of hostgroup are
+expanded internally, and host is applied to each of them.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-124 ~]$ ipa idview-apply testview --hosts vm-057.dom124.tbad.idm.lab.eng.brq.redhat.com
+--------------------------
+Applied ID View &quot;testview&quot;
+--------------------------
+  hosts: vm-057.dom124.tbad.idm.lab.eng.brq.redhat.com
+---------------------------------------------
+Number of hosts the ID View was applied to: 1
+---------------------------------------------
+</pre></div>
+</div>
+<p>We can check that our AD <code class="docutils literal notranslate"><span class="pre">testuser</span></code> is overriden in a different way on
+our client, than on the server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[tbabej@vm-057 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
+uid=6666(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=5555(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=5555(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com)
+</pre></div>
+</div>
+</section>
+<section id="use-case-migration-from-the-sync-to-the-trust-solution">
+<h2>Use Case: Migration from the Sync to the Trust solution<a class="headerlink" href="#use-case-migration-from-the-sync-to-the-trust-solution" title="Permalink to this heading">#</a></h2>
+<p>To migrate from winsync to trusts you will need to take following steps:</p>
+<div class="line-block">
+<div class="line">`` 1. Create a trust with the synced domain``</div>
+<div class="line">`` 2. For all users that have been synced, you need to:``</div>
+<div class="line">``   a. create a ID override in “Default Trust View” for the synced user to preserve IPA generated UID and GID``</div>
+<div class="line">``   b. delete the sync agreement``</div>
+<div class="line">``   c. delete the synced user``</div>
+</div>
+<p><a class="reference external" href="Category:FreeIPA_V4_Test_Plan">Category:FreeIPA V4 Test Plan</a>
+<a class="reference external" href="Category:FreeIPA_Test_Plan">Category:FreeIPA Test Plan</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#store-posix-attributes-and-ssh-keys-for-ad-users">Store POSIX attributes and SSH keys for AD users</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-from-the-sync-to-the-trust-solution">Migration from the Sync to the Trust solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#per-hostgroup-override-of-freeipa-user-posix-attributes">Per hostgroup override of FreeIPA user POSIX attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id-views">ID Views</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-overrides">User Overrides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#group-overrides">Group Overrides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-flow">Data Flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id-ranges">ID Ranges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-schema">Proposed schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#container">Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd">SSSD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-ipa-backend">SSSD IPA backend</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-responders-nss-pam-infopipe-and-others">SSSD responders (NSS, PAM, InfoPipe and others)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-ipa-server-mode">SSSD (IPA server mode)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-cache-layout">SSSD Cache layout</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slapi-nis-plugin-compat-tree">slapi-nis plugin/compat tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-management">View management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#management-of-the-overrides">Management of the overrides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">View management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Management of the overrides</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updates-and-upgrades">Updates and Upgrades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-test">How to Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-default-trust-view">Use Case: Store POSIX attributes and SSH keys for AD users using Default Trust View</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-store-posix-attributes-and-ssh-keys-for-ad-users-using-host-specific-id-view">Use Case: Store POSIX attributes and SSH keys for AD users using host-specific ID View</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-migration-from-the-sync-to-the-trust-solution">Use Case: Migration from the Sync to the Trust solution</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

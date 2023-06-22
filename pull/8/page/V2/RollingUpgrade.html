@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>RollingUpgrade &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V2/RollingUpgrade';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V2/RollingUpgrade.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>RollingUpgrade</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-server">What is a server?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade-strategy">Upgrade Strategy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version">Version</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-format">Version format</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-management-utilities">IPA management utilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-upgrade-process">The Upgrade Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-to-replica-installation-process">Changes to Replica Installation Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-incompatibilities">Types of Incompatibilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clients">Clients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks">Tasks</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="rollingupgrade">
+<h1>RollingUpgrade<a class="headerlink" href="#rollingupgrade" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>In a large authentication infrastructure upgrading can be difficult. Not
+all servers can be brought down and upgraded at once. Instead a rolling
+upgrade is preferred where the new version is installed incrementally
+across the infrastructure, aka a rolling upgrade.</p>
+<p>Therefore we need to be able to always provide smooth upgrades where a
+few servers are upgraded in groups between point releases. All servers
+should be brought into the same version as quickly as possible,
+preferably hours or days and not weeks.</p>
+<p>It may not be possible to upgrade any release to any other release.
+Intermediate steps may be required (e.g. upgrade v2.1 to 2.3 to 3.0)</p>
+</section>
+<section id="what-is-a-server">
+<h2>What is a server?<a class="headerlink" href="#what-is-a-server" title="Permalink to this heading">#</a></h2>
+<p>We use the phrase “IPA server” a lot but in fact there is no IPA server.
+IPA is a mechanism to get a lot of moving parts (389-ds, MIT Kerberos,
+DNS, dogtag) to work well together. Careless upgrading of any of these
+can cause problems.</p>
+<p>On top of this sits the IPA management framework to manage identity
+data.</p>
+</section>
+<section id="upgrade-strategy">
+<h2>Upgrade Strategy<a class="headerlink" href="#upgrade-strategy" title="Permalink to this heading">#</a></h2>
+<p>IPA will use a so-called “split brain” strategy for upgrades. With this
+the infrastructure will actually be running two different versions of
+the software for a brief period while the upgrade is being rolled out.
+Replication will be disabled to incompatible servers, preventing
+upgraded data from flowing to non-upgraded servers.</p>
+<p>This is the split condition. Data will not be replicated between
+dissimilar servers until they are running the same version. Changes on
+these servers will queue up until the servers either reconnect or the
+changelog fills, potentially causing lost updates.</p>
+</section>
+<section id="version">
+<h2>Version<a class="headerlink" href="#version" title="Permalink to this heading">#</a></h2>
+<p>In this context Version means data version for the purposes of
+determining if an upgrade is incompatible. Not every IPA update may
+change the version.</p>
+<p>The version will be compiled into the IPA binaries and will be stored in
+two places:</p>
+<ul class="simple">
+<li><p>ipalib/constants.py for the management framework</p></li>
+<li><p>hardcoded in a new DS version plugin</p></li>
+</ul>
+<p>This version is literally hardcoded into the binaries and lets us
+determine if the installed version is compatible with other IPA
+replicas. We have no way of preventing a server to be installed with a
+particular set of binaries. We do have a way from preventing that
+version from interfering with other servers.</p>
+<p>The 389-ds replication plugin will add hooks to be able to register a
+version. The IPA plugin will use those hooks to register the version.</p>
+</section>
+<section id="version-format">
+<h2>Version format<a class="headerlink" href="#version-format" title="Permalink to this heading">#</a></h2>
+<p>The version will be stored as a date which will make comparisons a lot
+easier (e.g. 201003081732).</p>
+</section>
+<section id="ipa-management-utilities">
+<h2>IPA management utilities<a class="headerlink" href="#ipa-management-utilities" title="Permalink to this heading">#</a></h2>
+<p>The IPA management utilities will send their installed version when they
+communicate to the IPA XML-RPC server. The server will use this version
+to decide if it will work with the client (this is the purpose of
+putting the IPA version into <code class="docutils literal notranslate"><span class="pre">ipalib/constants.py</span></code>)</p>
+</section>
+<section id="the-upgrade-process">
+<h2>The Upgrade Process<a class="headerlink" href="#the-upgrade-process" title="Permalink to this heading">#</a></h2>
+<p>Each instance will be upgraded separately. The basic process is:</p>
+<ul class="simple">
+<li><p>Stop IPA services (<code class="docutils literal notranslate"><span class="pre">/usr/sbin/ipactl</span> <span class="pre">stop</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yum</span> <span class="pre">update</span> <span class="pre">ipa-*</span></code></p>
+<ul>
+<li><p>we may want a %pretrans to stop the yum process if IPA is still
+running</p></li>
+<li><p>in %post we will call <code class="docutils literal notranslate"><span class="pre">setup-ds</span> <span class="pre">-u</span></code> to apply updates via ldif
+snippets</p></li>
+</ul>
+</li>
+<li><p>Start IPA service (<code class="docutils literal notranslate"><span class="pre">/usr/sbin/ipactl</span> <span class="pre">start</span></code>)</p></li>
+</ul>
+<p>The process of upgrading a set of IPA servers does not have to happen at
+once but should happen relatively quickly. While there are incompatible
+versions of IPA in a network replication will not work between them.
+Changes will be queued in the 389-ds changelog but the more changes
+there are the more likelihood that MMR will need to determine winners
+and losers.</p>
+</section>
+<section id="changes-to-replica-installation-process">
+<h2>Changes to Replica Installation Process<a class="headerlink" href="#changes-to-replica-installation-process" title="Permalink to this heading">#</a></h2>
+<p>Early in the IPA replica installer we will need to do a version check to
+ensure that a different version replica isn’t added. We don’t want old
+servers to be added to an IPA domain. The initial replication population
+would fail anyway due to the version checking.</p>
+</section>
+<section id="types-of-incompatibilities">
+<h2>Types of Incompatibilities<a class="headerlink" href="#types-of-incompatibilities" title="Permalink to this heading">#</a></h2>
+<p>Here is a brief list of changes that would probably require the version
+to increase:</p>
+<ul class="simple">
+<li><p>New Directory Server plugin</p></li>
+<li><p>Enhanced Directory Server plugin, not backwards compatible</p></li>
+<li><p>New IPA management plugin</p></li>
+<li><p>Enhanced IPA management plugin, not backwards compatible</p></li>
+<li><p>Updated schema on existing entries</p></li>
+<li><p>Updated DIT</p></li>
+<li><p>Update to a component</p></li>
+</ul>
+</section>
+<section id="clients">
+<h2>Clients<a class="headerlink" href="#clients" title="Permalink to this heading">#</a></h2>
+<p>A client using the management framework will have its own local copy of
+the server plugins to know what information to gather for a given
+request. This too can become out-of-date. The ipa client will need to
+send a version in each XML-RPC request and the server will decide if it
+can honor the request.</p>
+<p>There are three scenarios:</p>
+<ol class="arabic simple">
+<li><p>A newer client talking to an older server</p></li>
+<li><p>An older client talking to a newer server</p></li>
+<li><p>A client talking the same version</p></li>
+</ol>
+<p>A newer client talking to an older server will need to be handled by
+code within the framework. It is possible that the conversation can’t
+happen at all if the remote server is too old.</p>
+<p>An older client talking with a newer server MAY be supported but will
+need to be handled on a case-by-case basis. Chances are that not every
+plugin will be updated on every update so some should work fine with
+older clients. It is possible that some requests will be rejected as too
+old a client.</p>
+</section>
+<section id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>DS add version interface to replication plugin</p></li>
+<li><p>IPA implement a version plugin</p></li>
+<li><p>IPA add version checks to replica installer</p></li>
+<li><p>IPA enhance ipactl command</p></li>
+<li><p>IPA add version to XML-RPC protocol</p></li>
+<li><p>IPA management framework enforce version</p></li>
+<li><p>IPA update rpm installation scriptlets to:</p>
+<ul>
+<li><p>Check for running services and abort install</p></li>
+<li><p>Automatically apply updates post-install</p></li>
+</ul>
+</li>
+<li><p>IPA use DS upgrade mechanism (setup-ds.pl -u)</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-server">What is a server?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade-strategy">Upgrade Strategy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version">Version</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-format">Version format</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-management-utilities">IPA management utilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-upgrade-process">The Upgrade Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-to-replica-installation-process">Changes to Replica Installation Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-incompatibilities">Types of Incompatibilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clients">Clients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks">Tasks</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

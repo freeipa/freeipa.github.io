@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Kibana &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/Centralised_Logging_with_Logstash/ElasticSearch/Kibana';</script>
+    <link rel="icon" href="../../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../_sources/page/Howto/Centralised_Logging_with_Logstash/ElasticSearch/Kibana.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Kibana</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-log-sending">Base Log Sending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-log-sending">Advanced Log Sending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-dirsrv-logs-sending">Getting dirsrv Logs Sending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logstash-configuration">Logstash Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues">Issues</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="kibana">
+<h1>Kibana<a class="headerlink" href="#kibana" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>This page covers my personal findings when trying to get FreeIPA logs
+sent through to our central log consolidation infrastructure.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<p>These IPA servers are running RHEL 6.6. I have a pair of Logstash
+servers to receive and parse logs and a cluster of 5 ElasticSearch
+database servers. Kibana is used as the interface to view log data from
+the ES cluster.</p>
+</section>
+<section id="base-log-sending">
+<h2>Base Log Sending<a class="headerlink" href="#base-log-sending" title="Permalink to this heading">#</a></h2>
+<p>The basic rsyslog configuration is modified by adding the file
+/etc/rsyslog.d/logstash.conf</p>
+<p><code class="docutils literal notranslate"><span class="pre">*.* &#64;logserver.example.com:5544</span></code></p>
+<p>This will get rsyslog sending everything it receives to logserver via
+UDP on port 5544.</p>
+</section>
+<section id="advanced-log-sending">
+<h2>Advanced Log Sending<a class="headerlink" href="#advanced-log-sending" title="Permalink to this heading">#</a></h2>
+<p>Whilst this will work perfectly well for sending basic logs via UDP, for
+bonus points I’m actually doing the following on our Dev IPA servers.
+These servers have the basic rsyslog package replaced by rsyslog7 which
+is rsyslog version 7.4.10. This allows us to do some more complex
+logging to assist the central log servers. I create the
+/etc/rsyslog.d/logstash.conf file, which looks as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>template(name=&quot;ls_json&quot; type=&quot;list&quot; option.json=&quot;on&quot;)
+  { constant(value=&quot;{&quot;)
+    constant(value=&quot;\&quot;@timestamp\&quot;:\&quot;&quot;)         property(name=&quot;timegenerated&quot; dateFormat=&quot;rfc3339&quot;)
+    constant(value=&quot;\&quot;,\&quot;@version\&quot;:\&quot;1&quot;)
+    constant(value=&quot;\&quot;,\&quot;message\&quot;:\&quot;&quot;)         property(name=&quot;msg&quot;)
+    constant(value=&quot;\&quot;,\&quot;host\&quot;:\&quot;&quot;)            property(name=&quot;fromhost&quot;)
+    constant(value=&quot;\&quot;,\&quot;host_ip\&quot;:\&quot;&quot;)         property(name=&quot;fromhost-ip&quot;)
+    constant(value=&quot;\&quot;,\&quot;my_environment\&quot;:\&quot;Development&quot;)
+    constant(value=&quot;\&quot;,\&quot;my_project\&quot;:\&quot;IPA&quot;)
+    constant(value=&quot;\&quot;,\&quot;my_use\&quot;:\&quot;Auth&quot;)
+    constant(value=&quot;\&quot;,\&quot;logsource\&quot;:\&quot;&quot;)       property(name=&quot;fromhost&quot;)
+    constant(value=&quot;\&quot;,\&quot;severity_label\&quot;:\&quot;&quot;)  property(name=&quot;syslogseverity-text&quot;)
+    constant(value=&quot;\&quot;,\&quot;severity\&quot;:\&quot;&quot;)        property(name=&quot;syslogseverity&quot;)
+    constant(value=&quot;\&quot;,\&quot;facility_label\&quot;:\&quot;&quot;)  property(name=&quot;syslogfacility-text&quot;)
+    constant(value=&quot;\&quot;,\&quot;facility\&quot;:\&quot;&quot;)        property(name=&quot;syslogfacility&quot;)
+    constant(value=&quot;\&quot;,\&quot;program\&quot;:\&quot;&quot;)         property(name=&quot;programname&quot;)
+    constant(value=&quot;\&quot;,\&quot;pid\&quot;:\&quot;&quot;)             property(name=&quot;procid&quot;)
+    constant(value=&quot;\&quot;,\&quot;rawmsg\&quot;:\&quot;&quot;)          property(name=&quot;rawmsg&quot;)
+    constant(value=&quot;\&quot;,\&quot;syslogtag\&quot;:\&quot;&quot;)       property(name=&quot;syslogtag&quot;)
+    constant(value=&quot;\&quot;}\n&quot;)
+  }
+
+*.* @@logstash01.example.com:5500;ls_json
+$ActionExecOnlyWhenPreviousIsSuspended on
+&amp; @@logstash02.example.com:5500;ls_json
+&amp; /var/log/localbuffer
+$ActionExecOnlyWhenPreviousIsSuspended off
+</pre></div>
+</div>
+<p>This lets us send the log in JSON format, whilst adding the extra fields
+my_environment, my_project, and my_use. You don’t need these, but they
+will help separate out different log types from the log-viewing UI. Our
+network has, for example, 2 IPA servers in Development, with a further 8
+in Production. These extra fields allow us to pull out only the logs
+that match “my_environment=Dev” AND “my_project=IPA”.</p>
+<p>The other rsyslog properties that are sent are my current best-guess at
+what I need when reviewing the logs through the Kibana UI.</p>
+</section>
+<section id="getting-dirsrv-logs-sending">
+<h2>Getting dirsrv Logs Sending<a class="headerlink" href="#getting-dirsrv-logs-sending" title="Permalink to this heading">#</a></h2>
+<p>The best way I have so far of doing this is to add another file in the
+/etc/rsyslog.d directory which configures rsyslog to look at external
+log files. /etc/rsyslog.d/dirsrv.conf contains the following:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">module(load=&quot;imfile&quot; PollingInterval=&quot;2&quot;)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">input(type=&quot;imfile&quot;</span></code></div>
+<div class="line">``      File=”/var/log/dirsrv/slapd-EXAMPLE-COM/access”``</div>
+<div class="line">``      Tag=”dirsrv”``</div>
+<div class="line">``      StateFile=”statedirsrv”``</div>
+<div class="line">``      Facility=”local0”)``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">input(type=&quot;imfile&quot;</span></code></div>
+<div class="line">``      File=”/var/log/dirsrv/slapd-EXAMPLE-COM/errors”``</div>
+<div class="line">``      Tag=”dirsrv”``</div>
+<div class="line">``      StateFile=”statedirsrverr”``</div>
+<div class="line">``      Severity=”error”``</div>
+<div class="line">``      Facility=”local0”)``</div>
+</div>
+<p>This uses the imfile module in rsyslog to monitor changes in the dirsrv
+access and errors log files. The log files are polled every 2 seconds
+(although I know dirsrv also buffers, so I should change this) and the
+new log data is pulled in by rsyslog and then sent on to the Logstash
+server(s) via the logstash.conf file above.</p>
+</section>
+<section id="logstash-configuration">
+<h2>Logstash Configuration<a class="headerlink" href="#logstash-configuration" title="Permalink to this heading">#</a></h2>
+<p>Logstash 1.4.2 is installed via RPM and configured to accept log data.
+Create file /etc/logstash/conf.d/syslog.conf with the following
+contents:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">input {</span></code></div>
+<div class="line">``  syslog {``</div>
+<div class="line">``    type =&gt; syslog``</div>
+<div class="line">``    port =&gt; 5544``</div>
+<div class="line">``  }``</div>
+<div class="line">``  tcp {``</div>
+<div class="line">``    type =&gt; syslogjson``</div>
+<div class="line">``    port =&gt; 5500``</div>
+<div class="line">``    codec =&gt; “json”``</div>
+<div class="line">``  }``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">filter {</span></code></div>
+<div class="line">``  # This replaces the host field (UDP source) with the host that generated the message (sysloghost)``</div>
+<div class="line">``  if [sysloghost] {``</div>
+<div class="line">``    mutate {``</div>
+<div class="line">``      replace =&gt; [ “host”, “%{sysloghost}” ]``</div>
+<div class="line">``      remove_field =&gt; “sysloghost” # prune the field after successfully replacing “host”``</div>
+<div class="line">``    }``</div>
+<div class="line">``  }``</div>
+<div class="line">``  if [type] == “syslog” {``</div>
+<div class="line">``    grok {``</div>
+<div class="line">``      patterns_dir =&gt; “/opt/logstash/patterns”``</div>
+<div class="line">``      match =&gt; { “message” =&gt; “%{FWGROK}” }``</div>
+<div class="line">``      match =&gt; { “message” =&gt; “%{AUDITAVC}” }``</div>
+<div class="line">``    }``</div>
+<div class="line">``  }``</div>
+<div class="line">``  if [type] == “syslogjson” {``</div>
+<div class="line">``    grok {``</div>
+<div class="line">``      patterns_dir =&gt; “/opt/logstash/patterns”``</div>
+<div class="line">``      match =&gt; { “message” =&gt; “%{FWGROK}” }``</div>
+<div class="line">``      match =&gt; { “message” =&gt; “%{AUDITAVC}” }``</div>
+<div class="line">``      match =&gt; { “message” =&gt; “%{COMMONAPACHELOG}” }``</div>
+<div class="line">``      tag_on_failure =&gt; []``</div>
+<div class="line">``    }``</div>
+<div class="line">``  }``</div>
+<div class="line">``  # This filter populates the &#64;timestamp field with the timestamp that’s in the actual message``</div>
+<div class="line">``  # dirsrv logs are currently pulled in every 2 minutes, so &#64;timestamp is wrong``</div>
+<div class="line">``  if [syslogtag] == “dirsrv” {``</div>
+<div class="line">``    mutate {``</div>
+<div class="line">``      remove_field =&gt; [ ‘rawmsg’ ]``</div>
+<div class="line">``    }``</div>
+<div class="line">``    grok {``</div>
+<div class="line">``      match =&gt; [ “message”, “%{HTTPDATE:log_timestamp}” ]``</div>
+<div class="line">``    }``</div>
+<div class="line">``    date {``</div>
+<div class="line">``      match =&gt; [ “log_timestamp”, “dd/MMM/YYY:HH:mm:ss Z”]``</div>
+<div class="line">``      locale =&gt; “en”``</div>
+<div class="line">``      remove_field =&gt; [ “log_timestamp” ]``</div>
+<div class="line">``    }``</div>
+<div class="line">``  }``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">output {</span></code></div>
+<div class="line">``  elasticsearch {``</div>
+<div class="line">``    protocol =&gt; node``</div>
+<div class="line">``    node_name =&gt; “Indexer01”``</div>
+<div class="line">``  }``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+</div>
+<p>This instructs Logstash to listen on port 5544 for basic log data, and
+also on port 5500 for JSON formatted data. The FWGROK and AUDITAVC lines
+force Logstash to run 2 bespoke grok filters on the data to get iptables
+and auditavc lines into better shape.</p>
+<p>The section for “dirsrv” is there to force Logstash to replace the
+incoming timestamp for dirsrv data (which will be based on when rsyslog
+first saw the data - and is therefore next to useless) with the
+timestamp that appears in the actual log line. This is an improvement,
+but will only be to the resolution of 1 second.</p>
+</section>
+<section id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>dirsrv logs are timestamped with a resolution that allows dozens of
+log lines to share the same timestamp. Increased resolution of
+timestamp from dirsrv would help fix this.</p></li>
+<li><p>An unwanted side-effect at the moment is that the dirsrv logs are
+written to /var/log/messages as well. This needs fixing, but the main
+aim here has been to get the logs onto a remote server.</p></li>
+<li><p>Needs further thought with regards the rsyslog properties that are
+passed in the JSON template.</p></li>
+<li><p>Failure of both logstash servers will result in logs writing to
+/var/log/localbuffer, where they will simply remain. This is
+sub-optimal.</p></li>
+</ol>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-log-sending">Base Log Sending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-log-sending">Advanced Log Sending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-dirsrv-logs-sending">Getting dirsrv Logs Sending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logstash-configuration">Logstash Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues">Issues</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

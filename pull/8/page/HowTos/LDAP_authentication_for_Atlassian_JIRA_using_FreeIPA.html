@@ -1,0 +1,667 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>LDAP_authentication_for_Atlassian_JIRA_using_FreeIPA &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/HowTos/LDAP_authentication_for_Atlassian_JIRA_using_FreeIPA';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/HowTos/LDAP_authentication_for_Atlassian_JIRA_using_FreeIPA.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>LDAP_authentication_for_Atlassian_JIRA_using_FreeIPA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-path">Integration Path</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toolset">Toolset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-challenges">Key Challenges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-adapter-type">LDAP Adapter Type</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-candidate-adapters">Other Candidate Adapters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rfc-schemas-freeipa-trees">RFC Schemas + FreeIPA Trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-mail-attribute-and-bind-type">E-Mail Attribute and Bind Type</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replicating-users-and-groups">Replicating Users and Groups</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#users">Users</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groups">Groups</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-final-configuration">The Final Configuration</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="ldap-authentication-for-atlassian-jira-using-freeipa">
+<h1>LDAP_authentication_for_Atlassian_JIRA_using_FreeIPA<a class="headerlink" href="#ldap-authentication-for-atlassian-jira-using-freeipa" title="Permalink to this heading">#</a></h1>
+<p>Draft / Work in Progress on formatting</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>This page describes how to integrate JIRA to a FreeIPA LDAP server. Very
+likely the same approach can be taken to integrate other Atlassian
+products such as Confluence to FreeIPA.</p>
+<p>JIRA offers a number of different ways to integrate to LDAP.
+Unfortunately FreeIPA integration is not natively supported, but once
+you know how, it is not that difficult. There are probably other
+solutions that work as well, but this is the one that worked for us.</p>
+<p>At the time of integration we were running FreeIPA Server 4.1.0 and JIRA
+6.4.7</p>
+<p>See:</p>
+<p><a class="reference external" href="https://confluence.atlassian.com/display/JIRA/Connecting+to+an+LDAP+Directory">https://confluence.atlassian.com/display/JIRA/Connecting+to+an+LDAP+Directory</a>
+<a class="reference external" href="https://confluence.atlassian.com/display/DEV/How+to+write+LDAP+search+filters">https://confluence.atlassian.com/display/DEV/How+to+write+LDAP+search+filters</a></p>
+</section>
+<section id="integration-path">
+<h2>Integration Path<a class="headerlink" href="#integration-path" title="Permalink to this heading">#</a></h2>
+<p>JIRA can be integrated to an LDAP by a number of different paths
+including full bi-directional sync.</p>
+<p>We chose <strong>Internal Directory with LDAP Authentication</strong>, which means
+that FreeIPA users and groups are copied to the JIRA internal directory
+when a FreeIPA user logs in to JIRA. i.e.</p>
+<ul class="simple">
+<li><p>FreeIPA is used for authentication</p></li>
+<li><p>FreeIPA users, and optionally groups + group membership are
+replicated one-way to JIRA on user login.</p></li>
+</ul>
+<p>In particular this means that only a subset of the FreeIPA users will be
+replicated to JIRA - only those that actually log in to JIRA.</p>
+<p>See
+<a class="reference external" href="https://confluence.atlassian.com/display/JIRA/Connecting+to+an+Internal+Directory+with+LDAP+Authentication">https://confluence.atlassian.com/display/JIRA/Connecting+to+an+Internal+Directory+with+LDAP+Authentication</a></p>
+<p>Much of the config described below could probably be used for the other
+integration paths.</p>
+</section>
+<section id="toolset">
+<h2>Toolset<a class="headerlink" href="#toolset" title="Permalink to this heading">#</a></h2>
+<p>We used the following tools to gain insight into the structure of the
+FreeIPA LDAP directory, and to understand and simulate the queries that
+JIRA (might) be making against FreeIPA</p>
+<ul class="simple">
+<li><p><strong>Apache Directory Studio:</strong> This or any similar visual LDAP browser
+is invaluable to getting into the guts of an LDAP, seeing what is
+where, which attributes are available (and even making changes in
+extremis). See <a class="reference external" href="https://directory.apache.org/studio/">https://directory.apache.org/studio/</a></p></li>
+<li><p><strong>ldapsearch:</strong> This command line tool is your friend! Use it to
+simulate queries that JIRA might be making, fine tune filters, and
+see what FreeIPA returns. This approach helped us to see that we were
+initially getting results from both the compat and accounts trees -
+which confused JIRA, and then how to prevent this.</p></li>
+<li><p><strong>FreeIPA and JIRA logs:</strong> What queries is JIRA actually making?
+Although you can guesstimate based on your config, it is great to see
+the actual queries.</p>
+<ul>
+<li><p>FreeIPA Server: <code class="docutils literal notranslate"><span class="pre">/var/log/dirsrv/slapd-*/access</span></code></p></li>
+<li><p>JIRA: See
+<a class="reference external" href="https://confluence.atlassian.com/display/JIRA/Logging+and+Profiling">https://confluence.atlassian.com/display/JIRA/Logging+and+Profiling</a>
+We added the package
+com.atlassian.crowd.directory.SpringLDAPConnector, and got partial
+results.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="key-challenges">
+<h2>Key Challenges<a class="headerlink" href="#key-challenges" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="ldap-adapter-type">
+<h2>LDAP Adapter Type<a class="headerlink" href="#ldap-adapter-type" title="Permalink to this heading">#</a></h2>
+<p>While JIRA offers a wide range of LDAP Adapters, it does not (yet) offer
+a FreeIPA Adapter out of the box. We chose the Generic LDAP adapter, and
+were able to configure this for FreeIPA.</p>
+<section id="other-candidate-adapters">
+<h3>Other Candidate Adapters<a class="headerlink" href="#other-candidate-adapters" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>FedoraDS:</strong> We did NOT use the FedoraDS adapter (even though
+FedoraDS is an ancestor of FreeIPA), as this uses the compat tree due
+to the <code class="docutils literal notranslate"><span class="pre">(objectclass=posixAccount)</span></code> filter. However other freeIPA
+users have reported success with this adapter:
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2015-June/msg00200.html">https://www.redhat.com/archives/freeipa-users/2015-June/msg00200.html</a></p></li>
+<li><p><strong>Other Adapters:</strong> It is possible that other adapters can also be
+persuaded to work, with more or less additional configuration.</p></li>
+</ul>
+</section>
+</section>
+<section id="rfc-schemas-freeipa-trees">
+<h2>RFC Schemas + FreeIPA Trees<a class="headerlink" href="#rfc-schemas-freeipa-trees" title="Permalink to this heading">#</a></h2>
+<p>There are several different LDAP RFC Schemas. FreeIPA uses the RFC
+2307bis schema (with users stored under <code class="docutils literal notranslate"><span class="pre">cn=accounts,</span> <span class="pre">cn=users</span></code>), but
+also offers publishes an alternative “compat” tree
+<code class="docutils literal notranslate"><span class="pre">cn=users,cn=compat,dc=example,dc=com</span></code> with users in a RFC 2307
+schema.</p>
+<p>The chosen adapter, and the configuration applied to it, plays an
+important role here in determining which of the trees returns data. Here
+using <code class="docutils literal notranslate"><span class="pre">ldapsearch</span></code> was invaluable. For example it proved that in one
+of our first attempt we were getting returns from both trees, and that
+JIRA was using only the first return.</p>
+<p>Making the query with the correct filter gave us data from the desired
+tree <code class="docutils literal notranslate"><span class="pre">(cn=accounts,</span> <span class="pre">cn=users)</span></code>. The ldap.user.filter
+<code class="docutils literal notranslate"><span class="pre">(objectclass=inetorgperson)</span></code> ensures that replies DO NOT come from
+the compat tree (which among other things does not have the mail
+attribute).</p>
+<p>See <a class="reference external" href="https://www.freeipa.org/page/Directory_Server">https://www.freeipa.org/page/Directory_Server</a> and
+<a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2015-June/msg00547.html">https://www.redhat.com/archives/freeipa-users/2015-June/msg00547.html</a></p>
+</section>
+<section id="e-mail-attribute-and-bind-type">
+<h2>E-Mail Attribute and Bind Type<a class="headerlink" href="#e-mail-attribute-and-bind-type" title="Permalink to this heading">#</a></h2>
+<p>We managed to get users synced from FreeIPA, and able to authenticate
+and thus log in to JIRA fairly easily. However the email field was
+empty, which means that JIRA mail notification didn’t work, rendering
+JIRA about as useful as a chocolate teapot. While the email field could
+be updated in the JIRA user management, it always emptied every time the
+user logged back on.</p>
+<p>Once again <code class="docutils literal notranslate"><span class="pre">ldapsearch</span></code> proved what was going on: We had configured
+the LDAP Adapter without a user: i.e. anonymous bind. Performing the
+same query via simple bind: i.e. with an LDAP user, returned additional
+attributes, including the all important mail attribute. We therefore
+reconfigured the LDAP Adapter to use a FreeIPA user and password, and
+bingo! JIRA received the mail attribute!</p>
+<p>As the password of the bind user is stored in plaintext in the jira
+database, make sure the user configured is a limited user (member of the
+default ipa-users group is sufficient). e.g. don’t use the Directory
+Manager user!</p>
+</section>
+<section id="replicating-users-and-groups">
+<h2>Replicating Users and Groups<a class="headerlink" href="#replicating-users-and-groups" title="Permalink to this heading">#</a></h2>
+<section id="users">
+<h3>Users<a class="headerlink" href="#users" title="Permalink to this heading">#</a></h3>
+<p>It is possible to replicate only the users to JIRA, with groups managed
+locally (you can configure default groups to which user are added
+automatically). We did this as a first step.To get this to work change:</p>
+<ul class="simple">
+<li><p><strong>User Schema Settings / Additional User DN</strong> to <code class="docutils literal notranslate"><span class="pre">cn=accounts</span></code></p></li>
+<li><p><strong>User Schema Settings / User Unique ID Attribute</strong> from
+<code class="docutils literal notranslate"><span class="pre">entryUUID</span></code> to <code class="docutils literal notranslate"><span class="pre">uid</span></code></p></li>
+</ul>
+</section>
+<section id="groups">
+<h3>Groups<a class="headerlink" href="#groups" title="Permalink to this heading">#</a></h3>
+<p>Additionally groups, and group memberships can be replicated to JIRA. To
+get this to work change:</p>
+<ul class="simple">
+<li><p><strong>Group Schema Settings / Additional Group DN</strong> to <code class="docutils literal notranslate"><span class="pre">cn=accounts</span></code></p></li>
+<li><p><strong>Group Schema Settings / Group Object Class</strong> from
+<code class="docutils literal notranslate"><span class="pre">groupOfUniqueNames</span></code> to <code class="docutils literal notranslate"><span class="pre">groupOfNames</span></code></p></li>
+<li><p><strong>Group Schema Settings / Group Object Filter</strong> from
+<code class="docutils literal notranslate"><span class="pre">(objectclass=groupOfUniqueNames)</span></code> to
+<code class="docutils literal notranslate"><span class="pre">(objectclass=groupOfNames)</span></code></p></li>
+<li><p><strong>Member Schema Settings / Group Members Attribute</strong> from
+<code class="docutils literal notranslate"><span class="pre">uniqueMember</span></code> to <code class="docutils literal notranslate"><span class="pre">Member</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="the-final-configuration">
+<h2>The Final Configuration<a class="headerlink" href="#the-final-configuration" title="Permalink to this heading">#</a></h2>
+<p>Below is the config direct from the Jira database (of course we made the
+config changes via the Jira admin GUI, which has a nifty Test function).</p>
+<p>Note: you will need to change some values to reflect your domain,
+hostname etc</p>
+<p>mysql&gt; select attribute_name, attribute_value from
+cwd_directory_attribute where directory_id = xxxx;</p>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>Attribute Name</strong></p></td>
+<td><p><strong>Attribute Value</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>autoAddGroups</p></td>
+<td><p>jira-users</p></td>
+</tr>
+<tr class="row-odd"><td><p>crowd.dele
+gated.directory.auto.create.user</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>crowd.dele
+gated.directory.auto.update.user</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>crowd.
+delegated.directory.importGroups</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>crowd.delegated.directory.type</p></td>
+<td><p>com.atlas
+sian.crowd.directory.GenericLDAP</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.basedn</p></td>
+<td><p>dc=my,dc=silly,dc=example,dc=com</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.external.id</p></td>
+<td><p>uid</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.group.description</p></td>
+<td><p>description</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.group.dn</p></td>
+<td><p>cn=accounts</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.group.filter</p></td>
+<td><p>(objectclass=groupOfNames)</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.group.name</p></td>
+<td><p>cn</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.group.objectclass</p></td>
+<td><p>groupOfNames</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.group.usernames</p></td>
+<td><p>Member</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.nestedgroups.disabled</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.pagedresults</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.pagedresults.size</p></td>
+<td><p>1000</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.password</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.referral</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.url</p></td>
+<td><p>ldap
+:/<em>/</em>.my.silly.example.com:389</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.user.displayname</p></td>
+<td><p>displayName</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.user.dn</p></td>
+<td><p>cn=accounts</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.user.email</p></td>
+<td><p>mail</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.user.filter</p></td>
+<td><p>(objectclass=inetorgperson)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.user.firstname</p></td>
+<td><p>givenName</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.user.group</p></td>
+<td><p>memberOf</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.user.lastname</p></td>
+<td><p>sn</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.user.objectclass</p></td>
+<td><p>inetorgperson</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.user.username</p></td>
+<td><p>uid</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.user.username.rdn</p></td>
+<td><p>uid</p></td>
+</tr>
+<tr class="row-odd"><td><p>ldap.userdn</p></td>
+<td><p>uid=,cn=users,cn=accounts,
+dc=my,dc=silly,dc=example,dc=com</p></td>
+</tr>
+<tr class="row-even"><td><p>ldap.usermembership.use</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>ld
+ap.usermembership.use.for.groups</p></td>
+<td><p>false</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-path">Integration Path</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toolset">Toolset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-challenges">Key Challenges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-adapter-type">LDAP Adapter Type</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-candidate-adapters">Other Candidate Adapters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rfc-schemas-freeipa-trees">RFC Schemas + FreeIPA Trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-mail-attribute-and-bind-type">E-Mail Attribute and Bind Type</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replicating-users-and-groups">Replicating Users and Groups</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#users">Users</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groups">Groups</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-final-configuration">The Final Configuration</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

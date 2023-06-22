@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>HBAC_and_allow_all &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/HBAC_and_allow_all';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/Howto/HBAC_and_allow_all.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>HBAC_and_allow_all</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hbac-and-the-allow-all-problem">HBAC and the allow_all problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-new-service">Example of new service</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="hbac-and-allow-all">
+<h1>HBAC_and_allow_all<a class="headerlink" href="#hbac-and-allow-all" title="Permalink to this heading">#</a></h1>
+<section id="hbac-and-the-allow-all-problem">
+<h2>HBAC and the allow_all problem<a class="headerlink" href="#hbac-and-the-allow-all-problem" title="Permalink to this heading">#</a></h2>
+<p>The default setup of IPA server is to allow access from anywhere to
+anywhere to any user and service. It is achieved by a catchall HBAC rule
+<strong>allow_all</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacrule-find</span>
+<span class="o">-------------------</span>
+<span class="mi">1</span> <span class="n">HBAC</span> <span class="n">rule</span> <span class="n">matched</span>
+<span class="o">-------------------</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_all</span>
+  <span class="n">User</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Host</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Source</span> <span class="n">host</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Service</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Description</span><span class="p">:</span> <span class="n">Allow</span> <span class="nb">all</span> <span class="n">users</span> <span class="n">to</span> <span class="n">access</span> <span class="nb">any</span> <span class="n">host</span> <span class="kn">from</span> <span class="nn">any</span> <span class="n">host</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">1</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+<p>If we want to actively start using the HBAC feature, we need to disable
+this rule, otherwise it will always apply even if none of our other
+rules will apply and the access should be denied. However, if we disable
+this rule, immediately any access of existing users to existing hosts
+will be denied.</p>
+<p>To avoid locking users out of their systems, we need to ensure that
+there is other rule for the <strong>existing hosts</strong> that will allow access to
+them, ensuring continuation of service. One possibility is the following
+setup: all existing machines will become members of new group
+<strong>allow_all_hosts</strong> and this in turn will become the target host group
+for new HBAC rule <strong>allow_all_users_services</strong> which will grant access
+to everyone on these machines. That way the existing behaviour will be
+preserved for existing hosts and users.</p>
+<p>The commands to create the setup are as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hostgroup-add --desc &#39;Host group which will have allow_all_users_services HBAC enabled.&#39; allow_all_hosts</span>
+<span class="o">---------------------------------</span>
+<span class="n">Added</span> <span class="n">hostgroup</span> <span class="s2">&quot;allow_all_hosts&quot;</span>
+<span class="o">---------------------------------</span>
+  <span class="n">Host</span><span class="o">-</span><span class="n">group</span><span class="p">:</span> <span class="n">allow_all_hosts</span>
+  <span class="n">Description</span><span class="p">:</span> <span class="n">Host</span> <span class="n">group</span> <span class="n">which</span> <span class="n">will</span> <span class="n">have</span> <span class="n">allow_all_users_services</span> <span class="n">HBAC</span> <span class="n">enabled</span><span class="o">.</span>
+<span class="c1"># ipa host-find --raw --pkey-only --sizelimit=0 \</span>
+    <span class="o">|</span> <span class="n">awk</span> <span class="s1">&#39;$1 == &quot;fqdn:&quot; { print &quot;--hosts=&quot; $2 }&#39;</span> <span class="o">|</span> <span class="n">xargs</span> <span class="o">-</span><span class="n">n100</span> <span class="n">ipa</span> <span class="n">hostgroup</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">member</span> <span class="n">allow_all_hosts</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="c1"># ipa hbacrule-add allow_all_users_services --usercat=all --servicecat=all --desc=&#39;Allow access to hosts in group allow_all_hosts to anybody from anywhere.&#39;</span>
+<span class="o">------------------------------------------</span>
+<span class="n">Added</span> <span class="n">HBAC</span> <span class="n">rule</span> <span class="s2">&quot;allow_all_users_services&quot;</span>
+<span class="o">------------------------------------------</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_all_users_services</span>
+  <span class="n">User</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Service</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+<span class="c1"># ipa hbacrule-add-host allow_all_users_services --hostgroups=allow_all_hosts</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_all_users_services</span>
+  <span class="n">User</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Service</span> <span class="n">category</span><span class="p">:</span> <span class="nb">all</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">Host</span> <span class="n">Groups</span><span class="p">:</span> <span class="n">allow_all_hosts</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
+<span class="o">-------------------------</span>
+</pre></div>
+</div>
+<p>Then the <strong>allow_all</strong> rule can be disabled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacrule-disable allow_all</span>
+<span class="o">------------------------------</span>
+<span class="n">Disabled</span> <span class="n">HBAC</span> <span class="n">rule</span> <span class="s2">&quot;allow_all&quot;</span>
+<span class="o">------------------------------</span>
+</pre></div>
+</div>
+<p>From now on, for access to work like it used to do before, any new host
+needs to be added to the <strong>allow_all_hosts</strong> using the
+<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">hostgroup-add-member</span></code> or similar mechanism. Alternatively, it is
+also possible to use automember and default automember features to set
+the group membership automatically.</p>
+<p>Note that there is <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">hbactest</span></code> utility which can be used to test
+policies – use it to test your setup before locking your users out of
+their systems.</p>
+</section>
+<section id="example-of-new-service">
+<h2>Example of new service<a class="headerlink" href="#example-of-new-service" title="Permalink to this heading">#</a></h2>
+<p>Once the individual systems are enumerated in the <strong>allow_all_hosts</strong>
+host group, we can define new rules with possibly more targeted services
+to align some of those hosts to.</p>
+<p>Let us assume we plan to run application wikiapp and want to have PAM
+service <strong>wikiapp</strong> with HBAC handled by the IPA server for the
+authentication and authorization.</p>
+<p>We can start by defining the service:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacsvc-add wikiapp</span>
+<span class="o">----------------------------</span>
+<span class="n">Added</span> <span class="n">HBAC</span> <span class="n">service</span> <span class="s2">&quot;wikiapp&quot;</span>
+<span class="o">----------------------------</span>
+  <span class="n">Service</span> <span class="n">name</span><span class="p">:</span> <span class="n">wikiapp</span>
+</pre></div>
+</div>
+<p>We then define the rule for this service:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacrule-add allow_wikiapp</span>
+<span class="o">-------------------------------</span>
+<span class="n">Added</span> <span class="n">HBAC</span> <span class="n">rule</span> <span class="s2">&quot;allow_wikiapp&quot;</span>
+<span class="o">-------------------------------</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_wikiapp</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+</pre></div>
+</div>
+<p>And we add the service:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacrule-add-service allow_wikiapp --hbacsvcs=wikiapp</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_wikiapp</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">Services</span><span class="p">:</span> <span class="n">wikiapp</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
+<span class="o">-------------------------</span>
+</pre></div>
+</div>
+<p>At any point we can check the status of the rule:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacrule-find allow_wikiapp</span>
+<span class="o">-------------------</span>
+<span class="mi">1</span> <span class="n">HBAC</span> <span class="n">rule</span> <span class="n">matched</span>
+<span class="o">-------------------</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_wikiapp</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">Services</span><span class="p">:</span> <span class="n">wikiapp</span>
+<span class="o">----------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">1</span>
+<span class="o">----------------------------</span>
+</pre></div>
+</div>
+<p>We add user <strong>bob</strong> and host <strong>wikiapp.example.com</strong> to the rule:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbacrule-add-user allow_wikiapp --user=bob</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_wikiapp</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">Users</span><span class="p">:</span> <span class="n">bob</span>
+  <span class="n">Services</span><span class="p">:</span> <span class="n">wikiapp</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
+<span class="o">-------------------------</span>
+<span class="c1"># ipa hbacrule-add-host allow_wikiapp --hosts=wikiapp.example.com</span>
+  <span class="n">Rule</span> <span class="n">name</span><span class="p">:</span> <span class="n">allow_wikiapp</span>
+  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+  <span class="n">Users</span><span class="p">:</span> <span class="n">bob</span>
+  <span class="n">Hosts</span><span class="p">:</span> <span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">Services</span><span class="p">:</span> <span class="n">wikiapp</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
+<span class="o">-------------------------</span>
+</pre></div>
+</div>
+<p>We now test the access to the service:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hbactest --user=bob --host=wikiapp.example.com --service=wikiapp</span>
+<span class="o">--------------------</span>
+<span class="n">Access</span> <span class="n">granted</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">--------------------</span>
+  <span class="n">Matched</span> <span class="n">rules</span><span class="p">:</span> <span class="n">allow_all_users_services</span>
+  <span class="n">Matched</span> <span class="n">rules</span><span class="p">:</span> <span class="n">allow_wikiapp</span>
+</pre></div>
+</div>
+<p>We see that the rule <strong>allow_wikiapp</strong> matches which is good but
+<strong>allow_all_users_services</strong> matches as well. We probably want to remove
+the host from the hostgroup. But beware – this might cut away our
+access to the machine via ssh if ssh is configured to use IPA HBAC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa hostgroup-remove-member allow_all_hosts --hosts=wikiapp.example.com</span>
+  <span class="n">Host</span><span class="o">-</span><span class="n">group</span><span class="p">:</span> <span class="n">allow_all_hosts</span>
+  <span class="n">Description</span><span class="p">:</span> <span class="n">Host</span> <span class="n">group</span> <span class="n">which</span> <span class="n">will</span> <span class="n">have</span> <span class="n">allow_all_users_services</span> <span class="n">HBAC</span> <span class="n">enabled</span><span class="o">.</span>
+  <span class="n">Member</span> <span class="n">hosts</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">,</span> <span class="n">smtp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">Member</span> <span class="n">of</span> <span class="n">HBAC</span> <span class="n">rule</span><span class="p">:</span> <span class="n">allow_all_users_services</span>
+<span class="o">---------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">removed</span> <span class="mi">1</span>
+<span class="o">---------------------------</span>
+</pre></div>
+</div>
+<p>On the <strong>wikiapp.example.com</strong> machine, we want to create
+<strong>/etc/pam.d/wikiapp</strong> file with configuration specifying sssd as the
+mechanism for authentication and authorization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auth</span>    <span class="n">required</span>   <span class="n">pam_sss</span><span class="o">.</span><span class="n">so</span>
+<span class="n">account</span> <span class="n">required</span>   <span class="n">pam_sss</span><span class="o">.</span><span class="n">so</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hbac-and-the-allow-all-problem">HBAC and the allow_all problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-new-service">Example of new service</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

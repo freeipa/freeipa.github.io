@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Backup_and_Restore &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Backup_and_Restore';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Backup_and_Restore.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Backup_and_Restore</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Backup_and_Restore</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-backup-and-restore">What is Backup and Restore?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#server-loss-cases">Server Loss Cases</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-server-loss">One Server Loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-server-loss-first-master">One Server Loss - First Master</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-server-loss-any-other-server">One Server Loss - Any other server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#several-server-loss">Several Server Loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-master-is-still-alive">First Master is still alive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-master-is-lost">First Master is lost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#this-is-a-ca-less-deployment">This is a CA-less deployment</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#total-infrastructure-loss">Total Infrastructure Loss</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-snapshot-and-not-backup-and-restore-scripts">Why snapshot and not backup and restore scripts?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore-scripts">Backup and restore scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recovering-from-a-snapshot">Recovering from a snapshot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nothing-left-other-than-the-snapshot">Nothing left other than the snapshot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#something-is-left-other-than-the-snapshot">Something is left other than the snapshot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recovering-freeipa-clients">Recovering FreeIPA clients</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loss-cases">Data Loss Cases</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="backup-and-restore">
+<h1>Backup_and_Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="what-is-backup-and-restore">
+<h1>What is Backup and Restore?<a class="headerlink" href="#what-is-backup-and-restore" title="Permalink to this heading">#</a></h1>
+<p>In many cases there is a lot of confusion about what backup and restore
+procedures are destined to solve. On the surface it sounds simple. Back
+up data and save it aside; then when something goes wrong take the saved
+data and copy it back. What could be simpler? However when
+multi-instance deployment, different versions or configurations are
+factored in, the backup and restoration becomes a real challenge.</p>
+<p>If we step back and ask a question why would one need a backup and
+restore or in other words a ‘disaster recovery’ procedure? Answer is -
+to recover from a disaster! Let us see what kind of disasters we want to
+recover from and how capability that already exists in the FreeIPA can
+be used to overcome these scenarios.</p>
+<p>There are two classes of the disaster scenarios:</p>
+<ul class="simple">
+<li><p><strong>Server Loss</strong>: The FreeIPA deployment loses one, several, or all
+servers due to a disaster (fire, earthquake, hardware malfunction,
+etc.) and needs to get back online as soon as possible.</p></li>
+<li><p><strong>Data Loss</strong>: FreeIPA data was accidentally deleted, either by a
+user or by a software bug, and the deletion was propagated to all
+servers, given that FreeIPA is a multi-master solution.</p></li>
+</ul>
+</section>
+<section id="server-loss-cases">
+<h1>Server Loss Cases<a class="headerlink" href="#server-loss-cases" title="Permalink to this heading">#</a></h1>
+<p>Our usual recommendation for redundancy is to run several (2-3) FreeIPA
+Servers in each data center in customer deployment and let them
+replicate with each other. This way, when one server is lost, it can be
+recovered by simply creating a new FreeIPA Server (replica) and get back
+to fully functional state really quickly.</p>
+<p>However, FreeIPA Servers are not born equal and a lot depends on the
+configuration. The first server that was ever installed has special
+properties that make it slightly different from others. It can be called
+as the <em>first master</em>. The first master is no different from other
+masters in the deployment except for the certificate management aspects.
+If the first master was installed with the full root or chained
+<a class="reference external" href="PKI">CA</a> it is the server that:</p>
+<ul class="simple">
+<li><p><strong>Tracks and renews internal certificates</strong>: all other servers just
+get a copy of the renewed certs</p></li>
+<li><p><strong>Publishes CRLs</strong>: all other masters do not do that by default but
+can be configured</p></li>
+</ul>
+<p>Other masters can be deployed with full <a class="reference external" href="PKI">CA</a> like the first
+master or without <a class="reference external" href="PKI">CA</a> like a more lightweight replica. Since
+<a class="reference external" href="Releases/3.2.0">FreeIPA 3.2</a> there is also a way to install the
+whole deployment without <a class="reference external" href="PKI">CA</a> (<a class="reference external" href="V3/CA-less_install">CA-less
+installation</a>). Then all FreeIPA Servers are
+equal and there is no distinction between them.</p>
+<section id="one-server-loss">
+<h2>One Server Loss<a class="headerlink" href="#one-server-loss" title="Permalink to this heading">#</a></h2>
+<p>The <em>one server loss</em> scenarios are related to the cases when, for
+example, a hardware failure is experienced and a server in a deployment
+needs to be removed and potentially replaced. It is worth mentioning
+here that the replace scenario in the following procedures is always
+about following a remove/cleanup procedure and then installing a new
+server on the same or different hardware, or provisioning a new VM with
+the same or different identity.</p>
+</section>
+<section id="one-server-loss-first-master">
+<h2>One Server Loss - First Master<a class="headerlink" href="#one-server-loss-first-master" title="Permalink to this heading">#</a></h2>
+<p>If the first master is lost, other master with a full <a class="reference external" href="PKI">CA</a> (if
+it is not a CA-less deployment) needs to be nominated as the new first
+master following a manual procedure:</p>
+<ol class="arabic simple">
+<li><p>Clean deployment from the lost server by <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/removing-replica.html">removing all replication
+agreements</a>
+with it.</p></li>
+<li><p>Choose another FreeIPA Server with <a class="reference external" href="PKI">CA</a> installed to become
+the first master</p></li>
+<li><p>Nominate this master to be the one in charge or renewing certs and
+publishing CRLS. This is a manual procedure at the moment.</p></li>
+<li><p>Follow <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/creating-the-replica.html">standard installation
+procedure</a>
+to deploy a new master on a hardware/VM of your choice</p></li>
+</ol>
+<p>Changing the topology of a deployment has an impact on the clients. To
+mitigate this impact we recommend to rely on the <a class="reference external" href="DNS">DNS</a> discovery
+and let clients automatically adapt to the topology changes. If FreeIPA
+<a class="reference external" href="DNS">DNS</a> is used the topology changes are reflected automatically.
+If <a class="reference external" href="DNS">DNS</a> is managed manually, <a class="reference external" href="DNS">DNS</a> SRV records need to
+be updated to reflect the new FreeIPA topology. If FreeIPA clients were
+configured to explicitly connect to specific servers, their
+configuration also needs to reflect new FreeIPA Server hostnames.</p>
+</section>
+<section id="one-server-loss-any-other-server">
+<h2>One Server Loss - Any other server<a class="headerlink" href="#one-server-loss-any-other-server" title="Permalink to this heading">#</a></h2>
+<p>When the first master is still running, procedure to recover a lost
+FreeIPA Server is more straightforward:</p>
+<ol class="arabic simple">
+<li><p>Clean deployment from the lost server by <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/removing-replica.html">removing all replication
+agreements</a>
+with it.</p></li>
+<li><p>Follow <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/creating-the-replica.html">standard installation
+procedure</a>
+to deploy a new master on a hardware/VM of your choice</p></li>
+</ol>
+</section>
+<section id="several-server-loss">
+<h2>Several Server Loss<a class="headerlink" href="#several-server-loss" title="Permalink to this heading">#</a></h2>
+<p>If several servers are lost at the same time, one needs to determine
+whether the deployment is rebuild-able from what is left or not.</p>
+</section>
+<section id="first-master-is-still-alive">
+<h2>First Master is still alive<a class="headerlink" href="#first-master-is-still-alive" title="Permalink to this heading">#</a></h2>
+<p>If first master is still alive <a class="reference external" href="#One_Server_Loss_-_Any_other_server">One Server Loss - Any other
+server</a> procedure can be
+followed to rebuild every lost server and restore the environment.</p>
+</section>
+<section id="first-master-is-lost">
+<h2>First Master is lost<a class="headerlink" href="#first-master-is-lost" title="Permalink to this heading">#</a></h2>
+<p>If there was an installation with a <a class="reference external" href="PKI">CA</a> and at least one master
+with <a class="reference external" href="PKI">CA</a> is available then first follow the procedure <a class="reference external" href="#One_Server_Loss_-_First_Master">One
+Server Loss - First Master</a> to
+establish the new first master and then follow the procedure <a class="reference external" href="#One_Server_Loss_-_Any_other_server">One Server
+Loss - Any other server</a>
+procedure for every lost server to rebuild the environment.</p>
+<p>If there is no master with a <a class="reference external" href="PKI">CA</a> left, the deployment
+effectively lost an ability to rebuild itself from what is left.
+Therefore, this case needs to be treated as a <strong>total loss scenario</strong>.</p>
+</section>
+<section id="this-is-a-ca-less-deployment">
+<h2>This is a CA-less deployment<a class="headerlink" href="#this-is-a-ca-less-deployment" title="Permalink to this heading">#</a></h2>
+<p>In a <a class="reference external" href="V3/CA-less_install">CA-less deployment</a> all masters are equal
+and <a class="reference external" href="#One_Server_Loss_-_Any_other_server">One Server Loss - Any other
+server</a> procedure can be
+followed to rebuild the environment</p>
+</section>
+</section>
+<section id="total-infrastructure-loss">
+<h1>Total Infrastructure Loss<a class="headerlink" href="#total-infrastructure-loss" title="Permalink to this heading">#</a></h1>
+<p>This is the case when all the servers in a deployment are lost or what
+is left is not good enough to rebuild the deployment. For that specific
+case we suggest that you run one of your replicas (with full
+<a class="reference external" href="PKI">CA</a> if it is not a <a class="reference external" href="V3/CA-less_install">CA-less install</a>) in
+a VM then periodically stop this VM and have a full snapshot of it and
+then bring it back again.</p>
+<section id="why-snapshot-and-not-backup-and-restore-scripts">
+<h2>Why snapshot and not backup and restore scripts?<a class="headerlink" href="#why-snapshot-and-not-backup-and-restore-scripts" title="Permalink to this heading">#</a></h2>
+<p>Let us step back and reflect a bit on the choice between snapshot and
+backup scripts. Snapshot saves everything in a consistent state. Backup
+is supposed to do it too. However backup has several major differences:</p>
+<ul class="simple">
+<li><p>Backup stores only data and not the software itself while snapshot
+saves both data and the software</p></li>
+<li><p>Backup selects what to save one by one based on the code written by
+developer, snapshot takes everything</p></li>
+</ul>
+<p>As one can see with a backup script there is much more room for a human
+mistake. The data when restored might not match the software expectation
+because software was updated between the moments when backup and restore
+events happened. Of course, special checks can be added but this means
+more code, more complexity and more risk to make a mistake.</p>
+<p>The selectiveness of the backup is yet another concern. The software
+evolves and new features may affect the data so that backup might not
+pick everything or restore would overwrite something. Since there is no
+way to predict the state of the data when the restore will be run there
+is a higher risk that problems would be introduced. Which is especially
+troublesome in situations when coming back online as soon as possible is
+crucial. We feel that using less risky procedures would enable FreeIPA
+users to recover faster. This is the main reason why FreeIPA team was
+reluctant to build custom backup and restore scripts.</p>
+</section>
+<section id="backup-and-restore-scripts">
+<h2>Backup and restore scripts<a class="headerlink" href="#backup-and-restore-scripts" title="Permalink to this heading">#</a></h2>
+<p><a class="reference external" href="Releases/3.2.0">FreeIPA 3.2</a> introduced experimental <a class="reference external" href="V3/Backup_and_Restore">backup and
+restore scripts</a>. See man pages for
+<code class="docutils literal notranslate"><span class="pre">ipa-backup</span></code> and <code class="docutils literal notranslate"><span class="pre">ipa-restore</span></code> scripts for the instructions how to
+backup and restore FreeIPA software and/or the database. A feedback from
+real user deployments is essential for decision if the scripts should be
+further developed by the FreeIPA team.</p>
+</section>
+<section id="recovering-from-a-snapshot">
+<h2>Recovering from a snapshot<a class="headerlink" href="#recovering-from-a-snapshot" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="nothing-left-other-than-the-snapshot">
+<h2>Nothing left other than the snapshot<a class="headerlink" href="#nothing-left-other-than-the-snapshot" title="Permalink to this heading">#</a></h2>
+<p>Boot the snapshot VM and follow the procedure
+<a class="reference external" href="#Several_Server_Loss_-_There_is_a_full_%5B%5BPKI">CA</a> master|Several
+Server Loss - There is a full <a class="reference external" href="PKI">CA</a> master]]. When the procedure
+is completed, there is a restored and functional deployment but the VM
+is now the first master. We recommend that other server is nominated and
+updated to be the first master.</p>
+</section>
+<section id="something-is-left-other-than-the-snapshot">
+<h2>Something is left other than the snapshot<a class="headerlink" href="#something-is-left-other-than-the-snapshot" title="Permalink to this heading">#</a></h2>
+<p>This is the situation when there are remnants of the old infrastructure
+that do not allow to fully rebuild (they for example miss an FreeIPA
+Server with <a class="reference external" href="PKI">CA</a> configured), but they are still functional and
+have the database intact so that <a class="reference external" href="Client">clients</a> can authenticate
+while the environment is being rebuilt.</p>
+<p>In such situation we recommend following procedure:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/removing-replica.html">Clean remaining FreeIPA Servers from replication
+agreements</a>
+with the lost servers. The goal is to have have a set of synchronized
+remaining FreeIPA Servers with functional replication agreements
+between each other. Replication agreement with the snapshot VM can be
+left intact as it will be used to synchronized the snapshot back up
+with the remaining FreeIPA infrastructure later.</p></li>
+<li><p>Boot the selected snapshot and start the restored FreeIPA Server</p></li>
+<li><p>See if the FreeIPA Server running from snapshot <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/ipa-replica-manage.html#viewing-repl-agmt">has a replication
+agreement</a>
+with one of the other FreeIPA Servers that survived. If not, <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/managing-sync-agmt.html#Creating_Synchronization_Agreements">connect
+the FreeIPA Server running from the
+snapshot</a>
+to one of the servers that survived to replica data.</p></li>
+<li><p>Check <code class="docutils literal notranslate"><span class="pre">/var/log/dirsrv/slapd-YOUR-INSTANCE/errors</span></code> and see if the
+FreeIPA Server running from the snapshot correctly synchronizes with
+the remaining FreeIPA Servers and if it received the fresh data. If
+the replication fails for the database being too old, it <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/ipa-replica-manage.html#initialize">can be
+reinitialized</a>
+from a running FreeIPA Server.</p></li>
+<li><p>If database is correctly synchronized, <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/creating-the-replica.html">install any required
+additional FreeIPA
+Servers</a>
+to fully restore the FreeIPA infrastructure</p></li>
+</ol>
+<p>If the backed up snapshot is too old and it’s state is not consistent
+with a state of the remaining FreeIPA Servers so that it’s database can
+be neither synchronized nor reinitialized, a different procedure needs
+to be applied:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/removing-replica.html">Remove any replication
+agreement</a>
+of the remaining FreeIPA Servers with the IPA Server that will be
+restored from a snapshot. This step will prevent replication of
+inconsistent data to the restored FreeIPA Server</p></li>
+<li><p>Boot the selected snapshot and start the restored FreeIPA Server.
+Install a sufficient amount of FreeIPA replicas from the FreeIPA
+Server running from the snapshot to be able to handle the load of the
+deployment. When step 2 is finished, there will be 2 disconnected
+FreeIPA deployments</p></li>
+<li><p>Switch <a class="reference external" href="Client">clients</a> to use the restored FreeIPA Servers</p></li>
+<li><p><a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/Uninstalling_IPA_Servers.html">Stop and
+uninstall</a>
+FreeIPA Servers of the old infrastructure</p></li>
+<li><p><a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/creating-the-replica.html">Install any required additional FreeIPA
+Servers</a>
+to fully restore the FreeIPA infrastructure</p></li>
+</ol>
+<p>In this case, old FreeIPA Servers and the new FreeIPA Servers should run
+in parallel only for a limited amount of time needed to create a
+sufficient restored FreeIPA infrastructure to limit data inconsistencies
+between these two disconnected FreeIPA realms.</p>
+</section>
+<section id="recovering-freeipa-clients">
+<h2>Recovering FreeIPA clients<a class="headerlink" href="#recovering-freeipa-clients" title="Permalink to this heading">#</a></h2>
+<p>While FreeIPA Servers are restored, FreeIPA <a class="reference external" href="Client">clients</a> may
+need changes as well:</p>
+<ul class="simple">
+<li><p><strong>FreeIPA Server hostnames</strong>: if <a class="reference external" href="Client">client</a> is configured
+with a hardcoded FreeIPA Server hostname and the hostname was changed
+(i.e. during restoration process), it’s configuration needs to be
+updated to reflect the new hostnames. At minimum,
+<code class="docutils literal notranslate"><span class="pre">/etc/sssd/sssd.conf</span></code> and <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> should be updated.
+Situation is easier if the FreeIPA <a class="reference external" href="Client">clients</a> are
+configured to use FreeIPA Server autodiscovery via <a class="reference external" href="DNS">DNS</a> SRV
+records. Then only the <a class="reference external" href="DNS">DNS</a> SRV needs to be updated to let
+the FreeIPA <a class="reference external" href="Client">clients</a> properly resolve the servers.</p></li>
+<li><p><strong>Stale data</strong>: especially in <a class="reference external" href="#Total_Infrastructure_Loss">Total Infrastructure
+Loss</a> cases, it may make sense to
+remove any stale data on <a class="reference external" href="Client">client</a> and <a class="reference external" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sssd-cache.html">purge the SSSD
+cache</a>.
+This step is optional, but it should be considered if users
+experience inconsistent login behavior on FreeIPA
+<a class="reference external" href="Client">clients</a>.</p></li>
+</ul>
+</section>
+</section>
+<section id="data-loss-cases">
+<h1>Data Loss Cases<a class="headerlink" href="#data-loss-cases" title="Permalink to this heading">#</a></h1>
+<p>Up to this point, we have discussed only server losses and not about the
+data losses. Data loss cases are more difficult to recover from and
+there is no generic procedure that can be reused among all FreeIPA
+deployments. The procedure depends on the data that was lost; Is it a
+group? A set of users? Host data? Let us provide some guidelines on how
+to recover from this situation in the best way.</p>
+<p>As soon as it is determined that there is a data loss situation, actions
+should be taken to try to stop the data loss proliferation in the
+infrastructure. Affected replicas should be isolated and brought down as
+soon as possible to prevent spread of the data loss.</p>
+<p>If the data loss is stopped and there is still a part of the
+infrastructure that is not affected, the situation may be treated as all
+the servers that are corrupted are lost and left with the ones that are
+not. The recovery procedures described in the <a class="reference external" href="#Server_Loss_Cases">Server Loss
+Cases</a> can be used to rebuild the infrastructure.
+Affected replicas should not be brought up until re-deployed to avoid
+corrupted data spreading again.</p>
+<p>If the data loss affected all servers there are 2 options:</p>
+<ul class="simple">
+<li><p><strong>Start over</strong> from a snapshot as described in the <a class="reference external" href="#Something_is_left_other_than_the_snapshot">Something is left
+other than the
+snapshot</a> and make
+sure there is no replication between old and new replicas. This is a
+pretty drastic approach and should be used when most of the data is
+lost and deployment is completely dysfunctional anyway.</p></li>
+<li><p><strong>Re-add lost data</strong>. Use this method if the scope of the data loss
+can be identified. This procedure expects that either there exists a
+VM snapshot an FreeIPA Server before the data loss that can be used
+to retrieve s snapshot of the database (LDIF) with the database or
+that the FreeIPA Server database was backed up, either by using
+standard <a class="reference external" href="Directory_Server">Directory Server</a> tools to back up the
+data (<code class="docutils literal notranslate"><span class="pre">db2ldif</span></code>) or by using FreeIPA backup command
+(<code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">--data</span> <span class="pre">--online</span></code>) if it is available in the deployed
+version of the FreeIPA. When the database snapshot (LDIF) is
+retrieved, lost LDAP entries can be retrieved from it and added to
+the database via standard <code class="docutils literal notranslate"><span class="pre">ldapadd</span></code> command. The restored entries
+will be then automatically propagated to other masters by standard
+replication.</p></li>
+</ul>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Backup_and_Restore</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-backup-and-restore">What is Backup and Restore?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#server-loss-cases">Server Loss Cases</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-server-loss">One Server Loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-server-loss-first-master">One Server Loss - First Master</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-server-loss-any-other-server">One Server Loss - Any other server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#several-server-loss">Several Server Loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-master-is-still-alive">First Master is still alive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-master-is-lost">First Master is lost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#this-is-a-ca-less-deployment">This is a CA-less deployment</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#total-infrastructure-loss">Total Infrastructure Loss</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-snapshot-and-not-backup-and-restore-scripts">Why snapshot and not backup and restore scripts?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore-scripts">Backup and restore scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recovering-from-a-snapshot">Recovering from a snapshot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nothing-left-other-than-the-snapshot">Nothing left other than the snapshot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#something-is-left-other-than-the-snapshot">Something is left other than the snapshot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recovering-freeipa-clients">Recovering FreeIPA clients</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loss-cases">Data Loss Cases</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

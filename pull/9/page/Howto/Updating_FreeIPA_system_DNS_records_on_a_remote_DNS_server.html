@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Updating_FreeIPA_system_DNS_records_on_a_remote_DNS_server &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/Updating_FreeIPA_system_DNS_records_on_a_remote_DNS_server';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/Howto/Updating_FreeIPA_system_DNS_records_on_a_remote_DNS_server.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Updating_FreeIPA_system_DNS_records_on_a_remote_DNS_server</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#short-feature-description">Short feature description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supported-in-versions">Supported in versions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-list-of-required-records">Show list of required records</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-a-file-with-freeipa-dns-data-for-nsupdate-utility">Generating a file with FreeIPA DNS data for <em>nsupdate</em> utility</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-about-exported-nsupdate-file">Notes about exported <em>nsupdate</em> file</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nsupdate-with-tsig">Using <em>nsupdate</em> with TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nsupdate-with-gss-tsig">Using <em>nsupdate</em> with GSS-TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nsupdate-without-authentication">Using <em>nsupdate</em> without authentication</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="updating-freeipa-system-dns-records-on-a-remote-dns-server">
+<h1>Updating_FreeIPA_system_DNS_records_on_a_remote_DNS_server<a class="headerlink" href="#updating-freeipa-system-dns-records-on-a-remote-dns-server" title="Permalink to this heading">#</a></h1>
+<section id="short-feature-description">
+<h2>Short feature description<a class="headerlink" href="#short-feature-description" title="Permalink to this heading">#</a></h2>
+<p>FreeIPA with integrated DNS updates dynamically its own DNS records
+after changes in topology. This can be also executed manually by calling
+command <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dns-update-system-records</span></code>.</p>
+<p>However this is not so simple with external DNS services. For this case
+the option <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> can provide list of required DNS records and
+option <code class="docutils literal notranslate"><span class="pre">--out</span> <span class="pre">FILE</span></code> can export data in <em>nsupdate</em> util format. This
+can be used directly with <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> util.</p>
+</section>
+<section id="supported-in-versions">
+<h2>Supported in versions<a class="headerlink" href="#supported-in-versions" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>4.4+</strong> <code class="docutils literal notranslate"><span class="pre">dns-update-system-records</span></code> command</p></li>
+<li><p><strong>4.5+</strong> <code class="docutils literal notranslate"><span class="pre">dns-update-system-records</span></code> with <code class="docutils literal notranslate"><span class="pre">--out</span></code> option</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="show-list-of-required-records">
+<h2>Show list of required records<a class="headerlink" href="#show-list-of-required-records" title="Permalink to this heading">#</a></h2>
+<p>This can be handy in a case you have hosted external DNS and management
+is done via GUI to see records that have to be updated manually.</p>
+<p>The list of records can look for example like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[user&#64;ipa ~]$ ipa dns-update-system-records --dry-run</span></code></div>
+<div class="line">`` IPA DNS records:``</div>
+<div class="line">``   _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``</div>
+<div class="line">``   _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``</div>
+<div class="line">``   _kerberos._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``</div>
+<div class="line">``   _kerberos._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``</div>
+<div class="line">``   _kerberos.example.com. 86400 IN TXT “EXAMPLE.COM”``</div>
+<div class="line">``   _kpasswd._tcp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``</div>
+<div class="line">``   _kpasswd._udp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``</div>
+<div class="line">``   _ldap._tcp.example.com. 86400 IN SRV 0 100 389 ipa.example.com.``</div>
+<div class="line">``   _ntp._udp.example.com. 86400 IN SRV 0 100 123 ipa.example.com.``</div>
+<div class="line">``   ipa-ca.example.com. 86400 IN A 192.0.2.36``</div>
+<div class="line">``   ipa-ca.example.com. 86400 IN AAAA 2001:db8:0:224e:21a:4aff:fe23:1523``</div>
+</div>
+</section>
+<section id="generating-a-file-with-freeipa-dns-data-for-nsupdate-utility">
+<h2>Generating a file with FreeIPA DNS data for <em>nsupdate</em> utility<a class="headerlink" href="#generating-a-file-with-freeipa-dns-data-for-nsupdate-utility" title="Permalink to this heading">#</a></h2>
+<p>Option <code class="docutils literal notranslate"><span class="pre">--out</span> <span class="pre">FILE</span></code> will store DNS data in <em>nsupdate</em> format in file
+<em>FILE</em>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``[user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate``
+| ``  IPA DNS records:``
+| ``   ...``
+| ``[user@ipa ~]$ cat ipa-records.nsupdate ``
+| ``; IPA DNS records``
+| ``update delete _kerberos-master._tcp.example.com. SRV``
+| ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``update delete _kerberos-master._udp.example.com. SRV``
+| ``update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``.....``
+| ``update delete ipa-ca.example.com. AAAA``
+| ``update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523``
+| ``send``
+</pre></div>
+</div>
+<section id="notes-about-exported-nsupdate-file">
+<h3>Notes about exported <em>nsupdate</em> file<a class="headerlink" href="#notes-about-exported-nsupdate-file" title="Permalink to this heading">#</a></h3>
+<p>By default records exported by <code class="docutils literal notranslate"><span class="pre">dns-update-system-records</span></code> relies on
+auto-detection of the zone where records should be updated and the
+authoritative server of that zone. In majority cases this should just
+work. However in non-standard DNS setup or missing zone delegations,
+<em>nsupdate</em> may not be able to find the right zone and server. For these
+cases the exported file must be amended by following options (at the
+beginning of the file):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">server</span></code><em>``servername``</em><code class="docutils literal notranslate"><span class="pre">[</span></code><em>``por``</em><code class="docutils literal notranslate"><span class="pre">t]</span></code> where
+<em>servername</em> is an authoritative DNS server where records should be
+sent</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zone</span></code><em>``zonename``</em> where <em>zonename</em> is zone where FreeIPA
+records should be placed</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``[user@ipa ~]$ cat ipa-records.nsupdate ``
+| ``zone example.com.``
+| ``server 192.0.2.222``
+| ``; IPA DNS records``
+| ``update delete _kerberos-master._tcp.example.com. SRV``
+| ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``...``
+</pre></div>
+</div>
+<p>For more details please see <em>man nsupdate</em>.</p>
+</section>
+</section>
+<section id="using-nsupdate-with-tsig">
+<h2>Using <em>nsupdate</em> with TSIG<a class="headerlink" href="#using-nsupdate-with-tsig" title="Permalink to this heading">#</a></h2>
+<p><a class="reference external" href="https://tools.ietf.org/html/rfc2845">TSIG</a> mechanism allows to use
+nsupdate utility with securely by using a shared key. The DNS server
+must be configured and both server and client must have the particular
+shared key to allow updates.</p>
+<p>Server configuration examples:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="ftp://ftp.isc.org/www/bind/arm95/Bv9ARM.ch04.html#tsig">BIND</a></p></li>
+<li><p><a class="reference external" href="https://doc.powerdns.com/md/authoritative/dnsupdate/#dns-update-how-to-setup-dyndnsrfc2136-with-dhcpd">PowerDNS</a></p></li>
+<li><p><a class="reference external" href="https://www.knot-dns.cz/docs/2.x/html/configuration.html#dynamic-updates">Knot DNS
+1</a>
++ <a class="reference external" href="https://www.knot-dns.cz/docs/2.x/html/configuration.html#access-control-list-acl">Knot DNS
+2</a>
++ <a class="reference external" href="https://www.knot-dns.cz/docs/2.x/html/man_keymgr.html#tsig-commands">Knot DNS
+3</a>,</p></li>
+</ul>
+<p>Run <em>nsupdate</em> with the <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfile</span></code> option:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[user&#64;ipa ~]$ nsupdate -k tsig-key.keyfile ipa-records.nsupdate</span></code></p>
+<p>or with <code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:secret</span></code> option:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[user&#64;ipa ~]$ nsupdate -y algorithm:keyname:secret ipa-records.nsupdate</span></code></p>
+<p>More details about <em>nsupdate</em> with TSIG and how to generate keyfiles can
+be found <a class="reference external" href="Howto/DNS_updates_and_zone_transfers_with_TSIG">here</a></p>
+</section>
+<section id="using-nsupdate-with-gss-tsig">
+<h2>Using <em>nsupdate</em> with GSS-TSIG<a class="headerlink" href="#using-nsupdate-with-gss-tsig" title="Permalink to this heading">#</a></h2>
+<p><a class="reference external" href="https://tools.ietf.org/html/rfc3645">GSS-TSIG</a> mechanism uses
+<a class="reference external" href="https://tools.ietf.org/html/rfc2743">GSS-API</a> for getting secret
+TSIG key. Details about GSS-API is out of scope of this document, for
+simplification we will assume <em>Kerberos V5</em> as used technology for
+GSS-API (“kerberized” DNS servers are usually the most used).</p>
+<p>Examples of server configuration:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://ddiguru.com/blog/136-how-to-implement-gss-tsig-on-isc-bind">BIND</a></p></li>
+<li><p><a class="reference external" href="https://doc.powerdns.com/md/authoritative/gss-tsig/">PowerDNS</a></p></li>
+<li><p><a class="reference external" href="https://technet.microsoft.com/en-us/library/cc961412.aspx">Windows
+DNS</a></p></li>
+</ul>
+<p>Run <em>nsupdate</em> with option <code class="docutils literal notranslate"><span class="pre">-g</span></code></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[user&#64;ipa ~]$ kinit principal-allowed-to-update-records&#64;REALM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[user&#64;ipa ~]$ nsupdate -g ipa-records.nsupdate</span></code></div>
+</div>
+</section>
+<section id="using-nsupdate-without-authentication">
+<h2>Using <em>nsupdate</em> without authentication<a class="headerlink" href="#using-nsupdate-without-authentication" title="Permalink to this heading">#</a></h2>
+<p>Using <em>nsupdate</em> without authentication is discouraged. However if you
+really need this, then set up DNS server to allow dynamic updates from
+the particular IP address/IP range.</p>
+<p>Server configuration examples:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.zytrax.com/books/dns/ch7/xfer.html#allow-update">BIND</a></p></li>
+<li><p><a class="reference external" href="https://doc.powerdns.com/md/authoritative/dnsupdate/#allow-dnsupdate-from">PowerDNS</a></p></li>
+<li><p><a class="reference external" href="https://www.knot-dns.cz/docs/2.x/html/configuration.html#dynamic-updates">Knot
+DNS</a></p></li>
+</ul>
+<p>Run <em>nsupdate</em> without options:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[user&#64;ipa ~]$ nsupdate ipa-records.nsupdate</span></code></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#short-feature-description">Short feature description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supported-in-versions">Supported in versions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-list-of-required-records">Show list of required records</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-a-file-with-freeipa-dns-data-for-nsupdate-utility">Generating a file with FreeIPA DNS data for <em>nsupdate</em> utility</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-about-exported-nsupdate-file">Notes about exported <em>nsupdate</em> file</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nsupdate-with-tsig">Using <em>nsupdate</em> with TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nsupdate-with-gss-tsig">Using <em>nsupdate</em> with GSS-TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nsupdate-without-authentication">Using <em>nsupdate</em> without authentication</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

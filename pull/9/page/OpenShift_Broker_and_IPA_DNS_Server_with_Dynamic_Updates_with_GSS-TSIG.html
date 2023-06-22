@@ -1,0 +1,487 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="openshift-broker-and-ipa-dns-server-with-dynamic-updates-with-gss-tsig">
+<h1>OpenShift_Broker_and_IPA_DNS_Server_with_Dynamic_Updates_with_GSS-TSIG<a class="headerlink" href="#openshift-broker-and-ipa-dns-server-with-dynamic-updates-with-gss-tsig" title="Permalink to this heading">#</a></h1>
+<p><strong>Draft</strong> Using IPA DNS for OpenShift - setup how-to</p>
+<p>Install plugins on Broker</p>
+<ul class="simple">
+<li><p>FYI: The default plugin for OpenShift Origin is its own BIND
+installation. OpenShift Enterprise already uses nsupdate by default.</p>
+<ul>
+<li><p>The config is found in
+<code class="docutils literal notranslate"><span class="pre">/etc/openshift/plugins.d/openshift-origin-dns-bind.conf</span></code></p></li>
+<li><p>The code is for the plugin in <code class="docutils literal notranslate"><span class="pre">/usr/lib/ruby/gems/1.8/gems</span></code> for
+RHEL, and <code class="docutils literal notranslate"><span class="pre">/usr/share/gems/gems/</span></code> in Fedora.</p></li>
+</ul>
+</li>
+<li><p>Must <em>remove</em> the old plugin first:
+<code class="docutils literal notranslate"><span class="pre">gem</span> <span class="pre">uninstall</span> <span class="pre">openshift-origin-dns-bind</span></code></p></li>
+<li><p>Install the nsupdate plugin
+<code class="docutils literal notranslate"><span class="pre">gem</span> <span class="pre">install</span> <span class="pre">openshift-origin-dns-nsupdate</span></code></p></li>
+<li><p>Move into the plugins directory, <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cd</span> <span class="pre">/etc/openshift/plugins.d/</span></code>
+then move the old configuration:
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">mv</span> <span class="pre">openshift-origin-dns-bind.conf</span> <span class="pre">openshift-origin-dns-bind.conf.orig</span></code></p></li>
+<li><p>Configure the new conf file in
+<code class="docutils literal notranslate"><span class="pre">/etc/openshift/plugins.d/openshift-origin-dns-nsupdate.conf</span></code> to
+look like this (make the file if it doesn’t exist):</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BIND_SERVER</span><span class="o">=</span><span class="s2">&quot;IPA_SERVER_IP_ADDRESS&quot;</span>
+<span class="n">BIND_PORT</span><span class="o">=</span><span class="mi">53</span>
+<span class="n">BIND_ZONE</span><span class="o">=</span><span class="s2">&quot;BROKER_DOMAIN&quot;</span>
+<span class="n">BIND_KRB_PRINCIPAL</span><span class="o">=</span><span class="s2">&quot;DNS/NODE_HOSTNAME@IPA_REALM&quot;</span>
+<span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Mine looks like:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BIND_SERVER</span><span class="o">=</span><span class="s2">&quot;10.16.78.111&quot;</span>
+<span class="n">BIND_PORT</span><span class="o">=</span><span class="mi">53</span>
+<span class="n">BIND_ZONE</span><span class="o">=</span><span class="s2">&quot;idm.lab.bos.redhat.com&quot;</span>
+<span class="n">BIND_KRB_PRINCIPAL</span><span class="o">=</span><span class="s2">&quot;DNS/vm-040.idm.lab.bos.redhat.com@IDM.LAB.BOS.REDHAT.COM&quot;</span>
+<span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
+</pre></div>
+</div>
+<p>Get IPA Keytab for DNS</p>
+<p>We need to give the Broker <em>another</em> keytab to update the IPA Server’s
+DNS. We will 1) enroll it as a service for DNS, 2) update the policy so
+it is allowed to update CNAME records, and 3) get the keytab over to the
+Broker machine and with correct ownership.</p>
+<p><strong>If ipa-admintools</strong> is installed on the Broker, then you can do the
+following command on the Broker. Else, do it on the IPA Server machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kinit admin
+ipa service-add DNS/$BROKER_FQDN
+ipa dnszone-mod $DNS_ZONE --dynamic-update=true\
+    --update-policy=&quot;grant DNS\047$BROKER_FQDN@REALM wildcard * ANY;&quot;
+</pre></div>
+</div>
+<p><strong>IMPORTANT</strong> the “047” is important and must precede the $BROKER_FQDN
+for correct ascii escaping.</p>
+<p><strong>WARNING</strong> the <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span></code> command rewrites the BIND policy; it
+does not <em>append</em>. The easiest way to not overwrite the default setup
+and just append the policy update is to navigate to the Web UI -&gt; DNS -&gt;
+Settings and add <code class="docutils literal notranslate"><span class="pre">grant</span> <span class="pre">DNS\047$BROKER_FQDN&#64;REALM</span> <span class="pre">wildcard</span> <span class="pre">*</span> <span class="pre">ANY;</span></code> to
+the BIND policy.</p>
+<p><strong>On the Broker host</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-getkeytab -s $IPA_SERVER_HOSTNAME -p DNS/$BROKER_FQDN -k /etc/dns.keytab
+kinit -kt /etc/dns.keytab -p DNS/$BROKER_FQDN
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Change the ownership: <code class="docutils literal notranslate"><span class="pre">chown</span> <span class="pre">apache:apache</span> <span class="pre">/etc/dns.keytab</span></code></p></li>
+<li><p>Restart the broker service: <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code></p></li>
+</ul>
+<p>To test</p>
+<p>I suggest testing three ways:</p>
+<ol class="arabic simple">
+<li><p>Manually with nsupdate tool. If this fails, you know it’s a
+Kerberos/IPA/permissions issue, <strong>NOT</strong> an OpenShift or RHC issue.</p></li>
+<li><p>Manually with rails console. If this fails but test #1 succeeds, then
+it is an OpenShift configuration issue with nsupdate.</p></li>
+<li><p>With RHC command line tools. If this fails, then it is an OpenShift
+issue with either MongoDB or ActiveMQ/MCollective.</p></li>
+</ol>
+<p>Manually</p>
+<p>First we should manually see if nsupdate works on our <strong>Broker machine</strong>
+to see if it can correctly update its zone:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[root@broker]# kinit -kt /etc/dns.keytab DNS/$BROKER_FQDN
+[root@broker]# nsupdate -g
+&amp;gt; server $IPA_SERVER_IP_ADDR
+&amp;gt; zone $BROKER_ZONE
+&amp;gt; update delete $YOUR_TEST_APP_FQDN
+&amp;gt; update add $YOUR_TEST_APP_FQDN 180 CNAME $BROKER_FQDN
+&amp;gt; send
+[root@broker]#
+</pre></div>
+</div>
+<p>You should have no response after <code class="docutils literal notranslate"><span class="pre">send</span></code> - that means it went through.
+Then try the following on the Broker, the IPA Server, and a third
+machine in the realm (admin, client, anything)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@admin</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+</pre></div>
+</div>
+<p>Then on the IPA Server or Broker if the Broker has <code class="docutils literal notranslate"><span class="pre">ipa-admintools</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># ipa dns-resolve $YOUR_TEST_APP_FQDN</span>
+</pre></div>
+</div>
+<p>With OpenShift Enterprise</p>
+<p>On the OSE Broker, move into the broker directory, remove the
+Gemfile.lock (NOT Gemfile!), and locally install the :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># cd /var/www/openshift/broker</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># rm -rf Gemfile.lock</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># bundle --local</span>
+</pre></div>
+</div>
+<p>Then we’ll start the rails console that has access to all the Broker
+gems, create a DNS instance, and create a CNAME record through the rails
+console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># rails console</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mi">001</span><span class="p">:</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">OpenShift</span><span class="p">::</span><span class="n">DnsService</span><span class="o">.</span><span class="n">instance</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mi">002</span><span class="p">:</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">d</span><span class="o">.</span><span class="n">register_application</span> <span class="s2">&quot;testapp1&quot;</span><span class="p">,</span> <span class="s2">&quot;testns1&quot;</span><span class="p">,</span> <span class="s2">&quot;node1.example.com</span>
+<span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">nil</span>
+</pre></div>
+</div>
+<p>If you are successful, the rails console will return with “nil”.</p>
+<p>Possible issue</p>
+<p>The Broker will grab the TSIG Key/value, not the GSS-TSIG
+keytab/principal. Within
+<code class="docutils literal notranslate"><span class="pre">/usr/lib/rub/gems/1.8/gems/openshift-origin-dns-nsupdate-xxxx/config/initializers</span></code>,
+edit the file: <code class="docutils literal notranslate"><span class="pre">openshift-origin-dns-nsupdate.rb</span></code> to look like
+<a class="reference external" href="https://github.com/openshift/origin-server/pull/2269/files#diff-1">this</a>
+- this addresses an error that sets keyname/value incorrectly if using
+IPA’s keytab.</p>
+<p>Once you edit this, restart the broker service:
+<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">openshift-broker</span> <span class="pre">restart</span></code></p>
+<p>With RHC command-line tools</p>
+<p>Note that if you didn’t update the manual test to delete the CNAME
+record for the FQDN, you will need to choose another test FQDN.</p>
+<p>On your client machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@client</span><span class="p">]</span><span class="c1">#  rhc app create APP_NAME APP_TYPE</span>
+</pre></div>
+</div>
+<p>It should not hang anywhere (well, creating name space and such can take
+a minute or two, but not completely hang for longer than that).</p>
+<p>If there are any issues on this side, check to see if ActiveMQ is
+running – note that if you have to restart ActiveMQ, give it at least 5
+minutes before testing again.</p>
+<p>Check to see if MCollective is working with <code class="docutils literal notranslate"><span class="pre">mco</span> <span class="pre">ping</span></code>.</p>
+<p>Check broker development/production logs for any MongoDB issues.</p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

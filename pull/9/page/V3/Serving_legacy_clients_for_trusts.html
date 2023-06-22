@@ -1,0 +1,621 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Serving_legacy_clients_for_trusts &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V3/Serving_legacy_clients_for_trusts';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V3/Serving_legacy_clients_for_trusts.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Serving_legacy_clients_for_trusts</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Serving_legacy_clients_for_trusts</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#major-configuration-options-and-enablement">Major configuration options and enablement</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-1-9-and-after">SSSD 1.9 and after</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-1-11">SSSD 1.11</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-prior-to-1-9">SSSD prior to 1.9</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#padl-pam-ldap-nss-ldap">PADL pam_ldap/nss_ldap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vendor-specific-pam-ldap">Vendor-specific pam_ldap</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#replication">Replication</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#updates-and-upgrades">Updates and Upgrades</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#external-impact">External Impact</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#legacy-clients-and-hbac-rules">Legacy clients and HBAC rules</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#test-plan">Test Plan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#rfe-author">RFE Author</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="serving-legacy-clients-for-trusts">
+<h1>Serving_legacy_clients_for_trusts<a class="headerlink" href="#serving-legacy-clients-for-trusts" title="Permalink to this heading">#</a></h1>
+<p>__NOTOC__</p>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
+<p>Since version 3.0 FreeIPA supports cross-realm trusts with Active
+Directory. In order to allow AD users to utilize services on IPA
+clients, up to date version of SSSD should be configured at the IPA
+client. In case it is not possible to install and configure SSSD &gt; 1.9,
+Active Directory users cannot access services on IPA clients.</p>
+<p>This feature is designed to bridge the gap and provide minimal
+compatibility level that allows to log-in to IPA clients for AD users.
+IPA clients will be able to use any reasonable nss_ldap/pam_ldap/sssd
+version.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h1>
+<p>Access to IPA client machine resources for AD users in case IPA client
+cannot utilize up to date version of SSSD with native support for IPA
+cross-realm trusts.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h1>
+<p>Since IPA client is configured with the use of older SSSD or
+nss_ldap/pam_ldap, all work should be performed at the IPA master.
+Primary design decision is to provide a separate LDAP tree, similar to
+compat tree, that has following features:</p>
+<ul class="simple">
+<li><p>information about both IPA and AD users can be queried;</p></li>
+<li><p>it is possible to enumerate members of IPA and AD groups;</p></li>
+<li><p>authentication bind to IPA LDAP as AD users should automatically
+trigger obtaining ticket from AD DC; in case TGT is obtained,
+authentication bind should be treated as successful.</p></li>
+</ul>
+<p>Since old clients are often unable to use multiple search bases, LDAP
+tree will be served by a modified slapi-nis plugin which will be able to
+augment queries to main IPA tree with requests to SSSD cache.</p>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading">#</a></h2>
+<p>There are two types of Kerberos based authentication involved. First and
+preferred one, if the client can handle Kerberos authentication it
+should do it directly against AD. In most cases this would give the user
+a valid ticket in his credential cache which he can use for SSO to other
+services. This case splits to two sub-cases:</p>
+<ul class="simple">
+<li><p>AD application understands Kerberos and uses it to connect to the IPA
+client service. In such case AD client obtains a ticket to IPA client
+service through the AD DC which first gives cross-realm TGT and then
+issues referral to IPA KDC for the ticket to a service. AD client
+then connects to IPA client service with already obtained service
+ticket for the service.</p></li>
+<li><p>AD user uses application that doesn’t obtain Kerberos ticket prior to
+use of IPA client service. This sub-case include log-in into IPA
+client machine console where AD user credentials are entered
+directly. In this case PAM stack configuration is used to
+authenticate. The client (pam_ldap module) does an authenticated LDAP
+bind to validate the credentials the user gave at the login prompt.
+Since the IPA server cannot do the validation itself, it will in the
+end do a kinit with the forwarded credentials of the user against AD
+DC. In this case the user on the client will not have any Kerberos
+tickets after login, but at least authentication of AD users would be
+possible even for an LDAP only client.</p></li>
+</ul>
+<p>In order to allow Kerberos authentication afterwards, IPA KDC needs to
+issue referrals to the trusted domains KDCs (AD DCs). On client side
+what is needed is <strong>dns_lookup_kdc = true</strong> in <strong>/etc/krb5.conf</strong>.</p>
+<p>On the server side a plugin is needed for 389-ds to allow authentication
+bind of AD user. This plugin will define bind pre-op hook to intercept
+bind and also create virtual DN for the user. Authentication will happen
+through an attempt to obtain a TGT for the user in question against AD
+DC in AD realm. Actual information about the virtualized DN will be
+served via slap-nis plugin.</p>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p>IPA server sets SSSD configuration to ‘ipa_server_mode = true’ on
+install or upgrade</p></li>
+<li><p>ipa-adtrust-install configures additional directory server plugin to
+serve trusted domains tree</p></li>
+<li><p>Directory server plugin uses getpwnam_r(), getgrnam_r() and related
+calls to obtain information about AD user. For IPA users the
+information is fetched directly from the LDAP. For this purpose
+slapi-nis plugin would be extended to allow queries against SSSD
+(getpwnam_/getgrnam_r) instead of LDAP directory.</p></li>
+<li><p>Directory server plugin will provide bind pre-op hook to perform
+authentication for AD user. The DN for AD user will be virtual one,
+handled by the previous plugin.</p></li>
+<li><p>IPA KDC database driver adds MS-PAC information into ticket granting
+ticket for <a class="reference external" href="mailto:host/fqdn&#37;&#52;&#48;REALM">host/fqdn<span>&#64;</span>REALM</a>, <a class="reference external" href="mailto:cifs/fqdn&#37;&#52;&#48;REALM">cifs/fqdn<span>&#64;</span>REALM</a>, and <a class="reference external" href="mailto:HTTP/fqdn&#37;&#52;&#48;REALM">HTTP/fqdn<span>&#64;</span>REALM</a>
+principal of IPA masters. This is required to allow SSSD on IPA
+master to authenticate against AD using <a class="reference external" href="mailto:host/fqdn&#37;&#52;&#48;REALM">host/fqdn<span>&#64;</span>REALM</a> principal and
+Python code in IPA server to do trust range discoveries. Additionally
+<a class="reference external" href="mailto:cifs/fqdn&#37;&#52;&#48;REALM">cifs/fqdn<span>&#64;</span>REALM</a> service needs to communicate to AD DC.</p></li>
+</ol>
+<p>For SSSD design see
+<a class="reference external" href="https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode">https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode</a></p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">#</a></h1>
+<p>UI</p>
+<p>The feature is transparent and not exposed in UI</p>
+<p>CLI</p>
+<p>The feature is not directly exposed in CLI.</p>
+<p>IPA idrange management is expanded to specify idrange type (IPA local,
+AD trust, AD with winsync, IPA trust, ..) to affect the way how AD users
+SIDs are mapped to POSIX IDs.</p>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">#</a></h1>
+<p>Given complexity of the configuration, it is advisable to create a
+script on IPA server that will read out existing configuration and
+provide generated scriplets that configure different systems.</p>
+<p>The generated scriptlets should support following configurations. Each
+scriplet when run should output recommended configuration as a text on
+standard output or instruction to run appropriate system commands in
+case where direct modification of the configuration files in not
+possible (Solaris LDAP configuration).</p>
+<p>The utility will be called <strong>ipa-advise</strong> and provide pluggable way to
+add new “advises”. Each “advise” will be named <strong>–</strong> to allow them
+being structured. Below you can find an imaginary example:</p>
+<div class="line-block">
+<div class="line">``  ipa-advise config-solaris11-padl``</div>
+<div class="line">``      ….    config-freebsd7-padl``</div>
+<div class="line">``      ….    config-aix63-native``</div>
+<div class="line">``      ….    setup-ipa-trust2ad``</div>
+<div class="line">``      ….    setup-ipa-dnsdelegation``</div>
+</div>
+<p>and so on.</p>
+<p>``   ipa-advise``</p>
+<p>would show all plugins (filtering itself, i.e. list and help plugin)
+with their short descriptions.</p>
+<section id="sssd-1-9-and-after">
+<h2>SSSD 1.9 and after<a class="headerlink" href="#sssd-1-9-and-after" title="Permalink to this heading">#</a></h2>
+<p>SSSD 1.9 and onwards natively supports IPA cross-realm trusts with AD.
+No need to explicitly use AD compatibility tree</p>
+</section>
+<section id="sssd-1-11">
+<h2>SSSD 1.11<a class="headerlink" href="#sssd-1-11" title="Permalink to this heading">#</a></h2>
+<p>Additionally, on IPA master <strong>sssd.conf</strong> will have <strong>ipa_server_mode =
+true</strong> set. This is the mode that will allow IPA master to ask SSSD for
+resolution of AD users using Global Catalog.</p>
+</section>
+<section id="sssd-prior-to-1-9">
+<h2>SSSD prior to 1.9<a class="headerlink" href="#sssd-prior-to-1-9" title="Permalink to this heading">#</a></h2>
+<p>Compat tree can be configured to search both main IPA LDAP tree and AD
+compatibility data.</p>
+</section>
+<section id="padl-pam-ldap-nss-ldap">
+<h2>PADL pam_ldap/nss_ldap<a class="headerlink" href="#padl-pam-ldap-nss-ldap" title="Permalink to this heading">#</a></h2>
+<p>PADL <strong>pam_ldap</strong> is in use by all GNU/Linux distributions and many
+other UNIX-like operating systems.</p>
+</section>
+<section id="vendor-specific-pam-ldap">
+<h2>Vendor-specific pam_ldap<a class="headerlink" href="#vendor-specific-pam-ldap" title="Permalink to this heading">#</a></h2>
+<p>While PADL pam_ldap supports AIX 5L, FreeBSD 3.x and above, HP-UX 11i,
+IRIX 6.x, Linux, Mac OS X 10.2 and above, and Solaris 2.6 and above,
+many vendors provide their own version also called <strong>pam_ldap</strong>.</p>
+<p>Solaris pam_ldap implementation does not use directly editable files.
+Instead, special utility is used to configure LDAP options.</p>
+</section>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">#</a></h1>
+<p>No effect on replication. Since directory server plugin is only
+configured when ipa-adtrust-install is run, IPA masters may opt out from
+serving AD clients.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">#</a></h1>
+<p>During upgrade of IPA master, sssd.conf should be updated to set
+‘ipa_server_mode = true’.</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h1>
+<p>Depends on SSSD implementing IPA server mode (sssd 1.11)</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode">https://fedorahosted.org/sssd/wiki/DesignDocs/IPAServerMode</a></p>
+</section>
+<section id="backup-and-restore">
+<h1>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">#</a></h1>
+<p>No external configuration files are affected</p>
+</section>
+<section id="legacy-clients-and-hbac-rules">
+<h1>Legacy clients and HBAC rules<a class="headerlink" href="#legacy-clients-and-hbac-rules" title="Permalink to this heading">#</a></h1>
+<p>One of limitations of legacy support is the fact that authentication and
+authorization is first performed at IPA server side using system-auth
+PAM service. At this point what is checked by HBAC rules is access by
+the user to the service called ‘system-auth’ on IPA master, not on the
+legacy client.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>FreeIPA server: ipa.example.org</p></li>
+<li><p>Active Directory: ad.example.org</p></li>
+</ul>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="User:Ab">ab</a> (<a class="reference external" href="User_talk:Ab">talk</a>)</p></li>
+<li><p><a class="reference external" href="User:Tbabej">tbabej</a> (<a class="reference external" href="User_talk:Tbabej">talk</a>)</p></li>
+</ul>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Serving_legacy_clients_for_trusts</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#major-configuration-options-and-enablement">Major configuration options and enablement</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-1-9-and-after">SSSD 1.9 and after</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-1-11">SSSD 1.11</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sssd-prior-to-1-9">SSSD prior to 1.9</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#padl-pam-ldap-nss-ldap">PADL pam_ldap/nss_ldap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vendor-specific-pam-ldap">Vendor-specific pam_ldap</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#replication">Replication</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#updates-and-upgrades">Updates and Upgrades</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#external-impact">External Impact</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#legacy-clients-and-hbac-rules">Legacy clients and HBAC rules</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#test-plan">Test Plan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#rfe-author">RFE Author</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

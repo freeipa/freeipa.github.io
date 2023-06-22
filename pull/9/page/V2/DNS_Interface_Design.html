@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>DNS_Interface_Design &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V2/DNS_Interface_Design';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V2/DNS_Interface_Design.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DNS_Interface_Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resolution">Resolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-per-type-structured-api">1. New per-type structured API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnsrecord-add-command">dnsrecord-add command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnsrecord-mod-command">dnsrecord-mod command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnsrecord-del-command">dnsrecord-del command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-output">Improved output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-validation">2. Improved validation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dns-interface-design">
+<h1>DNS_Interface_Design<a class="headerlink" href="#dns-interface-design" title="Permalink to this heading">#</a></h1>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<p>This page present a summary of proposed and acknowledged design for
+FreeIPA DNS module.</p>
+</section>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this heading">#</a></h2>
+<p>There are many structured DNS RR types where DNS data is not just a
+scalar value, for example an IP address or a domain name, but a data
+structure which may be often complex. A good example is a LOC record
+[RFC1876] which consist of many mandatory and optional parts (degrees,
+minutes, seconds of latitude and longtitude, altitude or precision).
+This is an example of adding a LOC DNS record:</p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --loc-rec &quot;49 11 42.4 N 16 36 29.6 E 227.64m&quot;</span></code></p>
+<p>It may be difficult to enter such DNS records to FreeIPA without making
+an error which would lead in errors in <em>bind-dyndb-ldap</em> plugin which
+process data from LDAP and passes them to BIND DNS server.</p>
+<p>The new API shall present a convenient way to enter there record for
+user without an obligation to know and apply all RFCs specifying DNS RR
+types format.</p>
+</section>
+<section id="resolution">
+<h2>Resolution<a class="headerlink" href="#resolution" title="Permalink to this heading">#</a></h2>
+<p>IPA v3.0 will follow these steps to improve working with all these
+complex steps</p>
+</section>
+<section id="new-per-type-structured-api">
+<h2>1. New per-type structured API<a class="headerlink" href="#new-per-type-structured-api" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>New API shall be implemented for all supported resource record types</p>
+<ul>
+<li><p>It will take form of new options. Every part of DNS RR which will
+be set separately shall have its own option. For example, MX
+record have 2 parts: <em>PREFERENCE</em> and <em>EXCHANGER</em>. I.e. there
+should be 2 new options which can be used to create/modify MX
+record: <em>–mx-preference</em> and <em>–mx-exchanger</em></p></li>
+<li><p>The list of all new options can be retrieved using standard
+<em>–help</em> option of chosen command</p></li>
+</ul>
+</li>
+<li><p>New API shall be integrated to current commands for dnsrecord
+manipulation. That is:</p>
+<ul>
+<li><p><em>dnsrecord-show</em></p></li>
+<li><p><em>dnsrecord-add</em></p></li>
+<li><p><em>dnsrecord-mod</em></p></li>
+<li><p><em>dnsrecord-del</em></p></li>
+</ul>
+</li>
+<li><p>All these commands should have a new interactive mode which should
+help with record manipulation. The interactive mode shall be started
+when the dnsrecord command is executed with no option.</p></li>
+<li><p>DNSSEC RR types: DS, KEY, NSEC, RRSIG, SIG. These are not meant to be
+set manually and will be generated automatically in the future.</p></li>
+<li><p>Unsupported RR types shall be removed from CLI at all: APL, DHCID,
+DLV, DNSKEY, HIP, IPSECKEY, NSEC3, NSEC3PARAM, RP, TA, TKEY, TSIG</p></li>
+<li><p>The new API shall be implemented for both structured DNS RR types but
+also DNS RR types with scalar values to provide a base for other RR
+type related functionality. A good example may be a generation of
+IPv6 address from MAC:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com client1 --aaaa-from-mac=00:1D:BA:06:37:64</span></code></p>
+<section id="dnsrecord-add-command">
+<h3>dnsrecord-add command<a class="headerlink" href="#dnsrecord-add-command" title="Permalink to this heading">#</a></h3>
+<p>New per-type options can be used to add DNS RR, each part separately.
+When any new option for a DNS RR type is detected, the command assumes
+that the new API is used and all required DNS RR type options have to be
+passed.</p>
+<p>Adding of MX record using a standard ADD operation:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --mx-rec=&quot;0 server1.example.com.&quot;</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>Adding MX record using new API:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --mx-preference=0 --mx-exchanger= server1.example.com.</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>Adding MX record using new interactive help:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Please choose a type of DNS resource record to be added</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">The most common types for this type of zone are: NS, MX, LOC</span></code></div>
+</div>
+</section>
+<section id="dnsrecord-mod-command">
+<h3>dnsrecord-mod command<a class="headerlink" href="#dnsrecord-mod-command" title="Permalink to this heading">#</a></h3>
+<p>The command should offer an easy way to modify only specific part(s) of
+a DNS record. It shall operate in 2 modes:</p>
+<ul class="simple">
+<li><p>An old mode when just a new set of DNS RRs is passed, e.g.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;0 server1.example.com.&quot;,&quot;1 server2.example.com.&quot;</span></code></p>
+<ul class="simple">
+<li><p>A new mode where a specified DNS RR will be updated (per-part). This
+mode shall be triggered when any of the new option is passed. In this
+case, the old <em>—rec</em> will serve just as a pointer to the modified
+record:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;1 server2.example.com.&quot; --mx-preference=2</span></code></p>
+<p>A full example of old-style record modification:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;0 server1.example.com.&quot;,&quot;1 server2.example.com.&quot;</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com., 1 server2.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>A full example of a modification using the new API:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-mod example.com &#64; --mx-rec=&quot;1 server2.example.com.&quot; --mx-preference=2</span></code></div>
+<div class="line">``  Record name: example.com``</div>
+<div class="line">``  MX record: 0 server1.example.com., 2 server2.example.com.``</div>
+<div class="line">``  NS record: ns.example.com.``</div>
+</div>
+<p>An example of new interactive mode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``ipa dnsrecord-mod example.com @``
+| ``No option to modify specific record provided.``
+| ``Current DNS record contents:``
+| ``MX record: 0 server1.example.com., 2 server2.example.com.``
+| ``NS record: ns.example.com.``
+| ``Modify MX record &#39;0 server1.example.com.&#39;? Yes/No (default No): ``
+| ``Modify MX record &#39;2 server2.example.com.&#39;? Yes/No (default No): y``
+| ``MX Preference [2]: 3``
+| ``MX Exchanger [server2.example.com.]: ``
+| ``Modify NS record &#39;ns.example.com.&#39;? Yes/No (default No): ``
+| ``  Record name: example.com``
+| ``  MX record: 0 server1.example.com., 3 server2.example.com.``
+| ``  NS record: ns.example.com.``
+</pre></div>
+</div>
+</section>
+<section id="dnsrecord-del-command">
+<h3>dnsrecord-del command<a class="headerlink" href="#dnsrecord-del-command" title="Permalink to this heading">#</a></h3>
+<p>Neither API nor the interactive mode need to be changed.</p>
+</section>
+<section id="improved-output">
+<h3>Improved output<a class="headerlink" href="#improved-output" title="Permalink to this heading">#</a></h3>
+<p>A new option <em>–structured</em> has been implemented which can be useful for
+displaying more complex records:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-show example.com &#64; --structured</span></code></div>
+<div class="line">``  Record name: &#64;``</div>
+<div class="line">``  Records: ``</div>
+<div class="line">``    Record type: MX``</div>
+<div class="line">``    Record data: 0 server1.example.com.``</div>
+<div class="line">``    MX Preference: 0``</div>
+<div class="line">``    MX Exchanger: server1.example.com.``</div>
+</div>
+<div class="line-block">
+<div class="line">``    Record type: MX``</div>
+<div class="line">``    Record data: 3 server2.example.com.``</div>
+<div class="line">``    MX Preference: 3``</div>
+<div class="line">``    MX Exchanger: server2.example.com.``</div>
+</div>
+<div class="line-block">
+<div class="line">``    Record type: NS``</div>
+<div class="line">``    Record data: ns.example.com.``</div>
+<div class="line">``    NS Hostname: ns.example.com.``</div>
+</div>
+<p>The output then shows all record in a structured format including the
+record type, raw DNS record data and an attribute for every part of the
+DNS record.</p>
+</section>
+</section>
+<section id="improved-validation">
+<h2>2. Improved validation<a class="headerlink" href="#improved-validation" title="Permalink to this heading">#</a></h2>
+<p>DNS record validation should be improved so that most common user errors
+are detected and reported by IPA client and by <em>bind-dyndb-ldap</em> plugin
+failing to serve the record.</p>
+<p>A better help with a pointer to further information (RFC) should be
+produced when validation fails:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --mx-rec=BADRECORD</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: invalid 'mx_rec': format must be specified as &quot;PREFERENCE EXCHANGER&quot;  (see RFC 1035 for details)</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa dnsrecord-add example.com &#64; --loc-rec=BADRECORD</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa: ERROR: invalid 'loc_rec': format must be specified as</span></code></div>
+<div class="line">``    “d1 [m1 [s1]] {“N”|”S”}  d2 [m2 [s2]] {“E”|”W”} alt[“m”] [siz[“m”] [hp[“m”] [vp[“m”]]]]”``</div>
+<div class="line">``    where:``</div>
+<div class="line">``       d1:     [0 .. 90]            (degrees latitude)``</div>
+<div class="line">``       d2:     [0 .. 180]           (degrees longitude)``</div>
+<div class="line">``       m1, m2: [0 .. 59]            (minutes latitude/longitude)``</div>
+<div class="line">``       s1, s2: [0 .. 59.999]        (seconds latitude/longitude)``</div>
+<div class="line">``       alt:    [-100000.00 .. 42849672.95] BY .01 (altitude in meters)``</div>
+<div class="line">``       siz, hp, vp: [0 .. 90000000.00] (size/precision in meters)``</div>
+<div class="line">``    See RFC 1876 for details``</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resolution">Resolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-per-type-structured-api">1. New per-type structured API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnsrecord-add-command">dnsrecord-add command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnsrecord-mod-command">dnsrecord-mod command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnsrecord-del-command">dnsrecord-del command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-output">Improved output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-validation">2. Improved validation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

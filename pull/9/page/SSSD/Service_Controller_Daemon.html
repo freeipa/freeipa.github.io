@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Service_Controller_Daemon &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/SSSD/Service_Controller_Daemon';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/SSSD/Service_Controller_Daemon.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Service_Controller_Daemon</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-functions">Main Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-logic">Internal Logic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#service-control">Service Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#service-monitoring">Service Monitoring</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix">Appendix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-store">Configuration Store</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-bus-methods">D-BUS Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#services">Services</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="service-controller-daemon">
+<h1>Service_Controller_Daemon<a class="headerlink" href="#service-controller-daemon" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>The System Security Services Daemon (the SSSD) is actually a collection
+of different services and daemons running in the system context. These
+services handle a variety of authentication and authorization functions.
+As a result, it is highly imperative that these services are fully
+available and functional at all times. The continued outage of any
+service provided by the SSSD may render the machine unusable. To avoid
+this, the SSSD will provide a special Monitor daemon that will maintain
+the lifecycle of all other SSSD services.</p>
+</section>
+<section id="main-functions">
+<h2>Main Functions<a class="headerlink" href="#main-functions" title="Permalink to this heading">#</a></h2>
+<p>The Service Controller will be in charge of:</p>
+<ul class="simple">
+<li><p>Starting of the SSSD services at launch or the startup of the system</p></li>
+<li><p>Stopping of the SSSD services when it shuts down or at the shutdown
+of the system</p></li>
+<li><p>Monitor that all the SSSD processes that have to stay alive stay
+alive</p></li>
+<li><p>Restart any SSSD processes that have exited or crashed</p></li>
+</ul>
+<p>Additional goals of the Monitor daemon are as follows:</p>
+<ul class="simple">
+<li><p>It must run on all supported client platforms.</p></li>
+<li><p>It should not require the installation of any dependencies that are
+not installed by default on the supported client platforms.</p></li>
+</ul>
+</section>
+<section id="internal-logic">
+<h2>Internal Logic<a class="headerlink" href="#internal-logic" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<p>The Monitor service for the SSSD will maintain its configuration within
+an LDB database. Available configuration options for the Monitor will
+be:</p>
+<ul class="simple">
+<li><p>Enabled/Disabled services</p>
+<ul>
+<li><p>Arguments and options to be passed to the services</p></li>
+</ul>
+</li>
+<li><p>Number of retry attempts for failed service start</p></li>
+<li><p>Service polling interval</p>
+<ul>
+<li><p>Service polling failure tolerance</p></li>
+</ul>
+</li>
+<li><p>D-BUS monitor socket</p></li>
+</ul>
+<p>For further detail, see the Configuration Store section below.</p>
+</section>
+<section id="service-control">
+<h2>Service Control<a class="headerlink" href="#service-control" title="Permalink to this heading">#</a></h2>
+<p>At startup, the Monitor service will fork off each of the enabled SSSD
+services into their own, managed child process. Each child process will
+connect via private D-BUS communication to the configured D-BUS monitor
+socket. The monitor service will then challenge the client connection to
+identify itself by service name and version.</p>
+<p>If the child service goes down (see Service Monitoring), the Monitor
+service will attempt to restart the service with the arguments and
+options specified in the configuration database.</p>
+<p>If the configuration of a client service changes, the Monitor will send
+a private D-BUS message to the process, triggering a service update.
+This may be an alteration of a particular option to the service, or it
+may trigger the service to shut down completely.</p>
+</section>
+<section id="service-monitoring">
+<h2>Service Monitoring<a class="headerlink" href="#service-monitoring" title="Permalink to this heading">#</a></h2>
+<p>The child services will be monitored in two ways.</p>
+<ol class="arabic simple">
+<li><p>At a configured interval, the client service will be challenged with
+a simple ping. If the service fails to respond to the configured
+number of pings (the failure tolerance), it will be marked as
+crashed/hung and restarted by the Service Control.</p></li>
+<li><p>All SSSD services will maintain a connection to the Monitor over the
+private D-BUS socket. If the service crashes or is killed without the
+Service Manager’s knowledge, this communication will be broken and
+the Monitor will immediately attempt to relaunch the affected
+service.</p></li>
+</ol>
+</section>
+<section id="appendix">
+<h2>Appendix<a class="headerlink" href="#appendix" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="configuration-store">
+<h2>Configuration Store<a class="headerlink" href="#configuration-store" title="Permalink to this heading">#</a></h2>
+<p>The configuration store can will be represented by LDB which give a
+flexibility of the memory mapped LDAP. The structure of the
+configuration store will be represented thusly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="o">|</span>
+<span class="o">----</span><span class="n">cn</span><span class="o">=</span><span class="n">services</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+    <span class="o">|</span>
+    <span class="o">----</span><span class="n">cn</span><span class="o">=</span><span class="n">monitor</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">services</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+    <span class="o">|</span>   <span class="n">dbusSocket</span><span class="p">:</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">sss</span><span class="o">/</span><span class="n">dbus</span><span class="o">/</span><span class="n">monitor</span>
+    <span class="o">|</span>   <span class="n">ActiveServices</span><span class="p">:</span> <span class="n">nss</span><span class="p">,</span> <span class="n">pam</span>
+    <span class="o">|</span>
+    <span class="o">----</span><span class="n">cn</span><span class="o">=</span><span class="n">nss</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">services</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+    <span class="o">|</span>   <span class="n">unixSocket</span><span class="p">:</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">sss</span><span class="o">/</span><span class="n">pipes</span><span class="o">/</span><span class="n">nss</span>
+    <span class="o">|</span>
+    <span class="o">----</span><span class="n">cn</span><span class="o">=</span><span class="n">pam</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">services</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+        <span class="n">unixSocket</span><span class="p">:</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">sss</span><span class="o">/</span><span class="n">pipes</span><span class="o">/</span><span class="n">pam</span>
+</pre></div>
+</div>
+<p>Further configuration options pending.</p>
+</section>
+<section id="d-bus-methods">
+<h2>D-BUS Methods<a class="headerlink" href="#d-bus-methods" title="Permalink to this heading">#</a></h2>
+<section id="services">
+<h3>Services<a class="headerlink" href="#services" title="Permalink to this heading">#</a></h3>
+<p>The following D-BUS methods shall be exposed by all SSSD services
+managed by the Monitor:</p>
+<dl class="simple">
+<dt>getIdentity</dt><dd><p>INPUT:
+OUTPUT: STRING name, UINT16 version</p>
+</dd>
+<dt>ping</dt><dd><p>INPUT:
+OUTPUT:</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-functions">Main Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-logic">Internal Logic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#service-control">Service Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#service-monitoring">Service Monitoring</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix">Appendix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-store">Configuration Store</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-bus-methods">D-BUS Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#services">Services</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

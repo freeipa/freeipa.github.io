@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Apache Configuration Changes &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CENTRALIZED IDENTITY MANAGEMENT AND AUTHENTICATION FOR LINUX" href="Leaflet.html" />
+    <link rel="prev" title="How it works" href="Kerberos.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="apache-configuration-changes">
+<span id="id1"></span><h1>Apache Configuration Changes<a class="headerlink" href="#apache-configuration-changes" title="Permalink to this heading">¶</a></h1>
+<p>If the templates for <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa.conf</span></code> or
+<code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa-rewrite.conf</span></code> need to be updated and bump the
+VERSION field. These files will be automatically updated by a program we
+provide the next time the RPM is installed.
+<code class="docutils literal notranslate"><span class="pre">/usr/sbin/ipa-upgradeconfig</span></code> is executed during the ipa-server rpm
+%post.</p>
+<p>This program will be installed in /usr/sbin/ipa-upgrade-template</p>
+</section>
+<section id="ldif-changes">
+<span id="id2"></span><h1>LDIF Changes<a class="headerlink" href="#ldif-changes" title="Permalink to this heading">¶</a></h1>
+<p>Changes to the LDIF files will only affect new installations.</p>
+<section id="aci-changes">
+<span id="id3"></span><h2>ACI Changes<a class="headerlink" href="#aci-changes" title="Permalink to this heading">¶</a></h2>
+<p>ACI changes will need to be documented and done manually by IPA
+administrators.</p>
+</section>
+<section id="other-changes">
+<span id="id4"></span><h2>Other Changes<a class="headerlink" href="#other-changes" title="Permalink to this heading">¶</a></h2>
+<p>This applies to Plugins, indices and other IPA core configuration. This
+may have applicability during a new installation to replace the current
+ldapmodify &lt; template.ldif that we currently use.</p>
+<p>A “script” will be supplied to describe what the default values are (in
+case a record doesn’t exist) and a series of changes that are applied in
+a given order to a single distinguished name.</p>
+<p>The syntax of each line in the file is: keyword:attribute:value</p>
+<p>No syntax checking of attribute will be done so typos will attempt to
+add non-existent attributes which will fail in LDAP.</p>
+<p>Blank lines and lines beginning with # are ignored</p>
+<p>There are 4 keywords:</p>
+<ul class="simple">
+<li><p>default: the starting value</p></li>
+<li><p>add: add a value (or values) to an attribute</p></li>
+<li><p>remove: remove a value (or values) from an attribute</p></li>
+<li><p>only: set an attribute to this</p></li>
+</ul>
+<p>The difference between default and add is if the DN of the entry exists
+default is ignored. So for updating something like schema, which will be
+under cn=schema, you must always use add. It will not re-add the same
+information again and again.</p>
+<p>We will also provide some things that can be templated such as
+architecture (for plugin paths), realm and domain name.</p>
+<p>The values are:</p>
+<ul class="simple">
+<li><p>$REALM - the kerberos realm (EXAMPLE.COM)</p></li>
+<li><p>$FQDN - the fully-qualified domain name of the IPA server being
+updated (ipa.example.com)</p></li>
+<li><p>$DOMAIN - the domain name (example.com)</p></li>
+<li><p>$SUFFIX - the IPA LDAP suffix (dc=example,dc=com)</p></li>
+<li><p>$LIBARCH - set to 64 on x86_64 systems to be used for plugin paths</p></li>
+<li><p>$TIME - an integer representation of current time</p></li>
+</ul>
+<p>Example:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=IPA,ou=profile,$SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:defaultServerList: $FQDN</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:defaultSearchBase: $SUFFIX</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginpath: /usr/lib$LIBARCH/dirsrv/plugins/schemacompat-plugin.so</span></code></div>
+</div>
+<p>The values are quoted, comma-separated fields. Quotes are only required
+if the value contains a comma.</p>
+<p>For example, these convert into the following python lists:</p>
+<ul class="simple">
+<li><p>sub -&gt; [‘sub’]</p></li>
+<li><p>“sub” -&gt; [‘sub’]</p></li>
+<li><p>“sub, eq” -. [‘sub, eq’]</p></li>
+<li><p>sub,eq -&gt; [‘sub’, ‘eq’]</p></li>
+<li><p>sub, eq, “Hi there, Joe” -&gt; [‘sub’, ‘eq’, ‘Hi there, Joe’]</p></li>
+</ul>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=memberof,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default: objectClass:top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default: objectClass:nsIndex</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default: cn:memberof</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default: nsSystemIndex:false</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default: nsIndexType:eq</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># Oops, nsIndexType was wrong, fix it</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">only: nsIndexType: sub</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># Ack, should be eq too</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">add: nsIndexType: sub, eq</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># Nope, was right the first time, no more sub</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">remove: nsIndexType: sub</span></code></div>
+</div>
+<p>A few rules:</p>
+<ol class="arabic simple">
+<li><p>Only one rule per line</p></li>
+<li><p>Each line stands alone (e.g. an only followed by an only results in
+the last only being used)</p></li>
+<li><p>adding a value that exists is ok. The request is ignored, duplicate
+values are not added</p></li>
+<li><p>removing a value that doesn’t exist is ok. It is simply ignored.</p></li>
+<li><p>If a DN doesn’t exist it is created from the ‘default’ entry and all
+updates are applied</p></li>
+<li><p>If a DN does exist the default values are skipped</p></li>
+<li><p>Only the first rule on a line is respected</p></li>
+</ol>
+</section>
+</section>
+<section id="special-considerations">
+<span id="id5"></span><h2>Special Considerations<a class="headerlink" href="#special-considerations" title="Permalink to this heading">¶</a></h2>
+<section id="plugins">
+<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading">¶</a></h3>
+<p>plugin configuration is stored in cn=config which is not replicated.
+This means that plugin configurations need to be backwards compatible
+for the case where IPA servers are running at a lower functional level.</p>
+</section>
+<section id="indexes">
+<h3>Indexes<a class="headerlink" href="#indexes" title="Permalink to this heading">¶</a></h3>
+<p>If an index changes we need to run a task to build the index.</p>
+</section>
+</section>
+<section id="use-cases">
+<span id="use-cases107"></span><h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
+<p>Here are some concrete use cases:</p>
+<section id="adding-a-new-plugin">
+<span id="id6"></span><h3>Adding a new plugin<a class="headerlink" href="#adding-a-new-plugin" title="Permalink to this heading">¶</a></h3>
+<p>We are going to switch to a new mechanism for integrating with Solaris.
+The current solution requires the customer install nss_ldap on their
+machine because the native version doesn’t understand the memberOf
+attribute. It wants memberUid.</p>
+<p>Using the DS Schema Compatibilty plugin provided by the slapi-nis
+package we can generate memberUid value from the memberOf entries.</p>
+<p>In order to load this into a running IPA server we will provide the
+plugin configuration as an update:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Schema Compatibility, cn=plugins, cn=config</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectclass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectclass: nsSlapdPlugin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectclass: extensibleObject</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:cn: Schema Compatibility</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginpath: /usr/lib/dirsrv/plugins/schemacompat-plugin.so</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-plugininitfunc: schema_compat_plugin_init</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-plugintype: object</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginenabled: on</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginid: schema-compat-plugin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginversion: 0.8</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginvendor: redhat.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-plugindescription: Schema Compatibility Plugin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[ snip ]</span></code></div>
+</div>
+<p>This will add the entry to a running IPA server if it doesn’t already
+exist. The library itself will have been added by the RPM installer.</p>
+</section>
+<section id="adding-a-new-index">
+<span id="id7"></span><h3>Adding a new index<a class="headerlink" href="#adding-a-new-index" title="Permalink to this heading">¶</a></h3>
+<p>During IPA development we realized that we had forgotten to add an index
+for the memberOf attribute. This would have had a negative performance
+impact so we added it to our default index template. There was no way,
+other than manually, to add this index to a running IPA server.</p>
+<p>This updater can add a new index or modify existing indices (for
+example, if we want to modify the type of index to maintain).</p>
+<p>If an index is modified then a task will be created to regenerate the
+index for the affected attribute.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/LdapUpdate.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

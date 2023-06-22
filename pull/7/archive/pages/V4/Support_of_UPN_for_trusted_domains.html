@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Time-Based_Account_Policies.html" />
+    <link rel="prev" title="Test Plan" href="Sudo_Integration.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>User principal name (UPN) in Active Directory is the primary form of
+addressing users. UPN has structure of ‘user <a class="reference external" href="mailto:name&#37;&#52;&#48;suffix">name<span>&#64;</span>suffix</a>’ where both
+user name and suffix parts may vary. By default the suffix is the same
+as the Active Directory domain name but AD administrators may create
+additional name suffixes and associate them with specific users. These
+additional UPNs for users may then be used for Kerberos authentication
+against Active Directory domains.</p>
+<p>Alternative UPNs are often used when several companies with Active
+Directory deployments merge and want to provide unified logon namespace.</p>
+<p>The purpose of this feature is to allow using alternative UPNs
+associated with the Active Directory users when accessing resources in
+FreeIPA domain.</p>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>As an Active Directory user, I want to login using my <a class="reference external" href="mailto:user&#37;&#52;&#48;EXAMPLE">user<span>&#64;</span>EXAMPLE</a> user
+principal name even if my Active Directory domain is named
+REGION.EXAMPLE.COM.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>Support for UPNs is split to three different components:</p>
+<dl class="simple">
+<dt>Client-side</dt><dd><p>SSSD already supports logon with UPN by asking a KDC to accept
+enterprise logon names. By default, the use of enterprise principals
+is disabled, therefore, <code class="docutils literal notranslate"><span class="pre">krb5_use_enterprise_principal</span> <span class="pre">=</span> <span class="pre">True</span></code>
+needs to be added to sssd.conf to enable it.</p>
+</dd>
+<dt>KDC</dt><dd><p>IPA KDC does understand multiple domains associated with the trusted
+AD forest. However, since no information about name suffixes
+associated with the forest is available, it cannot take them into
+account when processing enteprise logon names to issue referrals to
+the correct realm. Support needs to be added to allow IPA KDC to look
+up name suffixes associated with a trusted forest.</p>
+</dd>
+<dt>IPA framework</dt><dd><p>Changes needed on IPA framework side to fetch from Active Directory a
+list of name suffixes and store them in the trusted domain objects.</p>
+</dd>
+</dl>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>For retrieving name suffixes, IPA framework needs to move to use
+NETLOGON netr_DsRGetForestTrustInformation function instead of
+netr_DsrEnumerateDomainTrusts. This allows to retrieve both domains and
+top level names associated with the forest.</p>
+<p>As top level names (TLNs) have only a single string as a name suffix,
+they cannot be stored as trusted domains (they lack SID and NetBIOS
+name). Thus, either IPA KDB driver needs to be extended to understand
+trusted domains without SID and NetBIOS name, or TLNs need to be stored
+as a property of tree root domains of the forest.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>TLNs are added as a property of tree root domains of the forest,
+appropriate panel needs to be extended to display them.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>When TLNs are added as a property of tree root domains of the forest,
+appropriate attribute need to be handled by <strong>trust-show</strong> command.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
+<p>No configuration options.</p>
+</section>
+</section>
+<section id="upgrade">
+<h1>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h1>
+<p>An attribute ‘ipaNTAdditionalSuffixes’ is added to ‘ipaNTTrustedDomain’
+object class. Replicas which are not upgraded to the FreeIPA version
+which contains the attribute and changed object class definition, will
+receive schema changes as part of replication. The IPA framework running
+on non-upgraded replica will not be able to fill-in the attribute values
+and will not be able to show it until the packages for the FreeIPA
+framework are upgraded.</p>
+</section>
+<section id="how-to-test">
+<span id="how-to-test38"></span><h1>How to Test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">¶</a></h1>
+<p>In order to test UPN-based logons, create additional name suffixes in
+Active Directory and establish trust to it. After trust is established,
+the name suffixes should be usable when trying to kinit as enterprise
+principal.</p>
+<p>See
+<a class="reference external" href="https://technet.microsoft.com/en-us/library/cc739093%28v=ws.10%29.aspx">https://technet.microsoft.com/en-us/library/cc739093%28v=ws.10%29.aspx</a>
+for details of AD naming and how to add UPNs.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="V4/Support_of_UPN_for_trusted_domains/Test_Plan">Support of UPN for trusted domains V4.4 test
+plan</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Support_of_UPN_for_trusted_domains.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

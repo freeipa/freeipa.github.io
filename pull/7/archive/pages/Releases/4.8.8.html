@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Highlights in 4.8.8 &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Highlights in 4.8.9" href="4.8.9.html" />
+    <link rel="prev" title="Highlights in 4.8.7" href="4.8.7.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The FreeIPA team would like to announce FreeIPA 4.8.8 release!</p>
+<p>It can be downloaded from <a class="reference external" href="http://www.freeipa.org/page/Downloads">http://www.freeipa.org/page/Downloads</a>. Builds
+for Fedora distributions will be available from the official repository
+soon.</p>
+<section id="highlights-in-4-8-8">
+<span id="id1"></span><h1>Highlights in 4.8.8<a class="headerlink" href="#highlights-in-4-8-8" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>CVE-2020-10747</p></li>
+</ul>
+<p>It was found that if an account with a name corresponding to an account
+local to a system, such as ‘root’, was created via IPA, such account
+could access any enrolled machine with that identitity and the local
+system privileges. This also bypass the absence of explicit HBAC rules.</p>
+<p>Since the account can only be created by user administrators in FreeIPA,
+several changes were done to tighten permissions and prevent creation of
+‘root’ identity by mistake.</p>
+<section id="root-principal-alias">
+<span id="id2"></span><h2>root principal alias<a class="headerlink" href="#root-principal-alias" title="Permalink to this heading">¶</a></h2>
+<p>The principal “<a class="reference external" href="mailto:root&#37;&#52;&#48;REALM">root<span>&#64;</span>REALM</a>” is now a Kerberos principal alias for
+“admin”. This prevent user with “User Administrator” role or “System:
+Add User” privilege to create an account with “root” principal name.</p>
+</section>
+<section id="modified-user-permissions">
+<span id="id3"></span><h2>Modified user permissions<a class="headerlink" href="#modified-user-permissions" title="Permalink to this heading">¶</a></h2>
+<p>Several user permissions no longer apply to admin users and filter on
+posixAccount object class. This prevents user managers from modifying
+admin acounts:</p>
+<ul class="simple">
+<li><p>System: Manage User Certificates</p></li>
+<li><p>System: Manage User Principals</p></li>
+<li><p>System: Manage User SSH Public Keys</p></li>
+<li><p>System: Modify Users</p></li>
+<li><p>System: Remove Users</p></li>
+<li><p>System: Unlock user</p></li>
+</ul>
+<p><strong>System: Unlock User</strong> permission is now restricted because the
+permission also allows a user manager to lock an admin account.</p>
+<p><strong>System: Modify Users</strong> is restricted to prevent user managers from
+changing login shell or notification channels (mail, mobile) of admin
+accounts.</p>
+</section>
+<section id="new-user-permission">
+<span id="id4"></span><h2>New user permission<a class="headerlink" href="#new-user-permission" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>System: Change Admin User password</p></li>
+</ul>
+<p>This new permission allows manipulation of admin user password fields.
+By default only the <strong>PassSync Service</strong> privilege is allowed to modify
+admin user password fields.</p>
+</section>
+<section id="modified-group-permissions">
+<span id="id5"></span><h2>Modified group permissions<a class="headerlink" href="#modified-group-permissions" title="Permalink to this heading">¶</a></h2>
+<p>Group permissions are now restricted as well. Group admins can no longer
+modify the admins group and are limited to groups with object class
+<strong>ipausergroup</strong>.</p>
+<ul class="simple">
+<li><p>System: Modify Groups</p></li>
+<li><p>System: Remove Groups</p></li>
+</ul>
+<p>The permission <strong>System: Modify Group Membership</strong> was already limited.</p>
+</section>
+</section>
+<section id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this heading">¶</a></h1>
+<p>Upgrade instructions are available on <a class="reference external" href="Upgrade">Upgrade</a> page.</p>
+</section>
+<section id="feedback">
+<h1>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h1>
+<p>Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(<a class="reference external" href="https://lists.fedoraproject.org/archives/list/freeipa-users&#64;lists.fedorahosted.org/">https://lists.fedoraproject.org/archives/list/freeipa-users&#64;lists.fedorahosted.org/</a>)
+or #freeipa channel on Freenode.</p>
+</section>
+<section id="resolved-tickets">
+<span id="id6"></span><h1>Resolved tickets<a class="headerlink" href="#resolved-tickets" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/8326">#8326</a> CVE-2020-10747</p></li>
+</ul>
+</section>
+<section id="detailed-changelog-since-4-8-7">
+<span id="id7"></span><h1>Detailed changelog since 4.8.7<a class="headerlink" href="#detailed-changelog-since-4-8-7" title="Permalink to this heading">¶</a></h1>
+<section id="alexander-bokovoy-1">
+<span id="id8"></span><h2>Alexander Bokovoy (1)<a class="headerlink" href="#alexander-bokovoy-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Become FreeIPA 4.8.8
+<a class="reference external" href="https://pagure.io/freeipa/c/86ab7590779b9e25c6a52cf5a785925103d9ee8a">commit</a></p></li>
+</ul>
+</section>
+<section id="christian-heimes-1">
+<span id="id9"></span><h2>Christian Heimes (1)<a class="headerlink" href="#christian-heimes-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Prevent local account takeover
+<a class="reference external" href="https://pagure.io/freeipa/c/65c2736bd20ffb9d98769e71d905f71d1a4d857e">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/8326">#8326</a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Releases/4.8.8.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="PKI.html" />
+    <link rel="prev" title="Prerequisite:" href="Owncloud_Authentication_against_FreeIPA.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>During initial testing of Host-Based Access Control (HBAC) rules it
+became apparent that a way to manage the services in the HBAC rules was
+needed. The service name in an HBAC rule in general is the name of the
+program used to access the service, not the program used to provide the
+service (e.g. for wu-ftpd the service name is ftp), as documented at
+<a class="reference external" href="http://www.redhat.com/docs/manuals/linux/RHL-8.0-Manual/ref-guide/s1-pam-config-files.html">http://www.redhat.com/docs/manuals/linux/RHL-8.0-Manual/ref-guide/s1-pam-config-files.html</a></p>
+<p>Knowing the services is the first step, being able to put them into HBAC
+rules is the next. The problems with the current design are:</p>
+<ul class="simple">
+<li><p>A rule has only one service (or all services)</p></li>
+<li><p>There is no grouping mechanism, so even if we allowed multiple
+services in a rule one would have to manually manage this.</p></li>
+</ul>
+<p>I’m proposing a PAM service object and groups of these objects as a
+solution.</p>
+<p>These objects will be stored in <code class="docutils literal notranslate"><span class="pre">cn=hbacservices,cn=accounts</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cn=hbacservicegroups,cn=accounts</span></code></p>
+<p>A PAM Service object is defined as:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClasses: (2.16.840.1.113730.3.8.4.XX NAME 'ipaHBACService' AUXILIARY</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">MUST ( cn ) MAY ( description ) X-ORIGIN 'IPA v2' )</span></code></div>
+</div>
+<p>An example of a an entry is:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=sshd,cn=hbacservices,cn=accounts,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipahbacservice</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: sshd</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">description: SSH</span></code></div>
+</div>
+<p>A PAM Service group is defined as:</p>
+<div class="line-block">
+<div class="line"><a href="#id1"><span class="problematic" id="id2">``</span></a>objectClasses: (2.16.840.1.113730.3.8.4.XX NAME ‘ipaHBACServiceGroup’ ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">DESC 'IPA HBAC service group object class' SUP nestedGroup STRUCTURAL</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">X-ORIGIN 'IPA v2' )</span></code></div>
+</div>
+<p>A sample group entry looks like:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=logins,cn=hbacservices,cn=accounts,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipahbacservicegroup</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: nestedGroup</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupOfNames</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: logins</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">description: services that allow logins</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: cn=sshd,cn=hbacservices,cn=accounts,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">member: cn=login,cn=hbacservices,cn=accounts,dc=example,dc=com</span></code></div>
+</div>
+<p>The all rule for services will be handled by a new attribute,
+serviceCategory, in the ipaHBACRule objectclass.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.3.XX NAME 'serviceCategory' DESC</span></code></div>
+<div class="line"><a href="#id3"><span class="problematic" id="id4">``</span></a>’Additional classification for services’ EQUALITY caseIgnoreMatch ORDERING ``</div>
+<div class="line"><a href="#id5"><span class="problematic" id="id6">``</span></a>caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX ``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v2' )</span></code></div>
+</div>
+<p>IPA will ship with a set of preconfigured individual services including
+an <code class="docutils literal notranslate"><span class="pre">all</span></code> service that means any service will match. The default
+services will include:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* sshd</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* ftp</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* su</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* sudo</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* su-l</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* login</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* sudo-i (Added in version 2.0)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* gdm (Added in version 2.0)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* gdm-password (Added in version 2.0)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* kdm (Added in version 2.0)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* gssftp (Added in version 2.1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* proftpd (Added in version 2.1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* pure-ftpd (Added in version 2.1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* vsftpd (Added in version 2.1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* crond (Added in version 3.1)</span></code></div>
+</div>
+<p>Two new IPA plugins will be required to manage these entries:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* hbacsvc</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">* hbacsvcgroup</span></code></div>
+</div>
+<p>I might be convinced to not shorten service to svc but it seems like
+quite a lot for the command-line.</p>
+<p>The hbac plugin will drop the serviceName attribute and add a
+memberService attribute to store the DNs of either individual services
+or groups of services.</p>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/PAMServices.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

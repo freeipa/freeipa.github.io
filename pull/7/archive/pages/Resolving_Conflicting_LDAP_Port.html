@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Requests for upstream" href="Roadmap.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="ReleaseDate.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>Both IPA and Samba are providing LDAP services on port 389. If installed
+on the same machine, these services will conflict with each other. To
+solve this problem, the machine must have multiple IP addresses, then
+the services must bind to different addresses.</p>
+</section>
+<section id="configuring-ipa">
+<span id="id1"></span><h1>Configuring IPA<a class="headerlink" href="#configuring-ipa" title="Permalink to this heading">¶</a></h1>
+<p>IPA can listen to a specific address by specifying the
+nsslapd-listenhost parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">listenhost</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">port</span><span class="p">:</span> <span class="mi">389</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">securelistenhost</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">nsslapd</span><span class="o">-</span><span class="n">secureport</span><span class="p">:</span> <span class="mi">636</span>
+</pre></div>
+</div>
+<p>Note that IPA can only listen to one IP address.</p>
+<p>The socket is created in ldap/servers/slapd/main.c and
+ldap/servers/slapd/daemon.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="o">//</span> <span class="n">get</span> <span class="n">port</span>
+    <span class="n">n_port</span> <span class="o">=</span> <span class="n">config_get_port</span><span class="p">();</span>
+    <span class="n">ports_info</span><span class="o">.</span><span class="n">n_port</span> <span class="o">=</span> <span class="p">(</span><span class="n">unsigned</span> <span class="n">short</span><span class="p">)</span><span class="n">n_port</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">get</span> <span class="n">listen</span> <span class="n">address</span>
+    <span class="n">slapd_listenhost2addr</span><span class="p">(</span><span class="n">config_get_listenhost</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">ports_info</span><span class="o">.</span><span class="n">n_listenaddr</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">create</span> <span class="n">sockets</span>
+    <span class="n">daemon_pre_setuid_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ports_info</span><span class="p">);</span>
+
+    <span class="n">slapd_daemon</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ports_info</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">daemon_pre_setuid_init</span><span class="p">(</span><span class="n">daemon_ports_t</span> <span class="o">*</span><span class="n">ports</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="o">//</span> <span class="n">create</span> <span class="n">sockets</span>
+    <span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_socket</span> <span class="o">=</span> <span class="n">createprlistensockets</span><span class="p">(</span><span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_port</span><span class="p">,</span> <span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_listenaddr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">slapd_daemon</span><span class="p">(</span><span class="n">daemon_ports_t</span> <span class="o">*</span><span class="n">ports</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="o">//</span> <span class="n">get</span> <span class="n">sockets</span>
+    <span class="n">n_tcps</span> <span class="o">=</span> <span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_socket</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">iterate</span> <span class="n">through</span> <span class="n">each</span> <span class="n">socket</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">fdesp</span> <span class="o">=</span> <span class="n">n_tcps</span><span class="p">;</span> <span class="n">fdesp</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">fdesp</span><span class="p">;</span> <span class="n">fdesp</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">socket</span>
+        <span class="n">PR_Listen</span><span class="p">(</span><span class="o">*</span><span class="n">fdesp</span><span class="p">,</span> <span class="n">DAEMON_LISTEN_SIZE</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-samba">
+<span id="id2"></span><h1>Configuring Samba<a class="headerlink" href="#configuring-samba" title="Permalink to this heading">¶</a></h1>
+<p>Samba services can listen to specific interfaces only by adding the
+following parameters in smb.conf:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
+    <span class="n">interfaces</span>           <span class="o">=</span> <span class="n">eth1</span><span class="p">,</span> <span class="n">eth4</span>
+    <span class="n">bind</span> <span class="n">interfaces</span> <span class="n">only</span> <span class="o">=</span> <span class="n">Yes</span>
+</pre></div>
+</div>
+<p>Note that the port number is not configurable. Each interface
+corresponds to one IP address.</p>
+<p>The socket is created in source4/ldap_server/ldap_server.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NTSTATUS</span> <span class="n">server_service_ldap_init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">register_server_service</span><span class="p">(</span><span class="s2">&quot;ldap&quot;</span><span class="p">,</span> <span class="n">ldapsrv_task_init</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">static</span> <span class="n">void</span> <span class="n">ldapsrv_task_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">task_server</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="o">//</span> <span class="k">if</span> <span class="s2">&quot;interfaces&quot;</span> <span class="ow">and</span> <span class="s2">&quot;bind interfaces only&quot;</span> <span class="n">are</span> <span class="n">defined</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lp_interfaces</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">lp_bind_interfaces_only</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">))</span> <span class="p">{</span>
+
+        <span class="o">//</span> <span class="n">load</span> <span class="n">interfaces</span>
+        <span class="n">load_interfaces</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">lp_interfaces</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ifaces</span><span class="p">);</span>
+        <span class="n">num_interfaces</span> <span class="o">=</span> <span class="n">iface_count</span><span class="p">(</span><span class="n">ifaces</span><span class="p">);</span>
+
+        <span class="o">//</span> <span class="n">iterate</span> <span class="n">through</span> <span class="n">each</span> <span class="n">interface</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_interfaces</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="o">//</span> <span class="n">get</span> <span class="n">interface</span> <span class="n">address</span>
+            <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span> <span class="o">=</span> <span class="n">iface_n_ip</span><span class="p">(</span><span class="n">ifaces</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+            <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">address</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">add_socket</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="n">model_ops</span><span class="p">,</span>
+                <span class="n">address</span><span class="p">,</span> <span class="n">ldap_service</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-virtual-ip-address">
+<span id="id3"></span><h1>Creating Virtual IP Address<a class="headerlink" href="#creating-virtual-ip-address" title="Permalink to this heading">¶</a></h1>
+<p>Make sure the machine has an network interface with a static IP address.
+Create a new network interface as its child:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sysconfig</span><span class="o">/</span><span class="n">network</span><span class="o">-</span><span class="n">scripts</span>
+<span class="o">%</span> <span class="n">cp</span> <span class="n">ifcfg</span><span class="o">-</span><span class="n">eth0</span> <span class="n">ifcfg</span><span class="o">-</span><span class="n">eth0</span><span class="p">:</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Edit ifcfg-eth0:0:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEVICE</span><span class="o">=</span><span class="n">eth0</span><span class="p">:</span><span class="mi">0</span>
+<span class="n">IPADDR</span><span class="o">=&lt;</span><span class="n">new</span> <span class="n">IP</span> <span class="n">address</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Restart networking service:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">service</span> <span class="n">network</span> <span class="n">restart</span>
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/8.1/cli/Configuration_Command_File_Reference-Core_Server_Configuration_Reference-Core_Server_Configuration_Attributes_Reference.html#Configuration_Command_File_Reference-cnconfig-nsslapd_listenhost_Listen_to_IP_Address">nsslapd-listenhost (Listen to IP
+Address)</a></p></li>
+<li><p><a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/8.1/cli/Configuration_Command_File_Reference-Core_Server_Configuration_Reference-Core_Server_Configuration_Attributes_Reference.html#Configuration_Command_File_Reference-cnconfig-nsslapd_port_Port_Number">nsslapd-port (Port
+Number)</a></p></li>
+<li><p><a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/8.1/cli/Configuration_Command_File_Reference-Core_Server_Configuration_Reference-Core_Server_Configuration_Attributes_Reference.html#Configuration_Command_File_Reference-cnconfig-nsslapd_securelistenhost">nsslapd-securelistenhost</a></p></li>
+<li><p><a class="reference external" href="http://www.redhat.com/docs/manuals/dir-server/8.1/cli/Configuration_Command_File_Reference-Core_Server_Configuration_Reference-Core_Server_Configuration_Attributes_Reference.html#Configuration_Command_File_Reference-cnconfig-nsslapd_securePort_Encrypted_Port_Number">nsslapd-securePort (Encrypted Port
+Number)</a></p></li>
+<li><p><a class="reference external" href="http://us6.samba.org/samba/docs/man/Samba-HOWTO-Collection/NetworkBrowsing.html#id2583165">Multiple
+Interfaces</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Resolving_Conflicting_LDAP_Port.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Promotion_to_CRL_generation_master.html" />
+    <link rel="prev" title="Overview" href="Performance_Improvements.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>The internal workings of Permissions and their relationship to ACIs are
+overhauled.</p>
+<ul class="simple">
+<li><p>Permission flags are extended to ensure backwards compatibility</p></li>
+<li><p>Permission ACIs may be located in any container, not just $SUFFIX</p></li>
+<li><p>Permission entries now contain all data needed to (re-)generate (or
+check) the ACI</p></li>
+<li><p>It is now possible to grant read rights</p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>This feature brings no major user-visible changes, but will enable
+development of <a class="reference external" href="V3/Managed_Read_permissions">Managed Read
+permissions</a>.</p>
+<p>The UI is re-organized and the CLI now allows some previously disabled
+combinations of options – see the respective sections.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="v2-permissions">
+<span id="id1"></span><h2>V2 permissions<a class="headerlink" href="#v2-permissions" title="Permalink to this heading">¶</a></h2>
+<p>This document describes the semantics of “V2” permissions. These are
+permissions with a “V2” flag.</p>
+<p>V2 permissions cannot be modified by older versions of IPA. An old-style
+permission will be converted to V2 whenever it is modified.</p>
+<p>Assigning permissions to privileges will still be possible on older IPA
+servers.</p>
+</section>
+<section id="permission-flags">
+<span id="id2"></span><h2>Permission flags<a class="headerlink" href="#permission-flags" title="Permalink to this heading">¶</a></h2>
+<p>Permission objects can have flags in their “ipaPermissionType”
+attribute. Currently we use one such flag, SYSTEM, which means that the
+underlying ACI is not managed by the Permission object. The code does
+not even assume an underlying ACI exists for SYSTEM permissions.</p>
+<p>The permission flags will be repurposed to allow adding new
+functionality while retaining a degree of backwards compatibility.</p>
+<p>New flags will be added for additional features. Permissions that have
+an unknown flag will be assumed to have unknown semantics implemented in
+future IPA versions, and the underlying ACI will not be manipulated (as
+with current SYSTEM flags).</p>
+<p>For compatibility with old versions of IPA, all new flags must be
+accompanied by SYSTEM. Permissions with <em>only</em> the SYSTEM flag retain
+the old semantics.</p>
+</section>
+<section id="data-in-the-permission-entry">
+<span id="id3"></span><h2>Data in the permission entry<a class="headerlink" href="#data-in-the-permission-entry" title="Permalink to this heading">¶</a></h2>
+<p>The new permission objects will contain all data needed to generate (or
+check) the ACI. This means IPA code will no longer need to parse ACIs
+(except when upgrading old permissions). Any change to a Permission will
+result in removing any old ACI and adding a new one.</p>
+<p>The new schema (including schema from other related designs) is as
+follows:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.42 NAME 'ipaPermDefaultAttr' DESC 'IPA permission default attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.43 NAME 'ipaPermIncludedAttr' DESC 'IPA permission explicitly included attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.44 NAME 'ipaPermExcludedAttr' DESC 'IPA permission explicitly excluded attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.45 NAME 'ipaPermBindRuleType' DESC 'IPA permission bind rule type' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.46 NAME 'ipaPermLocation' DESC 'Location of IPA permission ACI' EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.47 NAME 'ipaPermRight' DESC 'IPA permission rights' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.48 NAME 'ipaPermTargetFilter' DESC 'IPA permission target filter' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.11.49 NAME 'ipaPermTarget' DESC 'IPA permission target' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClasses: (2.16.840.1.113730.3.8.12.21 NAME 'ipaPermissionV2' DESC 'IPA Permission objectclass, version 2' SUP ipaPermission AUXILIARY MUST ( ipaPermissionType $ ipaPermBindRuleType $ ipaPermRight $ ipaPermLocation ) MAY ( ipaPermDefaultAttr $ ipaPermIncludedAttr $ ipaPermExcludedAttr $ ipaPermTargetFilter $ ipaPermTarget ) X-ORIGIN 'IPA v3' )</span></code></div>
+</div>
+<p>(Note: ipaPermIncludedAttr was known as ipaPermAllowedAttr in the first
+versions of this document, and in the patches that implement it. It has
+been renamed for <a class="reference external" href="V3/Managed_Read_permissions">V3/Managed Read
+permissions</a>.)</p>
+<ul class="simple">
+<li><p>ipaPermIncludedAttr lists the attributes of the ACI; for example:</p></li>
+</ul>
+<div class="line-block">
+<div class="line">``   ipaPermIncludedAttr: cn``</div>
+<div class="line">``   ipaPermIncludedAttr: sn``</div>
+</div>
+<ul class="simple">
+<li><p>the other ipaPerm*Attr are for Managed permissions, will be explained
+in <a class="reference external" href="V3/Managed_Read_permissions">V3/Managed Read permissions</a></p></li>
+<li><p>ipaPermBindRuleType is for general access ACIs, will be explained in
+<a class="reference external" href="V3/Anonymous_and_Any_permissions">V3/Anonymous and Any
+permissions</a>; default:</p></li>
+</ul>
+<p>``   ipaPermBindRuleType: permission``</p>
+<ul class="simple">
+<li><p>ipaPermLocation is the location of the ACI in the tree.</p></li>
+</ul>
+<p>``   ipaPermLocation: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</p>
+<ul class="simple">
+<li><p>ipaPermRight is the right(s) the permission grants; for example:</p></li>
+</ul>
+<div class="line-block">
+<div class="line">``   ipaPermRight: add``</div>
+<div class="line">``   ipaPermRight: write``</div>
+</div>
+<ul class="simple">
+<li><p>ipaPermTargetFilter is the target filter part of the ACI, for
+example:</p></li>
+</ul>
+<p>``   ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com)``</p>
+<ul class="simple">
+<li><p>ipaPermTarget is the target part of the ACI, as a DN with possible
+wildcards; for example:</p></li>
+</ul>
+<p>``   ipaPermTarget: uid=*,cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</p>
+</section>
+<section id="moving-acis-out-of-the-root">
+<span id="id4"></span><h2>Moving ACIs out of the root<a class="headerlink" href="#moving-acis-out-of-the-root" title="Permalink to this heading">¶</a></h2>
+<p>ACIs will be created on appropriate containers, rather than in the
+$SUFFIX. This will increase performance of LDAP operations, as fewer
+ACIs need to be checked for an entry.</p>
+<p>The location of the ACI will be determined by <code class="docutils literal notranslate"><span class="pre">ipaPermLocation</span></code>.</p>
+</section>
+<section id="option-attribute-mapping">
+<span id="optionattribute-mapping"></span><h2>Option/Attribute mapping<a class="headerlink" href="#option-attribute-mapping" title="Permalink to this heading">¶</a></h2>
+<p>Due to technical reasons, API parameters need to be named the same as
+LDAP attributes. (This assumption runs rather deep in the framework, and
+makes adding new LDAP attributes for previously existing options
+somewhat complicated.)</p>
+<p>In each of the following pairs of options, the two are mutually
+exclusive; if the second is present it acts as the first one. The second
+option will only be available when called with a lower API version than
+the one where V2 permissions are introduced.</p>
+<div class="line-block">
+<div class="line">``  API name            CLI name``</div>
+<div class="line">``  ——————————-``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/ ipapermright        permissions</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">\ permissions         (no_cli)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/ ipapermincludedattr  attrs</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">\ attrs               (no_cli)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/ ipapermtargetfilter filter</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">\ filter              (no_cli)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/ ipapermlocation     subtree</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">\ subtree             (no_cli)</span></code></div>
+</div>
+<p>A new no-cli option will be added: <code class="docutils literal notranslate"><span class="pre">ipapermtarget</span></code>.</p>
+<p>IPA will validate the filter before setting it by performing a search.</p>
+<p>Finally, 3 existing options will be available to set the above:</p>
+<p><code class="docutils literal notranslate"><span class="pre">memberof</span></code> will set target filter to <code class="docutils literal notranslate"><span class="pre">(memberOf={group})</span></code>, after
+checking that the group exists. <code class="docutils literal notranslate"><span class="pre">memberof</span></code> and <code class="docutils literal notranslate"><span class="pre">filter</span></code> are mutually
+exclusive.</p>
+<p><code class="docutils literal notranslate"><span class="pre">targetgroup</span></code> will set target to
+<code class="docutils literal notranslate"><span class="pre">`ldap:///{group}</span></code> &lt;<a class="reference external" href="ldap:///%7Bgroup%7D">ldap:///%7Bgroup%7D</a>&gt;`__, after checking that the
+group exists. <code class="docutils literal notranslate"><span class="pre">targetgroup</span></code> and <code class="docutils literal notranslate"><span class="pre">target</span></code> are mutually exclusive.</p>
+<p><code class="docutils literal notranslate"><span class="pre">type</span></code> will set target and subtree to one of pre-defined values
+correspondint to IPA object types. <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">subtree</span></code> and <code class="docutils literal notranslate"><span class="pre">target</span></code>
+are mutually exclusive.</p>
+<p>These values will be output if the filter/target/location values match
+the respective patterns.</p>
+<p>Note that this introduces an incompatibility: when a permission “type”
+is set, updating it to “memberof” or “targetgroup” will NOT reset all
+aspects of “type”, as was the case before. (This change is part of
+<a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2355">ticket 2355</a> - Allow
+filter and subtree to be added in same permission)</p>
+<p>Also Note that <code class="docutils literal notranslate"><span class="pre">subtree</span></code> (ipapermlocation) must now always refer to an
+existing entry; wildcards or non-existent DNs are not allowed.</p>
+</section>
+<section id="add-noaci-command">
+<span id="id5"></span><h2>add_noaci command<a class="headerlink" href="#add-noaci-command" title="Permalink to this heading">¶</a></h2>
+<p>There is no expectation of backwards compatibility for
+<code class="docutils literal notranslate"><span class="pre">permission_add_noaci</span></code>. This command will be marked as internal.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<p>See the Test Plan below.</p>
+</section>
+<section id="compatibility-with-old-clients">
+<span id="id6"></span><h2>Compatibility with old clients<a class="headerlink" href="#compatibility-with-old-clients" title="Permalink to this heading">¶</a></h2>
+<p>For clients which report an API version lower than the one of this
+feature, the output will be modified to keep basic compatibility. A new
+“permissions2” capability will be added to track the version.</p>
+<p>Attributes ipapermright, ipapermincludedattr, ipapermtargetfilter,
+ipapermlocation will be output under their old names: permissions,
+attrs, filter, subtree.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">targetgroup</span></code>, and <code class="docutils literal notranslate"><span class="pre">memberof</span></code> will be output as single
+values rather than single-element lists.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">subtree</span></code> (ipapermlocation), the entry will also be made
+single-valued, and a ‘<a class="reference external" href="ldap:///">ldap:///</a>’ prefix will be added to it.</p>
+</section>
+<section id="modifying-and-upgrading-permissions">
+<span id="id7"></span><h2>Modifying and Upgrading Permissions<a class="headerlink" href="#modifying-and-upgrading-permissions" title="Permalink to this heading">¶</a></h2>
+<p>A permission object can not be modified if:</p>
+<ul class="simple">
+<li><p>it has any unknown flags (<code class="docutils literal notranslate"><span class="pre">ipaPermissionType</span></code>), or</p></li>
+<li><p>it has *only* the SYSTEM flag</p></li>
+</ul>
+<p>The process for modifying a permission (and its ACI) is as follows:</p>
+<p>1. Before a permission object is changed, location of its corresponding
+ACI is found using the old permission name and ipaPermLocation (which
+defaults to $SUFFIX).</p>
+<p>2. If the permission object does not have any flags (i.e. it is an
+old-style permission), the ACI is parsed and appropriate attributes are
+set on the Python representation of the entry, the SYSTEM and V2 flags
+are added, and the ipaPermissionV2 objectclass is added. The new ACI
+string is calculated from this.</p>
+<p>3. If the location (subtree) did *not* change, the old ACI is replaced
+by the new ACI.</p>
+<ol class="arabic simple" start="4">
+<li><p>If the location (subtree) changed, the old ACI is removed.</p></li>
+<li><p>The permission entry is updated in LDAP.</p></li>
+<li><p>If the location (subtree) changed, the new ACI is added.</p></li>
+</ol>
+</section>
+<section id="adding-and-deleting-permissions">
+<span id="id8"></span><h2>Adding and Deleting Permissions<a class="headerlink" href="#adding-and-deleting-permissions" title="Permalink to this heading">¶</a></h2>
+<p>When adding, the ACI is inserted after the permission entry.</p>
+<p>When deleting, the ACI is deleted first, then the permission entry.</p>
+</section>
+<section id="mass-update">
+<span id="id9"></span><h2>Mass update<a class="headerlink" href="#mass-update" title="Permalink to this heading">¶</a></h2>
+<p>Old permisisons can be updated to V2 by running the process in
+“Modifying and Upgrading Permissions” on all permissions without the
+SYSTEM flag. We can run this process on upgrade (for example in the
+release where we introduce an audit tool), or just let users upgrade
+manually.</p>
+<p>The decision on when/if to do this has been postponed.</p>
+<p>(The upgrade-on-modify mechanism, and permission-{find,show} for
+old-style permissions, need to be in place in any case, because
+old-style permisisons can be created on old servers.)</p>
+</section>
+<section id="find-show-for-old-permissions">
+<span id="findshow-for-old-permissions"></span><h2>Find/show for old permissions<a class="headerlink" href="#find-show-for-old-permissions" title="Permalink to this heading">¶</a></h2>
+<p>Old-style permissions will continue be recognized by
+permission-{find,show} commands.</p>
+<p>The show command will upgrade the entry (in memory, without commiting to
+LDAP), before outputting data.</p>
+<p>This “output only” upgrade is the same as step 2 in “Modifying and
+Upgrading Permissions”, except it will not touch the flags, i.e. “V2”
+and “SYSTEM” will not be added, and the ‘ipaPermissionV2’ objectclass is
+not added.</p>
+<p>The find command will iterate through all old-stryle permissions, do the
+“output-only” upgrade on each one, and filter the result based on given
+options.</p>
+</section>
+<section id="read-rights">
+<span id="id10"></span><h2>Read rights<a class="headerlink" href="#read-rights" title="Permalink to this heading">¶</a></h2>
+<p>The “read”, “search”, and “compare” rights are added to “write”, “add”,
+“delete”, and “all” in the list of rights that can be granted
+(ipaPermRight).</p>
+</section>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>The UI will need to be updated to use the attribute names in the API,
+see the “Option/Attribute mapping” section.</p>
+</section>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui-1">
+<span id="id11"></span><h2>UI<a class="headerlink" href="#ui-1" title="Permalink to this heading">¶</a></h2>
+<p>As part of the related <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2355">ticket
+2355</a>, The UI is
+reorganized to allow type, filter, subtree, targetgroup to be specified
+independently.</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>As part of the related <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2355">ticket
+2355</a>, the type,
+filter, subtree, targetgroup options are no longer mutually exclusive</p></li>
+<li><p>The type is a convenience option that sets rawfilter and subtree on
+input, and is computed from them on output</p></li>
+</ul>
+</section>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>See <a class="reference external" href="V3/Permissions_V2/tests">dedicated Test Plan page</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Permissions_V2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

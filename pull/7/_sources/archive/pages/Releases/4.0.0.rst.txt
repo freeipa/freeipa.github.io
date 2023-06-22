@@ -1,0 +1,1454 @@
+The FreeIPA team is proud to announce FreeIPA v4.0.0!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. As this
+is a major release, we did not add it to any stable Fedora release
+(yet), but we want to first give you a chance to test that yourself with
+a `COPR
+repository <https://copr.fedoraproject.org/coprs/pviktori/freeipa/>`__.
+
+.. _highlights_in_4.0.0:
+
+Highlights in 4.0.0
+-------------------
+
+Enhancements
+~~~~~~~~~~~~
+
+-  Support **Kerberos-based OTP authentication** both natively with
+   tokens managed by FreeIPA server and via Radius proxy (3rd party 2FA
+   authentication server).
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3371>`__,
+   `design <V4/OTP>`__)
+-  **Access control** in FreeIPA server was reworked and a concept of
+   permissions/ACIs managed by FreeIPA plugin was introduced. The
+   plugins have now a way to control which objects and attributes should
+   be visible and to whom. The administrators can now change the default
+   settings and whitelist or blacklist additional attributes or change
+   the entire visibility of a specific FreeIPA function (users, groups,
+   SUDO, ...) to anonymous, authenticated users or just a group of
+   privileged users.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3566>`__,
+   `design <V4/Permissions_V2>`__)
+-  Web UI adopted `Patternfly <https://www.patternfly.org/>`__\ **open
+   interface project** to promote design commonality and improved user
+   experience. Web UI is now responsive and adapts to different screen
+   sizes like mobile or tablets. Additionally, many usability or minor
+   Web UI issues were fixed.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3902>`__,
+   `design <V4/PatternFly_Adoption>`__)
+-  Experimental **DNSSEC inline-signing support**
+   (`ticket <https://fedorahosted.org/freeipa/ticket/4408>`__,
+   `design <https://fedorahosted.org/bind-dyndb-ldap/wiki/BIND9/Design/DNSSEC>`__)
+-  DNS management plugin now allows **internationalized domain names**.
+   Administrators can now enter the DNS records in unicode and have the
+   management plugin do the conversion to IDN encoding (punycode). The
+   DNS plugin supports the IDNA 2003 standard.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3169>`__)
+-  FreeIPA DNS plugin did not distinguish between master and **forward
+   zones** and both were merged in one type of object. To remove the
+   inconsistency, DNS plugin now distinguishes between these 2 types and
+   separate commands were added for managing forward zones.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3210>`__,
+   `design <V4/Forward_zones>`__)
+-  Support the **SubjectAltNames certificate extension** in FreeIPA
+   service certificates. Certificates with SAN names are useful for load
+   balancing when a node needs to present itself both with its FQDN and
+   the balanced address.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3977>`__)
+-  ipa-client-install now automatically configures **SUDO** support on
+   client machines, thus making FreeIPA SUDO integration very easy to
+   use. (`ticket <https://fedorahosted.org/freeipa/ticket/3358>`__)
+-  ipa-getkeytab can now **fetch** an existent Kerberos keytab for a
+   chosen service. This allows fetching the same keytab on multiple
+   hosts which is useful in cluster deployments. The operation is
+   authorized via the allowedToPerform;read_keys attribute, stored on
+   the target entry, which contains a DN of a user or a group allowed to
+   get the keys without resetting them.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3859>`__,
+   `design <V4/Keytab_Retrieval>`__)
+-  ipa-client-install now uploads the FreeIPA CA certificate in a
+   **system-wide certificate store**, thus making it trusted by all
+   other services on the OS.
+   (`ticket <https://fedorahosted.org/freeipa/ticket/3504>`__)
+-  Add automember-rebuild command allowing to apply all automember rules
+   to existing objects (users,
+   hosts).(`ticket <https://fedorahosted.org/freeipa/ticket/3752>`__,
+   `design <V4/Automember_rebuild_membership>`__)
+-  ... and many other minor enhancements
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+-  User and group operations no longer raise internal error when working
+   with large user bases
+-  ipa-client-install no longer distributes non-working Firefox
+   configuration for the Web UI. Admin can use the new
+   --configure-firefox option to install a fixed configuration file to
+   chosen directory.
+-  XMLRPC system commands were not implemented. FreeIPA now supports
+   system.listMethods, system.methodSignature and system.methodHelp
+-  ipa-kdb loaded global configuration only on startup and never changed
+   it until restart. Now, it checks the new configuration every 60
+   seconds.
+-  sudo plugin runAsUser option now accepts external group
+-  sudo plugin runAsGroup option was not generated in the sudoers compat
+   tree correctly
+-  sudo plugin did not allow host IP address masks
+-  DNS plugin had a too restrictive zone/record name validator, it is
+   much more relaxed now.
+-  ipa-backup recursively backed up old backups fron /var/lib/ipa/backup
+-  /etc/ssh/sshd_config is no longer garbled in case it did not contain
+   a trailing new line
+-  Server/replica installer now does not crash on systems with low
+   entropy. Warnings are issued when entropy is too low and long
+   installation times are expected
+-  ... and many other minor bug fixes or bug fixes related to major
+   enhancements in this release
+
+.. _fa_kerberos_authenication:
+
+2FA Kerberos Authenication
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FreeIPA now provides support for two-factor authentication (2FA) via
+Kerberos. FreeIPA can integrate into exising OTP systems by proxying
+requests over RADIUS. FreeIPA also provides integrated support for the
+open-standard TOTP (RFC 6238) and HOTP (RFC 4226) tokens, including
+`YubiKey <http://www.yubico.com/>`__ and FreeOTP
+(`iOS <https://itunes.apple.com/us/app/freeotp/id872559395>`__ or
+`Android <https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp>`__).
+
+Administrators can configure individual users for RADIUS proxy or
+HOTP/TOTP. In the latter case, once enabled for HOTP/TOTP, users can
+provision, manage and synchronize their own tokens via the CLI or UI.
+Administrators can also create tokens on behalf of users, with the
+option to grant management permissions to the user. If the user does not
+have management permissions, the token is read only (except
+synchronization).
+
+When dealing with hardware tokens, administrators can bulk-import the
+token metadata using the industry standard Portable Symmetric Key
+Container XML (RFC 6030) files.
+
+Limitations
+^^^^^^^^^^^
+
+As this is our first release, it comes with some limitations.
+
+HOTP has concerns about scalability in large replication environments
+due to the frequent need to replicate the token counter across the
+cluster. For this reason, FreeIPA defaults to TOTP tokens.
+
+TOTP has a known issue where tokens can be re-used within a short
+window. This is due to lacking high-watermark support. Implementing this
+restriction without careful consideration for the impact on replication
+could result in similar problems to HOTP (above).
+
+The workflow for changing passwords causes problems with HOTP tokens.
+This is most noticable when passwords expire. In the case of the Web UI,
+logins will simply fail. As a workaround for this, the password can
+simply be changed using the CLI. In the case of SSSD logins, the login
+will succeed but the password change will appear to fail while actually
+succeeding.
+
+Currently there is no workflow for lost tokens.
+
+.. _reworked_control_access:
+
+Reworked Control Access
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Permissions can be set to apply to *anonymous* or *all* authenticated
+users, or use the existing privilege/role system of assigning rights to
+specific users. (`design <V4/Anonymous_and_All_permissions>`__)
+
+Previously, all of the directory, except a few security-sensitive
+attributes, was readable by anyone that could connect to the directory
+server, even anonymous users. Instead, FreeIPA 4.0 uses fine-grained
+permissions to grant read access.
+(`design <V4/Managed_Read_permissions>`__) This change may render some
+information unreadable to unprivileged users. To grant read rights,
+create or find a permission that governs read access to the offending
+attribute(s), and either add it to an appropriate role, or set its bind
+rule to 'all' or 'anonymous'.
+
+FreeIPA's existing default add/modify/delete permissions were also
+reworked. The default permissions have the "System:" name prefix, and do
+not allow structural modifications. Administrators of deployments where
+default permissions were customized beyond attribute lists and
+privilege/role membership should carefully read the *Documentation
+draft* and *Upgrade considerations* sections of the `design
+page <V4/Managed_Read_permissions>`__, and to test before deploying
+FreeIPA 4.0 to production.
+
+Permissions in FreeIPA 4.0 are more flexible, allowing arbitrary
+combinations of type, subtree and filters.
+(`design <V4/Multivalued_target_filters_in_permissions>`__)
+
+Note that permissions that were created or modified on a FreeIPA 4.0
+server, including FreeIPA's default permissions, can *not* be modified
+on older servers. Adding them to privileges is still possible on any
+server.
+
+.. _dns_master_and_forward_zones:
+
+DNS Master and Forward Zones
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New command ``ipa dnsforwardzone`` was introduced and **semantics of
+``--forwarder`` option for ``ipa dnszone`` command was changed** to
+match BIND semantics.
+
+Functionality previously provided by command
+``ipa dnszone-* --forwarder`` is from FreeIPA 4.0 provided by command
+``ipa dnsforwardzone-* --forwarder``.
+
+Sematics of the old command **``ipa dnszone``** now matches BIND
+semantics for **master** zone type. I.e. local BIND replies
+authoritatively to queries for data in given zone (including
+authoritative NXDOMAIN answers for non-existent names) and forwarding
+affects only queries made by BIND to answer recursive queries which
+cannot be answered locally. I.e. forwarding affects only queries for
+names below zone cuts (NS records) of locally served zones. For further
+explanation please see:
+
+-  https://lists.isc.org/pipermail/bind-users/2006-January/060810.html
+-  https://lists.isc.org/pipermail/bind-users/2011-March/083244.html
+
+The new command **``ipa dnsforwardzone``** offers semantics equivalent
+to BIND **forward** zone type. Forward zone does not contain any
+authoritative data and forward queries which cannot be answered from
+local cache to configured servers.
+
+Forwarding policy is documented in `section "Forwarding" in BIND 9
+Configuration
+Reference <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#id2583370>`__.
+
+.. _experimental_dnssec_support:
+
+Experimental DNSSEC Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DNS zones served by FreeIPA can be secured with
+`DNSSEC <http://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions>`__.
+The signing process is fully automatic but **signing keys have to be
+provided by user manually** and all keys need to be copied to all
+FreeIPA DNS servers.
+
+On the first FreeIPA server you can generate signing keys with following
+commands (please replace "$ZONE" with zone name without trailing period,
+e.g. "example.com"):
+
+| ``cd "/var/named/dyndb-ldap/ipa/$ZONE/keys"``
+| ``dnssec-keygen -3 -b 2048 -f KSK "$ZONE"``
+| ``dnssec-keygen -3 -b 2048 "$ZONE"``
+
+At this point you need to **securely** copy all files in directory
+``/var/named/dyndb-ldap/ipa/$ZONE/keys`` from the first server to all
+other FreeIPA DNS servers. On all servers you have to fix filesystem
+permissions and inform ``named`` that keys are in place:
+
+| ``cd "/var/named/dyndb-ldap/ipa/$ZONE/keys"``
+| ``chown named: *``
+| ``chmod u=rw,go= *``
+| ``rndc sign "$ZONE"``
+
+Now is your zone signed with given keys. As a last step, it is necessary
+to add DS records to your parent zone. See `man
+dnssec-dsfromkey <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/man.dnssec-dsfromkey.html>`__
+and `man
+dnssec-checkds <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/man.dnssec-checkds.html>`__
+or ask parent zone operator for guidance.
+
+To enable NSEC3 for given zone you have to specify `NSEC3PARAM
+record <http://tools.ietf.org/html/rfc5155#section-4>`__. For example:
+
+``ipa dnszone-mod "$ZONE" --nsec3param-rec="1 0 8 1B3140F28A1C"``
+
+For `security reasons <https://eprint.iacr.org/2010/115.pdf>`__ it is
+recommended **not to use** `NSEC3 opt-out
+feature <http://tools.ietf.org/html/rfc5155#section-6>`__.
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note that if you are doing the upgrade in special environment
+(e.g. FedUp) which does not allow running the LDAP server during upgrade
+process, upgrade scripts need to be run manually after the first boot:
+
+| ``# ipa-ldap-updater --upgrade``
+| ``# ipa-upgradeconfig``
+
+Also note that the performance improvements require an extended set of
+indexes to be configured. RPM update for an IPA server with a excessive
+number of users may require several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks, not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 3.3.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+.. _transformation_master_to_forward_zones:
+
+Transformation Master to Forward zones
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Zones with specified forwarders, with policy different than *none*, are
+transformed to forward zones. All master zones data are backed up in
+**/var/lib/ipa/backup/dns-forward-zones-backup-%Y-%m-%d-%H-%M-%S.ldif**.
+
+Transformation to forward zones, is executed only once, by one replica
+only, and only if ipa version is lower than 4.0.
+
+Since this upgrade, you should use forward zones to forwarding queries.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+.. _detailed_changelog_since_3.3.0:
+
+Detailed Changelog since 3.3.0
+------------------------------
+
+| ``Adam Misnyovszki (17):``
+| ``     ipactl can not restart ipa services if current status is stopped``
+| ``     Add --force option to ipactl``
+| ``     Certificate search max_serial_number problem fixed``
+| ``     Extending user plugin with inetOrgPerson fields``
+| ``     CA-less tests generate failure``
+| ``     automember rebuild nowait feature added``
+| ``     plugin registration refactoring for automembership``
+| ``     CI - test_forced_client_reenrollment stability fix``
+| ``     webui doc: typo fixes in guides``
+| ``     webui: select all checkbox remains selected after operation``
+| ``     plugin registration refactoring for pwpolicy``
+| ``     Trust add datetime fix``
+| ``     webui OTP token test data added``
+| ``     webui static site delete command fixed``
+| ``     webui tests: callback, assert_disabled feature added``
+| ``     webui tests: range test extended``
+| ``     Call generate-rndc-key.sh during ipa-server-install``
+| ``Alexander Bokovoy (39):``
+| ``     Remove systemd upgrader as it is not used anymore``
+| ``     ipa-sam: do not modify objectclass when trust object already created``
+| ``     ipa-sam: do not leak LDAPMessage on ipa-sam initialization``
+| ``     ipa-sam: report supported enctypes based on Kerberos realm configuration``
+| ``     ipaserver/dcerpc.py: populate forest trust information using realmdomains``
+| ``     trusts: support subdomains in a forest``
+| ``     frontend: report arguments errors with better detail``
+| ``     ipaserver/dcerpc: remove use of trust account authentication``
+| ``     trust: integrate subdomains support into trust-add``
+| ``     ipasam: for subdomains pick up defaults for missing values``
+| ``     KDC: implement transition check for trusted domains``
+| ``     ipa-kdb: Handle parent-child relationship for subdomains``
+| ``     Guard import of adtrustinstance for case without trusts``
+| ``     Map NT_STATUS_INVALID_PARAMETER to most likely error cause: clock skew``
+| ``     subdomains: Use AD admin credentials when trust is being established``
+| ``     trust: fix get_dn() to distinguish creating and re-adding trusts``
+| ``     trust-fetch-domains: create ranges for new child domains``
+| ``     trustdomain-find: report status of the (sub)domain``
+| ``     ipaserver/install/installutils: clean up properly after yield``
+| ``     group-show: resolve external members of the groups``
+| ``     ipa-adtrust-install: configure host netbios name by default``
+| ``     ipasam: delete trusted child domains before removing the trust``
+| ``     libotp: do not call internal search for NULL dn``
+| ``     bindinstance: make sure zone manager is initialized in add_master_dns_records``
+| ``     ipa-kdb: in case of delegation use original client's database entry, not the proxy``
+| ``     ipa-kdb: make sure we don't produce MS-PAC in case of authdata flag cleared by admin``
+| ``     trustdomain_find: make sure we skip short entries when --pkey-only is specified``
+| ``     trust: make sure we always discover topology of the      forest trust``
+| ``     ipaserver/dcerpc: catch the case of insuffient permissions when establishing trust``
+| ``     adtrustinstance: make sure to stop and disable winbind in uninstall()``
+| ``     fix filtering of subdomain-based trust users``
+| ``     ipa-kdb: do not fetch client principal if it is the same as existing entry``
+| ``     ipaserver/dcerpc: make sure to always return unicode SID of the trust domain``
+| ``     trust: do not fetch subdomains in case shared secret was used to set up the trust``
+| ``     schema-compat: set precedence to 49 to allow OTP binds over compat tree``
+| ``     freeipa.spec.in: update dependencies to 389-ds and selinux-policy``
+| ``     Fix packaging issue with doubly specified directories``
+| ``     Add missing ipa-otptoken-import.1.gz to spec file``
+| ``     ipa-ldap-updater: make possible to use LDAPI with autobind in case of hardened LDAP configuration``
+| ``Ana Krivokapić (33):``
+| ``     Handle --subject option in ipa-server-install``
+| ``     Fix handling of CSS files in sync.sh script``
+| ``     Fix broken replica installation``
+| ``     Add integration tests for Kerberos Flags``
+| ``     Fix tests which fail after ipa-adtrust-install``
+| ``     Add integration tests for forced client re-enrollment``
+| ``     Create DS user and group during ipa-restore``
+| ``     Add warning when uninstalling active replica``
+| ``     Add option to ipa-client-install to configure automount``
+| ``     Replace ntpdate calls with ntpd``
+| ``     Fix invocations of FileError in ipa-client-install``
+| ``     Do not crash if DS is down during server uninstall``
+| ``     Do not show unexpected error in ipa-ldap-updater``
+| ``     Follow tmpfiles.d packaging guidelines``
+| ``     Add ipa-advise plugins for nss-pam-ldapd legacy clients``
+| ``     Do not roll back failed client installation on server``
+| ``     Make sure nsds5ReplicaStripAttrs is set on agreements``
+| ``     Add test for external CA installation``
+| ``     Fix regression which prevents creating a winsync agreement``
+| ``     Use EXTERNAL auth mechanism in ldapmodify``
+| ``     Add automember rebuild command``
+| ``     Add a privilege and a permission needed for automember rebuild command``
+| ``     Add unit tests for automember rebuild command``
+| ``     Fix error message when adding duplicate automember rule``
+| ``     Add automember rebuild command to the web UI``
+| ``     Web UI integration test driver enhancement``
+| ``     Add web UI integration tests for automember rebuild``
+| ``     Add userClass attribute for users``
+| ``     WebUI: Add userClass attribute to user and host pages``
+| ``     Make Expression field required when adding automember condition``
+| ``     Make sure state of services is preserved after client uninstall``
+| ``     Enable Retro Changelog and Content Synchronization DS plugins``
+| ``     Improve error message on failed Kerberos authentication``
+| ``Gabe (8):``
+| ``     ipa-join usage instructions are incorrect``
+| ``     Typo in warning message where IPA realm and domain name differ``
+| ``     Fix order of synchronizing time when running ipa-client-install``
+| ``     fix typo in ipa -v migrate-ds``
+| ``     ipa-client-automount should not configure nsswitch.conf manually``
+| ``     ipa recursively adds old backups``
+| ``     ipautil.run args log message is confusing``
+| ``     Add version and API version``
+| ``Jakub Hrozek (2):``
+| ``     EXTDOM: Do not overwrite domain_name for INP_SID``
+| ``     trusts: combine filters with AND to make sure only the intended domain matches``
+| ``Jan Cholasta (105):``
+| ``     Make PKCS#12 handling in ipa-server-certinstall closer to what other tools do.``
+| ``     Port ipa-server-certinstall to the admintool framework.``
+| ``     Remove unused NSSDatabase and CertDB method find_root_cert_from_pkcs12.``
+| ``     Ignore empty mod error when updating DS SSL config in ipa-server-certinstall.``
+| ``     Replace only the cert instead of the whole NSS DB in ipa-server-certinstall.``
+| ``     Untrack old and track new cert with certmonger in ipa-server-certinstall.``
+| ``     Add --pin option to ipa-server-certinstall.``
+| ``     Ask for PKCS#12 password interactively in ipa-server-certinstall.``
+| ``     Fix nsSaslMapping object class before configuring SASL mappings.``
+| ``     Add --dirman-password option to ipa-server-certinstall.``
+| ``     Fix ipa-server-certinstall usage string.``
+| ``     Fix service-disable in CA-less install.``
+| ``     Fix nsslapdPlugin object class after initial replication.``
+| ``     Read passwords from stdin when importing PKCS#12 files with pk12util.``
+| ``     Allow PKCS#12 files with empty password in install tools.``
+| ``     Track DS certificate with certmonger on replicas.``
+| ``     Make LDAPEntry a wrapper around dict rather than a dict subclass.``
+| ``     Introduce IPASimpleLDAPObject.decode method for decoding LDAP values.``
+| ``     Always use lists for values in LDAPEntry internally.``
+| ``     Decode and encode attribute values in LDAPEntry on demand.``
+| ``     Make sure attributeTypes updates are done before objectClasses updates.``
+| ``     Remove legacy toDict and origDataDict methods of LDAPEntry.``
+| ``     Store encoded attribute values from search results directly in entry objects.``
+| ``     Use encoded values from entry objects directly when generating modlists.``
+| ``     Use encoded values from entry objects directly when adding new entries.``
+| ``     Turn LDAPEntry.single_value into a dictionary-like property.``
+| ``     Remove mod_ssl port workaround.``
+| ``     Move IPA specific code from LDAPClient to the ldap2 plugin.``
+| ``     Add wrapper for result3 to IPASimpleLDAPObject.``
+| ``     Support searches with paged results control in LDAPClient.``
+| ``     Refactor indirect membership processing.``
+| ``     Remove unused method get_api of the ldap2 plugin.``
+| ``     Use hardening flags for ipa-optd.``
+| ``     Own /usr/share/ipa/ui/js/ in the spec file.``
+| ``     Prefer user CFLAGS/CPPFLAGS over those provided by rpmbuild in the spec file.``
+| ``     Include LDFLAGS provided by rpmbuild in global LDFLAGS in the spec file.``
+| ``     Add stricter default CFLAGS to Makefile.``
+| ``     Fix compilation error in ipa-cldap.``
+| ``     Remove CFLAGS duplication.``
+| ``     Fix internal error in the user-status command.``
+| ``     Convert remaining backend code to LDAPEntry API.``
+| ``     Prevent garbage from readline on standard output of dogtag-ipa-retrieve-agent.``
+| ``     PKI service restart after CA renewal failed``
+| ``     Rename LDAPEntry method commit to reset_modlist.``
+| ``     Use old entry state in LDAPClient.update_entry.``
+| ``     Move LDAPClient method get_single_value to IPASimpleLDAPObject.``
+| ``     Make IPASimpleLDAPObject.get_single_value result overridable.``
+| ``     Use LDAPClient.update_entry for LDAP mods in ldapupdate.``
+| ``     Reduce amount of LDAPEntry.reset_modlist calls in ldapupdate.``
+| ``     Add LDAPEntry method generate_modlist.``
+| ``     Remove unused LDAPClient methods get_syntax and get_single_value.``
+| ``     Remove legacy LDAPEntry properties data and orig_data.``
+| ``     Store old entry state in dict rather than LDAPEntry.``
+| ``     Do not crash on bad LDAP data when formatting decode error message.``
+| ``     Use raw LDAP data in ldapupdate.``
+| ``     Fix ipa-client-automount uninstall when fstore is empty.``
+| ``     Do not start the service in stopped_service if it was not running before.``
+| ``     Increase service startup timeout default.``
+| ``     Fix ntpd config on clients.``
+| ``     Get original entry state from LDAP in LDAPUpdate.``
+| ``     Convert remaining installer code to LDAPEntry API.``
+| ``     Convert remaining update code to LDAPEntry API.``
+| ``     Convert remaining test code to LDAPEntry API.``
+| ``     Raise an exception when legacy LDAP API is used.``
+| ``     Convert remaining frontend code to LDAPEntry API.``
+| ``     Remove sourcehostcategory from the default HBAC rule.``
+| ``     Always use real entry DNs for memberOf in ldap2.``
+| ``     Fix modlist generation code not to generate empty replace mods.``
+| ``     Log unhandled exceptions in certificate renewal scripts.``
+| ``     Fix certificate renewal scripts to work with separate CA DS instance.``
+| ``     Move CACERT definition to a single place.``
+| ``     Do not create CA certificate files in CA-less server install.``
+| ``     Use LDAP API to upload CA certificate instead of ldapmodify command.``
+| ``     Upload CA certificate from DS NSS database in CA-less server install.``
+| ``     Remove unused method export_ca_cert of dsinstance.``
+| ``     Show progress when enabling SSL in DS in ipa-server-install output.``
+| ``     Use certmonger D-Bus API to configure certmonger in CA install.``
+| ``     Add new certmonger CA helper dogtag-ipa-ca-renew-agent.``
+| ``     Update pkcs10 module functions to always load CSRs and allow selecting format.``
+| ``     Remove unused function get_subjectaltname from the cert plugin.``
+| ``     Add function for parsing friendly name from certificate requests.``
+| ``     Support retrieving renewed certificates from LDAP in dogtag-ipa-ca-renew-agent.``
+| ``     Use dogtag-ipa-ca-renew-agent to retrieve renewed certificates from LDAP.``
+| ``     Remove dogtag-ipa-retrieve-agent-submit.``
+| ``     Support storing renewed certificates to LDAP in dogtag-ipa-ca-renew-agent.``
+| ``     Use dogtag-ipa-ca-renew-agent to track certificates on master CA.``
+| ``     Store information about which CA server is master for renewals in LDAP.``
+| ``     Make the default dogtag-ipa-ca-renew-agent behavior depend on CA setup.``
+| ``     Merge restart_pkicad functionality to renew_ca_cert and remove restart_pkicad.``
+| ``     Merge restart_httpd functionality to renew_ra_cert.``
+| ``     Use the same certmonger configuration for both CA masters and clones.``
+| ``     Update certmonger configuration in ipa-upgradeconfig.``
+| ``     Support exporting CSRs in dogtag-ipa-ca-renew-agent.``
+| ``     Remove unused method is_master of CAInstance.``
+| ``     Fix upload of CA certificate to LDAP in CA-less install.``
+| ``     Fix update_ca_renewal_master plugin on CA-less installs.``
+| ``     Allow primary keys to use different type than unicode.``
+| ``     Support API version-specific RPC marshalling.``
+| ``     Replace get_syntax method of IPASimpleObject with new get_type method.``
+| ``     Use raw attribute values in command result when --raw is specified.``
+| ``     Keep original name when setting attribute in LDAPEntry.``
+| ``     Allow SAN in IPA certificate profile.``
+| ``     Support requests with SAN in cert-request.``
+| ``     Remove GetEffectiveRights control when ldap2.get_effective_rights fails.``
+| ``     Do not corrupt sshd_config in client install when trailing newline is missing.``
+| ``Jan Pazdziora (1):``
+| ``     Adding verb to error message to make it less confusing.``
+| ``Jason Woods (1):``
+| ``     ipa-sam: cache gid to sid and uid to sid requests in idmap cache``
+| ``Krzysztof Klimonda (1):``
+| ``     Fix -Wformat-security warnings``
+| ``Lukáš Slebodník (1):``
+| ``     BUILD: Fix portability of NSS in file ipa_pwd.c``
+| ``Martin Bašti (72):``
+| ``     Added warning if cert '/etc/ipa/ca.crt' exists``
+| ``     ipa-client-install: Added options to configure firefox``
+| ``     Removed old firefox configuration scripts``
+| ``     Changed CLI to allow to use FILE as optional param``
+| ``     migrate-ds added --ca-cert-file=FILE option``
+| ``     PTR records can be added without specify FQDN zone name``
+| ``     DNS classless support for reverse domains``
+| ``     DNS tests for classless reverse domains``
+| ``     Fix test_host_plugin for DNS Classless Reverse zones``
+| ``     Allows to sort non text entries``
+| ``     DNSName type``
+| ``     DNSNameParam parameter``
+| ``     dns_name_values capability added``
+| ``     get_ancestors_primary_keys clone``
+| ``     CLI conversion of DNSName type``
+| ``     DNSName conversion in ipaldap``
+| ``     Modified has_output attributes``
+| ``     Modified dns related global functions``
+| ``     Modified records and zone parameters to use DNSNameParam``
+| ``     Modified record and zone class to support IDN``
+| ``     _domain_name_validatord moved from DNS to realmdomains``
+| ``     move hostname validation from DNS to hosts``
+| ``     DNS modified tests``
+| ``     DNS new tests``
+| ``     PTR record target can be relative``
+| ``     Test DNS: wildcard in RR owner``
+| ``     Fix indentation``
+| ``     Test DNS: dnsrecord-* zone.test. zone.test. should work``
+| ``     Make zonenames absolute in host plugin``
+| ``     Python-kerberos update in freeipa.spec.in``
+| ``     Separate master and forward DNS zones``
+| ``     Prevent commands to modify different type of a zone``
+| ``     Create BASE zone class``
+| ``     Tests DNS: forward zones``
+| ``     Fix handle python-dns UnicodeError``
+| ``     DNSSEC: remove unsuported records``
+| ``     DNSSEC: added NSEC3PARAM record type``
+| ``     DNSSEC: webui update DNSSEC attributes``
+| ``     Tests: remove unused records from tests``
+| ``     Tests: tests for NSEC3PARAM records``
+| ``     DNSSEC: DLVRecord type added``
+| ``     DNSSEC: Test: DLV record``
+| ``     Digest part in DLV/DS records allows only heaxadecimal characters``
+| ``     DNSSEC: WebUI add DLV record type``
+| ``     Fix ipa.service restart``
+| ``     Fix incompatible DNS permission``
+| ``     Added upgrade step executed before schmema is upgraded``
+| ``     Upgrade special master zones to forward zones``
+| ``     Check normalization only for IDNA domains``
+| ``     DNSSEC: add TLSA record type``
+| ``     DNSSEC: WebUI: add TLSA record``
+| ``     Fix ACI in DNS``
+| ``     Remove NSEC3PARAM record``
+| ``     Add NSEC3PARAM to zone settings``
+| ``     NSEC3PARAM tests``
+| ``     Allow to add non string values to named conf``
+| ``     DNSSEC: Add experimental support for DNSSEC``
+| ``     Add warning about semantic change for zones``
+| ``     Add DNSSEC experimental support warning message``
+| ``     Use documentation addresses in dns help``
+| ``     Help for forward zones``
+| ``     Split dns docstring``
+| ``     Fix upgrade to forward zones``
+| ``     Fix incompatible permission name *zone-del``
+| ``     Non IDNA zonename should be normalized to lowercase``
+| ``     Fix tests dns_realmdomains_integration``
+| ``     Fix: Missing ACI for records in 40-dns.update``
+| ``     Restore privileges after forward zones update``
+| ``     Allow to add managed permission for reverse zones``
+| ``     Test DNS: test zone normalization``
+| ``     Test DNS: TLSA record``
+| ``     Test DNS: add zone with consecutive dash characters``
+| ``Martin Košek (58):``
+| ``     Bump 3.4 development version to 3.3.90``
+| ``     Prevent *.pyo and *.pyc multilib problems``
+| ``     Remove rpmlint warnings in spec file``
+| ``     Fix selected minor issues in the spec file and license``
+| ``     Use FQDN when creating MSDCS SRV records``
+| ``     Do not set DNS discovery domain in server mode``
+| ``     Require new SSSD to pull required AD subdomain fixes``
+| ``     Remove faulty DNS memberOf Task``
+| ``     Do not allow '%' in DM password``
+| ``     Remove --no-serial-autoincrement``
+| ``     PKI installation on replica failing due to missing proxy conf``
+| ``     Use consistent realm name in cainstance and dsinstance``
+| ``     Winsync re-initialize should not run memberOf fixup task``
+| ``     Installer should always wait until CA starts up``
+| ``     Administrative password change does not respect password policy``
+| ``     Do not add kadmin/changepw ACIs on new installs``
+| ``     Make set_directive and get_directive more strict``
+| ``     Remove mod_ssl conflict``
+| ``     Add nsswitch.conf to FILES section of ipa-client-install man page``
+| ``     Remove ipa-pwd-extop and ipa-enrollment duplicate error strings``
+| ``     Remove deprecated AllowLMhash config``
+| ``     Server does not detect different server and IPA domain``
+| ``     Allow kernel keyring CCACHE when supported``
+| ``     Consolidate .gitignore entries``
+| ``     Increase Java stack size on PPC platforms``
+| ``     Increase Java stack size on s390 platforms``
+| ``     Revert restart scripts file permissions change``
+| ``     hbactest does not work for external users``
+| ``     sudoOrder missing in sudoers``
+| ``     Add missing example to sudorule``
+| ``     Remove missing VERSION warning in dnsrecord-mod``
+| ``     Hide trust-resolve command``
+| ``     Add runas option to run function``
+| ``     Switch httpd to use default CCACHE``
+| ``     httpd should destroy all CCACHEs``
+| ``     ntpconf: remove redundant comment``
+| ``     Fallback to global policy in ipa-lockout plugin``
+| ``     ipa-lockout: do not fail when default realm cannot be read``
+| ``     Migration does not add users to default group``
+| ``     .mailmap: use correct name format for Adam``
+| ``     Avoid passing non-terminated string to is_master_host``
+| ``     ipa-replica-install never checks for 7389 port``
+| ``     Fix idrange unit test failure``
+| ``     Update Dogtag 9 database during replica installation``
+| ``     Proxy PKI clone /ca/ee/ca/profileSubmit URI``
+| ``     Add missing dependencies to freeipa-python package``
+| ``     Add requires for pki-core-10.1.1-1.fc20``
+| ``     Make ipa-client-automount backwards compatible``
+| ``     Make trust objects available to regular users``
+| ``     Revert "Check for password expiration in pre-bind"``
+| ``     Add python-yubico to BuildRequires``
+| ``     Fix objectClass casing in LDIF to prevent schema update error``
+| ``     Let Host Administrators use host-disable command``
+| ``     Remove python-cherrypy BuildRequires``
+| ``     Update X-ORIGIN for 4.0``
+| ``     Clear NSS session cache when socket is closed``
+| ``     Add Modify Realm Domains permission``
+| ``     Prepare spec for 4.0 release``
+| ``Nalin Dahyabhai (3):``
+| ``     Add missing dependency``
+| ``     Accept any alias, not just the last value``
+| ``     Restore krbCanonicalName handling``
+| ``Nathaniel McCallum (41):``
+| ``     Bypass ipa-replica-conncheck ssh tests when ssh is not installed``
+| ``     Ensure credentials structure is initialized``
+| ``     Document no_search in Param flags``
+| ``     Don't special case the Password class in Param.__init__()``
+| ``     Add optional_create flag``
+| ``     Allow multiple types in Param type validation``
+| ``     Add IntEnum parameter to ipalib``
+| ``     Add support for managing user auth types``
+| ``     Add RADIUS proxy support to ipalib CLI``
+| ``     Add OTP support to ipalib CLI``
+| ``     Add rpmbuild/ to .gitignore``
+| ``     Move ipa-otpd socket directory``
+| ``     Fix OTP token names/labels``
+| ``     Fix generation of invalid OTP URIs``
+| ``     Update ACIs to permit users to add/delete their own tokens``
+| ``     ipa-kdb: validate that an OTP user has tokens``
+| ``     Enable building in C99 mode``
+| ``     Add libotp internal library for slapi plugins``
+| ``     Add support to ipa-kdb for keyless principals``
+| ``     Add HOTP support``
+| ``     Add OTP last token plugin``
+| ``     Add OTP sync support to ipa-pwd-extop``
+| ``     Teach ipa-pwd-extop to respect global ipaUserAuthType settings``
+| ``     Use super() properly to avoid an exception``
+| ``     Make all ipatokenTOTP attributes mandatory``
+| ``     Remove NULLS from constants.py``
+| ``     Rework how otptoken defaults are handled``
+| ``     Fix token secret length RFC compliance``
+| ``     Fix a typo in the otptoken doc string``
+| ``     kdb: Don't provide password expiration when using only RADIUS``
+| ``     Only specify the ipatokenuniqueid default in the add operation``
+| ``     Default the token owner to the person adding the token``
+| ``     Update all remaining plugins to the new Registry API``
+| ``     Add support for managedBy to tokens``
+| ``     Periodically refresh global ipa-kdb configuration``
+| ``     Make otptoken use os.urandom() for random data``
+| ``     Implement OTP token importing``
+| ``     Change OTPSyncRequest structure to use OctetString``
+| ``     Add /session/token_sync POST support``
+| ``     Add the otptoken-add-yubikey command``
+| ``     Add otptoken-sync command``
+| ``Nick Hatch (1):``
+| ``     Don't exclude symlinks when loading plugins``
+| ``Petr Viktorin (258):``
+| ``     Allow freeipa-tests to work with older paramiko versions``
+| ``     Allow API plugin registration via a decorator``
+| ``     Add missing license header to ipa-test-config``
+| ``     Add CA-less install tests``
+| ``     Add man pages for testing tools``
+| ``     Remove __all__ specifications in ipaclient and ipaserver.install``
+| ``     Make make-lint compatible with Pylint 1.0``
+| ``     Move tests to test directories``
+| ``     Convert test_ipautil from unittest to nose``
+| ``     Add missing dict methods to CIDict``
+| ``     Raise an error when updating CIDict with duplicate keys``
+| ``     Use correct super-calls in get_args() methods``
+| ``     test_integration.host: Move transport-related functionality to a new module``
+| ``     test_integration: Add OpenSSHTransport, used if paramiko is not available``
+| ``     ipatests.test_integration.test_caless: Fix mkdir_recursive call``
+| ``     ipatests.beakerlib_plugin: Warn instead of failing when some logs are missing``
+| ``     ipatests.order_plugin: Exclude test generators from the order``
+| ``     ipatests.beakerlib_plugin: Add argument of generated tests to test captions``
+| ``     ipatests.test_cmdline.test_help: Re-raise unexpected exceptions on failure``
+| ``     Add tests for installing with empty PKCS#12 password``
+| ``     Update translations from Transifex``
+| ``     ipa-client-install: Use direct RPC instead of api.Command``
+| ``     ipa-client-install: Verify RPC connection with a ping``
+| ``     Do not fail upgrade if the global anonymous read ACI is not found``
+| ``     ipapython.nsslib: Name arguments to NSPRError``
+| ``     test_ipalib.test_crud: Don't use a string in takes_options``
+| ``     Add tests for the IntEnum class``
+| ``     test_caless.TestCertInstall: Fix 'test_no_ds_password' test case``
+| ``     Use new CLI options in certinstall tests``
+| ``     Use a user result template in tests``
+| ``     test_simple_replication: Fix waiting for replication``
+| ``     Fix date in last changelog entry``
+| ``     Update Permission and ACI plugins to decorator registration API``
+| ``     Fix indentation in permission plugin tests``
+| ``     Fix invalid assumption NSS initialization check in SSLTransport``
+| ``     Help plugin: don't fail if a topic's module is not found``
+| ``     Use new ipaldap entry API in aci and permission plugin``
+| ``     Improve permission plugin test cleanup``
+| ``     Tests: mkdir_recursive: Don't fail when top-level directory doesn't exist``
+| ``     beakerlib plugin: Don't try to submit logs if they are missing``
+| ``     Fix debug output in integration test``
+| ``     Add tests for user auth type management``
+| ``     Remove unused utf8_encode_value functions``
+| ``     ldapupdate: Factor out connection code``
+| ``     dsinstance: Move the list of schema filenames to a constant``
+| ``     Add schema updater based on IPA schema files``
+| ``     Update the man page for ipa-ldap-updater``
+| ``     Remove schema modifications from update files``
+| ``     Remove schema special-casing from the LDAP updater``
+| ``     Make schema files conform to new updater``
+| ``     Add formerly update-only schema``
+| ``     Unify capitalization of attribute names in schema files``
+| ``     Update translations from Transifex``
+| ``     Add ConcatenatedLazyText object``
+| ``     Break long doc string in the Host plugin``
+| ``     Improve LDAPEntry.__repr__ for freshly created entries``
+| ``     Remove changelog from the spec``
+| ``     Switch client to JSON-RPC``
+| ``     Make jsonserver_kerb start a cookie-based session``
+| ``     Add server/protocol type to rpcserver logs``
+| ``     Add tests for the radiusproxy plugin``
+| ``     test_integration: Support external names for hosts``
+| ``     test_integration: Log external hostname in Host.ldap_connect``
+| ``     Regression test for user_status crash``
+| ``     test_webui: Allow False values in configuration for no_ca, no_dns, has_trusts``
+| ``     Allow sets for initialization of frozenset-typed Param keywords``
+| ``     Allow Declarative test classes to specify the API version``
+| ``     Add tests for permission plugin with older clients``
+| ``     Add new permission schema``
+| ``     Rewrite the Permission plugin``
+| ``     Verify ACIs are added correctly in tests``
+| ``     Roll back ACI changes on failed permission updates``
+| ``     permission plugin: Ensure ipapermlocation (subtree) always exists``
+| ``     Make sure SYSTEM permissions can be retreived with --all --raw``
+| ``     Test adding noaci/system permissions to privileges``
+| ``     Remove default from the ipapermlocation option``
+| ``     permission_find: Do not fail for ipasearchrecordslimit=-1``
+| ``     cli.print_attribute: Convert values to strings``
+| ``     Use new registration API in the privilege plugin``
+| ``     Allow anonymous and all permissions``
+| ``     rpcserver: Consolidate __call__ in xmlclient and jsonclient_kerb``
+| ``     Implement XML introspection``
+| ``     ipa-replica-install: Move check for existing host before DNS resolution check``
+| ``     integration tests OpenSSHTransport: Expand tilde to home in root_ssh_key_filename``
+| ``     ipa tool: Print the name of the server we are connecting to with -v``
+| ``     Add a .mailmap file``
+| ``     Correct Jenny Severance's last name``
+| ``     Update README and BUILD``
+| ``     Remove the TODO file``
+| ``     Permission plugin fixes``
+| ``     permission plugin: Convert options in execute, not args_options_2_params``
+| ``     permission plugin: Generate ACIs in the plugin``
+| ``     Make it possible to call custom functions in Declarative tests``
+| ``     Add support for managed permissions``
+| ``     .mailmap: Remove spurious Kyle Baker line``
+| ``     permission-mod: Do not copy member attributes to new entry``
+| ``     permissions: Use multivalued targetfilter``
+| ``     Add permission_filter_objectclasses for explicit type filters``
+| ``     Add tests for multivalued filters``
+| ``     Remove the unused ipalib.frontend.Property class``
+| ``     permission plugin: Do not assume attribute-level rights for new attributes are present``
+| ``     Update API.txt``
+| ``     ipalib.plugins: Expose LDAPObjects' eligibility for permission --type in JSON metadata``
+| ``     Test fixed modlist generation code``
+| ``     test_integration.config: Fix crash in to_env when no replica is defined``
+| ``     test_integration.config: Do not save the input environment``
+| ``     test_integration.config: Use a more declarative approach to test-wide settings``
+| ``     test_integration.config: Do not store the index in Domain and Host objects``
+| ``     test_integration.config: Load/store from/to dicts``
+| ``     test_integration.config: Add environment variables for JSON/YAML``
+| ``     ipa-test-config: Add --json and --yaml output options``
+| ``     test_integration.config: Convert some text values to str``
+| ``     Add tests for integration test configuration``
+| ``     ipalib.plugable: Always set the parser in bootstrap()``
+| ``     tests: Create the testing service certificate on demand``
+| ``     permission-mod: Remove attributelevelrights before reverting entry``
+| ``     permission plugin: Allow multiple values for memberof``
+| ``     permissions plugin: Don't crash with empty targetfilter``
+| ``     permission-find: Cache the root entry for legacy permissions``
+| ``     permission_add: Remove permission entry if adding the ACI fails``
+| ``     Do not hardcode path to ipa-getkeytab in tests``
+| ``     ipaserver.install.service: Fix estimated time display``
+| ``     permission plugin: Output the extratargetfilter virtual attribute``
+| ``     permission plugin: Write support for extratargetfilter``
+| ``     permission CLI: Rename filter to rawfilter, extratargetfilter to filter``
+| ``     permission plugin: Add tests for extratargetfilter``
+| ``     permission plugin: Support searching by extratargetfilter``
+| ``     permission plugin: Do not fail on non-DN memberof filters``
+| ``     permission plugin: Do not change extra target filters by "views"``
+| ``     Add Nathaniel McCallum to .mailmap``
+| ``     test_integration.tasks: Do not fail cleanup if backup directory does not exist``
+| ``     cli: Clean up imports``
+| ``     cli: Show list of values in --help for all Enums``
+| ``     cli: Add mechanism for deprecated option name aliases``
+| ``     permission CLI: rename --permissions to --right``
+| ``     permission plugin: Do not add the ipapermissionv2 for output``
+| ``     Allow indexing API object types by class``
+| ``     permission-find: Fix handling of the search term for legacy permissions``
+| ``     test_permission_plugin: Fix tests that make too broad assumptions``
+| ``     Allow modifying permissions with ":" in the name``
+| ``     Add Object metadata and update plugin for managed permissions``
+| ``     permission plugin: Add 'top' to the list of object classes``
+| ``     Allow anonymous read access to containers``
+| ``     Add managed read permissions to HBAC objects``
+| ``     Document the managed permission updater operation``
+| ``     Allow overriding all attributes of default permissions``
+| ``     ipalib.errors: Fix TaskTimeout doctest``
+| ``     Add managed read permissions to Sudo objects``
+| ``     Add managed read permissions to group``
+| ``     Add managed read permission to hostgroup``
+| ``     CA-less tests: Use sequential certificate serial numbers``
+| ``     Add mechanism for adding default permissions to privileges``
+| ``     Add managed read permissions to RBAC objects``
+| ``     Add managed read permissions to realmdomains``
+| ``     Add managed read permission for SELinux user map``
+| ``     test_realmdomains_plugin: Add default ACI to expected output``
+| ``     Add managed read permissions to host``
+| ``     Add managed read permissions to pwpolicy and cosentry``
+| ``     Fix expected output in permission tests``
+| ``     Add managed read permission to config``
+| ``     Add managed read permissions to krbtpolicy``
+| ``     Allow anonymous read access to Kerberos containers``
+| ``     Add managed read permission to idrange``
+| ``     Add managed read permission to automount``
+| ``     Do not ask for memberindirect when updating managed permissions``
+| ``     Add managed read permissions to automember``
+| ``     test_integration.host: Export the hostname to dict as string``
+| ``     Add a new ipaVirtualOperation objectClass to virtual operations``
+| ``     Extend anonymous read ACI for containers``
+| ``     Add managed read permission to service``
+| ``     Add support for non-plugin default permissions``
+| ``     Add several managed read permissions under cn=etc``
+| ``     test_ldap: Read a publicly accessible attribute when testing anonymous bind``
+| ``     aci-update: Trim the admin write blacklist``
+| ``     aci-update: Add ACI for read-only admin attributes``
+| ``     trust plugin: Remove ipatrustauth{incoming,outgoing} from default attrs``
+| ``     Add managed read permissions to trust``
+| ``     ipalib.aci: Add support for == and != operators to ACI``
+| ``     Move ACI tests to the testsuite``
+| ``     ipalib.aci: Allow alternate "aci" keyword in ACIs``
+| ``     ipa-client-automount: Use rpcclient, not xmlclient, for automountlocation_show``
+| ``     Replace "replica admins read access" ACI with a permission``
+| ``     ipalib.cli: Add filename argument to ipa console``
+| ``     Add managed read permissions to user``
+| ``     update_managed_permissions: Pass around anonymous ACI rather than its blacklist``
+| ``     Set user addressbook/IPA attribute read ACI to anonymous on upgrades from 3.x``
+| ``     Remove the global anonymous read ACI``
+| ``     ldap2.find_entries: Do not modify attrs_list in-place``
+| ``     ipalib.version: Add VENDOR_VERSION``
+| ``     admin tools: Log IPA version``
+| ``     dns: Add idnsSecInlineSigning attribute, add --dnssec option to zone``
+| ``     pwpolicy-mod: Fix crash when priority is changed``
+| ``     aci plugin: Fix internal error when ACIs are not readable``
+| ``     Add managed read permission for the UPG Definition``
+| ``     ldap2.has_upg: Raise an error if the UPG definition is not found``
+| ``     krbtpolicy plugin: Code cleanup``
+| ``     krbtpolicy plugin: Fix internal error when global policy is not readable``
+| ``     Add read permissions for automember tasks``
+| ``     ipalib.aci: Fix bugs in comparison``
+| ``     test_permission_plugin: limit results in targetfilter find test``
+| ``     Add mechanism for updating permissions to managed``
+| ``     Convert Sudo rule default permissions to managed``
+| ``     Add missing attributes to 'Modify Sudo rule' permission``
+| ``     Split long docstrings that were recently modified``
+| ``     managed perm updater: Handle case where we changed default ACIs in the past``
+| ``     Convert User default permissions to managed``
+| ``     Add missing attributes to User managed permissions``
+| ``     permission plugin: Sort rights when writing the ACI``
+| ``     Add method to enumerate managed permission templates``
+| ``     Add ACI.txt``
+| ``     Make 'permission' the default bind type for managed permissions``
+| ``     Make sure member* attrs are always granted together in read permissions``
+| ``     ipalib.frontend: Do API version check before converting arguments``
+| ``     ipalib.config: Only convert basedn to DN``
+| ``     ipalib.config: Don't autoconvert values to float``
+| ``     Fix self argument in tasks``
+| ``     managed permission updater: Add mechanism to replace SYSTEM permissions``
+| ``     Convert DNS default permissions to managed``
+| ``     Remove the update_dns_permissions plugin``
+| ``     Add $REALM to variables supported by the managed permission updater``
+| ``     Convert COSTemplate default permissions to managed``
+| ``     Convert Password Policy default permissions to managed``
+| ``     Allow read access to masters, but not their services, to auth'd users``
+| ``     Fix: Allow read access to masters, but not their services, to auth'd users``
+| ``     Allow anonymous read access to virtual operation entries``
+| ``     Test and docstring fixes``
+| ``     permission plugin: Join --type objectclass filters with OR``
+| ``     Add posixgroup to groups' permission object filter``
+| ``     Convert Host default permissions to managed``
+| ``     host permissions: Allow writing attributes needed for automatic enrollment``
+| ``     netgroup: Add objectclass attribute to read permissions``
+| ``     Convert Automount default permissions to managed``
+| ``     Convert Group default permissions to managed``
+| ``     Convert HBAC Rule default permissions to managed``
+| ``     Convert HBAC Service default permissions to managed``
+| ``     Convert HBAC Service Group default permissions to managed``
+| ``     Convert Hostgroup default permissions to managed``
+| ``     Convert Netgroup default permissions to managed``
+| ``     Convert the Modify privilege membership permission to managed``
+| ``     Convert Role default permissions to managed``
+| ``     Convert SELinux User Map default permissions to managed``
+| ``     Convert Service default permissions to managed``
+| ``     Convert Sudo Command default permissions to managed``
+| ``     Convert Sudo Command Group default permissions to managed``
+| ``     Add several CRUD default permissions``
+| ``     test_permission_plugin: Fix permission_find test for legacy permissions``
+| ``     Update translations``
+| ``     install/ui/build: Build core.js``
+| ``     permission plugin: Ignore unparseable ACIs``
+| ``     Allow admins to write krbLoginFailedCount``
+| ``     Do not fail if there are multiple nsDS5ReplicaId values in cn=replication,cn=etc``
+| ``     test_ipagetkeytab: Fix expected error message``
+| ``     test_ipaserver: Add OTP token test data to ipatests package``
+| ``     ldapupdate: Restore 'replace' functionality``
+| ``     Allow read access to services in cn=masters to auth'd users``
+| ``     makeaci: Use the DN where the ACI is stored, not the permission's DN``
+| ``     Update translations``
+| ``     Become IPA 4.0.0``
+| ``Petr Voborník (264):``
+| ``     Make ssh_widget not-editable if attr is readonly``
+| ``     Hide delete button in multivalued widget if attr is not writable``
+| ``     Removal of deprecated selenium tests``
+| ``     Add base-id, range-size and range-type options to trust-add dialog``
+| ``     Hide 'New Certificate' action on CA-less install``
+| ``     Web UI integration tests: CA-less``
+| ``     Web UI Integration tests: Kerberos Flags``
+| ``     Web UI integration tests: ID range types``
+| ``     Show human-readable error name in error dialog title``
+| ``     Update idrange search facet after trust creation``
+| ``     Fix RUV search scope in ipa-replica-manage``
+| ``     Fix redirection on deletion of last dns record entry``
+| ``     Allow edit of ipakrbokasdelegate in Web UI when attrlevelrights are unknown``
+| ``     Fix enablement of automount map type selector``
+| ``     ipatests.test_integration.host: Add logging to ldap_connect()``
+| ``     Load updated Web UI files after server upgrade``
+| ``     Removal of unused code``
+| ``     Web UI source code annotation``
+| ``     Configuration for JSDuck documentation generator``
+| ``     Phases Guide``
+| ``     Debugging Web UI guide``
+| ``     Plugin Infrastructure Guide``
+| ``     Navigation Guide``
+| ``     Registries and Build Guide``
+| ``     Fix password expiration notification``
+| ``     Fix license in some Web UI files``
+| ``     Increase stack size for Web UI builder``
+| ``     Remove SID resolve call from Web UI``
+| ``     Fix disabled logic of menu item``
+| ``     RCUE initial commit``
+| ``     Move RCUE styles to its own directory``
+| ``     Delete Overpass fonts in UI root``
+| ``     Use RCUE fonts``
+| ``     Updated sync.sh``
+| ``     Change menu rendering to match RCUE structure``
+| ``     Allow RCUE``
+| ``     Prefer Open Sans Regular font``
+| ``     Remove background``
+| ``     Remove width limit``
+| ``     Remove jquery UI``
+| ``     RCUE Navigation``
+| ``     RCUE Header``
+| ``     New header logo``
+| ``     Adapt password expiration notification to new navigation``
+| ``     Fix breadcrumb``
+| ``     Fix search facet table styling - bug in chrome``
+| ``     Fix action panel list styles``
+| ``     Remove jquery button usage and unify button code``
+| ``     Change undo to regular button``
+| ``     Change undo-all to regular button``
+| ``     New checkboxes and radio styles``
+| ``     Always create radio and checkbox with label``
+| ``     New Fluid form layout``
+| ``     Use Fluid layout be default``
+| ``     Do not display tooltip everywhere``
+| ``     RCUE dialog implementation``
+| ``     RCUE dialog close icon``
+| ``     Dialog keyboard behavior``
+| ``     Fluid layout in DNS Zone adder dialog``
+| ``     Fix Association adder dialog styling``
+| ``     CSS: make hostname in host adder dialog wider``
+| ``     Do not open dialog in a container``
+| ``     Remove left-margin from details-section``
+| ``     Fix h1 style in dialog``
+| ``     Fix radios behavior in automount map adder dialog``
+| ``     CSS: fix network activity indicator position in control panel``
+| ``     Fix padding of link buttons and labels in forms``
+| ``     CSS: fix footer padding``
+| ``     Fix hbac test styling``
+| ``     Fix search input styling``
+| ``     Combobox styles``
+| ``     Action list styling``
+| ``     Dojo event support in widgets``
+| ``     Display required, enabled and error widget states in fluid layout``
+| ``     Focus input on label click in fluid layout``
+| ``     Do not show section header in unauthorized dialog``
+| ``     username_r in password reset part of unauthorized dialog should be enabled as well``
+| ``     Fix notification area``
+| ``     Add style to dialog message area``
+| ``     Update Dojo to 1.9.1``
+| ``     Remove last usage of jQuery UI``
+| ``     Update jQuery to version 2.0.3``
+| ``     Add Font Awesome``
+| ``     Change font-awesome to be compilable by lesscpy``
+| ``     Font Awesome icons in header``
+| ``     Replace icons with the ones from Font Awesome``
+| ``     Status widgets icons``
+| ``     Facet title status icons``
+| ``     Use font awesome glyph for dialog close button``
+| ``     Font awesome glyphs as checkboxes and radios``
+| ``     Increase margin between facet control buttons``
+| ``     Fix association adder dialog table-body position``
+| ``     New header spinner``
+| ``     Increase distance between control buttons and facet-tabs``
+| ``     About dialog``
+| ``     Use fluid layout in host adder dialog fqdn widget``
+| ``     Web UI integration tests: maximize browser window by default``
+| ``     Use only system fonts``
+| ``     Trust domains Web UI``
+| ``     webui: Focus expand/collapse link in batch_error dialog``
+| ``     webui: Don't act on keyboard events which originated in different dialog``
+| ``     Added empty value meaning to boolean formatter``
+| ``     Declarative replacement of array item in specification object``
+| ``     Fixed doc examples in Spec_mod``
+| ``     Password Dialog``
+| ``     Use general password dialog for host OTP``
+| ``     Fix handling of action visibility change in action panel``
+| ``     UI for OTP tokens``
+| ``     UI for radius proxy``
+| ``     UI for managing user-auth types``
+| ``     Added QRcode generation to Web UI``
+| ``     Support OTP in form based auth``
+| ``     webui: use unique ids for checkboxes``
+| ``     webui: Datetime parsing and formatting``
+| ``     webui: remove hover effect from disabled action button``
+| ``     webui-css: improve radio,checkbox keyboard support and color``
+| ``     webui: do not use dom for getting selected automount keys``
+| ``     webui-static: update metadata files``
+| ``     webui: fix unit tests``
+| ``     webui: better check for existing options in attributes_widgets``
+| ``     webui: do not create ⟨hr⟩ delimiter between sections``
+| ``     webui: reflect enabled state in child widgets of a multivalued widget``
+| ``     webui: change permissions UI to v2``
+| ``     webui: update license information of used third party code``
+| ``     webui-ci: fix test_rebuild_membership_hosts on server without DNS``
+| ``     webui: rename domNode to dom_node``
+| ``     webui: make navigation module independent on app module``
+| ``     webui: move RPC code from IPA module to its own module``
+| ``     webui: replace IPA.command usage with rpc.command``
+| ``     webui: field and widget binding refactoring``
+| ``     webui: replace widget's hidden property with visible``
+| ``     webui: change widget updated event into value change event``
+| ``     webui-tests: binding test suite``
+| ``     webui: facet container``
+| ``     webui: FormMixin``
+| ``     webui: ContainerMixin``
+| ``     webui: standalone facet``
+| ``     webui: activity widget``
+| ``     webui: publish network activity topics``
+| ``     webui: load page``
+| ``     webui: validation summary widget``
+| ``     webui: login screen widget``
+| ``     webui: login page``
+| ``     webui: authentication module``
+| ``     webui: use asynchronous call for authentication``
+| ``     webui: fix combobox styles to work with selenium testing``
+| ``     webui-ci: adapt to new login screen``
+| ``     webui: remove IPA.unauthorized_dialog``
+| ``     webui: fix OTP Token add regression``
+| ``     webui: regression - enable fields on idrange type change (add)``
+| ``     webui-ci: adjust id range tests to new validator``
+| ``     webui: fix switching between multiple_choice_section choices``
+| ``     webui: otptoken-adder dialog - remove obsolete comment``
+| ``     migration: fix import of wsgiref.util``
+| ``     webui-ci: save screenshot on test failure``
+| ``     webui-ci: decorate all webui tests with screenshot decorator``
+| ``     rpcserver: login_password datetime fix in expiration check``
+| ``     Increase Java stack size for Web UI build on aarch64``
+| ``     webui: remove logout.html``
+| ``     webui: remove login.html``
+| ``     webui: add PaternFly css``
+| ``     webui: apply PatternFly login theme on reset_password.html``
+| ``     webui: apply PatternFly theme on config pages``
+| ``     webui: styles for alert icons``
+| ``     webui: apply PatternFly theme on migration pages``
+| ``     webui: remove remnants of jquery-ui``
+| ``     webui: remove unused icons``
+| ``     webui: remove unused collapsible feature from section``
+| ``     webui: remove unused images``
+| ``     webui: change absolutely positioned layout to fluid``
+| ``     webui: remove column sizing in tables, use PF styles``
+| ``     webui: change navigation from RCUE to PatternFly``
+| ``     webui: adjust styles to PatternFly``
+| ``     webui: display undo and multivalued delete buttons in input-group``
+| ``     webui: allow multiple base section layouts``
+| ``     webui: change breadcrumb to PatternFly``
+| ``     webui: use h1 in facet title instead of h3``
+| ``     webui: remove action list widget``
+| ``     webui: add action dropdown``
+| ``     webui: add space between action buttons's icon and text``
+| ``     webui: remove select action``
+| ``     webui: add confirmation to action dropdown actions``
+| ``     webui: move certificate actions to action dropdown``
+| ``     webui: move user reset password action to action dropdown``
+| ``     webui: patternFly dialog``
+| ``     webui: adjust association adder dialog to PatternFly``
+| ``     webui: activity indicators``
+| ``     webui: improve pagination``
+| ``     webui: do not show empty table footer``
+| ``     webui: restyle automember default group``
+| ``     webui: preload automember default group select list``
+| ``     webui: adjust login page to PatternFly``
+| ``     webui: use BS alerts in validation_summary_widget``
+| ``     webui-ci: select search table item - chrome issue``
+| ``     webui: remove old css for standalone pages``
+| ``     webui: adjust header controls alignment``
+| ``     webui: add search box placeholder text``
+| ``     webui: change control buttons to normal buttons``
+| ``     webui: certificate search - select search attribute only when defined``
+| ``     webui: association adder dialog - change find label to filter``
+| ``     webui: use dark color for facet titles without pkey``
+| ``     webui-ci: assert_action_list_action``
+| ``     webui: move host action panel actions to action dropdown``
+| ``     webui: move service action panel actions to action dropdown``
+| ``     webui: use normal buttons instead of link buttons in multivalued widget``
+| ``     webui: move radius proxy action panel commands to header actions``
+| ``     webui: proper alerts in dialogs``
+| ``     webui: use propert alerts in header notification area``
+| ``     webui: fix search box overlap in mobile mode``
+| ``     webui: fix layout of QR code on wide screens``
+| ``     webui: break long text in a code element in a modal``
+| ``     webui: fix regression: enabled gid field on group add``
+| ``     webui: add idnsSecInlineSigning option to DNS zone details facet``
+| ``     webui: simplify self-service menu``
+| ``     webui: display only dialogs which belong to current facet``
+| ``     webui: handle back button when unauthenticated``
+| ``     webui: fix SSH Key widget update``
+| ``     webui: handle "unknown" result of automember-default-group-show``
+| ``     webui: control sudo rule deny command tables by category switch``
+| ``     webui: add sudoorder field to sudo rule page``
+| ``     webui: move RPC result extraction logic to Adapter``
+| ``     webui: expose krbprincipalexpiration``
+| ``     webui: fix excessive registration of state change event listeners``
+| ``     webui: support standalone facets in navigation module``
+| ``     webui: generic routing``
+| ``     webui: add parent link to widgets in ContainerMixin``
+| ``     webui: plugin API``
+| ``     webui-ci: adjust tests to dns changes``
+| ``     webui: fix field's default value``
+| ``     webui: don't limit permission search in privileges``
+| ``     ldap2: add otp support to modify_password``
+| ``     rpcserver: add otp support to change_password handler``
+| ``     ipa-passwd: add OTP support``
+| ``     webui: support password change with OTP in login screen``
+| ``     webui: placeholder attribute support in textbox and textarea``
+| ``     webui: add placeholders to login screen``
+| ``     webui: rebase user password dialog on password dialog and add otp support``
+| ``     webui: support otp in reset_password.html``
+| ``     rpcserver: fix local vs utc time comparison``
+| ``     webui: add confirmation for dns zone permission actions``
+| ``     webui: dns forward zones``
+| ``     webui-ci: dns forward zone tests``
+| ``     webui-test: static metadata update``
+| ``     webui-test: dns forward zone json data``
+| ``     webui: fix detection of RPC command``
+| ``     webui: send API version in RPC requests``
+| ``     webui: extract rpc value from object envelope``
+| ``     webui: base class for LoginScreen-like facets``
+| ``     webui: add OTP token synchronization``
+| ``     webui: add link pointing to OTP sync page to login``
+| ``     webui: support global notifications in all containers``
+| ``     webui: bind Login facet and OTP sync facet``
+| ``     webui: fix confirmation mixin origin check``
+| ``     webui: layer for standalone pages which use WebUI framework``
+| ``     webui: add sync_otp.html``
+| ``     webui-ci: fix action list action visibility and enablement assertion``
+| ``     webui: support unlock user command``
+| ``     webui: show notification instead of modal dialog on validation error``
+| ``     webui: fix required error notification in multivalued widget``
+| ``     webui: focus invalid widget on validation error``
+| ``     webui-build: use /usr/share/java/js.jar instead of rhino.jar``
+| ``     webui: change ipatokennotbefore and ipatokennotafter types to datetime``
+| ``     webui: new navigation structure``
+| ``     webui: display messages contained in API responses``
+| ``Petr Špaček (15):``
+| ``     Add timestamps to named debug logs in /var/named/data/named.run``
+| ``     Clarify error message about IPv6 socket creation in ipa-cldap plugin``
+| ``     Treat error during write to /etc/resolv.conf as non-fatal.``
+| ``     Limit memberOf and refInt DS plugins to main IPA suffix.``
+| ``     Remove working directory for bind-dyndb-ldap plugin.``
+| ``     Use private IPv4 addresses for tests``
+| ``     Rename variables in test xmlrpc/dns_plugin``
+| ``     Use reserved domain names for tests``
+| ``     tests: Move zone enable/disable tests to end of test_dns_plugin.py``
+| ``     Fix regular expression for LOC records in DNS.``
+| ``     Modify DNS tests with LOC records to workaround bug in python-dns.``
+| ``     Clarify error message about missing DNS component in ipa-replica-prepare.``
+| ``     Add wait_for_dns option to default.conf.``
+| ``     Fix --ttl description for DNS zones``
+| ``     Clarify LDAPClient docstrings about get_entry, get_entries and find_entries``
+| ``Rob Crittenden (5):``
+| ``     Re-order NULL check in ipa_lockout.``
+| ``     Change the way we determine if the host has a password set.``
+| ``     Implement an IPA Foreman smartproxy server``
+| ``     Clean up Smartproxy support, drop unused code``
+| ``     Remove IPA Foreman Smart Proxy``
+| ``Simo Sorce (16):``
+| ``     pwd-plugin: Fix ignored return error``
+| ``     kdb-mspac: Fix out of bounds memset``
+| ``     kdb-princ: Fix memory leak``
+| ``     Add Delegation Info to MS-PAC``
+| ``     Add krbticketPolicyAux objectclass if needed``
+| ``     Fix license tag in python setup files``
+| ``     Harmonize policy discovery to kdb driver``
+| ``     Stop adding a default password policy reference``
+| ``     Check for password expiration in pre-bind``
+| ``     keytabs: Modularize setkeytab operation``
+| ``     keytabs: Expose and modify key encoding function``
+| ``     keytab: Add new extended operation to get a keytab.``
+| ``     ipa-getkeytab: Modularize ldap_set_keytab function``
+| ``     ipa-getkeytab: Add support for get_keytab extop``
+| ``     man: Add -r option to ipa-getkeytab.1``
+| ``     Fix getkeytab code to always use implicit tagging.``
+| ``Sumit Bose (9):``
+| ``     CLDAP: make sure an empty reply is returned on any error``
+| ``     CLDAP: do not read IPA domain from hostname``
+| ``     Use the right attribute with ipapwd_entry_checks for MagicRegen``
+| ``     Remove AllowLMhash from the allowed IPA config strings``
+| ``     Remove generation and handling of LM hashes``
+| ``     CLDAP: do not prepend \\``
+| ``     CLDAP: generate NetBIOS name like ipa-adtrust-install does``
+| ``     CLDAP: add unit tests for make_netbios_name``
+| ``     extdom: do not return results from the wrong domain``
+| ``Thorsten Scherf (4):``
+| ``     Fixed typo how to create an example gpg key``
+| ``     Fixed typo in ipa-test-task man page``
+| ``     Fixed various typos in ipa-client-install man page``
+| ``     Fixed typo in ipa-replica-manage man page``
+| ``Timo Aaltonen (2):``
+| ``     Use /usr/bin/python as fallback python path``
+| ``     Don't search platform path``
+| ``Tomáš Babej (139):``
+| ``     Remove support for IPA deployments with no persistent search``
+| ``     Remove redundant shebangs``
+| ``     Perform dirsrv tuning at platform level``
+| ``     Make CS.cfg edits with CA instance stopped``
+| ``     Fix incorrect error message occurence when re-adding the trust``
+| ``     Log proper error message when defaultNamingContext not found``
+| ``     Use getent admin@domain for nss check in ipa-client-install``
+| ``     Do not add trust to AD in case of IPA realm-domain mismatch``
+| ``     Warn user about realm-domain mismatch in install scripts``
+| ``     trusts: Do not create ranges for subdomains in case of POSIX trust``
+| ``     ipa-upgradeconfig: Remove backed up smb.conf``
+| ``     ipa-adtrust-install: Add warning that we will break existing samba configuration``
+| ``     adtrustinstance: Properly handle uninstall of AD trust instance``
+| ``     adtrustinstance: Move attribute definitions from setup to init method``
+| ``     ipatests: Extend the order plugin to properly handle inheritance``
+| ``     Get the created range type in case of re-establishing trust``
+| ``     ipatests: Add Active Directory support to configuration``
+| ``     ipatests: Extend domain object with 'ad' role support and WinHosts``
+| ``     ipatests: Extend IntegrationTest with multiple AD domain support``
+| ``     ipatests: Create util module for ipatests``
+| ``     ipatests: Add WinHost class``
+| ``     ipatests: Add AD-integration related tasks``
+| ``     ipatests: Add AD integration test case``
+| ``     trusts: Fix typo in error message for realm-domain mismatch``
+| ``     advice: Add legacy client configuration script using nss-ldap``
+| ``     ipatests: Extend clear_sssd_cache to support non-systemd platforms``
+| ``     ipatests: Restore SELinux context after restoring files from backup``
+| ``     ipatests: Do not use /usr/bin hardcoded paths``
+| ``     ipatests: Add support for extra roles referenced by a keyword``
+| ``     ipatests: Use command -v instead of which in legacy client advice``
+| ``     ipatests: Add integration tests for legacy clients``
+| ``     ipatests: test_trust: use domain name instead of realm for user lookups``
+| ``     platform: Add Fedora 19 platform file``
+| ``     ipa-client-install: Publish CA certificate to systemwide store``
+| ``     trusts: Do not pass base-id to the subdomain ranges``
+| ``     trusts: Always stop and disable smb service on uninstall``
+| ``     ipa-client-install: Always pass hostname to the ipa-join``
+| ``     ipa-cldap: Cut NetBIOS name after 15 characters``
+| ``     Fix incorrect path in error message on sysrestore failure``
+| ``     acl: Remove krbPrincipalExpiration from list of admin's excluded attrs``
+| ``     ipatests: Remove sudo calls from tasks``
+| ``     ipatests: Check for legacy_client attribute presence if unapplying fixes``
+| ``     ipatests: test_legacy_clients: Change "test group" to "testgroup"``
+| ``     ipatests: Add records for all hosts in master's domain``
+| ``     ipatests: Run restoring backup files and restoring their context in one session``
+| ``     ipatests: legacy_clients: Test legacy clients with non-posix trust``
+| ``     ipatests: Perform a connection test before preparing the client``
+| ``     ipatests: Make sure we re-kinit as admin before adding the disabledipauser``
+| ``     ipatests: Stop sssd service before deleting the cache``
+| ``     ipatests: Add test cases for subdomain users on legacy clients``
+| ``     ipatests: Change expected home directories returned by getent``
+| ``     ipatests: Do not require group name resolution for the non-posix tests``
+| ``     ipatests: Fix incorrect order of operations when restoring backup``
+| ``     trusts: Remove usage of deprecated LDAP API``
+| ``     man: sshd should be run at least once before client enrollment``
+| ``     Prohibit deletion of active subdomain range``
+| ``     ipatests: test_trust: Change expected home directories for posix users``
+| ``     ipatests: Do not depend on the case of the attributes when testing ID ranges``
+| ``     ipatests: Make sure that remnants of PKI are removed``
+| ``     ipatests: legacy_clients: Use hostname instead of external hostname for AD subdomain``
+| ``     ipatests: legacy_clients: Relax regex checks``
+| ``     ipatests: tasks: Wait 2 seconds after restart of SSSD when clearing the cache``
+| ``     ipa-pwd-extop: Fix memory leak in ipapwd_pre_bind``
+| ``     ipa-range-check: Fix memory leaks when freeing range object``
+| ``     Extend ipa-range-check DS plugin to handle range types``
+| ``     ipatests: Fix apache semaphores prior to installing IPA server``
+| ``     ipatests: tasks: Accept extra arguments when installing client``
+| ``     ipatests: Allow using FQDN with trailing dot as final hostname``
+| ``     ipatests: Fix incorrect UID/GID reference for subdomain users and groups``
+| ``     ipa_range_check: Use special attributes to determine presence of RID bases``
+| ``     ipa_range_check: Connect the new node of the linked list``
+| ``     ipa_range_check: Make a new copy of forest_root_id attribute for range_info struct``
+| ``     ipa_range_check: Do not fail when no trusted domain is available``
+| ``     ipa_range_check: Fix typo when comparing strings using strcasecmp``
+| ``     ipa_range_check: Change range_check return values from int to range_check_result_t enum``
+| ``     ipatests: Extend test suite for ID ranges``
+| ``     ipa-pwd-extop: Deny LDAP binds for accounts with expired principals``
+| ``     ipalib: Add DateTime parameter``
+| ``     ipatests: Cover DateTime in test_parameters.py``
+| ``     ipalib: Expose krbPrincipalExpiration in CLI``
+| ``     ipatests: Fix formatting errors in test_user_plugin.py``
+| ``     ipatests: Add coverage for setting krbPrincipalExpiration``
+| ``     ipatests: Add test for denying expired principals``
+| ``     ipa-client: Set NIS domain name in the installer``
+| ``     ipa-client-install: Configure sudo to use SSSD as data source``
+| ``     ipatests: Add Sudo integration test``
+| ``     ipatests: legacy clients: Do not use external hostnames for testing login to legacy clients from master``
+| ``     ipatests: Setup SSSD debugging mode by default``
+| ``     ipatests: Enable SSSD debugging on legacy clients with SSSD``
+| ``     ipaplatform: Create separate module for platform files``
+| ``     ipaplatform: Move service base platfrom related functionality to ipaplatform/base/service.py``
+| ``     ipaplatform: Move default implementations of tasks from service.py.in``
+| ``     ipaplatform: Create default implementations for tasks that were missing them``
+| ``     ipaplatform: Add base fedora platform module``
+| ``     ipaplatform: Moved Fedora 16 service implementations and refactored them as base Fedora module service implementations``
+| ``     ipaplatform: Move restore_context and check_selinux_status implementations to base fedora platform tasks``
+| ``     ipaplatform: Do not require custom Authconfig implementations from platform modules``
+| ``     ipaplatform: Remove legacy redhat platform module``
+| ``     ipaplatform: Move Fedora-specific implementations of tasks to fedora base platform file``
+| ``     ipaplatform: Change platform dependant code in freeipa to use ipaplatform tasks``
+| ``     ipaplatform: Change service code in freeipa to use ipaplatform services``
+| ``     ipaplatform: Change paths dependant on ipaservices to use ipaplatform.paths``
+| ``     ipaplatform: Remove redundant imports of ipaservices``
+| ``     ipaplatform: Move all filesystem paths to ipaplatform.paths module``
+| ``     ipaplatform: Remove remnants of the ipapython/platform``
+| ``     ipaplatform: Change makefiles to accomodate for new platform package``
+| ``     ipaplatform: Let fedora path module use PathNamespace class``
+| ``     ipaplatform: Link to platform module during build time``
+| ``     ipaplatform: Pylint fixes``
+| ``     ipaplatform: Contain all the tasks in the TaskNamespace``
+| ``     ipaplatform: Move hardcoded paths from Fedora platform files to path namespace``
+| ``     sudorule: Allow unsetting sudoorder``
+| ``     trusts: Allow reading ipaNTSecurityIdentifier in user and group objects``
+| ``     trusts: Add more read attributes``
+| ``     trusts: Allow reading system trust accounts by adtrust agents``
+| ``     sudorule: PEP8 fixes in sudorule.py``
+| ``     sudorule: Allow using hostmasks for setting allowed hosts``
+| ``     sudorule: Allow using external groups as groups of runAsUsers``
+| ``     sudorule: Make sure sudoRunAsGroup is dereferencing the correct attribute``
+| ``     sudorule: Include externalhost and ipasudorunasextgroup in the list of default attributes``
+| ``     sudorule: Allow adding deny commands when command category set to ALL``
+| ``     sudorule: Make sure all the relevant attributes are checked when setting category to ALL``
+| ``     sudorule: Fix the order of the parameters to have less chaotic output``
+| ``     sudorule: Enforce category ALL checks on dirsrv level``
+| ``     ipatests: test_sudo: Add tests for allowing hosts via hostmasks``
+| ``     ipatests: test_sudo: Add coverage for external entries``
+| ``     ipatests: test_sudo: Add coverage for category ALL validation``
+| ``     ipatests: test_sudo: Fix assertions not assuming runasgroupcat set to ALL``
+| ``     ipatests: test_sudo: Do not expect enumeration of runasuser groups``
+| ``     ipatests: test_sudo: Expect root listed out if no RunAsUser available``
+| ``     sudorule: Refactor add and remove external_post_callback``
+| ``     ipaplatform: Document the platform tasks API``
+| ``     ipaplatform: Drop the base authconfig class``
+| ``     ipaplatform: Fix build warnings``
+| ``     ipaplatform: Fix misspelled path constant``
+| ``     ipaplatform: Move paths from installers to paths module``
+| ``     ipa-client-install: Restart nisdomain service instead of starting``
+| ``     ipaldap: Override conversion of nsds5replicalast{update,init}{start,end}``
+| ``     ipalib: Use DateTime parameter class for OTP token timestamp attributes``
+| ``Xiao-Long Chen (1):``
+| ``     Use /usr/bin/python2``

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="IPA v1 Release" href="IPA_v1_Release.html" />
+    <link rel="prev" title="Overview and Problem Statement" href="IPA_and_AD.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="http://puppetlabs.com/puppet/what-is-puppet">Puppet</a> is IT
+automation software that helps system administrators manage
+infrastructure throughout its life-cycle, from provisioning and
+configuration to orchestration and reporting. Using Puppet, you can
+easily automate repetitive tasks, quickly deploy critical applications,
+and proactively manage change, scaling from 10s of servers to 1000s,
+on-premise or in the  cloud.</p>
+<p>Puppet provides an option allowing for support of <a class="reference external" href="http://docs.puppetlabs.com/puppet/3/reference/config_ssl_external_ca.html">external
+CAs</a>.
+Internal Puppet CA must be disabled, if external CA is configured.
+External CA must provide its own system for issuing and distributing
+certificates as internal Puppet public key infrastructure is disabled.</p>
+<p><a class="reference external" href="http://www.freeipa.org/page/Main_Page">IPA</a> with its clients and
+<a class="reference external" href="certmonger">certmonger</a> can provide issuance and distribution of
+certificates for Puppet.</p>
+<p>The main requirement is to avoid modifications of Puppet code base,
+which limits options for IPA-Puppet integration methods. A simple
+replacement of Puppet CA with IPA CA was
+<a class="reference external" href="http://jcape.name/2012/01/16/using-the-freeipa-pki-with-puppet/">done</a>
+in the past, but it failed to distinguish Puppet certificates from other
+certificates issued by IPA.</p>
+</section>
+<section id="use-cases">
+<span id="use-cases106"></span><h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>A service like Puppet wants to use public key infrastructure provided by
+IPA CA.</p>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<p>The internal Puppet CA can be replaced with the IPA CA. Currently,
+Puppet is using
+<a class="reference external" href="http://httpd.apache.org/docs/current/mod/mod_ssl.html">mod_ssl</a> to
+provide
+<a class="reference external" href="http://httpd.apache.org/docs/current/ssl/ssl_howto.html">SSL/TLS</a>
+connection between <a class="reference external" href="http://projects.puppetlabs.com/projects/1/wiki/certificates_and_security">Puppet master and its
+clients</a>.
+Puppet’s
+<a class="reference external" href="http://httpd.apache.org/docs/current/mod/mod_ssl.html">mod_ssl</a>
+could be configured to use
+<a class="reference external" href="http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#sslrequire">SSLRequire</a>
+or
+<a class="reference external" href="http://httpd.apache.org/docs/current/mod/mod_authz_core.html#reqexpr">Require</a>
+<a class="reference external" href="http://httpd.apache.org/docs/current/expr.html">expr</a> directives to
+identify its certificates based on the presence of additional subject
+name components. This is relatively weak method of authentication but it
+eliminates requirement for Puppet modifications.</p>
+<p>IPA needs to provide support for multiple certificate profiles in order
+to issue certificates with different sets of subject name components.</p>
+<p>Subject names in certificates issued currently by IPA CA are based on
+the following pattern:</p>
+<ul class="simple">
+<li><p>CN=, O=</p></li>
+</ul>
+<p>Assuming multiple Puppet deployments within IPA, Puppet certificates can
+be distinguished by adding OU= as a component of their subject names. In
+such case subject names of Puppet certificates issued by IPA-CA would
+look as follows:</p>
+<ul class="simple">
+<li><p>CN=, OU=, O=</p></li>
+</ul>
+<section id="certmonger-considerations-for-issuing-puppet-certificates-by-ipa-ca">
+<span id="id1"></span><h2>Certmonger considerations for issuing Puppet certificates by IPA CA<a class="headerlink" href="#certmonger-considerations-for-issuing-puppet-certificates-by-ipa-ca" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="certmonger">certmonger</a> provides -T option allowing to specify
+certificate profile name, which could be used to include Puppet’s
+certificate profile name in requests for Puppet entities.</p></li>
+<li><p><a class="reference external" href="certmonger">certmonger</a> provides -N option allowing to specify
+subject name, which could be used in case of multiple Puppet
+deployments within IPA supporting only two profiles.</p>
+<ul>
+<li><p>-N option will allow to include OU component in the following way:</p>
+<ul>
+<li><p>-N ‘CN=`hostname –fqdn`, OU=’ -T</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="considerations-for-mod-ssl-sslrequire-and-require-expr-directives">
+<span id="id2"></span><h2>Considerations for <a class="reference external" href="http://httpd.apache.org/docs/current/mod/mod_ssl.html">mod_ssl</a> <a class="reference external" href="http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#sslrequire">SSLRequire</a> and <a class="reference external" href="http://httpd.apache.org/docs/current/mod/mod_authz_core.html#reqexpr">Require</a> <a class="reference external" href="http://httpd.apache.org/docs/current/expr.html">expr</a> directives<a class="headerlink" href="#considerations-for-mod-ssl-sslrequire-and-require-expr-directives" title="Permalink to this heading">¶</a></h2>
+<p>Sample configuration of mod_ssl including SSLRequire directive is
+included in:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://httpd.apache.org/docs/current/ssl/ssl_howto.html">http://httpd.apache.org/docs/current/ssl/ssl_howto.html</a></p></li>
+</ul>
+<p>Description of SSLRequire directive is provided in:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#sslrequire">http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#sslrequire</a></p></li>
+</ul>
+<p>The latest description is provided in:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://httpd.apache.org/docs/current/mod/mod_ssl.html#sslrequire">http://httpd.apache.org/docs/current/mod/mod_ssl.html#sslrequire</a></p></li>
+</ul>
+<p>In Puppet case, SSLRequire directive can be used as follows:</p>
+<ul class="simple">
+<li><p>SSLRequire %{SSL_CLIENT_S_DN_OU} eq “”</p></li>
+<li><p>SSLRequire %{SSL_CLIENT_S_DN_OU} in {“”}</p></li>
+</ul>
+<p>In the latest version of mod_ssl, SSLRequire is deprecated and should in
+general be replaced by Require expr. The so called ap_expr syntax of
+Require expr is a superset of the syntax of SSLRequire, with few
+exceptions:</p>
+<ul class="simple">
+<li><p>Require expr %{SSL_CLIENT_S_DN_OU} eq “”</p></li>
+<li><p>Require expr %{SSL_CLIENT_S_DN_OU} in {“”}</p></li>
+</ul>
+</section>
+<section id="considerations-for-certificate-request-handling">
+<span id="id3"></span><h2>Considerations for certificate request handling<a class="headerlink" href="#considerations-for-certificate-request-handling" title="Permalink to this heading">¶</a></h2>
+<p>IPA is currently using combination of <em>virtual operations</em>, <em>ACI</em>,
+<em>managedby</em>, and <em>Get Effective Rights</em> to determine whether entity
+certificate requests can be approved and certificates issued. Adding
+support for multiple certificate profiles will extend request approval
+process</p>
+<p>IPA may need to manage default and/or allowed profile information either
+per each entity or entity pointed by <em>managedby</em> reference.</p>
+<p>Here are some sample suggestions for profile processing:</p>
+<ul class="simple">
+<li><p>IPA receives certificate request from registered entity. It performs
+usual certificate request verifications. If request does not include
+certificate profile name, then IPA verifies if requesting entity has
+information about <em>default profile</em>.</p>
+<ul>
+<li><p>if yes, then IPA adds default profile to request passed to CA</p></li>
+<li><p>If not, IPA checks if <em>default profiles</em> is inherited from entity
+pointed by <em>managedby</em> or <em>memberof</em> reference</p>
+<ul>
+<li><p>if yes, then IPA adds default profile to request passed to CA
+otherwise IPA’s default profile is passed to CA</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>IPA receives certificate request from registered entity. It performs
+usual certificates request verifications. If request includes
+certificate profile name, then IPA verifies if requesting entity has
+information about <em>allowed profiles</em></p>
+<ul>
+<li><p>if yes, then it verifies if requested profile is allowed</p></li>
+<li><p>If not, IPA verifies if <em>allowed profiles</em> are inherited from
+entity pointed by <em>managedby</em> or <em>memberof</em> reference</p>
+<ul>
+<li><p>if yes, then it verifies if requested profile is allowed
+otherwise IPA assumes that only IPA’s default profile is
+allowed</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="certificate-profile-considerations-for-issuing-puppet-certificates-by-ipa-ca">
+<span id="id4"></span><h2>Certificate profile considerations for issuing Puppet certificates by IPA CA<a class="headerlink" href="#certificate-profile-considerations-for-issuing-puppet-certificates-by-ipa-ca" title="Permalink to this heading">¶</a></h2>
+<p>IPA is required to support at least two certificate profiles in case of
+multiple Puppet deployments within IPA, There are two possible profile
+solutions:</p>
+<ul class="simple">
+<li><p>IPA supports separate profiles for each Puppet deployment and one
+extra profile for all other services.</p>
+<ul>
+<li><p>Pros:</p>
+<ul>
+<li><p>No need for IPA to inject OU component into request passed to
+CA</p></li>
+</ul>
+</li>
+<li><p>Cons:</p>
+<ul>
+<li><p>CA does not replicate profile operations at this moment</p></li>
+<li><p>CA may need to extend handling for name components</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>IPA supports two profiles, one profile for all Puppet deployments and
+second profile for all other services. This solution requires IPA CA
+to accept OU name component provided by either IPA or certificate
+requesting entity .</p>
+<ul>
+<li><p>Pros:</p>
+<ul>
+<li><p>No need to replicate profile operations</p></li>
+</ul>
+</li>
+<li><p>Cons:</p>
+<ul>
+<li><p>IPA needs to inject OU component into request passed to CA</p></li>
+<li><p>CA needs to handle OU component injected into request by IPA</p></li>
+<li><p>Such handling of OU subject name components is currently
+unavailable in both IPA and CA</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>In case of supporting two profiles, OU name component might be derived
+from <em>fqdn</em> name part of <em>managedby</em> reference attribute of requesting
+entity.</p>
+</section>
+</section>
+<section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>The implementation details will be defined base on elected solution.</p>
+</section>
+<section id="feature-management">
+<h1>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">¶</a></h1>
+<section id="ui">
+<h2>UI<a class="headerlink" href="#ui" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>TBD</p>
+</section>
+</section>
+<section id="major-configuration-options-and-enablement">
+<h1>Major configuration options and enablement<a class="headerlink" href="#major-configuration-options-and-enablement" title="Permalink to this heading">¶</a></h1>
+<p>There might be quite a bit of manual configuration required related to
+Puppet’s pem-files locations, mod_ssl configuration modifications,
+extending the list of IPA profiles, and replication of profile list
+extension.</p>
+</section>
+<section id="replication">
+<h1>Replication<a class="headerlink" href="#replication" title="Permalink to this heading">¶</a></h1>
+<p>Replication of profile configuration updates and profile operations
+might be required In case of supporting separate profiles for each
+Puppet deployment, Initially this could be provided as a manual
+procedure.</p>
+</section>
+<section id="updates-and-upgrades">
+<h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Permalink to this heading">¶</a></h1>
+<p>There might be schema extensions required adding attributes storing
+<em>default profile</em> and <em>allowed profiles</em>. This extension may have impact
+on updates and upgrades.</p>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h1>
+<p>IPA as external Puppet CA does not require any new packages or
+libraries.</p>
+</section>
+<section id="external-impact">
+<h1>External Impact<a class="headerlink" href="#external-impact" title="Permalink to this heading">¶</a></h1>
+<p>Development of this functionality will require working closely with the
+Dogtag development team. There might be new handling of certificate
+requests on IPA and CA sides, which may require extension of
+corresponding interfaces.</p>
+</section>
+<section id="backup-and-restore">
+<h1>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h1>
+<p>IPA as external Puppet CA does not require any additional backup or
+restore procedures. Regular IPA backup or restore procedure should also
+cover this new feature.</p>
+</section>
+<section id="test-plan">
+<h1>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">¶</a></h1>
+<p>TBD</p>
+</section>
+<section id="rfe-author">
+<h1>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">¶</a></h1>
+<p>Andrew Wnuk</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/IPA_as_external_Puppet_CA.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

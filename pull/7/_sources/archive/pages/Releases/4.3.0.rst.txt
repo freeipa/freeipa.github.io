@@ -1,0 +1,1155 @@
+The FreeIPA team would like to announce FreeIPA v4.3.0 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The
+builds are available for Fedora rawhide. Builds for Fedora 23 are
+available in the official `COPR
+repository <https://copr.fedoraproject.org/coprs/mkosek/freeipa-4.3/>`__.
+
+.. _highlights_in_4.3.0:
+
+Highlights in 4.3.0
+-------------------
+
+-  Simplified management of replication topology - control and display
+   your topology from CLI and UI (`design
+   page <V4/Manage_replication_topology>`__)
+-  Simplified replica installation - install replica without *replica
+   package* via OTP, keytab or privileged user credentials. The new
+   method is called *replica promotion* as it adds FreeIPA server
+   capability to existing or new client (`design
+   page <V4/Replica_Promotion>`__)
+
+.. _domain_level:
+
+Domain Level
+~~~~~~~~~~~~
+
+Both feature sets are tight with introduction of new "server capability
+indicator" - a *domain level* (`design page <V4/Domain_Levels>`__).
+Domain level indicates that server is capable of doing certain
+operations. Domain level 1 means that it supports replica promotion and
+topology management.
+
+Old servers and servers upgraded to 4.3 in existing environments have
+domain level 0. In order to use new functionality all servers needs to
+be updated to a version which supports the domain level, right now it is
+only version 4.3. Domain level is raised by command:
+
+::
+
+   ipa domainlevel-set 1
+
+Current domain can be obtained by:
+
+::
+
+   ipa domainlevel-get
+
+Or supported levels of individual FreeIPA servers:
+
+::
+
+   ipa server-show $HOSTNAME
+
+.. _replica_installation:
+
+Replica installation
+~~~~~~~~~~~~~~~~~~~~
+
+.. _old_method___domain_level_0:
+
+Old method - domain level 0
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Prior FreeIPA 4.3 replica installation needed to perform actions on both
+master and future replica.
+
+First step on master:
+
+::
+
+   ipa-replica-prepare $REPLICA_HOSTNAME --ip-address $REPLICA_IP
+
+It created a replica file - an encrypted file containing secrets and
+other data needed for replica installation.
+
+Second step on replica:
+
+::
+
+   ipa-replica-install --various-options $REPLICA_FILE
+
+Disadvantage is that both ``ipa-replica-prepared`` and
+``ipa-replica-install`` need directory manager password and that copying
+of the replica file is cumbersome.
+
+Old method is still available for environments with domain level 0.
+
+.. _new_method___domain_level_1:
+
+New method - domain level 1
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+New method transforms an IPA client into an IPA server. I.e., an IPA
+client can be installed first and then it can be "promoted" into an
+FreeIPA server - a new replica. Alternatively, replica installer can
+also install the client so it can be done in a single operation. New
+method doesn't require to run ``ipa-replica-prepare`` and manipulate
+with replica file. There are multiple ways to install new replica:
+
+.. _promotion_of_existing_client:
+
+1. Promotion of existing client
+'''''''''''''''''''''''''''''''
+
+On client which will become new FreeIPA server:
+
+::
+
+   $ kinit admin
+   $ ipa-replica-install [--various-options, ...]
+
+.. _installation_of_replica_on_non_freeipa_client_machine:
+
+2. Installation of replica on non-FreeIPA client machine
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+::
+
+   $ ipa-replica-install --principal admin -W [--various-options, ...]
+
+It will ask for admin password, install a client and then promote it to
+replica. It will use DNS auto-discovery to locate the master server.
+Alternatively the same discovery options as for ``ipa-client-install``
+can be provided: ``--server``, ``--domain``, ``--realm``.
+
+.. _installation_of_replica_using_one_time_passwordotp:
+
+3. Installation of replica using one time password(OTP)
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+On any host with ``ipa`` command line utility available first prepare
+the host entry with One Time Password set and assign it to
+``ipaservers`` hostgroup to mark it as future IPA server.
+
+::
+
+   $ kinit admin
+   $ ipa host-add $REPLICA_HOSTNAME --password $OTP
+   $ ipa hostgroup-add-member ipaservers --hosts=$REPLICA_HOSTNAME
+
+On future replica:
+
+::
+
+   $ ipa-replica-install --password $OTP [--various-options, ...]
+
+.. _installation_of_replica_using_a_host_keytab:
+
+4. Installation of replica using a host keytab
+''''''''''''''''''''''''''''''''''''''''''''''
+
+Steps are similar as in installation with OTP:
+
+On arbitrary FreeIPA client or server:
+
+::
+
+   $ kinit admin
+   $ ipa host-add $REPLICA_HOSTNAME
+   $ ipa hostgroup-add-member ipaservers --hosts=$REPLICA_HOSTNAME
+   $ ipa-getkeytab --server=$IPASERVER_HOSTNAME --principal=host/$REPLICA_HOSTNAME@$REALM --keytab=replica_host.keytab
+   $ # copy the replica_host.keytab  to a replica on $REPLICA_KEYTAB_PATH (arbitrary)
+
+On future replica:
+
+::
+
+   $ ipa-replica-install --keytab  $REPLICA_KEYTAB_PATH [--various-options, ...]
+
+.. _managed_replication_topology:
+
+Managed Replication Topology
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FreeIPA is a multi-master technology. Data changes on a server are
+replicated automatically to all other servers. Data is stored in
+Directory Server server in two so-called suffixes: a ``domain`` suffix,
+e.g., ``dc=example,dc=com`` which contains all domain related
+data(users, groups, hbac and sudo rules, ...) and, if the setup has CA,
+a ``ca`` suffix(``o=ipaca``) which contains Certificate Server data. IPA
+servers, in general, are not connected with all other servers, but
+usually with only a few. It means the data is gradually propagated. The
+way is defined in Directory Server by so-called replication agreements.
+Replication agreements for each suffix need to be managed separately.
+Recommended maximum number of agreements on one server is 4 for each
+suffix. It is required to manage the topology of replication agreements
+correctly so a failure of one server would not disconnect the entire
+topology.
+
+FreeIPA 4.2 and older manages the agreements using
+``ipa-replica-manage`` and ``ipa-csreplica-manage`` tools. The
+disadvantage of the tools are:
+
+-  No single single server has data about the whole topology.
+-  The tools needs to be run on an IPA server -> not possible in CLI or
+   Web UI.
+-  The lack of information prevents of proper disconnection checks,
+   e.g., when a replica or a connection is removed.
+
+FreeIPA 4.3 introduces a managed topology. The topology is maintained as
+data and is replicated to all other servers. It is represented by two
+new IPA object types: topology suffixes and topology segments. Topology
+suffix represents a Directory Server suffix mentioned above. Topology
+segment represents replication agreements between 2 servers. See
+``ipa help topology`` for more information about CLI commands. IPA
+servers changes their replication agreements automatically according to
+this configuration. It brings following benefits:
+
+-  ``ipa`` command line interface and Web UI(located under "IPA
+   Server/Topology" menu item) can be used to manage the topology from
+   any place
+-  Modification of the topology performs a check to prevent
+   disconnection (a server or a group of servers would not be connected
+   with rest of the topology).
+-  Uninstallation of replica using ``ipa-replica-manage del`` and
+   ``ipa-server-install --uninstall`` tools checks if the uninstallation
+   would disconnect the topology and refuses to do so.
+-  Existing topology can be checked for errors using a new
+   ``ipa topologysuffix-verify`` command.
+-  Web UI comes with new topology graph which visualizes the topology
+   and allows interactive changes of the topology.
+-  It will allow to monitor state of replication in a future.
+
+On domain level 1, managing of IPA replication agreements using
+``ipa-replica-manage`` and ``ipa-csreplica-manage`` tools is no longer
+possible. But the tools can be still used for managing of winsync
+agreements, DNA ranges, RUVs and for reinitializing and
+force-synchronizing of replicas. Long term goal is to completely replace
+``ipa-csreplica-manage`` and leave ``ipa-replica-manage`` only for
+managing of winsync agreements.
+
+.. _dns_zone_creation_checks:
+
+DNS zone creation checks
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+FreeIPA now checks if specified DNS domains exist prior installing the
+integrated DNS server and refuses to use DNS domain names which are
+already served by other DNS servers. This prevents problems caused by
+situation where multiple DNS servers wrongy act as authoritative servers
+for single DNS domain. This has multiple consequences:
+
+-  To avoid conflicts, the unattended installation creates reverse zones
+   only if option ``--auto-reverse`` is used.
+-  Reverse DNS zones which already exist on some other DNS servers are
+   not automatically created to avoid conflicts (even during interactive
+   installation).
+-  When reverse zones are not managed by FreeIPA DNS, the automatic
+   empty zones (as specified in `RFC
+   6303 <http://tools.ietf.org/html/rfc6303#section-4>`__) are
+   automatically created by BIND. In situations where these reverse
+   zones are used and managed by other DNS servers, FreeIPA DNS servers
+   should forward queries for these zones. In that case users must
+   manually create 'forward zone' using ``ipa dnsforwarzone-add``
+   command to override automatic empty zone supplied by BIND. This
+   change affects only new installations.
+
+.. _known_issues:
+
+Known Issues
+~~~~~~~~~~~~
+
+-  Running ``ipa-dns-install`` when some other IPA server has DNS
+   installed will fail. Use ``--force`` option to workaround the issue.
+-  FreeIPA 4.3 requires an update of SELinux policy, see `bug
+   1289930 <https://bugzilla.redhat.com/show_bug.cgi?id=1289930>`__. To
+   workaround the issue, disable SELinux - ``setenforce 0`` - on master
+   when installing a replica or a Certificate Server.
+-  Re-installation of replica with CA or re-installation of KRA will
+   fail without
+   `pki-core-10.2.6-13 <https://bodhi.fedoraproject.org/updates/FEDORA-2015-c7dd78ac78>`__,
+   see `bug #1704 <https://fedorahosted.org/pki/ticket/1704>`__
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+-  Contains all bugfixes and enhancements of `4.2.2 <Releases/4.2.2>`__
+   and `4.2.3 <Releases/4.2.3>`__ releases.
+-  Automatic configuration for Firefox < 10 was dropped.
+   `#5144 <https://fedorahosted.org/freeipa/ticket/5144>`__
+-  ``--configure-firefox`` is documented in ``ipa-client-install`` man
+   page. `#5375 <https://fedorahosted.org/freeipa/ticket/5375>`__
+
+Enhancements
+~~~~~~~~~~~~
+
+-  ``ipa-getkeytab`` no longer requires to specify server when run on
+   FreeIPA server.
+   `#2203 <https://fedorahosted.org/freeipa/ticket/2203>`__.
+-  Custom configuration for dse.ldif can be provided on replica
+   installation.
+   `#4048 <https://fedorahosted.org/freeipa/ticket/4048>`__
+   `#4949 <https://fedorahosted.org/freeipa/ticket/4949>`__.
+-  Added support for Ed25519 SSH keys (RFC 7479).
+   `#5471 <https://fedorahosted.org/freeipa/ticket/5471>`__.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+.. _detailed_changelog_since_4.2.1:
+
+Detailed Changelog since 4.2.1
+------------------------------
+
+.. _abhijeet_kasurde_4:
+
+Abhijeet Kasurde (4)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Added try/except block for user_input in ipautil
+-  Updated number of legacy permission in ipatests
+-  Added user friendly error message for dnszone enable and disable
+-  Fixed small typo in stage-user documentation
+
+.. _alexander_bokovoy_7:
+
+Alexander Bokovoy (7)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  selinux: enable httpd_run_ipa to allow communicating with oddjobd
+   services
+-  oddjob: avoid chown keytab to sssd if sssd user does not exist
+-  Fix selector of protocol for LSA RPC binding string
+-  trusts: harden trust-fetch-domains oddjobd-based script
+-  trusts: format Kerberos principal properly when fetching trust
+   topology
+-  client referral support for trusted domain principals
+-  spec file: depend on Dogtag 10.2.6-12 for tomcat 8 upgrade
+
+.. _benjamin_drung_3:
+
+Benjamin Drung (3)
+~~~~~~~~~~~~~~~~~~
+
+-  Fix hyphen-used-as-minus-sign warning (found by lintian)
+-  Fix manpage-has-errors-from-man warning (found by Lintian)
+-  default.conf.5: Fix a typo
+
+.. _christian_heimes_18:
+
+Christian Heimes (18)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Start dirsrv for kdcproxy upgrade
+-  Remove tuple unpacking from except clause
+   contrib/RHEL4/ipachangeconf.py
+-  Remove tuple unpacking from except clause
+   ipa-client/ipaclient/ipachangeconf.py
+-  Remove tuple unpacking from except clause ipalib/plugins/hbactest.py
+-  Remove tuple unpacking from except clause ipaserver/dcerpc.py
+-  Replace file() with open()
+-  Fix selinux denial during kdcproxy user creation
+-  certprofile-import: improve profile format documentation
+-  otptoken: use ipapython.nsslib instead of Python's ssl module
+-  Require Dogtag PKI >= 10.2.6
+-  Replace M2Crypto RC4 with python-cryptography ARC4
+-  Validate vault's file parameters
+-  certprofile-import: do not require profileId in profile data
+-  Asymmetric vault: validate public key in client
+-  Add flag to list all service and user vaults
+-  Change internal rsa_(public|private)_key variable names
+-  Handle timeout error in ipa-httpd-kdcproxy
+-  mod_auth_gssapi: Remove ntlmssp support and restrict mechanism to
+   krb5
+
+.. _david_kupka_22:
+
+David Kupka (22)
+~~~~~~~~~~~~~~~~
+
+-  migration: Use api.env variables.
+-  cermonger: Use private unix socket when DBus SystemBus is not
+   available.
+-  ipa-client-install: Do not (re)start certmonger and DBus daemons.
+-  dbus: Create empty dbus.Array with specified signature
+-  user-undel: Fix error messages.
+-  client: Add support for multiple IP addresses during installation.
+-  client: Add description of --ip-address and --all-ip-addresses to man
+   page
+-  Backup/resore authentication control configuration
+-  vault: Limit size of data stored in vault
+-  ipactl: Do not start/stop/restart single service multiple times
+-  comment: Add Documentation string to deduplicate function
+-  admintool: Add error message with path to log on failure.
+-  ipa-cacert-renew: Fix connection to ldap.
+-  ipa-otptoken-import: Fix connection to ldap.
+-  ipa-replica-install support caless install with promotion.
+-  install: Run all validators at once.
+-  replica: Fix ipa-replica-install with replica file (domain level 0).
+-  test: Temporarily increase timeout in vault test.
+-  spec file: Add dbus-python to BuildRequires
+-  dns: do not add (forward)zone if it is already resolvable.
+-  dns: Check if domain already exists.
+-  dns: Add --auto-reverse option.
+
+.. _endi_sukma_dewata_6:
+
+Endi Sukma Dewata (6)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Fixed missing KRA agent cert on replica.
+-  Added CLI param and ACL for vault service operations.
+-  Fixed vault container ownership.
+-  Added support for changing vault encryption.
+-  Removed clear text passwords from KRA install log.
+-  Using LDAPI to setup CA and KRA agents.
+
+.. _françois_cami_1:
+
+François Cami (1)
+~~~~~~~~~~~~~~~~~
+
+-  ipa-client-install: Fix the "download the CA cert" query
+
+.. _fraser_tweedale_19:
+
+Fraser Tweedale (19)
+~~~~~~~~~~~~~~~~~~~~
+
+-  user-show: add --out option to save certificates to file
+-  Fix otptoken-remove-managedby command summary
+-  Give more info on virtual command access denial
+-  Allow SAN extension for cert-request self-service
+-  Add profile for DNP3 / IEC 62351-8 certificates
+-  Work around python-nss bug on unrecognised OIDs
+-  Fix default CA ACL added during upgrade
+-  Fix KRB5PrincipalName / UPN SAN comparison
+-  certprofile: add profile format explanation
+-  Add permission for bypassing CA ACL enforcement
+-  Prohibit deletion of predefined profiles
+-  cert-request: remove allowed extensions check
+-  certprofile: prevent rename (modrdn)
+-  certprofile: remove 'rename' option
+-  TLS and Dogtag HTTPS request logging improvements
+-  Avoid race condition caused by profile delete and recreate
+-  Do not erroneously reinit NSS in Dogtag interface
+-  Add profiles and default CA ACL on migration
+-  dogtaginstance: remove unused function 'check_inst'
+
+.. _gabe_alford_16:
+
+Gabe Alford (16)
+~~~~~~~~~~~~~~~~
+
+-  Fix client ca.crt to match the server's cert
+-  Add Chromium configuration note to ssbrowser
+-  Standardize minvalue for ipasearchrecordlimit and ipasesarchsizelimit
+   for unlimited minvalue
+-  dnssec option missing in ipa-dns-install man page
+-  Update FreeIPA package description
+-  Remove bind configuration detected question
+-  Warn if no installation found when running ipa-server-install
+   --uninstall
+-  Add Firefox options to ipa-client-install man page
+-  interactive installer does not ignore leading/trailing whitespace
+-  Remove 50-lockout-policy.update file
+-  Incomplete ports for IPA AD Trust
+-  custodia: ipa-upgrade failed on replica
+-  ipa-replica-manage del continues when host does not exist in domain
+   level 1
+-  Check if IPA is configured before attempting a winsync migration
+-  ipa-replica-install prints incorrect error message when replica is
+   already installed
+-  Migrate wget references and usage to curl
+
+.. _jan_cholasta_70:
+
+Jan Cholasta (70)
+~~~~~~~~~~~~~~~~~
+
+-  spec file: Move /etc/ipa/kdcproxy to the server subpackage
+-  spec file: Update minimum required version of krb5
+-  install: Fix server and replica install options
+-  ULC: Prevent preserved users from being assigned membership
+-  baseldap: Allow overriding member param label in LDAPModMember
+-  vault: Fix param labels in output of vault owner commands
+-  install: Fix replica install with custom certificates
+-  vault: Fix vault-find with criteria
+-  vault: Add container information to vault command results
+-  spec file: Add Requires(post) on selinux-policy
+-  cert renewal: Include KRA users in Dogtag LDAP update
+-  cert renewal: Automatically update KRA agent PEM file
+-  install: Fix SASL mappings not added in ipa-server-install
+-  ldap: Make ldap2 connection management thread-safe again
+-  Use six.with_metaclass to specify metaclasses
+-  Use six.python_2_unicode_compatible
+-  Decode script arguments using file system encoding
+-  config: allow user/host attributes with tagging options
+-  Alias "unicode" to "str" under Python 3
+-  Use bytes instead of str where appropriate
+-  Use byte literals where appropriate
+-  baseldap: make subtree deletion optional in LDAPDelete
+-  vault: set owner to current user on container creation
+-  vault: update access control
+-  vault: add permissions and administrator privilege
+-  install: support KRA update
+-  install: Support overriding knobs in subclasses
+-  install: Add common base class for server and replica install
+-  install: Move unattended option to the general help section
+-  install: create kdcproxy user during server install
+-  platform: add option to create home directory when adding user
+-  install: fix kdcproxy user home directory
+-  install: fix invocation of KRAInstance.create_instance()
+-  install: fix ipa-server-install fail on missing --forwarder
+-  install: fix KRA agent PEM file permissions
+-  install: always export KRA agent PEM file
+-  vault: select a server with KRA for vault operations
+-  schema: do not derive ipaVaultPublicKey from ipaPublicKey
+-  upgrade: make sure ldap2 is connected in export_kra_agent_pem
+-  vault: fix private service vault creation
+-  install: fix command line option validation
+-  install: export KRA agent PEM file in ipa-kra-install
+-  cert renewal: make renewal of ipaCert atomic
+-  client install: do not corrupt OpenSSH config with Match sections
+-  install: drop support for Dogtag 9
+-  server: use topologysuffix name in iparepltopomanagedsuffix
+-  topology: replace "suffices" with "suffixes"
+-  aci: add IPA servers host group 'ipaservers'
+-  aci: replace per-server ACIs with ipaserver-based ACIs
+-  aci: allow members of ipaservers to set up replication
+-  ipautil: use file in a temporary dir as ccache in private_ccache
+-  replica promotion: use host credentials when setting up replication
+-  replica promotion: automatically add the local host to ipaservers
+-  custodia: do not modify memberPrincipal on key update
+-  replica promotion: allow OTP bulk client enrollment
+-  replica install: add ipaservers if it does not exist
+-  replica promotion: check domain level before ipaservers membership
+-  server uninstall: ignore --ignore-topology-disconnect in domain level
+   0
+-  spec file: remove config files from freeipa-python
+-  spec file: put Python modules into standalone packages
+-  build: put oddjob scripts into separate directory
+-  replica install: add remote connection check over API
+-  replica promotion: use host credentials for connection check
+-  replica promotion: notify user about ignoring client enrollment
+   options
+-  aci: merge domain and CA suffix replication agreement ACIs
+-  ca install: use host credentials in domain level 1
+-  ipautil: allow redirecting command output to standard output in run()
+-  server install: redirect ipa-client-install output to standard output
+-  replica promotion: let ipa-client-install validate enrollment options
+-  ipautil: remove unused import causing cyclic import in tests
+
+.. _jan_pazdziora_1:
+
+Jan Pazdziora (1)
+~~~~~~~~~~~~~~~~~
+
+-  The delegation uris are not set, match message to code.
+
+.. _lenka_doudova_3:
+
+Lenka Doudova (3)
+~~~~~~~~~~~~~~~~~
+
+-  Automated test for stageuser plugin
+-  Fix user tracker to reflect new user-del message
+-  Adding descriptive IDs to stageuser tests
+
+.. _ludwig_krispenz_5:
+
+Ludwig Krispenz (5)
+~~~~~~~~~~~~~~~~~~~
+
+-  handle multiple managed suffixes
+-  prevent operation on tombstones
+-  handle cleaning of RUV in the topology plugin
+-  reject agreement only if both ends are managed
+-  update list of managed servers when a suffix becomes managed
+
+.. _lukáš_slebodník_9:
+
+Lukáš Slebodník (9)
+~~~~~~~~~~~~~~~~~~~
+
+-  SPEC: Drop sssd from BuildRequires
+-  ipa_kdb_tests: Remove unused variables
+-  ipa_kdb_tests: Fix warning Wmissing-braces
+-  topology: Fix warning Wshadow
+-  ipa-extdom-extop: Fix warning Wformat
+-  SPEC: Run cmocka based unit test in %check phase
+-  BUILD: provide check target in custom Makefiles
+-  cmocka_tests: Do not use deprecated cmocka interface
+-  ipa_kdb_tests: Fix test with default krb5.conf
+
+.. _martin_babinsky_50:
+
+Martin Babinsky (50)
+~~~~~~~~~~~~~~~~~~~~
+
+-  ipa-ca-install: print more specific errors when CA is already
+   installed
+-  enable debugging of ntpd during client installation
+-  fix broken search for users by their manager
+-  ACI plugin: correctly parse bind rules enclosed in parentheses
+-  test suite for user/host/service certificate management API commands
+-  store certificates issued for user entries as userCertificate;binary
+-  idranges: raise an error when local IPA ID range is being modified
+-  fix typo in BasePathNamespace member pointing to ods exporter config
+-  ipa-backup: archive DNSSEC zone file and kasp.db
+-  ipa-restore: check whether DS is running before attempting connection
+-  improve the handling of krb5-related errors in dnssec daemons
+-  improve the usability of \`ipa user-del --preserve\` command
+-  load RA backend plugins during standalone CA install on CA-less IPA
+   master
+-  destroy httpd ccache after stopping the service
+-  ipa-server-install: mark master_password Knob as deprecated
+-  re-kinit after ipa-restore in backup/restore CI tests
+-  do not overwrite files with local users/groups when restoring
+   authconfig
+-  remove ID overrides when deleting a user
+-  do not ask for segment direction when running topology commands
+-  fix dsinstance.py:get_domain_level function
+-  disable ipa-replica-prepare in non-zero IPA domain level
+-  execute user-del pre-callback also during user preservation
+-  fix class teardown in user plugin tests
+-  always ask the resolver for the reverse zone when manipulating PTR
+   records
+-  silence pylint in Python 3-specific portion of ipalib/rpc.py
+-  ipa-replica-prepare: domain level check improvements
+-  fix error reporting when installer option is supplied with invalid
+   choice
+-  remove Kerberos authenticators when installing/uninstalling service
+   instance
+-  remove an unneccesary check from IPA server uninstaller
+-  check for disconnected topology and deleted agreements for all
+   suffices
+-  suppress errors arising from adding existing LDAP entries during KRA
+   install
+-  update idrange tests to reflect disabled modification of local ID
+   ranges
+-  disconnect ldap2 backend after adding default CA ACL profiles
+-  do not disconnect when using existing connection to check default CA
+   ACLs
+-  fix a typo in replica DS creation code
+-  replica promotion: modify default.conf even if DS configuration fails
+-  perform IPA client uninstallation as a last step of server uninstall
+-  fix 'iparepltopomanagedsuffix' attribute consumers
+-  extract domain level 1 topology-checking code from ipa-replica-manage
+-  implement domain level 1 specific topology checks into IPA server
+   uninstaller
+-  replica install: improvements in the handling of CA-related IPA
+   config entries
+-  add auto-forwarders option to standalone DNS installer
+-  add '--auto-forwarders' description to server/replica/DNS installer
+   man pages
+-  check whether replica exists before executing the domain level 1
+   deletion code
+-  CI tests: ignore disconnected domain level 1 topology on IPA master
+   teardown
+-  add ACIs for custodia container to its parent during IPA upgrade
+-  fix error message assertion in negative forced client reenrollment
+   tests
+-  prevent crashes of server uninstall check caused by failed LDAP
+   connections
+-  CI tests: remove '-p' option from ipa-dns-install calls
+-  ipa-client-install: create a temporary directory for ccache files
+
+.. _martin_bašti_92:
+
+Martin Bašti (92)
+~~~~~~~~~~~~~~~~~
+
+-  Prevent to rename certprofile profile id
+-  Stageusedr-activate: show username instead of DN
+-  copy-schema-to-ca: allow to overwrite schema files
+-  fix selinuxusermap search for non-admin users
+-  Validate adding privilege to a permission
+-  sysrestore: copy files instead of moving them to avoind SELinux
+   issues
+-  Allow value 'no' for replica-certify-all attr in abort-clean-ruv
+   subcommand
+-  Py3: replace tab with space
+-  DNS: Consolidate DNS RR types in API and schema
+-  DNS: check if DNS package is installed
+-  Remove ico files from Makefile
+-  Use 'mv -Z' in specfile to restore SELinux context
+-  ULC: Fix stageused-add --from-delete command
+-  Fix upgrade of sidgen and extdom plugins
+-  Add dependency to SSSD 1.13.1
+-  Server Upgrade: Start DS before CA is started.
+-  Add user-stage command
+-  DNSSEC: fix forward zone forwarders checks
+-  Fix: Remove leftover krbV reference
+-  DNSSEC: remove "DNSSEC is experimental" warnings
+-  Backup: back up the hosts file
+-  Server Upgrade: fix traceback caused by cidict
+-  Installer: do not modify /etc/hosts before user agreement
+-  DNSSEC: backup and restore opendnssec zone list file
+-  DNSSEC: remove ccache and keytab of ipa-ods-exporter
+-  FIX vault tests
+-  Server Upgrade: backup CS.cfg when dogtag is turned off
+-  IPA Restore: allows to specify files that should be removed
+-  Server Install: print message that client is being installed
+-  DNSSEC: improve CI test
+-  DNSSEC CI: test master migration
+-  backup CI: test DNS/DNSSEC after backup and restore
+-  Limit max age of replication changelog
+-  Server Upgrade: addifnew should not create entry
+-  CI: backup and restore with KRA
+-  Replica inst. fix: do not require -r, -a, -p options in unattended
+   mode
+-  CI TEST: Vault
+-  CI Test: add setup_kra options into install scripts
+-  Replace tab with space in test_user_plugin.py
+-  Make offline LDIF modify more robust
+-  Add method to read changes from LDIF
+-  Add option to specify LDIF file that contains DS configuration
+   changes
+-  CI: installation with customized DS config
+-  Rename option --dirsrv-config-mods to --dirsrv-config-file
+-  DNSSEC CI: wait until DS records is replicated
+-  DNSSEC: store status of services only before first install
+-  DNSSEC: Remove service containers from LDAP after uninstalling
+-  DNSSEC: warn user if DNSSEC key master is not installed
+-  ipa-replica-manage: fix undefined variable
+-  Remove executable bit from ipa_kra_install.py
+-  Domain levels: use constants rather than hardcoded values
+-  KRA: fix check that CA is installed
+-  ipa-csreplica-manage: disable connect/disconnect/del with domain
+   level > 0
+-  Fix typo in ods-exporter uninstall to restore state
+-  DNSSEC: remove sysrestore state after uninstall
+-  Upgrade: enable custodia service during upgrade
+-  Use domain level constants in topology plugin
+-  Tests: DNS replace 192.0.2.0/24 with 198.18.0.0/15 range
+-  Tests: DNS various exceptions can be raised in test
+-  Drop configure.jar
+-  Fix CI tests domain_level env config
+-  CI test: Fix installation of KRA on a replica
+-  fix caching in get_ipa_config
+-  Move common code of user and stageuser to baseuser postcallback
+-  Allow multiple managers per user - CLI part
+-  upgrade: fix migration of old dns forward zones
+-  remove forgotten print in DNS plugin
+-  Install: Force service add during replica promotion
+-  Fix upgrade of forwardzones when zone is in realmdomains
+-  Remove invalid error messages from topology upgrade
+-  Make command dns-resolve deprecated.
+-  Call directly function is_host_resolvable instead do call via
+   framework
+-  Use absolute domain in detection of A/AAAA records
+-  ipa-getkeytab: do not return error when translations cannot be loaded
+-  Compare objectclasses as case insensitive in baseuser.py
+-  KRA: do not stop certmonger during standalone uninstall
+-  ipa-ca-install: error when replica file is passed with domain level >
+   0
+-  KRA install: show installation message only if install really started
+-  ipa-kra-install: error when replica file is passed with domain level
+   > 0
+-  FIX: ipa_kdb_principals: add missing break statement
+-  Upgrade: increase time limit for upgrades
+-  ipa-kra-install: allow to install first KRA on replica
+-  Modify error message to install first instance of KRA
+-  CI: test various topologies with multiple replicas
+-  Force creation of services during replica install
+-  CI: installation tests
+-  CI: fix function that prepare the hosts file before CI run
+-  CI: fix ipa-kra-install on domain level 1
+-  Install RA cert during replica promotion
+-  Tests: test_ipagetkeytab: fix assert that is always true
+-  DNS: fix file permissions
+-  Explicitly call chmod on newly created directories
+
+.. _martin_košek_2:
+
+Martin Košek (2)
+~~~~~~~~~~~~~~~~
+
+-  Update Contributors.txt
+-  Update Build instructions
+
+.. _michael_simacek_4:
+
+Michael Simacek (4)
+~~~~~~~~~~~~~~~~~~~
+
+-  Port from python-kerberos to python-gssapi
+-  Bump python-gssapi version to 1.1.2
+-  Port from python-krbV to python-gssapi
+-  Rewrap errors in get_principal to CCacheError
+
+.. _milan_kubík_16:
+
+Milan Kubík (16)
+~~~~~~~~~~~~~~~~
+
+-  ipalib: pass api instance into textui in doctest snippets
+-  spec file: update the python package names for libipa_hbac and
+   libsss_nss_idmap
+-  tests: Allow Tracker.dn be an instance of Fuzzy
+-  ipatests: Take otptoken import test out of execution
+-  ipatests: Add Certprofile tracker class implementation
+-  ipatests: Add basic tests for certificate profile plugin
+-  ipatests: configure Network Manager not to manage resolv.conf
+-  Include ipatests/test_xmlrpc/data directory into distribution.
+-  ipatests: add fuzzy instances for CA ACL DN and RDN
+-  ipatests: Add initial CAACLTracker implementation
+-  tests: add test to check the default ACL
+-  ipatests: CA ACL - added config templates
+-  ipatests: added unlock_principal_password and change_principal
+-  ipatests: CA ACL and cert profile functional test
+-  Applied tier0 and tier1 marks on unit tests and xmlrpc tests
+-  Separated Tracker implementations into standalone package
+
+.. _nathaniel_mccallum_1:
+
+Nathaniel McCallum (1)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Fix an integer underflow bug in libotp
+
+.. _niranjan_mr_1:
+
+Niranjan MR (1)
+~~~~~~~~~~~~~~~
+
+-  enable pem=True in export_pem_cert function
+
+.. _niranjan_mallapadi_1:
+
+Niranjan Mallapadi (1)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  Use Exception class instead of StandardError
+
+.. _oleg_fayans_9:
+
+Oleg Fayans (9)
+~~~~~~~~~~~~~~~
+
+-  Added test - topology plugin is listed among DS plugins
+-  Added a user-friendly output to an import error
+-  Temporary fix for ticket 5240
+-  Integration tests for topology plugin
+-  Added a proper workaround for dnssec test failures in Beaker
+   environment
+-  Fixed a timing issue with drill returning non-zero exitcode
+-  Updated the tests according to the new replica installation workflow
+-  The test was made to be skipped if domainlevel is 0
+-  Fixed A record creation bug
+
+.. _petr_viktorin_60:
+
+Petr Viktorin (60)
+~~~~~~~~~~~~~~~~~~
+
+-  Modernize number literals
+-  Modernize 'except' clauses
+-  Modernize function and method attribute names
+-  Replace dict.has_key with the 'in' operator
+-  Import 'reduce' from functools
+-  Use absolute imports
+-  Remove use of sys.exc_value
+-  Don't use a tuple in function arguments
+-  Add python-six to dependencies
+-  Remove the unused pygettext script
+-  Use six.string_types instead of "basestring"
+-  Use Python3-compatible dict method names
+-  Replace filter() calls with list comprehensions
+-  Use six.moves.input instead of raw_input
+-  Use six.integer_types instead of (long, int)
+-  Replace uses of map()
+-  Use next() function on iterators
+-  Use the print function
+-  Use new-style raise syntax
+-  Use six.reraise
+-  Modernize use of range()
+-  Convert zip() result to list()
+-  ipap11helper: Port to Python 3
+-  rpc: Don't use undocumented urllib functions
+-  ipapython.dn: Use rich comparisons
+-  test_dn: Split bytes and unicode
+-  Use sys.maxsize instead of sys.maxint
+-  Use six.moves.urllib instead of urllib/urllib2/urlparse
+-  Use six.moves.xmlrpc.client instead of xmlrpclib
+-  Use six.moves.configparser instead of ConfigParser
+-  Use six.moves.http_client instead of httplib
+-  Use six.Stringio instead of StringIO.StringIO
+-  Remove uses of the \`types\` module
+-  ipapython.ssh: Port to Python 3
+-  Appease pylint
+-  Do not compare types that are not comparable in Python 3
+-  x509: Port to Python 3
+-  Rename caught exception for use outside the except: block.
+-  test_ipalib.test_frontend: Port unbound method tests to Python 3
+-  ipalib.aci: Port to Python 3
+-  Add \`message\` property to IPA's errors and warnings under Python 3
+-  test_keyring: Use str(e) instead of e.message for exceptions
+-  ipalib.parameters: Handle 0-prefixed octal format of ints
+-  ipalib.parameters: Require bytes for Bytes.pattern
+-  rpc: Name argument to KerberosError
+-  Alias long to int under Python 3
+-  ipaldap: Remove extraneous \`long\` (included in six.int_types)
+-  Handle binascii.Error from base64.b64decode()
+-  ipatest.util: Port to Python 3
+-  ipalib.messages: Add "message" property to PublicMessage
+-  Fix more bytes/unicode issues
+-  Work around ipalib.text (i18n) str/unicode handling
+-  Fix left-over Python 3 syntax errors
+-  ipapython.nsslib, ipalib.rpc: Remove code for Python 2.6 and below
+-  ipapython.nsslib: Remove NSSHTTPS
+-  ipapython.secrets: Port to Python 3
+-  test_parameters: Alias long to int under Python 3
+-  ipalib.rpc: Update for Python 3
+-  Refactor ipautil.run
+-  Package ipapython, ipalib, ipaplatform, ipatests for Python 3
+
+.. _petr_voborník_45:
+
+Petr Voborník (45)
+~~~~~~~~~~~~~~~~~~
+
+-  Become IPA 4.2.0
+-  Bump 4.3 development version to 4.2.90
+-  do not import memcache on client
+-  webui: fix user reset password dialog
+-  fix hbac rule search for non-admin users
+-  webui: add Kerberos configuration instructions for Chrome
+-  webui: fix regressions failed auth messages
+-  webui: add LDAP vs Kerberos behavior description to user auth types
+-  adjust search so that it works for non-admin users
+-  validate mutually exclusive options in vault-add
+-  add permission: System: Manage User Certificates
+-  vault: normalize service principal in service vault operations
+-  vault: validate vault type
+-  vault: change default vault type to symmetric
+-  fix missing information in object metadata
+-  webui: add option to establish bidirectional trust
+-  vault: fix vault tests after default type change
+-  vault: add vault container commands
+-  webui: use manual Firefox configuration for Firefox >= 40
+-  webui: improve performance of search in association dialog
+-  topology: add realm suffix to master entry on update
+-  topology: manage ca replication agreements
+-  enable topology plugin on upgrade
+-  topology plugin configuration workaround
+-  change pki-core required version for replica promotion
+-  Update .po files
+-  fix broken translations after last po update
+-  webui: add Deferred/Promise API to rpc.command
+-  webui: split facet header into two classes
+-  webui: extract header and action logic from facet to separate mixins
+-  webui: allow to update action_state directly
+-  webui: add d3 library - version 3.5.6
+-  webui: topology graph component
+-  webui: topology graph facet
+-  webui: add segments on topology graph page
+-  webui: remove segments on topology graph page
+-  webui: update topology graph after raising domain level
+-  topology: treat server suffix as multivalued attribute in API
+-  use starttls in CSReplicationManager connection again
+-  change suffices to suffixes
+-  topologysuffix: change iparepltopoconfroot API properties
+-  rename topology suffixes to "domain" and "ca"
+-  Update ipa-(cs)replica-manage man pages
+-  Extend topology help
+-  Become IPA 4.3.0
+
+.. _petr_špaček_19:
+
+Petr Špaček (19)
+~~~~~~~~~~~~~~~~
+
+-  Create server-dns sub-package.
+-  DNSSEC: prevent ipa-ods-exporter from looping after service
+   auto-restart
+-  DNSSEC: Fix deadlock in ipa-ods-exporter <-> ods-enforcerd
+   interaction
+-  DNSSEC: Fix HSM synchronization in ipa-dnskeysyncd when running on
+   DNSSEC key master
+-  DNSSEC: Fix key metadata export
+-  DNSSEC: Wrap master key using RSA OAEP instead of old PKCS v1.5.
+-  Avoid ipa-dnskeysync-replica & ipa-ods-exporter crashes caused by
+   exceeding LDAP limits
+-  ipa-adtrust-install: Print complete SRV records
+-  DNSSEC: on uninstall, do not restore OpenDNSSEC kasp.db if backup
+   failed
+-  DNSSEC: improve log messages in uninstaller
+-  DNS record-add warns when a suspicious DNS name is detected
+-  Remove dead code in ipaserver/install/installutils: read_ip_address()
+-  Remove unused constant NEW_MASTER_MARK from ipaserver.install.dns
+-  ipa-client-install: add support for Ed25519 SSH keys (RFC 7479)
+-  ipa-dns-install offer IP addresses from resolv.conf as default
+   forwarders
+-  Remove global variable dns_forwarders from ipaserver.install.dns
+-  add missing /ipaplatform/constants.py to .gitignore
+-  Makefile: disable parallel build
+-  dns: Handle SERVFAIL in check if domain already exists.
+
+.. _rob_crittenden_1:
+
+Rob Crittenden (1)
+~~~~~~~~~~~~~~~~~~
+
+-  Use %license instead of %doc for packaging the license
+
+.. _robert_kuska_1:
+
+Robert Kuska (1)
+~~~~~~~~~~~~~~~~
+
+-  Replace StandardError with Exception
+
+.. _simo_sorce_23:
+
+Simo Sorce (23)
+~~~~~~~~~~~~~~~
+
+-  Fix DNS records installation for replicas
+-  Remove custom utility function from krbinstance
+-  Move sasl mappings creation to dsinstance
+-  Simplify adding options in ipachangeconf
+-  Insure the admin_conn is disconnected on stop
+-  Remove unused arguments
+-  Simplify the install_replica_ca function
+-  Add ipa-custodia service
+-  Require a DS version that has working DNA plugin
+-  Implement replica promotion functionality
+-  Change DNS installer code to use passed in api
+-  Allow ipa-replica-conncheck to use default creds
+-  Add function to extract CA certs for install
+-  Allow to setup the CA when promoting a replica
+-  Make checks for existing credentials reusable
+-  Add low level helper to get domain level
+-  Remove unused kra option
+-  Allow ipa-ca-install to use the new promotion code
+-  Allow to install the KRA on a promoted server
+-  Check early if a CA is already installed locally
+-  Return default TL_DATA is krbExtraData is missing
+-  Support sourcing the IPA server name from config
+-  Sync kerberos LDAP schema with upstream.
+
+.. _stanislav_laznicka_3:
+
+Stanislav Laznicka (3)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipa-client-install: warn when IP used in --server
+-  Fixes disappearing automember expressions
+-  Removed duplicate domain name validating function
+
+.. _sumit_bose_3:
+
+Sumit Bose (3)
+~~~~~~~~~~~~~~
+
+-  ipasam: fix wrong usage of talloc_new()
+-  ipasam: use more restrictive search filter for group lookup
+-  ipasam: fix a use-after-free issue
+
+.. _timo_aaltonen_7:
+
+Timo Aaltonen (7)
+~~~~~~~~~~~~~~~~~
+
+-  paths: Add GENERATE_RNDC_KEY.
+-  httpinstance: Replace a hardcoded path to password.conf with
+   HTTPD_PASSWORD_CONF
+-  ipaplatform: Add HTTPD_USER to constants, and use it.
+-  ipaplatform: Add NAMED_USER to constants
+-  httpinstance: Use full path via HTTPD_IPA_REWRITE_CONF for Include.
+-  ipaplatform: Add SECURE_NFS_VAR to constants
+-  ipaplatform: Add NTPD_OPTS_VAR and NTPD_OPTS_QUOTE to constants
+
+.. _tomáš_babej_59:
+
+Tomáš Babej (59)
+~~~~~~~~~~~~~~~~
+
+-  ipalib: Fix missing format for InvalidDomainLevelError
+-  Revert "Hide topology and domainlevel features"
+-  trusts: Check for AD root domain among our trusted domains
+-  domainlevel: Fix incorrect initializations of InvalidDomainLevelError
+   exceptions
+-  ipaplatform: Add constants submodule
+-  tests: user_plugin: Add preserved flag when --all is used
+-  dcerpc: Expand explanation for WERR_ACCESS_DENIED
+-  idviews: Check for the Default Trust View only if applying the view
+-  tests: service_plugin: Make sure the cert is decoded from base64
+-  tests: realmdomains_plugin: Add explanatory comment
+-  tests: Version is currently generated during command call
+-  tests: vault_plugin: Skip tests if KRA not available
+-  tests: test_rpc: Create connection for the current thread
+-  tests: test_cert: Services can have multiple certificates
+-  dcerpc: Fix UnboundLocalError for ccache_name
+-  dcerpc: Add get_trusted_domain_object_type method
+-  idviews: Restrict anchor to name and name to anchor conversions
+-  idviews: Enforce objectclass check in idoverride*-del
+-  replication: Fix incorrect exception invocation
+-  Fix incorrect type comparison in trust-fetch-domains
+-  dcerpc: Simplify generation of LSA-RPC binding strings
+-  adtrust-install: Correctly determine 4.2 FreeIPA servers
+-  trusts: Detect domain clash with IPA domain when adding a AD trust
+-  trusts: Detect missing Samba instance
+-  winsync-migrate: Add warning about passsync
+-  winsync-migrate: Expand the man page
+-  winsync: Add inetUser objectclass to the passsync sysaccount
+-  ipa-backup: Add mechanism to store empty directory structure
+-  winsync-migrate: Convert entity names to posix friendly strings
+-  winsync-migrate: Properly handle collisions in the names of external
+   groups
+-  util: Add detect_dns_zone_realm_type helper
+-  realmdomains: Minor style and wording improvements
+-  realmdomains: Add validation that realmdomain being added is indeed
+   from our realm
+-  realmdomains: Issue a warning when automated management of
+   realmdomains failed
+-  realmdomains: Do not fail due the ValidationError when adding
+   \_kerberos TXT record
+-  tests: Amend result assertions in realmdomains tests
+-  idoverride: Ignore ValidationErrors when converting the anchor
+-  tests: Add tests for idoverride object integrity
+-  trusts: Make trust_show.get_dn raise properly formatted NotFound
+-  trustdomain: Perform validation of the trust domain first
+-  adtrustinstance: Wait for sidgen task completion
+-  adtrustinstance: Restart samba service at the end of adtrust-install
+-  adtrustinstance: Do not use bare except clauses
+-  ipachangeconf: Remove reference to an old-style interface
+-  spec: Add Provides directives to alternative package names
+-  private_ccache: Harden the removal of KRB5CCNAME env variable
+-  ipachangeconf: Add ability to preserve section case
+-  ipa-client-automount: Leverage IPAChangeConf to configure the domain
+   for idmapd
+-  custodia: Make sure container is created with first custodia replica
+-  replicainstall: Add possiblity to install client in one command
+-  translations: Update ipa.pot file
+-  man: Update the ipa-replica-install manpage with promotion related
+   info
+-  tests: Fix incorrect uninstall method invocation
+-  replicainstall: Admin password should not conflict with replica file
+-  topology: Make sure the old 'realm' topology suffix is not used
+-  topology: Fix: Make sure the old 'realm' topology suffix is not used
+-  tests: Add hostmask detection for sudo rules validating on hostmask
+-  replicainstall: Add check for domain if server is specified
+-  replicainstall: Make sure the enrollment state is preserved
+
+.. _yuri_chornoivan_2:
+
+Yuri Chornoivan (2)
+~~~~~~~~~~~~~~~~~~~
+
+-  Fix minor typos
+-  Fix minor typos

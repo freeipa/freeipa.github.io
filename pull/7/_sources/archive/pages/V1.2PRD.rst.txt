@@ -1,0 +1,315 @@
+Summary
+=======
+
+freeIPA1.2 will focus on making IPA as useable as possible by other
+projects. This will include enabling IPA to manage machine and service
+identity and creating a plug-in architecture for IPA.
+
+.. _main_use_cases_solved:
+
+Main use cases solved
+=====================
+
+-  User Identity
+
+   -  Same as IPAv1
+
+-  Machine authentication and identity
+
+   -  Identify and group machines (and virtual instances)
+   -  Allow new machines to join IPA and gain an identity
+   -  Easily provide each machine with a kerberos principal and
+      certificate
+   -  Use above to authenticate machines and provide trust
+
+-  Service authentication and identity
+
+   -  Identify and group applications
+   -  Easily provide services with kerberos key tab and service specific
+      certificates
+   -  Use above to enable authentiation of services and encryption of
+      traffic
+
+-  Policy and Audit
+
+   -  Coming in IPAv2!
+
+-  Easier to build virtual appliances
+
+.. _compelling_reason_to_use:
+
+Compelling reason to use
+========================
+
+-  Compliance and efficiency push to have a better identity management
+   solution for the Linux/Unix world
+-  Have been using services that "assume a security mechanism" and wish
+   to secure connections with kerberos or pki
+
+.. _high_level_requirements:
+
+High Level Requirements
+=======================
+
+\*#Machine / Service Identity
+
+\*#Certificate Authority Integration
+
+\*#Plugin Architecture / Framework
+
+\*#Schema Cleanup
+
+\*#Kerberos Referals
+
+\*#IPA client
+
+\*#Authconfig Support For IPA
+
+\*#Additional Kerberos Configuration In LDAP
+
+\*#Better Access Reporting
+
+\*#Easier to build virtual appliances
+
+.. _detailed_requirements:
+
+Detailed Requirements
+=====================
+
+.. _machine_identity:
+
+Machine Identity
+----------------
+
+-  [1] A newly installed machine that is running the IPA client software
+   shall be able to automatically discovers the IPA server. Policy on
+   that IPA server shall determine whether:
+
+   -  [1.1] The machine shall automatically be registered in IPA and
+      configured with settings that were pre initialised
+   -  [1.2] An Administrator is required to manually authenticate to the
+      IPA server and initialise the configuration settings
+
+-  [2] Upon join a unique and permanent identifier (machine guid) shall
+   be set for each machine and virtual machine.
+
+   -  [2.1] Assign a kerberos principal to the machine/vm.
+   -  [2.2] Kerberos machine/vm principal name will be administrator
+      assigned or automatically set
+   -  [2.3] Kerberos machine/vm principal will default to the hostname
+   -  [2.4] Capture attributes about the machine
+
+      -  [2.4.1] Hostname
+      -  [2.4.2] IP address
+      -  [2.4.3] Identify operating system on the machine
+      -  [2.4.6] in the case of administrator enrollment, the ID of the
+         admin
+
+-  [3] Enable grouping of machines
+-  [4] Name change and migration scenarios. Provide a tool to
+
+   -  [4.1]Change the machine/vm hostname
+   -  [4.2]Change the machine kerberos principal name when a virtual
+      machine is copied or migrated
+
+-  [5] Renewal
+
+   -  [5.1] Automatically renew kerberos principal and service
+      principals (Is this needed)
+   -  [5.2] Automatically renew certificates before expiration ---
+      (Question of how applications behave when this happens)
+
+-  [6] Allow a machine to leave the realm, removing the identity from
+   IPA and destroying/revoking any certificates / keytabs.
+
+   -  The task of removing a machine from a realm should not require
+      access (physical or networked) to that client machine
+
+.. _service_identity:
+
+Service Identity
+----------------
+
+-  [7] Upon join, issue kerberos keytab and/or service certs to services
+   and applications. Policy shall determine how services are specified:
+
+   -  [7.1] Services can be specified by tools on the client machine.
+      Credentials will be immediately generated and stored in the
+      specified location
+   -  [7.2] Services can be specified with the GUI on the IPA server.
+      Administrators will specify the service and define the location
+      where the credentials shall be stored. The IPA client will at some
+      future point download those service credential and store them in
+      the appropriate location
+
+-  [8] Enable grouping of services and applications
+-  [9] Machine kerberos principals should not be used for services by
+   default
+
+   -  [9.1] One exception to this will be sshd which will the Machine
+      kerberos principal
+
+-  [10] Service principals and/or service certs should be easily
+   generatable and useable
+-  [11] Option to automatically create service principal and/or certs
+   when a new service is setup (later than join)
+-  [12] Should be easy to give the same service principal to multiple
+   services on different machines (cluster use case)
+
+.. _certificate_authority_integration:
+
+Certificate Authority Integration
+---------------------------------
+
+-  [13] Include a certificate authority as part of default server
+   install and config
+
+   -  [13.1] No other Certificate system components will be included in
+      this release
+   -  [13.2] No key escrow DRM
+   -  [13.3] No token mangement or token key smartcard components
+   -  [13.4] No OCSP responder
+
+-  [14] Utilize certificate authority to gain service certs for each IPA
+   server (for LDAP sevice and Web service only)
+-  [15] Certificate Authority will be used to issue the machine and
+   service specific certs
+-  [16] In this version, there will only be support for machine and
+   service certificates. There will be no support for user certificates
+   for authentiation, signing, encryption
+-  [17] It should be possible to store Certificates and key material in
+   either flat files or an NSS database
+
+.. _plugin_architecture_framework:
+
+Plugin Architecture / Framework
+-------------------------------
+
+-  [18]IPA should be built with a plugin framework that supports the
+   addition of multiple different plugin modules
+
+   -  [18.1] Possible plugins could be freeRADIUS, Samba, Certificate
+      system for user authentication
+
+-  [19] Plug-ins should be able to provide schema that is picked up by
+   the GUI
+
+   -  [19.1] Existing entries should be dynamically updated with default
+      values where required by the new Schema
+
+-  [20] Plug-ins should be able to be installed into IPA easily
+
+   -  [20.1] No restart of the core IPA Directory and Authentication
+      services should be required
+   -  [20.2] The GUI may be restarted to reflect new plugin UI elements
+
+-  [21] Plug-ins should be able to extended the XML-RPC api
+
+   -  [21.1] Plug-ins can it split into discrete elements
+   -  [21.2] Schema / UI / Services
+
+-  [22] It should be possible to deploy these elements in an asymetric
+   fashion on different IPA servers
+
+   -  [22.1] For example, a plugin's schema is deployed on all IPA
+      replica instances but the UI and Service will only run on a single
+      IPA sever
+
+.. _schema_cleanup:
+
+Schema cleanup
+--------------
+
+-  [23] Rework IPA schema
+
+   -  [23.1]Make it easy to extend for plug-ins
+   -  [23.2] Create new schema to support Machine and Service identity
+   -  [23.3] Identity schema should be updated to allow better standard
+      Kerberos definitions
+   -  [23.4] Identity schema should be updated to allow better
+      integration with Active Directory
+
+.. _kerberos_referals:
+
+Kerberos Referals
+-----------------
+
+-  [24] Support Kerberos referals in DS and IPA
+-  [25]Allow Kerberos principals to be know by multiple aliases
+
+   -  [25.1] For example, clients do not have to know a mail or
+      webservers fully qualified domain name in order to authenticate an
+      alias or shortname should be sufficient
+
+.. _ipa_client:
+
+IPA client
+----------
+
+-  [26] IPA shall provide client tools that shall initially set, update,
+   and manage the following
+
+   -  [26.1] Update client Kerberos configuration files
+   -  [26.2] Update client Directory Server configuration files
+   -  [26.3] Update client Authentication files for system login and
+      sshd
+   -  [26.4] Update client NTP config
+   -  [26.5] If the IPA server has been configured as a DNS server the
+      client config tool should configure the appropriate DNS
+      configuration on the client.
+
+-  [27] A user shall be able to perform the following from an updated
+   serverauthconfig
+
+   -  [27.1] Run a client configuration tool
+   -  [27.2] Click on IPA Centralized Management
+   -  [27.3] Service discovery is attempted
+   -  [27.4] Success: ask user if they would like to use discovered
+      realm. Client will be configured to authenticate against realm
+      using dns service discovery.
+   -  [27.5] Failure: prompt for the host name / ip of auth server.
+      Client will be configured to authenticate against the ream using
+      only the provided host (no service discovery).
+   -  [27.6] Optionally the user can visit the Administration UI on the
+      IPA server and have it generate sample configuration files (e.g.
+      httpd.conf) or have it configure the browser to work with that
+      Kerberos Realm
+
+-  [28] IPA client shall include the following additional client
+   functionality
+
+   -  [28.1] Implement a local cache to enable user authentication (and
+      eventually authorization) when offline
+   -  [28.2] Apply policy on these local credentials. e.g. after 90 days
+      system must be reconnected to renew policy
+   -  [28.3] On reconnect the data is re-synced (and possibly revoked if
+      required)
+   -  [28.4] Know whether the connection to IPA is up or down
+   -  [28.5] Proxy requests from other services to the IPA server and
+      back
+   -  [28.6] Locally apply the following setting if they have been
+      modified on the IPA server
+
+      -  [28.6.1] Service and Machine credentials (keytabs and
+         certificates)
+      -  [28.6.2] System configuration information (krb, ldap, ntp, dns)
+
+.. _additional_kerberos_configuration_in_ldap:
+
+Additional Kerberos Configuration In LDAP
+-----------------------------------------
+
+-  [29] Currently much of the Kerberos Service configuration information
+   is stored in files on the local file system. This makes replication
+   problematic. Kerberos config should be stored in the Directory so it
+   can be replicated throughout the IPA infrastructure
+
+.. _security_of_system:
+
+Security of System
+------------------
+
+-  [30] To modify data in IPA, user/process needs to be authenticated
+   and authorized
+-  [31] Secure the communication between central management store and
+   machines

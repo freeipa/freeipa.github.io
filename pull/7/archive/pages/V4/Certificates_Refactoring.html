@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Certs_in_ID_overrides.html" />
+    <link rel="prev" title="Overview" href="Certificate_revocation_behaviour_standardisation.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA code is using certificates in many different ways, through
+various API and tools (NSS, openssl, …) The goal of this refactoring
+is to provide consistent methods to handle certificates, and will
+consist in 3 different efforts:</p>
+<ul class="simple">
+<li><p>Use python-cryptography instead of ipalib.x509 and ipalib.pkcs10
+(ticket #6398)</p></li>
+<li><p>Use certmonger to request certificates during installation (ticket
+#6433)</p></li>
+<li><p>Provide a consistent certificate DB API</p></li>
+</ul>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="certificate-issuance-during-installation">
+<span id="id1"></span><h2>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Permalink to this heading">¶</a></h2>
+<p>During FreeIPA installation, 3 different certificates are requested:</p>
+<ul class="simple">
+<li><p>a certificate for the renew agent (CN=IPA RA,O=$DOMAIN) stored in
+/etc/httpd/alias with the nickname <strong>ipaCert</strong></p></li>
+<li><p>a certificate for the LDAP server (CN=$FQDN,$DOMAIN) stored in
+/etc/dirsrv/slapd-$DOMAIN) with the nickname <strong>Server-Cert</strong></p></li>
+<li><p>a certificate for the HTTP server (CN=$FQDN,$DOMAIN) stored in
+/etc/httpd/alias) with the nickname <strong>Server-Cert</strong></p></li>
+</ul>
+<p>The methods to obtain those certificates are not consistent but could be
+unified by using certmonger to process the issuance. Furthermore, the
+certificates are later tracked by certmonger. The code needs to take
+into consideration the profile that will be used for each certificate,
+as well as certmonger’s CA helper responsible for the request and the
+tracking.</p>
+<section id="ipacert">
+<h3>ipaCert<a class="headerlink" href="#ipacert" title="Permalink to this heading">¶</a></h3>
+<p>This certificate is requested early in the installation process, after
+Dogtag is configured. At this point, Dogtag has created a certificate
+for ipa-ca-agent in a temporary NSS DB (specified in the pkispawn config
+file as the parameter pki_client_database_dir) that can be used to
+request the RA agent cert.</p>
+<p>ipaCert must be requested and tracked by dogtag-ipa-ca-renew-agent CA
+helper, meaning that the helper needs to be modified in order to use the
+temp cert ipa-ca-agent to communicate with Dogtag. Pseudo-code for the
+ra request would be the following:</p>
+<ul class="simple">
+<li><p>configure dogtag-ipa-ca-renew-agent CA helper with helper-location:
+/usr/libexec/certmonger/dogtag-ipa-ca-renew-agent-submit</p></li>
+<li><p>RA request:</p>
+<ul>
+<li><p>temporarily modify dogtag-ipa-ca-renew-agent CA helper to use
+ipa-ca-agent stored in the temp NSS DB</p></li>
+<li><p>request ipaCert through certmonger, with the profile caServerCert</p></li>
+<li><p>restore original values for dogtag-ipa-ca-renew-agent CA helper</p></li>
+</ul>
+</li>
+</ul>
+<p>It is important to use the profile caServerCert as it does not define
+auth.instance_id, meaning that it allows submission without
+authentication.</p>
+</section>
+<section id="ldap-http-server-certificate">
+<span id="ldaphttp-server-certificate"></span><h3>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Permalink to this heading">¶</a></h3>
+<p>These certificate must be requested and tracked using IPA CA helper,
+with the profile caIPAserviceCert. This profile is defined in Dogtag
+with auth.instance_id=raCertAuth, meaning that the submission must be
+performed with authentication, using a SSL certificate for a user member
+of cn=Registration Manager Agents,ou=groups,o=ipaca. The ipaCert
+certificate can be used in this case. The issue is that IPA is not
+completely configured at this point and IPA CA helper will not be able
+to handle the certificate request. To workaround this, we need to
+temporarily reconfigure IPA CA helper to use
+/usr/libexec/certmonger/dogtag-submit instead of
+/usr/libexec/certmonger/ipa-submit. Pseudo code:</p>
+<ul class="simple">
+<li><p>temporarily modify IPA CA helper to use dogtag-submit and agent
+authentication with ipaCert</p></li>
+<li><p>request Server-Cert through certmonger, with the profile
+caIPAserviceCert</p></li>
+<li><p>restore original values for IPA CA helper</p></li>
+</ul>
+</section>
+</section>
+<section id="refactor-certificate-processing-code-to-use-python-cryptography">
+<span id="id2"></span><h2>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Permalink to this heading">¶</a></h2>
+<p>Using python-nss for certificate processing has several problems,
+including:</p>
+<ul class="simple">
+<li><p>problems with opening multiple NSSDBs</p></li>
+<li><p>problems with opening a single NSSDB in multiple processes</p></li>
+<li><p>python-nss bugs and poor error reporting</p></li>
+<li><p>lots of NSS functionality not exposed by python-nss</p></li>
+</ul>
+<p>It was desired that we should refactor certificate and CSR processing
+code to use python-cryptography instead of python-nss. This is largely a
+mechanical procedure. Aspects of this refactoring where substantive
+changes were required are detailed in the following subsections.</p>
+<section id="dealing-with-distinguished-names">
+<span id="id3"></span><h3>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Permalink to this heading">¶</a></h3>
+<p>Whereas python-nss exposed DNs as strings (in LDAP order),
+python-cryptography exposes <code class="docutils literal notranslate"><span class="pre">cryptography.x509.name.Name</span></code> objects.
+FreeIPA often needs to work with <code class="docutils literal notranslate"><span class="pre">ipapython.dn.DN</span></code> objects, as well as
+string representations. <code class="docutils literal notranslate"><span class="pre">DN</span></code> objects can be stringified, so it was
+necessary and sufficient to extend the <code class="docutils literal notranslate"><span class="pre">DN</span></code> constructor to accept
+<code class="docutils literal notranslate"><span class="pre">Name</span></code> objects. When converting a <code class="docutils literal notranslate"><span class="pre">Name</span></code>, the constructor consults a
+mapping of python-cryptography <code class="docutils literal notranslate"><span class="pre">ObjectIdentifier</span></code> values to LDAP
+attribute names.</p>
+<p>The current version of python-cryptography does not properly handle
+multi-value RDNs. This will be fixed in python-cryptography 1.6. Once
+v1.6 is available, the <code class="docutils literal notranslate"><span class="pre">DN</span></code> constructor should be updated accordingly.
+In practice, due to the rarity of multi-value RDNs in practice, and the
+fact that “flattened” DNs should still compare equal, the lack of proper
+handling is unlikely to cause problems.</p>
+</section>
+<section id="dealing-with-known-othername-types">
+<span id="id4"></span><h3>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Permalink to this heading">¶</a></h3>
+<p>python-cryptography exposes a single type
+<code class="docutils literal notranslate"><span class="pre">cryptography.x509.general_name.OtherName</span></code> for OtherName GeneralNames.
+There are no hooks for informing python-cryptography of more specific
+types that you would like to be recognised.</p>
+<p>FreeIPA does need to parse and inspect <em>KRBPrincipalName</em> and <em>UPN</em>
+OtherName values. We define corresponding subclasses of <code class="docutils literal notranslate"><span class="pre">OtherName</span></code>,
+which are constructed by application to an <code class="docutils literal notranslate"><span class="pre">OtherName</span></code> value, which
+perform additional decoding and expose the more specific data through
+additional attributes. When processing general names, we provide a
+function that is applied a list of
+<code class="docutils literal notranslate"><span class="pre">cryptography.x509.general_name.GeneralName</span></code> values, and maps
+<code class="docutils literal notranslate"><span class="pre">OtherName</span></code> values of known types into the corresponding subtype,
+returning the resulting list.</p>
+</section>
+<section id="avoiding-pkcs-10-friendlyname-attribute">
+<span id="id5"></span><h3>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">dogtag-ipa-ca-renew-agent</span></code> Certmonger renewal helper needs to
+determine the NSSDB nickname of the certificate being renewed.
+Certmonger includes this datum in the <em>friendlyName</em> attribute in the
+PKCS #10 CSR. python-nss does not provide a way to access this datum, so
+we used hand-rolled <em>pyasn1</em> definitions to decode this information
+ourselves. We wished to remove this.</p>
+<p>python-cryptography, like python-nss, does not include a way of reading
+the <em>friendlyName</em> attribute. Therefore a different approach was taken.
+In <code class="docutils literal notranslate"><span class="pre">dogtag-ipa-ca-renew-agent</span></code>, using the FreeIPA deployment’s
+certificate <em>subject base</em>, we construct a mapping of subject DNs to
+NSSDB nicknames. We then use the value of the <code class="docutils literal notranslate"><span class="pre">CERTMONGER_REQ_SUBJECT</span></code>
+environment variable as the key to look up the NSSDB nickname.</p>
+<p>All CSR-related <em>pyasn1</em> definitions and decoding were removed.</p>
+</section>
+<section id="decoding-certificate-subject-alternative-name-extension">
+<span id="id6"></span><h3>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Permalink to this heading">¶</a></h3>
+<p>python-cryptography does successfully decode certificates with
+unrecognised <em>critical</em> extensions, because the decoding of extensions
+is deferred until the user attempts to access the <code class="docutils literal notranslate"><span class="pre">extensions</span></code>
+attribute (<code class="docutils literal notranslate"><span class="pre">UnrecognisedExtension</span></code> will be thrown at this point).
+Until such time as python-cryptography provides a way to handle this
+scenario, to process the certificate Subject Alternative Name (SAN)
+extension, we must decode the <em>TBSCertificate</em> data ourselves.</p>
+<p>Using definitions provided by the <em>pyasn1-modules</em> library, we decode
+the value of the <code class="docutils literal notranslate"><span class="pre">cryptography.x509.Certificate.tbs_certificate_bytes</span></code>
+attribute and look for the SAN extension. Then for each general name, we
+instantiate the relevant <code class="docutils literal notranslate"><span class="pre">cryptography.x509.general_name.GeneralName</span></code>
+subclass (this is a forward-compatiblity measure and ensures commonality
+among higher-level functions that process general names). We <em>do not</em>
+convert known OtherName types into subclasses of <code class="docutils literal notranslate"><span class="pre">OtherName</span></code> at this
+point (the function discuss above can be used to do this).</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Certificates_Refactoring.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

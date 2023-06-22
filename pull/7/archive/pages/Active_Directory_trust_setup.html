@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Description &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Managing User Accounts" href="Administrators_Guide.html" />
+    <link rel="prev" title="The problem" href="Access_Control.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="description">
+<h1>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h1>
+<p>This page explains how to setup and configure cross-forest trust between
+an IPA domain and an AD (Active Directory) domain.</p>
+</section>
+<section id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>FreeIPA 3.3.3 or later is recommended</p></li>
+<li><p>Windows Server 2008 R2 or later with configured AD DC and DNS
+installed locally on the DC</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">If you need to install and configure AD DC for testing purposes, you
+can follow article <a class="reference external" href="Setting_up_Active_Directory_domain_for_testing_purposes">Setting up Active Directory domain for testing
+purposes</a>.</div>
+</div>
+<section id="ipv6-stack-usage">
+<span id="id1"></span><h2>IPv6 stack usage<a class="headerlink" href="#ipv6-stack-usage" title="Permalink to this heading">¶</a></h2>
+<p>Recommended way for contemporary networking applications is to only open
+IPv6 sockets for listening because IPv4 and IPv6 share the same port
+range locally. FreeIPA uses Samba as part of its Active Directory
+integration and Samba <strong>requires enabled IPv6 stack</strong> on the machine.</p>
+<p>Adding <strong>``ipv6.disable=1``</strong> to the kernel command line disables the
+whole IPv6 stack</p>
+<p>Adding <strong>``ipv6.disable_ipv6=1``</strong> will keep the IPv6 stack functional
+but will not assign IPv6 addresses to any of your network devices. This
+is recommended approach for cases when you don’t use IPv6 networking.</p>
+<p>Creating and adding to for example /etc/sysctl.d/ipv6.conf will avoid
+assigning IPv6 addresses to a specific network interface</p>
+<div class="line-block">
+<div class="line">`` # Disable IPv6``</div>
+<div class="line">`` net.ipv6.conf.all.disable_ipv6 = 1``</div>
+<div class="line">`` net.ipv6.conf.``<code class="docutils literal notranslate"><span class="pre">.disable_ipv6 = 1</span></code></div>
+</div>
+<p>where <em>interface0</em> is your specialized interface.</p>
+<p><strong>Note that all we are requiring is that IPv6 stack is enabled at the
+kernel level</strong> and this is recommended way to develop networking
+applications for a long time already.</p>
+</section>
+<section id="trusts-and-windows-server-2003-r2">
+<span id="id2"></span><h2>Trusts and Windows Server 2003 R2<a class="headerlink" href="#trusts-and-windows-server-2003-r2" title="Permalink to this heading">¶</a></h2>
+<p>As noted above, the requirement for trusts is Windows Server 2008 R2.
+While cross-forest trusts were added to forest functional level Windows
+Server 2003, there are additional requirements imposed by use of AES
+encryption types which require domain functional level Windows Server
+2008. It is possible to establish a trust between a FreeIPA server and
+Windows Server 2003 R2, with limited functionality with only RC4 and DES
+encryption types. Next paragraph describes the actions needed in order
+to do this. Please note, however, that this is unsupported, highly
+experimental and of very limited value because of the weak encryption
+types for trusted domain objects which can be reasonably easy cracked
+with current advances in technology.</p>
+<p>In order to establish a trust between a FreeIPA server and a Windows
+Server 2003 R2, you need to raise the forest functional level to Windows
+Server 2003. To do this, open ‘Active Directory Domains and Trusts’
+snap-in and right-click on ‘Active Directory Domains and Trusts’ root in
+the left pane. Then select ‘Raise forest functional level …’ and use
+‘Windows Server 2003’ as the level to raise.</p>
+<p>Make sure you perform this action before establishing a trust with the
+‘ipa trust-add’ command. The rest of the setup is identical to that of
+Windows Server 2008 R2.</p>
+</section>
+</section>
+<section id="assumptions">
+<h1>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>IPA server IP address: <em>ipa_ip_address</em> (e.g. 10.16.78.61)</p></li>
+<li><p>IPA server hostname: <em>ipa_hostname</em> (e.g.
+ipaserver.ipadomain.example.com)</p></li>
+<li><p>IPA domain: <em>ipa_domain</em> (e.g. ipadomain.example.com)</p></li>
+<li><p>IPA NetBIOS: <em>ipa_netbios</em> (e.g. IPADOMAIN)</p></li>
+<li><p>IPA Kerberos realm, IPA_DOMAIN, is equal to IPA domain (e.g.
+IPADOMAIN.EXAMPLE.COM and ipadomain.example.com)</p></li>
+<li><p>AD DC IP address: <em>ad_ip_address</em> (e.g. 10.16.79.150)</p></li>
+<li><p>AD DC hostname: <em>ad_hostname</em> (e.g. adserver)</p></li>
+<li><p>AD domain: <em>ad_domain</em> (e.g. addomain.example.com)</p></li>
+<li><p>AD NetBIOS: <em>ad_netbios</em> (e.g. ADDOMAIN)</p></li>
+<li><p>AD admins group SID: <em>ad_admins_sid</em> (e.g.
+S-1-5-21-16904141-148189700-2149043814-512)</p></li>
+</ul>
+<p><strong>NOTE</strong>: AD domain and IPA domain must be different, this is very basic
+requirement for any Active Directory cross-forest trust.</p>
+<p><strong>NOTE</strong>: italicized text should be replaced with real values. E.g. if
+IPA domain is <code class="docutils literal notranslate"><span class="pre">ipadomain.example.com</span></code>, and the IP address of IPA
+server is <code class="docutils literal notranslate"><span class="pre">10.16.78.61</span></code>, the command:</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>C:&gt; dnscmd 127.0.0.1 /ZoneAdd <a href="#id5"><span class="problematic" id="id6">``</span></a><em>``ipa_domain``</em>`` /Forwarder <a href="#id7"><span class="problematic" id="id8">``</span></a><em>``ipa_ip_address``</em></p>
+<p>should look like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">C:\&gt; dnscmd 127.0.0.1 /ZoneAdd ipadomain.example.com /Forwarder 10.16.78.61</span></code></p>
+<p><strong>NOTE</strong>: NetBIOS name is the leading component of the domain name. E.g.
+if the domain name is <code class="docutils literal notranslate"><span class="pre">ipadomain.example.com</span></code>, the NetBIOS name is
+<code class="docutils literal notranslate"><span class="pre">IPADOMAIN</span></code>. NetBIOS namespace is flat, there should be no conflicts
+between all NetBIOS names. NetBIOS names of the IPA domain and AD domain
+must be different. In addtion, NetBIOS names of the IPA server and AD DC
+server must be different.</p>
+</section>
+<section id="install-and-configure-ipa-server">
+<span id="id9"></span><h1>Install and configure IPA server<a class="headerlink" href="#install-and-configure-ipa-server" title="Permalink to this heading">¶</a></h1>
+<section id="make-sure-all-packages-are-up-to-date">
+<span id="id10"></span><h2>Make sure all packages are up to date<a class="headerlink" href="#make-sure-all-packages-are-up-to-date" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre"># yum update -y</span></code></p>
+</section>
+<section id="install-required-packages">
+<span id="id11"></span><h2>Install required packages<a class="headerlink" href="#install-required-packages" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre"># yum install -y &quot;*ipa-server&quot; &quot;*ipa-server-trust-ad&quot; bind bind-dyndb-ldap</span></code></p>
+</section>
+<section id="configure-host-name">
+<span id="id12"></span><h2>Configure host name<a class="headerlink" href="#configure-host-name" title="Permalink to this heading">¶</a></h2>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a># hostnamectl set-hostname <a href="#id15"><span class="problematic" id="id16">``</span></a><em>``ipa_hostname``</em></p>
+</section>
+<section id="install-ipa-server">
+<span id="id17"></span><h2>Install IPA server<a class="headerlink" href="#install-ipa-server" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install -a mypassword1 -p mypassword2 --domain=</span></code><em>``ipa_domain``</em>`` –realm=``<em>``IPA_DOMAIN``</em>`` –setup-dns –no-forwarders -U``</p>
+</section>
+<section id="login-as-admin">
+<span id="id18"></span><h2>Login as admin<a class="headerlink" href="#login-as-admin" title="Permalink to this heading">¶</a></h2>
+<p>To obtain a ticket-granting ticket, run the follwing command:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># kinit admin</span></code></p>
+<p>The password is your admin user’s password (from <code class="docutils literal notranslate"><span class="pre">-a</span></code> option in the
+<code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code> comand).</p>
+</section>
+<section id="make-sure-ipa-users-are-available-to-the-system-services">
+<span id="id19"></span><h2>Make sure IPA users are available to the system services<a class="headerlink" href="#make-sure-ipa-users-are-available-to-the-system-services" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># id admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># getent passwd admin</span></code></div>
+</div>
+<p>Both above commands should return information about the admin user. If
+above commands fail, restart the <code class="docutils literal notranslate"><span class="pre">sssd</span></code> service
+(<code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">sssd</span> <span class="pre">restart</span></code>), and try them again.</p>
+</section>
+<section id="configure-ipa-server-for-cross-forest-trusts">
+<span id="id20"></span><h2>Configure IPA server for cross-forest trusts<a class="headerlink" href="#configure-ipa-server-for-cross-forest-trusts" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-adtrust-install --netbios-name=</span></code><em>``ipa_netbios``</em>`` -a mypassword1``</p>
+<p>When planning access of AD users to IPA clients, make sure to run
+ipa-adtrust-install on every IPA master these IPA clients will be
+connecting to.</p>
+</section>
+</section>
+<section id="cross-forest-trust-checklist">
+<span id="id21"></span><h1>Cross-forest trust checklist<a class="headerlink" href="#cross-forest-trust-checklist" title="Permalink to this heading">¶</a></h1>
+<p>Before establishing a cross-forest trust, some additional configuration
+must be performed.</p>
+<section id="date-time-settings">
+<span id="datetime-settings"></span><h2>Date/time settings<a class="headerlink" href="#date-time-settings" title="Permalink to this heading">¶</a></h2>
+<p>Make sure both timezone settings and date/time settings on both servers
+match.</p>
+</section>
+<section id="firewall-configuration">
+<span id="id22"></span><h2>Firewall configuration<a class="headerlink" href="#firewall-configuration" title="Permalink to this heading">¶</a></h2>
+<section id="on-ad-dc">
+<span id="id23"></span><h3>On AD DC<a class="headerlink" href="#on-ad-dc" title="Permalink to this heading">¶</a></h3>
+<p>Windows Firewall configuration (to be added).</p>
+</section>
+<section id="on-ipa-server">
+<span id="id24"></span><h3>On IPA server<a class="headerlink" href="#on-ipa-server" title="Permalink to this heading">¶</a></h3>
+<p>IPA uses the following ports to communicate with its services:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">TCP ports: 80, 88, 443, 389, 636, 88, 464, 53, 135, 138, 139, 445, 1024-1300</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">UDP ports: 88, 464, 53, 123, 138, 139, 389, 445</span></code></div>
+</div>
+<p>These ports must be open and available; they cannot be in use by another
+service or blocked by a firewall. Especially ports 88/udp, 88/tcp,
+389/udp are important to keep open on IPA servers to allow AD clients to
+obtain cross-realm ticket granting tickets or otherwise single sign-on
+between AD clients and IPA services will not work.</p>
+<p>Ports 135, 1024-1300 are needed to get DCE RPC end-point mapper to work.
+End-point mapper is a key component to accessLSA and SAMR pipes which
+are used to establish trust and access authentication and identity
+information in Active Directory.</p>
+<p>Previously we recommended that you should make sure that IPA LDAP server
+is not reachable by AD DC by closing down TCP ports 389 and 636 for AD
+DC. Our current tests lead to the assumption that this is not necessary
+anymore. During the early development stage we tried to create a trust
+between IPA and AD with both IPA and AD tools. It turned out that the AD
+tools expect an AD like LDAP schema and layout to create a trust. Since
+the IPA LDAP server does not meet those requirements it is not possible
+to create a trust between IPA and AD with AD tools only with the ‘ipa
+trust-add’ command. By blocking the LDAP ports for the AD DC we tried to
+force the AD tools to fall back to other means to get the needed
+information with no success. But we kept the recommendation to block
+those ports because it was not clear at this time if AD will check the
+LDAP layout of a trust partner during normal operation as well. Since we
+have not observed those request the recommendation can be dropped.</p>
+<p>Below are instructions on how to configure the firewall using
+<code class="docutils literal notranslate"><span class="pre">iptables</span></code>.</p>
+<section id="firewalld">
+<h4>Firewalld<a class="headerlink" href="#firewalld" title="Permalink to this heading">¶</a></h4>
+<p>Fedora 18 introduced a new firewall manager: <code class="docutils literal notranslate"><span class="pre">firewalld</span></code>. However,
+<code class="docutils literal notranslate"><span class="pre">firewalld</span></code> does not yet support allowing and blocking services for
+specific hosts. For this reason, we recommend disabling <code class="docutils literal notranslate"><span class="pre">firewalld</span></code>,
+enabling <code class="docutils literal notranslate"><span class="pre">iptables</span></code> and using the sample configuration listed in
+section <a class="reference external" href="#iptables">#iptables</a>.</p>
+<p>To disable <code class="docutils literal notranslate"><span class="pre">firewalld</span></code>:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># chkconfig firewalld off</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># service firewalld stop</span></code></div>
+</div>
+<p>To enable <code class="docutils literal notranslate"><span class="pre">iptables</span></code>:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># yum install -y iptables-services</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># chkconfig iptables on</span></code></div>
+</div>
+<p>Make sure <code class="docutils literal notranslate"><span class="pre">iptables</span></code> configuration file is located at
+<code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/iptables</span></code> and contains the desired configuration, and
+then (re)start the <code class="docutils literal notranslate"><span class="pre">iptables</span></code> service:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service iptables restart</span></code></p>
+</section>
+<section id="iptables">
+<h4>iptables<a class="headerlink" href="#iptables" title="Permalink to this heading">¶</a></h4>
+<p>Make sure that <code class="docutils literal notranslate"><span class="pre">iptables</span></code> is configured to start whenever the system
+is booted:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># chkconfig iptables on</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">iptables</span></code> configuration file is <code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/iptables</span></code>. Taking
+into account the rules that must be applied in order for IPA to work
+properly, here is a sample configuration.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">*filter</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">:INPUT ACCEPT [0:0]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">:FORWARD ACCEPT [0:0]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">:OUTPUT ACCEPT [0:0]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p icmp -j ACCEPT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -i lo -j ACCEPT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># -A INPUT -s ``\</span> <span class="pre">*``ad_ip_address``*\</span> <span class="pre">`` -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p udp -j REJECT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p tcp -j REJECT</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-A FORWARD -j REJECT --reject-with icmp-host-prohibited</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">COMMIT</span></code></div>
+</div>
+<p>Please note that the line containing “ad_ip_address” is not needed
+anymore (see comments above). If you still want to use it please make
+sure you replace <em>ad_ip_address</em> in the above configuration, with the IP
+address of AD DC.</p>
+<p>Any changes to the <code class="docutils literal notranslate"><span class="pre">iptables</span></code> configuration file will require a
+restart of the <code class="docutils literal notranslate"><span class="pre">iptables</span></code> service:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service iptables restart</span></code></p>
+</section>
+</section>
+</section>
+<section id="dns-configuration">
+<span id="id25"></span><h2>DNS configuration<a class="headerlink" href="#dns-configuration" title="Permalink to this heading">¶</a></h2>
+<p><strong>NOTE</strong>: Any changes to <code class="docutils literal notranslate"><span class="pre">/etc/resolv.conf</span></code> file will require a
+restart of <code class="docutils literal notranslate"><span class="pre">krb5kdc</span></code>, <code class="docutils literal notranslate"><span class="pre">sssd</span></code> and <code class="docutils literal notranslate"><span class="pre">httpd</span></code> services.</p>
+<p>Both AD and IPA domains need to be visible to each other. In normal DNS
+configuration, no changes are required. When the testing DNS domains are
+not part of shared DNS tree visible to both IPA and AD, customer DNS
+zone forwarders can be created:</p>
+<section id="conditional-dns-forwarders">
+<span id="id26"></span><h3>Conditional DNS forwarders<a class="headerlink" href="#conditional-dns-forwarders" title="Permalink to this heading">¶</a></h3>
+<p>On AD DC, add conditional forwarder for IPA domain:</p>
+<p><a href="#id27"><span class="problematic" id="id28">``</span></a>C:&gt; dnscmd 127.0.0.1 /ZoneAdd <a href="#id29"><span class="problematic" id="id30">``</span></a><em>``ipa_domain``</em>`` /Forwarder <a href="#id31"><span class="problematic" id="id32">``</span></a><em>``ipa_ip_address``</em></p>
+<p>On IPA server, add conditional forwarder for AD domain. The command in
+IPA version 3 and 4 are different.</p>
+<ul class="simple">
+<li><p>IPA v3.x:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa dnszone-add ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` --name-server=</span></code><em>``ad_hostname.ad_domain``</em>`` –admin-email=’hostmaster&#64;``<em>``ad_domain``</em><code class="docutils literal notranslate"><span class="pre">' --force --forwarder=</span></code><em>``ad_ip_address``</em>`` –forward-policy=only –ip-address=``<em>``ad_ip_address``</em></p>
+<ul class="simple">
+<li><p>IPA v4.x:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa dnsforwardzone-add ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` --forwarder=</span></code><em>``ad_ip_address``</em>`` –forward-policy=only``</p>
+</section>
+<section id="if-ad-is-subdomain-of-ipa">
+<span id="id33"></span><h3>If AD is subdomain of IPA<a class="headerlink" href="#if-ad-is-subdomain-of-ipa" title="Permalink to this heading">¶</a></h3>
+<p>If the AD domain is a subdomain of the IPA domain (e.g. AD domain is
+<code class="docutils literal notranslate"><span class="pre">addomain.ipadomain.example.com</span></code> and IPA domain is
+<code class="docutils literal notranslate"><span class="pre">ipadomain.example.com</span></code>), configure DNS as follows.</p>
+<p>On IPA server, add an A record and a NS record for the AD domain:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa dnsrecord-add ``\</span> <span class="pre">*``ipa_domain``*\</span> <span class="pre">`` ``\</span> <span class="pre">*``ad_hostname``*\</span> <span class="pre">``.</span></code><em>``ad_netbios``</em>`` –a-ip-address=``<em>``ad_ip_address``</em></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa dnsrecord-add ``\</span> <span class="pre">*``ipa_domain``*\</span> <span class="pre">`` ``\</span> <span class="pre">*``ad_netbios``*\</span> <span class="pre">`` --ns-hostname=</span></code><em>``ad_hostname``</em><code class="docutils literal notranslate"><span class="pre">.</span></code><em>``ad_netbios``</em></div>
+</div>
+<p>On AD DC, there two options.</p>
+<p>The first one is to configure a global forwarder to forward DNS queries
+to the IPA domain:</p>
+<p><code class="docutils literal notranslate"><span class="pre">C:\&gt; dnscmd 127.0.0.1 /ResetForwarders ``\</span> <span class="pre">*``ipa_ip_address``*\</span> <span class="pre">`` /Slave</span></code></p>
+<p>The second option is to configure a DNS zone for master-slave
+replication. The data for this zone will then be periodically copied
+from master (IPA server) to slave (AD server).</p>
+<p>To do this, first explicitly allow the transfer of the zone on IPA
+server:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa dnszone-mod ``\</span> <span class="pre">*``ipa_domain``*\</span> <span class="pre">`` --allow-transfer=</span></code><em>``ad_ip_address``</em></p>
+<p>And second, add the DNS zone for the IPA domain on the AD DC:</p>
+<p><a href="#id34"><span class="problematic" id="id35">``</span></a>C:&gt; dnscmd 127 0.0.1 /ZoneAdd <a href="#id36"><span class="problematic" id="id37">``</span></a><em>``ipa_domain``</em>`` /Secondary <a href="#id38"><span class="problematic" id="id39">``</span></a><em>``ipa_ip_address``</em></p>
+</section>
+<section id="if-ipa-is-subdomain-of-ad">
+<span id="id40"></span><h3>If IPA is subdomain of AD<a class="headerlink" href="#if-ipa-is-subdomain-of-ad" title="Permalink to this heading">¶</a></h3>
+<p>If the IPA domain is a subdomain of the AD domain (e.g. IPA domain is
+<code class="docutils literal notranslate"><span class="pre">ipadomain.addomain.example.com</span></code> and AD domain is
+<code class="docutils literal notranslate"><span class="pre">addomain.example.com</span></code>), configure DNS as follows.</p>
+<p>On AD DC, add an A record and a NS record for the IPA domain:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:\&gt; dnscmd 127.0.0.1 /RecordAdd ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` ``\</span> <span class="pre">*``ipa_hostname``*\</span> <span class="pre">``.</span></code><em>``ipa_domain``</em>`` A <a href="#id41"><span class="problematic" id="id42">``</span></a><em>``ipa_ip_address``</em></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:\&gt; dnscmd 127.0.0.1 /RecordAdd ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` ``\</span> <span class="pre">*``ipa_domain``*\</span> <span class="pre">`` NS ``\</span> <span class="pre">*``ipa_hostname``*\</span> <span class="pre">``.</span></code><em>``ipa_domain``</em></div>
+</div>
+</section>
+<section id="verify-dns-configuration">
+<span id="id43"></span><h3>Verify DNS configuration<a class="headerlink" href="#verify-dns-configuration" title="Permalink to this heading">¶</a></h3>
+<p>To make sure both AD and IPA servers can see each other, check if SRV
+records are being properly resolved.</p>
+<p>On AD DC:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:\&gt; nslookup</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; set type=srv</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; _ldap._tcp.</span></code><em>``ad_domain``</em></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; _ldap._tcp.</span></code><em>``ipa_domain``</em></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; quit</span></code></div>
+</div>
+<p>On IPA server:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># dig SRV _ldap._tcp.</span></code><em>``ipa_domain``</em></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># dig SRV _ldap._tcp.</span></code><em>``ad_domain``</em></div>
+</div>
+</section>
+</section>
+</section>
+<section id="establish-and-verify-cross-forest-trust">
+<span id="id44"></span><h1>Establish and verify cross-forest trust<a class="headerlink" href="#establish-and-verify-cross-forest-trust" title="Permalink to this heading">¶</a></h1>
+<section id="add-trust-with-ad-domain">
+<span id="id45"></span><h2>Add trust with AD domain<a class="headerlink" href="#add-trust-with-ad-domain" title="Permalink to this heading">¶</a></h2>
+<section id="when-ad-administrator-credentials-are-available">
+<span id="id46"></span><h3>When AD administrator credentials are available<a class="headerlink" href="#when-ad-administrator-credentials-are-available" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa trust-add --type=ad ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` --admin Administrator --password</span></code></p>
+<p>Enter the Administrator’s password when prompted. If everything was set
+up correctly, a trust with AD domain will be established.</p>
+<p>The user account used when creating a trust (the argument to the
+<code class="docutils literal notranslate"><span class="pre">--admin</span></code> option in the <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">trust-add</span></code> command) must be a member of
+the <code class="docutils literal notranslate"><span class="pre">Domain</span> <span class="pre">Admins</span></code> group.</p>
+<p>At this point IPA will create one-way forest trust on IPA side, will
+create one-way forest trust on AD side, and initiate validation of the
+trust from AD side. For two-way trust one needs to add
+<code class="docutils literal notranslate"><span class="pre">--two-way=true</span></code> option.</p>
+<p>Note that there is currently an issue in creating a one-way trust to
+Active Directory with a shared secret instead of using administrative
+credentials. This is due to lack of privileges to kick off a trust
+validation from AD side in such situation. The issue is being tracked in
+<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1345975">this bug</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">trust-add</span></code> command uses the following method calls on the AD
+server:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">`CreateTrustedDomainEx2</span></code> &lt;<a class="reference external" href="http://msdn.microsoft.com/en-us/library/cc234380.aspx">http://msdn.microsoft.com/en-us/library/cc234380.aspx</a>&gt;`__
+to create the trust between the two domains</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">`QueryTrustedDomainInfoByName</span></code> &lt;<a class="reference external" href="http://msdn.microsoft.com/en-us/library/cc234376.aspx">http://msdn.microsoft.com/en-us/library/cc234376.aspx</a>&gt;`__
+to check if the trust is already added</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">`SetInformationTrustedDomain</span></code> &lt;<a class="reference external" href="http://msdn.microsoft.com/en-us/library/cc234385.aspx">http://msdn.microsoft.com/en-us/library/cc234385.aspx</a>&gt;`__
+to tell the AD server that the IPA server can handle AES encryption</p></li>
+</ul>
+</section>
+<section id="when-ad-administrator-credentials-aren-t-available">
+<span id="when-ad-administrator-credentials-arent-available"></span><h3>When AD administrator credentials aren’t available<a class="headerlink" href="#when-ad-administrator-credentials-aren-t-available" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa trust-add --type=ad &quot;ad_domain&quot; --trust-secret</span></code></p>
+<p>Enter the trust shared secret when prompted. At this point IPA will
+create two-way forest trust on IPA side. Second leg of the trust need to
+be created manually and validated on AD side. Following GIF sequence
+shows how trust with shared secret is created:</p>
+<figure class="align-default" id="id60">
+<img alt="Trust-ad-demo-shared-secret.gif" src="../../_images/Trust-ad-demo-shared-secret.gif" />
+<figcaption>
+<p><span class="caption-text">Trust-ad-demo-shared-secret.gif</span><a class="headerlink" href="#id60" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Once trust leg on AD side is established, one needs to retrieve the list
+of trusted forest domains from AD side. This is done using following
+command:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa trust-fetch-domains &quot;ad_domain&quot;</span></code></p>
+<p>With this command running successfuly, IPA will get information about
+trusted domains and will create all needed identity ranges for them.</p>
+<p>Use “trustdomain-find” to see list of the trusted domains from a trusted
+forest:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa trustdomain-find &quot;ad_domain&quot;</span></code></p>
+</section>
+</section>
+<section id="edit-etc-krb5-conf">
+<span id="edit-etckrb5-conf"></span><h2>Edit /etc/krb5.conf<a class="headerlink" href="#edit-etc-krb5-conf" title="Permalink to this heading">¶</a></h2>
+<p>Many applications ask Kerberos library to verify that Kerberos principal
+can be mapped to some POSIX account. Additionally, there are some
+applications that perform additional check by asking the OS for the
+canonical name of the POSIX account returned by Kerberos library. Note
+that OpenSSH compares the name of principal unchanged but SSSD low-cases
+the realm part, thus real user name is <a class="reference external" href="mailto:Administrator&#37;&#52;&#48;realm">Administrator<span>&#64;</span>realm</a>, not
+<a class="reference external" href="mailto:administrator&#37;&#52;&#48;realm">administrator<span>&#64;</span>realm</a>, when trying to logon with Kerberos ticket over SSH.</p>
+<p>We have several factors in play here:</p>
+<ul class="simple">
+<li><p>Kerberos principals use form <a class="reference external" href="mailto:name&#37;&#52;&#48;REALM">name<span>&#64;</span>REALM</a> where REALM has to be upper
+case in Linux</p></li>
+<li><p>SSSD provides POSIX accounts to AD users always fully qualified
+(<a class="reference external" href="mailto:name&#37;&#52;&#48;domain">name<span>&#64;</span>domain</a>)</p></li>
+<li><p>SSSD normalizes all POSIX accounts to lower case (<a class="reference external" href="mailto:name&#37;&#52;&#48;domain">name<span>&#64;</span>domain</a>) on
+requests which involve returning POSIX account names.</p></li>
+</ul>
+<p>Thus, we need to define rules for mapping Kerberos principals to system
+user names. If MIT Kerberos 1.12+ is in use and SSSD 1.12.1+ is in use,
+you can skip the rest of this section because they implement a localauth
+plugin that automatically does this translation and is set up by
+ipa-client-install.</p>
+<p>If no SSSD support for localauth plugin is available, we need to specify
+auth_to_local rules that map REALM to a low-cased version. auth_to_local
+rules are needed to map a successfully authenticated Kerberos principal
+to some existing POSIX account.</p>
+<p>For the time being, a manual configuration of <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> on the
+IPA server is needed, to allow Kerberos authentication.</p>
+<p>Add these two lines to <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> on every machine that is going
+to see AD users:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[realms]</span></code></div>
+<div class="line"><em>``IPA_DOMAIN``</em>`` = {``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">....</span></code></div>
+<div class="line">``  auth_to_local = RULE:[1:$1&#64;$0](^.*&#64;``<em>``AD_DOMAIN``</em><code class="docutils literal notranslate"><span class="pre">$)s/&#64;</span></code><em>``AD_DOMAIN``</em><code class="docutils literal notranslate"><span class="pre">/&#64;</span></code><em>``ad_domain``</em><code class="docutils literal notranslate"><span class="pre">/</span></code></div>
+<div class="line">``  auth_to_local = DEFAULT``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+</div>
+<p>Restart KDC and sssd</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># service krb5kdc restart</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># service sssd restart</span></code></div>
+</div>
+</section>
+<section id="allow-access-for-users-from-ad-domain-to-protected-resources">
+<span id="id47"></span><h2>Allow access for users from AD domain to protected resources<a class="headerlink" href="#allow-access-for-users-from-ad-domain-to-protected-resources" title="Permalink to this heading">¶</a></h2>
+<p>Before users from trusted domain can access protected resources in the
+IPA realm, they have to be explicitly mapped to the IPA groups. The
+mapping is performed in two steps:</p>
+<ul class="simple">
+<li><p>Add users and groups from trusted domain to an external group in IPA.
+External group serves as a container to reference trusted domain
+users and groups by their security identifiers</p></li>
+<li><p>Map external group to an existing POSIX group in IPA. This POSIX
+group will be assigned proper group id (gid) that will be used as
+default group for all incoming trusted domain users mapped to this
+group</p></li>
+</ul>
+<section id="create-external-and-posix-groups-for-trusted-domain-users">
+<span id="id48"></span><h3>Create external and POSIX groups for trusted domain users<a class="headerlink" href="#create-external-and-posix-groups-for-trusted-domain-users" title="Permalink to this heading">¶</a></h3>
+<p>Create external group in IPA for trusted domain admins:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add --desc=</span></code><em>``’ad_domain``</em>`` admins external map’ ad_admins_external –external``</p>
+<p>Create POSIX group for external <code class="docutils literal notranslate"><span class="pre">ad_admins_external</span></code> group:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add --desc=</span></code><em>``’ad_domain``</em>`` admins’ ad_admins``</p>
+</section>
+<section id="add-trusted-domain-users-to-the-external-group">
+<span id="id49"></span><h3>Add trusted domain users to the external group<a class="headerlink" href="#add-trusted-domain-users-to-the-external-group" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add-member ad_admins_external --external '</span></code><em>``ad_netbios``</em><code class="docutils literal notranslate"><span class="pre">\Domain Admins'</span></code></p>
+<p>When asked for member user and member group, just leave it blank and hit
+Enter.</p>
+<p><strong>NOTE</strong>: Since arguments in above command contain backslashes,
+whitespace, etc, make sure to either use non-interpolation quotes (’) or
+to escape any specials characters with a backslash ().</p>
+</section>
+<section id="add-external-group-to-posix-group">
+<span id="id50"></span><h3>Add external group to POSIX group<a class="headerlink" href="#add-external-group-to-posix-group" title="Permalink to this heading">¶</a></h3>
+<p>Allow members of <code class="docutils literal notranslate"><span class="pre">ad_admins_external</span></code> group to be associated with
+<code class="docutils literal notranslate"><span class="pre">ad_admins</span></code> POSIX group:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add-member ad_admins --groups ad_admins_external</span></code></p>
+</section>
+</section>
+</section>
+<section id="test-cross-forest-trust">
+<span id="id51"></span><h1>Test cross-forest trust<a class="headerlink" href="#test-cross-forest-trust" title="Permalink to this heading">¶</a></h1>
+<section id="using-ssh">
+<span id="id52"></span><h2>Using SSH<a class="headerlink" href="#using-ssh" title="Permalink to this heading">¶</a></h2>
+<p>AD users should now be able to login into IPA domain via SSH. putty SSH
+client for Windows
+(<a class="reference external" href="http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe">http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe</a>) can be used
+to test this. When trying to connect to the IPA domain, make sure you
+use <em>ad_user</em>&#64;<em>ad_domain</em> as username. Note that <em>ad_domain</em> must be
+lower-case. Also, make sure you preserve the case of the username, i.e.
+if username is Administrator, log in as Administrator&#64;<em>ad_domain</em>, not
+administrator&#64;<em>ad_domain</em>.</p>
+</section>
+<section id="using-samba-shares">
+<span id="id53"></span><h2>Using Samba shares<a class="headerlink" href="#using-samba-shares" title="Permalink to this heading">¶</a></h2>
+<p>To create a Samba share on IPA server:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'comment' 'Trust test share'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'read only' 'no'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'valid users' '</span></code><em>``ad_admins_sid``</em><code class="docutils literal notranslate"><span class="pre">'</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'path' '</span></code><em>``/path/to/share``</em><code class="docutils literal notranslate"><span class="pre">'</span></code></div>
+</div>
+<p><strong>NOTE</strong>: To obtain the SID (Security Identifier) of the AD admins
+group, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># wbinfo -n ``\</span> <span class="pre">*</span></code>’ad_netbios``*<code class="docutils literal notranslate"><span class="pre">\Domain Admins'</span></code></p>
+<p>It is a string that looks like this:
+S-1-5-21-16904141-148189700-2149043814-512. <code class="docutils literal notranslate"><span class="pre">wbinfo</span></code> executable is
+contained in <code class="docutils literal notranslate"><span class="pre">samba-winbind-clients</span></code> package which is optional to
+FreeIPA.</p>
+<p>To access the share from a Windows machine:</p>
+<ul class="simple">
+<li><p>Start -&gt; right click on Network -&gt; Map Network Drive</p></li>
+<li><p>‘Drive’: choose a drive letter for the share</p></li>
+<li><p>‘Folder’: \\<em>ipa_hostname.ipa_domain</em>\share</p></li>
+<li><p>The share should now be mounted under the drive letter that you chose</p></li>
+</ul>
+<p><strong>NOTE</strong>: This method can be used for testing purposes only, as file
+sharing is not yet supported in RHEL 6.4.</p>
+</section>
+<section id="using-kerberized-web-applications">
+<span id="id54"></span><h2>Using Kerberized web applications<a class="headerlink" href="#using-kerberized-web-applications" title="Permalink to this heading">¶</a></h2>
+<p>If you need to install and configure a web application for the purposes
+of testing Kerberos authentication,
+<a class="reference external" href="http://www.mediawiki.org/wiki/Manual:Running_MediaWiki_on_GNU/Linux">MediaWiki</a>
+can be used.</p>
+<p>To add Kerberos authentication to an existing web application, the
+following Apache configuration is needed:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;Location &quot;/mywebapp&quot;&gt;</span></code></div>
+<div class="line">``   AuthType Kerberos``</div>
+<div class="line">``   AuthName “IPA Kerberos authentication”``</div>
+<div class="line">``   KrbMethodNegotiate on``</div>
+<div class="line">``   KrbMethodK5Passwd on``</div>
+<div class="line">``   KrbServiceName HTTP``</div>
+<div class="line">``   KrbAuthRealms <a href="#id55"><span class="problematic" id="id56">``</span></a><em>``IPA_DOMAIN``</em></div>
+<div class="line">``   Krb5Keytab /etc/httpd/conf/ipa.keytab``</div>
+<div class="line">``   KrbSaveCredentials off``</div>
+<div class="line">``   Require valid-user``</div>
+</div>
+<p>Make sure you replace <em>IPA_DOMAIN</em> in the above configuration with your
+actual IPA domain (in caps) and to restart the apache service:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service httpd restart</span></code></p>
+</section>
+</section>
+<section id="debugging-trust">
+<span id="id57"></span><h1>Debugging trust<a class="headerlink" href="#debugging-trust" title="Permalink to this heading">¶</a></h1>
+<section id="general-debugging-guidelines">
+<span id="id58"></span><h2>General debugging guidelines<a class="headerlink" href="#general-debugging-guidelines" title="Permalink to this heading">¶</a></h2>
+<p>What you can do is following (assumes Fedora 20+ or RHEL 7+):</p>
+<ul class="simple">
+<li><p>Check that IPv6 module is not disabled on the Linux side as Samba and
+CLDAP module in IPA require it. See <a class="reference external" href="Active_Directory_trust_setup#IPv6_stack_usage">instructions
+above</a>.</p></li>
+<li><p>Check firewall rules: AD DCs should be able to contact IdM smbd over
+138/139/445 TCP and UDP ports, 389 UDP port.</p></li>
+<li><p>Stop smb and winbind services on IdM server</p></li>
+</ul>
+<p>``   systemctl stop smb winbind``</p>
+<ul class="simple">
+<li><p>Set log level to increased debug so that packets smbd/winbindd
+receive get printed fully in the logs:</p></li>
+</ul>
+<p>``    net conf setparm global ‘log level’ 100``</p>
+<ul class="simple">
+<li><p>Set log level to increased debug so that communication done by IPA
+when establishing trust is printed fully in the logs. Change
+/usr/share/ipa/smb.conf.empty:</p></li>
+</ul>
+<div class="line-block">
+<div class="line">``    [global]``</div>
+<div class="line">``    log level = 100``</div>
+</div>
+<ul class="simple">
+<li><p>Remove old /var/log/samba/log.*</p></li>
+<li><p>Start smb and winbind services</p></li>
+</ul>
+<p>``   systemctl start smb winbind``</p>
+<ul class="simple">
+<li><p>Re-add trust</p></li>
+</ul>
+<p>``    ipa trust-add <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` ...</span></code></p>
+<ul class="simple">
+<li><p>If trust-add command was used with shared secret instead of explicit
+AD administrator credentials, after validation was performed from AD
+side, run</p></li>
+</ul>
+<p>``    ipa trust-fetch-domains ``</p>
+<ul class="simple">
+<li><p>Package following logs and attach them to a bug or send directly to a
+member of FreeIPA development team who requested the logs. Please do
+not send logs to the public mailing lists – logs are often quite
+large and would contain information specific to your AD deployment
+that general public shouldn’t have access to. The logs we are
+interested in are following:</p></li>
+</ul>
+<div class="line-block">
+<div class="line">``    /var/log/httpd/error_log``</div>
+<div class="line">``    /var/log/samba/log.*``</div>
+</div>
+</section>
+<section id="failures-due-to-exhausted-dna-range-on-replica">
+<span id="id59"></span><h2>Failures due to exhausted DNA range on replica<a class="headerlink" href="#failures-due-to-exhausted-dna-range-on-replica" title="Permalink to this heading">¶</a></h2>
+<p>It may happen that the <code class="docutils literal notranslate"><span class="pre">trust-add</span></code> command fails with the generic
+<code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">communication</span> <span class="pre">with</span> <span class="pre">CIFS</span> <span class="pre">server</span> <span class="pre">was</span> <span class="pre">unsuccessful</span></code> message
+displayed in the console and Apache error log containing the following
+message:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">SNIP</span><span class="o">&gt;</span>
+<span class="n">s4_tevent</span><span class="p">:</span> <span class="n">Run</span> <span class="n">immediate</span> <span class="n">event</span> <span class="s2">&quot;tstream_smbXcli_np_readv_trans_next&quot;</span><span class="p">:</span> <span class="mh">0x7f6e603b7f60</span>
+<span class="n">s4_tevent</span><span class="p">:</span> <span class="n">Schedule</span> <span class="n">immediate</span> <span class="n">event</span> <span class="s2">&quot;tevent_req_trigger&quot;</span><span class="p">:</span> <span class="mh">0x7f6e603b6be0</span>
+<span class="n">s4_tevent</span><span class="p">:</span> <span class="n">Run</span> <span class="n">immediate</span> <span class="n">event</span> <span class="s2">&quot;tevent_req_trigger&quot;</span><span class="p">:</span> <span class="mh">0x7f6e603b6be0</span>
+<span class="n">s4_tevent</span><span class="p">:</span> <span class="n">Destroying</span> <span class="n">timer</span> <span class="n">event</span> <span class="mh">0x7f6e6038db50</span> <span class="s2">&quot;dcerpc_timeout_handler&quot;</span>
+<span class="n">s4_tevent</span><span class="p">:</span> <span class="n">Schedule</span> <span class="n">immediate</span> <span class="n">event</span> <span class="s2">&quot;tevent_req_trigger&quot;</span><span class="p">:</span> <span class="mh">0x7f6e603b7d20</span>
+<span class="n">s4_tevent</span><span class="p">:</span> <span class="n">Run</span> <span class="n">immediate</span> <span class="n">event</span> <span class="s2">&quot;tevent_req_trigger&quot;</span><span class="p">:</span> <span class="mh">0x7f6e603b7d20</span>
+     <span class="n">lsa_CreateTrustedDomainEx2</span><span class="p">:</span> <span class="n">struct</span> <span class="n">lsa_CreateTrustedDomainEx2</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">struct</span> <span class="n">lsa_CreateTrustedDomainEx2</span>
+            <span class="n">trustdom_handle</span>          <span class="p">:</span> <span class="o">*</span>
+                <span class="n">trustdom_handle</span><span class="p">:</span> <span class="n">struct</span> <span class="n">policy_handle</span>
+                    <span class="n">handle_type</span>              <span class="p">:</span> <span class="mh">0x00000000</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">uuid</span>                     <span class="p">:</span> <span class="mi">00000000</span><span class="o">-</span><span class="mi">0000</span><span class="o">-</span><span class="mi">0000</span><span class="o">-</span><span class="mi">0000</span><span class="o">-</span><span class="mi">000000000000</span>
+            <span class="n">result</span>                   <span class="p">:</span> <span class="n">NT_STATUS_UNSUCCESSFUL</span>
+<span class="n">rpc</span> <span class="n">reply</span> <span class="n">data</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">0000</span><span class="p">]</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>   <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>   <span class="o">........</span> <span class="o">........</span>
+<span class="p">[</span><span class="mi">0010</span><span class="p">]</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">01</span> <span class="mi">00</span> <span class="mi">00</span> <span class="n">C0</span>                             <span class="o">........</span>
+<span class="p">[</span><span class="n">Thu</span> <span class="n">Dec</span> <span class="mi">01</span> <span class="mi">11</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mf">21.424668</span> <span class="mi">2016</span><span class="p">]</span> <span class="p">[</span><span class="n">wsgi</span><span class="p">:</span><span class="n">error</span><span class="p">]</span> <span class="p">[</span><span class="n">pid</span> <span class="mi">50403</span><span class="p">]</span> <span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="p">[</span><span class="n">jsonserver_session</span><span class="p">]</span> <span class="n">admin</span><span class="nd">@IPA</span><span class="o">.</span><span class="n">REALM</span><span class="p">:</span> <span class="n">trust_add</span><span class="o">/</span><span class="mi">1</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;ad.realm&#39;</span><span class="p">,</span> <span class="n">realm_admin</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Administrator&#39;</span><span class="p">,</span> <span class="n">realm_passwd</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;********&#39;</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;2.215&#39;</span><span class="p">):</span> <span class="n">RemoteRetrieveError</span>
+</pre></div>
+</div>
+<p>This error may be caused by exhaustion of DNA range on replica caused
+e.g. by hastily decommissioning malfunctioning master without
+transferring remaining posix ID ranges to replicas. During trust setup
+Trusted Domain Object with allocated UID/GID must be created on FreeIPA
+server. Since UID/GID allocation fails, the whole trust creation process
+ends with error.</p>
+<p>You may search for <code class="docutils literal notranslate"><span class="pre">dnaRemainingValues</span></code> attribute in
+<code class="docutils literal notranslate"><span class="pre">cn=posix-ids,cn=dna,cn=ipa,cn=etc,$SUFFIX</span></code> subtree to confirm this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#  ldapsearch -Y EXTERNAL -H &#39;ldapi://%2Fvar%2Frun%2Fslapd-IPA-REALM.socket&#39; -b &#39;cn=posix-ids,cn=dna,cn=ipa,cn=etc,dc=ipa,dc=realm&#39; &#39;(objectClass=dnaSharedConfig)&#39; dnaRemainingValues</span>
+<span class="n">SASL</span><span class="o">/</span><span class="n">EXTERNAL</span> <span class="n">authentication</span> <span class="n">started</span>
+<span class="n">SASL</span> <span class="n">username</span><span class="p">:</span> <span class="n">gidNumber</span><span class="o">=</span><span class="mi">0</span><span class="o">+</span><span class="n">uidNumber</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">peercred</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">external</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">auth</span>
+<span class="n">SASL</span> <span class="n">SSF</span><span class="p">:</span> <span class="mi">0</span>
+<span class="c1"># extended LDIF</span>
+<span class="c1">#</span>
+<span class="c1"># LDAPv3</span>
+<span class="c1"># base &lt;cn=posix-ids,cn=dna,cn=ipa,cn=etc,dc=dom-204,dc=ipa,dc=realm&gt; with scope subtree</span>
+<span class="c1"># filter: (objectClass=dnaSharedConfig)</span>
+<span class="c1"># requesting: dnaRemainingValues</span>
+<span class="c1">#</span>
+
+<span class="c1"># replica.ipa.realm + 389, posix-ids, dna, ipa, etc, ipa.realm</span>
+<span class="n">dn</span><span class="p">:</span> <span class="n">dnaHostname</span><span class="o">=</span><span class="n">replica</span><span class="o">.</span><span class="n">ipa</span><span class="o">.</span><span class="n">realm</span><span class="o">+</span><span class="n">dnaPortNum</span><span class="o">=</span><span class="mi">389</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">posix</span><span class="o">-</span>
+ <span class="n">ids</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">dna</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">realm</span>
+<span class="n">dnaRemainingValues</span><span class="p">:</span> <span class="mi">0</span> <span class="o">&lt;--</span> <span class="n">no</span> <span class="n">UIDs</span><span class="o">/</span><span class="n">GIDs</span> <span class="n">left</span>
+
+<span class="c1"># search result</span>
+<span class="n">search</span><span class="p">:</span> <span class="mi">2</span>
+<span class="n">result</span><span class="p">:</span> <span class="mi">0</span> <span class="n">Success</span>
+
+<span class="c1"># numResponses: 2</span>
+<span class="c1"># numEntries: 1</span>
+</pre></div>
+</div>
+<p>If this is the case, then follow <a class="reference external" href="V3/Recover_DNA_Ranges">this guide</a>
+to re-create POSIX ranges on the replica. Then try to re-establish
+trust; it should complete successfuly now.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/Active_Directory_trust_setup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

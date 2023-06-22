@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Initial Considerations &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Summary" href="DNS_Integration_Design.html" />
+    <link rel="prev" title="The user/Group ID assignment problem" href="DNA_plugin_default_configuration.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>FreeIPA DNS integration allows administrator to manage and serve DNS
+records in a domain using the same CLI or Web UI as when managing
+identities and policies. At the same time, administrator can benefit
+from the tight DNS integration in FreeIPA management framework and have
+configuration changes in FreeIPA server covered by automatic DNS updates
+(see next chapters for more detailed list of benefits).</p>
+<section id="initial-considerations">
+<span id="id1"></span><h1>Initial Considerations<a class="headerlink" href="#initial-considerations" title="Permalink to this heading">¶</a></h1>
+<p>The DNS component in FreeIPA was designed and built about several basic
+assumptions and goals that should be always considered when assessing
+enhancements or other requests to this component.</p>
+<section id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>DNS is hard to manage and lot of admins who want to deploy FreeIPA
+would have difficulties setting up DNS properly.</p></li>
+<li><p>DNS is central to have a decent Kerberos experience.</p></li>
+<li><p>Single-master DNS is error prone, especially for inexperienced
+admins.</p></li>
+</ul>
+</section>
+<section id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Provide an integrated DNS server which can be used to ease FreeIPA
+deployment (“get you going”).</p>
+<ul>
+<li><p>Provide ability to standup and tear down replicas without caring
+for the special “master” DNS server.</p></li>
+</ul>
+</li>
+<li><p>Provide an alternative option for users with existing DNS
+infrastructure: Provide means for integrating FreeIPA with existing
+DNS infrastructure.</p></li>
+<li><p>Goal is <strong>NOT</strong> to provide general-purpose DNS server. Features
+beyond easing FreeIPA deployment and maintenance are explicitly out
+of scope.</p></li>
+</ul>
+</section>
+</section>
+<section id="benefits-of-integrated-dns">
+<span id="id2"></span><h1>Benefits of integrated DNS<a class="headerlink" href="#benefits-of-integrated-dns" title="Permalink to this heading">¶</a></h1>
+<p>DNS component in FreeIPA is optional and user may choose to manage all
+DNS records manually in other third party DNS server.</p>
+<p>Please consider the following benefits of integrated DNS in FreeIPA
+before enrolling a custom DNS solution:</p>
+<ul class="simple">
+<li><p>Clients can be configured to automatically run DNS updates
+(<em>nsupdate</em>) when their IP address changes and thus keeping its DNS
+record up-to-date. DNS zones can be configured to synchronize
+client’s reverse (PTR) record along with the forward (A, AAAA) DNS
+record.</p></li>
+<li><p>FreeIPA domain has automatically maintained LDAP and Kerberos SRV
+records allowing an easy autodiscovery in FreeIPA clients</p></li>
+<li><p>FreeIPA domain has automatically maintained Microsoft Windows service
+records required for <a class="reference external" href="Trusts">Trusts</a> configuration.</p></li>
+<li><p>Automatic management of <em>ipa-ca.example.com</em> DNS record keeping
+forward (A, AAAA) records to all FreeIPA servers with a Certificate
+Authority configured. This DNS record is used in all certificates
+issued by FreeIPA as a general point to obtain certificate validation
+either via OCSP responder or CRL.</p></li>
+</ul>
+</section>
+<section id="caveats">
+<h1>Caveats<a class="headerlink" href="#caveats" title="Permalink to this heading">¶</a></h1>
+<p>Caveats applicable to DNS apply as usual. It is extremely hard to change
+DNS domain in existing installations so it is better to think ahead.</p>
+<p>Most importantly, <strong>do not shadow or hijack other DNS names!</strong> You
+should only use names which are delegated to you by the parent domain.</p>
+<p>For example, if your company <em>Example, Inc.</em> bought domain
+<code class="docutils literal notranslate"><span class="pre">example.com.</span></code> you can use any domain in this sub-tree, e.g.
+<code class="docutils literal notranslate"><span class="pre">whatever.example.com.</span></code>.</p>
+<p><strong>Not respecting this rule will cause problems sooner or later!</strong> (This
+caveat includes inventing your own top-level domain like <code class="docutils literal notranslate"><span class="pre">int.</span></code>)</p>
+<ul class="simple">
+<li><p>Generally you will have problems with DNSSEC validation. This
+situation will be detected as domain hijacking.</p></li>
+<li><p>Even without DNSSEC, you will have problems if the same name is used
+by multiple parties at the same time, especially when new top-level
+domains are delegated or during company mergers.</p></li>
+</ul>
+<section id="internal-only-domains">
+<span id="id3"></span><h2>Internal-only domains<a class="headerlink" href="#internal-only-domains" title="Permalink to this heading">¶</a></h2>
+<p>It is perfectly fine to configure certain DNS zones to respond only to
+clients in certain subnets or to apply other kinds of access control.
+For internal names you can use arbitrary sub-domain in a DNS sub-tree
+you own, e.g. <code class="docutils literal notranslate"><span class="pre">int.example.com.</span></code>. <strong>Always respect rules from the
+previous section.</strong></p>
+</section>
+<section id="dns-views-split-horizon-dns">
+<span id="id4"></span><h2>DNS views / split-horizon DNS<a class="headerlink" href="#dns-views-split-horizon-dns" title="Permalink to this heading">¶</a></h2>
+<p>General advice about DNS views is <strong>do not use them</strong> because views make
+DNS deployment harder to maintain and security benefits are questionable
+(when compared with ACL).</p>
+<p>Problems:</p>
+<ul class="simple">
+<li><p>Using one name for multiple different machines (e.g. public vs.
+internal) is confusing.</p></li>
+<li><p>DNS caching on clients causes problems for machines roaming between
+different DNS views.</p></li>
+<li><p>DNSSEC deployment is harder to maintain when views are involved.</p></li>
+</ul>
+<p>Technically it is much cleaner to put all internal names in a sub-domain
+like <code class="docutils literal notranslate"><span class="pre">int.example.com.</span></code> (while <code class="docutils literal notranslate"><span class="pre">example.com.</span></code> is the public-facing
+domain) and restrict access to this sub-domain using ACL as described in
+the previous section.</p>
+</section>
+</section>
+<section id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h1>
+<p>The DNS integration is based on the
+<a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/">bind-dyndb-ldap</a> project,
+which enhances BIND name server to be able to use FreeIPA server LDAP
+instance as a data backend (data are stored in <em>cn=dns</em> entry, using
+<a class="reference external" href="http://git.fedorahosted.org/cgit/bind-dyndb-ldap.git/tree/doc/schema">schema defined by
+bind-dyndb-ldap</a>.</p>
+</section>
+<section id="security">
+<h1>Security<a class="headerlink" href="#security" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA LDAP directory information tree is by default accessible to any
+user in the network, or (if anonymous search is disabled) to any
+authenticated user. As DNS data are often considered as sensitive and as
+having access to <em>cn=dns</em> tree would be basically equal to being able to
+run zone transfer to all FreeIPA managed DNS zones, contents of this
+tree in LDAP are hidden by default.</p>
+<p>Only the following users have read access to the DNS tree:</p>
+<ul class="simple">
+<li><p>bind-dyndb-ldap service principal itself</p></li>
+<li><p>Members of the <em>admins</em> group</p></li>
+<li><p>Users with <em>Read DNS Entries</em> attributes</p></li>
+<li><p>Users with per-zone permission have read access to the permitted zone
+(these permissions can be created with <em>dnszone-add-permission</em>
+command)</p></li>
+</ul>
+</section>
+<section id="debugging">
+<h1>Debugging<a class="headerlink" href="#debugging" title="Permalink to this heading">¶</a></h1>
+<p>When there is a suspicion that the DNS component is not behaving
+correctly, standard system log (<em>/var/log/messages</em> or system journal)
+can be consulted if there are any errors logged by BIND.</p>
+<p>If the error is more subtle, BIND configuration (<em>/etc/named.conf</em>) can
+be updated to produce a more detailed log. Standard <a class="reference external" href="ftp://ftp.isc.org/isc/bind/cur/9.9/doc/arm/Bv9ARM.ch06.html#id2575001">BIND
+documentation</a>
+can be consulted for help.</p>
+<p>Most common problems are caused by mis-configuration. Please see
+<a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/#Documentationandsupport">bind-dyndb-ldap documentation
+page</a>
+and <a class="reference external" href="Troubleshooting#DNS_Issues">FreeIPA troubleshooting DNS page</a>.</p>
+</section>
+<section id="bug-reporting">
+<span id="id5"></span><h1>Bug reporting<a class="headerlink" href="#bug-reporting" title="Permalink to this heading">¶</a></h1>
+<p>Please follow <a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/BugReporting">instructions published by bind-dyndb-ldap
+project</a>.</p>
+</section>
+<section id="additional-documentation">
+<span id="id6"></span><h1>Additional Documentation<a class="headerlink" href="#additional-documentation" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/">bind-dyndb-ldap project
+pages</a></p>
+<ul>
+<li><p><a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/Maintainability">Maintainability analysis affecting the design
+goals</a></p></li>
+</ul>
+</li>
+</ul>
+<p><a class="reference external" href="Category:Goals">Category:Goals</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/archive/pages/DNS.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

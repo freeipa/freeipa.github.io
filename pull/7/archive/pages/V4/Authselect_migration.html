@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview" href="Automatic_Certificate_Request_Generation.html" />
+    <link rel="prev" title="Overview" href="Authentication_Indicators.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p><strong>authselect</strong> is a new tool to configure authentication sources on a
+system. It is going to replace <strong>authconfig</strong> in the future (see the
+page for
+<a class="reference external" href="https://fedoraproject.org/wiki/Changes/Authselect">Authselect</a> on
+Fedora wiki). Since IPA is dependent on authconfig, it is required to
+extend its functionality so authselect can be used when it is available.
+Authselect will be a default tool in Fedora 28, authconfig command will
+still be available (provided by the authselect-compat package) but its
+functionality will be limited.</p>
+<p>The major difference between authconfig and authselect is the use of a
+configuration <strong>profile</strong>: authselect provides <strong>pre-defined profiles</strong>
+that can be tuned by enabling specific <strong>features</strong>. The available
+profiles can be found using <code class="docutils literal notranslate"><span class="pre">authselect</span> <span class="pre">list</span></code> and their features with
+<code class="docutils literal notranslate"><span class="pre">authselect</span> <span class="pre">show</span> <span class="pre">PROFILE-ID</span></code>. For instance, the sssd profile accepts
+the features with-mkhomedir or with-smartcard, and the winbind profile
+accepts the feature with-mkhomedir but not with-smartcard.</p>
+</section>
+<section id="current-implementation">
+<span id="id1"></span><h1>Current implementation<a class="headerlink" href="#current-implementation" title="Permalink to this heading">¶</a></h1>
+<p>This section lists the components of FreeIPA that are currently relying
+on authconfig.</p>
+<section id="package-dependency">
+<span id="id2"></span><h2>Package dependency<a class="headerlink" href="#package-dependency" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA currently has a dependency on authconfig package (freeipa-client
+package).</p>
+</section>
+<section id="client-installation">
+<span id="id3"></span><h2>Client installation<a class="headerlink" href="#client-installation" title="Permalink to this heading">¶</a></h2>
+<p>Currently authconfig is triggered during client install to:</p>
+<ul class="simple">
+<li><p>configure NIS. the commands below is used</p></li>
+</ul>
+<p>`` authconfig –nisdomain=``</p>
+<ul class="simple">
+<li><p>with sssd (default).</p></li>
+</ul>
+<p>To enable SSSD for user information and authentication:</p>
+<p>`` authconfig –enablesssd –enablesssdauth``</p>
+<p>To enable kerberos authentication:</p>
+<p>`` authconfig –enablekrb5 –nostart``</p>
+<ul class="simple">
+<li><p>no_sssd (deprecated).</p></li>
+</ul>
+<p>To enable LDAP for user information:</p>
+<p>`` authconfig –enableldap –enableforcelegacy``</p>
+<p>The following ipa-client-install options have an impact on
+authentication configuration:</p>
+<ul class="simple">
+<li><p>–nisdomain=NISDOMAIN: Set the NIS domain name as specified. By
+default, this is set to the IPA domain name.</p></li>
+<li><p>–no-nisdomain: Do not configure NIS domain name.</p></li>
+<li><p>–no-sssd: Do not configure the client to use SSSD for
+authentication, use nss_ldap instead.</p></li>
+<li><p>–noac: Do not use Authconfig to modify the nsswitch.conf and PAM
+configuration.</p></li>
+</ul>
+<p>Note that the ipa client code is using the <strong>tasks</strong> package to call
+distribution-specific code: only the fedora-like distributions use
+authconfig, other distributions must implement their own routines to
+configure the authentication mechanisms.</p>
+</section>
+<section id="backup-restore">
+<h2>Backup/restore<a class="headerlink" href="#backup-restore" title="Permalink to this heading">¶</a></h2>
+<p>The commands ipa-backup and ipa-restore both need to save/restore the
+current configuration. ipa-backup is calling:</p>
+<p>`` authconfig –savebackup ``</p>
+<p>and saves the content of the backup directory in the backup file.
+ipa-restore is calling</p>
+<p>`` authconfig –restorebackup ``</p>
+<p>to restore the saved configuration.</p>
+</section>
+<section id="ipa-advise-plugins">
+<span id="id4"></span><h2>ipa-advise plugins<a class="headerlink" href="#ipa-advise-plugins" title="Permalink to this heading">¶</a></h2>
+<p>ipa-advise command provides configuration advices for various use cases.
+For instance, ipa-advise config-server-for-smart-card-auth produces a
+shell script that can be executed in order to configure the server to
+allow Smart Card authentication. Some of the plugins produce shell
+scripts that are calling authconfig:</p>
+<ul class="simple">
+<li><p>ipa-advise config-client-for-smart-card-auth: Instructions for
+enabling Smart Card authentication on a single FreeIPA client.</p></li>
+<li><p>ipa-advise config-fedora-authconfig: Authconfig instructions for
+configuring Fedora 18/19 client with IPA server without use of SSSD.</p></li>
+<li><p>ipa-advise config-redhat-sssd-before-1-9: Instructions for
+configuring a system with an old version of SSSD (1.5-1.8) as a
+FreeIPA client.</p></li>
+<li><p>ipa-advise config-redhat-nss-pam-ldapd: Instructions for configuring
+a system with nss-pam-ldapd as a FreeIPA client.</p></li>
+<li><p>ipa-advise config-redhat-nss-ldap: Instructions for configuring a
+system with nss-ldap as a FreeIPA client.</p></li>
+</ul>
+</section>
+</section>
+<section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h1>
+<section id="general-decisions">
+<span id="id5"></span><h2>General decisions<a class="headerlink" href="#general-decisions" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>As authselect may not be available on all distributions, we need to
+keep the same strategy as implemented by the current code: rely on
+the tasks package to have distribution-specific code. FreeIPA team
+will provide code for fedora-like distributions, based on authselect
+and the other distributions should not be disturbed by the changes.</p></li>
+<li><p>Authselect-compat package provides an equivalent to authconfig, with
+a compatibility layer for some options and deprecating other options.
+Because of these deprecated options, it does not seem safe enough to
+keep on using authconfig tool and the choice is made to completely
+switch to using authselect. This implies that the dependency on
+authconfig will be completely removed and replaced with a dependency
+on authselect. Note that we will not have any dependency on
+authselect-compat, meaning that FreeIPA code should not rely any more
+on authconfig command.</p></li>
+<li><p>It seems obvious to state that FreeIPA will use the sssd profile but
+this has major consequences. Previously, it was possible to install a
+client with –no-sssd or –noac options, but it will not be possible
+any more for new client installations on fedora-based distributions.</p></li>
+</ul>
+</section>
+<section id="new-client-installation">
+<span id="id6"></span><h2>New client installation<a class="headerlink" href="#new-client-installation" title="Permalink to this heading">¶</a></h2>
+<p>Currently, the algorithm for PAM stack configuration is the following:</p>
+<div class="line-block">
+<div class="line"><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">``</span></a></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">authconfig --nisdomain=&lt;domain&gt;</span></code></div>
+<div class="line"><a href="#id11"><span class="problematic" id="id12">``</span></a>if (sssd) then ``</div>
+<div class="line">``   authconfig –enablesssd –enablesssdauth``</div>
+<div class="line"><a href="#id13"><span class="problematic" id="id14">``</span></a>else ``</div>
+<div class="line">``   authconfig –enableldap –enableforcelegacy –enablekrb5 –nostart``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">done</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">if (mkhomedir) then</span></code></div>
+<div class="line">``   authconfig –enablemkhomedir``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">done</span></code></div>
+</div>
+<section id="no-sssd-and-noac-options">
+<span id="id15"></span><h3>–no-sssd and –noac options<a class="headerlink" href="#no-sssd-and-noac-options" title="Permalink to this heading">¶</a></h3>
+<p>With the migration to authselect and the choice of using sssd profile,
+we will now refuse the –no-sssd and -noac options for fedora-based
+distributions. This can be achieved by adding a tasks method (i.e. with
+a distribution-specific implementation) is_nosssd_supported(), and a
+check in the client installer that refuses the option in case
+is_nosssd_supported returns False.</p>
+</section>
+<section id="pam-stack-configuration">
+<span id="id16"></span><h3>PAM stack configuration<a class="headerlink" href="#pam-stack-configuration" title="Permalink to this heading">¶</a></h3>
+<p>Calls to the authconfig tool are completely replaced by calls to
+authselect, picking the sssd profile. PAM configuration steps are moved
+into a separate class following bridge oop pattern. All related code is
+under ipaplatform/redhat/authconfig.py, ensuring that only fedora-based
+distributions are impacted by the modifications.</p>
+</section>
+<section id="mkhomedir-option">
+<span id="id17"></span><h3>–mkhomedir option<a class="headerlink" href="#mkhomedir-option" title="Permalink to this heading">¶</a></h3>
+<p>The homedir creation can also be enabled with authselect with:
+<code class="docutils literal notranslate"><span class="pre">authselect</span> <span class="pre">select</span> <span class="pre">sssd</span> <span class="pre">with-mkhomedir</span></code>.</p>
+</section>
+<section id="nis-domain-configuration">
+<span id="id18"></span><h3>NIS domain configuration<a class="headerlink" href="#nis-domain-configuration" title="Permalink to this heading">¶</a></h3>
+<p>Authconfig is currently used in the client installer to configure the
+NIS domain. It is also possible to configure the NIS domain without a
+call to authconfig tool, by <a class="reference external" href="https://access.redhat.com/articles/2278">direct modification of a config
+file</a>. This is the chosen
+approach: append (or replace) the <code class="docutils literal notranslate"><span class="pre">NISDOMAIN=value</span></code> line in the file
+/etc/sysconfig/network.</p>
+</section>
+</section>
+<section id="client-uninstallation">
+<span id="id19"></span><h2>Client uninstallation<a class="headerlink" href="#client-uninstallation" title="Permalink to this heading">¶</a></h2>
+<p>The client uninstallation needs to revert the system to the same state
+as before client install. In order to do this, the client installation
+will store the profile used pre-installation in the system store
+(/var/lib/ipa-client/sysrestore/sysrestore.state) with the following
+format:</p>
+<div class="line-block">
+<div class="line">`` [authselect]``</div>
+<div class="line">`` profile=``</div>
+<div class="line">`` features_list=``</div>
+</div>
+<p>Profile and features_list will be used to revert to the previous state
+during uninstallation.</p>
+<p>Note: When the client was installed with the authconfig tool, the system
+store does not contain this information. In this case, the uninstaller
+will simply warn that it is not able to revert to the exact state before
+installation and will apply the default authselect profile, namely the
+sssd profile without any feature.</p>
+</section>
+<section id="new-server-installation">
+<span id="id20"></span><h2>New server installation<a class="headerlink" href="#new-server-installation" title="Permalink to this heading">¶</a></h2>
+<p>The server-specific install code is not impacted by this migration (only
+the client-part of the installation is).</p>
+</section>
+<section id="backup-and-restore">
+<h2>Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">¶</a></h2>
+<section id="backup">
+<h3>Backup<a class="headerlink" href="#backup" title="Permalink to this heading">¶</a></h3>
+<p>The authselect tool offers the “current” command to retrieve the current
+configuration (profile and enabled features). For instance:</p>
+<div class="line-block">
+<div class="line">`` $ authselect current –raw``</div>
+<div class="line">`` sssd with-mkhomedir``</div>
+</div>
+<p>The ipa-backup command needs to use this command to save the current
+configuration inside a new file in the backup directory.</p>
+</section>
+<section id="restore">
+<h3>Restore<a class="headerlink" href="#restore" title="Permalink to this heading">¶</a></h3>
+<p>Note: only full restore is impacted by this feature. Data-only restore
+does not touch the authentication configuration.</p>
+<p>The ipa-restore command needs to read the saved configuration from the
+backup directory and re-apply the same configuration using</p>
+<p>`` $ authselect select <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` ``\</span> <span class="pre">`` --force</span></code></p>
+<p>Note: if the backup was done on a server *before* the migration to
+authselect, the ipa-restore will detect that restore is trying to
+restore data from a different release and prompt for user confirmation
+with a warning. Unattended restore will fail.</p>
+</section>
+</section>
+<section id="ipa-advise-plugins-1">
+<span id="id21"></span><h2>ipa-advise plugins<a class="headerlink" href="#ipa-advise-plugins-1" title="Permalink to this heading">¶</a></h2>
+<section id="config-client-for-smart-card-auth-plugin">
+<span id="id22"></span><h3>config-client-for-smart-card-auth plugin<a class="headerlink" href="#config-client-for-smart-card-auth-plugin" title="Permalink to this heading">¶</a></h3>
+<p>This plugin configures a FreeIPA client for smart card authentication.
+Instead of calling</p>
+<p>`` authconfig –enablesssd –enablesssdauth –enablesmartcard ‘ ‘–smartcardmodule=sssd –smartcardaction=1 –updateall``</p>
+<p>the plugin must use</p>
+<p>`` authselect enable-feature with-smartcard``</p>
+</section>
+<section id="config-fedora-authconfig-plugin">
+<span id="id23"></span><h3>config-fedora-authconfig plugin<a class="headerlink" href="#config-fedora-authconfig-plugin" title="Permalink to this heading">¶</a></h3>
+<p>This plugin configures Fedora 18/19 client without the use of sssd.
+These versions are not suppported any more and the plugin can be
+dropped.</p>
+</section>
+<section id="other-plugins">
+<span id="id24"></span><h3>other plugins<a class="headerlink" href="#other-plugins" title="Permalink to this heading">¶</a></h3>
+<p>The other plugins (config-redhat-sssd-before-1-9,
+config-redhat-nss-pam-ldapd and config-redhat-nss-ldap) are related to
+RHEL 5, where authselect will not be available. The scripts produced by
+ipa-advise can be generated on a recent FreeIPA server and run on a
+RHEL5 system, meaning that we can keep them.</p>
+</section>
+</section>
+<section id="upgrade">
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">¶</a></h2>
+<section id="migration-for-older-clients">
+<span id="id25"></span><h3>Migration for older clients<a class="headerlink" href="#migration-for-older-clients" title="Permalink to this heading">¶</a></h3>
+<p>Client upgrade will not modify the configuration since the PAM stack
+configuration is already in place.</p>
+</section>
+<section id="migration-for-older-servers">
+<span id="id26"></span><h3>Migration for older servers<a class="headerlink" href="#migration-for-older-servers" title="Permalink to this heading">¶</a></h3>
+<p>The server has to be migrated to authselect to make sure that backup and
+restore code works properly for new servers and also for older servers.
+If no migration was implemented, this would imply that backup/restore
+code must be able to handle 2 different types of configurations (with
+authconfig or with authselect), leading to a maintenance nightmare.
+Because of this, the choice is made to migrate the configuration to an
+authselect profile during the upgrade.</p>
+<p>The ipa-server-upgrade tool will perform the migration to an authselect
+profile. It needs to take care of the following points:</p>
+<ul class="simple">
+<li><p>check if the server was initially installed with the flag –mkhomedir
+(by reading the content of the system store). In this case, the sssd
+profile with enable-mkhomedir option must be selected. Otherwise use
+the sssd profile without the option.</p></li>
+<li><p>update the configuration backed up in the system store
+(/var/lib/ipa-client/sysrestore/sysrestore.state). The system store
+may contain</p></li>
+</ul>
+<div class="line-block">
+<div class="line">`` [authconfig]``</div>
+<div class="line">`` mkhomedir=…``</div>
+<div class="line">`` ldap=…``</div>
+<div class="line">`` krb5=…``</div>
+<div class="line">`` sssd=…``</div>
+<div class="line">`` sssdauth=…``</div>
+</div>
+<p>and this would have to be replaced with</p>
+<div class="line-block">
+<div class="line">`` [authselect]``</div>
+<div class="line">`` profile=sssd``</div>
+<div class="line">`` mkhomedir=…``</div>
+</div>
+</section>
+</section>
+</section>
+<section id="use-cases">
+<h1>Use cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h1>
+<p>As this migration is mainly internal, it will not modify the interfaces
+as seen by a user or system administrator, except for the use of
+–no-sssd or –noac options in ipa-client-install (which will now be
+refused on fedora-based distributions).</p>
+<p>A careful user may notice the presence of a new directory
+/etc/authselect created during the authselect package installation,
+containing /etc/authselect/authselect.conf file storing the current
+profile and features:</p>
+<div class="line-block">
+<div class="line">`` $ cat /etc/authselect/authselect.conf ``</div>
+<div class="line">`` sssd``</div>
+</div>
+</section>
+<section id="testing">
+<h1>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">¶</a></h1>
+<p>The tests need to focus on 2 main parts, new installations and upgrades.
+They can be run on fedora-based distributions.</p>
+<section id="upgrade-1">
+<span id="id27"></span><h2>Upgrade<a class="headerlink" href="#upgrade-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>upgrade must keep the mkhomedir flag (if the server was installed
+with –mkhomedir, then the authselect config obtained after upgrade
+must also have this option)</p></li>
+<li><p>backup and restore must still be working after the upgrade</p></li>
+<li><p>uninstall must still be working after the upgrade (potentially with a
+warning if the client was installed with authconfig).</p></li>
+</ul>
+</section>
+<section id="new-installations">
+<span id="id28"></span><h2>New installations<a class="headerlink" href="#new-installations" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>new client installation must install the sssd profile, with or
+without the with-mkhomedir feature (depending on the presence of
+–mkhomedir flag)</p></li>
+<li><p>ipa-client-install must refuse the –no-sssd and –noac options with
+a meaningful error message</p></li>
+<li><p>client install / uninstall must revert to the previous authselect
+profile</p></li>
+<li><p>new server installation must install the sssd profile, with or
+without the with-mkhomedir feature (depending on the presence of
+–mkhomedir flag)</p></li>
+<li><p>backup/restore must work with a new server installation</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/V4/Authselect_migration.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

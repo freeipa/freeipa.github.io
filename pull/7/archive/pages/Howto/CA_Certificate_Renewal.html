@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Before you start &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Procedure" href="Change_Directory_Manager_Password.html" />
+    <link rel="prev" title="Scalability" href="../Goals/Scalability.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>This page provides manual instructions to renew the IPA CA certificate.</p>
+<section id="before-you-start">
+<span id="id1"></span><h1>Before you start<a class="headerlink" href="#before-you-start" title="Permalink to this heading">¶</a></h1>
+<p><strong>Important:</strong> This article is about renewing Certificate Authority (CA)
+certificate which by default expires in 20 years. In ``getcert list``
+its nickname is ‘caSigningCert’. If you want to renew other certificate,
+e.g., a host or service certificate which typically has expiration
+period 2 years and is managed by Certmonger please check <a class="reference external" href="Certmonger#Manually_renew_a_certificate">manually
+renewal section of Certmonger
+page</a></p>
+<p>This renewal must take place in the period in which your other
+certificates are still valid. Your CA needs to be running in order to
+renew its own subsystem certificates. If you try to renew the CA
+certificate after it has expired such that its validity dates are past
+the expiration date of the CA subsystem certificates then your IPA
+server will not work.</p>
+<p>So for example, your CA is set to expire on 12/23, along with all the CA
+subsystem certificates and likely the server certificates used by Apache
+and 389-ds.</p>
+<p>You come in after Christmas to find that nothing works because the
+certificates have expired. When you provide your CSR to the external CA,
+they will need to issue a certificate that is valid from at least Dec
+22. It <strong>must overlap</strong> the old validity time. You will need to reset
+the system clock on the CA back to the 22nd in order to renew the other
+certificates, then you can bring time forward.</p>
+</section>
+<section id="procedure-in-current-ipa">
+<span id="id2"></span><h1>Procedure in current IPA<a class="headerlink" href="#procedure-in-current-ipa" title="Permalink to this heading">¶</a></h1>
+<p>FreeIPA 4.1 introduced <a class="reference external" href="V4/CA_certificate_renewal">integrated CA certificate renewal
+tools</a>. To manually renew the CA
+certificate, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-cacert-manage renew</span></code></p>
+</section>
+<section id="procedure-in-ipa-4-1">
+<span id="id3"></span><h1>Procedure in IPA &lt; 4.1<a class="headerlink" href="#procedure-in-ipa-4-1" title="Permalink to this heading">¶</a></h1>
+<section id="request-renewed-certificate">
+<span id="id4"></span><h2>Request renewed certificate<a class="headerlink" href="#request-renewed-certificate" title="Permalink to this heading">¶</a></h2>
+<p>On a random FreeIPA server with CA installed run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert start-tracking -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39; -P &lt;pin&gt; -c dogtag-ipa-ca-renew-agent</span>
+<span class="c1"># getcert resubmit -i &lt;id&gt; -T ipaCSRExport</span>
+<span class="c1"># getcert stop-tracking -i &lt;id&gt;</span>
+</pre></div>
+</div>
+<p>This will get a certificate request file (CSR) in <code class="docutils literal notranslate"><span class="pre">/root/ipa.csr</span></code>.
+Sign the CSR file with the <em>external CA</em> and the save the resulting
+certificate to <code class="docutils literal notranslate"><span class="pre">ipa.crt</span></code> in PEM format.</p>
+</section>
+<section id="renew-ca-certificate-on-ca-servers">
+<span id="id5"></span><h2>Renew CA Certificate on CA Servers<a class="headerlink" href="#renew-ca-certificate-on-ca-servers" title="Permalink to this heading">¶</a></h2>
+<p>On all FreeIPA servers <strong>with CA</strong> installed, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /usr/lib64/ipa/certmonger/stop_pkicad</span>
+<span class="c1"># certutil -A -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39; -t CT,C,C -a -i ipa.crt</span>
+<span class="c1"># /usr/lib64/ipa/certmonger/renew_ca_cert &#39;caSigningCert cert-pki-ca&#39;</span>
+</pre></div>
+</div>
+<p>On all FreeIPA servers run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># certutil -A -d /etc/dirsrv/slapd-REALM -n &#39;REALM IPA CA&#39; -t CT,,C -f /etc/dirsrv/slapd-REALM/pwdfile.txt -a -i ipa.crt</span>
+<span class="c1"># certutil -A -d /etc/httpd/alias -n &#39;REALM IPA CA&#39; -t CT,C,C -f /etc/httpd/alias/pwdfile.txt -a -i ipa.crt</span>
+<span class="c1"># systemctl restart dirsrv@REALM.service</span>
+<span class="c1"># systemctl restart httpd</span>
+</pre></div>
+</div>
+</section>
+<section id="renew-ca-certificate-on-freeipa-clients">
+<span id="id6"></span><h2>Renew CA Certificate on FreeIPA clients<a class="headerlink" href="#renew-ca-certificate-on-freeipa-clients" title="Permalink to this heading">¶</a></h2>
+<p>On all FreeIPA servers and FreeIPA clients run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># certutil -A -d /etc/pki/nssdb -n &#39;IPA CA&#39; -t CT,C,C -a -i ipa.crt</span>
+<span class="c1"># cp ipa.crt /etc/ipa/ca.crt</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="procedure-in-ipa-4-0">
+<span id="id7"></span><h1>Procedure in IPA &lt; 4.0<a class="headerlink" href="#procedure-in-ipa-4-0" title="Permalink to this heading">¶</a></h1>
+<p>You need the original CSR in order to obtain a new certificate. You may
+be able to find this in one of three places:</p>
+<ol class="arabic simple">
+<li><p>The external CA may still have a copy of it</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">/root/ipa.csr</span></code> on the initial IPA master</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">/etc/pki-ca/CS.cfg</span></code> in <code class="docutils literal notranslate"><span class="pre">ca.signing.certreq</span></code> on the initial
+IPA master. This will need to be converted to PEM format.</p></li>
+</ol>
+<p>You’ll need to know the nickname of your CA in the NSS databases. This
+is usually ‘” IPA CA”. I will use “EXAMPLE.COM IPA CA”.</p>
+<p>You can query the Apache database to find out what this currently is:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias</span></code></p>
+<section id="renew-the-certificate">
+<span id="id8"></span><h2>Renew the Certificate<a class="headerlink" href="#renew-the-certificate" title="Permalink to this heading">¶</a></h2>
+<p>Give the CSR to your external CA and have them issue you a new
+certificate. This document assumes that the resulting certificate is
+saved into /root/ipa.crt and that the external CA certificate chain is
+saved into /root/external-ca.pem.</p>
+<p>You will need to do this renewal on the IPA CA designated for managing
+renewals.</p>
+<p>One way to identify the initial IPA master is to see if the value for
+<code class="docutils literal notranslate"><span class="pre">subsystem.select</span></code> is New.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># grep subsystem.select /etc/pki-ca/CS.cfg</span>
+<span class="n">subsystem</span><span class="o">.</span><span class="n">select</span><span class="o">=</span><span class="n">New</span>
+</pre></div>
+</div>
+<p>An alternative method is to look at the post-save command in this
+output. It needs to be renew_ca_cert:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert list</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">certificates</span> <span class="ow">and</span> <span class="n">requests</span> <span class="n">being</span> <span class="n">tracked</span><span class="p">:</span> <span class="mf">8.</span>
+<span class="n">Request</span> <span class="n">ID</span> <span class="s1">&#39;20131125153455&#39;</span><span class="p">:</span>
+        <span class="n">status</span><span class="p">:</span> <span class="n">MONITORING</span>
+        <span class="n">stuck</span><span class="p">:</span> <span class="n">no</span>
+        <span class="n">key</span> <span class="n">pair</span> <span class="n">storage</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">NSSDB</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/var/lib/pki-ca/alias&#39;</span><span class="p">,</span><span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;auditSigningCert cert-pki-ca&#39;</span><span class="p">,</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span><span class="p">,</span><span class="n">pin</span><span class="o">=</span><span class="s1">&#39;455536908955&#39;</span>
+        <span class="n">certificate</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">NSSDB</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/var/lib/pki-ca/alias&#39;</span><span class="p">,</span><span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;auditSigningCert cert-pki-ca&#39;</span><span class="p">,</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span>
+        <span class="n">CA</span><span class="p">:</span> <span class="n">dogtag</span><span class="o">-</span><span class="n">ipa</span><span class="o">-</span><span class="n">renew</span><span class="o">-</span><span class="n">agent</span>
+        <span class="n">issuer</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+        <span class="n">subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">CA</span> <span class="n">Audit</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+        <span class="n">expires</span><span class="p">:</span> <span class="mi">2015</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">15</span> <span class="mi">15</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">12</span> <span class="n">UTC</span>
+        <span class="n">pre</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">stop_pkicad</span>
+        <span class="n">post</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">renew_ca_cert</span> <span class="s2">&quot;auditSigningCert cert-pki-ca&quot;</span>
+        <span class="n">track</span><span class="p">:</span> <span class="n">yes</span>
+        <span class="n">auto</span><span class="o">-</span><span class="n">renew</span><span class="p">:</span> <span class="n">yes</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="install-the-new-ca-certificate-on-your-ipa-master-ca">
+<span id="id9"></span><h2>Install the new CA certificate on your IPA master CA<a class="headerlink" href="#install-the-new-ca-certificate-on-your-ipa-master-ca" title="Permalink to this heading">¶</a></h2>
+<p>The CA needs to be shut down in order to update its certificate:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service ipa stop</span></code></p>
+<p>Update the CA certificate NSS database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /var/lib/pki-ca/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Replace the value of <code class="docutils literal notranslate"><span class="pre">ca.signing.cert</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/pki-ca/CS.cfg</span></code>. This
+is the base64 value of the certificate. You can obtain this by removing
+the BEGIN/END blocks from ipa.crt and compressing it into a single line.</p>
+<p>Update the Apache NSS database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the LDAP server instances:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt</span></code></div>
+</div>
+<p>Update the shared system database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the CA in the filesystem:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /root/ipa.crt /root/external-ca.pem &gt;/usr/share/ipa/html/ca.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cp /root/ipa.crt /etc/ipa/ca.crt</span></code></div>
+</div>
+<p>Restart the world</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service ipa start</span></code></p>
+<p>Update the CA in LDAP</p>
+<p>First convert the certificate to DER form:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># openssl x509 -outform DER -in /root/ipa.crt  -out /tmp/ipa.der</span></code></p>
+<p>Add to LDAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
+<span class="c1"># ldapmodify -Y GSSAPI</span>
+<span class="n">SASL</span><span class="o">/</span><span class="n">GSSAPI</span> <span class="n">authentication</span> <span class="n">started</span>
+<span class="n">SASL</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">SASL</span> <span class="n">SSF</span><span class="p">:</span> <span class="mi">56</span>
+<span class="n">SASL</span> <span class="n">data</span> <span class="n">security</span> <span class="n">layer</span> <span class="n">installed</span><span class="o">.</span>
+<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">CAcert</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
+<span class="n">replace</span><span class="p">:</span> <span class="n">cacertificate</span><span class="p">;</span><span class="n">binary</span>
+<span class="n">cacertificate</span><span class="p">;</span><span class="n">binary</span><span class="p">:</span><span class="o">&lt;</span><span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">der</span>
+</pre></div>
+</div>
+</section>
+<section id="install-new-ca-on-other-ipa-masters-with-a-ca">
+<span id="id10"></span><h2>Install new CA on other IPA masters with a CA<a class="headerlink" href="#install-new-ca-on-other-ipa-masters-with-a-ca" title="Permalink to this heading">¶</a></h2>
+<p>The CA needs to be shut down in order to update its certificate:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service ipa stop</span></code></p>
+<p>Update the CA certificate NSS database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /var/lib/pki-ca/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Replace the value of <code class="docutils literal notranslate"><span class="pre">ca.signing.cert</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/pki-ca/CS.cfg</span></code>. This
+is the base64 value of the certificate. You can obtain this by removing
+the BEGIN/END blocks from ipa.crt and compressing it into a single line.</p>
+<p>Update the Apache NSS database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the LDAP server instances:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt</span></code></div>
+</div>
+<p>Update the shared system database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the CA in the filesystem:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /root/ipa.crt /root/external-ca.pem &gt;/usr/share/ipa/html/ca.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cp /root/ipa.crt /etc/ipa/ca.crt</span></code></div>
+</div>
+<p>Restart the world</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service ipa start</span></code></p>
+</section>
+<section id="install-new-ca-on-other-ipa-masters-without-a-ca">
+<span id="id11"></span><h2>Install new CA on other IPA masters without a CA<a class="headerlink" href="#install-new-ca-on-other-ipa-masters-without-a-ca" title="Permalink to this heading">¶</a></h2>
+<p>Copy the updated CA to the machine. I’m assuming it is in /root/ipa.crt.</p>
+<p>Stop the world</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service ipa stop</span></code></p>
+<p>Update the Apache NSS database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the LDAP server instances:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt</span></code></div>
+</div>
+<p>Update the shared system database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the CA in the filesystem:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /root/ipa.crt /root/external-ca.pem &gt;/usr/share/ipa/html/ca.crt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cp /root/ipa.crt /etc/ipa/ca.crt</span></code></div>
+</div>
+<p>Restart the world</p>
+<p><code class="docutils literal notranslate"><span class="pre"># service ipa start</span></code></p>
+</section>
+<section id="install-the-new-ca-on-all-ipa-client-machines">
+<span id="id12"></span><h2>Install the new CA on all IPA client machines<a class="headerlink" href="#install-the-new-ca-on-all-ipa-client-machines" title="Permalink to this heading">¶</a></h2>
+<p>Retrieve the updated IPA CA, I’ve put it into /root/ipa.crt.</p>
+<p>Update the shared system database:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt</span></code></p>
+<p>Update the CA in the filesystem:</p>
+<p><code class="docutils literal notranslate"><span class="pre"># cp /root/ipa.crt /etc/ipa/ca.crt</span></code></p>
+</section>
+</section>
+<section id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
+<p>See the <a class="reference external" href="Troubleshooting#PKI_Issues">Troubleshooting Guide</a>.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Howto/CA_Certificate_Renewal.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

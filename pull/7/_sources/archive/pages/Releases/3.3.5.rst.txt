@@ -1,0 +1,223 @@
+The FreeIPA team is proud to announce FreeIPA v3.3.5!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Fedora
+19 and Fedora 20 builds are already on their way to updates-testing
+repo.
+
+.. _highlights_in_3.3.5:
+
+Highlights in 3.3.5
+-------------------
+
+Enhancements
+~~~~~~~~~~~~
+
+-  DNS classless support for reverse domains
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+-  Lockout plugin was not applied to users with default password policy
+-  Migration plugin did not add users to default group (ipausers)
+-  AD Trust subdomains were not automatically fetched by trust-add
+   command
+-  When installing Dogtag 10 replica with a CA from a Dogtag 9 based
+   replica, the ipa-replica-conncheck did not check if Dogtag 9 DS port
+   is open
+-  When installing Dogtag 10 replica with a CA from a Dogtag 9 based
+   replica, CA database was not updated resulting in limited
+   functionality of the CA
+-  Trust could not be added with --shared-secret option
+-  Active AD Trust subdomain ID range could be deleted
+-  FreeIPA client returned invalid group membership info when multiple
+   AD Trusts were configured
+-  /ca/ee/ca/profileSubmit proxy URI was added to allow cloning of PKI
+   10.1.1 and newer
+-  ... and numerous other small fixes
+
+.. _test_improvements:
+
+Test improvements
+~~~~~~~~~~~~~~~~~
+
+-  Many fixes related to Active Directory integration tests
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note that if you are doing the upgrade in special environment
+(e.g. FedUp) which does not allow running the LDAP server during upgrade
+process, upgrade scripts need to be run manually after the first boot:
+
+#. ipa-upgradeconfig
+#. ipa-ldap-updater --upgrade
+
+Also note that the performance improvements require an extended set of
+indexes to be configured. RPM update for an IPA server with a excessive
+number of users may require several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks, not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+.. _detailed_changelog_since_3.3.4:
+
+Detailed Changelog since 3.3.4
+------------------------------
+
+.. _adam_misnyovszki_1:
+
+Adam Misnyovszki (1)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Too big font in input fields
+
+.. _alexander_bokovoy_10:
+
+Alexander Bokovoy (10)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  bindinstance: make sure zone manager is initialized in
+   add_master_dns_records
+-  ipa-kdb: in case of delegation use original client's database entry,
+   not the proxy
+-  ipa-kdb: make sure we don't produce MS-PAC in case of authdata flag
+   cleared by admin
+-  trustdomain_find: make sure we skip short entries when --pkey-only is
+   specified
+-  trust: make sure we always discover topology of the forest trust
+-  ipaserver/dcerpc: catch the case of insuffient permissions when
+   establishing trust
+-  fix filtering of subdomain-based trust users
+-  ipa-kdb: do not fetch client principal if it is the same as existing
+   entry
+-  ipaserver/dcerpc: make sure to always return unicode SID of the trust
+   domain
+-  trust: do not fetch subdomains in case shared secret was used to set
+   up the trust
+
+.. _jan_cholasta_2:
+
+Jan Cholasta (2)
+~~~~~~~~~~~~~~~~
+
+-  Include LDFLAGS provided by rpmbuild in global LDFLAGS in the spec
+   file.
+-  Remove sourcehostcategory from the default HBAC rule.
+
+.. _jason_woods_1:
+
+Jason Woods (1)
+~~~~~~~~~~~~~~~
+
+-  ipa-sam: cache gid to sid and uid to sid requests in idmap cache
+
+.. _martin_basti_3:
+
+Martin Basti (3)
+~~~~~~~~~~~~~~~~
+
+-  DNS classless support for reverse domains
+-  DNS tests for classless reverse domains
+-  Fix test_host_plugin for DNS Classless Reverse zones
+
+.. _martin_kosek_10:
+
+Martin Kosek (10)
+~~~~~~~~~~~~~~~~~
+
+-  Fallback to global policy in ipa-lockout plugin
+-  ipa-lockout: do not fail when default realm cannot be read
+-  Migration does not add users to default group
+-  Avoid passing non-terminated string to is_master_host
+-  ipa-replica-install never checks for 7389 port
+-  Fix idrange unit test failure
+-  Update Dogtag 9 database during replica installation
+-  Proxy PKI clone /ca/ee/ca/profileSubmit URI
+-  Add requires for pki-core-10.0.7-1.fc19
+-  Become IPA 3.3.5
+
+.. _misnyovszki_adam_1:
+
+Misnyovszki Adam (1)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Permission MOD command fix
+
+.. _petr_viktorin_12:
+
+Petr Viktorin (12)
+~~~~~~~~~~~~~~~~~~
+
+-  integration tests OpenSSHTransport: Expand tilde to home in
+   root_ssh_key_filename
+-  ipa tool: Print the name of the server we are connecting to with -v
+-  test_integration.config: Fix crash in to_env when no replica is
+   defined
+-  test_integration.config: Do not save the input environment
+-  test_integration.config: Use a more declarative approach to test-wide
+   settings
+-  test_integration.config: Do not store the index in Domain and Host
+   objects
+-  test_integration.config: Load/store from/to dicts
+-  test_integration.config: Add environment variables for JSON/YAML
+-  ipa-test-config: Add --json and --yaml output options
+-  test_integration.config: Convert some text values to str
+-  Add tests for integration test configuration
+-  test_integration.tasks: Do not fail cleanup if backup directory does
+   not exist
+
+.. _sumit_bose_1:
+
+Sumit Bose (1)
+~~~~~~~~~~~~~~
+
+-  extdom: do not return results from the wrong domain
+
+.. _tomas_babej_13:
+
+Tomas Babej (13)
+~~~~~~~~~~~~~~~~
+
+-  ipatests: test_legacy_clients: Change "test group" to "testgroup"
+-  ipatests: Add records for all hosts in master's domain
+-  ipatests: Run restoring backup files and restoring their context in
+   one session
+-  ipatests: legacy_clients: Test legacy clients with non-posix trust
+-  ipatests: Perform a connection test before preparing the client
+-  ipatests: Make sure we re-kinit as admin before adding the
+   disabledipauser
+-  ipatests: Stop sssd service before deleting the cache
+-  ipatests: Add test cases for subdomain users on legacy clients
+-  ipatests: Change expected home directories returned by getent
+-  ipatests: Do not require group name resolution for the non-posix
+   tests
+-  ipatests: Fix incorrect order of operations when restoring backup
+-  Prohibit deletion of active subdomain range
+-  ipatests: test_trust: Change expected home directories for posix
+   users

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Highlights in 4.10.2 &#8212; FreeIPA  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Highlights in 4.2" href="4.2.0.html" />
+    <link rel="prev" title="Highlights in 4.10.1" href="4.10.1.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The FreeIPA team would like to announce FreeIPA 4.10.2 release!</p>
+<p>It can be downloaded from <a class="reference external" href="http://www.freeipa.org/page/Downloads">http://www.freeipa.org/page/Downloads</a>. Builds
+for Fedora distributions will be available from the official repository
+soon.</p>
+<section id="highlights-in-4-10-2">
+<span id="id1"></span><h1>Highlights in 4.10.2<a class="headerlink" href="#highlights-in-4-10-2" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>5444: [RFE] Support Resource based kerberos constrained delegation</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>9287: [RFE] makeapi should validate the generated API doc vs stored
+doc</p></li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9294: Enable the certificate pruning job in PKI</p>
+<blockquote>
+<div><p>Removing (pruning) expired certificates is supported when Random
+Serial Numbers are enabled. One cannot upgrade from sequential
+serial numbers to random. This feature is enabled using the
+ipa-acme-manage(1) command.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9331: Better handling of the command line and web UI cert search
+and/or list features</p>
+<blockquote>
+<div><p>cert-find performance was improved dramatically when a large
+number of certificates are returned by changing the method IPA
+uses internally to parse results from the CA.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9354: Implement resource-based constrained delegation</p>
+<blockquote>
+<div><p>FreeIPA provides initial implementation of resource-based
+constrained delegation (RBCD) for Kerberos services. RBCD and
+other Kerberos delegation services described in the design
+document:
+<a class="reference external" href="https://freeipa.readthedocs.io/en/latest/designs/rbcd.html">https://freeipa.readthedocs.io/en/latest/designs/rbcd.html</a>. The
+initial implementation works for FreeIPA services, work on
+supporting cross-realm RBCD continues.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9373: Make sign_authdata() generate extended KDC signature</p>
+<blockquote>
+<div><p>FreeIPA KDCs will automatically start requiring two new Kebreros
+ticket signatures when the whole realm is running on MIT Kerberos
+1.21 or later. On older MIT Kerberos versions, the lack of the new
+ticket signature will be tolerated to allow gradual upgrades. More
+details are available at
+<a class="reference external" href="https://pagure.io/freeipa/c/3f1b373cb2028416e40a26e3dd99b0f4c82525c7">https://pagure.io/freeipa/c/3f1b373cb2028416e40a26e3dd99b0f4c82525c7</a>.
+In addition, a ‘full PAC’ signature type was added to MIT Kerberos
+1.21. FreeIPA will support the new signature when running against
+newer MIT Kerberos version. For older versions, please see
+<a class="reference external" href="https://pagure.io/freeipa/c/9cd5f49c74f28dbe070b072b394747a039cef463">https://pagure.io/freeipa/c/9cd5f49c74f28dbe070b072b394747a039cef463</a>.
+This new PAC signature will be required by default by Active
+Directory in July 2023 for S4U requests, and opt-out will no
+longer be possible after October 2023. We recommend upgrading to
+newer versions of FreeIPA-based distributions to avoid
+interoperability break.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="known-issues">
+<span id="id2"></span><h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p>9298: [Tracker] Nightly test failure (updates-testing) in
+test_acme.py::TestACME::test_certbot_certonly_standalone</p>
+<blockquote>
+<div><p>With Certbot update to 2.0.0, Certbot defaults to ECDSA
+certificate private keys for all new certificates. PKI ACME cert
+profile supports only rsa private keys, meaning that the key type
+needs to be forced to rsa when requesting an ACME certificate,
+using certbot –key-type rsa […]</p>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="bug-fixes">
+<span id="id3"></span><h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">¶</a></h2>
+<p>FreeIPA 4.10.2 is a stabilization release for the features delivered as
+a part of 4.10 version series.</p>
+<p>There are more than 60 bug-fixes since FreeIPA 4.10.1 release. Details
+of the bug-fixes can be seen in the list of resolved tickets below.</p>
+</section>
+</section>
+<section id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this heading">¶</a></h1>
+<p>Upgrade instructions are available on <a class="reference external" href="Upgrade">Upgrade</a> page.</p>
+</section>
+<section id="feedback">
+<h1>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h1>
+<p>Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(<a class="reference external" href="https://lists.fedoraproject.org/archives/list/freeipa-users&#64;lists.fedorahosted.org/">https://lists.fedoraproject.org/archives/list/freeipa-users&#64;lists.fedorahosted.org/</a>)
+or #freeipa channel on libera.chat.</p>
+</section>
+<section id="resolved-tickets">
+<span id="id4"></span><h1>Resolved tickets<a class="headerlink" href="#resolved-tickets" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/5130">#5130</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1243261">rhbz#1243261</a>)
+non-admin users cannot search hbac rules</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/5444">#5444</a> [RFE] Support
+Resource based kerberos constrained delegation</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/6044">#6044</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1353899">rhbz#1353899</a>)
+ipa-advise: object of type ‘type’ has no len()</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/8941">#8941</a> Usage of
+`/usr/bin/env` in Python scripts</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/8990">#8990</a> ipa group-mod should
+fail properly with –posix and –external options</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9086">#9086</a> Have
+ipa-client-install additionally disable the unscd service if using
+SSSD</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9124">#9124</a> Nightly test failure
+in test_smb.py::TestSMB::test_smb_service_s4u2self</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9164">#9164</a> Cross realm
+s4u2self/s4u2proxy fails</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9195">#9195</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2158775">rhbz#2158775</a>)
+Hiding a server does not completely clean up DNS records</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9226">#9226</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2124547">rhbz#2124547</a>)
+Infinite redirect loop in the WebUI for user root</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9232">#9232</a> ipaserver circular
+import</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9249">#9249</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2108630">rhbz#2108630</a>)
+Deprecated feature idnssoaserial in IdM appears when creating reverse
+dns zones</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9259">#9259</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2144737">rhbz#2144737</a>)
+vault interoperability with older RHEL systems is broken</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9264">#9264</a> Nightly failure in
+test_integration/test_sso.py::TestSsoBridge::test_ipa_login_with_sso_user</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9267">#9267</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2188567">rhbz#2188567</a>)
+Unconditionally adding ‘includedir
+/var/lib/sss/pubconf/krb5.include.d’ to /etc/krb5.conf break Java’s
+ability to parse krb5.conf</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a> Pylint 2.15 issues</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9279">#9279</a> ipa-otpd&#64;.service:
+deprecated syslog setting</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9282">#9282</a> Nightly test failure
+in
+test_webui/test_subid.py/test_subid/test_subid_range_deletion_not_allowed</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9285">#9285</a> ipa-certupdate
+restarts HTTPd too early</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9286">#9286</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2056009">rhbz#2056009</a>)
+memberManager ACIs aren’t allowing group-based manager access due to
+missing upgrade code</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9287">#9287</a> [RFE] makeapi should
+validate the generated API doc vs stored doc</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9290">#9290</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2149889">rhbz#2149889</a>)
+idm:client is missing dependency on krb5-pkinit.</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9291">#9291</a> Nightly test failure
+(rawhide) in test_ipa_dns_systemrecords_check</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9294">#9294</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2162677">rhbz#2162677</a>)
+Enable the certificate pruning job in PKI</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9295">#9295</a> Nightly test failure
+(sssd) in test_trust.py::TestNonPosixAutoPrivateGroup and
+test_trust.py::TestPosixAutoPrivateGroup</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9298">#9298</a> [Tracker] Nightly
+test failure (updates-testing) in
+test_acme.py::TestACME::test_certbot_certonly_standalone</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9299">#9299</a> NixOS support for
+freeipa in ipaplatform</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9306">#9306</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2160389">rhbz#2160389</a>)
+‘ERROR Could not remove /tmp/tmpbkw6hawo.ipabkp’ can be seen prior to
+‘ipa-client-install’ command was successful.</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9309">#9309</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2160399">rhbz#2160399</a>)
+get_ranges - [file ipa_sidgen_common.c, line 276]: Failed to convert
+LDAP entry to range struct</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9310">#9310</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2162335">rhbz#2162335</a>)
+ipa-trust-add with –range-type=ipa-ad-trust-posix fails while
+creating an ID range</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9313">#9313</a> Nightly test failure
+(rawhide): automember-rebuild test</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9314">#9314</a> Redundant build
+dependency on python3-paste (if with lint)</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9315">#9315</a> [tests]
+test_ipa_healthcheck_fips_enabled fails on system without
+fips-mode-setup</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9316">#9316</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2166324">rhbz#2166324</a>)
+Passwordless (GSSAPI) SSH login with AD user</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9318">#9318</a> Incomplete fast
+lint/codestyle check if both Python template files and Python modules
+were changed</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9319">#9319</a> [tests]
+TestDNSResolver failures on systems without or empty /etc/resolv.conf</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9320">#9320</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2018198">rhbz#2018198</a>)
+RFE - Add a warning note about possible performance impact of the
+Auto Member rebuild task.</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9322">#9322</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2162677">rhbz#2162677</a>)
+Nightly test failure in test_integration/test_acme.py::TestACME</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9323">#9323</a> Update the design
+doc for certificate pruning</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9324">#9324</a> ipatests: Frequent
+timeout of test_acme</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9325">#9325</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2168244">rhbz#2168244</a>)
+requestsearchtimelimit=0 doesn’t seems to be work with
+ipa-acme-manage pruning command</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9326">#9326</a> ipatests: timeout of
+test_trust</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9329">#9329</a> Azure test:
+WebUI_Unit_Tests are failing</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9331">#9331</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2164349">rhbz#2164349</a>)
+Better handling of the command line and web UI cert search and/or
+list features</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9332">#9332</a> Extend negative test
+coverage for automember</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9333">#9333</a> ipa-client-install
+–pkinit-identity can block in unattended mode</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9338">#9338</a> Update ‘Auth
+indicators’ doc string to show ‘ipd’ usage</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9339">#9339</a> Broken support for
+dnspython &lt; 2</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9342">#9342</a> Fedora trasiition
+license from short names to SPDX license expression</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9344">#9344</a> ipa-server-install
+fails when the named keytab location is overridden in
+ipaplatform/paths.py</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9347">#9347</a> Azure Ci does not
+work with Fedora Rawhide</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9349">#9349</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2180914">rhbz#2180914</a>)
+Sequence processing failures for group_add using server context</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a> Implement
+resource-based constrained delegation</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9355">#9355</a> support python
+cryptography 40.0</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9358">#9358</a>
+update_dna_shared_config sometimes blocks installation for 2 minutes</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9361">#9361</a> [ipasphinx]
+deprecated sphinx.util.progress_message</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9362">#9362</a> ipatests: Frequent
+timeout of test_ipahealthcheck</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9368">#9368</a> Test wrong variable
+in ipadb_get_pac()</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9369">#9369</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2164348">rhbz#2164348</a>)
+Better catch of the IPA web UI event “IPA Error
+4301:CertificateOperationError”, and IPA httpd error
+CertificateOperationError</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9371">#9371</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2182683">rhbz#2182683</a>)
+Tolerate absence of PAC ticket signature depending of domain and
+servers capabilities</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9372">#9372</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2172107">rhbz#2172107</a>)
+‘ipa idview-show idviewname’ &amp; IPA WebUI takes longer time to return
+the results in RHEL 8.5</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9373">#9373</a>
+(<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=2176406">rhbz#2176406</a>)
+Make sign_authdata() generate extended KDC signature</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9374">#9374</a> freeipa fails to
+build with updates-testing repo on f37 and f38</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9377">#9377</a> test_commands:
+pseudo-random failure in test_ssh_key_connection</p></li>
+<li><p><a class="reference external" href="https://pagure.io/freeipa/issue/9383">#9383</a> Random nightly test
+failure in test_acme.py::TestACMEPrune::test_prune_cert_manual</p></li>
+</ul>
+</section>
+<section id="detailed-changelog-since-4-10-1">
+<span id="id5"></span><h1>Detailed changelog since 4.10.1<a class="headerlink" href="#detailed-changelog-since-4-10-1" title="Permalink to this heading">¶</a></h1>
+<section id="alexander-bokovoy-23">
+<span id="id6"></span><h2>Alexander Bokovoy (23)<a class="headerlink" href="#alexander-bokovoy-23" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipa-kdb: be compatible with krb5 1.19 when checking for server
+referral
+<a class="reference external" href="https://pagure.io/freeipa/c/f2b821abca72e0d444c96598799c4947e2173d3f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9164">#9164</a></p></li>
+<li><p>ipalib/x509.py: Add signature_algorithm_parameters
+<a class="reference external" href="https://pagure.io/freeipa/c/11ce2b2133364916de06f4c42d8a19ce438bd41c">commit</a></p></li>
+<li><p>ipa-kdb: skip verification of PAC full checksum
+<a class="reference external" href="https://pagure.io/freeipa/c/1b55e9b1cb4f192635878b0b7242104d58a37d2b">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9371">#9371</a></p></li>
+<li><p>ipa-kdb: process out of realm server lookup during S4U
+<a class="reference external" href="https://pagure.io/freeipa/c/bd8fcd6f5bc62a4bfc544b69c0d960291be05d37">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9164">#9164</a></p></li>
+<li><p>ipa-kdb: postpone ticket checksum configuration
+<a class="reference external" href="https://pagure.io/freeipa/c/fefa0248296413b6ee5ad2543d8feb1b31840aee">commit</a></p></li>
+<li><p>ipa-kdb: protect against context corruption
+<a class="reference external" href="https://pagure.io/freeipa/c/803a44777f901217d634f8fd7feed8b66ece352a">commit</a></p></li>
+<li><p>ipa-kdb: hint KDC to use aes256-sha1 for forest trust TGT
+<a class="reference external" href="https://pagure.io/freeipa/c/3d0decd9efc4883328e95f9ff89002aec32462ec">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9124">#9124</a></p></li>
+<li><p>Change doc theme to ‘book’
+<a class="reference external" href="https://pagure.io/freeipa/c/1c43d914d9a365097a80c5c2278017b91c619266">commit</a></p></li>
+<li><p>doc/designs/rbcd.md: document use of S-1-18-* SIDs
+<a class="reference external" href="https://pagure.io/freeipa/c/cb18ca31697320a58ae23a67afbfe7a0ff9a55a5">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>doc/designs/rbcd.md: add usage examples
+<a class="reference external" href="https://pagure.io/freeipa/c/b63e6a257006e846ef5d0a008d9c3c0f935c09bb">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>RBCD: add basic test for RBCD handling
+<a class="reference external" href="https://pagure.io/freeipa/c/7d68f4f08361760adab90ad4b44c6da2c4ea664d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>kdb: implement RBCD handling in KDB driver
+<a class="reference external" href="https://pagure.io/freeipa/c/7ac6adfaac30473b14b589a71fac42fe147bc0d9">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>IPA API changes to support RBCD
+<a class="reference external" href="https://pagure.io/freeipa/c/5b6ad0e65600a96bb4d6f3b1acf4e16773a03493">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>doc: add design document for Kerberos constrained delegation
+<a class="reference external" href="https://pagure.io/freeipa/c/18cd909b4ad854147008a1010c97c75640a54177">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>ipa-kdb: search S4U2Proxy ACLs in cn=s4u2proxy,cn=etc,$BASEDN subtree
+only
+<a class="reference external" href="https://pagure.io/freeipa/c/7a7ba45c10a6da4f9e110f6cc57cfc47e0a16a16">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/5444">#5444</a></p></li>
+<li><p>test_xmlrpc: adopt to automember plugin message changes in 389-ds
+<a class="reference external" href="https://pagure.io/freeipa/c/52e6da9056697e2210736d5528826ae424fec9b1">commit</a></p></li>
+<li><p>Ignore empty modification error in case cifs/.. principal already
+added
+<a class="reference external" href="https://pagure.io/freeipa/c/e7506403a988b98cc3381d2d986b53aee48448cb">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9354">#9354</a></p></li>
+<li><p>ipalib/x509: Implement abstract method
+Certificate.verify_directly_issued_by
+<a class="reference external" href="https://pagure.io/freeipa/c/e07ead943abf070107a9669fc4564c9dc7518832">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9355">#9355</a></p></li>
+<li><p>Fix tox in Azure CI
+<a class="reference external" href="https://pagure.io/freeipa/c/aacaafce9d074342e383ad7007dee1b0e09d9b12">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9347">#9347</a></p></li>
+<li><p>Use system-wide chromium for webui tests
+<a class="reference external" href="https://pagure.io/freeipa/c/84f5f87b1f77267aa4c6c13fbc2496793d06a3c7">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9347">#9347</a></p></li>
+<li><p>Don’t fail if optional RPM macros file is missing
+<a class="reference external" href="https://pagure.io/freeipa/c/b93f6b52a29659663fae65be51dafe350606eb6d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9347">#9347</a></p></li>
+<li><p>ipa-kdb: PAC consistency checker needs to handle child domains as
+well
+<a class="reference external" href="https://pagure.io/freeipa/c/0206369eec8530e96c66986c4ca501d8962193ce">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9316">#9316</a></p></li>
+<li><p>updates: fix memberManager ACI to allow managers from a specified
+group
+<a class="reference external" href="https://pagure.io/freeipa/c/42be04fe4ff317efe599dcbc2637f94ecc6fa220">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9286">#9286</a></p></li>
+</ul>
+</section>
+<section id="anuja-more-4">
+<span id="id7"></span><h2>Anuja More (4)<a class="headerlink" href="#anuja-more-4" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: Test that non admin user can search hbac rule.
+<a class="reference external" href="https://pagure.io/freeipa/c/051bbe36dce57837bd1769aa4a88569e39565774">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/5130">#5130</a></p></li>
+<li><p>ipatests: Test ipa-advise is not failing with error.
+<a class="reference external" href="https://pagure.io/freeipa/c/983a6516f147ae95a512435cd05d237233d0b5fc">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/6044">#6044</a></p></li>
+<li><p>PRCI: update test_trust.py for nightly pipelines.
+<a class="reference external" href="https://pagure.io/freeipa/c/2a2132ccfd3cfb26f5da550a829b267ca0a4f6ae">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9326">#9326</a></p></li>
+<li><p>Add test for SSH with GSSAPI auth.
+<a class="reference external" href="https://pagure.io/freeipa/c/a6cb905de74da38d62f9c3bd7957018924282521">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9316">#9316</a></p></li>
+</ul>
+</section>
+<section id="antonio-torres-10">
+<span id="id8"></span><h2>Antonio Torres (10)<a class="headerlink" href="#antonio-torres-10" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Update list of contributors
+<a class="reference external" href="https://pagure.io/freeipa/c/03b92fb42f173e9ba26d6d19f0d6f35f6c5f38b2">commit</a></p></li>
+<li><p>Update translations to FreeIPA ipa-4-10 state
+<a class="reference external" href="https://pagure.io/freeipa/c/e3797ca2e03097a36bd3795fc1687a2ed4922e59">commit</a></p></li>
+<li><p>Extend API documentation
+<a class="reference external" href="https://pagure.io/freeipa/c/9c6b4f4445dbd1eefffbfff191063980a2f3a342">commit</a></p></li>
+<li><p>doc: allow notes on Param API Reference pages
+<a class="reference external" href="https://pagure.io/freeipa/c/3eed25e92f951689658f6bbd178a5baca37442c6">commit</a></p></li>
+<li><p>ipaserver: deepcopy objectclasses list from IPA config
+<a class="reference external" href="https://pagure.io/freeipa/c/b1b7cbc08d96e125ce21113ba1793a592d0ba35a">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9349">#9349</a></p></li>
+<li><p>API doc: add usage guides for groups, HBAC and sudo rules
+<a class="reference external" href="https://pagure.io/freeipa/c/649c35aa3b46e6d2f034d9afdc4c7ae1542630da">commit</a></p></li>
+<li><p>API doc: add note about ipa show-mappings to usage guide
+<a class="reference external" href="https://pagure.io/freeipa/c/a20acb6f833a22baad214a466848cb5833954532">commit</a></p></li>
+<li><p>API doc: validate generated reference
+<a class="reference external" href="https://pagure.io/freeipa/c/364116c25f68b6b21c0a64466bda09c70cf146ec">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9287">#9287</a></p></li>
+<li><p>API doc: add basic user management guide
+<a class="reference external" href="https://pagure.io/freeipa/c/a10627bdb90bb6eeaf6a156476253edc503c72df">commit</a></p></li>
+<li><p>Back to git snapshots
+<a class="reference external" href="https://pagure.io/freeipa/c/657a7b2556e22b70802809dd784fe576d3edea95">commit</a></p></li>
+</ul>
+</section>
+<section id="carla-martinez-1">
+<span id="id9"></span><h2>Carla Martinez (1)<a class="headerlink" href="#carla-martinez-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Update ‘Auth indicators’ doc string
+<a class="reference external" href="https://pagure.io/freeipa/c/6a4d34fba90ede0a9d600daa24a8d95190a42495">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9338">#9338</a></p></li>
+</ul>
+</section>
+<section id="christian-heimes-3">
+<span id="id10"></span><h2>Christian Heimes (3)<a class="headerlink" href="#christian-heimes-3" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Speed up installer by restarting DS after DNA plugin
+<a class="reference external" href="https://pagure.io/freeipa/c/d63756eb08759740fe8b03f48d0a240f9935e6aa">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9358">#9358</a></p></li>
+<li><p>Don’t block when kinit_pkinit() fails
+<a class="reference external" href="https://pagure.io/freeipa/c/8803938570dfb70586fa89d2d2d7aad4b0965305">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9333">#9333</a></p></li>
+<li><p>ipa-certupdate: Update client certs before KDC/HTTPd restart
+<a class="reference external" href="https://pagure.io/freeipa/c/8e7d1ac4e4779cc15b39a9901bb26c5f5997eb5b">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9285">#9285</a></p></li>
+</ul>
+</section>
+<section id="chris-kelley-1">
+<span id="id11"></span><h2>Chris Kelley (1)<a class="headerlink" href="#chris-kelley-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Check that CADogtagCertsConfigCheck can handle cert renewal
+<a class="reference external" href="https://pagure.io/freeipa/c/a786d3d584c8696df3b18858df1c429cba03721f">commit</a></p></li>
+</ul>
+</section>
+<section id="david-pascual-2">
+<span id="id12"></span><h2>David Pascual (2)<a class="headerlink" href="#david-pascual-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>doc: Use case examples for PR-CI checker tool
+<a class="reference external" href="https://pagure.io/freeipa/c/41c32174b2b3cf71474ea74df32f1f763f4a2c5b">commit</a></p></li>
+<li><p>ipatests: fix (prci_checker) duplicated check &amp; error return code
+<a class="reference external" href="https://pagure.io/freeipa/c/1a965a3a6304607eb5acbdfee45843ebe8746c67">commit</a></p></li>
+</ul>
+</section>
+<section id="erik-belko-1">
+<span id="id13"></span><h2>Erik Belko (1)<a class="headerlink" href="#erik-belko-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: Test MemberManager ACI to allow managers from a specified
+group after upgrade scenario
+<a class="reference external" href="https://pagure.io/freeipa/c/e1f4f655a65777f5096e65b8e5c3e079f77f6ecc">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9286">#9286</a></p></li>
+</ul>
+</section>
+<section id="filip-dvorak-1">
+<span id="id14"></span><h2>Filip Dvorak (1)<a class="headerlink" href="#filip-dvorak-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipa tests: Add LANG before kinit command to fix issue with locale
+settings
+<a class="reference external" href="https://pagure.io/freeipa/c/2520a7adff7a49ddcddaaf19f0e586425dc0d878">commit</a></p></li>
+</ul>
+</section>
+<section id="florence-blanc-renaud-55">
+<span id="id15"></span><h2>Florence Blanc-Renaud (55)<a class="headerlink" href="#florence-blanc-renaud-55" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatest: remove xfail from test_smb
+<a class="reference external" href="https://pagure.io/freeipa/c/283f5463f091ac9fcc733092fc6becff586ae97f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9124">#9124</a></p></li>
+<li><p>ACME tests: fix issue_and_expire_acme_cert method
+<a class="reference external" href="https://pagure.io/freeipa/c/a6f485fcade619980f6538edadf115dca69e1314">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9383">#9383</a></p></li>
+<li><p>user or group name: explain the supported format
+<a class="reference external" href="https://pagure.io/freeipa/c/7830ab96cc295e4151ad3d86cbbaf400a7ab2016">commit</a></p></li>
+<li><p>azure tests: move to fedora 38
+<a class="reference external" href="https://pagure.io/freeipa/c/627c1101a08a281d07cd930193232e434a0cd9a0">commit</a></p></li>
+<li><p>Tests: test on f37 and f38
+<a class="reference external" href="https://pagure.io/freeipa/c/12d1aafe60de457815adb822bbef466926626d6f">commit</a></p></li>
+<li><p>idview: improve performance of idview-show
+<a class="reference external" href="https://pagure.io/freeipa/c/3a9a5bdae7cb3dee65ba74b00169badb72fe6dda">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9372">#9372</a></p></li>
+<li><p>spec file: force nodejs &lt; 20 on fedora &lt; 39
+<a class="reference external" href="https://pagure.io/freeipa/c/d95c4cf137574ffa79a191cbe5f6d0687b53cdc1">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9374">#9374</a></p></li>
+<li><p>Nightly test: add +15min for test_ipahealthcheck
+<a class="reference external" href="https://pagure.io/freeipa/c/717228c908816c72b98cee86abfe7c22cb07c44e">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9362">#9362</a></p></li>
+<li><p>cert_find: fix call with –all
+<a class="reference external" href="https://pagure.io/freeipa/c/918b6e011795ba4854d178d18c86ad54f3cf75ab">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9331">#9331</a></p></li>
+<li><p>ipatests: mark known failures for autoprivategroup
+<a class="reference external" href="https://pagure.io/freeipa/c/e2b08433cf7cf74dea81b88953a4b8daa4c38614">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9295">#9295</a></p></li>
+<li><p>ipatests: fix test definition for test_trust
+<a class="reference external" href="https://pagure.io/freeipa/c/def07260da883b1d27330b308bd0337205bf53a8">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9326">#9326</a></p></li>
+<li><p>ipatests: increase timeout for test_trust
+<a class="reference external" href="https://pagure.io/freeipa/c/ae014c6a3e17da7b0775be79a425d769a2717243">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9326">#9326</a></p></li>
+<li><p>ipatests: adapt for new automembership fixup behavior
+<a class="reference external" href="https://pagure.io/freeipa/c/34d048ede0c439b3a53e02f8ace96ff91aa1609d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9313">#9313</a></p></li>
+<li><p>ipatests: increase timeout for test_acme
+<a class="reference external" href="https://pagure.io/freeipa/c/0a8a3922487b8029c509635c85b533474008bb9d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9324">#9324</a></p></li>
+<li><p>automember-rebuild: add a notice about high CPU usage
+<a class="reference external" href="https://pagure.io/freeipa/c/2857bc69957bde7e59fff1c66c5a83c7f560616b">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9320">#9320</a></p></li>
+<li><p>trust-add: handle missing msSFU30MaxGidNumber
+<a class="reference external" href="https://pagure.io/freeipa/c/97fc368df2db3b559a9def236d3c3e0a12bcdd0a">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9310">#9310</a></p></li>
+<li><p>Spec file: use %autosetup instead of %setup
+<a class="reference external" href="https://pagure.io/freeipa/c/2a69d056176edd4ef0b1f4e59eb0548a483bc6e5">commit</a></p></li>
+<li><p>Spec file: unify with RHEL9 spec
+<a class="reference external" href="https://pagure.io/freeipa/c/0e06786a44f8d12b08961fe0720a1b712e82c5cf">commit</a></p></li>
+<li><p>Installer: create RID base before domain object
+<a class="reference external" href="https://pagure.io/freeipa/c/7d1a35852fa53bcf3b88a8a80a2e86ef88a75795">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9309">#9309</a></p></li>
+<li><p>Tests: force key type in ACME tests
+<a class="reference external" href="https://pagure.io/freeipa/c/0fa95852c935c7b079f8ed966d4f194099217038">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9298">#9298</a></p></li>
+<li><p>server install: remove error log about missing bkup file
+<a class="reference external" href="https://pagure.io/freeipa/c/894dca12c120f0bfa705307a0609da47326b8fb2">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9306">#9306</a></p></li>
+<li><p>ipatests: mark test_smb as xfail
+<a class="reference external" href="https://pagure.io/freeipa/c/b5f2b0b1b213149b5bfe2653c9e40de98249dc73">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9124">#9124</a></p></li>
+<li><p>pylint: disable deprecated-module message
+<a class="reference external" href="https://pagure.io/freeipa/c/85037db2e1927c76fba963c6fde4ce17d2b95929">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: fix comparison-of-constants
+<a class="reference external" href="https://pagure.io/freeipa/c/62e2d111fc3113aa5c9f22ae75068094403d1d39">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable comparison-of-constants
+<a class="reference external" href="https://pagure.io/freeipa/c/015e25a581353aaf628f9e2ea8306fda89842cd5">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: fix consider-iterating-dictionary
+<a class="reference external" href="https://pagure.io/freeipa/c/3d211b4f9f6950a2810496f30e57a421eeb31e85">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: globally disable useless-object-inheritance
+<a class="reference external" href="https://pagure.io/freeipa/c/4e998848f08b52760225c5bcb1afa9a6b2f6361b">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable unhashable-member
+<a class="reference external" href="https://pagure.io/freeipa/c/07111438389fde4a74845f9f797656712335795f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable invalid-sequence-index
+<a class="reference external" href="https://pagure.io/freeipa/c/a95e11dbbff58804c5b85acaa4d70b72ce750ae0">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: fix deprecated-class SafeConfigParser
+<a class="reference external" href="https://pagure.io/freeipa/c/433599fdef1bf0608991d25ddbe6c891ae382ae0">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: fix duplicate-value
+<a class="reference external" href="https://pagure.io/freeipa/c/b9ea3fcbdb9ab07153873aeea7d3e1bd69e0d065">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: fix implicit-str-concat
+<a class="reference external" href="https://pagure.io/freeipa/c/71496be75f6523b51f9316d3dcf7e0662d2cb606">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable missing-timeout message
+<a class="reference external" href="https://pagure.io/freeipa/c/84c4792bdbf82108771d796ae317e2cb1f1d2100">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: globally disable unnecessary-lambda-assignment message
+<a class="reference external" href="https://pagure.io/freeipa/c/2b97c8caad267f97780d7ee8d940577c17ef1499">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable unnecessary-dunder-call message
+<a class="reference external" href="https://pagure.io/freeipa/c/3336236ff1133ae86a5c9e2caeb90db7169fa454">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable using-constant-test
+<a class="reference external" href="https://pagure.io/freeipa/c/5434c12b6012f035528f0b137c1af5c1be113542">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: remove arguments-renamed warnings
+<a class="reference external" href="https://pagure.io/freeipa/c/22f182ee9203be5e014d438f2a27b8721dd0c3ae">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable modified-iterating-list
+<a class="reference external" href="https://pagure.io/freeipa/c/ac69ad4ba5ec644fbb1b2768237fd2412d7e3101">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: replace deprecated distutils module
+<a class="reference external" href="https://pagure.io/freeipa/c/328fb642f6aba1a15040b7374a59cb6f7679f8f5">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable used-before-assignment
+<a class="reference external" href="https://pagure.io/freeipa/c/081dd26376b8ff704a83e1c783d97c40951c43b3">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: disable redefined-slots-in-subclass
+<a class="reference external" href="https://pagure.io/freeipa/c/240b46db1451b8fed5f04244e9927b8fc03f10c0">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: remove useless suppression
+<a class="reference external" href="https://pagure.io/freeipa/c/51e0f751e9c3b5cade75360d24ba64c75ec926ba">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: remove unneeded disable=unused-private-member
+<a class="reference external" href="https://pagure.io/freeipa/c/fd21204559bd8fcac6a1b321adda163cd88aa149">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>azure tests: move to fedora 37
+<a class="reference external" href="https://pagure.io/freeipa/c/782873a2277ca7defa5554d2b7859f1c14767d68">commit</a></p></li>
+<li><p>ipatests: update the xfail annotation for test_number_of_zones
+<a class="reference external" href="https://pagure.io/freeipa/c/304978924a09677805fd3b73614aad6a2de232a2">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9135">#9135</a></p></li>
+<li><p>Spec file: bump krb5_kdb_version on rawhide
+<a class="reference external" href="https://pagure.io/freeipa/c/2904b15a94eebbb37ca6a289eccd6b95f063d7ca">commit</a></p></li>
+<li><p>FIPS setup: fix typo filtering camellia encryption
+<a class="reference external" href="https://pagure.io/freeipa/c/dfba6ebf9ab7b7d17e65f928c90ae63b31d9cae7">commit</a></p></li>
+<li><p>cert utilities: MAC verification is incompatible with FIPS mode
+<a class="reference external" href="https://pagure.io/freeipa/c/c853cfde56fb56798424bd402012d78ed47647c0">commit</a></p></li>
+<li><p>ipatests: update the fake fips mode expected message
+<a class="reference external" href="https://pagure.io/freeipa/c/68f6574cb2bcf0b04840b4f62a8ac70b4d45cb1a">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9002">#9002</a></p></li>
+<li><p>ipatests: xfail on all fedora for test_ipa_login_with_sso_user
+<a class="reference external" href="https://pagure.io/freeipa/c/9599e975bcdc0a58a32ccee6ad531c7298661a1d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9264">#9264</a></p></li>
+<li><p>Spec file: ipa-client depends on krb5-pkinit-openssl
+<a class="reference external" href="https://pagure.io/freeipa/c/2d0a0cc40fb8674f30ba62980b1953cef840009e">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9290">#9290</a></p></li>
+<li><p>webui tests: fix assertion in test_subid.py
+<a class="reference external" href="https://pagure.io/freeipa/c/c411c2e7b2e400829ffac250db81609ef3c56faa">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9282">#9282</a></p></li>
+<li><p>PRCI: update memory reqs for each topology
+<a class="reference external" href="https://pagure.io/freeipa/c/aeb9cc9b622d3d4a40a7eb3fe5800649c68c3b96">commit</a></p></li>
+<li><p>API reference: update dnszone_add generated doc
+<a class="reference external" href="https://pagure.io/freeipa/c/660da9ab1d93fd8e561643728ae3821193953433">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9249">#9249</a></p></li>
+<li><p>API reference: update vault doc
+<a class="reference external" href="https://pagure.io/freeipa/c/42957f9e7819ad76394b20337e65c7bee828dd8f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9259">#9259</a></p></li>
+</ul>
+</section>
+<section id="s1341-1">
+<span id="id16"></span><h2>s1341 (1)<a class="headerlink" href="#s1341-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipaplatform: add initial nixos support
+<a class="reference external" href="https://pagure.io/freeipa/c/16a81062ba1c92773eb6206d68af6a2b3ba1d54d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9299">#9299</a></p></li>
+</ul>
+</section>
+<section id="jarl-gullberg-2">
+<span id="id17"></span><h2>Jarl Gullberg (2)<a class="headerlink" href="#jarl-gullberg-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>install: Fix missing dyndb keytab directive
+<a class="reference external" href="https://pagure.io/freeipa/c/1b38ab1771944b51ddaeea972ea92a8e8ee5b92b">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9344">#9344</a></p></li>
+<li><p>ipaplatform/debian: fix path to ldap.so
+<a class="reference external" href="https://pagure.io/freeipa/c/03180bedcf99075d98f206d271a31ae7ceddc50d">commit</a></p></li>
+</ul>
+</section>
+<section id="julien-rische-3">
+<span id="id18"></span><h2>Julien Rische (3)<a class="headerlink" href="#julien-rische-3" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Filter out constrained delegation ACL from KDB entry
+<a class="reference external" href="https://pagure.io/freeipa/c/7ea3b86696f5451f1d227d365018ab7dc53024af">commit</a></p></li>
+<li><p>Tolerate absence of PAC ticket signature depending of server
+capabilities
+<a class="reference external" href="https://pagure.io/freeipa/c/bbe545ff9feb972e549c743025e4a26b14ef8f89">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9371">#9371</a></p></li>
+<li><p>kdb: Use krb5_pac_full_sign_compat() when available
+<a class="reference external" href="https://pagure.io/freeipa/c/630cda5c06428825dd5604493621b9cbdab70073">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9373">#9373</a></p></li>
+</ul>
+</section>
+<section id="jerry-james-1">
+<span id="id19"></span><h2>Jerry James (1)<a class="headerlink" href="#jerry-james-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Change fontawesome-fonts requires to match fontawesome 4.x
+<a class="reference external" href="https://pagure.io/freeipa/c/58173c021388dd31b4501d1c7bc1e6747cea8bb8">commit</a></p></li>
+</ul>
+</section>
+<section id="mbhalodi-5">
+<span id="id20"></span><h2>mbhalodi (5)<a class="headerlink" href="#mbhalodi-5" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: add remove automember condition tests
+<a class="reference external" href="https://pagure.io/freeipa/c/846c267f58ecfa4fc1a1a3be91c404e58074b1b3">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9332">#9332</a></p></li>
+<li><p>ipatests: Test for sequence processing failures with server context
+<a class="reference external" href="https://pagure.io/freeipa/c/304fd550613e83d120c72f0dad89f6a89d31231c">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9349">#9349</a></p></li>
+<li><p>ipatests: add missing automember-cli tests
+<a class="reference external" href="https://pagure.io/freeipa/c/6db9bbd85a837950d9244502507535c1f79ab64a">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9332">#9332</a></p></li>
+<li><p>ipatests: WebUI - ensure that ipa automember-rebuild prints a warning
+<a class="reference external" href="https://pagure.io/freeipa/c/cd07413cba37150b12d6b279510941aad49b5afb">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9320">#9320</a></p></li>
+<li><p>ipatests: ensure that ipa automember-rebuild prints a warning
+<a class="reference external" href="https://pagure.io/freeipa/c/88b9be29036a3580a8bccd31986fc30faa9852df">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9320">#9320</a></p></li>
+</ul>
+</section>
+<section id="michal-polovka-2">
+<span id="id21"></span><h2>Michal Polovka (2)<a class="headerlink" href="#michal-polovka-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: commands: Wait for the SSSD to become available
+<a class="reference external" href="https://pagure.io/freeipa/c/bc39443211e998d7088571f0ef70233b6e456e1d">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9377">#9377</a></p></li>
+<li><p>ipatest: loginscreen: do not use hardcoded password
+<a class="reference external" href="https://pagure.io/freeipa/c/1f10aebcc5b3568a9992111e377c5caecc1e035f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9226">#9226</a></p></li>
+</ul>
+</section>
+<section id="mohammad-rizwan-3">
+<span id="id22"></span><h2>Mohammad Rizwan (3)<a class="headerlink" href="#mohammad-rizwan-3" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: wait for sssd-kcm to settle after date change
+<a class="reference external" href="https://pagure.io/freeipa/c/edcdcf83452dce837c1522c353c4a80c967ea57b">commit</a></p></li>
+<li><p>ipatests: fix tests in TestACMEPrune
+<a class="reference external" href="https://pagure.io/freeipa/c/e7c642bafcead5ce344f3b129d916045b00d0c1e">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9294">#9294</a></p></li>
+<li><p>ipatests: tests for certificate pruning
+<a class="reference external" href="https://pagure.io/freeipa/c/0f77b359e241fc4055fb8d785e18f96338451ebf">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9294">#9294</a></p></li>
+</ul>
+</section>
+<section id="rob-crittenden-15">
+<span id="id23"></span><h2>Rob Crittenden (15)<a class="headerlink" href="#rob-crittenden-15" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Don’t allow a group to be converted to POSIX and external
+<a class="reference external" href="https://pagure.io/freeipa/c/58017abeb88b2f2c8ee2e4f5a6ed808d28c672a4">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/8990">#8990</a></p></li>
+<li><p>Replace usage of #!/usr/bin/env python3 with #!/usr/bin/python3
+<a class="reference external" href="https://pagure.io/freeipa/c/325a13196b32c627854c8d7594e23b58167499f0">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/8941">#8941</a></p></li>
+<li><p>Mention in ipa-client-install that nscd is disabled
+<a class="reference external" href="https://pagure.io/freeipa/c/abe71fe145a3d16257043ccfbb43002607458cee">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9086">#9086</a></p></li>
+<li><p>Return the value cert-find failures from the CA
+<a class="reference external" href="https://pagure.io/freeipa/c/81a6b9ad2d42fecdd94e17fa7c888bbdea2daf3c">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9369">#9369</a></p></li>
+<li><p>Use the OpenSSL certificate parser in cert-find
+<a class="reference external" href="https://pagure.io/freeipa/c/50dd79d1a35549034bc281fbdffea4399baed3c7">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9331">#9331</a></p></li>
+<li><p>Enforce sizelimit in cert-find
+<a class="reference external" href="https://pagure.io/freeipa/c/e2576670e692117c11987118abd5e9381bb90b1f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9331">#9331</a></p></li>
+<li><p>doc: Update pruning design with implement enable/disable options
+<a class="reference external" href="https://pagure.io/freeipa/c/fe13baa0acdb885dd981cbd8fdf6cee5e5ef22e3">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9323">#9323</a></p></li>
+<li><p>Wipe the ipa-ca DNS record when updating system records
+<a class="reference external" href="https://pagure.io/freeipa/c/4e0ad96fbd9f438c884eeeaa60c2fb0c910a2b61">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9195">#9195</a></p></li>
+<li><p>Fix setting values of 0 in ACME pruning
+<a class="reference external" href="https://pagure.io/freeipa/c/20ff7c16022793c707f6c2b8fb38a801870bc0e2">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9325">#9325</a></p></li>
+<li><p>tests: add wrapper around ACME RSNv3 test
+<a class="reference external" href="https://pagure.io/freeipa/c/d24b69981d94fce7b1e1aa4a5c1ab88a123f96b5">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9322">#9322</a></p></li>
+<li><p>doc: add the –run command for manual job execution
+<a class="reference external" href="https://pagure.io/freeipa/c/f10d1a0f84ed0f16ab4a1469f16ffadb3e79e59e">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9294">#9294</a></p></li>
+<li><p>ipa-acme-manage: add certificate/request pruning management
+<a class="reference external" href="https://pagure.io/freeipa/c/9246a8a003b2b0062e07c289cd7cde8fe902b16f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9294">#9294</a></p></li>
+<li><p>tests: Add new ipa-ca error messages to IPADNSSystemRecordsCheck
+<a class="reference external" href="https://pagure.io/freeipa/c/6ca119686aadfa72c0474f72758b63cd671952d4">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9291">#9291</a></p></li>
+<li><p>tests: Add ipa_ca_name checking to DNS system records
+<a class="reference external" href="https://pagure.io/freeipa/c/ff31b0c40cc5e046f839b98b80bd16bb649205ac">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9291">#9291</a></p></li>
+<li><p>doc: Design for certificate pruning
+<a class="reference external" href="https://pagure.io/freeipa/c/51b1c22d025bf40e9ef488bb0faf0c8dff303ccd">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9294">#9294</a></p></li>
+</ul>
+</section>
+<section id="rafael-guterres-jeffman-2">
+<span id="id24"></span><h2>Rafael Guterres Jeffman (2)<a class="headerlink" href="#rafael-guterres-jeffman-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Fix “no entry” condition when searching PAC info
+<a class="reference external" href="https://pagure.io/freeipa/c/8a7c068300a80f14b4b2fa4d63b0512768d326ad">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9368">#9368</a></p></li>
+<li><p>Migrated to SPDX license.
+<a class="reference external" href="https://pagure.io/freeipa/c/e3507563877f1d64567f24b7f2e33ade8c310f86">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9342">#9342</a></p></li>
+</ul>
+</section>
+<section id="stanislav-levin-21">
+<span id="id25"></span><h2>Stanislav Levin (21)<a class="headerlink" href="#stanislav-levin-21" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipasphinx: Correct import of progress_message for Sphinx 6.1.0+
+<a class="reference external" href="https://pagure.io/freeipa/c/3d787c2107ca10de15602afc757fc9b24fdd89bf">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9361">#9361</a></p></li>
+<li><p>fastlint: Correct concatenation of file lists
+<a class="reference external" href="https://pagure.io/freeipa/c/540262700d73b701b0fd5dd3b79e5b20f0fc84c3">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9318">#9318</a></p></li>
+<li><p>dns: Fix support for dnspython 1.1x
+<a class="reference external" href="https://pagure.io/freeipa/c/b152e8c3aea9f2c3ade319934fd7c81cb5432407">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9339">#9339</a></p></li>
+<li><p>tests: webui: Update vendored qunit
+<a class="reference external" href="https://pagure.io/freeipa/c/9b8e8edc22ade3027a5c3da487783f598e0732fd">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9329">#9329</a></p></li>
+<li><p>AP: webui: List installed nodejs packages
+<a class="reference external" href="https://pagure.io/freeipa/c/8fe8b262232ce65dddea8c92838200a1c5121f13">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9329">#9329</a></p></li>
+<li><p>tests: webui: Load qunit only once
+<a class="reference external" href="https://pagure.io/freeipa/c/425cad6f114c981bfe41a30c7ad626164ac29be4">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9329">#9329</a></p></li>
+<li><p>tests: webui: Allow file access from files in tests
+<a class="reference external" href="https://pagure.io/freeipa/c/450e78f5f3be3064d7ee1c6be5103dfae2ebaf87">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9329">#9329</a></p></li>
+<li><p>tests: Configure DNSResolver as platform agnostic resolver
+<a class="reference external" href="https://pagure.io/freeipa/c/d662b125985369181a3ebcbad82a4a43215282f6">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9319">#9319</a></p></li>
+<li><p>spec: Drop no longer used build dependency on paste
+<a class="reference external" href="https://pagure.io/freeipa/c/fb22c8e5bf9432b4a7c2866d5d210c353985ea50">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9314">#9314</a></p></li>
+<li><p>ipatests: healthcheck: Handle missing fips-mode-setup
+<a class="reference external" href="https://pagure.io/freeipa/c/1be3188e3168e7a097e44a97f86e29b7e42fcae6">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9315">#9315</a></p></li>
+<li><p>pylint: Replace deprecated cgi module
+<a class="reference external" href="https://pagure.io/freeipa/c/2009889d763ccc26479c966931ca1b60378496fd">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Fix useless-object-inheritance
+<a class="reference external" href="https://pagure.io/freeipa/c/bccd3c942084c753543d63b4d409ac46f819d314">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Fix unhashable-member
+<a class="reference external" href="https://pagure.io/freeipa/c/bd7b5bf71c443daa3ac12ff194748845a84b08f0">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Fix unnecessary-lambda-assignment
+<a class="reference external" href="https://pagure.io/freeipa/c/dc8c8a7824565178333ef7ae8ac7934467424691">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Fix modified-iterating-list
+<a class="reference external" href="https://pagure.io/freeipa/c/acc2daf25f5c12ef1d9a823de15df080ba42d059">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Fix used-before-assignment
+<a class="reference external" href="https://pagure.io/freeipa/c/b12376560da944b0845b9ac0d424adaf5435670f">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Replace deprecated pipes
+<a class="reference external" href="https://pagure.io/freeipa/c/1261bbf0016d4824f908a589d4943513e98f8b01">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Fix cyclic-import
+<a class="reference external" href="https://pagure.io/freeipa/c/c48c76e9d34bae09dc4eac1f3b33f7cb72355c25">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9232">#9232</a>,
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Replace deprecated extension-pkg-whitelist
+<a class="reference external" href="https://pagure.io/freeipa/c/68ab438f5c2250d96733a0c1b47cbb3a1c518bed">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: More allowed C extensions
+<a class="reference external" href="https://pagure.io/freeipa/c/f9822697659f134146e1dcfce0c48e2279a8becb">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+<li><p>pylint: Lint in single process mode
+<a class="reference external" href="https://pagure.io/freeipa/c/d673fdab6097ae783bd0075c0e990e42bc24f833">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9278">#9278</a></p></li>
+</ul>
+</section>
+<section id="sudhir-menon-2">
+<span id="id26"></span><h2>Sudhir Menon (2)<a class="headerlink" href="#sudhir-menon-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>ipatests: ipa-adtrust-install command test scenarios
+<a class="reference external" href="https://pagure.io/freeipa/c/76c788274a2ee3993ee36d12d91e22200817dfc9">commit</a></p></li>
+<li><p>Fixes: ipa-otpd&#64;.service: deprecated syslog setting
+<a class="reference external" href="https://pagure.io/freeipa/c/65a14a36936b8ebfdb17560d5976447c6f4cdf7e">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9279">#9279</a></p></li>
+</ul>
+</section>
+<section id="timo-aaltonen-1">
+<span id="id27"></span><h2>Timo Aaltonen (1)<a class="headerlink" href="#timo-aaltonen-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Drop duplicate includedir from krb5.conf
+<a class="reference external" href="https://pagure.io/freeipa/c/bdb77a3d810837e3e349ce6b5625662be281f2cd">commit</a>
+<a class="reference external" href="https://pagure.io/freeipa/issue/9267">#9267</a></p></li>
+</ul>
+</section>
+<section id="todd-zullinger-2">
+<span id="id28"></span><h2>Todd Zullinger (2)<a class="headerlink" href="#todd-zullinger-2" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>spec: silence krb5 pkgconf errors in %krb5_base_version
+<a class="reference external" href="https://pagure.io/freeipa/c/90d0f04987b5477efa64d64416d89890e6bcda75">commit</a></p></li>
+<li><p>spec: verify upstream source signature
+<a class="reference external" href="https://pagure.io/freeipa/c/3b64eaa153d89920cbb0be87e5c2b512c4bf2008">commit</a></p></li>
+</ul>
+</section>
+<section id="thorsten-scherf-1">
+<span id="id29"></span><h2>Thorsten Scherf (1)<a class="headerlink" href="#thorsten-scherf-1" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>external-idp: change idp server name to reference name
+<a class="reference external" href="https://pagure.io/freeipa/c/9323bafb645a377192efe17b489124a440c055c3">commit</a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/freeipa-logo-small.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, FreeIPA Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../_sources/archive/pages/Releases/4.10.2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

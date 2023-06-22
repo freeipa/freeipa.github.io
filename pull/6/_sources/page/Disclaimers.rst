@@ -1,4 +1,0 @@
-Disclaimers
-===========
-
-Legal

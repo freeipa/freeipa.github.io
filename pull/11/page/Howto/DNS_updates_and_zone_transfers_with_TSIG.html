@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>DNS_updates_and_zone_transfers_with_TSIG &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/DNS_updates_and_zone_transfers_with_TSIG';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/Howto/DNS_updates_and_zone_transfers_with_TSIG.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DNS_updates_and_zone_transfers_with_TSIG</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">DNS_updates_and_zone_transfers_with_TSIG</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">DNS updates and zone transfers with TSIG</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tsig-key-configuration">TSIG key configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-new-tsig-key">Generate a new TSIG key</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-and-paste-key-from-key-file-to-named-conf">Copy and paste key from key file to named.conf</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-updates">Dynamic updates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#client">Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zone-transfers">Zone transfers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Client</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dns-updates-and-zone-transfers-with-tsig">
+<h1>DNS_updates_and_zone_transfers_with_TSIG<a class="headerlink" href="#dns-updates-and-zone-transfers-with-tsig" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="id1">
+<h1>DNS updates and zone transfers with TSIG<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>FreeIPA doesn’t have support for TSIG in user interface but it can be
+configured to use TSIG for dynamic updates and zone transfers.</p>
+<section id="tsig-key-configuration">
+<h2>TSIG key configuration<a class="headerlink" href="#tsig-key-configuration" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="generate-a-new-tsig-key">
+<h2>Generate a new TSIG key<a class="headerlink" href="#generate-a-new-tsig-key" title="Permalink to this heading">#</a></h2>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Kkeyname.+165+03160</span></code></div>
+</div>
+</section>
+<section id="copy-and-paste-key-from-key-file-to-named-conf">
+<h2>Copy and paste key from key file to named.conf<a class="headerlink" href="#copy-and-paste-key-from-key-file-to-named-conf" title="Permalink to this heading">#</a></h2>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat Kkeyname.+165+0316.private</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Private-key-format: v1.3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Algorithm: 165 (HMAC_SHA512)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Key: keyvalue</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Bits: AAA=</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ vim /etc/named.conf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">key &quot;keyname&quot; {</span></code></div>
+<div class="line">``       algorithm hmac-sha512;``</div>
+<div class="line">``       secret “keyvalue”;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<p>You have to repeat this copy&amp;paste step for every FreeIPA server.</p>
+</section>
+<section id="dynamic-updates">
+<h2>Dynamic updates<a class="headerlink" href="#dynamic-updates" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="server">
+<h2>Server<a class="headerlink" href="#server" title="Permalink to this heading">#</a></h2>
+<p>Normal rules for <a class="reference external" href="http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies">BIND dynamic update policies
+apply</a>.
+Just use name of the key you defined in named.conf:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.com. --update-policy=&quot;grant keyname name example.com A;&quot;</span></code></p>
+<p>One of FreeIPA specifics is that dynamic updates can be completely
+disabled by switch even if update policy is non-empty. Make sure that
+DNS dynamic updates are enabled for your zone:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.com. --dynamic-update=1</span></code></p>
+</section>
+<section id="client">
+<h2>Client<a class="headerlink" href="#client" title="Permalink to this heading">#</a></h2>
+<p>For <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> from <code class="docutils literal notranslate"><span class="pre">bind-utils</span></code> package you have to either use
+option <code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:keyvalue</span></code> or <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfilename</span></code> option.
+E.g.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ nsupdate -y hmac-sha512:keyname:keyvalue</span></code></p>
+<p>or</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ nsupdate -k Kkeyname.+165+0316.private</span></code></p>
+</section>
+<section id="zone-transfers">
+<h2>Zone transfers<a class="headerlink" href="#zone-transfers" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="id2">
+<h2>Server<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>FreeIPA user interface will not allow you to configure allow-transfer
+policy directly because it expects that allow-transfer consists only of
+IP addresses. You have to modify LDAP directly.</p>
+<p>Run this on one of FreeIPA servers:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ldapmodify -Y GSSAPI &lt;&lt; EOF</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: idnsAllowTransfer</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsAllowTransfer: key keyname;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">EOF</span></code></div>
+</div>
+<p>Don’t forget to replace zone name in <code class="docutils literal notranslate"><span class="pre">idnsname</span></code> component of DN and
+realm name in <code class="docutils literal notranslate"><span class="pre">dc=ipa,dc=example</span></code> components.</p>
+</section>
+<section id="id3">
+<h2>Client<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>The syntax for <code class="docutils literal notranslate"><span class="pre">dig</span></code> from <code class="docutils literal notranslate"><span class="pre">bind-utils</span></code> package is the same as for
+<code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>. You have to either use option
+<code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:keyvalue</span></code> or <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfilename</span></code> option. E.g.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ dig -y hmac-sha512:keyname:keyvalue</span></code></p>
+<p>or</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ dig -k Kkeyname.+165+0316.private</span></code></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">DNS_updates_and_zone_transfers_with_TSIG</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">DNS updates and zone transfers with TSIG</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tsig-key-configuration">TSIG key configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-new-tsig-key">Generate a new TSIG key</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-and-paste-key-from-key-file-to-named-conf">Copy and paste key from key file to named.conf</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-updates">Dynamic updates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#client">Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zone-transfers">Zone transfers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Client</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

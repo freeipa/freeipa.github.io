@@ -1,0 +1,346 @@
+IPAv2_213
+=========
+
+\__NOTOC_\_ October 19, 2011
+
+The FreeIPA project team is pleased to announce the availability of the
+freeIPA 2.1.3 server.
+
+It is available in Fedora 15, 16 and rawhide.
+
+
+
+What happened to 2.1.2!?
+------------------------
+
+Right after tagging 2.1.2 we found an upgrade issue that would have
+affected any users using the selfsign CA (installed with --selfsign). We
+decided to hold back the release, fix a few more bugs, and just push out
+2.1.3 instead about a week later. So here we are.
+
+
+
+Highlights in 2.1.3
+-------------------
+
+-  Enforce that system hostname matches hostname of IPA server.
+-  Require that /etc/hosts is sane even when configuring DNS.
+-  Increase default server-side LDAP search limits.
+-  Client enrollment improvements including longer wait for sssd to
+   start, recovery if discovered IPA server is not responsive and when
+   anonymous bind is disabled in 389-ds.
+
+
+
+Highlights in 2.1.2
+-------------------
+
+-  Upgrade older dogtag installs to use new PKI proxy configuration
+-  hbactest improvements
+-  Added platform-independent code to make ipa-client-install more
+   portable
+-  Make client uninstaller more robust, should restore state more
+   completely.
+-  UI usability improvements
+-  Tool for Enabling/Disabling Managed Entry Plugins
+-  Managed Entries configuration is now replicated
+-  IPv6 client enrollment improvements
+-  Man page improvements
+-  Performance improvements when calculating indirect membership
+-  Improved handling of disabled anonymous binds in 389-ds
+-  user is now prompted to enter current password when changing to a new
+
+password
+
+-  ipa server now support multiple namingContexts. ipa-client-install
+   and
+
+password migration were fixed
+
+Upgrading
+---------
+
+Server
+----------------------------------------------------------------------------------------------
+
+To upgrade a 2.0.0, 2.0.1 or 2.1.0 server do the following:
+
+``# yum update freeipa-server --enablerepo=updates-testing``
+
+This will pull in updated freeIPA, 389-ds, dogtag, libcurl and xmlrpc-c
+packages (and perhaps some others). A script will be executed in the rpm
+postinstall phase to update the IPA LDAP server with any required
+changes.
+
+There is a bug reported against 389-ds,
+https://bugzilla.redhat.com/show_bug.cgi?id=730387, related to
+read-write locks. The NSPR RW lock implementation does not safely allow
+re-entrant use of reader locks. This is a timing issue so it is
+difficult to predict. During testing one user experienced this and the
+upgrade hung. To break the hang kill the ns-slapd process for your
+realm, wait for the yum transaction to complete, then restart 389-ds and
+manually run the update process:
+
+| ``# service dirsrv start``
+| ``# ipa-ldap-updater --update``
+
+Client
+----------------------------------------------------------------------------------------------
+
+The ipa-client-install tool in the ipa-client package is just a
+configuration tool. There should be no need to re-run this on every
+client already enrolled.
+
+
+
+Detailed Changelog for 2.1.3
+----------------------------
+
+Adam Young (1):
+
+-  Fix dynamic display of UI tabs based on rights
+
+Alexander Bokovoy (8):
+
+-  Increase number of 'getent passwd attempts' to 10
+-  Force kerberos realm to be a string
+-  Include indirect membership and canonicalize hosts during HBAC rules
+   testing
+-  Refactor backup_and_replace_hostname() into a flexible config
+   modification tool
+-  Write KRB5REALM to /etc/sysconfig/krb5kdc and make use of common
+   backup_config_and_replace_variables() tool
+-  Refactor authconfig use in ipa-client-install
+-  Document --preserve-sssd option of ipa-client-install
+-  Use set class instead of dictview class as set is wider supported
+
+Jan Cholasta (3):
+
+-  Disallow deletion of global password policy.
+-  Don't leak passwords through kdb5_ldap_util command line arguments.
+-  Remove more redundant configuration values from krb5.conf.
+
+John Dennis (1):
+
+-  Fix Spanish po translation file
+
+Martin Kosek (12):
+
+-  Improve default user/group object class validation
+-  Fix i18n in config plugin
+-  Fix dnszone-add name_from_ip server validation
+-  Improve handling of GIDs when migrating groups
+-  ipa-client-install hangs if the discovered server is unresponsive
+-  Optimize member/memberof searches in LDAP
+-  Make IPv4 address parsing more strict
+-  Check hostname resolution sanity
+-  Hostname used by IPA must be a system hostname
+-  Check /etc/hosts file in ipa-server-install
+-  Fix ipa-client-install -U option alignment
+-  Improve hostgroup/netgroup collision checks
+
+Petr Vobornik (2):
+
+-  Added missing fields to password policy page
+-  Fixed: Unable to add external user for RunAs User for Sudo rules
+
+Rob Crittenden (12):
+
+-  Fix DNS permissions and membership in privileges
+-  Fix upgrades of selfsign server
+-  Make ipa-join work against an LDAP server that disallows anon binds
+-  Fix has_upg() to work with relocated managed entries configuration.
+-  Work around limits not being updatable in 389-ds.
+-  Save the value of hostname even if it doesn't appear in
+   /etc/sysconfig/network
+-  Add explicit instructions to ipa-replica-manage for winsync
+   replication
+-  Set min nvr of 389-ds-base to 1.2.10-0.4.a4 for limits fixes (740942,
+   742324)
+-  Handle an empty value in a name/value pair in
+   config_replace_variables()
+-  Update all LDAP configuration files that we can.
+-  If our domain is already configured in sssd.conf start with a new
+   config.
+-  Fix typo in invalid PTR record error message
+
+Simo Sorce (1):
+
+-  updates: Change default limits on ldap searches
+
+
+
+Detailed Changelog for 2.1.2
+----------------------------
+
+Adam Young (4):
+
+-  split metadata call
+-  Make mod_nss renegotiation configuration a public function
+-  Execute pki proxy setup when server is upgraded if needed
+-  Force the upgrade of pki-setup when upgrading the RPMS
+
+Alexander Bokovoy (13):
+
+-  Incorrect name in examples of ipa help hbactest
+-  Unroll groups when testing HBAC rules
+-  Introduce platform-specific adaptation for services used by FreeIPA.
+-  Convert server install code to platform-independent access to system
+   services
+-  Convert client-side tools to platform-independent access to system
+   services
+-  Convert installation tools to platform-independent access to system
+   services
+-  Cleanup whitespace
+-  When external host is specified in HBAC rule, allow its use in
+   simulation
+-  Unroll StrEnum values when displaying help
+-  Configure pam_krb5 on the client only if sssd is not configured
+-  Setup and restore ntp configuration on the client side properly
+-  Fix 'referenced before assignment' warning
+-  Before kinit, try to sync time with the NTP servers of the domain we
+   are joining
+
+Endi S. Dewata (24):
+
+-  Fixed unit test for entity select widget.
+-  Fixed layout problem in permission adder dialog.
+-  Fixed sudo rule association dialogs.
+-  Fixed missing optional field.
+-  Fixed labels for run-as users and groups.
+-  Fixed problem opening host adder dialog.
+-  Removed entitlement menu.
+-  Fixed posix group checkbox.
+-  Fixed columns in HBAC/sudo rules list pages.
+-  Fixed missing cancel button in unprovisioning dialog.
+-  Fixed problem enabling/disabling DNS zone.
+-  Fixed problem enrolling member with the same name.
+-  Modified dialog to use sections.
+-  Removed undo flags from dialog field specs.
+-  Fixed problem on combobox with search limit.
+-  Fixed problem displaying special characters.
+-  Fixed add/delete arrows position.
+-  Fixed duplicate entries in enrollment dialog.
+-  Updated color scheme.
+-  Fixed tab and dialog widths.
+-  Disable enroll button if nothing selected.
+-  Fixed missing default shell field.
+-  I18n clean-up.
+-  Disable sudo options Delete button if nothing selected.
+
+JR Aquino (1):
+
+-  Create Tool for Enabling/Disabling Managed Entry Plugins
+
+Jakub Hrozek (1):
+
+-  Silence a compilation warning in ipa_kpasswd
+
+Jan Cholasta (6):
+
+-  Check that install hostname matches the server hostname.
+-  Fix client install on IPv6 machines.
+-  Fix ipa-replica-prepare always warning the user about not using the
+   system hostname.
+-  Validate name_from_ip parameter of dnszone.
+-  Add a function for formatting network locations of the form host:port
+   for use in URLs.
+-  Work around pkisilent bugs.
+
+Jr Aquino (1):
+
+-  Move Managed Entries into their own container in the replicated
+   space.
+
+Marko Myllynen (1):
+
+-  Don't remove /tmp when removing temp cert dir
+
+Martin Kosek (21):
+
+-  Improve man pages structure
+-  Improve ipa-join man page
+-  Fix permissions in installers
+-  Fix configure.jar permissions
+-  Set bind and bind-dyndb-ldap min nvr
+-  Fix pylint false positive in hbactest module
+-  ipactl does not stop dirsrv
+-  dirsrv is not stopped correctly in the fallback
+-  Remove checks for ds-replication plugin
+-  Fix /usr/bin/ipa dupled server list
+-  Revert "Always require SSL in the Kerberos authorization block."
+-  Fix error messages in hbacrule
+-  Fix LDAPCreate search failure
+-  Fix HBAC tests hostnames
+-  ipa-client assumes a single namingcontext
+-  migrate process cannot handle multivalued pkey attribute
+-  Be more clear about selfsign option
+-  Install tools crash when password prompt is interrupted
+-  Improve ipa-replica-prepare DNS check
+-  Prevent collisions of hostgroup and netgroup
+-  Make sure ipa-client-install returns correct error code
+
+Nalin Dahyabhai (2):
+
+-  list users from nested groups, too
+-  Update man pages to note that PKCS#12 files also contain private
+   keys, and that the "pkinit" options refer to the KDC's credentials
+
+Petr Vobornik (10):
+
+-  Fixed: JavaScript type error in entitlement page
+-  Fixed inconsistency in enabling delete buttons
+-  Code cleanup: widget creation
+-  Fixed: Column header for attributes table should be full width
+-  Fixed: Enrolment dialog offers to add entity to reflexive
+   association.
+-  Fixed: Some widgets do not have space for validation error message
+-  Disables gid field if not posix group in group adder dialog
+-  Fixed links to images in config and migration pages
+-  Split Web UI initialization to several smaller calls #2
+-  Split Web UI initialization to several smaller calls
+
+Rob Crittenden (20):
+
+-  Don't allow a OTP to be set on an enrolled host
+-  Remove normalizer that made role, privilege and permission names
+   lower-case
+-  Improved handling for ipa-pki-proxy.conf
+-  The precendence on the modrdn plugin was set in the wrong location.
+-  Update ipa-ldap-updater man page saying it is not an end-user utility
+-  Skip the cert validator if the csr we are passed in is a valid
+   filename
+-  Change the Requires for the server and server-selinux for proper
+   order
+-  Suppress managed netgroups as indirect members of hosts.
+-  The return value of restorecon is not reliable, ignore it.
+-  Normalize uid in user principal to lower-case and do validation
+-  Shut down duplicated file handle when HTTP response code is not 200.
+-  Don't log one-time password in logs when configuring client.
+-  Always require SSL in the Kerberos authorization block.
+-  Include failed service and service groups in hbac rule management
+-  Add regular expression pattern to host names.
+-  Detect CA installation type in ipa-replica-prepare and
+   ipa-ca-install.
+-  Require current password when using passwd to change your own
+   password.
+-  Migration: don't assume there is only one naming context, add
+   logging.
+-  When calculating indirect membership don't test nesting on users and
+   hosts.
+
+Simo Sorce (4):
+
+-  ipa-pwd-extop: Fix segfault in password change.
+-  ipa-pwd-extop: Enforce old password checks
+-  ipa-client-install: Fix joining when LDAP access is restricted
+-  replica-prepare: anonymous binds may be disallowed
+
+Sumit Bose (2):
+
+-  Call standard_logging_setup() before any logging is done
+-  ipa-pwd-extop: allow password change on all connections with SSF>1
+
+Yuri Chornoivan (1):
+
+-  Fix typos

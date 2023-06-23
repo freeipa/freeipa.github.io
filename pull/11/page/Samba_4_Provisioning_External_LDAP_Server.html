@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Samba_4_Provisioning_External_LDAP_Server &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Samba_4_Provisioning_External_LDAP_Server';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Samba_4_Provisioning_External_LDAP_Server.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Samba_4_Provisioning_External_LDAP_Server</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Samba_4_Provisioning_External_LDAP_Server</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#current-code">Current Code</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-solution">Proposed Solution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-ldap-server">Creating LDAP Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-samba">Setting up Samba</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-samba-with-internal-ldap-server">Configuring Samba with Internal LDAP Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-samba-with-external-ldap-server">Configuring Samba with External LDAP Server</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="samba-4-provisioning-external-ldap-server">
+<h1>Samba_4_Provisioning_External_LDAP_Server<a class="headerlink" href="#samba-4-provisioning-external-ldap-server" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
+<p>Samba can be configured to use an LDAP server (389 DS or OpenLDAP) as
+its backend database. Currently the provisioning tool always creates a
+new (internal) LDAP server, it cannot use an existing (external) LDAP
+server.</p>
+<p>Internal LDAP server has the following advantages:</p>
+<ul class="simple">
+<li><p>Simplicity. The provisioning tool creates and configures the LDAP
+server, no manual configuration needed.</p></li>
+<li><p>Automation. Samba test can create and destroy LDAP servers
+automatically.</p></li>
+<li><p>Security. All LDAP server files can be stored in a private directory.</p></li>
+<li><p>Exclusivity. The LDAP server will not be shared so there will be no
+interference or conflicts with other applications.</p></li>
+<li><p>Efficiency. The communication will be done via Unix domain socket
+(LDAPI).</p></li>
+</ul>
+<p>On the other hand, external LDAP server has the following advantages:</p>
+<ul class="simple">
+<li><p>Configurability. The LDAP administrator has full control of the
+configuration and management.</p></li>
+<li><p>Troubleshooting. It’s easier to isolate a problem by running the LDAP
+server separately from Samba tests.</p></li>
+<li><p>Distribution. Samba and the LDAP server can run on different
+machines. The communication will not be as efficient as LDAPI, but it
+can still be as secure as other LDAP client-server communication done
+via network.</p></li>
+<li><p>Integration. Some applications may want to use the same LDAP server.
+The current IPA design doesn’t require this, but in the future the
+design could change.</p></li>
+</ul>
+<p>There are some changes that need to be make in order to support external
+LDAP server.</p>
+</section>
+<section id="current-code">
+<h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">#</a></h1>
+<p>The provisioning tool is located in these files:</p>
+<ul class="simple">
+<li><p>source4/setup/provision.</p></li>
+<li><p>source4/scripting/python/samba/provision.py</p></li>
+<li><p>source4/scripting/python/samba/provisionbackend.py</p></li>
+<li><p>source4/scripting/python/samba/provisionexceptions.py</p></li>
+</ul>
+<p>To provision Samba with DS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">provision</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">EXAMPLE</span> \
+<span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">samba</span> <span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">ip</span><span class="o">=</span><span class="mf">127.0.0.1</span> \
+<span class="o">--</span><span class="n">adminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;domain controller&quot;</span> \
+<span class="o">--</span><span class="n">ldapadminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span> \
+<span class="o">--</span><span class="n">slapd</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">ns</span><span class="o">-</span><span class="n">slapd</span> <span class="o">--</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">.</span><span class="n">pl</span>
+</pre></div>
+</div>
+<p>The tool will perform the following operations:</p>
+<ul class="simple">
+<li><p>Create internal LDAP server:</p>
+<ul>
+<li><p>Create a new LDAP server in the private directory.</p></li>
+<li><p>Configure Samba schema.</p></li>
+<li><p>Configure domain, configuration, schema, and Samba partitions.</p></li>
+<li><p>Configure SASL mappings.</p></li>
+<li><p>Load Samba admin user for SASL authentication.</p></li>
+<li><p>Configure referential integrity.</p></li>
+<li><p>Configure attribute indexing.</p></li>
+<li><p>DS only:</p>
+<ul>
+<li><p>Configure DNA for SID allocation.</p></li>
+</ul>
+</li>
+<li><p>OpenLDAP only:</p>
+<ul>
+<li><p>Configure ACL in slapd.conf.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Start LDAP server.</p></li>
+<li><p>Setup Samba:</p>
+<ul>
+<li><p>Setup share database.</p></li>
+<li><p>Setup secrets database.</p></li>
+<li><p>Setup registry database.</p></li>
+<li><p>Setup privileges database.</p></li>
+<li><p>Setup idmap database.</p></li>
+<li><p>Setup SAM database.</p></li>
+<li><p>DS only:</p>
+<ul>
+<li><p>Configure ACL in the base entry of each partition.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Stop LDAP server.</p></li>
+</ul>
+</section>
+<section id="proposed-solution">
+<h1>Proposed Solution<a class="headerlink" href="#proposed-solution" title="Permalink to this heading">#</a></h1>
+<p>The provisioning tool should be split into 2 different actions:</p>
+<ul class="simple">
+<li><p>Creating an empty LDAP server with Samba configuration.</p></li>
+<li><p>Setting up Samba on an LDAP server that has been configured for
+Samba.</p></li>
+</ul>
+<p>A new optional parameter (–ldap-action) will be added to the
+provisioning tool to determine which action will be executed. By default
+the tool will create an internal LDAP server and setup Samba to use this
+LDAP server. This is the same as the original behavior.</p>
+<p>If you need to use an external LDAP server, you can either configure the
+LDAP server manually, or use the provisioning tool to create an initial
+LDAP server which you can customize later on. Then you need to run the
+provisioning tool again to setup Samba using the LDAP server that you
+have created earlier.</p>
+<section id="creating-ldap-server">
+<h2>Creating LDAP Server<a class="headerlink" href="#creating-ldap-server" title="Permalink to this heading">#</a></h2>
+<p>Creating LDAP server will execute the following operations:</p>
+<ul class="simple">
+<li><p>Create a new LDAP server in the specified directory.</p></li>
+<li><p>Configure Samba schema.</p></li>
+<li><p>Configure domain, configuration, schema, and Samba partitions.</p></li>
+<li><p>Configure SASL mappings.</p></li>
+<li><p>Load Samba admin user for SASL authentication.</p></li>
+<li><p>Configure referential integrity.</p></li>
+<li><p>Configure attribute indexing.</p></li>
+<li><p>DS only:</p>
+<ul>
+<li><p>Configure DNA for SID allocation.</p></li>
+</ul>
+</li>
+<li><p>OpenLDAP only:</p>
+<ul>
+<li><p>Configure ACL in slapd.conf.</p></li>
+<li><p>Configure root password in each partition. See note below.</p></li>
+</ul>
+</li>
+</ul>
+<p>On OpenLDAP each partition has its own root user. Only the root user can
+remove the base entry in each partition. This is necessary for setting
+up Samba on an existing LDAP server. To enable root user, the root
+password must be specified in the slapd.conf.</p>
+<p>A new optional parameter (–ldap-dir) will be added to the provisioning
+tool to specify the LDAP server directory. The default value is
+SAMBA_HOME/private/ldap.</p>
+</section>
+<section id="setting-up-samba">
+<h2>Setting up Samba<a class="headerlink" href="#setting-up-samba" title="Permalink to this heading">#</a></h2>
+<p>Setting up Samba will execute the following operations:</p>
+<ul class="simple">
+<li><p>Remove existing entries in domain, configuration, and schema
+partitions.</p></li>
+<li><p>Setup share database.</p></li>
+<li><p>Setup secrets database.</p></li>
+<li><p>Setup registry database.</p></li>
+<li><p>Setup privileges database.</p></li>
+<li><p>Setup idmap database.</p></li>
+<li><p>Setup SAM database.</p></li>
+<li><p>DS only:</p>
+<ul>
+<li><p>Set the new domain SID in DNA configuration.</p></li>
+<li><p>Configure ACL in the base entry of each partition.</p></li>
+</ul>
+</li>
+</ul>
+<p>A new optional parameter (–ldap-uri) will be added to the provisioning
+tool to specify the URI of the external LDAP server. By default the
+value is ldapi://. The default path to socket is /private/ldap/ldapi.
+Note that the file separator “/” should be encoded as %2F.</p>
+<p>The LDAP admin password (–ldapadminpass) must be specified explicitly,
+so the tool can access the LDAP server. Otherwise it will generate a
+random password.</p>
+</section>
+</section>
+<section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h1>
+<section id="configuring-samba-with-internal-ldap-server">
+<h2>Configuring Samba with Internal LDAP Server<a class="headerlink" href="#configuring-samba-with-internal-ldap-server" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">provision</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">EXAMPLE</span> \
+<span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">samba</span> <span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">ip</span><span class="o">=</span><span class="mf">127.0.0.1</span> \
+<span class="o">--</span><span class="n">adminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;domain controller&quot;</span> \
+<span class="o">--</span><span class="n">ldapadminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span> \
+<span class="o">--</span><span class="n">slapd</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">ns</span><span class="o">-</span><span class="n">slapd</span> <span class="o">--</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">.</span><span class="n">pl</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-samba-with-external-ldap-server">
+<h2>Configuring Samba with External LDAP Server<a class="headerlink" href="#configuring-samba-with-external-ldap-server" title="Permalink to this heading">#</a></h2>
+<p>Create a new LDAP server on /root/Samba/fedora-ds using the following
+command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">provision</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">EXAMPLE</span> \
+<span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">samba</span> <span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">ip</span><span class="o">=</span><span class="mf">127.0.0.1</span> \
+<span class="o">--</span><span class="n">adminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;domain controller&quot;</span> \
+<span class="o">--</span><span class="n">ldapadminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span> \
+<span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">action</span><span class="o">=</span><span class="n">create</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="nb">dir</span><span class="o">=/</span><span class="n">root</span><span class="o">/</span><span class="n">Samba</span><span class="o">/</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span>
+</pre></div>
+</div>
+<p>Make sure the LDAP server is running. Then setup Samba using the new
+LDAP server by specifying the LDAP URI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">provision</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">EXAMPLE</span> \
+<span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">samba</span> <span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">ip</span><span class="o">=</span><span class="mf">127.0.0.1</span> \
+<span class="o">--</span><span class="n">adminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;domain controller&quot;</span> \
+<span class="o">--</span><span class="n">ldapadminpass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span> \
+<span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">action</span><span class="o">=</span><span class="n">setup</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">uri</span><span class="o">=</span><span class="n">ldapi</span><span class="p">:</span><span class="o">//%</span><span class="mi">2</span><span class="n">Froot</span><span class="o">%</span><span class="mi">2</span><span class="n">FSamba</span><span class="o">%</span><span class="mi">2</span><span class="n">Ffedora</span><span class="o">-</span><span class="n">ds</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldapi</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Samba_4_Provisioning_External_LDAP_Server</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#current-code">Current Code</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-solution">Proposed Solution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-ldap-server">Creating LDAP Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-samba">Setting up Samba</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-samba-with-internal-ldap-server">Configuring Samba with Internal LDAP Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-samba-with-external-ldap-server">Configuring Samba with External LDAP Server</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

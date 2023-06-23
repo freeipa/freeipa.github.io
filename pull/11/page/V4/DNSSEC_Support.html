@@ -1,0 +1,1151 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>DNSSEC_Support &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4/DNSSEC_Support';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V4/DNSSEC_Support.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DNSSEC_Support</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-zone-signing">DNSSEC zone signing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-records-validation">DNSSEC records validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zone-records-signing">Zone records signing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#records-validation">Records validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-forwarders">Adding forwarders</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-if-forwarders-are-dnssec-capable">Detection if forwarders are DNSSEC capable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-forwarders">Global forwarders</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-zones">Forward zones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-dns-zone-gets-signed-in-ipa">How DNS zone gets signed in IPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softhsm-configuration">SoftHSM configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#opendnssec-configuration">OpenDNSSEC configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-permissions">Directory permissions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-default-pkcs-11-values">LDAP default PKCS#11 values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-master-key">DNSSEC Master Key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replica-private-key">Replica Private Key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replica-public-key">Replica Public Key</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-master-key-attributes">DNSSEC Master Key Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-old-master-key">Disabling Old Master Key</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replica-keys-attributes">Replica Keys Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-old-replica-keys">Disabling old replica keys</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installers">Installers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade">Upgrade</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-test">How to test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-plan">Test Plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rfe-author">RFE Author</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dnssec-support">
+<h1>DNSSEC_Support<a class="headerlink" href="#dnssec-support" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>Please note that <strong>DNSSEC zone signing</strong> and <strong>DNSSEC records
+validation</strong> are two different features, which can coexist without each
+other.</p>
+</section>
+<section id="dnssec-zone-signing">
+<h2>DNSSEC zone signing<a class="headerlink" href="#dnssec-zone-signing" title="Permalink to this heading">#</a></h2>
+<p>DNSSEC zone signing allows protect your DNS records. IPA supports zone
+signing without additional manual configuration. You just need to set up
+just one IPA DNS server as <strong>DNSSEC key master</strong> using
+<code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span> <span class="pre">--dnssec-master</span></code> command, and enable particular zones
+to be signed using <code class="docutils literal notranslate"><span class="pre">dnszone-mod</span> <span class="pre">example.com.</span> <span class="pre">--dnssec=true</span></code> command.</p>
+</section>
+<section id="dnssec-records-validation">
+<h2>DNSSEC records validation<a class="headerlink" href="#dnssec-records-validation" title="Permalink to this heading">#</a></h2>
+<p>DNSSEC records validation allows to validate signed DNS records from
+other servers to protect you against spoofed addresses. IPA installer
+enables DNSSEC validation by default. However, for successful validation
+it is crucial to have properly DNSSEC configured forwarders. IPA checks
+global forwarders and if forwarders don’t support DNSSEC, DNSSEC
+validation on particular server will be disabled (during installation)
+or a warning message to disable DNSSEC validation manually will be shown
+(<code class="docutils literal notranslate"><span class="pre">dnsconfig-mod</span></code>).</p>
+<p>Note: <strong>IPA 4.2</strong> checks forwarders in forwarding zones too
+(<code class="docutils literal notranslate"><span class="pre">dnsforwardzone-*</span></code>).</p>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="zone-records-signing">
+<h2>Zone records signing<a class="headerlink" href="#zone-records-signing" title="Permalink to this heading">#</a></h2>
+<p>IPA allows to enable zones signing per zone. IPA automatically does the
+most of steps that had to be done manually before.</p>
+<p>All required steps are:</p>
+<ul class="simple">
+<li><p>install exactly the one DNSSEC master server
+(<code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span> <span class="pre">--dnssec-master</span></code>)</p></li>
+<li><p>enable zone signing (<code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">example.com</span> <span class="pre">--dnssec=true</span></code>)</p></li>
+<li><p>create DS record in the parent zone</p></li>
+<li><p>verify DNSSEC chain of trust
+(<code class="docutils literal notranslate"><span class="pre">drill</span> <span class="pre">-TD</span> <span class="pre">example.com.</span> <span class="pre">-k</span> <span class="pre">/etc/trusted-key.key</span></code>)</p></li>
+</ul>
+<p>More information can be found here: <a class="reference external" href="Howto/DNSSEC">Howto/DNSSEC</a>.</p>
+<p>Troubleshooting: <a class="reference external" href="Troubleshooting#DNSSEC_signing_does_not_work">DNSSEC signing does not
+work</a>.</p>
+</section>
+<section id="records-validation">
+<h2>Records validation<a class="headerlink" href="#records-validation" title="Permalink to this heading">#</a></h2>
+<p>Record validation is done by the BIND server itself.</p>
+<p>IPA enables records validation by default during installation if all
+global forwarders passed DNSSEC compability test that is done by
+installer. If any of configured forwarders does not support DNSSEC,
+installer disables records validation.</p>
+<p>If a global forwarder or a forward zone that does not support DNSSEC is
+added later, records validation must be manually disabled on all IPA
+servers.</p>
+<p>To manually enable/disable record validation, option
+<strong>dnssec-validation</strong> in <strong>/etc/named.conf</strong> must be configured in
+following way:</p>
+<ul class="simple">
+<li><p>enable validation:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
+<div class="line">``    dnssec-validation yes;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+</div>
+<ul class="simple">
+<li><p>disable validation:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
+<div class="line">``    dnssec-validation no;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+</div>
+</section>
+<section id="adding-forwarders">
+<h2>Adding forwarders<a class="headerlink" href="#adding-forwarders" title="Permalink to this heading">#</a></h2>
+<p>If the DNSSEC validation is enabled, forwarders must support DNSSEC.</p>
+<p>New check was implemented for global forwarders and forward zones (<strong>IPA
+4.2</strong>) that detects improper DNSSEC configuration on forwarders.</p>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<p><a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/BIND9/Design/DNSSEC/Keys/Shortterm">Exhausting information about DNSSEC
+Support</a>
+(Low level)</p>
+</section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">#</a></h2>
+<p>Logical structure of entries is listed
+<a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/BIND9/Design/DNSSEC/Keys/Shortterm#LDAPschema">here</a>.</p>
+<p>Schema for DNSSEC metada is defined
+<a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/BIND9/Design/DNSSEC/Keys/Shortterm#DNSSECmetadata">here</a>.</p>
+<p>Schema for keys is defined <a class="reference external" href="PKCS11_in_LDAP/Schema">here</a>.</p>
+</section>
+<section id="detection-if-forwarders-are-dnssec-capable">
+<h2>Detection if forwarders are DNSSEC capable<a class="headerlink" href="#detection-if-forwarders-are-dnssec-capable" title="Permalink to this heading">#</a></h2>
+<p>Detection was improved in <strong>IPA 4.2</strong>, this section describes IPA 4.2
+only.</p>
+</section>
+<section id="global-forwarders">
+<h2>Global forwarders<a class="headerlink" href="#global-forwarders" title="Permalink to this heading">#</a></h2>
+<p>Check is done against the root zone.</p>
+<ol class="arabic simple">
+<li><p>check if the record “. IN SOA” &#64;forwarder is resolvable (flags: RD)</p>
+<ol class="arabic simple">
+<li><p>failed: forwarder is not working</p></li>
+<li><p>pass: continue with next step</p></li>
+</ol>
+</li>
+<li><p>check if the record “. IN SOA” &#64;forwarder with EDNS0 is resolvable
+(flags: RD):</p>
+<ol class="arabic simple">
+<li><p>failed: forwarder does not support EDNS0 -&gt; does not support
+DNSSEC</p></li>
+<li><p>pass: continue with next step</p></li>
+</ol>
+</li>
+<li><p>check if the records “. IN SOA” &#64;forwarder with EDNS0 has DNSSEC
+signatures (flags: RD, DO)</p>
+<ol class="arabic simple">
+<li><p>failed: forwarder does not support DNSSEC</p></li>
+<li><p>pass: forwarder supports DNSSEC</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="forward-zones">
+<h2>Forward zones<a class="headerlink" href="#forward-zones" title="Permalink to this heading">#</a></h2>
+<p>Check is done against the forward zone. Check consists of 2 steps:</p>
+<ol class="arabic simple">
+<li><p>check before forwarder is added into LDAP/DNS</p></li>
+<li><p>check after forwarder was added into LDAP/DNS</p></li>
+</ol>
+<p>This check is not 100% reliable, but should catch the most issues. Also
+there can be false positive results and DNS administrator should check
+each forwarder. Check is executed just against one of many possible IPA
+DNS servers. This may cause, if any of the untested IPA DNS servers are
+configured different then these servers may not resolve forward zone
+properly.</p>
+<p>Steps:</p>
+<ol class="arabic simple">
+<li><p>check if the record “fwzone IN SOA” &#64;forwarder is resolvable (flags:
+RD)</p>
+<ol class="arabic simple">
+<li><p>failed: forwarder is not working</p></li>
+<li><p>pass: continue with next step</p></li>
+</ol>
+</li>
+<li><p>check if the record “fwzone IN SOA” &#64;forwarder with EDNS0 is
+resolvable (flags: RD):</p>
+<ol class="arabic simple">
+<li><p>failed: forwarder does not support EDNS0 -&gt; does not support
+DNSSEC</p></li>
+<li><p>pass: continue with next step</p></li>
+</ol>
+</li>
+<li><p>check if the record “fwzone IN SOA” &#64;forwarder with EDNS0 has DNSSEC
+signatures (flags: RD, DO)</p>
+<ol class="arabic simple">
+<li><p>failed: forwarder does not support DNSSEC</p></li>
+<li><p>pass: forwarder supports DNSSEC</p></li>
+</ol>
+</li>
+<li><p>add forwarder into LDAP/DNS</p></li>
+<li><p>get answer “fwzone IN SOA” &#64;IPA_DNS with EDNS0 (flags: RD, DO,
+<strong>CD</strong>); store result into ans_cd</p></li>
+<li><p>check if the record “fwzone IN SOA” &#64;IPA_DNS with EDNS0 (flags: RD,
+DO) is resolvable; store result into ans_do</p>
+<ol class="arabic simple">
+<li><p>NXDOMAIN: DNSSEC validation error, records was marked as not
+trusted.</p></li>
+<li><p>pass: continue with next step</p></li>
+</ol>
+</li>
+<li><p>compare if ans_cd and ans_do contains the same answer (same values)</p>
+<ol class="arabic simple">
+<li><p>failed: values differ, zone is probably “shadowed”, DNSSEC
+validation may not work</p></li>
+<li><p>pass: DNSSEC validation seems to be working with this forwarder
+and forward zone</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="how-dns-zone-gets-signed-in-ipa">
+<h2>How DNS zone gets signed in IPA<a class="headerlink" href="#how-dns-zone-gets-signed-in-ipa" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>All DNS replicas</strong> During replica installation, a keypair is
+generated in local HSM and public key is then stored into LDAP.</p>
+<ol class="arabic simple">
+<li><p><strong>DNSSEC key master</strong> If the replica is DNSSEC key master, it also
+generates DNSSEC master key and stores this key into local HSM.</p></li>
+</ol>
+</li>
+<li><p>User enables DNSSEC signing for given zone
+(<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">--dnssec=true</span> <span class="pre">zone.example</span></code>). This sets boolean
+attribute idnsSecInlineSigning in zone object to TRUE.</p></li>
+<li><p><strong>DNSSEC key master</strong> On the DNSSEC key master replica, change in
+idnsSecInlineSigning attribute is detected (using SyncRepl protocol)
+by <em>ipa-dnskeysyncd</em> daemon running in MASTER mode. (Master mode =
+environment variable ISMASTER is set to ‘1’.) Master
+<em>ipa-dnskeysyncd</em> daemon calls command <code class="docutils literal notranslate"><span class="pre">ods-enforcer</span> <span class="pre">zone</span> <span class="pre">add</span></code>
+(<code class="docutils literal notranslate"><span class="pre">ods-ksmutil</span> <span class="pre">zone</span> <span class="pre">add</span></code> on RHEL 7) and adds the new zone to
+OpenDNSSEC Enforcer’s database running on the same machine.</p></li>
+<li><p><strong>DNSSEC key master</strong> OpenDNSSEC generates keys according to policy
+<em>/etc/opendnssec/kasp.xml</em>. When the key is generated or changed,
+OpenDNSSEC calls <code class="docutils literal notranslate"><span class="pre">ods-signer</span></code> command which through socket
+<em>/var/run/opendnssec/engine.sock</em> activates <em>ipa-ods-exporter</em> on the
+DNSSEC key master replica.</p></li>
+<li><p><strong>DNSSEC key master</strong> ipa-ods-exporter is executed on DNSSEC key
+master. It does following:</p>
+<ol class="arabic simple">
+<li><p>Key material is synchronized:</p>
+<ol class="arabic simple">
+<li><p>Downloads replica keys from LDAP into local HSM on the master.</p></li>
+<li><p>Encrypt master keys in local HSM using replica keys. Copy of
+master key encrypted using each replica public key is stored in
+LDAP.</p></li>
+<li><p>All new or modified zone keys from local HSM are encrypted
+using the master key and uploaded to LDAP.</p></li>
+</ol>
+</li>
+<li><p>Key metadata like key validity etc. are sychronized from
+OpenDNSSEC database to LDAP.</p></li>
+</ol>
+</li>
+<li><p><strong>Other replicas which are not DNSSEC key master</strong> <em>ipa-dnskeysyncd</em>
+daemon detects using SyncRepl protocol that key metadata were
+changed:</p>
+<ol class="arabic simple">
+<li><p>executes <em>ipa-dnskeysync-replica</em></p>
+<ol class="arabic simple">
+<li><p>Downloads all master keys from LDAP and decrypts them using
+replica private key. Master keys are stored in local HSM.</p></li>
+<li><p>Downloads all zone keys from LDAP, decrypts them using DNS
+master key, and stores them in local HSM.</p></li>
+</ol>
+</li>
+<li><p><em>ipa-dnskeysyncd</em> daemon generates BIND key files (calls
+<code class="docutils literal notranslate"><span class="pre">dnssec-keyfromlabel</span></code> for each key)</p></li>
+<li><p><em>ipa-dnskeysyncd</em> daemon informs BIND about new keys by calling
+<code class="docutils literal notranslate"><span class="pre">rndc</span> <span class="pre">sign</span></code></p></li>
+</ol>
+</li>
+<li><p><strong>All DNS replicas</strong> BIND (bind-pkcs11 required) reads key metadata
+and uses local HSM to sign the DNS data.</p></li>
+</ol>
+</section>
+<section id="softhsm-configuration">
+<h2>SoftHSM configuration<a class="headerlink" href="#softhsm-configuration" title="Permalink to this heading">#</a></h2>
+<p>Each replica creates own local SoftHSM storage. IPA uses own
+configuration of SoftHSM. To access right database you need to configure
+environment variable <strong>SOFTHSM2_CONF</strong>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$ export SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf</span></code></p>
+<p>SoftHSM database is initialized during installation (or upgrade) with
+following command:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=</span></code>`` –so-pin=``</div>
+</div>
+<p>and values are stored in files:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/dnssec/softhsm_pin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">/etc/ipa/dnssec/softhsm_pin_so</span></code></div>
+</div>
+<p>SoftHSM tokens are stored in directory:</p>
+<p><code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/dnssec/tokens</span></code></p>
+</section>
+<section id="opendnssec-configuration">
+<h2>OpenDNSSEC configuration<a class="headerlink" href="#opendnssec-configuration" title="Permalink to this heading">#</a></h2>
+<p>OpenDNSSEC is required only at IPA DNSSEC master server.</p>
+<p>Default key parameters:</p>
+<ul class="simple">
+<li><p>KSK</p>
+<ul>
+<li><p>Key Length: 3072</p></li>
+<li><p>Lifetime: 2 years</p></li>
+<li><p>Algorithm: 8 (RSASHA256)</p></li>
+</ul>
+</li>
+<li><p>ZSK</p>
+<ul>
+<li><p>Key Length: 2048</p></li>
+<li><p>Lifetime: 90 days</p></li>
+<li><p>Algorithm: 8 (RSASHA256)</p></li>
+</ul>
+</li>
+</ul>
+<p>Default values can be changed in <em>kasp.xml</em> file
+(<em>/etc/opendnssec/kasp.xml</em>).</p>
+</section>
+<section id="directory-permissions">
+<h2>Directory permissions<a class="headerlink" href="#directory-permissions" title="Permalink to this heading">#</a></h2>
+<p>DNSSEC related files has to be accessible for several daemons, under
+<strong>ods</strong> (openddnssec) and <strong>named</strong> user. Following list shows required
+file modes, owner and group per directory/file:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxr-x---.  ods named    /var/lib/ipa/dnssec</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/</span></code><code class="docutils literal notranslate"><span class="pre">/*</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-rw-rw----.  root ods     /etc/opendnssec/*</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-rw-rw----.  ods ods      /var/opendnssec/kasp.db</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrwx---.  ods ods      /var/opendnssec/signconf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrwx---.  ods ods      /var/opendnssec/signed</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrwx---.  ods ods      /var/opendnssec/tmp</span></code></div>
+</div>
+<p><strong>Note:</strong> Tokens created during installation (upgrade) has root:root
+owner group. Is required to modify all files and subdirs in token’s
+directory to proper mode, owner and group.</p>
+</section>
+<section id="ldap-default-pkcs-11-values">
+<h2>LDAP default PKCS#11 values<a class="headerlink" href="#ldap-default-pkcs-11-values" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>IPA PKCS#11 schema: <a class="reference external" href="V4/PKCS11_in_LDAP/Schema">V4/PKCS11 in
+LDAP/Schema</a></p></li>
+</ul>
+<p>If any LDAP attribute is not present in entry, then a particular default
+value is used.</p>
+<section id="dnssec-master-key">
+<h3>DNSSEC Master Key<a class="headerlink" href="#dnssec-master-key" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>PKCS#11 attribute</p></th>
+<th class="head"><p>LDAP attribute</p></th>
+<th class="head"><p>default value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CKA_COPYABLE</p></td>
+<td><p>ipk11Copyable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_DECRYPT</p></td>
+<td><p>ipk11Decrypt</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_DERIVE</p></td>
+<td><p>ipk11Derive</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_ENCRYPT</p></td>
+<td><p>ipk11Encrypt</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_EXTRACTABLE</p></td>
+<td><p>ipk11Extractable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_MODIFIABLE</p></td>
+<td><p>ipk11Modifiable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_PRIVATE</p></td>
+<td><p>ipk11Private</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_SENSITIVE</p></td>
+<td><p>ipk11Sensitive</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_SIGN</p></td>
+<td><p>ipk11Sign</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_UNWRAP</p></td>
+<td><p>ipk11Unwrap</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_VERIFY</p></td>
+<td><p>ipk11Verify</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_WRAP</p></td>
+<td><p>ipk11Wrap</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_WRAP_WITH_TRUSTED</p></td>
+<td><p>ipk11WrapWithTrusted</p></td>
+<td><p>false</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="replica-private-key">
+<h3>Replica Private Key<a class="headerlink" href="#replica-private-key" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>PKCS#11 attribute</p></th>
+<th class="head"><p>LDAP attribute</p></th>
+<th class="head"><p>default value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CKA_ALWAYS_AUTHENTICATE</p></td>
+<td><p>ipk11AlwaysAuthenticate</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_COPYABLE</p></td>
+<td><p>ipk11Copyable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_DECRYPT</p></td>
+<td><p>ipk11Decrypt</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_DERIVE</p></td>
+<td><p>ipk11Derive</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_EXTRACTABLE</p></td>
+<td><p>ipk11Extractable</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_MODIFIABLE</p></td>
+<td><p>ipk11Modifiable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_PRIVATE</p></td>
+<td><p>ipk11Private</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_SENSITIVE</p></td>
+<td><p>ipk11Sensitive</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_SIGN_RECOVER</p></td>
+<td><p>ipk11Sign</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>cka_sign_recover</p></td>
+<td><p>ipk11SignRecover</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_UNWRAP</p></td>
+<td><p>ipk11Unwrap</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_WRAP_WITH_TRUSTED</p></td>
+<td><p>ipk11WrapWithTrusted</p></td>
+<td><p>false</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="replica-public-key">
+<h3>Replica Public Key<a class="headerlink" href="#replica-public-key" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>PKCS#11 attribute</p></th>
+<th class="head"><p>LDAP attribute</p></th>
+<th class="head"><p>default value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CKA_COPYABLE</p></td>
+<td><p>ipk11Copyable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_DERIVE</p></td>
+<td><p>ipk11Derive</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_ENCRYPT</p></td>
+<td><p>ipk11Encrypt</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_MODIFIABLE</p></td>
+<td><p>ipk11Modifiable</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_PRIVATE</p></td>
+<td><p>ipk11Private</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_TRUSTED</p></td>
+<td><p>ipk11Trusted</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_VERIFY</p></td>
+<td><p>ipk11Verify</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p>CKA_VERIFY_RECOVER</p></td>
+<td><p>ipk11VerifyRecover</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>CKA_WRAP</p></td>
+<td><p>ipk11Wrap</p></td>
+<td><p>true</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="dnssec-master-key-attributes">
+<h2>DNSSEC Master Key Attributes<a class="headerlink" href="#dnssec-master-key-attributes" title="Permalink to this heading">#</a></h2>
+<p>Master key is generated only by IPA DNSSEC Master server, with following
+values (default values are not listed):</p>
+<ul class="simple">
+<li><p>CK_MECHANISM: CKM_AES_KEY_GEN</p></li>
+<li><p>CKA_LABEL: “dnssec-master”</p></li>
+<li><p>CKA_ID: 16B pseudo-random value (unique per secret key)</p></li>
+<li><p>CKA_VALUE_LEN: 16 (keylength)</p></li>
+<li><p>CKA_TOKEN: true</p></li>
+<li><p>CKA_WRAP: true</p></li>
+<li><p>CKA_UNWRAP: true</p></li>
+</ul>
+<section id="disabling-old-master-key">
+<h3>Disabling Old Master Key<a class="headerlink" href="#disabling-old-master-key" title="Permalink to this heading">#</a></h3>
+<p>If new master key is generated, the old key must be disable by setting
+attribute <strong>CKA_WRAP</strong> to <strong>false</strong>.</p>
+</section>
+</section>
+<section id="replica-keys-attributes">
+<h2>Replica Keys Attributes<a class="headerlink" href="#replica-keys-attributes" title="Permalink to this heading">#</a></h2>
+<p>Each replica generates own replica key pair during install (upgrade)
+with following values (attributes with default values are not listed):</p>
+<ul class="simple">
+<li><p><strong>Both (Private and Public Key):</strong></p>
+<ul>
+<li><p>CK_MECHANISM: CKM_RSA_PKCS_KEY_PAIR_GEN</p></li>
+<li><p>CKA_LABEL: a canonicalized absolute replica domain name</p></li>
+<li><p>CKA_ID: 16B pseudo-random value (same for value for private and
+public key), this value is unique per a key pair</p></li>
+<li><p>CKA_TOKEN: true</p></li>
+</ul>
+</li>
+<li><p><strong>Private Key:</strong></p>
+<ul>
+<li><p>CKA_UNWRAP: true</p></li>
+<li><p>CKA_SENSITIVE: true</p></li>
+<li><p>CKA_EXTRACTABLE: false</p></li>
+</ul>
+</li>
+<li><p><strong>Public Key:</strong></p>
+<ul>
+<li><p>CKA_PUBLIC_EXPONENT: 65537 (RFC 6376 section 3.3.1)</p></li>
+<li><p>CKA_MODULUS_BITS: 2048</p></li>
+<li><p>CKA_VERIFY: false</p></li>
+<li><p>CKA_VERIFY_RECOVER: false</p></li>
+<li><p>CKA_WRAP: true</p></li>
+</ul>
+</li>
+</ul>
+<p>Public replica key is also stored in LDAP database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
+| ``objectclass: ipk11Object``
+| ``objectclass: ipk11PublicKey``
+| ``objectclass: ipaPublicKeyObject``
+| ``objectclass: top``
+| ``ipk11UniqueId: ``
+| ``ipk11Label: ``
+| ``ipaPublicKey: &lt;public key in SubjectPublicKeyInfo (RFC 5280) form&gt;``
+| ``ipk11Id&#39;: ``\ ``,``
+| ``ipk11Wrap: true``
+| ``ipk11Verify: false``
+| ``ipk11VerifyRecover: false``
+</pre></div>
+</div>
+<section id="disabling-old-replica-keys">
+<h3>Disabling old replica keys<a class="headerlink" href="#disabling-old-replica-keys" title="Permalink to this heading">#</a></h3>
+<p>If a new key is generated, old public keys must be disabled. This is
+achieved by setting <strong>CKA_WRAP (ipk11Wrap)</strong> attribute to <strong>false</strong> in
+both LDAP and local SoftHSM database.</p>
+<p>Private keys should stay unchanged, to allow unwrap already wrapped keys
+in LDAP.</p>
+</section>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Softhsm &gt; 2</p></li>
+<li><p>opendnssec</p></li>
+</ul>
+</section>
+<section id="backup-and-restore">
+<h2>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">#</a></h2>
+<p>Following directories/files must be backed up:</p>
+<ul class="simple">
+<li><p>IPA DNSSEC directory (<em>/var/lib/ipa/dnssec</em>)</p>
+<ul>
+<li><p>directory containing tokens (<em>tokens/</em>)</p></li>
+<li><p>file containing softhsm user pin (<em>softhsm_pin</em>)</p></li>
+</ul>
+</li>
+<li><p>system configuration of ipa-dnskeysyncd daemon
+(<em>/etc/sysconfig/ipa-dnskeysyncd</em>)</p></li>
+<li><p>system configuration of ipa-ods-exporter
+(<em>/etc/sysconfig/ipa-ods-exporter</em>)</p></li>
+<li><p>system configuration of OpenDNSSEC (<em>/etc/sysconfig/ods</em>)</p></li>
+<li><p>security officer PIN (<em>/etc/ipa/dnssec/softhsm_pin_so</em>)</p></li>
+<li><p>OpenDNSSEC configuration file (<em>/etc/opendnssec/conf.xml</em>)</p></li>
+<li><p>OpendDNSSEC KASP database configuration file
+(<em>/etc/opendnssec/kasp.xml</em>)</p></li>
+<li><p>KASP database (<em>/var/opendnssec/kasp.db</em>)</p></li>
+<li><p>zone list file (<em>/etc/opendnssec/zonelist.xml</em>)</p></li>
+<li><p>softhsm configuration file (<em>/etc/ipa/dnssec/softhsm2.conf</em>)</p></li>
+<li><p>ipa-ods-exporter keytab (<em>/etc/ipa/dnssec/ipa-ods-exporter.keytab</em>)</p></li>
+<li><p>ipa-dnskeysyncd keytab (<em>/etc/ipa/dnssec/ipa-dnskeysyncd.keytab</em>)</p></li>
+</ul>
+</section>
+<section id="feature-management">
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">#</a></h2>
+<p>UI</p>
+<p>N/A</p>
+<p>CLI</p>
+<p>Enabling DNSSEC signing:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-add</span> <span class="pre">--dnssec=true</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">--dnssec=true</span></code></p></li>
+</ul>
+<p>Disabling DNSSEC signing:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">--dnssec=false</span></code></p></li>
+</ul>
+</section>
+<section id="installers">
+<h2>Installers<a class="headerlink" href="#installers" title="Permalink to this heading">#</a></h2>
+<p>Install DNSSEC master:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span> <span class="pre">--dnssec-master</span></code></p></li>
+</ul>
+<p>Disable DNSSEC master (<strong>IPA 4.2</strong>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span> <span class="pre">--disable-dnssec-master</span></code></p></li>
+</ul>
+<p>Reenable DNSSEC master (<strong>IPA 4.2</strong>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span> <span class="pre">--dnssec-master</span> <span class="pre">--kasp-db=&lt;path</span> <span class="pre">to</span> <span class="pre">kasp.db</span> <span class="pre">file</span> <span class="pre">from</span> <span class="pre">disabled</span> <span class="pre">master&gt;</span></code></p></li>
+</ul>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<p>N/A</p>
+</section>
+<section id="upgrade">
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">#</a></h2>
+<p>Required enabling/configuring ipa-dnskeysyncd service instance on each
+DNS replica</p>
+</section>
+<section id="how-to-test">
+<h2>How to test<a class="headerlink" href="#how-to-test" title="Permalink to this heading">#</a></h2>
+<p>Follow instructions in this <a class="reference external" href="Howto/DNSSEC">howto</a>, to test DNSSEC:</p>
+<ul class="simple">
+<li><p>install DNSSEC master</p></li>
+<li><p>enable signing per zone</p></li>
+<li><p>create root zone, create zone and verify chain of trust</p></li>
+</ul>
+</section>
+<section id="test-plan">
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
+<p>QE is going to need DNS servers which has option “dnssec-enable yes;” in
+named.conf. This option has to be enabled on the whole chain of
+forwarders used by testing machines.</p>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this heading">#</a></h2>
+<p>Integration <a class="reference external" href="https://git.fedorahosted.org/cgit/freeipa.git/tree/ipatests/test_integration/test_dnssec.py">DNSSEC
+test</a>
+covers:</p>
+<ul class="simple">
+<li><p>Test if synchronization of keys works between replicas</p>
+<ul>
+<li><p>Master server is DNSSEC key master</p></li>
+<li><p>New replica is DNSSEC key master</p></li>
+</ul>
+</li>
+<li><p>Test if zones in IPA are signed on all replicas:</p>
+<ul>
+<li><p>Zone created on master (with –dnssec=true)</p></li>
+<li><p>Zone created on replica (with –dnssec=true)</p></li>
+<li><p>Disable zone signing &amp; re-enable DNSSEC signing for zone on master</p></li>
+<li><p>Disable zone signing &amp; re-enable DNSSEC signing for zone on
+replica</p></li>
+</ul>
+</li>
+<li><p>Test DNSSEC chain of trust</p>
+<ul>
+<li><p>Create root zone (with –dnssec=true) and test if it is signed</p></li>
+<li><p>Create example.zone. (with –dnssec=true) and test if it is
+signed.</p></li>
+<li><p>Export DS record of example.zone. to IPA’s root zone</p></li>
+<li><p>test if DNSSEC chain of signatures is trusted (using <code class="docutils literal notranslate"><span class="pre">drill</span></code>
+command)</p></li>
+</ul>
+</li>
+<li><p>Test migration DNSSEC master</p></li>
+</ul>
+</section>
+<section id="rfe-author">
+<h2>RFE Author<a class="headerlink" href="#rfe-author" title="Permalink to this heading">#</a></h2>
+<p>Martin Basti &lt;<a class="reference external" href="mailto:mbasti&#37;&#52;&#48;redhat&#46;com">mbasti<span>&#64;</span>redhat<span>&#46;</span>com</a>&gt;</p>
+<p>Petr Spacek &lt;<a class="reference external" href="mailto:pspacek&#37;&#52;&#48;redhat&#46;com">pspacek<span>&#64;</span>redhat<span>&#46;</span>com</a>&gt;</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-zone-signing">DNSSEC zone signing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-records-validation">DNSSEC records validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zone-records-signing">Zone records signing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#records-validation">Records validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-forwarders">Adding forwarders</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-if-forwarders-are-dnssec-capable">Detection if forwarders are DNSSEC capable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-forwarders">Global forwarders</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-zones">Forward zones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-dns-zone-gets-signed-in-ipa">How DNS zone gets signed in IPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softhsm-configuration">SoftHSM configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#opendnssec-configuration">OpenDNSSEC configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-permissions">Directory permissions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-default-pkcs-11-values">LDAP default PKCS#11 values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-master-key">DNSSEC Master Key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replica-private-key">Replica Private Key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replica-public-key">Replica Public Key</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dnssec-master-key-attributes">DNSSEC Master Key Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-old-master-key">Disabling Old Master Key</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replica-keys-attributes">Replica Keys Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-old-replica-keys">Disabling old replica keys</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installers">Installers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade">Upgrade</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-test">How to test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-plan">Test Plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rfe-author">RFE Author</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

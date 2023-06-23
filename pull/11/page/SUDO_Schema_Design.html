@@ -1,0 +1,1282 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>SUDO_Schema_Design &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/SUDO_Schema_Design';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/SUDO_Schema_Design.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>SUDO_Schema_Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">SUDO_Schema_Design</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-sudo-schema-proposal">Alternative SUDO Schema Proposal</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-considerations">Design Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-schema">Proposed Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rules">Rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sudo-rules-and-hbac-rules">SUDO rules and HBAC rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defaults">Defaults</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-must-support-netgroups-in-the-sudo-rules">Why we must support netgroups in the SUDO rules?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="sudo-schema-design">
+<h1>SUDO_Schema_Design<a class="headerlink" href="#sudo-schema-design" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="alternative-sudo-schema-proposal">
+<h1>Alternative SUDO Schema Proposal<a class="headerlink" href="#alternative-sudo-schema-proposal" title="Permalink to this heading">#</a></h1>
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h2>
+<p>This page describes a proposal for the LDAP schema objects to support
+centrally managed SUDO rules.</p>
+</section>
+<section id="design-considerations">
+<h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Permalink to this heading">#</a></h2>
+<p>The SUDO rules can already be loaded into an LDAP server and managed
+centrally. The schema for the solutions is described here:
+<a class="reference external" href="http://www.sudo.ws/sudo/sudoers.ldap.man.html">1</a>. The SUDO client
+can use this schema to query central server and download rules. The
+schema can be loaded into IPA server too, however, it is disjoint from
+other objects IPA manages. The goal of the this document is to define
+and alternative schema that can be used by IPA and would be tighter
+integrated with other objects IPA manages. This would provide a better
+manageability of the access control rules and would reduce a risk of a
+mistake or misconfiguration of SUDO. The mail considerations for the
+design are:</p>
+<ul class="simple">
+<li><p>The design should take into the objects that are currently managed by
+IPA:</p>
+<ul>
+<li><p>Users</p></li>
+<li><p>Groups</p></li>
+<li><p>Hosts</p></li>
+<li><p>Host groups</p></li>
+<li><p>Netgoups</p></li>
+</ul>
+</li>
+</ul>
+<p>and integrate tightly with those objects providing easy cross
+referencing of the entries.</p>
+<ul class="simple">
+<li><p>The designed schema should be able to express all the core use cases
+including</p>
+<ul>
+<li><p>Defaults</p></li>
+<li><p>Rules that boil down to Identity A on Host B can execute set C as
+identity D. Where:</p>
+<ul>
+<li><p>Identities A and D can be expressed as a:</p>
+<ul>
+<li><p>User(s)</p></li>
+<li><p>Group(s)</p></li>
+<li><p>Netgroup(s)</p></li>
+</ul>
+</li>
+<li><p>Host B can be expressed as a:</p>
+<ul>
+<li><p>Host(s)</p></li>
+<li><p>Host Group(s)</p></li>
+<li><p>Netgroup(s)</p></li>
+</ul>
+</li>
+<li><p>Set C is a set of commands (may be a combination of individual
+commands and groups of commands)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The schema should be sufficient to express the rules. It is not
+required to follow the exact same syntax as the SUDO schema provides
+as long as the rules are powerful to express the access control
+policy and a rule can be translated into standard SUDO schema entry
+by the compatibility plugin.</p></li>
+<li><p>The ambiguities of the order of the LDAP entries should be
+considered. The new schema should allow deterministic result
+regardless of the order the records returned.</p></li>
+<li><p>The new schema should allow disabling rules without deleting them.</p></li>
+</ul>
+</section>
+<section id="proposed-schema">
+<h2>Proposed Schema<a class="headerlink" href="#proposed-schema" title="Permalink to this heading">#</a></h2>
+<p>Sudo rules should be located in some part of the tree. Assume that
+<strong>SUDOers</strong> will be used as a name of the container. Then the full DN
+will look like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">cn=SUDOers,dc=example,dc=com.</span></code></p>
+</section>
+<section id="rules">
+<h2>Rules<a class="headerlink" href="#rules" title="Permalink to this heading">#</a></h2>
+<p>The rule object will be similar to the one defined by the standard SUDO
+schema but with additional attributes and will use DNs instead of string
+attributes to point to users or groups.</p>
+<p>Here is the standard SUDO schema for reference in OpenLDAP format.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.1</span></code></div>
+<div class="line">``   NAME ‘sudoUser’``</div>
+<div class="line">``   DESC ‘User(s) who may  run sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SUBSTR caseExactIA5SubstringsMatch``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.2</span></code></div>
+<div class="line">``   NAME ‘sudoHost’``</div>
+<div class="line">``   DESC ‘Host(s) who may run sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SUBSTR caseExactIA5SubstringsMatch``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.3</span></code></div>
+<div class="line">``   NAME ‘sudoCommand’``</div>
+<div class="line">``   DESC ‘Command(s) to be executed by sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.4</span></code></div>
+<div class="line">``   NAME ‘sudoRunAs’``</div>
+<div class="line">``   DESC ‘User(s) impersonated by sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.5</span></code></div>
+<div class="line">``   NAME ‘sudoOption’``</div>
+<div class="line">``   DESC ‘Options(s) followed by sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.6</span></code></div>
+<div class="line">``   NAME ‘sudoRunAsUser’``</div>
+<div class="line">``   DESC ‘User(s) impersonated by sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributetype ( 1.3.6.1.4.1.15953.9.1.7</span></code></div>
+<div class="line">``   NAME ‘sudoRunAsGroup’``</div>
+<div class="line">``   DESC ‘Group(s) impersonated by sudo’``</div>
+<div class="line">``   EQUALITY caseExactIA5Match``</div>
+<div class="line">``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass ( 1.3.6.1.4.1.15953.9.2.1 NAME 'sudoRole' SUP top STRUCTURAL</span></code></div>
+<div class="line">``   DESC ‘Sudoer Entries’``</div>
+<div class="line">``   MUST ( cn )``</div>
+<div class="line">``   MAY ( sudoUser $ sudoHost $ sudoCommand $ sudoRunAs $ sudoRunAsUser $``</div>
+<div class="line">``         sudoRunAsGroup $ sudoOption $ description )``</div>
+<div class="line">``   )``</div>
+</div>
+<p>Let us look at each of the attributes and its use more closely.</p>
+<ul>
+<li><p><strong>sudoUser</strong> (required per spec)</p>
+<ul class="simple">
+<li><p>A user name</p></li>
+<li><p>uid</p></li>
+<li><p>Unix group</p></li>
+<li><p>User netgroup</p></li>
+</ul>
+<p>As we can see the SUDO user can be easily expressed by the attribute
+that would point to a DN of the existing user, group or netgroup
+object. The combination of the userCategory and memberUser attributes
+well described in the definition of the association object can also
+express special cases that we might want to handle in future. One of
+the examples will be ALL users and another will be External trusted
+users. This will become relevant when we get the domain trusts
+implemented in a later version. For the sake of the current version
+it makes sense to include userCategory attribute but make the
+software not use it. We would not be able to take advantage of the
+userCategory capabilities until either the SUDO client is tough to
+support special values or the SSSD is implemented and an intermediary
+between SUDO client and new server schema discussed here.
+In addition to the users known to IPA for the sake of SUDO rules it
+will be beneficial to allow configuring SUDO rules that apply to the
+external to IPA users. The best examples are standard local users
+like “adm”, “oracle”, “apache” etc. To allow handling such accounts
+we will introduce a new attribute:</p>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes: (2.16.840.1.113730.3.8.7.TBD</span></code></div>
+<div class="line">``                 NAME ‘externalUser’ ``</div>
+<div class="line">``                 DESC ‘Multivalue string attribute that allows storing user names.’ ``</div>
+<div class="line">``                 EQUALITY caseIgnoreMatch ``</div>
+<div class="line">``                 ORDERING caseIgnoreMatch ``</div>
+<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch ``</div>
+<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``</div>
+<div class="line">``                 X-ORIGIN ‘IPA v2’ )``</div>
+</div>
+<blockquote>
+<div><p>For the sake of simplicity we will support only accounts specified by
+name and not by uid.</p>
+</div></blockquote>
+<ul>
+<li><p><strong>sudoHost</strong> (required per spec)</p>
+<ul class="simple">
+<li><p>A host name</p></li>
+<li><p>IP address</p></li>
+<li><p>IP network</p></li>
+<li><p>Host netgroup</p></li>
+<li><p>ALL will match any host.</p></li>
+</ul>
+<p>For the host the memberHost and hostCategory attributes can handle
+most of these cases. If memberHost is a DN of a hist, host group, or
+host netgroup we cover half. The value “All” in the hostCategory will
+be equivalent to the special value ALL used by SUDO. There is a need
+to express IP network. I see three different ways of doing it:</p>
+<ol class="arabic simple">
+<li><p>Not support it at all - is this an option? The point is that the
+hosts in the same subnet should probably have a group anyways so
+instead of giving IP mask a group or netgroup can be referenced.</p></li>
+<li><p>Create a special attribute that will hold the value as a text
+string</p></li>
+<li><p>Use hostCategory attribute which is in some way a special category</p></li>
+</ol>
+<p>The answer very much depends on the feedback from the community and
+our preference.
+Using a separate attribute would probably be the right thing to do
+just for the sake of the clean design and maintainability.
+The attribute then can look like this:</p>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: ( 2.16.840.1.113730.3.8.7.TBD ``
+| ``                  NAME &#39;hostMask&#39; ``
+| ``                  DESC &#39;IP mask to identify a subnet.&#39; ``
+| ``                  EQUALITY caseIgnoreMatch``
+| ``                  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                  ORDERING caseIgnoreMatch ``
+| ``                  SUBSTR caseIgnoreSubstringsMatch ``
+| ``                  X-ORIGIN &#39;IPA v2&#39; )``
+
+The values it will hold may look like IPv4 or IPv6 addresses or
+expressed using the CIDR notation for example:
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">128.138.243.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">128.138.204.0/24</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">128.138.242.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ffff:ffff:ffff:ffff::</span></code></div>
+</div>
+<blockquote>
+<div><p>Instead of defining a new attribute we can also consider existing
+attribute <strong>ipNetmaskNumber</strong> but this attribute is defines as single
+value attribute which would create a limitation on specifying
+multiple masks in one entry.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: ( nisSchema.1.21 ``
+| ``                  NAME &#39;ipNetmaskNumber&#39;``
+| ``                  DESC &#39;IP netmask as a dotted decimal, eg. 255.255.255.0, omitting leading zeros&#39;``
+| ``                  EQUALITY caseIgnoreIA5Match``
+| ``                  SYNTAX &#39;IA5String{128}&#39; SINGLE-VALUE )``
+
+Or we reuse an attribute already defined in the schema for the
+external (unmanaged) hosts. This can also be a good option since we
+need to also support hosts that run SUDO but are not a part of the
+IPA universe and thus must be directly listed in the rule. However in
+this case we would have to have a special prefixing inside the
+attribute value to distinguish the two.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;externalHost&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing host names.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+After a brief evaluation I suggest including both attributes. The
+**externalHost** for external names not otherwise managed by the
+system and the **hostMask** for the net mask or subnet specification
+as define by SUDO syntax. The management plugin should implement
+strict syntax checking rules to make sure that this string has the
+right format and matches the expectation. When synthesizing entries
+the compat plugin will take the value of this attribute verbatim, add
+a prefix and stick into the outgoing attribute. No syntax checking
+will be performed.
+</pre></div>
+</div>
+<ul>
+<li><p><strong>sudoCommand</strong> (required per spec)</p>
+<p>According to SODO manual this is: a Unix command with optional
+command line arguments, potentially including globbing characters
+(aka wild cards). The special value ALL will match any command. If a
+command is prefixed with an exclamation point ‘!’, the user will be
+prohibited from running that command.
+There are several important ideas that worth discussing regarding the
+commands in a rule.</p>
+</li>
+<li><ul>
+<li><p>We can use the commands in the same way as SUDO uses this
+attribute, however this does not to seem to be the most efficient
+way.</p></li>
+<li><p>We can create a special object class to store commands and a
+special object class to store groups of commands. This would allow
+defining a set of the commands once, grouping them in a logical
+way and making a rule reference a DN of a group of commands as
+well as individual commands directly if needed. It can be a mixed
+bag of both. It also leads to a more controversial idea of not
+allowing negation of the commands on per command basis but rather
+a negation of the whole rule. Unfortunately this does not work
+since SUDO utility has an issue with matching multiple records.
+The problem is that if there is an allow and deny rule that can be
+matched there is no guarantee which one would come first to the
+client. SUDO does not take this into account and does not check
+deny rules first. To account for this complication we would have
+to allow deny and allow commands in one rule. For this we will
+have two similar attributes. One will be the pointer to the
+commands or groups of commands that are allowed by the rule and
+other attribute will be the pointer to the denied commands or
+groups of commands.</p>
+<p>It seems that if the rules are defined following this paradigm the
+conversion of the proposed schema into a legacy schema via compat
+plugin would still produce a set of rules that old clients will be
+able to deal with. The proposed approach much better structures
+the access control policies for the advantage of the administrator
+(he can easier see who can do what) and future use for the times
+when SUDO is enhanced to offload the decision making to a plugin
+that will be capable of directly or indirectly (most likely via
+SSSD) access the new schema and take advantage of its structure.
+However it does not make much sense to allow nested groups of the
+commands at least originally. The nested group support comes with
+cost. It is not clear if there is or will be a requirement to
+support nested groups of commands in SUDO rules. So for the first
+implementation we will assume that the nested groups support for
+commands is not required.
+Command and command group objects will have ipaUniqueID attribute
+to allow easy changing of the commands or group names to avoid
+costly subtree renames. However we will use the cn too as the UI
+displays the names rather than IDs.
+Category of the commands will be added to denote classes of the
+commands. For the first implementation only “all” will be
+supported. The logic of handling the member command attributes and
+category attributes should be the following:</p>
+<blockquote>
+<div><p>If no memberAllowCmd, memberDenyCmd or cmdCategory attribute is
+specified - no command is allowed
+If cmdCategory is specified (the only supported value so far is
+“all”)</p>
+<blockquote>
+<div><p>The memberAllowCmd is ignored
+If memberDenyCmd is specified it defines commands or groups
+of the commands that are not allowed while all the rest are
+allowed by the category attribute.</p>
+</div></blockquote>
+<p>If cmdCategory is not specified</p>
+<blockquote>
+<div><p>If memberAllowCmd is specified it defines commands or groups
+of the commands that are allowed
+If memberDenyCmd is specified it defines commands or groups
+of the commands that are not allowed</p>
+</div></blockquote>
+</div></blockquote>
+<p>The SUDO commands will be stored in the cn=SUDOcmd,dc=…
+container while the sudo groups will be stored in the
+cn=SUDOcmdgrp,dc=… container.</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmd&#39; ``
+| ``                DESC &#39;IPA object class for SUDO command&#39;``
+| ``                STRUCTURAL ``
+| ``                MUST ( ipaUniqueID $ sudoCmd ) ``
+| ``                MAY  ( memberOf $ description ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmdGrp&#39; ``
+| ``                DESC &#39;IPA object class to store groups of SUDO commands&#39; ``
+| ``                SUP groupOfNames ``
+| ``                MUST ( ipaUniqueID )``
+| ``                STRUCTURAL``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| `` ``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;sudoCmd&#39;``
+| ``                 DESC &#39;Command(s) to be executed by sudo&#39;``
+| ``                 EQUALITY caseExactMatch ``
+| ``                 ORDERING caseExactMatch ``
+| ``                 SUBSTR caseExactSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberAllowCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberDenyCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;cmdCategory&#39; ``
+| ``                 DESC &#39;Additional classification for commands&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN &#39;IPA v2&#39; )``
+</pre></div>
+</div>
+<ul>
+<li><p><strong>sudoOption</strong> (optional per spec)</p>
+<p>This attribute is used for two purposes - first to define the default
+options that apply to all SUDO rules and secondarily to be able to
+override specific options in the specific rules. It does not make
+sense to change something in comparison to the standard SUDO schema
+for this attribute so we will define and analogous attribute of the
+same type.</p>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributetype ( 2.16.840.1.113730.3.8.7.TBD``
+| ``                NAME &#39;ipaSudoOpt&#39;``
+| ``                DESC &#39;Options(s) followed by sudo&#39;``
+| ``                EQUALITY caseExactIA5Match``
+| ``                SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
+</pre></div>
+</div>
+<ul>
+<li><p><strong>sudoRunAs</strong> - is deprecated</p></li>
+<li><p><strong>sudoRunAsUser</strong> &amp; <strong>sudoRunAsGroup</strong> (optional per spec)</p>
+<ul class="simple">
+<li><p>User</p>
+<ul>
+<li><p>A user name or uid that commands may be run as</p></li>
+<li><p>Unix group that contains a list of users that commands may be
+run as</p></li>
+<li><p>User netgroup that contains a list of users that commands may
+be run as.</p></li>
+<li><p>The special value ALL will match any user.</p></li>
+</ul>
+</li>
+<li><p>Group (defines the gid of the group the command will be run as)</p>
+<ul>
+<li><p>A Unix group or gid that commands may be run as.</p></li>
+<li><p>The special value ALL will match any group.</p></li>
+</ul>
+</li>
+</ul>
+<p>The run as functionality is very complex requires several multiple
+attributes to do it cleanly. First of all there should be a way to
+point to and existing IPA managed users, groups or netgroups that
+aggregate uses the command can be run as. To point to those objects
+we need a DN style attribute.</p>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAs&#39; ``
+| ``                 DESC &#39;Reference to a user or group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+Secondarily we need to allow the sudo commands to be run as users
+that are not managed.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtUser&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing user name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+We will not support referencing external users by the uid only by
+login name.
+
+Lastly we need to support an option to run as any user. This can be
+accomplished by using a special value &quot;ALL&quot; in the
+&quot;ipaSudoRunAsExtUser&quot; attribute. The draback of this solution is that
+it potentially creates a naming collision between a local user named
+&quot;all&quot; and this spacial value. it also introduces special processing
+and handling of the attribute.
+Alternatively we can create a special attribute similar to the
+userCategory attribute in the association object to express notion of
+&quot;all&quot; users or all &quot;external users&quot; or &quot;all trusted users&quot; etc.
+Though it is a very corner case and this approach seems a bit an
+overkill it allows a cleaner and consistent logic across the board of
+how we handle user entries in the system as a whole.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsUserCategory&#39; ``
+| ``                 DESC &#39;Additional classification for users&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+The only value that will be supported so far is &quot;all&quot;.
+
+For the run as group we will need to have very similar handling.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsGroup&#39; ``
+| ``                 DESC &#39;Reference to group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtGroup&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing group name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+
+We will not support referencing external groups by the gid only by
+group name.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsGroupCategory&#39; ``
+| ``                 DESC &#39;Additional classification for groups&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+</pre></div>
+</div>
+</section>
+<section id="sudo-rules-and-hbac-rules">
+<h2>SUDO rules and HBAC rules<a class="headerlink" href="#sudo-rules-and-hbac-rules" title="Permalink to this heading">#</a></h2>
+<p>When a user invokes SUDO he needs to authenticate. On the managed hosts
+the SSSD will do the access control enforcement for those
+authentications using HBAC rules. If the authentication is not allowed
+the SUDO command will fail with the authentication error. This need to
+be avoided. Different proposals have been considered. Some were colling
+for some kind of the automatic (using a DS managed entry plugin) or less
+automatic (using a special management plugin) solution. Both of these
+solutions might cause many unwanted HBAC entries to be created in the
+system significantly reducing its manageability. After a thorough
+evaluation we came to the conclusion that the best approach would be to
+add several special preloaded entries that will help to over come the
+SUDO authentication problem.</p>
+<ul class="simple">
+<li><p>First we will create a special service group named “SUDO”.</p></li>
+<li><p>This service group will have two services “sudo” and “sudo-i”</p></li>
+<li><p>We will add a disabled allow HBAC rule for all users and on all hosts
+referencing this service group. It will be to administrator to enable
+it if he is planning to manage SUDO with IPA. Alternatively the
+administrator will be able to add other more granular access rules at
+his discretion.</p></li>
+</ul>
+<p>The pre configured data template will look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: ipaobject``
+| ``objectClass: ipahbacservicegroup``
+| ``objectClass: nestedGroup``
+| ``objectClass: groupOfNames``
+| ``objectClass: top``
+| ``cn: SUDO``
+| ``description: Default group of SUDO related services``
+| ``dn: cn=sudo,cn=hbacservices,cn=accounts,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: ipaobject``
+| ``objectClass: ipahbacservice``
+| ``cn: sudo``
+| ``memberOf:&#39;cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX&#39;``
+| ``description: Login service for sudo``
+| ``dn: cn=sudo-i,cn=hbacservices,cn=accounts,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: ipaobject``
+| ``objectClass: ipahbacservice``
+| ``cn: sudo-i``
+| ``memberOf:&#39;cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX&#39;``
+| ``description: Login service for sudo-i``
+
+| ``dn: cn=SUDO Login,cn=hbac,cn=accounts,$SUFFIX``
+| ``changetype add``
+| ``objectClass: top``
+| ``objectClass: ipaAssociation``
+| ``objectClass: ipaHBACRule``
+| ``cn: SUDO Login``
+| ``description: Default HBAC rule to allow authentication via SUDO commands.``
+| ``ipaEnabledFlag: false``
+| ``accessRuleType: allow``
+| ``userCategory: all``
+| ``hostCategory: all``
+| ``sourceHostCategory: all``
+| ``memberService: &#39;cn=SUDO,cn=hbacservicegroups,cn=accounts,$SUFFIX&#39;``
+</pre></div>
+</div>
+<p>If we realize that we need a more tight coupling between the SUDO and
+HBAC rules we will implement them later based on the feedback from the
+community.</p>
+</section>
+<section id="defaults">
+<h2>Defaults<a class="headerlink" href="#defaults" title="Permalink to this heading">#</a></h2>
+<p>As in the standard SUDO schema the “default” options will be represented
+by the same rule object but with a special name: cn=defaults. This
+allows to maintain consistency in the lookups between old and new
+schema.</p>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<p>To summarize the schema for the new SUDO rule object will look like
+this:</p>
+<p>Existing objects already defined in the IPA schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``attributeTypes: (2.16.840.1.113730.3.8.3.1 ``
+| ``                 NAME &#39;ipaUniqueID&#39; ``
+| ``                 DESC &#39;Unique identifier&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.5 ``
+| ``                 NAME &#39;memberUser&#39; ``
+| ``                 DESC &#39;Reference to a principal that performs an action (usually user).&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.6 ``
+| ``                 NAME &#39;userCategory&#39; ``
+| ``                 DESC &#39;Additional classification for users&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.7``
+| ``                 NAME &#39;memberHost&#39; ``
+| ``                 DESC &#39;Reference to a device where the operation takes place (usually host).&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.8 ``
+| ``                 NAME &#39;hostCategory&#39; ``
+| ``                 DESC &#39;Additional classification for hosts&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.9``
+| ``                 NAME &#39;ipaEnabledFlag&#39; ``
+| ``                 DESC &#39;The flag to show if the association is active or should be ignored&#39; ``
+| ``                 EQUALITY booleanMatch ``
+| ``                 ORDERING booleanMatch ``
+| ``                 SUBSTR booleanMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.4.6 ``
+| ``                NAME &#39;ipaAssociation&#39; ``
+| ``                ABSTRACT ``
+| ``                MUST ( ipaUniqueID    $ cn ) ``
+| ``                MAY  ( memberUser     $ userCategory $ ``
+| ``                       memberHost     $ hostCategory $ ``
+| ``                       ipaEnabledFlag $ description ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.3.11``
+| ``                 NAME &#39;externalHost&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing host names.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.4.3 ``
+| ``                NAME &#39;nestedGroup&#39; ``
+| ``                DESC &#39;Group that supports nesting&#39; ``
+| ``                SUP groupOfNames ``
+| ``                STRUCTURAL ``
+| ``                MAY memberOf ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes ( 2.16.840.1.113730.3.8.3.13 ``
+| ``                 NAME &#39;accessRuleType&#39; ``
+| ``                 DESC &#39;The flag to represent if it is allow or deny rule.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN &#39;IPA v2&#39;)``
+| ``Note: valid values for accessRuleType are &quot;allow&quot; or &quot;deny&quot;``
+</pre></div>
+</div>
+<p>New attributes and objects added by this design:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmd&#39; ``
+| ``                DESC &#39;IPA object class for SUDO command&#39;``
+| ``                STRUCTURAL ``
+| ``                MUST ( ipaUniqueID $ sudoCmd ) ``
+| ``                MAY  ( memberOf $ description ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoCmdGrp&#39; ``
+| ``                DESC &#39;IPA object class to store groups of SUDO commands&#39; ``
+| ``                SUP groupOfNames ``
+| ``                MUST ( ipaUniqueID )``
+| ``                STRUCTURAL``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;sudoCmd&#39;``
+| ``                 DESC &#39;Command(s) to be executed by sudo&#39;``
+| ``                 EQUALITY caseExactMatch ``
+| ``                 ORDERING caseExactMatch ``
+| ``                 SUBSTR caseExactSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberAllowCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands that are allowed by the rule.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;memberDenyCmd&#39; ``
+| ``                 DESC &#39;Reference to a command or group of the commands that are denied by the rule.&#39; ``
+| ``                 SUP distinguishedName ``
+| ``                 EQUALITY distinguishedNameMatch ``
+| ``                 ORDERING distinguishedNameMatch ``
+| ``                 SUBSTR distinguishedNameMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;cmdCategory&#39; ``
+| ``                 DESC &#39;Additional classification for commands&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;externalUser&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing user names.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributetypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoOpt&#39;``
+| ``                 DESC &#39;Options(s) followed by sudo&#39;``
+| ``                 EQUALITY caseExactIA5Match``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAs&#39; ``
+| ``                 DESC &#39;Reference to a user or group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtUser&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing user name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsUserCategory&#39; ``
+| ``                 DESC &#39;Additional classification for users&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsGroup&#39; ``
+| ``                 DESC &#39;Reference to group that the commands can be run as.&#39; ``
+| ``                 SUP memberUser``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;ipaSudoRunAsExtGroup&#39; ``
+| ``                 DESC &#39;Multivalue string attribute that allows storing group name the command can be run as&#39; ``
+| ``                 EQUALITY caseIgnoreMatch ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
+| ``                 NAME &#39;ipaSudoRunAsGroupCategory&#39; ``
+| ``                 DESC &#39;Additional classification for groups&#39; ``
+| ``                 SUP userCategory``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD ``
+| ``                 NAME &#39;hostMask&#39; ``
+| ``                 DESC &#39;IP mask to identify a subnet.&#39; ``
+| ``                 EQUALITY caseIgnoreMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
+| ``                 ORDERING caseIgnoreMatch ``
+| ``                 SUBSTR caseIgnoreSubstringsMatch ``
+| ``                 X-ORIGIN &#39;IPA v2&#39; )``
+| ``objectClasses: (2.16.840.1.113730.3.8.8.TBD ``
+| ``                NAME &#39;ipaSudoRule&#39; ``
+| ``                SUP ipaAssociation ``
+| ``                STRUCTURAL ``
+| ``                MAY ( externalUser $ ``
+| ``                      externalHost $ hostMask $ ``
+| ``                      memberAllowCmd $ memberDenyCmd $ cmdCategory $``
+| ``                      ipaSudoOpt $``
+| ``                      ipaSudoRunAs $ ipaSudoRunAsExtUser $ ipaSudoRunAsUserCategory $``
+| ``                      ipaSudoRunAsGroup $ ipaSudoRunAsExtGroup $ ipaSudoRunAsGroupCategory ) ``
+| ``                X-ORIGIN &#39;IPA v2&#39; )``
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h2>
+<p>Default rule</p>
+<div class="line-block">
+<div class="line">`` dn: ipaUniqueID=d4453480-cc53-11dd-ad8b-0800200c9a66,cn=SUDOers…``</div>
+<div class="line">`` objectclass: top``</div>
+<div class="line">`` objectclass: ipaAssociation``</div>
+<div class="line">`` objectclass: ipaSudoRule``</div>
+<div class="line">`` ipaUniqueID: d4453480-cc53-11dd-ad8b-0800200c9a66``</div>
+<div class="line">`` cn: defaults``</div>
+<div class="line">`` ipaSudoOpt: env_keep+=SSH_AUTH_SOCK``</div>
+<div class="line">`` ipaSudoOpt: …``</div>
+<div class="line">`` ipaSudoOpt: …``</div>
+<div class="line">`` compatVisible: true``</div>
+</div>
+<p>A rule that denies specified users on the given machines to run su
+command as a local root on centrally managed “superuser” account.</p>
+<div class="line-block">
+<div class="line">`` dn: ipaUniqueID=d4453480-cc53-11dd-ad8b-0800200c9a66,cn=SUDOers…``</div>
+<div class="line">`` objectclass: top``</div>
+<div class="line">`` objectclass: ipaAssociation``</div>
+<div class="line">`` objectclass: ipaSudoRule``</div>
+<div class="line">`` ipaUniqueID: d4453480-cc53-11dd-ad8b-0800200c9a66``</div>
+<div class="line">`` cn: defaults for virtual lab``</div>
+<div class="line">`` compatVisible: true``</div>
+<div class="line">`` memberHost: cn=VirtGuests,cn=hostgroups,cn=accounts,…``</div>
+<div class="line">`` memberHost: fqdn=myhost.lab.com,cn=computers,cn=accounts,…``</div>
+<div class="line">`` externalHost: lobby.workstation.external.com  ``</div>
+<div class="line">`` hostMask: 128.138.204.0/24``</div>
+<div class="line">`` memberUser: cn=sss,cn=users,cn=accounts,…``</div>
+<div class="line">`` memberUser: cn=dpal,cn=users,cn=accounts,…``</div>
+<div class="line">`` memberUser: cn=Engineering,cn=groups,cn=accounts,…``</div>
+<div class="line">`` memberDenyCmd: f4453480-cc53-11dd-ad8b-0abc200c9a67,cn=SUDOcmd…``</div>
+<div class="line">`` ipaSudoRunAsExtUser: root``</div>
+<div class="line">`` ipaSudoRunAs: cn=superuser,cn=users,cn=accounts,…``</div>
+<div class="line">`` dn: ipaUniqueID=f4453480-cc53-11dd-ad8b-0abc200c9a67,cn=SUDOcmd…``</div>
+<div class="line">`` objectclass: top``</div>
+<div class="line">`` objectclass: ipaSudoCmd``</div>
+<div class="line">`` ipaUniqueID: f4453480-cc53-11dd-ad8b-0abc200c9a67``</div>
+<div class="line">`` sudoCmd: /bin/su``</div>
+</div>
+</section>
+<section id="why-we-must-support-netgroups-in-the-sudo-rules">
+<h2>Why we must support netgroups in the SUDO rules?<a class="headerlink" href="#why-we-must-support-netgroups-in-the-sudo-rules" title="Permalink to this heading">#</a></h2>
+<p>Current SUDO client when needs to evaluate whether user is allowed to
+execute the command or not works the following way:</p>
+<ul class="simple">
+<li><p>It downloads all LDAP rules that are applicable to this current user</p></li>
+<li><p>Filters out the rules that do not apply to the host</p></li>
+<li><p>Filters out the rules that do not apply to the command in question.</p></li>
+</ul>
+<p>For the sake of the argument we are interested in step 2). The
+deployments that centrally manage SUDO via LDAP do not put individual
+hosts into each SUDO rule. Instead they create a netgroup consisting of
+only hosts and reference it in the SUDO rule. Putting individual hosts
+into the SUDO rules will be unmanageable. We can’t do anything with the
+SUDO client on all the platforms the customers are using SUDO on. We can
+eventually solve it for Linux but not for existing Solaris, HP-UX, AIX
+and other boxes. So the IPA server should be capable of:</p>
+<ul class="simple">
+<li><p>Serving SUDO rules in the standard SUDO format since the client
+expects it this way (will be done via the compat plugin)</p></li>
+<li><p>Allowing SUDO rules to have a netgroup name as a value in the
+synthesized sudoHost attribute</p></li>
+<li><p>Serving netgroup information in the standard netgroup format defined
+by RFC 2307 (already done by the compat plugin)</p></li>
+</ul>
+<p>Our original plan was to allow SUDO rule to point to the netgroup DN via
+memberHost attribute. However later we realized that for easier
+migration and compatibility it would be better to create a managed
+netgroup entry for every host group automatically. So now we decided not
+allow SUDO rule to point to the netgroup directly. Instead the compat
+plugin will detect that whether host group has a shadow netgroup entry.
+If it does it will use its name in the synthesized compatible SUDO rule,
+otherwise it will expand the host group and stick member hosts directly
+into the entry. The IPA server will automatically create netgoups for
+host groups for years to come until the need need for the netgroups is
+completely eliminated and admins would be able to turn it off. By that
+time there will be no more need for the SUDO compat configuration.</p>
+</section>
+<section id="open-questions">
+<h2>Open questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><p>Is it Ok to not allow specifying external users and groups by uid and
+gid?</p>
+<p><strong>Current plan is to not allow specifying users by uid and gid.</strong></p>
+</li>
+<li><p>Can we not support netgroups with memberUser attribute?</p>
+<p><strong>We will not support netgroups for users.</strong></p>
+</li>
+<li><p>What should we do about hostMask? Can we defer it?</p>
+<p><strong>We will defer it at least in the UI.</strong></p>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">SUDO_Schema_Design</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-sudo-schema-proposal">Alternative SUDO Schema Proposal</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-considerations">Design Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-schema">Proposed Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rules">Rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sudo-rules-and-hbac-rules">SUDO rules and HBAC rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defaults">Defaults</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-must-support-netgroups-in-the-sudo-rules">Why we must support netgroups in the SUDO rules?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

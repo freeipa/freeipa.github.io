@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Dynamic_updates_with_GSS-TSIG &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Dynamic_updates_with_GSS-TSIG';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Dynamic_updates_with_GSS-TSIG.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dynamic_updates_with_GSS-TSIG</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-name-server">Configuring the name server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-gss-tsig">Configuring GSS-TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-update-policy">Dynamic update policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-client">Configuring the client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dynamic-updates-with-gss-tsig">
+<h1>Dynamic_updates_with_GSS-TSIG<a class="headerlink" href="#dynamic-updates-with-gss-tsig" title="Permalink to this heading">#</a></h1>
+<p>This short tutorial will teach you how to setup your name server so that
+you can dynamically update the resource records with the help of
+FreeIPA.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>Our network looks like this:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Subnet:         192.0.2.0/24</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Domain:         example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Kerberos realm: EXAMPLE.COM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server:     ipaserver.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">DNS server:     dns.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Client:         client.example.com</span></code></div>
+</div>
+</section>
+<section id="configuring-the-name-server">
+<h2>Configuring the name server<a class="headerlink" href="#configuring-the-name-server" title="Permalink to this heading">#</a></h2>
+<p>FreeIPA configures DNS server for you (on the same machine as FreeIPA
+replica). You can safely skip step “Configuring GSS-TSIG” if you ran
+command <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span> <span class="pre">--setup-dns</span></code> or <code class="docutils literal notranslate"><span class="pre">ipa-dns-setup</span></code>.</p>
+</section>
+<section id="configuring-gss-tsig">
+<h2>Configuring GSS-TSIG<a class="headerlink" href="#configuring-gss-tsig" title="Permalink to this heading">#</a></h2>
+<p>First, we have to configure the BIND on our DNS server to use GSS-TSIG
+for authenticating dynamic updates:</p>
+<p><code class="docutils literal notranslate"><span class="pre">/etc/named.conf</span></code> must contain this:</p>
+<ul class="simple">
+<li><p>For BIND <a class="reference external" href="https://lists.isc.org/pipermail/bind-announce/2011-March/000691.html">version &gt;=
+9.8.0</a>:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
+<div class="line">``   …``</div>
+<div class="line">``   tkey-gssapi-keytab  “DNS/dns.example.com”;``</div>
+<div class="line">``   …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<ul class="simple">
+<li><p>For BIND version &lt; 9.8.0:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
+<div class="line">``   …``</div>
+<div class="line">``   tkey-gssapi-credential  “DNS/dns.example.com”;``</div>
+<div class="line">``   tkey-domain             “dns.example.com”;``</div>
+<div class="line">``   …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<p>Environment variable <code class="docutils literal notranslate"><span class="pre">KRB5_KTNAME</span></code> has to contain path to keytab file.
+On RHEL and Fedora systems it is possible to add line
+<code class="docutils literal notranslate"><span class="pre">KRB5_KTNAME=/etc/named.keytab</span></code> to <code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/named</span></code>. If this
+is not done, BIND older than 9.8.0 will not start and will exit with
+very misleading error messages.</p>
+<p>Next we must add the DNS service principal and acquire the keytab. We’ll
+also add the host service for our client.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# kinit admin``
+| ``Password for admin@EXAMPLE.COM: ``
+| ``# ipa-addservice DNS/dns.example.com``
+| ``# ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab``
+| ``Keytab successfully retrieved and stored in: /etc/named.keytab``
+</pre></div>
+</div>
+<p>Note: Set appropriate file permissions for file <code class="docutils literal notranslate"><span class="pre">/etc/named.keytab</span></code>.
+This file is usually owned by user <code class="docutils literal notranslate"><span class="pre">named</span></code> with mode <code class="docutils literal notranslate"><span class="pre">400</span></code> on RHEL
+and Fedora systems.</p>
+<p>Now we can start named and set it up to always start when booting:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># service named start</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting named:                                            [  OK  ]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># chkconfig named on</span></code></div>
+</div>
+</section>
+<section id="dynamic-update-policy">
+<h2>Dynamic update policy<a class="headerlink" href="#dynamic-update-policy" title="Permalink to this heading">#</a></h2>
+<p>As a next step, configure <a class="reference external" href="http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies">dynamic update
+policies</a>
+according to your requirements.</p>
+<p><strong>Example:</strong> All machines belonging to Kerberos realm EXAMPLE.COM are
+allowed to update own A record. Update requests have to be signed by
+Kerberos principal <code class="docutils literal notranslate"><span class="pre">host/</span></code><em>``machine.fqdn``</em><code class="docutils literal notranslate"><span class="pre">&#64;EXAMPLE.COM</span></code>.
+(Naturally, name <em>machine.fqdn</em> has to belong to the zone example.com.)</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;example.com&quot; {</span></code></div>
+<div class="line">``   update-policy {``</div>
+<div class="line">``       grant EXAMPLE.COM krb5-self * A;``</div>
+<div class="line">``   };``</div>
+<div class="line">``   …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<p><strong>Example:</strong> Allow Kerberos principal
+<code class="docutils literal notranslate"><span class="pre">SERVICE/ipaserver.example.com&#64;EXAMPLE.COM</span></code> to do any updates in whole
+zone. Note the escaping trick, symbol “/” was replaced with “047”.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;example.com&quot; {</span></code></div>
+<div class="line">``   update-policy {``</div>
+<div class="line">``       grant <a class="reference external" href="mailto:SERVICE047ipaserver&#46;example&#46;com&#37;&#52;&#48;EXAMPLE&#46;COM">SERVICE047ipaserver<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> wildcard * ANY;``</div>
+<div class="line">``   };``</div>
+<div class="line">``   …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<p><strong>Example:</strong> Machine is allowed to update own PTR record in reverse
+zone. Update is allowed only if it came over TCP connection and source
+IP address matches updated name (in reverse tree).</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;2.0.192.in-addr.arpa&quot; IN {</span></code></div>
+<div class="line">``   …``</div>
+<div class="line">``   update-policy {``</div>
+<div class="line">``       grant * tcp-self * PTR;``</div>
+<div class="line">``   };``</div>
+<div class="line">``   …``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+</section>
+<section id="configuring-the-client">
+<h2>Configuring the client<a class="headerlink" href="#configuring-the-client" title="Permalink to this heading">#</a></h2>
+<p>We will now get the keytab on the client and use it right away with
+kinit. (This step is not required if the client was enrolled by
+<code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code> script or host keytab is already in place for
+other reasons.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# kinit admin``
+| ``Password for admin@EXAMPLE.COM: ``
+| ``# ipa-addservice host/client.example.com``
+| ``# ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab``
+| ``# kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM``
+</pre></div>
+</div>
+<p>Notice that we aren’t required to type any password during <code class="docutils literal notranslate"><span class="pre">kinit</span></code>.
+All actions from now will be done under account
+<code class="docutils literal notranslate"><span class="pre">host/client.example.com&#64;EXAMPLE.COM</span></code>.</p>
+<p>Now we are ready to use <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> utility to update resource records.
+<code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> can be used as a shell-type utility with prompt, or we can
+place all the commands in a file and then give the file to <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">nsupdate(8)</span></code> for more information about other <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>
+commands. The -g option we use is not documented in older man pages.</p>
+<p>In following examples, the “<code class="docutils literal notranslate"><span class="pre">server</span> <span class="pre">dns.example.com</span></code>” command tells
+<code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> to update the specified DNS server, but be aware that when
+doing lookups, it will still use the default server as specified in
+<code class="docutils literal notranslate"><span class="pre">/etc/resolv.conf</span></code>. Updates will be sent to master server of the
+correct zone if no <code class="docutils literal notranslate"><span class="pre">server</span></code> command is used.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>File <code class="docutils literal notranslate"><span class="pre">a_update</span></code>:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">server dns.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone example.com.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">prereq yxrrset client.example.com.                            IN      A</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">update delete client.example.com.                             IN      A</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">update add client.example.com.                86400           IN      A       192.0.2.120</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+</div>
+<p>If we will now want to update our A record, we will execute <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>
+like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">nsupdate -g a_update</span></code></p>
+<ul class="simple">
+<li><p>File <code class="docutils literal notranslate"><span class="pre">ptr_update</span></code>:</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">server dns.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone 2.0.192.in-addr.arpa.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">prereq yxrrset 120.2.0.192.in-addr.arpa.                    IN      PTR</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">update delete 120.2.0.192.in-addr.arpa.                     IN      PTR</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+</div>
+<p>If we want to update our PTR record we’ll use <code class="docutils literal notranslate"><span class="pre">ptr_update</span></code> file as an
+argument and add <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to force update over TCP. Sometimes
+<code class="docutils literal notranslate"><span class="pre">-g</span></code> option enforces TCP usage, but the Kerberos authentication is not
+necessary in this case (because of <code class="docutils literal notranslate"><span class="pre">tcp-self</span></code> option).</p>
+<p><code class="docutils literal notranslate"><span class="pre">nsupdate -v ptr_update</span></code></p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">#</a></h2>
+<p>If you have troubles with <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>, try some additional debugging
+flags, for example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">nsupdate -d -D 99 a_update</span></code></p>
+<p>You can also add <code class="docutils literal notranslate"><span class="pre">debug</span></code> command to separate line:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">debug</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone 2.0.192.in-addr.arpa.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+</div>
+<p>If you have problems with Kerberos, you can try to use the -l flag in
+order to communicate with local DNS server and get GSS-API major and
+minor error messages.</p>
+<p>The -D and -l flags were not documented.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-name-server">Configuring the name server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-gss-tsig">Configuring GSS-TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-update-policy">Dynamic update policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-client">Configuring the client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

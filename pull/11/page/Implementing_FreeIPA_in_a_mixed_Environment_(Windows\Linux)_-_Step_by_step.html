@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Implementing_FreeIPA_in_a_mixed_Environment_(WindowsLinux)_-_Step_by_step &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Implementing_FreeIPA_in_a_mixed_Environment_(Windows\Linux)_-_Step_by_step';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Implementing_FreeIPA_in_a_mixed_Environment_(Windows\Linux)_-_Step_by_step.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Implementing_FreeIPA_in_a_mixed_Environment_(WindowsLinux)_-_Step_by_step</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="implementing-freeipa-in-a-mixed-environment-windowslinux-step-by-step">
+<h1>Implementing_FreeIPA_in_a_mixed_Environment_(WindowsLinux)_-_Step_by_step<a class="headerlink" href="#implementing-freeipa-in-a-mixed-environment-windowslinux-step-by-step" title="Permalink to this heading">#</a></h1>
+<p><strong>NOTE</strong>:the information provided on this page was only tested against
+FreeIPA 1.2 and should be considered deprecated for anything newer.</p>
+<p><strong>Introduction</strong></p>
+<hr class="docutils" />
+<p>The following documentation is a practical guide to implement freeIPA in
+mixed environment (Windows/Linux Clients). You should also refer the
+Administrator’s as well as Installation and Deployment guide from the
+main documentation page.</p>
+<p>The Installation has been performed on the following environment.</p>
+<p>Server: Single IPA server (Fedora 10 x86_64) with 2G RAM 1.6 GHz Intel
+Dual Core processor.</p>
+<p>Clients: Windows XP SP2, Fedora 10 x86_64 and RHEL5.2 x86_64</p>
+<p>Note: Please be careful about the firewall and selinux policies before
+continuing with the configuration. In windows also you should open the
+necessary ports to communicate to the IPA Server or disable the firewall
+if you are doing a test setup. Please refer the installation and
+deployment guide to get more details about the ports required for IPA.</p>
+<ol class="arabic simple">
+<li><p>Installation of the IPA Server.</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># yum install ipa-*</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># yum install bind bind-chroot</span></code></div>
+</div>
+<p>The IPA server may show a conflict with mod_ssl package. IPA uses
+mod_nss in apache. You can remove the mod_ssl for the time being.</p>
+<p>2.Make sure that the host names are set properly</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/hosts</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">127.0.0.1               localhost.localdomain localhost</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">172.16.33.1             ds.example.com ds</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/sysconfig/network</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">NETWORKING=yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">HOSTNAME=ds.example.com</span></code></div>
+</div>
+<p>3. Run the following command to configure the IPA Server for you
+environment and follow the instructions.</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install --setup-bind</span></code></p>
+<p>Here the DNS Server is on the same machine. Please note that kerberos
+server has very specific DNS requirements, if you have a DNS server
+already on your network add the SRV records of the kerberos, ntp and
+ldap server to that. A sample zone file will be created in your /tmp
+directory after the ipa-server-install, do a copy paste of all the SRV
+record from this file to your zone file.</p>
+<p>If you have a chrooted bind installed, the named service start-up may
+fail after the ipa-server-install . Do the following configuration to
+setup DNS properly.</p>
+<ol class="loweralpha simple">
+<li><p>A minimal named.conf should look like</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/named.conf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
+<div class="line">``       directory “/var/named”;``</div>
+<div class="line">``       dump-file               “data/cache_dump.db”;``</div>
+<div class="line">``       statistics-file         “data/named_stats.txt”;``</div>
+<div class="line">``       memstatistics-file      “data/named_mem_stats.txt”;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;example.com&quot; {</span></code></div>
+<div class="line">``       type master;``</div>
+<div class="line">``       file “example.com.zone.db”;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;33.16.172.in-addr.arpa&quot; IN {</span></code></div>
+<div class="line">``       type master;``</div>
+<div class="line">``       file “example.com.zone.rev.db”;``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+</div>
+<p>b. Copy the zone file to the proper location and create a reverse zone
+file also.</p>
+<p><code class="docutils literal notranslate"><span class="pre"># cp /var/named/example.com.zone.db /var/named/chroot/var/named/</span></code></p>
+<p>No need to change anything in the forward zone file, create a reverse
+zone as follows.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#  cat example.com.zone.rev.db</span></code></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$ORIGIN 33.16.172.in-addr.arpa.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">$TTL    86400</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&#64;                       IN SOA  example.com. root.example.com. (</span></code></div>
+<div class="line">``                               01              ; serial``</div>
+<div class="line">``                               3H              ; refresh``</div>
+<div class="line">``                               15M             ; retry``</div>
+<div class="line">``                               1W              ; expiry``</div>
+<div class="line">``                               1D )            ; minimum``</div>
+</div>
+<div class="line-block">
+<div class="line">``                        IN NS                   ds.example.com.``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">1                       IN PTR                  ds.example.com.</span></code></div>
+</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Restart the named service</p></li>
+</ol>
+<p>4. Check whether the ntp time synchronization is proper, if you don’t
+want to sync to an external time server, configure a local time server
+and synch all the clients to that.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpstat</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpq -p</span></code></div>
+</div>
+<p>Sample configuration file for an ntp local server.</p>
+<p><code class="docutils literal notranslate"><span class="pre"># cat /etc/ntp.conf</span></code></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict default nomodify notrap noquery</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict 127.0.0.1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">broadcast 224.0.1.1 ttl 4</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">broadcastdelay 0.004</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">server  127.127.1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">fudge   127.127.1.0 stratum 10</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">driftfile /var/lib/ntp/drift</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">keys /etc/ntp/keys</span></code></div>
+</div>
+<p>Sample Configuration for an ntp client</p>
+<p><code class="docutils literal notranslate"><span class="pre"># cat /etc/ntp.conf</span></code></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict default kod nomodify notrap nopeer noquery</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict -6 default kod nomodify notrap nopeer noquery</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict 127.0.0.1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict -6 ::1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">server  ds.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">driftfile /var/lib/ntp/drift</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">keys /etc/ntp/keys</span></code></div>
+</div>
+<p>Please note that if the client time has much difference compared to ntp
+server then do a force update using the following command. Also, the
+first time synchronization will take some time (64 sec approx)</p>
+<p><code class="docutils literal notranslate"><span class="pre"># ntpdate -u ds.example.com</span></code></p>
+<p>To verify</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpstat</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpq -p</span></code></div>
+</div>
+<p>5. Make sure that all the required services are enabled in your run
+level and reboot the IPA server (krb5kdc, ntp, named, httpd, dirserv
+etc). This will be configured automatically when you run the
+ipa-server-install, anyway just do a second check.</p>
+<p>6. After the reboot test the IPA server configuration using the
+following commands</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># kinit admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># klist</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-finduser admin</span></code></div>
+</div>
+<p><strong>Configuring Windows Client</strong></p>
+<hr class="docutils" />
+<p>Note: An alternative solution exists: <a class="reference external" href="Windows_authentication_against_FreeIPA">Windows authentication against
+FreeIPA</a></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">1. Add the host records in DNS, both forward and reverse</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">2. Make sure that the client is synchronized to the ntp server.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">3. On the IPA Server add the host principal and set the password for the xp client.</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#  ipa-addservice host/bmdata01.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#  ipa-getkeytab -s ds.example.com  -p host/bmdata01.example.com -e des-cbc-crc -k krb5.keytab.txt -P</span></code></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>On the Client (Windows XP)</p></li>
+</ol>
+<p>a. Install Windows XP support tools
+(WindowsXP-KB838079-SupportTools-ENU.exe, this can be found on the
+Windows XP Media or download it from microsoft)</p>
+<p>b. Create a user in Windows XP to map the kerberos principles (here it
+is ipauser)</p>
+<p>c. Configure kerberos authentication as follows (go to Start - Programs
+- Windows Support Tools - Command Prompt )</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /setrealm EXAMPLE.COM</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /addkdc EXAMPLE.COM dc.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /setmachpassword ``\</span> <span class="pre">`` (the same password you have set in IPA server)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /mapuser * ipauser</span></code></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Reboot the machine.</p></li>
+</ol>
+<p>e. You will see “EXAMPLE.COM (Kerberos Realm)” in the windows logon drop
+down menu.</p>
+<p>Note: <strong>CREATE A NEW USER ON THE IPA SERVER AND TRY TO LOGON TO THE
+WINDOWS CLIENT. WINDOWS WILL TELL YOU THAT THE PASSWORD HAS BEEN
+EXPIRED. IT WILL PROMPT YOU TO SET THE NEW PASSWORD ALSO. IF YOU ENTER
+YOUR USER NAME, OLD PASSWORD AND NEW PASSWORDS, WINDOWS WILL SIMPLY TELL
+YOU “DOMAIN NOT AVAILABLE</strong></p>
+<p><strong>HERE IS THE TRICK, PLEASE NOTE THAT THE USER IS REQUIRED TO LOGIN
+USING “USER&#64;REALM” (testuser&#64;EXAMPLE.COM) INSTEAD OF JUST THE USER NAME
+FOR THE FIRST TIME.</strong></p>
+<p><strong>Configuring RHEL 5.2 x86_64 Client</strong></p>
+<hr class="docutils" />
+<p>1. Download and un-compress freeipa source,
+<a class="reference external" href="http://freeipa.org/downloads/src/freeipa-1.2.1.tar.gz">http://freeipa.org/downloads/src/freeipa-1.2.1.tar.gz</a></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># tar -zxvf freeipa-1.2.1.tar.gz</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cd freeipa-1.2.1</span></code></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Install the following prerequisites</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre"># yum install autoconf automake pkgconfig.x86_64 libtool.x86_64 mozldap-devel.x86_64 krb5-devel.x86_64 openldap-devel.x86_64 python-ldap.x86_64</span></code></p>
+<p>3. You will also need to downloaded and install python-krbV package from
+<a class="reference external" href="http://download.fedora.redhat.com/pub/epel/">http://download.fedora.redhat.com/pub/epel/</a></p>
+<ol class="arabic simple" start="4">
+<li><p>Apply the patch</p></li>
+</ol>
+<p># patch -p1 &lt; /path/to/make.patch</p>
+<p><code class="docutils literal notranslate"><span class="pre">(patch can be found in ``\</span> <span class="pre">```https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html</span></code> &lt;<a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html">https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">, copy the contents and save it as make.patch)</span></code></p>
+<ol class="arabic simple" start="5">
+<li><p>Make rpms, the rpms will be in dist/rpms</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre"># make IPA_VERSION_IS_GIT_SNAPSHOT=no local-dist</span></code></p>
+<p>–<a class="reference external" href="User:Viji">viji</a> 04:49, 15 January 2009 (EST)</p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

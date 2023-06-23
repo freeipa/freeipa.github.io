@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Samba_4_Disabling_Heimdal_Service &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Samba_4_Disabling_Heimdal_Service';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Samba_4_Disabling_Heimdal_Service.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Samba_4_Disabling_Heimdal_Service</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Samba_4_Disabling_Heimdal_Service</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#current-code">Current Code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port-configuration">Port Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kdc-initialization">KDC Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#socket-creation">Socket Creation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-solution">Proposed Solution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Port Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">KDC Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Socket Creation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#patches">Patches</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="samba-4-disabling-heimdal-service">
+<h1>Samba_4_Disabling_Heimdal_Service<a class="headerlink" href="#samba-4-disabling-heimdal-service" title="Permalink to this heading">#</a></h1>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
+<p>IPA uses MIT KDC to provide Kerberos and kpasswd services for IPA
+clients. Samba uses Heimdal KDC to provide Kerberos and kpasswd services
+for Samba clients. Only one of the KDC’s can run on a machine because
+they both listen to the same ports: 88 and 464 for Kerberos and kpasswd
+services, respectively.</p>
+<p>In the integrated environment, MIT KDC was chosen to provide Kerberos
+and kpasswd services for both IPA and Samba clients. However, Samba
+still needs Heimdal KDC service to perform some operations internally.
+To avoid conflicts Samba needs to be modified so that Heimdal KDC
+service can continue running but it does not listen to the ports.</p>
+</section>
+<section id="current-code">
+<h1>Current Code<a class="headerlink" href="#current-code" title="Permalink to this heading">#</a></h1>
+<section id="port-configuration">
+<h2>Port Configuration<a class="headerlink" href="#port-configuration" title="Permalink to this heading">#</a></h2>
+<p>Currently Samba supports configuring the ports for Kerberos and kpasswd
+services in smb.conf. By default they will be set to 88 and 464 in
+source4/param/loadparam.c.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">loadparm_context</span> <span class="o">*</span><span class="n">loadparm_init</span><span class="p">(</span><span class="n">TALLOC_CTX</span> <span class="o">*</span><span class="n">mem_ctx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">lp_do_global_parameter</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="s2">&quot;krb5 port&quot;</span><span class="p">,</span> <span class="s2">&quot;88&quot;</span><span class="p">);</span>
+    <span class="n">lp_do_global_parameter</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="s2">&quot;kpasswd port&quot;</span><span class="p">,</span> <span class="s2">&quot;464&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="kdc-initialization">
+<h2>KDC Initialization<a class="headerlink" href="#kdc-initialization" title="Permalink to this heading">#</a></h2>
+<p>The code for Heimdal KDC service is located in kdc_task_init() in
+source4/kdc/kdc.c.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">kdc_task_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">task_server</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">load_interfaces</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">lp_interfaces</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ifaces</span><span class="p">);</span>
+
+    <span class="n">smb_krb5_init_context</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="p">);</span>
+
+    <span class="n">krb5_add_et_list</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
+        <span class="n">initialize_hdb_error_table_r</span><span class="p">);</span>
+
+    <span class="n">krb5_kdc_get_config</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">config</span><span class="p">);</span>
+
+    <span class="n">hdb_samba4_create_kdc</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">db</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="n">krb5_plugin_register</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
+        <span class="n">PLUGIN_TYPE_DATA</span><span class="p">,</span> <span class="s2">&quot;hdb&quot;</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">hdb_samba4</span><span class="p">);</span>
+
+    <span class="n">krb5_kt_register</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hdb_kt_ops</span><span class="p">);</span>
+
+    <span class="n">krb5_plugin_register</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
+        <span class="n">PLUGIN_TYPE_DATA</span><span class="p">,</span> <span class="s2">&quot;windc&quot;</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">windc_plugin_table</span><span class="p">);</span>
+
+    <span class="n">krb5_kdc_windc_init</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">create</span> <span class="n">sockets</span>
+    <span class="n">kdc_startup_interfaces</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="n">ifaces</span><span class="p">);</span>
+
+    <span class="n">IRPC_REGISTER</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">msg_ctx</span><span class="p">,</span> <span class="n">irpc</span><span class="p">,</span> <span class="n">KDC_CHECK_GENERIC_KERBEROS</span><span class="p">,</span>
+        <span class="n">kdc_check_generic_kerberos</span><span class="p">,</span> <span class="n">kdc</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="socket-creation">
+<h2>Socket Creation<a class="headerlink" href="#socket-creation" title="Permalink to this heading">#</a></h2>
+<p>The kdc_startup_interfaces() creates sockets for all interfaces:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_startup_interfaces</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
+        <span class="n">struct</span> <span class="n">loadparm_context</span> <span class="o">*</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">struct</span> <span class="n">interface</span> <span class="o">*</span><span class="n">ifaces</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">num_interfaces</span> <span class="o">=</span> <span class="n">iface_count</span><span class="p">(</span><span class="n">ifaces</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">num_interfaces</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">talloc_strdup</span><span class="p">(</span><span class="n">tmp_ctx</span><span class="p">,</span> <span class="n">iface_n_ip</span><span class="p">(</span><span class="n">ifaces</span><span class="p">,</span> <span class="n">i</span><span class="p">));</span>
+        <span class="n">kdc_add_socket</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">lp_krb5_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">),</span>
+            <span class="n">lp_kpasswd_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The kdc_add_socket() creates TCP and UDP sockets for kdc and kpasswd
+services:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_add_socket</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span><span class="p">,</span>
+                   <span class="n">uint16_t</span> <span class="n">kdc_port</span><span class="p">,</span> <span class="n">uint16_t</span> <span class="n">kpasswd_port</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">UDP</span> <span class="n">port</span>
+    <span class="n">kdc_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kdc_socket</span><span class="p">,</span>
+        <span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kdc_port</span><span class="p">);</span>
+
+    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kdc_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">UDP</span> <span class="n">port</span>
+    <span class="n">kpasswd_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="p">,</span>
+        <span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kpasswd_port</span><span class="p">);</span>
+
+    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kpasswd_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">create</span> <span class="n">process</span> <span class="n">model</span>
+    <span class="n">model_ops</span> <span class="o">=</span> <span class="n">process_model_startup</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">TCP</span> <span class="n">port</span>
+    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
+        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">model_ops</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kdc_tcp_stream_ops</span><span class="p">,</span>
+        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kdc_port</span><span class="p">,</span>
+        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
+        <span class="n">kdc</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">TCP</span> <span class="n">port</span>
+    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
+        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">model_ops</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kpasswdd_tcp_stream_ops</span><span class="p">,</span>
+        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kpasswd_port</span><span class="p">,</span>
+        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
+        <span class="n">kdc</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="proposed-solution">
+<h1>Proposed Solution<a class="headerlink" href="#proposed-solution" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2>Port Configuration<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>Heimdal ports could be disabled by setting them to 0 in smb.conf:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
+    <span class="n">krb5</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">kpasswd</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Note: No Samba source code will be changed for this.</p>
+</section>
+<section id="id2">
+<h2>KDC Initialization<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>The kdc_task_init() should not be modified so that it will continue to
+initialize Heimdal service.</p>
+</section>
+<section id="id3">
+<h2>Socket Creation<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>The kdc_startup_interfaces() should be changed such that it does not
+create the sockets when the ports are set to 0.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_startup_interfaces</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
+        <span class="n">struct</span> <span class="n">loadparm_context</span> <span class="o">*</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">struct</span> <span class="n">interface</span> <span class="o">*</span><span class="n">ifaces</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">create</span> <span class="n">process</span> <span class="n">model</span>
+    <span class="n">model_ops</span> <span class="o">=</span> <span class="n">process_model_startup</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">);</span>
+
+    <span class="n">num_interfaces</span> <span class="o">=</span> <span class="n">iface_count</span><span class="p">(</span><span class="n">ifaces</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">num_interfaces</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">talloc_strdup</span><span class="p">(</span><span class="n">tmp_ctx</span><span class="p">,</span> <span class="n">iface_n_ip</span><span class="p">(</span><span class="n">ifaces</span><span class="p">,</span> <span class="n">i</span><span class="p">));</span>
+        <span class="n">kdc_port</span> <span class="o">=</span> <span class="n">lp_krb5_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">);</span>
+        <span class="n">kpasswd_port</span> <span class="o">=</span> <span class="n">lp_kpasswd_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">kdc_port</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">kdc_add_kdc_socket</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">model_ops</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kdc_port</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">kpasswd_port</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">kdc_add_passwd_socket</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">model_ops</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kpasswd_port</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The kdc_add_socket() should be split into kdc_add_kdc_socket() and
+kdc_add_kpasswd_socket() as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_add_kdc_socket</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
+        <span class="n">const</span> <span class="n">struct</span> <span class="n">model_ops</span> <span class="o">*</span><span class="n">model_ops</span><span class="p">,</span>
+        <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span><span class="p">,</span>
+        <span class="n">uint16_t</span> <span class="n">kdc_port</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">UDP</span> <span class="n">port</span>
+    <span class="n">kdc_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kdc_socket</span><span class="p">,</span>
+        <span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kdc_port</span><span class="p">);</span>
+
+    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kdc_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">TCP</span> <span class="n">port</span>
+    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
+        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">model_ops</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kdc_tcp_stream_ops</span><span class="p">,</span>
+        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kdc_port</span><span class="p">,</span>
+        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
+        <span class="n">kdc</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_add_kpasswd_socket</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
+        <span class="n">const</span> <span class="n">struct</span> <span class="n">model_ops</span> <span class="o">*</span><span class="n">model_ops</span><span class="p">,</span>
+        <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span><span class="p">,</span>
+        <span class="n">uint16_t</span> <span class="n">kpasswd_port</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">UDP</span> <span class="n">port</span>
+    <span class="n">kpasswd_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="p">,</span>
+        <span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kpasswd_port</span><span class="p">);</span>
+
+    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kpasswd_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">TCP</span> <span class="n">port</span>
+    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
+        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
+        <span class="n">model_ops</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">kpasswdd_tcp_stream_ops</span><span class="p">,</span>
+        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kpasswd_port</span><span class="p">,</span>
+        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
+        <span class="n">kdc</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="patches">
+<h1>Patches<a class="headerlink" href="#patches" title="Permalink to this heading">#</a></h1>
+<p>The following patch has been applied to the source repository:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=c93fc3a10a8839752eb4c1d1e91c1b455c974eef">s4:kdc - Disable KDC port when it’s set to
+0</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=0c89a6f2aa433e54d7af99d9214ddc186784af97">s4:kdc - Merged kdc_add_kdc_socket() and
+kdc_add_kpasswd_socket()</a></p></li>
+<li><p><a class="reference external" href="http://gitweb.samba.org/?p=samba.git;a=commit;h=9ce7e9ab8401e038b36d53e477fcb658d1c54f80">s4:kdc - Merged kdc_tcp_accept() and
+kpasswdd_tcp_accept()</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Samba_4_Disabling_Heimdal_Service</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#current-code">Current Code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port-configuration">Port Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kdc-initialization">KDC Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#socket-creation">Socket Creation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-solution">Proposed Solution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Port Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">KDC Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Socket Creation</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#patches">Patches</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

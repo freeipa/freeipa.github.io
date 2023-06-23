@@ -1,0 +1,656 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>mod_nss_to_mod_ssl &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4/mod_nss_to_mod_ssl';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="/_static/freeipa-logo-small.png" class="logo__image only-light" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/page/V4/mod_nss_to_mod_ssl.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>mod_nss_to_mod_ssl</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-install">New install</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrading-an-existing-installation">Upgrading an existing installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-server-certinstall">ipa-server-certinstall</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#certmonger">certmonger</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fips">FIPS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade">Upgrade</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use">How to Use</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-plan">Test Plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-installations">New installations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrades">Upgrades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-replicas-from-mod-nss-to-mod-ssl-masters">Creating replicas from mod_nss to mod_ssl masters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replacing-certificates">Replacing certificates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#renewal">Renewal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kra">KRA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uninstall">Uninstall</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="mod-nss-to-mod-ssl">
+<h1>mod_nss_to_mod_ssl<a class="headerlink" href="#mod-nss-to-mod-ssl" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>Use mod_ssl instead of mod_nss in Apache. This is part of a larger move
+away from using NSS to using OpenSSL for crypto.</p>
+<p>The target Fedora release for this is Fedora 28.</p>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>mod_ssl is ubiquitous</p></li>
+<li><p>mod_ssl uses flat PEM files instead of a set of complex tools to
+manipulate a database of certificates.</p></li>
+<li><p>The database backend has changed in NSS from dbm to sqlite. Since
+changes need to be done in the source anyway to support that it is a
+more long-term solution to just drop mod_nss.</p></li>
+</ul>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<p>Since inception the mod_nss certificate database is deeply integrated
+into IPA and is or was the source of the RA agent certificate and the CA
+chain. The RA agent cert has already been extracted but the CA chain
+will need to be ripped out as well.</p>
+<p>The installer has a lot of certificate handling code for NSS databases
+but little for managing discrete PEM files. A lot of support code is
+going to be needed and/or other calls abstracted to handle operations
+like CA chain extraction, certmonger integration (request, start/stop
+tracking, etc), validation and likely more.</p>
+<p>The certificate and private key will be stored in
+/etc/pki/tls/{certs|private} unencrypted and named httpd.{crt|key}.</p>
+</section>
+<section id="new-install">
+<h2>New install<a class="headerlink" href="#new-install" title="Permalink to this heading">#</a></h2>
+<p>Installing a new server using mod_ssl is likely to be conceptually
+simpler than the upgrade case but the vast majority of the support code
+will be written at this point in order to handle flat files vs databases
+and remove the assumptions that the Apache mod_nss database is the
+center of the universe.</p>
+<p>The tasks roughly break down into:</p>
+<ul class="simple">
+<li><p>generate cert/key as files via certmonger</p></li>
+<li><p>track and untrack the certs</p></li>
+<li><p>identify and install CA certificates where required (probably just
+use /etc/ipa/ca.crt)</p></li>
+<li><p>validate the server certificate and its chain</p></li>
+<li><p>change ssl.conf directives</p></li>
+<li><p>handle installing via PKCS#12</p></li>
+<li><p>identify where the NSS db is the center of the universe and change</p></li>
+</ul>
+</section>
+<section id="upgrading-an-existing-installation">
+<h2>Upgrading an existing installation<a class="headerlink" href="#upgrading-an-existing-installation" title="Permalink to this heading">#</a></h2>
+<p>Upgrading is going to be fragile in cases where users have modified
+nss.conf for their own purposes. There is no plan currently to try to
+identify or handle these cases.</p>
+<p>The tasks roughly break down into:</p>
+<ul class="simple">
+<li><p>extract cert and key into files</p></li>
+<li><p>stop tracking NSS, start tracking files</p></li>
+<li><p>change ssl.conf directives</p></li>
+<li><p>disable mod_nss engine (leave package installed) and/or change the
+port to something other than 844*.</p></li>
+<li><p>remove IPA includes from nss.conf (cleanliness)</p></li>
+<li><p>add IPA includes to ssl.conf</p></li>
+<li><p>deal with uninstall, ensure restored state is sane</p></li>
+<li><p>potentially remove Server-Cert and chain from database</p></li>
+</ul>
+<p>This is likely to be implemented as a generic upgrade task to use in
+backup/restore as well.</p>
+</section>
+<section id="ipa-server-certinstall">
+<h2>ipa-server-certinstall<a class="headerlink" href="#ipa-server-certinstall" title="Permalink to this heading">#</a></h2>
+<p>Will need to change to handle file-based certificates. This will likely
+end up as copying files to the proper location(s) in the filesystem.</p>
+</section>
+<section id="backup-and-restore">
+<h2>Backup and Restore<a class="headerlink" href="#backup-and-restore" title="Permalink to this heading">#</a></h2>
+<p>IPA typically doesn’t allow one to backup and restore different versions
+but code will be needed to catch the case where a user forces the issue.
+Some mechanism would be needed to detect this case and call the upgrade
+script in this case.</p>
+</section>
+<section id="certmonger">
+<h2>certmonger<a class="headerlink" href="#certmonger" title="Permalink to this heading">#</a></h2>
+<p>Parallel changes are going to be required in certmonger because it uses
+the Apache mod_nss database as its source of CA trust. It may be that
+/etc/pki/nssdb can be used instead, or the client can be switched to
+using OpenSSL. This is TBD. Great care will be needed to ensure that
+updated certmonger will continue to work with older IPA.</p>
+</section>
+<section id="fips">
+<h2>FIPS<a class="headerlink" href="#fips" title="Permalink to this heading">#</a></h2>
+<p>NSS can detect when FIPS is enabled and automatically enable the NSSFIPS
+option in mod_nss. It remains to be seen what if anything will need to
+change in mod_ssl. If FIPS is needed then there is an SSLFIPS option
+that can be set.</p>
+</section>
+<section id="open-questions">
+<h2>Open questions<a class="headerlink" href="#open-questions" title="Permalink to this heading">#</a></h2>
+<p>After an upgrade, should we delete the Server-Cert from /etc/httpd/alias
+to avoid confusion? It might be wise to leave it available for the
+upgrade case, or generate a PKCS#12 file of it before removing it.</p>
+<p>I suspect we are going to have to zap nss.conf and replace it with a
+0-length file because the default port for mod_nss is 8443 which is used
+by dogtag. We could pick some other random port to set it to but that
+would raise SELinux issues. Zeroing out the config file seems more
+efficient.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Dependencies</strong>:</p>
+<ul>
+<li><p>updated certmonger</p></li>
+</ul>
+</li>
+<li><p><strong>Contingencies</strong>:</p>
+<ul>
+<li><p>In the case of upgrade failure manual instructions will be needed
+to walk a user through the changes needed to convert to a mod_ssl
+database.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="feature-management">
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">#</a></h2>
+<p>UI</p>
+<p>N/A</p>
+<p>CLI</p>
+<p>N/A</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<p>Replace:</p>
+<ul class="simple">
+<li><p>NSSProtocol -&gt; SSLProtocol. IMHO we should still proactively set the
+protocols we want.</p></li>
+<li><p>NSSCertificateDatabase -&gt; SSLCertificateFile, SSLCertificateKeyFile
+and SSLCertificateChainFile.</p></li>
+</ul>
+<p>Drop:</p>
+<ul class="simple">
+<li><p>NSSNickname</p></li>
+<li><p>NSSRenegotiation</p></li>
+<li><p>NSSRequireSafeNegotiation</p></li>
+<li><p>NSSCipherSuite (use global config cipher settings)</p></li>
+<li><p>NSSPassPhraseDialog</p></li>
+<li><p>NSSOCSP*</p></li>
+</ul>
+</section>
+<section id="upgrade">
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">#</a></h2>
+<p>See the design section.</p>
+</section>
+<section id="how-to-use">
+<h2>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">#</a></h2>
+<p>This should be generally invisible to the end-user with the following
+exceptions:</p>
+<ul class="simple">
+<li><p>The case where custom changes have been made to nss.conf. Those
+should be easily portable to ssl.conf in most cases. For those that
+rely on specific mod_nss behavior they will need to re-implement.</p></li>
+<li><p>Users will need to get used to using openssl tools instead of NSS
+tools when managing the Apache certificates. This is going to require
+documentation changes as well. And this is why I want to remove the
+certificates from the database, so users don’t change things here
+expecting it to affect the running server.</p></li>
+</ul>
+</section>
+<section id="test-plan">
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">#</a></h2>
+<p>The following scenarios will need to be tested.</p>
+<p>For each case one can confirm basic functionality with:</p>
+<ul class="simple">
+<li><p>ipactl restart (does Apache start?)</p></li>
+<li><p>ipa user-show admin (do the cert and chain work?)</p></li>
+<li><p>ipa cert-find</p></li>
+<li><p>getcert list -f /etc/pki/tls/certs/httpd.crt (verify that tracking is
+correct)</p></li>
+</ul>
+<p>TBD: Add sample of a properly tracked mod_ssl cert</p>
+</section>
+<section id="new-installations">
+<h2>New installations<a class="headerlink" href="#new-installations" title="Permalink to this heading">#</a></h2>
+<p>No user-provided options should impact functionality.</p>
+<ul class="simple">
+<li><p>Install CA-ful</p></li>
+<li><p>Install CA-less</p></li>
+</ul>
+</section>
+<section id="upgrades">
+<h2>Upgrades<a class="headerlink" href="#upgrades" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>In-place upgrade from F-26</p></li>
+<li><p>In-place upgrade from F-27</p></li>
+</ul>
+</section>
+<section id="creating-replicas-from-mod-nss-to-mod-ssl-masters">
+<h2>Creating replicas from mod_nss to mod_ssl masters<a class="headerlink" href="#creating-replicas-from-mod-nss-to-mod-ssl-masters" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Create replica from DL0 master</p>
+<ul>
+<li><p>3.0</p></li>
+<li><p>4.4</p></li>
+<li><p>4.5</p></li>
+</ul>
+</li>
+<li><p>Create replica from DL1 master</p>
+<ul>
+<li><p>4.5</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="replacing-certificates">
+<h2>Replacing certificates<a class="headerlink" href="#replacing-certificates" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use ipa-server-certinstall to replace the Apache cert</p></li>
+</ul>
+</section>
+<section id="renewal">
+<h2>Renewal<a class="headerlink" href="#renewal" title="Permalink to this heading">#</a></h2>
+<p>Move time to near expiration of the PEM-based certificates and force a
+renewal and ensure that:</p>
+<ul class="simple">
+<li><p>The PEM certificate is updated</p></li>
+<li><p>LDAP is updated with the new certificate</p></li>
+<li><p>Apache is restarted</p></li>
+</ul>
+<p>This will need to be done for the new install and upgrade cases.</p>
+</section>
+<section id="kra">
+<h2>KRA<a class="headerlink" href="#kra" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Test basic vault operations (TBD)</p></li>
+<li><p>KRA REST operations</p></li>
+</ul>
+</section>
+<section id="uninstall">
+<h2>Uninstall<a class="headerlink" href="#uninstall" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>ssl.conf is restored</p></li>
+<li><p>nss.conf is restored if previously installed</p></li>
+<li><p>The Apache cert and key are removed</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-install">New install</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrading-an-existing-installation">Upgrading an existing installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-server-certinstall">ipa-server-certinstall</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-and-restore">Backup and Restore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#certmonger">certmonger</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fips">FIPS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-management">Feature Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrade">Upgrade</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use">How to Use</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-plan">Test Plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-installations">New installations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upgrades">Upgrades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-replicas-from-mod-nss-to-mod-ssl-masters">Creating replicas from mod_nss to mod_ssl masters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replacing-certificates">Replacing certificates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#renewal">Renewal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kra">KRA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uninstall">Uninstall</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

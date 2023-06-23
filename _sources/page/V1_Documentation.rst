@@ -26,7 +26,7 @@ v1.2.1
 
 :\*\ `HTML <http://freeipa.org/docs/1.2/Release_Notes/en-US/html/>`__
 
-:\*\ `PDF <Media:Release_Notes.pdf>`__
+:\*\ `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Release_Notes.pdf>`__
 
 Guides
 ======
@@ -41,7 +41,7 @@ Installation and Deployment Guide
 
 :\*\ `HTML <http://freeipa.org/docs/1.2/Installation_Deployment_Guide/en-US/html>`__
 
-:\*\ `PDF <Media:Installation_and_Deployment_Guide.pdf>`__
+:\*\ `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Installation_and_Deployment_Guide.pdf>`__
 
 
 
@@ -54,7 +54,7 @@ Client Configuration Guide
 
 :\*\ `HTML <http://freeipa.org/docs/1.2/Client_Setup_Guide/en-US/html/>`__
 
-:\*\ `PDF <Media:Client_Configuration_Guide.pdf>`__
+:\*\ `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Client_Configuration_Guide.pdf>`__
 
 
 
@@ -66,7 +66,7 @@ Administration Guide
 
 :\*\ `HTML <http://freeipa.org/docs/1.2/Administration_Guide/en-US/html/>`__
 
-:\*\ `PDF <Media:Administration_Guide.pdf>`__
+:\*\ `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Administration_Guide.pdf>`__
 
 
 
@@ -78,7 +78,7 @@ User Guide
 
 :\*\ `HTML <http://freeipa.org/docs/1.2/User_Guide/en-US/html/>`__
 
-:\*\ `PDF <Media:User_Guide.pdf>`__
+:\*\ `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/User_Guide.pdf>`__
 
 References
 ==========
@@ -95,7 +95,7 @@ Administrator's Reference
 
 :\*\ `HTML <http://freeipa.org/docs/1.2/Administrators_Reference/en-US/html/>`__
 
-:\*\ `PDF <Media:Administration_Reference.pdf>`__
+:\*\ `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Administration_Reference.pdf>`__
 
 
 

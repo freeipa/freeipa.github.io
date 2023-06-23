@@ -154,16 +154,16 @@ Current the proof of concept project contains:
 Dashboards
 ^^^^^^^^^^
 
--  `User Logins <Media:Rek-user-logins.png>`__: User login attempts and
+-  `User Logins <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Rek-user-logins.png>`__: User login attempts and
    their results across FreeIPA domain, most-logged-to hosts
 -  `IPA Server
-   Administration <Media:Rek-ipa-server-administration.png>`__:
+   Administration <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Rek-ipa-server-administration.png>`__:
    Administrative API usage on the FreeIPA servers
--  `IPA Server Utilization <Media:Rek-ipa-server-utilization.png>`__:
+-  `IPA Server Utilization <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Rek-ipa-server-utilization.png>`__:
    Kerberos/LDAP protocol utilization across FreeIPA servers
--  `IPA Server Health <Media:Rek-ipa-server-health.png>`__: Replication
+-  `IPA Server Health <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Rek-ipa-server-health.png>`__: Replication
    errors, server SSSD errors
--  `SSSD <Media:Rek-sssd.png>`__: selected client SSSD errors (dashboard
+-  `SSSD <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Rek-sssd.png>`__: selected client SSSD errors (dashboard
    still in progress)
 
 

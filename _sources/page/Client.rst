@@ -66,14 +66,14 @@ server. The services mostly use SSSD so that they can also benefit from
    ``ipa-client-automount`` which can be run after
    ``ipa-client-install``.
 -  **SSH**: server can keep SSH public keys (`training
-   material <Media:Freeipa30_SSH_Public_Keys.odp>`__) that are than used
+   material <https://github.com/freeipa/freeipa.github.io/raw/main/src/page/Freeipa30_SSH_Public_Keys.odp>`__) that are than used
    by both ``sshd`` and ``ssh``. The integration is configured
    automatically with ``ipa-client-install``, unless limited with
    ``--no-ssh``/``--no-sshd``. DNS SSHFP records for the host are
    automatically created by ``ipa-client-install``, unless run with
    ``--no-dns-sshfp``.
 -  **SUDO**: server can provide centralized *sudoers* to all clients
-   (`training material <Media:Freeipa30_SSSD_SUDO_Integration.pdf>`__.
+   (`training material <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSSD_SUDO_Integration.pdf>`__.
    The feature needs to be configured manually in FreeIPA clients older
    than 4.0 (`related
    ticket <https://fedorahosted.org/freeipa/ticket/3358>`__). Since
@@ -82,5 +82,5 @@ server. The services mostly use SSSD so that they can also benefit from
 -  **SELinux user map**: server can keep policies to assign different
    SELinux user roles to users, based on their group or host group (see
    `SELinux user mapping <SELinux_user_mapping>`__ article or `training
-   material <Media:Freeipa30_SELinuxUserMap.pdf>`__). The feature is
+   material <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SELinuxUserMap.pdf>`__). The feature is
    configure automatically with ``ipa-client-install``

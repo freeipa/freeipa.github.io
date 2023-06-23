@@ -18,7 +18,7 @@ Feedback is expected to be sent either to:
 
 Before we dive into particular scenarios we offer you presentation about
 `FreeIPA troubleshooting
-principles <media:FreeIPA_Architecture_and_Troubleshooting.odp>`__.
+principles <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA_Architecture_and_Troubleshooting.odp>`__.
 
 
 

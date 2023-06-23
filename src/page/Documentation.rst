@@ -175,8 +175,8 @@ FreeIPA Training Series
 FreeIPA 4.5
 -----------
 
--  `FreeIPA CA <Media:freeipa-ca-component.pdf>`__
--  `Introduction to LDAP <Media:freeipa-introduction-to-ldap.pdf>`__
+-  `FreeIPA CA <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa-ca-component.pdf>`__
+-  `Introduction to LDAP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa-introduction-to-ldap.pdf>`__
 
 
 
@@ -188,14 +188,14 @@ FreeIPA 3.3 & SSSD 1.11
 FreeIPA server presentations
 ----------------------------------------------------------------------------------------------
 
--  `FreeIPA 3.3 Trust features <Media:FreeIPA33-trust.pdf>`__
+-  `FreeIPA 3.3 Trust features <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-trust.pdf>`__
 -  `Blending FreeIPA in a Certificate
-   Infrastructure <Media:FreeIPA33-blending-in-a-certificate-infrastructure.pdf>`__
+   Infrastructure <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-blending-in-a-certificate-infrastructure.pdf>`__
 -  `Extending the FreeIPA
-   Server <Media:FreeIPA33-extending-freeipa.pdf>`__
--  `AD Trust for Legacy Clients <Media:FreeIPA33-legacy-clients.pdf>`__
+   Server <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-extending-freeipa.pdf>`__
+-  `AD Trust for Legacy Clients <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-legacy-clients.pdf>`__
 -  `FreeIPA Client and Server Improvements in
-   3.3 <Media:FreeIPA33-server-and-client.pdf>`__
+   3.3 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-server-and-client.pdf>`__
 
 
 
@@ -203,11 +203,11 @@ SSSD client presentations
 ----------------------------------------------------------------------------------------------
 
 -  `SSSD Active Directory Improvements in
-   1.11 <Media:FreeIPA33-sssd-1-11-ad-improvements.pdf>`__
+   1.11 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-sssd-1-11-ad-improvements.pdf>`__
 -  `SSSD AD Provider: Access
-   Control <Media:FreeIPA33-sssd-access-control.pdf>`__
+   Control <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-sssd-access-control.pdf>`__
 -  `SSSD DNS Improvements in AD
-   Environment <Media:FreeIPA33-sssd-dns-ad.pdf>`__
+   Environment <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA33-sssd-dns-ad.pdf>`__
 
 
 
@@ -219,40 +219,40 @@ FreeIPA 3.0 & SSSD 1.9.2
 FreeIPA server presentations
 ----------------------------------------------------------------------------------------------
 
--  `FreeIPA Trust Basics <Media:Freeipa30_Trust_Basics.pdf>`__
-   (`ODP <Media:Freeipa30_Trust_Basics.odp>`__)
+-  `FreeIPA Trust Basics <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_Trust_Basics.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/raw/main/src/page/Freeipa30_Trust_Basics.odp>`__)
 -  `FreeIPA Server/Client Core
-   Changes <Media:Freeipa30_client_server.pdf>`__
-   (`ODP <Media:Freeipa30_client_server.odp>`__)
--  `SSH Public Keys Feature <Media:Freeipa30_SSH_Public_Keys.pdf>`__
-   (`ODP <Media:Freeipa30_SSH_Public_Keys.odp>`__)
--  `SELinux User Maps Feature <Media:Freeipa30_SELinuxUserMap.pdf>`__
-   (`ODP <Media:Freeipa30_SELinuxUserMap.odp>`__)
+   Changes <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_client_server.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_client_server.odp>`__)
+-  `SSH Public Keys Feature <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSH_Public_Keys.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSH_Public_Keys.odp>`__)
+-  `SELinux User Maps Feature <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SELinuxUserMap.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SELinuxUserMap.odp>`__)
 -  `DNS Persistent Search
-   Feature <Media:Freeipa30_DNS_persistent_search.pdf>`__
-   (`ODP <Media:Freeipa30_DNS_persistent_search.odp>`__)
--  `DNS Zone Transfers <Media:Freeipa30_DNS_zone_transfers.pdf>`__
-   (`ODP <Media:Freeipa30_DNS_zone_transfers.odp>`__)
+   Feature <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_DNS_persistent_search.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_DNS_persistent_search.odp>`__)
+-  `DNS Zone Transfers <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_DNS_zone_transfers.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_DNS_zone_transfers.odp>`__)
 
 
 
 SSSD client presentations
 ----------------------------------------------------------------------------------------------
 
--  `SSSD AD Provider Feature <Media:Freeipa30_sssd-ad-provider.pdf>`__
-   (`ODP <Media:Freeipa30_sssd-ad-provider.odp>`__)
+-  `SSSD AD Provider Feature <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_sssd-ad-provider.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_sssd-ad-provider.odp>`__)
 -  `SSSD AutoFS
-   Integration <Media:Freeipa30_sssd-autofs-integration.pdf>`__
-   (`ODP <Media:Freeipa30_sssd-autofs-integration.odp>`__)
+   Integration <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_sssd-autofs-integration.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_sssd-autofs-integration.odp>`__)
 -  `SSSD OpenSSH
-   Integration <Media:Freeipa30_SSSD_OpenSSH_integration.pdf>`__
-   (`ODP <Media:Freeipa30_SSSD_OpenSSH_integration.odp>`__)
+   Integration <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSSD_OpenSSH_integration.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSSD_OpenSSH_integration.odp>`__)
 -  `SSSD Pre-Seeding Users for First
-   Boot <Media:Freeipa30_sssd-preseed-users.pdf>`__
-   (`ODP <Media:Freeipa30_sssd-preseed-users.odp>`__)
+   Boot <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_sssd-preseed-users.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_sssd-preseed-users.odp>`__)
 -  `SSSD SUDO Integration
-   Feature <Media:Freeipa30_SSSD_SUDO_Integration.pdf>`__
-   (`ODP <Media:Freeipa30_SSSD_SUDO_Integration.odp>`__)
+   Feature <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSSD_SUDO_Integration.pdf>`__
+   (`ODP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa30_SSSD_SUDO_Integration.odp>`__)
 
 
 
@@ -267,29 +267,29 @@ presented on various public conferences.
    (talk on youtube)
 -  `SnowCamp.io <http://snowcamp.io/fr/previous-editions/>`__:
    `Authentication using One-Time Password Token and Smart
-   Card <media:snowcampio_2FA.pdf>`__
+   Card <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/snowcampio_2FA.pdf>`__
 -  FreeIPA presentation at `NYLUG's
    meetup <http://www.meetup.com/nylug-meetings/events/218903375/>`__ in
    January 2014:
-   `PDF <media:Identity_And_Directories_with_FreeIPA.pdf>`__
+   `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Identity_And_Directories_with_FreeIPA.pdf>`__
 -  `Devconf 2013 <http://www.devconf.cz>`__: `Integrating Linux systems
    into Active Directory
-   Environment <media:Devconf2013-linux-ad-integration-options.pdf>`__
+   Environment <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Devconf2013-linux-ad-integration-options.pdf>`__
    (`talk on youtube <http://www.youtube.com/watch?v=cS6EJ1L7fRI>`__)
 -  `FOSDEM 2013 <https://fosdem.org/2013/>`__ Idm Presentation slides in
-   `PDF <media:FOSDEM-Building-IDM.pdf>`__ format
+   `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FOSDEM-Building-IDM.pdf>`__ format
 -  `DjangoCon Europe 2013 - Django + Kerberos
    authentication <http://www.roguelynn.com/circus/>`__ with
    `slides <https://speakerdeck.com/roguelynn/introduce-django-to-your-old-friends>`__
    and `video <http://www.youtube.com/watch?v=oerxTvMn-uM>`__ available.
 -  `LinuxAlt 2012 <http://www.linuxalt.cz>`__: `Introducing
-   FreeIPA <Media:Mkosek-linuxalt2012.pdf>`__
+   FreeIPA <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Mkosek-linuxalt2012.pdf>`__
 -  `LinuxCon
    2012 <http://events.linuxfoundation.org/events/linuxcon-europe>`__:
    `FreeIPA hands-on workshop
-   session <Media:Linuxcon-ipa-hands-on.pdf>`__
+   session <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Linuxcon-ipa-hands-on.pdf>`__
 -  `Red Hat Summit 2011 <http://www.redhat.com/summit/2011>`__: `FreeIPA
    presentation <http://www.redhat.com/summit/2011/presentations/summit/whats_next/friday/pal_crittenden_f_1100_ipa_overview_rev3.pdf>`__
 -  `FOSDEM 2009 <https://archive.fosdem.org/2009/>`__: FreeIPA
-   presentation - `PDF <media:FreeIPA-FOSDEM.pdf>`__, `OO.org
+   presentation - `PDF <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/FreeIPA-FOSDEM.pdf>`__, `OO.org
    3.0.1 <http://simo.fedorapeople.org/freeipa/FreeIPA-FOSDEM.odp>`__

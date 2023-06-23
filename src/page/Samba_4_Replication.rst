@@ -116,7 +116,7 @@ agreements.
 
    % yum install perl-LDAP
 
-Download `mmr.pl <Media:mmr.txt>`__ script to configure MMR:
+Download `mmr.pl <https://wiki.samba.org/images/f/f4/Mmr.txt>`__ script to configure MMR:
 
 ::
 

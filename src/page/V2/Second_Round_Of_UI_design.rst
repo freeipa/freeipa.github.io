@@ -13,14 +13,14 @@ Skeletons
 
 PDF files of the skeletons and site map:
 
--  `July 16, 2010 <Media:IPA_July_16.pdf>`__
--  `July 7, 2010 <Media:July_7.pdf>`__
--  `July 1, 2010 <Media:July_1_IPA_skeletons.pdf>`__
+-  `July 16, 2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/IPA_July_16.pdf>`__
+-  `July 7, 2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/July_7.pdf>`__
+-  `July 1, 2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/July_1_IPA_skeletons.pdf>`__
 -  `IPA HBAC skeletons from October 14,
-   2010 <Media:IPA_HBAC_skeletons.pdf>`__
+   2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/IPA_HBAC_skeletons.pdf>`__
 -  `IPA HBAC and ACI skeletons from Nov 10,
-   2010 <Media:Action_and_HBAC_and_ACI_3.pdf>`__
--  `IPA Autmount skeletons from Dec, 2010 <Media:IPA_Automount.pdf>`__
+   2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Action_and_HBAC_and_ACI_3.pdf>`__
+-  `IPA Autmount skeletons from Dec, 2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/IPA_Automount.pdf>`__
 
 http://freeipa.org/page/Image:IPA_HBAC_skeletons.pdf
 
@@ -29,8 +29,8 @@ http://freeipa.org/page/Image:IPA_HBAC_skeletons.pdf
 Screen Comps
 ------------
 
--  `Screen 110 <Media:110-16-July.png>`__, July 16, 2010
--  `Screen 112 <Media:112-16-July.png>`__, July 16, 2010
+-  `Screen 110 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/110-16-July.png>`__, July 16, 2010
+-  `Screen 112 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/112-16-July.png>`__, July 16, 2010
 
 Behaviors
 ---------

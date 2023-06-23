@@ -19,7 +19,7 @@ and integrated support on the top.
 
 The search box will be available from anywhere within the entity
 
-`Navigation Enhancements for 2.1 <Media:2.1_Enhancements_v2.pdf>`__
+`Navigation Enhancements for 2.1 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/2.1_Enhancements_v2.pdf>`__
 
 
 

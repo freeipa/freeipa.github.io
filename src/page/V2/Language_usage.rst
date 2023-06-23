@@ -28,7 +28,7 @@ In particular - it is important the the term referring the "containing
 others" and the term referring to "contained by others" be
 linguistically different from each other. The terms "Member" and
 "Membership", for instance, are too similar to provide much
-disambiguation. In the `July 7 <Media:July_7.pdf>`__ set of skeletons, I
+disambiguation. In the `July 7 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/July_7.pdf>`__ set of skeletons, I
 introduced a consistent terminology in which these terms were
 linguistically different. Dmitry pointed out to me yet another cause of
 confusion that my terms added. After some discussion, we came up with a
@@ -54,7 +54,7 @@ Objects:
 -  To delete an object, use \*Delete\*
 
 These terms form the basis of the grammar I used in the `July
-7 <Media:July_7.pdf>`__ skeletons, and commands, help strings, labels,
+7 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/July_7.pdf>`__ skeletons, and commands, help strings, labels,
 and titles are derived from these.
 
 There are several other clues that are designed in as well:

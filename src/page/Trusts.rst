@@ -22,7 +22,7 @@ instead of directly talking to AD.
 
 It dives into various options how to integrate classic POSIX and Active
 Directory worlds together
-(`slides <media:Devconf2013-linux-ad-integration-options.pdf>`__),
+(`slides <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Devconf2013-linux-ad-integration-options.pdf>`__),
 compares them and explains advantages and disadvantages of each:
 
 {{#ev:youtube|cS6EJ1L7fRI}}

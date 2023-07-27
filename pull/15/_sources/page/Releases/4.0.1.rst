@@ -1,0 +1,189 @@
+The FreeIPA team is proud to announce FreeIPA v4.0.1!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The
+builds are available for Fedora 21 or in an unofficial Fedora 20 `COPR
+repository <https://copr.fedoraproject.org/coprs/pviktori/freeipa/>`__.
+
+
+
+Highlights in 4.0.1
+-------------------
+
+Enhancements
+----------------------------------------------------------------------------------------------
+
+-  TOTP watermark support was added. The last token interval is now
+   being added to database and replicated in FreeIPA realm. Note that
+   the number of writes is kept the same as an unnecessary LDAP write
+   was eliminated.
+-  Effective Attributes widget in the Add Permission Web UI page was
+   improved
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+-  ipa-client-install is now again able to join older servers (pre-4.0)
+-  Password migration in migrate-ds command was fixed by enabling
+   nsslapd-allow-hashed-passwords setting by default
+-  ipa-client-install no longer crashes during uninstallation when
+   chronyd service cannot be started
+-  Server installation could hang as no members could be added to
+   "cn=adtrust agents" system account
+-  Web UI login page now distinguishes between OTP users with invalid
+   and expired password and properly shows the Reset password dialog
+-  ipa-server-install and ipa-replica-install now better detects when
+   PKI was configured and is able to properly uninstall it when
+   installation crashed
+
+
+
+Known Issues
+------------
+
+
+
+Excessive logging by 389-ds-base 1.3.2.20
+----------------------------------------------------------------------------------------------
+
+FreeIPA 4.0.1 pulls 389-ds-base 1.3.2.20 as a dependency
+(`updates-testing
+repo <https://admin.fedoraproject.org/updates/FEDORA-2014-8709/389-ds-base-1.3.2.20-1.fc20>`__
+in Fedora 20). However, this version of the Directory Server produces
+following logs for internal write operations:
+
+``[26/Jul/2014:01:28:53 +0200] - Connection is NULL and hence cannot access SLAPI_CONN_ID``
+
+This log is
+`benign <http://www.redhat.com/archives/freeipa-devel/2014-July/msg00388.html>`__,
+Directory Server team tracks the problem in ticket
+`#47834 <https://fedorahosted.org/389/ticket/47834>`__.
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note that if you are doing the upgrade in special environment
+(e.g. FedUp) which does not allow running the LDAP server during upgrade
+process, upgrade scripts need to be run manually after the first boot:
+
+| ``# ipa-ldap-updater --upgrade``
+| ``# ipa-upgradeconfig``
+
+Also note that the performance improvements require an extended set of
+indexes to be configured. RPM update for an IPA server with a excessive
+number of users may require several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks, not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 3.3.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+
+
+Detailed Changelog since 4.0.0
+------------------------------
+
+
+
+David Kupka (2)
+----------------------------------------------------------------------------------------------
+
+-  Fix ipa-client-install --uninstall crash
+-  Always record that pkicreate has been executed.
+
+
+
+Gabe (2)
+----------------------------------------------------------------------------------------------
+
+-  Fix typos in dns.py
+-  Enable debug pid in smb.conf
+
+
+
+Lukáš Slebodník (2)
+----------------------------------------------------------------------------------------------
+
+-  Fix warning: Using uninitialized value ld.
+-  Add missing break
+
+
+
+Martin Košek (2)
+----------------------------------------------------------------------------------------------
+
+-  Allow hashed passwords in DS
+-  Become IPA 4.0.1
+
+
+
+Nathaniel McCallum (4)
+----------------------------------------------------------------------------------------------
+
+-  Fix login password expiration detection with OTP
+-  Update freeipa-server krb5-server dependency to 1.11.5-5
+-  Fix ipa-getkeytab for pre-4.0 servers
+-  Add TOTP watermark support
+
+
+
+Petr Viktorin (3)
+----------------------------------------------------------------------------------------------
+
+-  baseldap: Return empty string when no effective rights are found
+-  ldap2 indirect membership processing: Use global limits if greater
+   than per-query ones
+-  test_xmlrpc: Update tests
+
+
+
+Petr Voborník (14)
+----------------------------------------------------------------------------------------------
+
+-  webui: capitalize labels of undo and undo all buttons
+-  webui: improve usability of attributes widget
+-  webui: add filter to attributes widget
+-  webui: optimize (re)creation of option widget
+-  webui: custom attr in attributes widget
+-  webui: attr widget: get list of possible attrs from
+   ipapermdefaultattr
+-  webui: option_widget_base: sort options
+-  webui: reflect readonly state
+-  webui: fix add of input group class
+-  webui: show managed fields as readonly and not disabled
+-  webui: fix selection of empty value in a select widget
+-  webui: disable ipapermbindruletype if permission in a privilege
+-  webui: fix disabled state of service's PAC type
+-  baseldap: return 'none' attr level right as unicode string
+
+
+
+Tomáš Babej (3)
+----------------------------------------------------------------------------------------------
+
+-  trusts: Validate missing trust secret properly
+-  ipatests: tasks: Fix dns configuration for trusts
+-  trusts: Make cn=adtrust agents sysaccount nestedgroup

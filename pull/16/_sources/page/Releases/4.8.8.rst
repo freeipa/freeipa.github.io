@@ -1,0 +1,120 @@
+The FreeIPA team would like to announce FreeIPA 4.8.8 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+
+
+Highlights in 4.8.8
+-------------------
+
+-  CVE-2020-10747
+
+It was found that if an account with a name corresponding to an account
+local to a system, such as 'root', was created via IPA, such account
+could access any enrolled machine with that identitity and the local
+system privileges. This also bypass the absence of explicit HBAC rules.
+
+Since the account can only be created by user administrators in FreeIPA,
+several changes were done to tighten permissions and prevent creation of
+'root' identity by mistake.
+
+
+
+root principal alias
+----------------------------------------------------------------------------------------------
+
+The principal "root@REALM" is now a Kerberos principal alias for
+"admin". This prevent user with "User Administrator" role or "System:
+Add User" privilege to create an account with "root" principal name.
+
+
+
+Modified user permissions
+----------------------------------------------------------------------------------------------
+
+Several user permissions no longer apply to admin users and filter on
+posixAccount object class. This prevents user managers from modifying
+admin acounts:
+
+-  System: Manage User Certificates
+-  System: Manage User Principals
+-  System: Manage User SSH Public Keys
+-  System: Modify Users
+-  System: Remove Users
+-  System: Unlock user
+
+**System: Unlock User** permission is now restricted because the
+permission also allows a user manager to lock an admin account.
+
+**System: Modify Users** is restricted to prevent user managers from
+changing login shell or notification channels (mail, mobile) of admin
+accounts.
+
+
+
+New user permission
+----------------------------------------------------------------------------------------------
+
+-  System: Change Admin User password
+
+This new permission allows manipulation of admin user password fields.
+By default only the **PassSync Service** privilege is allowed to modify
+admin user password fields.
+
+
+
+Modified group permissions
+----------------------------------------------------------------------------------------------
+
+Group permissions are now restricted as well. Group admins can no longer
+modify the admins group and are limited to groups with object class
+**ipausergroup**.
+
+-  System: Modify Groups
+-  System: Remove Groups
+
+The permission **System: Modify Group Membership** was already limited.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+
+
+Resolved tickets
+----------------
+
+-  `#8326 <https://pagure.io/freeipa/issue/8326>`__ CVE-2020-10747
+
+
+
+Detailed changelog since 4.8.7
+------------------------------
+
+
+
+Alexander Bokovoy (1)
+----------------------------------------------------------------------------------------------
+
+-  Become FreeIPA 4.8.8
+   `commit <https://pagure.io/freeipa/c/86ab7590779b9e25c6a52cf5a785925103d9ee8a>`__
+
+
+
+Christian Heimes (1)
+----------------------------------------------------------------------------------------------
+
+-  Prevent local account takeover
+   `commit <https://pagure.io/freeipa/c/65c2736bd20ffb9d98769e71d905f71d1a4d857e>`__
+   `#8326 <https://pagure.io/freeipa/issue/8326>`__

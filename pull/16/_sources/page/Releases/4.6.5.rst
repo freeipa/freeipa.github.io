@@ -1,0 +1,368 @@
+The FreeIPA team would like to announce FreeIPA 4.6.5 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads.
+
+
+
+Highlights in 4.6.5
+-------------------
+
+Enhancements
+----------------------------------------------------------------------------------------------
+
+-  Honor SRV record priority and weight
+-  Support for the IPAddr SAN type
+-  Added more indices to improve performance
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+FreeIPA 4.6.5 is a stabilization release for the features delivered as a
+part of 4.6.0.
+
+There are more than 18 bug-fixes details of which can be seen in the
+list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+
+
+Resolved tickets
+----------------
+
+-  7883 Cannot install ipa-server on rhel7
+-  7852 pki spawn fails for IPA replica install from RHEL6 IPA master
+-  7803 Missing index on idnsName
+-  7797 SSSD's getservby*() causes performance issues
+-  7796 ipa-replica-install fails migrating CentOS 6 to 7
+-  7792 Missing index on ipaconfigstring
+-  7786 Index accessruletype, hostcategory, ipaenabledflag,
+   ipserviceport, and ipserviceprotocol by default
+-  7777 new prci_definitions memory requirements
+-  7775 IPA Upgrade failed with "unable to convert the attribute
+   u'cACertificate;binary'"
+-  7770 searching for ipa users by certificate fails
+-  7751 add ipaapi user to the list of allowed uids in [ifp] section in
+   sssd configuration
+-  7731 ipa-advise command points to old URL's.
+-  7706 Adding 3rd Party CAs to IPA results in SmartCard preparation
+   script failure
+-  7684 Re-installing replica on the same system displays 'WARNING:
+   cannot check if port 443 is already configured'
+-  7681 ipa server uninstall with -v option displays "IOError: [Errno 9]
+   Bad file descriptor Logged from file ipautil.py, line 442"
+-  7666 ipa-server-install script is failing when using the
+   "--no-dnssec-validation" parameter combined with the "--forwarder"
+-  7659 ipa trust-add fails in FIPS mode.
+-  7644 ipa-server-upgrade displays 'DN: cn=Schema
+   Compatibility,cn=plugins,cn=config does not exists or haven't been
+   updated'
+-  7642 Installation fails: Replica Busy
+
+
+
+Detailed changelog since 4.6.4
+------------------------------
+
+Aleksei Slaikovskii (1):
+
+``     Prevent installation with single label domains``
+
+Alexander Bokovoy (10):
+
+| ``     ipaserver/dcerpc.py: handle indirect topology conflicts``
+| ``     Allow anonymous access to parentID attribute``
+| ``     Move fips_enabled to a common library to share across different plugins``
+| ``     ipasam: do not use RC4 in FIPS mode``
+| ``     ipa-kdb: reduce LDAP operations timeout to 30 seconds``
+| ``     ipa-sidgen: make internal fetch_attr helper really internal``
+| ``     ipaserver/dcerpc: fix exclusion entry with a forest trust domain info returned``
+| ``     make sure IPA_CONFDIR is used to check that client is configured``
+| ``     Processing of server roles should ignore errors.EmptyResult``
+| ``     Update template directory with new variables when upgrading ipa.conf.template``
+
+Anuja More (2):
+
+| ``     Test for ipa-client-install should not use hardcoded admin principal``
+| ``     Test for ipa-replica-install fails with PIN error for CA-less env.``
+
+Armando Neto (11):
+
+| ``     ipaserver config plugin: Increase search records minimum limit``
+| ``     Prevent the creation on users and groups with numeric characters only``
+| ``     ipa-client-install: Update how comments are added by ipachangeconf``
+| ``     ipa-server-install: fix zonemgr argument validator``
+| ``     Fix pylint 2.0 return-related violations``
+| ``     Fix pylint 2.0 conditional-related violations``
+| ``     Fix Pylint 2.0 violations``
+| ``     Disable Pylint 2.0 violations``
+| ``     Fix regression: Handle unicode where str is expected``
+| ``     ui_tests: fix test_config::test_size_limits``
+| ``     Fix certificate type error when exporting to file``
+
+Christian Heimes (67):
+
+| ``     Sort and shuffle SRV record by priority and weight``
+| ``     Increase WSGI process count to 5 on 64bit``
+| ``     Always set ca_host when installing replica``
+| ``     Improve and fix timeout bug in wait_for_entry()``
+| ``     Use common replication wait timeout of 5min``
+| ``     Fix replication races in Dogtag admin code``
+| ``     Use 4 WSGI workers on 64bit systems``
+| ``     Add test case for allow-create-keytab``
+| ``     Require python-ldap with fix for ref counting bug``
+| ``     Use freeipa/ci-ipa-4-6-f27 for PR-CI``
+| ``     Ensure that public cert and CA bundle are readable``
+| ``     Always make ipa.p11-kit world-readable``
+| ``     Make /etc/httpd/alias world readable & executable``
+| ``     Fix permission of public files in upgrader``
+| ``     Catch ACIError instead of invalid credentials``
+| ``     Import ABCs from collections.abc``
+| ``     Query for server role IPA master``
+| ``     Only create DNS SRV records for ready server``
+| ``     Delay enabling services until end of installer``
+| ``     Fix CA topology warning``
+| ``     Fix race condition in get_locations_records()``
+| ``     Auto-retry failed certmonger requests``
+| ``     Wait for client certificates``
+| ``     Tune DS replication settings``
+| ``     Fix DNSSEC install regression``
+| ``     pylint 2.0: node.path is a list``
+| ``     Add tab completion and history to ipa console``
+| ``     Create helper function to upload to temp file``
+| ``     Fix ipa console filename``
+| ``     Handle races in replica config``
+| ``     Teach pylint how our api works``
+| ``     Add pylint ignore to magic config.Env attributes``
+| ``     Fix KRA replica installation from CA master``
+| ``     Rename pytest_plugins to ipatests.pytest_ipa``
+| ``     Fix ipadb_multires resource handling``
+| ``     Don't abuse strncpy() length limitation``
+| ``     has_krbprincipalkey: avoid double free``
+| ``     ipadb_mspac_get_trusted_domains: NULL ptr deref``
+| ``     ipapwd_pre_mod: NULL ptr deref``
+| ``     Allow ipaapi user to access SSSD's info pipe``
+| ``     Copy-paste error in permssions plugin, CID 323649``
+| ``     Fix pytest deprecation warning``
+| ``     pylint 2.2: Fix unnecessary pass statement``
+| ``     pylint: Fix duplicate-string-formatting-argument``
+| ``     pylint: also verify scripts``
+| ``     Address misc pylint issues in CLI scripts``
+| ``     Address pylint violations in lite-server``
+| ``     Address inconsistent-return-statements``
+| ``     Fix Module 'pytest' has no 'config' member``
+| ``     Silence comparison-with-itself in tests``
+| ``     Ignore W504 code style like in travis config``
+| ``     Ignore consider-using-enumerate for now``
+| ``     Address consider-using-in``
+| ``     Fix comparison-with-callable``
+| ``     Fix useless-import-alias``
+| ``     Resolve user/group names in idoverride*-find``
+| ``     Add integration tests for idviews``
+| ``     Add index and container for RFC 2307 IP services``
+| ``     LDAPUpdate: Batch index tasks``
+| ``     Add more LDAP indices``
+| ``     Create reindex task for ipaca DB``
+| ``     Add index on idnsName``
+| ``     Create systemd-user HBAC service and rule``
+| ``     Make conftest compatible with pytest 4.x``
+| ``     Fix systemd-user HBAC rule``
+| ``     Add workaround for slow host/service del``
+| ``     Optimize cert remove case``
+
+Felipe Barreto (1):
+
+``     Fixing tests on TestReplicaManageDel``
+
+Florence Blanc-Renaud (43):
+
+| ``     ipa client uninstall: clean the state store when restoring hostname``
+| ``     PRCI: extend timeouts``
+| ``     Tests: add integration test for password changes by dir mgr``
+| ``     ipa commands: print 'IPA is not configured' when ipa is not setup``
+| ``     Test: test ipa-* commands when IPA is not configured``
+| ``     DS replication settings: fix regression with <3.3 master``
+| ``     uninstall -v: remove Tracebacks``
+| ``     ipautil.run: add test for runas parameter``
+| ``     Fix ipa-replica-install when key not protected by PIN``
+| ``     ipa-server-install: do not perform forwarder validation with --no-dnssec-validation``
+| ``     tests: add test for server install with --no-dnssec-validation``
+| ``     ipa-replica-install: fix pkinit setup``
+| ``     Tests: test successful PKINIT install on replica``
+| ``     ipa-replica-install: properly use the file store``
+| ``     Test: scenario replica install/uninstall should restore nss.conf``
+| ``     ipa-advise: fix script for smart card preparation``
+| ``     Bump requires for pki``
+| ``     Bump requires 389-ds-base``
+| ``     Adapt backport to ipa-4-6 branch``
+| ``     ipa-replica-install --setup-adtrust: check for package ipa-server-trust-ad``
+| ``     ipa-backup: restart services before compressing the backup``
+| ``     ipatest: add functional test for ipa-backup``
+| ``     ipa user-add: add optional objectclass for radius-username``
+| ``     tests: add xmlrpc test for ipa user-add --radius-username``
+| ``     radiusproxy: add permission for reading radius proxy servers``
+| ``     ipatests: add integration test for "Read radius servers" perm``
+| ``     ipa-replica-install: password and admin-password options mutually exclusive``
+| ``     ipatests: add test for ipa-replica-install options``
+| ``     ipatests: fix test_replica_uninstall_deletes_ruvs``
+| ``     ipaldap.py: fix method creating a ldap filter for IPACertificate``
+| ``     ipatests: add xmlrpc test for user|host-find --certificate``
+| ``     ipa upgrade: handle double-encoded certificates``
+| ``     ipatests: add upgrade test for double-encoded cacert``
+| ``     ipatests: fix TestUpgrade::test_double_encoded_cacert``
+| ``     ipatest: add test for ipa-pkinit-manage enable|disable``
+| ``     PKINIT: fix ipa-pkinit-manage enable|disable``
+| ``     replication: check remote ds version before editing attributes``
+| ``     replica installation: add master record only if in managed zone``
+| ``     ipatests: add test for replica in forward zone``
+| ``     tests: fix failure in test_topology_TestTopologyOptions:test_add_remove_segment``
+| ``     CRL generation master: new utility to enable|disable``
+| ``     Test: add new tests for ipa-crlgen-manage``
+| ``     ipa server: prevent uninstallation if the server is CRL master``
+
+Francisco Trivino (1):
+
+``     prci_definitions: update vagrant memory topology requirements``
+
+François Cami (5):
+
+| ``     Add a shared-vault-retrieve test``
+| ``     Add a "Find enabled services" ACI in 20-aci.update so that all users can find IPA servers and services. ACI suggested by Christian Heimes.``
+| ``     pylintrc: ignore R1720 no-else-raise errors``
+| ``     ipatests: add too-restritive mask tests``
+| ``     ipa-{server,replica}-install: add too-restritive mask detection``
+
+Fraser Tweedale (12):
+
+| ``     Fix writing certificate chain to file``
+| ``     ipaldap: avoid invalid modlist when attribute encoding differs``
+| ``     rpc: always read response``
+| ``     certupdate: add commentary about certmonger behaviour``
+| ``     cert-request: restrict IPAddress SAN to host/service principals``
+| ``     cert-request: collect only qualified DNS names for IPAddress validation``
+| ``     cert-request: generalise _san_dnsname_ips for arbitrary cname depth``
+| ``     cert-request: report all unmatched SAN IP addresses``
+| ``     Add tests for cert-request IP address SAN support``
+| ``     cert-request: more specific errors in IP address validation``
+| ``     cert-request: handle missing zone``
+| ``     cert-request: fix py2 unicode/str issues``
+
+Ganna Kaihorodova (1):
+
+``     Add check for occuring traceback during uninstallation ipa master``
+
+Ian Pilcher (1):
+
+``     Allow issuing certificates with IP addresses in subjectAltName``
+
+Kaleemullah Siddiqui (1):
+
+``     Test coverage for multiservers for radius proxy``
+
+Michal Reznik (7):
+
+| ``     ui_tests: fixes for issues with sending key and focus on element``
+| ``     ui_tests: extend test_config.py suite``
+| ``     ipa_tests: test ssh keys login``
+| ``     test: client uninstall fails when installed using non-existing hostname``
+| ``     tests: sssd_ssh fd leaks when user cert converted into SSH key``
+| ``     add strip_cert_header() to tasks.py``
+| ``     bump ci-ipa-4-6-f27 PRCI template``
+
+Mohammad Rizwan Yusuf (6):
+
+| ``     Extended UI test for selfservice permission.``
+| ``     Extended UI test for Certificates``
+| ``     Check if issuer DN is updated after self-signed > external-ca``
+| ``     Check if user permssions and umask 0022 is set when executing ipa-restore``
+| ``     Test if WSGI worker process count is set to 4``
+| ``     Test error when yubikey hardware not present``
+
+Nikhil Dehadrai (1):
+
+``     Test for improved Custodia key distribution``
+
+Oleg Kozlov (1):
+
+``     Remove stale kdc requests info files when upgrading IPA server``
+
+Petr Voborník (1):
+
+``     ipa-advise: update url of cacerdir_rehash tool``
+
+Rob Crittenden (12):
+
+| ``     VERSION.m4: Set back to git snapshot``
+| ``     zanata: update translations for ipa-4-6``
+| ``     Use replace instead of add to set new default ipaSELinuxUserMapOrder``
+| ``     Replace some test case adjectives``
+| ``     Rename test class for testing simple commands, add test``
+| ``     replicainstall: DS SSL replica install pick right certmonger host``
+| ``     Disable message about log in ipa-backup if IPA is not configured``
+| ``     Enable LDAP debug output in client to display TLS errors in join``
+| ``     Update mod_nss cipher list so there is overlap with a 4.x master``
+| ``     Add support for multiple certificates/formats to ipa-cacert-manage``
+| ``     Add tests for ipa-cacert-manage install``
+| ``     Send only the path and not the full URI to httplib.request``
+
+Robbie Harwood (2):
+
+| ``     Clear next field when returnining list elements in queue.c``
+| ``     Add cmocka unit tests for ipa otpd queue code``
+
+Sergey Orlov (1):
+
+``     ipatests: add test for correct modlist when value encoding differs``
+
+Serhii Tsymbaliuk (15):
+
+| ``     Fix hardcoded CSR in test_webui/test_cert.py``
+| ``     Use random IPs and domains in test_webui/test_host.py``
+| ``     Increase request timeout for WebUI tests``
+| ``     Fix test_realmdomains::test_add_single_labeled_domain (Web UI test)``
+| ``     Use random realmdomains in test_webui/test_realmdomains.py``
+| ``     Fix test_user::test_login_without_username (Web UI test)``
+| ``     Fix unpermitted user session in test_selfservice (Web UI test)``
+| ``     Add SAN extension for CSR generation in test_cert (Web UI tests)``
+| ``     Generate CSR for test_host::test_certificates (Web UI test)``
+| ``     Add cookies clearing for all Web UI tests``
+| ``     Remove unnecessary session clearing in some Web UI tests``
+| ``     Increase some timeouts in Web UI tests``
+| ``     Fix UI_driver.has_class exception. Handle situation when element has no class attribute``
+| ``     Change Web UI tests setup flow``
+| ``     Fix "Configured size limit exceeded" warning on Web UI``
+
+Sumit Bose (1):
+
+``     ipa-extdom-exop: add instance counter and limit``
+
+Thierry Bordaz (1):
+
+``     In IPA 4.4 when updating userpassword with ldapmodify does not update krbPasswordExpiration nor krbLastPwdChange``
+
+Thomas Woerner (4):
+
+| ``     ipaserver/plugins/cert.py: Added reason to raise of errors.NotFound``
+| ``     Find orphan automember rules``
+| ``     Fix ressource leak in client/config.c get_config_entry``
+| ``     Fix ressource leak in daemons/ipa-slapi-plugins/ipa-cldap/ipa_cldap_netlogon.c ipa_cldap_netlogon``
+
+Tibor Dudlák (4):
+
+| :literal:`     Do not check deleted files with `make fastlint\``
+| ``     Re-open the ldif file to prevent error message``
+| ``     Add assert to check output of upgrade``
+| ``     Do not set ca_host when --setup-ca is used``

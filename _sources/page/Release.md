@@ -87,17 +87,28 @@ Use script from [FreeIPA release tools](https://github.com/freeipa/freeipa-tools
 Example:
 
 ```
-python release-notes.py 4.5.0 2017-03-14 4.4.4 4.5.0 release-4-4-1..master "FreeIPA 4.5.0" -m  "Freeipa 4.4.3" "FreeIPA 4.4.4"  "FreeIPA 4.5" > release\_notes\_4-5-0 
-```
-```
-python3 release/release-notes.py 4.9.7 2021-08-19 4.9.6 4.9   release-4-9-6..origin/ipa-4-9 "FreeIPA 4.9"  --links --token-file ~/.ipa/pagure.token --repo=/home/USER/src/freeipa-clean/ > release\_notes-4-9-7
+python3 release/release-notes.py 4.9.7 2021-08-19 4.9.6 4.9   release-4-9-6..origin/ipa-4-9 "FreeIPA 4.9"  --links --token-file ~/.ipa/pagure.token  --nomilestones --repo=/home/USER/src/freeipa-clean/ > release\_notes-4-9-7
 ```
 
 Use options _\--links_ to generate wiki format links for wiki as well.
 
 See the TODO in the output. Remove extraneous tickets and fill the Enhancements and Known Issues sections out.
 
-Create a wiki page for the particular release, update missing parts. When {{Release}} template is properly used, the release gets added to [FreeIPA Release category](/web/20221001164305/https://freeipa.org/page/Category:FreeIPA_Release "Category:FreeIPA Release") and listed on the front page and in [Downloads](/web/20221001164305/https://freeipa.org/page/Downloads "Downloads") page.
+The generated release notes are in mediawiki format. You can use pandoc to
+convert them to RST format:
+
+```
+pandoc -f mediawiki -t rst release_notes-o release_notes.rst
+```
+
+Make sure to include a title page as well at the top of the file:
+
+```
+FreeIPA X.Y.Z
+=============
+
+<release notes content>
+```
 
 You can use pandoc to convert the generated release notes to asciidoc format.
 

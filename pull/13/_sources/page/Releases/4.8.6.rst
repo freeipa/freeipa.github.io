@@ -1,0 +1,348 @@
+The FreeIPA team would like to announce FreeIPA 4.8.6 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+
+
+Highlights in 4.8.6
+-------------------
+
+-  5662: ID Views: do not allow custom Views for the masters
+
+      Custom ID views cannot be applied to IPA masters. A check was
+      added to both IPA CLI and Web UI to prevent applying custom ID
+      views to avoid confusion and unintended side-effects.
+
+--------------
+
+-  7181: ipa-replica-prepare fails for 2nd replica when passwordHistory
+   is enabled
+
+      FreeIPA password policy plugin in 389-ds was extended to exempt
+      non-Kerberos LDAP objects from checking Kerberos policy during
+      password changes by the Directory Manager or a password
+      synchronization manager. This issue affected, among others, an
+      integrated CA administrator account during deployment of more than
+      one replica in some cases.
+
+--------------
+
+-  8233: 4.8.5 master Installation error
+
+      On Debian and ALT Linux setup of AJP connector did restart Apache
+      instance before it was configured. The restart wasn't actually
+      needed and thus was removed.
+
+--------------
+
+-  8236: Enforce a check to prevent adding objects from IPA as external
+   members of external groups
+
+      Command 'ipa group-add-member' allowed to specify any user or
+      group for '--external' option. A stricter check is added to verify
+      that a group or user to be added as an external member does not
+      come from IPA domain.
+
+--------------
+
+-  8239: Actualize Bootstrap version
+
+      Bootstrap Javascript framework used by FreeIPA web UI was updated
+      to version 3.4.1.
+
+--------------
+
+-  8241: Build fails on Fedora 30
+
+      SELinux rules for ipa-custodia were merged into FreeIPA SELinux
+      policy. The policy relied on an SELinux interface that is not
+      available in Fedora 30. The logic was changed to allow better
+      portability across SELinux versions.
+
+--------------
+
+Enhancements
+----------------------------------------------------------------------------------------------
+
+
+
+Known Issues
+----------------------------------------------------------------------------------------------
+
+-  8240: KRA install fails if all KRA members are Hidden Replicas
+
+      If the first KRA instance is installed on a hidden replica, more
+      KRA instances cannot be added to the cluster. As a workaround,
+      temporarily make the the hidden replica with the KRA role visible
+      before adding more KRA instances. The previously-hidden replica
+      can be hidden again as soon as ipa-kra-install is complete.
+
+--------------
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+FreeIPA 4.8.6 is a stabilization release for the features delivered as a
+part of 4.8 version series.
+
+There are more than 10 bug-fixes details of which can be seen in the
+list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on Freenode.
+
+
+
+Resolved tickets
+----------------
+
+-  `#5662 <https://pagure.io/freeipa/issue/5662>`__ ID Views: do not
+   allow custom Views for the masters
+-  `#6891 <https://pagure.io/freeipa/issue/6891>`__ Move FreeIPA SELinux
+   policy from system policy to project policy
+-  `#7181 <https://pagure.io/freeipa/issue/7181>`__ ipa-replica-prepare
+   fails for 2nd replica when passwordHistory is enabled
+-  `#7895 <https://pagure.io/freeipa/issue/7895>`__ ipa trust
+   fetch-domains, server parameter ignored
+-  `#8159 <https://pagure.io/freeipa/issue/8159>`__ please migrate to
+   the new Fedora translation platform
+-  `#8193 <https://pagure.io/freeipa/issue/8193>`__ Re-order
+   50-externalmembers.update to be after 80-schema_compat.update
+-  `#8228 <https://pagure.io/freeipa/issue/8228>`__ Nightly failure in
+   backup/restore while calling 'id admin'
+-  `#8233 <https://pagure.io/freeipa/issue/8233>`__ 4.8.5 master
+   Installation error
+-  `#8236 <https://pagure.io/freeipa/issue/8236>`__ Enforce a check to
+   prevent adding objects from IPA as external members of external
+   groups
+-  `#8239 <https://pagure.io/freeipa/issue/8239>`__ Actualize Bootstrap
+   version
+-  `#8240 <https://pagure.io/freeipa/issue/8240>`__ KRA install fails if
+   all KRA members are Hidden Replicas
+-  `#8241 <https://pagure.io/freeipa/issue/8241>`__ Build fails on
+   Fedora 30
+
+
+
+Detailed changelog since 4.8.5
+------------------------------
+
+
+
+Alexander Bokovoy (35)
+----------------------------------------------------------------------------------------------
+
+-  Become FreeIPA 4.8.6
+   `commit <https://pagure.io/freeipa/c/75d04b5e0e5709d98440209f803175242a52d119>`__
+-  ipa-pwd-extop: don't check password policy for non-Kerberos account
+   set by DM or a passsync manager
+   `commit <https://pagure.io/freeipa/c/bcbf64b1bf287d2b0b23bc7ac0cca9e8b789ba4a>`__
+   `#7181 <https://pagure.io/freeipa/issue/7181>`__
+-  ipa-pwd-extop: use SLAPI_BIND_TARGET_SDN
+   `commit <https://pagure.io/freeipa/c/5bae736bc81eaa1167ec64a69a32506dad2ca286>`__
+   `#7181 <https://pagure.io/freeipa/issue/7181>`__
+-  ipatests: test sysaccount password change with a password policy
+   applied
+   `commit <https://pagure.io/freeipa/c/313542e8a125c4904750826ef9eabdead7d874bd>`__
+   `#7181 <https://pagure.io/freeipa/issue/7181>`__
+-  ipatests: allow changing sysaccount passwords as cn=Directory Manager
+   `commit <https://pagure.io/freeipa/c/f4dc10b8caac44f5c2a8edbb4c647e6dcf71c3bd>`__
+   `#7181 <https://pagure.io/freeipa/issue/7181>`__
+-  Fix indentation levels
+   `commit <https://pagure.io/freeipa/c/c62b9e7f6ab0dec54540dc6cd389fe58f8858275>`__
+-  ipatests: always skip additional input for group-add-member
+   --external
+   `commit <https://pagure.io/freeipa/c/74f36e7c2f7f6d17b56e06b5f05205edb8a286d7>`__
+   `#8236 <https://pagure.io/freeipa/issue/8236>`__
+-  po: update Chinese (China) translation
+   `commit <https://pagure.io/freeipa/c/c6adee04068ce946f8c9b8ad5db19721db13c602>`__
+-  po: update Ukrainian translation
+   `commit <https://pagure.io/freeipa/c/855a36b6c093fd21af7cf87524acc5d297692de3>`__
+-  po: update Tajik translation timestamp
+   `commit <https://pagure.io/freeipa/c/3d411cf29f29e1d391ed8f6eb159b88d450a332b>`__
+-  po: update Slovak translation timestamp
+   `commit <https://pagure.io/freeipa/c/3c15e47a7c2212aab0ecdc320093bee2afa0bfdc>`__
+-  po: update Russian translation
+   `commit <https://pagure.io/freeipa/c/db433fbe4e521d08dee2cdc2e65344d8203e03a4>`__
+-  po: update Portuguese (Brazil) translation timestamp
+   `commit <https://pagure.io/freeipa/c/eab195ff3884b482279279326b3a84ced4723b7e>`__
+-  po: update Portuguese translation timestamp
+   `commit <https://pagure.io/freeipa/c/31a9da8efa793d492352f646fc804b902beec088>`__
+-  po: update Polish translation
+   `commit <https://pagure.io/freeipa/c/4e3867fcc49a8d2ff1085e630abd77666a06d838>`__
+-  po: update Punjabi translation timestamp
+   `commit <https://pagure.io/freeipa/c/e4dfb7409bd25dc5bc2cc1e99562f912a98509f8>`__
+-  po: update Dutch translation timestamp
+   `commit <https://pagure.io/freeipa/c/e7945284906998da0a798a1ff15a42dd3fdb96d9>`__
+-  po: update Marathi translation timestamp
+   `commit <https://pagure.io/freeipa/c/28a963eed0f27c214543b02fc34e15182e6fcc04>`__
+-  po: update Kannada translation timestamp
+   `commit <https://pagure.io/freeipa/c/89b048d1408834dde38321ac4f402083ebd30247>`__
+-  po: update Japanese translation timestamp
+   `commit <https://pagure.io/freeipa/c/89dbf88abb108cad7f44f92b4e94e66f21746cd3>`__
+-  po: update Indonesian translation timestamp
+   `commit <https://pagure.io/freeipa/c/124a563eb64d7f9a2190a13e9d68a7b608be2d22>`__
+-  po: update Hungarian translation timestamp
+   `commit <https://pagure.io/freeipa/c/595d5062b9e770a946156f69df2fe522d4745d9e>`__
+-  po: update Hindi translation timestamp
+   `commit <https://pagure.io/freeipa/c/c4dd8b226ae97011bcc0546209f8473fbcd75ab8>`__
+-  po: update French translation
+   `commit <https://pagure.io/freeipa/c/a2ca393d35a1f34b2dbbd54c9c1d24b9f20960f0>`__
+-  po: update Basque translation timestamp
+   `commit <https://pagure.io/freeipa/c/92fb5c5268b8b1b02b7a1d12b9a6417c893a18f1>`__
+-  po: update Spanish translation
+   `commit <https://pagure.io/freeipa/c/7af52df7a8e54afe36649c5436fcfce759111751>`__
+-  po: update English (United Kingdom) translation timestamp
+   `commit <https://pagure.io/freeipa/c/37a1e927a1f123b8b9fdbaf815003cb04726f72c>`__
+-  po: update German translation
+   `commit <https://pagure.io/freeipa/c/0d053d8b1df33f5602ae0e154743f1d1dce2c72d>`__
+-  po: update Czech translation timestamp
+   `commit <https://pagure.io/freeipa/c/c8ba436c0dad467bf12dec4d4f141916d0b3fbbd>`__
+-  po: update Catalan translation timestamp
+   `commit <https://pagure.io/freeipa/c/29e3ade05c8bea23c07ed1a1b5612af01f924d2d>`__
+-  po: update Bengali translation timestamp
+   `commit <https://pagure.io/freeipa/c/16d9556c6f3d19f73256d6698a7659f78961a378>`__
+-  po: update ipa.pot template
+   `commit <https://pagure.io/freeipa/c/e23ba779d3aefd871e348b91e7b0fa003d97c96e>`__
+-  Update translation infrastructure
+   `commit <https://pagure.io/freeipa/c/831f4dd320a93d01df6b06058c3ab618a98c9fd8>`__
+   `#8159 <https://pagure.io/freeipa/issue/8159>`__
+-  Keep ipa.pot translation file in git for weblate
+   `commit <https://pagure.io/freeipa/c/9ff7b4a411d13ca148d2f53603dbcc812d92380a>`__
+   `#8159 <https://pagure.io/freeipa/issue/8159>`__
+-  Prevent adding IPA objects as external members of external groups
+   `commit <https://pagure.io/freeipa/c/127b8d9cf23bf65aa42e6ee9ed8d7f8628bbac19>`__
+   `#8236 <https://pagure.io/freeipa/issue/8236>`__
+
+
+
+Christian Heimes (5)
+----------------------------------------------------------------------------------------------
+
+-  po: fix LINGUAS to use whitespace separation
+   `commit <https://pagure.io/freeipa/c/616ad399c99292542638e9e8f0995873e5c4f311>`__
+   `#8159 <https://pagure.io/freeipa/issue/8159>`__
+-  SELinux: apache_manage_pid_files for F30
+   `commit <https://pagure.io/freeipa/c/f08ced1b25e14f91526c82610a8219ae8ed898a3>`__
+   `#8241 <https://pagure.io/freeipa/issue/8241>`__
+-  Add pytest OpenSSH transport with password
+   `commit <https://pagure.io/freeipa/c/42aa86fadd7a7f2209e05291be9c76a8497998dd>`__
+-  Move freeipa-selinux dependency to freeipa-common
+   `commit <https://pagure.io/freeipa/c/7d525ab4308060435808a311de55a76fb26a28c6>`__
+   `#6891 <https://pagure.io/freeipa/issue/6891>`__
+-  Integrate ipa_custodia policy
+   `commit <https://pagure.io/freeipa/c/04cc0450125e3c9e989c3e769a25ba2f1f336060>`__
+   `#6891 <https://pagure.io/freeipa/issue/6891>`__
+
+
+
+François Cami (1)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: test_replica_promotion.py: test KRA on Hidden Replica
+   `commit <https://pagure.io/freeipa/c/a692212e3bee36fbccba73ed21f7825381eeade4>`__
+   `#8240 <https://pagure.io/freeipa/issue/8240>`__
+
+
+
+Florence Blanc-Renaud (3)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: wait for SSSD to become online in backup/restore tests
+   `commit <https://pagure.io/freeipa/c/ebb3c22ddb998997eb05e7bd4da2157e88b6c8f3>`__
+   `#8228 <https://pagure.io/freeipa/issue/8228>`__
+-  xmlrpc tests: add a test for idview-apply on a master
+   `commit <https://pagure.io/freeipa/c/c37a84628601d369f83546085b7e29be8fe11a59>`__
+   `#5662 <https://pagure.io/freeipa/issue/5662>`__
+-  idviews: prevent applying to a master
+   `commit <https://pagure.io/freeipa/c/7905891341197cb90faf635cf93ce63ae7a7a38b>`__
+   `#5662 <https://pagure.io/freeipa/issue/5662>`__
+
+
+
+Mohammad Rizwan Yusuf (3)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: Skip test using paramiko when FIPS is enabled
+   `commit <https://pagure.io/freeipa/c/45507c1e86b634507fdc21dbb88ea9edd43e4166>`__
+-  Test if schema-compat-entry-attribute is set
+   `commit <https://pagure.io/freeipa/c/3f3fa403a944035cf5531939fe3a2e338da99612>`__
+   `#8193 <https://pagure.io/freeipa/issue/8193>`__
+-  Test if schema-compat-entry-attribute is set
+   `commit <https://pagure.io/freeipa/c/210619a98f0d8a042a181bab5891bdd595aa5351>`__
+   `#8193 <https://pagure.io/freeipa/issue/8193>`__
+
+
+
+Rob Crittenden (4)
+----------------------------------------------------------------------------------------------
+
+-  Test that pwpolicy only applied on Kerberos entries
+   `commit <https://pagure.io/freeipa/c/b34063e700ac4c65b117705bafb0255c26bca060>`__
+-  Add ability to change a user password as the Directory Manager
+   `commit <https://pagure.io/freeipa/c/840671b1cdc508ea86f8412e6423f00b8c3bf809>`__
+-  Don't save password history on non-Kerberos accounts
+   `commit <https://pagure.io/freeipa/c/8b7bb96b327207284c8c0a45cf2979843482cf48>`__
+-  Test that ipa-healthcheck human output translates error strings
+   `commit <https://pagure.io/freeipa/c/7974ac9f8c7969df85f689d94f5b30c18e661daa>`__
+
+
+
+Stanislav Levin (1)
+----------------------------------------------------------------------------------------------
+
+-  pki-proxy: Don't rely on running apache until it's configured
+   `commit <https://pagure.io/freeipa/c/24c6ea3c9f2df757b3d714044c16083716e377ca>`__
+   `#8233 <https://pagure.io/freeipa/issue/8233>`__
+
+
+
+Sergey Orlov (2)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: provide AD admin password when trying to establish trust
+   `commit <https://pagure.io/freeipa/c/814b47e85c87bc3c80c91ebd0aa9085ac06b521e>`__
+   `#7895 <https://pagure.io/freeipa/issue/7895>`__
+-  ipatests: remove test_ordering
+   `commit <https://pagure.io/freeipa/c/0e9b020db201ff5797f0dabff05c3fc16a9bf79a>`__
+
+
+
+Serhii Tsymbaliuk (1)
+----------------------------------------------------------------------------------------------
+
+-  Web UI: Upgrade Bootstrap version 3.3.7 -> 3.4.1
+   `commit <https://pagure.io/freeipa/c/f1855dd51e1544a77f1b4a3d4c90f173c29fbed4>`__
+   `#8239 <https://pagure.io/freeipa/issue/8239>`__
+
+
+
+sumenon (1)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: Added testcase to check logrotate is added for healthcheck
+   tool
+   `commit <https://pagure.io/freeipa/c/7d4687926e9866c378db8075dd7b55b3c40e71a9>`__
+
+
+
+Vit Mojzis (1)
+----------------------------------------------------------------------------------------------
+
+-  selinux: disable ipa_custodia when installing custom policy
+   `commit <https://pagure.io/freeipa/c/f99cfa1443dfa33422eb4a7613d3dd9e921ccacd>`__
+   `#6891 <https://pagure.io/freeipa/issue/6891>`__

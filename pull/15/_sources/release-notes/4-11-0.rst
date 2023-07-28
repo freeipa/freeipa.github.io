@@ -16,51 +16,6 @@ soon.
 Highlights in 4.11.0
 --------------------
 
--  9228: ipa-client-install does not maintain server affinity during
-   installation
-
-      ipa-client-install will use a single server for the duration of
-      the installation process, either one discovered or provided on the
-      command-line. Previously it would use a temporary configuration to
-      do enrollment, then switch to a final one for the remaining
-      operations. This could lead to the installer talking with multiple
-      servers. If the client installer is faster than replication this
-      could lead to errors.
-
---------------
-
--  9237: Show order in sudo rule list in web interface
-
-      In the 'sudo rules' page, the WebUI is now displaying a 'sudo
-      order' column so that the users can easily see which rules
-      override other rules based on their order.
-
---------------
-
--  9258: Do not add TLS CA configuration to ldap.conf anymore
-
-      FreeIPA client installer does not add explicit TLS CA
-      configuration to OpenLDAP's ldap.conf anymore. Since OpenLDAP
-      2.4.45, explicit CA configuration is not required as OpenLDAP uses
-      the default CA store provided by OpenSSL and IPA CA is installed
-      in the default store by the installer already.
-
---------------
-
--  9273: [RFE] Support IPA CA installation on an HSM
-
-      FreeIPA CA can now be deployed with a hardware security module as
-      a CA storage device. Supported use case details can be found in
-      HSM design document:
-      https://freeipa.readthedocs.io/en/ipa-4-10/designs/hsm.html
-
---------------
-
--  9287: [RFE] makeapi should validate the generated API doc vs stored
-   doc
-
---------------
-
 -  9294: Enable the certificate pruning job in PKI
 
       Removing (pruning) expired certificates is supported when Random
@@ -70,55 +25,12 @@ Highlights in 4.11.0
 
 --------------
 
--  9298: [Tracker] Nightly test failure (updates-testing) in
-   test_acme.py::TestACME::test_certbot_certonly_standalone
-
-      With Certbot update to 2.0.0, Certbot defaults to ECDSA
-      certificate private keys for all new certificates. PKI ACME cert
-      profile supports only rsa private keys, meaning that the key type
-      needs to be forced to rsa when requesting an ACME certificate,
-      using certbot --key-type rsa [...]
-
---------------
-
 -  9331: Better handling of the command line and web UI cert search
    and/or list features
 
       cert-find performance was improved dramatically when a large
       number of certificates are returned by changing the method IPA
       uses internally to parse results from the CA.
-
---------------
-
--  9354: Implement resource-based constrained delegation
-
-      FreeIPA provides initial implementation of resource-based
-      constrained delegation (RBCD) for Kerberos services. RBCD and
-      other Kerberos delegation services described in the design
-      document:
-      https://freeipa.readthedocs.io/en/latest/designs/rbcd.html. The
-      initial implementation works for FreeIPA services, work on
-      supporting cross-realm RBCD continues.
-
---------------
-
--  9373: Make sign_authdata() generate extended KDC signature
-
-      FreeIPA KDCs will automatically start requiring two new Kebreros
-      ticket signatures when the whole realm is running on MIT Kerberos
-      1.21 or later. On older MIT Kerberos versions, the lack of the new
-      ticket signature will be tolerated to allow gradual upgrades. More
-      details are available at
-      https://pagure.io/freeipa/c/3f1b373cb2028416e40a26e3dd99b0f4c82525c7.
-      In addition, a 'full PAC' signature type was added to MIT Kerberos
-      1.21. FreeIPA will support the new signature when running against
-      newer MIT Kerberos version. For older versions, please see
-      https://pagure.io/freeipa/c/9cd5f49c74f28dbe070b072b394747a039cef463.
-      This new PAC signature will be required by default by Active
-      Directory in July 2023 for S4U requests, and opt-out will no
-      longer be possible after October 2023. We recommend upgrading to
-      newer versions of FreeIPA-based distributions to avoid
-      interoperability break.
 
 --------------
 
@@ -257,10 +169,6 @@ Resolved tickets
    Infinite redirect loop in the WebUI for user root
 -  `#9227 <https://pagure.io/freeipa/issue/9227>`__ Need test for
    Keycloak Bridge authentication
--  `#9228 <https://pagure.io/freeipa/issue/9228>`__
-   (`rhbz#2148258 <https://bugzilla.redhat.com/show_bug.cgi?id=2148258>`__)
-   ipa-client-install does not maintain server affinity during
-   installation
 -  `#9230 <https://pagure.io/freeipa/issue/9230>`__ build failure
    against gcc < 11
 -  `#9231 <https://pagure.io/freeipa/issue/9231>`__ /run/ipa/ccaches
@@ -269,8 +177,6 @@ Resolved tickets
    import
 -  `#9234 <https://pagure.io/freeipa/issue/9234>`__ [Tracker] Nightly
    failure (f37+) calling sssctl domain-status
--  `#9237 <https://pagure.io/freeipa/issue/9237>`__ Show order in sudo
-   rule list in web interface
 -  `#9238 <https://pagure.io/freeipa/issue/9238>`__ Nightly test failure
    (rawhide) in
    test_ipahealthcheck.py::TestIpaHealthCheck::test_ds_configcheck_passwordstorage
@@ -306,9 +212,6 @@ Resolved tickets
    (`rhbz#2104185 <https://bugzilla.redhat.com/show_bug.cgi?id=2104185>`__)
    Introduction of URI records for kerberos breaks location
    functionality
--  `#9258 <https://pagure.io/freeipa/issue/9258>`__
-   (`rhbz#2094673 <https://bugzilla.redhat.com/show_bug.cgi?id=2094673>`__)
-   Do not add TLS CA configuration to ldap.conf anymore
 -  `#9259 <https://pagure.io/freeipa/issue/9259>`__
    (`rhbz#2144737 <https://bugzilla.redhat.com/show_bug.cgi?id=2144737>`__)
    vault interoperability with older RHEL systems is broken
@@ -349,8 +252,6 @@ Resolved tickets
    (`rhbz#2056009 <https://bugzilla.redhat.com/show_bug.cgi?id=2056009>`__)
    memberManager ACIs aren't allowing group-based manager access due to
    missing upgrade code
--  `#9287 <https://pagure.io/freeipa/issue/9287>`__ [RFE] makeapi should
-   validate the generated API doc vs stored doc
 -  `#9290 <https://pagure.io/freeipa/issue/9290>`__
    (`rhbz#2149889 <https://bugzilla.redhat.com/show_bug.cgi?id=2149889>`__)
    idm:client is missing dependency on krb5-pkinit.
@@ -362,9 +263,6 @@ Resolved tickets
 -  `#9295 <https://pagure.io/freeipa/issue/9295>`__ Nightly test failure
    (sssd) in test_trust.py::TestNonPosixAutoPrivateGroup and
    test_trust.py::TestPosixAutoPrivateGroup
--  `#9298 <https://pagure.io/freeipa/issue/9298>`__ [Tracker] Nightly
-   test failure (updates-testing) in
-   test_acme.py::TestACME::test_certbot_certonly_standalone
 -  `#9299 <https://pagure.io/freeipa/issue/9299>`__ NixOS support for
    freeipa in ipaplatform
 -  `#9306 <https://pagure.io/freeipa/issue/9306>`__
@@ -443,8 +341,6 @@ Resolved tickets
 -  `#9349 <https://pagure.io/freeipa/issue/9349>`__
    (`rhbz#2180914 <https://bugzilla.redhat.com/show_bug.cgi?id=2180914>`__)
    Sequence processing failures for group_add using server context
--  `#9354 <https://pagure.io/freeipa/issue/9354>`__ Implement
-   resource-based constrained delegation
 -  `#9355 <https://pagure.io/freeipa/issue/9355>`__ support python
    cryptography 40.0
 -  `#9358 <https://pagure.io/freeipa/issue/9358>`__
@@ -468,9 +364,6 @@ Resolved tickets
    (`rhbz#2172107 <https://bugzilla.redhat.com/show_bug.cgi?id=2172107>`__)
    'ipa idview-show idviewname' & IPA WebUI takes longer time to return
    the results in RHEL 8.5
--  `#9373 <https://pagure.io/freeipa/issue/9373>`__
-   (`rhbz#2176406 <https://bugzilla.redhat.com/show_bug.cgi?id=2176406>`__)
-   Make sign_authdata() generate extended KDC signature
 -  `#9374 <https://pagure.io/freeipa/issue/9374>`__ freeipa fails to
    build with updates-testing repo on f37 and f38
 -  `#9377 <https://pagure.io/freeipa/issue/9377>`__ test_commands:
@@ -555,30 +448,6 @@ Alexander Bokovoy (28)
    `#9263 <https://pagure.io/freeipa/issue/9263>`__
 -  Change doc theme to 'book'
    `commit <https://pagure.io/freeipa/c/e0c4f83abdbbaaa77707e5d15f91ce2bb0bf9329>`__
--  doc/designs/rbcd.md: document use of S-1-18-\* SIDs
-   `commit <https://pagure.io/freeipa/c/0bf0b2d251c96c7488f82cb8fa77052666068217>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
--  doc/designs/rbcd.md: add usage examples
-   `commit <https://pagure.io/freeipa/c/667b82a87008884ac3c0f30e3ccd5912f92bc8cb>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
--  RBCD: add basic test for RBCD handling
-   `commit <https://pagure.io/freeipa/c/dd5b189a0935586be30b1766b1db2881a3f3f765>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
--  kdb: implement RBCD handling in KDB driver
-   `commit <https://pagure.io/freeipa/c/f78dc0b16332279c16e0b35fbb71f872746b875c>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
--  IPA API changes to support RBCD
-   `commit <https://pagure.io/freeipa/c/4239b77a6db24a3492f2e8ee4d2aea9a7e676272>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
--  doc: add design document for Kerberos constrained delegation
-   `commit <https://pagure.io/freeipa/c/b035ac8eb948d850bd8883f215b91bbc337d2ec9>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
--  test_xmlrpc: adopt to automember plugin message changes in 389-ds
-   `commit <https://pagure.io/freeipa/c/9b777390fbb6d4c683bf7d3e5f74d5443209b1d5>`__
--  Ignore empty modification error in case cifs/.. principal already
-   added
-   `commit <https://pagure.io/freeipa/c/68c113f02b789d5478375adb9927c52fdf1ad2dd>`__
-   `#9354 <https://pagure.io/freeipa/issue/9354>`__
 -  ipalib/x509: Implement abstract method
    Certificate.verify_directly_issued_by
    `commit <https://pagure.io/freeipa/c/3721bca657264a928926706c75ab0d2a7593845f>`__
@@ -600,9 +469,6 @@ Alexander Bokovoy (28)
    group
    `commit <https://pagure.io/freeipa/c/e1fd9ebb7380c206c1cac2d7b40f78b4581fddf5>`__
    `#9286 <https://pagure.io/freeipa/issue/9286>`__
--  ipaclient: do not set TLS CA options in ldap.conf anymore
-   `commit <https://pagure.io/freeipa/c/22022ae2ff8d1767bd50eec098eddb02573ea1ae>`__
-   `#9258 <https://pagure.io/freeipa/issue/9258>`__
 -  Remove empty translation for 'si' which breaks linter
    `commit <https://pagure.io/freeipa/c/76152e0335df2f568a4839688dd5268cf839500a>`__
 -  ipa-otpd: initialize local pointers and handle gcc 10
@@ -647,37 +513,13 @@ Andika Triwidada (1)
 
 .. _antonio_torres_14:
 
-Antonio Torres (14)
+Antonio Torres (3)
 ~~~~~~~~~~~~~~~~~~~
 
 -  Update contributors list
    `commit <https://pagure.io/freeipa/c/479a24f28593da1de9b39f938e60be6bb89b8995>`__
 -  Update translations to FreeIPA master state
    `commit <https://pagure.io/freeipa/c/eec46800d5d288cc4e9481fd0d9025cfdd5ba2f7>`__
--  Extend API documentation
-   `commit <https://pagure.io/freeipa/c/88d8534e49362afb73512b9b97447711169f4df4>`__
--  doc: allow notes on Param API Reference pages
-   `commit <https://pagure.io/freeipa/c/c553e3ceb280acf05064c6ff323d9666a406447f>`__
--  ipaserver: deepcopy objectclasses list from IPA config
-   `commit <https://pagure.io/freeipa/c/05279ef447fbd3b59d47db51824e410728913064>`__
-   `#9349 <https://pagure.io/freeipa/issue/9349>`__
--  API doc: add usage guides for groups, HBAC and sudo rules
-   `commit <https://pagure.io/freeipa/c/a2667b249ee32ccebc95f026126fb5af437a2e90>`__
--  API doc: add note about ipa show-mappings to usage guide
-   `commit <https://pagure.io/freeipa/c/53f7a44c5c0777767b2f1b3801bf3ae0f98d6f43>`__
--  API doc: validate generated reference
-   `commit <https://pagure.io/freeipa/c/f44bde9e269be64d6d5cc1c96d05018854664a24>`__
-   `#9287 <https://pagure.io/freeipa/issue/9287>`__
--  API doc: add basic user management guide
-   `commit <https://pagure.io/freeipa/c/0a4506ba1bbd5fa4a0e0122705eab82cb8fa6ba6>`__
--  Update contributors list
-   `commit <https://pagure.io/freeipa/c/b39d8b9375fceb832942ed7d9fec73fef40fd822>`__
--  Update translations to FreeIPA master state
-   `commit <https://pagure.io/freeipa/c/b928e5da5d5ae5665947e5ca0304b265840beece>`__
--  Add basic API usage guide
-   `commit <https://pagure.io/freeipa/c/4caa5ca5773bd239b27e0b2a4af8e06ba0e1f782>`__
--  doc: generate API Reference
-   `commit <https://pagure.io/freeipa/c/988cb5a5357171e509ae5d346c96216a1c5325a3>`__
 -  Bump to IPA 4.11
    `commit <https://pagure.io/freeipa/c/9819058d730be6ab3b09a1505061d0bc6c3f9210>`__
 
@@ -721,9 +563,6 @@ Carla Martinez (10)
 -  Set 'idnssoaserial' to deprecated
    `commit <https://pagure.io/freeipa/c/c74c701cacc9294150059c512d6b9c9b8c16f46b>`__
    `#9249 <https://pagure.io/freeipa/issue/9249>`__
--  webui: Show 'Sudo order' column
-   `commit <https://pagure.io/freeipa/c/926680ffb2cdd2a0c696cb06f2e3e0bd5405ac2c>`__
-   `#9237 <https://pagure.io/freeipa/issue/9237>`__
 -  Set pkeys in test_selinuxusermap.py::test_misc::delete_record
    `commit <https://pagure.io/freeipa/c/090d4f9e9d1089afb841678da8ca7d79d639df84>`__
    `#9161 <https://pagure.io/freeipa/issue/9161>`__
@@ -996,9 +835,6 @@ Florence Blanc-Renaud (109)
 -  Installer: create RID base before domain object
    `commit <https://pagure.io/freeipa/c/ad05218450876a302f80b3e851d4f7cef931fdb6>`__
    `#9309 <https://pagure.io/freeipa/issue/9309>`__
--  Tests: force key type in ACME tests
-   `commit <https://pagure.io/freeipa/c/36cba23f3f671886f5e7fa310c25a6e500c76e0b>`__
-   `#9298 <https://pagure.io/freeipa/issue/9298>`__
 -  server install: remove error log about missing bkup file
    `commit <https://pagure.io/freeipa/c/97330785ada05f1eee6745e3909a17b62fed9673>`__
    `#9306 <https://pagure.io/freeipa/issue/9306>`__
@@ -1218,7 +1054,7 @@ Jesse Sandberg (1)
 
 .. _julien_rische_4:
 
-Julien Rische (4)
+Julien Rische (3)
 ~~~~~~~~~~~~~~~~~
 
 -  Filter out constrained delegation ACL from KDB entry
@@ -1227,9 +1063,6 @@ Julien Rische (4)
    capabilities
    `commit <https://pagure.io/freeipa/c/3f1b373cb2028416e40a26e3dd99b0f4c82525c7>`__
    `#9371 <https://pagure.io/freeipa/issue/9371>`__
--  kdb: Use krb5_pac_full_sign_compat() when available
-   `commit <https://pagure.io/freeipa/c/9cd5f49c74f28dbe070b072b394747a039cef463>`__
-   `#9373 <https://pagure.io/freeipa/issue/9373>`__
 -  Generate CNAMEs for TXT+URI location krb records
    `commit <https://pagure.io/freeipa/c/673d2b82d0c92b7016c7c6a7062ce42627bcf380>`__
    `#9257 <https://pagure.io/freeipa/issue/9257>`__
@@ -1423,9 +1256,6 @@ Rob Crittenden (31)
 -  Move client certificate request after krb5.conf is created
    `commit <https://pagure.io/freeipa/c/dbec885cb0923de9a396fe8b30f1c54f5d31498e>`__
    `#9246 <https://pagure.io/freeipa/issue/9246>`__
--  Defer creating the final krb5.conf on clients
-   `commit <https://pagure.io/freeipa/c/9d9d925b14dbf627546c51c47f6d4e7827645610>`__
-   `#9228 <https://pagure.io/freeipa/issue/9228>`__
 -  Fix upper bound of password policy grace limit
    `commit <https://pagure.io/freeipa/c/36591995ac45fab0b25c98aa50814bf07a260d46>`__
    `#9243 <https://pagure.io/freeipa/issue/9243>`__

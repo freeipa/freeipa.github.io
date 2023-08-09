@@ -48,4 +48,4 @@ Baseline of the procedure:
 #. Apply for all affected systems
 
 Detailed instructions can be found in `article dedicated to
-migration <Howto/Migration#Migrating_to_different_platform_or_OS>`__.
+migration <Migration#Migrating_to_different_platform_or_OS>`__.

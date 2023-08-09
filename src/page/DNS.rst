@@ -26,7 +26,8 @@ Assumptions
 -  Single-master DNS is error prone, especially for inexperienced
    admins.
 
-Goals
+
+Goals `Category:Goals`_.
 ----------------------------------------------------------------------------------------------
 
 -  Provide an integrated DNS server which can be used to ease FreeIPA
@@ -161,7 +162,7 @@ can be consulted if there are any errors logged by BIND.
 
 If the error is more subtle, BIND configuration (*/etc/named.conf*) can
 be updated to produce a more detailed log. Standard `BIND
-documentation <ftp://ftp.isc.org/isc/bind/cur/9.9/doc/arm/Bv9ARM.ch06.html#id2575001>`__
+documentation <https://bind9.readthedocs.io/en/v9.18.18/reference.html#configuration-file-named-conf>`__
 can be consulted for help.
 
 Most common problems are caused by mis-configuration. Please see
@@ -188,4 +189,4 @@ Additional Documentation
    -  `Maintainability analysis affecting the design
       goals <https://fedorahosted.org/bind-dyndb-ldap/wiki/Maintainability>`__
 
-`Category:Goals <Category:Goals>`__
+:ref:`Category:Goals <Category:Goals>`__

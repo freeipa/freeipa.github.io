@@ -11,61 +11,6 @@ It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
 for Fedora distributions will be available from the official repository
 soon.
 
-FreeIPA 4.11 series introduce support for FIDO2-based passkeys.
-
-Traditional authentication with a password is not considered secure enough by
-many companies or government agencies. Alternate and more secure solutions
-exist, among which the use of passkeys, where the private key is stored on an
-external device and the server only needs to know the public key.
-
-For the purpose of this feature, passkey is a FIDO2 compatible device supported
-by the libfido2 library. For more details, refer to https://fidoalliance.org/fido2/
-
-The goal of this feature is to use a passkey to authenticate a user against IPA.
-FIDO2-based passkeys support is jointly developed by SSSD and IPA:
-
-    - IPA provides the interface to store the user’s public credentials
-    - IPA provides the interface to configure passkey settings
-    - SSSD performs the actual authentication
-
-Support for passkeys expands FreeIPA passwordless experience. It is already
-possible to authenticate FreeIPA users with other hardware-based and
-passwordless authentication mechanisms such as
-
-    - smartcards, using PKCS#11 tokens
-
-    - two-factor authentication with HOTP or TOTP tokens
-
-    - delegating authentication to an external OAuth2 identity provider (IdP) with
-      OAuth2 device authorization flow
-
-    - delegating authentication to an external RADIUS server
-
-Initial implementation only supports physical FIDO2 devices and requires use of
-SSSD 2.9.1 or later version, with passkeys support enabled. At the time of
-FreeIPA 4.11.0 release this version is only available in developing versions of
-Fedora (39/Rawhide), Debian (testing/sid), Ubuntu (Mantic) and several other
-distributions.
-
-Two major missing features in passwordless authentication integration in
-FreeIPA currently are:
-
-  - ability to use only passwordless authentication to enroll hosts to IPA
-
-  - ability to login with passwordless authentication methods to FreeIPA Web UI
-    without using Kerberos
-
-We also expect a nicer integration with graphical environments to happen in future releases.
-
-More details on passkeys integration can be found in the `FreeIPA design page <https://freeipa.readthedocs.io/en/latest/designs/passkeys.html>`__.
-
-At Flock to Fedora 2023 conference we have also presented "Passwordless Fedora"
-talk that shows our progress in this journey for the past decade:
-
-  - `video of the talk <https://www.youtube.com/live/GkYURkrIzx0?feature=share&t=3226>`__
-
-  - `presentation <https://static.sched.com/hosted_files/flock2023/5f/passwordless-fedora-flock.pdf>`__
-
 .. _highlights_in_4.11.0:
 
 Highlights in 4.11.0
@@ -193,6 +138,8 @@ Resolved tickets
    RHEL 8.8 & 9.2 fails to create AD trust with STIG applied
 -  `#9418 <https://pagure.io/freeipa/issue/9418>`__ Typo in "Subordinate
    ID Selfservice User" role
+-  `#9395 <https://pagure.io/freeipa/issue/9395>`__ Search for user by
+   krbPrincipalExpiration not returning results
 
 .. _detailed_changelog_since_4.10.2:
 
@@ -209,7 +156,7 @@ Armando Neto (1)
 
 .. _alexander_bokovoy_36:
 
-Alexander Bokovoy (9)
+Alexander Bokovoy (10)
 ~~~~~~~~~~~~~~~~~~~~~~
 
 -  ipalib/x509.py: Add signature_algorithm_parameters
@@ -234,6 +181,9 @@ Alexander Bokovoy (9)
 -  python 3.12: utcnow function is deprecated
    `commit <https://pagure.io/freeipa/c/09497d2df0fbd4bb5ad798e5c0798a0faa632f11>`__
    `#9425 <https://pagure.io/freeipa/issue/9425>`__
+-  support more DateTime attributes in LDAP searches in IPA API
+   `commit <https://pagure.io/freeipa/c/ef955c90150d7d1df145b16b1f17940769d42f56>`__
+   `#9395 <https://pagure.io/freeipa/issue/9395>`__
 
 
 .. _andika_triwidada_1:

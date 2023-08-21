@@ -1,0 +1,203 @@
+The FreeIPA team would like to announce FreeIPA v4.1.5 bugfix release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The
+builds will be available for Fedora 22.
+
+
+
+Highlights in 4.1.5
+-------------------
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+-  Usage of '--no-ntp' makes sure time sync is not performed at all
+-  Number of issues in DNSSEC key management was fixed.
+
+Enhancements
+----------------------------------------------------------------------------------------------
+
+-  ipa-client-install: New option '--kinit-attempts' enables the host to
+   make multiple attempts to obtain host TGT from master before giving
+   up and aborting client installation.
+-  Improved DNSSEC validation.
+-  Raw anchors can be used as handles in idoverride-\* commands
+
+
+
+Known issues
+----------------------------------------------------------------------------------------------
+
+-  DNSSEC key management can fail after automatic key purging done by
+   OpenDNSSEC.
+
+   -  To prevent this issue, change configuration file
+      '/etc/opendnssec/kasp.xml' and comment out '...' directive. After
+      changing the file, please execute command 'sudo -u ods ods-ksmutil
+      update kasp'.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+
+
+Detailed Changelog since 4.1.4
+------------------------------
+
+
+
+Ales Marecek (1)
+----------------------------------------------------------------------------------------------
+
+-  Ipatests DNS SOA Record Maintenance
+
+
+
+Alexander Bokovoy (3)
+----------------------------------------------------------------------------------------------
+
+-  ipaserver/dcerpc: Ensure LSA pipe has session key before using it
+-  ipa-kdb: use proper memory chunk size when moving sids
+-  ipa-kdb: filter out group membership from MS-PAC for exact SID
+   matches too
+
+
+
+David Kupka (2)
+----------------------------------------------------------------------------------------------
+
+-  Make lint work on Fedora 22.
+-  migration: Use api.env variables.
+
+
+
+Gabe Alford (2)
+----------------------------------------------------------------------------------------------
+
+-  Unsaved changes dialog internally inconsistent
+-  Clear SSSD caches when uninstalling the client
+
+
+
+Jan Cholasta (1)
+----------------------------------------------------------------------------------------------
+
+-  client-install: Fix kinits with non-default Kerberos config file
+
+
+
+Martin Babinsky (8)
+----------------------------------------------------------------------------------------------
+
+-  do not log BINDs to non-existent users as errors
+-  do not install CA on replica during integration test if
+   setup_ca=False
+-  ipautil: new functions kinit_keytab and kinit_password
+-  ipa-client-install: try to get host TGT several times before giving
+   up
+-  Adopted kinit_keytab and kinit_password for kerberos auth
+-  point the users to PKI-related logs when CA configuration fails
+-  suppress errors arising from deleting non-existent files during
+   client uninstall
+-  enable debugging of ntpd during client installation
+
+
+
+Martin Bašti (10)
+----------------------------------------------------------------------------------------------
+
+-  DNSSEC: Do not log into files
+-  DNSSEC CI tests
+-  DNSSEC: FIX Do not re-create kasp.db if already exists
+-  DNSSEC: update OpenDNSSEC KASP configuration
+-  DNSSEC: Improve global forwarders validation
+-  DNSSEC: validate forward zone forwarders
+-  DNSSEC: fix traceback during shutdown phase
+-  FIX: Clear SSSD caches when uninstalling the client
+-  Fix indicies ntUserDomainId, ntUniqueId
+-  Server Upgrade: fix memberUid index
+
+
+
+Nathan Kinder (1)
+----------------------------------------------------------------------------------------------
+
+-  Skip time sync during client install when using --no-ntp
+
+
+
+Nathaniel McCallum (2)
+----------------------------------------------------------------------------------------------
+
+-  Fix a signedness bug in OTP code
+-  Fix OTP token URI generation
+
+
+
+Petr Voborník (1)
+----------------------------------------------------------------------------------------------
+
+-  webui: add mangedby tab to otptoken
+
+
+
+Petr Špaček (10)
+----------------------------------------------------------------------------------------------
+
+-  DNSSEC: Detect zone shadowing with incorrect DNSSEC signatures.
+-  Hide traceback in ipa-dnskeysyncd if kinit failed.
+-  Bump minimal BIND version for CentOS.
+-  DNSSEC: Detect invalid master keys in LDAP.
+-  DNSSEC: Accept ipa-ods-exporter commands from command line.
+-  DNSSEC: ipa-ods-exporter: move zone synchronization into separate
+   function
+-  DNSSEC: log ipa-ods-exporter file lock operations into debug log
+-  DNSSEC: Add ability to trigger full data synchronization to
+   ipa-ods-exporter.
+-  DNSSEC: Improve ipa-ods-exporter log messages with key metadata.
+-  DNSSEC: Store time & date key metadata in UTC.
+
+
+
+Simo Sorce (2)
+----------------------------------------------------------------------------------------------
+
+-  Detect default encsalts kadmin password change
+-  Add compatibility function for older libkrb5
+
+
+
+Sumit Bose (3)
+----------------------------------------------------------------------------------------------
+
+-  ipasam: fix wrong usage of talloc_new()
+-  ipasam: use more restrictive search filter for group lookup
+-  ipasam: fix a use-after-free issue
+
+
+
+Thorsten Scherf (1)
+----------------------------------------------------------------------------------------------
+
+-  Removed recommendation from ipa-adtrust-install
+
+
+
+Tomáš Babej (5)
+----------------------------------------------------------------------------------------------
+
+-  replica-manage: Properly delete nested entries
+-  idviews: Set dcerpc detection flag properly
+-  idviews: Allow users specify the raw anchor directly as identifier
+-  idviews: Remove ID overrides for permanently removed users and groups

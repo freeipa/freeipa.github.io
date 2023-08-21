@@ -154,7 +154,7 @@ ipa-adtrust-install. As a result, in major deployments all of IPA
 masters had to run smbd and winbindd processes. While this is an
 improvement over requirement to run winbindd to every single client as
 with some other solutions, it is still too fragile for production. This
-shortcoming is addressed by `V4/Trust agents <V4/Trust_agents>`__
+shortcoming is addressed by `V4/Trust agents <Trust_agents>`__
 feature design.
 
 

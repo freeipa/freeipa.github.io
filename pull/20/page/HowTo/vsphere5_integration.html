@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Preface &#8212; FreeIPA  documentation</title>
+    <title>vShpere5 integration &#8212; FreeIPA  documentation</title>
   
   
   
@@ -254,7 +254,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Preface</h1>
+    <h1>vShpere5 integration</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -264,17 +264,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Preface</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-components">IPA components</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-tree-modification">LDAP tree modification</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#permission-update">Permission Update</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vsphere-configuration">vSphere Configuration</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#test-cases">Test cases</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#further-notes-due-to-upgrade-from-ipa-3-0-to-3-3">Further notes due to upgrade from IPA 3.0 to 3.3</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#example-outputs-from-ldapsearch-command">Example outputs from ldapsearch command</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preface">Preface</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-components">IPA components</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-tree-modification">LDAP tree modification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permission-update">Permission Update</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vsphere-configuration">vSphere Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-cases">Test cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-notes-due-to-upgrade-from-ipa-3-0-to-3-3">Further notes due to upgrade from IPA 3.0 to 3.3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-outputs-from-ldapsearch-command">Example outputs from ldapsearch command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -285,19 +284,21 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="preface">
-<h1>Preface<a class="headerlink" href="#preface" title="Permalink to this heading">#</a></h1>
+  <section id="vshpere5-integration">
+<h1>vShpere5 integration<a class="headerlink" href="#vshpere5-integration" title="Permalink to this heading">#</a></h1>
+<section id="preface">
+<h2>Preface<a class="headerlink" href="#preface" title="Permalink to this heading">#</a></h2>
 <p>The environment used to write this document is based on pure vSphere 5.1, used in trial mode with vCenter server configured as a virtual appliance.</p>
 <p>NOTE: there is a bug in this version of vSphere regarding configuration of OpenLDAP integration in vSphere WebClient, so that you are unable to change Base DN for groups after its initial configuration. In case you need to modify that field, you have to delete and recreate the whole LDAP definition. The bug is solved in vsphere 5.1 update 1a. If anyone wants to test further integration scenarios and also test with vSPhere 5.5, he/she then can report here and I will crosscheck eventually.</p>
 </section>
 <section id="ipa-components">
-<h1>IPA components<a class="headerlink" href="#ipa-components" title="Permalink to this heading">#</a></h1>
+<h2>IPA components<a class="headerlink" href="#ipa-components" title="Permalink to this heading">#</a></h2>
 <p>To gain interaction of IPA with VMware authentication and authorization system I used the slapi-nis (schema compat) plugin. Initially I tested it on CentOS 6.6 with IPA 3.0.0-42 and slapi-nis-0.40-4 pakages. I was able to get both users and groups enumeration in vSphere client (using _cn=accounts_ for bind definition), but then no authentication of defined users due to inability of IPA 3.0 to do bind on compat tree.</p>
 <p>To get the bind on compat tree support I had to use IPA 3.3 and slapi-nis &gt;= 0.47.5. They are provided for example by CentOS 7 with: ipa-server-3.3.3-28.0.1.el7.centos.3.x86_64 and slapi-nis-0.52-4.el7.x86_64</p>
 <p>So I migrated my IPA test server from CentOS 6.6 to another server in CentOS 7.0, following chapter 6 of this [guide](<a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/upgrading.html">https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/upgrading.html</a>)</p>
 </section>
 <section id="ldap-tree-modification">
-<h1>LDAP tree modification<a class="headerlink" href="#ldap-tree-modification" title="Permalink to this heading">#</a></h1>
+<h2>LDAP tree modification<a class="headerlink" href="#ldap-tree-modification" title="Permalink to this heading">#</a></h2>
 <p>I used two ldif files to adapt schema compat entries for vSphere</p>
 <p>### 1) vsphere_usermod.ldif</p>
 <p>dn: cn=users,cn=Schema Compatibility,cn=plugins,cn=config
@@ -323,13 +324,13 @@ schema-compat-entry-attribute: uniqueMember=%mregsub(“%{member}”,”^(.*)acc
 <p>ldapmodify -x -D “cn=Directory Manager” -f vsphere_groupmod.ldif -W</p>
 </section>
 <section id="permission-update">
-<h1>Permission Update<a class="headerlink" href="#permission-update" title="Permalink to this heading">#</a></h1>
+<h2>Permission Update<a class="headerlink" href="#permission-update" title="Permalink to this heading">#</a></h2>
 <p>With [FreeIPA 4.0](<a class="reference external" href="https://www.freeipa.org/page/Releases/4.0.0">https://www.freeipa.org/page/Releases/4.0.0</a> “Releases/4.0.0”) and later, system permissions need to be updated to allow the new attributes. Run following commands as admin to allow the new sn attribute for compat users and uniqueMember for compat groups:</p>
 <p># ipa permission-mod “System: Read User Compat Tree” –includedattrs sn
 # ipa permission-mod “System: Read Group Compat Tree” –includedattrs uniquemember</p>
 </section>
 <section id="vsphere-configuration">
-<h1>vSphere Configuration<a class="headerlink" href="#vsphere-configuration" title="Permalink to this heading">#</a></h1>
+<h2>vSphere Configuration<a class="headerlink" href="#vsphere-configuration" title="Permalink to this heading">#</a></h2>
 <p>The VMware configuration part has to be managed from within vSphere Web Client under Identity Sources row of</p>
 <dl class="simple">
 <dt>Administration –&gt;</dt><dd><dl class="simple">
@@ -354,7 +355,7 @@ Username: uid=vadmin,cn=users,cn=compat,dc=localdomain,dc=local</p>
 <p>I used the secure protocol with <strong>ldaps://</strong> connection string. I used the file <strong>/etc/ipa/ca.crt</strong> on the IPA server as the certificate to give to vSphere in input; I only needed to copy it to the client where the browser for vSphere Web Client was running and rename it to <strong>ca.cer</strong> without any modification at all. vSphere accepted it without any problem.</p>
 </section>
 <section id="test-cases">
-<h1>Test cases<a class="headerlink" href="#test-cases" title="Permalink to this heading">#</a></h1>
+<h2>Test cases<a class="headerlink" href="#test-cases" title="Permalink to this heading">#</a></h2>
 <p>I successfully executed this set of tests at the moment using both vSphere fat client (5.1 1471691) and vSphere Web Client (Version 5.1.0 Build 869765):</p>
 <ul class="simple">
 <li><p>add gcecchi IPA user at top vcenter server permissions level as a virtual machine user (sample) default role</p></li>
@@ -377,11 +378,11 @@ Username: uid=vadmin,cn=users,cn=compat,dc=localdomain,dc=local</p>
 </figure>
 </section>
 <section id="further-notes-due-to-upgrade-from-ipa-3-0-to-3-3">
-<h1>Further notes due to upgrade from IPA 3.0 to 3.3<a class="headerlink" href="#further-notes-due-to-upgrade-from-ipa-3-0-to-3-3" title="Permalink to this heading">#</a></h1>
+<h2>Further notes due to upgrade from IPA 3.0 to 3.3<a class="headerlink" href="#further-notes-due-to-upgrade-from-ipa-3-0-to-3-3" title="Permalink to this heading">#</a></h2>
 <p>My tests began in CentOS 6.6. I noticed that the IPA groups created when in IPA 3.0 and CentOS 6.6 didn’t get the uniqueMember property for their group members… I didn’t investigate more, but I noticed that instead for the system group “admins” and for newly created groups it was ok. So I recreated the three groups already existing in IPA 3.0. As an alternative, one can think of creating a new group and but inside the old group as a nested group. After my migration from IPA 3.0 to 3.3 it seems I lost dna settings and group addition in IPA failed without explicitly specifying its GID. I solved as described here adding the missing entry <strong>dnaNextRange: 1639600001-1639799999</strong>: [[1]](<a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2014-December/msg00090.html">https://www.redhat.com/archives/freeipa-users/2014-December/msg00090.html</a>)</p>
 </section>
 <section id="example-outputs-from-ldapsearch-command">
-<h1>Example outputs from ldapsearch command<a class="headerlink" href="#example-outputs-from-ldapsearch-command" title="Permalink to this heading">#</a></h1>
+<h2>Example outputs from ldapsearch command<a class="headerlink" href="#example-outputs-from-ldapsearch-command" title="Permalink to this heading">#</a></h2>
 <p>[<a class="reference external" href="mailto:root&#37;&#52;&#48;c7server">root<span>&#64;</span>c7server</a> ]# ldapsearch -x -b “cn=groups,cn=compat,dc=localdomain,dc=local” cn=esxpower
 # extended LDIF
 #
@@ -457,8 +458,9 @@ result: 0 Success</p>
 # numEntries: 1</p>
 </section>
 <section id="author">
-<h1>Author<a class="headerlink" href="#author" title="Permalink to this heading">#</a></h1>
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this heading">#</a></h2>
 <p>Provided by: Gianluca Cecchi</p>
+</section>
 </section>
 
 
@@ -491,17 +493,16 @@ result: 0 Success</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Preface</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-components">IPA components</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-tree-modification">LDAP tree modification</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#permission-update">Permission Update</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vsphere-configuration">vSphere Configuration</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#test-cases">Test cases</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#further-notes-due-to-upgrade-from-ipa-3-0-to-3-3">Further notes due to upgrade from IPA 3.0 to 3.3</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#example-outputs-from-ldapsearch-command">Example outputs from ldapsearch command</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preface">Preface</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ipa-components">IPA components</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-tree-modification">LDAP tree modification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permission-update">Permission Update</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vsphere-configuration">vSphere Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-cases">Test cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-notes-due-to-upgrade-from-ipa-3-0-to-3-3">Further notes due to upgrade from IPA 3.0 to 3.3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-outputs-from-ldapsearch-command">Example outputs from ldapsearch command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

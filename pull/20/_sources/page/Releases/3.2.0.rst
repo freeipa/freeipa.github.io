@@ -1,0 +1,839 @@
+The FreeIPA team is proud to announce FreeIPA v3.2.0.
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The new
+version has also been built for Fedora 19 and is on its way to
+updates-testing.
+
+Many thanks to those that tested our alpha and beta releases and those
+that participated in the Fedora 19 Test day. Several issues were
+uncovered and resolved due to your hard work.
+
+**Important**: please see section *Upgrading* before upgrading the
+packages, a manual procedure is needed for FreeIPA servers with CA
+originally installed with FreeIPA version prior to 3.1.
+
+
+
+Highlights in 3.2.0
+-------------------
+
+
+
+New features for 3.2.0
+----------------------------------------------------------------------------------------------
+
+-  Support installing FreeIPA without an embedded Certificate Authority,
+   with user-provided SSL certificates for the HTTP and Directory
+   servers. [1]
+-  New cert-find command. Search certificates in the Dogtag database
+   based on their serial number, validity or revocation details. This
+   feature is available both as a CLI command and Web UI page. [2]
+-  New trustconfig-show and trustconfig-mod command. Show or modify AD
+   Trust settings generated during AD Trust installation
+   (ipa-adtrust-install) [3]
+-  Multiple FreeIPA servers can now be designated as Domain Controllers
+   for trusts with Active Directory [12]
+-  New realmdomains-show and realmdomains-mod command. Manage list of
+   DNS domains associated with FreeIPA realm (realmdomains sommand).
+   This list is primarily used by AD, which can pull all domains managed
+   by FreeIPA and use that list for routing authentication requests for
+   domains which do not match FreeIPA realm name. [4]
+-  Support trusted domain users in HBAC test command (hbactest command).
+-  Allow filtering incoming trusted domain SIDs per-trust (trust-mod
+   command). [5]
+-  Configurable PAC type for services. Service commands can now
+   configure a set of PAC types (MS-PAC, PAD, no PAC) that are supported
+   and handled for the service.
+-  Faster UI loading. FreeIPA Web UI application is now packaged in
+   minimalized format. FreeIPA web server is now also able to transmit
+   data in compressed format. [6] [7]
+-  UI now accepts confirmation of cancel of its dialogs via keyboard
+   [11]
+-  Client reenrollment. A host that has been recreated can now be
+   reenrolled to FreeIPA server using a backed up host keytab or admin
+   credentials [8]
+-  Service and Host commands now provide options to add or remove
+   selected Kerberos flags [9]
+-  Full system backup and restore [13]
+-  Experimental extensible interface for Web UI [14]
+-  Source hosts have been completely removed from HBAC. They haven't
+   been used by SSSD for quite some time and are being removed to avoid
+   the suggestion that they might actually do something.
+-  Web UI is now capable to translate SIDs to user and group names for
+   external group members
+-  Updated French, Ukranian and Spanish translations.
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+-  Fixed migration from OpenLDAP. FreeIPA is now able to migrate users
+   and groups from OpenLDAP database instances.
+-  Migration process is now also a lot faster and provides more debug
+   output (to httpd error log).
+-  SUDO rules disabled by sudorule-disable command are now removed from
+
+ou=sudoers compat tree without a need to restart 389 Directory Server
+instance.
+
+-  Fixed LDAP schema upgrade when upgrading from a pre-2.2.0 release
+-  Fixed server installation with external CA (--external-ca)
+-  Consolidate on-line help system, show help without need of valid
+   Kerberos credentials (ipa help)
+-  New LDAP plugin (ipa_dns) has been added to add missing idnsSOASerial
+
+attribute for replicas which either do not have integrated DNS service
+enabled to which have disabled SOA serial autoincrement
+
+-  LDAP lockout plugin has been fixed so that lockout policies are
+   applied consistently both for LDAP binds and Kerberos authentication
+-  trust-resolve CLI command added to help resolving SIDs in Web UI to
+   groups and users for external group members [16]
+-  ... and many others stabilization fixes, see Detailed changelog for
+   full details
+
+
+
+Changes in API or CLI------------------
+
+
+
+Dropped --selfsign option
+----------------------------------------------------------------------------------------------
+
+FreeIPA servers prior to 3.2.0 could be installed with --selfsign
+option. This configured the server with a NSS database based Certificate
+Authority with a selfsigned CA certificate and limited certificate
+operation support.
+
+This option was always intended for development or testing purposes only
+and was not intended for use in production. This release drops this
+option and deprecates the functionality. FreeIPA servers installed with
+the --selfsign option will be converted to CA-less. See [15] for more
+information and instructions for manual certificate management.
+
+FreeIPA servers version 3.2.0 and later supports the following 2 flavors
+of certificate management:
+
+-  FreeIPA with pki-ca (dogtag) with either a self-signed certificate or
+   with a certificate signed by external CA (--external-ca option)
+-  FreeIPA with no pki-ca installed with certificates signed and
+   provided by an external CA [1]
+
+
+
+Dropped CSV support
+----------------------------------------------------------------------------------------------
+
+FreeIPA client CLI supported CSV in some arguments so that multiple
+values could be added with just one convenient option:
+
+| ``ipa permission-add some-perm --permissions=read,write --attrs=sn,cn``
+| ``ipa dnsrecord-add example.com --a-rec=10.0.0.1,10.0.0.2``
+
+CSV parsing however introduces great difficulty when trying to include a
+value with an embedded space in it. Escaping these values is not
+intuitive and made it very difficult to add such values. The level of
+effort in working around the CSV problems has come to the point where
+the benefits of it are outweighed by the problems which lead to decision
+to drop CSV support in CLI altogether [10].
+
+There are several ways to workaround lack of CSV:
+
+Provide an argument multiple times on the command-line:
+
+| ``ipa permission-add some-perm --permissions=read --permissions=write --attrs=sn --attrs=cn``
+| ``ipa dnsrecord-add example.com --a-rec=10.0.0.1 --a-rec=10.0.0.2``
+
+Let BASH do the expansion for you:
+
+| ``ipa permission-add some-perm --permissions={read,write} --attrs={sn,cn}``
+| ``ipa dnsrecord-add example.com --a-rec={10.0.0.1,10.0.0.2}``
+
+Upgrading
+---------
+
+
+
+FreeIPA servers with CA installed prior to version 3.1
+----------------------------------------------------------------------------------------------
+
+`Manual upgrade procedure <Howto/Dogtag9ToDogtag10Migration>`__ is
+required for FreeIPA servers installed with version prior to
+`3.1 <IPAv3_310>`__.
+
+
+
+Other FreeIPA servers and clients
+----------------------------------------------------------------------------------------------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Due to changes related to OCSP/CRL URI fix [1], ipa-ca.DOMAIN DNS name
+is automatically converted from a set of CNAMEs to a set of A/AAAA
+records pointing to FreeIPA servers with CA configured.
+
+FreeIPA servers installed with the --selfsign option will be converted
+to CA-less. See the section above titled "Dropped --selfsign option".
+
+Please note, that the referential integrity extension requires an
+extended set of indexes to be configured. RPM update for an IPA server
+with a excessive number of hosts, SUDO or HBAC entries may require
+several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+References
+----------
+
+[1] http://freeipa.org/page/V3/Single_OCSP_and_CRL_in_certs
+
+Documentation
+-------------
+
+-  [1] http://www.freeipa.org/page/V3/CA-less_install
+-  [2] http://www.freeipa.org/page/V3/Cert_find
+-  [3] http://www.freeipa.org/page/V3/Trust_config_command
+-  [4] http://www.freeipa.org/page/V3/Realm_Domains
+-  [5] http://www.freeipa.org/page/V3/Configurable_SID_Blacklists
+-  [6] http://www.freeipa.org/page/V3/WebUI_gzip_compression
+-  [7] http://www.freeipa.org/page/V3/WebUI_build
+-  [8] http://www.freeipa.org/page/V3/Forced_client_re-enrollment
+-  [9] http://www.freeipa.org/page/V3/Kerberos_Flags
+-  [10] http://www.freeipa.org/page/V3/Drop_CSV
+-  [11] http://www.freeipa.org/page/V3/WebUI_keyboard_confirmation
+-  [12] http://www.freeipa.org/page/V3/MultipleTrustServers
+-  [13] http://freeipa.org/page/V3/Backup_and_Restore
+-  [14] http://www.freeipa.org/page/V3/WebUI_extensible_navigation
+-  [15] http://www.freeipa.org/page/V3/Drop_selfsign_functionality
+-  [16] http://www.freeipa.org/page/V3/Trust_resolve_command
+
+
+
+Detailed Changelog since 3.1.0
+------------------------------
+
+Alexander Bokovoy (9):
+
+-  Update plugin to upload CA certificate to LDAP
+-  ipasam: use base scope when fetching domain information about own
+   domain
+-  ipaserver/dcerpc: enforce search_s without schema checks for GC
+   searching
+-  ipa-replica-manage: migrate to single_value after LDAPEntry updates
+-  Process exceptions when talking to Dogtag
+-  ipasam: add enumeration of UPN suffixes based on the realm domains
+-  Enhance ipa-adtrust-install for domains with multiple IPA server
+-  spec: detect Kerberos DAL driver ABI change from installed krb5-devel
+-  Resolve SIDs in Web UI
+
+Ana Krivokapic (24):
+
+-  Raise ValidationError for incorrect subtree option.
+-  Add crond as a default HBAC service
+-  Take into consideration services when deleting replicas
+-  Add list of domains associated to our realm to cn=etc
+-  Improve error messages for external group members
+-  Remove check for alphabetic only characters from domain name
+   validation
+-  Fix internal error for ipa show-mappings
+-  Realm Domains page
+-  Use default NETBIOS name in unattended ipa-adtrust-install
+-  Add mkhomedir option to ipa-server-install and ipa-replica-install
+-  Remove CA cert on client uninstall
+-  Fix output for some CLI commands
+-  Add missing summary message to dnszone_del
+-  Remove HBAC source hosts from web UI
+-  Remove any reference to HBAC source hosts from help
+-  Deprecate HBAC source hosts from CLI
+-  Integrate realmdomains with IPA DNS
+-  Improve help text for HBAC service groups
+-  Do not sort dictionaries in assert_deepequal utility function
+-  Handle missing /etc/ipa in ipa-client-install
+-  Fix the spec file
+-  Do not display an interactive mode message in unattended mode
+-  Add missing permissions to Host Administrators privilege
+-  Always stop dirsrv in 'ipactl stop'
+
+Brian Cook (1):
+
+-  Add DNS Setup Prompt to Install
+
+JR Aquino (1):
+
+-  Allow PKI-CA Replica Installs when CRL exceeds default maxber value
+
+Jakub Hrozek (1):
+
+-  Allow ipa-replica-conncheck and ipa-adtrust-install to read krb5
+   includedir
+
+Jan Cholasta (33):
+
+-  Pylint cleanup.
+-  Drop ipapython.compat.
+-  Add support for RFC 6594 SSHFP DNS records.
+-  Raise ValidationError on invalid CSV values.
+-  Run interactive_prompt callbacks after CSV values are split.
+-  Add custom mapping object for LDAP entry data.
+-  Add make_entry factory method to LDAPConnection.
+-  Remove the Entity class.
+-  Remove the Entry class.
+-  Use the dn attribute of LDAPEntry to set/get DNs of entries.
+-  Preserve case of attribute names in LDAPEntry.
+-  Aggregate IPASimpleLDAPObject in LDAPEntry.
+-  Support attributes with multiple names in LDAPEntry.
+-  Use full DNs in plugin code.
+-  Remove DN normalization from the baseldap plugin.
+-  Remove support for DN normalization from LDAPClient.
+-  Fix remove while iterating in suppress_netgroup_memberof.
+-  Remove disabled entries from sudoers compat tree.
+-  Fix internal error in output_for_cli method of
+   sudorule_{enable,disable}.
+-  Do not fail if schema cannot be retrieved from LDAP server.
+-  Allow disabling LDAP schema retrieval in LDAPClient and IPAdmin.
+-  Allow disabling attribute decoding in LDAPClient and IPAdmin.
+-  Disable schema retrieval and attribute decoding when talking to AD
+   GC.
+-  Add Kerberos ticket flags management to service and host plugins.
+-  Do actually stop pki_cad in stop_pkicad instead of starting it.
+-  Use only one URL for OCSP and CRL in IPA certificate profile.
+-  Use A/AAAA records instead of CNAME records in ipa-ca.
+-  Delete DNS records in ipa-ca on ipa-csreplica-manage del.
+-  Use correct zone when removing DNS records of a master.
+-  Add DNS records for existing masters when installing DNS for the
+   first time.
+-  Add ipa-ca records for existing CA masters when installing DNS for
+   the first time.
+-  Add support for OpenSSH 6.2.
+-  Fix normalization of FQDNs in DNS installer code.
+
+John Dennis (2):
+
+-  Cookie Expires date should be locale insensitive
+-  Use secure method to acquire IPA CA certificate
+
+Lynn Root (3):
+
+-  Added the ability to do Beta versioning
+-  Fixed the catch of the hostname option during ipa-server-install
+-  Raise ValidationError when CSR does not have a subject hostname
+
+Martin Kosek (65):
+
+-  Add Lynn Root to Contributors.txt
+-  Enable SSSD on client install
+-  Fix delegation-find command --group handling
+-  Do not crash when Kerberos SRV record is not found
+-  permission-find no longer crashes with --targetgroup
+-  Avoid CRL migration error message
+-  Sort LDAP updates properly
+-  Upgrade process should not crash on named restart
+-  Installer should not connect to 127.0.0.1
+-  Fix migration for openldap DS
+-  Remove unused krbV imports
+-  Use fully qualified CCACHE names
+-  Fix permission_find test error
+-  Add trusconfig-show and trustconfig-mod commands
+-  ipa-kdb: add sentinel for LDAPDerefSpec allocation
+-  ipa-kdb: avoid ENOMEM when all SIDs are filtered out
+-  ipa-kdb: reinitialize LDAP configuration for known realms
+-  Add SID blacklist attributes
+-  ipa-kdb: read SID blacklist from LDAP
+-  ipa-sam: Fill SID blacklist when trust is added
+-  ipa-adtrust-install should ask for SID generation
+-  Test NetBIOS name clash before creating a trust
+-  Generalize AD GC search
+-  Do not hide SID resolver error in group-add-member
+-  Add support for AD users to hbactest command
+-  Fix hbachelp examples formatting
+-  ipa-kdb: remove memory leaks
+-  ipa-kdb: fix retry logic in ipadb_deref_search
+-  Add autodiscovery section in ipa-client-install man pages
+-  Avoid internal error when user is not Trust admin
+-  Use fixed test domain in realmdomains test
+-  Bump FreeIPA version for development branch
+-  Remove ORDERING for IA5 attributeTypes
+-  Fix includedir directive in krb5.conf template
+-  Use new 389-ds-base cleartext password API
+-  Do not hide idrange-add errors when adding trust
+-  Preserve order of servers in ipa-client-install
+-  Avoid multiple client discovery with fixed server list
+-  Update named.conf parser
+-  Use tkey-gssapi-keytab in named.conf
+-  Do not force named connections on upgrades
+-  ipa-client discovery with anonymous access off
+-  Use temporary CCACHE in ipa-client-install
+-  Improve client install LDAP cert retrieval fallback
+-  Configure ipa_dns DS plugin on install and upgrade
+-  Fix structured DNS record output
+-  Bump selinux-policy requires
+-  Clean spec file for Fedora 19
+-  Remove build warnings
+-  Remove syslog.target from ipa.server
+-  Put pid-file to named.conf
+-  Update mod_wsgi socket directory
+-  Normalize RA agent certificate
+-  Require 389-base-base 1.3.0.5
+-  Change CNAME and DNAME attributes to single valued
+-  Improve CNAME record validation
+-  Improve DNAME record validation
+-  Become 3.2.0 Prerelease 1
+-  Fix trustconfig-mod primary group error
+-  Require new samba and krb5
+-  Add userClass attribute for hosts
+-  Update pki proxy configuration
+-  Do not add ipa-ca records on CA-less installs
+-  Fix ipa-ca DNS name creation
+-  Fix SASL_NOCANON behavior for LDAPI
+
+Nathaniel McCallum (1):
+
+-  Ignore log files from automake tests
+
+Petr Spacek (1):
+
+-  Add 389 DS plugin for special idnsSOASerial attribute handling
+
+Petr Viktorin (113):
+
+-  Sort Options and Outputs in API.txt
+-  Add the CA cert to LDAP after the CA install
+-  Better logging for AdminTool and ipa-ldap-updater
+-  Port ipa-replica-prepare to the admintool framework
+-  Make ipapython.dogtag log requests at debug level, not info
+-  Don't add another nsDS5ReplicaId on updates if one already exists
+-  Improve \`ipa --help\` output
+-  Print help to stderr on error
+-  Store the OptionParser in the API, use it to print unified help
+   messages
+-  Simplify \`ipa help topics\` output
+-  Add command summary to \`ipa COMMAND --help\` output
+-  Mention \`ipa COMMAND --help\` as the preferred way to get command
+   help
+-  Parse command arguments before creating a context
+-  Add tests for the help command & --help options
+-  In topic help text, mention how to get help for commands
+-  Check SSH connection in ipa-replica-conncheck
+-  Use ipauniqueid for the RDN of sudo commands
+-  Prevent a sudo command from being deleted if it is a member of a sudo
+   rule
+-  Update sudocmd ACIs to use targetfilter
+-  Add the version option to all Commands
+-  Add ipalib.messages
+-  Add client capabilities, enable messages
+-  Rename the "messages" Output of the i18n_messages command to "texts"
+-  Fix permission validation and normalization in aci.py
+-  Remove csv_separator and csv_skipspace Param arguments
+-  Drop support for CSV in the CLI client
+-  Update argument docs to reflect dropped CSV support
+-  Update plugin docstrings (topic help) to reflect dropped CSV support
+-  cli: Do interactive prompting after a context is created
+-  Remove some unused imports
+-  Remove unused methods from Entry, Entity, and IPAdmin
+-  Derive Entity class from Entry, and move it to ldapupdate
+-  Use explicit loggers in ldap2 code
+-  Move LDAPEntry to ipaserver.ipaldap and derive Entry from it
+-  Remove connection-creating code from ShemaCache
+-  Move the decision to force schema updates out of IPASimpleLDAPObject
+-  Move SchemaCache and IPASimpleLDAPObject to ipaserver.ipaldap
+-  Start LDAPConnection, a common base for ldap2 and IPAdmin
+-  Make IPAdmin not inherit from IPASimpleLDAPObject
+-  Move schema-related methods to LDAPConnection
+-  Move DN handling methods to LDAPConnection
+-  Move filter making methods to LDAPConnection
+-  Move entry finding methods to LDAPConnection
+-  Remove unused proxydn functionality from IPAdmin
+-  Move entry add, update, remove, rename to LDAPConnection
+-  Implement some of IPAdmin's legacy methods in terms of LDAPConnection
+   methods
+-  Replace setValue by keyword arguments when creating entries
+-  Use update_entry with a single entry in adtrustinstance
+-  Replace entry.getValues() by entry.get()
+-  Replace entry.setValue/setValues by item assignment
+-  Replace add_s and delete_s by their newer equivalents
+-  Change {add,update,delete}_entry to take LDAPEntries
+-  Remove unused imports from ipaserver/install
+-  Remove unused bindcert and bindkey arguments to IPAdmin
+-  Turn the LDAPError handler into a context manager
+-  Remove dbdir, binddn, bindpwd from IPAdmin
+-  Remove IPAdmin.updateEntry calls from fix_replica_agreements
+-  Remove IPAdmin.get_dns_sorted_by_length
+-  Replace IPAdmin.checkTask by replication.wait_for_task
+-  Introduce LDAPEntry.single_value for getting single-valued attributes
+-  Remove special-casing for missing and single-valued attributes in
+   LDAPUpdate._entry_to_entity
+-  Replace entry.getValue by entry.single_value
+-  Replace getList by a get_entries method
+-  Remove toTupleList and attrList from LDAPEntry
+-  Rename LDAPConnection to LDAPClient
+-  Replace addEntry with add_entry
+-  Replace deleteEntry with delete_entry
+-  Fix typo and traceback suppression in replication.py
+-  replace getEntry with get_entry (or get_entries if scope !=
+   SCOPE_BASE)
+-  Inline inactivateEntry in its only caller
+-  Inline waitForEntry in its only caller
+-  Proxy LDAP methods explicitly rather than using \__getattr_\_
+-  Remove search_s and search_ext_s from IPAdmin
+-  Replace IPAdmin.start_tls_s by an \__init_\_ argument
+-  Remove IPAdmin.sasl_interactive_bind_s
+-  Remove IPAdmin.simple_bind_s
+-  Remove IPAdmin.unbind_s(), keep unbind()
+-  Use ldap instead of \_ldap in ipaldap
+-  Do not use global variables in migration.py
+-  Use IPAdmin rather than raw python-ldap in migration.bind
+-  Use IPAdmin rather than raw python-ldap in ipactl
+-  Remove some uses of raw python-ldap
+-  Improve LDAPEntry tests
+-  Fix installing server with external CA
+-  Change DNA magic value to -1 to make UID 999 usable
+-  Move ipaldap to ipapython
+-  Remove ipaserver/ipaldap.py
+-  Use IPAdmin rather than raw python-ldap in ipa-client-install
+-  Use IPAdmin rather than raw python-ldap in migration.py and
+   ipadiscovery.py
+-  Remove unneeded python-ldap imports
+-  Don't download the schema in ipadiscovery
+-  ipa-server-install: Make temporary pin files available for the whole
+   installation
+-  ipa-server-install: Remove the --selfsign option
+-  Remove unused ipapython.certdb.CertDB class
+-  ipaserver.install.certs: Introduce NSSDatabase as a more generic
+   certutil wrapper
+-  Trust CAs from PKCS#12 files even if they don't have Friendly Names
+-  dsinstance, httpinstance: Don't hardcode 'Server-Cert'
+-  Support installing with custom SSL certs, without a CA
+-  Load the CA cert into server NSS databases
+-  Do not call cert-\* commands in host plugin if a RA is not available
+-  ipa-client-install: Do not request host certificate if server is
+   CA-less
+-  Display full command documentation in online help
+-  Remove 'cn' attribute from idnsRecord and idnsZone objectClasses
+-  ipa-server-install: correct help text for --external_{cert,ca}_file
+-  Update translations from Transifex
+-  Uninstall selfsign CA on upgrade
+-  Remove obsolete self-sign references from man pages, docstrings,
+   comments
+-  Drop --selfsign server functionality
+-  Use two digits for each part of NUM_VERSION
+-  Fix syntax of the dc attributeType
+-  Fix syntax errors in schema files
+-  Only require libsss_nss_idmap-python in Fedora 19+
+-  Update translations from Transifex
+
+Petr Vobornik (181):
+
+-  Make confirm_dialog a base class of revoke and restore certificate
+   dialogs
+-  Make confirm_dialog a base class for deleter dialog
+-  Make confirm_dialog a base class for message_dialog
+-  Confirm mixin
+-  Confirm adder dialog by enter
+-  Confirm error dialog by enter
+-  Focus last dialog when some is closed
+-  Confirm association dialogs by enter
+-  Standardize login password reset, user reset password and host set
+   OTP dialogs
+-  Focus first input element after 'Add and Add another'
+-  Enable mod_deflate
+-  Use Uglify.js for JS optimization
+-  Dojo Builder
+-  Config files for builder of FreeIPA UI layer
+-  Minimal Dojo layer
+-  Web UI development environment directory structure and configuration
+-  Web UI Sync development utility
+-  Move of Web UI non AMD dep. libs to libs subdirectory
+-  Move of core Web UI files to AMD directory
+-  Update JavaScript Lint configuration file
+-  AMD config file
+-  Change Web UI sources to simple AMD modules
+-  Updated makefiles to build FreeIPA Web UI layer
+-  Change tests to use AMD loader
+-  Fix BuildRequires: rhino replaced with java-1.7.0-openjdk
+-  Develop.js extended
+-  Allow to specify modules for which builder doesn't raise dependency
+   error
+-  Web UI build profile updated
+-  Combobox keyboard support
+-  Fix dirty state update of editable combobox
+-  Fix handling of no_update flag in Web UI
+-  Web UI: configurable SID blacklists
+-  Web UI:Certificate pages
+-  Web UI:Choose different search option for cert-find
+-  Fixed Web UI build error caused by rhino changes in F19
+-  Nestable checkbox/radio widget
+-  Added Web UI support for service PAC type option: NONE
+-  Web UI: Disable cert functionality if a CA is not available
+-  Add ipakrbokasdelegate option to service and host Web UI pages
+-  Run permission target switch action only for visible widgets
+-  Filter groups by type (POSIX, non-POSIX, external)
+-  Global trust config page
+-  Don't show trusts pages when trust is not configured
+-  Fix regression in group type selection in group adder dialog
+-  Fix: Certificate status is not visible in Service and Host page
+-  jsl update
+-  Update of Dojo build
+-  Basic implementation of registers
+-  i18n - internationalized text provider
+-  Phases - application lifecycle
+-  Config.js
+-  Menu and application controller refactoring
+-  Removed old navigation code
+-  Remove IPA.nav usage, obsolete entity.get_primary_key
+-  Fix nested facet search
+-  Remove IPA.current_entity usage
+-  Set pkeys to add,remove dialog
+-  File dependencies added to Web UI Makefile
+-  Add menu memory
+-  Rename path array from hash to path in hash generation
+-  Fix selection of menu in automember
+-  Fix facet needs_update behavior
+-  Removed incorrect success message when adding of external member
+   failed
+-  Removed entity.get_primary from association facet
+-  get_primary_key function usages removed
+-  DNS menu fixed
+-  Certificates, Realm domains added to navigation
+-  Remove old navigation code in certificates
+-  Fix needs_update on object change
+-  Don't expect key for singleton objects (dnsconfig, config,
+   realmdomains)
+-  Raise only one "set" event on facet.state.set
+-  Fix dirty dialog behavior
+-  Add handling of runtime and shutdown phase. App-init renamed to init.
+-  Fix unit tests
+-  Web UI plugin loader
+-  Fix hbactest styles
+-  Menu proxy
+-  Proper removal of dns menu item when dns is not installed
+-  Fixed errors in DNS pages
+-  Fix in state change handling and reporting
+-  Fix tab switching for nested entities
+-  Fix add/deletion of automember rule - caused by not setting facet for
+   entity adder dialog
+-  Use dojo/on instead of dojo/topic for facet-xxx events'
+-  Rename alternation phase to customization
+-  Replace id usage in App widget by class
+-  Add phase on exact position
+-  Metadata and text providers
+-  Limit Provider reporting
+-  Use text.get for transforming values supplied by spec
+-  Replace IPA.get_message with text.get
+-  Replace IPA.messages with @i18n definition in spec objects
+-  Replace IPA.messages with @i18n definition for label specs
+-  Replace IPA.messages with @i18n definition for add_title specs
+-  Replace IPA.messages with @i18n definition for remove_title specs
+-  Replace IPA.messages with @i18n definition for message specs
+-  Replace IPA.messages with @i18n definition for title specs
+-  Use text.get in IPA.notify_success
+-  Replace remaining IPA.messages with text.get calls
+-  Fix facet section labels
+-  Remove invalid label definition from cert search facet
+-  Replace IPA.get_message with text.get
+-  Remove text.get usage from spec
+-  Add pre and post build operations
+-  Spec modification by diff object
+-  Builder: added pre_ops and post_ops
+-  Modularize group.js
+-  Modularize details.js
+-  Builder: factory,ctor overrides, mass build
+-  Replace old builder by new implementation
+-  Rename build constructor to ctor
+-  Spec utils
+-  Basic build tests
+-  Rename factory to $factory in spec objects
+-  Builder: return null if no spec supplied
+-  Builder: fix overrides names - add $
+-  Builder: fix infinite loop when using spec with circular dependency
+-  Rename factory to $factory in spec objects modifications
+-  Builder: return object when it's already built
+-  Use IPA.object() as a base factory for framework objects
+-  Handle built object in spec
+-  Report phase errors
+-  Builder: allow to use custom factory/ctor when using type
+-  Fix construct registry map reference
+-  Replace IPA.facet_builder with facets.builder
+-  Builder: do not break on expected errors
+-  Builder: remove item from singleton registry
+-  Builder: fix inner array and obj references
+-  Use entities module for entity registration, build and holding
+-  Builder: add set method to Singleton_registry
+-  Builder: build type without prior registration
+-  Phases: warn when adding task for nonexistent phase
+-  Builder: create Construct_registry by default in builder
+-  Builder: global builder and registry
+-  Replace IPA.widget_factories and IPA_field_factories with registry
+-  Builder: allow string spec as spec property instead of type
+-  Replace build logic in widget and field builder by new builder
+-  Registry and builder for formatters
+-  Builder: return null if no spec supplied - fix
+-  Replace formatter creation with definition in specs
+-  Builder and registry for validators
+-  Change widget.build_child interface to the builder's
+-  Builder and registry for actions
+-  Replace usage of action factories with types
+-  Fix incorrect type -> $type conversion
+-  Make facet and entity policies declarative
+-  Make summary conditions declarative
+-  Allow metadata provider format for field metadata declaration
+-  Replace IPA.get_entity_param calls in specs with provider strings
+-  Replace IPA.get_command_option calls in specs with provider strings
+-  Replace IPA.get_command_arg calls in specs with provider strings
+-  Builders: allow pre_ops and post_ops in build overrides
+-  Use builder for entity dialogs
+-  Builder: allow registration without factory or ctor
+-  Fix hbactest after rebase
+-  Fix trustconfig after rebase
+-  Entity registry and builder which allow definition by spec
+-  Entity: allow definition of facet_groups in entity specs
+-  Builder: handle expected errors in post_ops
+-  Entity build: test for enabled in post_op
+-  Convert definitions of entities to spec objects
+-  Replace IPA.metadata.objects... with declarative definitions
+-  Remove cert menu item when disabled
+-  Don't automatically refresh facet after action success
+-  Move spec creations of sudorule, hbacrule, netgroup and
+   selinuxusermap details facet from their factories
+-  Removal of IPA.metadata usages
+-  Add widget updated event
+-  Fix rule table add/delete button enablement
+-  Replace ./facets with reg.facet
+-  Remove entities.js, facets.js
+-  Generate plugin index dynamically
+-  Switch customization and registration phase
+-  Do not offer already added members in association dialogs when
+   different casing
+-  Builder: fix join of pre_ops and post_ops arrays
+-  Fix: make association facets in selfservice readonly
+-  Builder: Singleton_registry: return null when construction spec not
+   available
+-  Navigation: handle invalid routes
+-  Fix trustconfig specification
+-  Fix WebUI crash when server installed as CA-less
+-  Fix crash on ssh key add
+-  Fix crash on host deleletion
+-  Enable standalone facets in menu.add_item
+
+Rob Crittenden (29):
+
+-  Convert uniqueMember members into DN objects.
+-  Add Ana Krivokapic to Contributors.txt
+-  Do SSL CA verification and hostname validation.
+-  Don't initialize NSS if we don't have to, clean up unused cert refs
+-  Update anonymous access ACI to protect secret attributes.
+-  Make certmonger a (pre) requires on server, restart it before
+   upgrading
+-  Use new certmonger locking to prevent NSS database corruption.
+-  Improve migration performance
+-  Add LDAP server fallback to client installer
+-  Prevent a crash when no entries are successfully migrated.
+-  Implement the cert-find command for the dogtag CA backend.
+-  Add missing v3 schema on upgrades, fix typo in schema.
+-  Don't base64-encode the CA cert when uploading it during an upgrade.
+-  Extend ipa-replica-manage to be able to manage DNA ranges.
+-  Improve some error handling in ipa-replica-manage
+-  Fix lockout of LDAP bind.
+-  Fix two failing tests due to missing krb ticket flags
+-  Full system backup and restore
+-  Apply LDAP update files in blocks of 10, as originally designed.
+-  Revert "Fix permission_find test error"
+-  Become 3.2.0 Beta 1
+-  Handle socket.gethostbyaddr() exceptions when verifying hostnames.
+-  Require version of NSS that properly parses base64-encoded certs
+-  Drop uniqueMember mapping with nss-pam-ldapd.
+-  Add Nathaniel McCallum to Contributors.txt
+-  Handle a 501 in cert-find from dogtag as a "not supported"
+-  Specify the location for the agent PKCS#12 file so we don't have to
+   move it.
+-  Set KRB5CCNAME so httpd s4u2proxy can with with newer krb5-server
+-  Become 3.2.0
+
+Simo Sorce (2):
+
+-  Log info on failure to connect
+-  Upload CA cert in the directory on install
+
+Sumit Bose (21):
+
+-  ipa-kdb: remove unused variable
+-  ipa-kdb: Uninitialized scalar variable in ipadb_reinit_mspac()
+-  ipa-sam: Array compared against 0 in ipasam_set_trusted_domain()
+-  ipa-kdb: Dereference after null check in ipa_kdb_mspac.c
+-  ipa-lockout: Wrong sizeof argument in ipa_lockout.c
+-  ipa-extdom: Double-free in ipa_extdom_common.c
+-  ipa-pwd: Unchecked return value ipapwd_chpwop()
+-  Revert "MS-PAC: Special case NFS services"
+-  Add NFS specific default for authorization data type
+-  ipa-kdb: Read global defaul ipaKrbAuthzData
+-  ipa-kdb: Read ipaKrbAuthzData with other principal data
+-  ipa-kdb: add PAC only if requested
+-  Add unit test for get_authz_data_types()
+-  Mention PAC issue with NFS in service plugin doc
+-  Allow 'nfs:NONE' in global configuration
+-  Add support for cmocka C-Unit Test framework
+-  ipa-pwd-extop: do not use dn until it is really set
+-  Do not lookup up the domain too early if only the SID is known
+-  Do not store SID string in a local buffer
+-  Allow ID-to-SID mappings in the extdom plugin
+-  ipa-kdb: Free talloc autofree context when module is closed
+
+Timo Aaltonen (1):
+
+-  convert the base platform modules into packages
+
+Tomas Babej (27):
+
+-  Relax restriction for leading/trailing whitespaces in \*-find
+   commands
+-  Forbid overlapping rid ranges for the same id range
+-  Fix a typo in ipa-adtrust-install help
+-  Prevent integer overflow when setting krbPasswordExpiration
+-  Add option to specify SID using domain name to idrange-add/mod
+-  Prevent changing protected group's name using --setattr
+-  Use default.conf as flag of IPA client being installed
+-  Make sure appropriate exit status is returned in make-test
+-  Make options checks in idrange-add/mod consistent
+-  Add trusted domain range objectclass when using idrange-mod
+-  Perform secondary rid range overlap check for local ranges only
+-  Add support for re-enrolling hosts using keytab
+-  Make sure uninstall script prompts for reboot as last
+-  Remove implicit Str to DN conversion using \*-attr
+-  Enforce exact SID match when adding or modifying a ID range
+-  Allow host re-enrollment using delegation
+-  Add logging to join command
+-  Properly handle ipa-replica-install when its zone is not managed by
+   IPA
+-  Add nfs:NONE to default PAC types only when needed
+-  Update only selected attributes for winsync agreement
+-  Add hint message about --force-join option when enrollment fails
+-  Avoid removing sss from nssswitch.conf during client uninstall
+-  Allow underscore in record targets
+-  Make gecos field editable in Web UI
+-  Preserve already configured options in openldap conf
+-  Enforce host existence only where needed in ipa-replica-manage
+-  Handle connection timeout in ipa-replica-manage

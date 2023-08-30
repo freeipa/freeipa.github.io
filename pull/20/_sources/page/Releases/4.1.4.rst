@@ -1,0 +1,201 @@
+The FreeIPA team would like to announce FreeIPA v4.1.4 security release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The
+builds will be available for Fedora 21. Builds for Fedora 20 are
+available in the official `COPR
+repository <https://copr.fedoraproject.org/coprs/mkosek/freeipa/>`__.
+
+
+
+Highlights in 4.1.4
+-------------------
+
+
+
+Security fixes
+----------------------------------------------------------------------------------------------
+
+-  **CVE-2015-1827** It was discovered that the IPA extdom Directory
+   Server plug-in did not correctly perform memory reallocation when
+   handling user account information. A request for a list of groups for
+   a user that belongs to a large number of groups would cause a
+   Directory Server to crash.
+-  **CVE-2015-0283** Additionally, FreeIPA 4.1.4 requires use of
+   slapi-nis 0.54.2 which includes number of fixes for the
+   CVE-2015-0283:
+
+..
+
+   It was discovered that the slapi-nis Directory Server plug-in did not
+   correctly perform memory reallocation when handling user account
+   information. A request for information about a group with many
+   members, or a request for a user that belongs to a large number of
+   groups, would cause a Directory Server to enter an infinite loop and
+   consume an excessive amount of CPU time.
+
+These issues were discovered by Sumit Bose of Red Hat.
+
+Enhancements
+----------------------------------------------------------------------------------------------
+
+-  Various documentation improvements by Gabe Alford
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+-  Various fixes to DNSSEC support and overall DNS deployment scripts
+-  Improvements in handling CA certificates from previous deployments
+   when installing FreeIPA clients
+-  Licensing of FreeIPA is clarified with regards to OpenSSL integration
+-  More robust configuration of slapi-nis plugin to prevent potential
+   dead-locks with other operations requiring lower-level database
+   access.
+
+Upgrading
+---------
+
+Upgrade instructions are available on `Upgrade <Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+
+
+Detailed Changelog since 4.1.3
+------------------------------
+
+
+
+Alexander Bokovoy (2)
+----------------------------------------------------------------------------------------------
+
+-  fix Makefile.am for daemons
+-  slapi-nis: require 0.54.2 for CVE-2015-0283 fixes
+
+
+
+David Kupka (2)
+----------------------------------------------------------------------------------------------
+
+-  Use IPA CA certificate when available and ignore NO_TLS_LDAP when
+   not.
+-  Restore default.conf and use it to build API.
+
+
+
+Gabe Alford (3)
+----------------------------------------------------------------------------------------------
+
+-  ipa-replica-prepare should document ipv6 options
+-  ipatests: Add tests for valid and invalid ipa-advise
+-  ipa-replica-prepare can only be created on the first master
+
+
+
+Jan Cholasta (4)
+----------------------------------------------------------------------------------------------
+
+-  certstore: Make certificate retrieval more robust
+-  client-install: Do not crash on invalid CA certificate in LDAP
+-  client: Fix ca_is_enabled calls
+-  upload_cacrt: Fix empty cACertificate in cn=CAcert
+
+
+
+Martin Babinsky (3)
+----------------------------------------------------------------------------------------------
+
+-  ipa-dns-install: use STARTTLS to connect to DS
+-  migrate-ds: print out failed attempts when no users/groups are
+   migrated
+-  show the exception message thrown by dogtag._parse_ca_status during
+   install
+
+
+
+Martin Bašti (7)
+----------------------------------------------------------------------------------------------
+
+-  DNSSEC add support for CKM_RSA_PKCS_OAEP mechanism
+-  Fix memory leaks in ipap11helper
+-  Remove unused method from ipap11pkcs helper module
+-  DNS fix: do not traceback if unsupported records are in LDAP
+-  DNS fix: do not show part options for unsupported records
+-  DNS: remove NSEC3PARAM from records
+-  Fix dead code in ipap11helper module
+
+
+
+Martin Košek (1)
+----------------------------------------------------------------------------------------------
+
+-  Remove references to GPL v2.0 license
+
+
+
+Nathan Kinder (1)
+----------------------------------------------------------------------------------------------
+
+-  Timeout when performing time sync during client install
+
+
+
+Petr Voborník (2)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: add missing ssh object classes to idoverrideuser
+-  Become IPA 4.1.4
+
+
+
+Petr Špaček (3)
+----------------------------------------------------------------------------------------------
+
+-  p11helper: standardize indentation and other visual aspects of the
+   code
+-  p11helper: use sizeof() instead of magic constants
+-  p11helper: clarify error message
+
+
+
+Simo Sorce (2)
+----------------------------------------------------------------------------------------------
+
+-  Add a clear OpenSSL exception.
+-  Stop including the DES algorythm from openssl.
+
+
+
+Sumit Bose (7)
+----------------------------------------------------------------------------------------------
+
+-  ipa-range-check: do not treat missing objects as error
+-  Add configure check for cwrap libraries
+-  extdom: handle ERANGE return code for getXXYYY_r() calls
+-  extdom: make nss buffer configurable
+-  extdom: return LDAP_NO_SUCH_OBJECT to the client
+-  extdom: fix memory leak
+-  extdom: fix wrong realloc size
+
+
+
+Tomáš Babej (3)
+----------------------------------------------------------------------------------------------
+
+-  ipatests: Add coverage for adding and removing sshpubkeys in ID
+   overrides
+-  ipalib: Make sure correct attribute name is referenced for fax
+-  idviews: Use case-insensitive detection of Default Trust View
+
+
+
+Thierry Bordaz (1)
+----------------------------------------------------------------------------------------------
+
+-  Limit deadlocks between DS plugin DNA and slapi-nis

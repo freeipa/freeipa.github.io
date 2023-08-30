@@ -1,0 +1,283 @@
+The FreeIPA team is proud to announce FreeIPA v3.3.2!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Fedora
+19 builds are already on their way to updates-testing repo.
+
+
+
+Highlights in 3.3.2
+-------------------
+
+Enhancements
+----------------------------------------------------------------------------------------------
+
+-  Multiple domains from a trusted Active Directory forest supported now
+-  Issue warnings when installed FreeIPA realm differs from the main
+   domain as this setup prevents configuring AD trusts
+-  Allow PKCS#12 files with empty password in install tools
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+-  ipa-replica-manage no longer returns RUV error when removing a
+   replica
+-  ipa-replica-install no longer crashes when being run against a master
+   with older Directory Server
+-  When creating AD trust, report supported enctypes based on Kerberos
+   realm configuration
+-  ... and numerous other small fixes
+
+
+
+Test improvements
+----------------------------------------------------------------------------------------------
+
+-  New tests for forced client re-enrollment feature
+-  Integration tests no longer require python-paramiko and can run on
+   top of bare SSH connection
+-  Numerous small fixes in beakerlib integration
+
+
+
+Supporting Multiple Domains from Trusted Active Directory Forest
+----------------------------------------------------------------
+
+Previously only a root level domain of a trusted AD forest was
+supported. Now all domains of the trusted AD forest can access resources
+in a FreeIPA domain. Free IPA admins are now able to refresh list of
+domains from a trusted AD forest and selectively enable and disable
+specific domains from accessing resources in FreeIPA domain.
+
+Following commands were added to FreeIPA CLI:
+
+-  ``ipa trust-fetch-domains``
+
+   -  Refresh list of domains from a trusted AD forest. By default all
+      found domains belonging to the forest will be allowed to access
+      IPA resources.
+
+-  ``ipa trustdomain-find``\ ``[domain]``
+
+   -  List domains of the trusted AD forest, displaying their
+      attributes. When *domain* is specified in addition to the trust
+      name, only information about *domain* is shown.
+
+-  ``ipa trustdomain-disable``
+
+   -  Disable access from of the to IPA resources.
+
+-  ``ipa trustdomain-enable``
+
+   -  Enable access from of the to IPA resources.
+
+-  ``ipa trustdomain-del``
+
+   -  Remove information about of the from IPA view about the trusted AD
+      forest. Users from will not be able to access IPA resources.
+
+Following IPA commands were extended:
+
+-  ``ipa trust-add``
+
+   -  When trust to an AD forest is established, list of domains of the
+      forest will be fetched and identity ranges for them will be
+      created automatically. In case of POSIX attributes being managed
+      by the AD forest, a single identity range for the trusted forest's
+      root level domain will be re-used.
+   -  When trust to an AD forest is established, list of domains
+      associated with IPA is provided to the DC of the forest root level
+      domain. This information is used to enable name suffix routing for
+      systems belonging to IPA domain. As result, if IPA master servers
+      don't belong to IPA DNS domain namespace, they will be able to
+      access resources in the trusted AD forest.
+
+FreeIPA 3.3.2 requires use of SSSD 1.11.1 due to integration of non-root
+level forest domains support.
+
+Upgrading
+---------
+
+
+
+FreeIPA servers with CA installed prior to version 3.1
+----------------------------------------------------------------------------------------------
+
+Manual upgrade procedure is required for FreeIPA servers installed with
+version prior to 3.1. Please see
+http://www.freeipa.org/page/Howto/Dogtag9ToDogtag10Migration for
+details.
+
+
+
+Other FreeIPA servers and clients
+----------------------------------------------------------------------------------------------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note that if you are doing the upgrade in special environment
+(e.g. FedUp) which does not allow running the LDAP server during upgrade
+process, upgrade scripts need to be run manually after the first boot:
+
+#. ipa-upgradeconfig
+#. ipa-ldap-updater --upgrade
+
+Also note that the performance improvements require an extended set of
+indexes to be configured. RPM update for an IPA server with a excessive
+number of users may require several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks, not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+
+
+Detailed Changelog since 3.3.1
+------------------------------
+
+
+
+Alexander Bokovoy (11):
+----------------------------------------------------------------------------------------------
+
+-  ipa-sam: do not modify objectclass when trust object already created
+-  ipa-sam: do not leak LDAPMessage on ipa-sam initialization
+-  ipa-sam: report supported enctypes based on Kerberos realm
+   configuration
+-  ipaserver/dcerpc.py: populate forest trust information using
+   realmdomains
+-  trusts: support subdomains in a forest
+-  frontend: report arguments errors with better detail
+-  ipaserver/dcerpc: remove use of trust account authentication
+-  trust: integrate subdomains support into trust-add
+-  ipasam: for subdomains pick up defaults for missing values
+-  KDC: implement transition check for trusted domains
+-  ipa-kdb: Handle parent-child relationship for subdomains
+
+
+
+Ana Krivokapic (5):
+----------------------------------------------------------------------------------------------
+
+-  Add integration tests for forced client re-enrollment
+-  Create DS user and group during ipa-restore
+-  Add warning when uninstalling active replica
+-  Do not crash if DS is down during server uninstall
+-  Follow tmpfiles.d packaging guidelines
+
+
+
+Jan Cholasta (3):
+----------------------------------------------------------------------------------------------
+
+-  Fix nsslapdPlugin object class after initial replication.
+-  Read passwords from stdin when importing PKCS#12 files with pk12util.
+-  Allow PKCS#12 files with empty password in install tools.
+
+
+
+Martin Kosek (5):
+----------------------------------------------------------------------------------------------
+
+-  Use FQDN when creating MSDCS SRV records
+-  Do not set DNS discovery domain in server mode
+-  Require new SSSD to pull required AD subdomain fixes
+-  Remove faulty DNS memberOf Task
+-  Become IPA 3.3.2
+
+
+
+Nathaniel McCallum (1):
+----------------------------------------------------------------------------------------------
+
+-  Ensure credentials structure is initialized
+
+
+
+Petr Spacek (1):
+----------------------------------------------------------------------------------------------
+
+-  Add timestamps to named debug logs in /var/named/data/named.run
+
+
+
+Petr Viktorin (15):
+----------------------------------------------------------------------------------------------
+
+-  Remove \__all_\_ specifications in ipaclient and ipaserver.install
+-  Make make-lint compatible with Pylint 1.0
+-  test_integration.host: Move transport-related functionality to a new
+   module
+-  test_integration: Add OpenSSHTransport, used if paramiko is not
+   available
+-  ipatests.test_integration.test_caless: Fix mkdir_recursive call
+-  ipatests.beakerlib_plugin: Warn instead of failing when some logs are
+   missing
+-  ipatests.order_plugin: Exclude test generators from the order
+-  ipatests.beakerlib_plugin: Add argument of generated tests to test
+   captions
+-  ipatests.test_cmdline.test_help: Re-raise unexpected exceptions on
+   failure
+-  Add tests for installing with empty PKCS#12 password
+-  Update translations from Transifex
+-  ipa-client-install: Use direct RPC instead of api.Command
+-  ipa-client-install: Verify RPC connection with a ping
+-  Do not fail upgrade if the global anonymous read ACI is not found
+-  ipapython.nsslib: Name arguments to NSPRError
+
+
+
+Petr Vobornik (5):
+----------------------------------------------------------------------------------------------
+
+-  Fix RUV search scope in ipa-replica-manage
+-  Fix redirection on deletion of last dns record entry
+-  Allow edit of ipakrbokasdelegate in Web UI when attrlevelrights are
+   unknown
+-  Fix enablement of automount map type selector
+-  ipatests.test_integration.host: Add logging to ldap_connect()
+
+
+
+Simo Sorce (1):
+----------------------------------------------------------------------------------------------
+
+-  Add Delegation Info to MS-PAC
+
+
+
+Sumit Bose (1):
+----------------------------------------------------------------------------------------------
+
+-  CLDAP: do not read IPA domain from hostname
+
+
+
+Tomas Babej (3):
+----------------------------------------------------------------------------------------------
+
+-  Use getent admin@domain for nss check in ipa-client-install
+-  Do not add trust to AD in case of IPA realm-domain mismatch
+-  Warn user about realm-domain mismatch in install scripts

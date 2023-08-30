@@ -65,7 +65,7 @@ Migrating existing FreeIPA deployment
 Upgrading to new FreeIPA release
 ----------------------------------------------------------------------------------------------
 
-See `Upgrade <Upgrade>`__ page.
+See `Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
 
 
 

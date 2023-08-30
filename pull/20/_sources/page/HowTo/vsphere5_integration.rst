@@ -83,8 +83,6 @@ resembled in the image below
 .. figure:: Ipa_3.3_with_centos_7_and_vsphere.png
    :alt: Ipa_3.3_with_centos_7_and_vsphere.png
 
-   Ipa_3.3_with_centos_7_and_vsphere.png
-
 
 Click on _Test Connection_ button to verify parameters are correct.
 
@@ -117,8 +115,6 @@ Here below a screenshot with the permissions applied on the virtual machine VC1
 
 .. figure:: Ipa_and_vsphere.png
    :alt: Ipa_and_vsphere.png
-
-   Ipa_and_vsphere.png
 
 
 Further notes due to upgrade from IPA 3.0 to 3.3

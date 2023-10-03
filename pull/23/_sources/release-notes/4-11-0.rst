@@ -11,12 +11,65 @@ It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
 for Fedora distributions will be available from the official repository
 soon.
 
+FreeIPA 4.11 series introduce support for FIDO2-based passkeys.
+
+Traditional authentication with a password is not considered secure enough by
+many companies or government agencies. Alternate and more secure solutions
+exist, among which the use of passkeys, where the private key is stored on an
+external device and the server only needs to know the public key.
+
+For the purpose of this feature, passkey is a FIDO2 compatible device supported
+by the libfido2 library. For more details, refer to https://fidoalliance.org/fido2/
+
+The goal of this feature is to use a passkey to authenticate a user against IPA.
+FIDO2-based passkeys support is jointly developed by SSSD and IPA:
+
+    - IPA provides the interface to store the user’s public credentials
+    - IPA provides the interface to configure passkey settings
+    - SSSD performs the actual authentication
+
+Support for passkeys expands FreeIPA passwordless experience. It is already
+possible to authenticate FreeIPA users with other hardware-based and
+passwordless authentication mechanisms such as
+
+    - smartcards, using PKCS#11 tokens
+
+    - two-factor authentication with HOTP or TOTP tokens
+
+    - delegating authentication to an external OAuth2 identity provider (IdP) with
+      OAuth2 device authorization flow
+
+    - delegating authentication to an external RADIUS server
+
+Initial implementation only supports physical FIDO2 devices and requires use of
+SSSD 2.9.1 or later version, with passkeys support enabled. At the time of
+FreeIPA 4.11.0 release this version is only available in developing versions of
+Fedora (39/Rawhide), Debian (testing/sid), Ubuntu (Mantic) and several other
+distributions.
+
+Two major missing features in passwordless authentication integration in
+FreeIPA currently are:
+
+  - ability to use only passwordless authentication to enroll hosts to IPA
+
+  - ability to login with passwordless authentication methods to FreeIPA Web UI
+    without using Kerberos
+
+We also expect a nicer integration with graphical environments to happen in future releases.
+
+More details on passkeys integration can be found in the `FreeIPA design page <https://freeipa.readthedocs.io/en/latest/designs/passkeys.html>`__.
+
+At Flock to Fedora 2023 conference we have also presented "Passwordless Fedora"
+talk that shows our progress in this journey for the past decade:
+
+  - `video of the talk <https://www.youtube.com/live/GkYURkrIzx0?feature=share&t=3226>`__
+
+  - `presentation <https://static.sched.com/hosted_files/flock2023/5f/passwordless-fedora-flock.pdf>`__
+
 .. _highlights_in_4.11.0:
 
 Highlights in 4.11.0
 --------------------
-
-**TODO RELEASE NOTES - put release notes (if any) to proper categories**
 
 -  9354: Implement resource-based constrained delegation
 
@@ -30,17 +83,42 @@ Highlights in 4.11.0
 
 --------------
 
-**END TODO**
+-  9443: Context manager for ipalib.api to automatically configure, connect, and disconnect
 
-Enhancements
-~~~~~~~~~~~~
+      `ipalib.API` instances like `ipalib.api` now provide a context manager
+      that connects and disconnects the API object. Users no longer have to
+      deal with different types of backends or finalize the API correctly.
+      
+      ```python
+      import ipalib
+      
+      with ipalib.api as api:
+          api.Commands.ping()
+      ```
 
-.. _known_issues:
+--------------
 
-Known Issues
-~~~~~~~~~~~~
+-  9289:  Configure server affinity during replica installation
 
-.. _bug_fixes:
+--------------
+
+
+-  9326:  Add support for passkey authentication type in kdb driver
+
+--------------
+
+- 9262:  Add "passkey" authentication type
+
+--------------
+
+- 9261:  Add CLI and WebUI to register a passkey for a user
+
+--------------
+
+- 9336:  Allow custom real name in IPA-EPN
+
+--------------
+
 
 Bug fixes
 ~~~~~~~~~
@@ -97,6 +175,10 @@ Resolved tickets
    Nightly test failure for replica installation with --setup-ca
 -  `#9447 <https://pagure.io/freeipa/issue/9447>`__ Nightly test failure
    in test_sso.py
+-  `#9431 <https://pagure.io/freeipa/issue/9431>`__  Covscan issues: 
+   deadcode and Use after free
+-  `#9443 <https://pagure.io/freeipa/issue/9443>`__   Context manager 
+   for ipalib.api to automatically configure, connect, and disconnect
 
 .. _detailed_changelog_since_4.11.0_beta:
 
@@ -142,12 +224,15 @@ Antonio Torres (2)
 
 .. _christian_heimes_1:
 
-Christian Heimes (1)
+Christian Heimes (2)
 ~~~~~~~~~~~~~~~~~~~~
 
 -  Use find_spec() in meta importer
    `commit <https://pagure.io/freeipa/c/bc9385d15cf7a975063754572eb65556a1df9c8a>`__
    `#9437 <https://pagure.io/freeipa/issue/9437>`__
+-   Add context manager to ipalib.API
+   `commit <https://pagure.io/freeipa/c/ed094e11ec59409c6cb361fa871e9b5e3da02172>`__
+   `#9443 <https://pagure.io/freeipa/issue/9443>`__
 
 .. _florence_blanc_renaud_1:
 
@@ -180,7 +265,7 @@ Mohammad Rizwan (2)
 
 .. _rob_crittenden_4:
 
-Rob Crittenden (4)
+Rob Crittenden (5)
 ~~~~~~~~~~~~~~~~~~
 
 -  Don't assume KRB5CCNAME is in the environment in replica install
@@ -195,6 +280,9 @@ Rob Crittenden (4)
 -  Use the PKI REST API wherever possible instead of XML
    `commit <https://pagure.io/freeipa/c/0b870694f62701534a32fdb4cbdd5c06a3ea4559>`__
    `#9345 <https://pagure.io/freeipa/issue/9345>`__
+-  Covscan issues: deadcode and Use after free
+   `commit <https://pagure.io/freeipa/c/cb14a30a1523305606d3bfbf7211cda1e197c9e9>`__
+   `#9345 <https://pagure.io/freeipa/issue/9431>`__
 
 .. _viktor_ashirov_1:
 

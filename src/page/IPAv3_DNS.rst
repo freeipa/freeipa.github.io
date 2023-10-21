@@ -132,6 +132,6 @@ References
 
 -  `DNS <http://freeipa.org/page/InstallAndDeploy#DNS>`__
 -  `Implementing FreeIPA in a mixed
-   Environment <http://www.freeipa.org/page/Implementing_FreeIPA_in_a_mixed_Environment_(Windows/Linux)_-_Step_by_step>`__
+   Environment <http://www.freeipa.org/page/Implementing_FreeIPA_in_a_mixed_Environment_Windows-Linux_-_Step_by_step>`__
 
 `Category:Obsolete <Category:Obsolete>`__

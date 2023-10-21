@@ -90,7 +90,7 @@ Windows
 
 -  `Implementing FreeIPA in a mixed Environment (Windows/Linux) - Step
    by
-   step <Implementing_FreeIPA_in_a_mixed_Environment_(Windows/Linux)_-_Step_by_step>`__
+   step <Implementing_FreeIPA_in_a_mixed_Environment_Windows-Linux_-_Step_by_step>`__
 -  `Windows authentication against
    FreeIPA <Windows_authentication_against_FreeIPA>`__
 
@@ -306,7 +306,7 @@ Fancy things (user Avatars etc.)
 -  `Loading Display Pictures/Avatars from Red Hat IDM/FreeIPA into
    GNOME3 <https://www.dalemacartney.com/2013/12/05/loading-display-picturesavatars-red-hat-idmfreeipa-gnome3/>`__
 
-| 
+|
 | \__\_
 | How to `add an HowTo on this
   wiki <HowTo/Writing_how_to_documentation_on_the_wiki>`__

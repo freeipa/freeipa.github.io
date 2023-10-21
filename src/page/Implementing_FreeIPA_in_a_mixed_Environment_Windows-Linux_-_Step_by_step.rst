@@ -1,12 +1,11 @@
-Implementing_FreeIPA_in_a_mixed_Environment_(Windows\Linux)_-_Step_by_step
-==========================================================================
+Implementing FreeIPA in a mixed Environment (Windows\\Linux) - Step by step
+===========================================================================
 
 **NOTE**:the information provided on this page was only tested against
 FreeIPA 1.2 and should be considered deprecated for anything newer.
 
 **Introduction**
-
---------------
+----------------
 
 The following documentation is a practical guide to implement freeIPA in
 mixed environment (Windows/Linux Clients). You should also refer the
@@ -28,21 +27,29 @@ deployment guide to get more details about the ports required for IPA.
 
 1. Installation of the IPA Server.
 
-| ``# yum install ipa-*``
-| ``# yum install bind bind-chroot``
+.. code-block:: shell
+
+  yum install ipa-*
+  yum install bind bind-chroot
 
 The IPA server may show a conflict with mod_ssl package. IPA uses
 mod_nss in apache. You can remove the mod_ssl for the time being.
 
 2.Make sure that the host names are set properly
 
-| ``# cat /etc/hosts``
-| ``127.0.0.1               localhost.localdomain localhost``
-| ``172.16.33.1             ds.example.com ds``
+``# cat /etc/hosts``
+
+.. code-block::
+
+  127.0.0.1               localhost.localdomain localhost
+  172.16.33.1             ds.example.com ds
 
 | ``# cat /etc/sysconfig/network``
-| ``NETWORKING=yes``
-| ``HOSTNAME=ds.example.com``
+
+.. code-block:: ini
+
+  NETWORKING=yes
+  HOSTNAME=ds.example.com
 
 3. Run the following command to configure the IPA Server for you
 environment and follow the instructions.
@@ -63,21 +70,23 @@ setup DNS properly.
 a. A minimal named.conf should look like
 
 | ``# cat /etc/named.conf``
-| ``options {``
-| ``       directory "/var/named";``
-| ``       dump-file               "data/cache_dump.db";``
-| ``       statistics-file         "data/named_stats.txt";``
-| ``       memstatistics-file      "data/named_mem_stats.txt";``
-| ``};``
 
-| ``zone "example.com" {``
-| ``       type master;``
-| ``       file "example.com.zone.db";``
-| ``};``
-| ``zone "33.16.172.in-addr.arpa" IN {``
-| ``       type master;``
-| ``       file "example.com.zone.rev.db";``
-| ``};``
+.. code-block::
+
+  options {
+         directory "/var/named";
+         dump-file               "data/cache_dump.db";
+         statistics-file         "data/named_stats.txt";
+         memstatistics-file      "data/named_mem_stats.txt";
+  };
+  zone "example.com" {
+         type master;
+         file "example.com.zone.db";
+  };
+  zone "33.16.172.in-addr.arpa" IN {
+         type master;
+         file "example.com.zone.rev.db";
+  };
 
 b. Copy the zone file to the proper location and create a reverse zone
 file also.
@@ -87,19 +96,21 @@ file also.
 No need to change anything in the forward zone file, create a reverse
 zone as follows.
 
-``#  cat example.com.zone.rev.db``
+| ``#  cat example.com.zone.rev.db``
 
-| ``$ORIGIN 33.16.172.in-addr.arpa.``
-| ``$TTL    86400``
-| ``@                       IN SOA  example.com. root.example.com. (``
-| ``                               01              ; serial``
-| ``                               3H              ; refresh``
-| ``                               15M             ; retry``
-| ``                               1W              ; expiry``
-| ``                               1D )            ; minimum``
+.. code-block::
 
-| ``                        IN NS                   ds.example.com.``
-| ``1                       IN PTR                  ds.example.com.``
+  $ORIGIN 33.16.172.in-addr.arpa.
+  $TTL    86400
+  @                       IN SOA  example.com. root.example.com. (
+                                 01              ; serial
+                                 3H              ; refresh
+                                 15M             ; retry
+                                 1W              ; expiry
+                                 1D )            ; minimum
+
+                          IN NS                   ds.example.com.
+  1                       IN PTR                  ds.example.com.
 
 c. Restart the named service
 
@@ -107,35 +118,41 @@ c. Restart the named service
 want to sync to an external time server, configure a local time server
 and synch all the clients to that.
 
-| ``# ntpstat``
-| ``# ntpq -p``
+.. code-block::
+
+  ntpstat
+  ntpq -p
 
 Sample configuration file for an ntp local server.
 
-``# cat /etc/ntp.conf``
+| ``# cat /etc/ntp.conf``
 
-| ``restrict default nomodify notrap noquery``
-| ``restrict 127.0.0.1``
-| ``broadcast 224.0.1.1 ttl 4``
-| ``broadcastdelay 0.004``
+.. code-block::
 
-| ``server  127.127.1.0``
-| ``fudge   127.127.1.0 stratum 10``
+  restrict default nomodify notrap noquery
+  restrict 127.0.0.1
+  broadcast 224.0.1.1 ttl 4
+  broadcastdelay 0.004
 
-| ``driftfile /var/lib/ntp/drift``
-| ``keys /etc/ntp/keys``
+  server  127.127.1.0
+  fudge   127.127.1.0 stratum 10
+
+  driftfile /var/lib/ntp/drift
+  keys /etc/ntp/keys
 
 Sample Configuration for an ntp client
 
-``# cat /etc/ntp.conf``
+| ``# cat /etc/ntp.conf``
 
-| ``restrict default kod nomodify notrap nopeer noquery``
-| ``restrict -6 default kod nomodify notrap nopeer noquery``
-| ``restrict 127.0.0.1``
-| ``restrict -6 ::1``
-| ``server  ds.example.com``
-| ``driftfile /var/lib/ntp/drift``
-| ``keys /etc/ntp/keys``
+.. code-block::
+
+  restrict default kod nomodify notrap nopeer noquery
+  restrict -6 default kod nomodify notrap nopeer noquery
+  restrict 127.0.0.1
+  restrict -6 ::1
+  server  ds.example.com
+  driftfile /var/lib/ntp/drift
+  keys /etc/ntp/keys
 
 Please note that if the client time has much difference compared to ntp
 server then do a force update using the following command. Also, the
@@ -145,8 +162,10 @@ first time synchronization will take some time (64 sec approx)
 
 To verify
 
-| ``# ntpstat``
-| ``# ntpq -p``
+.. code-block:: shell
+
+  ntpstat
+  ntpq -p
 
 5. Make sure that all the required services are enabled in your run
 level and reboot the IPA server (krb5kdc, ntp, named, httpd, dirserv
@@ -167,14 +186,16 @@ following commands
 Note: An alternative solution exists: `Windows authentication against
 FreeIPA <Windows_authentication_against_FreeIPA>`__
 
-| ``1. Add the host records in DNS, both forward and reverse``
-| ``2. Make sure that the client is synchronized to the ntp server.``
-| ``3. On the IPA Server add the host principal and set the password for the xp client.``
+| 1. Add the host records in DNS, both forward and reverse
+| 2. Make sure that the client is synchronized to the ntp server.
+| 3. On the IPA Server add the host principal and set the password for the xp client.
 
-| ``#  ipa-addservice host/bmdata01.example.com``
-| ``#  ipa-getkeytab -s ds.example.com  -p host/bmdata01.example.com -e des-cbc-crc -k krb5.keytab.txt -P``
+.. code-block::
 
-4. On the Client (Windows XP)
+  #  ipa-addservice host/bmdata01.example.com
+  #  ipa-getkeytab -s ds.example.com  -p host/bmdata01.example.com -e des-cbc-crc -k krb5.keytab.txt -P
+
+| 4. On the Client (Windows XP)
 
 a. Install Windows XP support tools
 (WindowsXP-KB838079-SupportTools-ENU.exe, this can be found on the
@@ -186,10 +207,12 @@ is ipauser)
 c. Configure kerberos authentication as follows (go to Start - Programs
 - Windows Support Tools - Command Prompt )
 
-| ``C:> ksetup /setrealm EXAMPLE.COM``
-| ``C:> ksetup /addkdc EXAMPLE.COM dc.example.com``
-| ``C:> ksetup /setmachpassword ``\ `` (the same password you have set in IPA server)``
-| ``C:> ksetup /mapuser * ipauser``
+.. code-block::
+
+  C:> ksetup /setrealm EXAMPLE.COM
+  C:> ksetup /addkdc EXAMPLE.COM dc.example.com
+  C:> ksetup /setmachpassword \ (the same password you have set in IPA server)
+  C:> ksetup /mapuser * ipauser
 
 d. Reboot the machine.
 
@@ -213,10 +236,12 @@ FOR THE FIRST TIME.**
 1. Download and un-compress freeipa source,
 http://freeipa.org/downloads/src/freeipa-1.2.1.tar.gz
 
-| ``# tar -zxvf freeipa-1.2.1.tar.gz``
-| ``# cd freeipa-1.2.1``
+.. code-block::
 
-2. Install the following prerequisites
+  # tar -zxvf freeipa-1.2.1.tar.gz
+  # cd freeipa-1.2.1
+
+1. Install the following prerequisites
 
 ``# yum install autoconf automake pkgconfig.x86_64 libtool.x86_64 mozldap-devel.x86_64 krb5-devel.x86_64 openldap-devel.x86_64 python-ldap.x86_64``
 
@@ -225,7 +250,7 @@ http://download.fedora.redhat.com/pub/epel/
 
 4. Apply the patch
 
-# patch -p1 < /path/to/make.patch 
+| ``# patch -p1 < /path/to/make.patch``
 
 ``(patch can be found in ``\ ```https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html`` <https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html>`__\ ``, copy the contents and save it as make.patch)``
 

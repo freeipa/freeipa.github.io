@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Implementing_FreeIPA_in_a_mixed_Environment_(WindowsLinux)_-_Step_by_step &#8212; FreeIPA  documentation</title>
+    <title>Implementing FreeIPA in a mixed Environment (Windows\Linux) - Step by step &#8212; FreeIPA  documentation</title>
   
   
   
@@ -41,7 +41,7 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Implementing_FreeIPA_in_a_mixed_Environment_(Windows\Linux)_-_Step_by_step';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Implementing_FreeIPA_in_a_mixed_Environment_Windows-Linux_-_Step_by_step';</script>
     <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -182,7 +182,7 @@
       
       
       
-      <li><a href="../_sources/page/Implementing_FreeIPA_in_a_mixed_Environment_(Windows\Linux)_-_Step_by_step.rst" target="_blank"
+      <li><a href="../_sources/page/Implementing_FreeIPA_in_a_mixed_Environment_Windows-Linux_-_Step_by_step.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -251,7 +251,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -262,11 +264,19 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Implementing_FreeIPA_in_a_mixed_Environment_(WindowsLinux)_-_Step_by_step</h1>
+    <h1>Implementing FreeIPA in a mixed Environment (Windows\Linux) - Step by step</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction"><strong>Introduction</strong></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -276,12 +286,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="implementing-freeipa-in-a-mixed-environment-windowslinux-step-by-step">
-<h1>Implementing_FreeIPA_in_a_mixed_Environment_(WindowsLinux)_-_Step_by_step<a class="headerlink" href="#implementing-freeipa-in-a-mixed-environment-windowslinux-step-by-step" title="Permalink to this heading">#</a></h1>
+  <section id="implementing-freeipa-in-a-mixed-environment-windows-linux-step-by-step">
+<h1>Implementing FreeIPA in a mixed Environment (Windows\Linux) - Step by step<a class="headerlink" href="#implementing-freeipa-in-a-mixed-environment-windows-linux-step-by-step" title="Permalink to this heading">#</a></h1>
 <p><strong>NOTE</strong>:the information provided on this page was only tested against
 FreeIPA 1.2 and should be considered deprecated for anything newer.</p>
-<p><strong>Introduction</strong></p>
-<hr class="docutils" />
+<section id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>The following documentation is a practical guide to implement freeIPA in
 mixed environment (Windows/Linux Clients). You should also refer the
 Administrator’s as well as Installation and Deployment guide from the
@@ -298,22 +308,24 @@ deployment guide to get more details about the ports required for IPA.</p>
 <ol class="arabic simple">
 <li><p>Installation of the IPA Server.</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yum install ipa-*</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yum install bind bind-chroot</span></code></div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>yum<span class="w"> </span>install<span class="w"> </span>ipa-*
+yum<span class="w"> </span>install<span class="w"> </span><span class="nb">bind</span><span class="w"> </span>bind-chroot
+</pre></div>
 </div>
 <p>The IPA server may show a conflict with mod_ssl package. IPA uses
 mod_nss in apache. You can remove the mod_ssl for the time being.</p>
 <p>2.Make sure that the host names are set properly</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/hosts</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">127.0.0.1               localhost.localdomain localhost</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">172.16.33.1             ds.example.com ds</span></code></div>
+<p><code class="docutils literal notranslate"><span class="pre"># cat /etc/hosts</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">127.0.0.1</span>               <span class="n">localhost</span><span class="o">.</span><span class="n">localdomain</span> <span class="n">localhost</span>
+<span class="mf">172.16.33.1</span>             <span class="n">ds</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">ds</span>
+</pre></div>
 </div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/sysconfig/network</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NETWORKING=yes</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">HOSTNAME=ds.example.com</span></code></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">NETWORKING</span><span class="o">=</span><span class="s">yes</span>
+<span class="na">HOSTNAME</span><span class="o">=</span><span class="s">ds.example.com</span>
+</pre></div>
 </div>
 <p>3. Run the following command to configure the IPA Server for you
 environment and follow the instructions.</p>
@@ -332,42 +344,43 @@ setup DNS properly.</p>
 </ol>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/named.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
-<div class="line">``       directory “/var/named”;``</div>
-<div class="line">``       dump-file               “data/cache_dump.db”;``</div>
-<div class="line">``       statistics-file         “data/named_stats.txt”;``</div>
-<div class="line">``       memstatistics-file      “data/named_mem_stats.txt”;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;example.com&quot; {</span></code></div>
-<div class="line">``       type master;``</div>
-<div class="line">``       file “example.com.zone.db”;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;33.16.172.in-addr.arpa&quot; IN {</span></code></div>
-<div class="line">``       type master;``</div>
-<div class="line">``       file “example.com.zone.rev.db”;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="p">{</span>
+       <span class="n">directory</span> <span class="s2">&quot;/var/named&quot;</span><span class="p">;</span>
+       <span class="n">dump</span><span class="o">-</span><span class="n">file</span>               <span class="s2">&quot;data/cache_dump.db&quot;</span><span class="p">;</span>
+       <span class="n">statistics</span><span class="o">-</span><span class="n">file</span>         <span class="s2">&quot;data/named_stats.txt&quot;</span><span class="p">;</span>
+       <span class="n">memstatistics</span><span class="o">-</span><span class="n">file</span>      <span class="s2">&quot;data/named_mem_stats.txt&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="n">zone</span> <span class="s2">&quot;example.com&quot;</span> <span class="p">{</span>
+       <span class="nb">type</span> <span class="n">master</span><span class="p">;</span>
+       <span class="n">file</span> <span class="s2">&quot;example.com.zone.db&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="n">zone</span> <span class="s2">&quot;33.16.172.in-addr.arpa&quot;</span> <span class="n">IN</span> <span class="p">{</span>
+       <span class="nb">type</span> <span class="n">master</span><span class="p">;</span>
+       <span class="n">file</span> <span class="s2">&quot;example.com.zone.rev.db&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
 </div>
 <p>b. Copy the zone file to the proper location and create a reverse zone
 file also.</p>
 <p><code class="docutils literal notranslate"><span class="pre"># cp /var/named/example.com.zone.db /var/named/chroot/var/named/</span></code></p>
 <p>No need to change anything in the forward zone file, create a reverse
 zone as follows.</p>
-<p><code class="docutils literal notranslate"><span class="pre">#  cat example.com.zone.rev.db</span></code></p>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ORIGIN 33.16.172.in-addr.arpa.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$TTL    86400</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&#64;                       IN SOA  example.com. root.example.com. (</span></code></div>
-<div class="line">``                               01              ; serial``</div>
-<div class="line">``                               3H              ; refresh``</div>
-<div class="line">``                               15M             ; retry``</div>
-<div class="line">``                               1W              ; expiry``</div>
-<div class="line">``                               1D )            ; minimum``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">#  cat example.com.zone.rev.db</span></code></div>
 </div>
-<div class="line-block">
-<div class="line">``                        IN NS                   ds.example.com.``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1                       IN PTR                  ds.example.com.</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ORIGIN 33.16.172.in-addr.arpa.
+$TTL    86400
+@                       IN SOA  example.com. root.example.com. (
+                               01              ; serial
+                               3H              ; refresh
+                               15M             ; retry
+                               1W              ; expiry
+                               1D )            ; minimum
+
+                        IN NS                   ds.example.com.
+1                       IN PTR                  ds.example.com.
+</pre></div>
 </div>
 <ol class="loweralpha simple" start="3">
 <li><p>Restart the named service</p></li>
@@ -375,45 +388,47 @@ zone as follows.</p>
 <p>4. Check whether the ntp time synchronization is proper, if you don’t
 want to sync to an external time server, configure a local time server
 and synch all the clients to that.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpstat</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpq -p</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ntpstat</span>
+<span class="n">ntpq</span> <span class="o">-</span><span class="n">p</span>
+</pre></div>
 </div>
 <p>Sample configuration file for an ntp local server.</p>
-<p><code class="docutils literal notranslate"><span class="pre"># cat /etc/ntp.conf</span></code></p>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict default nomodify notrap noquery</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict 127.0.0.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">broadcast 224.0.1.1 ttl 4</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">broadcastdelay 0.004</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/ntp.conf</span></code></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">server  127.127.1.0</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fudge   127.127.1.0 stratum 10</span></code></div>
-</div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">driftfile /var/lib/ntp/drift</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">keys /etc/ntp/keys</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">restrict</span> <span class="n">default</span> <span class="n">nomodify</span> <span class="n">notrap</span> <span class="n">noquery</span>
+<span class="n">restrict</span> <span class="mf">127.0.0.1</span>
+<span class="n">broadcast</span> <span class="mf">224.0.1.1</span> <span class="n">ttl</span> <span class="mi">4</span>
+<span class="n">broadcastdelay</span> <span class="mf">0.004</span>
+
+<span class="n">server</span>  <span class="mf">127.127.1.0</span>
+<span class="n">fudge</span>   <span class="mf">127.127.1.0</span> <span class="n">stratum</span> <span class="mi">10</span>
+
+<span class="n">driftfile</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ntp</span><span class="o">/</span><span class="n">drift</span>
+<span class="n">keys</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ntp</span><span class="o">/</span><span class="n">keys</span>
+</pre></div>
 </div>
 <p>Sample Configuration for an ntp client</p>
-<p><code class="docutils literal notranslate"><span class="pre"># cat /etc/ntp.conf</span></code></p>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict default kod nomodify notrap nopeer noquery</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict -6 default kod nomodify notrap nopeer noquery</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict 127.0.0.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">restrict -6 ::1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">server  ds.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">driftfile /var/lib/ntp/drift</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">keys /etc/ntp/keys</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat /etc/ntp.conf</span></code></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">restrict</span> <span class="n">default</span> <span class="n">kod</span> <span class="n">nomodify</span> <span class="n">notrap</span> <span class="n">nopeer</span> <span class="n">noquery</span>
+<span class="n">restrict</span> <span class="o">-</span><span class="mi">6</span> <span class="n">default</span> <span class="n">kod</span> <span class="n">nomodify</span> <span class="n">notrap</span> <span class="n">nopeer</span> <span class="n">noquery</span>
+<span class="n">restrict</span> <span class="mf">127.0.0.1</span>
+<span class="n">restrict</span> <span class="o">-</span><span class="mi">6</span> <span class="p">::</span><span class="mi">1</span>
+<span class="n">server</span>  <span class="n">ds</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">driftfile</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ntp</span><span class="o">/</span><span class="n">drift</span>
+<span class="n">keys</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ntp</span><span class="o">/</span><span class="n">keys</span>
+</pre></div>
 </div>
 <p>Please note that if the client time has much difference compared to ntp
 server then do a force update using the following command. Also, the
 first time synchronization will take some time (64 sec approx)</p>
 <p><code class="docutils literal notranslate"><span class="pre"># ntpdate -u ds.example.com</span></code></p>
 <p>To verify</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpstat</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ntpq -p</span></code></div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ntpstat
+ntpq<span class="w"> </span>-p
+</pre></div>
 </div>
 <p>5. Make sure that all the required services are enabled in your run
 level and reboot the IPA server (krb5kdc, ntp, named, httpd, dirserv
@@ -431,17 +446,17 @@ following commands</p>
 <p>Note: An alternative solution exists: <a class="reference external" href="Windows_authentication_against_FreeIPA">Windows authentication against
 FreeIPA</a></p>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1. Add the host records in DNS, both forward and reverse</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2. Make sure that the client is synchronized to the ntp server.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">3. On the IPA Server add the host principal and set the password for the xp client.</span></code></div>
+<div class="line">1. Add the host records in DNS, both forward and reverse</div>
+<div class="line">2. Make sure that the client is synchronized to the ntp server.</div>
+<div class="line">3. On the IPA Server add the host principal and set the password for the xp client.</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#  ipa-addservice host/bmdata01.example.com</span>
+<span class="c1">#  ipa-getkeytab -s ds.example.com  -p host/bmdata01.example.com -e des-cbc-crc -k krb5.keytab.txt -P</span>
+</pre></div>
 </div>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#  ipa-addservice host/bmdata01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#  ipa-getkeytab -s ds.example.com  -p host/bmdata01.example.com -e des-cbc-crc -k krb5.keytab.txt -P</span></code></div>
+<div class="line">4. On the Client (Windows XP)</div>
 </div>
-<ol class="arabic simple" start="4">
-<li><p>On the Client (Windows XP)</p></li>
-</ol>
 <p>a. Install Windows XP support tools
 (WindowsXP-KB838079-SupportTools-ENU.exe, this can be found on the
 Windows XP Media or download it from microsoft)</p>
@@ -449,11 +464,11 @@ Windows XP Media or download it from microsoft)</p>
 is ipauser)</p>
 <p>c. Configure kerberos authentication as follows (go to Start - Programs
 - Windows Support Tools - Command Prompt )</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /setrealm EXAMPLE.COM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /addkdc EXAMPLE.COM dc.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /setmachpassword ``\</span> <span class="pre">`` (the same password you have set in IPA server)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">C:&gt; ksetup /mapuser * ipauser</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span><span class="o">&gt;</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">setrealm</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">C</span><span class="p">:</span><span class="o">&gt;</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">addkdc</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="n">dc</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">C</span><span class="p">:</span><span class="o">&gt;</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">setmachpassword</span> \ <span class="p">(</span><span class="n">the</span> <span class="n">same</span> <span class="n">password</span> <span class="n">you</span> <span class="n">have</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">IPA</span> <span class="n">server</span><span class="p">)</span>
+<span class="n">C</span><span class="p">:</span><span class="o">&gt;</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">mapuser</span> <span class="o">*</span> <span class="n">ipauser</span>
+</pre></div>
 </div>
 <ol class="loweralpha simple" start="4">
 <li><p>Reboot the machine.</p></li>
@@ -472,11 +487,11 @@ FOR THE FIRST TIME.</strong></p>
 <hr class="docutils" />
 <p>1. Download and un-compress freeipa source,
 <a class="reference external" href="http://freeipa.org/downloads/src/freeipa-1.2.1.tar.gz">http://freeipa.org/downloads/src/freeipa-1.2.1.tar.gz</a></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># tar -zxvf freeipa-1.2.1.tar.gz</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># cd freeipa-1.2.1</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># tar -zxvf freeipa-1.2.1.tar.gz</span>
+<span class="c1"># cd freeipa-1.2.1</span>
+</pre></div>
 </div>
-<ol class="arabic simple" start="2">
+<ol class="arabic simple">
 <li><p>Install the following prerequisites</p></li>
 </ol>
 <p><code class="docutils literal notranslate"><span class="pre"># yum install autoconf automake pkgconfig.x86_64 libtool.x86_64 mozldap-devel.x86_64 krb5-devel.x86_64 openldap-devel.x86_64 python-ldap.x86_64</span></code></p>
@@ -485,13 +500,16 @@ FOR THE FIRST TIME.</strong></p>
 <ol class="arabic simple" start="4">
 <li><p>Apply the patch</p></li>
 </ol>
-<p># patch -p1 &lt; /path/to/make.patch</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre"># patch -p1 &lt; /path/to/make.patch</span></code></div>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">(patch can be found in ``\</span> <span class="pre">```https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html</span></code> &lt;<a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html">https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">, copy the contents and save it as make.patch)</span></code></p>
 <ol class="arabic simple" start="5">
 <li><p>Make rpms, the rpms will be in dist/rpms</p></li>
 </ol>
 <p><code class="docutils literal notranslate"><span class="pre"># make IPA_VERSION_IS_GIT_SNAPSHOT=no local-dist</span></code></p>
 <p>–<a class="reference external" href="User:Viji">viji</a> 04:49, 15 January 2009 (EST)</p>
+</section>
 </section>
 
 
@@ -511,6 +529,20 @@ FOR THE FIRST TIME.</strong></p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction"><strong>Introduction</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

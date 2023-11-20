@@ -3,7 +3,7 @@ FreeIPA 4.9.13
 
 .. raw:: mediawiki
 
-   {{ReleaseDate|2023-11-17}}
+   {{ReleaseDate|2023-11-20}}
 
 The FreeIPA team would like to announce FreeIPA 4.9.13 release!
 
@@ -16,7 +16,14 @@ soon.
 Highlights in 4.9.13
 --------------------
 
-**TODO RELEASE NOTES - put release notes (if any) to proper categories**
+-  9289: Configure server affinity during replica installation
+
+      Replica installation process now happens against a chosen server,
+      not only for Kerberos authentication but also for all IPA API and
+      CA requests. This helps to avoid incomplete replicated details
+      when adding a new replica to a complex topology.
+
+--------------
 
 -  9331: Better handling of the command line and web UI cert search
    and/or list features
@@ -31,17 +38,52 @@ Highlights in 4.9.13
 
 --------------
 
-**END TODO**
+-  9402: OTP authentication failure on s390x
 
-Enhancements
-~~~~~~~~~~~~
+      Correct endianness issue that affected 2FA tokens use case for IPA
+      server running on a mainframe (S390x architecture).
 
-.. _known_issues:
+--------------
 
-Known Issues
-~~~~~~~~~~~~
+-  9422: Interrupt request processing in ipadb_fill_info3() if
+   connection to 389ds is lost
 
-.. _bug_fixes:
+      Adjust error handling in MS-PAC processing code under high load.
+      The fix should address krb5kdc crashes in a situation when a
+      connection to LDAP server is severed.
+
+--------------
+
+-  9427: RHEL 8.8 & 9.2 fails to create AD trust with STIG applied
+
+      Make sure SSSD enables nss and pam services in all circumstances,
+      even when existing SSSD configuration is present during
+      deployment. In environments hardened with a STIG profile this
+      fixes support for a trust to Active Directory .
+
+--------------
+
+-  9433: ipa user-mod --idp-user-id fails with: attribute "ipaIdpSub"
+   not allowed
+
+      Allow to create user accounts with external IdP reference
+      pre-defined.
+
+--------------
+
+-  9448: FreeIPA 4.9 KDB rejects FreeIPA 4.10 KDB-issued evidence ticket
+   in S4U processing
+
+      Downstream only: coordinate fixes to MIT Kerberos 1.18 and FreeIPA
+      4.9 to allow interoperability with MIT Kerberos 1.20 or later
+      which removed AD-SIGNTICKET support. MS-PAC information is
+      required for S4U Kerberos extension to operate but older MIT
+      Kerberos version expect AD-SIGNTICKET buffer as well. With this
+      change tickets issued by FreeIPA using AD-SIGNTICKET-free code are
+      accepted by older FreeIPA KDCs for S4U extensions as long as they
+      contain MS-PAC buffers.
+
+--------------
 
 Bug fixes
 ~~~~~~~~~

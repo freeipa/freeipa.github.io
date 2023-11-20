@@ -277,8 +277,6 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#highlights-in-4-9-13">Highlights in 4.9.13</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancements">Enhancements</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#known-issues">Known Issues</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a></li>
 </ul>
 </li>
@@ -320,7 +318,17 @@ for Fedora distributions will be available from the official repository
 soon.</p>
 <section id="highlights-in-4-9-13">
 <span id="id1"></span><h2>Highlights in 4.9.13<a class="headerlink" href="#highlights-in-4-9-13" title="Permalink to this heading">#</a></h2>
-<p><strong>TODO RELEASE NOTES - put release notes (if any) to proper categories</strong></p>
+<ul>
+<li><p>9289: Configure server affinity during replica installation</p>
+<blockquote>
+<div><p>Replica installation process now happens against a chosen server,
+not only for Kerberos authentication but also for all IPA API and
+CA requests. This helps to avoid incomplete replicated details
+when adding a new replica to a complex topology.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
 <ul>
 <li><p>9331: Better handling of the command line and web UI cert search
 and/or list features</p>
@@ -336,15 +344,65 @@ uses internally to parse results from the CA.</p>
 <li><p>9378: [RFE] Descriptive error message in ipa user-add</p></li>
 </ul>
 <hr class="docutils" />
-<p><strong>END TODO</strong></p>
-<section id="enhancements">
-<h3>Enhancements<a class="headerlink" href="#enhancements" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="known-issues">
-<span id="id2"></span><h3>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this heading">#</a></h3>
-</section>
+<ul>
+<li><p>9402: OTP authentication failure on s390x</p>
+<blockquote>
+<div><p>Correct endianness issue that affected 2FA tokens use case for IPA
+server running on a mainframe (S390x architecture).</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9422: Interrupt request processing in ipadb_fill_info3() if
+connection to 389ds is lost</p>
+<blockquote>
+<div><p>Adjust error handling in MS-PAC processing code under high load.
+The fix should address krb5kdc crashes in a situation when a
+connection to LDAP server is severed.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9427: RHEL 8.8 &amp; 9.2 fails to create AD trust with STIG applied</p>
+<blockquote>
+<div><p>Make sure SSSD enables nss and pam services in all circumstances,
+even when existing SSSD configuration is present during
+deployment. In environments hardened with a STIG profile this
+fixes support for a trust to Active Directory .</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9433: ipa user-mod –idp-user-id fails with: attribute “ipaIdpSub”
+not allowed</p>
+<blockquote>
+<div><p>Allow to create user accounts with external IdP reference
+pre-defined.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p>9448: FreeIPA 4.9 KDB rejects FreeIPA 4.10 KDB-issued evidence ticket
+in S4U processing</p>
+<blockquote>
+<div><p>Downstream only: coordinate fixes to MIT Kerberos 1.18 and FreeIPA
+4.9 to allow interoperability with MIT Kerberos 1.20 or later
+which removed AD-SIGNTICKET support. MS-PAC information is
+required for S4U Kerberos extension to operate but older MIT
+Kerberos version expect AD-SIGNTICKET buffer as well. With this
+change tickets issued by FreeIPA using AD-SIGNTICKET-free code are
+accepted by older FreeIPA KDCs for S4U extensions as long as they
+contain MS-PAC buffers.</p>
+</div></blockquote>
+</li>
+</ul>
+<hr class="docutils" />
 <section id="bug-fixes">
-<span id="id3"></span><h3>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h3>
+<h3>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h3>
 <p>FreeIPA 4.9.13 is a stabilization release for the features delivered as
 a part of 4.9 version series.</p>
 <p>There are more than 30 bug-fixes since FreeIPA 4.9.12 release. Details
@@ -364,7 +422,7 @@ mailing list
 or #freeipa channel on libera.chat.</p>
 </section>
 <section id="resolved-tickets">
-<span id="id4"></span><h2>Resolved tickets<a class="headerlink" href="#resolved-tickets" title="Permalink to this heading">#</a></h2>
+<span id="id2"></span><h2>Resolved tickets<a class="headerlink" href="#resolved-tickets" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://pagure.io/freeipa/issue/8878">#8878</a>
 (<a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1821181">rhbz#1821181</a>,
@@ -460,9 +518,9 @@ favicon</p></li>
 </ul>
 </section>
 <section id="detailed-changelog-since-4-9-12">
-<span id="id5"></span><h2>Detailed changelog since 4.9.12<a class="headerlink" href="#detailed-changelog-since-4-9-12" title="Permalink to this heading">#</a></h2>
+<span id="id3"></span><h2>Detailed changelog since 4.9.12<a class="headerlink" href="#detailed-changelog-since-4-9-12" title="Permalink to this heading">#</a></h2>
 <section id="alexander-bokovoy-4">
-<span id="id6"></span><h3>Alexander Bokovoy (4)<a class="headerlink" href="#alexander-bokovoy-4" title="Permalink to this heading">#</a></h3>
+<span id="id4"></span><h3>Alexander Bokovoy (4)<a class="headerlink" href="#alexander-bokovoy-4" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Azure CI: increase memory for forced reenrollment test
 <a class="reference external" href="https://pagure.io/freeipa/c/1635cba588d4c29ae78d3c706ee01488ad653dad">commit</a></p></li>
@@ -476,14 +534,14 @@ favicon</p></li>
 </ul>
 </section>
 <section id="alexandra-nikandrova-1">
-<span id="id7"></span><h3>Alexandra Nikandrova (1)<a class="headerlink" href="#alexandra-nikandrova-1" title="Permalink to this heading">#</a></h3>
+<span id="id5"></span><h3>Alexandra Nikandrova (1)<a class="headerlink" href="#alexandra-nikandrova-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>doc: typo in basic_usage.md
 <a class="reference external" href="https://pagure.io/freeipa/c/7f080c0cad3327d2bbcc8c0aaddad134580d7c4c">commit</a></p></li>
 </ul>
 </section>
 <section id="anuja-more-1">
-<span id="id8"></span><h3>Anuja More (1)<a class="headerlink" href="#anuja-more-1" title="Permalink to this heading">#</a></h3>
+<span id="id6"></span><h3>Anuja More (1)<a class="headerlink" href="#anuja-more-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>ipatests: Check that SSSD_PUBCONF_KRB5_INCLUDE_D_DIR is not included
 in krb5.conf
@@ -492,14 +550,14 @@ in krb5.conf
 </ul>
 </section>
 <section id="antonio-torres-1">
-<span id="id9"></span><h3>Antonio Torres (1)<a class="headerlink" href="#antonio-torres-1" title="Permalink to this heading">#</a></h3>
+<span id="id7"></span><h3>Antonio Torres (1)<a class="headerlink" href="#antonio-torres-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Back to git snapshots
 <a class="reference external" href="https://pagure.io/freeipa/c/d01378865add0705a3efad2e0cf268f36a6f3c25">commit</a></p></li>
 </ul>
 </section>
 <section id="erik-belko-1">
-<span id="id10"></span><h3>Erik Belko (1)<a class="headerlink" href="#erik-belko-1" title="Permalink to this heading">#</a></h3>
+<span id="id8"></span><h3>Erik Belko (1)<a class="headerlink" href="#erik-belko-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>test: add tests for descriptive error message in ipa user-add
 <a class="reference external" href="https://pagure.io/freeipa/c/4d55ee3033641c772c2a8cc8625f7b133ab8416b">commit</a>
@@ -507,7 +565,7 @@ in krb5.conf
 </ul>
 </section>
 <section id="florence-blanc-renaud-19">
-<span id="id11"></span><h3>Florence Blanc-Renaud (19)<a class="headerlink" href="#florence-blanc-renaud-19" title="Permalink to this heading">#</a></h3>
+<span id="id9"></span><h3>Florence Blanc-Renaud (19)<a class="headerlink" href="#florence-blanc-renaud-19" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>ipatests: fix test_ipactl_scenario_check
 <a class="reference external" href="https://pagure.io/freeipa/c/9b41de8f4bf8689d7aa9c46cec6371a333958846">commit</a>
@@ -567,14 +625,14 @@ in krb5.conf
 </ul>
 </section>
 <section id="francisco-trivino-1">
-<span id="id12"></span><h3>Francisco Trivino (1)<a class="headerlink" href="#francisco-trivino-1" title="Permalink to this heading">#</a></h3>
+<span id="id10"></span><h3>Francisco Trivino (1)<a class="headerlink" href="#francisco-trivino-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Workshop: fix broken Sphinx cross-references.
 <a class="reference external" href="https://pagure.io/freeipa/c/4709063e2975bc2754783ee3e51f04df94538d41">commit</a></p></li>
 </ul>
 </section>
 <section id="julien-rische-2">
-<span id="id13"></span><h3>Julien Rische (2)<a class="headerlink" href="#julien-rische-2" title="Permalink to this heading">#</a></h3>
+<span id="id11"></span><h3>Julien Rische (2)<a class="headerlink" href="#julien-rische-2" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>ipa-kdb: Make AD-SIGNEDPATH optional with krb5 DAL 8 and older
 <a class="reference external" href="https://pagure.io/freeipa/c/d394afc1210a21378c018d0ff93d400a57324289">commit</a>
@@ -585,7 +643,7 @@ in krb5.conf
 </ul>
 </section>
 <section id="mohammad-rizwan-2">
-<span id="id14"></span><h3>Mohammad Rizwan (2)<a class="headerlink" href="#mohammad-rizwan-2" title="Permalink to this heading">#</a></h3>
+<span id="id12"></span><h3>Mohammad Rizwan (2)<a class="headerlink" href="#mohammad-rizwan-2" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>ipatests: restart ipa services after moving date
 <a class="reference external" href="https://pagure.io/freeipa/c/4fc28edbe6c9fee1e16d4057f4d83b7910264fdd">commit</a>
@@ -595,7 +653,7 @@ in krb5.conf
 </ul>
 </section>
 <section id="rob-crittenden-14">
-<span id="id15"></span><h3>Rob Crittenden (14)<a class="headerlink" href="#rob-crittenden-14" title="Permalink to this heading">#</a></h3>
+<span id="id13"></span><h3>Rob Crittenden (14)<a class="headerlink" href="#rob-crittenden-14" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Allow password policy minlength to be removed like other values
 <a class="reference external" href="https://pagure.io/freeipa/c/d0348612f96e320594f3b9b167ff5aef890a93e1">commit</a>
@@ -642,7 +700,7 @@ in krb5.conf
 </ul>
 </section>
 <section id="rafael-guterres-jeffman-1">
-<span id="id16"></span><h3>Rafael Guterres Jeffman (1)<a class="headerlink" href="#rafael-guterres-jeffman-1" title="Permalink to this heading">#</a></h3>
+<span id="id14"></span><h3>Rafael Guterres Jeffman (1)<a class="headerlink" href="#rafael-guterres-jeffman-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fix typo in “Subordinate ID Selfservice User” role
 <a class="reference external" href="https://pagure.io/freeipa/c/22db4497512a0fb62920648a732348ee9e8473fd">commit</a>
@@ -650,14 +708,14 @@ in krb5.conf
 </ul>
 </section>
 <section id="sudhir-menon-1">
-<span id="id17"></span><h3>Sudhir Menon (1)<a class="headerlink" href="#sudhir-menon-1" title="Permalink to this heading">#</a></h3>
+<span id="id15"></span><h3>Sudhir Menon (1)<a class="headerlink" href="#sudhir-menon-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>ipatests: Skip the test failing due to FIPS policy
 <a class="reference external" href="https://pagure.io/freeipa/c/21e4cb2e72dabc54f1ad92b6288433da4088ca4d">commit</a></p></li>
 </ul>
 </section>
 <section id="viktor-ashirov-1">
-<span id="id18"></span><h3>Viktor Ashirov (1)<a class="headerlink" href="#viktor-ashirov-1" title="Permalink to this heading">#</a></h3>
+<span id="id16"></span><h3>Viktor Ashirov (1)<a class="headerlink" href="#viktor-ashirov-1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>WebUI: update favicon.ico
 <a class="reference external" href="https://pagure.io/freeipa/c/af4fb52bf140c69fb3d52d662aee48d37059721b">commit</a>
@@ -712,8 +770,6 @@ in krb5.conf
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#highlights-in-4-9-13">Highlights in 4.9.13</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancements">Enhancements</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#known-issues">Known Issues</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a></li>
 </ul>
 </li>

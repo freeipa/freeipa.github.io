@@ -22,7 +22,7 @@ FreeIPA versions:
 -  `CentOS <https://www.centos.org/>`__ - `get
    started <https://access.redhat.com/products/identity-management#getstarted>`__
 -  `Debian <https://www.debian.org/>`__ - `FreeIPA
-   package <https://packages.debian.org/sid/net/freeipa-server>`__
+   package <https://tracker.debian.org/pkg/freeipa>`__
 
 Releases in Container
 ~~~~~~~~~~~~~~~~~~~~~

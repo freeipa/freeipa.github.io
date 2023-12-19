@@ -5,7 +5,7 @@ FreeIPA uses standard components and protocols so any
 LDAP/`Kerberos <Kerberos>`__ (and even NIS) client can interoperate with
 FreeIPA `Directory Server <Directory_Server>`__ for basic authentication
 and user/group enumeration. However additional management functionality
-can be achieved using the `SSSD <http://fedorahosted.org/sssd>`__
+can be achieved using the `SSSD <https://sssd.io/>`__
 project. SSSD is a spin-off of the FreeIPA project and has specific
 support for FreeIPA features with the 'IPA' provider. Additional
 features made available via SSSD are SUDO integration, HBAC policies,

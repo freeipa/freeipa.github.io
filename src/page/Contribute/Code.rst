@@ -30,19 +30,19 @@ If you are just fixing a simple bug, you can easily continue with the
 next steps. However, if you want to work on a bigger feature, a
 preparation is advisable:
 
-#. See `General considerations <General_considerations>`__ article to be
+#. See `General considerations <https://www.freeipa.org/page/General_considerations>`__ article to be
    able to evaluate the scope of changes needed to be done to get a
    bigger feature to FreeIPA
 #. Read the `Extend FreeIPA
    guide <http://abbra.fedorapeople.org/guide.html>`__ to see how the
    FreeIPA can be extended
 #. Prepare a feature design using the `Feature
-   template <Feature_template>`__ and send it for comments to
+   template <https://www.freeipa.org/page/Feature_template>`__ and send it for comments to
    `freeipa-devel <https://lists.fedoraproject.org/archives/list/freeipa-devel@lists.fedorahosted.org/>`__
    list. A feedback from experienced FreeIPA developers will help to
    avoid running into dead ends and also informing the developers about
-   your plans. See currently `accepted <V4_Designs>`__ or `proposed
-   designs <V4_Proposals>`__ for inspiration
+   your plans. See currently `accepted <https://www.freeipa.org/page/V4_Designs>`__ or `proposed
+   designs <https://www.freeipa.org/page/V4_Proposals>`__ for inspiration
 
 
 
@@ -61,7 +61,7 @@ Understanding the source code
 
 To have a better understanding of how the code works (how the pieces fit
 together, etc), you can read the `"Extending FreeIPA Guide"
-here <Documentation#Additional_Resources_2>`__. It's outdated, however,
+here <https://www.freeipa.org/page/Documentation#additional-resources>`__. It's outdated, however,
 is still a good source of information.
 
 
@@ -69,7 +69,7 @@ is still a good source of information.
 Get the source
 --------------
 
-The source `repository <Contribute/Repository>`__ for FreeIPA is stored
+The source `repository <https://www.freeipa.org/page/Repository>`__ for FreeIPA is stored
 in git. Retrieve it with:
 
 ::
@@ -157,12 +157,12 @@ complies with couple simple rules.
 Code quality
 ^^^^^^^^^^^^
 
--  `C Coding Style Guide <Coding_Style>`__: Our style guide for C
--  `Python Coding Style Guide <Python_Coding_Style>`__: Our style guide
+-  `C Coding Style Guide <https://www.freeipa.org/page/Coding_Style>`__: Our style guide for C
+-  `Python Coding Style Guide <https://www.freeipa.org/page/Python_Coding_Style>`__: Our style guide
    for Python
--  `Coding Best Practices <Coding_Best_Practices>`__: List of
+-  `Coding Best Practices <https://www.freeipa.org/page/Coding_Best_Practices>`__: List of
    IPA-specific best practices that all existing code doesn't yet follow
--  `Schema Handling <Schema_Handling>`__: How to handle new schema
+-  `Schema Handling <https://www.freeipa.org/page/Schema_Handling>`__: How to handle new schema
 -  **Comments**: keep in mind that your code will be read and modified
    by other developers. It is important to add meaningful comments that
    will make your intent clear (the code tells us *how* but the comment
@@ -190,19 +190,19 @@ Update documentation
 Note that if your code change warrants an update in upstream
 documentation (especially if the related Trac ticket had *Affects
 Documentation* flag checked) you are required to update it as well. See
-`Contributing Documentation <Contribute/Documentation>`__ page for
+`Contributing Documentation <https://www.freeipa.org/page/Documentation>`__ page for
 details.
 
 Build
 -----
 
-See `Build <Build>`__ for instructions on how to build FreeIPA from
+See `Build <https://www.freeipa.org/page/Build>`__ for instructions on how to build FreeIPA from
 source
 
 Test
 ----
 
--  The contribution should not break any existing `tests <Testing>`__.
+-  The contribution should not break any existing `tests <https://www.freeipa.org/page/Testing>`__.
 
 -  FreeIPA Makefile provides targets allowing to perform basic tests and
    these tests must be successful:
@@ -213,7 +213,7 @@ Test
 For convenience the 'fastcheck' runs 'fasttest' and 'fastlint' with
 Python 2 and 3 in one go. A fastcheck takes about half a minute to a
 minute to execute: ``make fastcheck``. Please see
-`Testing#Fast_test <Testing#Fast_test>`__ for instructions.
+`Testing#Fast_test <https://www.freeipa.org/page/Testing#for-developers>`__ for instructions.
 
 -  Important rule: For each ticket, a corresponding test must be
    written.
@@ -225,7 +225,7 @@ Create pull request on Github
 
 Create pull request against **freeipa/freeipa** on
 `Github <https://github.com/freeipa/freeipa>`__. Please follow steps
-listed here `Pull request on Github <Pull_request_on_Github>`__ if you
+listed here `Pull request on Github <https://www.freeipa.org/page/Pull_request_on_Github>`__ if you
 are not sure how to work with pull requests.
 
 Please try to keep commits limited to a single logical change. Multiple
@@ -333,7 +333,7 @@ to keep track of the process.
 
 When the reviewer pass a feedback, patch should be then updated to clear
 all concerns and thus be ready to be merged. See `Pull request on
-Github <Pull_request_on_Github>`__ for advice how to update a pull
+Github <https://www.freeipa.org/page/Pull_request_on_Github>`__ for advice how to update a pull
 request. No changes in Pagure are needed when a reviewer rejects the
 patch or submitter sends a new version of the patch.
 
@@ -348,7 +348,7 @@ avoid duplication of effort.
 
 The reviewer responsibilities include the following steps:
 
--  ensure that the `#Code quality <#Code_quality>`__ requirements are
+-  ensure that the `#Code quality <https://www.freeipa.org/page/Contribute/Code#code-quality>`__ requirements are
    met
 -  check that the PR-CI was successful (otherwise comment the PR asking
    for a fix, for instance because lint failed ...)
@@ -387,4 +387,4 @@ Enjoy the benefits
 
 When your contribution succeeds in the code review, it is pushed to our
 upstream `repository <Contribute/Repository>`__ and will be part of our
-next release. See our `Roadmap <Roadmap>`__ for details.
+next release. See our `Roadmap <https://www.freeipa.org/page/Roadmap>`__ for details.

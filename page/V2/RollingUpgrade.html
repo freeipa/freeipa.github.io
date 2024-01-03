@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>RollingUpgrade &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/V2/RollingUpgrade';</script>
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -299,9 +298,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="rollingupgrade">
-<h1>RollingUpgrade<a class="headerlink" href="#rollingupgrade" title="Permalink to this heading">#</a></h1>
+<h1>RollingUpgrade<a class="headerlink" href="#rollingupgrade" title="Link to this heading">#</a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>In a large authentication infrastructure upgrading can be difficult. Not
 all servers can be brought down and upgraded at once. Instead a rolling
 upgrade is preferred where the new version is installed incrementally
@@ -314,7 +313,7 @@ preferably hours or days and not weeks.</p>
 Intermediate steps may be required (e.g. upgrade v2.1 to 2.3 to 3.0)</p>
 </section>
 <section id="what-is-a-server">
-<h2>What is a server?<a class="headerlink" href="#what-is-a-server" title="Permalink to this heading">#</a></h2>
+<h2>What is a server?<a class="headerlink" href="#what-is-a-server" title="Link to this heading">#</a></h2>
 <p>We use the phrase “IPA server” a lot but in fact there is no IPA server.
 IPA is a mechanism to get a lot of moving parts (389-ds, MIT Kerberos,
 DNS, dogtag) to work well together. Careless upgrading of any of these
@@ -323,7 +322,7 @@ can cause problems.</p>
 data.</p>
 </section>
 <section id="upgrade-strategy">
-<h2>Upgrade Strategy<a class="headerlink" href="#upgrade-strategy" title="Permalink to this heading">#</a></h2>
+<h2>Upgrade Strategy<a class="headerlink" href="#upgrade-strategy" title="Link to this heading">#</a></h2>
 <p>IPA will use a so-called “split brain” strategy for upgrades. With this
 the infrastructure will actually be running two different versions of
 the software for a brief period while the upgrade is being rolled out.
@@ -335,7 +334,7 @@ these servers will queue up until the servers either reconnect or the
 changelog fills, potentially causing lost updates.</p>
 </section>
 <section id="version">
-<h2>Version<a class="headerlink" href="#version" title="Permalink to this heading">#</a></h2>
+<h2>Version<a class="headerlink" href="#version" title="Link to this heading">#</a></h2>
 <p>In this context Version means data version for the purposes of
 determining if an upgrade is incompatible. Not every IPA update may
 change the version.</p>
@@ -354,19 +353,19 @@ version from interfering with other servers.</p>
 version. The IPA plugin will use those hooks to register the version.</p>
 </section>
 <section id="version-format">
-<h2>Version format<a class="headerlink" href="#version-format" title="Permalink to this heading">#</a></h2>
+<h2>Version format<a class="headerlink" href="#version-format" title="Link to this heading">#</a></h2>
 <p>The version will be stored as a date which will make comparisons a lot
 easier (e.g. 201003081732).</p>
 </section>
 <section id="ipa-management-utilities">
-<h2>IPA management utilities<a class="headerlink" href="#ipa-management-utilities" title="Permalink to this heading">#</a></h2>
+<h2>IPA management utilities<a class="headerlink" href="#ipa-management-utilities" title="Link to this heading">#</a></h2>
 <p>The IPA management utilities will send their installed version when they
 communicate to the IPA XML-RPC server. The server will use this version
 to decide if it will work with the client (this is the purpose of
 putting the IPA version into <code class="docutils literal notranslate"><span class="pre">ipalib/constants.py</span></code>)</p>
 </section>
 <section id="the-upgrade-process">
-<h2>The Upgrade Process<a class="headerlink" href="#the-upgrade-process" title="Permalink to this heading">#</a></h2>
+<h2>The Upgrade Process<a class="headerlink" href="#the-upgrade-process" title="Link to this heading">#</a></h2>
 <p>Each instance will be upgraded separately. The basic process is:</p>
 <ul class="simple">
 <li><p>Stop IPA services (<code class="docutils literal notranslate"><span class="pre">/usr/sbin/ipactl</span> <span class="pre">stop</span></code>)</p></li>
@@ -388,14 +387,14 @@ there are the more likelihood that MMR will need to determine winners
 and losers.</p>
 </section>
 <section id="changes-to-replica-installation-process">
-<h2>Changes to Replica Installation Process<a class="headerlink" href="#changes-to-replica-installation-process" title="Permalink to this heading">#</a></h2>
+<h2>Changes to Replica Installation Process<a class="headerlink" href="#changes-to-replica-installation-process" title="Link to this heading">#</a></h2>
 <p>Early in the IPA replica installer we will need to do a version check to
 ensure that a different version replica isn’t added. We don’t want old
 servers to be added to an IPA domain. The initial replication population
 would fail anyway due to the version checking.</p>
 </section>
 <section id="types-of-incompatibilities">
-<h2>Types of Incompatibilities<a class="headerlink" href="#types-of-incompatibilities" title="Permalink to this heading">#</a></h2>
+<h2>Types of Incompatibilities<a class="headerlink" href="#types-of-incompatibilities" title="Link to this heading">#</a></h2>
 <p>Here is a brief list of changes that would probably require the version
 to increase:</p>
 <ul class="simple">
@@ -409,7 +408,7 @@ to increase:</p>
 </ul>
 </section>
 <section id="clients">
-<h2>Clients<a class="headerlink" href="#clients" title="Permalink to this heading">#</a></h2>
+<h2>Clients<a class="headerlink" href="#clients" title="Link to this heading">#</a></h2>
 <p>A client using the management framework will have its own local copy of
 the server plugins to know what information to gather for a given
 request. This too can become out-of-date. The ipa client will need to
@@ -431,7 +430,7 @@ older clients. It is possible that some requests will be rejected as too
 old a client.</p>
 </section>
 <section id="tasks">
-<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this heading">#</a></h2>
+<h2>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>DS add version interface to replication plugin</p></li>
 <li><p>IPA implement a version plugin</p></li>

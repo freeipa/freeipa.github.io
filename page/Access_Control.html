@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Access_Control &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/Access_Control';</script>
     <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -337,14 +336,14 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="access-control">
-<h1>Access_Control<a class="headerlink" href="#access-control" title="Permalink to this heading">#</a></h1>
+<h1>Access_Control<a class="headerlink" href="#access-control" title="Link to this heading">#</a></h1>
 <section id="the-problem">
-<h2>The problem<a class="headerlink" href="#the-problem" title="Permalink to this heading">#</a></h2>
+<h2>The problem<a class="headerlink" href="#the-problem" title="Link to this heading">#</a></h2>
 <p>Fine-grained access to parts of the DIT</p>
 <p>We need to be able to say WHO can do WHAT to WHOM</p>
 </section>
 <section id="writes">
-<h2>Writes<a class="headerlink" href="#writes" title="Permalink to this heading">#</a></h2>
+<h2>Writes<a class="headerlink" href="#writes" title="Link to this heading">#</a></h2>
 <p>The WHO can be:</p>
 <ul class="simple">
 <li><p>a user or users</p></li>
@@ -370,7 +369,7 @@ document.write(`
 </ul>
 </section>
 <section id="reads">
-<h2>Reads<a class="headerlink" href="#reads" title="Permalink to this heading">#</a></h2>
+<h2>Reads<a class="headerlink" href="#reads" title="Link to this heading">#</a></h2>
 <p>Any user can read any other user or group. This is simply the unix way.
 Some attributes such as password will always be protected. This was
 extended to services in IPA v1 and will continue in v2 so one can see
@@ -382,12 +381,12 @@ what services are available.</p>
 </ul>
 </section>
 <section id="other-rights">
-<h2>Other rights<a class="headerlink" href="#other-rights" title="Permalink to this heading">#</a></h2>
+<h2>Other rights<a class="headerlink" href="#other-rights" title="Link to this heading">#</a></h2>
 <p>The interesting rights that 389 DS provides that IPA would use are:
 read, write, add, delete, search, and selfwrite.</p>
 </section>
 <section id="anonymous-access">
-<h2>Anonymous Access<a class="headerlink" href="#anonymous-access" title="Permalink to this heading">#</a></h2>
+<h2>Anonymous Access<a class="headerlink" href="#anonymous-access" title="Link to this heading">#</a></h2>
 <p>Currently there is read access to the entire subtree (minus a few
 important attributes like userPassword) for anonymous users. In order to
 limit access to services, machines, etc. I propose that we modify the
@@ -395,7 +394,7 @@ anonymous read access to include just users and groups. Basically just
 enough so that nss_ldap will still work with an anonymous bind.</p>
 </section>
 <section id="the-solution">
-<h2>The Solution<a class="headerlink" href="#the-solution" title="Permalink to this heading">#</a></h2>
+<h2>The Solution<a class="headerlink" href="#the-solution" title="Link to this heading">#</a></h2>
 <p>From a high level we will:</p>
 <ul class="simple">
 <li><p>Create groups (task groups) that are allowed to perform tasks</p></li>
@@ -407,7 +406,7 @@ granting the role group the underlying permission</p></li>
 </ul>
 </section>
 <section id="task-groups-and-acis">
-<h2>Task Groups and ACIs<a class="headerlink" href="#task-groups-and-acis" title="Permalink to this heading">#</a></h2>
+<h2>Task Groups and ACIs<a class="headerlink" href="#task-groups-and-acis" title="Link to this heading">#</a></h2>
 <p>For the purposes of this discussion one task == one ACI “group”. These
 groups will be stored outside of cn=accounts so they don’t interfere
 with standard groups. I propose cn=taskgroup, dc=SUFFIX. The structural
@@ -431,7 +430,7 @@ duplication, because a task may be a member of several groups.</p>
 <p>The ACIs will be stored in cn=accounts, the same way as in v1.</p>
 </section>
 <section id="role-groups">
-<h2>Role Groups<a class="headerlink" href="#role-groups" title="Permalink to this heading">#</a></h2>
+<h2>Role Groups<a class="headerlink" href="#role-groups" title="Link to this heading">#</a></h2>
 <p>We will also have role groups. A role is a collection of tasks or other
 roles. These will be things like helpdesk, user admin, group admin,
 replica admin, etc. These will also be stored outside of the cn=accounts
@@ -469,7 +468,7 @@ the super-user and group of users that can do whatever they would like
 in the IPA world.</p>
 </section>
 <section id="the-bottom-line">
-<h2>The bottom line<a class="headerlink" href="#the-bottom-line" title="Permalink to this heading">#</a></h2>
+<h2>The bottom line<a class="headerlink" href="#the-bottom-line" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>An ACI grants permissions to a task group. There is a single ACI for
 each task group. One may group ACIs together by adding their task
@@ -479,7 +478,7 @@ groups the same group.</p></li>
 </ul>
 </section>
 <section id="aci-details">
-<h2>ACI Details<a class="headerlink" href="#aci-details" title="Permalink to this heading">#</a></h2>
+<h2>ACI Details<a class="headerlink" href="#aci-details" title="Link to this heading">#</a></h2>
 <p>An ACI is made up 3 major components that we’re interested in:</p>
 <ul class="simple">
 <li><p>source/bind rule (WHO is being granted access)</p></li>
@@ -487,25 +486,25 @@ groups the same group.</p></li>
 <li><p>target (WHO you are granting rights to)</p></li>
 </ul>
 <section id="source">
-<h3>Source<a class="headerlink" href="#source" title="Permalink to this heading">#</a></h3>
+<h3>Source<a class="headerlink" href="#source" title="Link to this heading">#</a></h3>
 <p>This will always be a Task group.</p>
 </section>
 <section id="rights">
-<h3>Rights<a class="headerlink" href="#rights" title="Permalink to this heading">#</a></h3>
+<h3>Rights<a class="headerlink" href="#rights" title="Link to this heading">#</a></h3>
 <p>Will be: read, write, add, delete, search, and/or selfwrite</p>
 <p>All ACIs will GRANT access, not deny it.</p>
 </section>
 <section id="target">
-<h3>Target<a class="headerlink" href="#target" title="Permalink to this heading">#</a></h3>
+<h3>Target<a class="headerlink" href="#target" title="Link to this heading">#</a></h3>
 <p>The target may be a set of attributes, a portion of the subtree a filter
 or a combination of these.</p>
 </section>
 <section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h3>
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
 <p>Note that in these examples I’m not using the new location to store the
 task groups. You can apply these to a v1 IPA server to see how it works.</p>
 <section id="create-a-new-user">
-<h4>Create a new user<a class="headerlink" href="#create-a-new-user" title="Permalink to this heading">#</a></h4>
+<h4>Create a new user<a class="headerlink" href="#create-a-new-user" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">aci:</span> <span class="pre">(target=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=</span></code> &lt;<a class="reference external" href="ldap:///uid=">ldap:///uid=</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">*,cn=users,cn=accounts,dc=example,dc=com&quot;)(version</span> <span class="pre">3.0;acl</span> <span class="pre">&quot;add_user&quot;;allow</span> <span class="pre">(add)</span> <span class="pre">groupdn=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///cn=add_user,cn=taskgroups,dc=example,dc=com</span></code> &lt;<a class="reference external" href="ldap:///cn=add_user,cn=taskgroups,dc=example,dc=com">ldap:///cn=add_user,cn=taskgroups,dc=example,dc=com</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></p>
 <p>But this isn’t enough. We also add the new user to the default IPA
 group. Here is an ACI which allows that, specifically limiting the write
@@ -543,14 +542,14 @@ something like create_ipa_user.</p>
 </div>
 </section>
 <section id="reset-password">
-<h4>Reset password<a class="headerlink" href="#reset-password" title="Permalink to this heading">#</a></h4>
+<h4>Reset password<a class="headerlink" href="#reset-password" title="Link to this heading">#</a></h4>
 <p>Crafting some rules may require a fairly detailed knowledge of LDAP and
 the IPA implementation, as demonstrated with this long list of
 attributes that may be written when resetting a password.</p>
 <p><code class="docutils literal notranslate"><span class="pre">aci:</span> <span class="pre">(targetattr</span> <span class="pre">=</span> <span class="pre">&quot;userPassword</span> <span class="pre">||</span> <span class="pre">krbPrincipalKey</span> <span class="pre">||</span> <span class="pre">sambaLMPassword</span> <span class="pre">||</span> <span class="pre">sambaNTPassword</span> <span class="pre">||</span> <span class="pre">passwordHistory&quot;)(version</span> <span class="pre">3.0;</span> <span class="pre">acl</span> <span class="pre">&quot;change_password&quot;;</span> <span class="pre">allow</span> <span class="pre">(write)</span> <span class="pre">groupdn</span> <span class="pre">=</span> <span class="pre">&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///cn=change_password,cn=taskgroups,dc=example,dc=com</span></code> &lt;<a class="reference external" href="ldap:///cn=change_password,cn=taskgroups,dc=example,dc=com">ldap:///cn=change_password,cn=taskgroups,dc=example,dc=com</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></p>
 </section>
 <section id="remove-user">
-<h4>Remove user<a class="headerlink" href="#remove-user" title="Permalink to this heading">#</a></h4>
+<h4>Remove user<a class="headerlink" href="#remove-user" title="Link to this heading">#</a></h4>
 <p>Once the basic structure of the ACIs is found then granting specific
 rights becomes easier and easier. This is the same ACI as add_user
 simply with a different right. One would also need to be a member of the
@@ -558,12 +557,12 @@ simply with a different right. One would also need to be a member of the
 <p><code class="docutils literal notranslate"><span class="pre">aci:</span> <span class="pre">(target=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=</span></code> &lt;<a class="reference external" href="ldap:///uid=">ldap:///uid=</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">*,cn=users,cn=accounts,dc=example,dc=com&quot;)(version</span> <span class="pre">3.0;acl</span> <span class="pre">&quot;delete_user&quot;;allow</span> <span class="pre">(delete)</span> <span class="pre">groupdn=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///cn=delete_user,cn=taskgroups,dc=example,dc=com</span></code> &lt;<a class="reference external" href="ldap:///cn=delete_user,cn=taskgroups,dc=example,dc=com">ldap:///cn=delete_user,cn=taskgroups,dc=example,dc=com</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></p>
 </section>
 <section id="side-effects">
-<h4>Side effects<a class="headerlink" href="#side-effects" title="Permalink to this heading">#</a></h4>
+<h4>Side effects<a class="headerlink" href="#side-effects" title="Link to this heading">#</a></h4>
 <p>We may need to add in specific ACIs that prevent the deletion of
 specific users and groups. admin comes to mind.</p>
 </section>
 <section id="roles">
-<h4>Roles<a class="headerlink" href="#roles" title="Permalink to this heading">#</a></h4>
+<h4>Roles<a class="headerlink" href="#roles" title="Link to this heading">#</a></h4>
 <p>These ACIs will be rolled up into a set of Roles, a set of which will be
 pre-defined when IPA is shipped. These roles can then be customized by
 IPA administrators to fit the site needs.</p>
@@ -591,9 +590,9 @@ IPA administrators to fit the site needs.</p>
 </section>
 </section>
 <section id="use-cases">
-<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
 <section id="separate-admins-for-separate-containers">
-<h3>Separate admins for separate containers<a class="headerlink" href="#separate-admins-for-separate-containers" title="Permalink to this heading">#</a></h3>
+<h3>Separate admins for separate containers<a class="headerlink" href="#separate-admins-for-separate-containers" title="Link to this heading">#</a></h3>
 <p>Currently all users are in cn=users,cn=accounts. If we allow users to be
 created in another part of the tree (aka another user container) then we
 can create per-container admins, granting full access to this container
@@ -604,24 +603,24 @@ target based on the value of an attribute:</p>
 <p><code class="docutils literal notranslate"><span class="pre">(targetfilter = &quot;(|(ou=accounting)(ou=engineering))&quot;)</span></code></p>
 </section>
 <section id="limit-self-service-changes-by-attribute">
-<h3>Limit self-service changes by attribute<a class="headerlink" href="#limit-self-service-changes-by-attribute" title="Permalink to this heading">#</a></h3>
+<h3>Limit self-service changes by attribute<a class="headerlink" href="#limit-self-service-changes-by-attribute" title="Link to this heading">#</a></h3>
 <p>Add ability to limit what attributes can be modified on the self-service
 page</p>
 </section>
 <section id="flexibility-in-attributes-that-may-be-delegated">
-<h3>Flexibility in attributes that may be delegated<a class="headerlink" href="#flexibility-in-attributes-that-may-be-delegated" title="Permalink to this heading">#</a></h3>
+<h3>Flexibility in attributes that may be delegated<a class="headerlink" href="#flexibility-in-attributes-that-may-be-delegated" title="Link to this heading">#</a></h3>
 <p>The list of attributes that one can grant write access to needs to be
 configurable</p>
 </section>
 <section id="delegate-entry-user-group-whatever-creation">
-<h3>Delegate entry (user, group, whatever) creation<a class="headerlink" href="#delegate-entry-user-group-whatever-creation" title="Permalink to this heading">#</a></h3>
+<h3>Delegate entry (user, group, whatever) creation<a class="headerlink" href="#delegate-entry-user-group-whatever-creation" title="Link to this heading">#</a></h3>
 <p>In v1 we only delegate attribute writes, not add or delete permissions.
 Some granularity can be obtained by granting access only to users
 (cn=users), groups (cn=groups), etc. along with attributes.</p>
 </section>
 </section>
 <section id="additional-ui-capabilities-needed">
-<h2>Additional UI Capabilities Needed<a class="headerlink" href="#additional-ui-capabilities-needed" title="Permalink to this heading">#</a></h2>
+<h2>Additional UI Capabilities Needed<a class="headerlink" href="#additional-ui-capabilities-needed" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Means to select entries by container (if supported)</p></li>
 <li><p>Means to select one or more entries (could be users or groups or
@@ -631,7 +630,7 @@ both)</p></li>
 </ul>
 </section>
 <section id="delegate-anything">
-<h2>Delegate anything<a class="headerlink" href="#delegate-anything" title="Permalink to this heading">#</a></h2>
+<h2>Delegate anything<a class="headerlink" href="#delegate-anything" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>add users/groups/systems/other</p></li>
 <li><p>delete users/groups/systems/other</p></li>
@@ -641,7 +640,7 @@ this in the UI</p></li>
 </ul>
 </section>
 <section id="new-aci-parser">
-<h2>New ACI Parser<a class="headerlink" href="#new-aci-parser" title="Permalink to this heading">#</a></h2>
+<h2>New ACI Parser<a class="headerlink" href="#new-aci-parser" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>a fuller ACI class that can handle more complex syntax</p>
 <ul>
@@ -654,7 +653,7 @@ this in the UI</p></li>
 </ul>
 </section>
 <section id="ui-requirements">
-<h2>UI Requirements<a class="headerlink" href="#ui-requirements" title="Permalink to this heading">#</a></h2>
+<h2>UI Requirements<a class="headerlink" href="#ui-requirements" title="Link to this heading">#</a></h2>
 <p>It is difficult to select an individual ACI over LDAP. What we will do
 instead is slurp in all of them and prove that to the UI to display.
 This should be refreshed between operations to avoid concurrency issues.</p>
@@ -666,7 +665,7 @@ This should be refreshed between operations to avoid concurrency issues.</p>
 <li><p>CRUD for managing Role groups</p></li>
 </ul>
 <section id="aci">
-<h3>ACI<a class="headerlink" href="#aci" title="Permalink to this heading">#</a></h3>
+<h3>ACI<a class="headerlink" href="#aci" title="Link to this heading">#</a></h3>
 <p>An ACI has 4 attributes:</p>
 <ul class="simple">
 <li><p>name - a description of the ACI</p></li>
@@ -692,7 +691,7 @@ that you can do in your own record.</p>
 <p>anyone is any bind, including an anonymous one.</p>
 </section>
 <section id="task-groups">
-<h3>Task Groups<a class="headerlink" href="#task-groups" title="Permalink to this heading">#</a></h3>
+<h3>Task Groups<a class="headerlink" href="#task-groups" title="Link to this heading">#</a></h3>
 <p>A task group has 3 attributes:</p>
 <ul class="simple">
 <li><p>cn (the group name)</p></li>
@@ -705,7 +704,7 @@ from the Role Groups. Otherwise may seem a bit backwards. What we are
 doing with Role groups is defining what tasks a role may execute. To do
 that we add the Role to the task group.</p>
 <section id="how-to-create-a-new-task">
-<h4>How to create a new Task<a class="headerlink" href="#how-to-create-a-new-task" title="Permalink to this heading">#</a></h4>
+<h4>How to create a new Task<a class="headerlink" href="#how-to-create-a-new-task" title="Link to this heading">#</a></h4>
 <ol class="arabic simple">
 <li><p>Create a new task group for the task</p></li>
 <li><p>Create an ACI and assign it to the task group you just created</p></li>
@@ -713,7 +712,7 @@ that we add the Role to the task group.</p>
 </section>
 </section>
 <section id="id1">
-<h3>Role Groups<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3>Role Groups<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>A role group has 3 attributes:</p>
 <ul class="simple">
 <li><p>cn (the group name)</p></li>
@@ -730,11 +729,11 @@ member of the task.</p>
 </section>
 </section>
 <section id="additional-possible-capabilities">
-<h2>Additional Possible Capabilities<a class="headerlink" href="#additional-possible-capabilities" title="Permalink to this heading">#</a></h2>
+<h2>Additional Possible Capabilities<a class="headerlink" href="#additional-possible-capabilities" title="Link to this heading">#</a></h2>
 <p>These would be for v3 or beyond.</p>
 </section>
 <section id="limit-bind-rules">
-<h2>Limit Bind Rules<a class="headerlink" href="#limit-bind-rules" title="Permalink to this heading">#</a></h2>
+<h2>Limit Bind Rules<a class="headerlink" href="#limit-bind-rules" title="Link to this heading">#</a></h2>
 <p>We can add on additional bind rules for making changes if desired by:</p>
 <ul class="simple">
 <li><p>IP</p></li>
@@ -744,7 +743,7 @@ member of the task.</p>
 </ul>
 </section>
 <section id="current-state-of-affairs">
-<h2>Current State of Affairs<a class="headerlink" href="#current-state-of-affairs" title="Permalink to this heading">#</a></h2>
+<h2>Current State of Affairs<a class="headerlink" href="#current-state-of-affairs" title="Link to this heading">#</a></h2>
 <p>Currently all ACIs are put into cn=accounts,dc=example,dc=com and can
 grant the ability to write a fixed set of attributes from one group of
 users to another.</p>
@@ -755,7 +754,7 @@ users to another.</p>
 </div>
 </section>
 <section id="who-writes-the-acis-tasks-and-roles">
-<h2>Who writes the ACIs, tasks and roles?<a class="headerlink" href="#who-writes-the-acis-tasks-and-roles" title="Permalink to this heading">#</a></h2>
+<h2>Who writes the ACIs, tasks and roles?<a class="headerlink" href="#who-writes-the-acis-tasks-and-roles" title="Link to this heading">#</a></h2>
 <p>Plugin authors, who know best what access may be granted for their given
 operations, will create a list of ACIs for the plugin. This will likely
 revolve around the CRUD operations to grant create, read, update and
@@ -777,11 +776,11 @@ be:</p>
 </ul>
 </section>
 <section id="how-will-acis-be-created">
-<h2>How will ACIs be created?<a class="headerlink" href="#how-will-acis-be-created" title="Permalink to this heading">#</a></h2>
+<h2>How will ACIs be created?<a class="headerlink" href="#how-will-acis-be-created" title="Link to this heading">#</a></h2>
 <p>There will be no web UI for creating new ACIs.</p>
 </section>
 <section id="how-will-acis-be-modified">
-<h2>How will ACIs be modified?<a class="headerlink" href="#how-will-acis-be-modified" title="Permalink to this heading">#</a></h2>
+<h2>How will ACIs be modified?<a class="headerlink" href="#how-will-acis-be-modified" title="Link to this heading">#</a></h2>
 <p>The only modifications to ACIs will be in the list of attributes that
 they cover and will only be available from the CLI.</p>
 <p>For example, the edit User ACI may need to be expanded to include more
@@ -789,7 +788,7 @@ attributes than we grant by default. This CLI capability will let an
 admin select from a set of attributes those whihc may be written.</p>
 </section>
 <section id="diagram">
-<h2>Diagram<a class="headerlink" href="#diagram" title="Permalink to this heading">#</a></h2>
+<h2>Diagram<a class="headerlink" href="#diagram" title="Link to this heading">#</a></h2>
 <p>A picture for your viewing pleasure.</p>
 <p>Remember:</p>
 <ul class="simple">
@@ -800,7 +799,7 @@ admin select from a set of attributes those whihc may be written.</p>
 <figure class="align-default" id="id2">
 <img alt="Picture" src="../_images/Delegation.png" />
 <figcaption>
-<p><span class="caption-text">Picture</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+<p><span class="caption-text">Picture</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>

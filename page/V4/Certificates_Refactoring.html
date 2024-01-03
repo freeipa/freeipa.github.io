@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Certificates_Refactoring &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4/Certificates_Refactoring';</script>
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -302,9 +301,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="certificates-refactoring">
-<h1>Certificates_Refactoring<a class="headerlink" href="#certificates-refactoring" title="Permalink to this heading">#</a></h1>
+<h1>Certificates_Refactoring<a class="headerlink" href="#certificates-refactoring" title="Link to this heading">#</a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>FreeIPA code is using certificates in many different ways, through
 various API and tools (NSS, openssl, …) The goal of this refactoring
 is to provide consistent methods to handle certificates, and will
@@ -318,10 +317,10 @@ consist in 3 different efforts:</p>
 </ul>
 </section>
 <section id="design">
-<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<h2>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h2>
 </section>
 <section id="certificate-issuance-during-installation">
-<h2>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Permalink to this heading">#</a></h2>
+<h2>Certificate issuance during installation<a class="headerlink" href="#certificate-issuance-during-installation" title="Link to this heading">#</a></h2>
 <p>During FreeIPA installation, 3 different certificates are requested:</p>
 <ul class="simple">
 <li><p>a certificate for the renew agent (CN=IPA RA,O=$DOMAIN) stored in
@@ -338,7 +337,7 @@ into consideration the profile that will be used for each certificate,
 as well as certmonger’s CA helper responsible for the request and the
 tracking.</p>
 <section id="ipacert">
-<h3>ipaCert<a class="headerlink" href="#ipacert" title="Permalink to this heading">#</a></h3>
+<h3>ipaCert<a class="headerlink" href="#ipacert" title="Link to this heading">#</a></h3>
 <p>This certificate is requested early in the installation process, after
 Dogtag is configured. At this point, Dogtag has created a certificate
 for ipa-ca-agent in a temporary NSS DB (specified in the pkispawn config
@@ -365,7 +364,7 @@ auth.instance_id, meaning that it allows submission without
 authentication.</p>
 </section>
 <section id="ldap-http-server-certificate">
-<h3>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Permalink to this heading">#</a></h3>
+<h3>LDAP/HTTP server certificate<a class="headerlink" href="#ldap-http-server-certificate" title="Link to this heading">#</a></h3>
 <p>These certificate must be requested and tracked using IPA CA helper,
 with the profile caIPAserviceCert. This profile is defined in Dogtag
 with auth.instance_id=raCertAuth, meaning that the submission must be
@@ -387,7 +386,7 @@ caIPAserviceCert</p></li>
 </section>
 </section>
 <section id="refactor-certificate-processing-code-to-use-python-cryptography">
-<h2>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Permalink to this heading">#</a></h2>
+<h2>Refactor certificate processing code to use python-cryptography<a class="headerlink" href="#refactor-certificate-processing-code-to-use-python-cryptography" title="Link to this heading">#</a></h2>
 <p>Using python-nss for certificate processing has several problems,
 including:</p>
 <ul class="simple">
@@ -401,7 +400,7 @@ code to use python-cryptography instead of python-nss. This is largely a
 mechanical procedure. Aspects of this refactoring where substantive
 changes were required are detailed in the following subsections.</p>
 <section id="dealing-with-distinguished-names">
-<h3>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Permalink to this heading">#</a></h3>
+<h3>Dealing with Distinguished Names<a class="headerlink" href="#dealing-with-distinguished-names" title="Link to this heading">#</a></h3>
 <p>Whereas python-nss exposed DNs as strings (in LDAP order),
 python-cryptography exposes <code class="docutils literal notranslate"><span class="pre">cryptography.x509.name.Name</span></code> objects.
 FreeIPA often needs to work with <code class="docutils literal notranslate"><span class="pre">ipapython.dn.DN</span></code> objects, as well as
@@ -418,7 +417,7 @@ fact that “flattened” DNs should still compare equal, the lack of proper
 handling is unlikely to cause problems.</p>
 </section>
 <section id="dealing-with-known-othername-types">
-<h3>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Permalink to this heading">#</a></h3>
+<h3>Dealing with known OtherName types<a class="headerlink" href="#dealing-with-known-othername-types" title="Link to this heading">#</a></h3>
 <p>python-cryptography exposes a single type
 <code class="docutils literal notranslate"><span class="pre">cryptography.x509.general_name.OtherName</span></code> for OtherName GeneralNames.
 There are no hooks for informing python-cryptography of more specific
@@ -434,7 +433,7 @@ function that is applied a list of
 returning the resulting list.</p>
 </section>
 <section id="avoiding-pkcs-10-friendlyname-attribute">
-<h3>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Permalink to this heading">#</a></h3>
+<h3>Avoiding PKCS #10 <em>friendlyName</em> attribute<a class="headerlink" href="#avoiding-pkcs-10-friendlyname-attribute" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">dogtag-ipa-ca-renew-agent</span></code> Certmonger renewal helper needs to
 determine the NSSDB nickname of the certificate being renewed.
 Certmonger includes this datum in the <em>friendlyName</em> attribute in the
@@ -450,7 +449,7 @@ environment variable as the key to look up the NSSDB nickname.</p>
 <p>All CSR-related <em>pyasn1</em> definitions and decoding were removed.</p>
 </section>
 <section id="decoding-certificate-subject-alternative-name-extension">
-<h3>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Permalink to this heading">#</a></h3>
+<h3>Decoding certificate Subject Alternative Name extension<a class="headerlink" href="#decoding-certificate-subject-alternative-name-extension" title="Link to this heading">#</a></h3>
 <p>python-cryptography does successfully decode certificates with
 unrecognised <em>critical</em> extensions, because the decoding of extensions
 is deferred until the user attempts to access the <code class="docutils literal notranslate"><span class="pre">extensions</span></code>

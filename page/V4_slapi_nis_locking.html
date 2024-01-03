@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>V4_slapi_nis_locking &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4_slapi_nis_locking';</script>
     <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -296,9 +295,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="v4-slapi-nis-locking">
-<h1>V4_slapi_nis_locking<a class="headerlink" href="#v4-slapi-nis-locking" title="Permalink to this heading">#</a></h1>
+<h1>V4_slapi_nis_locking<a class="headerlink" href="#v4-slapi-nis-locking" title="Link to this heading">#</a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>Schema compat plugin can create deadlocks like
 <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1435663">1435663</a>. The
 two operations in that BZ have to be managed by Schema compat so it is
@@ -313,7 +312,7 @@ scenario of deadlock because acquiring locks in the opposite order.</p>
 problem and describe a solution</p>
 </section>
 <section id="use-case">
-<h2>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">#</a></h2>
+<h2>Use case<a class="headerlink" href="#use-case" title="Link to this heading">#</a></h2>
 <p>A admin is adding a IPA user to a GROUP_A, this triggers an update of
 the user (to update memberof attribute) that will update the related
 Schema Compat entry. At the same time a SRCH of a Schema Compat entry
@@ -321,7 +320,7 @@ need to evaluate GROUP_A to grant access to attributes present in the
 search filter.</p>
 </section>
 <section id="design">
-<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<h2>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h2>
 <p>Just to give an example of a typical scenario of the deadlock here is
 how deadlocking threads are looking like</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``   Thread 34 (Thread 0x7f2f4f7fe700 (LWP 22764)):``
@@ -430,7 +429,7 @@ be acquired by a same thread. The <strong>lock should be reentrant</strong>.</p>
 acquires the SC lock in PREOP and release it in POSTOP.</p>
 </section>
 <section id="first-try">
-<h2>First try<a class="headerlink" href="#first-try" title="Permalink to this heading">#</a></h2>
+<h2>First try<a class="headerlink" href="#first-try" title="Link to this heading">#</a></h2>
 <p>A first
 <a class="reference external" href="https://bugzilla.redhat.com/attachment.cgi?id=1305923">patch</a> was</p>
 <ul class="simple">
@@ -450,7 +449,7 @@ scope of the SC</p></li>
 </ul>
 </section>
 <section id="second-patch">
-<h2>Second patch<a class="headerlink" href="#second-patch" title="Permalink to this heading">#</a></h2>
+<h2>Second patch<a class="headerlink" href="#second-patch" title="Link to this heading">#</a></h2>
 <p>Because we can not guaranty the order the plugins are called, the
 acquisition/release of the lock should be done a step above:
 <strong>BE_PREOP</strong> / <strong>BE_POST</strong>.</p>
@@ -485,7 +484,7 @@ systematically the problem ( &gt; 3 times out of 4). The fix makes it
 successful almost more than 9 times out of 10. The last time it hit an
 other issue.</p>
 <section id="case-not-fixed">
-<h3>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Permalink to this heading">#</a></h3>
+<h3>Case not fixed<a class="headerlink" href="#case-not-fixed" title="Link to this heading">#</a></h3>
 <p>An other issue is related to plugins or tasks <strong>starting transaction</strong>
 and accessing DB pages (under the txn) before doing internal updates.
 Indeed, the txn will lock the DB pages (in read) that can not be access

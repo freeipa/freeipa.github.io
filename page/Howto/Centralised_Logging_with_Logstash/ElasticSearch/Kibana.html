@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Kibana &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/Howto/Centralised_Logging_with_Logstash/ElasticSearch/Kibana';</script>
     <link rel="icon" href="../../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -295,21 +294,21 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="kibana">
-<h1>Kibana<a class="headerlink" href="#kibana" title="Permalink to this heading">#</a></h1>
+<h1>Kibana<a class="headerlink" href="#kibana" title="Link to this heading">#</a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>This page covers my personal findings when trying to get FreeIPA logs
 sent through to our central log consolidation infrastructure.</p>
 </section>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
 <p>These IPA servers are running RHEL 6.6. I have a pair of Logstash
 servers to receive and parse logs and a cluster of 5 ElasticSearch
 database servers. Kibana is used as the interface to view log data from
 the ES cluster.</p>
 </section>
 <section id="base-log-sending">
-<h2>Base Log Sending<a class="headerlink" href="#base-log-sending" title="Permalink to this heading">#</a></h2>
+<h2>Base Log Sending<a class="headerlink" href="#base-log-sending" title="Link to this heading">#</a></h2>
 <p>The basic rsyslog configuration is modified by adding the file
 /etc/rsyslog.d/logstash.conf</p>
 <p><code class="docutils literal notranslate"><span class="pre">*.* &#64;logserver.example.com:5544</span></code></p>
@@ -317,7 +316,7 @@ the ES cluster.</p>
 UDP on port 5544.</p>
 </section>
 <section id="advanced-log-sending">
-<h2>Advanced Log Sending<a class="headerlink" href="#advanced-log-sending" title="Permalink to this heading">#</a></h2>
+<h2>Advanced Log Sending<a class="headerlink" href="#advanced-log-sending" title="Link to this heading">#</a></h2>
 <p>Whilst this will work perfectly well for sending basic logs via UDP, for
 bonus points I’m actually doing the following on our Dev IPA servers.
 These servers have the basic rsyslog package replaced by rsyslog7 which
@@ -363,7 +362,7 @@ that match “my_environment=Dev” AND “my_project=IPA”.</p>
 what I need when reviewing the logs through the Kibana UI.</p>
 </section>
 <section id="getting-dirsrv-logs-sending">
-<h2>Getting dirsrv Logs Sending<a class="headerlink" href="#getting-dirsrv-logs-sending" title="Permalink to this heading">#</a></h2>
+<h2>Getting dirsrv Logs Sending<a class="headerlink" href="#getting-dirsrv-logs-sending" title="Link to this heading">#</a></h2>
 <p>The best way I have so far of doing this is to add another file in the
 /etc/rsyslog.d directory which configures rsyslog to look at external
 log files. /etc/rsyslog.d/dirsrv.conf contains the following:</p>
@@ -388,7 +387,7 @@ new log data is pulled in by rsyslog and then sent on to the Logstash
 server(s) via the logstash.conf file above.</p>
 </section>
 <section id="logstash-configuration">
-<h2>Logstash Configuration<a class="headerlink" href="#logstash-configuration" title="Permalink to this heading">#</a></h2>
+<h2>Logstash Configuration<a class="headerlink" href="#logstash-configuration" title="Link to this heading">#</a></h2>
 <p>Logstash 1.4.2 is installed via RPM and configured to accept log data.
 Create file /etc/logstash/conf.d/syslog.conf with the following
 contents:</p>
@@ -462,7 +461,7 @@ timestamp that appears in the actual log line. This is an improvement,
 but will only be to the resolution of 1 second.</p>
 </section>
 <section id="issues">
-<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">#</a></h2>
+<h2>Issues<a class="headerlink" href="#issues" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>dirsrv logs are timestamped with a resolution that allows dozens of
 log lines to share the same timestamp. Increased resolution of

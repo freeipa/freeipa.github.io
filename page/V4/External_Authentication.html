@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>External_Authentication &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/V4/External_Authentication';</script>
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -305,9 +304,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="external-authentication">
-<h1>External_Authentication<a class="headerlink" href="#external-authentication" title="Permalink to this heading">#</a></h1>
+<h1>External_Authentication<a class="headerlink" href="#external-authentication" title="Link to this heading">#</a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>In modern systems sometimes users need to be allowed to authenticate
 using alternative protocols, like Federation protocols (SAML) or
 Hardware Security Modules like Smart Cards (X509). This Feature captures
@@ -315,7 +314,7 @@ the changes needed to allow these alternative authentication methods to
 interact with the FreeIPA UI and HTTP RPC pipes.</p>
 </section>
 <section id="use-cases">
-<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
 <p>An Active Directory Domain User uses ADFS (SAML) to authenticate to a
 trusted IPA server, the user is known to the system but doesn’t have
 Krb5 creds to interact with the framework.</p>
@@ -325,20 +324,20 @@ authenticated via X509 certs to Apache but lacks krb5 creds to interact
 with the framework.</p>
 </section>
 <section id="design">
-<h2>Design<a class="headerlink" href="#design" title="Permalink to this heading">#</a></h2>
+<h2>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h2>
 <p>The solution is to allow the apache authentication modules to map the
 user to an identity known by IPA and then impersonate the user by
 requesting a ticket from the KDC (Protocol Transitioning).</p>
 <figure class="align-default" id="id1">
 <img alt="Ext-Auth.svg" src="../../_images/Ext-Auth.svg" /><figcaption>
-<p><span class="caption-text">Ext-Auth.svg</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+<p><span class="caption-text">Ext-Auth.svg</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The image above represent the final architecture implementing external
 authentication.</p>
 </section>
 <section id="workflows">
-<h2>Workflows<a class="headerlink" href="#workflows" title="Permalink to this heading">#</a></h2>
+<h2>Workflows<a class="headerlink" href="#workflows" title="Link to this heading">#</a></h2>
 <p>The classic workflow where mod_auth_gssapi obtains a ticket and stores
 it in a credential cache to be used by the ipa sever framework changes
 to handle two different workflows: - External Authentication workflow. -
@@ -347,7 +346,7 @@ based authentication internal workflow also changes slightly but it is
 substantially the same as the Negotiate workflow so it won’t be
 explicitly covered.</p>
 <section id="external-authentication-workflow">
-<h3>External Authentication workflow<a class="headerlink" href="#external-authentication-workflow" title="Permalink to this heading">#</a></h3>
+<h3>External Authentication workflow<a class="headerlink" href="#external-authentication-workflow" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p>A user authenticates to an Apache module (A1)</p></li>
 <li><p>After positive authentication the mod_lookup_identity module matches
@@ -363,7 +362,7 @@ the Apache user and the ‘ipaapi’ user used to run the framework.</p></li>
 </ol>
 </section>
 <section id="negotiate-authentication-with-kerberos-credentials-workflow">
-<h3>Negotiate authentication with kerberos credentials workflow<a class="headerlink" href="#negotiate-authentication-with-kerberos-credentials-workflow" title="Permalink to this heading">#</a></h3>
+<h3>Negotiate authentication with kerberos credentials workflow<a class="headerlink" href="#negotiate-authentication-with-kerberos-credentials-workflow" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p>A user with a kerberos ticket authenticates to mod_auth_gssapi (B1),
 this happens via gssproxy interposition (B2) as the Apache server
@@ -375,7 +374,7 @@ the Apache user and the ‘ipaapi’ user used to run the framework.</p></li>
 </ol>
 </section>
 <section id="applications-operations">
-<h3>Applications operations<a class="headerlink" href="#applications-operations" title="Permalink to this heading">#</a></h3>
+<h3>Applications operations<a class="headerlink" href="#applications-operations" title="Link to this heading">#</a></h3>
 <blockquote>
 <div><p>X. When the applications (ipa framewrok/dogtag/etc..) needs to talk
 to the LDAP server (C1) it performs the usual s4u2proxy step using
@@ -387,7 +386,7 @@ operation between HTTP and LDAP.</p>
 </section>
 </section>
 <section id="main-changes">
-<h2>Main Changes<a class="headerlink" href="#main-changes" title="Permalink to this heading">#</a></h2>
+<h2>Main Changes<a class="headerlink" href="#main-changes" title="Link to this heading">#</a></h2>
 <p>A few key changes to the current FreeIPA framework setup are needed:</p>
 <ul class="simple">
 <li><p>GSS-Proxy will need to be started on the box and given exclusive
@@ -414,7 +413,7 @@ step can be done separately after the rest)</p></li>
 </ul>
 </section>
 <section id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
 <p>The implementation requires changed to mod_auth_gssapi
 (<a class="reference external" href="https://github.com/modauthgssapi/mod_auth_gssapi/pull/92">PR92</a>)
 and other parts of the apache authentication configuration. It also
@@ -431,7 +430,7 @@ functionality</p></li>
 </ul>
 </section>
 <section id="feature-management">
-<h2>Feature Management<a class="headerlink" href="#feature-management" title="Permalink to this heading">#</a></h2>
+<h2>Feature Management<a class="headerlink" href="#feature-management" title="Link to this heading">#</a></h2>
 <p>UI</p>
 <p>How the feature will be managed via the Web UI.</p>
 <p>CLI</p>
@@ -439,12 +438,12 @@ functionality</p></li>
 browser workflow working.</p>
 </section>
 <section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">#</a></h2>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
 <p>Any configuration options? Any commands to enable/disable the feature or
 turn on/off its parts?</p>
 </section>
 <section id="upgrade">
-<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this heading">#</a></h2>
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Link to this heading">#</a></h2>
 <p>Configureation changes will be needed in various parts of FreeIPA. The
 Framework will need to operate as a different user from the local apache
 user:</p>
@@ -464,7 +463,7 @@ access it</p></li>
 </ul>
 </section>
 <section id="how-to-use">
-<h2>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this heading">#</a></h2>
+<h2>How to Use<a class="headerlink" href="#how-to-use" title="Link to this heading">#</a></h2>
 <p>Easy to follow instructions how to use the new feature according to the
 <a class="reference external" href="#Use_Cases">use cases</a> described above. FreeIPA user needs to be
 able to follow the steps and demonstrate the new features.</p>
@@ -472,7 +471,7 @@ able to follow the steps and demonstrate the new features.</p>
 Case</a>.</p>
 </section>
 <section id="test-plan">
-<h2>Test Plan<a class="headerlink" href="#test-plan" title="Permalink to this heading">#</a></h2>
+<h2>Test Plan<a class="headerlink" href="#test-plan" title="Link to this heading">#</a></h2>
 <p>Test scenarios that will be transformed to test cases for FreeIPA
 <a class="reference external" href="V3/Integration_testing">Continuous Integration</a> during
 implementation or review phase. This can be also link to <a class="reference external" href="https://git.fedorahosted.org/cgit/freeipa.git/">source in
@@ -480,7 +479,7 @@ cgit</a> with the test,
 if appropriate.</p>
 </section>
 <section id="external-links">
-<h2>External links<a class="headerlink" href="#external-links" title="Permalink to this heading">#</a></h2>
+<h2>External links<a class="headerlink" href="#external-links" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="V4/External_Authentication/Setup">The current smart card/x509 certificate
 setup</a></p></li>

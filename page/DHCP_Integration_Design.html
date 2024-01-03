@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>DHCP_Integration_Design &#8212; FreeIPA  documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'page/DHCP_Integration_Design';</script>
     <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -300,16 +299,16 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="dhcp-integration-design">
-<h1>DHCP_Integration_Design<a class="headerlink" href="#dhcp-integration-design" title="Permalink to this heading">#</a></h1>
+<h1>DHCP_Integration_Design<a class="headerlink" href="#dhcp-integration-design" title="Link to this heading">#</a></h1>
 <section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
 <p>The ISC-DHCP 4.x servers support storing their configuration inside of
 an LDAP tree. By adding DHCP support to FreeIPA, we complete the “host
 identity” puzzle, allowing users of FreeIPA to easily manage their hosts
 from the IP level up.</p>
 </section>
 <section id="locations">
-<h2>Locations<a class="headerlink" href="#locations" title="Permalink to this heading">#</a></h2>
+<h2>Locations<a class="headerlink" href="#locations" title="Link to this heading">#</a></h2>
 <p>DHCP servers may not be connected to the same physical network segments.
 Thus, we should support having seperate DHCP server configurations at
 different locations. These locations should be independant of Automount,
@@ -318,27 +317,27 @@ for example. This would be managed by seperating each DHCP configuration
 into cn=Location,cn=dhcp in the tree.</p>
 </section>
 <section id="v4-and-v6">
-<h2>v4 and v6<a class="headerlink" href="#v4-and-v6" title="Permalink to this heading">#</a></h2>
+<h2>v4 and v6<a class="headerlink" href="#v4-and-v6" title="Link to this heading">#</a></h2>
 <p>ISC-DHCP supports both Ipv4 and Ipv6. We should aim to support both.
 This requires two branches of DHCP server configuration information
 (cn=v4,cn=Location,cn=dhcp, and cn=v6,cn=Location,cn=dhcp). As a part of
 supporting v6, we must also modify radvd configurations.</p>
 </section>
 <section id="gssapi">
-<h2>GSSAPI<a class="headerlink" href="#gssapi" title="Permalink to this heading">#</a></h2>
+<h2>GSSAPI<a class="headerlink" href="#gssapi" title="Link to this heading">#</a></h2>
 <p>At this time, ISC-DHCP does not support authentication to LDAP via
 GSSAPI. This will need to be added, and commited as patches. Until this
 support exists, simple binds must be used.</p>
 </section>
 <section id="dhcp-server-groups">
-<h2>DHCP server groups<a class="headerlink" href="#dhcp-server-groups" title="Permalink to this heading">#</a></h2>
+<h2>DHCP server groups<a class="headerlink" href="#dhcp-server-groups" title="Link to this heading">#</a></h2>
 <p>With out this consideration, if two DHCP servers are connected to the
 same network segment, the servers may become inconsistent causing
 duplicate leases to be allocated. This will create address conflicts and
 other unforseen issues.</p>
 </section>
 <section id="dhcp-failover">
-<h2>DHCP failover<a class="headerlink" href="#dhcp-failover" title="Permalink to this heading">#</a></h2>
+<h2>DHCP failover<a class="headerlink" href="#dhcp-failover" title="Link to this heading">#</a></h2>
 <p>DHCP supports a failover mechanism, where two hosts can exchange leases
 between the failover pair. However, it is limited to two hosts.
 Additionally, if a host goes offline, when it restarts it must wait for
@@ -350,7 +349,7 @@ placed into it’s dhcpServer object, so that each server has a the pair’s
 details, but still points at the same dhcpServiceDN</p>
 </section>
 <section id="ldap-lease-storage">
-<h2>LDAP Lease storage<a class="headerlink" href="#ldap-lease-storage" title="Permalink to this heading">#</a></h2>
+<h2>LDAP Lease storage<a class="headerlink" href="#ldap-lease-storage" title="Link to this heading">#</a></h2>
 <p>The current DHCP schema for LDAP supports storage of DHCP leases in the
 LDAP storage backend. That way arbitratry numbers of servers will always
 be consistent. This also means that DHCP servers can be added or removed
@@ -363,14 +362,14 @@ yet at this stage. This will need to be added. Initially, with only a
 single ISC-DHCP server on a physical network segment, we will avoid
 potential inconsistent network issues.</p>
 <section id="seperate-389ds-database">
-<h3>Seperate 389ds database<a class="headerlink" href="#seperate-389ds-database" title="Permalink to this heading">#</a></h3>
+<h3>Seperate 389ds database<a class="headerlink" href="#seperate-389ds-database" title="Link to this heading">#</a></h3>
 <p>With planned lease storage for DHCP, having a seperate 389ds database
 backend for this would be highly advisable from a performance
 standpoint.</p>
 </section>
 </section>
 <section id="dit">
-<h2>DIT<a class="headerlink" href="#dit" title="Permalink to this heading">#</a></h2>
+<h2>DIT<a class="headerlink" href="#dit" title="Link to this heading">#</a></h2>
 <p>Each DHCP server reads it’s configuration by searching for a dhcpServer
 object that has a matching fqdn (IE, cn=host.example.com,cn=v4,cn=dhcp).
 The filter for this is by default
@@ -391,7 +390,7 @@ cn=v6,cn=Location,cn=dhcp,$SUFFIX
 configuration objects, and the dhcpServiceDN.</p>
 </section>
 <section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this heading">#</a></h2>
+<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h2>
 <p>Converted from /usr/share/doc/dhcp-4.2.4/ldap/dhcp.schema</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=schema
 attributeTypes: (

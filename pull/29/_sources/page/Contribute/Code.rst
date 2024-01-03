@@ -386,5 +386,5 @@ Enjoy the benefits
 ------------------
 
 When your contribution succeeds in the code review, it is pushed to our
-upstream `repository <https://www.freeipa.org/page/Repository>`__ and will be part of our
+upstream `repository <Contribute/Repository>`__ and will be part of our
 next release. See our `Roadmap <https://www.freeipa.org/page/Roadmap>`__ for details.

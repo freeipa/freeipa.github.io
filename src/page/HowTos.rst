@@ -54,6 +54,7 @@ Working with FreeIPA
 -  `Configuring IPA's OCSP to use with httpd and
    mod_nss <http://akasurde.github.io/ocsp-mod-nss-httpd-centos.html#ocsp-mod-nss-httpd-centos>`__
 -  `Wildcard certificates <Howto/Wildcard_certificates>`__
+-  `Recover from a deleted admin user <Howto/Recover_from_a_deleted_admin_user>`__
 
 
 

@@ -243,13 +243,16 @@ Commit message requirements
 The pull request must contain a commit message following the template
 present in the source tree (.git-commit-template):
 
-| ``   component: Subject``
-| ``   ``
-| ``   Explanation``
-| ``   ``
-| ``   Fixes: ``\ ```https://pagure.io/freeipa/issue/XXXX`` <https://pagure.io/freeipa/issue/XXXX>`__
-| ``   or``
-| ``   Related: ``\ ```https://pagure.io/freeipa/issue/XXXX`` <https://pagure.io/freeipa/issue/XXXX>`__
+::
+
+  component: Subject
+
+  Explanation
+
+  Fixes: https://pagure.io/freeipa/issue/XXXX
+  or
+  Related: https://pagure.io/freeipa/issue/XXXX
+
 
 -  *component: Subject* is a single-line summary
 -  *Explanation* must describe the fix or feature + the method chosen to

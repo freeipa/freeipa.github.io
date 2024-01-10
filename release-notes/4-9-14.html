@@ -326,6 +326,24 @@ have to go through a new authentication attempt.</p>
 <p>The overall severity of this issue is marked as MODERATE by Red Hat
 Product Security. FreeIPA team would like to thank Egor Uvarov for
 discovering and reporting this issue.</p>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>Bronze-bit (CVE-2020-17049) mitigation</p></li>
+</ul>
+<p>The Centos 8 Stream/RHEL 8 version of FreeIPA is vulnerable to the
+Bronze-bit attack (CVE-2020-17049) because MIT Kerberos 1.18 does not
+implement PAC ticket signature to protect the “forwardable” flag.
+However, it does implement the PAC extended KDC signature, which
+protects against PAC spoofing. Based on information available in the PAC
+and the “ok-to-auth-as-delegate” attribute in the IPA database, it is
+possible to detect and reject requests where the “forwardable” flag was
+flipped by the attacker in the evidence ticket.</p>
+<p>In order to mitigate Bronze-Bit attack, FreeIPA 4.9.14 implements
+the logic above through a post-issue TGS request check in Kerberos KDC
+which is available in MIT Kerberos 1.18. FreeIPA versions compiled
+against MIT Kerberos 1.20 or later already have proper Bronze-bit
+mitigation.</p>
+<hr class="docutils" />
 <section id="bug-fixes">
 <h3>Bug fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h3>
 <p>FreeIPA 4.9.14 is a security fix release.</p>

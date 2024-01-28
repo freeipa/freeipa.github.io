@@ -16,7 +16,7 @@ attribute of the domain object.
 
 The flag is defined as follows:
 
-::
+.. code-block:: text
 
    #define DOMAIN_PASSWORD_STORE_CLEARTEXT ( 0x00000010 )
 
@@ -37,7 +37,7 @@ When a new password is being set using LDAP add or modify operation, the
 module will check the password policy using the
 build_domain_data_request() function:
 
-::
+.. code-block:: text
 
    // search password policy in domain object
    attrs[] = { "pwdProperties", "pwdHistoryLength", NULL };
@@ -52,7 +52,7 @@ build_domain_data_request() function:
 The get_domain_data_callback() function will check the
 DOMAIN_PASSWORD_STORE_CLEARTEXT bit:
 
-::
+.. code-block:: text
 
    data->pwdProperties = samdb_result_uint(ares->message, "pwdProperties", 0);
    data->store_cleartext = data->pwdProperties & DOMAIN_PASSWORD_STORE_CLEARTEXT;
@@ -60,7 +60,7 @@ DOMAIN_PASSWORD_STORE_CLEARTEXT bit:
 The clear text password will be stored in the supplementalCredentials
 attribute by the setup_supplemental_field() function:
 
-::
+.. code-block:: text
 
    // check password policy
    if (io->domain->store_cleartext &&
@@ -111,7 +111,7 @@ Encoder and Decoder Functions
 The clear text encoder & decoder functions are defined in
 librpc/gen_ndr/ndr_drsblobs.c:
 
-::
+.. code-block:: text
 
    _PUBLIC_ enum ndr_err_code ndr_push_package_PrimaryCLEARTEXTBlob(struct ndr_push *ndr, int ndr_flags, const struct package_PrimaryCLEARTEXTBlob *r)
    {
@@ -156,7 +156,7 @@ There is no code changes required in Samba. However, after installing
 Samba the clear text password needs to be enabled by executing the
 following command:
 
-::
+.. code-block:: text
 
    % ldapmodify -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    dn: dc=samba,dc=example,dc=com

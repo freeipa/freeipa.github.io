@@ -4,7 +4,7 @@ Samba_4_Installation
 Prerequisites
 =============
 
-::
+.. code-block:: text
 
    % yum install gcc git autoconf make python-devel perl-Mozilla-LDAP \
    perl-LDAP phpldapadmin openldap-devel bind ctags-etags
@@ -14,26 +14,26 @@ Prerequisites
 Getting the Source Code
 =======================
 
-::
+.. code-block:: text
 
    % git clone git://git.samba.org/samba.git
    % cd samba
 
 If you need to get a specific version (e.g. release-4-0-0alpha10):
 
-::
+.. code-block:: text
 
    % git checkout -b devel <tag>
 
 To view the list of tags:
 
-::
+.. code-block:: text
 
    % git tag
 
 Getting development branch:
 
-::
+.. code-block:: text
 
    % git remote add github git://github.com/endisd/samba.git
    % git fetch github
@@ -44,7 +44,7 @@ Getting development branch:
 Building Samba
 ==============
 
-::
+.. code-block:: text
 
    % cd samba/source4
    % ./autogen.sh
@@ -61,14 +61,14 @@ Testing Samba
 
 To test Samba with standard backend:
 
-::
+.. code-block:: text
 
    % cd samba/source4
    % make quicktest
 
 To test Samba with OpenLDAP backend:
 
-::
+.. code-block:: text
 
    % export OPENLDAP_SLAPD=/usr/local/libexec/slapd
    % export TEST_LDAP=yes
@@ -77,7 +77,7 @@ To test Samba with OpenLDAP backend:
 
 To test Samba with DS backend:
 
-::
+.. code-block:: text
 
    % export FEDORA_DS_ROOT=/usr
    % export TEST_LDAP=yes

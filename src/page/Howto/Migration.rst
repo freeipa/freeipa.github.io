@@ -45,7 +45,7 @@ as they need to be generated again by the new FreeIPA server and it's
 new `Kerberos <Kerberos>`__ settings or keys. The command doesn't
 migrate user private groups. Following command is suggested:
 
-::
+.. code-block:: text
 
    $ echo Secret123 | ipa migrate-ds --bind-dn="cn=Directory Manager" --user-container=cn=users,cn=accounts --group-container=cn=groups,cn=accounts --group-objectclass=posixgroup --user-ignore-attribute={krbPrincipalName,krbextradata,krblastfailedauth,krblastpwdchange,krblastsuccessfulauth,krbloginfailedcount,krbpasswordexpiration,krbticketflags,krbpwdpolicyreference,mepManagedEntry} --user-ignore-objectclass=mepOriginEntry --with-compat ldap://migrated.freeipa.server.test
 

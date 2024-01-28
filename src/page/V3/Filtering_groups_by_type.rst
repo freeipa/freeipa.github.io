@@ -61,7 +61,7 @@ CLI
 Variations with following additional option variations of *group-find*
 command can be now executed:
 
-::
+.. code-block:: text
 
    group-find --external
    group-find --posix

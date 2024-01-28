@@ -27,39 +27,39 @@ Test Plan
 
 #. Create a new certificate profile for users:
 
-   ::
+.. code-block:: text
 
       ipa certprofile-show caIPAserviceCert --out=caIPAuserCert.txt
 
-   ::
+.. code-block:: text
 
       sed -i "s/profileId=caIPAserviceCert/profileId=caIPAuserCert/" caIPAuserCert.txt
 
-   ::
+.. code-block:: text
 
       ipa certprofile-import caIPAuserCert --file=caIPAuserCert.txt --store=True
 
 #. Create a certificate database folder and a password file:
 
-   ::
+.. code-block:: text
 
       mkdir certs
 
-   ::
+.. code-block:: text
 
       touch certs/pwd
 
 #. Generate a new certificate for the AD user
 
-   ::
+.. code-block:: text
 
       certutil -d certs -N -f
 
-   ::
+.. code-block:: text
 
       certutil -S -s "cn=testuser,dc=ad,dc=test" -n MyCert -x -t "CT,C,C" -v 120 -m 1234 -d certs -f certs/pwd
 
-   ::
+.. code-block:: text
 
       certutil -L -d certs -n MyCert -a > mycert.crt
 
@@ -70,14 +70,14 @@ Test Plan
 
 #. Create an idoverrideuser for AD user:
 
-   ::
+.. code-block:: text
 
       ipa idoverrideuser-add "Default Trust View" testuser@%ad.domain_name%
 
 #. Add a certificate you created during step 5 of the Setup to this
    idoverrideuser:
 
-   ::
+.. code-block:: text
 
       ipa idoverrideuser-add-cert 'Default Trust View' testuser@%ad.domain_name% --certificate="$(openssl x509 -outform der -in mycert.crt | base64 -w 0)"
 
@@ -87,7 +87,7 @@ Test Plan
 
 #. Remove this cert from the user
 
-   ::
+.. code-block:: text
 
       ipa idoverrideuser-remove-cert %username% --certificate="$saved_certificate_text"
 
@@ -101,7 +101,7 @@ Test Plan
 
 #. The step should fail
 
-   ::
+.. code-block:: text
 
       ipa: ERROR: 'usercertificate;binary' already contains one or more values
 

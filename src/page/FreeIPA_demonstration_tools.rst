@@ -28,22 +28,26 @@ one.
 Both scripts were tested on Fedora 15 x86_64 and RHEL 6.1 x86_64
 systems. These packages are required:
 
-| ``libvirt-0.8.8-7``
-| ``qemu-0.14.0-8``
-| ``qemu-system-0.14.0-8``
-| ``qemu-kvm-0.14.0-8``
-| ``qemu-img-0.14.0-8``
-| ``python-virtinst-0.500.6-2``
-| ``openssh-clients-5.6p1-34``
+.. code-block:: text
+
+    libvirt-0.8.8-7
+    qemu-0.14.0-8
+    qemu-system-0.14.0-8
+    qemu-kvm-0.14.0-8
+    qemu-img-0.14.0-8
+    python-virtinst-0.500.6-2
+    openssh-clients-5.6p1-34
 
 (Optionally you can install virt-manager and/or virt-viewer)
 
 Hardware (this configuration allowed us to run smoothly all three VMs as
 well as use system):
 
-| ``10GB of disk free space``
-| ``4 GB RAM``
-| ``CPU dual-core with virtualization support``
+.. code-block:: text
+
+    10GB of disk free space
+    4 GB RAM
+    CPU dual-core with virtualization support
 
 One virtual machine is supposed to use one CPU and 1GB RAM. Disk images
 has growing size with maximum size set to 10GB.
@@ -66,8 +70,10 @@ Now we'll show the easiest way to try out FreeIPA:
 
 -  Get the scripts and extract them into a directory.
 
-| ``git clone https://github.com/ohamada/demo.git``
-| ``cd demo``
+.. code-block:: text
+
+    git clone https://github.com/ohamada/demo.git
+    cd demo
 
 -  You must be root to run the scripts:
 
@@ -81,7 +87,7 @@ Now we'll show the easiest way to try out FreeIPA:
    (example:
    'http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/'):
 
-::
+.. code-block:: text
 
    ``./ipa-base-prepare.sh --createbase --repo $selected_repository ``
 

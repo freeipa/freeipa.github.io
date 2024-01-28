@@ -25,7 +25,7 @@ Apache configuration:
 **Broker**: In
 ``/var/www/openshift/broker/httpd/conf.d/openshift-origin-remote-user.conf``:
 
-::
+.. code-block:: text
 
    LoadModule auth_basic_module modules/mod_auth_basic.so
    LoadModule authz_user_module modules/mod_authz_user.so
@@ -66,7 +66,7 @@ Apache configuration:
 **Console**: In
 ``/var/www/openshift/console/httpd/conf.d/openshift-origin-remote-user.conf``:
 
-::
+.. code-block:: text
 
    LoadModule auth_basic_module modules/mod_auth_basic.so
    LoadModule authz_user_module modules/mod_authz_user.so
@@ -99,7 +99,7 @@ Apache configuration:
 
 Restart services:
 
-::
+.. code-block:: text
 
    $ service openshift-broker restart
    $ service openshift-console restart
@@ -108,7 +108,7 @@ Restart services:
 
 Test
 
-::
+.. code-block:: text
 
    $ kinit USER
    # for the Broker - note trailing "/"

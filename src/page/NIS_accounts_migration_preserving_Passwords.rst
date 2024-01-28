@@ -10,8 +10,10 @@ accounts over IPA preserving the NIS passwords.
 
 Details of this example are as follows:
 
-| ``Domain name: example.com``
-| ``IPA Server: ipa1.example.com``
+.. code-block:: text
+
+    Domain name: example.com
+    IPA Server: ipa1.example.com
 
 To have a user auth successfully on IPA, you need to get the proper
 Kerberos hashes in LDAP, but you can't just paste the NIS passwords as
@@ -90,8 +92,10 @@ Deploy the server CA cert on the client systems
 The IPA CA cert is provided by the IPA httpd server and you just need to
 download it in /etc/openldap/cacerts:
 
-| ``# wget ``\ ```http://ipa1.example.com/ipa/config/ca.crt`` <http://ipa1.example.com/ipa/config/ca.crt>`__\ `` -O /etc/openldap/cacerts/ipa.ca``
-| ``# cacertdir_rehash /etc/openldap/cacerts``
+.. code-block:: text
+
+    # wget ``\ ```http://ipa1.example.com/ipa/config/ca.crt`` <http://ipa1.example.com/ipa/config/ca.crt>`__\ `` -O /etc/openldap/cacerts/ipa.ca
+    # cacertdir_rehash /etc/openldap/cacerts
 
 When users will try to log on the client, SSSD will try to acquire a
 kerberos ticket but if that doesn't work, it will retry then with a bind
@@ -106,7 +110,9 @@ If users still can't login, you can enable the SSSD debug mode editing
 /etc/sssd/sssd.conf and adding the following in your
 [domain/example.com] stanza:
 
-| ``debug_level = 6``
-| ``ldap_tls_reqcert = never (or allow)``
+.. code-block:: text
+
+    debug_level = 6
+    ldap_tls_reqcert = never (or allow)
 
 You will get the details in /var/log/sssd/sssd_example.com.log

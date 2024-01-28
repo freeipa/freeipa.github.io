@@ -79,7 +79,7 @@ easy steps:
 1. Install required packages
 ----------------------------
 
-::
+.. code-block:: text
 
    # yum install freeipa-client
 
@@ -92,7 +92,7 @@ Given that the server owns a publicly accessible DNS domain, client can
 autodiscover all required information by itself if it knows the right
 domain:
 
-::
+.. code-block:: text
 
    # ipa-client-install --domain demo1.freeipa.org -p admin -w Secret123
    Discovery was successful!
@@ -133,7 +133,7 @@ domain:
 `Client <Client>`__ is now enrolled in FreeIPA realm and can "see" all
 it's users:
 
-::
+.. code-block:: text
 
    $ getent passwd employee
    employee:*:1120000003:1120000003:Test Employee:/home/employee:/bin/sh
@@ -145,7 +145,7 @@ it's users:
 3. Try to log in as FreeIPA user
 --------------------------------
 
-::
+.. code-block:: text
 
    $ host mytestclient.demo1.freeipa.org
    mytestclient.demo1.freeipa.org has address 1.2.3.4

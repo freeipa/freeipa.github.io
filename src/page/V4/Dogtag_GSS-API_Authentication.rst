@@ -218,7 +218,7 @@ query a principal's ``memberOf`` attribute.
 
 Example ``/etc/sssd/sssd.conf`` configuration (indicative only):
 
-::
+.. code-block:: text
 
    [sssd]
    services = nss, sudo, pam, ssh, ifp
@@ -241,7 +241,7 @@ SELinux
 
 SELinux must be configured to allow Apache to query the SSSD InfoPipe.
 
-::
+.. code-block:: text
 
    $ sudo setsebool -P httpd_dbus_sssd 1
 
@@ -257,7 +257,7 @@ groups and permissions of the authenticated principal (if any).
 
 Example (indicative only):
 
-::
+.. code-block:: text
 
    &lt;If &quot;%{QUERY_STRING} =~ /\bgssapi=/&quot;&gt;
      AuthType GSSAPI
@@ -300,7 +300,7 @@ configured to present a certificate will still do so.
 The ``pki-tomcatd`` deployment must be updated to accept external
 authentication. In ``/etc/pki/pki-tomcat/server.xml``:
 
-::
+.. code-block:: text
 
    &lt;Connector port=&quot;8009&quot;
      protocol=&quot;AJP/1.3&quot;
@@ -316,7 +316,7 @@ authentication. In ``/etc/pki/pki-tomcat/server.xml``:
 
 Directives to be added:
 
-::
+.. code-block:: text
 
    authz.instance.IPAAuthz.pluginName=DirAclAuthz
    authz.instance.IPAAuthz.ldap=internaldb
@@ -338,7 +338,7 @@ Dogtag ACL syntax but will refer to IPA users (or other principal
 names), groups and permissions, rather than "internal" Dogtag users and
 groups. The entry shall be:
 
-::
+.. code-block:: text
 
    cn=IPA.LOCAL,cn=aclResources,o=ipaca
 
@@ -413,7 +413,7 @@ ownership ``apache:pkiuser`` and mode ``0640``. The credential caches
 created therein shall have mode ``0644``. The following ``httpd``
 configuration directives are involved:
 
-::
+.. code-block:: text
 
    GssapiDelegCcacheDir /var/run/pki/clientcaches
    GssapiDelegCcachePerms mode:0644

@@ -49,7 +49,7 @@ These requests use the XML-RPC API.
 Example
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    # kinit admin
    # ipa-join
@@ -67,7 +67,7 @@ one-time password. This password allows a user to authenticate over LDAP
 Example
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    # ipa-join -w secret123
 
@@ -97,7 +97,7 @@ It will fail with a file permissions error otherwise.
 
 For delegation, the rolegroup to be a member of is hostadmin
 
-::
+.. code-block:: text
 
    ipa rolegroup-add-member --users=someuser hostadmin
 

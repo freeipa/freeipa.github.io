@@ -22,7 +22,7 @@ Current domain level
 To get value of current domain level, please execute the following
 command:
 
-::
+.. code-block:: text
 
     | ``$ ipa ``\ **``domainlevel-get``**
     | ``-----------------------``
@@ -36,10 +36,12 @@ Increase domain level
 
 To increase domain level, please use the following command:
 
-| ``$ ipa ``\ **``domainlevel-set``**\ `` 1``
-| ``-----------------------``
-| ``Current domain level: 1``
-| ``-----------------------``
+.. code-block:: text
+
+    $ ipa ``\ **``domainlevel-set``**\ `` 1
+    -----------------------
+    Current domain level: 1
+    -----------------------
 
 
 

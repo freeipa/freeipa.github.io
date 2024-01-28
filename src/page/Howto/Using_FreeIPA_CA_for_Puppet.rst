@@ -101,7 +101,7 @@ On the machine for the Puppet Master:
 #. Setup the master configuration in ``/etc/puppet/puppet.conf`` by
    adding:
 
-   ::
+.. code-block:: text
 
       [master]
           ca = false
@@ -110,7 +110,7 @@ On the machine for the Puppet Master:
 
 #. Setup NSS in ``/etc/httpd/conf.d/nss.conf``:
 
-   ::
+.. code-block:: text
 
       LoadModule          nss_module modules/libmodnss.so
       AddType             application/x-x509-ca-cert .crt
@@ -195,7 +195,7 @@ On the Puppet Agent:
 #. Setup the agent configuration in ``/etc/puppet/puppet.conf``, by
    editing/adding the ``[agent]`` & ``[main]`` block:
 
-   ::
+.. code-block:: text
 
       [main]
          # &lt;--snip--&gt;

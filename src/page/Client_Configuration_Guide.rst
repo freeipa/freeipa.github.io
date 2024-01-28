@@ -63,7 +63,7 @@ which attributes.
 3. Ensure the following lines reflect your setup. Replace ".example.com"
 with your own IPA server's domain, including the preceding period (.):
 
-::
+.. code-block:: text
 
     network.negotiate-auth.trusted-uris  .example.com
     network.negotiate-auth.delegation-uris  .example.com
@@ -71,7 +71,7 @@ with your own IPA server's domain, including the preceding period (.):
 
 For firefox on Windows , do these:
 
-::
+.. code-block:: text
 
     network.negotiate-auth.trusted-uris .example.com
     network.auth.use-sspi false 
@@ -79,7 +79,7 @@ For firefox on Windows , do these:
 
 On Some installs this last value may need to be
 
-::
+.. code-block:: text
 
     network.negotiate-auth.gsslib: C:\Program Files(x86)\MIT\Kerberos\bin\gssapi32.dll
 

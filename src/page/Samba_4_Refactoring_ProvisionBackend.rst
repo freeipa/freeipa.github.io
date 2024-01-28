@@ -15,7 +15,7 @@ object-oriented techniques.
 Class Hierarchy
 ===============
 
-::
+.. code-block:: text
 
    ProvisionBackend
    + LDBBackend

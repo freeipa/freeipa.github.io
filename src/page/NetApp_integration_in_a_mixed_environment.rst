@@ -56,7 +56,7 @@ for the LDAP bind and after configuring all the other options. Leave
 
 This is an example of my configuration:
 
-::
+.. code-block:: text
 
    ldap.ADdomain                           
    ldap.base                    dc=example,dc=com 

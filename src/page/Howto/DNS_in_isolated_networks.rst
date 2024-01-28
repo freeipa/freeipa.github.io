@@ -32,16 +32,18 @@ Add root zone (.):
 Without proper delegation of zone where nameserver is located, BIND will
 show following error and will not load the root zone.
 
-| ``# journalctl -b -u named[-pkcs11]``
-| ``  zone ./IN: NS 'ipa.example.com' has no address records (A or AAAA)``
-| ``  zone ./IN: not loaded due to errors.``
+.. code-block:: text
+
+    # journalctl -b -u named[-pkcs11]
+      zone ./IN: NS 'ipa.example.com' has no address records (A or AAAA)
+      zone ./IN: not loaded due to errors.
 
 **Note:** IPA adds all DNS capable IPA replicas as default NS records to
 zone apex.
 
 Add NS delegation for all child zones on server.
 
-::
+.. code-block:: text
 
     | ``$ ipa dnszone-find --pkey-only``
     | ``  Zone name: .``
@@ -78,15 +80,19 @@ For BIND 9:
 
 For Unbound:
 
-| ``$ dig @192.0.2.1 . NS > /var/unbound/hints.ca``
-| ``# add option "roothints: /var/unbound/hints.ca" to "server" section``
-| ``# in /etc/unbound/unbound.conf``
+.. code-block:: text
+
+    $ dig @192.0.2.1 . NS > /var/unbound/hints.ca
+    # add option "roothints: /var/unbound/hints.ca" to "server" section
+    # in /etc/unbound/unbound.conf
 
 For Unbound utilities (drill etc.):
 
-| ``$ dig @192.0.2.1 . NS > /tmp/hints.ca``
-| ``# use -r option for every call of the command``
-| ``$ drill -r /tmp/hints.ca``
+.. code-block:: text
+
+    $ dig @192.0.2.1 . NS > /tmp/hints.ca
+    # use -r option for every call of the command
+    $ drill -r /tmp/hints.ca
 
 DNSSEC
 ------

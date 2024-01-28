@@ -121,14 +121,14 @@ Filesystem storage
 
 Profile templates are currently stored as:
 
-::
+.. code-block:: text
 
    /usr/share/ipa/profiles/&lt;profile-name&gt;.cfg
 
 Now that we need to store multiple versions of a profile template, we
 shall use the following schema:
 
-::
+.. code-block:: text
 
    /usr/share/ipa/profiles/&lt;profile-name&gt;.&lt;ipa-lower-bound&gt;
 
@@ -148,7 +148,7 @@ Certificate profile objects
 The ``ipaCertProfile`` object class shall be updated with a new optional
 integer attribute for storing the version of the profile:
 
-::
+.. code-block:: text
 
    # New attribute
    attributeTypes: ( 2.16.840.1.113730.3.8.21.1.9

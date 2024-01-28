@@ -123,13 +123,15 @@ log:
 
 The errors can be stopped by issuing:
 
-| ``   # getcert list  # to find out the certmonger request ID``
-| ``   # getcert stop-tracking ``
+.. code-block:: text
+
+       # getcert list  # to find out the certmonger request ID
+       # getcert stop-tracking 
 
 If needed, machine certificates may be obtained from the external CA and
 added to the server with:
 
-::
+.. code-block:: text
 
    ``   ipa host-mod ``\ `` --certificate ``
 
@@ -163,24 +165,30 @@ Use the handy ``file`` command.
 
 PEM files show up as such:
 
-| ``   $ file /etc/ipa/ca.crt``
-| ``   /etc/ipa/ca.crt: PEM certificate``
+.. code-block:: text
+
+       $ file /etc/ipa/ca.crt
+       /etc/ipa/ca.crt: PEM certificate
 
 PKCS#12 files show up as just "data":
 
-| ``   $ file dirsrv.p12``
-| ``   dirsrv.p12: data``
+.. code-block:: text
+
+       $ file dirsrv.p12
+       dirsrv.p12: data
 
 To check a PKCS#12 file, you need to know the password:
 
-| ``   $ pk12util -l dirsrv.p12``
-| ``   Enter password for PKCS12 file:``
-| ``   Certificate(has private key):``
-| ``       <...>``
-| ``   Certificate:``
-| ``       <...>``
-| ``   Key(shrouded):``
-| ``       <...>``
+.. code-block:: text
+
+       $ pk12util -l dirsrv.p12
+       Enter password for PKCS12 file:
+       Certificate(has private key):
+           <...>
+       Certificate:
+           <...>
+       Key(shrouded):
+           <...>
 
 
 
@@ -192,29 +200,31 @@ For PKCS#12 files, use ``pk12util -l`` (see previous section).
 For PEM files, simply open the file in a pager or text editor and count
 the number of blocks. A certificate will look like this:
 
-| ``   $ cat /etc/ipa/ca.crt``
-| ``   -----BEGIN CERTIFICATE-----``
-| ``   MIIDuzCCAqOgAwIBAgIBATANBgkqhkiG9w0BAQsFADBFMSMwIQYDVQQKExpJRE0u``
-| ``   TEFCLkVORy5CUlEuUkVESEFULkNPTTEeMBwGA1UEAxMVQ2VydGlmaWNhdGUgQXV0``
-| ``   aG9yaXR5MB4XDTEzMDMyMDE3MDQxNFoXDTMzMDMyMDE3MDQxNFowRTEjMCEGA1UE``
-| ``   ChMaSURNLkxBQi5FTkcuQlJRLlJFREhBVC5DT00xHjAcBgNVBAMTFUNlcnRpZmlj``
-| ``   YXRlIEF1dGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZi``
-| ``   pF9Dz5O1rVTRnwIdttHl0sKpHeRqzi/S7bnAFh3Jb2UxzFmHTpgQFKqq72mYatpL``
-| ``   O0BPc47IGh9gwGZNLcEaNCf7zYCbqBJso8RV6SxbHSEdo+JuSYhMxVasKQcojqeY``
-| ``   /wx11A4NSQAco6mBZz255llZqMQcJVMW4T8aioUd19Yh35CM9vr6l6dgUnvA9fAF``
-| ``   TOl144yfF8AjvF1hIAePjLyl+Y/xxh1U2j5hF4z7ZeUGHKVZR9pQ62kbM7TgAR6Y``
-| ``   YLGpis44JPfgRVkDGEkc7Vzpct1D4Iz7/oGMV+0kbJbz+9DSIHWY10QTtf9mNQNn``
-| ``   xKGa3wCf5u8ctfmms8cCAwEAAaOBtTCBsjAfBgNVHSMEGDAWgBQCHF1DVeHg3kUG``
-| ``   VRm/j0f9eji6nzAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBxjAdBgNV``
-| ``   HQ4EFgQUAhxdQ1Xh4N5FBlUZv49H/Xo4up8wTwYIKwYBBQUHAQEEQzBBMD8GCCsG``
-| ``   AQUFBzABhjNodHRwOi8vdm0tMDg0LmlkbS5sYWIuZW5nLmJycS5yZWRoYXQuY29t``
-| ``   OjgwL2NhL29jc3AwDQYJKoZIhvcNAQELBQADggEBAB3+or2Q/aPO4ZMBE4Q6xCMV``
-| ``   09ESAXXT/0DLakAt28ljy1wWKVR3d54TxZJ4DEcYgbxDa1A87DZW8sn+LM4Uwap9``
-| ``   DUyHA0mhBjROe6NXgJQl9aZ7IeE1ht+pw/n+JR2sg3ccYHvQjRcEZj2OPQuavyPn``
-| ``   hwokDc3FVarlsQcrtfePG3e8TQXAnpSxV+KAMBEp4yib5nrkNZZoU+nqMI0ftXrk``
-| ``   rP5q0SaEBEjC4+AoYje4Bv3+8RKT1kwBMkTL8eRRuWZmKvOy9sCnnFfU4HMMkPTK``
-| ``   NJg9Gt8a/xU6GK239M1keCKct87VqWN1unXaD51bgotK1UJWj1q8H262mSYzfRg=``
-| ``   -----END CERTIFICATE-----``
+.. code-block:: text
+
+       $ cat /etc/ipa/ca.crt
+       -----BEGIN CERTIFICATE-----
+       MIIDuzCCAqOgAwIBAgIBATANBgkqhkiG9w0BAQsFADBFMSMwIQYDVQQKExpJRE0u
+       TEFCLkVORy5CUlEuUkVESEFULkNPTTEeMBwGA1UEAxMVQ2VydGlmaWNhdGUgQXV0
+       aG9yaXR5MB4XDTEzMDMyMDE3MDQxNFoXDTMzMDMyMDE3MDQxNFowRTEjMCEGA1UE
+       ChMaSURNLkxBQi5FTkcuQlJRLlJFREhBVC5DT00xHjAcBgNVBAMTFUNlcnRpZmlj
+       YXRlIEF1dGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZi
+       pF9Dz5O1rVTRnwIdttHl0sKpHeRqzi/S7bnAFh3Jb2UxzFmHTpgQFKqq72mYatpL
+       O0BPc47IGh9gwGZNLcEaNCf7zYCbqBJso8RV6SxbHSEdo+JuSYhMxVasKQcojqeY
+       /wx11A4NSQAco6mBZz255llZqMQcJVMW4T8aioUd19Yh35CM9vr6l6dgUnvA9fAF
+       TOl144yfF8AjvF1hIAePjLyl+Y/xxh1U2j5hF4z7ZeUGHKVZR9pQ62kbM7TgAR6Y
+       YLGpis44JPfgRVkDGEkc7Vzpct1D4Iz7/oGMV+0kbJbz+9DSIHWY10QTtf9mNQNn
+       xKGa3wCf5u8ctfmms8cCAwEAAaOBtTCBsjAfBgNVHSMEGDAWgBQCHF1DVeHg3kUG
+       VRm/j0f9eji6nzAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBxjAdBgNV
+       HQ4EFgQUAhxdQ1Xh4N5FBlUZv49H/Xo4up8wTwYIKwYBBQUHAQEEQzBBMD8GCCsG
+       AQUFBzABhjNodHRwOi8vdm0tMDg0LmlkbS5sYWIuZW5nLmJycS5yZWRoYXQuY29t
+       OjgwL2NhL29jc3AwDQYJKoZIhvcNAQELBQADggEBAB3+or2Q/aPO4ZMBE4Q6xCMV
+       09ESAXXT/0DLakAt28ljy1wWKVR3d54TxZJ4DEcYgbxDa1A87DZW8sn+LM4Uwap9
+       DUyHA0mhBjROe6NXgJQl9aZ7IeE1ht+pw/n+JR2sg3ccYHvQjRcEZj2OPQuavyPn
+       hwokDc3FVarlsQcrtfePG3e8TQXAnpSxV+KAMBEp4yib5nrkNZZoU+nqMI0ftXrk
+       rP5q0SaEBEjC4+AoYje4Bv3+8RKT1kwBMkTL8eRRuWZmKvOy9sCnnFfU4HMMkPTK
+       NJg9Gt8a/xU6GK239M1keCKct87VqWN1unXaD51bgotK1UJWj1q8H262mSYzfRg=
+       -----END CERTIFICATE-----
 
 
 
@@ -274,7 +284,7 @@ certificate chain and private key(s), if available):
 
 To import a PEM file:
 
-::
+.. code-block:: text
 
    ``   certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i ``
 

@@ -37,12 +37,12 @@ requests and responses
 
 Extension of the ipaReplicationTopologyConfig entry:
 
-::
+.. code-block:: text
 
-   | ``cn=``\ ``,cn=topology,``
-   | ``objectclass: ipaReplicationTopologyConfig``
-   | ``ipaReplTopoConfigRoot: < dn >``
-   | ``ipaReplTopoMonitorRequest: ``
+    cn=``\ ``,cn=topology,``
+    objectclass: ipaReplicationTopologyConfig``
+    ipaReplTopoConfigRoot: < dn >``
+    ipaReplTopoMonitorRequest: ``
 
 The request ID is used to map the monitoring responses to a request, to
 trigger a new request a ldap replace operation for this attribute is
@@ -50,10 +50,12 @@ applied. A simple time stamp is used as requestID.
 
 Extension to the ipaReplicationTopologySegment:
 
-| ``cn: ``\ ``, cn=``\ ``,cn=topology,``
-| ``objectclass: ipaReplicationTopologySegment``
-| ``ipaReplSegmenState;left : ``\ ``:``
-| ``ipaReplSegmenState;right : ``\ ``:``
+.. code-block:: text
+
+    cn: ``\ ``, cn=``\ ``,cn=topology,
+    objectclass: ipaReplicationTopologySegment
+    ipaReplSegmenState;left : ``\ ``:
+    ipaReplSegmenState;right : ``\ ``:
 
 For each agreement a replication state attribute is added ";left"
 ";right" indicate to which of the two agreements that can be represented
@@ -85,9 +87,11 @@ be repeated until a defined maximal waiting period passed.
 Based on the received information, the state of the agreements can be
 listed. The state of the agreement will be:
 
-| ``green: the agrement is operational``
-| ``red: agreement is not working (no more refinements yet)``
-| ``grey: no response for the monitoring request with the given monitoringID was received``
+.. code-block:: text
+
+    green: the agrement is operational
+    red: agreement is not working (no more refinements yet)
+    grey: no response for the monitoring request with the given monitoringID was received
 
 
 

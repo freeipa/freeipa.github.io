@@ -82,20 +82,24 @@ operation, allowing to eventually turn off the old one.
 The following is the psudo-ASN.1 code definition for the extended
 operation payload:
 
-| ``KeytabGetRequest ::= CHOICE {``
-| ``    newkey s     [0] NewKeys,``
-| ``    curkey s     [0] CurrentKeys,``
-| ``    reply        [2] Reply``
-| ``}``
-| ``NewKeys ::= SEQUENCE {``
-| ``    serviceIdentity [0] OCTET STRING,``
-| ``    enctypes        [1] SEQUENCE OF Int16,``
-| ``    password        [2] OCTET STRING OPTIONAL``
-| ``}``
+.. code-block:: text
 
-| ``CurrentKeys ::= SEQUENCE {``
-| ``    serviceIdentity [0] OCTET STRING``
-| ``}``
+    KeytabGetRequest ::= CHOICE {
+        newkey s     [0] NewKeys,
+        curkey s     [0] CurrentKeys,
+        reply        [2] Reply
+    }
+    NewKeys ::= SEQUENCE {
+        serviceIdentity [0] OCTET STRING,
+        enctypes        [1] SEQUENCE OF Int16,
+        password        [2] OCTET STRING OPTIONAL
+    }
+
+.. code-block:: text
+
+    CurrentKeys ::= SEQUENCE {
+        serviceIdentity [0] OCTET STRING
+    }
 
 If the getNew attribute is true a new keytab is being requested. In this
 case a password may be provided or not. If not one is generated
@@ -108,26 +112,34 @@ allowable enctypes list and if nothing is left the operation is refused.
 If the getNew attribute is false, then the existing key is being
 requested. In this case password and enctypes MUST NOT be set.
 
-| ``Reply ::= SEQUENCE {``
-| ``    new_kvno        Int32``
-| ``    keys            SEQUENCE OF KrbKey,``
-| ``}``
+.. code-block:: text
 
-| ``KrbKey ::= SEQUENCE {``
-| ``    key       [0] EncryptionKey,``
-| ``    salt      [1] KrbSalt OPTIONAL,``
-| ``    s2kparams [2] OCTET STRING OPTIONAL,``
-| ``}``
+    Reply ::= SEQUENCE {
+        new_kvno        Int32
+        keys            SEQUENCE OF KrbKey,
+    }
 
-| ``EncryptionKey ::= SEQUENCE {``
-| ``    keytype   [0] Int32,``
-| ``    keyvalue  [1] OCTET STRING``
-| ``}``
+.. code-block:: text
 
-| ``KrbSalt ::= SEQUENCE {``
-| ``    type      [0] Int32,``
-| ``    salt      [1] OCTET STRING``
-| ``}``
+    KrbKey ::= SEQUENCE {
+        key       [0] EncryptionKey,
+        salt      [1] KrbSalt OPTIONAL,
+        s2kparams [2] OCTET STRING OPTIONAL,
+    }
+
+.. code-block:: text
+
+    EncryptionKey ::= SEQUENCE {
+        keytype   [0] Int32,
+        keyvalue  [1] OCTET STRING
+    }
+
+.. code-block:: text
+
+    KrbSalt ::= SEQUENCE {
+        type      [0] Int32,
+        salt      [1] OCTET STRING
+    }
 
 The reply actually is very similar to the current ``setkeytab`` request
 format.
@@ -166,19 +178,23 @@ New Schema
 
 Attributes:
 
-| ``IPA_OID.11.51 NAME 'ipaAllowedToPerform'``
-| ``              DESC 'DNs allowed to perform an operation'``
-| ``              SUP distinguishedName X-ORIGIN 'IPA-v3')``
-| ``IPA_OID.11.52 NAME 'ipaProtectedOperation'``
-| ``              DESC 'Operation to be protected'``
-| ``              EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )``
+.. code-block:: text
+
+    IPA_OID.11.51 NAME 'ipaAllowedToPerform'
+                  DESC 'DNs allowed to perform an operation'
+                  SUP distinguishedName X-ORIGIN 'IPA-v3')
+    IPA_OID.11.52 NAME 'ipaProtectedOperation'
+                  DESC 'Operation to be protected'
+                  EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )
 
 Objectclasses:
 
-| ``IPA_OID.12.22 NAME 'ipaAllowedOperations'``
-| ``              SUP top AUXILIARY``
-| ``              DESC 'Class to apply access controls to arbitrary operations'``
-| ``              MAY ( ipaAllowedToPerform $ ipaProtectedOperation ) X-ORIGIN 'IPA v3')``
+.. code-block:: text
+
+    IPA_OID.12.22 NAME 'ipaAllowedOperations'
+                  SUP top AUXILIARY
+                  DESC 'Class to apply access controls to arbitrary operations'
+                  MAY ( ipaAllowedToPerform $ ipaProtectedOperation ) X-ORIGIN 'IPA v3')
 
 This schema allows to add the ``ipaAllowedToPerform`` attribute to an
 object, with a sub-type that indicates what special operation we want to
@@ -209,15 +225,17 @@ An example ACI rule to allow retrieval is this:
 For this ACI to have effect an attribute needs to be added to a target
 service entry like this:
 
-| ``dn: HTTP/www.example.com@EXAMPLE.COM,cn=services,cn=accounts,dc=example,dc=com``
-| ``changetype: modify``
-| ``add: objectclass``
-| ``objectclass: ipaAllowedOperations``
-| ``-``
-| ``add: ipaAllowedToPerform;read_key``
-| ``ipaAllowedToPerform;read_key: fqdn=clustermember1.example.com,cn=computers,cn=accounts,dc=example,dc=com``
-| ``ipaAllowedToPerform;read_key: fqdn=clustermember2.example.com,cn=computers,cn=accounts,dc=example,dc=com``
-| ``ipaAllowedToPerform;read_key: fqdn=clustermember3.example.com,cn=computers,cn=accounts,dc=example,dc=com``
+.. code-block:: text
+
+    dn: HTTP/www.example.com@EXAMPLE.COM,cn=services,cn=accounts,dc=example,dc=com
+    changetype: modify
+    add: objectclass
+    objectclass: ipaAllowedOperations
+    -
+    add: ipaAllowedToPerform;read_key
+    ipaAllowedToPerform;read_key: fqdn=clustermember1.example.com,cn=computers,cn=accounts,dc=example,dc=com
+    ipaAllowedToPerform;read_key: fqdn=clustermember2.example.com,cn=computers,cn=accounts,dc=example,dc=com
+    ipaAllowedToPerform;read_key: fqdn=clustermember3.example.com,cn=computers,cn=accounts,dc=example,dc=com
 
 With this ACI and attributes in place clustermember1.example.com,
 clustermember2.example.com and clustermember3.example.com hosts can

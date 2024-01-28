@@ -25,11 +25,13 @@ module and place an httpd file in /etc/pam.d for the PAM configuration.
 The default is to use whatever is in /etc/pam.d/password-auth but this
 may be overkill. To just use SSSD all that is needed is:
 
-| `` auth        required      pam_env.so``
-| `` auth        sufficient    pam_sss.so ``
-| `` auth        required      pam_deny.so``
-| `` account     sufficient    pam_sss.so``
-| `` account     required      pam_deny.so``
+.. code-block:: text
+
+     auth        required      pam_env.so
+     auth        sufficient    pam_sss.so 
+     auth        required      pam_deny.so
+     account     sufficient    pam_sss.so
+     account     required      pam_deny.so
 
 To allow httpd to talk to PAM with selinux enabled a boolean needs to be
 set:
@@ -40,10 +42,12 @@ With that in place it's simple enough to add user/group behaviour via
 adding the appropriate entries for the directory or location concerned
 in the conf files or .htaccess:
 
-| `` AuthPAM_Enabled on``
-| `` AuthType Basic``
-| `` AuthName "Group Restricted  Server"``
-| `` require valid-user``
+.. code-block:: text
+
+     AuthPAM_Enabled on
+     AuthType Basic
+     AuthName "Group Restricted  Server"
+     require valid-user
 
 Pros
 
@@ -75,10 +79,12 @@ LDAP groups via mod_authnz_ldap which is included in the base httpd
 install. The important lines to look at for basic lockdown via groups
 are:
 
-| `` AuthLDAPURL   ``
-| `` AuthLDAPBindDN    ``
-| `` AuthLDAPBindPassword  ``
-| `` require ldap-group``
+.. code-block:: text
+
+     AuthLDAPURL   
+     AuthLDAPBindDN    
+     AuthLDAPBindPassword  
+     require ldap-group
 
 The bind user and password are only required if anonymous lookups are
 disabled (which is preferred in general).
@@ -86,14 +92,16 @@ disabled (which is preferred in general).
 First a dedicated system user should be created to use to bind with. To
 do this create a file (eg httpbind.ldif) containing the following:
 
-| `` dn: uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| `` changetype: add``
-| `` objectclass: account``
-| `` objectclass: simplesecurityobject``
-| `` uid: httpbind``
-| `` userPassword: ohaimakethissimethingtoughtobreak``
-| `` passwordExpirationTime: 20380119031407Z``
-| `` nsIdleTimeout: 0``
+.. code-block:: text
+
+     dn: uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com
+     changetype: add
+     objectclass: account
+     objectclass: simplesecurityobject
+     uid: httpbind
+     userPassword: ohaimakethissimethingtoughtobreak
+     passwordExpirationTime: 20380119031407Z
+     nsIdleTimeout: 0
 
 This can then be imported by:
 
@@ -103,13 +111,16 @@ Now the configuration can be carried out. Full details can be found
 `here <http://httpd.apache.org/docs/2.2/mod/mod_authnz_ldap.html>`__ but
 in brief...
 
-| `` AuthLDAPURL   ``\ ```ldaps://ipa01.example.com:636/dc=example,dc=com`` <ldaps://ipa01.example.com:636/dc=example,dc=com>`__
-| `` AuthLDAPBindDN    uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| `` AuthLDAPBindPassword  ohaimakethissimethingtoughtobreak``
-| `` require ldap-group``
-| `` LDAPTrustedGlobalCert CA_BASE64 /etc/httpd/certs/ca.crt``
-| `` AuthLDAPGroupAttributeIsDN off``
-| `` ``
+.. code-block:: text
+
+     AuthLDAPURL   ``\ ```ldaps://ipa01.example.com:636/dc=example,dc=com`` <ldaps://ipa01.example.com:636/dc=example,dc=com>`__
+
+     AuthLDAPBindDN    uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com
+     AuthLDAPBindPassword  ohaimakethissimethingtoughtobreak
+     require ldap-group
+     LDAPTrustedGlobalCert CA_BASE64 /etc/httpd/certs/ca.crt
+     AuthLDAPGroupAttributeIsDN off
+     
 
 Make sure that /etc/ipa/ca.crt has been copied to a location that httpd
 can read (such as /etc/httpd/certs/ca.crt if following the previous

@@ -43,7 +43,7 @@ it or burn it to suitable media.
 
 3. Use the following command to install the IPA client and tools:
 
-::
+.. code-block:: text
 
    # yum install ipa-client ipa-admintools
 
@@ -80,7 +80,7 @@ When the script has finished configuring the IPA client, it will display
 information about the realm, DNS domain, IPA server, etc. You should see
 output similar to the following:
 
-::
+.. code-block:: text
 
    Discovery was successful!
    Realm: EXAMPLE.COM
@@ -108,7 +108,7 @@ remaining configuration changes manually.
 Ensure that you replace the example values with those that apply to your
 deployment.
 
-::
+.. code-block:: text
 
    [libdefaults]
     default_realm = EXAMPLE.COM
@@ -142,7 +142,7 @@ any additional information is required. The basic steps required are:
 
 1. Modify the following in the ``/etc/ldap.conf`` file:
 
-::
+.. code-block:: text
 
    URI     ldap://ipaserver.example.com
    BASE dc=example,dc=com
@@ -163,7 +163,7 @@ with the **-a** option.
 3. Install this certificate in the ``/etc/cacerts`` directory as
 follows:
 
-::
+.. code-block:: text
 
    # cp cacert.asc /etc/cacerts/`openssl x509 -noout \ 
      -hash -in cacert.asc`.0
@@ -187,19 +187,19 @@ Use the following procedure to configure NFS on the IPA client:
 
 1. Obtain a Kerberos ticket for the **admin** user.
 
-::
+.. code-block:: text
 
     # kinit admin
 
 2. Add an NFS service principal on the client.
 
-::
+.. code-block:: text
 
     # ipa-addservice nfs/ipaclient.example.com
 
 3. Get a keytab for the NFS service principal.
 
-::
+.. code-block:: text
 
     # ipa-getkeytab -s ipaserver.example.com -p nfs/ipaclient.example.com -k /etc/krb5.keytab
 
@@ -219,7 +219,7 @@ Use the following procedure to configure NFS on the IPA client:
 
 5. Start the **rpcgssd** daemon.
 
-::
+.. code-block:: text
 
     # service rpcgssd start
 
@@ -227,7 +227,7 @@ Your IPA client should now be fully configured to mount NFS shares using
 your Kerberos credentials. You can use the following command to test the
 configuration:
 
-::
+.. code-block:: text
 
     # mount -v -t nfs4 -o sec=krb5 ipaserver.example.com:/ /mnt
 
@@ -249,25 +249,25 @@ should run the following command on the IPA client. You will need to
 stop **ntpd** and restart it after the command is issued, because
 **ntpdate** does not work if **ntpd** is running.
 
-::
+.. code-block:: text
 
     # ntpdate -s -p 8 -u ipaserver.example.com
 
 2. Obtain a Kerberos ticket for the **admin** user.
 
-::
+.. code-block:: text
 
     # kinit admin
 
 3. Add a host service principal on the IPA client.
 
-::
+.. code-block:: text
 
     # ipa-addservice host/ipaclient.example.com
 
 4. Retrieve the keytab.
 
-::
+.. code-block:: text
 
     # ipa-getkeytab -s ipaserver.example.com -p host/ipaclient.example.com -k /etc/krb5.keytab
 
@@ -276,7 +276,7 @@ connections and authenticate with the user's Kerberos credentials. Use
 the following command from another machine to test the configuration.
 This should succeed without asking for a password.
 
-::
+.. code-block:: text
 
     # ssh admin@ipaclient.example.com
 
@@ -310,7 +310,7 @@ for information on the appropriate channels.
 
 2. Use the following command to install the IPA client and tools:
 
-::
+.. code-block:: text
 
    # rpm -ivh ipa-client-<version>.rpm
 
@@ -333,7 +333,7 @@ Configuring Client Authentication
 
 2. Use the following command to set up the IPA client:
 
-::
+.. code-block:: text
 
    # ipa-client-setup --server ipaserver.example.com
 
@@ -371,7 +371,7 @@ remaining configuration changes manually.
 Ensure that you replace the example values with those that apply to your
 deployment.
 
-::
+.. code-block:: text
 
    [libdefaults]
     default_realm = EXAMPLE.COM
@@ -405,7 +405,7 @@ any additional information is required. The basic steps required are:
 
 1. Modify the following in the ``/etc/ldap.conf`` file:
 
-::
+.. code-block:: text
 
    URI     ldap://ipaserver.example.com
    BASE dc=example,dc=com
@@ -426,7 +426,7 @@ any additional information is required. The basic steps required are:
 3. Install this certificate in the ``/etc/cacerts`` directory as
 follows:
 
-::
+.. code-block:: text
 
    # cp cacert.asc /etc/cacerts/`openssl x509 -noout \ 
      -hash -in cacert.asc`.0
@@ -450,9 +450,11 @@ System Login
 -  On the RHEL 4 system console, log in as an IPA user. After you have
    logged in, open a terminal and try these commands:
 
-| ``id (look for userid and group id correctness)``
-| ``getent passwd``
-| ``getent group``
+.. code-block:: text
+
+    id (look for userid and group id correctness)
+    getent passwd
+    getent group
 
 
 
@@ -463,7 +465,7 @@ Use the following procedure to configure NFS on the IPA client:
 
 1. Obtain a Kerberos ticket for the **admin** user.
 
-::
+.. code-block:: text
 
    # kinit admin
 
@@ -477,26 +479,26 @@ Use the following procedure to configure NFS on the IPA client:
 
    2. Add an NFS service principal for the client.
 
-   ::
+.. code-block:: text
 
       # ipa-addservice nfs/ipaclient.example.com
 
    3. Retrieve the NFS keytab.
 
-   ::
+.. code-block:: text
 
       # ipa-getkeytab -s ipaserver.example.com -p nfs/ipaclient.example.com -k /tmp/krb5.keytab
       # klist -ket /tmp/krb5.keytab (to verify)
 
    4. Copy the keytab from the server to the client.
 
-   ::
+.. code-block:: text
 
       # scp /tmp/krb5.keytab root@ipaclient.example.com:/tmp/krb5.conf
 
 5. On the IPA client, use the **ktutil** command to import the keytab.
 
-::
+.. code-block:: text
 
    # ktutil
     ktutil: read_kt /tmp/krb5.keytab
@@ -509,7 +511,7 @@ Use the following procedure to configure NFS on the IPA client:
 
 7. Start the **rpcgssd** daemon.
 
-::
+.. code-block:: text
 
    # /etc/init.d/rpcgssd start
 
@@ -517,7 +519,7 @@ Your IPA client should now be fully configured to mount NFS shares using
 your Kerberos credentials. You can use the following command to test the
 configuration:
 
-::
+.. code-block:: text
 
    # mount -v -t nfs4 -o sec=krb5 ipaserver.example.com:/ /mnt
 
@@ -539,13 +541,13 @@ should run the following command on the IPA client. You will need to
 stop **ntpd** and retsart it after the command is issued, because
 **ntpdate** does not work if **ntpd** is running.
 
-::
+.. code-block:: text
 
     # ntpdate -s -p 8 -u ipaserver.example.com
 
 2. Obtain a Kerberos ticket for the **admin** user.
 
-::
+.. code-block:: text
 
    # kinit admin
    # klist (to verify that you received a ticket)
@@ -560,25 +562,25 @@ stop **ntpd** and retsart it after the command is issued, because
 
    3. Add a host service principal.
 
-   ::
+.. code-block:: text
 
       # ipa-addservice host/ipaclient.example.com
 
    4. Retrieve the host keytab.
 
-   ::
+.. code-block:: text
 
       # ipa-getkeytab -s ipaserver.example.com -p host/ipaclient.example.com -k /tmp/krb5.keytab
 
    5. Copy the keytab from the server to the client.
 
-   ::
+.. code-block:: text
 
       # scp /tmp/krb5.keytab root@ipaclient.example.com:/tmp/krb5.keytab
 
 6. On the IPA client, use the **ktutil** command to import the keytab.
 
-::
+.. code-block:: text
 
    # ktutil
     ktutil: read_kt /tmp/krb5.keytab
@@ -590,7 +592,7 @@ connections and authenticate with the user's Kerberos credentials. Use
 the following command from another machine to test the configuration.
 This should succeed without asking for a password.
 
-::
+.. code-block:: text
 
    # ssh admin@ipaclient.example.com
 
@@ -649,7 +651,7 @@ and enter the server name and Base DN.
 5. Select **Use Kerberos 5** and enter the following details (modify to
 suit your deployment):
 
-::
+.. code-block:: text
 
        Realm: EXAMPLE.COM
        KDC: ipaserver.example.com:88
@@ -670,7 +672,7 @@ You need to make the following configuration changes to the
 Modify the examples provided to suit your deployment. You may need to
 add some of these entries if they do not exist in the original file.
 
-::
+.. code-block:: text
 
    ldap_version 3
    host ipaserver.example.com

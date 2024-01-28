@@ -47,8 +47,11 @@ FreeIPA server:
    and store it in the ``/etc/yum.repos.d/`` directory. For example, for
    Red Hat Enterprise Linux 7.3:
 
-| ``# cd /etc/yum.repos.d/``
-| ``# curl -O ``\ ```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo`` <https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo>`__
+.. code-block:: text
+
+    # cd /etc/yum.repos.d/
+    # curl -O ``\ ```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo`` <https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo>`__
+
 
 -  To install the plug-in:
 
@@ -98,9 +101,11 @@ certificate issued by the FreeIPA certificate authority (CA):
 -  Verify that the certificate is displayed in the output of the
    ``ipa user-show`` command:
 
-| ``# ipa user-show demo``
-| ``...``
-| ``Certificate: MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG.....``
+.. code-block:: text
+
+    # ipa user-show demo
+    ...
+    Certificate: MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG.....
 
    Alternatively, verify that the certificate is shown in the user's
    account details in the web UI.
@@ -108,9 +113,11 @@ certificate issued by the FreeIPA certificate authority (CA):
 -  To download the certificate for the ``demo`` user to the
    ``~/demo_cert.pem`` file, run:
 
-| ``# echo '-----BEGIN CERTIFICATE-----' > ~/demo_cert.pem``
-| ``# ipa user-show demo | grep Certificate:\  | cut -d ' ' -f 4 | fold -64 >> ~/demo_cert.pem``
-| ``# echo '-----END CERTIFICATE-----' >> ~/demo_cert.pem``
+.. code-block:: text
+
+    # echo '-----BEGIN CERTIFICATE-----' > ~/demo_cert.pem
+    # ipa user-show demo | grep Certificate:\  | cut -d ' ' -f 4 | fold -64 >> ~/demo_cert.pem
+    # echo '-----END CERTIFICATE-----' >> ~/demo_cert.pem
 
 -  Convert the certificate and private key to a PKCS #12-formated
    ``~/demo_cert.pfx`` file:

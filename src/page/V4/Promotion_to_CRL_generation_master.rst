@@ -73,24 +73,26 @@ subcommands: enable, disable, status.
 The script will query/modify the local configuration and restart the
 required services. It will use interfaces provided in cainstance.py:
 
-| ``class CAInstance(DogtagInstance):``
-| ``    def is_crlgen_enabled(self):``
-| ``        """Check if the local CA instance is generating CRL``
-| ``        Three conditions must be met to consider that the local CA is CRL``
-| ``        generation master:``
-| ``        - in CS.cfg ca.crl.MasterCRL.enableCRLCache=true``
-| ``        - in CS.cfg ca.crl.MasterCRL.enableCRLUpdates=true``
-| ``        - in /etc/httpd/conf.d/ipa-pki-proxy.conf the RewriteRule``
-| ``        ^/ipa/crl/MasterCRL.bin is disabled (commented or removed)``
-| ``        If the values are inconsistent, an exception is raised``
-| ``        :returns: True/False``
-| ``        :raises: InconsistentCRLGenConfigException if the config is``
-| ``                 inconsistent``
-| ``        """``
-| ``    def setup_crlgen(self, setup_crlgen):``
-| ``        """Configure the local host for CRL generation``
-| ``        :param setup_crlgen: if True enable CRL generation, if False, disable``
-| ``        """``
+.. code-block:: text
+
+    class CAInstance(DogtagInstance):
+        def is_crlgen_enabled(self):
+            """Check if the local CA instance is generating CRL
+            Three conditions must be met to consider that the local CA is CRL
+            generation master:
+            - in CS.cfg ca.crl.MasterCRL.enableCRLCache=true
+            - in CS.cfg ca.crl.MasterCRL.enableCRLUpdates=true
+            - in /etc/httpd/conf.d/ipa-pki-proxy.conf the RewriteRule
+            ^/ipa/crl/MasterCRL.bin is disabled (commented or removed)
+            If the values are inconsistent, an exception is raised
+            :returns: True/False
+            :raises: InconsistentCRLGenConfigException if the config is
+                     inconsistent
+            """
+        def setup_crlgen(self, setup_crlgen):
+            """Configure the local host for CRL generation
+            :param setup_crlgen: if True enable CRL generation, if False, disable
+            """
 
 
 
@@ -125,22 +127,28 @@ Usage:
 
 Find whether the local host is configured for CRL generation:
 
-| ``# kinit admin``
-| ``# ipa-crlgen-manage status``
-| ``CRL generation: enabled``
-| ``Last CRL update: 2019-03-06 16:10:16``
-| ``Last CRL Number: 2``
-| ``The ipa-crlgen-manage command was successful``
+.. code-block:: text
+
+    # kinit admin
+    # ipa-crlgen-manage status
+    CRL generation: enabled
+    Last CRL update: 2019-03-06 16:10:16
+    Last CRL Number: 2
+    The ipa-crlgen-manage command was successful
 
 Disable CRL generation on the local host
 
-| ``# kinit admin``
-| ``# ipa-crlgen-manage disable``
+.. code-block:: text
+
+    # kinit admin
+    # ipa-crlgen-manage disable
 
 Enable CRL generation on the local host
 
-| ``# kinit admin``
-| ``# ipa-crlgen-manage enable``
+.. code-block:: text
+
+    # kinit admin
+    # ipa-crlgen-manage enable
 
 
 

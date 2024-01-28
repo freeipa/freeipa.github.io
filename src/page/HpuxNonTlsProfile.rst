@@ -8,7 +8,7 @@ Sample Non TLS Profile for HPUX
 
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
-::
+.. code-block:: text
 
    #*************************************
    # Sample Non TLS Profile File for HPUX

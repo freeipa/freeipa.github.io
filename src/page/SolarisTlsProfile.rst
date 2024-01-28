@@ -8,7 +8,7 @@ Sample TLS Profile File for Solaris
 
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
-::
+.. code-block:: text
 
    #************************************
    # Sample TLS Profile File for Solaris

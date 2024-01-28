@@ -134,5 +134,7 @@ are reported as errors.
 
 Example:
 
-| ``name, _weight, age = human['John']``
-| ``print(name, age)``
+.. code-block:: text
+
+    name, _weight, age = human['John']
+    print(name, age)

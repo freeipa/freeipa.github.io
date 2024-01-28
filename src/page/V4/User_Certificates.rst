@@ -294,7 +294,7 @@ were developed to add or remove arbitrary certificates to/from user's
 ``userCertificate;binary`` attribute. Both command share the following
 syntax:
 
-::
+.. code-block:: text
 
     ipa user-{add|remove}-cert [UID] --certificate=[BASE64 BLOB] 
 
@@ -345,7 +345,7 @@ Using FreeIPA/Dogtag PKI to issue user certificates
    ``profileId`` and ``desc`` fields to values you like and import the
    modified profile back to FreeIPA:
 
-::
+.. code-block:: text
 
    $ ipa certprofile-show caIPAserviceCert --out=caIPAuserCert.txt
    ...edit the resulting file...
@@ -358,21 +358,21 @@ Tweedale <https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom
 -  add a new CA ACL which permits requesting certificates for user
    entries and add the custom profile to this CA ACL
 
-::
+.. code-block:: text
 
    $ ipa caacl-add users_caIPAuserCert --usercat=all
    $ ipa caacl-add-profile users_caIPAuserCert --certprofiles=caIPAuserCert
 
 -  generate a certificate request for the user e.g. using OpenSSL
 
-::
+.. code-block:: text
 
    $ openssl req -new -newkey rsa:2048 -days 365 -nodes -keyout private.key -out cert.csr -subj '/CN=tuser'
 
 -  use ``ipa cert-request`` command to request a new certificate for the
    user.
 
-::
+.. code-block:: text
 
    $ ipa cert-request cert.csr --principal=tuser --profile-id=caIPAuserCert
 
@@ -383,7 +383,7 @@ Tweedale <https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom
 -  ``ipa user-show`` and the user entry in WebUI should now display the
    Base64 encoded certificate in addition to other attributes
 
-::
+.. code-block:: text
 
    $ ipa user-show tuser
      User login: tuser
@@ -410,26 +410,26 @@ Using CLI commands to manager user certificates
 
 -  generate one or more self-signed certificates using e.g. OpenSSL
 
-::
+.. code-block:: text
 
    $ openssl req -x509 -newkey rsa:2048 -days 365 -nodes -keyout private.key -out cert.pem -subj '/CN=tuser'
 
 -  convert the certificate do DER for easier handling through CLI
 
-::
+.. code-block:: text
 
    $ openssl x509 -outform der -in cert.pem -out cert.der
 
 -  use ``ipa user-add-cert`` to add the certificate(s) to the user:
 
-::
+.. code-block:: text
 
    $ ipa user-add-cert tuser --certificate="$(base64 cert.der)"
 
 -  use ``ipa user-show tuser`` or view the user in the WebUI to verify
    that the newly added certificate is displayed
 
-::
+.. code-block:: text
 
    $ ipa user-show tuser
      User login: tuser
@@ -449,21 +449,21 @@ Using CLI commands to manager user certificates
 -  check that the following error is raised when you try to add the same
    certificate again
 
-::
+.. code-block:: text
 
    ipa: ERROR: 'usercertificate;binary' already contains one or more values
 
 -  remove the certificate from the user entry using
    ``ipa user-remove-cert``
 
-::
+.. code-block:: text
 
    $ ipa user-remove-cert tuser --certificate="$(base64 cert.der)"
 
 -  run ``ipa user-show tuser`` or view the user in the WebUI; the
    certificate will be no longer present
 
-::
+.. code-block:: text
 
    $ ipa user-show tuser
      User login: tuser
@@ -482,7 +482,7 @@ Using CLI commands to manager user certificates
 -  check that an attempt to remove already removed certificate will
    raise the error:
 
-::
+.. code-block:: text
 
    ipa: ERROR: usercertificate;binary does not contain 'one or more values to remove'
 
@@ -508,7 +508,7 @@ them. To test this feature *sssd-dbus* package must be installed.
    for the user entry associated with the certificate by running the
    following command as root:
 
-::
+.. code-block:: text
 
    # dbus-send --system --print-reply  --dest=org.freedesktop.sssd.infopipe /org/freedesktop/sssd/infopipe/Users \
    org.freedesktop.sssd.infopipe.Users.FindByCertificate string:"$(cat cert.pem)"
@@ -517,7 +517,7 @@ them. To test this feature *sssd-dbus* package must be installed.
    interface is the same as the UID of the user possessing the
    certificate:
 
-::
+.. code-block:: text
 
    method return sender=:1.792 -> dest=:1.793 reply_serial=2 object path 
    "/org/freedesktop/sssd/infopipe/Users/ipadom_2eorg/883600001"

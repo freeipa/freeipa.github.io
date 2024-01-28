@@ -97,7 +97,7 @@ Listing profiles
 
 The list of all Dogtag profiles is retrieved via the Dogtag REST API:
 
-::
+.. code-block:: text
 
    GET /ca/rest/profiles
 
@@ -118,7 +118,7 @@ a future feature (see Dogtag ticket
 Having obtained the profile content, FreeIPA will import import the
 profile into Dogtag using the Dogtag REST API:
 
-::
+.. code-block:: text
 
    PUT /ca/rest/profiles/&lt;profileId&gt;       (XML format)
    PUT /ca/rest/profiles/&lt;profileId&gt;/raw   (raw format)
@@ -135,7 +135,7 @@ Retrieve profile
 
 Profile data can be retrieved from Dogtag using the REST API:
 
-::
+.. code-block:: text
 
    GET /ca/rest/profiles/&lt;profileId&gt;       (XML format)
    GET /ca/rest/profiles/&lt;profileId&gt;/raw   (raw format)
@@ -157,7 +157,7 @@ Delete profile
 
 Profiles can be deleted from Dogtag using the REST API:
 
-::
+.. code-block:: text
 
    DELETE /ca/rest/profiles/&lt;profileId&gt;
 
@@ -177,7 +177,7 @@ Enable/disable profile
 Enabling or disabling a profile in Dogtag is accomplished via the REST
 API:
 
-::
+.. code-block:: text
 
    POST /ca/rest/profiles/&lt;profileId&gt;?action=enable
    POST /ca/rest/profiles/&lt;profileId&gt;?action=disable
@@ -278,7 +278,7 @@ Certificate profile entries will be stored under a new DN:
 
 Schema:
 
-::
+.. code-block:: text
 
    dn: cn=schema
    attributeTypes: ( 2.16.840.1.113730.3.8.19.1.1
@@ -355,7 +355,7 @@ and category attributes.
 Note that the ``memberCa`` and ``caCategory`` attributes are unused by
 this design. They will be used by the Sub-CAs feature.
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.2
      NAME 'memberCa'
@@ -405,7 +405,7 @@ Default CA ACL
 During installation we must create a default CA ACL that grants use of
 caIPAserviceCert on the top-level CA to all hosts and services:
 
-::
+.. code-block:: text
 
    dn: ipauniqueid=autogenerate,cn=caacls,cn=ca,$SUFFIX
    changetype: add

@@ -90,8 +90,10 @@ Avoid an ineffective forward zone
 Be careful using following set of zones, where a master zone exists for
 a forward zone.
 
-| ``$ ipa dnszone-add example.com.``
-| ``$ ipa dnsforwardzone-add  fw.example.com. --forwarder 192.0.2.1``
+.. code-block:: text
+
+    $ ipa dnszone-add example.com.
+    $ ipa dnsforwardzone-add  fw.example.com. --forwarder 192.0.2.1
 
 In this case, forwarding will not work, because zone *example.com.* is
 authoritative, and server return NXDOMAIN answer. To make forward zone
@@ -109,13 +111,15 @@ No changes for master zones required ('idnsZone' objectclass).
 
 Forward zone will use own objectclass 'idnsForwardZone'. (see below).
 
-| ``objectClass ( 2.16.840.1.113730.3.8.6.3``
-| ``   NAME 'idnsForwardZone'``
-| ``   DESC 'Forward Zone class'``
-| ``   SUP top``
-| ``   STRUCTURAL``
-| ``   MUST ( idnsName $ idnsZoneActive )``
-| ``   MAY ( idnsForwarders $ idnsForwardPolicy ) )``
+.. code-block:: text
+
+    objectClass ( 2.16.840.1.113730.3.8.6.3
+       NAME 'idnsForwardZone'
+       DESC 'Forward Zone class'
+       SUP top
+       STRUCTURAL
+       MUST ( idnsName $ idnsZoneActive )
+       MAY ( idnsForwarders $ idnsForwardPolicy ) )
 
 The idnsName, idnsZoneActive, idnsForwarders, idnsForwardPolicy are the
 same attributes as the 'idnsZone' objectclass uses.
@@ -213,10 +217,12 @@ dnsforwardzone-add
 will add a new forward zone. Is required to specify at least one
 forwarder if forward-policy is not 'none'.
 
-| ``dnsforwardzone-add zone.test. --forwarder=172.16.0.1 --forwarder=172.16.0.2 --forward-policy=first``
-| ``  Zone name: zone.test.``
-| ``  Zone forwarders: 172.16.0.1, 172.16.0.2``
-| ``  Forward policy: first``
+.. code-block:: text
+
+    dnsforwardzone-add zone.test. --forwarder=172.16.0.1 --forwarder=172.16.0.2 --forward-policy=first
+      Zone name: zone.test.
+      Zone forwarders: 172.16.0.1, 172.16.0.2
+      Forward policy: first
 
 
 
@@ -227,15 +233,19 @@ will modify a forward zone. Is required to specify at least one
 forwarder if forward-policy is not 'none'. Modifications can be
 performed in several ways.
 
-| ``dnsforwardzone-mod zone.test. --forwarder=172.16.0.3``
-| ``  Zone name: zone.test.``
-| ``  Zone forwarders: 172.16.0.3``
-| ``  Forward policy: first``
+.. code-block:: text
 
-| ``dnsforwardzone-mod zone.test. --forward-policy=only``
-| ``  Zone name: zone.test.``
-| ``  Zone forwarders: 172.16.0.3``
-| ``  Forward policy: only``
+    dnsforwardzone-mod zone.test. --forwarder=172.16.0.3
+      Zone name: zone.test.
+      Zone forwarders: 172.16.0.3
+      Forward policy: first
+
+.. code-block:: text
+
+    dnsforwardzone-mod zone.test. --forward-policy=only
+      Zone name: zone.test.
+      Zone forwarders: 172.16.0.3
+      Forward policy: only
 
 
 
@@ -244,10 +254,12 @@ dnsforwardzone-show
 
 will show specified forward zone
 
-| ``dnsforwardzone-show zone.test.``
-| ``  Zone name: zone.test.``
-| ``  Zone forwarders: 172.16.0.5``
-| ``  Forward policy: first``
+.. code-block:: text
+
+    dnsforwardzone-show zone.test.
+      Zone name: zone.test.
+      Zone forwarders: 172.16.0.5
+      Forward policy: first
 
 
 
@@ -256,13 +268,15 @@ dnsforwardzone-find
 
 will find specified forward zone
 
-| ``dnsforwardzone-find zone.test.``
-| ``  Zone name: zone.test.``
-| ``  Zone forwarders: 172.16.0.3``
-| ``  Forward policy: first``
-| ``----------------------------``
-| ``Number of entries returned 1``
-| ``----------------------------``
+.. code-block:: text
+
+    dnsforwardzone-find zone.test.
+      Zone name: zone.test.
+      Zone forwarders: 172.16.0.3
+      Forward policy: first
+    ----------------------------
+    Number of entries returned 1
+    ----------------------------
 
 
 
@@ -271,12 +285,12 @@ dnsforwardzone-del
 
 will delete specified forward zone(s)
 
-::
+.. code-block:: text
 
-   | ``dnsforwardzone-del zone.test. ``
-   | ``----------------------------``
-   | ``Deleted forward DNS zone "zone.test."``
-   | ``----------------------------``
+    dnsforwardzone-del zone.test. ``
+    ----------------------------``
+    Deleted forward DNS zone "zone.test."``
+    ----------------------------``
 
 
 
@@ -286,12 +300,12 @@ dnsforwardzone-enable
 will enable specified forward zone(s) NOTE: Forward zones are enabled by
 default.
 
-::
+.. code-block:: text
 
-   | ``dnsforwardzone-enable zone.test. ``
-   | ``----------------------------``
-   | ``Enabled forward DNS zone "zone.test."``
-   | ``----------------------------``
+    dnsforwardzone-enable zone.test. ``
+    ----------------------------``
+    Enabled forward DNS zone "zone.test."``
+    ----------------------------``
 
 
 
@@ -300,12 +314,12 @@ dnsforwardzone-disable
 
 will disable specified forward zone(s)
 
-::
+.. code-block:: text
 
-   | ``dnsforwardzone-disable zone.test. ``
-   | ``----------------------------``
-   | ``Disabled forward DNS zone "zone.test."``
-   | ``----------------------------``
+    dnsforwardzone-disable zone.test. ``
+    ----------------------------``
+    Disabled forward DNS zone "zone.test."``
+    ----------------------------``
 
 
 
@@ -314,11 +328,13 @@ dnsforwardzone-add-permission
 
 will add system permission
 
-| ``dnsforwardzone-add-permission zone.test.``
-| ``---------------------------------------------------------``
-| ``Added system permission "Manage DNS zone zone.test."``
-| ``---------------------------------------------------------``
-| ``  Manage DNS zone zone.test.``
+.. code-block:: text
+
+    dnsforwardzone-add-permission zone.test.
+    ---------------------------------------------------------
+    Added system permission "Manage DNS zone zone.test."
+    ---------------------------------------------------------
+      Manage DNS zone zone.test.
 
 
 
@@ -327,11 +343,13 @@ dnsforwardzone-remove-permission
 
 will remove system permission
 
-| ``dnsforwardzone-remove-permission zone.test.``
-| ``---------------------------------------------------------``
-| ``Removed system permission "Manage DNS zone zone.test."``
-| ``---------------------------------------------------------``
-| ``  Manage DNS zone zone.test.``
+.. code-block:: text
+
+    dnsforwardzone-remove-permission zone.test.
+    ---------------------------------------------------------
+    Removed system permission "Manage DNS zone zone.test."
+    ---------------------------------------------------------
+      Manage DNS zone zone.test.
 
 
 

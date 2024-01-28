@@ -70,7 +70,7 @@ For IPA >= 4.7.0:
 
 The serial number should match the value of the 2nd integer at:
 
-::
+.. code-block:: text
 
       ``# ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``
 
@@ -82,7 +82,7 @@ the most recent certificate:
 
 For IPA < 4.7.0:
 
-::
+.. code-block:: text
 
       ``# certutil -L -d /etc/httpd/alias -n ipaCert -a > /tmp/ra.crt ``
 
@@ -100,8 +100,10 @@ After removing the unnecessary certificates from the file, for IPA <
 
 Now add it to your cert database:
 
-| ``# certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt``
-| ``# service httpd restart``
+.. code-block:: text
+
+    # certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt
+    # service httpd restart
 
 If the certificate is valid and the ou=People entry is ok then check the
 `PKI <PKI>`__ logs ``/var/log/pki`` or ``/var/log/pki-ca``.

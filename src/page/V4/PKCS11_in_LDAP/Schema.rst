@@ -32,11 +32,13 @@ Assumption: There is a base OID defined for used by FreeIPA.
 
 General OIDs used in the schema definition:
 
-| ``.``\ ``     # all ipk11 schema elements``
-| ``.``\ ``.1       # objectclasses``
-| ``.``\ ``.2       # attributeTypes``
-| ``# ``\ ``.``\ ``.3..n  # syntaxes, matching rules ... if needed``
-| `` := ``\ ``.``
+.. code-block:: text
+
+    .``\ ``     # all ipk11 schema elements
+    .``\ ``.1       # objectclasses
+    .``\ ``.2       # attributeTypes
+    # ``\ ``.``\ ``.3..n  # syntaxes, matching rules ... if needed
+     := ``\ ``.
 
 All objectclass and attribute type names will be prefixed by ipk11.
 
@@ -54,12 +56,14 @@ Uniqued identifier
 
    -  LDAP-only, no corresponding PKCS#11 attribute
 
-| ``(``\ ``.1.1 NAME 'ipk11UniqueId'``
-| `` DESC 'Unique identifier'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.1 NAME 'ipk11UniqueId'
+     DESC 'Unique identifier'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -72,101 +76,119 @@ Metadata attributes common to multiple object classes.
 
    -  corresponds to CKA_PRIVATE
 
-| ``(``\ ``.1.11 NAME 'ipk11Private'``
-| `` DESC 'Is private to application'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.11 NAME 'ipk11Private'
+     DESC 'Is private to application'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Modifiable
 
    -  corresponds to CKA_MODIFIABLE
 
-| ``(``\ ``.1.12 NAME 'ipk11Modifiable'``
-| `` DESC 'Can be modified by application'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.12 NAME 'ipk11Modifiable'
+     DESC 'Can be modified by application'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Label
 
    -  corresponds to CKA_LABEL
 
-| ``(``\ ``.1.13 NAME 'ipk11Label'``
-| `` DESC 'Description'``
-| `` EQUALITY caseExactMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.13 NAME 'ipk11Label'
+     DESC 'Description'
+     EQUALITY caseExactMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Copyable
 
    -  corresponds to CKA_COPYABLE (PKCS#11 2.30)
 
-| ``(``\ ``.1.14 NAME 'ipk11Copyable'``
-| `` DESC 'Can be copied by application'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.14 NAME 'ipk11Copyable'
+     DESC 'Can be copied by application'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Destroyable
 
    -  corresponds to CKA_DESTROYABLE (PKCS#11 2.40)
 
-| ``(``\ ``.1.15 NAME 'ipk11Destroyable'``
-| `` DESC 'Can be destroyed by application'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.15 NAME 'ipk11Destroyable'
+     DESC 'Can be destroyed by application'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Trusted
 
    -  corresponds to CKA_TRUSTED
 
-| ``(``\ ``.1.16 NAME 'ipk11Trusted'``
-| `` DESC 'Can be trusted by application'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.16 NAME 'ipk11Trusted'
+     DESC 'Can be trusted by application'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11CheckValue
 
    -  corresponds to CKA_CHECK_VALUE
 
-| ``(``\ ``.1.17 NAME 'ipk11CheckValue'``
-| `` DESC 'Checksum'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.17 NAME 'ipk11CheckValue'
+     DESC 'Checksum'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11StartDate
 
    -  corresponds to CKA_START_DATE
 
-| ``(``\ ``.1.18 NAME 'ipk11StartDate'``
-| `` DESC 'Validity start date'``
-| `` EQUALITY generalizedTimeMatch``
-| `` ORDERING generalizedTimeOrderingMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.24``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.18 NAME 'ipk11StartDate'
+     DESC 'Validity start date'
+     EQUALITY generalizedTimeMatch
+     ORDERING generalizedTimeOrderingMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11EndDate
 
    -  corresponds to CKA_END_DATE
 
-| ``(``\ ``.1.19 NAME 'ipk11EndDate'``
-| `` DESC 'Validity end date'``
-| `` EQUALITY generalizedTimeMatch``
-| `` ORDERING generalizedTimeOrderingMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.24``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.19 NAME 'ipk11EndDate'
+     DESC 'Validity end date'
+     EQUALITY generalizedTimeMatch
+     ORDERING generalizedTimeOrderingMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11PublicKeyInfo
 
@@ -177,55 +199,65 @@ Metadata attributes common to multiple object classes.
    -  SubjectPublicKey for RSA public keys is defined in `RFC
       4055 <http://tools.ietf.org/html/rfc4055#section-1.2>`__
 
-| ``(``\ ``.1.20 NAME 'ipk11PublicKeyInfo'``
-| `` DESC 'DER-encoding of SubjectPublicKeyInfo of associated public key'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.20 NAME 'ipk11PublicKeyInfo'
+     DESC 'DER-encoding of SubjectPublicKeyInfo of associated public key'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Distrusted
 
    -  corresponds to CKA_X_DISTRUSTED (p11-kit)
 
-| ``(``\ ``.1.21 NAME 'ipk11Distrusted'``
-| `` DESC 'Must not be trusted by application'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.21 NAME 'ipk11Distrusted'
+     DESC 'Must not be trusted by application'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Subject
 
    -  corresponds to CKA_SUBJECT
 
-| ``(``\ ``.1.22 NAME 'ipk11Subject'``
-| `` DESC 'DER-encoding of subject name'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.22 NAME 'ipk11Subject'
+     DESC 'DER-encoding of subject name'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Id
 
    -  corresponds to CKA_ID
 
-| ``(``\ ``.1.23 NAME 'ipk11Id'``
-| `` DESC 'Key association identifier'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.23 NAME 'ipk11Id'
+     DESC 'Key association identifier'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Local
 
    -  corresponds to CKA_LOCAL
 
-| ``(``\ ``.1.24 NAME 'ipk11Local'``
-| `` DESC 'Was created locally on token'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.24 NAME 'ipk11Local'
+     DESC 'Was created locally on token'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -238,21 +270,25 @@ Metadata attributes specific to certificates.
 
    -  corresponds to CKA_ISSUER
 
-| ``(``\ ``.1.33 NAME 'ipk11Issuer'``
-| `` DESC 'DER-encoding of issuer name'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.33 NAME 'ipk11Issuer'
+     DESC 'DER-encoding of issuer name'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11SerialNumber
 
    -  corresponds to CKA_SERIAL_NUMBER
 
-| ``(``\ ``.1.34 NAME 'ipk11SerialNumber'``
-| `` DESC 'DER-encoding of serial number'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.34 NAME 'ipk11SerialNumber'
+     DESC 'DER-encoding of serial number'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11SubjectKeyHash
 
@@ -260,11 +296,13 @@ Metadata attributes specific to certificates.
       CKA_NAME_HASH_ALGORITHM
    -  valid values: "*mechanism* *hexdigest*"
 
-| ``(``\ ``.1.37 NAME 'ipk11SubjectKeyHash'``
-| `` DESC 'Hash of subject public key'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.37 NAME 'ipk11SubjectKeyHash'
+     DESC 'Hash of subject public key'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11IssuerKeyHash
 
@@ -272,23 +310,27 @@ Metadata attributes specific to certificates.
       CKA_NAME_HASH_ALGORITHM
    -  valid values: "*mechanism* *hexdigest*"
 
-| ``(``\ ``.1.38 NAME 'ipk11IssuerKeyHash'``
-| `` DESC 'Hash of issuer public key'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.38 NAME 'ipk11IssuerKeyHash'
+     DESC 'Hash of issuer public key'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11SecurityDomain
 
    -  corresponds to CKA_JAVA_MIDP_SECURITY_DOMAIN
    -  valid values: "manufacturer", "operator", "thirdParty"
 
-| ``(``\ ``.1.39 NAME 'ipk11SecurityDomain'``
-| `` DESC 'Java MIDP security domain'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.39 NAME 'ipk11SecurityDomain'
+     DESC 'Java MIDP security domain'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -301,48 +343,56 @@ Metadata attributes common to all key object classes.
 
    -  corresponds to CKA_KEY_TYPE
 
-| ``(``\ ``.1.41 NAME 'ipk11KeyType'``
-| `` DESC 'Key type'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.41 NAME 'ipk11KeyType'
+     DESC 'Key type'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Derive
 
    -  corresponds to CKA_DERIVE
 
-| ``(``\ ``.1.42 NAME 'ipk11Derive'``
-| `` DESC 'Key supports key derivation'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.42 NAME 'ipk11Derive'
+     DESC 'Key supports key derivation'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11KeyGenMechanism
 
    -  corresponds to CKA_KEY_GEN_MECHANISM
    -  valid values: any mechanism name
 
-| ``(``\ ``.1.43 NAME 'ipk11KeyGenMechanism'``
-| `` DESC 'Mechanism used to generate this key'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.43 NAME 'ipk11KeyGenMechanism'
+     DESC 'Mechanism used to generate this key'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11AllowedMechanisms
 
    -  corresponds to CKA_ALLOWED_MECHANISMS
    -  valid values: one or more mechanism names separated by space
 
-| ``(``\ ``.1.44 NAME 'ipk11AllowedMechanisms'``
-| `` DESC 'Space-separated list of mechanisms allowed to be used with this key'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SUBSTR caseIgnoreSubstringsMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.44 NAME 'ipk11AllowedMechanisms'
+     DESC 'Space-separated list of mechanisms allowed to be used with this key'
+     EQUALITY caseIgnoreMatch
+     SUBSTR caseIgnoreSubstringsMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -355,56 +405,66 @@ Metadata attributes specific to public and secret keys.
 
    -  corresponds to CKA_ENCRYPT
 
-| ``(``\ ``.1.51 NAME 'ipk11Encrypt'``
-| `` DESC 'Key supports encryption'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.51 NAME 'ipk11Encrypt'
+     DESC 'Key supports encryption'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Verify
 
    -  corresponds to CKA_VERIFY
 
-| ``(``\ ``.1.52 NAME 'ipk11Verify'``
-| `` DESC 'Key supports verification where the signature is an appendix to the data'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.52 NAME 'ipk11Verify'
+     DESC 'Key supports verification where the signature is an appendix to the data'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11VerifyRecover
 
    -  corresponds to CKA_VERIFY_RECOVER
 
-| ``(``\ ``.1.53 NAME 'ipk11VerifyRecover'``
-| `` DESC 'Key supports verification where data is recovered from the signature'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.53 NAME 'ipk11VerifyRecover'
+     DESC 'Key supports verification where data is recovered from the signature'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Wrap
 
    -  corresponds to CKA_WRAP
 
-| ``(``\ ``.1.54 NAME 'ipk11Wrap'``
-| `` DESC 'Key supports wrapping'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.54 NAME 'ipk11Wrap'
+     DESC 'Key supports wrapping'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11WrapTemplate
 
    -  corresponds to CKA_WRAP_TEMPLATE
 
-| ``(``\ ``.1.55 NAME 'ipk11WrapTemplate'``
-| `` DESC 'DN of template of keys which can be wrapped using this key'``
-| `` EQUALITY distinguishedNameMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.12``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.55 NAME 'ipk11WrapTemplate'
+     DESC 'DN of template of keys which can be wrapped using this key'
+     EQUALITY distinguishedNameMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -417,122 +477,144 @@ Metadata attributes specific to private and secret keys.
 
    -  corresponds to CKA_SENSITIVE
 
-| ``(``\ ``.1.61 NAME 'ipk11Sensitive'``
-| `` DESC 'Key is sensitive'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.61 NAME 'ipk11Sensitive'
+     DESC 'Key is sensitive'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Decrypt
 
    -  corresponds to CKA_DECRYPT
 
-| ``(``\ ``.1.62 NAME 'ipk11Decrypt'``
-| `` DESC 'Key supports decryption'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.62 NAME 'ipk11Decrypt'
+     DESC 'Key supports decryption'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Sign
 
    -  corresponds to CKA_SIGN
 
-| ``(``\ ``.1.63 NAME 'ipk11Sign'``
-| `` DESC 'Key supports signatures where the signature is an appendix to the data'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.63 NAME 'ipk11Sign'
+     DESC 'Key supports signatures where the signature is an appendix to the data'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11SignRecover
 
    -  corresponds to CKA_SIGN_RECOVER
 
-| ``(``\ ``.1.64 NAME 'ipk11SignRecover'``
-| `` DESC 'Key supports signatures where data can be recovered from the signature'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.64 NAME 'ipk11SignRecover'
+     DESC 'Key supports signatures where data can be recovered from the signature'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Unwrap
 
    -  corresponds to CKA_UNWRAP
 
-| ``(``\ ``.1.65 NAME 'ipk11Unwrap'``
-| `` DESC 'Key supports unwrapping'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.65 NAME 'ipk11Unwrap'
+     DESC 'Key supports unwrapping'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Extractable
 
    -  corresponds to CKA_EXTRACTABLE
 
-| ``(``\ ``.1.66 NAME 'ipk11Extractable'``
-| `` DESC 'Key is extractable and can be wrapped'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.66 NAME 'ipk11Extractable'
+     DESC 'Key is extractable and can be wrapped'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11AlwaysSensitive
 
    -  corresponds to CKA_ALWAYS_SENSITIVE
 
-| ``(``\ ``.1.67 NAME 'ipk11AlwaysSensitive'``
-| `` DESC 'Key has always been sensitive'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.67 NAME 'ipk11AlwaysSensitive'
+     DESC 'Key has always been sensitive'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11NeverExtractable
 
    -  corresponds to CKA_NEVER_EXTRACTABLE
 
-| ``(``\ ``.1.68 NAME 'ipk11NeverExtractable'``
-| `` DESC 'Key has never been extractable'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.68 NAME 'ipk11NeverExtractable'
+     DESC 'Key has never been extractable'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11WrapWithTrusted
 
    -  corresponds to CKA_WRAP_WITH_TRUSTED
 
-| ``(``\ ``.1.69 NAME 'ipk11WrapWithTrusted'``
-| `` DESC 'Key can only be wrapped with a trusted wrapping key'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.69 NAME 'ipk11WrapWithTrusted'
+     DESC 'Key can only be wrapped with a trusted wrapping key'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11UnwrapTemplate
 
    -  corresponds to CKA_UNWRAP_TEMPLATE
 
-| ``(``\ ``.1.70 NAME 'ipk11UnwrapTemplate'``
-| `` DESC 'DN of template to apply to keys unwrapped using this key'``
-| `` EQUALITY distinguishedNameMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.12``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.70 NAME 'ipk11UnwrapTemplate'
+     DESC 'DN of template to apply to keys unwrapped using this key'
+     EQUALITY distinguishedNameMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.12
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11AlwaysAuthenticate
 
    -  corresponds to CKA_ALWAYS_AUTHENTICATE
 
-| ``(``\ ``.1.71 NAME 'ipk11AlwaysAuthenticate'``
-| `` DESC 'User has to authenticate for each use with this key'``
-| `` EQUALITY booleanMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.7``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.1.71 NAME 'ipk11AlwaysAuthenticate'
+     DESC 'User has to authenticate for each use with this key'
+     EQUALITY booleanMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -547,22 +629,26 @@ entity in one attribute in a specific format.
 
    -  was previously called `ipaPublicKeyInfo <#ipaPublicKey>`__
 
-| ``(2.16.840.1.113730.3.8.11.53 NAME 'ipaPublicKey'``
-| `` DESC 'Public key as DER-encoded SubjectPublicKeyInfo (RFC 5280)'``
-| `` EQUALITY octetStringMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.11.53 NAME 'ipaPublicKey'
+     DESC 'Public key as DER-encoded SubjectPublicKeyInfo (RFC 5280)'
+     EQUALITY octetStringMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 -  ipaPrivateKey
 
    -  was previously called ipaEPrivateKeyInfo
 
-| ``(2.16.840.1.113730.3.8.11.54 NAME 'ipaPrivateKey'``
-| `` DESC 'Private key as encrypted DER-encoded PrivateKeyInfo (RFC 5958)'``
-| `` EQUALITY octetStringMatch``
-| `` SINGLE-VALUE``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.11.54 NAME 'ipaPrivateKey'
+     DESC 'Private key as encrypted DER-encoded PrivateKeyInfo (RFC 5958)'
+     EQUALITY octetStringMatch
+     SINGLE-VALUE
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 -  ipaSecretKey
 
@@ -574,12 +660,14 @@ entity in one attribute in a specific format.
       mechanism <#ipaWrappingMech>`__ and `wrapping key
       URI <#ipaWrappingKey>`__.
 
-| ``(2.16.840.1.113730.3.8.11.55 NAME 'ipaSecretKey'``
-| `` DESC 'Encrypted secret key data'``
-| `` EQUALITY octetStringMatch``
-| `` SINGLE-VALUE``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.40``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.11.55 NAME 'ipaSecretKey'
+     DESC 'Encrypted secret key data'
+     EQUALITY octetStringMatch
+     SINGLE-VALUE
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -593,22 +681,26 @@ Wrapping key reference
       `draft-pechanec-pkcs11uri <http://tools.ietf.org/html/draft-pechanec-pkcs11uri>`__,
       including "pkcs11:" prefix
 
-| `` (2.16.840.1.113730.3.8.11.61 NAME 'ipaWrappingKey'``
-| `` DESC 'PKCS#11 URI of the wrapping key'``
-| `` EQUALITY caseExactMatch``
-| `` SINGLE-VALUE``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )``
+.. code-block:: text
+
+     (2.16.840.1.113730.3.8.11.61 NAME 'ipaWrappingKey'
+     DESC 'PKCS#11 URI of the wrapping key'
+     EQUALITY caseExactMatch
+     SINGLE-VALUE
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 -  ipaWrappingMech
 
    -  corresponds to wrapping mechanism used for key wrapping
 
-| ``(2.16.840.1.113730.3.8.11.65 'ipaWrappingMech'``
-| `` DESC 'PKCS#11 wrapping mechanism equivalent to CK_MECHANISM_TYPE'``
-| `` EQUALITY caseIgnoreMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| `` SINGLE-VALUE``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.11.65 'ipaWrappingMech'
+     DESC 'PKCS#11 wrapping mechanism equivalent to CK_MECHANISM_TYPE'
+     EQUALITY caseIgnoreMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+     SINGLE-VALUE
+     X-ORIGIN 'IPA v4' )
 
 -  ipaSecretKeyRef
 
@@ -618,10 +710,12 @@ Wrapping key reference
       object (e.g. `ipk11SecretKey <#ipk11SecretKey>`__) among multiple
       encrypted key blobs, i.e. one key wrapped with more than one key
 
-| `` (2.16.840.1.113730.3.8.11.64 NAME 'ipaSecretKeyRef'``
-| `` DESC 'DN of the ipaSecretKeyObject'``
-| `` EQUALITY distinguishedNameMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )``
+.. code-block:: text
+
+     (2.16.840.1.113730.3.8.11.64 NAME 'ipaSecretKeyRef'
+     DESC 'DN of the ipaSecretKeyObject'
+     EQUALITY distinguishedNameMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
 
 
 
@@ -639,11 +733,14 @@ For use in a PKCS#11 only database a structural objectclass is defined.
 
    -  LDAP-only, no corresponding PKCS#11 object class
 
-| ``(``\ ``.2.1 NAME 'ipk11Object'``
-| `` DESC 'Object'``
-| `` SUP top STRUCTURAL``
-| `` MUST   ``\ ```ipk11UniqueId`` <#ipk11UniqueId>`__
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.1 NAME 'ipk11Object'
+     DESC 'Object'
+     SUP top STRUCTURAL
+     MUST   ``\ ```ipk11UniqueId`` <#ipk11UniqueId>`__
+
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -658,92 +755,108 @@ are auxiliary and can be used to extend other objects.
 
    -  abstract base class of all PKCS#11 storage objects
 
-| ``(``\ ``.2.2 NAME 'ipk11StorageObject'``
-| `` DESC 'Storage object'``
-| `` SUP top ABSTRACT``
-| `` MAY  ( ``\ ```ipk11Private`` <#ipk11Private>`__\ `` $ ``\ ```ipk11Modifiable`` <#ipk11Modifiable>`__\ `` $ ``\ ```ipk11Label`` <#ipk11Label>`__\ `` $ ``\ ```ipk11Copyable`` <#ipk11Copyable>`__\ `` $``
-| ``        ``\ ```ipk11Destroyable`` <#ipk11Destroyable>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.2 NAME 'ipk11StorageObject'
+     DESC 'Storage object'
+     SUP top ABSTRACT
+     MAY  ( ``\ ```ipk11Private`` <#ipk11Private>`__\ `` $ ``\ ```ipk11Modifiable`` <#ipk11Modifiable>`__\ `` $ ``\ ```ipk11Label`` <#ipk11Label>`__\ `` $ ``\ ```ipk11Copyable`` <#ipk11Copyable>`__\ `` $
+            ``\ ```ipk11Destroyable`` <#ipk11Destroyable>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Certificate
 
    -  abstract base class of CKO_CERTIFICATE objects
 
-| ``(``\ ``.2.3 NAME 'ipk11Certificate'``
-| `` DESC 'Certificate'``
-| `` SUP ``\ ```ipk11StorageObject`` <#ipk11StorageObject>`__\ `` ABSTRACT``
-| `` MAY  ( ``\ ```ipk11Trusted`` <#ipk11Trusted>`__\ `` $ ``\ ```ipk11CheckValue`` <#ipk11CheckValue>`__\ `` $ ``\ ```ipk11StartDate`` <#ipk11StartDate>`__\ `` $ ``\ ```ipk11EndDate`` <#ipk11EndDate>`__\ `` $``
-| ``        ``\ ```ipk11PublicKeyInfo`` <#ipk11PublicKeyInfo>`__\ `` $ ``\ ```ipk11Distrusted`` <#ipk11Distrusted>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.3 NAME 'ipk11Certificate'
+     DESC 'Certificate'
+     SUP ``\ ```ipk11StorageObject`` <#ipk11StorageObject>`__\ `` ABSTRACT
+     MAY  ( ``\ ```ipk11Trusted`` <#ipk11Trusted>`__\ `` $ ``\ ```ipk11CheckValue`` <#ipk11CheckValue>`__\ `` $ ``\ ```ipk11StartDate`` <#ipk11StartDate>`__\ `` $ ``\ ```ipk11EndDate`` <#ipk11EndDate>`__\ `` $
+            ``\ ```ipk11PublicKeyInfo`` <#ipk11PublicKeyInfo>`__\ `` $ ``\ ```ipk11Distrusted`` <#ipk11Distrusted>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11X509Certificate
 
    -  corresponds to CKO_CERTIFICATE of type CKC_X_509
 
-| ``(``\ ``.2.4 NAME 'ipk11X509Certificate'``
-| `` DESC 'X.509 certificate'``
-| `` SUP ``\ ```ipk11Certificate`` <#ipk11Certificate>`__\ `` AUXILIARY``
-| `` MAY  ( ``\ ```ipk11Subject`` <#ipk11Subject>`__\ `` $ ``\ ```ipk11Id`` <#ipk11Id>`__\ `` $ ``\ ```ipk11Issuer`` <#ipk11Issuer>`__\ `` $ ``\ ```ipk11SerialNumber`` <#ipk11SerialNumber>`__\ `` $``
-| ``        ``\ ```ipk11SubjectKeyHash`` <#ipk11SubjectKeyHash>`__\ `` $ ``\ ```ipk11IssuerKeyHash`` <#ipk11IssuerKeyHash>`__\ `` $ ``\ ```ipk11SecurityDomain`` <#ipk11SecurityDomain>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.4 NAME 'ipk11X509Certificate'
+     DESC 'X.509 certificate'
+     SUP ``\ ```ipk11Certificate`` <#ipk11Certificate>`__\ `` AUXILIARY
+     MAY  ( ``\ ```ipk11Subject`` <#ipk11Subject>`__\ `` $ ``\ ```ipk11Id`` <#ipk11Id>`__\ `` $ ``\ ```ipk11Issuer`` <#ipk11Issuer>`__\ `` $ ``\ ```ipk11SerialNumber`` <#ipk11SerialNumber>`__\ `` $
+            ``\ ```ipk11SubjectKeyHash`` <#ipk11SubjectKeyHash>`__\ `` $ ``\ ```ipk11IssuerKeyHash`` <#ipk11IssuerKeyHash>`__\ `` $ ``\ ```ipk11SecurityDomain`` <#ipk11SecurityDomain>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11Key
 
    -  abstract base class of all PKCS#11 key objects
 
-| ``(``\ ``.2.5 NAME 'ipk11Key'``
-| `` DESC 'Key'``
-| `` SUP ``\ ```ipk11StorageObject`` <#ipk11StorageObject>`__\ `` ABSTRACT``
-| `` MAY  ( ``\ ```ipk11KeyType`` <#ipk11KeyType>`__\ `` $ ``\ ```ipk11Id`` <#ipk11Id>`__\ `` $ ``\ ```ipk11StartDate`` <#ipk11StartDate>`__\ `` $ ``\ ```ipk11EndDate`` <#ipk11EndDate>`__\ `` $ ``\ ```ipk11Derive`` <#ipk11Derive>`__\ `` $``
-| ``        ``\ ```ipk11Local`` <#ipk11Local>`__\ `` $ ``\ ```ipk11KeyGenMechanism`` <#ipk11KeyGenMechanism>`__\ `` $ ``\ ```ipk11AllowedMechanisms`` <#ipk11AllowedMechanisms>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.5 NAME 'ipk11Key'
+     DESC 'Key'
+     SUP ``\ ```ipk11StorageObject`` <#ipk11StorageObject>`__\ `` ABSTRACT
+     MAY  ( ``\ ```ipk11KeyType`` <#ipk11KeyType>`__\ `` $ ``\ ```ipk11Id`` <#ipk11Id>`__\ `` $ ``\ ```ipk11StartDate`` <#ipk11StartDate>`__\ `` $ ``\ ```ipk11EndDate`` <#ipk11EndDate>`__\ `` $ ``\ ```ipk11Derive`` <#ipk11Derive>`__\ `` $
+            ``\ ```ipk11Local`` <#ipk11Local>`__\ `` $ ``\ ```ipk11KeyGenMechanism`` <#ipk11KeyGenMechanism>`__\ `` $ ``\ ```ipk11AllowedMechanisms`` <#ipk11AllowedMechanisms>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11PublicKey
 
    -  corresponds to CKO_PUBLIC_KEY
 
-| ``(``\ ``.2.6 NAME 'ipk11PublicKey'``
-| `` DESC 'Public key'``
-| `` SUP ``\ ```ipk11Key`` <#ipk11Key>`__\ `` AUXILIARY``
-| `` MAY  ( ``\ ```ipk11Subject`` <#ipk11Subject>`__\ `` $ ``\ ```ipk11Encrypt`` <#ipk11Encrypt>`__\ `` $ ``\ ```ipk11Verify`` <#ipk11Verify>`__\ `` $ ``\ ```ipk11VerifyRecover`` <#ipk11VerifyRecover>`__\ `` $ ``\ ```ipk11Wrap`` <#ipk11Wrap>`__\ `` $``
-| ``        ``\ ```ipk11Trusted`` <#ipk11Trusted>`__\ `` $ ``\ ```ipk11WrapTemplate`` <#ipk11WrapTemplate>`__\ `` $ ``\ ```ipk11Distrusted`` <#ipk11Distrusted>`__\ `` $ ``\ ```ipk11PublicKeyInfo`` <#ipk11PublicKeyInfo>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.6 NAME 'ipk11PublicKey'
+     DESC 'Public key'
+     SUP ``\ ```ipk11Key`` <#ipk11Key>`__\ `` AUXILIARY
+     MAY  ( ``\ ```ipk11Subject`` <#ipk11Subject>`__\ `` $ ``\ ```ipk11Encrypt`` <#ipk11Encrypt>`__\ `` $ ``\ ```ipk11Verify`` <#ipk11Verify>`__\ `` $ ``\ ```ipk11VerifyRecover`` <#ipk11VerifyRecover>`__\ `` $ ``\ ```ipk11Wrap`` <#ipk11Wrap>`__\ `` $
+            ``\ ```ipk11Trusted`` <#ipk11Trusted>`__\ `` $ ``\ ```ipk11WrapTemplate`` <#ipk11WrapTemplate>`__\ `` $ ``\ ```ipk11Distrusted`` <#ipk11Distrusted>`__\ `` $ ``\ ```ipk11PublicKeyInfo`` <#ipk11PublicKeyInfo>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11PrivateKey
 
    -  corresponds to CKO_PRIVATE_KEY
 
-| ``(``\ ``.2.7 NAME 'ipk11PrivateKey'``
-| `` DESC 'Private key'``
-| `` SUP ``\ ```ipk11Key`` <#ipk11Key>`__\ `` AUXILIARY``
-| `` MAY  ( ``\ ```ipk11Subject`` <#ipk11Subject>`__\ `` $ ``\ ```ipk11Sensitive`` <#ipk11Sensitive>`__\ `` $ ``\ ```ipk11Decrypt`` <#ipk11Decrypt>`__\ `` $ ``\ ```ipk11Sign`` <#ipk11Sign>`__\ `` $``
-| ``        ``\ ```ipk11SignRecover`` <#ipk11SignRecover>`__\ `` $ ``\ ```ipk11Unwrap`` <#ipk11Unwrap>`__\ `` $ ``\ ```ipk11Extractable`` <#ipk11Extractable>`__\ `` $ ``\ ```ipk11AlwaysSensitive`` <#ipk11AlwaysSensitive>`__\ `` $``
-| ``        ``\ ```ipk11NeverExtractable`` <#ipk11NeverExtractable>`__\ `` $ ``\ ```ipk11WrapWithTrusted`` <#ipk11WrapWithTrusted>`__\ `` $ ``\ ```ipk11UnwrapTemplate`` <#ipk11UnwrapTemplate>`__\ `` $``
-| ``        ``\ ```ipk11AlwaysAuthenticate`` <#ipk11AlwaysAuthenticate>`__\ `` $ ``\ ```ipk11PublicKeyInfo`` <#ipk11PublicKeyInfo>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.7 NAME 'ipk11PrivateKey'
+     DESC 'Private key'
+     SUP ``\ ```ipk11Key`` <#ipk11Key>`__\ `` AUXILIARY
+     MAY  ( ``\ ```ipk11Subject`` <#ipk11Subject>`__\ `` $ ``\ ```ipk11Sensitive`` <#ipk11Sensitive>`__\ `` $ ``\ ```ipk11Decrypt`` <#ipk11Decrypt>`__\ `` $ ``\ ```ipk11Sign`` <#ipk11Sign>`__\ `` $
+            ``\ ```ipk11SignRecover`` <#ipk11SignRecover>`__\ `` $ ``\ ```ipk11Unwrap`` <#ipk11Unwrap>`__\ `` $ ``\ ```ipk11Extractable`` <#ipk11Extractable>`__\ `` $ ``\ ```ipk11AlwaysSensitive`` <#ipk11AlwaysSensitive>`__\ `` $
+            ``\ ```ipk11NeverExtractable`` <#ipk11NeverExtractable>`__\ `` $ ``\ ```ipk11WrapWithTrusted`` <#ipk11WrapWithTrusted>`__\ `` $ ``\ ```ipk11UnwrapTemplate`` <#ipk11UnwrapTemplate>`__\ `` $
+            ``\ ```ipk11AlwaysAuthenticate`` <#ipk11AlwaysAuthenticate>`__\ `` $ ``\ ```ipk11PublicKeyInfo`` <#ipk11PublicKeyInfo>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11SecretKey
 
    -  corresponds to CKO_SECRET_KEY
 
-| ``(``\ ``.2.8 NAME 'ipk11SecretKey'``
-| `` DESC 'Secret key'``
-| `` SUP ``\ ```ipk11Key`` <#ipk11Key>`__\ `` AUXILIARY``
-| `` MAY  ( ``\ ```ipk11Sensitive`` <#ipk11Sensitive>`__\ `` $ ``\ ```ipk11Encrypt`` <#ipk11Encrypt>`__\ `` $ ``\ ```ipk11Decrypt`` <#ipk11Decrypt>`__\ `` $ ``\ ```ipk11Sign`` <#ipk11Sign>`__\ `` $ ``\ ```ipk11Verify`` <#ipk11Verify>`__\ `` $``
-| ``        ``\ ```ipk11Wrap`` <#ipk11Wrap>`__\ `` $ ``\ ```ipk11Unwrap`` <#ipk11Unwrap>`__\ `` $ ``\ ```ipk11Extractable`` <#ipk11Extractable>`__\ `` $ ``\ ```ipk11AlwaysSensitive`` <#ipk11AlwaysSensitive>`__\ `` $``
-| ``        ``\ ```ipk11NeverExtractable`` <#ipk11NeverExtractable>`__\ `` $ ``\ ```ipk11CheckValue`` <#ipk11CheckValue>`__\ `` $ ``\ ```ipk11WrapWithTrusted`` <#ipk11WrapWithTrusted>`__\ `` $``
-| ``        ``\ ```ipk11Trusted`` <#ipk11Trusted>`__\ `` $ ``\ ```ipk11WrapTemplate`` <#ipk11WrapTemplate>`__\ `` $ ``\ ```ipk11UnwrapTemplate`` <#ipk11UnwrapTemplate>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.8 NAME 'ipk11SecretKey'
+     DESC 'Secret key'
+     SUP ``\ ```ipk11Key`` <#ipk11Key>`__\ `` AUXILIARY
+     MAY  ( ``\ ```ipk11Sensitive`` <#ipk11Sensitive>`__\ `` $ ``\ ```ipk11Encrypt`` <#ipk11Encrypt>`__\ `` $ ``\ ```ipk11Decrypt`` <#ipk11Decrypt>`__\ `` $ ``\ ```ipk11Sign`` <#ipk11Sign>`__\ `` $ ``\ ```ipk11Verify`` <#ipk11Verify>`__\ `` $
+            ``\ ```ipk11Wrap`` <#ipk11Wrap>`__\ `` $ ``\ ```ipk11Unwrap`` <#ipk11Unwrap>`__\ `` $ ``\ ```ipk11Extractable`` <#ipk11Extractable>`__\ `` $ ``\ ```ipk11AlwaysSensitive`` <#ipk11AlwaysSensitive>`__\ `` $
+            ``\ ```ipk11NeverExtractable`` <#ipk11NeverExtractable>`__\ `` $ ``\ ```ipk11CheckValue`` <#ipk11CheckValue>`__\ `` $ ``\ ```ipk11WrapWithTrusted`` <#ipk11WrapWithTrusted>`__\ `` $
+            ``\ ```ipk11Trusted`` <#ipk11Trusted>`__\ `` $ ``\ ```ipk11WrapTemplate`` <#ipk11WrapTemplate>`__\ `` $ ``\ ```ipk11UnwrapTemplate`` <#ipk11UnwrapTemplate>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipk11DomainParameters
 
    -  corresponds to CKO_DOMAIN_PARAMETERS
 
-| ``(``\ ``.2.9 NAME 'ipk11DomainParameters'``
-| `` DESC 'Domain parameters'``
-| `` SUP ``\ ```ipk11StorageObject`` <#ipk11StorageObject>`__\ `` AUXILIARY``
-| `` MAY  ( ``\ ```ipk11KeyType`` <#ipk11KeyType>`__\ `` $ ``\ ```ipk11Local`` <#ipk11Local>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (``\ ``.2.9 NAME 'ipk11DomainParameters'
+     DESC 'Domain parameters'
+     SUP ``\ ```ipk11StorageObject`` <#ipk11StorageObject>`__\ `` AUXILIARY
+     MAY  ( ``\ ```ipk11KeyType`` <#ipk11KeyType>`__\ `` $ ``\ ```ipk11Local`` <#ipk11Local>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 
 
@@ -754,29 +867,35 @@ Encoded key data
 
    -  was previously called `ipaPublicKey <#ipaPublicKey>`__
 
-| ``(2.16.840.1.113730.3.8.12.24 NAME 'ipaPublicKeyObject'``
-| `` DESC 'Wrapped public key'``
-| `` SUP top AUXILIARY``
-| `` MUST  ( ``\ ```ipaPublicKey`` <#ipaPublicKey>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.12.24 NAME 'ipaPublicKeyObject'
+     DESC 'Wrapped public key'
+     SUP top AUXILIARY
+     MUST  ( ``\ ```ipaPublicKey`` <#ipaPublicKey>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipaPrivateKeyObject
 
    -  was previously called ipaEPrivateKey
 
-| ``(2.16.840.1.113730.3.8.12.25 NAME 'ipaPrivateKeyObject'``
-| `` DESC 'Wrapped private key'``
-| `` SUP top AUXILIARY``
-| `` MUST ( ``\ ```ipaWrappingKey`` <#ipaWrappingKey>`__\ `` $ ``\ ```ipaWrappingMech`` <#ipaWrappingMech>`__\ `` $ ``\ ```ipaPrivateKey`` <#ipaPrivateKey>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.12.25 NAME 'ipaPrivateKeyObject'
+     DESC 'Wrapped private key'
+     SUP top AUXILIARY
+     MUST ( ``\ ```ipaWrappingKey`` <#ipaWrappingKey>`__\ `` $ ``\ ```ipaWrappingMech`` <#ipaWrappingMech>`__\ `` $ ``\ ```ipaPrivateKey`` <#ipaPrivateKey>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipaSecretKeyObject
 
-| ``(2.16.840.1.113730.3.8.12.26 NAME 'ipaSecretKeyObject'``
-| `` DESC 'Wrapped secret key'``
-| `` SUP top AUXILIARY``
-| `` MUST ( ``\ ```ipaWrappingKey`` <#ipaWrappingKey>`__\ `` $ ``\ ```ipaWrappingMech`` <#ipaWrappingMech>`__\ `` $ ``\ ```ipaSecretKey`` <#ipaSecretKey>`__\ `` )``
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+    (2.16.840.1.113730.3.8.12.26 NAME 'ipaSecretKeyObject'
+     DESC 'Wrapped secret key'
+     SUP top AUXILIARY
+     MUST ( ``\ ```ipaWrappingKey`` <#ipaWrappingKey>`__\ `` $ ``\ ```ipaWrappingMech`` <#ipaWrappingMech>`__\ `` $ ``\ ```ipaSecretKey`` <#ipaSecretKey>`__\ `` )
+     X-ORIGIN 'IPA v4' )
 
 -  ipaSecretKeyRefObject
 
@@ -789,11 +908,14 @@ Encoded key data
       multi-valued and application has to walk through set of referenced
       LDAP entries and find suitable unwrapping key
 
-| `` (2.16.840.1.113730.3.8.12.34 NAME 'ipaSecretKeyRefObject'``
-| `` DESC 'Indirect storage for encoded key material'``
-| `` SUP top AUXILIARY``
-| `` MUST ``\ ```ipaSecretKeyRef`` <#ipaSecretKeyRef>`__
-| `` X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+     (2.16.840.1.113730.3.8.12.34 NAME 'ipaSecretKeyRefObject'
+     DESC 'Indirect storage for encoded key material'
+     SUP top AUXILIARY
+     MUST ``\ ```ipaSecretKeyRef`` <#ipaSecretKeyRef>`__
+
+     X-ORIGIN 'IPA v4' )
 
 
 

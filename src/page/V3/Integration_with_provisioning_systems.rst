@@ -30,13 +30,13 @@ Use Cases
 
 Provisioning system calls:
 
-::
+.. code-block:: text
 
    ipa host-add ... --some-attribute=somevalue
 
 or
 
-::
+.. code-block:: text
 
    ipa user-add ... --some-attribute=somevalue
 
@@ -59,7 +59,7 @@ New schema
 There is already a standard ``userClass`` attribute that can be used
 exactly for this purpose:
 
-::
+.. code-block:: text
 
    attributeTypes: ( 0.9.2342.19200300.100.1.8 NAME 'userClass'  EQUALITY caseIgn
     oreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.1

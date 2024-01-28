@@ -35,7 +35,7 @@ SID Structure
 
 The SID structure is defined in librpc/gen_ndr/security.h:
 
-::
+.. code-block:: text
 
    struct dom_sid {
        uint8_t sid_rev_num;
@@ -51,7 +51,7 @@ Conversion Methods
 
 The binary conversion methods are defined in librpc/ndr/ndr.c:
 
-::
+.. code-block:: text
 
    // convert SID structure to binary
    _PUBLIC_ enum ndr_err_code ndr_push_dom_sid(
@@ -63,7 +63,7 @@ The binary conversion methods are defined in librpc/ndr/ndr.c:
 
 The string conversion methods are defined in libcli/security/dom_sid.c:
 
-::
+.. code-block:: text
 
    // convert string to SID structure
    bool dom_sid_parse(const char *sidstr, struct dom_sid *ret);
@@ -78,7 +78,7 @@ Attribute Syntax
 
 The SID syntax is defined in source4/lib/ldb-samba/ldif_handlers.c:
 
-::
+.. code-block:: text
 
    static const struct ldb_schema_syntax samba_syntaxes[] = {
        {
@@ -92,7 +92,7 @@ The SID syntax is defined in source4/lib/ldb-samba/ldif_handlers.c:
 
 The handlers are defined in source4/lib/lib-samba/ldif_handlers.c:
 
-::
+.. code-block:: text
 
    static int ldif_read_objectSid(
        struct ldb_context *ldb, void *mem_ctx,
@@ -121,7 +121,7 @@ The handlers are defined in source4/lib/lib-samba/ldif_handlers.c:
 The ldif_canonicalise_objectSid() makes sure that the SID is converted
 into binary.
 
-::
+.. code-block:: text
 
    static int ldif_canonicalise_objectSid(
        struct ldb_context *ldb, void *mem_ctx,
@@ -151,7 +151,7 @@ Attribute Mapping
 The SID mapping is defined in
 source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:
 
-::
+.. code-block:: text
 
    // mapping for OpenLDAP
    static const struct ldb_map_attribute entryuuid_attributes[] = {
@@ -186,7 +186,7 @@ source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:
 The handlers are also defined in
 source4/dsdb/samdb/ldb_modules/simple_ldap_map.c:
 
-::
+.. code-block:: text
 
    static struct ldb_val sid_always_binary(
        struct ldb_module *module, TALLOC_CTX *ctx, const struct ldb_val *val)
@@ -215,7 +215,7 @@ Attribute Dereferencing
 The handler function in extended_dn_out_fds module reads the binary SID
 value.
 
-::
+.. code-block:: text
 
    static int handle_dereference_fds(struct ldb_dn *dn,
        struct dsdb_openldap_dereference_result **dereference_attrs, 
@@ -233,7 +233,7 @@ Schema
 The provisioning tool generates the objectSid attribute in 99_ad.ldif.
 The attribute uses Octet String (binary) syntax.
 
-::
+.. code-block:: text
 
    attributeTypes: (
      1.2.840.113556.1.4.146
@@ -262,7 +262,7 @@ Attribute Mapping
 
 The mapping for DS should be changed as follows:
 
-::
+.. code-block:: text
 
    static const struct ldb_map_attribute nsuniqueid_attributes[] = {
        {
@@ -280,7 +280,7 @@ The mapping for DS should be changed as follows:
 
 Then the following method should be added:
 
-::
+.. code-block:: text
 
    static struct ldb_val sid_always_string(
        struct ldb_module *module, TALLOC_CTX *ctx, const struct ldb_val *val)
@@ -311,7 +311,7 @@ Attribute Dereferencing
 The handler function in extended_dn_out_fds module should be changed to
 read the string SID value and convert it into SID structure.
 
-::
+.. code-block:: text
 
    static int handle_dereference_fds(struct ldb_dn *dn,
        struct dsdb_openldap_dereference_result **dereference_attrs, 
@@ -339,7 +339,7 @@ The provisioning tool should be configured such that it doesn't generate
 the objectSid attribute but instead it uses the sambaSID attribute. The
 schema conversion is located at source4/setup/schema-map-fedora-ds-1.0:
 
-::
+.. code-block:: text
 
    objectSid
    objectSid:sambaSID

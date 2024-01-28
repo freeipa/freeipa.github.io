@@ -21,7 +21,7 @@ To fix the problem, they must be mapped into different syntaxes that are
 supported by Fedora DS. This can be done by adding the following lines
 into samba/source4/setup/schema-map-fedora-ds-1.0:
 
-::
+.. code-block:: text
 
    #Printable String as IA5 String
    1.3.6.1.4.1.1466.115.121.1.44:1.3.6.1.4.1.1466.115.121.1.26

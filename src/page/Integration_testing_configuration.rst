@@ -56,66 +56,68 @@ of a needed role are available for a test, that test is skipped.
 
 An example YAML configuration file follows:
 
-| ``ad_admin_name: Administrator``
-| ``ad_admin_password: Secret123456``
-| ``admin_name: admin``
-| ``admin_password: Secret123``
-| ``debug: false``
-| ``dirman_dn: cn=Directory Manager``
-| ``dirman_password: Secret123``
-| ``dns_forwarder: 203.0.113.123``
-| ``nis_domain: ipatest``
-| ``domain_level: 0``
-| ``ntp_server: 1.pool.ntp.org``
-| ``root_ssh_key_filename: ~/.ssh/id_rsa``
-| ``test_dir: /root/ipatests``
-| ``domains:``
-| ``- name: dom203.ipa.test``
-| ``  type: IPA``
-| ``  hosts:``
-| ``  - name: vm-203.dom203.ipa.test.``
-| ``    external_hostname: vm-203.dom203.ipa.test``
-| ``    ip: 192.0.2.203``
-| ``    role: master``
-| ``  - name: vm-204.dom203.ipa.test.``
-| ``    external_hostname: vm-204.dom203.ipa.test``
-| ``    ip: 192.0.2.204``
-| ``    role: replica``
-| ``  - name: vm-205.dom203.ipa.test.``
-| ``    external_hostname: vm-205.dom203.ipa.test``
-| ``    ip: 192.0.2.205``
-| ``    role: replica``
-| ``  - name: vm-214.dom203.ipa.test.``
-| ``    external_hostname: 192.0.2.214``
-| ``    ip: 192.0.2.214``
-| ``    role: legacy_client_sssd_redhat``
-| ``- name: ad.test``
-| ``  type: AD``
-| ``  hosts:``
-| ``  - name: ad1.ad.test.``
-| ``    external_hostname: 198.51.100.1``
-| ``    ip: 198.51.100.1``
-| ``    role: ad``
-| ``    username: Administrator``
-| ``    password: Secret123``
-| ``- name: child.ad.test``
-| ``  type: AD_SUBDOMAIN``
-| ``  hosts:``
-| ``  - name: ad2.child.ad.test.``
-| ``    external_hostname: 198.51.100.2``
-| ``    ip: 195.51.100.2``
-| ``    role: ad_subdomain``
-| ``    username: Administrator``
-| ``    password: Secret123``
-| ``- name: adtree.test``
-| ``  type: AD_SUBDOMAIN``
-| ``  hosts:``
-| ``  - name: ad3.adtree.test.``
-| ``    external_hostname: 198.51.100.3``
-| ``    ip: 195.51.100.2``
-| ``    role: ad_treedomain``
-| ``    username: Administrator``
-| ``    password: Secret123``
+.. code-block:: text
+
+    ad_admin_name: Administrator
+    ad_admin_password: Secret123456
+    admin_name: admin
+    admin_password: Secret123
+    debug: false
+    dirman_dn: cn=Directory Manager
+    dirman_password: Secret123
+    dns_forwarder: 203.0.113.123
+    nis_domain: ipatest
+    domain_level: 0
+    ntp_server: 1.pool.ntp.org
+    root_ssh_key_filename: ~/.ssh/id_rsa
+    test_dir: /root/ipatests
+    domains:
+    - name: dom203.ipa.test
+      type: IPA
+      hosts:
+      - name: vm-203.dom203.ipa.test.
+        external_hostname: vm-203.dom203.ipa.test
+        ip: 192.0.2.203
+        role: master
+      - name: vm-204.dom203.ipa.test.
+        external_hostname: vm-204.dom203.ipa.test
+        ip: 192.0.2.204
+        role: replica
+      - name: vm-205.dom203.ipa.test.
+        external_hostname: vm-205.dom203.ipa.test
+        ip: 192.0.2.205
+        role: replica
+      - name: vm-214.dom203.ipa.test.
+        external_hostname: 192.0.2.214
+        ip: 192.0.2.214
+        role: legacy_client_sssd_redhat
+    - name: ad.test
+      type: AD
+      hosts:
+      - name: ad1.ad.test.
+        external_hostname: 198.51.100.1
+        ip: 198.51.100.1
+        role: ad
+        username: Administrator
+        password: Secret123
+    - name: child.ad.test
+      type: AD_SUBDOMAIN
+      hosts:
+      - name: ad2.child.ad.test.
+        external_hostname: 198.51.100.2
+        ip: 195.51.100.2
+        role: ad_subdomain
+        username: Administrator
+        password: Secret123
+    - name: adtree.test
+      type: AD_SUBDOMAIN
+      hosts:
+      - name: ad3.adtree.test.
+        external_hostname: 198.51.100.3
+        ip: 195.51.100.2
+        role: ad_treedomain
+        username: Administrator
+        password: Secret123
 
 To use the configuration, first install PyYAML
 
@@ -135,9 +137,11 @@ and set ``$IPATEST_JSON_CONFIG`` instead.
 To convert between YAML-, JSON- and environment-based configuration, use
 the ``ipa-test-config`` command:
 
-| ``ipa-test-config --yaml     # output current configuration as YAML``
-| ``ipa-test-config --json     # output current configuration as JSON``
-| ``ipa-test-config --global   # output current configuration as environment variables``
+.. code-block:: text
+
+    ipa-test-config --yaml     # output current configuration as YAML
+    ipa-test-config --json     # output current configuration as JSON
+    ipa-test-config --global   # output current configuration as environment variables
 
 
 
@@ -166,8 +170,10 @@ the resource demand is not met, this particular test is skipped.
 Other hosts for pre-defined roles (such as REPLICA, AD or CLIENT) can be
 defined in a similar way, in *~/.bashrc*:
 
-| ``export MASTER_env1=vm-203.dom203.ipa.test``
-| ``export REPLICA_env1=vm-204.dom203.ipa.test vm-205.dom203.ipa.test``
+.. code-block:: text
+
+    export MASTER_env1=vm-203.dom203.ipa.test
+    export REPLICA_env1=vm-204.dom203.ipa.test vm-205.dom203.ipa.test
 
 This defines a testing environment with one IPA master and two replicas,
 suitable for running e.g. an replication test.
@@ -178,9 +184,11 @@ there is one catch, since IPA and AD do not share the same domain,
 please make sure to use **different** domain suffixes for IPA master and
 AD:
 
-| ``export MASTER_env1=vm-203.dom203.ipa.test``
-| ``export REPLICA_env1=vm-204.dom203.ipa.test vm-205.dom203.ipa.test``
-| ``export AD_env2=ad.addomain.ipa.test``
+.. code-block:: text
+
+    export MASTER_env1=vm-203.dom203.ipa.test
+    export REPLICA_env1=vm-204.dom203.ipa.test vm-205.dom203.ipa.test
+    export AD_env2=ad.addomain.ipa.test
 
 Note the usage of **\_env1** and **\_env2** in the example above.
 
@@ -188,10 +196,12 @@ Also, you can use the ADADMINPW environment variable to define the
 password of the AD's Administrator's account. (by default, this is set
 to Secret123)
 
-| ``export MASTER_env1=vm-203.dom203.ipa.test``
-| ``export REPLICA_env1=vm-204.dom203.ipa.test vm-205.dom203.ipa.test``
-| ``export AD_env2=ad.addomain.ipa.test``
-| ``export ADADMINPW=Secret123456``
+.. code-block:: text
+
+    export MASTER_env1=vm-203.dom203.ipa.test
+    export REPLICA_env1=vm-204.dom203.ipa.test vm-205.dom203.ipa.test
+    export AD_env2=ad.addomain.ipa.test
+    export ADADMINPW=Secret123456
 
 Some tests need to operate with machines that have custom configuration
 and cannot be referred to as a general client or replica. A particular
@@ -206,26 +216,32 @@ make a difference between a normal environment variable and a one that
 defines a custom role). The rest of the environment variable is
 consistent with the examples above, so e.g.:
 
-| ``export MASTER_env1=vm-203.dom203.ipa.test``
-| ``export TESTHOST_LEGACY_CLIENT_SSSD_REDHAT_env1=vm-214.dom203.ipa.test``
+.. code-block:: text
+
+    export MASTER_env1=vm-203.dom203.ipa.test
+    export TESTHOST_LEGACY_CLIENT_SSSD_REDHAT_env1=vm-214.dom203.ipa.test
 
 will create a custom role under the name of "legacy_client_sssd_redhat".
 
 To see what resources a test requires, you can have a peek into its
 implementation:
 
-| ``$ vim test_legacy_clients.py``
-| ``class TestLegacySSSDBefore19RedHat(BaseTestLegacyClient):``
-| ``   advice_id = 'config-redhat-sssd-before-1-9'``
-| ``   required_extra_roles = ['legacy_client_sssd_redhat']``
+.. code-block:: text
 
-| ``$ vim test_simple_replication.py``
-| ``class TestSimpleReplication(IntegrationTest):``
-| ``    """Simple replication test``
-| ``    Install a server and a replica, then add an user on one host and ensure``
-| ``    it is also present on the other one.``
-| ``    """``
-| ``    num_replicas = 1``
+    $ vim test_legacy_clients.py
+    class TestLegacySSSDBefore19RedHat(BaseTestLegacyClient):
+       advice_id = 'config-redhat-sssd-before-1-9'
+       required_extra_roles = ['legacy_client_sssd_redhat']
+
+.. code-block:: text
+
+    $ vim test_simple_replication.py
+    class TestSimpleReplication(IntegrationTest):
+        """Simple replication test
+        Install a server and a replica, then add an user on one host and ensure
+        it is also present on the other one.
+        """
+        num_replicas = 1
 
 Additionally, if a test is skipped due to the insufficient resources
 available, the exception contains information about what resources were

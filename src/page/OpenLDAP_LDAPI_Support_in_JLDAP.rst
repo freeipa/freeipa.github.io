@@ -15,19 +15,19 @@ LDAPI. The DS instances are identified by their URLs.
 
 A regular LDAP URL will look like the following:
 
-::
+.. code-block:: text
 
    ldap://localhost:389
 
 A secure LDAP URL will look like the following:
 
-::
+.. code-block:: text
 
    ldaps://localhost:636
 
 An LDAPI URL will look like the following:
 
-::
+.. code-block:: text
 
    ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi
 
@@ -59,7 +59,7 @@ Using the current IETF API, an LDAP connection can be created by
 providing an LDAP or LDAPS URL containing the host name and port number
 of the LDAP server:
 
-::
+.. code-block:: text
 
    LDAPUrl url = new LDAPUrl("ldap://localhost:389");
    LDAPConnection connection = LDAPConnection();
@@ -73,7 +73,7 @@ LDAP URL
 The com.novell.ldap.LDAPUrl class currently only recognizes ldap and
 ldaps protocol schemes.
 
-::
+.. code-block:: text
 
    private void parseURL(String url) {
 
@@ -99,7 +99,7 @@ LDAP Connection
 The com.novell.ldap.Connection class creates the socket using Java
 Socket API by providing the host name and port number.
 
-::
+.. code-block:: text
 
    private void connect(String host, int port, int semaphoreId) {
 
@@ -124,7 +124,7 @@ IETF API
 The IETF API should be modified to allow creating a connection by
 providing an LDAPI URL which contains a path to the socket file:
 
-::
+.. code-block:: text
 
    LDAPUrl url = new LDAPUrl("ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi");
    LDAPConnection connection = LDAPConnection();
@@ -138,7 +138,7 @@ LDAP URL
 The com.novell.ldap.LDAPUrl should be modified to recognize the ldapi
 protocol scheme.
 
-::
+.. code-block:: text
 
    private void parseURL(String url) {
 
@@ -160,7 +160,7 @@ A new connect() method should to be added into
 com.novell.ldap.Connection to create a socket by providing a path to the
 socket file.
 
-::
+.. code-block:: text
 
    private void connect(File path) {
 

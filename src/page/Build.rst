@@ -42,15 +42,19 @@ Next, we will install all packages needed to build FreeIPA as they do
 not have to be installed on your system. You can install them easily by
 following instructions:
 
-| ``$ cd freeipa``
-| ``$ cp freeipa.spec.in freeipa-builddep.spec # this is workaround for yum-builddep: file name has to end with ".spec"``
-| ``$ sudo yum-builddep freeipa-builddep.spec``
+.. code-block:: text
+
+    $ cd freeipa
+    $ cp freeipa.spec.in freeipa-builddep.spec # this is workaround for yum-builddep: file name has to end with ".spec"
+    $ sudo yum-builddep freeipa-builddep.spec
 
 or with dnf (and builddep plugin from ``dnf-plugins-core``:
 
-| ``$ sudo dnf install rpm-build``
-| ``$ sudo dnf builddep -b -D "with_wheels 1" -D "with_lint 1" --spec \``
-| ``freeipa.spec.in --best --allowerasing --setopt=install_weak_deps=False``
+.. code-block:: text
+
+    $ sudo dnf install rpm-build
+    $ sudo dnf builddep -b -D "with_wheels 1" -D "with_lint 1" --spec \
+    freeipa.spec.in --best --allowerasing --setopt=install_weak_deps=False
 
 A dose of ``--enablerepo=updates-testing`` may at times be needed.
 
@@ -89,8 +93,10 @@ When all packages required for the build are installed, you can start
 building FreeIPA. The result will be a tarball with sources, SRPM and
 RPMs that can be installed on a system:
 
-| ``$ ./makerpms.sh``
-| ``$ sudo yum localinstall dist/rpms/*.rpm``
+.. code-block:: text
+
+    $ ./makerpms.sh
+    $ sudo yum localinstall dist/rpms/*.rpm
 
 or with dnf
 

@@ -30,7 +30,7 @@ Currently Samba supports configuring the ports for Kerberos and kpasswd
 services in smb.conf. By default they will be set to 88 and 464 in
 source4/param/loadparam.c.
 
-::
+.. code-block:: text
 
    struct loadparm_context *loadparm_init(TALLOC_CTX *mem_ctx)
    {
@@ -46,7 +46,7 @@ KDC Initialization
 The code for Heimdal KDC service is located in kdc_task_init() in
 source4/kdc/kdc.c.
 
-::
+.. code-block:: text
 
    static void kdc_task_init(struct task_server *task)
    {
@@ -91,7 +91,7 @@ Socket Creation
 
 The kdc_startup_interfaces() creates sockets for all interfaces:
 
-::
+.. code-block:: text
 
    static NTSTATUS kdc_startup_interfaces(struct kdc_server *kdc,
            struct loadparm_context *lp_ctx,
@@ -109,7 +109,7 @@ The kdc_startup_interfaces() creates sockets for all interfaces:
 The kdc_add_socket() creates TCP and UDP sockets for kdc and kpasswd
 services:
 
-::
+.. code-block:: text
 
    static NTSTATUS kdc_add_socket(struct kdc_server *kdc, const char *address,
                       uint16_t kdc_port, uint16_t kpasswd_port)
@@ -160,7 +160,7 @@ Port Configuration
 
 Heimdal ports could be disabled by setting them to 0 in smb.conf:
 
-::
+.. code-block:: text
 
    [global]
        krb5 port = 0
@@ -184,7 +184,7 @@ Socket Creation
 The kdc_startup_interfaces() should be changed such that it does not
 create the sockets when the ports are set to 0.
 
-::
+.. code-block:: text
 
    static NTSTATUS kdc_startup_interfaces(struct kdc_server *kdc,
            struct loadparm_context *lp_ctx,
@@ -213,7 +213,7 @@ create the sockets when the ports are set to 0.
 The kdc_add_socket() should be split into kdc_add_kdc_socket() and
 kdc_add_kpasswd_socket() as follows:
 
-::
+.. code-block:: text
 
    static NTSTATUS kdc_add_kdc_socket(struct kdc_server *kdc,
            const struct model_ops *model_ops,

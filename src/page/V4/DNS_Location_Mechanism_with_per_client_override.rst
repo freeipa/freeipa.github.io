@@ -126,7 +126,7 @@ static set of records, there is no way how to prioritize a server
 'nearest' to the client at the moment. Consequently, all FreeIPA servers
 typically have the same priority (0) and weight (100):
 
-::
+.. code-block:: text
 
    ``;; QUESTION SECTION:``
    ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
@@ -458,17 +458,21 @@ CPU time spent on signing by factor of ~ 2.3. Tested on zone with 10000
 names using ``dnssec-signzone`` from BIND
 ``bind-9.10.3-7.P2.fc23.x86_64`` with 2048 bit ZSK, 3072 KSK:
 
-| ``$ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.``
-| ``$ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.``
-| ``$ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db``
-| ``user   0m56.584s``
-| ``$ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db``
-| ``user   0m24.881s``
+.. code-block:: text
+
+    $ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.
+    $ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.
+    $ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db
+    user   0m56.584s
+    $ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db
+    user   0m24.881s
 
 Zone file sizes:
 
-| ``23150974  dname.db.signed``
-| ``10097345  nodname.db.signed``
+.. code-block:: text
+
+    23150974  dname.db.signed
+    10097345  nodname.db.signed
 
 Example
 ----------------------------------------------------------------------------------------------
@@ -478,7 +482,7 @@ each location.
 
 Location ``cz`` will have one set of SRV records:
 
-::
+.. code-block:: text
 
    ``;; QUESTION SECTION:``
    ``;_ldap._tcp.cz._locations.example.com. IN  SRV``
@@ -488,7 +492,7 @@ Location ``cz`` will have one set of SRV records:
 
 Location ``uk`` will have different set of SRV records (possibly with
 different priorities, weights, or even servers):
-::
+.. code-block:: text
 
    ``;; QUESTION SECTION:``
    ``;_ldap._tcp.uk._locations.example.com. IN  SRV``
@@ -501,7 +505,7 @@ Clients are querying SRV records under client's FQDN prefixed with label
 which the client is assigned. (From client's perspective is does not
 matter how the DNS server generated the redirection.)
 
-::
+.. code-block:: text
 
    ``;; QUESTION SECTION:``
    ``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``

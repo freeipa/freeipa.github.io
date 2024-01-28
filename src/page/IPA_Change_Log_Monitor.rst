@@ -30,7 +30,7 @@ Adding IPA User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-adduser -f "Endi" -l "Dewata" -c "Endi S. Dewata" -d "/home/edewata" \
    -s "/bin/sh" -p "Secret123" edewata
@@ -42,7 +42,7 @@ The above command will generate 6 change log records.
 Adding User Object
 ------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1333,cn=changelog
    objectClass: top
@@ -55,7 +55,7 @@ Adding User Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    uid: edewata
    objectClass: top
@@ -87,7 +87,7 @@ A new user will be added to Samba.
 Adding MemberOf Attribute
 -------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1334,cn=changelog
    objectClass: top
@@ -100,7 +100,7 @@ Adding MemberOf Attribute
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: memberOf
    memberOf: cn=ipausers,cn=groups,cn=accounts,dc=domain1,dc=com
@@ -119,7 +119,7 @@ Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 Adding Member Attribute
 -----------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1335,cn=changelog
    objectClass: top
@@ -132,7 +132,7 @@ Adding Member Attribute
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    add: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -151,7 +151,7 @@ Changes to IPA group will be synchronized to Samba.
 Change Password Grace User Time
 -------------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1337,cn=changelog
    objectClass: top
@@ -164,7 +164,7 @@ Change Password Grace User Time
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: passwordgraceusertime
    passwordgraceusertime: 0
@@ -177,7 +177,7 @@ Need to investigate.
 Set Password
 ------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1338,cn=changelog
    objectClass: top
@@ -190,7 +190,7 @@ Set Password
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: krbPrincipalKey
    krbPrincipalKey:: MIICTKADAgEBoQMCAQGiAwIBAaMDAgEApIICNDCCAjAwaqAdMBugAwIBAKE
@@ -231,7 +231,7 @@ User password will be synchronized to Samba.
 Update Modifiers Info
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1339,cn=changelog
    objectClass: top
@@ -244,7 +244,7 @@ Update Modifiers Info
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: modifiersName
    modifiersName: cn=ipa-memberof,cn=plugins,cn=config
@@ -262,13 +262,13 @@ Modifying IPA User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-moduser -s "/bin/bash" edewata
 
 This operation will generate 1 change log record.
 
-::
+.. code-block:: text
 
    dn: changenumber=1363,cn=changelog
    objectClass: top
@@ -281,7 +281,7 @@ This operation will generate 1 change log record.
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    delete: loginShell
    loginShell: /bin/sh
@@ -305,7 +305,7 @@ Deleting IPA User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-deluser edewata
 
@@ -316,7 +316,7 @@ This operation will generate 3 change log records.
 Deleting Group Member
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1342,cn=changelog
    objectClass: top
@@ -329,7 +329,7 @@ Deleting Group Member
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    delete: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -348,7 +348,7 @@ The corresponding Samba group will be modified.
 Deleting Group Member
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1343,cn=changelog
    objectClass: top
@@ -361,7 +361,7 @@ Deleting Group Member
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    delete: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -380,7 +380,7 @@ Need to investigate.
 Deleting User Object
 --------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1344,cn=changelog
    objectClass: top
@@ -399,13 +399,13 @@ Adding IPA Group
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-addgroup -d "Developers" developers
 
 The above command will generate 1 change log record:
 
-::
+.. code-block:: text
 
    dn: changenumber=1347,cn=changelog
    objectClass: top
@@ -418,7 +418,7 @@ The above command will generate 1 change log record:
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    objectClass: top
    objectClass: groupofnames
@@ -441,13 +441,13 @@ Deleting IPA Group
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-delgroup developers
 
 The above command will generate 1 change log record.
 
-::
+.. code-block:: text
 
    dn: changenumber=1348,cn=changelog
    objectClass: top
@@ -466,7 +466,7 @@ Adding Group Member
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-modgroup -a edewata developers
 
@@ -477,7 +477,7 @@ The above command will generate 2 change log records.
 Modifying User Membership
 -------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1355,cn=changelog
    objectClass: top
@@ -490,7 +490,7 @@ Modifying User Membership
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: memberOf
    memberOf: cn=ipausers,cn=groups,cn=accounts,dc=domain1,dc=com
@@ -510,7 +510,7 @@ Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 Adding Group Member
 -------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1356,cn=changelog
    objectClass: top
@@ -523,7 +523,7 @@ Adding Group Member
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    add: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -544,7 +544,7 @@ Deleting Group Member
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-modgroup -r edewata developers
 
@@ -555,7 +555,7 @@ The above command will generate 2 change log records.
 Deleting User Membership
 ------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1357,cn=changelog
    objectClass: top
@@ -568,7 +568,7 @@ Deleting User Membership
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: memberOf
    memberOf: cn=ipausers,cn=groups,cn=accounts,dc=domain1,dc=com
@@ -587,7 +587,7 @@ Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 Deleting Group Member
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1358,cn=changelog
    objectClass: top
@@ -600,7 +600,7 @@ Deleting Group Member
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    delete: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -621,7 +621,7 @@ Locking IPA User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-lockuser edewata
 
@@ -632,7 +632,7 @@ The above command will generate 2 change log records.
 Modifying User Membership
 -------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1359,cn=changelog
    objectClass: top
@@ -645,7 +645,7 @@ Modifying User Membership
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: memberOf
    memberOf: cn=ipausers,cn=groups,cn=accounts,dc=domain1,dc=com
@@ -665,7 +665,7 @@ Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 Adding User Into Inactivated Group
 ----------------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1360,cn=changelog
    objectClass: top
@@ -678,7 +678,7 @@ Adding User Into Inactivated Group
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    add: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -700,7 +700,7 @@ Unlocking IPA User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ipa-lockuser -u edewata
 
@@ -711,7 +711,7 @@ The above command will generate 2 change log records.
 Modifying User Membership
 -------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1361,cn=changelog
    objectClass: top
@@ -724,7 +724,7 @@ Modifying User Membership
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: memberOf
    memberOf: cn=ipausers,cn=groups,cn=accounts,dc=domain1,dc=com
@@ -743,7 +743,7 @@ Changes by cn=ipa-memberof,cn=plugins,cn=config will be skipped.
 Deleting User From Inactivated Group
 ------------------------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=1362,cn=changelog
    objectClass: top
@@ -756,7 +756,7 @@ Deleting User From Inactivated Group
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    delete: member
    member: uid=edewata,cn=users,cn=accounts,dc=domain1,dc=com
@@ -777,7 +777,7 @@ Replication
 If replication is enabled, it may generate some change log records like
 the following:
 
-::
+.. code-block:: text
 
    dn: changenumber=...,cn=changelog
    objectClass: top
@@ -790,7 +790,7 @@ the following:
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: nsds50ruv
    nsds50ruv: {replicageneration} 4a5b47dc000000040000

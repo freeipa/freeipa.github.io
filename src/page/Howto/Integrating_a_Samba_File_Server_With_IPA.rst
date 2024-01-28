@@ -77,7 +77,7 @@ file server)
 
 5) Edit ``/etc/samba/smb.conf`` on the samba file server:
 
-::
+.. code-block:: text
 
    [global]
            workgroup = MY

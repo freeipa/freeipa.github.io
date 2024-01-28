@@ -18,7 +18,7 @@ Running Unit Tests
 The test files are stored in IPA's git repository. To checkout IPA
 source code execute the following command:
 
-::
+.. code-block:: text
 
    git clone git://git.fedorahosted.org/git/freeipa.git
 
@@ -77,7 +77,7 @@ may need separate folders.
 JSON test data can be created by capturing the output of the API invoked
 using curl. The following example invokes user-find command:
 
-::
+.. code-block:: text
 
    curl\
      -H "Content-Type:application/json"\
@@ -99,7 +99,7 @@ Test Script
 Test cases are stored in a JavaScript file (e.g. ipa_tests.js). Each
 test case is usually defined as follows:
 
-::
+.. code-block:: text
 
    test(<description>, <implementation>);
 
@@ -109,7 +109,7 @@ cleans up if necessary.
 
 See the following example:
 
-::
+.. code-block:: text
 
    test("Testing ipa_init().", function() {
 
@@ -148,7 +148,7 @@ libraries used by the test script and the test script itself.
 
 See the following example:
 
-::
+.. code-block:: text
 
    <!DOCTYPE html>
    <html>
@@ -191,7 +191,7 @@ Test Main Page
 The index.html contains references to all available test suites. New
 test suite should be added to the list below:
 
-::
+.. code-block:: text
 
    <div id="content">
        <a href="all_tests.html">Complete Test Suite</a>

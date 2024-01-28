@@ -76,14 +76,14 @@ parameters to enter interactive mode.
 
 For example, to create the user *jlamb*:
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-adduser -f John -l Lamb -p secret jlamb
 
 The following is an example of using the **ipa-adduser** command in
 interactive mode to create a user account:
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-adduser
    First name: Jinny
@@ -151,13 +151,13 @@ adding, removing or changing attributes.
 **To update the Zip code, Display Name, and Employee Type for the user
 jsmith:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-moduser --set postalCode=50211 --set displayName="John Smith" --set employeeType=permanent jsmith
 
 **To remove the Pager and Home Phone attributes from the same user:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-moduser --del pager --del homePhone jsmith
 
@@ -197,13 +197,13 @@ accounts.
 
 **To lock (inactivate) the jsmith user account:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-lockuser jsmith
 
 **To unlock (activate) the jsmith user account:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-lockuser -u jsmith
 
@@ -239,7 +239,7 @@ Using the Command Line
 Use the **ipa-deluser** command to delete user accounts. For example, to
 delete the *jsmith* user account:
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-deluser jsmith
 
@@ -325,7 +325,7 @@ Using the Command Line
 
 Use the **ipa-addgroup** command to add groups.
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-addgroup
    Group name: Engineering
@@ -421,13 +421,13 @@ Use the **ipa-modgroup** command to activate and inactivate groups.
 
 **To inactivate the Engineering group:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-modgroup --set nsaccountlock=true Engineering
 
 **To activate the Finance group:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-modgroup --set nsaccountlock=false Finance
 
@@ -469,7 +469,7 @@ Use the **ipa-delgroup** command to delete groups.
 
 **To delete the Engineering group:**
 
-::
+.. code-block:: text
 
    $ /usr/sbin/ipa-delgroup Engineering
 
@@ -496,7 +496,7 @@ Server, HTTP Server, or both.
 
 **To install the certificate for use by the Directory Server:**
 
-::
+.. code-block:: text
 
    # /usr/sbin/ipa-server-certinstall -d /path/to/pkcs12.p12
 
@@ -525,7 +525,7 @@ object-signing certificate, and you need to regenerate the
    **Note:** The following procedure assumes that the signing
    certificate is provided as a PKCS#12 file.
 
-::
+.. code-block:: text
 
    # mkdir /tmp/signdb
    # /usr/bin/certutil -N -d /tmp/signdb
@@ -538,7 +538,7 @@ object-signing certificate, and you need to regenerate the
 #. Use the certificate you created in the previous procedure to sign the
    javascript and to regenerate the ``configure.jar`` file.
 
-::
+.. code-block:: text
 
    # mkdir /tmp/sign
    # cp /usr/share/ipa/html/preferences.html /tmp/sign
@@ -612,7 +612,7 @@ The following example demonstrates creating a service principal and
 keytab on a client machine for the SSH service. The client machine is
 *ipaclient.example.com* and the IPA server is *ipaserver.example.com*:
 
-::
+.. code-block:: text
 
    # kinit admin
    # ipa-addservice host/ipaclient.example.com@EXAMPLE.COM
@@ -657,14 +657,14 @@ and to set up an NFS service principal.
 
 1. Configure the export directory.
 
-::
+.. code-block:: text
 
    # mkdir /export
    # chmod 777 /export
 
 2. Configure the ``/etc/exports`` file as follows:
 
-::
+.. code-block:: text
 
    /export  *(rw,fsid=0,insecure,no_subtree_check)
    /export  gss/krb5(rw,fsid=0,insecure,no_subtree_check)
@@ -674,13 +674,13 @@ and to set up an NFS service principal.
 3. To enable secure NFS, add the following line to
 ``/etc/sysconfig/nfs``
 
-::
+.. code-block:: text
 
    SECURE_NFS=yes
 
 4. Add a service principal and keytab for NFS.
 
-::
+.. code-block:: text
 
    # ipa-addservice nfs/ipaserver.example.com
    # ipa-getkeytab -s ipaserver.example.com -p nfs/ipaserver.example.com -k /etc/krb5.keytab
@@ -698,7 +698,7 @@ and to set up an NFS service principal.
 5. Run the following series of commands to reload the NFS configuration
 and restart the required services:
 
-::
+.. code-block:: text
 
    # exportfs -a
    # restart services
@@ -798,7 +798,7 @@ described below:
 1. Modify the ``/etc/security/access.conf`` file to include the
 following lines:
 
-::
+.. code-block:: text
 
    + : root : ALL
    + : ipausers : ALL
@@ -807,7 +807,7 @@ following lines:
 2. Modify the ``/etc/pam.d/system-auth`` file to include the following
 line:
 
-::
+.. code-block:: text
 
    account required pam_access.so
 
@@ -1023,7 +1023,7 @@ The password policy is enforced by the **pwd_extop slapi** plug-in. IPA
       returned by the system may be misleading. For example, you may see
       the following error:
 
-   ::
+.. code-block:: text
 
       A database error occurred: Constraint violation: Password fails to meet minimum strength criteria
 
@@ -1206,7 +1206,7 @@ http://people.redhat.com/nalin/schema/autofs.schema.
 
 This is the recommended schema for IPA:
 
-::
+.. code-block:: text
 
    dn: cn=schema
    attributeTypes:
@@ -1298,7 +1298,7 @@ The first step is to create the top-level entry to store automount maps.
 These entries can be added with:
 ``ldapmodify -D "cn=Directory Manager"``
 
-::
+.. code-block:: text
 
    dn: cn=automount,dc=example,dc=com
    objectClass: nsContainer
@@ -1306,7 +1306,7 @@ These entries can be added with:
 
 Now create the auto.master map:
 
-::
+.. code-block:: text
 
    dn: automountmapname=auto.master,cn=automount,dc=example,dc=com
    objectClass: automountMap
@@ -1314,7 +1314,7 @@ Now create the auto.master map:
 
 Now create an automount map under auto.master for ``/home``
 
-::
+.. code-block:: text
 
    dn: automountmapname=auto.home,cn=automount,dc=example,dc=com
    objectClass: automountMap
@@ -1330,7 +1330,7 @@ Creating auto.home
 
 Create an automount key for auto.home:
 
-::
+.. code-block:: text
 
    dn: automountkey=*,automountmapname=auto.home,cn=automount,dc=example,dc=com
    objectClass: automount
@@ -1353,7 +1353,7 @@ Linux autofs
 Edit the ``/etc/sysconfig/autofs`` file and enable the following lines
 to tell autofs what attributes to search for:
 
-::
+.. code-block:: text
 
    #
    # Other common LDAP nameing
@@ -1367,7 +1367,7 @@ to tell autofs what attributes to search for:
 You'll also need to tell it which LDAP server to use and what the search
 basedn is:
 
-::
+.. code-block:: text
 
    LDAP_URI="ldap://ipa.example.com"
 
@@ -1375,13 +1375,13 @@ basedn is:
 
 Save the file and restart autofs:
 
-::
+.. code-block:: text
 
    [root@remote_system ~]# service autofs restart
 
 Test the configuration by getting a directory listing of a user:
 
-::
+.. code-block:: text
 
    root@remote_system ~]# ls /home/someuser
 
@@ -1406,7 +1406,7 @@ automount server needs access to the VLV control so anonymous access is
 needed. This command comes from
 http://docs.sun.com/app/docs/doc/819-5201/6n7a588i7?l=ja&a=view
 
-::
+.. code-block:: text
 
    # ldapmodify -D "cn=Directory Manager" ipa.example.com
    dn: oid=2.16.840.1.113730.3.4.9,cn=features,cn=config 
@@ -1416,7 +1416,7 @@ http://docs.sun.com/app/docs/doc/819-5201/6n7a588i7?l=ja&a=view
 
 Configure your machine to use LDAP manually with ldapclient:
 
-::
+.. code-block:: text
 
    ldapclient -v manual -a authenticationMethod=none \
     -a defaultSearchBase=dc=example,dc=com \
@@ -1433,13 +1433,13 @@ Configure your machine to use LDAP manually with ldapclient:
 
 Now enable automount:
 
-::
+.. code-block:: text
 
    # svcadm enable svc:/system/filesystem/autofs
 
 You can test if things are working first with:
 
-::
+.. code-block:: text
 
    # ldaplist -l auto_master
    dn: automountkey=/home,automountmapname=auto.master,cn=automount,dc=example,dc=com
@@ -1450,7 +1450,7 @@ You can test if things are working first with:
 
 And then with:
 
-::
+.. code-block:: text
 
    # ls /home/someuser
 
@@ -1465,7 +1465,7 @@ auto.direct
 
 To add a direct mount configuration, add the following entries:
 
-::
+.. code-block:: text
 
    dn: automountkey=/-,automountmapname=auto.master,cn=automount,dc=example,dc=com
    objectClass: automount
@@ -1478,7 +1478,7 @@ To add a direct mount configuration, add the following entries:
 
 To add a mount to this direct map for the directory /share you'd add:
 
-::
+.. code-block:: text
 
    dn: automountkey=/share,automountmapname=auto.direct,cn=automount,dc=example,dc=com
    objectClass: automount
@@ -1487,7 +1487,7 @@ To add a mount to this direct map for the directory /share you'd add:
 
 On Solaris you'd need to augment the ldapclient command with:
 
-::
+.. code-block:: text
 
     -a serviceSearchDescriptor=auto_direct:automountMapName=auto.direct,cn=automount,dc=example,dc=com?one \
 
@@ -1505,7 +1505,7 @@ These three entries provide:
 #. Adds auto.man to auto.master on the mount point /usr/man
 #. Adds an indirect mount of man1 to auto.man
 
-::
+.. code-block:: text
 
    dn: automountmapname=auto.man,cn=automount,dc=example,dc=com
    objectClass: automountMap
@@ -1523,7 +1523,7 @@ These three entries provide:
 
 On Solaris you'd need to augment the ldapclient command with:
 
-::
+.. code-block:: text
 
     -a serviceSearchDescriptor=auto_man:automountMapName=auto.man,cn=automount,dc=example,dc=com?one \
 

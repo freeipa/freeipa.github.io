@@ -196,7 +196,7 @@ bytes if the TGT does not contain a PAC and about 1200 bytes with a PAC.
 A service ticket can be added to the credential cache file with the kvno
 utility
 
-::
+.. code-block:: text
 
    kvno host/fully.qualified.host.name@REALM.NAME
 

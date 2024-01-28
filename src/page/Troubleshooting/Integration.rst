@@ -25,13 +25,13 @@ hosts being set in SUDO rule, check the affected machine:
 
 -  Make sure that NIS domain name matches your domain:
 
-      ::
+.. code-block:: text
 
          nisdomainname
 
 -  Make sure that netgroups can be read:
 
-      ::
+.. code-block:: text
 
          getent netgroup hgroup1 
 
@@ -42,12 +42,12 @@ If the advice above does not help, edit ``/etc/sudo-ldap.conf`` (or
 ``/etc/ldap.conf``, depending on what version of platform you're
 running) and add the following line to the top:
 
-::
+.. code-block:: text
 
    sudoers_debug 2
 
 Then try another command, for example
 
-::
+.. code-block:: text
 
    sudo -l

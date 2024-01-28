@@ -134,7 +134,7 @@ Configuration
 
 FreeIPA must be installed and migration enabled on target server:
 
-::
+.. code-block:: text
 
    $ kinit admin
    $ ipa config-mod --enable-migration=True

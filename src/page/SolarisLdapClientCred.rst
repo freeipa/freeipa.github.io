@@ -3,7 +3,7 @@ SolarisLdapClientCred
 
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
-::
+.. code-block:: text
 
    # ldap_client_cred
    #

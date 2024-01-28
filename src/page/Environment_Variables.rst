@@ -63,11 +63,13 @@ Basic authentication is managed by Apache.
 
 The configuration may look something like:
 
-| `` AuthType Basic``
-| `` AuthName "Restricted Files"``
-| `` AuthBasicProvider file``
-| `` AuthUserFile /etc/httpd/conf/passwords``
-| `` Require valid-user``
+.. code-block:: text
+
+     AuthType Basic
+     AuthName "Restricted Files"
+     AuthBasicProvider file
+     AuthUserFile /etc/httpd/conf/passwords
+     Require valid-user
 
 The user database would be created with this:
 
@@ -89,20 +91,24 @@ the user's keytab.
 
 The configuration may look something like
 
-| `` AuthType GSSAPI``
-| `` AuthName "Kerberos Login"``
-| `` GssapiCredStore keytab:/etc/http.keytab``
+.. code-block:: text
+
+     AuthType GSSAPI
+     AuthName "Kerberos Login"
+     GssapiCredStore keytab:/etc/http.keytab
 
 for mod_auth_gssapi or for mod_auth_kerb:
 
-| `` AuthType Kerberos``
-| `` AuthName "Kerberos Login"``
-| `` KrbMethodNegotiate on``
-| `` KrbMethodK5Passwd off``
-| `` KrbServiceName HTTP``
-| `` KrbAuthRealms EXAMPLE.COM``
-| `` Krb5KeyTab /etc/httpd/conf/ipa.keytab``
-| `` KrbSaveCredentials on``
+.. code-block:: text
+
+     AuthType Kerberos
+     AuthName "Kerberos Login"
+     KrbMethodNegotiate on
+     KrbMethodK5Passwd off
+     KrbServiceName HTTP
+     KrbAuthRealms EXAMPLE.COM
+     Krb5KeyTab /etc/httpd/conf/ipa.keytab
+     KrbSaveCredentials on
 
 
 
@@ -130,9 +136,11 @@ There may be some slight differences in the variables available in
 mod_ssl and mod_nss. For example, SSL_TLS_SNI is not available in
 mod_nss.
 
-| ``<Directory "/var/www/secure">``
-| ``    NSSOptions +StdEnvVars``
-| ``    NSSVerifyClient Require``
+.. code-block:: text
+
+    <Directory "/var/www/secure">
+        NSSOptions +StdEnvVars
+        NSSVerifyClient Require
 
 The mod_ssl configuration is similar. Replace NSS with SSL.
 
@@ -236,11 +244,14 @@ authorization over LDAP.
 
 A simple configuration looks like:
 
-| ``   AuthType Basic``
-| ``   AuthName "LDAP Protected"``
-| ``   AuthBasicProvider ldap``
-| ``   AuthLDAPURL ``\ ```ldap://127.0.0.1/dc=example,dc=com?uid?one`` <ldap://127.0.0.1/dc=example,dc=com?uid?one>`__
-| ``   Require valid-user``
+.. code-block:: text
+
+       AuthType Basic
+       AuthName "LDAP Protected"
+       AuthBasicProvider ldap
+       AuthLDAPURL ``\ ```ldap://127.0.0.1/dc=example,dc=com?uid?one`` <ldap://127.0.0.1/dc=example,dc=com?uid?one>`__
+
+       Require valid-user
 
 Authorization can be done by specifying the allowed users, groups,
 attribute with in an entry or even a filter.

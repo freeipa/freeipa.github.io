@@ -86,11 +86,13 @@ Renewal must occur before the ticket expires. Potentially this can be
 defined on per users bases and stored, per principal, in LDAP using this
 objectclass.
 
-| ``  objectClasses: ( 2.16.840.1.113719.1.301.6.16.1 ``
-| ``  NAME 'krbTicketPolicyAux' ``
-| ``  AUXILIARY ``
-| ``  MAY ( krbTicketFlags $ krbMaxTicketLife $ krbMaxRenewableAge ) ``
-| ``  X-ORIGIN 'user defined' ) ``
+.. code-block:: text
+
+      objectClasses: ( 2.16.840.1.113719.1.301.6.16.1 
+      NAME 'krbTicketPolicyAux' 
+      AUXILIARY 
+      MAY ( krbTicketFlags $ krbMaxTicketLife $ krbMaxRenewableAge ) 
+      X-ORIGIN 'user defined' ) 
 
 | Currently in IPA v2 there is no UI to add this information, but it can
   be manipulated using LDAP operations.

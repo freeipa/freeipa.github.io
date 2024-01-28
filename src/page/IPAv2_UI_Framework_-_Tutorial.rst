@@ -8,7 +8,7 @@ Defining an Entity
 
 An entity can be defined as follows:
 
-::
+.. code-block:: text
 
    function ipa_service() {
 
@@ -48,7 +48,7 @@ Defining an Add Dialog Box
 
 An add dialog box can be defined as follows:
 
-::
+.. code-block:: text
 
    function ipa_service_add_dialog(spec) {
 
@@ -78,7 +78,7 @@ Defining a Search Facet
 
 A search facet can be defined as follows:
 
-::
+.. code-block:: text
 
    function ipa_service_search_facet(spec) {
 
@@ -109,7 +109,7 @@ Defining a Details Facet
 
 A details facet can be defined as follows:
 
-::
+.. code-block:: text
 
    function ipa_service_details_facet(spec) {
 
@@ -144,7 +144,7 @@ Registering Entity
 
 The entity should be registered as follows:
 
-::
+.. code-block:: text
 
    var entity = ipa_service();
    IPA.add_entity(entity);
@@ -156,7 +156,7 @@ Defining Navigation
 
 The navigation can be defined as follows:
 
-::
+.. code-block:: text
 
    var admin_tab_set = [
        {name:'identity', children:[

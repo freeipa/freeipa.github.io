@@ -3,22 +3,24 @@ add_managed_permission
 
 First, create a managed permission entry as follows:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermDefaultAttr: cn``
-| ``ipaPermDefaultAttr: l``
-| ``ipaPermDefaultAttr: o``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``ipaPermissionType: MANAGED``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+.. code-block:: text
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermBindRuleType: permission
+    ipaPermDefaultAttr: cn
+    ipaPermDefaultAttr: l
+    ipaPermDefaultAttr: o
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    ipaPermissionType: MANAGED
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 This corresponds to
 ``ipa permission-add permission1 --type=user permissions=write``, with

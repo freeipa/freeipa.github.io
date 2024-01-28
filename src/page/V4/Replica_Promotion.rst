@@ -533,7 +533,7 @@ LDAP DIT Layout
 Two objects for each for each IPA Server: one signing key, and one
 encryption key.
 
-::
+.. code-block:: text
 
    dn: cn={sig,enc}/{fqdn},cn=custodia,cn=ipa,cn=etc,dc=ipa,dc=local
    objectClass: nsContainer

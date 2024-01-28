@@ -26,25 +26,27 @@ Following command will install DNSSEC key master role to a replica. This
 command can be run on FreeIPA server which is already configured as
 FreeIPA DNS server:
 
-| ``# ipa-dns-install --dnssec-master``
-| ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-| ``==============================================================================``
-| ``This program will setup DNS for the FreeIPA Server.``
-| ``This includes:``
-| ``  * Configure DNS (bind)``
-| ``  * Configure SoftHSM (required by DNSSEC)``
-| ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-| ``  * Configure ipa-ods-exporter (required by DNSSEC key master)``
-| ``  * Configure OpenDNSSEC (required by DNSSEC key master)``
-| ``  * Generate DNSSEC master key (required by DNSSEC key master)``
-| ``NOTE: DNSSEC zone signing is not enabled by default``
-| ``DNSSEC support is experimental!``
-| ``Plan carefully, current version doesn't allow you to move DNSSEC``
-| ``key master to different server and master cannot be uninstalled``
-| ``To accept the default shown in brackets, press the Enter key.``
+.. code-block:: text
+
+    # ipa-dns-install --dnssec-master
+    The log file for this installation can be found in /var/log/ipaserver-install.log
+    ==============================================================================
+    This program will setup DNS for the FreeIPA Server.
+    This includes:
+      * Configure DNS (bind)
+      * Configure SoftHSM (required by DNSSEC)
+      * Configure ipa-dnskeysyncd (required by DNSSEC)
+      * Configure ipa-ods-exporter (required by DNSSEC key master)
+      * Configure OpenDNSSEC (required by DNSSEC key master)
+      * Generate DNSSEC master key (required by DNSSEC key master)
+    NOTE: DNSSEC zone signing is not enabled by default
+    DNSSEC support is experimental!
+    Plan carefully, current version doesn't allow you to move DNSSEC
+    key master to different server and master cannot be uninstalled
+    To accept the default shown in brackets, press the Enter key.
 | **``Do``\ ````\ ``you``\ ````\ ``want``\ ````\ ``to``\ ````\ ``setup``\ ````\ ``this``\ ````\ ``IPA``\ ````\ ``server``\ ````\ ``as``\ ````\ ``DNSSEC``\ ````\ ``key``\ ````\ ``master?``\ ````\ ``[no]:``\ ````\ ``yes``**
-| ``Existing BIND configuration detected, overwrite? [no]: yes``
-| ``...``
+    Existing BIND configuration detected, overwrite? [no]: yes
+    ...
 
 Please verify the file *kasp.xml* (*/etc/opendnssec/kasp.xml*) if it
 satisfies your DNSSEC configuration requirements.
@@ -57,14 +59,14 @@ Enable zone signing
 Zones are not signed by default. Zone signing has to be enabled per zone
 using following command:
 
-::
+.. code-block:: text
 
-   | ``$ ipa dnszone-add example.test. --dnssec=true``
-   | ``  Zone name: example.test.``
-   | ``  Active zone: TRUE``
-   | ``. . .``
-   | `` Allow query: any;``
-   | `` Allow transfer: none;``
+    $ ipa dnszone-add example.test. --dnssec=true``
+      Zone name: example.test.``
+      Active zone: TRUE``
+    . . .``
+     Allow query: any;``
+     Allow transfer: none;``
    | `` ``\ **``Allow``\ ````\ ``in-line``\ ````\ ``DNSSEC``\ ````\ ``signing:``\ ````\ ``TRUE``**
 
 or
@@ -89,8 +91,10 @@ Add a zone to be signed
 
 or
 
-| ``ipa dnszone-add example.test.``
-| ``ipa dnszone-mod --dnssec=true``
+.. code-block:: text
+
+    ipa dnszone-add example.test.
+    ipa dnszone-mod --dnssec=true
 
 
 
@@ -101,17 +105,19 @@ Verify using *dig* utility if answer contains RRSIG record. This may
 take a few minutes until proper key are distributed to all replicas in
 topology.
 
-| ``$ dig @server.ipa.test. +dnssec example.test. SOA``
-| ``;; Got answer:``
-| ``;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41379``
-| ``;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 3, ADDITIONAL: 2``
-| ``;; OPT PSEUDOSECTION:``
-| ``; EDNS: version: 0, flags: do; udp: 4096``
-| ``;; QUESTION SECTION:``
-| ``;example.test.         IN  SOA``
-| ``;; ANSWER SECTION:``
-| ``example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600``
-| ``example.test.      86400   IN  ``\ **``RRSIG``**\ ``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...``
+.. code-block:: text
+
+    $ dig @server.ipa.test. +dnssec example.test. SOA
+    ;; Got answer:
+    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41379
+    ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 3, ADDITIONAL: 2
+    ;; OPT PSEUDOSECTION:
+    ; EDNS: version: 0, flags: do; udp: 4096
+    ;; QUESTION SECTION:
+    ;example.test.         IN  SOA
+    ;; ANSWER SECTION:
+    example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600
+    example.test.      86400   IN  ``\ **``RRSIG``**\ ``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...
 
 
 
@@ -135,25 +141,25 @@ ZSK
    Public key exposed in **DNSKEY 256** record is used to verify
    signatures over other resource records in the DNS zone.
 
-::
+.. code-block:: text
 
-   | ``$ dig +rrcomments example.test. DNSKEY``
-   | ``...``
-   | ``;; ANSWER SECTION:``
-   | ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466``
-   | ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144``
+    $ dig +rrcomments example.test. DNSKEY``
+    ...``
+    ;; ANSWER SECTION:``
+    example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466``
+    example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144``
 
 On **DNSSEC key master** all currently used keys can be shown using
 following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
 7):
 
-::
+.. code-block:: text
 
-   | ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
-   | ``SQLite database set to: /var/opendnssec/kasp.db``
-   | ``Keys:``
-   | ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
-   | ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+    $ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
+    SQLite database set to: /var/opendnssec/kasp.db``
+    Keys:``
+    Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
+    example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
    | ``example.test    ``\ **``KSK``**\ ``      ``\ **``ready``**\ ``   ``\ **``waiting``\ ````\ ``for``\ ````\ ``ds-seen``\ ````\ ``(active)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
 
 
@@ -164,9 +170,11 @@ Get the DS record
 The DS record of the zone, has to be uploaded to parent zone, otherwise
 chain of trust can not be completed.
 
-| ``$ dig example.test. DNSKEY > dnskey.txt``
-| ``$ dnssec-dsfromkey -f dnskey.txt -2 example.test``
-| ``example.test. IN DS ``\ **``60466``**\ `` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956``
+.. code-block:: text
+
+    $ dig example.test. DNSKEY > dnskey.txt
+    $ dnssec-dsfromkey -f dnskey.txt -2 example.test
+    example.test. IN DS ``\ **``60466``**\ `` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956
 
 Output of the *dnssec-dsfromkey* is the DS record for zone
 *example.test.*, which has to be uploaded to parent zone, e.g. *test.*.
@@ -179,7 +187,7 @@ Add DS record into parent zone
 Following example shows how to add DS record of *example.test.* zone
 into a parent zone *test.* which is managed by IPA:
 
-::
+.. code-block:: text
 
    ``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  ``\ **``--ds-rec="60466``\ ````\ ``8``\ ````\ ``2``\ ````\ ``0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956"``**
 
@@ -197,29 +205,29 @@ Confirm DS record upload
 ----------------------------------------------------------------------------------------------
 
 Verify that DS record is available from the parent zone:
-::
+.. code-block:: text
 
-   | ``$ dig +rrcomments example.test DS ``
-   | ``example.test       86400   IN  DS  ``\ **``60466``**\ `` 8 2 0A758A8B ...``
+    $ dig +rrcomments example.test DS ``
+    example.test       86400   IN  DS  ``\ **``60466``**\ `` 8 2 0A758A8B ...``
 
 After successfull DS record upload to the parent zone, the following
 command has to be executed on DNSSEC key master server to enable key
 rotation. Keytag value has to match KSK keytag as shown in outputs
 above:
 
-::
+.. code-block:: text
 
    ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key ds-seen --zone example.test --keytag ``\ **``60466``**
 
 *ds-seen* command will allow the KSK to proceed to the next state:
 
-::
+.. code-block:: text
 
-   | ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
-   | ``SQLite database set to: /var/opendnssec/kasp.db``
-   | ``Keys:``
-   | ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
-   | ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+    $ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
+    SQLite database set to: /var/opendnssec/kasp.db``
+    Keys:``
+    Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
+    example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
    | ``example.test    ``\ **``KSK``**\ ``       ``\ **``ready``**\ ``   ``\ **``2016-03-09``\ ````\ ``11:34:38``\ ````\ ``(retire)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
 
 
@@ -233,11 +241,11 @@ records from zone will pass the DNSSEC validation on DNS servers.
 
 For example this can be done via ``drill`` utility:
 
-::
+.. code-block:: text
 
-   | ``drill -TD example.test. -k /etc/trusted-key.key``
-   | ``drill -TD example.test. SOA -k /etc/trusted-key.key``
-   | ``drill -TD host.example.test. A -k /etc/trusted-key.key``
+    drill -TD example.test. -k /etc/trusted-key.key``
+    drill -TD example.test. SOA -k /etc/trusted-key.key``
+    drill -TD host.example.test. A -k /etc/trusted-key.key``
 
 All keys/records should be marked as [T] trusted.
 
@@ -273,20 +281,24 @@ point to the chain of trust from root zone to all other zones.
 
 Get the KSK key of your root zone:
 
-| ``$ dig @localhost  . DNSKEY``
-| ``...``
-| ``;; QUESTION SECTION:``
-| ``;.             IN  DNSKEY``
-| ``;; ANSWER SECTION:``
-| ``.          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...``
+.. code-block:: text
+
+    $ dig @localhost  . DNSKEY
+    ...
+    ;; QUESTION SECTION:
+    ;.             IN  DNSKEY
+    ;; ANSWER SECTION:
+    .          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...
 | **``.``\ ````\ ``86400``\ ````\ ``IN``\ ````\ ``DNSKEY``\ ````\ ``257``\ ````\ ``3``\ ````\ ``8``\ ````\ ``AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT``\ ````\ ``JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X``\ ````\ ``AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD``\ ````\ ``qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P``\ ````\ ``a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l``\ ````\ ``Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt``\ ````\ ``Fcs8Xgl7E1s=``**
-| ``...``
+    ...
 
 Put your root zone KSK (denoted by flag value **257**) into
 *trusted-key.key* file on all DNSSEC clients:
 
-| ``$ cat /etc/trusted-key.key``
-| ``.          86400   IN  DNSKEY  257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s=``
+.. code-block:: text
+
+    $ cat /etc/trusted-key.key
+    .          86400   IN  DNSKEY  257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s=
 
 
 
@@ -321,27 +333,27 @@ Disable current DNSSEC key master
 To disable current DNSSEC master, please reinstall IPA DNS with
 ``--disable-dnssec-master`` option.
 
-::
+.. code-block:: text
 
-   | ``# ipa-dns-install --disable-dnssec-master``
-   | ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-   | ``==============================================================================``
-   | ``This program will setup DNS for the FreeIPA Server.``
-   | ``This includes:``
-   | ``  * Configure DNS (bind)``
-   | ``  * Configure SoftHSM (required by DNSSEC)``
-   | ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-   | ``  * Unconfigure ipa-ods-exporter``
-   | ``  * Unconfigure OpenDNSSEC``
-   | ``No new zones will be signed without DNSSEC key master IPA server.``
-   | ``Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key ``
-   | ``master server``
-   | ``NOTE: DNSSEC zone signing is not enabled by default``
-   | ``To accept the default shown in brackets, press the Enter key.``
+    # ipa-dns-install --disable-dnssec-master``
+    The log file for this installation can be found in /var/log/ipaserver-install.log``
+    ==============================================================================``
+    This program will setup DNS for the FreeIPA Server.``
+    This includes:``
+      * Configure DNS (bind)``
+      * Configure SoftHSM (required by DNSSEC)``
+      * Configure ipa-dnskeysyncd (required by DNSSEC)``
+      * Unconfigure ipa-ods-exporter``
+      * Unconfigure OpenDNSSEC``
+    No new zones will be signed without DNSSEC key master IPA server.``
+    Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key ``
+    master server``
+    NOTE: DNSSEC zone signing is not enabled by default``
+    To accept the default shown in brackets, press the Enter key.``
    | ``Do you want to disable current DNSSEC key master? [no]: ``\ **``yes``**
    | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
-   | `` ``
-   | ``...``
+     ``
+    ...``
 
 
 
@@ -365,26 +377,26 @@ several additional steps, which. Please do not copy this file to
 location where OpenDNSSEC is expecting to find this file, this will not
 work.
 
-::
+.. code-block:: text
 
-   | ``# ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup``
-   | ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-   | ``==============================================================================``
-   | ``This program will setup DNS for the FreeIPA Server.``
-   | ``This includes:``
-   | ``  * Configure DNS (bind)``
-   | ``  * Configure SoftHSM (required by DNSSEC)``
-   | ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-   | ``  * Configure ipa-ods-exporter (required by DNSSEC key master)``
-   | ``  * Configure OpenDNSSEC (required by DNSSEC key master)``
-   | ``  * Generate DNSSEC master key (required by DNSSEC key master)``
-   | ``NOTE: DNSSEC zone signing is not enabled by default``
-   | ``DNSSEC support is experimental!``
-   | ``Plan carefully, replacing DNSSEC key master is not recommended``
-   | ``To accept the default shown in brackets, press the Enter key.``
+    # ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup``
+    The log file for this installation can be found in /var/log/ipaserver-install.log``
+    ==============================================================================``
+    This program will setup DNS for the FreeIPA Server.``
+    This includes:``
+      * Configure DNS (bind)``
+      * Configure SoftHSM (required by DNSSEC)``
+      * Configure ipa-dnskeysyncd (required by DNSSEC)``
+      * Configure ipa-ods-exporter (required by DNSSEC key master)``
+      * Configure OpenDNSSEC (required by DNSSEC key master)``
+      * Generate DNSSEC master key (required by DNSSEC key master)``
+    NOTE: DNSSEC zone signing is not enabled by default``
+    DNSSEC support is experimental!``
+    Plan carefully, replacing DNSSEC key master is not recommended``
+    To accept the default shown in brackets, press the Enter key.``
    | ``Do you want to setup this IPA server as DNSSEC key master? [no]: ``\ **``yes``**
    | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
-   | ``...``
+    ...``
    
 
 

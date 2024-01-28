@@ -15,11 +15,11 @@ Installation
 
 Download and install nss-ldap packages from here.
 
-   | ``Solaris 8 packages: ``\ ```http://freeipa.org/downloads/solaris/nss_ldap/8/`` <http://freeipa.org/downloads/solaris/nss_ldap/8/>`__\ `` ``
-   | `` Solaris 9 packages: ``\ ```http://freeipa.org/downloads/solaris/nss_ldap/9/`` <http://freeipa.org/downloads/solaris/nss_ldap/9/>`__\ `` ``
-   | `` Solaris 10 packages: ``\ ```http://freeipa.org/downloads/solaris/nss_ldap/10/`` <http://freeipa.org/downloads/solaris/nss_ldap/10/>`__\ `` ``
-   | `` ``
-   | `` For example, pkgadd -d RHATnss-ldap-253-12.i386.pkg``
+    Solaris 8 packages: ``\ ```http://freeipa.org/downloads/solaris/nss_ldap/8/`` <http://freeipa.org/downloads/solaris/nss_ldap/8/>`__\ `` ``
+     Solaris 9 packages: ``\ ```http://freeipa.org/downloads/solaris/nss_ldap/9/`` <http://freeipa.org/downloads/solaris/nss_ldap/9/>`__\ `` ``
+     Solaris 10 packages: ``\ ```http://freeipa.org/downloads/solaris/nss_ldap/10/`` <http://freeipa.org/downloads/solaris/nss_ldap/10/>`__\ `` ``
+     ``
+     For example, pkgadd -d RHATnss-ldap-253-12.i386.pkg``
 
 Configuration
 =============
@@ -37,9 +37,9 @@ PAM/LDAP/KRB5 configuration
 /etc/hosts should contain the fully-qualified name of the IPA Solaris
 client
 
-::
+.. code-block:: text
 
-   | ``10.14.1.48      ipasolaris.example.com       ipasolaris loghost ``
+    10.14.1.48      ipasolaris.example.com       ipasolaris loghost ``
 
 --------------
 
@@ -47,20 +47,20 @@ client
 that can resolve at least the IPA Solaris client and the ipa server
 names.
 
-::
+.. code-block:: text
 
-   | ``search example.com ``
-   | `` nameserver bindserver.example.com ``
+    search example.com ``
+     nameserver bindserver.example.com ``
 
 --------------
 
 /etc/nsswitch.conf should be configured to do password and group look up
 via LDAP
 
-::
+.. code-block:: text
 
-   | ``passwd:     files ldap[NOTFOUND=return] ``
-   | `` group:      files ldap[NOTFOUND=return] ``
+    passwd:     files ldap[NOTFOUND=return] ``
+     group:      files ldap[NOTFOUND=return] ``
 
 --------------
 
@@ -70,42 +70,42 @@ first.
 These lines show how to do pam kerberos authentication for console
 login.
 
-::
+.. code-block:: text
 
-   | ``login   auth requisite          pam_authtok_get.so.1 ``
-   | `` login   auth sufficient         pam_krb5.so.1 ``
-   | `` login   auth required           pam_dhkeys.so.1 ``
-   | `` login   auth required           pam_unix_cred.so.1 ``
-   | `` login   auth required           pam_unix_auth.so.1 use_first_pass ``
-   | `` login   auth required           pam_dial_auth.so.1 ``
+    login   auth requisite          pam_authtok_get.so.1 ``
+     login   auth sufficient         pam_krb5.so.1 ``
+     login   auth required           pam_dhkeys.so.1 ``
+     login   auth required           pam_unix_cred.so.1 ``
+     login   auth required           pam_unix_auth.so.1 use_first_pass ``
+     login   auth required           pam_dial_auth.so.1 ``
 
 --------------
 
 /etc/ldap.conf should be configured as shown below
 
-::
+.. code-block:: text
 
-   | ``ldap_version 3 ``
-   | `` base dc=example,dc=com ``
-   | `` nss_base_passwd dc=example,dc=com?sub ``
-   | `` nss_base_group dc=example,dc=com?sub ``
-   | `` nss_schema rfc2307bis ``
-   | `` nss_map_objectclass shadowAccount posixAccount ``
-   | `` nss_map_attribute uniqueMember member ``
-   | `` nss_initgroups_ignoreusers root,dirsrv ``
-   | `` nss_reconnect_maxsleeptime 8 ``
-   | `` nss_reconnect_sleeptime 1 ``
-   | `` bind_timelimit 5 ``
-   | `` timelimit 15 ``
-   | `` nss_srv_domain example.com ``
-   | `` uri ``\ ```ldap://ipaserver.example.com`` <ldap://ipaserver.example.com>`__\ `` ``
+    ldap_version 3 ``
+     base dc=example,dc=com ``
+     nss_base_passwd dc=example,dc=com?sub ``
+     nss_base_group dc=example,dc=com?sub ``
+     nss_schema rfc2307bis ``
+     nss_map_objectclass shadowAccount posixAccount ``
+     nss_map_attribute uniqueMember member ``
+     nss_initgroups_ignoreusers root,dirsrv ``
+     nss_reconnect_maxsleeptime 8 ``
+     nss_reconnect_sleeptime 1 ``
+     bind_timelimit 5 ``
+     timelimit 15 ``
+     nss_srv_domain example.com ``
+     uri ``\ ```ldap://ipaserver.example.com`` <ldap://ipaserver.example.com>`__\ `` ``
 
 --------------
 
 /etc/krb5/krb5.conf should be configured as follows for kerberos clients
 to get kerberos tickets..
 
-::
+.. code-block:: text
 
    | [libdefaults]
    | default_realm = EXAMPLE.COM
@@ -136,10 +136,10 @@ to get kerberos tickets..
 the Solaris client machine and generate a keytab file. Place this keytab
 on the Solaris machine as /etc/krb5/krb5.keytab
 
-::
+.. code-block:: text
 
-   | `` # ipa-addservice host/solarisipaclient.example.com ``
-   | ``  # ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc ``
+     # ipa-addservice host/solarisipaclient.example.com ``
+      # ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc ``
 
 --------------
 
@@ -155,13 +155,13 @@ NFS v4 Configuration (only Solaris 10)
 
 1. On the IPA server, Obtain a Kerberos ticket for the **admin** user.
 
-::
+.. code-block:: text
 
     # kinit admin
 
 2. On the IPA server, Add an NFS service principal for the client.
 
-   ::
+.. code-block:: text
 
       # ipa-addservice nfs/ipaclient.example.com
       # ipa-getkeytab -s ipaserver.example.com -p nfs/ipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc
@@ -180,7 +180,7 @@ NFS v4 Configuration (only Solaris 10)
 import the contents into the main host keytab using the **ktutil**
 utility.
 
-::
+.. code-block:: text
 
    # ktutil
    ktutil: read_kt /tmp/krb5.keytab
@@ -198,14 +198,14 @@ Configuring Solaris 9 as an IPA Client
 Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file
 
-::
+.. code-block:: text
 
-   | ``login   auth requisite          pam_authtok_get.so.1 ``
-   | `` login   auth  sufficient        pam_krb5.so.1 use_first_pass ``
-   | `` login   auth  sufficient        pam_unix.so.1 use_first_pass ``
-   | `` login   auth required           pam_dhkeys.so.1 ``
-   | `` login   auth required           pam_unix_auth.so.1 ``
-   | `` login   auth required           pam_dial_auth.so.1 ``
+    login   auth requisite          pam_authtok_get.so.1 ``
+     login   auth  sufficient        pam_krb5.so.1 use_first_pass ``
+     login   auth  sufficient        pam_unix.so.1 use_first_pass ``
+     login   auth required           pam_dhkeys.so.1 ``
+     login   auth required           pam_unix_auth.so.1 ``
+     login   auth required           pam_dial_auth.so.1 ``
 
 
 
@@ -215,11 +215,11 @@ Configuring Solaris 8 as an IPA Client
 Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file
 
-::
+.. code-block:: text
 
-   | ``login   auth  sufficient        /usr/lib/security/pam_krb5.so ``
-   | `` login   auth required   /usr/lib/security/pam_unix.so use_first_pass ``
-   | `` login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1 ``
+    login   auth  sufficient        /usr/lib/security/pam_krb5.so ``
+     login   auth required   /usr/lib/security/pam_unix.so use_first_pass ``
+     login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1 ``
 
 
 
@@ -234,36 +234,40 @@ kinit
 
 ``Get a Kerberos ticket for an IPA user``
 
-| `` kinit ipauser ( provide password when prompted for )``
-| `` klist ( to verify )``
+.. code-block:: text
+
+     kinit ipauser ( provide password when prompted for )
+     klist ( to verify )
 
 getent
 ------
 
-::
+.. code-block:: text
 
-   | ``Perform the following commands to make sure that getent in Solaris``
-   | ``works with IPA.``
-   | ``getent passwd admin``
-   | ``getent group ipausers``
+    Perform the following commands to make sure that getent in Solaris``
+    works with IPA.``
+    getent passwd admin``
+    getent group ipausers``
 
 
 
 console login
 -------------
 
-::
+.. code-block:: text
 
-   | ``At the console of the solaris machine, provide an IPA user name``
-   | ``and their Kerberos password to login. ``
+    At the console of the solaris machine, provide an IPA user name``
+    and their Kerberos password to login. ``
 
 ssh
 ---
 
 ``Goto the Solaris machine, get a Kerberos ticket and ssh to the IPA server.``
 
-| ``kinit ipauser@EXAMPLE.COM``
-| ``ssh ipauser@ipaserver.example.com``
+.. code-block:: text
+
+    kinit ipauser@EXAMPLE.COM
+    ssh ipauser@ipaserver.example.com
 
 
 
@@ -272,7 +276,7 @@ NFS v4
 
 You can use the following command to test the configuration:
 
-::
+.. code-block:: text
 
     # mount -F nfs -o vers=4 -o sec=krb5 ipaserver.example.com:/ /data
 
@@ -281,7 +285,7 @@ Troubleshooting
 
 1. If the **mount** command hangs and you see this error:
 
-::
+.. code-block:: text
 
    rpc.svcgssd[3366]: ERROR: GSS-API: error in handle_nullreq: 
    gss_accept_sec_context(): Unspecified GSS failure.  

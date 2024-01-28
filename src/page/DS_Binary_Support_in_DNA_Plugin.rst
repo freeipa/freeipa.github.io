@@ -13,7 +13,7 @@ bit-length. The binary prefix needs to be specified in base-64 encoding.
 Configuration
 =============
 
-::
+.. code-block:: text
 
    dn: cn=Object SIDs,cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
    objectClass: top
@@ -56,7 +56,7 @@ Proposed Changes
 Definitions
 -----------
 
-::
+.. code-block:: text
 
    #define DNA_FORMAT        "dnaFormat"
    #define DNA_FORMAT_NORMAL 0
@@ -82,7 +82,7 @@ Parsing Configuration
 
 dna_parse_config_entry():
 
-::
+.. code-block:: text
 
    rc = slapi_entry_attr_find(e, DNA_PREFIX, &attribute);
    rc = slapi_attr_first_value(attribute, &value);
@@ -113,7 +113,7 @@ Finding First Free Value
 
 dna_first_free_value():
 
-::
+.. code-block:: text
 
    int prefix_length = slapi_value_get_length(entry->prefix);
 

@@ -125,21 +125,21 @@ Installation
 
 First install IPA server:
 
-::
+.. code-block:: text
 
    $ ipa-server-install
    ...
 
 Then install KRA component:
 
-::
+.. code-block:: text
 
    $ ipa-kra-install
    ...
 
 Authenticate as an IPA user:
 
-::
+.. code-block:: text
 
    $ kinit testuser
    Password for testuser@EXAMPLE.COM: ********
@@ -159,13 +159,13 @@ Listing accessible vaults
 A user can search the vaults that it owns or it's a member of using the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-find [OPTIONS]
 
 By default the command will list the vaults in the private container:
 
-::
+.. code-block:: text
 
    $ ipa vault-find
    ---------------
@@ -180,7 +180,7 @@ By default the command will list the vaults in the private container:
 
 To find service vaults, specify --service :
 
-::
+.. code-block:: text
 
    $ ipa vault-find --service HTTP/server.example.com
    ---------------
@@ -194,7 +194,7 @@ To find service vaults, specify --service :
 
 To find shared vaults, specify -shared:
 
-::
+.. code-block:: text
 
    $ ipa vault-find --shared
    ---------------
@@ -208,7 +208,7 @@ To find shared vaults, specify -shared:
 
 To find user vaults, specify --user :
 
-::
+.. code-block:: text
 
    $ ipa vault-find --user testuser
    ---------------
@@ -227,13 +227,13 @@ Displaying vault info
 
 A user can view a particular vault info using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-show <name> [OPTIONS]
 
 To display the basic vault info:
 
-::
+.. code-block:: text
 
    $ ipa vault-show PrivateVault
      Vault name: PrivateVault
@@ -244,7 +244,7 @@ To display the basic vault info:
 
 To display the complete vault info:
 
-::
+.. code-block:: text
 
    $ ipa vault-show PrivateVault --all
      dn: cn=PrivateVault,cn=admin,cn=users,cn=vaults,...
@@ -262,13 +262,13 @@ Creating a new vault
 
 A container member can create a vault using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add <name> [OPTIONS]
 
 Private vaults can be created by specifying a relative vault ID:
 
-::
+.. code-block:: text
 
    $ ipa vault-add PrivateVault --desc "Private vault"
    --------------------------
@@ -280,7 +280,7 @@ Private vaults can be created by specifying a relative vault ID:
 
 Shared vaults can be created by specifying --shared:
 
-::
+.. code-block:: text
 
    $ ipa vault-add SharedVault --desc "Shared vault" --shared
    ---------------------------------
@@ -294,7 +294,7 @@ Symmetric vaults can be created by specifying the type and the password.
 The password can be provided interactively, specified in the command
 option, or specified in a file.
 
-::
+.. code-block:: text
 
    $ ipa vault-add SymmetricVault --desc "Symmetric vault" --type symmetric
    New password: ********
@@ -325,7 +325,7 @@ option, or specified in a file.
 Asymmetric vaults can be created by specifying the type and the public
 key:
 
-::
+.. code-block:: text
 
    $ ipa vault-add AsymmetricVault --desc "Asymmetric vault" --type asymmetric --public-key-file public.pem
    -----------------------------
@@ -342,13 +342,13 @@ Archiving data
 
 A vault member/owner can archive data using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive <name> [--in <input file> | --data <base-64 encoded data>] [OPTIONS]
 
 With a standard vault the operation can be done directly.
 
-::
+.. code-block:: text
 
    $ ipa vault-archive StandardVault --data c2VjcmV0
    ----------------------------------------
@@ -361,7 +361,7 @@ With a standard vault the operation can be done directly.
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive SymmetricVault --in secret.txt
    Password: ********
@@ -372,7 +372,7 @@ With a symmetric vault the operation requires a password:
 With an asymmetric vault the operation does not require anything since
 the vault public key is stored in one of vault attributes.
 
-::
+.. code-block:: text
 
    $ ipa vault-archive AsymmetricVault --in secret.txt
    ------------------------------------------
@@ -386,13 +386,13 @@ Retrieving data
 
 A vault member/owner can be retrieve data using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve <name> [--out <output file>] [OPTIONS]
 
 With a standard vault the operation can be done directly.
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve StandardVault --out secret.txt
    -----------------------------------------
@@ -406,7 +406,7 @@ With a standard vault the operation can be done directly.
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve SymmetricVault --out secret.txt
    Password: ********
@@ -416,7 +416,7 @@ With a symmetric vault the operation requires a password:
 
 With an asymmetric vault the operation requires a private key:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve AsymmetricVault --out secret.txt --private-key-file private.pem
    -------------------------------------------
@@ -430,13 +430,13 @@ Modifying a vault
 
 The vault owner can modify a vault using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod <name> [OPTIONS]
 
 For example, to change vault description:
 
-::
+.. code-block:: text
 
    $ ipa vault-show PrivateVault
      Vault name: PrivateVault
@@ -460,7 +460,7 @@ To change the password of a symmetric vault execute the following
 commands (Note: In `Password Vault 1.1 <V4/Password_Vault_1.1>`__ this
 process will be merged into a single command):
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve SymmetricVault --out secret.txt
    Password: ********
@@ -493,7 +493,7 @@ following commands (Note: In `Password Vault
 1.1 <V4/Password_Vault_1.1>`__ this process will be merged into a single
 command):
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve AsymmetricVault --out secret.txt --private-key-file private.pem
    -------------------------------------------
@@ -524,13 +524,13 @@ Removing a vault
 
 To remove a vault the owner can execute the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-del <name> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-del PrivateVault
    ----------------------------
@@ -549,13 +549,13 @@ Adding vault member
 
 A vault owner can add members to the vault with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-member <name> [--users <list of users>] [--groups <list of groups>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-member MyVault --users testmember
    ---------------------------------
@@ -570,13 +570,13 @@ Removing vault member
 A vault owner can remove a member from the vault with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-member <name> [--users <list of users>] [--groups <list of groups>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-member MyVault --users testmember
    -------------------------------------
@@ -590,13 +590,13 @@ Adding vault owner
 
 An owner can add another owner to the vault with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-owner <vault ID> [--users <list of users>] [--groups <list of groups>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-owner MyVault --users testowner
    ----------------------------------
@@ -611,13 +611,13 @@ Removing vault owner
 An owner can remove another owner from the vault with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-owner <name> [--users <list of users>] [--groups <list of groups>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-owner MyVault --users testowner
    ------------------------------------
@@ -637,7 +637,7 @@ Creating service vault password
 A service administrator can create a service vault password by archiving
 a new secret into a private vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add http_password
    ---------------------------
@@ -663,7 +663,7 @@ vault, obtain the service public key, then execute the following command
 (**Note:** In the future the service public key will be retrieved
 automatically):
 
-::
+.. code-block:: text
 
    $ ipa vault-add <service vault name> --service <service name> --type asymmetric --public-key <service public key>
 
@@ -672,7 +672,7 @@ private vault into the service vault execute the following commands
 (**Note:** In `Password Vault 1.1 <Password_Vault_1.1>`__ this will be
 merged into a single command):
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve <private vault name> --out secret.txt
    $ ipa vault-archive <service vault name> --service <service name> --in secret.txt
@@ -684,7 +684,7 @@ generated previously on the server.
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add password --service HTTP/server.example.com --type asymmetric --public-key-file service-public.pem
    ---------------------
@@ -713,7 +713,7 @@ Retrieving service vault password for service instance
 A service instance can retrieve the service vault password using the
 service private key stored locally:
 
-::
+.. code-block:: text
 
    $ kinit HTTP/server.example.com -k -t /etc/httpd/conf/ipa.keytab
 
@@ -730,7 +730,7 @@ Changing service vault password
 The service administrator can change the service vault password by
 archiving a new secret:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive http_password --in new_secret.txt
    ----------------------------------------
@@ -740,7 +740,7 @@ archiving a new secret:
 The service administrator will need to re-provision the new service
 vault password to each service instance using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve http_password --out secret.txt
    -----------------------------------------
@@ -761,7 +761,7 @@ Configuration
 
 The following command can be used to display vault configuration:
 
-::
+.. code-block:: text
 
    $ ipa vaultconfig-show
      Transport Certificate: -----BEGIN CERTIFICATE-----
@@ -784,7 +784,7 @@ entry of the subtree. Sub-containers are represented by entries directly
 under the parent container. Vaults are represented by entries stored
 under the container.
 
-::
+.. code-block:: text
 
    <suffix>
    + cn=kra
@@ -808,7 +808,7 @@ Vault schema is defined in install/share/60basev3.ldif.
 
 Attribute types:
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.18.2.1 NAME 'ipaVaultType' DESC 'IPA vault type' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.2')
    attributeTypes: (2.16.840.1.113730.3.8.18.2.2 NAME 'ipaVaultSalt' DESC 'IPA vault salt' EQUALITY octetStringMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.40 X-ORIGIN 'IPA v4.2' )
@@ -816,7 +816,7 @@ Attribute types:
 
 Object classes:
 
-::
+.. code-block:: text
 
    objectClasses: (2.16.840.1.113730.3.8.18.1.1 NAME 'ipaVault' DESC 'IPA vault' SUP top STRUCTURAL MUST ( cn ) MAY ( description $ ipaVaultType $ ipaVaultSalt $ ipaVaultPublicKey $ owner $ member ) X-ORIGIN 'IPA v4.2' )
    objectClasses: (2.16.840.1.113730.3.8.18.1.2 NAME 'ipaVaultContainer' DESC 'IPA vault container' SUP top STRUCTURAL MUST ( cn ) MAY ( description $ owner ) X-ORIGIN 'IPA v4.2' )
@@ -839,7 +839,7 @@ and containers, not by LDAP ACI.
 The ACI attributes are defined in the root entry of the vault subtree in
 install/share/vault.update:
 
-::
+.. code-block:: text
 
    dn: cn=kra,$SUFFIX
    ...

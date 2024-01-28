@@ -74,20 +74,22 @@ Anatomy of a tracked certificate
 
 A typical OpenSSL certificate looks like this:
 
-| ``Request ID '20120912211542':``
-| ``       status: MONITORING``
-| ``       stuck: no``
-| ``       key pair storage: type=FILE,location='/etc/ssl/private.key'``
-| ``       certificate: type=FILE,location='/etc/ssl/server.crt'``
-| ``       CA: IPA``
-| ``       issuer: CN=Certificate Authority,O=EXAMPLE.COM``
-| ``       subject: CN=edsel.example.com,O=EXAMPLE.COM``
-| ``       expires: 2014-09-13 21:15:44 UTC``
-| ``       eku: id-kp-serverAuth,id-kp-clientAuth``
-| ``       pre-save command: ``
-| ``       post-save command: ``
-| ``       track: yes``
-| ``       auto-renew: yes``
+.. code-block:: text
+
+    Request ID '20120912211542':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=FILE,location='/etc/ssl/private.key'
+           certificate: type=FILE,location='/etc/ssl/server.crt'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=EXAMPLE.COM
+           subject: CN=edsel.example.com,O=EXAMPLE.COM
+           expires: 2014-09-13 21:15:44 UTC
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command: 
+           post-save command: 
+           track: yes
+           auto-renew: yes
 
 You'll need the Request ID when running other certmonger commands. This
 will be a number if an ID is not provided when the request is originally
@@ -160,13 +162,13 @@ will disable this.
 
 OpenSSL
 ^^^^^^^
-::
+.. code-block:: text
 
    ``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
 
 NSS
 ^^^
-::
+.. code-block:: text
 
    ``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
 
@@ -203,11 +205,11 @@ additional options to the utility. ``getcert`` has a lot of flexibility
 with options described in its manual page. For example, to issue a
 certificate for Nginx to use a specific fully qualified hostname on a
 host without it, use following sequence:
-::
+.. code-block:: text
 
-   | ``# cd /etc/nginx/ssl``
-   | ``# fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); ``
-   | ``# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
+    # cd /etc/nginx/ssl``
+    # fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); ``
+    # ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
 
 The CA has the final say on what the subject will be in the certificate
 it issues.

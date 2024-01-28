@@ -207,7 +207,7 @@ Enhanced commands
    new option ``--servrole`` will enable searching servers having the
    specified role(s) enabled.
 
-::
+.. code-block:: text
 
    ipa server-find --servrole="DNS server" --servrole "CA server"
 
@@ -229,7 +229,7 @@ Enhanced commands
    to other CA server while unsetting this attribute on the original
    master:
 
-::
+.. code-block:: text
 
    ipa config-mod --ca-renewal-master-server=server1.example.com
 
@@ -260,7 +260,7 @@ How to Test
 
 -  see all roles active on a master:
 
-::
+.. code-block:: text
 
    # ipa server-show ipasrv1.example.com
      Server name: ipasrv1.example.com
@@ -271,7 +271,7 @@ How to Test
 
 -  find all DNS servers
 
-::
+.. code-block:: text
 
    # ipa server-find --servrole "DNS server"
    --------------------
@@ -294,21 +294,21 @@ How to Test
 
 -  find a CA renewal master
 
-::
+.. code-block:: text
 
    # ipa config-show | grep "CA renewal master"
    IPA CA renewal master: ipasrv1.example.com
 
 -  find DNSSec key master
 
-::
+.. code-block:: text
 
    # ipa dnsconfig-show  | grep 'DNSSec key master'
    IPA DNSSec key master: ipasrv3.example.com
 
 -  switch CA master "ipasrv2.example.com" to a renewal master
 
-::
+.. code-block:: text
 
    # ipa config-mod --ca-renewal-master-server ipasrv2.example.com
     Maximum username length: 32
@@ -323,7 +323,7 @@ How to Test
 
 -  try to switch CA renewal master to a server without CA role:
 
-::
+.. code-block:: text
 
    # ipa config-mod --renewal-master ipasrv3.example.com
    ipa: ERROR: 'ipasrv3.example.com' cannot be set as CA renewal master: Role 'CA' not configured/enabled
@@ -331,7 +331,7 @@ How to Test
 -  show the status of 'DNS server' role on server ipasrv4.example.com
    which lacks freeipa-server-dns subpackage
 
-::
+.. code-block:: text
 
    # ipa server-role-show ipasrv4.example.com --role 'DNS server'
      Server: ipasrv4.example.com
@@ -341,7 +341,7 @@ How to Test
 -  configure DNS on ipasrv4.example.com using ``ipa-dns-install`` and
    check the 'DNS server' role status
 
-::
+.. code-block:: text
 
    # ipa server-role-show ipasrv4.example.com --role 'DNS server'
      Server: ipasrv4.example.com
@@ -351,14 +351,14 @@ How to Test
 -  show the status of 'DNS sevrer' (typo) role on DNS server
    ipasrv3.example.com
 
-::
+.. code-block:: text
 
    # ipa serverrole-show ipasrv4.example.com --role 'DNS sevrer'
    ipa: ERROR: 'DNS sevrer': role not found
 
 -  search for status of all roles on ipasrv1.example.com
 
-::
+.. code-block:: text
 
    # ipa server-role-find --server ipasrv1.example.com
    --------------------
@@ -376,7 +376,7 @@ How to Test
 
 -  search for all servers which are not AD trust controller
 
-::
+.. code-block:: text
 
    # ipa server-role-find --role "AD trust controller" --status "absent"
    --------------------

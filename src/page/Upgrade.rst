@@ -100,5 +100,7 @@ FreeIPA 4.2.0 or newer
 FreeIPA 4.1.x or older
 ^^^^^^^^^^^^^^^^^^^^^^
 
-| ``# ipa-ldap-updater --upgrade``
-| ``# ipa-upgradeconfig``
+.. code-block:: text
+
+    # ipa-ldap-updater --upgrade
+    # ipa-upgradeconfig

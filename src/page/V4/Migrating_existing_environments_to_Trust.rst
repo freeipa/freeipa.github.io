@@ -145,13 +145,15 @@ Implementation
 Proposed schema
 ----------------------------------------------------------------------------------------------
 
-| `` attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME 'ipaAnchorUUID' DESC 'Unique Anchor Identifier' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')``
-| `` attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME 'ipaOriginalUid' DESC 'Original UID of overriden user' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.29 NAME 'ipaIDView' SUP nsContainer STRUCTURAL MAY ( description ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.30 NAME 'ipaOverrideAnchor' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) MAY ( description ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.31 NAME 'ipaUserOverride' DESC 'Override for User Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.32 NAME 'ipaGroupOverride' DESC 'Override for Group Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( gidNumber $ cn ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.34 NAME 'ipaOverrideTarget' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) X-ORIGIN 'IPA v4' )``
+.. code-block:: text
+
+     attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME 'ipaAnchorUUID' DESC 'Unique Anchor Identifier' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')
+     attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME 'ipaOriginalUid' DESC 'Original UID of overriden user' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')
+     objectClasses: (2.16.840.1.113730.3.8.12.29 NAME 'ipaIDView' SUP nsContainer STRUCTURAL MAY ( description ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.30 NAME 'ipaOverrideAnchor' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) MAY ( description ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.31 NAME 'ipaUserOverride' DESC 'Override for User Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.32 NAME 'ipaGroupOverride' DESC 'Override for Group Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( gidNumber $ cn ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.34 NAME 'ipaOverrideTarget' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) X-ORIGIN 'IPA v4' )
 
 Container
 ----------------------------------------------------------------------------------------------
@@ -555,7 +557,7 @@ steps.
 
 You should end up with working trust:
 
-::
+.. code-block:: text
 
    ------------------------------------------------------------------------
    Added Active Directory trust for realm "tbad.idm.lab.eng.brq.redhat.com"
@@ -579,7 +581,7 @@ testing, or create a new one. We will use
 
 Check that the user UID, GID and group membership is returned correctly:
 
-::
+.. code-block:: text
 
    [tbabej@vm-124 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
    uid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=1218201156(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com),1218200513(domain users@tbad.idm.lab.eng.brq.redhat.com)
@@ -594,7 +596,7 @@ use the 'Default Trust View', which is always applied for AD users and
 can only contain overrides for AD users and groups. Let's change the UID
 of the ``testuser`` to 5555.
 
-::
+.. code-block:: text
 
    [tbabej@vm-124 labtool]$ ipa idoverrideuser-add 'Default Trust View' testuser@tbad.idm.lab.eng.brq.redhat.com  --uid 5555
    -----------------------------------------------------------------  
@@ -605,7 +607,7 @@ of the ``testuser`` to 5555.
 
 Let's now check that the user has override UID value.
 
-::
+.. code-block:: text
 
    [tbabej@vm-124 labtool]$ sudo systemctl restart sssd  
    [tbabej@vm-124 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com                                                                                                                                   
@@ -623,7 +625,7 @@ For host-specific views, we cannot use Default Trust View, since that
 one is not host specific, it is always applied. We add a new ID view
 using the ``idview-add`` command.
 
-::
+.. code-block:: text
 
    [tbabej@vm-124 ~]$ ipa idview-add testview --desc "Our new host specific view"
    ------------------------
@@ -636,7 +638,7 @@ Having created a host specific view, we need to add a ID override to it.
 This works the same way as with Default Trust View. Suppose we want to
 override UID of our ``testuser`` to 6666.
 
-::
+.. code-block:: text
 
    [tbabej@vm-124 ~]$ ipa idoverrideuser-add testview testuser@tbad.idm.lab.eng.brq.redhat.com --uid 6666
    -----------------------------------------------------------------
@@ -653,7 +655,7 @@ with the hostgroup itself, only with particular hosts. If you pass
 hostgroup to the idview-apply command, the members of hostgroup are
 expanded internally, and host is applied to each of them.
 
-::
+.. code-block:: text
 
    [tbabej@vm-124 ~]$ ipa idview-apply testview --hosts vm-057.dom124.tbad.idm.lab.eng.brq.redhat.com
    --------------------------
@@ -667,7 +669,7 @@ expanded internally, and host is applied to each of them.
 We can check that our AD ``testuser`` is overriden in a different way on
 our client, than on the server:
 
-::
+.. code-block:: text
 
    [tbabej@vm-057 labtool]$ id testuser@tbad.idm.lab.eng.brq.redhat.com
    uid=6666(testuser@tbad.idm.lab.eng.brq.redhat.com) gid=5555(testuser@tbad.idm.lab.eng.brq.redhat.com) groups=5555(testuser@tbad.idm.lab.eng.brq.redhat.com),1218201425(test group@tbad.idm.lab.eng.brq.redhat.com)
@@ -679,11 +681,13 @@ Use Case: Migration from the Sync to the Trust solution
 
 To migrate from winsync to trusts you will need to take following steps:
 
-| `` 1. Create a trust with the synced domain``
-| `` 2. For all users that have been synced, you need to:``
-| ``   a. create a ID override in "Default Trust View" for the synced user to preserve IPA generated UID and GID``
-| ``   b. delete the sync agreement``
-| ``   c. delete the synced user``
+.. code-block:: text
+
+     1. Create a trust with the synced domain
+     2. For all users that have been synced, you need to:
+       a. create a ID override in "Default Trust View" for the synced user to preserve IPA generated UID and GID
+       b. delete the sync agreement
+       c. delete the synced user
 
 `Category:FreeIPA V4 Test Plan <Category:FreeIPA_V4_Test_Plan>`__
 `Category:FreeIPA Test Plan <Category:FreeIPA_Test_Plan>`__

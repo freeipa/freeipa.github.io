@@ -30,7 +30,7 @@ Adding Samba User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ldapadd -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    dn: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
@@ -45,7 +45,7 @@ This operation will generate 2 change log records.
 Updating DNA Plugin
 -------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=17,cn=changelog
    objectClass: top
@@ -60,7 +60,7 @@ Updating DNA Plugin
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: dnaRemainingValues
    dnaRemainingValues: 1844674407370955
@@ -77,7 +77,7 @@ The content of the changes attribute is:
 Adding User Object
 ------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=18,cn=changelog
    objectClass: top
@@ -91,7 +91,7 @@ Adding User Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    userAccountControl: 640
    name: Test User
@@ -136,7 +136,7 @@ Modifying Samba User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ldapmodify -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    dn: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
@@ -151,7 +151,7 @@ This operation example will generate 1 change log record.
 Modifying User Object
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=19,cn=changelog
    objectClass: top
@@ -165,7 +165,7 @@ Modifying User Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: unicodePwd
    unicodePwd:: h42AFGBs2ilnekTvoTU/xw==
@@ -202,7 +202,7 @@ Deleting Samba User
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ldapdelete -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    cn=Test User,cn=Users,dc=samba,dc=example,dc=com
@@ -214,7 +214,7 @@ This operation will generate 1 change log record.
 Deleting User Object
 --------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=20,cn=changelog
    objectClass: top
@@ -242,7 +242,7 @@ Adding Samba Group
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ldapadd -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    dn: cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
@@ -258,7 +258,7 @@ This operation will generate 2 change log records.
 Updating DNA Plugin
 -------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=26,cn=changelog
    objectClass: top
@@ -273,7 +273,7 @@ Updating DNA Plugin
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    replace: dnaRemainingValues
    dnaRemainingValues: 1844674407370955
@@ -290,7 +290,7 @@ The content of the changes attribute is:
 Adding Group Object
 -------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=28,cn=changelog
    objectClass: top
@@ -304,7 +304,7 @@ Adding Group Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    cn: Test Group
    member: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
@@ -329,7 +329,7 @@ The content of the changes attribute is:
 Adding Group Member
 -------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=27,cn=changelog
    objectClass: top
@@ -343,7 +343,7 @@ Adding Group Member
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    add: memberOf
    memberOf: cn=test group,cn=users,dc=samba,dc=example,dc=com
@@ -362,7 +362,7 @@ Modifying Samba Group
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    ldapmodify -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    dn: cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
@@ -377,7 +377,7 @@ This operation will generate 2 change log records.
 Modifying User Object
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=34,cn=changelog
    objectClass: top
@@ -391,7 +391,7 @@ Modifying User Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    add: memberOf
    memberOf: cn=test group,cn=users,dc=samba,dc=example,dc=com
@@ -408,7 +408,7 @@ The content of the changes attribute is:
 Modifying Group Object
 ----------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=35,cn=changelog
    objectClass: top
@@ -422,7 +422,7 @@ Modifying Group Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    add: member
    member: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
@@ -441,7 +441,7 @@ Deleting Samba Group
 
 Consider the following example:
 
-::
+.. code-block:: text
 
    % ldapdelete -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -W
    cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
@@ -453,7 +453,7 @@ This operation generates 2 change log records.
 Modifying User Object
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=36,cn=changelog
    objectClass: top
@@ -467,7 +467,7 @@ Modifying User Object
 
 The content of the changes attribute is:
 
-::
+.. code-block:: text
 
    delete: memberOf
    memberOf: cn=test group,cn=users,dc=samba,dc=example,dc=com
@@ -484,7 +484,7 @@ The content of the changes attribute is:
 Deleting Group Object
 ---------------------
 
-::
+.. code-block:: text
 
    dn: changenumber=37,cn=changelog
    objectClass: top

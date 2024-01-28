@@ -50,7 +50,7 @@ with the if SELinux is enabled at all and if yes download a SELinux
 policy module and install it. The main section of a corresponding IPA
 policy file might look like
 
-::
+.. code-block:: text
 
      <ipaaction>
        <condition>
@@ -100,7 +100,7 @@ To make the SELinux policy booleans accessible to IPA a configuration
 policy, selinux_booleans, is used. The main section of an IPA XML policy
 file may look like this:
 
-::
+.. code-block:: text
 
      <ipaconfig>
        <selinux_boolean>
@@ -123,7 +123,7 @@ transformed to a format suitable as a command line argument for
 setseboot. The policy downloader will than call setsebool with the
 result as defined by XSL metadata
 
-::
+.. code-block:: text
 
      <md:output_handler>
        <exec_with_args command_name="/usr/sbin/setsebool" user="root"/>
@@ -147,13 +147,13 @@ SELinux we have to connect three SELinux element, namely
 SELinux roles are defined by the SELinux policy or SELinux policy
 modules. SELinux users can be connected to SELinux role with semanage:
 
-::
+.. code-block:: text
 
    /usr/sbin/semanage user -a -R "serole_r guest_r" seuser_u
 
 Linux user can mapped to SELinux user with semanage, too.
 
-::
+.. code-block:: text
 
    /usr/sbin/semanage login -s seuser_u luser
 
@@ -172,7 +172,7 @@ always associated with guest_u, independent of the channel they are
 using to access the host. If a user logs in via ssh and is associated to
 the admin role he will be mapped to staff_u.
 
-::
+.. code-block:: text
 
      <iparole>
        <role>
@@ -256,7 +256,7 @@ This logic will follow the following algorithm:
 
 with the example above it would look like this:
 
-::
+.. code-block:: text
 
       guest_u:*:S0
       staff_u:ssh:S0

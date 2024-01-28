@@ -15,7 +15,7 @@ Adding Chrome Repository
 Fedora
 ------
 
-::
+.. code-block:: text
 
    % cd /etc/yum.repos.d
    % wget http://repos.fedorapeople.org/repos/spot/chromium/fedora-chromium.repo
@@ -25,7 +25,7 @@ Google
 
 Create /etc/yum.repos.d/google.repo:
 
-::
+.. code-block:: text
 
    [google64]
    name=Google - x86_64
@@ -46,7 +46,7 @@ Fedora
 
 View available versions:
 
-::
+.. code-block:: text
 
    % yum list | grep chromium
    chromium.x86_64                    10.0.634.0-1.fc14 fedora-chromium
@@ -55,7 +55,7 @@ View available versions:
 
 Install Chromium:
 
-::
+.. code-block:: text
 
    % yum install chromium
 
@@ -66,7 +66,7 @@ Google
 
 View available versions:
 
-::
+.. code-block:: text
 
    % yum list | grep google-chrome
    google-chrome-beta.x86_64          8.0.552.200-65749 google64
@@ -75,7 +75,7 @@ View available versions:
 
 Install Chrome:
 
-::
+.. code-block:: text
 
    % yum install google-chrome-unstable
 
@@ -91,7 +91,7 @@ Fedora
 
 Run Chromium with Kerberos:
 
-::
+.. code-block:: text
 
    % chromium-browser\
     --auth-server-whitelist="*.example.com"\
@@ -104,7 +104,7 @@ Google
 
 Run Chrome with Kerberos:
 
-::
+.. code-block:: text
 
    % google-chrome\
     --auth-server-whitelist="*.example.com"\
@@ -113,7 +113,7 @@ Run Chrome with Kerberos:
 If the aforementioned approach doesn't work, you can override an
 AuthScheme policy [4, 7]:
 
-::
+.. code-block:: text
 
    { "AuthServerWhitelist": "*.example.com",
    "AuthNegotiateDelegateWhitelist": "*.example.com" }

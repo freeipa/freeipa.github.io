@@ -52,7 +52,7 @@ example, EXAMPLE.COM).
 need to replace with your IPA server's hostname (for example,
 *ipaserver.example.com*):
 
-::
+.. code-block:: text
 
    kdc  ipaserver.example.com 88
    admin ipaserver.example.com 749
@@ -60,7 +60,7 @@ need to replace with your IPA server's hostname (for example,
 6. On the **Domains** tab, replace the existing domains with your IPA
 server's actual domain (such as example.com):
 
-::
+.. code-block:: text
 
    .example.com
    example.com
@@ -73,7 +73,7 @@ The ``/Library/Preferences/edu.mit.kerberos`` file should look similar
 to the following. Remember to replace the example.com settings with your
 own IPA server name, Kerberos realm and domain details.
 
-::
+.. code-block:: text
 
    [domain_realm]
        example.com = EXAMPLE.COM
@@ -105,7 +105,7 @@ Kerberos authentication.
 2. Change to the ``/private/etc`` directory and make a backup of the
 existing authorization file.
 
-::
+.. code-block:: text
 
    # cd /private/etc
    # cp -p authorization authorization_bak
@@ -275,7 +275,7 @@ to connect to the IPA server without be prompted for a password.
 
 1. Get a Kerberos ticket for the **admin** user.
 
-::
+.. code-block:: text
 
    # kinit admin
    # klist (to verify that you successfully retrieved a ticket)
@@ -283,7 +283,7 @@ to connect to the IPA server without be prompted for a password.
 2. If you have a valid Kerberos ticket, ssh should proceed with GSSAPI
 authentication without asking for a password:
 
-::
+.. code-block:: text
 
    # ssh admin@ipaserver.example.com
 
@@ -301,7 +301,7 @@ Configuring System Login
 
 2. After you have logged in, open a terminal and try the following:
 
-::
+.. code-block:: text
 
    $ id (ensure that the userid and groupid are correct)
    $ klist (ensure that you have a valid Kerberos ticket)

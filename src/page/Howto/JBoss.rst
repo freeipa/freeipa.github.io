@@ -57,7 +57,7 @@ Since many IPA services rely on correct fully qualified domain name of
 the web server, we will make JBoss listen not just on the loopback
 interface:
 
-::
+.. code-block:: text
 
    diff --git a/standalone/configuration/standalone.xml b/standalone/configuration/standalone.xml
    --- a/standalone/configuration/standalone.xml
@@ -93,8 +93,10 @@ command
 will create the service and we can then retrieve the keytab on the JBoss
 server:
 
-| ``$ kinit admin``
-| ``$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab``
+.. code-block:: text
+
+    $ kinit admin
+    $ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab
 
 
 
@@ -106,7 +108,7 @@ The examples below are taken from https://github.com/kwart/spnego-demo.
 In the ``standalone/configuration/standalone.xml`` configuration file,
 we will define the SPNEGO security domain:
 
-::
+.. code-block:: text
 
    diff --git a/standalone/configuration/standalone.xml b/standalone/configuration/standalone.xml
    --- a/standalone/configuration/standalone.xml
@@ -157,13 +159,13 @@ We then create application in **standalone/deployments/kerberos.war**:
 
 ``standalone/deployments/kerberos.war/index.html``:
 
-::
+.. code-block:: text
 
    OK
 
 ``standalone/deployments/kerberos.war/WEB-INF/jboss-web.xml``:
 
-::
+.. code-block:: text
 
    <jboss-web>
        <security-domain>SPNEGO</security-domain>
@@ -174,7 +176,7 @@ We then create application in **standalone/deployments/kerberos.war**:
 
 ``standalone/deployments/kerberos.war/WEB-INF/web.xml``:
 
-::
+.. code-block:: text
 
    <?xml version="1.0" encoding="UTF-8"?>
    <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
@@ -198,7 +200,7 @@ We then create application in **standalone/deployments/kerberos.war**:
 
 ``standalone/deployments/kerberos.war/META-INF/jboss-deployment-structure.xml``:
 
-::
+.. code-block:: text
 
    <jboss-deployment-structure>
        <deployment>
@@ -211,8 +213,10 @@ We then create application in **standalone/deployments/kerberos.war**:
 We then touch file ``standalone/deployments/kerberos.war`` and start the
 server, we should see message like
 
-| ``Register web context: /kerberos``
-| ``Deployed "kerberos.war" (runtime-name : "kerberos.war")``
+.. code-block:: text
+
+    Register web context: /kerberos
+    Deployed "kerberos.war" (runtime-name : "kerberos.war")
 
 We then obtain a ticket:
 
@@ -220,7 +224,10 @@ We then obtain a ticket:
 
 and we will run curl with Negotiate authentication enabled:
 
-| ``$ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` <http://$(hostname):8080/kerberos/>`__
-| ``OK``
+.. code-block:: text
+
+    $ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` <http://$(hostname):8080/kerberos/>`__
+
+    OK
 
 We should see the ``OK`` (the content of the index.html file) printed.

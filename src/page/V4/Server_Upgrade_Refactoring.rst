@@ -71,12 +71,14 @@ All LDAP update files are ordered/executed in alphabetical order. Update
 files should keep the number prefix, but this is not required anymore by
 updater.
 
-| ``05-pre-update-plugins.update``
-| ``10-config.update``
-| ``20-syncrepl.update``
-| ``...``
-| ``90-last.update``
-| ``ZZ.update  # this will work, but we should avoid of using number less update files``
+.. code-block:: text
+
+    05-pre-update-plugins.update
+    10-config.update
+    20-syncrepl.update
+    ...
+    90-last.update
+    ZZ.update  # this will work, but we should avoid of using number less update files
 
 
 
@@ -119,8 +121,10 @@ Related ticket:
 Currently two commands exist, which have to be exucuted in proper order
 to upgrade IPA:
 
-| ``ipa-ldap-updater --upgrade``
-| ``ipa-upgradeconfig``
+.. code-block:: text
+
+    ipa-ldap-updater --upgrade
+    ipa-upgradeconfig
 
 Using these commands in wrong order, or execute ipa-upgradecofig if
 ipa-ldap-updater failed, can break the system.

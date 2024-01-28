@@ -25,7 +25,7 @@ Recovery procedure
 In order to recreate the admin user, the following ``admin-user.update`` file
 needs to be customized and provided to ``ipa-ldap-updater`` tool.
 
-::
+.. code-block:: text
 
    [root@server ~]# cat /tmp/admin-user.update
    dn: uid=admin,cn=users,cn=accounts,$SUFFIX
@@ -55,7 +55,7 @@ In this file, the values VALUE_UID and VALUE_SID must be replaced with
 correct values obtained with these commands (let's consider that your
 alternate admin user is ``otheradmin``):
 
-::
+.. code-block:: text
 
    [root@server ~] kinit otheradmin
    Password for otheradmin@IPA.TEST: 
@@ -94,7 +94,7 @@ user). If your deployment does not display any value for
 
 The resulting file should look like the following:
 
-::
+.. code-block:: text
 
    [root@server ~]# cat /tmp/admin-user.update
    dn: uid=admin,cn=users,cn=accounts,$SUFFIX
@@ -122,7 +122,7 @@ The resulting file should look like the following:
 
 The tool ``ipa-ldap-updater`` can now be used to create the admin user:
 
-::
+.. code-block:: text
 
    [root@server ~]# ipa-ldap-updater /tmp/admin-user.update
    Update complete
@@ -130,7 +130,7 @@ The tool ``ipa-ldap-updater`` can now be used to create the admin user:
 
 After this step, you can add the admin user to the admins group:
 
-::
+.. code-block:: text
 
    [root@server ~]# ipa group-add-member admins --users admin
      Group name: admins
@@ -144,7 +144,7 @@ After this step, you can add the admin user to the admins group:
 If you had SIDs for your domain, re-run the sid generation task and verify
 that the admins group has a SID ending with -512 as before:
 
-::
+.. code-block:: text
 
    [root@server ~]# ipa config-mod --add-sids --enable-sid
    [root@server ~]# ipa group-show admins --all
@@ -161,7 +161,7 @@ that the admins group has a SID ending with -512 as before:
 
 If you do not want to use the admin user, you can disable the account using:
 
-::
+.. code-block:: text
 
    [root@server ~]# ipa user-disable admin
    -----------------------------

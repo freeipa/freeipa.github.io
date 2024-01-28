@@ -6,7 +6,7 @@ Schema
 OTP Schema
 ==========
 
-::
+.. code-block:: text
 
    # FreeIPA tokens schema
    # BaseOID: TBD
@@ -240,7 +240,7 @@ OTP Schema
 OTP ACIs
 ========
 
-::
+.. code-block:: text
 
    dn: $SUFFIX
    changetype: modify

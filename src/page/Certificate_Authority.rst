@@ -156,7 +156,7 @@ Request a certificate
 You start with a Certificate Signing Request (CSR). In our case this is
 a base-64 encoded PKCS#10 request which looks something like:
 
-::
+.. code-block:: text
 
    -----BEGIN CERTIFICATE REQUEST-----
    MIIBnTCCAQYCAQAwXTELMAkGA1UEBhMCU0cxETAPBgNVBAoTCE0yQ3J5cHRvMRIw
@@ -168,7 +168,7 @@ a base-64 encoded PKCS#10 request which looks something like:
 
 To generate a CSR using OpenSSL run:
 
-::
+.. code-block:: text
 
    % openssl req -new -nodes -out host.csr
 
@@ -182,7 +182,7 @@ The CSR is in the file ``host.csr`` and the key for this request is in
 In NSS you need to start with a cert database so you have an extra step.
 An NSS CSR generation looks like:
 
-::
+.. code-block:: text
 
    % certutil -N -d /tmp/test
    % certutil -R -s "CN=ipa.example.com" -d /tmp/test -o test.csr -g 1024 -a
@@ -201,7 +201,7 @@ CN=zeus.example.com,OU=pki-ipa,O=IPA
 
 There is also a short-cut method though it isn't working today (Oct 9).
 
-::
+.. code-block:: text
 
    ipa cert-request file://test.csr --principal=ldap3/zeus.example.com --add
 
@@ -210,7 +210,7 @@ There is also a short-cut method though it isn't working today (Oct 9).
 Put a cert on hold
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    $ ipa cert-revoke --revocation-reason=6 0xb
 
@@ -219,7 +219,7 @@ Put a cert on hold
 Remove a cert from hold
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    $ ipa cert-revoke --revocation-reason=6 0xb
 
@@ -228,7 +228,7 @@ Remove a cert from hold
 Revoke a certificate
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    $ ipa cert-revoke --revocation-reason=1 0xb
    revoked: True
@@ -239,7 +239,7 @@ Revoke a certificate
 Retrieve a revoked certificate
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    $ ipa cert-get 0xb
    certificate: MIIC7D...
@@ -312,17 +312,21 @@ the file web.csr in the current directory.
 
 **admin**
 
-| ``ipa host-add client.example.com --password=secret123``
-| ``ipa service-add HTTP/client.example.com``
-| ``ipa service-add-host --hosts=client.example.com HTTP/client.example.com``
-| ``ipa rolegroup-add-member --hosts=client.example.com certadmin``
+.. code-block:: text
+
+    ipa host-add client.example.com --password=secret123
+    ipa service-add HTTP/client.example.com
+    ipa service-add-host --hosts=client.example.com HTTP/client.example.com
+    ipa rolegroup-add-member --hosts=client.example.com certadmin
 
 **client**
 
-| ``ipa-client-install``
-| ``ipa-join -w secret123``
-| ``kinit -kt /etc/krb5.keytab host/client.example.com``
-| ``ipa -d cert-request ``\ ```file://web.csr`` <file://web.csr>`__\ `` --principal=HTTP/client.example.com``
+.. code-block:: text
+
+    ipa-client-install
+    ipa-join -w secret123
+    kinit -kt /etc/krb5.keytab host/client.example.com
+    ipa -d cert-request ``\ ```file://web.csr`` <file://web.csr>`__\ `` --principal=HTTP/client.example.com
 
 
 
@@ -355,10 +359,12 @@ store the certificate, then we can issue the cert.
 
 Some of this work needs to be done as an admin:
 
-| ``% kinit admin``
-| ``% ipa host-add vpn.remote.com``
-| ``% ipa service-add vpn/vpn.remote.com``
-| ``% ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com``
+.. code-block:: text
+
+    % kinit admin
+    % ipa host-add vpn.remote.com
+    % ipa service-add vpn/vpn.remote.com
+    % ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com
 
 We've created the remote host and a service principal for it, then gave
 permission for the host ipa.example.com to request a certificate on
@@ -367,8 +373,8 @@ vpn.remote.com is in the file **vpn.csr**.
 
 On ipa.example com:
 
-::
+.. code-block:: text
 
-   | ``% kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
-   | ``% ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
+    % kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
+    % ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
    | ``% ipa service-show vpn/vpn.remote.com``

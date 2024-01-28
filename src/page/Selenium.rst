@@ -30,7 +30,7 @@ Download `Selenium Server <http://seleniumhq.org/download/>`__ and put
 the selenium-server-standalone-xxx.jar file in /usr/share/java. Create a
 symbolic link to that file:
 
-::
+.. code-block:: text
 
    % ln -s selenium-server-standalone-2.0b3.jar selenium-server-standalone.jar
 
@@ -45,7 +45,7 @@ without any intervention.
 
 To open Firefox's profile manager:
 
-::
+.. code-block:: text
 
    % firefox -ProfileManager -no-remote
 
@@ -63,7 +63,7 @@ Importing Selenium CA Certificate
 
 Extract cybervillainsCA.cer into a temporary folder:
 
-::
+.. code-block:: text
 
    % mkdir tmp
    % cd tmp
@@ -110,7 +110,7 @@ functional.sh
 
 The functional.sh can be used to run some or all functional test cases.
 
-::
+.. code-block:: text
 
    % cd IPA_SRC/install/ui/test
    % bin/functional.sh [<test suite names>...]
@@ -129,7 +129,7 @@ selenium.sh
 The selenium.sh will execute the specified test suite and store the
 results in the specified path.
 
-::
+.. code-block:: text
 
    % cd IPA_SRC/install/ui/test
    % bin/selenium.sh <test suite path> <test results path>

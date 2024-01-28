@@ -46,7 +46,7 @@ Configuration
 The Retro Change Log plugin should accept a new multi-valued parameter
 nsslapd-attribute:
 
-::
+.. code-block:: text
 
    dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
    ...
@@ -78,7 +78,7 @@ extensibleObject will be added to change log entry.
 
 For example:
 
-::
+.. code-block:: text
 
    dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
    ...
@@ -88,7 +88,7 @@ For example:
 
 The change log entry should look as follows:
 
-::
+.. code-block:: text
 
    dn: changeNumber=...,cn=changelog
    objectClass: top
@@ -108,13 +108,13 @@ Schema
 A new attribute isReplicated should be added into 01common.ldif or
 02common.ldif:
 
-::
+.. code-block:: text
 
    attributeTypes: ( 2.16.840.1.113730.3.1.2085 NAME 'isReplicated' DESC 'Changelog attribute type' SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 X-ORIGIN 'Changelog Internet Draft' )
 
 and 60changelog.ldif:
 
-::
+.. code-block:: text
 
    attributeTypes: (
      2.16.840.1.113730.3.1.2085
@@ -143,7 +143,7 @@ methods:
 Global Variables
 ----------------
 
-::
+.. code-block:: text
 
    int retrocl_nattributes = 0;
    char **retrocl_attributes = NULL;
@@ -153,7 +153,7 @@ Global Variables
 Reading New Parameters
 ----------------------
 
-::
+.. code-block:: text
 
    Slapi_Entry *e = NULL;
 
@@ -177,7 +177,7 @@ Reading New Parameters
 Getting nsUniqueId Attribute
 ----------------------------
 
-::
+.. code-block:: text
 
    Slapi_Entry *entry;
    char *uniqueId;
@@ -192,7 +192,7 @@ Getting nsUniqueId Attribute
 Generating isReplicated Attribute
 ---------------------------------
 
-::
+.. code-block:: text
 
    int repl_op = 0;
 
@@ -207,7 +207,7 @@ Generating isReplicated Attribute
 Getting User-defined Attributes
 -------------------------------
 
-::
+.. code-block:: text
 
    Slapi_Entry *entry;
 

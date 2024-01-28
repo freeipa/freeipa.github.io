@@ -3,7 +3,7 @@ SolarisPamConf10
 
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
-::
+.. code-block:: text
 
    #*************************************************
    # pam.conf for Solaris 10

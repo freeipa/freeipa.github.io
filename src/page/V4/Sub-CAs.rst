@@ -246,7 +246,7 @@ CA objects shall be stored in the container ``cn=cas,cn=ca,$SUFFIX`` and
 shall have the object classes ``ipaCa`` (defined below). They shall be
 distinguished by ``cn``.
 
-::
+.. code-block:: text
 
    objectClasses: (2.16.840.1.113730.3.8.21.2.3
      NAME 'ipaCa'
@@ -258,7 +258,7 @@ distinguished by ``cn``.
 The ``ipaCaId`` attribute shall store the Dogtag Authority ID of a
 lightweight CA:
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.6
      NAME 'ipaCaId' DESC 'Dogtag Authority ID'
@@ -270,7 +270,7 @@ lightweight CA:
 
 The ``ipaCaIssuerDN`` attribute shall store the issuer DN of the CA:
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.7
      NAME 'ipaCaIssuerDN' DESC 'Issuer Distinguished Name'
@@ -279,7 +279,7 @@ The ``ipaCaIssuerDN`` attribute shall store the issuer DN of the CA:
 
 The ``ipaCaSubjectDN`` attribute shall store the subject DN of the CA:
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.8
      NAME 'ipaCaSubjectDN' DESC 'Subject Distinguished Name'
@@ -754,7 +754,7 @@ profile for this purpose called ``userSmartCard`` is assumed to exist.
 
 List lightweight CAs:
 
-::
+.. code-block:: text
 
    % ipa ca-find
    ------------
@@ -771,7 +771,7 @@ List lightweight CAs:
 
 Add a new lightweight CA called ``sc``:
 
-::
+.. code-block:: text
 
    % ipa ca-add sc --subject &quot;CN=Smart Card CA, O=IPA.LOCAL&quot; --desc &quot;Smart Card CA&quot;
    ---------------
@@ -786,7 +786,7 @@ Add a new lightweight CA called ``sc``:
 Add a CA ACL called ``user-sc-userSmartCard`` and through it associate
 all users, the ``sc`` CA, and ``userSmartCard`` profile. users:
 
-::
+.. code-block:: text
 
    % ipa caacl-add user-sc-userSmartCard --usercat=all
    ------------------------------------
@@ -818,7 +818,7 @@ all users, the ``sc`` CA, and ``userSmartCard`` profile. users:
 Now, as a user (``alice``), assuming you already have a CSR for the key
 in your smart card, request the certificate, specifying the ``sc`` CA:
 
-::
+.. code-block:: text
 
    % ipa cert-request --principal alice --ca sc /path/to/csr.req
      Certificate: MIIDmDCCAoCgAwIBAgIBQDANBgkqhkiG9w0BA...

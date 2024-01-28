@@ -106,7 +106,7 @@ Since the ISC-DHCP server can only run in either v4 or v6 mode, and they
 share attribute names in LDAP, we must split the configuration tree as
 below.
 
-::
+.. code-block:: text
 
    cn=v4,cn=Location,cn=dhcp,$SUFFIX
    cn=v6,cn=Location,cn=dhcp,$SUFFIX
@@ -119,7 +119,7 @@ Schema
 
 Converted from /usr/share/doc/dhcp-4.2.4/ldap/dhcp.schema
 
-::
+.. code-block:: text
 
    dn: cn=schema
    attributeTypes: (

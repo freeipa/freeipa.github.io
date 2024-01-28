@@ -28,7 +28,7 @@ Use Cases
 
 Automatic generation of SSHFP DNS records on IPA client install:
 
-::
+.. code-block:: text
 
     | ``# ipa-client-install``
     | ``Discovery was successful!``
@@ -59,37 +59,43 @@ Automatic generation of SSHFP DNS records on IPA client install:
     | ``Configured /etc/ssh/sshd_config``
     | ``Client configuration complete.``
 
-| ``$ dig host1.example.com SSHFP +short``
-| ``2 2 0E04A7E09D037934492108ED5590612416BE736AD1BCAEAE1EA4148E 80C956E2``
-| ``2 1 F2A1353FF919AD785B6BD42B588F6236D1F67459``
-| ``1 2 3E475EEAF17975C36EE1413DDD659275FDD19C97C2C74A3651BA12F7 52E12A18``
-| ``1 1 A308B1B02A8B43CB5192E26FA50280F752BB3A14``
+.. code-block:: text
+
+    $ dig host1.example.com SSHFP +short
+    2 2 0E04A7E09D037934492108ED5590612416BE736AD1BCAEAE1EA4148E 80C956E2
+    2 1 F2A1353FF919AD785B6BD42B588F6236D1F67459
+    1 2 3E475EEAF17975C36EE1413DDD659275FDD19C97C2C74A3651BA12F7 52E12A18
+    1 1 A308B1B02A8B43CB5192E26FA50280F752BB3A14
 
 Automatic generation of SSHFP DNS records when modifying a host:
 
-| ``$ ipa host-mod host2.example.com --updatedns --sshpubkey='ssh-rsa ``\ ``' --sshpubkey='ssh-dss ``\ ``' --sshpubkey='ecdsa-sha2-nistp256 ``\ ``'``
-| ``---------------------------------------------``
-| ``Modified host "host2.example.com"``
-| ``---------------------------------------------``
-| ``  Host name: host2.example.com``
-| ``  Principal name: host/host2.example.com@EXAMPLE.COM``
-| ``  MAC address: 00:11:22:33:44:55``
-| ``  SSH public key: ecdsa-sha2-nistp256 ``\ ``,``
-| ``                  ssh-dss ``\ ``,``
-| ``                  ssh-rsa ``
-| ``  Keytab: True``
-| ``  Managed by: host2.example.com``
-| ``  SSH public key fingerprint: 6C:9F:07:51:63:36:32:8B:ED:CF:8C:4C:5F:F2:BF:AE (ecdsa-sha2-nistp256),``
-| ``                              07:5D:0D:55:64:62:A3:FE:02:AE:FC:CD:F6:ED:E1:D9 (ssh-dss),``
-| ``                              8C:C3:27:A8:40:9F:80:01:61:99:D2:25:55:A3:52:30 (ssh-rsa)``
+.. code-block:: text
 
-| ``$ dig host2.example.com SSHFP +short``
-| ``2 2 43FFD792089442F08892CA753059FD8B7FA939E990CE4687A3D1FB75 E0B8F6DE``
-| ``2 1 4C2C50EDEAE6BC6107A37EAE7A05694C15CFEC53``
-| ``3 1 B1D733A262E29B44A4D8A9FAF4B3B9E78302D1DB``
-| ``1 2 E5382308CFD60DE4F0ACF3BCB0366314EECFC71030A28AAF75280041 5FDF81A8``
-| ``3 2 545055E921E94128AF6BFE68E6E2804333628F7808B8EAE10E297B11 3270862F``
-| ``1 1 DA7A6687AE4B2C242E12A67DACDC67D26E374AD5``
+    $ ipa host-mod host2.example.com --updatedns --sshpubkey='ssh-rsa ``\ ``' --sshpubkey='ssh-dss ``\ ``' --sshpubkey='ecdsa-sha2-nistp256 ``\ ``'
+    ---------------------------------------------
+    Modified host "host2.example.com"
+    ---------------------------------------------
+      Host name: host2.example.com
+      Principal name: host/host2.example.com@EXAMPLE.COM
+      MAC address: 00:11:22:33:44:55
+      SSH public key: ecdsa-sha2-nistp256 ``\ ``,
+                      ssh-dss ``\ ``,
+                      ssh-rsa 
+      Keytab: True
+      Managed by: host2.example.com
+      SSH public key fingerprint: 6C:9F:07:51:63:36:32:8B:ED:CF:8C:4C:5F:F2:BF:AE (ecdsa-sha2-nistp256),
+                                  07:5D:0D:55:64:62:A3:FE:02:AE:FC:CD:F6:ED:E1:D9 (ssh-dss),
+                                  8C:C3:27:A8:40:9F:80:01:61:99:D2:25:55:A3:52:30 (ssh-rsa)
+
+.. code-block:: text
+
+    $ dig host2.example.com SSHFP +short
+    2 2 43FFD792089442F08892CA753059FD8B7FA939E990CE4687A3D1FB75 E0B8F6DE
+    2 1 4C2C50EDEAE6BC6107A37EAE7A05694C15CFEC53
+    3 1 B1D733A262E29B44A4D8A9FAF4B3B9E78302D1DB
+    1 2 E5382308CFD60DE4F0ACF3BCB0366314EECFC71030A28AAF75280041 5FDF81A8
+    3 2 545055E921E94128AF6BFE68E6E2804333628F7808B8EAE10E297B11 3270862F
+    1 1 DA7A6687AE4B2C242E12A67DACDC67D26E374AD5
 
 Design
 ======

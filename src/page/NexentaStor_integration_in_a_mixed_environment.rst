@@ -28,7 +28,7 @@ lookup is passwd, group, and netgroup.
 Make the following changes under Settings -> Misc Services -> LDAP
 client -> Configure.
 
-::
+.. code-block:: text
 
    LDAP config type: manual
    Profile name: <none>
@@ -46,7 +46,7 @@ client -> Configure.
 
 In a shell using expert_mode, edit the nsswitch.conf as the following:
 
-::
+.. code-block:: text
 
    passwd:   files ldap ad
    group:    files ldap ad
@@ -85,7 +85,7 @@ Second part, adding kerberos to NFS4: NFS + KRB5
 -  Set "default_realm = IPA-REALM-CAPITAL-LETTERS"
 -  Add a section for the IPA domain under [domain_realm]:
 
-::
+.. code-block:: text
 
    .ipa-domain.com = IPA-REALM-CAPITAL-LETTERS
    ipa-domain.com = IPA-REALM-CAPITAL-LETTERS
@@ -95,7 +95,7 @@ Second part, adding kerberos to NFS4: NFS + KRB5
 
 -  Edit /etc/resolv.conf:
 
-::
+.. code-block:: text
 
    search addomain.com ipadomain.com
    domain addomain.com
@@ -116,7 +116,7 @@ work.
 
 -  Uncomment and modify:
 
-::
+.. code-block:: text
 
    NFSMAPID_DOMAIN=ipa-domain
 

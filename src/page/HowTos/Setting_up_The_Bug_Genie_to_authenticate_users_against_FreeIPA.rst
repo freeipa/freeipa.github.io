@@ -12,7 +12,7 @@ Now go to LDAP authentification tab, and fill in the following values
 (don’t forget to follow the « Important information part of the page !)
 :
 
-::
+.. code-block:: text
 
    Hostname: ldaps://youripaserver1,ldaps://youripaserver2
    Base DN: DC=yourlocaldaim,DC=tld

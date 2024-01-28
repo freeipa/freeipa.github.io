@@ -116,7 +116,7 @@ krb5.conf
 On both the Broker and Node machines, edit ``/etc/krb5.conf`` for the
 following lines:
 
-::
+.. code-block:: text
 
    # &lt;--snip--&gt;
    dns_lookup_realm = true
@@ -138,7 +138,7 @@ the following with the appropriate parameters. Notice there are **two**
 realms for ``KrbAuthRealms``, one is the IPA Realm, and one is the
 $AD_DOMAIN:
 
-::
+.. code-block:: text
 
    # Provided by the mod_auth_kerb package
    LoadModule authz_user_module modules/mod_authz_user.so

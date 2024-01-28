@@ -77,10 +77,12 @@ The values are:
 
 Example:
 
-| ``dn: cn=IPA,ou=profile,$SUFFIX``
-| ``default:defaultServerList: $FQDN``
-| ``default:defaultSearchBase: $SUFFIX``
-| ``default:nsslapd-pluginpath: /usr/lib$LIBARCH/dirsrv/plugins/schemacompat-plugin.so``
+.. code-block:: text
+
+    dn: cn=IPA,ou=profile,$SUFFIX
+    default:defaultServerList: $FQDN
+    default:defaultSearchBase: $SUFFIX
+    default:nsslapd-pluginpath: /usr/lib$LIBARCH/dirsrv/plugins/schemacompat-plugin.so
 
 The values are quoted, comma-separated fields. Quotes are only required
 if the value contains a comma.
@@ -96,18 +98,20 @@ For example, these convert into the following python lists:
 Examples
 ^^^^^^^^
 
-| ``dn: cn=memberof,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
-| ``default: objectClass:top``
-| ``default: objectClass:nsIndex``
-| ``default: cn:memberof``
-| ``default: nsSystemIndex:false``
-| ``default: nsIndexType:eq``
-| ``# Oops, nsIndexType was wrong, fix it``
-| ``only: nsIndexType: sub``
-| ``# Ack, should be eq too``
-| ``add: nsIndexType: sub, eq``
-| ``# Nope, was right the first time, no more sub``
-| ``remove: nsIndexType: sub``
+.. code-block:: text
+
+    dn: cn=memberof,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+    default: objectClass:top
+    default: objectClass:nsIndex
+    default: cn:memberof
+    default: nsSystemIndex:false
+    default: nsIndexType:eq
+    # Oops, nsIndexType was wrong, fix it
+    only: nsIndexType: sub
+    # Ack, should be eq too
+    add: nsIndexType: sub, eq
+    # Nope, was right the first time, no more sub
+    remove: nsIndexType: sub
 
 A few rules:
 
@@ -162,20 +166,22 @@ package we can generate memberUid value from the memberOf entries.
 In order to load this into a running IPA server we will provide the
 plugin configuration as an update:
 
-| ``dn: cn=Schema Compatibility, cn=plugins, cn=config``
-| ``default:objectclass: top``
-| ``default:objectclass: nsSlapdPlugin``
-| ``default:objectclass: extensibleObject``
-| ``default:cn: Schema Compatibility``
-| ``default:nsslapd-pluginpath: /usr/lib/dirsrv/plugins/schemacompat-plugin.so``
-| ``default:nsslapd-plugininitfunc: schema_compat_plugin_init``
-| ``default:nsslapd-plugintype: object``
-| ``default:nsslapd-pluginenabled: on``
-| ``default:nsslapd-pluginid: schema-compat-plugin``
-| ``default:nsslapd-pluginversion: 0.8``
-| ``default:nsslapd-pluginvendor: redhat.com``
-| ``default:nsslapd-plugindescription: Schema Compatibility Plugin``
-| ``[ snip ]``
+.. code-block:: text
+
+    dn: cn=Schema Compatibility, cn=plugins, cn=config
+    default:objectclass: top
+    default:objectclass: nsSlapdPlugin
+    default:objectclass: extensibleObject
+    default:cn: Schema Compatibility
+    default:nsslapd-pluginpath: /usr/lib/dirsrv/plugins/schemacompat-plugin.so
+    default:nsslapd-plugininitfunc: schema_compat_plugin_init
+    default:nsslapd-plugintype: object
+    default:nsslapd-pluginenabled: on
+    default:nsslapd-pluginid: schema-compat-plugin
+    default:nsslapd-pluginversion: 0.8
+    default:nsslapd-pluginvendor: redhat.com
+    default:nsslapd-plugindescription: Schema Compatibility Plugin
+    [ snip ]
 
 This will add the entry to a running IPA server if it doesn't already
 exist. The library itself will have been added by the RPM installer.

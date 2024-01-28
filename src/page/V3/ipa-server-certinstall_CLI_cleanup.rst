@@ -24,24 +24,26 @@ Design
 
 Before this change, ``ipa-replica-certinstall -h`` output was:
 
-| ``   Usage: ipa-server-certinstall [options]``
-| ``   ``
-| ``   Options:``
-| ``   -h, --help            show this help message and exit``
-| ``   -d, --dirsrv          install certificate for the directory server``
-| ``   -w, --http            install certificate for the http server``
-| ``   --dirsrv_pin=DIRSRV_PIN``
-| ``                           The password of the Directory Server PKCS#12 file``
-| ``   --http_pin=HTTP_PIN   The password of the Apache Server PKCS#12 file``
+.. code-block:: text
+
+       Usage: ipa-server-certinstall [options]
+       
+       Options:
+       -h, --help            show this help message and exit
+       -d, --dirsrv          install certificate for the directory server
+       -w, --http            install certificate for the http server
+       --dirsrv_pin=DIRSRV_PIN
+                               The password of the Directory Server PKCS#12 file
+       --http_pin=HTTP_PIN   The password of the Apache Server PKCS#12 file
 
 The actual allowed usages were:
 
-::
+.. code-block:: text
 
-   | ``   ipa-server-certinstall -h``
-   | ``   ipa-server-certinstall -d --dirsrv_pin ``\ `` ``
-   | ``   ipa-server-certinstall -w --http_pin ``\ `` ``
-   | ``   ipa-server-certinstall -d --dirsrv_pin ``\ `` -w --http_pin ``\ `` ``
+       ipa-server-certinstall -h``
+       ipa-server-certinstall -d --dirsrv_pin ``\ `` ``
+       ipa-server-certinstall -w --http_pin ``\ `` ``
+       ipa-server-certinstall -d --dirsrv_pin ``\ `` -w --http_pin ``\ `` ``
 
 This change:
 

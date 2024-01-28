@@ -44,7 +44,7 @@ Identifying current first master
 
 The hostname of the renewal master can be determined from LDAP:
 
-::
+.. code-block:: text
 
    $ ldapsearch -H ldap://$HOSTNAME -D 'cn=Directory Manager' -W -b 'cn=masters,cn=ipa,cn=etc,dc=example,dc=com' '(&(cn=CA)(ipaConfigString=caRenewalMaster))' dn
    Enter LDAP Password: 
@@ -71,7 +71,7 @@ Here it is ``ipa1.example.com``.
 The CRL generation master can be determined by looking at CS.cfg on each
 CA:
 
-::
+.. code-block:: text
 
    # grep ca.crl.MasterCRL.enableCRLUpdates /etc/pki/pki-tomcat/ca/CS.cfg
    ca.crl.MasterCRL.enableCRLUpdates=true
@@ -99,7 +99,7 @@ Stop CRL generation
 
 Stop CA service:
 
-::
+.. code-block:: text
 
    # systemctl stop pki-tomcatd@pki-tomcat
 
@@ -107,7 +107,7 @@ Set the value of ``ca.crl.MasterCRL.enableCRLCache`` and
 ``ca.crl.MasterCRL.enableCRLUpdates`` in
 ``/etc/pki/pki-tomcat/ca/CS.cfg`` to ``false``:
 
-::
+.. code-block:: text
 
    ca.crl.MasterCRL.enableCRLCache=false
    ca.crl.MasterCRL.enableCRLUpdates=false
@@ -123,13 +123,13 @@ Remove the values of ``ca.transitRecordPageSize`` and
 Set the value of ``ca.certStatusUpdateInterval`` in
 ``/etc/pki/pki-tomcat/ca/CS.cfg`` to:
 
-::
+.. code-block:: text
 
    ca.certStatusUpdateInterval=0
 
 Start CA service:
 
-::
+.. code-block:: text
 
    # systemctl start pki-tomcatd@pki-tomcat
 
@@ -137,14 +137,14 @@ Configure Apache to redirect CRL requests to the new master in
 ``/etc/httpd/conf.d/ipa-pki-proxy.conf`` by uncommenting the RewriteRule
 on the last line:
 
-::
+.. code-block:: text
 
    # Only enable this on servers that are not generating a CRL
    RewriteRule ^/ipa/crl/MasterCRL.bin https://<hostname>/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
 
 Restart Apache:
 
-::
+.. code-block:: text
 
    # systemctl restart httpd
 
@@ -160,7 +160,7 @@ Configure CA renewal
 
 Run the following command:
 
-::
+.. code-block:: text
 
    # ipa-csreplica-manage set-renewal-master
 
@@ -171,7 +171,7 @@ Start CRL generation
 
 Stop CA service:
 
-::
+.. code-block:: text
 
    # systemctl stop pki-tomcatd@pki-tomcat
 
@@ -179,7 +179,7 @@ Set the value of ``ca.crl.MasterCRL.enableCRLCache`` and
 ``ca.crl.MasterCRL.enableCRLUpdates`` in
 ``/etc/pki/pki-tomcat/ca/CS.cfg`` to ``true``:
 
-::
+.. code-block:: text
 
    ca.crl.MasterCRL.enableCRLCache=true
    ca.crl.MasterCRL.enableCRLUpdates=true
@@ -198,7 +198,7 @@ Either remove ``ca.certStatusUpdateInterval=0`` or set the value to 600
 
 Start CA service:
 
-::
+.. code-block:: text
 
    # systemctl start pki-tomcatd@pki-tomcat
 
@@ -206,14 +206,14 @@ Configure Apache to handle CRL requests in
 ``/etc/httpd/conf.d/ipa-pki-proxy.conf`` by commenting out the
 RewriteRule on the last line:
 
-::
+.. code-block:: text
 
    # Only enable this on servers that are not generating a CRL
    #RewriteRule ^/ipa/crl/MasterCRL.bin https://<hostname>/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
 
 Restart Apache:
 
-::
+.. code-block:: text
 
    # systemctl restart httpd
 
@@ -232,7 +232,7 @@ Identifying current first master
 This can be determined by looking at the certificates managed by
 certmonger on each CA
 
-::
+.. code-block:: text
 
    # getcert list -d /var/lib/pki-ca/alias -n "subsystemCert cert-pki-ca" | grep post-save
            post-save command: /usr/lib64/ipa/certmonger/renew_ca_cert "subsystemCert cert-pki-ca"
@@ -253,7 +253,7 @@ This step changes current *first master* into a standard clone.
 Unconfigure the master renewal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-::
+.. code-block:: text
 
    # getcert stop-tracking -d /var/lib/pki-ca/alias -n "auditSigningCert cert-pki-ca"
    # getcert stop-tracking -d /var/lib/pki-ca/alias -n "ocspSigningCert cert-pki-ca"
@@ -262,7 +262,7 @@ Unconfigure the master renewal
 
 You should see output like:
 
-::
+.. code-block:: text
 
    Request "20131127184547" removed.
    Request "20131127184548" removed.
@@ -282,7 +282,7 @@ Look for a /var/lib/certmonger/cas/ca_renewal
 
 If it does not exist:
 
-::
+.. code-block:: text
 
    # cp /usr/share/ipa/ca_renewal /var/lib/certmonger/cas/ca_renewal
    # chmod 0600 /var/lib/certmonger/cas/ca_renewal
@@ -292,7 +292,7 @@ If it does not exist:
 
 Verify that the new CA is available in the ``list-cas`` output:
 
-::
+.. code-block:: text
 
    CA 'dogtag-ipa-retrieve-agent-submit':
            is-default: no
@@ -305,7 +305,7 @@ Get the CA certificate database pin:
 
 Configure renewal
 
-::
+.. code-block:: text
 
    # getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n "auditSigningCert cert-pki-ca" -B /usr/lib64/ipa/certmonger/stop_pkicad -C '/usr/lib64/ipa/certmonger/restart_pkicad "auditSigningCert cert-pki-ca"' -T "auditSigningCert cert-pki-ca" -P <pin>
    # getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n "ocspSigningCert cert-pki-ca" -B /usr/lib64/ipa/certmonger/stop_pkicad -C '/usr/lib64/ipa/certmonger/restart_pkicad "ocspSigningCert cert-pki-ca"' -T "ocspSigningCert cert-pki-ca" -P <pin>
@@ -314,7 +314,7 @@ Configure renewal
 
 You should see output like:
 
-::
+.. code-block:: text
 
    New tracking request "20131127184743" added.
    New tracking request "20131127184744" added.
@@ -328,7 +328,7 @@ Stop CRL generation
 
 Stop CA service:
 
-::
+.. code-block:: text
 
    # service pki-cad stop
 
@@ -336,14 +336,14 @@ Set the value of ``ca.crl.MasterCRL.enableCRLCache`` and
 ``ca.crl.MasterCRL.enableCRLUpdates`` in ``/etc/pki-ca/CS.cfg`` to
 ``false``:
 
-::
+.. code-block:: text
 
    ca.crl.MasterCRL.enableCRLCache=false
    ca.crl.MasterCRL.enableCRLUpdates=false
 
 Start CA service:
 
-::
+.. code-block:: text
 
    # service pki-cad start
 
@@ -351,14 +351,14 @@ Configure Apache to redirect CRL requests to the new master in
 ``/etc/httpd/conf.d/ipa-pki-proxy.conf`` by uncommenting the RewriteRule
 on the last line:
 
-::
+.. code-block:: text
 
    # Only enable this on servers that are not generating a CRL
    RewriteRule ^/ipa/crl/MasterCRL.bin https://<hostname>/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
 
 Restart Apache:
 
-::
+.. code-block:: text
 
    # service httpd restart
 
@@ -372,7 +372,7 @@ Reconfigure a CA as the new master
 Unconfigure the clone renewal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-::
+.. code-block:: text
 
    # getcert stop-tracking -d /var/lib/pki-ca/alias -n "auditSigningCert cert-pki-ca"
    # getcert stop-tracking -d /var/lib/pki-ca/alias -n "ocspSigningCert cert-pki-ca"
@@ -381,7 +381,7 @@ Unconfigure the clone renewal
 
 You should see output like:
 
-::
+.. code-block:: text
 
    Request "20131127163822" removed.
    Request "20131127163823" removed.
@@ -399,7 +399,7 @@ Get the CA certificate database pin:
 
 Configure renewal
 
-::
+.. code-block:: text
 
    # getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n "auditSigningCert cert-pki-ca" -B /usr/lib64/ipa/certmonger/stop_pkicad -C '/usr/lib64/ipa/certmonger/renew_ca_cert "auditSigningCert cert-pki-ca"' -P <pin>
    # getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n "ocspSigningCert cert-pki-ca" -B /usr/lib64/ipa/certmonger/stop_pkicad -C '/usr/lib64/ipa/certmonger/renew_ca_cert "ocspSigningCert cert-pki-ca"' -P <pin>
@@ -408,7 +408,7 @@ Configure renewal
 
 You should see output like:
 
-::
+.. code-block:: text
 
    New tracking request "20131127185430" added.
    New tracking request "20131127185431" added.
@@ -422,7 +422,7 @@ Start CRL generation
 
 Stop CA service:
 
-::
+.. code-block:: text
 
    # service pki-cad stop
 
@@ -430,14 +430,14 @@ Set the value of ``ca.crl.MasterCRL.enableCRLCache`` and
 ``ca.crl.MasterCRL.enableCRLUpdates`` in ``/etc/pki-ca/CS.cfg`` to
 ``true``:
 
-::
+.. code-block:: text
 
    ca.crl.MasterCRL.enableCRLCache=true
    ca.crl.MasterCRL.enableCRLUpdates=true
 
 Start CA service:
 
-::
+.. code-block:: text
 
    # service pki-cad start
 
@@ -445,13 +445,13 @@ Configure Apache to handle CRL requests in
 ``/etc/httpd/conf.d/ipa-pki-proxy.conf`` by commenting out the
 RewriteRule on the last line:
 
-::
+.. code-block:: text
 
    # Only enable this on servers that are not generating a CRL
    #RewriteRule ^/ipa/crl/MasterCRL.bin https://<hostname>/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
 
 Restart Apache:
 
-::
+.. code-block:: text
 
    # service httpd restart

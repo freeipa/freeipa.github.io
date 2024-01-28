@@ -30,13 +30,13 @@ source vault.
 
 To copy a secret from a source vault to a new target vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add <target vault> --source-vault <source vault> [--source-service <service>|--source-shared|--source-user <user>] [--source-password-file <password file>] [--source-private-key-file <private key file>]
 
 To copy a secret from a source vault to an existing target vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive <target vault> --source-vault <source vault> [--source-service <service>|--source-shared|--source-user <user>] [--source-password-file <password> file] [--source-private-key-file <private key file>]
 
@@ -56,14 +56,14 @@ Creating service password
 Initially a service administrator can store the service password in
 admin's private vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add http_password
    $ ipa vault-archive http_password --in password.txt
 
 Then service password can be copied into a new service vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add password --service HTTP/server.example.com --type asymmetric --public-key-file service-public.pem --source-vault http_password
    -------------------------------
@@ -80,7 +80,7 @@ Changing service vault password
 The service administrator can change the service vault password by
 archiving a new secret:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive http_password --in new_password.txt
    ----------------------------------------
@@ -92,7 +92,7 @@ archiving a new secret:
 The service administrator will need to re-provision the new service
 vault password to each service instance using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive password --service HTTP/server.example.com --source-vault http_password
    -------------------------------
@@ -116,7 +116,7 @@ Creating a vault with escrow
 
 An escrowed symmetric vault can be created with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add EscrowedSymmetricVault --type symmetric --escrow-public-key-file escrow-public.pem
    New password: ********
@@ -129,7 +129,7 @@ An escrowed symmetric vault can be created with the following command:
 
 An escrowed asymmetric vault can be created with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add EscrowedAsymmetricVault --type asymmetric --public-key-file public.pem --escrow-public-key-file escrow-public.pem
    -------------------------------------
@@ -146,7 +146,7 @@ Escrowing an existing vault
 A vault owner can escrow an existing symmetric vault by providing the
 escrow public key:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod SymmetricVault --escrow-public-key-file escrow-public.pem
    Password: ********
@@ -157,7 +157,7 @@ escrow public key:
 A vault owner can escrow an existing asymmetric vault by providing the
 vault private key and the escrow public key
 
-::
+.. code-block:: text
 
    $ ipa vault-mod AsymmetricVault --private-key-file private.pem --escrow-public-key-file escrow-public.pem
    --------------------------------
@@ -166,7 +166,7 @@ vault private key and the escrow public key
 
 A vault owner can unescrow a vault box as follows:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod Vault --escrow-public-key ''
    ----------------------
@@ -181,7 +181,7 @@ Recovering an escrowed secret
 An escrow officer can recover the secret by specifying the escrow
 private key to decrypt the secret key:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve EscrowedVault --escrow-private-key-file escrow-private.pem --out secret.txt
    -----------------------------------------
@@ -197,7 +197,7 @@ If the current symmetric vault password is known, the owner can change
 it by providing the old password and the new password. The new secret
 key will automatically be escrowed.
 
-::
+.. code-block:: text
 
    $ ipa vault-mod EscrowedSymmetricVault --change-password
    Password: *********
@@ -210,7 +210,7 @@ key will automatically be escrowed.
 If the current password is unknown, the owner can request password
 reset:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod EscrowedSymmetricVault --reset-password
    New password: *********
@@ -221,7 +221,7 @@ reset:
 
 The escrow officer can approve the request as follows:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod EscrowedSymmetricVault --approve-reset --escrow-private-key-file escrow-private.pem
    -------------------------
@@ -230,7 +230,7 @@ The escrow officer can approve the request as follows:
 
 If necessary, the escrow officer can reject the request as follows:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod EscrowedSymmetricVault --reject-reset
    ------------------------
@@ -245,7 +245,7 @@ LDAP Directory
 Schema
 ------
 
-::
+.. code-block:: text
 
    dn: cn=<vault name>, <container DN>
    ...
@@ -261,7 +261,7 @@ Schema
 Access Control List
 -------------------
 
-::
+.. code-block:: text
 
    dn: cn=kra,$SUFFIX
    ...

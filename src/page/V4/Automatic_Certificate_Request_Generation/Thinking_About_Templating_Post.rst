@@ -45,7 +45,7 @@ Requirements
 We must at a minimum be able to generate two different types of
 configuration, the openssl config file:
 
-::
+.. code-block:: text
 
    [ req ]
    prompt = no
@@ -73,7 +73,7 @@ configuration, the openssl config file:
 
 and the certutil command line:
 
-::
+.. code-block:: text
 
    certutil -R -a -s "CN=user,O=DOMAIN.EXAMPLE.COM" --extSAN "email:user@example.com,dn:UID=user;CN=users;DC=example;DC=com"
 
@@ -105,7 +105,7 @@ Implementations
 Two-pass data interpolation
 ---------------------------
 
-::
+.. code-block:: text
 
    ((user data -> data rules) -> syntax rules) -> output
 
@@ -131,21 +131,21 @@ markup escaping, not the HTML escaping that jinja2 already supports.
 
 Example data rules:
 
-::
+.. code-block:: text
 
    email={{subject.email}}
 
-::
+.. code-block:: text
 
    O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}
 
 Example syntax rules:
 
-::
+.. code-block:: text
 
    --extSAN {{values|join(',')}}
 
-::
+.. code-block:: text
 
    subjectAltName=@{{{% endraw %}{% raw %}'{% section %}'}}{{values|join('\n')}}{{{% endraw %}{% raw %}'{% endsection %}'}}
 
@@ -153,7 +153,7 @@ That's a lot of braces! We have to escape the ``section`` and
 ``endsection`` tags sequences so they will appear verbatim in the final
 template, producing something like:
 
-::
+.. code-block:: text
 
    subjectAltName=@{% section %}email={{subject.email}}
    URI={{subject.inetuserhttpurl}}{% endsection %}
@@ -172,7 +172,7 @@ would need to be implemented as an extension.
 Two-pass template interpolation
 -------------------------------
 
-::
+.. code-block:: text
 
    (user data -> (data rules -> syntax rules)) -> output
 
@@ -202,7 +202,7 @@ escaped beforehand.
 Template-based hierarchical rules
 ---------------------------------
 
-::
+.. code-block:: text
 
    user data -> collected rules -> output
 
@@ -212,7 +212,7 @@ matters. That is, the hierarchical relationships between data items,
 certificate extensions, and the CSR as a whole could be encoded using
 jinja2 tags. It's probably easiest to explain this idea with an example:
 
-::
+.. code-block:: text
 
    {% group req %}
    {% entry req %}extensions={% group exts %}{% endentry %}
@@ -224,7 +224,7 @@ jinja2 tags. It's probably easiest to explain this idea with an example:
 
 The config for certutil would be quite similar:
 
-::
+.. code-block:: text
 
    certutil -R -a {% group opts %}
    {% entry opts %}-s {% group subjectDN %}{% endentry %}
@@ -263,7 +263,7 @@ any actual implementation.
 Formatter-based hierarchical rules
 ----------------------------------
 
-::
+.. code-block:: text
 
    user data -> low-level rule -> formatting code -> group objects
    group objects -> higher-level rule -> formatting code -> group objects
@@ -295,25 +295,25 @@ the results of groups of rules.
 
 Example leaf rules:
 
-::
+.. code-block:: text
 
    group: SAN
    template: email={{subject.email}}
 
-::
+.. code-block:: text
 
    group: subjectDN
    template: O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}
 
 Example parent rules:
 
-::
+.. code-block:: text
 
    group: opts
    groupProvided: SAN
    template: --extSAN {{ SAN|join(',') }}
 
-::
+.. code-block:: text
 
    group: exts
    groupProvided: SAN

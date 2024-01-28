@@ -50,10 +50,13 @@ ldap2.LDAPEntry (which is currently just a "dn, data" namedtuple).
 
 These objects will behave like a dict of lists:
 
-| `` entry[attrname] = [value]``
-| `` attrname in entry``
-| `` del entry[attrname]``
-| :literal:` entry.keys(), .values(), .items()  # but NOT `for key in entry`, see below`
+.. code-block:: text
+
+     entry[attrname] = [value]
+     attrname in entry
+     del entry[attrname]
+     entry.keys(), .values(), .items()  # but NOT `for key in entry`, see below`
+
 
 The keys are case-insensitive but case-preserving.
 

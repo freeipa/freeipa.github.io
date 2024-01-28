@@ -103,7 +103,7 @@ Comments
 
 MUST: Use only C style comments /\* \*/ not C++. MUST: When commenting
 use the following styles:
-::
+.. code-block:: text
 
   | ``   /*``
   | ``    * VERY important single-line comments look like this.``
@@ -118,7 +118,7 @@ use the following styles:
 
 Avoid:
 
-::
+.. code-block:: text
 
   | ``   /* Multiline comments``
   | ``      that look like this */``
@@ -140,7 +140,7 @@ IFDEF
 HIGHLY RECOMMENDED: When using #ifdefs, it's nice to add comments in the
 pairing #endif:
 
-::
+.. code-block:: text
 
   | ``  #ifndef _HEADER_H_``
   | ``  #define _HEADER_H_``
@@ -151,7 +151,7 @@ pairing #endif:
 
 or:
 
-::
+.. code-block:: text
 
   | ``  #ifdef HAVE_PTHREADS``
   | ``  ``
@@ -184,7 +184,7 @@ Macros
 HIGHLY RECOMMENDED: Macros that are unsafe should be in upper-case. This
 also applies to macros that span multiple lines:
 
-::
+.. code-block:: text
 
   | ``  #define MY_MACRO(a, b) do {   \``
   | ``               foo((a) + (b));  \``
@@ -195,7 +195,7 @@ Notice that arguments should be in parentheses if there's a risk. Also
 notice that a is referenced two times, and hence the macro is dangerous.
 Wrapping the body in do { } while (0) makes it safe to use it like this:
 
-::
+.. code-block:: text
   | ``  if (expr)``
   | ``      MY_MACRO(x, y);``
 
@@ -217,14 +217,14 @@ Declaring
 
 RECOMMENDED: One declaration per line is preferred.
 
-::
+.. code-block:: text
 
   | ``   int foo;``
   | ``   int bar;``
 
 instead of
 
-::
+.. code-block:: text
 
   ``  int foo, bar;``
 
@@ -233,12 +233,12 @@ HIGHLY RECOMMENDED: Initialize at declaration time when possible.
 RECOMMENDED: Avoid complex variable initializations (like calling
 functions) when declaring variables like:
 
-::
+.. code-block:: text
 
   ``  int foobar = get_foobar(baz);``
 
 but split it in:
-::
+.. code-block:: text
 
   | ``  int foobar;``
   | ``  ``
@@ -345,7 +345,7 @@ after the function declaration. HIGHLY RECOMMENDED: Do not put spaces
 before or after parenthesis in the declaration of the parameters. For
 example:
 
-::
+.. code-block:: text
 
   | ``  OK:  int foo(int bar, int baz);``
   | ``  NOT OK: bad ( arg1 , arg2 );``
@@ -360,7 +360,7 @@ arguments, if you have arguments that provide both input an output put
 them between the pure-input and the pure-output ones.
 
 
-::
+.. code-block:: text
 
   | ``  OK: foo(int in1, void *in2, char **ou1);``
   | ``  NOT OK: voo(char **ou1, int in1);``
@@ -402,7 +402,7 @@ IF Statements
 
 HIGHLY RECOMMENDED: If-else statements should have the following form:
 
-::
+.. code-block:: text
 
   | ``   if (``\ *``condition``*\ ``) {``
   | ``       /* do some work */``
@@ -417,7 +417,7 @@ HIGHLY RECOMMENDED: If-else statements should have the following form:
 HIGHLY RECOMMENDED: Balance the braces in the if and else in an if-else
 statement if either has only one line:
 
-::
+.. code-block:: text
 
   | ``   if (condition) {``
   | ``       /*``
@@ -431,7 +431,7 @@ statement if either has only one line:
 HIGHLY RECOMMENDED: The corollary is also true; don't use braces if
 there's only one line for both:
 
-::
+.. code-block:: text
 
   | ``   if (foo)``
   | ``       bar();``
@@ -440,7 +440,7 @@ there's only one line for both:
 
 Allowed approach is to use braces if there is only one line:
 
-::
+.. code-block:: text
 
   | ``   if (foo) {``
   | ``       bar();``
@@ -451,7 +451,7 @@ Allowed approach is to use braces if there is only one line:
 HIGHLY RECOMMENDED: Avoid last-return-in-else problem. Code should look
 like this:
 
-::
+.. code-block:: text
 
   | ``   int foo(int bar)``
   | ``   {``
@@ -465,7 +465,7 @@ like this:
 
 **NOT** like this:
 
-::
+.. code-block:: text
 
   | ``   int foo(int bar)``
   | ``   {``
@@ -483,7 +483,7 @@ Loops
 HIGHLY RECOMMENDED: For, while and until statements should take a
 similar form:
 
-::
+.. code-block:: text
 
   | ``   for (``\ *``initialization;``\ ````\ ``condition;``\ ````\ ``update``*\ ``) {``
   | ``       /* iterate here */``
@@ -498,7 +498,7 @@ Switch
 
 HIGHLY RECOMMENDED: Use the following style for the switch statements
 
-::
+.. code-block:: text
 
   | ``  switch (var) {``
   | ``  case 0:``

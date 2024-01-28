@@ -3,7 +3,7 @@ SolarisPamConf89
 
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
-::
+.. code-block:: text
 
    #*************************************
    # pam.conf for Solaris 8 and 9

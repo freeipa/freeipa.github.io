@@ -46,7 +46,7 @@ have access to the host keytab. Typically this is only the *root* user.
 If the Linux client is joined to the AD domain with Samba/Winbind you
 can call:
 
-::
+.. code-block:: text
 
    # net ads kerberos pac dump -U tu1
    Enter tu1's password:
@@ -58,7 +58,7 @@ can call:
 If SSSD is used to connect to the AD domain and no Samba configuration
 file *smb.conf* is available you have to give two addition options:
 
-::
+.. code-block:: text
 
    # net ads kerberos pac dump --option='realm = AD.DOMAIN' --option='kerberos method = system keytab' -U tu1
    Enter tu1's password:
@@ -82,7 +82,7 @@ recent enhancements to **net ads kerberos pac** an alternative service
 principal can be given which makes it possible to use it with FreeIPA as
 well.
 
-::
+.. code-block:: text
 
    Usage:
    net ads kerberos pac dump [impersonate=string] [local_service=string] [pac_buffer_type=int]
@@ -90,7 +90,7 @@ well.
 
 You can call
 
-::
+.. code-block:: text
 
    net ads kerberos pac dump --option='realm = IPA.DOMAIN' --option='kerberos method = system keytab' -s /dev/null local_service=host/ipa-client.ipa.domain@IPA.DOMAIN -U ipa_user
    Enter ipa_user's password:
@@ -121,7 +121,7 @@ useful if you need a real PAC blob to test PAC processing in unit tests.
 If you have to decode the binary PAC later you can use the **ndrdump**
 utility form the samba-test package
 
-::
+.. code-block:: text
 
    # ndrdump krb5pac decode_pac in /tmp/pac.bla 
    pull returned NT_STATUS_OK
@@ -142,6 +142,6 @@ utility form the samba-test package
 If you want to use a different Kerberos service where the keys are not
 stored in the host keytab you can use the following options:
 
-::
+.. code-block:: text
 
    net ads kerberos pac dump --option='realm = IPA.DOMAIN' --option='kerberos method = dedicated keytab' --option='dedicated keytab file = FILE:/etc/dirsrv/ds.keytab' -s /dev/zero local_service=ldap/ipa-server.ipa.domain@IPA.DOMAIN -U admin

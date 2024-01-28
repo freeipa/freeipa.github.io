@@ -13,7 +13,7 @@ Relevant upstream tickets:
 Certificates issued by FreeIPA server 3.1 and later contains 2 CRL/OCSP
 URIs server by Dogtag CA configured by FreeIPA:
 
-::
+.. code-block:: text
 
    Certificate:
        Data:

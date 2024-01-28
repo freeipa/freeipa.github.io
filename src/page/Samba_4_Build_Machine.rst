@@ -17,7 +17,7 @@ Build status is available in `this
 page <http://build.samba.org/?function=Recent+Builds;tree=samba_4_0_test>`__.
 The status is written in this format:
 
-::
+.. code-block:: text
 
    <config>/<build>/<install>/<test>/<additional info>
 

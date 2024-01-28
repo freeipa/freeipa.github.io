@@ -154,21 +154,21 @@ Installation
 
 First install IPA server:
 
-::
+.. code-block:: text
 
    $ ipa-server-install
    ...
 
 Then install KRA component:
 
-::
+.. code-block:: text
 
    $ ipa-kra-install
    ...
 
 Authenticate as an IPA user:
 
-::
+.. code-block:: text
 
    $ kinit testuser
    Password for testuser@EXAMPLE.COM: ********
@@ -188,14 +188,14 @@ Listing available containers
 Any user can list the sub-containers within a specified container using
 the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-find [parent ID] [OPTIONS]
 
 If the parent ID is not specified, it will return the user's private
 containers:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-find
    --------------------------
@@ -215,7 +215,7 @@ containers:
 If the parent ID is specified, it will return the sub-containers within
 that container:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-find /services
    --------------------------
@@ -234,7 +234,7 @@ that container:
 
 Top-level containers can be listed by searching from the root container:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-find /
    --------------------------
@@ -262,13 +262,13 @@ Displaying container info
 
 Any user can display the container info using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-show <container ID> [OPTIONS]
 
 To display user's private container's info:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-show personal
      Container name: personal
@@ -277,7 +277,7 @@ To display user's private container's info:
 
 To display a public container's info:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-show /services/server.example.com
      Container name: server.example.com
@@ -289,13 +289,13 @@ To display a public container's info:
 Adding a container
 ------------------
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add <container ID> [OPTIONS]
 
 To add a private container:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add personal
    --------------------------------
@@ -306,7 +306,7 @@ To add a private container:
 
 To add a public container:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add /services/server.example.com
    ------------------------------------------
@@ -322,13 +322,13 @@ Modifying a container
 
 The container owner can modify a container using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-mod <container ID> [OPTIONS]
 
 For example, to change container description:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-show /services/server.example.com
      Container name: server.example.com
@@ -347,13 +347,13 @@ For example, to change container description:
 Removing a container
 --------------------
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-del <container ID> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-del /services/server.example.com
    --------------------------------------------
@@ -368,13 +368,13 @@ Adding container member
 A container owner can add a member to the container with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add-member <container ID> --users <member ID> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add-member /services/server.example.com --users testmember
      Container name: server.example.com
@@ -392,13 +392,13 @@ Removing container member
 A container owner can remove a member from the container with the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-remove-member <container ID> --users <member ID> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-remove-member /services/server.example.com --users testmember
      Container name: server.example.com
@@ -415,13 +415,13 @@ Adding container owner
 A container owner can add another owner to the container with the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add-owner <container ID> --users <owner ID> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add-owner /services/server.example.com --users testowner
      Container name: server.example.com
@@ -438,13 +438,13 @@ Removing container owner
 A container owner can remove another owner from the container with the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-remove-owner <container ID> --users <owner ID> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-remove-owner /services/server.example.com --users testowner
      Container name: server.example.com
@@ -466,14 +466,14 @@ Listing available vaults
 A user can search the vaults that it owns or it's a member of using the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-find [container ID] [OPTIONS]
 
 By default the command will list the vaults in the user's private
 container:
 
-::
+.. code-block:: text
 
    $ ipa vault-find
    ---------------
@@ -489,7 +489,7 @@ container:
 
 To find shared vaults, specify -shared:
 
-::
+.. code-block:: text
 
    $ ipa vault-find --shared
    ---------------
@@ -505,7 +505,7 @@ To find shared vaults, specify -shared:
 
 To find service vaults, specify --services:
 
-::
+.. code-block:: text
 
    $ ipa vault-find --services
    ---------------
@@ -526,13 +526,13 @@ Displaying vault info
 
 A user can view a particular vault info using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-show <vault ID> [OPTIONS]
 
 To display the basic vault info:
 
-::
+.. code-block:: text
 
    $ ipa vault-show /shared/SymmetricVault
      Vault name: SymmetricVault
@@ -542,7 +542,7 @@ To display the basic vault info:
 
 To display the complete vault info:
 
-::
+.. code-block:: text
 
    $ ipa vault-show /shared/SymmetricVault --all
      Vault name: SymmetricVault
@@ -558,13 +558,13 @@ Creating a new vault
 
 A container member can create a vault using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add <vault ID> [OPTIONS]
 
 Private vaults can be created by specifying a relative vault ID:
 
-::
+.. code-block:: text
 
    $ ipa vault-add PrivateVault --desc "Private vault"
    --------------------------
@@ -577,7 +577,7 @@ Private vaults can be created by specifying a relative vault ID:
 
 Non-private vaults can be created by specifying an absolute vault ID:
 
-::
+.. code-block:: text
 
    $ ipa vault-add /shared/SharedVault --desc "Shared vault"
    ---------------------------------
@@ -592,7 +592,7 @@ Symmetric vaults can be created by specifying the type and the password.
 The password can be provided interactively, specified in the command
 option, or specified in a file.
 
-::
+.. code-block:: text
 
    $ ipa vault-add SymmetricVault --desc "Symmetric vault" --type symmetric
    New password: ********
@@ -626,7 +626,7 @@ option, or specified in a file.
 Asymmetric vaults can be created by specifying the type and the public
 key:
 
-::
+.. code-block:: text
 
    $ ipa vault-add AsymmetricVault --desc "Asymmetric vault" --type asymmetric --public-key-file public.pem
    -----------------------------
@@ -644,13 +644,13 @@ Archiving data
 
 A vault member/owner can archive data using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive <vault ID> [--in <input file> | --text <text> | --data <base-64 encoded data> | --stdin] [OPTIONS]
 
 With a standard vault the operation can be done directly.
 
-::
+.. code-block:: text
 
    $ ipa vault-archive StandardVault --in secret.txt
    ----------------------------------------
@@ -674,7 +674,7 @@ With a standard vault the operation can be done directly.
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive SymmetricVault --in secret.txt
    Password: ********
@@ -685,7 +685,7 @@ With a symmetric vault the operation requires a password:
 With an asymmetric vault the operation does not require anything since
 the vault public key is stored in one of vault attributes.
 
-::
+.. code-block:: text
 
    $ ipa vault-archive AsymmetricVault --in secret.txt
    ------------------------------------------
@@ -699,13 +699,13 @@ Retrieving data
 
 A vault member/owner can be retrieve data using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve <vault ID> [--out <output file> | --stdout] [OPTIONS]
 
 With a standard vault the operation can be done directly.
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve StandardVault --out secret.txt
    -----------------------------------------
@@ -717,7 +717,7 @@ With a standard vault the operation can be done directly.
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve SymmetricVault --out secret.txt
    Password: ********
@@ -727,7 +727,7 @@ With a symmetric vault the operation requires a password:
 
 With an asymmetric vault the operation requires a private key:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve AsymmetricVault --out secret.txt --private-key-file private.pem
    -------------------------------------------
@@ -742,7 +742,7 @@ Copying a vault
 A container member can copy a vault that it has access to using the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add <vault ID> --source-vault-id <source vault ID> [OPTIONS]
 
@@ -751,7 +751,7 @@ is still required to access the secrets.
 
 To copy a private vault into a new private vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add NewPrivateVault --source-vault-id PrivateVault
    -----------------------------
@@ -763,7 +763,7 @@ To copy a private vault into a new private vault:
 
 To copy a private vault into a new shared vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add /shared/NewSharedVault --source-vault-id PrivateVault
    ----------------------------
@@ -780,13 +780,13 @@ Modifying a vault
 
 The vault owner can modify a vault using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod <vault ID> [OPTIONS]
 
 For example, to change vault description:
 
-::
+.. code-block:: text
 
    $ ipa vault-show PrivateVault
      Vault name: PrivateVault
@@ -806,7 +806,7 @@ For example, to change vault description:
 To convert a symmetric vault into an asymmetric vault the old password
 and the new public key must be specified:
 
-::
+.. code-block:: text
 
    $ ipa vault-show PrivateVault
      Vault name: PrivateVault
@@ -827,7 +827,7 @@ and the new public key must be specified:
 To convert an asymmetric vault into a symmetric vault the old private
 key and the new password must be specified:
 
-::
+.. code-block:: text
 
    $ ipa vault-show PrivateVault
      Vault name: PrivateVault
@@ -853,13 +853,13 @@ Removing a vault
 
 To remove a vault the owner can execute the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-del <vault ID> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-del PrivateVault
    ----------------------------
@@ -874,14 +874,14 @@ Changing vault password
 An owner can change the vault password or keys using the following
 command.
 
-::
+.. code-block:: text
 
    $ ipa vault-password <vault ID> [OPTIONS]
 
 An owner can change the password of a symmetric vault by providing the
 old password and the new password:
 
-::
+.. code-block:: text
 
    $ ipa vault-password SymmetricVault
    Password: ********
@@ -894,7 +894,7 @@ old password and the new password:
 An owner can change the keys of an asymmetric vault by providing the old
 private key and the new public key:
 
-::
+.. code-block:: text
 
    $ ipa vault-password AsymmetricVault --private-key-file private.pem --new-public-key-file new-public.pem
    ------------------------------------
@@ -908,13 +908,13 @@ Adding vault member
 
 A vault owner can add members to the vault with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-member <vault ID> [--users <list of user IDs>] [--groups <list of group IDs>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-member MyVault --users testmember
    ---------------------------------
@@ -929,13 +929,13 @@ Removing vault member
 A vault owner can remove a member from the vault with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-member <vault ID> [--users <list of user IDs>] [--groups <list of group IDs>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-member MyVault --users testmember
    -------------------------------------
@@ -949,13 +949,13 @@ Adding vault owner
 
 An owner can add another owner to the vault with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-owner <vault ID> [--users <list of user IDs>] [--groups <list of group IDs>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-owner MyVault --users testowner
    ----------------------------------
@@ -970,13 +970,13 @@ Removing vault owner
 An owner can remove another owner from the vault with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-owner <vault ID> [--users <list of user IDs>] [--groups <list of group IDs>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-owner MyVault --users testowner
    ------------------------------------
@@ -996,13 +996,13 @@ Listing secrets in a vault
 A vault member/owner can list the secrets in a vault using the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-find <vault ID> [OPTIONS]
 
 With a standard vault the secrets can be listed directly:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-find StandardVault
    ---------------
@@ -1019,7 +1019,7 @@ With a standard vault the secrets can be listed directly:
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-find SymmetricVault
    Password: ********
@@ -1038,7 +1038,7 @@ With a symmetric vault the operation requires a password:
 A vault owner can list the secrets in an asymmetric vault by providing
 the vault private key:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-find AsymmetricVault --private-key-file private.pem
    ---------------
@@ -1060,14 +1060,14 @@ Adding a secret
 
 A vault member/owner can add a secret using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add <vault ID> <secret ID> [OPTIONS]
 
 With a standard vault the operation can be done directly. The secret can
 be provided interactively, via an input file, or via standard input.
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add StandardVault MySecret
    Secret: ********
@@ -1094,7 +1094,7 @@ be provided interactively, via an input file, or via standard input.
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add SymmetricVault MySecret --in secret.txt
    Password: ********
@@ -1106,7 +1106,7 @@ With a symmetric vault the operation requires a password:
 
 With an asymmetric vault the operation requires a private key.
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add AsymmetricVault MySecret --in secret.txt --private-key private-key.pem
    -----------------------------
@@ -1123,14 +1123,14 @@ Retrieving a secret
 A vault member/owner can be retrieve a secret using the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-show <vault ID> <secret ID> [OPTIONS]
 
 With a standard vault the operation can be done directly. The secret can
 be stored in an output file or directed to standard output.
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-show StandardVault MySecret
      Secret name: MySecret
@@ -1143,14 +1143,14 @@ be stored in an output file or directed to standard output.
 
 With a symmetric vault the operation requires a password:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-show SymmetricVault MySecret --out secret.txt
    Password: ********
 
 With an asymmetric vault the operation requires a private key:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-show AsymmetricVault MySecret --out secret.txt --private-key-file private.pem
 
@@ -1161,7 +1161,7 @@ Copying a secret
 
 Secret can be copied using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add <vault ID> <secret ID> [--source-vault <source vault ID>] [--source-secret <source secret ID>] [OPTIONS]
 
@@ -1171,7 +1171,7 @@ password/key of all vaults involved.
 
 To copy a secret into another secret in the same vault:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add StandardVault NewSecret --source-secret MySecret
    ------------------------------
@@ -1180,7 +1180,7 @@ To copy a secret into another secret in the same vault:
 
 To copy a secret from a vault into another vault:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add /shared/SharedVault MySecret --source-vault PrivateVault
    -----------------------------
@@ -1189,7 +1189,7 @@ To copy a secret from a vault into another vault:
 
 To copy a secret into another vault with a different name:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add /shared/SharedVault NewSecret --source-vault PrivateVault --source-secret MySecret
    ------------------------------
@@ -1199,7 +1199,7 @@ To copy a secret into another vault with a different name:
 To copy a secret from a symmetric vault into an asymmetric vault (this
 will replace all secrets in the asymmetric vault):
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add AsymmetricVault MySecret --source-vault SymmetricVault
    Source Password: ********
@@ -1209,7 +1209,7 @@ will replace all secrets in the asymmetric vault):
 
 To copy a secret from an asymmetric vault into a symmetric vault:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-add SymmetricVault MySecret --source-vault AsymmetricVault --source-private-key private-key.pem
    Password: ********
@@ -1224,13 +1224,13 @@ Modifying secret attributes
 
 Secret attributes can be modified using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-mod <vault ID> <secret ID> [OPTIONS]
 
 For example, to modify secret description:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-mod StandardVault MySecret --desc "My secret"
    --------------------------------
@@ -1247,13 +1247,13 @@ Deleting a secret
 
 A secret can be removed using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-del <vault ID> <secret ID> [OPTIONS]
 
 With a standard vault the operation can be done directly:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-del StandardVault MySecret
    -------------------------------
@@ -1262,7 +1262,7 @@ With a standard vault the operation can be done directly:
 
 With a symmetric vault the operation requires a vault password:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-del SymmetricVault secret
    Password: ********
@@ -1272,7 +1272,7 @@ With a symmetric vault the operation requires a vault password:
 
 With an asymmetric vault the operation requires a vault private key:
 
-::
+.. code-block:: text
 
    $ ipa vaultsecret-del AsymmetricVault secret --private-key private-key.pem
    -------------------------------
@@ -1294,7 +1294,7 @@ Creating a vault with escrow
 
 An escrowed symmetric vault can be created with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add EscrowedSymmetricVault --type symmetric --escrow-public-key-file escrow-public.pem
    New password: ********
@@ -1308,7 +1308,7 @@ An escrowed symmetric vault can be created with the following command:
 
 An escrowed asymmetric vault can be created with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add EscrowedAsymmetricVault --type asymmetric --public-key-file public.pem --escrow-public-key-file escrow-public.pem
    -------------------------------------
@@ -1326,7 +1326,7 @@ Escrowing an existing vault
 A vault owner can escrow an existing symmetric vault by providing the
 escrow public key:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod SymmetricVault --escrow true --escrow-public-key-file escrow-public.pem
    Password: ********
@@ -1337,7 +1337,7 @@ escrow public key:
 A vault owner can escrow an existing asymmetric vault by providing the
 vault private key and the escrow public key
 
-::
+.. code-block:: text
 
    $ ipa vault-mod AsymmetricVault --escrow true --private-key-file private.pem --escrow-public-key-file escrow-public.pem
    --------------------------------
@@ -1346,7 +1346,7 @@ vault private key and the escrow public key
 
 A vault owner can unescrow a vault box as follows:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod Vault --escrow-public-key NONE
    ----------------------
@@ -1361,7 +1361,7 @@ Recovering an escrowed secret
 An escrow officer can recover the secret by specifying the escrow
 private key to decrypt the secret key:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve EscrowedVault --escrow-private-key-file escrow-private.pem --out secret.txt
    -----------------------------------------
@@ -1377,7 +1377,7 @@ If the current symmetric vault password is known, the owner can change
 it by providing the old password and the new password. The new secret
 key will automatically be escrowed.
 
-::
+.. code-block:: text
 
    $ ipa vault-password EscrowedSymmetricVault
    Password: *********
@@ -1390,7 +1390,7 @@ key will automatically be escrowed.
 If the current password is unknown, the owner can request password
 reset:
 
-::
+.. code-block:: text
 
    $ ipa vault-password EscrowedSymmetricVault --reset
    New password: *********
@@ -1401,7 +1401,7 @@ reset:
 
 The escrow officer can approve the request as follows:
 
-::
+.. code-block:: text
 
    $ ipa vault-password /users/testuser/EscrowedSymmetricVault --approve --escrow-private-key-file escrow-private.pem
    -------------------------
@@ -1410,7 +1410,7 @@ The escrow officer can approve the request as follows:
 
 If necessary, the escrow officer can reject the request as follows:
 
-::
+.. code-block:: text
 
    $ ipa vault-password /users/testuser/EscrowedSymmetricVault --reject
    ------------------------
@@ -1430,7 +1430,7 @@ Creating service vault password
 A service administrator can create a service vault password by archiving
 a new secret into a private vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-add ldap_password --in password.txt
    ---------------------------
@@ -1449,14 +1449,14 @@ A service administrator can provision the service vault password to a
 specific service instance using a service vault. To create a service
 vault:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add /services/<server name>
    $ ipa vault-add /services/<server name>/<service name> --type asymmetric --public-key <service public key>
 
 To copy the service vault password into the service vault:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive /services/<server name>/<service name> --source-vault-id <vault ID>
 
@@ -1467,7 +1467,7 @@ generated previously on the server.
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vaultcontainer-add /services/server.example.com
    ------------------------------------------
@@ -1500,7 +1500,7 @@ Retrieving service vault password for service instance
 A service instance can retrieve the service vault password using the
 service private key stored locally:
 
-::
+.. code-block:: text
 
    $ ipa vault-retrieve /services/server.example.com/LDAP --private-key-file service-private.pem --out password.txt
    --------------------------------
@@ -1518,7 +1518,7 @@ Changing service vault password
 The service administrator can change the service vault password by
 archiving a new secret:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive ldap_password --in new_password.txt
    ----------------------------------------
@@ -1531,7 +1531,7 @@ archiving a new secret:
 The service administrator will need to re-provision the new service
 vault password to each service instance using the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-archive /services/server.example.com/LDAP --source-vault-id ldap_password
    -------------------------------
@@ -1558,7 +1558,7 @@ Displaying global vault configuration
 A user can view the global vault configuration using the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-config-show
      Maximum secret size: 1024 bytes
@@ -1572,7 +1572,7 @@ Modifying global vault configuration
 An administrator can modify the global vault configuration using the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-config-mod [OPTIONS]
 
@@ -1581,7 +1581,7 @@ after the change.
 
 For example, to change the maximum secret size:
 
-::
+.. code-block:: text
 
    $ ipa vault-config-mod --max-secret-size 1024
 
@@ -1623,13 +1623,13 @@ Generating salt
 
 Python NSS:
 
-::
+.. code-block:: text
 
    salt = nss.generate_random(salt_length)
 
 Python Cryptography:
 
-::
+.. code-block:: text
 
    salt = os.urandom(salt_length)
 
@@ -1648,7 +1648,7 @@ In NSS the PBKDF2 can be invoked using the following C code. However,
 currently Python NSS does not provide an interface to call these NSS
 functions.
 
-::
+.. code-block:: text
 
    SECItem password = {
        siBuffer,
@@ -1686,7 +1686,7 @@ functions.
 Python Cryptography
 (`docs <https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/>`__):
 
-::
+.. code-block:: text
 
    kdf = PBKDF2HMAC(
        algorithm=hashes.SHA256(),
@@ -1702,7 +1702,7 @@ If FIPS certification is not required, the
 `scrypt <https://github.com/ricmoo/pyscrypt>`__ might be a better
 option.
 
-::
+.. code-block:: text
 
    symmetric_key = pyscrypt.hash(
        vault_password,
@@ -1718,7 +1718,7 @@ Web Crypto
 `implementation <https://bugzilla.mozilla.org/show_bug.cgi?id=1021607>`__,
 `example <https://www.w3.org/Bugs/Public/show_bug.cgi?id=25819>`__):
 
-::
+.. code-block:: text
 
    var enc_salt = ...
 
@@ -1744,14 +1744,14 @@ Generating asymmetric key pair
 
 The asymmetric key pair can be generated using OpenSSL:
 
-::
+.. code-block:: text
 
    $ openssl genrsa -out private.pem 2048
    $ openssl rsa -in private.pem -out public.pem -pubout
 
 Then the above PEM files can be loaded into Python Cryptography:
 
-::
+.. code-block:: text
 
    public_key = load_pem_public_key(
        data=public_pem,
@@ -1766,7 +1766,7 @@ Then the above PEM files can be loaded into Python Cryptography:
 
 PyCrypto:
 
-::
+.. code-block:: text
 
    private_key = RSA.generate(2048)
    private_pem = private_key.exportKey('PEM')
@@ -1782,7 +1782,7 @@ symmetric-key algorithm.
 
 Python NSS:
 
-::
+.. code-block:: text
 
    iv_si = nss.SecItem(salt)
    iv_param = nss.param_from_iv(mechanism, iv_si)
@@ -1806,7 +1806,7 @@ Python NSS:
 Python Cryptography
 (`docs <https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/>`__):
 
-::
+.. code-block:: text
 
    f = Fernet(symmetric_key)
    encrypted_data = f.encrypt(data)
@@ -1822,7 +1822,7 @@ Python Cryptography
 Web Crypto
 (`spec <https://dvcs.w3.org/hg/webcrypto-api/raw-file/tip/spec/Overview.html#aes-cbc>`__):
 
-::
+.. code-block:: text
 
    var encryptOp = window.crypto.subtle.encrypt(
        {
@@ -1860,7 +1860,7 @@ asymmetric algorithm:
 
 Python NSS:
 
-::
+.. code-block:: text
 
    encryrpted_data = nss.pub_wrap_sym_key(mechanism, public_key, data)
 
@@ -1869,7 +1869,7 @@ Python NSS:
 Python Cryptography
 (`docs <https://cryptography.io/en/latest/hazmat/primitives/asymmetric/>`__):
 
-::
+.. code-block:: text
 
    encrypted_data = public_key.encrypt(
        data,
@@ -1892,7 +1892,7 @@ Python Cryptography
 Web Crypto
 (`spec <https://dvcs.w3.org/hg/webcrypto-api/raw-file/tip/spec/Overview.html#rsa-oaep>`__):
 
-::
+.. code-block:: text
 
    var encryptOp = window.crypto.subtle.encrypt(
        {
@@ -1944,7 +1944,7 @@ Vault class
 The Vault class represents a vault. It contains vault attributes
 accessible to the client.
 
-::
+.. code-block:: text
 
    class Vault:
        d
@@ -1983,7 +1983,7 @@ Secret class
 The Secret class represents a secret. It contains secret attributes
 accessible to the client.
 
-::
+.. code-block:: text
 
    class Secret:
        def __init__(self, id,
@@ -2001,7 +2001,7 @@ VaultClient class
 VaultClient class provides a client interface to access vaults. It uses
 an IPAConnection object to communicate with the server.
 
-::
+.. code-block:: text
 
    class VaultClient:
        d
@@ -2009,7 +2009,7 @@ an IPAConnection object to communicate with the server.
 
 For example:
 
-::
+.. code-block:: text
 
    connection = ... connection to IPA server ...
    vault_client = VaultClient(connection)
@@ -2022,7 +2022,7 @@ container. By default each list element will contain the basic
 attributes of the subcontainer, but additional attributes can be
 requested as well.
 
-::
+.. code-block:: text
 
    def vaultcontianer_find(self, parent_id=None, attributes=None):
        return self.connection.vaultcontianer_find(parent_id, attributes)
@@ -2034,7 +2034,7 @@ This method returns the attributes of the container specified by the ID.
 By default it will return the basic attributes, but additional
 attributes can be requested as well.
 
-::
+.. code-block:: text
 
    def vaultcontainer_get(self, container_id,
            attributes=None):
@@ -2046,7 +2046,7 @@ vaultcontainer_add()
 
 This method creates a new container.
 
-::
+.. code-block:: text
 
    def vaultcontainer_add(self, container_id,
            description=None)
@@ -2058,7 +2058,7 @@ vaultcontainer_del()
 
 This method removes an existing vault.
 
-::
+.. code-block:: text
 
    def vaultcontainer_del(self, container_id):
        self.connection.vaultcontainer_del(container_id)
@@ -2071,14 +2071,14 @@ container. By default each list element will contain the basic
 attributes of the vault, but additional attributes can be requested as
 well.
 
-::
+.. code-block:: text
 
    def vault_find(self, container_id=None, attributes=None):
        return self.connection.vault_find(container_id, attributes)
 
 For example:
 
-::
+.. code-block:: text
 
    vaults = vault_find()
    for vault in vaults:
@@ -2091,7 +2091,7 @@ This method returns the attributes of the vault specified by the ID. By
 default it will return the basic attributes, but additional attributes
 can be requested as well.
 
-::
+.. code-block:: text
 
    def vault_get(self, vault_id,
            attributes=None):
@@ -2100,7 +2100,7 @@ can be requested as well.
 
 For example:
 
-::
+.. code-block:: text
 
    vault = vault_get("PrivateVault", attributes=["description", "members"])
    print "ID: " + vault.id
@@ -2116,7 +2116,7 @@ vault_add()
 
 This method creates a new vault on the server.
 
-::
+.. code-block:: text
 
    def vault_add(self, vault_id,
            description=None,
@@ -2168,7 +2168,7 @@ This method creates a new vault on the server.
 
 A standard vault can be created without specifying a password/key:
 
-::
+.. code-block:: text
 
    vault = vault_add("StandardVault",
        description="Standard vault")
@@ -2176,7 +2176,7 @@ A standard vault can be created without specifying a password/key:
 A symmetric vault can be created by specifying the type and the vault
 password:
 
-::
+.. code-block:: text
 
    vault = vault_add("SymmetricVault",
        description="Symmetric vault",
@@ -2186,7 +2186,7 @@ password:
 An escrowed symmetric vault can be created by specifying the type, the
 vault password, and the escrow public key:
 
-::
+.. code-block:: text
 
    vault = vault_add("EscrowedSymmetricVault",
        description="Escrowed vault",
@@ -2198,7 +2198,7 @@ vault password, and the escrow public key:
 An asymmetric vault can be created by specifying the type and the vault
 public key:
 
-::
+.. code-block:: text
 
    vault = vault_add("AsymmetricVault",
        description="Asymmetric vault",
@@ -2208,7 +2208,7 @@ public key:
 An escrowed asymmetric vault can be created by specifying the type, the
 vault public and private keys, and the escrow public key:
 
-::
+.. code-block:: text
 
    vault = vault_add("EscrowedAsymmetricVault",
        description="Escrowed asymmetric vault",
@@ -2223,7 +2223,7 @@ vault_update()
 
 This method stores changes to the vault object to the server.
 
-::
+.. code-block:: text
 
    def vault_update(self, vault):
        self.connection.vault_update(vault)
@@ -2233,7 +2233,7 @@ vault_change_type()
 
 This method modifies the type of an existing vault.
 
-::
+.. code-block:: text
 
    def vault_change_type(self,
            vault_id=None,
@@ -2268,7 +2268,7 @@ This method modifies the type of an existing vault.
 
 To convert a standard vault into a symmetric vault:
 
-::
+.. code-block:: text
 
    vault_change_type("Vault",
        type="symmetric",
@@ -2276,7 +2276,7 @@ To convert a standard vault into a symmetric vault:
 
 To convert a symmetric vault into an asymmetric vault:
 
-::
+.. code-block:: text
 
    vault_change_type("Vault",
        type="asymmetric",
@@ -2286,7 +2286,7 @@ To convert a symmetric vault into an asymmetric vault:
 
 To convert an asymmetric vault into a standard vault:
 
-::
+.. code-block:: text
 
    vault_change_type("Vault",
        type="standard",
@@ -2297,7 +2297,7 @@ vault_change_escrow()
 
 This method modifies the escrow info of an existing vault.
 
-::
+.. code-block:: text
 
    def vault_change_escrow(self,
            vault_id=None,
@@ -2339,14 +2339,14 @@ This method modifies the escrow info of an existing vault.
 
 To escrow a standard vault:
 
-::
+.. code-block:: text
 
    vault_change_escrow("StandardVault",
        escrow=True)
 
 To escrow a symmetric vault:
 
-::
+.. code-block:: text
 
    vault_change_escrow("SymmetricVault",
        escrow=True,
@@ -2354,7 +2354,7 @@ To escrow a symmetric vault:
 
 To escrow an asymmetric vault:
 
-::
+.. code-block:: text
 
    vault_change_escrow("AsymmetricVault",
        escrow=True,
@@ -2363,7 +2363,7 @@ To escrow an asymmetric vault:
 
 To unescrow a vault:
 
-::
+.. code-block:: text
 
    vault_change_escrow("Vault", escrow=False)
 
@@ -2372,7 +2372,7 @@ vault_del()
 
 This method removes an existing vault on the server.
 
-::
+.. code-block:: text
 
    def vault_del(self, vault_id):
        self.connection.vault_del(vault_id)
@@ -2383,7 +2383,7 @@ vault_archive()
 This method archives a blob of data into a vault replacing existing
 data.
 
-::
+.. code-block:: text
 
    def vault_archive(self,
            vault_id=None,
@@ -2424,7 +2424,7 @@ data.
 A member can archive data into a standard vault without any password or
 key:
 
-::
+.. code-block:: text
 
    vault_client.archive_secrets("StandardVault",
        data="mydata")
@@ -2432,7 +2432,7 @@ key:
 A member can archive data into a symmetric vault by providing a vault
 password:
 
-::
+.. code-block:: text
 
    vault_client.archive_secrets("SymmetricVault",
        data="mydata",
@@ -2441,7 +2441,7 @@ password:
 A member can archive data into a symmetric vault by providing a
 pre-generated vault secret key:
 
-::
+.. code-block:: text
 
    vault_client.archive_secrets("SymmetricVault",
        data="mydata",
@@ -2450,7 +2450,7 @@ pre-generated vault secret key:
 An escrow officer can archive data into a symmetric vault by providing
 an escrow private key:
 
-::
+.. code-block:: text
 
    vault_client.archive_secrets("SymmetricVault",
        data="mydata",
@@ -2459,7 +2459,7 @@ an escrow private key:
 A member can archive data into an asymmetric vault without any password
 or key:
 
-::
+.. code-block:: text
 
    vault_client.archive_secrets("AsymmetricVault",
        data="mydata")
@@ -2470,7 +2470,7 @@ vault_retrieve()
 This method retrieves a blob of data stored in a vault and decrypt it
 based on the vault type.
 
-::
+.. code-block:: text
 
    def vault_retrieve(self,
            vault_id=None,
@@ -2522,42 +2522,42 @@ based on the vault type.
 A member can retrieve data from a standard vault without any password or
 key:
 
-::
+.. code-block:: text
 
    data = vault_client.vault_retrieve("StandardVault")
 
 A member can retrieve data from a symmetric vault by providing the vault
 password:
 
-::
+.. code-block:: text
 
    data = vault_client.vault_retrieve("SymmetricVault", vault_password=...)
 
 A member can retrieve data from a symmetric vault by providing the vault
 secret key:
 
-::
+.. code-block:: text
 
    data = vault_client.vault_retrieve("SymmetricVault", vault_secret_key=...)
 
 An escrow officer can recover data from an escrowed symmetric vault by
 providing the escrow private key:
 
-::
+.. code-block:: text
 
    data = vault_client.vault_retrieve("EscrowedSymmetricVault", escrow_private_key=...)
 
 An owner can retrieve secrets from an asymmetric vault by providing the
 vault private key:
 
-::
+.. code-block:: text
 
    data = vault_client.vault_retrieve("AsymmetricVault", vault_private_key=...)
 
 An escrow officer can recover secrets from an escrowed asymmetric vault
 by providing the escrow private key:
 
-::
+.. code-block:: text
 
    data = vault_client.vault_retrieve("EscrowedAsymmetricVault", escrow_private_key=...)
 
@@ -2567,7 +2567,7 @@ vaultsecret_archive()
 This method encrypt a secret based on the vault type and archive it into
 a collection of secrets in the vault.
 
-::
+.. code-block:: text
 
    def vaultsecret_archive(self,
            vault_id=None,
@@ -2615,7 +2615,7 @@ a collection of secrets in the vault.
 A member can archive a secret into a standard vault without any password
 or key:
 
-::
+.. code-block:: text
 
    vaultsecret_archive("StandardVault",
        secret_id="mysecret",
@@ -2625,7 +2625,7 @@ or key:
 A member can archive a secret into a symmetric vault by providing a
 vault password:
 
-::
+.. code-block:: text
 
    vaultsecret_archive("SymmetricVault",
        secret_id="mysecret",
@@ -2636,7 +2636,7 @@ vault password:
 A member can archive a secret into a symmetric vault by providing a
 pre-generated vault secret key:
 
-::
+.. code-block:: text
 
    vaultsecret_archive("SymmetricVault",
        secret_id="mysecret",
@@ -2647,7 +2647,7 @@ pre-generated vault secret key:
 An escrow officer can archive a secret into a symmetric vault by
 providing an escrow private key:
 
-::
+.. code-block:: text
 
    vaultsecret_archive("SymmetricVault",
        secret_id="mysecret",
@@ -2658,7 +2658,7 @@ providing an escrow private key:
 An owner can archive a secret into an asymmetric vault by providing a
 vault private key:
 
-::
+.. code-block:: text
 
    vaultsecret_archive("AsymmetricVault",
        secret_id="mysecret",
@@ -2672,7 +2672,7 @@ vaultsecret_retrieve()
 This method retrieves a secret from a collection of secrets in a vault
 and decrypt it based on the vault type.
 
-::
+.. code-block:: text
 
    def vaultsecret_retrieve(self,
            vault_id=None,
@@ -2701,42 +2701,42 @@ and decrypt it based on the vault type.
 A member can retrieve a secret from a standard vault without any
 password or key:
 
-::
+.. code-block:: text
 
    secret = vaultsecret_retrieve("StandardVault", secret_id="mysecret")
 
 A member can retrieve a secret from a symmetric vault by providing the
 vault password:
 
-::
+.. code-block:: text
 
    secret = vaultsecret_retrieve("SymmetricVault", secret_id="mysecret", vault_password=...)
 
 A member can retrieve a secret from a symmetric vault by providing the
 vault secret key:
 
-::
+.. code-block:: text
 
    secret = vaultsecret_retrieve("SymmetricVault", secret_id="mysecret", vault_secret_key=...)
 
 An escrow officer can recover a secret from an escrowed symmetric vault
 by providing the escrow private key:
 
-::
+.. code-block:: text
 
    secret = vaultsecret_retrieve("EscrowedSymmetricVault", secret_id="mysecret", escrow_private_key=...)
 
 An owner can retrieve a secret from an asymmetric vault by providing the
 vault private key:
 
-::
+.. code-block:: text
 
    secret = vault_retrieve("AsymmetricVault", secret_id="mysecret", vault_private_key=...)
 
 An escrow officer can recover a secret from an escrowed asymmetric vault
 by providing the escrow private key:
 
-::
+.. code-block:: text
 
    secret = vault_retrieve("EscrowedAsymmetricVault", secret_id="mysecret", escrow_private_key=...)
 
@@ -2747,7 +2747,7 @@ This method will change the vault password if the current password is
 known, or change the vault private key if the current vault private key
 is known.
 
-::
+.. code-block:: text
 
    def vault_change_password(self,
            vault_id=None,
@@ -2800,7 +2800,7 @@ is known.
 
 An owner can change the vault password of a symmetric vault as follows:
 
-::
+.. code-block:: text
 
    vault_client.change_vault_password("SymmetricVault",
        vault_password=...,
@@ -2808,7 +2808,7 @@ An owner can change the vault password of a symmetric vault as follows:
 
 An owner can change the keys of an asymmetric vault as follows:
 
-::
+.. code-block:: text
 
    vault_client.change_vault_password("AsymmetricVault",
        vault_private_key=...,
@@ -2823,7 +2823,7 @@ password or private key is lost. Password reset will only work if the
 vault is escrowed. The request must be approved by the escrow officer
 before it will become effective.
 
-::
+.. code-block:: text
 
    def vault_reset_password(self,
            vault_id=None,
@@ -2863,14 +2863,14 @@ before it will become effective.
 
 An owner can request a password reset for a symmetric vault as follows:
 
-::
+.. code-block:: text
 
    vault_reset_password("SymmetricVault",
        new_vault_password=...)
 
 An owner can request a key reset for an asymmetric vault as follows:
 
-::
+.. code-block:: text
 
    vault_reset_password("AsymmetricVault",
        new_vault_public_key=...,
@@ -2881,7 +2881,7 @@ approve_vault_password_reset()
 
 This method can be used by an escrow officer to reset vault password.
 
-::
+.. code-block:: text
 
    def approve_vault_password_reset(self,
            vault_id=None,
@@ -2916,7 +2916,7 @@ reject_vault_password_reset()
 This method can be used by an escrow officer to reject password reset
 request.
 
-::
+.. code-block:: text
 
    def reject_vault_password_reject(self,
            vault_id=None,
@@ -2967,7 +2967,7 @@ IPAConnection.find_vaults().
 
 Response:
 
-::
+.. code-block:: text
 
    {
        id: "/users/testuser",
@@ -3002,13 +3002,13 @@ will be wrappped in IPAConnection.get_vault().
 
 The client can specify the attributes to return in the query:
 
-::
+.. code-block:: text
 
    attributes=<comma-separated attribute list>
 
 Response:
 
-::
+.. code-block:: text
 
    {
        id: "/users/testuser/PrivateVault",
@@ -3033,7 +3033,7 @@ operation will be wrappped in IPAConnection.create_vault().
 
 Request:
 
-::
+.. code-block:: text
 
    {
        id: "PrivateVault",
@@ -3043,7 +3043,7 @@ Request:
 
 The server will return the normalized values of the vault attributes:
 
-::
+.. code-block:: text
 
    {
        id: "/users/testuser/PrivateVault",
@@ -3061,7 +3061,7 @@ be wrapped in IPAConnection.update_vault().
 
 The client will send the attributes to be modified:
 
-::
+.. code-block:: text
 
    {
        id: "PrivateVault",
@@ -3072,7 +3072,7 @@ The client will send the attributes to be modified:
 The server will return the normalized vault attributes after
 modification:
 
-::
+.. code-block:: text
 
    {
        id: "/users/testuser/PrivateVault",
@@ -3103,14 +3103,14 @@ Secret resource
 
 The secrets are accessible under the following URL:
 
-::
+.. code-block:: text
 
    /ipa/rest/vaults/<container>/<vault name>/secrets
 
 The secrets are stored as base-64 encoded of encrypted JSON collection.
 For example:
 
-::
+.. code-block:: text
 
    {
        "secret1": {
@@ -3134,7 +3134,7 @@ IPAConnection.get_secrets().
 
 Response:
 
-::
+.. code-block:: text
 
    ewogICAg...Qp9Cg==
 
@@ -3153,7 +3153,7 @@ IPAConnection.update_vault_secrets().
 
 Request:
 
-::
+.. code-block:: text
 
    ewogICAg...Qp9Cg==
 
@@ -3177,7 +3177,7 @@ entry of the subtree. Sub-containers are represented by entries directly
 under the parent container. Vaults are represented by entries stored
 under the container.
 
-::
+.. code-block:: text
 
    <suffix>
    + cn=vaults
@@ -3203,7 +3203,7 @@ data <http://www.freeipa.org/page/V4/PKCS11_in_LDAP/Schema>`__.
 
 Container entry:
 
-::
+.. code-block:: text
 
    dn: cn=<container name>, <parent container DN>
    objectClass: top
@@ -3217,7 +3217,7 @@ Container entry:
 
 Vault entry:
 
-::
+.. code-block:: text
 
    dn: cn=<vault name>, <container DN>
    objectClass: top
@@ -3249,7 +3249,7 @@ and containers, not by LDAP ACI.
 
 The ACI attributes are defined in the root entry of the vault subtree:
 
-::
+.. code-block:: text
 
    dn: cn=vaults, <suffix>
    ...
@@ -3367,7 +3367,7 @@ Installing KRA service
 The KRA service must be installed on each replica before the vault
 services can be used properly using the following command:
 
-::
+.. code-block:: text
 
    $ ipa-kra-install -p <Directory Manager password>
 
@@ -3379,7 +3379,7 @@ Uninstalling KRA service
 If the vault functionality is no longer needed, it can be removed using
 the following command:
 
-::
+.. code-block:: text
 
    $ ipa-kra-uninstall -p <Directory Manager password> --uninstall
 
@@ -3408,7 +3408,7 @@ Mapping a vault into KRA
 The encrypted secrets in a vault will be stored as a blob in KRA as a
 key under the following client key ID:
 
-::
+.. code-block:: text
 
    <namespace>/<vault ID>
 
@@ -3426,7 +3426,7 @@ encrypted with a session key that is unique for each transmission. The
 session key itself will be wrapped with KRA transport public key. The
 encrypted data and wrapped session key will be sent to IPA server.
 
-::
+.. code-block:: text
 
    class VaultClient():
 
@@ -3454,7 +3454,7 @@ encrypted data and wrapped session key will be sent to IPA server.
 
 The IPA server will then forward the encrypted data to KRA:
 
-::
+.. code-block:: text
 
    class VaultService():
 
@@ -3491,7 +3491,7 @@ Retrieving secrets from KRA
 Regardless of the vault type, the client will send the vault ID to IPA
 server to retrieve the encrypted secrets:
 
-::
+.. code-block:: text
 
    class VaultClient():
 
@@ -3512,7 +3512,7 @@ server to retrieve the encrypted secrets:
 When IPA server receives this call, it will retrieve the encrypted
 secrets from KRA and then return it to the client:
 
-::
+.. code-block:: text
 
    class VaultService():
 
@@ -3556,7 +3556,7 @@ Dependencies
 Testing
 =======
 
-::
+.. code-block:: text
 
    $ ./make-test ipatests.test_xmlrpc.test_vault_plugin
 

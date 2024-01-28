@@ -303,13 +303,13 @@ certificate depends on what is your CA.
 
 A new tool, ipa-pkinit-manage, exists in FreeIPA 4.5.
 
-``ipa-pkinit-manage status``
+``ipa-pkinit-manage status``
 
 will tell you current status. "Enabled" means you have properly working
 PKINIT infrastructure on this system. "Disabled" means you only have
 self-signed PKINIT.
 
-``ipa-pkinit-manage enable``
+``ipa-pkinit-manage enable``
 
 will try to request PKINIT KDC certificate from IdM CA. You should make
 sure that all IdM CAs are at the same level (FreeIPA 4.5+) before
@@ -342,7 +342,7 @@ enable is run (default if installed with PKINIT enabled).]
 
 Then any client can use
 
-``   kinit -n``
+``   kinit -n``
 
 to request an anonymous Kerberos ticket.
 
@@ -352,10 +352,10 @@ authentication:
 
 ::
 
-   | ``   kinit -n``
-   | ``   klist``
-   | ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
-   | ``   kinit -T $ARMOR_CCACHE principal@REALM ``
+   | ``   kinit -n``
+   | ``   klist``
+   | ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
+   | ``   kinit -T $ARMOR_CCACHE principal@REALM ``
 
 **-T** option of kinit allows to specify existing credentials cache with
 a valid TGT to create a FAST channel between the Kerberos client and the
@@ -365,21 +365,21 @@ multi-factor pre-authentication exchange to the KDC.
 
 To query whether the master supports client PKINIT via ``config-show``:
 
-| ``  $ ipa config-show``
-| ``  Maximum username length: 32``
-| ``  Home directory base: /home``
-| ``  Default shell: /bin/sh``
-| ``  Default users group: ipausers``
-| ``  ...``
-| ``  IPA masters supporting PKINIT: master1.ipa.test``
-| ``  ...``
+| ``  $ ipa config-show``
+| ``  Maximum username length: 32``
+| ``  Home directory base: /home``
+| ``  Default shell: /bin/sh``
+| ``  Default users group: ipausers``
+| ``  ...``
+| ``  IPA masters supporting PKINIT: master1.ipa.test``
+| ``  ...``
 
 To obtain the same information via ``ipa pkinit-status``:
 
-| ``  $ ipa pkinit-status``
-| ``  Server name: master1.ipa.test``
-| ``  PKINIT status: enabled``
-| ``  ...``
-| ``  Server name: replica1.ipa.test``
-| ``  PKINIT status: disabled``
-| ``  ...``
+| ``  $ ipa pkinit-status``
+| ``  Server name: master1.ipa.test``
+| ``  PKINIT status: enabled``
+| ``  ...``
+| ``  Server name: replica1.ipa.test``
+| ``  PKINIT status: disabled``
+| ``  ...``

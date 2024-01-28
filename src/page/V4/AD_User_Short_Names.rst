@@ -133,11 +133,11 @@ The LDAP schema of the global config object
 by a new objectclass providing the attribute which stores the domain
 resolution:
 
-| ``   objectclasses: ( 2.16.840.1.113730.3.8.12.39  NAME 'ipaNameResolutionData' DESC 'Data used to resolve short names``
-| ``   to fully-qualified form' SUP top AUXILIARY MAY ( ipaDomainResolutionOrder ) X-ORIGIN 'IPA v4.5' )``
+| ``   objectclasses: ( 2.16.840.1.113730.3.8.12.39  NAME 'ipaNameResolutionData' DESC 'Data used to resolve short names``
+| ``   to fully-qualified form' SUP top AUXILIARY MAY ( ipaDomainResolutionOrder ) X-ORIGIN 'IPA v4.5' )``
 
-| ``   attributeTypes: ( 2.16.840.1.113730.3.8.11.77 NAME 'ipaDomainResolutionOrder' DESC 'List of domains used to resolve ``
-| ``   a short name' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
+| ``   attributeTypes: ( 2.16.840.1.113730.3.8.11.77 NAME 'ipaDomainResolutionOrder' DESC 'List of domains used to resolve ``
+| ``   a short name' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
 
 The value of the ``ipaDomainResolutionOrder`` consist of a
 colon-separated list of domain names (e.g

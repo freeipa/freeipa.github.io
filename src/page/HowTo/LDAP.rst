@@ -110,11 +110,11 @@ tools like ldapsearch.
 
 So you can do this:
 
-``$ ldapsearch -x uid=admin``
+``$ ldapsearch -x uid=admin``
 
 Rather than:
 
-``$ ldapsearch -x -h ipa.example.com  -b dc=example,dc=com uid=admin``
+``$ ldapsearch -x -h ipa.example.com  -b dc=example,dc=com uid=admin``
 
 
 

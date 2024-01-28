@@ -68,46 +68,46 @@ Add a new group policy for group **g2**:
 % ipa pwpolicy-add g2 --maxlife=90 --minlife=8 --history=15
 --minclasses=3 --minlength=6 --priority=20
 
-| `` Group: g2``
-| `` Max lifetime (days): 90``
-| `` Min lifetime (hours): 8``
-| `` History size: 15``
-| `` Character classes: 3``
-| `` Min length: 6``
-| `` Priority: 20``
+| `` Group: g2``
+| `` Max lifetime (days): 90``
+| `` Min lifetime (hours): 8``
+| `` History size: 15``
+| `` Character classes: 3``
+| `` Min length: 6``
+| `` Priority: 20``
 
 Modify a group policy:
 
 % ipa pwpolicy-mod --minlength=9 g2
 
-| `` Group: g2``
-| `` Max lifetime (days): 90``
-| `` Min lifetime (hours): 8``
-| `` History size: 15``
-| `` Character classes: 3``
-| `` Min length: 9``
+| `` Group: g2``
+| `` Max lifetime (days): 90``
+| `` Min lifetime (hours): 8``
+| `` History size: 15``
+| `` Character classes: 3``
+| `` Min length: 9``
 
 I have a user tuser1 and I'm not sure what policy applies to him:
 
 % ipa pwpolicy-show --user=tuser1
 
-| `` Group: g2``
-| `` Max lifetime (days): 90``
-| `` Min lifetime (hours): 8``
-| `` History size: 15``
-| `` Character classes: 3``
-| `` Min length: 9``
+| `` Group: g2``
+| `` Max lifetime (days): 90``
+| `` Min lifetime (hours): 8``
+| `` History size: 15``
+| `` Character classes: 3``
+| `` Min length: 9``
 
 Show the global policy:
 
 % ipa pwpolicy-show
 
-| `` Group: GLOBAL``
-| `` Max lifetime (days): 90``
-| `` Min lifetime (hours): 1``
-| `` History size: 0``
-| `` Character classes: 0``
-| `` Min length: 8``
+| `` Group: GLOBAL``
+| `` Max lifetime (days): 90``
+| `` Min lifetime (hours): 1``
+| `` History size: 0``
+| `` Character classes: 0``
+| `` Min length: 8``
 
 
 
@@ -122,25 +122,25 @@ extremely picky about the format of policy DNs.
 The policy itself gets stored in
 ``cn=REALM,cn=kerberos,dc=example,dc=com``:
 
-| ``dn: cn=group1,cn=EXAMPLE.COM,cn=kerberos,dc=example,dc=com``
-| ``objectClass: top``
-| ``objectClass: nscontainer``
-| ``objectClass: krbpwdpolicy``
-| ``krbMinPwdLife: 7200``
-| ``cn: group1``
+| ``dn: cn=group1,cn=EXAMPLE.COM,cn=kerberos,dc=example,dc=com``
+| ``objectClass: top``
+| ``objectClass: nscontainer``
+| ``objectClass: krbpwdpolicy``
+| ``krbMinPwdLife: 7200``
+| ``cn: group1``
 
 The CoS entry is what contains the reference to this policy. It looks
 like:
 
 | ``dn:cn="cn=group1,cn=groups,cn=accounts,dc=example,dc=com",cn=cosTemplates,cn=acco``
 | ``unts,dc=example,dc=com``
-| ``objectClass: top``
-| ``objectClass: costemplate``
-| ``objectClass: extensibleobject``
-| ``objectClass: krbcontainer``
-| ``krbPwdPolicyReference: cn=group1,cn=EXAMPLE.COM,cn=kerberos,dc=example,dc=com``
-| ``cosPriority: 10``
-| ``cn: "cn=group1,cn=groups,cn=accounts,dc=example,dc=com"``
+| ``objectClass: top``
+| ``objectClass: costemplate``
+| ``objectClass: extensibleobject``
+| ``objectClass: krbcontainer``
+| ``krbPwdPolicyReference: cn=group1,cn=EXAMPLE.COM,cn=kerberos,dc=example,dc=com``
+| ``cosPriority: 10``
+| ``cn: "cn=group1,cn=groups,cn=accounts,dc=example,dc=com"``
 
 The DN of the CoS entry contains the DN of the group, as is usual. What
 is a bit unusual is the DN of the krbPwdPolicyReference. Ideally this

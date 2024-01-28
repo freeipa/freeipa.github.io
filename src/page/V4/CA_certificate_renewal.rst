@@ -69,24 +69,24 @@ CA certificates will be stored in entries under
 
 ::
 
-   | ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
-   | ``objectClass: ipaCertificate``
-   | ``objectClass: pkiCA``
-   | ``objectClass: ipaKeyPolicy``
-   | ``cn: cn=EXAMPLE.COM IPA CA``
-   | ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
-   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
-   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
-   | ``ipaPublicKey: ``\ *``DER-encoded public key``*
-   | ``ipaConfigString: ipaCA``
-   | ``ipaConfigString: compatCA``
-   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
-   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
-   | ``ipaKeyTrust: trusted``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
+   | ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
+   | ``objectClass: ipaCertificate``
+   | ``objectClass: pkiCA``
+   | ``objectClass: ipaKeyPolicy``
+   | ``cn: cn=EXAMPLE.COM IPA CA``
+   | ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
+   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
+   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
+   | ``ipaPublicKey: ``\ *``DER-encoded public key``*
+   | ``ipaConfigString: ipaCA``
+   | ``ipaConfigString: compatCA``
+   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
+   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
+   | ``ipaKeyTrust: trusted``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
+   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
 
 Each entry represents a set of certificates using a single subject name
 and public key and contains trust policy for the set of certificates
@@ -176,49 +176,49 @@ host (for automatic renewal).
 
 The new schema used for the entries is:
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
-| ``                 NAME 'ipaCertSubject'``
-| ``                 DESC 'Subject name'``
-| ``                 EQUALITY caseIgnoreMatch``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 SINGLE-VALUE``
-| ``                 X-ORIGIN 'IPA v4' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
-| ``                 NAME 'ipaCertIssuerSerial'``
-| ``                 DESC 'Issuer name and serial number'``
-| ``                 EQUALITY caseIgnoreMatch``
-| ``                 SUBSTR caseIgnoreSubstringsMatch``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 X-ORIGIN 'IPA v4' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
-| ``                 NAME 'ipaKeyTrust'``
-| ``                 DESC 'Key trust (unknown, trusted, distrusted)'``
-| ``                 EQUALITY caseIgnoreMatch``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 X-ORIGIN 'IPA v4') ``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
-| ``                 NAME 'ipaKeyUsage'``
-| ``                 DESC 'Allowed key usage'``
-| ``                 EQUALITY caseIgnoreMatch``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``                 X-ORIGIN 'IPA v4') ``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
-| ``                 NAME 'ipaKeyExtUsage'``
-| ``                 DESC 'Allowed extended key usage'``
-| ``                 EQUALITY objectIdentifierMatch``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.38``
-| ``                 X-ORIGIN 'IPA v4')``
-| ``objectClasses: (2.16.840.1.113730.3.8.12.???``
-| ``                NAME 'ipaCertificate'``
-| ``                SUP top STRUCTURAL``
-| ``                MUST ( cn $ ipaCertSubject $ ipaCertIssuerSerial $ ipaPublicKey )``
-| ``                MAY  ( ipaConfigString )``
-| ``                X-ORIGIN 'IPA v4' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.12.???``
-| ``                NAME 'ipaKeyPolicy'``
-| ``                SUP top AUXILIARY``
-| ``                MAY  ( ipaKeyTrust $ ipaKeyUsage $ ipaExtKeyUsage )``
-| ``                X-ORIGIN 'IPA v4')``
+| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
+| ``                 NAME 'ipaCertSubject'``
+| ``                 DESC 'Subject name'``
+| ``                 EQUALITY caseIgnoreMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 SINGLE-VALUE``
+| ``                 X-ORIGIN 'IPA v4' )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
+| ``                 NAME 'ipaCertIssuerSerial'``
+| ``                 DESC 'Issuer name and serial number'``
+| ``                 EQUALITY caseIgnoreMatch``
+| ``                 SUBSTR caseIgnoreSubstringsMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN 'IPA v4' )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
+| ``                 NAME 'ipaKeyTrust'``
+| ``                 DESC 'Key trust (unknown, trusted, distrusted)'``
+| ``                 EQUALITY caseIgnoreMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN 'IPA v4') ``
+| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
+| ``                 NAME 'ipaKeyUsage'``
+| ``                 DESC 'Allowed key usage'``
+| ``                 EQUALITY caseIgnoreMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
+| ``                 X-ORIGIN 'IPA v4') ``
+| ``attributeTypes: (2.16.840.1.113730.3.8.11.???``
+| ``                 NAME 'ipaKeyExtUsage'``
+| ``                 DESC 'Allowed extended key usage'``
+| ``                 EQUALITY objectIdentifierMatch``
+| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.38``
+| ``                 X-ORIGIN 'IPA v4')``
+| ``objectClasses: (2.16.840.1.113730.3.8.12.???``
+| ``                NAME 'ipaCertificate'``
+| ``                SUP top STRUCTURAL``
+| ``                MUST ( cn $ ipaCertSubject $ ipaCertIssuerSerial $ ipaPublicKey )``
+| ``                MAY  ( ipaConfigString )``
+| ``                X-ORIGIN 'IPA v4' )``
+| ``objectClasses: (2.16.840.1.113730.3.8.12.???``
+| ``                NAME 'ipaKeyPolicy'``
+| ``                SUP top AUXILIARY``
+| ``                MAY  ( ipaKeyTrust $ ipaKeyUsage $ ipaExtKeyUsage )``
+| ``                X-ORIGIN 'IPA v4')``
 
 
 

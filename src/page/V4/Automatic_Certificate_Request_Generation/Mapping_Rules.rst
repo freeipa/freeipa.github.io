@@ -115,23 +115,23 @@ Example data rules:
 
 Example syntax rule:
 
-``subjectAltName=@{% section %}{{datarules|join('\n')}}{% endsection %}``
+``subjectAltName=@{% section %}{{datarules|join('\n')}}{% endsection %}``
 
 Example composed config template:
 
 ::
 
-   | ``[ req ]``
-   | ``prompt = no``
-   | ``encrypt_key = no``
+   | ``[ req ]``
+   | ``prompt = no``
+   | ``encrypt_key = no``
    | ````
-   | ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
-   | ``CN={{subject.username}}{% endsection %}``
+   | ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
+   | ``CN={{subject.username}}{% endsection %}``
    | ````
-   | ``req_extensions = exts``
+   | ``req_extensions = exts``
    | ````
-   | ``[ exts ]``
-   | ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
+   | ``[ exts ]``
+   | ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
 
 
 

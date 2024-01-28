@@ -80,7 +80,7 @@ override entry needs to allow 'memberof' attribute.
 An easiest way to allow 'memberof' attribute is to allow it as part of
 ipaUserOverride class:
 
-``objectClasses: (2.16.840.1.113730.3.8.12.31 NAME 'ipaUserOverride' DESC 'Override for User Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid $ userCertificate $ memberOf) X-ORIGIN 'IPA v4' )``
+``objectClasses: (2.16.840.1.113730.3.8.12.31 NAME 'ipaUserOverride' DESC 'Override for User Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid $ userCertificate $ memberOf) X-ORIGIN 'IPA v4' )``
 
 A change like this requires schema update.
 

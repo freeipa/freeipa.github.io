@@ -102,15 +102,15 @@ string that describes the time periods the rule applies to, and
 
 The change to the schema looks like this:
 
-``objectClasses: (2.16.840.1.113730.3.8.12.37 NAME 'ipaTimeRule' SUP top STRUCTURAL MUST ( cn $ accessTime ) MAY ( memberOf $ description ) X-ORIGIN 'IPA v4.4')``
+``objectClasses: (2.16.840.1.113730.3.8.12.37 NAME 'ipaTimeRule' SUP top STRUCTURAL MUST ( cn $ accessTime ) MAY ( memberOf $ description ) X-ORIGIN 'IPA v4.4')``
 
 Also, there need to be changes to the directory structure:
 
-| ``dn: cn=timerules,$SUFFIX``
-| ``changetype: add``
-| ``objectClass: top``
-| ``objectClass: nsContainer``
-| ``cn: timerules``
+| ``dn: cn=timerules,$SUFFIX``
+| ``changetype: add``
+| ``objectClass: top``
+| ``objectClass: nsContainer``
+| ``cn: timerules``
 
 
 
@@ -133,8 +133,8 @@ time rules present it switches back.
 
 The new schema for the new HBAC Rule type:
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.76 NAME 'ipaMemberTimeRule' DESC 'Reference to a time rule describing some period of time' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.4' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.12.38 NAME 'ipaHBACRuleV2' SUP ipaAssociation STRUCTURAL MAY ( serviceCategory $ memberService $ externalHost  $ ipaMemberTimeRule ) X-ORIGIN 'IPA v4.4' )``
+| ``attributeTypes: (2.16.840.1.113730.3.8.11.76 NAME 'ipaMemberTimeRule' DESC 'Reference to a time rule describing some period of time' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.4' )``
+| ``objectClasses: (2.16.840.1.113730.3.8.12.38 NAME 'ipaHBACRuleV2' SUP ipaAssociation STRUCTURAL MAY ( serviceCategory $ memberService $ externalHost  $ ipaMemberTimeRule ) X-ORIGIN 'IPA v4.4' )``
 
 
 

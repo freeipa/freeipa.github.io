@@ -19,7 +19,7 @@ TSIG key configuration
 Generate a new TSIG key
 ----------------------------------------------------------------------------------------------
 
-| ``$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname``
+| ``$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname``
 | ``Kkeyname.+165+03160``
 
 
@@ -27,16 +27,16 @@ Generate a new TSIG key
 Copy and paste key from key file to named.conf
 ----------------------------------------------------------------------------------------------
 
-| ``$ cat Kkeyname.+165+0316.private``
-| ``Private-key-format: v1.3``
-| ``Algorithm: 165 (HMAC_SHA512)``
-| ``Key: keyvalue``
-| ``Bits: AAA=``
+| ``$ cat Kkeyname.+165+0316.private``
+| ``Private-key-format: v1.3``
+| ``Algorithm: 165 (HMAC_SHA512)``
+| ``Key: keyvalue``
+| ``Bits: AAA=``
 
-| ``$ vim /etc/named.conf``
-| ``key "keyname" {``
-| ``       algorithm hmac-sha512;``
-| ``       secret "keyvalue";``
+| ``$ vim /etc/named.conf``
+| ``key "keyname" {``
+| ``       algorithm hmac-sha512;``
+| ``       secret "keyvalue";``
 | ``};``
 
 You have to repeat this copy&paste step for every FreeIPA server.
@@ -53,13 +53,13 @@ Normal rules for `BIND dynamic update policies
 apply <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies>`__.
 Just use name of the key you defined in named.conf:
 
-``$ ipa dnszone-mod example.com. --update-policy="grant keyname name example.com A;"``
+``$ ipa dnszone-mod example.com. --update-policy="grant keyname name example.com A;"``
 
 One of FreeIPA specifics is that dynamic updates can be completely
 disabled by switch even if update policy is non-empty. Make sure that
 DNS dynamic updates are enabled for your zone:
 
-``$ ipa dnszone-mod example.com. --dynamic-update=1``
+``$ ipa dnszone-mod example.com. --dynamic-update=1``
 
 Client
 ----------------------------------------------------------------------------------------------
@@ -68,11 +68,11 @@ For ``nsupdate`` from ``bind-utils`` package you have to either use
 option ``-y algorithm:keyname:keyvalue`` or ``-k keyfilename`` option.
 E.g.
 
-``$ nsupdate -y hmac-sha512:keyname:keyvalue``
+``$ nsupdate -y hmac-sha512:keyname:keyvalue``
 
 or
 
-``$ nsupdate -k Kkeyname.+165+0316.private``
+``$ nsupdate -k Kkeyname.+165+0316.private``
 
 
 
@@ -90,12 +90,12 @@ IP addresses. You have to modify LDAP directly.
 
 Run this on one of FreeIPA servers:
 
-| ``$ kinit admin``
-| ``$ ldapmodify -Y GSSAPI << EOF``
-| ``dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example``
-| ``changetype: modify``
-| ``replace: idnsAllowTransfer``
-| ``idnsAllowTransfer: key keyname;``
+| ``$ kinit admin``
+| ``$ ldapmodify -Y GSSAPI << EOF``
+| ``dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example``
+| ``changetype: modify``
+| ``replace: idnsAllowTransfer``
+| ``idnsAllowTransfer: key keyname;``
 | ``-``
 | ``EOF``
 
@@ -111,8 +111,8 @@ The syntax for ``dig`` from ``bind-utils`` package is the same as for
 ``nsupdate``. You have to either use option
 ``-y algorithm:keyname:keyvalue`` or ``-k keyfilename`` option. E.g.
 
-``$ dig -y hmac-sha512:keyname:keyvalue``
+``$ dig -y hmac-sha512:keyname:keyvalue``
 
 or
 
-``$ dig -k Kkeyname.+165+0316.private``
+``$ dig -k Kkeyname.+165+0316.private``

@@ -94,17 +94,17 @@ it makes sense to have '--external-ca' option there while classes that
 implement replication installers interface also inherit from this class.
 Defining such a class:
 
-| ``class MyClass(ServiceInstallInterface):``
-| ``    ...``
-| ``    external_ca = knob(``\ ``)``
-| ``    external_ca = master_install_only(external_ca)``
-| ``    ...``
+| ``class MyClass(ServiceInstallInterface):``
+| ``    ...``
+| ``    external_ca = knob(``\ ``)``
+| ``    external_ca = master_install_only(external_ca)``
+| ``    ...``
 
 Then, to create a class that inherits from MyClass and should serve
 later to install some service as a master:
 
-| ``class MasterInstallClass(installs_master(MyClass), ``\ ``):``
-| ``    pass``
+| ``class MasterInstallClass(installs_master(MyClass), ``\ ``):``
+| ``    pass``
 
 
 

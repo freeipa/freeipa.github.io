@@ -24,9 +24,9 @@ command:
 
 ::
 
-    | ``$ ipa ``\ **``domainlevel-get``**
+    | ``$ ipa ``\ **``domainlevel-get``**
     | ``-----------------------``
-    | ``Current domain level: 0``
+    | ``Current domain level: 0``
     | ``-----------------------``
 
 
@@ -36,9 +36,9 @@ Increase domain level
 
 To increase domain level, please use the following command:
 
-| ``$ ipa ``\ **``domainlevel-set``**\ `` 1``
+| ``$ ipa ``\ **``domainlevel-set``**\ `` 1``
 | ``-----------------------``
-| ``Current domain level: 1``
+| ``Current domain level: 1``
 | ``-----------------------``
 
 

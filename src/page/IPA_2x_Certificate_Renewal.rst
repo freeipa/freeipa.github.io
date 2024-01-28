@@ -36,7 +36,7 @@ Process
 
 The first thing you need to do is update certmonger to at least 0.58-1:
 
-``# yum update certmonger``
+``# yum update certmonger``
 
 This provides the dogtag-ipa-renew-agent CA that can directly renew the
 dogtag CA subsystem certificates. You only need to do this on those
@@ -47,7 +47,7 @@ In order for this to work you are going to need to go back in time to
 when the certificates are all still valid. First we need to stop the NTP
 service:
 
-``# /sbin/service ntpd stop``
+``# /sbin/service ntpd stop``
 
 To find out when the certificates were still valid, run:
 
@@ -64,7 +64,7 @@ least 24 hours before expiration.
 
 Next, you need to determine the PIN for the CA NSS database:
 
-``# grep internal= /var/lib/pki-ca/conf/password.conf``
+``# grep internal= /var/lib/pki-ca/conf/password.conf``
 
 Now we need to tell certmonger about all the CA certificates it needs to
 renew
@@ -79,7 +79,7 @@ renew
 We also need to renew the agent certificate that IPA uses to
 authenticate:
 
-`` # /usr/bin/getcert start-tracking -d /etc/httpd/alias -n ipaCert -c dogtag-ipa-renew-agent -p /etc/httpd/alias/pwdfile.txt``
+`` # /usr/bin/getcert start-tracking -d /etc/httpd/alias -n ipaCert -c dogtag-ipa-renew-agent -p /etc/httpd/alias/pwdfile.txt``
 
 Use "getcert list" to confirm that these 5 certs are now being tracked
 and note the Request IDs. You should be tracking a total of 8
@@ -88,11 +88,11 @@ certificates now.
 Now it's time to go back in time to when the certificates are valid,
 something like:
 
-``# date 102910262013``
+``# date 102910262013``
 
 Let's force renewal on all of the certificates:
 
-:literal:`# for line in `getcert list | grep Request | cut -d "'" -f2`; do getcert resubmit -i $line; done`
+:literal:`# for line in `getcert list | grep Request | cut -d "'" -f2`; do getcert resubmit -i $line; done`
 
 This will renew the CA subsystem certificates but the server
 certificates for Apache and 389-ds will have failed. We need to do a
@@ -109,18 +109,18 @@ run:
 
 ::
 
-   ``# certutil -M -n "auditSigningCert cert-pki-ca" -d /var/lib/pki-ca/alias -t u,u,Pu ``
+   ``# certutil -M -n "auditSigningCert cert-pki-ca" -d /var/lib/pki-ca/alias -t u,u,Pu ``
 
 The dogtag configuration file has a base64-encoded copy of most of these
 certificates in it. You'll need to update those by hand.
 
 To get this run:
 
-``# for nickname in "auditSigningCert cert-pki-ca" "ocspSigningCert cert-pki-ca" "subsystemCert cert-pki-ca" "Server-Cert cert-pki-ca"; do certutil -L -d /var/lib/pki-ca/alias -n "${nickname}" -a > /tmp/"${nickname}"; done``
+``# for nickname in "auditSigningCert cert-pki-ca" "ocspSigningCert cert-pki-ca" "subsystemCert cert-pki-ca" "Server-Cert cert-pki-ca"; do certutil -L -d /var/lib/pki-ca/alias -n "${nickname}" -a > /tmp/"${nickname}"; done``
 
 Stop the CA service:
 
-``# /sbin/service pki-cad stop``
+``# /sbin/service pki-cad stop``
 
 Then edit /etc/pki-ca/CS.cfg and find the cert entry for each one and
 replace the blobs. The option names are like ca.audit_signing.cert,
@@ -144,7 +144,7 @@ Backing up this file in advance would be a good idea.
 Now you can try to restart the CA to see what happens. It should come up
 fine:
 
-``# /sbin/service pki-cad start``
+``# /sbin/service pki-cad start``
 
 For ipaCert, stored in /etc/httpd/alias you have another job to do. This
 certificate is used to authenticate with the CA. You'll need to use
@@ -153,18 +153,18 @@ ldapmodify to fix things up.
 Start by looking at the new value for ipaCert. You need to do two
 things:
 
-``# certutil -L -d /etc/httpd/alias -n ipaCert | grep -i serial``
+``# certutil -L -d /etc/httpd/alias -n ipaCert | grep -i serial``
 
 Next you need the base64-encoded value of the cert like before:
 
-``# certutil -L -d /etc/httpd/alias -n ipaCert -a``
+``# certutil -L -d /etc/httpd/alias -n ipaCert -a``
 
 Again you'll need to drop the header/footer and combine this into a
 single line.
 
 Next see what is already there with:
 
-``# ldapsearch -x -h localhost -p 7389 -D 'cn=directory manager' -W -b uid=ipara,ou=People,o=ipaca``
+``# ldapsearch -x -h localhost -p 7389 -D 'cn=directory manager' -W -b uid=ipara,ou=People,o=ipaca``
 
 You need to replace the serial number in the description attribute with
 the new one. The serial number is the 2nd number. The format of the
@@ -189,30 +189,30 @@ The change is going to look something like:
 
 Now restart the Apache service
 
-``# /sbin/service httpd restart``
+``# /sbin/service httpd restart``
 
 Next we need to renew the two 389-ds and the Apache server certificates.
 
-``# ipa-getcert list``
+``# ipa-getcert list``
 
 For each of the three Request IDs run something like this:
 
 ::
 
-   ``# ipa-getcert resubmit -i ``
+   ``# ipa-getcert resubmit -i ``
 
 Restart the world:
 
-``# /sbin/service ipa restart``
+``# /sbin/service ipa restart``
 
 Return to the present time.
 
-| ``# /sbin/service ntpd start``
-| ``# date (confirm it is now)``
+| ``# /sbin/service ntpd start``
+| ``# date (confirm it is now)``
 
 To make sure that communication with the CA is working run:
 
-``# ipa cert-show 1``
+``# ipa cert-show 1``
 
 Notes
 -----
@@ -220,14 +220,14 @@ Notes
 I tested this on a RHEL 6.4 system that I installed ipa-server-2.2.0 and
 krb5-server-1.9. I did this by:
 
-| ``# date 111110262011``
-| ``# ipa-server-install -N ...``
+| ``# date 111110262011``
+| ``# ipa-server-install -N ...``
 
 I confirmed that things were working, then I brought time to today:
 
 ::
 
-   ``# rdate -s ``
+   ``# rdate -s ``
 
 So I basically simulated an installation 2 years in the past and see
 today that my certificates are expired. Then I did the renewal

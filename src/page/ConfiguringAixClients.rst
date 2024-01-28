@@ -49,15 +49,15 @@ Configuring Kerberos and LDAP
 
 1. Configure the krb5 client settings as follows:
 
-``   # mkkrb5clnt -r EXAMPLE.COM -d example.com -c ipaserver.example.com -s ipaserver.example.com``
+``   # mkkrb5clnt -r EXAMPLE.COM -d example.com -c ipaserver.example.com -s ipaserver.example.com``
 
 2. Get a Kerberos ticket.
 
-``       # kinit  admin``
+``       # kinit  admin``
 
 3. Configure the LDAP client settings as follows:
 
-``       # mksecldap -c -h ipaserver.example.com -d cn=accounts,dc=example,dc=com -a uid=nss,cn=sysaccounts,cn=etc,dc=example,dc=com -p secret``
+``       # mksecldap -c -h ipaserver.example.com -d cn=accounts,dc=example,dc=com -a uid=nss,cn=sysaccounts,cn=etc,dc=example,dc=com -p secret``
 
 4. Add custom settings for the LDAP client.
 
@@ -105,11 +105,11 @@ Under /etc/security/ldap create 2 new map files:
 
 5. Start the ldap client daemon.
 
-``       # start-secldapclntd``
+``       # start-secldapclntd``
 
 6. Test the LDAP client connection to the IPA server.
 
-``       # lsldap -a passwd``
+``       # lsldap -a passwd``
 
 7. Configure the system login to use Krberos and LDAP
 

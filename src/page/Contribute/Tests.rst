@@ -144,10 +144,10 @@ Committing (doesn’t apply for the temp commit)
 #. All commits must include Pagure link
 #. Include separate temp commit (see below)
 
-| ``(lowercase) ipatests : short summary within 80 chars (no dot)``
-| ``This is the particular reason for a change and or addition of a new test. Be as specific as possible. Use imperative language (fix bug, not fixed bug nor fixes bug) and present time.``
-| ``Fixes (or Related): Pagure ticket link``
-| ``Signed off by: (use –signoff and -S when committing)``
+| ``(lowercase) ipatests : short summary within 80 chars (no dot)``
+| ``This is the particular reason for a change and or addition of a new test. Be as specific as possible. Use imperative language (fix bug, not fixed bug nor fixes bug) and present time.``
+| ``Fixes (or Related): Pagure ticket link``
+| ``Signed off by: (use –signoff and -S when committing)``
 
 Note: “Fixes” is used when providing a fix for the raised issue.
 “Related” is used when providing a test for the fix.
@@ -180,7 +180,7 @@ should read
 
 ::
 
-   ``RunPytest ``
+   ``RunPytest ``
 
 
 
@@ -193,7 +193,7 @@ to read
 
 ::
 
-   ``test_webui/test_loginscreen.py ``
+   ``test_webui/test_loginscreen.py ``
 
 and change
 `Line#L68 <https://github.com/freeipa/freeipa/blob/master/ipatests/prci_definitions/temp_commit.yaml#L68>`__
@@ -214,7 +214,7 @@ You can see the list of available topologies at the top of
 Last but not least, link the PR-CI definition with the temp commit
 definition, i.e.
 
-``$ ln -sf ipatests/prci_definitions/temp_commit.yaml .freeipa-pr-ci.yaml``
+``$ ln -sf ipatests/prci_definitions/temp_commit.yaml .freeipa-pr-ci.yaml``
 
 executed from the repository root
 
@@ -261,7 +261,7 @@ Merging
 
 ::
 
-   ``ipatool pr-push 3406 -r reviewer1 -r reviewer2  -B ipa-4-8 -B ipa-4-7 ``
+   ``ipatool pr-push 3406 -r reviewer1 -r reviewer2  -B ipa-4-8 -B ipa-4-7 ``
 
 If you don’t have the permissions, e.g. as an external contributor,
 merging will be taken care of, usually by the reviewer.

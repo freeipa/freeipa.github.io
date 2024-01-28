@@ -1,0 +1,636 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>EJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/EJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="https://raw.githubusercontent.com/freeipa/freeipa.github.io/main/src/_static/freeipa-logo-small.png" class="logo__image" alt="Logo image" />
+</a>
+<div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/page/Documentation.html">Documentation</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/page/Troubleshooting.html">Troubleshooting</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/EJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>EJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-bind-account-in-freeipa">Create Bind account in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-group-in-freeipa">Create Group in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-epel-repository">Enable EPEL repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ejabberd-package">Install ejabberd package</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-configuration-file-to-use-tls-for-communication-between-the-server-and-your-jabber-clients">Edit Configuration file to use TLS for communication between the Server and your Jabber clients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-configuration-file-to-enable-ldap-authentication-and-group-validation">Edit Configuration file to enable LDAP authentication and Group validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-tcp-ports-on-local-server">Open TCP ports on local Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-xmpp-client-on-a-workstation">Configure XMPP Client on a Workstation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-user-s-to-the-jabber-users-group">Add user(s) to the “jabber_users” group</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="ejabberd-integration-with-freeipa-using-ldap-group-memberships">
+<h1>EJabberd_Integration_with_FreeIPA_using_LDAP_Group_memberships<a class="headerlink" href="#ejabberd-integration-with-freeipa-using-ldap-group-memberships" title="Link to this heading">#</a></h1>
+<p><strong>HOWTO: Configure eJabberd to authenticate IPA users using LDAP Group
+memberships.</strong></p>
+<p><strong>Provided by Dale Macartney</strong></p>
+<p>This guide has been written to show how you can integrate ejabberd (XMPP
+Server) into FreeIPA using LDAP authentication, and to allow user’s
+based on being a member of an allowed Group.</p>
+<p>Please note: This document works, however uses an unencrypted method of
+validating username and password data. As a result, this is a work in
+progress. If you wish to use this method in its current state, please do
+so at your own risk.</p>
+<p>Passwords will be transmitted in CLEAR TEXT!, Please be aware of this.</p>
+<p>The below details will walk you through how to add a Red Hat Enterprise
+Linux 6.2 system to an IPA domain, and then configure eJabberd to allow
+LDAP authentication with Group validation.</p>
+<p>Details of this example are as follows</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Domain</span> <span class="pre">name:</span> <span class="pre">example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">Server:</span> <span class="pre">ds01.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Jabber</span> <span class="pre">Server:</span> <span class="pre">jabber01.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">Client:</span> <span class="pre">workstation01.example.com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">User:</span> <span class="pre">testuser</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">Name</span> <span class="pre">=</span> <span class="pre">&quot;jabber_users&quot;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Bind</span> <span class="pre">account</span> <span class="pre">=</span> <span class="pre">&quot;ejabberd&quot;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Bind</span> <span class="pre">password</span> <span class="pre">=</span> <span class="pre">&quot;secret123&quot;</span></code></div>
+</div>
+<section id="create-bind-account-in-freeipa">
+<h2>Create Bind account in FreeIPA<a class="headerlink" href="#create-bind-account-in-freeipa" title="Link to this heading">#</a></h2>
+<p>Start by logging into your IPA server. If you did not log in as the
+admin user, optain a tgt for the admin user so we can add what we need
+to. To do this, run the following.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Password</span> <span class="pre">for</span> <span class="pre">admin&#64;EXAMPLE.COM:</span></code></div>
+</div>
+<p>You can verify your ticket with the following command.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">klist</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Ticket</span> <span class="pre">cache:</span> <span class="pre">``\</span> <span class="pre">```FILE:/tmp/krb5cc_0</span></code> &lt;<a class="reference external" href="FILE:/tmp/krb5cc_0">FILE:/tmp/krb5cc_0</a>&gt;`__</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">principal:</span> <span class="pre">admin&#64;EXAMPLE.COM</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Valid</span> <span class="pre">starting</span>&#160;&#160;&#160;&#160; <span class="pre">Expires</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Service</span> <span class="pre">principal</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">06/13/12</span> <span class="pre">23:28:48</span>&#160; <span class="pre">06/14/12</span> <span class="pre">23:28:45</span>&#160; <span class="pre">krbtgt/EXAMPLE.COM&#64;EXAMPLE.COM</span></code></div>
+</div>
+<p>Create a file with the following information. In this example, I created
+/root/jabber.ldif. Don’t forget to change the userPassword to something
+secure.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">add</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">account</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">simplesecurityobject</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">uid:</span> <span class="pre">ejabberd</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">userPassword:</span> <span class="pre">secret123</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">passwordExpirationTime:</span> <span class="pre">20380119031407Z</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">nsIdleTimeout:</span> <span class="pre">0</span></code></div>
+</div>
+<p>Once you have saved your file, import the information into LDAP with the
+following command. Please note, you will need your Directory Manager
+password here.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ldapmodify</span> <span class="pre">-h</span> <span class="pre">ds01.example.com</span> <span class="pre">-p</span> <span class="pre">389</span> <span class="pre">-x</span> <span class="pre">-D</span> <span class="pre">&quot;cn=Directory</span> <span class="pre">Manager&quot;</span> <span class="pre">-w</span> <span class="pre">redhat123</span> <span class="pre">-f</span> <span class="pre">jabber.ldif</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">adding</span> <span class="pre">new</span> <span class="pre">entry</span> <span class="pre">&quot;uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+</div>
+</section>
+<section id="create-group-in-freeipa">
+<h2>Create Group in FreeIPA<a class="headerlink" href="#create-group-in-freeipa" title="Link to this heading">#</a></h2>
+<p>Whilst you are still on the IPA server, add the group to be used for our
+jabber users.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">group-add</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">name:</span> <span class="pre">jabber_users</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Description:</span> <span class="pre">Group</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">validate</span> <span class="pre">Jabber</span> <span class="pre">authentication</span> <span class="pre">to</span> <span class="pre">allowed</span> <span class="pre">users</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">--------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Added</span> <span class="pre">group</span> <span class="pre">&quot;jabber_users&quot;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">--------------------------</span></code></div>
+<div class="line">``  Group name: jabber_users``</div>
+<div class="line">``  Description: Group used to validate Jabber authentication to allowed users``</div>
+<div class="line">``  GID: 1668600006``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+</div>
+</section>
+<section id="enable-epel-repository">
+<h2>Enable EPEL repository<a class="headerlink" href="#enable-epel-repository" title="Link to this heading">#</a></h2>
+<p>As the the ejabberd package is not provided by Red Hat, you will need to
+configure yum to use the EPEL repostories,</p>
+<p>To do this, run the following on your soon to be, jabber server.</p>
+<p><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">rpm</span> <span class="pre">-Uvh</span> <span class="pre">``\</span> <span class="pre">```http://mirror01.th.ifl.net/epel/5/i386/epel-release-5-4.noarch.rpm</span></code> &lt;<a class="reference external" href="http://mirror01.th.ifl.net/epel/5/i386/epel-release-5-4.noarch.rpm">http://mirror01.th.ifl.net/epel/5/i386/epel-release-5-4.noarch.rpm</a>&gt;`__</p>
+</section>
+<section id="install-ejabberd-package">
+<h2>Install ejabberd package<a class="headerlink" href="#install-ejabberd-package" title="Link to this heading">#</a></h2>
+<p>Install the ejabberd package by running the following</p>
+<p><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">ejabberd</span></code></p>
+</section>
+<section id="edit-configuration-file-to-use-tls-for-communication-between-the-server-and-your-jabber-clients">
+<h2>Edit Configuration file to use TLS for communication between the Server and your Jabber clients<a class="headerlink" href="#edit-configuration-file-to-use-tls-for-communication-between-the-server-and-your-jabber-clients" title="Link to this heading">#</a></h2>
+<p>Once installed, open /etc/ejabberd/ejabberd.cfg and change the following
+lines</p>
+<p>Change the line</p>
+<p><code class="docutils literal notranslate"><span class="pre">{hosts,</span> <span class="pre">[&quot;localhost&quot;]}.</span></code></p>
+<p>so it reads as follows</p>
+<p><code class="docutils literal notranslate"><span class="pre">{hosts,</span> <span class="pre">[&quot;example.com&quot;]}.</span></code></p>
+<p>Change the line</p>
+<p><code class="docutils literal notranslate"><span class="pre">%%{certfile,</span> <span class="pre">&quot;/etc/ejabberd/ejabberd.pem&quot;},</span> <span class="pre">starttls,</span></code></p>
+<p>so it reads as follows</p>
+<p><code class="docutils literal notranslate"><span class="pre">{certfile,</span> <span class="pre">&quot;/etc/ejabberd/ejabberd.pem&quot;},</span> <span class="pre">starttls,</span></code></p>
+<p>Change the line</p>
+<p><code class="docutils literal notranslate"><span class="pre">%%{s2s_use_starttls,</span> <span class="pre">optional}.</span></code></p>
+<p>so it reads as follows</p>
+<p><code class="docutils literal notranslate"><span class="pre">{s2s_use_starttls,</span> <span class="pre">optional}.</span></code></p>
+<p>Change the line</p>
+<p><code class="docutils literal notranslate"><span class="pre">%%{s2s_certfile,</span> <span class="pre">&quot;/etc/ejabberd/ejabberd.pem&quot;}.</span></code></p>
+<p>so it reads as follows</p>
+<p><code class="docutils literal notranslate"><span class="pre">{s2s_certfile,</span> <span class="pre">&quot;/etc/ejabberd/ejabberd.pem&quot;}.</span></code></p>
+<p>Make sure you save your configuration file.</p>
+</section>
+<section id="edit-configuration-file-to-enable-ldap-authentication-and-group-validation">
+<h2>Edit Configuration file to enable LDAP authentication and Group validation<a class="headerlink" href="#edit-configuration-file-to-enable-ldap-authentication-and-group-validation" title="Link to this heading">#</a></h2>
+<p>Open /etc/ejabberd/ejabberd.cfg and add the following lines in the
+Authentication section. Don’t forget to change the password to the one
+you used earlier for your BIND account.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{auth_method,</span> <span class="pre">ldap}.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_servers,</span> <span class="pre">[&quot;ds01.example.com&quot;]}.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_uids,</span> <span class="pre">[{&quot;uid&quot;}]}.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_filter,</span> <span class="pre">&quot;(memberOf=cn=jabber_users,cn=groups,cn=accounts,dc=example,dc=com)&quot;}.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_base,</span> <span class="pre">&quot;dc=example,dc=com&quot;}.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_rootdn,</span> <span class="pre">&quot;uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;}.</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_password,</span> <span class="pre">&quot;secret123&quot;}.</span></code></div>
+</div>
+<p>Save the config file once you have finished and restart ejabberd</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">service</span> <span class="pre">ejabberd</span> <span class="pre">start</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">ejabberd:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
+</div>
+<p>Verify that your service has started correctly after your changes.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">service</span> <span class="pre">ejabberd</span> <span class="pre">status</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">node</span> <span class="pre">ejabberd&#64;jabber02</span> <span class="pre">is</span> <span class="pre">started</span> <span class="pre">with</span> <span class="pre">status:</span> <span class="pre">started</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">ejabberd</span> <span class="pre">2.1.11</span> <span class="pre">is</span> <span class="pre">running</span> <span class="pre">in</span> <span class="pre">that</span> <span class="pre">node</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span></code></div>
+</div>
+</section>
+<section id="open-tcp-ports-on-local-server">
+<h2>Open TCP ports on local Server<a class="headerlink" href="#open-tcp-ports-on-local-server" title="Link to this heading">#</a></h2>
+<p>Now we need to open our firewall for a few ports for jabber to work with
+our clients.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">5269</span> <span class="pre">5222</span> <span class="pre">5223</span> <span class="pre">5280</span> <span class="pre">;</span> <span class="pre">do</span> <span class="pre">iptables</span> <span class="pre">-I</span> <span class="pre">INPUT</span> <span class="pre">-p</span> <span class="pre">tcp</span> <span class="pre">--dport</span> <span class="pre">$x</span> <span class="pre">-j</span> <span class="pre">ACCEPT</span> <span class="pre">;</span> <span class="pre">done</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">service</span> <span class="pre">iptables</span> <span class="pre">save</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">iptables:</span> <span class="pre">Saving</span> <span class="pre">firewall</span> <span class="pre">rules</span> <span class="pre">to</span> <span class="pre">/etc/sysconfig/iptables:[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span></code></div>
+</div>
+</section>
+<section id="configure-xmpp-client-on-a-workstation">
+<h2>Configure XMPP Client on a Workstation<a class="headerlink" href="#configure-xmpp-client-on-a-workstation" title="Link to this heading">#</a></h2>
+<p>Next we need to configure our jabber client. For the purpose of this
+exercise, I have used pidgin, which is also available via the EPEL
+repository.</p>
+<p>Open Pidgin on your workstation. If this is the first time you have
+launched Pidgin, it will prompt you to add an account.</p>
+<p>Select XMPP and add your username, domain and password.</p>
+<p>See the below picture for comparison.</p>
+<figure class="align-default" id="id1">
+<img alt="Add_Account.png" src="../_images/Add_Account.png" />
+<figcaption>
+<p><span class="caption-text">Add_Account.png</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Once you have added your user credentials, click Advanced and enter your
+jabber server name. (Please note, I took this screenshot whilst testing
+another server, I will replace this screenshot shortly).</p>
+<p>See the below picture for comparison.</p>
+<figure class="align-default" id="id2">
+<img alt="Add_Account\_-_Server_Settings.png" src="../_images/Add_Account_-_Server_Settings.png" />
+<figcaption>
+<p><span class="caption-text">Add_Account_-_Server_Settings.png</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Once you have finished, click the add button. If you enable the account,
+it will attempt to connect and ask you to accept the SSL certificate
+that we enabled earlier.</p>
+<p>See the below picture for comparison.</p>
+<figure class="align-default" id="id3">
+<img alt="SSL_Certificate.png" src="../_images/SSL_Certificate.png" />
+<figcaption>
+<p><span class="caption-text">SSL_Certificate.png</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Once you have accepted the certificate, you will see that your login
+attempt failed. This is because we have not added any users to the
+“jabber_users” group yet.</p>
+</section>
+<section id="add-user-s-to-the-jabber-users-group">
+<h2>Add user(s) to the “jabber_users” group<a class="headerlink" href="#add-user-s-to-the-jabber-users-group" title="Link to this heading">#</a></h2>
+<p>If you tail the logs of the jabber server as follows, you will see the
+failed authentication attempt in the above step.</p>
+<p><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/var/log/ejabberd/ejabberd.log</span></code></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:03:30</span> <span class="pre">===</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.376.0&gt;:ejabberd_listener:281)</span> <span class="pre">:</span> <span class="pre">(#Port&lt;0.4119&gt;)</span> <span class="pre">Accepted</span> <span class="pre">connection</span>&#160; <span class="pre">{{10,0,1,101},60643}</span> <span class="pre">-&gt;</span> <span class="pre">{{10,0,1,32},5222}</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:03:30</span> <span class="pre">===</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.380.0&gt;:ejabberd_c2s:657)</span> <span class="pre">:</span> <span class="pre">({socket_state,tls,</span>&#160; <span class="pre">{tlssock,#Port&lt;0.4119&gt;,#Port&lt;0.4141&gt;},&lt;0.379.0&gt;})</span> <span class="pre">Failed</span> <span class="pre">authentication</span> <span class="pre">for</span> <span class="pre">testuser&#64;example.com</span></code></div>
+</div>
+<p>Leave the tailing log running and switch back to your IPA server and add
+your test user.</p>
+<p>You can do this by doing the following.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">group-add-member</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">name:</span> <span class="pre">jabber_users</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[member</span> <span class="pre">user]:</span> <span class="pre">testuser</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[member</span> <span class="pre">group]:</span></code></div>
+<div class="line">``  Group name: jabber_users``</div>
+<div class="line">``  Description: Group used to validate Jabber authentication to allowed users``</div>
+<div class="line">``  GID: 1668600006``</div>
+<div class="line">``  Member users: testuser``</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">-------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">members</span> <span class="pre">added</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">-------------------------</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+</div>
+<p>Jump back to your workstation and click the reconnect button. You should
+see that your client has now logged in, and the following will appear in
+the tailing logs on the jabber server.</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:08:35</span> <span class="pre">===</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.376.0&gt;:ejabberd_listener:281)</span> <span class="pre">:</span> <span class="pre">(#Port&lt;0.4159&gt;)</span> <span class="pre">Accepted</span> <span class="pre">connection</span> <span class="pre">{{10,0,1,101},60644}</span> <span class="pre">-&gt;</span> <span class="pre">{{10,0,1,32},5222}</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:08:35</span> <span class="pre">===</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.393.0&gt;:ejabberd_c2s:639)</span> <span class="pre">:</span> <span class="pre">({socket_state,tls,</span> <span class="pre">{tlssock,#Port&lt;0.4159&gt;,#Port&lt;0.4161&gt;},&lt;0.392.0&gt;})</span> <span class="pre">Accepted</span> <span class="pre">authentication</span> <span class="pre">for</span> <span class="pre">testuser</span> <span class="pre">by</span> <span class="pre">ejabberd_auth_ldap</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:08:36</span> <span class="pre">===</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.393.0&gt;:ejabberd_c2s:946)</span> <span class="pre">:</span> <span class="pre">({socket_state,tls,{tlssock,#Port&lt;0.4159&gt;,#Port&lt;0.4161&gt;},&lt;0.392.0&gt;})</span> <span class="pre">Opened</span> <span class="pre">session</span> <span class="pre">for</span> <span class="pre">testuser&#64;example.com/91030605413396289162377</span></code></div>
+</div>
+<p>Thats all folks, your jabber server is now finished and validating your
+“jabber_users” Group.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-bind-account-in-freeipa">Create Bind account in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-group-in-freeipa">Create Group in FreeIPA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-epel-repository">Enable EPEL repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ejabberd-package">Install ejabberd package</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-configuration-file-to-use-tls-for-communication-between-the-server-and-your-jabber-clients">Edit Configuration file to use TLS for communication between the Server and your Jabber clients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-configuration-file-to-enable-ldap-authentication-and-group-validation">Edit Configuration file to enable LDAP authentication and Group validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-tcp-ports-on-local-server">Open TCP ports on local Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-xmpp-client-on-a-workstation">Configure XMPP Client on a Workstation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-user-s-to-the-jabber-users-group">Add user(s) to the “jabber_users” group</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

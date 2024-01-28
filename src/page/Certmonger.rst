@@ -135,7 +135,7 @@ All IPA-issued certificate
 
 This is the equivalent of:
 
-`` # getcert list -c IPA``
+``# getcert list -c IPA``
 
 The difference is that ipa-getcert sets the value of the CA (-c). It's
 just a shortcut.

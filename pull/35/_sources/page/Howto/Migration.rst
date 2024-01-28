@@ -207,7 +207,7 @@ applied:
       `DNS <DNS>`__ SRV records, if used.
 
 #. Old FreeIPA servers can be now uninstalled with
-   ``ipa-server-install --uninstall``
+   ipa-server-install --uninstall
 
 
 

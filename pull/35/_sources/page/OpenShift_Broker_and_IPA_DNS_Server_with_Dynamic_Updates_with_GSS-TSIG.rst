@@ -16,12 +16,12 @@ Install plugins on Broker
       RHEL, and ``/usr/share/gems/gems/`` in Fedora.
 
 -  Must *remove* the old plugin first:
-   ``gem uninstall openshift-origin-dns-bind``
+   gem uninstall openshift-origin-dns-bind
 -  Install the nsupdate plugin
-   ``gem install openshift-origin-dns-nsupdate``
+   gem install openshift-origin-dns-nsupdate
 -  Move into the plugins directory, ``# cd /etc/openshift/plugins.d/``
    then move the old configuration:
-   ``# mv openshift-origin-dns-bind.conf openshift-origin-dns-bind.conf.orig``
+   # mv openshift-origin-dns-bind.conf openshift-origin-dns-bind.conf.orig
 -  Configure the new conf file in
    ``/etc/openshift/plugins.d/openshift-origin-dns-nsupdate.conf`` to
    look like this (make the file if it doesn't exist):

@@ -295,7 +295,7 @@ Try the following:
 
 -  Destroy the Kerberos cache
 
-   ``# rm -f /tmp/krb*``
+   # rm -f /tmp/krb*
 
 -  Obtain a new keytab for the nfs service using **-e des-cbc-crc** for
    the IPA client.

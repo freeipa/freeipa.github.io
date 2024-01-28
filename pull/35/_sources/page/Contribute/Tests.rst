@@ -182,7 +182,7 @@ should read
 
 .. code-block:: text
 
-   ``RunPytest ``
+   RunPytest 
 
 
 
@@ -195,7 +195,7 @@ to read
 
 .. code-block:: text
 
-   ``test_webui/test_loginscreen.py ``
+   test_webui/test_loginscreen.py 
 
 and change
 `Line#L68 <https://github.com/freeipa/freeipa/blob/master/ipatests/prci_definitions/temp_commit.yaml#L68>`__
@@ -263,7 +263,7 @@ Merging
 
 .. code-block:: text
 
-   ``ipatool pr-push 3406 -r reviewer1 -r reviewer2  -B ipa-4-8 -B ipa-4-7 ``
+   ipatool pr-push 3406 -r reviewer1 -r reviewer2  -B ipa-4-8 -B ipa-4-7 
 
 If you don’t have the permissions, e.g. as an external contributor,
 merging will be taken care of, usually by the reviewer.

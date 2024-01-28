@@ -517,7 +517,7 @@ Restore StageUser
 
 .. code-block:: text
 
-   ``Support engineer can restore a ``\ *``Delete``*\ `` user (under ``\ *``cn=deleted``\ ````\ ``users,cn=accounts,cn=provisioning,SUFFIX``*\ ``). ``\ *``Delete``*\ `` user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\ ```restore``\ ````\ ``and``\ ````\ ``activate`` <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User>`__\ `` a ``\ *``Delete``*\ `` user. Stepping the entry into ``\ *``Stage``*\ `` allows to keep valid properties and update the corrupted ones before making the user ``\ *``Active``*\ ``.``
+   Support engineer can restore a ``\ *``Delete``*\ `` user (under ``\ *``cn=deleted``\ ````\ ``users,cn=accounts,cn=provisioning,SUFFIX``*\ ``). ``\ *``Delete``*\ `` user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\ ```restore``\ ````\ ``and``\ ````\ ``activate`` <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User>`__\ `` a ``\ *``Delete``*\ `` user. Stepping the entry into ``\ *``Stage``*\ `` allows to keep valid properties and update the corrupted ones before making the user ``\ *``Active``*\ ``.
 
 #. Support engineer restore the user using the following CLI
 
@@ -698,7 +698,7 @@ the company, his account can be *permanently* removed (deleting the ldap
 entry) or moved (modrdn) to a 'Delete' container (cn=deleted
 users,cn=accounts,cn=provisioning,$SUFFIX) in order to preserve it.
 
-   ``ipa user-del tuser [[--no-preserve][--preserve]]``
+   ipa user-del tuser [[--no-preserve][--preserve]]
 
 Option *--no-preserve* and *--preserve* are mutually exclusive. The
 default option is *--no-preserve*. A configuration attribute could

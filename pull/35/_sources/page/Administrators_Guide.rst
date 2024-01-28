@@ -951,12 +951,12 @@ Using the Command-Line
 Use the **ipa-pwpolicy** command to modify IPA password policy details.
 This command uses the following syntax:
 
-   ``ipa-pwpolicy [--maxlife days] [--minlife hours] [--history number] [--minclasses number] [--minlength number]``
+   ipa-pwpolicy [--maxlife days] [--minlife hours] [--history number] [--minclasses number] [--minlength number]
 
 For example, to update the minimum password length to 10 characters, and
 to specify that no history of passwords be kept:
 
-   ``# /usr/sbin/ipa-pwpolicy --minlength 10 --history 0``
+   # /usr/sbin/ipa-pwpolicy --minlength 10 --history 0
 
 Refer to the next section for information on password policy attributes.
 
@@ -1069,7 +1069,7 @@ password has expired.
 **To enable Challenge-Response authentication:**
 
 -  Set ChallengeResponseAuthentication to "yes" in
-   ``/etc/ssh/sshd_config``
+   /etc/ssh/sshd_config
 
 
 
@@ -1263,7 +1263,7 @@ Before you begin, ensure that:
    is beyond the scope of this document, but an entry in the
    ``/etc/exports`` file looks something like this:
 
-   ``/home 192.168.1.0/16(rw,fsid=0,insecure,no_subtree_check,sync,anonuid=65534,anongid=65534)``
+   /home 192.168.1.0/16(rw,fsid=0,insecure,no_subtree_check,sync,anonuid=65534,anongid=65534)
 
 Test from the command line that you can mount the ``/home`` directory.
 This helps to eliminate suspects if the configuration does not work.

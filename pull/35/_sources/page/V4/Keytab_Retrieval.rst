@@ -294,9 +294,9 @@ Use Case: A load balancing cluster of HTTP server that allow GSSAPI/Krb5 negotia
 ----------------------------------------------------------------------------------------------
 
 #. Install FreeIPA server with DNS on a host, e.g. with hostname
-   ``server.example.test``
+   server.example.test
 #. Enroll FreeIPA clients ``client1.example.test`` and
-   ``client2.example.test``
+   client2.example.test
 #. Create DNS A record ``client.example.test`` that has 2 forward
    addresses of ``client1.example.test`` and ``client2.example.test``
 #. Add a new host ``client.example.test`` - there will be no client

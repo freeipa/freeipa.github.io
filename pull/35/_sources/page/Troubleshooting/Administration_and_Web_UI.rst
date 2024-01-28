@@ -57,7 +57,7 @@ Web UI
 Cannot authenticate to Web UI---------------------------
 
 -  Make sure that the user can authenticate in CLI, e.g. with
-   ``kinit $USER``
+   kinit $USER
 -  Make sure that ``httpd``, ``dirsrv`` and ``ipa_memcached`` services
    on the affected FreeIPA server are running.
 -  Make sure there are no related `SELinux

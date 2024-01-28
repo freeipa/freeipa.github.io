@@ -47,7 +47,7 @@ Obsolete RUV records
    (``ipa-replica-manage list-ruv``) which cannot be removed by
    ``ipa-replica-manage clean-ruv`` command and for example give status
    like
-   ``RID XX Waiting to process all the updates from the deleted replica...``
+   RID XX Waiting to process all the updates from the deleted replica...
    but never finish, make sure that IPv6 is not disabled on the FreeIPA
    replicas (related
    `freeipa-users <https://www.redhat.com/archives/freeipa-users/2015-September/msg00332.html>`__

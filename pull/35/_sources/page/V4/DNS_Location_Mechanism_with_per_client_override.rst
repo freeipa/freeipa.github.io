@@ -128,11 +128,11 @@ typically have the same priority (0) and weight (100):
 
 .. code-block:: text
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ;; QUESTION SECTION:
+   ;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV
+   ;; ANSWER SECTION:
+   _ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
+   _ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
 
 
 
@@ -484,21 +484,21 @@ Location ``cz`` will have one set of SRV records:
 
 .. code-block:: text
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.cz._locations.example.com. IN  SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ;; QUESTION SECTION:
+   ;_ldap._tcp.cz._locations.example.com. IN  SRV
+   ;; ANSWER SECTION:
+   _ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
+   _ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
 
 Location ``uk`` will have different set of SRV records (possibly with
 different priorities, weights, or even servers):
 .. code-block:: text
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.uk._locations.example.com. IN  SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.``
+   ;; QUESTION SECTION:
+   ;_ldap._tcp.uk._locations.example.com. IN  SRV
+   ;; ANSWER SECTION:
+   _ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.
+   _ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.
 
 Clients are querying SRV records under client's FQDN prefixed with label
 ``_location`` name. This record contains redirection to a location into
@@ -507,13 +507,13 @@ matter how the DNS server generated the redirection.)
 
 .. code-block:: text
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
-   ``;; ANSWER SECTION:``
+   ;; QUESTION SECTION:
+   ;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV
+   ;; ANSWER SECTION:
    **``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
-   ``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+   _ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.
+   _ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
+   _ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
 
 Following diagram summarizes proposed behavior (version 1):
 |ExampleLocationsV1.svg|

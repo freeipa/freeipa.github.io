@@ -454,7 +454,7 @@ Using CLI commands to manager user certificates
    ipa: ERROR: 'usercertificate;binary' already contains one or more values
 
 -  remove the certificate from the user entry using
-   ``ipa user-remove-cert``
+   ipa user-remove-cert
 
 .. code-block:: text
 

@@ -135,7 +135,7 @@ All IPA-issued certificate
 
 This is the equivalent of:
 
-`` # getcert list -c IPA``
+``# getcert list -c IPA``
 
 The difference is that ipa-getcert sets the value of the CA (-c). It's
 just a shortcut.
@@ -164,13 +164,13 @@ OpenSSL
 ^^^^^^^
 .. code-block:: text
 
-   ``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
+   #  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K 
 
 NSS
 ^^^
 .. code-block:: text
 
-   ``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
+   # ipa-getcert request -d /path/to/database -n 'Test' -K 
 
 
 

@@ -168,7 +168,7 @@ automatically). We did this as a first step.To get this to work change:
 
 -  **User Schema Settings / Additional User DN** to ``cn=accounts``
 -  **User Schema Settings / User Unique ID Attribute** from
-   ``entryUUID`` to ``uid``
+   entryUUID`` to ``uid
 
 Groups
 ^^^^^^
@@ -178,12 +178,12 @@ get this to work change:
 
 -  **Group Schema Settings / Additional Group DN** to ``cn=accounts``
 -  **Group Schema Settings / Group Object Class** from
-   ``groupOfUniqueNames`` to ``groupOfNames``
+   groupOfUniqueNames`` to ``groupOfNames
 -  **Group Schema Settings / Group Object Filter** from
    ``(objectclass=groupOfUniqueNames)`` to
-   ``(objectclass=groupOfNames)``
+   (objectclass=groupOfNames)
 -  **Member Schema Settings / Group Members Attribute** from
-   ``uniqueMember`` to ``Member``
+   uniqueMember`` to ``Member
 
 
 

@@ -155,11 +155,11 @@ typically have the same priority (0) and weight (100):
 
 .. code-block:: text
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ;; QUESTION SECTION:
+   ;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV
+   ;; ANSWER SECTION:
+   _ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
+   _ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
 
 
 
@@ -1193,7 +1193,7 @@ DNAME Records: `RFC
 
 #. ``_location.$HOSTNAME`` domain can contain only ``SRV`` records for
    client's realm. Consequently, clients which only query for
-   ``_location.$HOSTNAME`` does not have a way to find tailored ``SRV``
+   _location.$HOSTNAME`` does not have a way to find tailored ``SRV
    records from other realms.\ `↩︎ <#fnref3>`__
 
 #. Clients from different realms will obtain tailored ``SRV`` records

@@ -312,6 +312,6 @@ How to Use
 #. Then, ``ipa hbacrule-add newRule SOMEOPTIONS`` for standard HBAC Rule
    creation.
 #. Add the newly created time rule to the HBAC rule:
-   ``ipa hbacrule-add-timerule newRule --timerule=someday``
+   ipa hbacrule-add-timerule newRule --timerule=someday
 #. From now on, the hosts/services are only accessible at the time
    described by the iCalendar string in *someday* time rule.

@@ -58,7 +58,7 @@ FreeIPA server:
 ``# yum install -y ipa-experimental-x509-auth-plugin``
 
    After the package is installed in the
-   ``/usr/share/ipa/ui/js/plugins/`` FreeIPA plug-in directory, ``yum``
+   /usr/share/ipa/ui/js/plugins/`` FreeIPA plug-in directory, ``yum
    automatically enables the ``mod_lookup_identity`` module and
    configures the System Security Services Daemon (SSSD).
 

@@ -116,9 +116,9 @@ To use the Install and Replace method do the following:
    the DS and once for Apache to replace the server certificates
 -  If you want the Firefox autoconfiguration to work use an object
    signing certificate to sign the jar file in
-   ``/usr/share/ipa/html/configure.jar``
+   /usr/share/ipa/html/configure.jar
 -  Replace the CA certificate in ``/etc/ipa/ca.crt`` and
-   ``/usr/share/ipa/html/ca.crt``
+   /usr/share/ipa/html/ca.crt
 -  Edit ``/etc/ipa/default.conf`` and set ``enable_ra`` to ``False``
 -  Restart Apache
 
@@ -134,7 +134,7 @@ To use the Install your own method do the following:
    the server cert, key and the CA cert chain.
 -  If you want the Firefox autoconfiguration to work use an object
    signing certificate to sign the jar file in
-   ``/usr/share/ipa/html/configure.jar``
+   /usr/share/ipa/html/configure.jar
 -  Verify that the CA certificate in ``/etc/ipa/ca.crt`` and
    ``/usr/share/ipa/html/ca.crt`` are correct
 -  Edit ``/etc/ipa/default.conf`` and set ``enable_ra`` to ``False``

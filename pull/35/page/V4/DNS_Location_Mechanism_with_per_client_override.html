@@ -447,11 +447,11 @@ Assuming that all DNS servers responsible for given zone are returning a
 static set of records, there is no way how to prioritize a server
 ‘nearest’ to the client at the moment. Consequently, all FreeIPA servers
 typically have the same priority (0) and weight (100):</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-``;; ANSWER SECTION:``
-``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>;; QUESTION SECTION:
+;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV
+;; ANSWER SECTION:
+_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
+_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
 </pre></div>
 </div>
 </section>
@@ -730,34 +730,34 @@ user   0m24.881s
 <p>Version 1 of this proposal introduces separate sets of SRV records for
 each location.</p>
 <p>Location <code class="docutils literal notranslate"><span class="pre">cz</span></code> will have one set of SRV records:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.cz._locations.example.com. IN  SRV``
-``;; ANSWER SECTION:``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>;; QUESTION SECTION:
+;_ldap._tcp.cz._locations.example.com. IN  SRV
+;; ANSWER SECTION:
+_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
+_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
 </pre></div>
 </div>
 <p>Location <code class="docutils literal notranslate"><span class="pre">uk</span></code> will have different set of SRV records (possibly with
 different priorities, weights, or even servers):
 .. code-block:: text</p>
 <blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">QUESTION</span> <span class="pre">SECTION:</span></code>
-<code class="docutils literal notranslate"><span class="pre">;_ldap._tcp.uk._locations.example.com.</span> <span class="pre">IN</span>&#160; <span class="pre">SRV</span></code>
-<code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">ANSWER</span> <span class="pre">SECTION:</span></code>
-<code class="docutils literal notranslate"><span class="pre">_ldap._tcp.uk._locations.example.com.</span> <span class="pre">SRV</span> <span class="pre">``\</span> <span class="pre">**``0</span></code><a href="#id2"><span class="problematic" id="id3">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``50``**\</span> <span class="pre">``</span> <span class="pre">389</span> <span class="pre">ipa-brno.example.com.</span></code>
-<code class="docutils literal notranslate"><span class="pre">_ldap._tcp.uk._locations.example.com.</span> <span class="pre">SRV</span> <span class="pre">``\</span> <span class="pre">**``0</span></code><a href="#id4"><span class="problematic" id="id5">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``200``**\</span> <span class="pre">``</span> <span class="pre">389</span> <span class="pre">ipa-london.example.com.</span></code></p>
+<div><p>;; QUESTION SECTION:
+;_ldap._tcp.uk._locations.example.com. IN  SRV
+;; ANSWER SECTION:
+_ldap._tcp.uk._locations.example.com. SRV <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``0</span></code><a href="#id2"><span class="problematic" id="id3">``</span></a><code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``50``**\</span> <span class="pre">``</span> <span class="pre">389</span> <span class="pre">ipa-brno.example.com.</span>
+<span class="pre">_ldap._tcp.uk._locations.example.com.</span> <span class="pre">SRV</span> <span class="pre">``\</span> <span class="pre">**``0</span></code><a href="#id4"><span class="problematic" id="id5">``</span></a><a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">``</span></a>200``**`` 389 ipa-london.example.com.</p>
 </div></blockquote>
 <p>Clients are querying SRV records under client’s FQDN prefixed with label
 <code class="docutils literal notranslate"><span class="pre">_location</span></code> name. This record contains redirection to a location into
 which the client is assigned. (From client’s perspective is does not
 matter how the DNS server generated the redirection.)</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
-``;; ANSWER SECTION:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>;; QUESTION SECTION:
+;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV
+;; ANSWER SECTION:
 **``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
-``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.
+_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.
+_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.
 </pre></div>
 </div>
 <p>Following diagram summarizes proposed behavior (version 1):

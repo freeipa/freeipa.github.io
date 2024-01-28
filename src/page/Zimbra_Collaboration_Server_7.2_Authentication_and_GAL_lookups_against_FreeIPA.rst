@@ -17,8 +17,8 @@ For the purpose of this document, the following information is given
 
 Servers:
 
-| ``IPA Server = ds01.example.com``
-| ``Zimbra Server = zimbra03.example.com``
+| ``IPA Server = ds01.example.com``
+| ``Zimbra Server = zimbra03.example.com``
 
 **``IMPORTANT``**
 
@@ -33,9 +33,9 @@ account.
 If you do not do this and you lose LDAP authentication, you will not be
 able to log in as the Zimbra Admin user.
 
-| ``[root@zimbra03 ~]# su -l zimbra``
-| ``[zimbra@zimbra03 ~]$ zmprov modifydomain example.com zimbraAuthFallbackToLocal TRUE``
-| ``[zimbra@zimbra03 ~]$``
+| ``[root@zimbra03 ~]# su -l zimbra``
+| ``[zimbra@zimbra03 ~]$ zmprov modifydomain example.com zimbraAuthFallbackToLocal TRUE``
+| ``[zimbra@zimbra03 ~]$``
 
 Prerequisite:
 -------------
@@ -46,20 +46,20 @@ as a service account.
 To do this, create an ldif file detailing your service account. I used
 the following, saved as zimbra.ldif
 
-| ``dn: uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| ``changetype: add``
-| ``objectclass: account``
-| ``objectclass: simplesecurityobject``
-| ``uid: zimbra``
-| ``userPassword: woofwoofimasecretpasswordthatisreallydifficult``
-| ``passwordExpirationTime: 20380119031407Z``
-| ``nsIdleTimeout: 0``
+| ``dn: uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com``
+| ``changetype: add``
+| ``objectclass: account``
+| ``objectclass: simplesecurityobject``
+| ``uid: zimbra``
+| ``userPassword: woofwoofimasecretpasswordthatisreallydifficult``
+| ``passwordExpirationTime: 20380119031407Z``
+| ``nsIdleTimeout: 0``
 
 Save your file, and then import it on your IPA server
 
-| ``[root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D "cn=Directory  Manager" -w redhat123 -f zimbra.ldif``
-| ``adding new entry "uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com"``
-| ``[root@ds01 ~]#``
+| ``[root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D "cn=Directory  Manager" -w redhat123 -f zimbra.ldif``
+| ``adding new entry "uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com"``
+| ``[root@ds01 ~]#``
 
 Your service account is now imported
 

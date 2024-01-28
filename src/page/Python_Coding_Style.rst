@@ -79,15 +79,15 @@ specifiers, not positional format specifiers.
 
 Here is an example of incorrect usage with positional substitution:
 
-`` _('item %s has %s value') % (name, value)``
+`` _('item %s has %s value') % (name, value)``
 
 Here is the correct usage using named substitution:
 
-`` _('item %(name)s has %(value)s value') % {'name':name, 'value':value}``
+`` _('item %(name)s has %(value)s value') % {'name':name, 'value':value}``
 
 -or-
 
-`` _('item %(name)s has %(value)s value') % dict(name=name, value=value}``
+`` _('item %(name)s has %(value)s value') % dict(name=name, value=value}``
 
 Why does this matter? Word ordering is locale dependent. Translators
 need the flexibility to reorder the words in the string. If you use
@@ -118,7 +118,7 @@ We are relying on nose to automatically discover all the code examples
 and then to test them with doctest. This is done using the
 ``--with-doctest`` option, like this:
 
-``nosetests --with-doctest``
+``nosetests --with-doctest``
 
 
 
@@ -134,5 +134,5 @@ are reported as errors.
 
 Example:
 
-| ``name, _weight, age = human['John']``
-| ``print(name, age)``
+| ``name, _weight, age = human['John']``
+| ``print(name, age)``

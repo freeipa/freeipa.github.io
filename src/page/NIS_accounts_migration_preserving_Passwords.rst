@@ -10,8 +10,8 @@ accounts over IPA preserving the NIS passwords.
 
 Details of this example are as follows:
 
-| ``Domain name: example.com``
-| ``IPA Server: ipa1.example.com``
+| ``Domain name: example.com``
+| ``IPA Server: ipa1.example.com``
 
 To have a user auth successfully on IPA, you need to get the proper
 Kerberos hashes in LDAP, but you can't just paste the NIS passwords as
@@ -27,7 +27,7 @@ Enable IPA migration mode
 This step is needed to have FreeIPA regenerate the hashes and store them
 in the user entry when users successfully bind via LDAPs.
 
-``# ipa config-mod --enable-migration=true``
+``# ipa config-mod --enable-migration=true``
 
 
 
@@ -50,7 +50,7 @@ Import users into IPA
 From your export file, import the users into IPA using the admin tools
 and set the original hashed password:
 
-``# ipa user-add [username] --setattr userpassword={crypt}yourencryptedpass``
+``# ipa user-add [username] --setattr userpassword={crypt}yourencryptedpass``
 
 You should be able now to bind on the LDAP using your migrated NIS
 credentials. FreeIPA will intercepts the bind request and if the user
@@ -75,12 +75,12 @@ Configure manually an IPA client os use the ipa-client package and run
 the install utility. You can even run that on a system where the NIS
 client tools are already set in place, it won't break things.
 
-``# ipa-client-install -U -p admin -w mysecretpassword``
+``# ipa-client-install -U -p admin -w mysecretpassword``
 
 Double check your nsswitch.conf file, it should have added the 'sss'
 keyword to a number of lines:
 
-``# passwd: files nis sss``
+``# passwd: files nis sss``
 
 
 
@@ -90,8 +90,8 @@ Deploy the server CA cert on the client systems
 The IPA CA cert is provided by the IPA httpd server and you just need to
 download it in /etc/openldap/cacerts:
 
-| ``# wget ``\ ```http://ipa1.example.com/ipa/config/ca.crt`` <http://ipa1.example.com/ipa/config/ca.crt>`__\ `` -O /etc/openldap/cacerts/ipa.ca``
-| ``# cacertdir_rehash /etc/openldap/cacerts``
+| ``# wget ``\ ```http://ipa1.example.com/ipa/config/ca.crt`` <http://ipa1.example.com/ipa/config/ca.crt>`__\ `` -O /etc/openldap/cacerts/ipa.ca``
+| ``# cacertdir_rehash /etc/openldap/cacerts``
 
 When users will try to log on the client, SSSD will try to acquire a
 kerberos ticket but if that doesn't work, it will retry then with a bind
@@ -106,7 +106,7 @@ If users still can't login, you can enable the SSSD debug mode editing
 /etc/sssd/sssd.conf and adding the following in your
 [domain/example.com] stanza:
 
-| ``debug_level = 6``
-| ``ldap_tls_reqcert = never (or allow)``
+| ``debug_level = 6``
+| ``ldap_tls_reqcert = never (or allow)``
 
 You will get the details in /var/log/sssd/sssd_example.com.log

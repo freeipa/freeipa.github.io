@@ -27,8 +27,8 @@ These are the two files generated using the script above.
 
 The commands that were used are:
 
-| `` awk -f eobj.awk ebase1.txt > 60basev2.ldif``
-| `` awk -v va=28 -v vo=12 -f eobj.awk ebase2.txt > 60policyv2.ldif``
+| `` awk -f eobj.awk ebase1.txt > 60basev2.ldif``
+| `` awk -v va=28 -v vo=12 -f eobj.awk ebase2.txt > 60policyv2.ldif``
 
 the parameters indicate the starting number for attribute (va) and class
 (vo) OIDs.

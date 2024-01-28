@@ -232,4 +232,3 @@ Resources
 `Sign up to receive FreeIPA updates via
 email... <https://www.redhat.com/mailman/listinfo/freeipa-interest>`__
 
- 

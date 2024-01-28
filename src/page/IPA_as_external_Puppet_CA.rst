@@ -10,7 +10,7 @@ infrastructure throughout its life-cycle, from provisioning and
 configuration to orchestration and reporting. Using Puppet, you can
 easily automate repetitive tasks, quickly deploy critical applications,
 and proactively manage change, scaling from 10s of servers to 1000s,
-on-premise or in the  cloud.
+on-premise or in the  cloud.
 
 Puppet provides an option allowing for support of `external
 CAs <http://docs.puppetlabs.com/puppet/3/reference/config_ssl_external_ca.html>`__.

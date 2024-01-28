@@ -16,12 +16,12 @@ ACI is removed, examples need to use write permissions to be effective.
 
 -  Allow all authenticated users to edit other users' login shell
 
-``ipa permission-add 'Shell editable by all' --type=user --attrs=loginshell --bindtype=all --permissions=write``
+``ipa permission-add 'Shell editable by all' --type=user --attrs=loginshell --bindtype=all --permissions=write``
 
 -  Allow all users (even anonymous ones via LDAP) to edit other users'
    login shell
 
-``ipa permission-add 'Shell editable by anonymous' --type=user --attrs=loginshell --bindtype=anonymous --permissions=write``
+``ipa permission-add 'Shell editable by anonymous' --type=user --attrs=loginshell --bindtype=anonymous --permissions=write``
 
 Design
 ======

@@ -155,11 +155,11 @@ typically have the same priority (0) and weight (100):
 
 ::
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
 
 
 
@@ -262,27 +262,27 @@ CLI
                                                                                                                                                  
                                                                                                                               ``Example:``       
                                                                                                                               descri           
-                                                                                                      ption: IPA location                     
+                                                                                                      ption: IPA location
                                                                                                                                                  
-                                                                                                      dvertised by serve                      
-                                                                                                      rs: server1.example                      
+                                                                                                      dvertised by serve
+                                                                                                      rs: server1.example
                                                                                                                               ``Servers:``       
-                                                                                                                              ``  serv           
-                                                                                                      er: server1.example``                      
-                                                                                                                              ``  weight 100``   
-                                                                                                                              ``  re             
-                                                                                                      lative weight: 33 %``                      
-                                                                                                                              ``  Roles: DN      
-                                                                                                      S server, CA server``                      
-                                                                                                                              ``  serv           
-                                                                                                      er: server2.example``                      
-                                                                                                                              ``  weight: 200``  
-                                                                                                                              ``  re             
-                                                                                                      lative weight: 67 %``                      
-                                                                                                                              ``  Role           
-                                                                                                      s: CA server, NTP ser                      
-                                                                                                      ver, AD trust agent,                       
-                                                                                                      AD trust controller``                      
+                                                                                                                              ``  serv
+                                                                                                      er: server1.example``
+                                                                                                                              ``  weight 100``
+                                                                                                                              ``  re
+                                                                                                      lative weight: 33 %``
+                                                                                                                              ``  Roles: DN
+                                                                                                      S server, CA server``
+                                                                                                                              ``  serv
+                                                                                                      er: server2.example``
+                                                                                                                              ``  weight: 200``
+                                                                                                                              ``  re
+                                                                                                      lative weight: 67 %``
+                                                                                                                              ``  Role
+                                                                                                      s: CA server, NTP ser
+                                                                                                      ver, AD trust agent,
+                                                                                                      AD trust controller``
   +-----------------------+-----------------------+-----------------------+                                                                      
   dns-                                                                        [--dry-run]             This command is not                        
   update-system-records                                                                               necessary if IPA DNS                       
@@ -410,7 +410,7 @@ This effectively means that hand-made records in the IPA DNS domain will
 become invisible. E.g. following record will disappear when DNS
 locations are configured and enabled on IPA domain ``ipa.example``:
 
-``_userservice._udp.ipa.example.  SRV record: 0 100 123 own-server.somewhere.example``
+``_userservice._udp.ipa.example.  SRV record: 0 100 123 own-server.somewhere.example``
 
 This behavior is in fact necessary for seamless upgrade of replicas
 which do not understand the new template LDAP entries in DNS tree. Old
@@ -483,13 +483,13 @@ Example
 Clients will query name ``_ldap._tcp.example.com.`` as usual but this
 name will be redirected to location-specific sub-tree:
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.example.com. IN SRV``
-| ``;; ANSWER SECTION:``
-| ``_tcp.example.com. DNAME _tcp.cz._locations.example.com.``
-| ``_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.``
+| ``;; QUESTION SECTION:``
+| ``;_ldap._tcp.example.com. IN SRV``
+| ``;; ANSWER SECTION:``
+| ``_tcp.example.com. DNAME _tcp.cz._locations.example.com.``
+| ``_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
+| ``_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.``
+| ``_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.``
 
 .. figure:: ExampleLocationsV2.svg
    :alt: ExampleLocationsV2.svg
@@ -609,12 +609,12 @@ The template will generate CNAME redirection from original name to the
 location-specific name (which can be different on each DNS server).
 Example:
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.example.com. IN SRV``
-| ``;; ANSWER SECTION:``
-| ``_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.``
+| ``;; QUESTION SECTION:``
+| ``;_ldap._tcp.example.com. IN SRV``
+| ``;; ANSWER SECTION:``
+| ``_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
+| ``_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.``
+| ``_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.``
 
 Servers which are not assigned to a location (or are too old to
 understand the template) will ignore the template and use the original
@@ -678,7 +678,7 @@ visible as usual because IPA will not add template object class to them.
 E.g. following record will stay as is when DNS locations are configured
 and enabled on IPA domain ``ipa.example``:
 
-``_userservice._udp.ipa.example.  SRV record: 0 100 123 own-server.somewhere.example.``
+``_userservice._udp.ipa.example.  SRV record: 0 100 123 own-server.somewhere.example.``
 
 This allows the user to use hand-made records as long as they do not
 reside under the same DNS name which is managed by IPA. All hand-made
@@ -881,13 +881,13 @@ Following example will instruct bind-dyndb-ldap to generate
 ``CNAMERecord`` attribute with value constructed from prefix ``_udp.``,
 user-defined variable ``ipalocation``, and suffix ``._locations``.
 
-| ``dn: idnsName=_ldap._tcp,idnsname=example.com.,cn=dns,dc=example,dc=com``
-| ``objectClass: idnsTemplateObject``
-| ``objectClass: top``
-| ``objectClass: idnsRecord``
-| ``idnsName: _ldap._tcp``
-| ``srvrecord: 0 100 389 ipa.example.com.``
-| ``idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations``
+| ``dn: idnsName=_ldap._tcp,idnsname=example.com.,cn=dns,dc=example,dc=com``
+| ``objectClass: idnsTemplateObject``
+| ``objectClass: top``
+| ``objectClass: idnsRecord``
+| ``idnsName: _ldap._tcp``
+| ``srvrecord: 0 100 389 ipa.example.com.``
+| ``idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations``
 
 
 
@@ -896,35 +896,35 @@ Records generated for IPA services
 
 **One in IPA domain:**
 
-``_kerberos TXT {IPA_REALM}``
+``_kerberos TXT {IPA_REALM}``
 
 **For each IPA master:**
 
-| ``_ldap._tcp SRV 0 100 389 {hostname}``
-| ``_kerberos._tcp SRV 0 100 88 {hostname}``
-| ``_kerberos._udp SRV 0 100 88 {hostname}``
-| ``_kerberos-master._tcp SRV 0 100 88 {hostname}``
-| ``_kerberos-master._udp SRV 0 100 88 {hostname}``
-| ``_kpasswd._tcp SRV 0 100 464 {hostname}``
-| ``_kpasswd._udp SRV 0 100 464 {hostname}``
+| ``_ldap._tcp SRV 0 100 389 {hostname}``
+| ``_kerberos._tcp SRV 0 100 88 {hostname}``
+| ``_kerberos._udp SRV 0 100 88 {hostname}``
+| ``_kerberos-master._tcp SRV 0 100 88 {hostname}``
+| ``_kerberos-master._udp SRV 0 100 88 {hostname}``
+| ``_kpasswd._tcp SRV 0 100 464 {hostname}``
+| ``_kpasswd._udp SRV 0 100 464 {hostname}``
 
 **For each IPA CA server:**
 
-| ``ipa-ca A {ipv4 address of server}``
-| ``ipa-ca AAAA {ipv6 address of server}``
+| ``ipa-ca A {ipv4 address of server}``
+| ``ipa-ca AAAA {ipv6 address of server}``
 
 **For each IPA NTP server:**
 
-``_ntp._udp SRV 0 100 123 {hostname}``
+``_ntp._udp SRV 0 100 123 {hostname}``
 
 **For each ADTrust controller**:
 
-| ``_ldap._tcp.Default-First-Site-Name._sites.dc._msdcs SRV  0 100 389 {hostname}``
-| ``_ldap._tcp.dc._msdcs SRV 0 100 389 {hostname}``
-| ``_kerberos._tcp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}``
-| ``_kerberos._udp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}``
-| ``_kerberos._tcp.dc._msdcs SRV 0 100 88 {hostname}``
-| ``_kerberos._udp.dc._msdcs SRV 0 100 88 {hostname}``
+| ``_ldap._tcp.Default-First-Site-Name._sites.dc._msdcs SRV  0 100 389 {hostname}``
+| ``_ldap._tcp.dc._msdcs SRV 0 100 389 {hostname}``
+| ``_kerberos._tcp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}``
+| ``_kerberos._udp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}``
+| ``_kerberos._tcp.dc._msdcs SRV 0 100 88 {hostname}``
+| ``_kerberos._udp.dc._msdcs SRV 0 100 88 {hostname}``
 
 
 
@@ -963,56 +963,56 @@ generator <https://fedorahosted.org/bind-dyndb-ldap/wiki/Design/RecordGenerator>
 LDAP <https://fedorahosted.org/bind-dyndb-ldap/wiki/Design/PerServerConfigInLDAP>`__),
 all located in DNS subtree
 
-``attributeTypes: ( 2.16.840.1.113730.3.8.5.31 NAME 'idnsServerId' DESC 'DNS server identifier' EQUALITY caseIgnoreMatch SINGLE-VALUE SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.4' )``
+``attributeTypes: ( 2.16.840.1.113730.3.8.5.31 NAME 'idnsServerId' DESC 'DNS server identifier' EQUALITY caseIgnoreMatch SINGLE-VALUE SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.4' )``
 
-``attributeTypes: ( 2.16.840.1.113730.3.8.5.30 NAME 'idnsSubstitutionVariable' DESC 'User defined variable for DNS plugin' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v4.4' )``
+``attributeTypes: ( 2.16.840.1.113730.3.8.5.30 NAME 'idnsSubstitutionVariable' DESC 'User defined variable for DNS plugin' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v4.4' )``
 
-``objectClasses: ( 2.16.840.1.113730.3.8.6.6 NAME 'idnsServerConfigObject' DESC 'DNS server configuration options' STRUCTURAL MUST ( idnsServerId ) MAY ( idnsSubstitutionVariable $ idnsSOAmName $ idnsForwarders $ idnsForwardPolicy ) X-ORIGIN 'IPA v4.4' )``
+``objectClasses: ( 2.16.840.1.113730.3.8.6.6 NAME 'idnsServerConfigObject' DESC 'DNS server configuration options' STRUCTURAL MUST ( idnsServerId ) MAY ( idnsSubstitutionVariable $ idnsSOAmName $ idnsForwarders $ idnsForwardPolicy ) X-ORIGIN 'IPA v4.4' )``
 
-``attributeTypes: ( 2.16.840.1.113730.3.8.5.29 NAME 'idnsTemplateAttribute' DESC 'Template attribute for dynamic attribute generation' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v4.4' )``
+``attributeTypes: ( 2.16.840.1.113730.3.8.5.29 NAME 'idnsTemplateAttribute' DESC 'Template attribute for dynamic attribute generation' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v4.4' )``
 
-``objectClasses: ( 2.16.840.1.113730.3.8.6.5 NAME 'idnsTemplateObject' DESC 'Template object for dynamic DNS attribute generation' AUXILIARY MUST ( idnsTemplateAttribute ) X-ORIGIN 'IPA v4.4' )``
+``objectClasses: ( 2.16.840.1.113730.3.8.6.5 NAME 'idnsTemplateObject' DESC 'Template object for dynamic DNS attribute generation' AUXILIARY MUST ( idnsTemplateAttribute ) X-ORIGIN 'IPA v4.4' )``
 
 IPA locations part, in cn=etc subtree:
 
-``attributeTypes: ( 2.16.840.1.113730.3.8.5.32 NAME 'ipaLocation' DESC 'Reference to IPA location' EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v4.4' )``
+``attributeTypes: ( 2.16.840.1.113730.3.8.5.32 NAME 'ipaLocation' DESC 'Reference to IPA location' EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v4.4' )``
 
-``attributeTypes: ( 2.16.840.1.113730.3.8.5.33 NAME 'ipaLocationWeight' DESC 'Weight for the server in IPA location' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE X-ORIGIN 'IPA v4.4' )``
+``attributeTypes: ( 2.16.840.1.113730.3.8.5.33 NAME 'ipaLocationWeight' DESC 'Weight for the server in IPA location' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE X-ORIGIN 'IPA v4.4' )``
 
-``objectClasses: (  2.16.840.1.113730.3.8.6.7 NAME 'ipaLocationObject' DESC 'Object for storing IPA server location' STRUCTURAL MUST ( idnsName ) MAY ( description ) X-ORIGIN 'IPA v4.4' )``
+``objectClasses: (  2.16.840.1.113730.3.8.6.7 NAME 'ipaLocationObject' DESC 'Object for storing IPA server location' STRUCTURAL MUST ( idnsName ) MAY ( description ) X-ORIGIN 'IPA v4.4' )``
 
-``objectClasses: (  2.16.840.1.113730.3.8.6.8 NAME 'ipaLocationMember' DESC 'Member object of IPA location' AUXILIARY MAY ( ipaLocation $ ipaLocationWeight ) X-ORIGIN 'IPA v4.4' )``
+``objectClasses: (  2.16.840.1.113730.3.8.6.8 NAME 'ipaLocationMember' DESC 'Member object of IPA location' AUXILIARY MAY ( ipaLocation $ ipaLocationWeight ) X-ORIGIN 'IPA v4.4' )``
 
 
 
 Locations LDAP structure
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-| ``DN: cn=locations, cn=etc, $SUFFIX``
-| ``objectlcass: nsContainer``
-| ``cn: locations``
+| ``DN: cn=locations, cn=etc, $SUFFIX``
+| ``objectlcass: nsContainer``
+| ``cn: locations``
 
-| ``DN: idnsName=prague, cn=locations, cn=etc, $SUFFIX``
-| ``objectclass: ipaLocationObject``
-| ``idnsName: prague``
-| ``description: Servers in Prague area``
+| ``DN: idnsName=prague, cn=locations, cn=etc, $SUFFIX``
+| ``objectclass: ipaLocationObject``
+| ``idnsName: prague``
+| ``description: Servers in Prague area``
 
 
 
 Servers LDAP structure
 ^^^^^^^^^^^^^^^^^^^^^^
 
-| ``DN: cn=ipa-server.example.com,cn=masters,cn=ipa,cn=etc, $SUFFIX``
-| ``objectclass: top``
-| ``objectclass: nsContainer``
-| ``objectclass: ipaSupportedDomainLevelConfig``
-| ``objectclass: ipaReplTopoManagedService``
+| ``DN: cn=ipa-server.example.com,cn=masters,cn=ipa,cn=etc, $SUFFIX``
+| ``objectclass: top``
+| ``objectclass: nsContainer``
+| ``objectclass: ipaSupportedDomainLevelConfig``
+| ``objectclass: ipaReplTopoManagedService``
 | **``objectclass:``\ ````\ ``ipaLocationMember``**
-| ``cn: ipa-server.example.com``
-| ``ipaMaxDomainLevel: 1``
-| ``ipaMinDomainLevel: 0``
-| ``ipaReplTopoManagedSuffix: o=ipaca``
-| ``ipaReplTopoManagedSuffix: $SUFFIX``
+| ``cn: ipa-server.example.com``
+| ``ipaMaxDomainLevel: 1``
+| ``ipaMinDomainLevel: 0``
+| ``ipaReplTopoManagedSuffix: o=ipaca``
+| ``ipaReplTopoManagedSuffix: $SUFFIX``
 | **``ipaLocation:``\ ````\ ``idnsName=prague,cn=locations,cn=etc,$SUFFIX``**
 | **``ipaLocationWeight:``\ ````\ ``100``**
 
@@ -1125,23 +1125,23 @@ How to Test
 -  Install at least two IPA DNS servers
 -  Create at least two locations:
 
-| ``ipa location-add loc1``
-| ``ipa location-add loc2``
+| ``ipa location-add loc1``
+| ``ipa location-add loc2``
 
 -  Assign one or more FreeIPA servers to each location
 -  Assign first FreeIPA DNS server to one location (must have non-empty
    set of servers)
 
-``ipa server-mod server1.example --location=loc1``
+``ipa server-mod server1.example --location=loc1``
 
 -  Assign second FreeIPA DNS server to second location (must have
    non-empty set of servers)
 
-``ipa server-mod server2.example --location=loc2``
+``ipa server-mod server2.example --location=loc2``
 
 -  Query SRV records from the first FreeIPA DNS server:
 
-``$ dig @$FIRST_IPA_DNS_SERVER _kerberos._udp.$PRIMARYDNSDOMAIN SRV``
+``$ dig @$FIRST_IPA_DNS_SERVER _kerberos._udp.$PRIMARYDNSDOMAIN SRV``
 
 The answer must contain FreeIPA server assigned to first location with
 higher priority (smaller number) and the second server must have lower

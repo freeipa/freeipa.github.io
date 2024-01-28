@@ -20,13 +20,13 @@ The system is installed with fedora 21. Because it will be used as a
 home server, the graphical desktop is not required. For this the default
 runlevel is set to multiuser.target.
 
-``systemctl set-default multi-user.target``
+``systemctl set-default multi-user.target``
 
 The next step is to enter the FQDN (full qualified domain name) in the
 hosts file. For this purpose, there should be the following in the file
 /etc/hosts entry:
 
-``192.168.1.1  hostname.example.com  hostname``
+``192.168.1.1  hostname.example.com  hostname``
 
 
 
@@ -35,11 +35,11 @@ Installation of FreeIPA
 
 First, the FreeIPA package has to be installed.
 
-``yum install freeipa-server bind bind-dyndb-ldap``
+``yum install freeipa-server bind bind-dyndb-ldap``
 
 or as group:
 
-``yum groupinstall “FreeIPA Server”``
+``yum groupinstall “FreeIPA Server”``
 
 all the necessary packages are installed.
 
@@ -59,7 +59,7 @@ I changed this value to 900.
 Now, the setup is performed as described in the documentation of
 FreeIPA. At the setup step
 
-``[8/27]: starting certificate server instance``
+``[8/27]: starting certificate server instance``
 
 you should give 10 minutes the certificate service to start.
 

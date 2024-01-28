@@ -43,7 +43,7 @@ The proposed solution. This may include but is not limited to:
 Add a prompt for configuring bind as the first prompt in an interactive
 install.
 
-``Do you want to configure integrated DNS (BIND)? [no]:``
+``Do you want to configure integrated DNS (BIND)? [no]:``
 
 The default value will be no.
 

@@ -88,7 +88,7 @@ Known Issues
 -  Dogtag does not work out-of-the-box on Fedora 14. To fix it for for
    the time being run:
 
-``      # ln -s /usr/share/java/xalan-j2-serializer.jar /usr/share/tomcat5/common/lib/xalan-j2-serializer.jar``
+``      # ln -s /usr/share/java/xalan-j2-serializer.jar /usr/share/tomcat5/common/lib/xalan-j2-serializer.jar``
 
 -  Instead of dogtag on F14 you can also try the self-signed CA which is
    similar to the CA that was provided in IPA v1. This was designed for

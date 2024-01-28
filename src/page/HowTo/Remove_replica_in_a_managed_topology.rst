@@ -8,13 +8,13 @@ In IPA 4.3 the replication topology is controlled by the topology
 plugin. Connections between replicas can only be created or removed by
 the
 
-ipa topologysegment-[add|del] 
+ipa topologysegment-[add|del]
 
 commands.
 
 When a replica is removed by running
 
-ipa-replica-manage del 
+ipa-replica-manage del
 
 the removal of replication segments and corresponding replication
 agreements is automatically handled by the topology plugin.
@@ -70,12 +70,12 @@ Removing a "leaf" replica
 
 Assuming the following replication topology:
 
-``A <--> B <--> C <--> D``
+``A <--> B <--> C <--> D``
 
 then the replicas at the endpoints of the replication chain, A or D, can
 safely be removed by:
 
-``ipa-replica-manage del A``
+``ipa-replica-manage del A``
 
 The command removes the master entry for A and this will trigger that
 the topoloy plugin removes the segment connecting A and B an will remove
@@ -90,7 +90,7 @@ Assume that in the above topology the internal node C should be removed.
 
 If the command
 
-ipa-replica-manage del C 
+ipa-replica-manage del C
 
 is executed, the command will detect that the removal of C disconnects
 the topology and rejects the command.
@@ -99,17 +99,17 @@ It will also list the replicas which will be no longer connected to each
 other, use this information to add missing segments before finally
 deleting the replica
 
-| ``checking connectivity in topology suffix 'ipaca'``
-| ``WARNING: Removal of 'vm-110.abc.idm.lab.eng.brq.redhat.com' will lead to disconnected topology in suffix 'ipaca'``
-| ``Changes will not be replicated to all servers and data will become inconsistent.``
-| ``You need to add segments to prevent disconnection of the topology.``
-| ``Errors in topology after removal:``
-| ``Topology does not allow server vm-072.abc.idm.lab.eng.brq.redhat.com to replicate with servers:``
-| ``   vm-192.abc.idm.lab.eng.brq.redhat.com``
-| ``Topology does not allow server vm-192.abc.idm.lab.eng.brq.redhat.com to replicate with servers:``
-| ``   vm-072.abc.idm.lab.eng.brq.redhat.com``
+| ``checking connectivity in topology suffix 'ipaca'``
+| ``WARNING: Removal of 'vm-110.abc.idm.lab.eng.brq.redhat.com' will lead to disconnected topology in suffix 'ipaca'``
+| ``Changes will not be replicated to all servers and data will become inconsistent.``
+| ``You need to add segments to prevent disconnection of the topology.``
+| ``Errors in topology after removal:``
+| ``Topology does not allow server vm-072.abc.idm.lab.eng.brq.redhat.com to replicate with servers:``
+| ``   vm-192.abc.idm.lab.eng.brq.redhat.com``
+| ``Topology does not allow server vm-192.abc.idm.lab.eng.brq.redhat.com to replicate with servers:``
+| ``   vm-072.abc.idm.lab.eng.brq.redhat.com``
 
-``NOTE: the removal of an internal node can be enforced by adding --force to the command, but it should never be done``
+``NOTE: the removal of an internal node can be enforced by adding --force to the command, but it should never be done``
 
 There are two cases
 
@@ -138,7 +138,7 @@ the removal could give unexpeted results.
 As a conclusion, in both cases the topology should be extended first to
 keep the topology connected, by running
 
-``ipa topologysegment-add --leftnode=A --rightnode=D``
+``ipa topologysegment-add --leftnode=A --rightnode=D``
 
 This ensures that the toplogy is fully connected again and keeps
 connected after C is removed

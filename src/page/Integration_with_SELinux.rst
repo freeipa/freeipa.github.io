@@ -252,7 +252,7 @@ This logic will follow the following algorithm:
    decide it is better to use a different storage)
 -  Create a file for this user in the following format:
 
-``   ``\ ``:``\ ``:``
+``   ``\ ``:``\ ``:``
 
 with the example above it would look like this:
 
@@ -264,7 +264,7 @@ with the example above it would look like this:
 
 -  Put this file into
 
-``   /etc/SELinux/targeted/login/``\ ``/seusers``
+``   /etc/SELinux/targeted/login/``\ ``/seusers``
 
 pam_selinux
 ^^^^^^^^^^^
@@ -273,11 +273,11 @@ The current version of pam_selinux will only use
 /etc/selinux/targeted/seusers but coming version of SELinux PAM will be
 modified to look for
 
-``   /etc/selinux/targeted/logins/``\ ``/seusers``
+``   /etc/selinux/targeted/logins/``\ ``/seusers``
 
 file before falling back to default
 
-``   /etc/selinux/targeted/seusers``
+``   /etc/selinux/targeted/seusers``
 
 If there is no seusers file under specific user name directory or
 directory does not exist at all then the default seusers files from

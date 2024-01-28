@@ -35,12 +35,12 @@ Schema
 The schema has been extended to support various range types. A new
 attribute **ipaRangeType** has been added to the schema.
 
-``attributeTypes: (2.16.840.1.113730.3.8.11.41 NAME 'ipaRangeType' DESC 'Range type' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )``
+``attributeTypes: (2.16.840.1.113730.3.8.11.41 NAME 'ipaRangeType' DESC 'Range type' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )``
 
 The **ipaIDrange** objectclass now requires the **ipaRangeType**
 attribute:
 
-``objectClasses: (2.16.840.1.113730.3.8.12.15 NAME 'ipaIDrange' ABSTRACT MUST ( cn $ ipaBaseID $ ipaIDRangeSize $ ipaRangeType ) X-ORIGIN 'IPA v3' )``
+``objectClasses: (2.16.840.1.113730.3.8.12.15 NAME 'ipaIDrange' ABSTRACT MUST ( cn $ ipaBaseID $ ipaIDRangeSize $ ipaRangeType ) X-ORIGIN 'IPA v3' )``
 
 
 
@@ -93,27 +93,27 @@ Information on the can be obtained conducting the following ldapsearch:
 
 ::
 
-   | ``# ``\ ``, ypservers, ypServ30, RpcServices, System, ``
-   | ``dn: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
-   | ``objectClass: top``
-   | ``objectClass: msSFU30DomainInfo``
-   | ``cn: idm``
-   | ``distinguishedName: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
-   | ``instanceType: 4``
-   | ``whenCreated: 20130625220322.0Z``
-   | ``whenChanged: 20130626190645.0Z``
-   | ``uSNCreated: 53308``
-   | ``uSNChanged: 61507``
-   | ``showInAdvancedViewOnly: TRUE``
-   | ``name: idm``
-   | ``objectGUID:: 7ntK3glNqE2KGmHY1SePWQ==``
-   | ``objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com``
-   | ``dSCorePropagationData: 16010101000000.0Z``
-   | ``msSFU30MasterServerName: tbad``
-   | **``msSFU30OrderNumber``**\ ``: 10000``
-   | ``msSFU30Domains: idm``
-   | **``msSFU30MaxGidNumber``**\ ``: 10001``
-   | **``msSFU30MaxUidNumber``**\ ``: 10002``
+   | ``# ``\ ``, ypservers, ypServ30, RpcServices, System, ``
+   | ``dn: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
+   | ``objectClass: top``
+   | ``objectClass: msSFU30DomainInfo``
+   | ``cn: idm``
+   | ``distinguishedName: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
+   | ``instanceType: 4``
+   | ``whenCreated: 20130625220322.0Z``
+   | ``whenChanged: 20130626190645.0Z``
+   | ``uSNCreated: 53308``
+   | ``uSNChanged: 61507``
+   | ``showInAdvancedViewOnly: TRUE``
+   | ``name: idm``
+   | ``objectGUID:: 7ntK3glNqE2KGmHY1SePWQ==``
+   | ``objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com``
+   | ``dSCorePropagationData: 16010101000000.0Z``
+   | ``msSFU30MasterServerName: tbad``
+   | **``msSFU30OrderNumber``**\ ``: 10000``
+   | ``msSFU30Domains: idm``
+   | **``msSFU30MaxGidNumber``**\ ``: 10001``
+   | **``msSFU30MaxUidNumber``**\ ``: 10002``
 
 
 

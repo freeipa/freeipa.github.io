@@ -276,7 +276,7 @@ Configure clone renewal
 
 First see if the renewal CA is available:
 
-``# getcert list-cas``
+``# getcert list-cas``
 
 Look for a /var/lib/certmonger/cas/ca_renewal
 
@@ -301,7 +301,7 @@ Verify that the new CA is available in the ``list-cas`` output:
 
 Get the CA certificate database pin:
 
-``# grep internal= /var/lib/pki-ca/conf/password.conf``
+``# grep internal= /var/lib/pki-ca/conf/password.conf``
 
 Configure renewal
 
@@ -395,7 +395,7 @@ Configure CA renewal
 
 Get the CA certificate database pin:
 
-``# grep internal= /var/lib/pki-ca/conf/password.conf``
+``# grep internal= /var/lib/pki-ca/conf/password.conf``
 
 Configure renewal
 

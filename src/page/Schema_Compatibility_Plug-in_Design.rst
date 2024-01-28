@@ -113,7 +113,7 @@ resulting entry fails schema checks, it is automatically given the
 An example specification for the "schema-compat-entry-rdn" for a user's
 entry could look something like this:
 
-`` uid=%{uid}``
+`` uid=%{uid}``
 
 The syntax borrows from RPM's syntax, which in turn borrows from shell
 syntax, to allow the specification of alternate values to be used when
@@ -127,8 +127,8 @@ After the RDN is determined, attributes can be added. Most often, this
 will be done either by specifying a specific value (typically for the
 entry's object classes) or an existing attribute, like so:
 
-| `` objectclass=posixAccount``
-| `` cn=%{cn}``
+| `` objectclass=posixAccount``
+| `` cn=%{cn}``
 
 A format specifier can actually be interpreted in two ways: it can be
 interpreted as a single value, or it can be interpreted as providing a
@@ -169,9 +169,9 @@ Selects the value of EXPRESSION which matches the globbing pattern
 PATTERN. If no values match, and a DEFAULT was specified, the DEFAULT is
 produced, otherwise an error occurs.
 
-| ``dn: cn=group``
-| ``member: bob``
-| ``member: dave``
+| ``dn: cn=group``
+| ``member: bob``
+| ``member: dave``
 
 ============================== =====================================
 %match("%{member}","b*")       bob
@@ -189,9 +189,9 @@ Selects the value of EXPRESSION which matches the extended regular
 expression PATTERN. If no values match, and a DEFAULT was specified, the
 DEFAULT is produced.
 
-| ``dn: cn=group``
-| ``member: bob``
-| ``member: dave``
+| ``dn: cn=group``
+| ``member: bob``
+| ``member: dave``
 
 +-------------------------------------+---------------------------------------+
 | %regmatch("%{member}","^b.*")       | bob                                   |
@@ -219,9 +219,9 @@ otherwise an error occurs. The template is used to construct a result
 using the n'th substring from the matched value by using the sequence
 "%n" in the template.
 
-| ``dn: cn=group``
-| ``member: bob``
-| ``member: dave``
+| ``dn: cn=group``
+| ``member: bob``
+| ``member: dave``
 
 ====================================== =====
 %regsub("%{member}","o","%0")          bob
@@ -239,15 +239,15 @@ deref(THISATTRIBUTE,THATATTRIBUTE)
 Creates a separated list of the values of THATATTRIBUTE for directory
 entries named by this entry's THISATTRIBUTE.
 
-| ``dn: cn=group``
-| ``member: uid=bob``
-| ``member: uid=pete``
+| ``dn: cn=group``
+| ``member: uid=bob``
+| ``member: uid=pete``
 | ``-``
-| ``dn: uid=bob``
-| ``uid: bob``
+| ``dn: uid=bob``
+| ``uid: bob``
 | ``-``
-| ``dn: uid=pete``
-| ``uid: pete``
+| ``dn: uid=pete``
+| ``uid: pete``
 
 ====================== ======================================
 %deref("member","foo") FAIL (when a single value is required)
@@ -264,15 +264,15 @@ directory entries which have entries in the current group in the named
 SET and which also have this entry's name as a value for THATATTRIBUTE.
 Will fail if used in a context where a single value is required.
 
-| ``dn: cn=group``
+| ``dn: cn=group``
 | ``-``
-| ``dn: uid=bob``
-| ``uid: bob``
-| ``memberOf: cn=group``
+| ``dn: uid=bob``
+| ``uid: bob``
+| ``memberOf: cn=group``
 | ``-``
-| ``dn: uid=pete``
-| ``uid: pete``
-| ``memberOf: cn=group``
+| ``dn: uid=pete``
+| ``uid: pete``
+| ``memberOf: cn=group``
 
 +----------------------------------+----------------------------------+
 | %refer                           | FAIL (when a single value is     |
@@ -294,16 +294,16 @@ merge(SEPARATOR,EXPRESSION[,...])
 Evaluates and then creates a list using multiple expressions which can
 evaluate to either single values or lists.
 
-| ``dn: cn=group``
-| ``membername: jim``
-| ``member: uid=bob``
-| ``member: uid=pete``
+| ``dn: cn=group``
+| ``membername: jim``
+| ``member: uid=bob``
+| ``member: uid=pete``
 | ``-``
-| ``dn: uid=bob``
-| ``uid: bob``
+| ``dn: uid=bob``
+| ``uid: bob``
 | ``-``
-| ``dn: uid=pete``
-| ``uid: pete``
+| ``dn: uid=pete``
+| ``uid: pete``
 
 ======================================================== ============
 %merge(",","%{membername}","%deref(\"member\",\"uid\")") jim,bob,pete

@@ -35,7 +35,7 @@ Building from the git
 
 First, clone our git tree of your project:
 
-``$ git clone ``\ `https://pagure.io/freeipa.git <https://pagure.io/freeipa.git>`__
+``$ git clone ``\ ```https://pagure.io/freeipa.git`` <https://pagure.io/freeipa.git>`__
 
 Next, we will install all packages needed to build FreeIPA as they do
 not have to be installed on your system. You can install them easily by
@@ -82,7 +82,7 @@ are:
 
 To use the repo run (requires **dnf-plugins-core** package installed):
 
-``$ sudo dnf copr enable @freeipa/freeipa-master``
+`` $ sudo dnf copr enable @freeipa/freeipa-master``
 
 When all packages required for the build are installed, you can start
 building FreeIPA. The result will be a tarball with sources, SRPM and
@@ -99,7 +99,7 @@ Sometimes the build can fail because of garbage from branch switching or
 previous builds. To avoid that, clean the git repository, but make sure
 that all your changes are committed.
 
-``$ git clean -dfx``
+`` $ git clean -dfx``
 
 
 

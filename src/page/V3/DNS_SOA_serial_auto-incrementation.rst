@@ -169,8 +169,8 @@ CLI
 
 New option for ``ipa-server-install``:
 
-| ``   --no-serial-autoincrement``
-| ``                       Do not enable SOA serial autoincrement``
+| ``   --no-serial-autoincrement``
+| ``                       Do not enable SOA serial autoincrement``
 
 This feature is enabled by default. Persistent search is required for
 SOA serial auto-increment feature, so ``--no-persistent-search`` can't
@@ -236,28 +236,28 @@ Any change in DNS record in this subtree will increment
 Basic idea
 ----------
 
-| ``if objectClass is idnsZone``
-| ``    increment idnsSOAserial in the same object``
-| ``else if objectClass is idnsRecord``
-| ``    increment idnsSOAserial in object's immediate parent``
-| ``    e.g. change in idnsName=test, idnsName=example.com, cn=dns will increment idnsSOAserial in object idnsName=example.com, cn=dns``
-| ``    if parent's objectClass is not idnsZone``
-| ``         log an error (This should never happen :-))``
-| `` else``
-| ``    do nothing``
+| ``if objectClass is idnsZone``
+| ``    increment idnsSOAserial in the same object``
+| ``else if objectClass is idnsRecord``
+| ``    increment idnsSOAserial in object's immediate parent``
+| ``    e.g. change in idnsName=test, idnsName=example.com, cn=dns will increment idnsSOAserial in object idnsName=example.com, cn=dns``
+| ``    if parent's objectClass is not idnsZone``
+| ``         log an error (This should never happen :-))``
+| `` else``
+| ``    do nothing``
 
 
 
 SOA serial incrementation algorithm
 -----------------------------------
 
-| ``OLDSerial = actual idnsSOAserial value``
-| ``timestamp = actual UNIX timestamp``
-| ``if (OLDSerial < timestamp)``
-| ``    newSerial = timestamp``
+| ``OLDSerial = actual idnsSOAserial value``
+| ``timestamp = actual UNIX timestamp``
+| ``if (OLDSerial < timestamp)``
+| ``    newSerial = timestamp``
 | ``else``
-| ``   newSerial = OLDSerial + 1``
-| ``Write newSerial value to particular idnsSOAserial attribute``
+| ``   newSerial = OLDSerial + 1``
+| ``Write newSerial value to particular idnsSOAserial attribute``
 
 
 
@@ -307,16 +307,16 @@ test2.example.com. are not equal).
 Variant with delayed serial write
 ----------------------------------------------------------------------------------------------
 
-| ``When updating zone serial:``
-| ``if (old serial value < time())``
-| ``   cancel scheduled serial write (if exists)``
-| ``   write zone serial = time()``
+| ``When updating zone serial:``
+| ``if (old serial value < time())``
+| ``   cancel scheduled serial write (if exists)``
+| ``   write zone serial = time()``
 | ``else``
-| ``   schedule serial bump after 1 second``
-| ``   (do nothing if bump is scheduled already)``
+| ``   schedule serial bump after 1 second``
+| ``   (do nothing if bump is scheduled already)``
 
-| ``When starting Directory Server:``
-| ``Bump each serial by one.``
+| ``When starting Directory Server:``
+| ``Bump each serial by one.``
 
 
 
@@ -325,10 +325,10 @@ Variant with modified search operation
 
 Modify search operation for zone serial to return:
 
-| ``if (serial value == time())``
-| ``   return (serial value - 1)``
+| ``if (serial value == time())``
+| ``   return (serial value - 1)``
 | ``else``
-| ``   return (serial value)``
+| ``   return (serial value)``
 
 ::
 

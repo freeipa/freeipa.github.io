@@ -24,7 +24,7 @@ Configure the CIFS server
 
 Join the CIFS server to the AD domain:
 
-``# cifs setup``
+``# cifs setup``
 
 Follow the prompts.
 
@@ -35,11 +35,11 @@ Configure the LDAP client
 
 Setup the LDAP client To list:
 
-``# options ldap``
+``# options ldap``
 
 To configure each value:
 
-``# options ldap.option value``
+``# options ldap.option value``
 
 I use authenticated simple binds. I have created an account for the
 NetApp filers under cn=sysaccounts,cn=etc,$BASE for this purpose. The

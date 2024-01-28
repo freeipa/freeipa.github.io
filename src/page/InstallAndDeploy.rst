@@ -108,7 +108,7 @@ To aid in the creation and configuration of a suitable DNS setup, the
 IPA installation creates a sample zone file. During the installation you
 will see a message similar to the following:
 
-   ``Sample zone file for bind has been created in /tmp/sample.zone.F_uMf4.db``
+   Sample zone file for bind has been created in /tmp/sample.zone.F_uMf4.db
 
 You should use this file in your zone file in DNS. Further, you need to
 ensure that your FQDN does not resolve to your loopback address.
@@ -331,7 +331,7 @@ command. To view the available command-line options, run
 
 1. Run the following command:
 
-   ``# ipa-server-install``
+   # ipa-server-install
 
 2. When prompted, enter the server host name, realm name and other
 details.
@@ -359,7 +359,7 @@ Switch (nss) configuration is read when the service restarts.
    To restart the ssh service, run the following command (existing
    connections are not terminated):
 
-   ``# service sshd restart``
+   # service sshd restart
 
 You can now proceed to test the configuration.
 
@@ -575,12 +575,12 @@ replica.
 
 1. Copy the replica information file to the replica server:
 
-   ``# scp /var/lib/ipa/replica-info-ipareplica.example.com root@ipareplica:/var/lib/ipa/``
+   # scp /var/lib/ipa/replica-info-ipareplica.example.com root@ipareplica:/var/lib/ipa/
 
 2. On the replica server, run the replica installation script, passing
 it the replica information file you copied from the master:
 
-   ``# ipa-replica-install /var/lib/ipa/replica-info-ipareplica.example.com``
+   # ipa-replica-install /var/lib/ipa/replica-info-ipareplica.example.com
 
    The replica installation script runs a test to ensure that the
    replica file being installed matches the current hostname. If they do

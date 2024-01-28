@@ -72,8 +72,8 @@ The format of the SUBNET and SUBNET6 RR is as follows.
 
 .. code-block:: text
 
-   ``   ``\ `` SUBNET  TTL CLASS ``
-   ``   ``\ `` SUBNET6 TTL CLASS ``
+      ``\ `` SUBNET  TTL CLASS 
+      ``\ `` SUBNET6 TTL CLASS 
 
 The components are explained below.
 

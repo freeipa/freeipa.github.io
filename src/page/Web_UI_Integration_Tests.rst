@@ -57,7 +57,7 @@ no_dns
    missing
 no_ca
    Dogtag is not configured. Can be done by defining:
-   ``--http-cert-file`` ``--http-pin`` ``--dirsrv-cert-file``
+   --http-cert-file`` ``--http-pin`` ``--dirsrv-cert-file
    ``--dirsrv-pin`` More in `CA-less
    documentation <V3/CA-less_install>`__.
 has_trusts

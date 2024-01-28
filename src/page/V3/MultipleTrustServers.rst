@@ -55,7 +55,7 @@ Design
 
 -  ``ipa-adtrust-install`` should be able to detect other DCs by looking
    at existing identities as members of the
-   ``cn=adtrust agents``,\ ``cn=sysaccounts``,\ ``cn=etc``,\ ``$SUFFIX``
+   cn=adtrust agents``,\ ``cn=sysaccounts``,\ ``cn=etc``,\ ``$SUFFIX
    tree and modify list of SRV records under ``_msdcs`` and default site
    configuration if DNS is controlled by FreeIPA.
 

@@ -107,7 +107,7 @@ Define a new virtual machine for AD domain controller
    Virtman-add-mach2.png
 
 -  Enter path to the disk image:
-   ``/tmp/vhd/WS2008R2Fullx64Ent/WS2008R2Fullx64Ent/Virtual Hard Disks/WS2008R2Fullx64Ent.qcow2``
+   /tmp/vhd/WS2008R2Fullx64Ent/WS2008R2Fullx64Ent/Virtual Hard Disks/WS2008R2Fullx64Ent.qcow2
 -  Set "OS type" to "Windows" and "Version" to "Microsoft Windows Server
    2008"
 

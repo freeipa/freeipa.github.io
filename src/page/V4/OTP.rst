@@ -725,9 +725,9 @@ server.
 #. Add a RADIUS proxy: ``ipa radiusproxy-add testproxy`` (follow
    instructions)
 #. Assign a user to this proxy:
-   ``ipa user-mod radiususer --radius=testproxy``
+   ipa user-mod radiususer --radius=testproxy
 #. If needed, configure the username to send to RADIUS:
-   ``ipa user-mod radiususer --radius-username=myradiususer``
+   ipa user-mod radiususer --radius-username=myradiususer
 #. Log in (`V4/OTP#Logging_In <V4/OTP#Logging_In>`__)
 
 

@@ -485,13 +485,13 @@ either supplied interactively:
 
 .. code-block:: text
 
-   ``$ ansible-playbook -i inventory/hosts ``\ **``--ask-vault-pass``**\ `` install.yml``
+   $ ansible-playbook -i inventory/hosts ``\ **``--ask-vault-pass``**\ `` install.yml
 
 or provided in a file:
 
 .. code-block:: text
 
-   ``$ ansible-playbook -in inventory/hosts ``\ **``--vault-password-file``\ ````\ ``~/.vault_pass.txt``**\ `` install.yml``
+   $ ansible-playbook -in inventory/hosts ``\ **``--vault-password-file``\ ````\ ``~/.vault_pass.txt``**\ `` install.yml
 
 
 

@@ -133,7 +133,7 @@ added to the server with:
 
 .. code-block:: text
 
-   ``   ipa host-mod ``\ `` --certificate ``
+      ipa host-mod ``\ `` --certificate 
 
 
 
@@ -286,7 +286,7 @@ To import a PEM file:
 
 .. code-block:: text
 
-   ``   certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i ``
+      certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i 
 
 For an explicitly trusted (root) CA, use "CT,C,C" for flags. Otherwise
 use ",,"

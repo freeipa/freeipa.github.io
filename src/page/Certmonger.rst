@@ -164,13 +164,13 @@ OpenSSL
 ^^^^^^^
 .. code-block:: text
 
-   ``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
+   #  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K 
 
 NSS
 ^^^
 .. code-block:: text
 
-   ``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
+   # ipa-getcert request -d /path/to/database -n 'Test' -K 
 
 
 

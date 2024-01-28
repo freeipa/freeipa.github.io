@@ -38,7 +38,7 @@ Example
       ``ipa1.example.``.
 
 -  Nearest classfull network (with netmask at byte boundary) is:
-   ``198.51.100.0/24``
+   198.51.100.0/24
 
    -  Records for this network should be hosted on server
       ``ipa2.example.``.

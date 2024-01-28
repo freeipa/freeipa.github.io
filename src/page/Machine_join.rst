@@ -29,7 +29,7 @@ Options
 -  -h hostname: set the FQDN of this host. This is normally the nodename
    value of uname (2)
 -  -k keytab: the location of the keytab to write. The default is
-   ``/etc/krb5.keytab``
+   /etc/krb5.keytab
 -  -w bindpw: the one-time password to use for bulk enrollment
 -  -q: quiet mode, errors only
 -  -d: debug mode

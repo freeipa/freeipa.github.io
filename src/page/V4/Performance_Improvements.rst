@@ -101,7 +101,7 @@ connection open and the BIND:
 
 .. code-block:: text
 
-   ``Details:``
+   Details:
 
     [11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
     ...``
@@ -317,7 +317,7 @@ took 40-60% of time of user-add command without groups.
 
 .. code-block:: text
 
-   ``Profiler output:``
+   Profiler output:
 
    | ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
     Ordered by: cumulative time``
@@ -1568,7 +1568,7 @@ The add of **one** host group triggers the following operations:
 
 .. code-block:: text
 
-   ``Details:``
+   Details:
 
     ADD hostgroup with 42 members (nested)``
        718 SRCH``
@@ -1616,7 +1616,7 @@ internal operations 47 ADDs, 45 MODs and 918 SRCH
 
 .. code-block:: text
 
-   ``Details:``
+   Details:
 
     ADD sudorules 25 users/20 hosts``
        918 SRCH``
@@ -1797,7 +1797,7 @@ internal operations: 2 ADD, 0 MOD, 243 SRCH
 
 .. code-block:: text
 
-   ``Details:``
+   Details:
 
     ADD sudorules 25 users/20 hosts``
        243 SRCH``
@@ -1841,7 +1841,7 @@ internal operations 2ADD, 0 MOD, 13 SRCH
 
 .. code-block:: text
 
-   ``Details:``
+   Details:
 
     ADD hbacrule 25 users/20 hosts``
        13 SRCH``

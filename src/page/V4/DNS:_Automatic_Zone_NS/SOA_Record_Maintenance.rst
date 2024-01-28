@@ -204,7 +204,7 @@ Add zone with unresolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-add zone.test. --name-server unresolvable.address.test.``
+   dnszone-add zone.test. --name-server unresolvable.address.test.
 -  Result: exception raised
 
    -  Exception: NotFound: Nameserver unresolvable.address.test. does
@@ -216,7 +216,7 @@ Add zone with resolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-add zone.test. --name-server resolvable.nameserver.test.``
+   dnszone-add zone.test. --name-server resolvable.nameserver.test.
 -  Result: zone is created with values and warning
 
    -  nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]
@@ -255,7 +255,7 @@ Add zone with relative nameserver and ip-address (old client)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-add zone.test. --name-server relative --ip-address 172.16.70.1``
+   dnszone-add zone.test. --name-server relative --ip-address 172.16.70.1
 -  Result: exception raised
 
    -  Exception: NotFound: Nameserver relative.zone.test. does not have
@@ -269,7 +269,7 @@ Add zone with relative nameserver and ip-address and --force (old client)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-add zone.test. --name-server relative --ip-address 172.16.70.1 --force``
+   dnszone-add zone.test. --name-server relative --ip-address 172.16.70.1 --force
 -  Result: zone is created with values and warning
 
    -  nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]
@@ -313,7 +313,7 @@ Modify zone with unresolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-mod zone.test. --name-server unresolvable.address.test.``
+   dnszone-mod zone.test. --name-server unresolvable.address.test.
 -  Result: exception raised
 
    -  Exception: NotFound: Nameserver unresolvable.address.test. does
@@ -325,7 +325,7 @@ Modify zone with resolvable nameserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-mod zone.test. --name-server resolvable.nameserver.test.``
+   dnszone-mod zone.test. --name-server resolvable.nameserver.test.
 -  Result: zone is modified with values
 
    -  nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]
@@ -338,7 +338,7 @@ Modify zone with relative nameserver with A record in zone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Command:
-   ``dnszone-mod zone.test. --name-server relative-with-A-rec-in-zone``
+   dnszone-mod zone.test. --name-server relative-with-A-rec-in-zone
 -  Result: zone is modified with values
 
    -  nsrecord: [ipa-dns1.example.com., ipa-dns2.example.com.]
@@ -378,7 +378,7 @@ Install server/replica
 ----------------------------------------------------------------------------------------------
 
 -  Command: ``ipa-server-install --setup-dns`` or
-   ``ipa-replica-install --setup-dns`` or ``ipa-dns-install``
+   ipa-replica-install --setup-dns`` or ``ipa-dns-install
 -  Result: Installed replica hostname is appended to every IPA managed
    DNS zone apex as nameserver
 

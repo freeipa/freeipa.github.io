@@ -109,7 +109,7 @@ run:
 
 .. code-block:: text
 
-   ``# certutil -M -n "auditSigningCert cert-pki-ca" -d /var/lib/pki-ca/alias -t u,u,Pu ``
+   # certutil -M -n "auditSigningCert cert-pki-ca" -d /var/lib/pki-ca/alias -t u,u,Pu 
 
 The dogtag configuration file has a base64-encoded copy of most of these
 certificates in it. You'll need to update those by hand.
@@ -199,7 +199,7 @@ For each of the three Request IDs run something like this:
 
 .. code-block:: text
 
-   ``# ipa-getcert resubmit -i ``
+   # ipa-getcert resubmit -i 
 
 Restart the world:
 
@@ -231,7 +231,7 @@ I confirmed that things were working, then I brought time to today:
 
 .. code-block:: text
 
-   ``# rdate -s ``
+   # rdate -s 
 
 So I basically simulated an installation 2 years in the past and see
 today that my certificates are expired. Then I did the renewal

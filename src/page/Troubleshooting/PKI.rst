@@ -62,17 +62,17 @@ distribution run that as it will check for this condition.
 
 For IPA < 4.7.0:
 
-``# certutil -L -d /etc/httpd/alias -n ipaCert | grep Serial``
+``# certutil -L -d /etc/httpd/alias -n ipaCert | grep Serial``
 
 For IPA >= 4.7.0:
 
-``# openssl x509 -noout -serial -in /var/lib/ipa/ra-agent.pem``
+``# openssl x509 -noout -serial -in /var/lib/ipa/ra-agent.pem``
 
 The serial number should match the value of the 2nd integer at:
 
 ::
 
-      ``# ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``
+      ``# ldapsearch -x -h localhost -p 389 -b uid=ipara,ou=People,o=ipaca description ``
 
 (use port 7389 for 2.x servers)
 
@@ -84,12 +84,12 @@ For IPA < 4.7.0:
 
 ::
 
-      ``# certutil -L -d /etc/httpd/alias -n ipaCert -a > /tmp/ra.crt ``
+      ``# certutil -L -d /etc/httpd/alias -n ipaCert -a > /tmp/ra.crt ``
 
 This will export all the certificates. Edit this file and remove all but
 the first certificate, You can double-check the result with:
 
-``# openssl x509 -text -in /tmp/ra.crt``
+``# openssl x509 -text -in /tmp/ra.crt``
 
 For IPA >= 4.7.0 the certificate is in ``/var/lib/ipa/ra-agent.pem``
 
@@ -100,8 +100,8 @@ After removing the unnecessary certificates from the file, for IPA <
 
 Now add it to your cert database:
 
-| ``# certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt``
-| ``# service httpd restart``
+| ``# certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt``
+| ``# service httpd restart``
 
 If the certificate is valid and the ou=People entry is ok then check the
 `PKI <PKI>`__ logs ``/var/log/pki`` or ``/var/log/pki-ca``.

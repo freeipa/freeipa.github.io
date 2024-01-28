@@ -143,15 +143,15 @@ The utility will be called **ipa-advise** and provide pluggable way to
 add new "advises". Each "advise" will be named **--** to allow them
 being structured. Below you can find an imaginary example:
 
-| ``  ipa-advise config-solaris11-padl``
-| ``      ....    config-freebsd7-padl``
-| ``      ....    config-aix63-native``
-| ``      ....    setup-ipa-trust2ad``
-| ``      ....    setup-ipa-dnsdelegation``
+| ``  ipa-advise config-solaris11-padl``
+| ``      ....    config-freebsd7-padl``
+| ``      ....    config-aix63-native``
+| ``      ....    setup-ipa-trust2ad``
+| ``      ....    setup-ipa-dnsdelegation``
 
 and so on.
 
-``   ipa-advise``
+``   ipa-advise``
 
 would show all plugins (filtering itself, i.e. list and help plugin)
 with their short descriptions.

@@ -289,20 +289,20 @@ For example, a request targeting openssl would produce a script which
 uses a config file like the following to generate the csr with the
 ``openssl`` command:
 
-| ``[ req ]``
-| ``prompt = no``
-| ``encrypt_key = no``
-| ``distinguished_name = dn``
-| ``req_extensions = exts``
-| ``[ dn ]``
+| ``[ req ]``
+| ``prompt = no``
+| ``encrypt_key = no``
+| ``distinguished_name = dn``
+| ``req_extensions = exts``
+| ``[ dn ]``
 | ``O=DOMAIN.EXAMPLE.COM``
 | ``CN=user``
-| ``[ exts ]``
+| ``[ exts ]``
 | ``subjectAltName=@SAN``
-| ``[ SAN ]``
+| ``[ SAN ]``
 | ``email=user@example.com``
 | ``dirName=SANdn``
-| ``[ SANdn ]``
+| ``[ SANdn ]``
 | ``1.DC=com``
 | ``2.DC=example``
 | ``CN=users``
@@ -318,7 +318,7 @@ section.
 In contrast, a request targeting certutil would produce a command line
 like:
 
-``certutil -R -a -s "CN=user,O=DOMAIN.EXAMPLE.COM" --extSAN "email:user@example.com,dn:UID=user;CN=users;DC=example;DC=com"``
+``certutil -R -a -s "CN=user,O=DOMAIN.EXAMPLE.COM" --extSAN "email:user@example.com,dn:UID=user;CN=users;DC=example;DC=com"``
 
 Permissions
 ----------------------------------------------------------------------------------------------
@@ -514,11 +514,11 @@ Certmonger:
 
 ::
 
-   `` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
+   `` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
 
 IPA CLI:
 
-`` ipa cert-request ``\ :literal:` --autofill --principal=HTTP/`hostname\``
+`` ipa cert-request ``\ :literal:` --autofill --principal=HTTP/`hostname\``
 
 
 
@@ -527,11 +527,11 @@ TLS client authentication
 
 Certmonger:
 
-`` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T caIPAUserCert``
+`` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T caIPAUserCert``
 
 IPA CLI:
 
-`` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=caIPAUserCert``
+`` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=caIPAUserCert``
 
 
 
@@ -540,22 +540,22 @@ S/MIME User Signing Certificates
 
 Certmonger:
 
-`` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T caIPAUserCertSMIME``
+`` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T caIPAUserCertSMIME``
 
 IPA CLI:
 
-`` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=caIPAUserCertSMIME``
+`` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=caIPAUserCertSMIME``
 
 
 
 Smart Card Authentication
 -------------------------
 
-| `` $ ipa cert-get-requestdata --principal=${USER} --profile-id=caIPAUserCert --helper=openssl --out=user.conf  # Something like this, --out flag may be something else``
-| `` $ openssl``
-| `` OpenSSL> engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so``
-| `` OpenSSL> req -engine pkcs11 -new -key ``\ `` -keyform engine -out user.req -text -config user.conf``
-| `` $ ipa cert-request user.req --principal=${USER} --profile-id=caIPAUserCert``
+| `` $ ipa cert-get-requestdata --principal=${USER} --profile-id=caIPAUserCert --helper=openssl --out=user.conf  # Something like this, --out flag may be something else``
+| `` $ openssl``
+| `` OpenSSL> engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so``
+| `` OpenSSL> req -engine pkcs11 -new -key ``\ `` -keyform engine -out user.req -text -config user.conf``
+| `` $ ipa cert-request user.req --principal=${USER} --profile-id=caIPAUserCert``
 
 Thanks to `Nathan Kinder <https://blog-nkinder.rhcloud.com/?p=184>`__
 for guidance on smart card interaction.
@@ -575,11 +575,11 @@ Cert requiring a novel extension
 
 Certmonger:
 
-`` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T FancyExtensionUserCert``
+`` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T FancyExtensionUserCert``
 
 IPA CLI:
 
-`` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=FancyExtensionUserCert``
+`` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=FancyExtensionUserCert``
 
 
 
@@ -588,13 +588,13 @@ IECUserRoles
 
 Certmonger:
 
-| `` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T IECUserRoles \``
-| ``   -V IECUserRoles=``
+| `` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T IECUserRoles \``
+| ``   -V IECUserRoles=``
 
 IPA CLI:
 
-| `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=IECUserRoles``
-| `` ``
+| `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=IECUserRoles``
+| `` ``
 
 
 

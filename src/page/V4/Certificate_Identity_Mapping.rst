@@ -180,12 +180,12 @@ certmap-match --certificate BLOB
 The output will contain the matching user names, grouped by domain:
 
 | ``---------------``
-| ``2 users matched``
+| ``2 users matched``
 | ``---------------``
-| ``  Domain: DOMAIN.EXAMPLE.COM``
-| ``  Usernames: user1, user2``
+| ``  Domain: DOMAIN.EXAMPLE.COM``
+| ``  Usernames: user1, user2``
 | ``----------------------------``
-| ``Number of entries returned 2``
+| ``Number of entries returned 2``
 | ``----------------------------``
 
 UI
@@ -229,52 +229,52 @@ Objectclasses and attributes
 
 The following schema will be used:
 
-``attributeTypes: (2.16.840.1.113730.3.8.22.1.1 NAME 'ipaCertMapPromptUsername' DESC 'Prompt for the username when multiple identities are mapped to a certificate' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
+``attributeTypes: (2.16.840.1.113730.3.8.22.1.1 NAME 'ipaCertMapPromptUsername' DESC 'Prompt for the username when multiple identities are mapped to a certificate' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
 
-``attributeTypes: (2.16.840.1.113730.3.8.22.1.2 NAME 'ipaCertMapMapRule' DESC 'Certificate Mapping Rule' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
+``attributeTypes: (2.16.840.1.113730.3.8.22.1.2 NAME 'ipaCertMapMapRule' DESC 'Certificate Mapping Rule' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
 
-``attributeTypes: (2.16.840.1.113730.3.8.22.1.3 NAME 'ipaCertMapMatchRule' DESC 'Certificate Matching Rule' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
+``attributeTypes: (2.16.840.1.113730.3.8.22.1.3 NAME 'ipaCertMapMatchRule' DESC 'Certificate Matching Rule' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
 
-``attributeTypes: (2.16.840.1.113730.3.8.22.1.4 NAME 'ipaCertMapData' DESC 'Certificate Mapping Data' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.5' )``
+``attributeTypes: (2.16.840.1.113730.3.8.22.1.4 NAME 'ipaCertMapData' DESC 'Certificate Mapping Data' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.5' )``
 
-``attributeTypes: (2.16.840.1.113730.3.8.22.1.5 NAME 'ipaCertMapPriority' DESC 'Rule priority' SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
+``attributeTypes: (2.16.840.1.113730.3.8.22.1.5 NAME 'ipaCertMapPriority' DESC 'Rule priority' SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
 
-``objectClasses: (2.16.840.1.113730.3.8.22.2.1 NAME 'ipaCertMapConfigObject' DESC 'IPA Certificate Mapping global config options' AUXILIARY MAY ipaCertMapPromptUsername X-ORIGIN 'IPA v4.5' )``
+``objectClasses: (2.16.840.1.113730.3.8.22.2.1 NAME 'ipaCertMapConfigObject' DESC 'IPA Certificate Mapping global config options' AUXILIARY MAY ipaCertMapPromptUsername X-ORIGIN 'IPA v4.5' )``
 
-``objectClasses: (2.16.840.1.113730.3.8.22.2.2 NAME 'ipaCertMapRule' DESC 'IPA Certificate Mapping rule' SUP top STRUCTURAL MUST cn MAY ( description $ ipaCertMapMapRule $ ipaCertMapMatchRule $ associatedDomain $ ipaCertMapPriority $ ipaEnabledFlag ) X-ORIGIN 'IPA v4.5' )``
+``objectClasses: (2.16.840.1.113730.3.8.22.2.2 NAME 'ipaCertMapRule' DESC 'IPA Certificate Mapping rule' SUP top STRUCTURAL MUST cn MAY ( description $ ipaCertMapMapRule $ ipaCertMapMatchRule $ associatedDomain $ ipaCertMapPriority $ ipaEnabledFlag ) X-ORIGIN 'IPA v4.5' )``
 
-``objectClasses: (2.16.840.1.113730.3.8.22.2.3 NAME 'ipaCertMapObject' DESC 'IPA Object for Certificate Mapping' AUXILIARY MAY ipaCertMapData X-ORIGIN 'IPA v4.5' )``
+``objectClasses: (2.16.840.1.113730.3.8.22.2.3 NAME 'ipaCertMapObject' DESC 'IPA Object for Certificate Mapping' AUXILIARY MAY ipaCertMapData X-ORIGIN 'IPA v4.5' )``
 
 Example
 ^^^^^^^
 
-| ``dn: cn=certmap,$BASEDN``
-| ``objectClass: top``
-| ``objectClass: nsContainer``
-| ``objectClass: ipaCertMapConfigObject``
-| ``cn: certmap``
-| ``ipaCertMapPromptUsername: FALSE``
+| ``dn: cn=certmap,$BASEDN``
+| ``objectClass: top``
+| ``objectClass: nsContainer``
+| ``objectClass: ipaCertMapConfigObject``
+| ``cn: certmap``
+| ``ipaCertMapPromptUsername: FALSE``
 
-| ``dn: cn=certmaprules,cn=certmap,$BASEDN``
-| ``objectClass: top``
-| ``objectClass: nsContainer``
-| ``cn: certmaprules``
+| ``dn: cn=certmaprules,cn=certmap,$BASEDN``
+| ``objectClass: top``
+| ``objectClass: nsContainer``
+| ``cn: certmaprules``
 
-| ``dn: cn=rule1,cn=certmaprules,cn=certmap,$BASEDN``
-| ``cn: rule1``
-| ``objectClass: ipacertmaprule``
-| ``associatedDomain: domain.com``
-| ``ipaCertMapMapRule: (ipacertmapdata=X509:<I>{issuer_dn}<S>{subject_dn})``
-| ``ipaCertMapPriority: 1``
-| ``ipaCertMapMatchRule: <ISSUER>CN=Certificate Authority,O=IPA.DEVEL``
-| ``ipaEnabledFlag: TRUE``
-| ``description: rule1 description``
+| ``dn: cn=rule1,cn=certmaprules,cn=certmap,$BASEDN``
+| ``cn: rule1``
+| ``objectClass: ipacertmaprule``
+| ``associatedDomain: domain.com``
+| ``ipaCertMapMapRule: (ipacertmapdata=X509:<I>{issuer_dn}<S>{subject_dn})``
+| ``ipaCertMapPriority: 1``
+| ``ipaCertMapMatchRule: <ISSUER>CN=Certificate Authority,O=IPA.DEVEL``
+| ``ipaEnabledFlag: TRUE``
+| ``description: rule1 description``
 
-| ``dn: uid=user1,cn=users,cn=accounts,$BASEDN``
-| ``objectclass: top``
-| ``objectclass: (all IPA user objectclasses)``
-| ``objectclass: ipacertmapobject``
-| ``ipacertmapdata: X509:<I>CN=Certificate Authority,O=IPA.DEVEL<S>CN=certmaptest.ipa.devel,O=IPA.DEVEL``
+| ``dn: uid=user1,cn=users,cn=accounts,$BASEDN``
+| ``objectclass: top``
+| ``objectclass: (all IPA user objectclasses)``
+| ``objectclass: ipacertmapobject``
+| ``ipacertmapdata: X509:<I>CN=Certificate Authority,O=IPA.DEVEL<S>CN=certmaptest.ipa.devel,O=IPA.DEVEL``
 
 
 
@@ -329,21 +329,21 @@ How to Use
 
 -  Allow to display the prompt for username disambiguation
 
-``ipa certmapconfig-mod --promptusername=TRUE``
+``ipa certmapconfig-mod --promptusername=TRUE``
 
 -  Define a mapping rule based on subject and issuer
 
-``ipa certmaprule-add defaultrule --desc "Default mapping rule" --maprule "(ipacertmapdata=X509:<I>{issuer_dn}<S>{subject_dn})"``
+``ipa certmaprule-add defaultrule --desc "Default mapping rule" --maprule "(ipacertmapdata=X509:<I>{issuer_dn}<S>{subject_dn})"``
 
 -  Configure the mapping between the user testuser and a certificate
    issued by cn=extca,dc=example,dc=com with subject
    cn=myname,dc=example,dc=com
 
-``ipa user-add-certmapdata testuser --subject cn=myname,dc=example,dc=com --issuer cn=extca,dc=example,dc=com``
+``ipa user-add-certmapdata testuser --subject cn=myname,dc=example,dc=com --issuer cn=extca,dc=example,dc=com``
 
 or
 
-``ipa user-add-certmapdata testuser "X509:<I>cn=extca,dc=example,dc=com<S>cn=myname,dc=example,dc=com"``
+``ipa user-add-certmapdata testuser "X509:<I>cn=extca,dc=example,dc=com<S>cn=myname,dc=example,dc=com"``
 
 -  On an enrolled client, login to GDM using a smart card containing the
    user cert. The authenticate user will be "testuser"

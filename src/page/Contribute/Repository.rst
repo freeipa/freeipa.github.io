@@ -50,7 +50,7 @@ After a patch is pushed, committer needs to do the following:
    message in Reviewed-By tag - it is later used for statistics.
    Example:
 
-``Reviewed-By: Joe Hacker <joe@hacker.test>``
+``Reviewed-By: Joe Hacker <joe@hacker.test>``
 
 -  Confirm that if the patch has a valid ticket it's URL is referenced
    in the patch description

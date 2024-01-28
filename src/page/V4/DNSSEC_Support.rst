@@ -85,14 +85,14 @@ following way:
 
 -  enable validation:
 
-| ``options {``
-| ``    dnssec-validation yes;``
+| ``options {``
+| ``    dnssec-validation yes;``
 | ``}``
 
 -  disable validation:
 
-| ``options {``
-| ``    dnssec-validation no;``
+| ``options {``
+| ``    dnssec-validation no;``
 | ``}``
 
 
@@ -283,12 +283,12 @@ Each replica creates own local SoftHSM storage. IPA uses own
 configuration of SoftHSM. To access right database you need to configure
 environment variable **SOFTHSM2_CONF**.
 
-``$ export SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf``
+``$ export SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf``
 
 SoftHSM database is initialized during installation (or upgrade) with
 following command:
 
-| ``$ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=``\ `` --so-pin=``
+| ``$ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=``\ `` --so-pin=``
 
 and values are stored in files:
 
@@ -332,16 +332,16 @@ DNSSEC related files has to be accessible for several daemons, under
 **ods** (openddnssec) and **named** user. Following list shows required
 file modes, owner and group per directory/file:
 
-| ``drwxr-x---.  ods named    /var/lib/ipa/dnssec``
-| ``-rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin``
-| ``drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens``
-| ``drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*``
-| ``-rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/``\ ``/*``
-| ``-rw-rw----.  root ods     /etc/opendnssec/*``
-| ``-rw-rw----.  ods ods      /var/opendnssec/kasp.db``
-| ``drwxrwx---.  ods ods      /var/opendnssec/signconf``
-| ``drwxrwx---.  ods ods      /var/opendnssec/signed``
-| ``drwxrwx---.  ods ods      /var/opendnssec/tmp``
+| ``drwxr-x---.  ods named    /var/lib/ipa/dnssec``
+| ``-rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin``
+| ``drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens``
+| ``drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*``
+| ``-rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/``\ ``/*``
+| ``-rw-rw----.  root ods     /etc/opendnssec/*``
+| ``-rw-rw----.  ods ods      /var/opendnssec/kasp.db``
+| ``drwxrwx---.  ods ods      /var/opendnssec/signconf``
+| ``drwxrwx---.  ods ods      /var/opendnssec/signed``
+| ``drwxrwx---.  ods ods      /var/opendnssec/tmp``
 
 **Note:** Tokens created during installation (upgrade) has root:root
 owner group. Is required to modify all files and subdirs in token's
@@ -480,18 +480,18 @@ Public replica key is also stored in LDAP database:
 
 ::
 
-   | ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
-   | ``objectclass: ipk11Object``
-   | ``objectclass: ipk11PublicKey``
-   | ``objectclass: ipaPublicKeyObject``
-   | ``objectclass: top``
-   | ``ipk11UniqueId: ``
-   | ``ipk11Label: ``
-   | ``ipaPublicKey: <public key in SubjectPublicKeyInfo (RFC 5280) form>``
-   | ``ipk11Id': ``\ ``,``
-   | ``ipk11Wrap: true``
-   | ``ipk11Verify: false``
-   | ``ipk11VerifyRecover: false``
+   | ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
+   | ``objectclass: ipk11Object``
+   | ``objectclass: ipk11PublicKey``
+   | ``objectclass: ipaPublicKeyObject``
+   | ``objectclass: top``
+   | ``ipk11UniqueId: ``
+   | ``ipk11Label: ``
+   | ``ipaPublicKey: <public key in SubjectPublicKeyInfo (RFC 5280) form>``
+   | ``ipk11Id': ``\ ``,``
+   | ``ipk11Wrap: true``
+   | ``ipk11Verify: false``
+   | ``ipk11VerifyRecover: false``
 
 
 

@@ -27,7 +27,7 @@ needs to be customized and provided to ``ipa-ldap-updater`` tool.
 
 ::
 
-   [root@server ~]# cat /tmp/admin-user.update
+   [root@server ~]# cat /tmp/admin-user.update
    dn: uid=admin,cn=users,cn=accounts,$SUFFIX
    default: objectClass: top
    default: objectClass: person
@@ -96,7 +96,7 @@ The resulting file should look like the following:
 
 ::
 
-   [root@server ~]# cat /tmp/admin-user.update
+   [root@server ~]# cat /tmp/admin-user.update
    dn: uid=admin,cn=users,cn=accounts,$SUFFIX
    default: objectClass: top
    default: objectClass: person

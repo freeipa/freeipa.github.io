@@ -27,20 +27,20 @@ Two entries are required:
 
 The first is a rule which defines the ACL:
 
-| ``dn: cn=ipa-http-delegation,...``
-| ``objectClass: ipaKrb5DelegationACL``
-| ``objectClass: groupOfPrincipals``
-| ``cn: ipa-http-delegation``
-| ``memberPrincipal: HTTP/ipaserver.example.com@EXAMPLE.COM``
-| ``ipaAllowedTarget: cn=ipa-ldap-delegation-targets,...``
+| ``dn: cn=ipa-http-delegation,...``
+| ``objectClass: ipaKrb5DelegationACL``
+| ``objectClass: groupOfPrincipals``
+| ``cn: ipa-http-delegation``
+| ``memberPrincipal: HTTP/ipaserver.example.com@EXAMPLE.COM``
+| ``ipaAllowedTarget: cn=ipa-ldap-delegation-targets,...``
 
 The second is a target of this rule which defines which principals may
 be obtained:
 
-| ``dn: cn=ipa-ldap-delegation-targets,...``
-| ``objectClass: groupOfPrincipals``
-| ``cn: ipa-ldap-delegation-targets``
-| ``memberPrincipal: ldap/ipaserver.example.com@EXAMPLE.COM``
+| ``dn: cn=ipa-ldap-delegation-targets,...``
+| ``objectClass: groupOfPrincipals``
+| ``cn: ipa-ldap-delegation-targets``
+| ``memberPrincipal: ldap/ipaserver.example.com@EXAMPLE.COM``
 
 Both types of entries contain members in the form of memberPrincipal. In
 the case of a rule these are the members that the rule applies to. In
@@ -160,50 +160,50 @@ reason, hence having to use +ok_to_auth_as_delegate. Whatever you do,
 
 Become admin:
 
-``# kinit admin``
+``# kinit admin``
 
 Create the service for the rule and allow it to impersonate users:
 [**NOTE**: DO NOT DO THIS IN PRODUCTION, this allows the 'test' service
 to impersonate \*any\* user to itself and then by proxy to the target
 services]
 
-| ``# ipa service-add test/ipa.example.com --force``
-| ``# kadmin.local``
-| ``kadmin.local: modprinc +ok_to_auth_as_delegate test/ipa.example.com``
+| ``# ipa service-add test/ipa.example.com --force``
+| ``# kadmin.local``
+| ``kadmin.local: modprinc +ok_to_auth_as_delegate test/ipa.example.com``
 
 Create the second service:
 
-``# ipa service-add test2/ipa.example.com --force``
+``# ipa service-add test2/ipa.example.com --force``
 
 Get keytabs for these services:
 
-| ``# ipa-getkeytab -s ipa.example.com -k /tmp/test.keytab -p test/ipa.example.com``
-| ``# ipa-getkeytab -s ipa.example.com -k /tmp/test2.keytab -p test2/ipa.example.com``
+| ``# ipa-getkeytab -s ipa.example.com -k /tmp/test.keytab -p test/ipa.example.com``
+| ``# ipa-getkeytab -s ipa.example.com -k /tmp/test2.keytab -p test2/ipa.example.com``
 
 Show that we can't do delegation yet:
 
-| ``# kdestroy -A``
-| ``# kinit -kt /tmp/test.keytab  test/ipa.example.com``
-| ``# kvno -k /tmp/test.keytab -U admin -P test/ipa.example.com test2/ipa.example.com``
-| ``kvno: KDC returned error string: NOT_ALLOWED_TO_DELEGATE test2/ipa.example.com@EXAMPLE.COM: constrained delegation failed``
+| ``# kdestroy -A``
+| ``# kinit -kt /tmp/test.keytab  test/ipa.example.com``
+| ``# kvno -k /tmp/test.keytab -U admin -P test/ipa.example.com test2/ipa.example.com``
+| ``kvno: KDC returned error string: NOT_ALLOWED_TO_DELEGATE test2/ipa.example.com@EXAMPLE.COM: constrained delegation failed``
 
 Add the service constraint delegation:
 
-| ``# kdestroy -A``
-| ``# kinit admin``
-| ``# ipa servicedelegationrule-add test``
-| ``# ipa servicedelegationtarget-add target-test``
-| ``# ipa servicedelegationrule-add-target --servicedelegationtargets=target-test test``
-| ``# ipa servicedelegationrule-add-member --principals test/ipa.example.com test``
-| ``# ipa servicedelegationtarget-add-member --principals=test2/ipa.example.com target-test``
+| ``# kdestroy -A``
+| ``# kinit admin``
+| ``# ipa servicedelegationrule-add test``
+| ``# ipa servicedelegationtarget-add target-test``
+| ``# ipa servicedelegationrule-add-target --servicedelegationtargets=target-test test``
+| ``# ipa servicedelegationrule-add-member --principals test/ipa.example.com test``
+| ``# ipa servicedelegationtarget-add-member --principals=test2/ipa.example.com target-test``
 
 Now try again:
 
-| ``# kdestroy -A``
-| ``# kinit -kt /tmp/test.keytab  test/ipa.example.com``
-| ``# kvno -k /tmp/test.keytab -U admin -P test/ipa.example.com test2/ipa.example.com``
-| ``test/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid``
-| ``test2/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid``
+| ``# kdestroy -A``
+| ``# kinit -kt /tmp/test.keytab  test/ipa.example.com``
+| ``# kvno -k /tmp/test.keytab -U admin -P test/ipa.example.com test2/ipa.example.com``
+| ``test/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid``
+| ``test2/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid``
 
 
 

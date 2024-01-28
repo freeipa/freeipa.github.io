@@ -27,13 +27,13 @@ GID for groups). Their generation from the IDs is completely
 deterministic, and in the simple terms it's just a shift of the
 interval:
 
-| ``   ID       |   RID``
-| ``   10000   ->    0``
-| ``   10001   ->    1``
-| ``   10002   ->    2``
-| ``   10003   ->    3``
-| ``   10004   ->    4``
-| ``   ....``
+| ``   ID       |   RID``
+| ``   10000   ->    0``
+| ``   10001   ->    1``
+| ``   10002   ->    2``
+| ``   10003   ->    3``
+| ``   10004   ->    4``
+| ``   ....``
 
 However, the UID and GID spaces in UNIX are independent. It's completely
 okay to have an user with UID 10002 and a group with GID 10002.
@@ -42,12 +42,12 @@ objects. To avoid that, we define secondary RID range for local ranges.
 This new interval serves as a backup interval where we shift the object
 if corresponding RID in the primary range is already taken:
 
-| ``     UID    |    GID      |     RID``
-| ``   10000                 ->      0``
-| ``   10001                 ->      1``
-| ``                10001    ->      10001``
-| ``                10002    ->      2``
-| ``   10003                 ->      3``
+| ``     UID    |    GID      |     RID``
+| ``   10000                 ->      0``
+| ``   10001                 ->      1``
+| ``                10001    ->      10001``
+| ``                10002    ->      2``
+| ``   10003                 ->      3``
 
 (secondary RID range starts at 10000 in this example)
 
@@ -86,9 +86,9 @@ Any domain
          automatically takes the same ID range for any member domain in
          the forest which does not have an specific idrange set.
 
-``   Q: So why would anyone set up a new ID range of ipa-ad-trust-posix type for subdomain? Is it the case that user/group entries from subdomain are not replicated to the forest root?``
+``   Q: So why would anyone set up a new ID range of ipa-ad-trust-posix type for subdomain? Is it the case that user/group entries from subdomain are not replicated to the forest root?``
 
-``   A: E.g. if the POSIX IDs are not managed centrally for the whole forest, but domain admins do it on a per domain basis, seperate ipa-ad-trust-posix ranges with disjunct base idrange would help to avoid collisions. This happens by assigining each domain range a specific reserved ID range space, which is non-overlapping with any other ID range space, thus if any two objects from two different domains collide on UID/GID, only one of them can be resolved in IPA since only one of them would be in ID range space of its own particular domain.``
+``   A: E.g. if the POSIX IDs are not managed centrally for the whole forest, but domain admins do it on a per domain basis, seperate ipa-ad-trust-posix ranges with disjunct base idrange would help to avoid collisions. This happens by assigining each domain range a specific reserved ID range space, which is non-overlapping with any other ID range space, thus if any two objects from two different domains collide on UID/GID, only one of them can be resolved in IPA since only one of them would be in ID range space of its own particular domain.``
 
 
 

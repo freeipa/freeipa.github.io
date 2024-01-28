@@ -22,49 +22,49 @@ restricted to changing the attribute lists and bind types.
 For example, attempting to change a default "Modify Users" permission to
 apply to Groups will fail:
 
-| ``$ ipa permission-mod 'System: Modify Users' --type=group``
-| ``ipa: ERROR: invalid 'ipapermlocation': not modifiable on managed permissions``
+| ``$ ipa permission-mod 'System: Modify Users' --type=group``
+| ``ipa: ERROR: invalid 'ipapermlocation': not modifiable on managed permissions``
 
 So will attempting to make it apply to Read operations:
 
-| ``$ ipa permission-mod 'System: Modify Users' --right=read,``
-| ``ipa: ERROR: invalid 'ipapermright': not modifiable on managed permissions``
+| ``$ ipa permission-mod 'System: Modify Users' --right=read,``
+| ``ipa: ERROR: invalid 'ipapermright': not modifiable on managed permissions``
 
 On the other hand, making the permission not apply to the "gecos"
 attribute is possible:
 
-| ``$ ipa permission-mod 'System: Modify Users' --excludedattrs=gecos``
+| ``$ ipa permission-mod 'System: Modify Users' --excludedattrs=gecos``
 | ``------------------------------------------``
-| ``Modified permission "System: Modify Users"``
+| ``Modified permission "System: Modify Users"``
 | ``------------------------------------------``
-| ``  Permission name: System: Modify Users``
-| ``  Granted rights: write``
-| ``  Effective attributes: businesscategory, carlicense, cn, description, displayname, employeetype, facsimiletelephonenumber, givenname, homephone, inetuserhttpurl, initials, l, labeleduri, loginshell, manager, mepmanagedentry, mobile, objectclass, ou, pager, postalcode,``
-| ``                        preferredlanguage, roomnumber, secretary, seealso, sn, st, street, telephonenumber, title, userclass``
-| ``  Excluded attributes: gecos``
-| ``  Default attributes: telephonenumber, cn, labeleduri, manager, street, displayname, homephone, title, facsimiletelephonenumber, loginshell, employeetype, description, businesscategory, preferredlanguage, roomnumber, mepmanagedentry, carlicense, postalcode, givenname,``
-| ``                      pager, seealso, objectclass, inetuserhttpurl, l, st, mobile, gecos, sn, ou, secretary, userclass, initials``
-| ``  Bind rule type: permission``
-| ``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
-| ``  Type: user``
-| ``  Granted to Privilege: Modify Users and Reset passwords, User Administrators``
-| ``  Indirect Member of roles: helpdesk, User Administrator``
+| ``  Permission name: System: Modify Users``
+| ``  Granted rights: write``
+| ``  Effective attributes: businesscategory, carlicense, cn, description, displayname, employeetype, facsimiletelephonenumber, givenname, homephone, inetuserhttpurl, initials, l, labeleduri, loginshell, manager, mepmanagedentry, mobile, objectclass, ou, pager, postalcode,``
+| ``                        preferredlanguage, roomnumber, secretary, seealso, sn, st, street, telephonenumber, title, userclass``
+| ``  Excluded attributes: gecos``
+| ``  Default attributes: telephonenumber, cn, labeleduri, manager, street, displayname, homephone, title, facsimiletelephonenumber, loginshell, employeetype, description, businesscategory, preferredlanguage, roomnumber, mepmanagedentry, carlicense, postalcode, givenname,``
+| ``                      pager, seealso, objectclass, inetuserhttpurl, l, st, mobile, gecos, sn, ou, secretary, userclass, initials``
+| ``  Bind rule type: permission``
+| ``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
+| ``  Type: user``
+| ``  Granted to Privilege: Modify Users and Reset passwords, User Administrators``
+| ``  Indirect Member of roles: helpdesk, User Administrator``
 
 So is changing the bind rule type, i.e. making a permission apply to all
 authenticated users, anyone including anonymous users, or specific users
 selected by privileges:
 
-| ``$ ipa permission-mod 'System: Read User Membership' --bindtype=anonymous``
+| ``$ ipa permission-mod 'System: Read User Membership' --bindtype=anonymous``
 | ``--------------------------------------------------``
-| ``Modified permission "System: Read User Membership"``
+| ``Modified permission "System: Read User Membership"``
 | ``--------------------------------------------------``
-| ``  Permission name: System: Read User Membership``
-| ``  Granted rights: read, compare, search``
-| ``  Effective attributes: memberof``
-| ``  Default attributes: memberof``
-| ``  Bind rule type: anonymous``
-| ``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
-| ``  Type: user``
+| ``  Permission name: System: Read User Membership``
+| ``  Granted rights: read, compare, search``
+| ``  Effective attributes: memberof``
+| ``  Default attributes: memberof``
+| ``  Bind rule type: anonymous``
+| ``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
+| ``  Type: user``
 
 
 
@@ -136,37 +136,37 @@ Upgrade considerations
 When upgrading to IPA 4.0, the process will convert old default
 permissions, such as.
 
-| ``ipa-3-3$ ipa permission-find 'Modify Groups'``
+| ``ipa-3-3$ ipa permission-find 'Modify Groups'``
 | ``--------------------``
-| ``1 permission matched``
+| ``1 permission matched``
 | ``--------------------``
-| ``  Permission name: Modify Groups``
-| ``  Permissions: write``
-| ``  Attributes: cn, description, gidnumber, objectclass, mepmanagedby, ipauniqueid``
-| ``  Type: group``
-| ``  Granted to Privilege: Group Administrators``
-| ``  Indirect Member of roles: User Administrator``
+| ``  Permission name: Modify Groups``
+| ``  Permissions: write``
+| ``  Attributes: cn, description, gidnumber, objectclass, mepmanagedby, ipauniqueid``
+| ``  Type: group``
+| ``  Granted to Privilege: Group Administrators``
+| ``  Indirect Member of roles: User Administrator``
 | ``----------------------------``
-| ``Number of entries returned 1``
+| ``Number of entries returned 1``
 | ``----------------------------``
 
 to managed ones, e.g.
 
-| ``$ ipa permission-find 'System: Modify Groups'``
+| ``$ ipa permission-find 'System: Modify Groups'``
 | ``--------------------``
-| ``1 permission matched``
+| ``1 permission matched``
 | ``--------------------``
-| ``  Permission name: System: Modify Groups``
-| ``  Granted rights: write``
-| ``  Effective attributes: cn, description, gidnumber, ipauniqueid, mepmanagedby, objectclass``
-| ``  Default attributes: cn, objectclass, mepmanagedby, gidnumber, ipauniqueid, description``
-| ``  Bind rule type: permission``
-| ``  Subtree: cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
-| ``  Type: group``
-| ``  Granted to Privilege: Group Administrators``
-| ``  Indirect Member of roles: User Administrator``
+| ``  Permission name: System: Modify Groups``
+| ``  Granted rights: write``
+| ``  Effective attributes: cn, description, gidnumber, ipauniqueid, mepmanagedby, objectclass``
+| ``  Default attributes: cn, objectclass, mepmanagedby, gidnumber, ipauniqueid, description``
+| ``  Bind rule type: permission``
+| ``  Subtree: cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
+| ``  Type: group``
+| ``  Granted to Privilege: Group Administrators``
+| ``  Indirect Member of roles: User Administrator``
 | ``----------------------------``
-| ``Number of entries returned 1``
+| ``Number of entries returned 1``
 | ``----------------------------``
 
 If the default permissions that come with IPA have been modified,
@@ -269,26 +269,26 @@ by taking the ``ipaPermDefaultAttr`` set, adding any
 
 For example, this permission:
 
-| ``dn: cn=Read Users,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: Read Users``
-| ``ipaPermDefaultAttr: cn``
-| ``ipaPermDefaultAttr: sn``
-| ``ipaPermDefaultAttr: givenName``
-| ``ipaPermDefaultAttr: l``
+| ``dn: cn=Read Users,cn=permissions,cn=pbac,$SUFFIX``
+| ``cn: Read Users``
+| ``ipaPermDefaultAttr: cn``
+| ``ipaPermDefaultAttr: sn``
+| ``ipaPermDefaultAttr: givenName``
+| ``ipaPermDefaultAttr: l``
 | ``...``
-| ``ipaPermIncludedAttr: favoriteColor``
-| ``ipaPermExcludedAttr: givenName``
-| ``objectClass: top``
-| ``objectClass: groupOfNames``
-| ``objectclass: ipaPermission``
-| ``objectclass: ipaManagedPermission``
-| ``ipaPermType: SYSTEM``
-| ``ipaPermType: V2``
-| ``ipaPermType: MANAGED``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: read``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermBindRuleType: permission``
+| ``ipaPermIncludedAttr: favoriteColor``
+| ``ipaPermExcludedAttr: givenName``
+| ``objectClass: top``
+| ``objectClass: groupOfNames``
+| ``objectclass: ipaPermission``
+| ``objectclass: ipaManagedPermission``
+| ``ipaPermType: SYSTEM``
+| ``ipaPermType: V2``
+| ``ipaPermType: MANAGED``
+| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
+| ``ipaPermRight: read``
+| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
+| ``ipaPermBindRuleType: permission``
 
 would allow users to read all default user attributes except
 ``givenName``, plus additionally ``favoriteColor``.
@@ -357,22 +357,22 @@ Another entry in the ``managed_permissions``\ template, ``replaces``,
 will be used for replacing legacy permissions with new managed ones.
 Example:
 
-| ``   managed_permissions = {``
-| ``       'ipa:Modify SUDO Rule': {``
-| ``           'ipapermbindruletype': 'permission',``
-| ``           'ipapermright': {'write'},``
-| ``           'ipapermdefaultattr': {``
-| ``               'description', 'ipaenabledflag', 'usercategory',``
-| ``               'hostcategory', 'cmdcategory', 'ipasudorunasusercategory',``
-| ``               'ipasudorunasgroupcategory', 'externaluser',``
-| ``               'ipasudorunasextuser', 'ipasudorunasextgroup', 'memberdenycmd',``
-| ``               'memberallowcmd', 'memberuser'``
-| ``           },``
-| ``           'replaces': [``
-| ``               '(targetattr = "description || ipaenabledflag || usercategory || hostcategory || cmdcategory || ipasudorunasusercategory || ipasudorunasgroupcategory || externaluser || ipasudorunasextuser || ipasudorunasextgroup || memberdenycmd || memberallowcmd || memberuser")(target = "``\ ```ldap:///ipauniqueid=`` <ldap:///ipauniqueid=>`__\ ``*,cn=sudorules,cn=sudo,$SUFFIX")(version 3.0;acl "permission:Modify Sudo rule";allow (write) groupdn = "``\ ```ldap:///cn=Modify`` <ldap:///cn=Modify>`__\ `` Sudo rule,cn=permissions,cn=pbac,$SUFFIX";)',``
-| ``           }``
-| ``       },``
-| ``       ...``
+| ``   managed_permissions = {``
+| ``       'ipa:Modify SUDO Rule': {``
+| ``           'ipapermbindruletype': 'permission',``
+| ``           'ipapermright': {'write'},``
+| ``           'ipapermdefaultattr': {``
+| ``               'description', 'ipaenabledflag', 'usercategory',``
+| ``               'hostcategory', 'cmdcategory', 'ipasudorunasusercategory',``
+| ``               'ipasudorunasgroupcategory', 'externaluser',``
+| ``               'ipasudorunasextuser', 'ipasudorunasextgroup', 'memberdenycmd',``
+| ``               'memberallowcmd', 'memberuser'``
+| ``           },``
+| ``           'replaces': [``
+| ``               '(targetattr = "description || ipaenabledflag || usercategory || hostcategory || cmdcategory || ipasudorunasusercategory || ipasudorunasgroupcategory || externaluser || ipasudorunasextuser || ipasudorunasextgroup || memberdenycmd || memberallowcmd || memberuser")(target = "``\ ```ldap:///ipauniqueid=`` <ldap:///ipauniqueid=>`__\ ``*,cn=sudorules,cn=sudo,$SUFFIX")(version 3.0;acl "permission:Modify Sudo rule";allow (write) groupdn = "``\ ```ldap:///cn=Modify`` <ldap:///cn=Modify>`__\ `` Sudo rule,cn=permissions,cn=pbac,$SUFFIX";)',``
+| ``           }``
+| ``       },``
+| ``       ...``
 
 If the an existing *legacy* (i.e. non-v2) permission exists either
 without an associated ACI or with an ACI that *exactly* matches the

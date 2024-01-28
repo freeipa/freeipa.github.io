@@ -80,38 +80,38 @@ Sync Request Control
 This control is used in the search request to trigger a content
 synchronization
 
-| ``   syncRequestValue ::= SEQUENCE {``
-| ``         mode ENUMERATED {``
-| ``             -- 0 unused``
-| ``             refreshOnly       (1),``
-| ``             -- 2 reserved``
-| ``             refreshAndPersist (3)``
-| ``         },``
-| ``         cookie     syncCookie OPTIONAL,``
-| ``         reloadHint BOOLEAN DEFAULT FALSE``
-| ``     }``
+| ``   syncRequestValue ::= SEQUENCE {``
+| ``         mode ENUMERATED {``
+| ``             -- 0 unused``
+| ``             refreshOnly       (1),``
+| ``             -- 2 reserved``
+| ``             refreshAndPersist (3)``
+| ``         },``
+| ``         cookie     syncCookie OPTIONAL,``
+| ``         reloadHint BOOLEAN DEFAULT FALSE``
+| ``     }``
 
 
 
 Sync Info Message
 '''''''''''''''''
 
-| ``  syncInfoValue ::= CHOICE {``
-| ``         newcookie      [0] syncCookie,``
-| ``         refreshDelete  [1] SEQUENCE {``
-| ``             cookie         syncCookie OPTIONAL,``
-| ``             refreshDone    BOOLEAN DEFAULT TRUE``
-| ``         },``
-| ``         refreshPresent [2] SEQUENCE {``
-| ``             cookie         syncCookie OPTIONAL,``
-| ``             refreshDone    BOOLEAN DEFAULT TRUE``
-| ``         },``
-| ``         syncIdSet      [3] SEQUENCE {``
-| ``             cookie         syncCookie OPTIONAL,``
-| ``             refreshDeletes BOOLEAN DEFAULT FALSE,``
-| ``             syncUUIDs      SET OF syncUUID``
-| ``         }``
-| ``     }``
+| ``  syncInfoValue ::= CHOICE {``
+| ``         newcookie      [0] syncCookie,``
+| ``         refreshDelete  [1] SEQUENCE {``
+| ``             cookie         syncCookie OPTIONAL,``
+| ``             refreshDone    BOOLEAN DEFAULT TRUE``
+| ``         },``
+| ``         refreshPresent [2] SEQUENCE {``
+| ``             cookie         syncCookie OPTIONAL,``
+| ``             refreshDone    BOOLEAN DEFAULT TRUE``
+| ``         },``
+| ``         syncIdSet      [3] SEQUENCE {``
+| ``             cookie         syncCookie OPTIONAL,``
+| ``             refreshDeletes BOOLEAN DEFAULT FALSE,``
+| ``             syncUUIDs      SET OF syncUUID``
+| ``         }``
+| ``     }``
 
 In *RefreshAndPersist* mode, the refresh stage does **not** end with a
 SearchResultDone but with **refreshDone** (refreshDelete or
@@ -126,16 +126,16 @@ deleted.
 Sync state control
 ''''''''''''''''''
 
-| ``     syncStateValue ::= SEQUENCE {``
-| ``         state ENUMERATED {``
-| ``             present (0),``
-| ``             add (1),``
-| ``             modify (2),``
-| ``             delete (3)``
-| ``         },``
-| ``         entryUUID syncUUID,``
-| ``         cookie    syncCookie OPTIONAL``
-| ``     }``
+| ``     syncStateValue ::= SEQUENCE {``
+| ``         state ENUMERATED {``
+| ``             present (0),``
+| ``             add (1),``
+| ``             modify (2),``
+| ``             delete (3)``
+| ``         },``
+| ``         entryUUID syncUUID,``
+| ``         cookie    syncCookie OPTIONAL``
+| ``     }``
 
 In persist stage, for each updated entry/reference is send in a
 SearchResultEntry/SearchResultReference message with sync state control.

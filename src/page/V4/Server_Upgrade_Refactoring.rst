@@ -76,7 +76,7 @@ updater.
 | ``20-syncrepl.update``
 | ``...``
 | ``90-last.update``
-| ``ZZ.update  # this will work, but we should avoid of using number less update files``
+| ``ZZ.update  # this will work, but we should avoid of using number less update files``
 
 
 
@@ -119,7 +119,7 @@ Related ticket:
 Currently two commands exist, which have to be exucuted in proper order
 to upgrade IPA:
 
-| ``ipa-ldap-updater --upgrade``
+| ``ipa-ldap-updater --upgrade``
 | ``ipa-upgradeconfig``
 
 Using these commands in wrong order, or execute ipa-upgradecofig if

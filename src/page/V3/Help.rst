@@ -30,10 +30,10 @@ Design
    start with a capital, no dot at the end), and the following
    references to more info:
 
-| ``   See "ipa help topics" for available help topics.``
-| ``   See "ipa help ``\ ``" for more information on a specific topic.``
-| ``   See "ipa help commands" for the full list of commands.``
-| ``   See "ipa ``\ `` --help" for more information on a specific command.``
+| ``   See "ipa help topics" for available help topics.``
+| ``   See "ipa help ``\ ``" for more information on a specific topic.``
+| ``   See "ipa help commands" for the full list of commands.``
+| ``   See "ipa ``\ `` --help" for more information on a specific command.``
 
 -  ``ipa --help``, ``ipa -h`` and ``ipa help`` produce the same output.
 
@@ -41,7 +41,7 @@ Design
    usage) outputs the help (as with ``ipa help``) to stderr, along with
    an error message:
 
-``   ipa: ERROR: command not specified``
+``   ipa: ERROR: command not specified``
 
 -  Executing ``ipa``\ *``TOPIC``* (again a usage violation) outputs the
    topic help (``ipa help``\ *``TOPIC``* output) to stderr, along with

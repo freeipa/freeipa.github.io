@@ -335,7 +335,7 @@ With BeakerLib
 
 Set up a BeakerLib test (e.g. ``rlJournalStart``), and run:
 
-``   ipa-run-tests --with-beakerlib --no-skip test_integration/test_simple_replication.py``
+``   ipa-run-tests --with-beakerlib --no-skip test_integration/test_simple_replication.py``
 
 The output is somewhat messy as BeakerLib logs are printed to standard
 error. Not that output from external hosts is buffered, so installation
@@ -351,7 +351,7 @@ Without BeakerLib
 
 Run:
 
-``   ipa-run-tests test_integration/test_simple_replication.py``
+``   ipa-run-tests test_integration/test_simple_replication.py``
 
 As with other Nose tests, no output is shown for test setup
 (installation) if nothing goes wrong, so there may be a long time

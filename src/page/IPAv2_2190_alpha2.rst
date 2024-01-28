@@ -13,7 +13,7 @@ pushed to updates-testing yet. You can retrieve it manually from
 http://koji.fedoraproject.org/koji/buildinfo?buildID=299543 or download
 the packages with:
 
-``# koji download-build 299543``
+``# koji download-build 299543``
 
 Alpha 1 was an unannounced release that formed the basis of the first
 Fedora 17 package. It was not well-tested, particularly for upgrades,

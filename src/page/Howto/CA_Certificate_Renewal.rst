@@ -43,7 +43,7 @@ FreeIPA 4.1 introduced `integrated CA certificate renewal
 tools <V4/CA_certificate_renewal>`__. To manually renew the CA
 certificate, run:
 
-``# ipa-cacert-manage renew``
+``# ipa-cacert-manage renew``
 
 
 
@@ -119,7 +119,7 @@ is usually '" IPA CA". I will use "EXAMPLE.COM IPA CA".
 
 You can query the Apache database to find out what this currently is:
 
-``# certutil -L -d /etc/httpd/alias``
+``# certutil -L -d /etc/httpd/alias``
 
 
 
@@ -171,11 +171,11 @@ Install the new CA certificate on your IPA master CA
 
 The CA needs to be shut down in order to update its certificate:
 
-``# service ipa stop``
+``# service ipa stop``
 
 Update the CA certificate NSS database:
 
-``# certutil -A -d /var/lib/pki-ca/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /var/lib/pki-ca/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i /root/ipa.crt``
 
 Replace the value of ``ca.signing.cert`` in ``/etc/pki-ca/CS.cfg``. This
 is the base64 value of the certificate. You can obtain this by removing
@@ -183,31 +183,31 @@ the BEGIN/END blocks from ipa.crt and compressing it into a single line.
 
 Update the Apache NSS database:
 
-``# certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
 
 Update the shared system database:
 
-``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
+| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
 
 Restart the world
 
-``# service ipa start``
+``# service ipa start``
 
 Update the CA in LDAP
 
 First convert the certificate to DER form:
 
-``# openssl x509 -outform DER -in /root/ipa.crt  -out /tmp/ipa.der``
+``# openssl x509 -outform DER -in /root/ipa.crt  -out /tmp/ipa.der``
 
 Add to LDAP:
 
@@ -231,11 +231,11 @@ Install new CA on other IPA masters with a CA
 
 The CA needs to be shut down in order to update its certificate:
 
-``# service ipa stop``
+``# service ipa stop``
 
 Update the CA certificate NSS database:
 
-``# certutil -A -d /var/lib/pki-ca/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /var/lib/pki-ca/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i /root/ipa.crt``
 
 Replace the value of ``ca.signing.cert`` in ``/etc/pki-ca/CS.cfg``. This
 is the base64 value of the certificate. You can obtain this by removing
@@ -243,25 +243,25 @@ the BEGIN/END blocks from ipa.crt and compressing it into a single line.
 
 Update the Apache NSS database:
 
-``# certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
 
 Update the shared system database:
 
-``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
+| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
 
 Restart the world
 
-``# service ipa start``
+``# service ipa start``
 
 
 
@@ -272,29 +272,29 @@ Copy the updated CA to the machine. I'm assuming it is in /root/ipa.crt.
 
 Stop the world
 
-``# service ipa stop``
+``# service ipa stop``
 
 Update the Apache NSS database:
 
-``# certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/httpd/alias -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
 
 Update the shared system database:
 
-``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
+| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
 
 Restart the world
 
-``# service ipa start``
+``# service ipa start``
 
 
 
@@ -305,11 +305,11 @@ Retrieve the updated IPA CA, I've put it into /root/ipa.crt.
 
 Update the shared system database:
 
-``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
+``# certutil -A -d /etc/pki/nssdb -n 'EXAMPLE.COM IPA CA'  -t CT,C,C -a -i /root/ipa.crt``
 
 Update the CA in the filesystem:
 
-``# cp /root/ipa.crt /etc/ipa/ca.crt``
+``# cp /root/ipa.crt /etc/ipa/ca.crt``
 
 Troubleshooting
 ---------------

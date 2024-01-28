@@ -21,26 +21,26 @@ all commands are introduced by plugins.
 
 Commands are invoked like this:
 
-``ipa [global-options] COMMAND [command-parameters-that-is-options-and-arguments]``
+``ipa [global-options] COMMAND [command-parameters-that-is-options-and-arguments]``
 
 A list of global options can be displayed using:
 
-``ipa --help``
+``ipa --help``
 
 The plugins are organized by type of objects they manage. This type can
 also be used to get an overview of the available commands. To display
 all commands in a specific module, use the \`help\` command as follows:
 
-``ipa help TOPIC``
+``ipa help TOPIC``
 
 Parameters available for a specific command are displayed with:
 
-``ipa COMMAND --help``
+``ipa COMMAND --help``
 
 If a list of parameter isn't enough, more information about specific
 commands is available through the \`help\` command:
 
-``ipa help COMMAND``
+``ipa help COMMAND``
 
 
 
@@ -58,8 +58,8 @@ stored in LDAP into a more user-friendly form and most of the time, some
 less relevant attributes are hidden by default. Since this behaviour
 isn't always desirable, all such commands accept the following options:
 
-| ``--all     display all attributes``
-| ``--raw     display attributes as they are stored in LDAP``
+| ``--all     display all attributes``
+| ``--raw     display attributes as they are stored in LDAP``
 
 --all makes the command retrieve all attributes and display them, this
 doesn't apply to explicitly hidden attributes.
@@ -101,7 +101,7 @@ After a clean IPA installation, there is no automount location defined.
 Creating new locations
 ----------------------------------------------------------------------------------------------
 
-``ipa automountlocation-add LOCATION_NAME``
+``ipa automountlocation-add LOCATION_NAME``
 
 LOCATION_NAME is a unique string used to identify location being
 created.
@@ -114,14 +114,14 @@ auto.master map.
 Listing all locations
 ----------------------------------------------------------------------------------------------
 
-``ipa automountlocation-find``
+``ipa automountlocation-find``
 
 
 
 Searching for locations
 ----------------------------------------------------------------------------------------------
 
-``ipa automountlocation-find SEARCH_STRING``
+``ipa automountlocation-find SEARCH_STRING``
 
 All locations with SEARCH_STRING in their name will be listed.
 
@@ -130,7 +130,7 @@ All locations with SEARCH_STRING in their name will be listed.
 Exporting automount data for locations
 ----------------------------------------------------------------------------------------------
 
-``ipa automountlocation-tofiles LOCATION_NAME``
+``ipa automountlocation-tofiles LOCATION_NAME``
 
 This command might be useful, if (for whatever reason) some clients
 can't connect to LDAP to retrieve the automount data.
@@ -140,7 +140,7 @@ can't connect to LDAP to retrieve the automount data.
 Deleting locations
 ----------------------------------------------------------------------------------------------
 
-``ipa automountlocation-del LOCATION_NAME``
+``ipa automountlocation-del LOCATION_NAME``
 
 This command deletes a location and EVERYTHING IN IT (ALL maps and
 keys).
@@ -150,7 +150,7 @@ keys).
 Creating maps
 ----------------------------------------------------------------------------------------------
 
-``ipa automountmap-add LOCATION_NAME MAP_NAME``
+``ipa automountmap-add LOCATION_NAME MAP_NAME``
 
 LOCATION_NAME is the name of the location the map being created is to be
 part of.
@@ -168,12 +168,12 @@ indirect map is equivalent to an automount file listed in
 
 There are 2 ways of creating them; the simple way:
 
-``ipa automountmap-add-indirect LOCATION_NAME MAP_NAME --mount=MOUNT_POINT``
+``ipa automountmap-add-indirect LOCATION_NAME MAP_NAME --mount=MOUNT_POINT``
 
 and the hard(er) way:
 
-| `` ipa automountmap-add LOCATION_NAME MAP_NAME``
-| `` ipa automountkey-add LOCATION_NAME auto.master MOUNT_POINT --info=MAP_NAME``
+| `` ipa automountmap-add LOCATION_NAME MAP_NAME``
+| `` ipa automountkey-add LOCATION_NAME auto.master MOUNT_POINT --info=MAP_NAME``
 
 MOUNT_POINT is the mount point such as "/mnt".
 
@@ -182,21 +182,21 @@ MOUNT_POINT is the mount point such as "/mnt".
 Listing all maps in a location
 ----------------------------------------------------------------------------------------------
 
-``ipa automountmap-find LOCATION_NAME``
+``ipa automountmap-find LOCATION_NAME``
 
 
 
 Displaying maps
 ----------------------------------------------------------------------------------------------
 
-``ipa automountmap-show LOCATION_NAME MAP_NAME``
+``ipa automountmap-show LOCATION_NAME MAP_NAME``
 
 
 
 Deleting maps
 ----------------------------------------------------------------------------------------------
 
-``ipa automountmap-del LOCATION_NAME MAP_NAME``
+``ipa automountmap-del LOCATION_NAME MAP_NAME``
 
 This command deletes the map and EVERYTHING IN IT (ALL keys). Keys that
 link to this map ARE NOT deleted, because they are stored in another map
@@ -213,7 +213,7 @@ Keys in automount have 2 roles:
 -  In any other map, they represent a specific device to be mounted and
    it's mount options.
 
-``ipa automountkey-add LOCATION_NAME MAP_NAME KEY_NAME --info=MOUNT_INFO``
+``ipa automountkey-add LOCATION_NAME MAP_NAME KEY_NAME --info=MOUNT_INFO``
 
 If addind a key to auto.master, KEY_NAME should be the mount point and
 MOUNT_INFO the name of a map. Otherwise, KEY_NAME should be the
@@ -225,14 +225,14 @@ contain a path to this device along with mount options.
 Listing all keys in a specific map
 ----------------------------------------------------------------------------------------------
 
-``ipa automountkey-find LOCATION_NAME MAP_NAME``
+``ipa automountkey-find LOCATION_NAME MAP_NAME``
 
 
 
 Deleting keys
 ----------------------------------------------------------------------------------------------
 
-``ipa automountkey-del LOCATION_NAME MAP_NAME KEY_NAME``
+``ipa automountkey-del LOCATION_NAME MAP_NAME KEY_NAME``
 
 
 
@@ -248,11 +248,11 @@ Assumptions:
 
 In file /etc/nsswitch change this line:
 
-``automount file``
+``automount file``
 
 to
 
-``automount ldap``
+``automount ldap``
 
 In file /etc/sysconfig/autofs add the following lines at its end:
 
@@ -267,7 +267,7 @@ In file /etc/sysconfig/autofs add the following lines at its end:
 If unsure about what to put into the SEARCH_BASE line, issue this
 command to retrieve the correct DN:
 
-``ipa automountlocation-find --name=$AUTOMOUNT_LOCATION --raw``
+``ipa automountlocation-find --name=$AUTOMOUNT_LOCATION --raw``
 
 Restart autofs and we're done.
 
@@ -362,43 +362,43 @@ EXAMPLES:
 
 Add new zone;
 
-``ipa dns-create example.com nameserver.example.com admin@example.com``
+``ipa dns-create example.com nameserver.example.com admin@example.com``
 
 Add second nameserver for example.com:
 
-``ipa dns-add-rr example.com @ NS nameserver2.example.com``
+``ipa dns-add-rr example.com @ NS nameserver2.example.com``
 
 Delete previously added nameserver from example.com:
 
-``ipa dns-del-rr example.com @ NS nameserver2.example.com``
+``ipa dns-del-rr example.com @ NS nameserver2.example.com``
 
 Add new A record for www.example.com: (random IP)
 
-``ipa dns-add-rr example.com www A 80.142.15.2``
+``ipa dns-add-rr example.com www A 80.142.15.2``
 
 Show zone example.com:
 
-``ipa dns-show example.com``
+``ipa dns-show example.com``
 
 Find zone with 'example' in it's domain name:
 
-``ipa dns-find example``
+``ipa dns-find example``
 
 Find records for resources with 'www' in their name in zone example.com:
 
-``ipa dns-find-rr example.com www``
+``ipa dns-find-rr example.com www``
 
 Find A records for resource www in zone example.com
 
-``ipa dns-find-rr example.com --resource www --type A``
+``ipa dns-find-rr example.com --resource www --type A``
 
 Show records for resource www in zone example.com
 
-``ipa dns-show-rr example.com www``
+``ipa dns-show-rr example.com www``
 
 Delete zone example.com with all resource records:
 
-``ipa dns-delete example.com``
+``ipa dns-delete example.com``
 
 group
 -----
@@ -428,10 +428,10 @@ There are 4 components to an HBAC:
 A simple example: Allow the user admin to ssh into the host tiger from
 the host lion.
 
-| ``$ ipa hbac-add --type=allow --service=sshd tiger_sshd``
-| ``$ ipa hbac-add-host tiger_sshd --hosts=tiger.example.com``
-| ``$ ipa hbac-add-sourcehost tiger_sshd --hosts=lion.example.com``
-| ``$ ipa hbac-add-user --users=admin tiger_sshd``
+| ``$ ipa hbac-add --type=allow --service=sshd tiger_sshd``
+| ``$ ipa hbac-add-host tiger_sshd --hosts=tiger.example.com``
+| ``$ ipa hbac-add-sourcehost tiger_sshd --hosts=lion.example.com``
+| ``$ ipa hbac-add-user --users=admin tiger_sshd``
 
 There is no access time associated with this rule so it is is always
 available.

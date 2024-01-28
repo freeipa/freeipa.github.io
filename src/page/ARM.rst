@@ -14,7 +14,7 @@ SoC chips tend to have SDcard-based disks which are slow. This can cause
 service timeouts during installation. One way to mitigate this is to
 create /etc/ipa/installer.conf prior to calling ipa-server-install:
 
-| ``$ cat /etc/ipa/installer.conf``
+| ``$ cat /etc/ipa/installer.conf``
 | ``[global]``
 | ``startup_timeout=900``
 
@@ -30,7 +30,7 @@ new timeout. Add an override file and pass this in via
 --pki-config-override. The override file will consist of:
 
 | ``[DEFAULT]``
-| startup_timeout=900 
+| startup_timeout=900
 
 This alone is not sufficient. You'll also need to increase the startup
 timeout for systemd.

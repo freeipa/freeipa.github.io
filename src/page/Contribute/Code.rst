@@ -245,13 +245,13 @@ present in the source tree (.git-commit-template):
 
 ::
 
-  component: Subject
+  component: Subject
 
   Explanation
 
-  Fixes: https://pagure.io/freeipa/issue/XXXX
+  Fixes: https://pagure.io/freeipa/issue/XXXX
   or
-  Related: https://pagure.io/freeipa/issue/XXXX
+  Related: https://pagure.io/freeipa/issue/XXXX
 
 
 -  *component: Subject* is a single-line summary

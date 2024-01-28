@@ -36,19 +36,19 @@ is done via GUI to see records that have to be updated manually.
 
 The list of records can look for example like this:
 
-| ``[user@ipa ~]$ ipa dns-update-system-records --dry-run``
-| `` IPA DNS records:``
-| ``   _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos.example.com. 86400 IN TXT "EXAMPLE.COM"``
-| ``   _kpasswd._tcp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``
-| ``   _kpasswd._udp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``
-| ``   _ldap._tcp.example.com. 86400 IN SRV 0 100 389 ipa.example.com.``
-| ``   _ntp._udp.example.com. 86400 IN SRV 0 100 123 ipa.example.com.``
-| ``   ipa-ca.example.com. 86400 IN A 192.0.2.36``
-| ``   ipa-ca.example.com. 86400 IN AAAA 2001:db8:0:224e:21a:4aff:fe23:1523``
+| ``[user@ipa ~]$ ipa dns-update-system-records --dry-run``
+| `` IPA DNS records:``
+| ``   _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``   _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``   _kerberos._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``   _kerberos._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+| ``   _kerberos.example.com. 86400 IN TXT "EXAMPLE.COM"``
+| ``   _kpasswd._tcp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``
+| ``   _kpasswd._udp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``
+| ``   _ldap._tcp.example.com. 86400 IN SRV 0 100 389 ipa.example.com.``
+| ``   _ntp._udp.example.com. 86400 IN SRV 0 100 123 ipa.example.com.``
+| ``   ipa-ca.example.com. 86400 IN A 192.0.2.36``
+| ``   ipa-ca.example.com. 86400 IN AAAA 2001:db8:0:224e:21a:4aff:fe23:1523``
 
 
 
@@ -60,18 +60,18 @@ Option ``--out FILE`` will store DNS data in *nsupdate* format in file
 
 ::
 
-   | ``[user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate``
-   | ``  IPA DNS records:``
-   | ``   ...``
-   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
-   | ``; IPA DNS records``
-   | ``update delete _kerberos-master._tcp.example.com. SRV``
-   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-   | ``update delete _kerberos-master._udp.example.com. SRV``
-   | ``update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+   | ``[user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate``
+   | ``  IPA DNS records:``
+   | ``   ...``
+   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
+   | ``; IPA DNS records``
+   | ``update delete _kerberos-master._tcp.example.com. SRV``
+   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+   | ``update delete _kerberos-master._udp.example.com. SRV``
+   | ``update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
    | ``.....``
-   | ``update delete ipa-ca.example.com. AAAA``
-   | ``update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523``
+   | ``update delete ipa-ca.example.com. AAAA``
+   | ``update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523``
    | ``send``
 
 
@@ -97,12 +97,12 @@ Example:
 
 ::
 
-   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
-   | ``zone example.com.``
-   | ``server 192.0.2.222``
-   | ``; IPA DNS records``
-   | ``update delete _kerberos-master._tcp.example.com. SRV``
-   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
+   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
+   | ``zone example.com.``
+   | ``server 192.0.2.222``
+   | ``; IPA DNS records``
+   | ``update delete _kerberos-master._tcp.example.com. SRV``
+   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
    | ``...``
 
 For more details please see *man nsupdate*.
@@ -130,11 +130,11 @@ Server configuration examples:
 
 Run *nsupdate* with the ``-k keyfile`` option:
 
-``[user@ipa ~]$ nsupdate -k tsig-key.keyfile ipa-records.nsupdate``
+``[user@ipa ~]$ nsupdate -k tsig-key.keyfile ipa-records.nsupdate``
 
 or with ``-y algorithm:keyname:secret`` option:
 
-``[user@ipa ~]$ nsupdate -y algorithm:keyname:secret ipa-records.nsupdate``
+``[user@ipa ~]$ nsupdate -y algorithm:keyname:secret ipa-records.nsupdate``
 
 More details about *nsupdate* with TSIG and how to generate keyfiles can
 be found `here <Howto/DNS_updates_and_zone_transfers_with_TSIG>`__
@@ -159,8 +159,8 @@ Examples of server configuration:
 
 Run *nsupdate* with option ``-g``
 
-| ``[user@ipa ~]$ kinit principal-allowed-to-update-records@REALM``
-| ``[user@ipa ~]$ nsupdate -g ipa-records.nsupdate``
+| ``[user@ipa ~]$ kinit principal-allowed-to-update-records@REALM``
+| ``[user@ipa ~]$ nsupdate -g ipa-records.nsupdate``
 
 
 
@@ -180,4 +180,4 @@ Server configuration examples:
 
 Run *nsupdate* without options:
 
-``[user@ipa ~]$ nsupdate ipa-records.nsupdate``
+``[user@ipa ~]$ nsupdate ipa-records.nsupdate``

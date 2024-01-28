@@ -312,44 +312,44 @@ you manually configure proper offset in <em>/var/lib/ipa/ca_serialno</em>.</p>
 <ol class="arabic simple">
 <li><p>Install a replica</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-replica-install</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-install
+</pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Copy CA serial number setting from master to replica:</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">scp</span> <span class="pre">/var/lib/ipa/ca_serialno</span> <span class="pre">root&#64;REPLICA:/var/lib/ipa/</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># scp /var/lib/ipa/ca_serialno root@REPLICA:/var/lib/ipa/
+</pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>On replica, set correct owner and permissions:</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chown</span> <span class="pre">root:apache</span> <span class="pre">/var/lib/ipa/ca_serialno</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chmod</span> <span class="pre">550</span> <span class="pre">/var/lib/ipa/ca_serialno</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># chown root:apache /var/lib/ipa/ca_serialno
+# chmod 550 /var/lib/ipa/ca_serialno
+</pre></div>
 </div>
 <ol class="arabic simple" start="4">
 <li><p>Restore SELinux context on serial file:</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">restorecon</span>&#160; <span class="pre">var/lib/ipa/ca_serialno</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># restorecon  var/lib/ipa/ca_serialno
+</pre></div>
 </div>
 <ol class="arabic simple" start="5">
 <li><p>Copy master CA certificate and pwdfile.txt to replica:</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">scp</span> <span class="pre">/etc/httpd/alias/cacert.p12</span> <span class="pre">/etc/httpd/alias/pwdfile.txt</span> <span class="pre">root&#64;REPLICA:~/</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># scp /etc/httpd/alias/cacert.p12 /etc/httpd/alias/pwdfile.txt root@REPLICA:~/
+</pre></div>
 </div>
 <ol class="arabic simple" start="6">
 <li><p>On replica, import the CA certificate:</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">pk12util</span> <span class="pre">-i</span> <span class="pre">~/cacert.p12</span> <span class="pre">-w</span> <span class="pre">~/pwdfile.txt</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-k</span> <span class="pre">/etc/httpd/alias/pwdfile.txt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># pk12util -i ~/cacert.p12 -w ~/pwdfile.txt -d /etc/httpd/alias/ -k /etc/httpd/alias/pwdfile.txt
+</pre></div>
 </div>
 <p>7. The list of certificates in NSS database (including the one imported)
 can be listed with:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -L -d /etc/httpd/alias/
+</pre></div>
 </div>
 <p>However, since <em>pk12util</em> import util is not capable of setting a
 correct certificate nickname, the imported certificate will have a
@@ -367,9 +367,9 @@ backed up before this step):</p>
 <ol class="loweralpha simple" start="3">
 <li><p>Import the certificate with correct nickname:</p></li>
 </ol>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-n</span> <span class="pre">&quot;$REALM</span> <span class="pre">IPA</span> <span class="pre">CA&quot;</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-f</span> <span class="pre">/etc/httpd/alias/pwdfile.txt</span> <span class="pre">\</span></code></div>
-<div class="line">``  -i /root/cacert.crt -a -t CTu,u,Cu``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -n &quot;$REALM IPA CA&quot; -d /etc/httpd/alias/ -f /etc/httpd/alias/pwdfile.txt \
+  -i /root/cacert.crt -a -t CTu,u,Cu
+</pre></div>
 </div>
 <ol class="arabic simple" start="8">
 <li><p>Enable certificate operations on IPA replica:</p></li>

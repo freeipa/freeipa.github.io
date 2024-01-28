@@ -317,15 +317,15 @@ could be replaced by native code if necessary.</p>
 protocol. Communicating with Samba’s DS instance requires the use of
 LDAPI. The DS instances are identified by their URLs.</p>
 <p>A regular LDAP URL will look like the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">389</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ldap://localhost:389
 </pre></div>
 </div>
 <p>A secure LDAP URL will look like the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldaps</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">636</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ldaps://localhost:636
 </pre></div>
 </div>
 <p>An LDAPI URL will look like the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldapi</span><span class="p">:</span><span class="o">//%</span><span class="mi">2</span><span class="n">Fusr</span><span class="o">%</span><span class="mi">2</span><span class="n">Flocal</span><span class="o">%</span><span class="mi">2</span><span class="n">Fsamba</span><span class="o">%</span><span class="mi">2</span><span class="n">Fprivate</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldap</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldapi</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi
 </pre></div>
 </div>
 <p>The LDAPI URL contains a path to a Unix domain socket file
@@ -347,9 +347,9 @@ junixsocket’s API is based on Java Socket API which is used by JLDAP.</p>
 <p>Using the current IETF API, an LDAP connection can be created by
 providing an LDAP or LDAPS URL containing the host name and port number
 of the LDAP server:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAPUrl</span> <span class="n">url</span> <span class="o">=</span> <span class="n">new</span> <span class="n">LDAPUrl</span><span class="p">(</span><span class="s2">&quot;ldap://localhost:389&quot;</span><span class="p">);</span>
-<span class="n">LDAPConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="p">();</span>
-<span class="n">connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">getHost</span><span class="p">(),</span> <span class="n">url</span><span class="o">.</span><span class="n">getPort</span><span class="p">());</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LDAPUrl url = new LDAPUrl(&quot;ldap://localhost:389&quot;);
+LDAPConnection connection = LDAPConnection();
+connection.connect(url.getHost(), url.getPort());
 </pre></div>
 </div>
 </section>
@@ -357,21 +357,21 @@ of the LDAP server:</p>
 <h2>LDAP URL<a class="headerlink" href="#ldap-url" title="Link to this heading">#</a></h2>
 <p>The com.novell.ldap.LDAPUrl class currently only recognizes ldap and
 ldaps protocol schemes.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">parseURL</span><span class="p">(</span><span class="n">String</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>private void parseURL(String url) {
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanStart</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s2">&quot;ldap://&quot;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">scanStart</span> <span class="o">+=</span> <span class="mi">7</span><span class="p">;</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="o">.</span><span class="n">DEFAULT_PORT</span><span class="p">;</span>
+    if (url.substring(scanStart, scanStart + 7).equalsIgnoreCase(&quot;ldap://&quot;)) {
+        scanStart += 7;
+        port = LDAPConnection.DEFAULT_PORT;
 
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanStart</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s2">&quot;ldaps://&quot;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;ldaps&quot;</span><span class="p">;</span>
-        <span class="n">scanStart</span> <span class="o">+=</span> <span class="mi">8</span><span class="p">;</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="o">.</span><span class="n">DEFAULT_SSL_PORT</span><span class="p">;</span>
+    } else if (url.substring(scanStart, scanStart + 8).equalsIgnoreCase(&quot;ldaps://&quot;)) {
+        scheme = &quot;ldaps&quot;;
+        scanStart += 8;
+        port = LDAPConnection.DEFAULT_SSL_PORT;
 
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">throw</span> <span class="n">new</span> <span class="n">MalformedURLException</span><span class="p">(</span><span class="s2">&quot;LDAPUrl: URL scheme is not ldap&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    } else {
+        throw new MalformedURLException(&quot;LDAPUrl: URL scheme is not ldap&quot;);
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -379,15 +379,15 @@ ldaps protocol schemes.</p>
 <h2>LDAP Connection<a class="headerlink" href="#ldap-connection" title="Link to this heading">#</a></h2>
 <p>The com.novell.ldap.Connection class creates the socket using Java
 Socket API by providing the host name and port number.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">connect</span><span class="p">(</span><span class="n">String</span> <span class="n">host</span><span class="p">,</span> <span class="nb">int</span> <span class="n">port</span><span class="p">,</span> <span class="nb">int</span> <span class="n">semaphoreId</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>private void connect(String host, int port, int semaphoreId) {
 
-    <span class="k">if</span><span class="p">(</span><span class="n">mySocketFactory</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">socket</span> <span class="o">=</span> <span class="n">mySocketFactory</span><span class="o">.</span><span class="n">createSocket</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+    if(mySocketFactory != null) {
+        socket = mySocketFactory.createSocket(host, port);
 
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">socket</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Socket</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    } else {
+        socket = new Socket(host, port);
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -398,9 +398,9 @@ Socket API by providing the host name and port number.</p>
 <h2>IETF API<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>The IETF API should be modified to allow creating a connection by
 providing an LDAPI URL which contains a path to the socket file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAPUrl</span> <span class="n">url</span> <span class="o">=</span> <span class="n">new</span> <span class="n">LDAPUrl</span><span class="p">(</span><span class="s2">&quot;ldapi://</span><span class="si">%2F</span><span class="s2">usr</span><span class="si">%2F</span><span class="s2">local</span><span class="si">%2F</span><span class="s2">samba</span><span class="si">%2F</span><span class="s2">private</span><span class="si">%2F</span><span class="s2">ldap</span><span class="si">%2F</span><span class="s2">ldapi&quot;</span><span class="p">);</span>
-<span class="n">LDAPConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">LDAPConnection</span><span class="p">();</span>
-<span class="n">connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">url</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LDAPUrl url = new LDAPUrl(&quot;ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi&quot;);
+LDAPConnection connection = LDAPConnection();
+connection.connect(url);
 </pre></div>
 </div>
 </section>
@@ -408,16 +408,16 @@ providing an LDAPI URL which contains a path to the socket file:</p>
 <h2>LDAP URL<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>The com.novell.ldap.LDAPUrl should be modified to recognize the ldapi
 protocol scheme.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">parseURL</span><span class="p">(</span><span class="n">String</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>private void parseURL(String url) {
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanStart</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s2">&quot;ldapi://&quot;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;ldapi&quot;</span><span class="p">;</span>
-        <span class="n">scanStart</span> <span class="o">+=</span> <span class="mi">8</span><span class="p">;</span>
+    if (url.substring(scanStart, scanStart + 8).equalsIgnoreCase(&quot;ldapi://&quot;)) {
+        scheme = &quot;ldapi&quot;;
+        scanStart += 8;
 
-        <span class="n">path</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">substring</span><span class="p">(</span><span class="n">scanStart</span><span class="p">,</span> <span class="n">scanEnd</span><span class="p">);</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+        path = url.substring(scanStart, scanEnd);
+        return;
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -426,13 +426,13 @@ protocol scheme.</p>
 <p>A new connect() method should to be added into
 com.novell.ldap.Connection to create a socket by providing a path to the
 socket file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">connect</span><span class="p">(</span><span class="n">File</span> <span class="n">path</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>private void connect(File path) {
 
-    <span class="n">AFUNIXSocket</span> <span class="n">unixSocket</span> <span class="o">=</span> <span class="n">AFUNIXSocket</span><span class="o">.</span><span class="n">newInstance</span><span class="p">();</span>
-    <span class="n">unixSocket</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">new</span> <span class="n">AFUNIXSocketAddress</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+    AFUNIXSocket unixSocket = AFUNIXSocket.newInstance();
+    unixSocket.connect(new AFUNIXSocketAddress(path));
 
-    <span class="n">socket</span> <span class="o">=</span> <span class="n">unixSocket</span><span class="p">;</span>
-<span class="p">}</span>
+    socket = unixSocket;
+}
 </pre></div>
 </div>
 </section>

@@ -22,7 +22,7 @@ Configuration
 
 Create SAMBA_HOME/etc/smb.conf:
 
-::
+.. code-block:: text
 
    [globals]
            netbios name     = samba
@@ -61,7 +61,7 @@ Provisioning Samba Backend
 
 Execute the following command to provision Samba backend:
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % export PYTHONPATH=SAMBA_HOME/lib64/python2.6/site-packages
@@ -73,7 +73,7 @@ Execute the following command to provision Samba backend:
     --host-name=samba --host-ip=127.0.0.1 \
     --slapd-path=/usr/sbin/ns-slapd --setup-ds-path=/usr/sbin/setup-ds.pl
 
-::
+.. code-block:: text
 
    Server Role:           domain controller
    Hostname:              samba
@@ -89,7 +89,7 @@ Execute the following command to provision Samba backend:
 Starting DS Instance
 ====================
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % private/ldap/slapd-samba4/start-slapd
@@ -101,13 +101,13 @@ Enabling DS Change Log
 
 Copy common schema into SAMBA_HOME/private/ldap/slapd-samba4/schema:
 
-::
+.. code-block:: text
 
    % cp /etc/dirsrv/schema/02common.ldif SAMBA_HOME/private/ldap/slapd-samba4/schema
 
 Enable change log plugin:
 
-::
+.. code-block:: text
 
    % ldapmodify -H ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi \
    -x -D "cn=Manager,dc=samba,dc=example,dc=com" -w Secret123
@@ -119,7 +119,7 @@ Enable change log plugin:
 
 Restart DS:
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % private/ldap/slapd-samba4/stop-slapd
@@ -130,7 +130,7 @@ Restart DS:
 Starting Samba
 ==============
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % sbin/samba -i -M single
@@ -142,7 +142,7 @@ Create Sync User Account
 
 Add Sync user:
 
-::
+.. code-block:: text
 
    % ldapadd -H ldap://samba.example.com -x \
    -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -w Secret123
@@ -154,7 +154,7 @@ Add Sync user:
 
 Add user into Administrators group:
 
-::
+.. code-block:: text
 
    % ldapmodify -H ldap://samba.example.com -x \
    -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -w Secret123
@@ -165,7 +165,7 @@ Add user into Administrators group:
 
 Verify:
 
-::
+.. code-block:: text
 
    % ldapsearch -H ldap://samba.example.com -x \
    -D "cn=Sync,cn=Users,dc=samba,dc=example,dc=com" -w Secret123 \
@@ -176,7 +176,7 @@ Verify:
 Enable Clear Text Password
 ==========================
 
-::
+.. code-block:: text
 
    ldapmodify -H ldap://samba.example.com -x \
    -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" -w Secret123 \
@@ -188,7 +188,7 @@ Enable Clear Text Password
 Administration
 ==============
 
-::
+.. code-block:: text
 
    % fedora-idm-console
 
@@ -201,7 +201,7 @@ Enter the following information:
 Users
 =====
 
-::
+.. code-block:: text
 
    % cd samba/source4
    % setup/newuser -U Administrator --password=Secret123 edewata

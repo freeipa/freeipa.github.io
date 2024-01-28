@@ -317,9 +317,9 @@ certificates even if FreeIPA was initially deployed with an embedded CA.</p>
 service you are loading the certificate into. If it is not the case, you
 can use the commands <em>ipa-cacert-manage install</em> and <em>ipa-certupdate</em> to
 load the CA’s certificate prior to installing the new certificate.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-cacert-manage</span> <span class="pre">-p</span> <span class="pre">DM_PASSWORD</span> <span class="pre">-n</span> <span class="pre">NICKNAME</span> <span class="pre">-t</span> <span class="pre">C,,</span> <span class="pre">install</span> <span class="pre">ca.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-certupdate</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-cacert-manage -p DM_PASSWORD -n NICKNAME -t C,, install ca.crt
+# ipa-certupdate
+</pre></div>
 </div>
 <p>Note: the command ipa-certupdate must be executed on all the IPA hosts
 (master/replicas/clients) before moving to the next step.</p>
@@ -333,9 +333,9 @@ load the CA’s certificate prior to installing the new certificate.</p>
 ipa-server-certinstall(1) man page for more information regarding all
 the available options.</p>
 <p>Then restart your daemons:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">httpd.service</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">dirsrv&#64;MY-REALM.service</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl restart httpd.service
+# systemctl restart dirsrv@MY-REALM.service
+</pre></div>
 </div>
 </section>
 <section id="procedure-in-ipa-4-1">
@@ -353,54 +353,54 @@ databases used by FreeIPA. For instance, if the chain contains a CA
 <li><p>Add the CA and subCA certs to /etc/ipa/ca.crt and
 /usr/share/ipa/html/ca.crt</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/root/ca1.crt</span> <span class="pre">/root/ca2.crt</span> <span class="pre">&gt;&gt;</span> <span class="pre">/etc/ipa/ca.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cp</span> <span class="pre">/etc/ipa/ca.crt</span> <span class="pre">/usr/share/ipa/html/ca.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat /root/ca1.crt /root/ca2.crt &gt;&gt; /etc/ipa/ca.crt
+# cp /etc/ipa/ca.crt /usr/share/ipa/html/ca.crt
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Add the CA and subCA certs to the system DB</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA1'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca1.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA2'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca2.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/pki/nssdb/ -n &#39;EXT-CA1&#39; -t CT,C,C -a -i /root/ca1.crt
+# certutil -A -d /etc/pki/nssdb/ -n &#39;EXT-CA2&#39; -t CT,C,C -a -i /root/ca2.crt
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Add the CA and subCA certs to HTTP DB</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA1'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca1.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA2'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca2.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/httpd/alias/ -n &#39;EXT-CA1&#39; -t CT,C,C -a -i /root/ca1.crt
+# certutil -A -d /etc/httpd/alias/ -n &#39;EXT-CA2&#39; -t CT,C,C -a -i /root/ca2.crt
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Add the CA and subCA certs to DS main instance DB</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-EXAMPLE-COM/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA1'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca1.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-EXAMPLE-COM/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA2'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca2.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/dirsrv/slapd-EXAMPLE-COM/ -n &#39;EXT-CA1&#39; -t CT,C,C -a -i /root/ca1.crt
+# certutil -A -d /etc/dirsrv/slapd-EXAMPLE-COM/ -n &#39;EXT-CA2&#39; -t CT,C,C -a -i /root/ca2.crt
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Add the CA and subCA certs to DS PKI instance DB</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-PKI-IPA/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA1'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca1.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-PKI-IPA/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA2'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca2.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/dirsrv/slapd-PKI-IPA/ -n &#39;EXT-CA1&#39; -t CT,C,C -a -i /root/ca1.crt
+# certutil -A -d /etc/dirsrv/slapd-PKI-IPA/ -n &#39;EXT-CA2&#39; -t CT,C,C -a -i /root/ca2.crt
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Add the CA and subCA certs to PKI instance DB</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span>&#160; <span class="pre">/var/lib/pki-ca/alias/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA1'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca1.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span>&#160; <span class="pre">/var/lib/pki-ca/alias/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA2'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca2.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d  /var/lib/pki-ca/alias/ -n &#39;EXT-CA1&#39; -t CT,C,C -a -i /root/ca1.crt
+# certutil -A -d  /var/lib/pki-ca/alias/ -n &#39;EXT-CA2&#39; -t CT,C,C -a -i /root/ca2.crt
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Check that the trust flags are correct or fix them if needed in
 /etc/http/alias and /etc/dirsrv/slapd-EXAMPLE-COM:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-M</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-n</span> <span class="pre">$ca1alias</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-M</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-n</span> <span class="pre">$ca2alias</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-M</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-EXAMPLE-COM/</span> <span class="pre">-n</span> <span class="pre">$ca1alias</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-M</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-EXAMPLE-COM/</span> <span class="pre">-n</span> <span class="pre">$ca2alias</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -M -d /etc/httpd/alias/ -t CT,C,C -n $ca1alias
+# certutil -M -d /etc/httpd/alias/ -t CT,C,C -n $ca2alias
+# certutil -M -d /etc/dirsrv/slapd-EXAMPLE-COM/ -n $ca1alias -t CT,C,C
+# certutil -M -d /etc/dirsrv/slapd-EXAMPLE-COM/ -n $ca2alias -t CT,C,C
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>restart the services</p></li>
@@ -408,10 +408,10 @@ databases used by FreeIPA. For instance, if the chain contains a CA
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipactl</span> <span class="pre">restart</span></code></p>
 <p>Note: the same procedure must be run on the replicas.</p>
 <p>On the clients, you need to run only the following:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/root/ca1.crt</span> <span class="pre">/root/ca2.crt</span> <span class="pre">&gt;&gt;</span> <span class="pre">/etc/ipa/ca.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA1'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca1.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb/</span> <span class="pre">-n</span> <span class="pre">'EXT-CA2'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ca2.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat /root/ca1.crt /root/ca2.crt &gt;&gt; /etc/ipa/ca.crt
+# certutil -A -d /etc/pki/nssdb/ -n &#39;EXT-CA1&#39; -t CT,C,C -a -i /root/ca1.crt
+# certutil -A -d /etc/pki/nssdb/ -n &#39;EXT-CA2&#39; -t CT,C,C -a -i /root/ca2.crt
+</pre></div>
 </div>
 </section>
 <section id="id2">
@@ -420,14 +420,14 @@ databases used by FreeIPA. For instance, if the chain contains a CA
 aforementioned certificates:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">openssl</span> <span class="pre">pkcs12</span> <span class="pre">-export</span> <span class="pre">-chain</span> <span class="pre">-CAfile</span> <span class="pre">/etc/ipa/ca.crt</span> <span class="pre">-in</span> <span class="pre">mysite.crt</span> <span class="pre">-inkey</span> <span class="pre">mysite.key</span> <span class="pre">-name</span> <span class="pre">MyIPA</span> <span class="pre">-out</span> <span class="pre">newcert.pk12</span> <span class="pre">-passout</span> <span class="pre">pass:some_secret_password</span></code></p>
 <p>Once this command has completed, you can install the new bundle using:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipa-server-certinstall -w --http_pin=some_secret_password newcert.pk12 ``
-| ``# ipa-server-certinstall -d --dirsrv_pin=some_secret_password newcert.pk12``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-server-certinstall -w --http_pin=some_secret_password newcert.pk12 ``
+# ipa-server-certinstall -d --dirsrv_pin=some_secret_password newcert.pk12``
 </pre></div>
 </div>
 <p>Then restart your daemons:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">httpd.service</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">dirsrv&#64;MY-REALM.service</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl restart httpd.service
+# systemctl restart dirsrv@MY-REALM.service
+</pre></div>
 </div>
 </section>
 </section>

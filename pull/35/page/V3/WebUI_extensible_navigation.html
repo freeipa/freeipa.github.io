@@ -368,55 +368,55 @@ properties of item spec.</p>
 <section id="add-menu-item">
 <h2>Add menu item<a class="headerlink" href="#add-menu-item" title="Link to this heading">#</a></h2>
 <p>Example with specified dependencies and recommended phase.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span><span class="p">([</span>
-        <span class="s1">&#39;freeipa/menu&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;freeipa/phases&#39;</span>
-       <span class="p">],</span>
-       <span class="n">function</span><span class="p">(</span><span class="n">menu</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>define([
+        &#39;freeipa/menu&#39;,
+        &#39;freeipa/phases&#39;
+       ],
+       function(menu, phases) {
 
-    <span class="n">var</span> <span class="n">add_item</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="n">check</span> <span class="k">for</span> <span class="n">module</span> <span class="n">enablement</span>
+    var add_item = function() {
+        // check for module enablement
 
-        <span class="o">//</span> <span class="n">add</span> <span class="n">new</span> <span class="n">item</span> <span class="n">into</span> <span class="n">identity</span> <span class="n">section</span>
-        <span class="n">menu</span><span class="o">.</span><span class="n">add_item</span><span class="p">({</span> <span class="n">entity</span><span class="p">:</span> <span class="s1">&#39;dhcp&#39;</span> <span class="p">},</span> <span class="s1">&#39;identity&#39;</span><span class="p">);</span>
-        <span class="o">//</span> <span class="n">Note</span><span class="p">:</span> <span class="n">each</span> <span class="n">menu</span> <span class="n">item</span> <span class="n">has</span> <span class="n">a</span> <span class="n">name</span><span class="p">,</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">specified</span> <span class="ow">in</span> <span class="n">spec</span> <span class="n">it</span> <span class="ow">is</span>
-        <span class="o">//</span> <span class="n">based</span> <span class="n">on</span> <span class="n">entity</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">facet</span> <span class="n">name</span><span class="o">.</span> <span class="n">Each</span> <span class="n">name</span> <span class="n">contains</span> <span class="n">its</span> <span class="n">parent</span><span class="s1">&#39;s</span>
-        <span class="o">//</span> <span class="n">name</span> <span class="k">as</span> <span class="n">a</span> <span class="n">prefix</span><span class="o">.</span> <span class="n">The</span> <span class="n">added</span> <span class="n">item</span><span class="s1">&#39;s name will be: &#39;</span><span class="n">identity</span><span class="o">/</span><span class="n">dhcp</span><span class="s1">&#39;</span>
-    <span class="p">};</span>
+        // add new item into identity section
+        menu.add_item({ entity: &#39;dhcp&#39; }, &#39;identity&#39;);
+        // Note: each menu item has a name, if not specified in spec it is
+        // based on entity name or facet name. Each name contains its parent&#39;s
+        // name as a prefix. The added item&#39;s name will be: &#39;identity/dhcp&#39;
+    };
 
-    <span class="o">//</span> <span class="n">add</span> <span class="n">menu</span> <span class="n">item</span> <span class="n">after</span> <span class="n">default</span> <span class="n">menu</span> <span class="n">items</span> <span class="n">are</span> <span class="n">added</span>
-    <span class="n">phase</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="n">add_item</span><span class="p">);</span>
-<span class="p">});</span>
+    // add menu item after default menu items are added
+    phase.on(&#39;profile&#39;, add_item);
+});
 </pre></div>
 </div>
 </section>
 <section id="remove-menu-item">
 <h2>Remove menu item<a class="headerlink" href="#remove-menu-item" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">remove</span> <span class="n">previously</span> <span class="n">added</span> <span class="n">item</span>
-<span class="n">menu</span><span class="o">.</span><span class="n">remove_item</span><span class="p">(</span><span class="s1">&#39;identity/dhcp&#39;</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>// remove previously added item
+menu.remove_item(&#39;identity/dhcp&#39;);
 </pre></div>
 </div>
 </section>
 <section id="query">
 <h2>Query<a class="headerlink" href="#query" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">get</span> <span class="n">added</span> <span class="n">item</span>
-<span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">menu</span><span class="o">.</span><span class="n">get</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="s1">&#39;identity/dhcp&#39;</span><span class="p">})[</span><span class="mi">0</span><span class="p">];</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>// get added item
+var item = menu.get({name: &#39;identity/dhcp&#39;})[0];
 </pre></div>
 </div>
 </section>
 <section id="observing-menu-store">
 <h2>Observing menu store<a class="headerlink" href="#observing-menu-store" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">m</span> <span class="o">=</span> <span class="n">menu</span><span class="o">.</span><span class="n">get</span><span class="p">();</span> <span class="o">//</span> <span class="n">get</span> <span class="n">current</span> <span class="n">menu</span> <span class="n">instance</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>var m = menu.get(); // get current menu instance
 
-<span class="o">//</span> <span class="n">observes</span> <span class="n">modifications</span> <span class="n">of</span> <span class="n">internal</span> <span class="n">menu</span> <span class="n">store</span>
-<span class="n">var</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">removedFrom</span><span class="p">,</span> <span class="n">insertedInto</span><span class="p">)</span> <span class="p">{};</span>
-<span class="n">var</span> <span class="n">q</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">query</span><span class="p">();</span>
-<span class="n">q</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+// observes modifications of internal menu store
+var handler = function(object, removedFrom, insertedInto) {};
+var q = m.items.query();
+q.observe(handler, true);
 
-<span class="o">//</span> <span class="n">using</span> <span class="n">dojo</span><span class="o">/</span><span class="n">on</span>
-<span class="o">//</span> <span class="n">invokes</span> <span class="n">select</span> <span class="n">handler</span> <span class="n">when</span> <span class="n">menu</span> <span class="n">item</span> <span class="ow">is</span> <span class="n">selected</span> <span class="p">(</span><span class="nb">set</span> <span class="n">by</span> <span class="n">application</span> <span class="n">controller</span><span class="p">)</span>
-<span class="n">var</span> <span class="n">select_hanler</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">select_state</span><span class="p">)</span> <span class="p">{};</span>
-<span class="n">on</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;selected&#39;</span><span class="p">,</span> <span class="n">select_hanler</span><span class="p">);</span>
+// using dojo/on
+// invokes select handler when menu item is selected (set by application controller)
+var select_hanler = function(select_state) {};
+on(m, &#39;selected&#39;, select_hanler);
 </pre></div>
 </div>
 </section>

@@ -390,7 +390,7 @@ packages, check if your current sudo binary was compiled with LDAP
 support. Unless you got your sudo package from Michale’s repository its
 most likely your sudo won’t have LDAP support, however, just to be sure,
 check it by running the following command as root:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">V</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">ldap</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sudo -V | grep -i ldap
 </pre></div>
 </div>
 <div class="line-block">
@@ -454,14 +454,14 @@ your AIX LPAR you should remove it <em>before</em> installing the RPM packages
 you have just downloaded.</p>
 <p>Go to the <code class="docutils literal notranslate"><span class="pre">/tmp/sudo</span></code> directory and test installing the RPM packages
 with the following commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sudo</span>
-<span class="n">rpm</span> <span class="o">-</span><span class="n">ivh</span> <span class="o">*.</span><span class="n">rpm</span> <span class="o">--</span><span class="n">test</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cd /tmp/sudo
+rpm -ivh *.rpm --test
 </pre></div>
 </div>
 <p>In accordance with the <a class="reference external" href="http://en.wikipedia.org/wiki/POSIX">POSIX</a>
 spirit, if no output is given by the RPM command, your test went well
 and you may proceed with installation using the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rpm</span> <span class="o">-</span><span class="n">ivh</span> <span class="o">*.</span><span class="n">rpm</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>rpm -ivh *.rpm
 </pre></div>
 </div>
 </section>
@@ -499,7 +499,7 @@ here.</a></p>
 <p>In order tell sudo on your AIX LPAR to request its rules on LDAP if none
 are found on the <code class="docutils literal notranslate"><span class="pre">/etc/sudoers</span></code> file, is by adding the following line
 on the <code class="docutils literal notranslate"><span class="pre">/etc/netsvc.conf</span></code> configuration file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudoers</span> <span class="o">=</span> <span class="n">files</span><span class="p">,</span> <span class="n">ldap</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sudoers = files, ldap
 </pre></div>
 </div>
 <p>The idea behind doing this is that, if you want to have server specific
@@ -517,11 +517,11 @@ to create it.</p>
 <div class="line">Create a file called <code class="docutils literal notranslate"><span class="pre">/etc/ldap.conf</span></code> and add the following content
 to it:</div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tls_cacert</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>
-<span class="n">uri</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">youripaserver</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">com</span>
-<span class="n">binddn</span> <span class="n">uid</span><span class="o">=</span><span class="n">sudo</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">sysaccounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">bindpw</span> <span class="n">yourclientpassword</span>
-<span class="n">sudoers_base</span> <span class="n">ou</span><span class="o">=</span><span class="n">sudoers</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tls_cacert /etc/ipa/ca.crt
+uri ldap://youripaserver.domain.com
+binddn uid=sudo,cn=sysaccounts,cn=etc,dc=domain,dc=com
+bindpw yourclientpassword
+sudoers_base ou=sudoers,dc=domain,dc=com
 </pre></div>
 </div>
 <p>Make sure to substitute <em>“youripaserver.domain.com”</em>, <em>“domain”</em>,
@@ -540,7 +540,7 @@ worry, this won’t conflict with AIX’s LDAP functionality.</p>
 <p>If you have the proper firewall rules in place and the wget package
 installed on you AIX LPAR you can get this CA certificate by running the
 following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="o">-</span><span class="n">O</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">youripaserver</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wget -O /etc/ipa/ca.crt http://youripaserver.domain.com/ipa/config/ca.crt
 </pre></div>
 </div>
 </section>
@@ -550,12 +550,12 @@ following command:</p>
 <p>If everything goes as planned your sudo will be working with IPA on your
 AIX LPAR. You may test this by logging into your AIX LPAR with an LDAP
 user and running the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">l</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sudo -l
 </pre></div>
 </div>
 <p>If it brings the sudo rules you set up on your IPA server, like the
 example bellow, you are all set.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[thisuser@thisserver]$ sudo -l
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[thisuser@thisserver]$ sudo -l
 User this user may run the following commands on this server:
     (root) !/bin/cant_run_this_command
     (root) NOPASSWD: /bin/this_command_is_fine

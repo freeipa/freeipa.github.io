@@ -345,58 +345,58 @@ document.write(`
 <section id="kerberos-setup">
 <h1>Kerberos Setup<a class="headerlink" href="#kerberos-setup" title="Link to this heading">#</a></h1>
 <p>Edit/create the file /etc/krb5.conf as shown below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">YOURDOMAIN</span><span class="o">.</span><span class="n">COM</span>
-    <span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">YOURDOMAIN</span><span class="o">.</span><span class="n">COM</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[domain_realm]
+    .yourdomain.com = YOURDOMAIN.COM
+    yourdomain.com = YOURDOMAIN.COM
 
-<span class="p">[</span><span class="n">libdefaults</span><span class="p">]</span>
-    <span class="n">default_realm</span> <span class="o">=</span> <span class="n">YOURDOMAIN</span><span class="o">.</span><span class="n">COM</span>
-    <span class="n">allow_weak_crypto</span> <span class="o">=</span> <span class="n">yes</span>
-    <span class="n">dns_lookup_realm</span> <span class="o">=</span> <span class="n">true</span>
-    <span class="n">dns_lookup_kdc</span> <span class="o">=</span> <span class="n">true</span>
-    <span class="n">rdns</span> <span class="o">=</span> <span class="n">false</span>
-    <span class="n">ticket_lifetime</span> <span class="o">=</span> <span class="mi">24</span><span class="n">h</span>
-    <span class="n">forwardable</span> <span class="o">=</span> <span class="n">yes</span>
-    <span class="n">renewable</span> <span class="o">=</span> <span class="n">true</span>
+[libdefaults]
+    default_realm = YOURDOMAIN.COM
+    allow_weak_crypto = yes
+    dns_lookup_realm = true
+    dns_lookup_kdc = true
+    rdns = false
+    ticket_lifetime = 24h
+    forwardable = yes
+    renewable = true
 
-<span class="p">[</span><span class="n">realms</span><span class="p">]</span>
-    <span class="n">YOURDOMAIN</span><span class="o">.</span><span class="n">COM</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">kdc</span> <span class="o">=</span> <span class="n">tcp</span><span class="o">/</span><span class="n">ipa</span><span class="o">-</span><span class="n">server</span><span class="o">.</span><span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span>
-        <span class="n">admin_server</span> <span class="o">=</span> <span class="n">tcp</span><span class="o">/</span><span class="n">ipa</span><span class="o">-</span><span class="n">server</span><span class="o">.</span><span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span>
-        <span class="n">pkinit_anchors</span> <span class="o">=</span> <span class="n">FILE</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>
-    <span class="p">}</span>
+[realms]
+    YOURDOMAIN.COM = {
+        kdc = tcp/ipa-server.yourdomain.com
+        admin_server = tcp/ipa-server.yourdomain.com
+        pkinit_anchors = FILE:/etc/ipa/ca.crt
+    }
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Edit /etc/pam.d/authorization as shown below:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># authorization: auth account</span>
-<span class="n">auth</span>          <span class="n">optional</span>       <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">use_kcminit</span> <span class="n">default_principal</span>
-<span class="n">auth</span>          <span class="n">sufficient</span>     <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">default_principal</span>
-<span class="n">auth</span>          <span class="n">required</span>       <span class="n">pam_opendirectory</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">nullok</span>
-<span class="n">account</span>    <span class="n">required</span>       <span class="n">pam_opendirectory</span><span class="o">.</span><span class="n">so</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># authorization: auth account
+auth          optional       pam_krb5.so use_first_pass use_kcminit default_principal
+auth          sufficient     pam_krb5.so use_first_pass default_principal
+auth          required       pam_opendirectory.so use_first_pass nullok
+account    required       pam_opendirectory.so
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Edit screensaver and passwd as shown below</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#cat &gt; /etc/pam.d/screensaver &lt;&lt; &#39;EOF&#39;</span>
-<span class="n">auth</span>       <span class="n">optional</span>       <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">use_kcminit</span>
-<span class="n">auth</span>       <span class="n">optional</span>       <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">use_kcminit</span> <span class="n">default_principal</span>
-<span class="n">auth</span>       <span class="n">sufficient</span>     <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">default_principal</span>
-<span class="n">auth</span>       <span class="n">required</span>       <span class="n">pam_opendirectory</span><span class="o">.</span><span class="n">so</span> <span class="n">use_first_pass</span> <span class="n">nullok</span>
-<span class="n">account</span>    <span class="n">required</span>       <span class="n">pam_opendirectory</span><span class="o">.</span><span class="n">so</span>
-<span class="n">account</span>    <span class="n">sufficient</span>     <span class="n">pam_self</span><span class="o">.</span><span class="n">so</span>
-<span class="n">account</span>    <span class="n">required</span>       <span class="n">pam_group</span><span class="o">.</span><span class="n">so</span> <span class="n">no_warn</span> <span class="n">group</span><span class="o">=</span><span class="n">admin</span><span class="p">,</span><span class="n">wheel</span> <span class="n">fail_safe</span>
-<span class="n">account</span>    <span class="n">required</span>       <span class="n">pam_group</span><span class="o">.</span><span class="n">so</span> <span class="n">no_warn</span> <span class="n">deny</span> <span class="n">group</span><span class="o">=</span><span class="n">admin</span><span class="p">,</span><span class="n">wheel</span> <span class="n">ruser</span> <span class="n">fail_safe</span>
-<span class="n">EOF</span>
-<span class="c1">#cat &gt; /etc/pam.d/passwd &lt;&lt; &#39;EOF&#39;</span>
-<span class="n">password</span>   <span class="n">sufficient</span>     <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span>
-<span class="n">auth</span>       <span class="n">required</span>       <span class="n">pam_permit</span><span class="o">.</span><span class="n">so</span>
-<span class="n">account</span>    <span class="n">required</span>       <span class="n">pam_opendirectory</span><span class="o">.</span><span class="n">so</span>
-<span class="n">password</span>   <span class="n">required</span>       <span class="n">pam_opendirectory</span><span class="o">.</span><span class="n">so</span>
-<span class="n">session</span>    <span class="n">required</span>       <span class="n">pam_permit</span><span class="o">.</span><span class="n">so</span>
-<span class="n">EOF</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#cat &gt; /etc/pam.d/screensaver &lt;&lt; &#39;EOF&#39;
+auth       optional       pam_krb5.so use_first_pass use_kcminit
+auth       optional       pam_krb5.so use_first_pass use_kcminit default_principal
+auth       sufficient     pam_krb5.so use_first_pass default_principal
+auth       required       pam_opendirectory.so use_first_pass nullok
+account    required       pam_opendirectory.so
+account    sufficient     pam_self.so
+account    required       pam_group.so no_warn group=admin,wheel fail_safe
+account    required       pam_group.so no_warn deny group=admin,wheel ruser fail_safe
+EOF
+#cat &gt; /etc/pam.d/passwd &lt;&lt; &#39;EOF&#39;
+password   sufficient     pam_krb5.so
+auth       required       pam_permit.so
+account    required       pam_opendirectory.so
+password   required       pam_opendirectory.so
+session    required       pam_permit.so
+EOF
 </pre></div>
 </div>
 <ul class="simple">
@@ -437,11 +437,11 @@ host/workstation.yourdomain.com -k ~/workstation.keytab</p></li>
 ~/workstation.keytab, run <em>ipa host-show workstation</em></p></li>
 <li><p>The previous should return,</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Host</span> <span class="n">name</span><span class="p">:</span> <span class="n">workstation</span><span class="o">.</span><span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span>   <span class="n">Principal</span> <span class="n">name</span><span class="p">:</span> <span class="n">host</span><span class="o">/</span><span class="n">workstation</span><span class="o">.</span><span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span><span class="nd">@YOURDOMAIN</span><span class="o">.</span><span class="n">COM</span>
-    <span class="n">MAC</span> <span class="n">address</span><span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="n">AA</span><span class="p">:</span><span class="mi">1</span><span class="n">B</span><span class="p">:</span><span class="mi">14</span>
-    <span class="n">Password</span><span class="p">:</span> <span class="kc">False</span>
-    <span class="n">Keytab</span><span class="p">:</span> <span class="kc">True</span>
-    <span class="n">Managed</span> <span class="n">by</span><span class="p">:</span> <span class="n">workstation</span><span class="o">.</span><span class="n">yourdomain</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Host name: workstation.yourdomain.com   Principal name: host/workstation.yourdomain.com@YOURDOMAIN.COM
+    MAC address: 00:00:00:AA:1B:14
+    Password: False
+    Keytab: True
+    Managed by: workstation.yourdomain.com
 </pre></div>
 </div>
 </section>
@@ -464,9 +464,9 @@ Host &gt; workstation)</p></li>
 Options</p></li>
 <li><p>Set the following:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Automatic</span> <span class="n">login</span><span class="p">:</span> <span class="n">off</span>
-<span class="n">Display</span> <span class="n">login</span> <span class="n">window</span> <span class="k">as</span><span class="p">:</span> <span class="n">Name</span> <span class="ow">and</span> <span class="n">password</span>
-<span class="n">Show</span> <span class="n">fast</span> <span class="n">user</span> <span class="n">switching</span> <span class="n">menu</span> <span class="k">as</span> <span class="n">Full</span> <span class="n">Name</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Automatic login: off
+Display login window as: Name and password
+Show fast user switching menu as Full Name
 </pre></div>
 </div>
 <ol class="arabic simple">
@@ -482,10 +482,10 @@ Options</p></li>
 <li><p>Select yourserver.yourdomain.com and choose Edit…</p></li>
 <li><p>Set the following:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Open</span><span class="o">/</span><span class="n">close</span> <span class="n">times</span> <span class="n">out</span> <span class="ow">in</span> <span class="mi">5</span> <span class="n">seconds</span>
-<span class="n">Query</span> <span class="n">times</span> <span class="n">out</span> <span class="ow">in</span> <span class="mi">5</span> <span class="n">seconds</span>
-<span class="n">Connection</span> <span class="n">idles</span> <span class="n">out</span> <span class="ow">in</span> <span class="mi">1</span> <span class="n">minute</span>
-<span class="n">Encrypt</span> <span class="n">using</span> <span class="n">SSL</span> <span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Open/close times out in 5 seconds
+Query times out in 5 seconds
+Connection idles out in 1 minute
+Encrypt using SSL (selected)
 </pre></div>
 </div>
 </section>

@@ -153,18 +153,18 @@ New client installation
 
 Currently, the algorithm for PAM stack configuration is the following:
 
-::
+.. code-block:: text
 
-   | ````
-   | ``authconfig --nisdomain=<domain>``
-   | ``if (sssd) then ``
-   | ``   authconfig --enablesssd --enablesssdauth``
-   | ``else ``
-   | ``   authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
-   | ``done``
-   | ``if (mkhomedir) then``
-   | ``   authconfig --enablemkhomedir``
-   | ``done``
+    ``
+    authconfig --nisdomain=<domain>``
+    if (sssd) then ``
+       authconfig --enablesssd --enablesssdauth``
+    else ``
+       authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
+    done``
+    if (mkhomedir) then``
+       authconfig --enablemkhomedir``
+    done``
 
 
 
@@ -220,9 +220,11 @@ will store the profile used pre-installation in the system store
 (/var/lib/ipa-client/sysrestore/sysrestore.state) with the following
 format:
 
-| `` [authselect]``
-| `` profile=``
-| `` features_list=``
+.. code-block:: text
+
+     [authselect]
+     profile=
+     features_list=
 
 Profile and features_list will be used to revert to the previous state
 during uninstallation.
@@ -252,8 +254,10 @@ Backup
 The authselect tool offers the "current" command to retrieve the current
 configuration (profile and enabled features). For instance:
 
-| `` $ authselect current --raw``
-| `` sssd with-mkhomedir``
+.. code-block:: text
+
+     $ authselect current --raw
+     sssd with-mkhomedir
 
 The ipa-backup command needs to use this command to save the current
 configuration inside a new file in the backup directory.
@@ -348,18 +352,22 @@ profile. It needs to take care of the following points:
    (/var/lib/ipa-client/sysrestore/sysrestore.state). The system store
    may contain
 
-| `` [authconfig]``
-| `` mkhomedir=...``
-| `` ldap=...``
-| `` krb5=...``
-| `` sssd=...``
-| `` sssdauth=...``
+.. code-block:: text
+
+     [authconfig]
+     mkhomedir=...
+     ldap=...
+     krb5=...
+     sssd=...
+     sssdauth=...
 
 and this would have to be replaced with
 
-| `` [authselect]``
-| `` profile=sssd``
-| `` mkhomedir=...``
+.. code-block:: text
+
+     [authselect]
+     profile=sssd
+     mkhomedir=...
 
 
 
@@ -376,8 +384,10 @@ A careful user may notice the presence of a new directory
 containing /etc/authselect/authselect.conf file storing the current
 profile and features:
 
-| `` $ cat /etc/authselect/authselect.conf ``
-| `` sssd``
+.. code-block:: text
+
+     $ cat /etc/authselect/authselect.conf 
+     sssd
 
 Testing
 -------

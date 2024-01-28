@@ -352,7 +352,7 @@ just configuration.</p></li>
 <section id="identifying-current-first-master">
 <h2>Identifying current first master<a class="headerlink" href="#identifying-current-first-master" title="Link to this heading">#</a></h2>
 <p>The hostname of the renewal master can be determined from LDAP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ldapsearch -H ldap://$HOSTNAME -D &#39;cn=Directory Manager&#39; -W -b &#39;cn=masters,cn=ipa,cn=etc,dc=example,dc=com&#39; &#39;(&amp;(cn=CA)(ipaConfigString=caRenewalMaster))&#39; dn
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ldapsearch -H ldap://$HOSTNAME -D &#39;cn=Directory Manager&#39; -W -b &#39;cn=masters,cn=ipa,cn=etc,dc=example,dc=com&#39; &#39;(&amp;(cn=CA)(ipaConfigString=caRenewalMaster))&#39; dn
 Enter LDAP Password:
 # extended LDIF
 #
@@ -376,8 +376,8 @@ result: 0 Success
 <p>Here it is <code class="docutils literal notranslate"><span class="pre">ipa1.example.com</span></code>.</p>
 <p>The CRL generation master can be determined by looking at CS.cfg on each
 CA:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># grep ca.crl.MasterCRL.enableCRLUpdates /etc/pki/pki-tomcat/ca/CS.cfg</span>
-<span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLUpdates</span><span class="o">=</span><span class="n">true</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># grep ca.crl.MasterCRL.enableCRLUpdates /etc/pki/pki-tomcat/ca/CS.cfg
+ca.crl.MasterCRL.enableCRLUpdates=true
 </pre></div>
 </div>
 <p>If the value is <code class="docutils literal notranslate"><span class="pre">true</span></code>, then it is the CRL generation master,
@@ -393,14 +393,14 @@ master.</p>
 <section id="stop-crl-generation">
 <h3>Stop CRL generation<a class="headerlink" href="#stop-crl-generation" title="Link to this heading">#</a></h3>
 <p>Stop CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl stop pki-tomcatd@pki-tomcat</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl stop pki-tomcatd@pki-tomcat
 </pre></div>
 </div>
 <p>Set the value of <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLCache</span></code> and
 <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLUpdates</span></code> in
 <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/ca/CS.cfg</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLCache</span><span class="o">=</span><span class="n">false</span>
-<span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLUpdates</span><span class="o">=</span><span class="n">false</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ca.crl.MasterCRL.enableCRLCache=false
+ca.crl.MasterCRL.enableCRLUpdates=false
 </pre></div>
 </div>
 </section>
@@ -410,22 +410,22 @@ master.</p>
 <code class="docutils literal notranslate"><span class="pre">ca.transitMaxRecords</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/ca/CS.cfg</span></code>.</p>
 <p>Set the value of <code class="docutils literal notranslate"><span class="pre">ca.certStatusUpdateInterval</span></code> in
 <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/ca/CS.cfg</span></code> to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span><span class="o">.</span><span class="n">certStatusUpdateInterval</span><span class="o">=</span><span class="mi">0</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ca.certStatusUpdateInterval=0
 </pre></div>
 </div>
 <p>Start CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl start pki-tomcatd@pki-tomcat</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl start pki-tomcatd@pki-tomcat
 </pre></div>
 </div>
 <p>Configure Apache to redirect CRL requests to the new master in
 <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa-pki-proxy.conf</span></code> by uncommenting the RewriteRule
 on the last line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Only enable this on servers that are not generating a CRL
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Only enable this on servers that are not generating a CRL
 RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=getCRL&amp;crlIssuingPoint=MasterCRL [L,R=301,NC]
 </pre></div>
 </div>
 <p>Restart Apache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl restart httpd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl restart httpd
 </pre></div>
 </div>
 </section>
@@ -435,21 +435,21 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 <section id="configure-ca-renewal">
 <h3>Configure CA renewal<a class="headerlink" href="#configure-ca-renewal" title="Link to this heading">#</a></h3>
 <p>Run the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-csreplica-manage set-renewal-master</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-csreplica-manage set-renewal-master
 </pre></div>
 </div>
 </section>
 <section id="start-crl-generation">
 <h3>Start CRL generation<a class="headerlink" href="#start-crl-generation" title="Link to this heading">#</a></h3>
 <p>Stop CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl stop pki-tomcatd@pki-tomcat</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl stop pki-tomcatd@pki-tomcat
 </pre></div>
 </div>
 <p>Set the value of <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLCache</span></code> and
 <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLUpdates</span></code> in
 <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/ca/CS.cfg</span></code> to <code class="docutils literal notranslate"><span class="pre">true</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLCache</span><span class="o">=</span><span class="n">true</span>
-<span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLUpdates</span><span class="o">=</span><span class="n">true</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ca.crl.MasterCRL.enableCRLCache=true
+ca.crl.MasterCRL.enableCRLUpdates=true
 </pre></div>
 </div>
 </section>
@@ -461,18 +461,18 @@ ca.transitMaxRecords=1000000</p>
 <p>Either remove <code class="docutils literal notranslate"><span class="pre">ca.certStatusUpdateInterval=0</span></code> or set the value to 600
 (the default).</p>
 <p>Start CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl start pki-tomcatd@pki-tomcat</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl start pki-tomcatd@pki-tomcat
 </pre></div>
 </div>
 <p>Configure Apache to handle CRL requests in
 <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa-pki-proxy.conf</span></code> by commenting out the
 RewriteRule on the last line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Only enable this on servers that are not generating a CRL</span>
-<span class="c1">#RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=getCRL&amp;crlIssuingPoint=MasterCRL [L,R=301,NC]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Only enable this on servers that are not generating a CRL
+#RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=getCRL&amp;crlIssuingPoint=MasterCRL [L,R=301,NC]
 </pre></div>
 </div>
 <p>Restart Apache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl restart httpd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># systemctl restart httpd
 </pre></div>
 </div>
 <p><a class="github reference external" href="https://github.com/dogtagpki/pki/wiki/Configuring-Certificate-Status-Update-Task">dogtagpki/pki</a></p>
@@ -485,8 +485,8 @@ RewriteRule on the last line:</p>
 <h2>Identifying current first master<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>This can be determined by looking at the certificates managed by
 certmonger on each CA</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert list -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; | grep post-save</span>
-        <span class="n">post</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">renew_ca_cert</span> <span class="s2">&quot;subsystemCert cert-pki-ca&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert list -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; | grep post-save
+        post-save command: /usr/lib64/ipa/certmonger/renew_ca_cert &quot;subsystemCert cert-pki-ca&quot;
 </pre></div>
 </div>
 <p>If it contains <code class="docutils literal notranslate"><span class="pre">renew_ca_cert</span></code> then it is the CA renewal master.</p>
@@ -497,17 +497,17 @@ certmonger on each CA</p>
 <p>This step changes current <em>first master</em> into a standard clone.</p>
 <section id="unconfigure-the-master-renewal">
 <h3>Unconfigure the master renewal<a class="headerlink" href="#unconfigure-the-master-renewal" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot;</span>
-<span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot;</span>
-<span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot;</span>
-<span class="c1"># getcert stop-tracking -d /etc/httpd/alias -n ipaCert</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot;
+# getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot;
+# getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot;
+# getcert stop-tracking -d /etc/httpd/alias -n ipaCert
 </pre></div>
 </div>
 <p>You should see output like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="s2">&quot;20131127184547&quot;</span> <span class="n">removed</span><span class="o">.</span>
-<span class="n">Request</span> <span class="s2">&quot;20131127184548&quot;</span> <span class="n">removed</span><span class="o">.</span>
-<span class="n">Request</span> <span class="s2">&quot;20131127184549&quot;</span> <span class="n">removed</span><span class="o">.</span>
-<span class="n">Request</span> <span class="s2">&quot;20131127184550&quot;</span> <span class="n">removed</span><span class="o">.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Request &quot;20131127184547&quot; removed.
+Request &quot;20131127184548&quot; removed.
+Request &quot;20131127184549&quot; removed.
+Request &quot;20131127184550&quot; removed.
 </pre></div>
 </div>
 </section>
@@ -517,63 +517,63 @@ certmonger on each CA</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">getcert</span> <span class="pre">list-cas</span></code></p>
 <p>Look for a /var/lib/certmonger/cas/ca_renewal</p>
 <p>If it does not exist:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cp /usr/share/ipa/ca_renewal /var/lib/certmonger/cas/ca_renewal</span>
-<span class="c1"># chmod 0600 /var/lib/certmonger/cas/ca_renewal</span>
-<span class="c1"># /sbin/restorecon  /var/lib/certmonger/cas/ca_renewal</span>
-<span class="c1"># service certmonger restart</span>
-<span class="c1"># getcert list-cas</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cp /usr/share/ipa/ca_renewal /var/lib/certmonger/cas/ca_renewal
+# chmod 0600 /var/lib/certmonger/cas/ca_renewal
+# /sbin/restorecon  /var/lib/certmonger/cas/ca_renewal
+# service certmonger restart
+# getcert list-cas
 </pre></div>
 </div>
 <p>Verify that the new CA is available in the <code class="docutils literal notranslate"><span class="pre">list-cas</span></code> output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CA</span> <span class="s1">&#39;dogtag-ipa-retrieve-agent-submit&#39;</span><span class="p">:</span>
-        <span class="ow">is</span><span class="o">-</span><span class="n">default</span><span class="p">:</span> <span class="n">no</span>
-        <span class="n">ca</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="n">EXTERNAL</span>
-        <span class="n">helper</span><span class="o">-</span><span class="n">location</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">dogtag</span><span class="o">-</span><span class="n">ipa</span><span class="o">-</span><span class="n">retrieve</span><span class="o">-</span><span class="n">agent</span><span class="o">-</span><span class="n">submit</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CA &#39;dogtag-ipa-retrieve-agent-submit&#39;:
+        is-default: no
+        ca-type: EXTERNAL
+        helper-location: /usr/libexec/certmonger/dogtag-ipa-retrieve-agent-submit
 </pre></div>
 </div>
 <p>Get the CA certificate database pin:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">grep</span> <span class="pre">internal=</span> <span class="pre">/var/lib/pki-ca/conf/password.conf</span></code></p>
 <p>Configure renewal</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/restart_pkicad &quot;auditSigningCert cert-pki-ca&quot;&#39; -T &quot;auditSigningCert cert-pki-ca&quot; -P &lt;pin&gt;</span>
-<span class="c1"># getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/restart_pkicad &quot;ocspSigningCert cert-pki-ca&quot;&#39; -T &quot;ocspSigningCert cert-pki-ca&quot; -P &lt;pin&gt;</span>
-<span class="c1"># getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/restart_pkicad &quot;subsystemCert cert-pki-ca&quot;&#39; -T &quot;subsystemCert cert-pki-ca&quot; -P &lt;pin&gt;</span>
-<span class="c1"># getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /etc/httpd/alias -n ipaCert -C /usr/lib64/ipa/certmonger/restart_httpd -T ipaCert -p /etc/httpd/alias/pwdfile.txt</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/restart_pkicad &quot;auditSigningCert cert-pki-ca&quot;&#39; -T &quot;auditSigningCert cert-pki-ca&quot; -P &lt;pin&gt;
+# getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/restart_pkicad &quot;ocspSigningCert cert-pki-ca&quot;&#39; -T &quot;ocspSigningCert cert-pki-ca&quot; -P &lt;pin&gt;
+# getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/restart_pkicad &quot;subsystemCert cert-pki-ca&quot;&#39; -T &quot;subsystemCert cert-pki-ca&quot; -P &lt;pin&gt;
+# getcert start-tracking -c dogtag-ipa-retrieve-agent-submit -d /etc/httpd/alias -n ipaCert -C /usr/lib64/ipa/certmonger/restart_httpd -T ipaCert -p /etc/httpd/alias/pwdfile.txt
 </pre></div>
 </div>
 <p>You should see output like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127184743&quot;</span> <span class="n">added</span><span class="o">.</span>
-<span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127184744&quot;</span> <span class="n">added</span><span class="o">.</span>
-<span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127184745&quot;</span> <span class="n">added</span><span class="o">.</span>
-<span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127184746&quot;</span> <span class="n">added</span><span class="o">.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>New tracking request &quot;20131127184743&quot; added.
+New tracking request &quot;20131127184744&quot; added.
+New tracking request &quot;20131127184745&quot; added.
+New tracking request &quot;20131127184746&quot; added.
 </pre></div>
 </div>
 </section>
 <section id="id4">
 <h3>Stop CRL generation<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <p>Stop CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service pki-cad stop</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service pki-cad stop
 </pre></div>
 </div>
 <p>Set the value of <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLCache</span></code> and
 <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLUpdates</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/pki-ca/CS.cfg</span></code> to
 <code class="docutils literal notranslate"><span class="pre">false</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLCache</span><span class="o">=</span><span class="n">false</span>
-<span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLUpdates</span><span class="o">=</span><span class="n">false</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ca.crl.MasterCRL.enableCRLCache=false
+ca.crl.MasterCRL.enableCRLUpdates=false
 </pre></div>
 </div>
 <p>Start CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service pki-cad start</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service pki-cad start
 </pre></div>
 </div>
 <p>Configure Apache to redirect CRL requests to the new master in
 <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa-pki-proxy.conf</span></code> by uncommenting the RewriteRule
 on the last line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Only enable this on servers that are not generating a CRL
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Only enable this on servers that are not generating a CRL
 RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=getCRL&amp;crlIssuingPoint=MasterCRL [L,R=301,NC]
 </pre></div>
 </div>
 <p>Restart Apache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service httpd restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service httpd restart
 </pre></div>
 </div>
 </section>
@@ -582,17 +582,17 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 <h2>Reconfigure a CA as the new master<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
 <section id="unconfigure-the-clone-renewal">
 <h3>Unconfigure the clone renewal<a class="headerlink" href="#unconfigure-the-clone-renewal" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot;</span>
-<span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot;</span>
-<span class="c1"># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot;</span>
-<span class="c1"># getcert stop-tracking -d /etc/httpd/alias -n ipaCert</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot;
+# getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot;
+# getcert stop-tracking -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot;
+# getcert stop-tracking -d /etc/httpd/alias -n ipaCert
 </pre></div>
 </div>
 <p>You should see output like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="s2">&quot;20131127163822&quot;</span> <span class="n">removed</span><span class="o">.</span>
-<span class="n">Request</span> <span class="s2">&quot;20131127163823&quot;</span> <span class="n">removed</span><span class="o">.</span>
-<span class="n">Request</span> <span class="s2">&quot;20131127163824&quot;</span> <span class="n">removed</span><span class="o">.</span>
-<span class="n">Request</span> <span class="s2">&quot;20131127164042&quot;</span> <span class="n">removed</span><span class="o">.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Request &quot;20131127163822&quot; removed.
+Request &quot;20131127163823&quot; removed.
+Request &quot;20131127163824&quot; removed.
+Request &quot;20131127164042&quot; removed.
 </pre></div>
 </div>
 </section>
@@ -601,46 +601,46 @@ RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=
 <p>Get the CA certificate database pin:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">grep</span> <span class="pre">internal=</span> <span class="pre">/var/lib/pki-ca/conf/password.conf</span></code></p>
 <p>Configure renewal</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/renew_ca_cert &quot;auditSigningCert cert-pki-ca&quot;&#39; -P &lt;pin&gt;</span>
-<span class="c1"># getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/renew_ca_cert &quot;ocspSigningCert cert-pki-ca&quot;&#39; -P &lt;pin&gt;</span>
-<span class="c1"># getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/renew_ca_cert &quot;subsystemCert cert-pki-ca&quot;&#39; -P &lt;pin&gt;</span>
-<span class="c1"># getcert start-tracking -c dogtag-ipa-renew-agent -d /etc/httpd/alias -n ipaCert -C /usr/lib64/ipa/certmonger/renew_ra_cert -p /etc/httpd/alias/pwdfile.txt</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n &quot;auditSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/renew_ca_cert &quot;auditSigningCert cert-pki-ca&quot;&#39; -P &lt;pin&gt;
+# getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n &quot;ocspSigningCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/renew_ca_cert &quot;ocspSigningCert cert-pki-ca&quot;&#39; -P &lt;pin&gt;
+# getcert start-tracking -c dogtag-ipa-renew-agent -d /var/lib/pki-ca/alias -n &quot;subsystemCert cert-pki-ca&quot; -B /usr/lib64/ipa/certmonger/stop_pkicad -C &#39;/usr/lib64/ipa/certmonger/renew_ca_cert &quot;subsystemCert cert-pki-ca&quot;&#39; -P &lt;pin&gt;
+# getcert start-tracking -c dogtag-ipa-renew-agent -d /etc/httpd/alias -n ipaCert -C /usr/lib64/ipa/certmonger/renew_ra_cert -p /etc/httpd/alias/pwdfile.txt
 </pre></div>
 </div>
 <p>You should see output like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127185430&quot;</span> <span class="n">added</span><span class="o">.</span>
-<span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127185431&quot;</span> <span class="n">added</span><span class="o">.</span>
-<span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127185432&quot;</span> <span class="n">added</span><span class="o">.</span>
-<span class="n">New</span> <span class="n">tracking</span> <span class="n">request</span> <span class="s2">&quot;20131127185433&quot;</span> <span class="n">added</span><span class="o">.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>New tracking request &quot;20131127185430&quot; added.
+New tracking request &quot;20131127185431&quot; added.
+New tracking request &quot;20131127185432&quot; added.
+New tracking request &quot;20131127185433&quot; added.
 </pre></div>
 </div>
 </section>
 <section id="id7">
 <h3>Start CRL generation<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>Stop CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service pki-cad stop</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service pki-cad stop
 </pre></div>
 </div>
 <p>Set the value of <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLCache</span></code> and
 <code class="docutils literal notranslate"><span class="pre">ca.crl.MasterCRL.enableCRLUpdates</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/pki-ca/CS.cfg</span></code> to
 <code class="docutils literal notranslate"><span class="pre">true</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLCache</span><span class="o">=</span><span class="n">true</span>
-<span class="n">ca</span><span class="o">.</span><span class="n">crl</span><span class="o">.</span><span class="n">MasterCRL</span><span class="o">.</span><span class="n">enableCRLUpdates</span><span class="o">=</span><span class="n">true</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ca.crl.MasterCRL.enableCRLCache=true
+ca.crl.MasterCRL.enableCRLUpdates=true
 </pre></div>
 </div>
 <p>Start CA service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service pki-cad start</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service pki-cad start
 </pre></div>
 </div>
 <p>Configure Apache to handle CRL requests in
 <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa-pki-proxy.conf</span></code> by commenting out the
 RewriteRule on the last line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Only enable this on servers that are not generating a CRL</span>
-<span class="c1">#RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=getCRL&amp;crlIssuingPoint=MasterCRL [L,R=301,NC]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Only enable this on servers that are not generating a CRL
+#RewriteRule ^/ipa/crl/MasterCRL.bin https://&lt;hostname&gt;/ca/ee/ca/getCRL?op=getCRL&amp;crlIssuingPoint=MasterCRL [L,R=301,NC]
 </pre></div>
 </div>
 <p>Restart Apache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service httpd restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service httpd restart
 </pre></div>
 </div>
 </section>

@@ -329,21 +329,21 @@ keys which means that the user calling <strong>net ads kerberos pac</strong>. mu
 have access to the host keytab. Typically this is only the <em>root</em> user.</p>
 <p>If the Linux client is joined to the AD domain with Samba/Winbind you
 can call:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># net ads kerberos pac dump -U tu1</span>
-<span class="n">Enter</span> <span class="n">tu1</span><span class="s1">&#39;s password:</span>
-<span class="n">The</span> <span class="n">Pac</span><span class="p">:</span>     <span class="n">info</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_LOGON_INFO</span>
-        <span class="n">info3</span><span class="p">:</span> <span class="n">struct</span> <span class="n">netr_SamInfo3</span>
-            <span class="n">base</span><span class="p">:</span> <span class="n">struct</span> <span class="n">netr_SamBaseInfo</span>
-<span class="o">.....</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># net ads kerberos pac dump -U tu1
+Enter tu1&#39;s password:
+The Pac:     info: struct PAC_LOGON_INFO
+        info3: struct netr_SamInfo3
+            base: struct netr_SamBaseInfo
+.....
 </pre></div>
 </div>
 <p>If SSSD is used to connect to the AD domain and no Samba configuration
 file <em>smb.conf</em> is available you have to give two addition options:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># net ads kerberos pac dump --option=&#39;realm = AD.DOMAIN&#39; --option=&#39;kerberos method = system keytab&#39; -U tu1</span>
-<span class="n">Enter</span> <span class="n">tu1</span><span class="s1">&#39;s password:</span>
-<span class="n">The</span> <span class="n">Pac</span><span class="p">:</span>     <span class="n">info</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_LOGON_INFO</span>
-        <span class="n">info3</span><span class="p">:</span> <span class="n">struct</span> <span class="n">netr_SamInfo3</span>
-            <span class="n">base</span><span class="p">:</span> <span class="n">struct</span> <span class="n">netr_SamBaseInfo</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># net ads kerberos pac dump --option=&#39;realm = AD.DOMAIN&#39; --option=&#39;kerberos method = system keytab&#39; -U tu1
+Enter tu1&#39;s password:
+The Pac:     info: struct PAC_LOGON_INFO
+        info3: struct netr_SamInfo3
+            base: struct netr_SamBaseInfo
 </pre></div>
 </div>
 <p>The restriction to the hardcoded service name (<a class="reference external" href="mailto:HOSTNAME$&#37;&#52;&#48;AD&#46;DOMAIN">HOSTNAME$<span>&#64;</span>AD<span>&#46;</span>DOMAIN</a>) made
@@ -358,24 +358,24 @@ AD-style <a class="reference external" href="mailto:HOSTNAME$&#37;&#52;&#48;KRB&
 recent enhancements to <strong>net ads kerberos pac</strong> an alternative service
 principal can be given which makes it possible to use it with FreeIPA as
 well.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
-<span class="n">net</span> <span class="n">ads</span> <span class="n">kerberos</span> <span class="n">pac</span> <span class="n">dump</span> <span class="p">[</span><span class="n">impersonate</span><span class="o">=</span><span class="n">string</span><span class="p">]</span> <span class="p">[</span><span class="n">local_service</span><span class="o">=</span><span class="n">string</span><span class="p">]</span> <span class="p">[</span><span class="n">pac_buffer_type</span><span class="o">=</span><span class="nb">int</span><span class="p">]</span>
-    <span class="n">Dump</span> <span class="n">the</span> <span class="n">Kerberos</span> <span class="n">PAC</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage:
+net ads kerberos pac dump [impersonate=string] [local_service=string] [pac_buffer_type=int]
+    Dump the Kerberos PAC
 </pre></div>
 </div>
 <p>You can call</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="n">ads</span> <span class="n">kerberos</span> <span class="n">pac</span> <span class="n">dump</span> <span class="o">--</span><span class="n">option</span><span class="o">=</span><span class="s1">&#39;realm = IPA.DOMAIN&#39;</span> <span class="o">--</span><span class="n">option</span><span class="o">=</span><span class="s1">&#39;kerberos method = system keytab&#39;</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="n">local_service</span><span class="o">=</span><span class="n">host</span><span class="o">/</span><span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">.</span><span class="n">ipa</span><span class="o">.</span><span class="n">domain</span><span class="nd">@IPA</span><span class="o">.</span><span class="n">DOMAIN</span> <span class="o">-</span><span class="n">U</span> <span class="n">ipa_user</span>
-<span class="n">Enter</span> <span class="n">ipa_user</span><span class="s1">&#39;s password:</span>
-<span class="n">The</span> <span class="n">Pac</span><span class="p">:</span>     <span class="n">pac_data_ctr</span><span class="o">-&gt;</span><span class="n">pac_data</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_DATA</span>
-        <span class="n">num_buffers</span>              <span class="p">:</span> <span class="mh">0x00000004</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-        <span class="n">version</span>                  <span class="p">:</span> <span class="mh">0x00000000</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">buffers</span><span class="p">:</span> <span class="n">ARRAY</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">buffers</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_BUFFER</span>
-                <span class="nb">type</span>                     <span class="p">:</span> <span class="n">PAC_TYPE_LOGON_INFO</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-              <span class="mh">0x000001c8</span> <span class="p">(</span><span class="mi">456</span><span class="p">)</span>
-                <span class="n">info</span>                     <span class="p">:</span> <span class="o">*</span>
-                    <span class="n">info</span>                     <span class="p">:</span> <span class="n">union</span> <span class="n">PAC_INFO</span><span class="p">(</span><span class="n">case</span> <span class="mi">1</span><span class="p">)</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>net ads kerberos pac dump --option=&#39;realm = IPA.DOMAIN&#39; --option=&#39;kerberos method = system keytab&#39; -s /dev/null local_service=host/ipa-client.ipa.domain@IPA.DOMAIN -U ipa_user
+Enter ipa_user&#39;s password:
+The Pac:     pac_data_ctr-&gt;pac_data: struct PAC_DATA
+        num_buffers              : 0x00000004 (4)
+        version                  : 0x00000000 (0)
+        buffers: ARRAY(4)
+            buffers: struct PAC_BUFFER
+                type                     : PAC_TYPE_LOGON_INFO (1)
+              0x000001c8 (456)
+                info                     : *
+                    info                     : union PAC_INFO(case 1)
+...
 </pre></div>
 </div>
 <p>This is basically the same scheme as for the SSSD AD client example
@@ -392,26 +392,26 @@ provides additionally to the <em>dump</em> option a <em>save</em> option. This i
 useful if you need a real PAC blob to test PAC processing in unit tests.
 If you have to decode the binary PAC later you can use the <strong>ndrdump</strong>
 utility form the samba-test package</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ndrdump krb5pac decode_pac in /tmp/pac.bla</span>
-<span class="n">pull</span> <span class="n">returned</span> <span class="n">NT_STATUS_OK</span>
-    <span class="n">decode_pac</span><span class="p">:</span> <span class="n">struct</span> <span class="n">decode_pac</span>
-        <span class="ow">in</span><span class="p">:</span> <span class="n">struct</span> <span class="n">decode_pac</span>
-            <span class="n">pac</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_DATA</span>
-                <span class="n">num_buffers</span>              <span class="p">:</span> <span class="mh">0x00000004</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-                <span class="n">version</span>                  <span class="p">:</span> <span class="mh">0x00000000</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                <span class="n">buffers</span><span class="p">:</span> <span class="n">ARRAY</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-                    <span class="n">buffers</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_BUFFER</span>
-                        <span class="nb">type</span>                     <span class="p">:</span> <span class="n">PAC_TYPE_LOGON_INFO</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                      <span class="mh">0x000001c8</span> <span class="p">(</span><span class="mi">456</span><span class="p">)</span>
-                        <span class="n">info</span>                     <span class="p">:</span> <span class="o">*</span>
-                            <span class="n">info</span>                     <span class="p">:</span> <span class="n">union</span> <span class="n">PAC_INFO</span><span class="p">(</span><span class="n">case</span> <span class="mi">1</span><span class="p">)</span>
-                            <span class="n">logon_info</span><span class="p">:</span> <span class="n">struct</span> <span class="n">PAC_LOGON_INFO_CTR</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ndrdump krb5pac decode_pac in /tmp/pac.bla
+pull returned NT_STATUS_OK
+    decode_pac: struct decode_pac
+        in: struct decode_pac
+            pac: struct PAC_DATA
+                num_buffers              : 0x00000004 (4)
+                version                  : 0x00000000 (0)
+                buffers: ARRAY(4)
+                    buffers: struct PAC_BUFFER
+                        type                     : PAC_TYPE_LOGON_INFO (1)
+                      0x000001c8 (456)
+                        info                     : *
+                            info                     : union PAC_INFO(case 1)
+                            logon_info: struct PAC_LOGON_INFO_CTR
+...
 </pre></div>
 </div>
 <p>If you want to use a different Kerberos service where the keys are not
 stored in the host keytab you can use the following options:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="n">ads</span> <span class="n">kerberos</span> <span class="n">pac</span> <span class="n">dump</span> <span class="o">--</span><span class="n">option</span><span class="o">=</span><span class="s1">&#39;realm = IPA.DOMAIN&#39;</span> <span class="o">--</span><span class="n">option</span><span class="o">=</span><span class="s1">&#39;kerberos method = dedicated keytab&#39;</span> <span class="o">--</span><span class="n">option</span><span class="o">=</span><span class="s1">&#39;dedicated keytab file = FILE:/etc/dirsrv/ds.keytab&#39;</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">zero</span> <span class="n">local_service</span><span class="o">=</span><span class="n">ldap</span><span class="o">/</span><span class="n">ipa</span><span class="o">-</span><span class="n">server</span><span class="o">.</span><span class="n">ipa</span><span class="o">.</span><span class="n">domain</span><span class="nd">@IPA</span><span class="o">.</span><span class="n">DOMAIN</span> <span class="o">-</span><span class="n">U</span> <span class="n">admin</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>net ads kerberos pac dump --option=&#39;realm = IPA.DOMAIN&#39; --option=&#39;kerberos method = dedicated keytab&#39; --option=&#39;dedicated keytab file = FILE:/etc/dirsrv/ds.keytab&#39; -s /dev/zero local_service=ldap/ipa-server.ipa.domain@IPA.DOMAIN -U admin
 </pre></div>
 </div>
 </section>

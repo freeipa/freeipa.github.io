@@ -84,7 +84,7 @@ Testing
 Following command should always return the same results, no matter what
 DNS server you queried:
 
-::
+.. code-block:: text
 
    $ dig -t PTR 1.100.51.198.in-addr.arpa.
 

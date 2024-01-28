@@ -612,10 +612,10 @@ MAKEFLAGS like this:</p>
 <li><p>First round - build &amp; install RPMs once to get all the depedencies
 and scriptlets ran:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">rm</span> <span class="pre">Makefile</span>&#160; <span class="pre">#</span> <span class="pre">if</span> <span class="pre">Makefile</span> <span class="pre">exists,</span> <span class="pre">remove</span> <span class="pre">it</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./makerpms.sh</span>&#160; <span class="pre">#</span> <span class="pre">this</span> <span class="pre">runs</span> <span class="pre">configure</span> <span class="pre">with</span> <span class="pre">paths</span> <span class="pre">appropriate</span> <span class="pre">for</span> <span class="pre">subsequent</span> <span class="pre">installation</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">dist/rpms/*.rpm</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ rm Makefile  # if Makefile exists, remove it
+$ ./makerpms.sh  # this runs configure with paths appropriate for subsequent installation
+$ dnf install dist/rpms/*.rpm
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Subsequent rapid development:</p></li>
@@ -633,10 +633,10 @@ immediatelly.</p>
 <p>The install target supports variable <code class="docutils literal notranslate"><span class="pre">DESTDIR</span></code> which specifies where
 to copy the files. This can be easily used together with SSHfs which
 mounts complete root filesystem from a VM to developer’s machine:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">mkdir</span> <span class="pre">/tmp/vm</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">sshfs</span> <span class="pre">-o</span> <span class="pre">transform_symlinks</span> <span class="pre">root&#64;</span></code><code class="docutils literal notranslate"><span class="pre">:/</span> <span class="pre">/tmp/vm</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span> <span class="pre">DESTDIR=/tmp/vm</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mkdir /tmp/vm
+$ sshfs -o transform_symlinks root@``\ ``:/ /tmp/vm
+$ make install DESTDIR=/tmp/vm
+</pre></div>
 </div>
 <p>This snippet will synchronize all files from developer’s machine onto a
 VM. Just keep in mind that it will not bump version in RPM database and
@@ -650,18 +650,18 @@ that this will not touch RPM database.)</p>
 <p>As an optimization for lower-bandwidth/high-latency links you can use
 <code class="docutils literal notranslate"><span class="pre">rsync</span></code> instead of <code class="docutils literal notranslate"><span class="pre">sshfs</span></code>. Is is just additional step after
 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">mkdir</span> <span class="pre">/tmp/vm</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span> <span class="pre">DESTDIR=/tmp/vm</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">rsync</span> <span class="pre">-rlK</span> <span class="pre">/tmp/vm/</span> <span class="pre">root&#64;</span></code><code class="docutils literal notranslate"><span class="pre">:/</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mkdir /tmp/vm
+$ make install DESTDIR=/tmp/vm
+$ rsync -rlK /tmp/vm/ root@``\ ``:/
+</pre></div>
 </div>
 </section>
 <section id="tester">
 <h2>Tester<a class="headerlink" href="#tester" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">autoreconf</span> <span class="pre">-i</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./configure</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">rpms</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ autoreconf -i
+$ ./configure
+$ make rpms
+</pre></div>
 </div>
 <p>Or alternatively:</p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./makerpms.sh</span></code></p>
@@ -669,29 +669,29 @@ that this will not touch RPM database.)</p>
 </section>
 <section id="release-engineer">
 <h2>Release engineer<a class="headerlink" href="#release-engineer" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">autoreconf</span> <span class="pre">-i</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./configure</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">dist</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ autoreconf -i
+$ ./configure
+$ make dist
+</pre></div>
 </div>
 <p>will produce version.tar.gz suitable for further packaging</p>
 </section>
 <section id="packager">
 <h2>Packager<a class="headerlink" href="#packager" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">autoreconf</span> <span class="pre">-i</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./configure</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span> <span class="pre">DESTDIR=</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ autoreconf -i
+$ ./configure
+$ make install DESTDIR=
+</pre></div>
 </div>
 <p>will install FreeIPA into correct paths in build root so it is very easy
 to take all installed files and just package them.</p>
 </section>
 <section id="packager-client-only-build">
 <h2>Packager - client only build<a class="headerlink" href="#packager-client-only-build" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">autoreconf</span> <span class="pre">-i</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./configure</span> <span class="pre">--disable-server</span> <span class="pre">--without-ipatests</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span> <span class="pre">DESTDIR=</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ autoreconf -i
+$ ./configure --disable-server --without-ipatests
+$ make install DESTDIR=
+</pre></div>
 </div>
 <p>will install FreeIPA into correct paths in build root so it is very easy
 to take all installed files and just package them.</p>

@@ -22,7 +22,7 @@ user10 folder.
 
 Inside this folder, create a text file user10.inf like this:
 
-::
+.. code-block:: text
 
    [ req ]
    prompt = no
@@ -39,19 +39,19 @@ Inside this folder, create a text file user10.inf like this:
 
 -  generate a key:
 
-::
+.. code-block:: text
 
    openssl genrsa -out user10.key 2048
 
 -  generate the csr:
 
-::
+.. code-block:: text
 
    openssl req -new -key user10.key -out user10.csr -config user10.inf
 
 -  verify csr:
 
-::
+.. code-block:: text
 
     
    openssl req -in user10.csr -text -noout 
@@ -76,7 +76,7 @@ Inside this folder, create a text file user10.inf like this:
 
 -  request the certificate (as the user self or as an admin user):
 
-::
+.. code-block:: text
 
    $ ipa cert-request user10.csr --principal user10 
    ....
@@ -84,7 +84,7 @@ Inside this folder, create a text file user10.inf like this:
 If everything goes according to plan, you know have a certificate
 coupled to the user account
 
-::
+.. code-block:: text
 
    $ ipa user-show user10
      User login: user10
@@ -105,7 +105,7 @@ coupled to the user account
 
 first we need to get the certificate's serial number.
 
-::
+.. code-block:: text
 
    ipa cert-find
    ...
@@ -121,7 +121,7 @@ first we need to get the certificate's serial number.
 
 -  eventually, verify certificate:
 
-::
+.. code-block:: text
 
    openssl x509 -in user10.pem -noout -text
 
@@ -140,7 +140,7 @@ https://access.redhat.com/documentation/en-US/Red_Hat_Directory_Server/9.0/html/
 
 -  verify /etc/dirsrv/slapd-INSTANCE-NAME/certmap.conf looks like this:
 
-::
+.. code-block:: text
 
    certmap default         default
    #default:DNComps
@@ -178,7 +178,7 @@ stop working.
 So the solution is quite simple. We need to populate the seeAlso
 attribute of the user10 account with this value:
 
-::
+.. code-block:: text
 
    cn=user10,o=SUB.DOMAIN.TLD
 
@@ -194,14 +194,14 @@ configure ldap client
 we can easily test this using ldapsearch. We need to set two environment
 variables in ~/.ldaprc:
 
-::
+.. code-block:: text
 
    TLS_CERT /path/to/user10.pem
    TLS_KEY /path/to/user10.key
 
 And now search:
 
-::
+.. code-block:: text
 
    $ ldapsearch -h kdc.domain.tld -ZZ -Y EXTERNAL objectclass=person -s sub -b dc=sub,dc=domain,dc=tld cn
    ...
@@ -215,7 +215,7 @@ And now search:
 And in the log files (/var/log/dirsrv/slapd-INSTANCE-NAME/access) of the
 ldap server we see this:
 
-::
+.. code-block:: text
 
    [04/Mar/2016:23:34:57 +0100] conn=100 fd=111 slot=111 connection from 192.168.0.124 to 192.168.5.10
    [04/Mar/2016:23:34:57 +0100] conn=100 op=0 EXT oid="1.3.6.1.4.1.1466.20037" name="startTLS"
@@ -235,7 +235,7 @@ perl5 example
 you need the perl-LDAP and perl-IO-Socket-SSL packages for this
 (fedora/rhel/centos).
 
-::
+.. code-block:: text
 
    #!/usr/bin/env perl
 
@@ -285,7 +285,7 @@ disable its access to the directory.
 
 -  revoke it:
 
-::
+.. code-block:: text
 
    ipa cert-revoke <serialnr>
 

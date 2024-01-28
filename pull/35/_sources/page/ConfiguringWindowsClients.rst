@@ -34,7 +34,7 @@ optional.
 
 5. Select **Download from web path**, and enter the following URL:
 
-::
+.. code-block:: text
 
    http://<your IPA server's fully-qualified domain name>/ipa/config/
 
@@ -46,7 +46,7 @@ complete, click **Finish** to exit the Wizard.
 
 8. Edit the hosts file and add the IPA server. For example:
 
-::
+.. code-block:: text
 
    <numerical IP address>     ipaserver.example.com   ipaserver
 

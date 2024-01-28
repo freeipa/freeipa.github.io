@@ -229,7 +229,7 @@ something like create_ipa_user.
 
 The task entry for the add_user ACI will look like:
 
-::
+.. code-block:: text
 
    dn: cn=add_user,cn=taskgroups,dc=example,dc=com
    objectclass: top
@@ -240,7 +240,7 @@ The task entry for the add_user ACI will look like:
 
 The task entry for create_ipa_user will look like:
 
-::
+.. code-block:: text
 
    dn: cn=create_ipa_user,cn=taskgroups,dc=example,dc=com
    objectclass: top
@@ -296,7 +296,7 @@ Helpdesk users can typically reset passwords.
 
 So we start with a helpdesk role:
 
-::
+.. code-block:: text
 
    dn: cn=helpdesk,cn=rolegroups,dc=example,dc=com
    objectclass: top
@@ -307,7 +307,7 @@ So we start with a helpdesk role:
 
 And add that role to the task for changing passwords:
 
-::
+.. code-block:: text
 
    dn: cn=change_password,cn=taskgroups,dc=example,dc=com
    objectclass: top
@@ -514,9 +514,12 @@ Currently all ACIs are put into cn=accounts,dc=example,dc=com and can
 grant the ability to write a fixed set of attributes from one group of
 users to another.
 
-| ``aci: (targetattr="title")(targetfilter="(memberOf=cn=bar,cn=groups,cn=accounts``
-| ``,dc=example,dc=com)")(version 3.0;acl "foobar";allow (write) groupdn="``\ ```ldap://`` <ldap://>`__
-| ``/cn=foo,cn=groups,cn=accounts,dc=example,dc=com";)``
+.. code-block:: text
+
+    aci: (targetattr="title")(targetfilter="(memberOf=cn=bar,cn=groups,cn=accounts
+    ,dc=example,dc=com)")(version 3.0;acl "foobar";allow (write) groupdn="``\ ```ldap://`` <ldap://>`__
+
+    /cn=foo,cn=groups,cn=accounts,dc=example,dc=com";)
 
 
 
@@ -682,7 +685,7 @@ server. Do not do this on an operational system if you can avoid it.
 
 You need to set nsslapd-errorlog-level to 128 in cn=config, like:
 
-::
+.. code-block:: text
 
    % ldapmodify -x -D "cn=Directory Manager" -W
    dn: cn=config

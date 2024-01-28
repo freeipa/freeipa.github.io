@@ -342,33 +342,33 @@ what the rules would look like if implemented using the
 <h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
 <p>We must at a minimum be able to generate two different types of
 configuration, the openssl config file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="n">req</span> <span class="p">]</span>
-<span class="n">prompt</span> <span class="o">=</span> <span class="n">no</span>
-<span class="n">encrypt_key</span> <span class="o">=</span> <span class="n">no</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[ req ]
+prompt = no
+encrypt_key = no
 
-<span class="n">distinguished_name</span> <span class="o">=</span> <span class="n">dn</span>
-<span class="n">req_extensions</span> <span class="o">=</span> <span class="n">exts</span>
+distinguished_name = dn
+req_extensions = exts
 
-<span class="p">[</span> <span class="n">dn</span> <span class="p">]</span>
-<span class="n">O</span><span class="o">=</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="n">CN</span><span class="o">=</span><span class="n">user</span>
+[ dn ]
+O=DOMAIN.EXAMPLE.COM
+CN=user
 
-<span class="p">[</span> <span class="n">exts</span> <span class="p">]</span>
-<span class="n">subjectAltName</span><span class="o">=</span><span class="nd">@SAN</span>
+[ exts ]
+subjectAltName=@SAN
 
-<span class="p">[</span> <span class="n">SAN</span> <span class="p">]</span>
-<span class="n">email</span><span class="o">=</span><span class="n">user</span><span class="nd">@example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">dirName</span><span class="o">=</span><span class="n">SANdn</span>
+[ SAN ]
+email=user@example.com
+dirName=SANdn
 
-<span class="p">[</span> <span class="n">SANdn</span> <span class="p">]</span>
-<span class="mf">1.</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="mf">2.</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span>
-<span class="n">CN</span><span class="o">=</span><span class="n">users</span>
-<span class="n">UID</span><span class="o">=</span><span class="n">user</span>
+[ SANdn ]
+1.DC=com
+2.DC=example
+CN=users
+UID=user
 </pre></div>
 </div>
 <p>and the certutil command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certutil</span> <span class="o">-</span><span class="n">R</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">s</span> <span class="s2">&quot;CN=user,O=DOMAIN.EXAMPLE.COM&quot;</span> <span class="o">--</span><span class="n">extSAN</span> <span class="s2">&quot;email:user@example.com,dn:UID=user;CN=users;DC=example;DC=com&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>certutil -R -a -s &quot;CN=user,O=DOMAIN.EXAMPLE.COM&quot; --extSAN &quot;email:user@example.com,dn:UID=user;CN=users;DC=example;DC=com&quot;
 </pre></div>
 </div>
 <p>Some interesting things to note about these formats:</p>
@@ -397,7 +397,7 @@ a different delimiter, like a semicolon.</p></li>
 <h1>Implementations<a class="headerlink" href="#implementations" title="Link to this heading">#</a></h1>
 <section id="two-pass-data-interpolation">
 <h2>Two-pass data interpolation<a class="headerlink" href="#two-pass-data-interpolation" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">user</span> <span class="n">data</span> <span class="o">-&gt;</span> <span class="n">data</span> <span class="n">rules</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">syntax</span> <span class="n">rules</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">output</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>((user data -&gt; data rules) -&gt; syntax rules) -&gt; output
 </pre></div>
 </div>
 <p>One way we can approach constructing one extension from multiple sources
@@ -419,24 +419,24 @@ that would make it impossible to generate a certificate for them. So,
 some kind of escaping is also needed, but it would be jinja2 template
 markup escaping, not the HTML escaping that jinja2 already supports.</p>
 <p>Example data rules:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">email</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">email</span><span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>email={{subject.email}}
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">O</span><span class="o">=</span><span class="p">{{</span><span class="n">config</span><span class="o">.</span><span class="n">ipacertificatesubjectbase</span><span class="p">}}</span>\<span class="n">nCN</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">username</span><span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}
 </pre></div>
 </div>
 <p>Example syntax rules:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">extSAN</span> <span class="p">{{</span><span class="n">values</span><span class="o">|</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--extSAN {{values|join(&#39;,&#39;)}}
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">subjectAltName</span><span class="o">=@</span><span class="p">{{{</span><span class="o">%</span> <span class="n">endraw</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">raw</span> <span class="o">%</span><span class="p">}</span><span class="s1">&#39;{</span><span class="si">% s</span><span class="s1">ection %}&#39;</span><span class="p">}}{{</span><span class="n">values</span><span class="o">|</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)}}{{{</span><span class="o">%</span> <span class="n">endraw</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">raw</span> <span class="o">%</span><span class="p">}</span><span class="s1">&#39;{</span><span class="si">% e</span><span class="s1">ndsection %}&#39;</span><span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>subjectAltName=@{{{% endraw %}{% raw %}&#39;{% section %}&#39;}}{{values|join(&#39;\n&#39;)}}{{{% endraw %}{% raw %}&#39;{% endsection %}&#39;}}
 </pre></div>
 </div>
 <p>That’s a lot of braces! We have to escape the <code class="docutils literal notranslate"><span class="pre">section</span></code> and
 <code class="docutils literal notranslate"><span class="pre">endsection</span></code> tags sequences so they will appear verbatim in the final
 template, producing something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">subjectAltName</span><span class="o">=@</span><span class="p">{</span><span class="o">%</span> <span class="n">section</span> <span class="o">%</span><span class="p">}</span><span class="n">email</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">email</span><span class="p">}}</span>
-<span class="n">URI</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">inetuserhttpurl</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endsection</span> <span class="o">%</span><span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>subjectAltName=@{% section %}email={{subject.email}}
+URI={{subject.inetuserhttpurl}}{% endsection %}
 </pre></div>
 </div>
 <p>If we used a different type of markup for the user data interpolation
@@ -449,7 +449,7 @@ would need to be implemented as an extension.</p>
 </section>
 <section id="two-pass-template-interpolation">
 <h2>Two-pass template interpolation<a class="headerlink" href="#two-pass-template-interpolation" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">user</span> <span class="n">data</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">data</span> <span class="n">rules</span> <span class="o">-&gt;</span> <span class="n">syntax</span> <span class="n">rules</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">output</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(user data -&gt; (data rules -&gt; syntax rules)) -&gt; output
 </pre></div>
 </div>
 <p>Alternatively, we can do the substitution on the templates themselves
@@ -474,7 +474,7 @@ escaped beforehand.</p>
 </section>
 <section id="template-based-hierarchical-rules">
 <h2>Template-based hierarchical rules<a class="headerlink" href="#template-based-hierarchical-rules" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="n">data</span> <span class="o">-&gt;</span> <span class="n">collected</span> <span class="n">rules</span> <span class="o">-&gt;</span> <span class="n">output</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>user data -&gt; collected rules -&gt; output
 </pre></div>
 </div>
 <p>One way to get away from escaping and multiple evaluations is to
@@ -482,22 +482,22 @@ redesign the template so that the order of its elements no longer
 matters. That is, the hierarchical relationships between data items,
 certificate extensions, and the CSR as a whole could be encoded using
 jinja2 tags. It’s probably easiest to explain this idea with an example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">req</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">req</span> <span class="o">%</span><span class="p">}</span><span class="n">extensions</span><span class="o">=</span><span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">exts</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">req</span> <span class="o">%</span><span class="p">}</span><span class="n">distinguished_name</span><span class="o">=</span><span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">subjectDN</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">subjectDN</span> <span class="o">%</span><span class="p">}</span><span class="n">O</span><span class="o">=</span><span class="p">{{</span><span class="n">config</span><span class="o">.</span><span class="n">ipacertificatesubjectbase</span><span class="p">}}</span>\<span class="n">nCN</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">username</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">exts</span> <span class="o">%</span><span class="p">}</span><span class="n">subjectAltName</span><span class="o">=@</span><span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">SAN</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">SAN</span> <span class="o">%</span><span class="p">}</span><span class="n">email</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">email</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">SAN</span> <span class="o">%</span><span class="p">}</span><span class="n">URI</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">inetuserhttpurl</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{% group req %}
+{% entry req %}extensions={% group exts %}{% endentry %}
+{% entry req %}distinguished_name={% group subjectDN %}{% endentry %}
+{% entry subjectDN %}O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}{% endentry %}
+{% entry exts %}subjectAltName=@{% group SAN %}{% endentry %}
+{% entry SAN %}email={{subject.email}}{% endentry %}
+{% entry SAN %}URI={{subject.inetuserhttpurl}}{% endentry %}
 </pre></div>
 </div>
 <p>The config for certutil would be quite similar:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certutil</span> <span class="o">-</span><span class="n">R</span> <span class="o">-</span><span class="n">a</span> <span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">opts</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">opts</span> <span class="o">%</span><span class="p">}</span><span class="o">-</span><span class="n">s</span> <span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">subjectDN</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">opts</span> <span class="o">%</span><span class="p">}</span><span class="o">--</span><span class="n">extSAN</span> <span class="p">{</span><span class="o">%</span> <span class="n">group</span> <span class="n">SAN</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">subjectDN</span> <span class="o">%</span><span class="p">}</span><span class="n">CN</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">username</span><span class="p">}},</span><span class="n">O</span><span class="o">=</span><span class="p">{{</span><span class="n">config</span><span class="o">.</span><span class="n">ipacertificatesubjectbase</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">SAN</span> <span class="o">%</span><span class="p">}</span><span class="n">email</span><span class="p">:{{</span><span class="n">subject</span><span class="o">.</span><span class="n">email</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">entry</span> <span class="n">SAN</span> <span class="o">%</span><span class="p">}</span><span class="n">uri</span><span class="p">:{{</span><span class="n">subject</span><span class="o">.</span><span class="n">inetuserhttpurl</span><span class="p">}}{</span><span class="o">%</span> <span class="n">endentry</span> <span class="o">%</span><span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>certutil -R -a {% group opts %}
+{% entry opts %}-s {% group subjectDN %}{% endentry %}
+{% entry opts %}--extSAN {% group SAN %}{% endentry %}
+{% entry subjectDN %}CN={{subject.username}},O={{config.ipacertificatesubjectbase}}{% endentry %}
+{% entry SAN %}email:{{subject.email}}{% endentry %}
+{% entry SAN %}uri:{{subject.inetuserhttpurl}}{% endentry %}
 </pre></div>
 </div>
 <p>Each CSR generation helper would have its own notion of “groups,” which
@@ -526,10 +526,10 @@ any actual implementation.</p>
 </section>
 <section id="formatter-based-hierarchical-rules">
 <h2>Formatter-based hierarchical rules<a class="headerlink" href="#formatter-based-hierarchical-rules" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="n">data</span> <span class="o">-&gt;</span> <span class="n">low</span><span class="o">-</span><span class="n">level</span> <span class="n">rule</span> <span class="o">-&gt;</span> <span class="n">formatting</span> <span class="n">code</span> <span class="o">-&gt;</span> <span class="n">group</span> <span class="n">objects</span>
-<span class="n">group</span> <span class="n">objects</span> <span class="o">-&gt;</span> <span class="n">higher</span><span class="o">-</span><span class="n">level</span> <span class="n">rule</span> <span class="o">-&gt;</span> <span class="n">formatting</span> <span class="n">code</span> <span class="o">-&gt;</span> <span class="n">group</span> <span class="n">objects</span>
-<span class="o">...</span>
-<span class="n">group</span> <span class="n">objects</span> <span class="o">-&gt;</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">rule</span> <span class="o">-&gt;</span> <span class="n">output</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>user data -&gt; low-level rule -&gt; formatting code -&gt; group objects
+group objects -&gt; higher-level rule -&gt; formatting code -&gt; group objects
+...
+group objects -&gt; top-level rule -&gt; output
 </pre></div>
 </div>
 <p>Instead of linking rules together into a hierarchy using tags, leaving
@@ -554,23 +554,23 @@ This addresses concern #2 from the previous approach, because the tools
 of the jinja2 language are now available for expressing how to format
 the results of groups of rules.</p>
 <p>Example leaf rules:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="p">:</span> <span class="n">SAN</span>
-<span class="n">template</span><span class="p">:</span> <span class="n">email</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">email</span><span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>group: SAN
+template: email={{subject.email}}
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="p">:</span> <span class="n">subjectDN</span>
-<span class="n">template</span><span class="p">:</span> <span class="n">O</span><span class="o">=</span><span class="p">{{</span><span class="n">config</span><span class="o">.</span><span class="n">ipacertificatesubjectbase</span><span class="p">}}</span>\<span class="n">nCN</span><span class="o">=</span><span class="p">{{</span><span class="n">subject</span><span class="o">.</span><span class="n">username</span><span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>group: subjectDN
+template: O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}
 </pre></div>
 </div>
 <p>Example parent rules:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="p">:</span> <span class="n">opts</span>
-<span class="n">groupProvided</span><span class="p">:</span> <span class="n">SAN</span>
-<span class="n">template</span><span class="p">:</span> <span class="o">--</span><span class="n">extSAN</span> <span class="p">{{</span> <span class="n">SAN</span><span class="o">|</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>group: opts
+groupProvided: SAN
+template: --extSAN {{ SAN|join(&#39;,&#39;) }}
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="p">:</span> <span class="n">exts</span>
-<span class="n">groupProvided</span><span class="p">:</span> <span class="n">SAN</span>
-<span class="n">template</span><span class="p">:</span> <span class="n">subjectAltName</span><span class="o">=@</span><span class="p">{{</span> <span class="n">SAN</span><span class="o">.</span><span class="n">section_name</span> <span class="p">}}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>group: exts
+groupProvided: SAN
+template: subjectAltName=@{{ SAN.section_name }}
 </pre></div>
 </div>
 <p>This has several advantages over the two-pass interpolation approaches:</p>

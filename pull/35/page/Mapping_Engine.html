@@ -334,11 +334,11 @@ for mapping the DN, object classes, and its attributes.</p>
 <section id="mapping-a-dn">
 <h1>Mapping a DN<a class="headerlink" href="#mapping-a-dn" title="Link to this heading">#</a></h1>
 <p>The following mapping rule constructs a Samba DN from an IPA attribute:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dn&quot;</span><span class="o">&gt;</span>
-   <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
-<span class="k">return</span> <span class="s2">&quot;CN=&quot;</span><span class="o">+</span><span class="n">ipa</span><span class="o">.</span><span class="n">cn</span><span class="o">+</span><span class="s2">&quot;,CN=Users,DC=domain1,DC=com&quot;</span><span class="p">;</span>
-   <span class="o">&lt;/</span><span class="n">expression</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">rule</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;rule name=&quot;dn&quot;&gt;
+   &lt;expression&gt;
+return &quot;CN=&quot;+ipa.cn+&quot;,CN=Users,DC=domain1,DC=com&quot;;
+   &lt;/expression&gt;
+&lt;/rule&gt;
 </pre></div>
 </div>
 </section>
@@ -346,37 +346,37 @@ for mapping the DN, object classes, and its attributes.</p>
 <h1>Mapping an Object Class<a class="headerlink" href="#mapping-an-object-class" title="Link to this heading">#</a></h1>
 <p>The object class of an object is usually static, it can be generated
 from constant values:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;objectClass&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">constant</span><span class="o">&gt;</span><span class="n">user</span><span class="o">&lt;/</span><span class="n">constant</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">rule</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;objectClass&quot;</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">constant</span><span class="o">&gt;</span><span class="n">person</span><span class="o">&lt;/</span><span class="n">constant</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">rule</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;objectClass&quot;</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">constant</span><span class="o">&gt;</span><span class="n">organizationalPerson</span><span class="o">&lt;/</span><span class="n">constant</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">rule</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;rule name=&quot;objectClass&quot;&gt;
+    &lt;constant&gt;user&lt;/constant&gt;
+&lt;/rule&gt;
+&lt;rule name=&quot;objectClass&quot; action=&quot;add&quot;&gt;
+    &lt;constant&gt;person&lt;/constant&gt;
+&lt;/rule&gt;
+&lt;rule name=&quot;objectClass&quot; action=&quot;add&quot;&gt;
+    &lt;constant&gt;organizationalPerson&lt;/constant&gt;
+&lt;/rule&gt;
 </pre></div>
 </div>
 </section>
 <section id="mapping-an-attribute">
 <h1>Mapping an Attribute<a class="headerlink" href="#mapping-an-attribute" title="Link to this heading">#</a></h1>
 <p>Some attributes can be mapped directly from another attribute.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sAMAccountName&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">variable</span><span class="o">&gt;</span><span class="n">ipa</span><span class="o">.</span><span class="n">uid</span><span class="o">&lt;/</span><span class="n">variable</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">rule</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;rule name=&quot;sAMAccountName&quot;&gt;
+    &lt;variable&gt;ipa.uid&lt;/variable&gt;
+&lt;/rule&gt;
 </pre></div>
 </div>
 <p>Some attributes require more complex mapping. In the following example
 Samba’s accountExpires is generated from IPA’s krbPasswordExpiration.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;accountExpires&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
-<span class="kn">import</span> <span class="nn">org.safehaus.penrose.ad.</span><span class="o">*</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.safehaus.penrose.ipa.</span><span class="o">*</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;rule name=&quot;accountExpires&quot;&gt;
+    &lt;expression&gt;
+import org.safehaus.penrose.ad.*;
+import org.safehaus.penrose.ipa.*;
 
-<span class="k">if</span> <span class="p">(</span><span class="n">ipa</span><span class="o">.</span><span class="n">krbPasswordExpiration</span> <span class="o">==</span> <span class="n">void</span> <span class="o">||</span> <span class="n">ipa</span><span class="o">.</span><span class="n">krbPasswordExpiration</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">null</span><span class="p">;</span>
-<span class="k">return</span> <span class="n">ActiveDirectory</span><span class="o">.</span><span class="n">toTimestamp</span><span class="p">(</span><span class="n">IPA</span><span class="o">.</span><span class="n">toDate</span><span class="p">(</span><span class="n">ipa</span><span class="o">.</span><span class="n">krbPasswordExpiration</span><span class="p">));</span>
-    <span class="o">&lt;/</span><span class="n">expression</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">rule</span><span class="o">&gt;</span>
+if (ipa.krbPasswordExpiration == void || ipa.krbPasswordExpiration == null) return null;
+return ActiveDirectory.toTimestamp(IPA.toDate(ipa.krbPasswordExpiration));
+    &lt;/expression&gt;
+&lt;/rule&gt;
 </pre></div>
 </div>
 <p><a class="reference external" href="Category:Obsolete">Category:Obsolete</a></p>

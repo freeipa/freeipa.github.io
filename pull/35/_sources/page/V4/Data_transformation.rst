@@ -30,7 +30,7 @@ repository. A given user and the groups it belongs to are stored in
 and grant authorizations by sending LDAP requests. To retrieve the
 groups the user is member of, it sends the requests
 
-::
+.. code-block:: text
 
    [13/Nov/2018:17:29:24.347094829 -0500] conn=814140 op=0 BIND dn="uid=<USER_UID>,cn=users,cn=accounts,<SUFFIX>" method=128 version=3
    [13/Nov/2018:17:29:24.348379396 -0500] conn=814140 op=0 RESULT err=0 tag=97 nentries=0 etime=0 dn="uid=<USER_UID>,cn=users,cn=accounts,<SUFFIX>"
@@ -67,25 +67,29 @@ the admin should configure filter transformation
 
 Then with those data
 
-| ``   # Vsphere group containing 'foo' user``
-| ``   dn: cn=vsphere_group,cn=groups,cn=accounts,``
-| ``   objectClass: groupofnames``
-| ``   member: uid=foo,cn=users,cn=accounts,``
-| ``   ``
-| ``   # 'foo' user                                                                                                                    ``
-| ``   dn: uid=foo,cn=users,cn=accounts,``
-| ``   memberOf: cn=ipausers,cn=groups,cn=accounts,``
-| ``   memberOf: cn=vsphere_group,cn=groups,cn=accounts,``
-| ``   cn: f oo``
-| ``   ...``
+.. code-block:: text
+
+       # Vsphere group containing 'foo' user
+       dn: cn=vsphere_group,cn=groups,cn=accounts,
+       objectClass: groupofnames
+       member: uid=foo,cn=users,cn=accounts,
+       
+       # 'foo' user                                                                                                                    
+       dn: uid=foo,cn=users,cn=accounts,
+       memberOf: cn=ipausers,cn=groups,cn=accounts,
+       memberOf: cn=vsphere_group,cn=groups,cn=accounts,
+       cn: f oo
+       ...
 
 The following search request will retrieve *vsphere_group* as
 *groupOfUniqueNames* having *foo* as *uniqueMember*
 
-| ``   ldapsearch LLL -D "uid=ldapsearch,cn=users,cn=accounts,``\ ``" -W -b "cn=groups,cn=accounts,``\ ``" "(&(objectclass=groupofnames)(member=uid=foo,cn=users,cn=accounts,``\ ``))" cn entryuuid``
-| ``   ``
-| ``   dn: cn=vsphere_group,cn=groups,cn=accounts,``
-| ``   cn: vsphere_group``
+.. code-block:: text
+
+       ldapsearch LLL -D "uid=ldapsearch,cn=users,cn=accounts,``\ ``" -W -b "cn=groups,cn=accounts,``\ ``" "(&(objectclass=groupofnames)(member=uid=foo,cn=users,cn=accounts,``\ ``))" cn entryuuid
+       
+       dn: cn=vsphere_group,cn=groups,cn=accounts,
+       cn: vsphere_group
 
 Design
 ------
@@ -113,7 +117,7 @@ have same matching rules and have the same number of allowed value.
 
 An easy way to obtain target attribute in an entry is to alias the
 source and the target attribute. For example in 00core.ldif
-::
+.. code-block:: text
 
    ``attributeTypes: ( 2.5.4.31 NAME ( 'member' 'uniqueMember' )                                                                                       ``
    ``  SUP distinguishedName``
@@ -232,13 +236,15 @@ Implement a new LDAP control
 
 LDAP V3 allows control. We could implement a 389-ds specific control
 
-| ``   controlValue ::= SEQUENCE OF transformationDesc``
-| ``   ``
-| ``   transformationDesc ::= SEQUENCE OF {``
-| ``   replace          Boolean``
-| ``   sourceAttr       attributeDescription,``
-| ``   targetAttr       attributeDescription``
-| ``   }``
+.. code-block:: text
+
+       controlValue ::= SEQUENCE OF transformationDesc
+       
+       transformationDesc ::= SEQUENCE OF {
+       replace          Boolean
+       sourceAttr       attributeDescription,
+       targetAttr       attributeDescription
+       }
 
 A *transformationDesc* describes the returned attributes of the returned
 entries. If a returned entries contains values for *sourceAttr* then it
@@ -281,47 +287,49 @@ after search preops.
 
 Here is an example of the plugin configuration
 
-| ``   dn: cn=filter transformation,cn=plugins,cn=config``
-| ``   objectClass: top``
-| ``   objectClass: nsSlapdPlugin``
-| ``   objectClass: extensibleObject``
-| ``   cn: filter transformation``
-| ``   nsslapd-pluginPath: libfiltertransformation-plugin                                                                                                               ``
-| ``   nsslapd-pluginInitfunc: fitler_transformation_init``
-| ``   nsslapd-pluginType: object``
-| ``   nsslapd-pluginEnabled: on``
-| ``   nsslapd-plugin-depends-on-type: database``
-| ``   nsslapd-plugin-depends-on-named: State Change Plugin``
-| ``   nsslapd-pluginId: filterTransformation``
-| ``   nsslapd-pluginConfigArea: cn=filterTransformation,cn=etc,SUFFIX``
-| ``   nsslapd-pluginDescription: virtual directory information tree views plugin``
-| ``   ``
-| ``   dn: cn=filterTransformation,cn=etc,``
-| ``   objectClass: top``
-| ``   objectClass: nsContainer``
-| ``   cn: filterTransformation``
-| ``   dn: cn=vsphere_uniquemember,cn=filterTransformation,cn=etc,``
-| ``   objectClass: top``
-| ``   objectClass: filterTransformationDefinition``
-| ``   filterTransformationAvaFrom: (uniquemember=*)``
-| ``   filterTransformationAvaTo: (member=*)``
-| ``   filterTransformationCondScope: subtree``
-| ``   filterTransformationCondBase: cn=groups,cn=accounts,``
-| ``   filterTransformationCondAttr: cn``
-| ``   filterTransformationCondAttr: entryuuid``
-| ``   filterTransformationCondBindDn: uid=ldapsearch,cn=users,cn=accounts,``
-| ``   cn: vsphere_uniquemember``
-| ``   dn: cn=vsphere_objectclass,cn=filterTransformation,cn=etc,``
-| ``   objectClass: top``
-| ``   objectClass: filterTransformationDefinition``
-| ``   filterTransformationAvaFrom: (objectclass=groupOfUniqueNames)``
-| ``   filterTransformationAvaTo: (objectclass=groupOfNames)``
-| ``   filterTransformationCondScope: subtree``
-| ``   filterTransformationCondBase: cn=groups,cn=accounts,``
-| ``   filterTransformationCondAttr: cn``
-| ``   filterTransformationCondAttr: entryuuid``
-| ``   filterTransformationCondBindDn: uid=ldapsearch,cn=users,cn=accounts,``
-| ``   cn: vsphere_objectclass``
+.. code-block:: text
+
+       dn: cn=filter transformation,cn=plugins,cn=config
+       objectClass: top
+       objectClass: nsSlapdPlugin
+       objectClass: extensibleObject
+       cn: filter transformation
+       nsslapd-pluginPath: libfiltertransformation-plugin                                                                                                               
+       nsslapd-pluginInitfunc: fitler_transformation_init
+       nsslapd-pluginType: object
+       nsslapd-pluginEnabled: on
+       nsslapd-plugin-depends-on-type: database
+       nsslapd-plugin-depends-on-named: State Change Plugin
+       nsslapd-pluginId: filterTransformation
+       nsslapd-pluginConfigArea: cn=filterTransformation,cn=etc,SUFFIX
+       nsslapd-pluginDescription: virtual directory information tree views plugin
+       
+       dn: cn=filterTransformation,cn=etc,
+       objectClass: top
+       objectClass: nsContainer
+       cn: filterTransformation
+       dn: cn=vsphere_uniquemember,cn=filterTransformation,cn=etc,
+       objectClass: top
+       objectClass: filterTransformationDefinition
+       filterTransformationAvaFrom: (uniquemember=*)
+       filterTransformationAvaTo: (member=*)
+       filterTransformationCondScope: subtree
+       filterTransformationCondBase: cn=groups,cn=accounts,
+       filterTransformationCondAttr: cn
+       filterTransformationCondAttr: entryuuid
+       filterTransformationCondBindDn: uid=ldapsearch,cn=users,cn=accounts,
+       cn: vsphere_uniquemember
+       dn: cn=vsphere_objectclass,cn=filterTransformation,cn=etc,
+       objectClass: top
+       objectClass: filterTransformationDefinition
+       filterTransformationAvaFrom: (objectclass=groupOfUniqueNames)
+       filterTransformationAvaTo: (objectclass=groupOfNames)
+       filterTransformationCondScope: subtree
+       filterTransformationCondBase: cn=groups,cn=accounts,
+       filterTransformationCondAttr: cn
+       filterTransformationCondAttr: entryuuid
+       filterTransformationCondBindDn: uid=ldapsearch,cn=users,cn=accounts,
+       cn: vsphere_objectclass
 
 Definition attributes *filterTransformationCond* are used to restrict
 the transformation to specific searches. Indeed some applications,

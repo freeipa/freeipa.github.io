@@ -8,11 +8,11 @@ Prepare Replica
 
 Execute the following on the master:
 
-::
+.. code-block:: text
 
    % ipa-replica-prepare ipa2.domain1.com
 
-::
+.. code-block:: text
 
    % scp /var/lib/ipa/replica-info-ipa2.domain1.com.gpg root@ipa2.domain1.com:/var/lib/ipa/
 
@@ -23,13 +23,13 @@ Configure Replica
 
 Execute the following on the replica:
 
-::
+.. code-block:: text
 
    % ipa-replica-install /var/lib/ipa/replica-info-ipa2.domain1.com.gpg
 
 If you need to uninstall replica:
 
-::
+.. code-block:: text
 
    % ipa-server-install --uninstall
 
@@ -40,7 +40,7 @@ Enable Change Log
 
 Enable Retro Changelog plugin on replica:
 
-::
+.. code-block:: text
 
    % ldapmodify -h ipa2.domain1.com -p 389 -x -D "cn=Directory Manager" -w Secret123
    dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
@@ -51,11 +51,11 @@ Enable Retro Changelog plugin on replica:
 
 Restart DS:
 
-::
+.. code-block:: text
 
    % service dirsrv restart
 
-::
+.. code-block:: text
 
    % ldapsearch -h ipa2.domain1.com -p 389 -x -D "cn=Directory Manager" -w Secret123 -b "cn=changelog"
 
@@ -64,7 +64,7 @@ DNS
 
 Edit zone data file /var/named/domain1.com.zone.db:
 
-::
+.. code-block:: text
 
    $ORIGIN domain1.com.
    $TTL    1W

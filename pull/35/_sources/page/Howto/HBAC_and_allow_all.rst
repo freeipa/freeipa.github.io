@@ -10,7 +10,7 @@ The default setup of IPA server is to allow access from anywhere to
 anywhere to any user and service. It is achieved by a catchall HBAC rule
 **allow_all**:
 
-::
+.. code-block:: text
 
    # ipa hbacrule-find
    -------------------
@@ -44,7 +44,7 @@ preserved for existing hosts and users.
 
 The commands to create the setup are as follows:
 
-::
+.. code-block:: text
 
    # ipa hostgroup-add --desc 'Host group which will have allow_all_users_services HBAC enabled.' allow_all_hosts
    ---------------------------------
@@ -75,7 +75,7 @@ The commands to create the setup are as follows:
 
 Then the **allow_all** rule can be disabled:
 
-::
+.. code-block:: text
 
    # ipa hbacrule-disable allow_all
    ------------------------------
@@ -107,7 +107,7 @@ authentication and authorization.
 
 We can start by defining the service:
 
-::
+.. code-block:: text
 
    # ipa hbacsvc-add wikiapp
    ----------------------------
@@ -117,7 +117,7 @@ We can start by defining the service:
 
 We then define the rule for this service:
 
-::
+.. code-block:: text
 
    # ipa hbacrule-add allow_wikiapp
    -------------------------------
@@ -128,7 +128,7 @@ We then define the rule for this service:
 
 And we add the service:
 
-::
+.. code-block:: text
 
    # ipa hbacrule-add-service allow_wikiapp --hbacsvcs=wikiapp
      Rule name: allow_wikiapp
@@ -140,7 +140,7 @@ And we add the service:
 
 At any point we can check the status of the rule:
 
-::
+.. code-block:: text
 
    # ipa hbacrule-find allow_wikiapp
    -------------------
@@ -155,7 +155,7 @@ At any point we can check the status of the rule:
 
 We add user **bob** and host **wikiapp.example.com** to the rule:
 
-::
+.. code-block:: text
 
    # ipa hbacrule-add-user allow_wikiapp --user=bob
      Rule name: allow_wikiapp
@@ -177,7 +177,7 @@ We add user **bob** and host **wikiapp.example.com** to the rule:
 
 We now test the access to the service:
 
-::
+.. code-block:: text
 
    # ipa hbactest --user=bob --host=wikiapp.example.com --service=wikiapp
    --------------------
@@ -191,7 +191,7 @@ We see that the rule **allow_wikiapp** matches which is good but
 the host from the hostgroup. But beware -- this might cut away our
 access to the machine via ssh if ssh is configured to use IPA HBAC:
 
-::
+.. code-block:: text
 
    # ipa hostgroup-remove-member allow_all_hosts --hosts=wikiapp.example.com
      Host-group: allow_all_hosts
@@ -206,7 +206,7 @@ On the **wikiapp.example.com** machine, we want to create
 **/etc/pam.d/wikiapp** file with configuration specifying sssd as the
 mechanism for authentication and authorization:
 
-::
+.. code-block:: text
 
    auth    required   pam_sss.so
    account required   pam_sss.so

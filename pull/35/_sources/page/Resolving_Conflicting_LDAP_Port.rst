@@ -17,7 +17,7 @@ Configuring IPA
 IPA can listen to a specific address by specifying the
 nsslapd-listenhost parameter:
 
-::
+.. code-block:: text
 
    dn: cn=config
    nsslapd-listenhost: ipa.example.com
@@ -30,7 +30,7 @@ Note that IPA can only listen to one IP address.
 The socket is created in ldap/servers/slapd/main.c and
 ldap/servers/slapd/daemon.c:
 
-::
+.. code-block:: text
 
    int main(int argc, char **argv) {
 
@@ -74,7 +74,7 @@ Configuring Samba
 Samba services can listen to specific interfaces only by adding the
 following parameters in smb.conf:
 
-::
+.. code-block:: text
 
    [global]
        interfaces           = eth1, eth4
@@ -85,7 +85,7 @@ corresponds to one IP address.
 
 The socket is created in source4/ldap_server/ldap_server.c:
 
-::
+.. code-block:: text
 
    NTSTATUS server_service_ldap_init() {
        return register_server_service("ldap", ldapsrv_task_init);
@@ -121,21 +121,21 @@ Creating Virtual IP Address
 Make sure the machine has an network interface with a static IP address.
 Create a new network interface as its child:
 
-::
+.. code-block:: text
 
    % cd /etc/sysconfig/network-scripts
    % cp ifcfg-eth0 ifcfg-eth0:0
 
 Edit ifcfg-eth0:0:
 
-::
+.. code-block:: text
 
    DEVICE=eth0:0
    IPADDR=<new IP address>
 
 Restart networking service:
 
-::
+.. code-block:: text
 
    % service network restart
 

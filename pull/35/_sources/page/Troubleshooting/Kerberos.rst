@@ -12,7 +12,7 @@ kinit does not work
 
 -  On client, see the debug messages from the ``kinit`` process itself:
 
-      ::
+.. code-block:: text
 
          KRB5_TRACE=/dev/stdout kinit admin
 
@@ -35,14 +35,14 @@ Service does not start
 -  Make sure that if /etc/hosts contains an entry for this server, the
    fully qualified domain name comes first, e.g.:
 
-      ::
+.. code-block:: text
 
          192.168.1.1 ipa.example.com ipa
 
 -  See what keys are in the keytab used for authentication of the
    service, e.g.:
 
-      ::
+.. code-block:: text
 
          # klist -kt /etc/dirsrv/ds.keytab
 
@@ -51,7 +51,7 @@ Service does not start
 -  Make sure that the version of the keys (KVNO) stored in the keytab
    and in the FreeIPA server match:
 
-      ::
+.. code-block:: text
 
          $ kvno ldap/ipa.example.com@EXAMPLE.COM
 
@@ -86,7 +86,7 @@ Failed auth increments failed login count by 2
    failure raises the counter for second time.
 -  Resolution: disable migration mode when all users are migrated by
 
-      ::
+.. code-block:: text
 
          ipa config-mod --enable-migration=False
 

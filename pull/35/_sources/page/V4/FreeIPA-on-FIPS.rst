@@ -113,7 +113,7 @@ CLI
 
 Displaying server's FIPS mode status:
 
-::
+.. code-block:: text
 
    ipa env fips_mode
 

@@ -73,7 +73,7 @@ operating system and web application deployed on it.
 We will assume that the system on which the web application is deployed
 is IPA-enrolled. Using the command
 
-::
+.. code-block:: text
 
    ipa-client-install
 
@@ -188,7 +188,7 @@ HBAC rules
 We will start from the end -- from the FreeIPA HBAC service. It is just
 a string which distinguishes one service from another. Running
 
-::
+.. code-block:: text
 
    ipa hbacsvc-find
 
@@ -200,7 +200,7 @@ it **reporting** or **reporting.example.com** or **reporting-prod** and
 **reporting-qa** if we have multiple environments. Please consult help
 pages
 
-::
+.. code-block:: text
 
    ipa help hbacsvc
    ipa help hbacrule
@@ -223,7 +223,7 @@ file named the same as the HBAC service we've created with
 account. For example, if the HBAC service is **reporting-prod**, we will
 need file **/etc/pam.d/reporting-prod** with content
 
-::
+.. code-block:: text
 
    auth    required   pam_sss.so
    account required   pam_sss.so
@@ -235,7 +235,7 @@ The module **mod_authnz_pam** adds access control checks to
 authentication phase of HTTP request processing in Apache. The typical
 mod_auth_gssapi/mod_auth_kerb configuration will have
 
-::
+.. code-block:: text
 
    require valid-user
 
@@ -247,7 +247,7 @@ FreeIPA will lead to HBAC rule check, with the PAM service name used as
 the HBAC service. For our **reporting-prod** example, the
 ``require valid-user`` will change to
 
-::
+.. code-block:: text
 
    require pam-account reporting-prod
 
@@ -256,7 +256,7 @@ application, provided they can be identified using URLs. If the
 application has a special admin section, we can define separate PAM
 service (which possibly more strict rules) for this part:
 
-::
+.. code-block:: text
 
    <Location /app>
    require pam-account reporting-prod
@@ -457,7 +457,7 @@ example, for SAML (Security Assertion Markup Language),
 used and starting with version 0.11.0, it can be configured to populate
 environment variables exactly like mod_lookup_identity does:
 
-::
+.. code-block:: text
 
        MellonSetEnvNoPrefix "REMOTE_USER_GROUP" "groups"
        MellonEnvVarsIndexStart 1
@@ -465,7 +465,7 @@ environment variables exactly like mod_lookup_identity does:
 
 and we can pass other attributes as well:
 
-::
+.. code-block:: text
 
        MellonSetEnvNoPrefix "REMOTE_USER_LASTNAME" "surname"
        MellonSetEnvNoPrefix "REMOTE_USER_FIRSTNAME" "givenname"

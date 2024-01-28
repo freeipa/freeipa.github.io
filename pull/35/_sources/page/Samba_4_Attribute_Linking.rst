@@ -23,7 +23,7 @@ Attribute linking is defined using the linkID attribute in Active
 Directory schema. An attribute with linkID n is linked to another
 attribute with linkID n+1. See the following example:
 
-::
+.. code-block:: text
 
    cn: Member
    ldapDisplayName: member
@@ -38,13 +38,13 @@ attribute.
 
 Suppose in the DIT there's already an entry as follows:
 
-::
+.. code-block:: text
 
    dn: CN=Administrator,CN=Users,DC=example,DC=com
 
 Suppose a new entry is added with a link pointing to the above entry:
 
-::
+.. code-block:: text
 
    dn: CN=Enterprise Admins,CN=Users,DC=example,DC=com
    member: CN=Administrator,CN=Users,DC=example,DC=com
@@ -52,7 +52,7 @@ Suppose a new entry is added with a link pointing to the above entry:
 A new attribute will be added to the target entry pointing back to the
 new entry:
 
-::
+.. code-block:: text
 
    dn: CN=Administrator,CN=Users,DC=example,DC=com
    memberOf: CN=Enterprise Admins,CN=Users,DC=example,DC=com
@@ -70,7 +70,7 @@ OpenLDAP Configuration
 The template for the memberof overlay configuration is stored in
 source4/setup/memberof.conf:
 
-::
+.. code-block:: text
 
    overlay memberof
    memberof-dn cn=samba-admin,cn=samba
@@ -84,7 +84,7 @@ source4/setup/memberof.conf:
 The template for the refint overlay configuration is stored in
 source4/setup/refint.conf:
 
-::
+.. code-block:: text
 
    overlay refint
    refint_modifiersName cn=samba-admin,cn=samba
@@ -98,7 +98,7 @@ Provisioning Tool
 The provision_openldap_backend() uses the following code to configure
 attribute linking in OpenLDAP:
 
-::
+.. code-block:: text
 
    lnkattr = get_linked_attributes(names.schemadn,schema.ldb)
 
@@ -125,7 +125,7 @@ DS Configuration
 
 The Linked Attributes Plugin should be configured as follows:
 
-::
+.. code-block:: text
 
    dn: cn=${MEMBER_ATTR} to ${MEMBEROF_ATTR},cn=Linked Attributes,cn=plugins,cn=config
    objectclass: extensibleObject
@@ -135,7 +135,7 @@ The Linked Attributes Plugin should be configured as follows:
 
 The Referential Integrity Plugin should be configured as follows:
 
-::
+.. code-block:: text
 
    dn: cn=referential integrity postoperation,cn=plugins,cn=config
    nsslapd-pluginArg0: 0

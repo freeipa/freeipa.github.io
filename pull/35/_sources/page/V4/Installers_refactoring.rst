@@ -70,10 +70,12 @@ installers, excluding them from the others.
 
 We have a list (extensible) of option-scope limiting decorators:
 
-| ``prepare_only``
-| ``enroll_only``
-| ``master_install_only``
-| ``replica_install_only``
+.. code-block:: text
+
+    prepare_only
+    enroll_only
+    master_install_only
+    replica_install_only
 
 These decorators are applied on class variables to limit the scope of
 where (in which classes) should these variables (containing knobs)
@@ -81,10 +83,12 @@ appear. For these restrictions to apply during inheritance, it's
 required to use a set of functions that reflects these restrictions on a
 given class. This set is (obviously):
 
-| ``prepares``
-| ``enrolls``
-| ``installs_master``
-| ``installs_replica``
+.. code-block:: text
+
+    prepares
+    enrolls
+    installs_master
+    installs_replica
 
 It takes a given class as an argument and returns a subclass with any
 attributes that should not appear in it removed.
@@ -94,17 +98,21 @@ it makes sense to have '--external-ca' option there while classes that
 implement replication installers interface also inherit from this class.
 Defining such a class:
 
-| ``class MyClass(ServiceInstallInterface):``
-| ``    ...``
-| ``    external_ca = knob(``\ ``)``
-| ``    external_ca = master_install_only(external_ca)``
-| ``    ...``
+.. code-block:: text
+
+    class MyClass(ServiceInstallInterface):
+        ...
+        external_ca = knob(``\ ``)
+        external_ca = master_install_only(external_ca)
+        ...
 
 Then, to create a class that inherits from MyClass and should serve
 later to install some service as a master:
 
-| ``class MasterInstallClass(installs_master(MyClass), ``\ ``):``
-| ``    pass``
+.. code-block:: text
+
+    class MasterInstallClass(installs_master(MyClass), ``\ ``):
+        pass
 
 
 

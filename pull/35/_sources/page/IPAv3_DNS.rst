@@ -4,7 +4,7 @@ IPAv3_DNS
 Prerequisites
 =============
 
-::
+.. code-block:: text
 
    % yum install bind
 
@@ -15,7 +15,7 @@ If your DNS server is using chroot, make sure the following files are
 placed in the appropriate location. Create zone data file
 /var/named/domain1.com.zone.db:
 
-::
+.. code-block:: text
 
    $ORIGIN domain1.com.
    $TTL    1W
@@ -48,7 +48,7 @@ placed in the appropriate location. Create zone data file
 
 Create reverse mapping file /var/named/192.168.1.rev:
 
-::
+.. code-block:: text
 
    $ORIGIN 1.168.192.in-addr.arpa.
    $TTL    1W
@@ -68,14 +68,14 @@ Create reverse mapping file /var/named/192.168.1.rev:
 
 Set file ownership:
 
-::
+.. code-block:: text
 
    % chown named.named /var/named/domain1.com.zone.db
    % chown named.named /var/named/192.168.1.rev
 
 Edit /etc/named.conf:
 
-::
+.. code-block:: text
 
    options {
            #listen-on port 53 { 127.0.0.1; };
@@ -96,14 +96,14 @@ Edit /etc/named.conf:
 
 Restart DNS:
 
-::
+.. code-block:: text
 
    % service named restart
 
 Verification
 ============
 
-::
+.. code-block:: text
 
    % dig _kerberos.example.com TXT @localhost
    ...
@@ -111,7 +111,7 @@ Verification
    _kerberos.example.com.  86400   IN  TXT "EXAMPLE.COM"
    ...
 
-::
+.. code-block:: text
 
    % dig _ldap._tcp.example.com SRV @localhost
    ...
@@ -119,7 +119,7 @@ Verification
    _ldap._tcp.example.com. 86400   IN  SRV 0 100 389 ipa.example.com.
    ...
 
-::
+.. code-block:: text
 
    % nslookup ipa.example.com
    % nslookup ipa-client.example.com

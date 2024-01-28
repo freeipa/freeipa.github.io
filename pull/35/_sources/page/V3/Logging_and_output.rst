@@ -29,19 +29,25 @@ Design
 Each command will have these command-line options (added automatically
 by the framework):
 
-| `` --version        show program's version number and exit``
-| `` -h, --help       show the help message and exit``
+.. code-block:: text
 
-| `` output and logging options:``
-| ``   -q, --quiet    Output only errors``
-| ``   -v, --verbose  Print debugging information``
-| ``   --log-file     (alternate) log file name``
+     --version        show program's version number and exit
+     -h, --help       show the help message and exit
+
+.. code-block:: text
+
+     output and logging options:
+       -q, --quiet    Output only errors
+       -v, --verbose  Print debugging information
+       --log-file     (alternate) log file name
 
 The precise meanings of the output options are:
 
-| `` (nothing): print INFO-level messages and above to stderr``
-| `` -q: only print ERROR-level messages and above to stderr``
-| `` -v: print all messages to stderr, prefixed with severity level``
+.. code-block:: text
+
+     (nothing): print INFO-level messages and above to stderr
+     -q: only print ERROR-level messages and above to stderr
+     -v: print all messages to stderr, prefixed with severity level
 
 In all cases, if there is a log file, all messages go to it
 

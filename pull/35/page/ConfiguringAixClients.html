@@ -334,9 +334,9 @@ be installed from your AIX media:</p>
 <p>The following instructions describe how to configure AIX 5.3 as an IPA
 client. The following hostnames are used as examples only; you need to
 replace these with the hostnames that apply to your deployment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">REALM</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="n">IPA</span> <span class="n">server</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">IPA</span> <span class="n">client</span> <span class="o">=</span> <span class="n">ipaclient</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>REALM = EXAMPLE.COM
+IPA server = ipaserver.example.com
+IPA client = ipaclient.example.com
 </pre></div>
 </div>
 <section id="configuring-kerberos-and-ldap">
@@ -357,30 +357,26 @@ replace these with the hostnames that apply to your deployment.</p>
 <li><p>Add custom settings for the LDAP client.</p></li>
 </ol>
 <p>Under /etc/security/ldap create 2 new map files:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#IPAuser.map file</span>
-<span class="n">keyobjectclass</span>  <span class="n">SEC_CHAR</span>        <span class="n">posixaccount</span>            <span class="n">s</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#IPAuser.map file
+keyobjectclass  SEC_CHAR        posixaccount            s
 
-<span class="c1"># The following attributes are required by AIX to be functional</span>
-<span class="n">username</span>        <span class="n">SEC_CHAR</span>        <span class="n">uid</span>                     <span class="n">s</span>
-<span class="nb">id</span>              <span class="n">SEC_INT</span>         <span class="n">uidnumber</span>               <span class="n">s</span>
-<span class="n">pgrp</span>            <span class="n">SEC_CHAR</span>        <span class="n">gidnumber</span>               <span class="n">s</span>
-<span class="n">home</span>            <span class="n">SEC_CHAR</span>        <span class="n">homedirectory</span>           <span class="n">s</span>
-<span class="n">shell</span>           <span class="n">SEC_CHAR</span>        <span class="n">loginshell</span>              <span class="n">s</span>
-<span class="n">gecos</span>           <span class="n">SEC_CHAR</span>        <span class="n">gecos</span>                   <span class="n">s</span>
-<span class="n">spassword</span>       <span class="n">SEC_CHAR</span>        <span class="n">userpassword</span>            <span class="n">s</span>
-<span class="n">lastupdate</span>      <span class="n">SEC_INT</span>         <span class="n">shadowlastchange</span>        <span class="n">s</span>
+# The following attributes are required by AIX to be functional
+username        SEC_CHAR        uid                     s
+id              SEC_INT         uidnumber               s
+pgrp            SEC_CHAR        gidnumber               s
+home            SEC_CHAR        homedirectory           s
+shell           SEC_CHAR        loginshell              s
+gecos           SEC_CHAR        gecos                   s
+spassword       SEC_CHAR        userpassword            s
+lastupdate      SEC_INT         shadowlastchange        s
 </pre></div>
 </div>
-</div></blockquote>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#IPAgroup.map file</span>
-<span class="n">groupname</span>       <span class="n">SEC_CHAR</span>    <span class="n">cn</span>                    <span class="n">s</span>
-<span class="nb">id</span>              <span class="n">SEC_INT</span>     <span class="n">gidNumber</span>             <span class="n">s</span>
-<span class="n">users</span>           <span class="n">SEC_LIST</span>    <span class="n">member</span>                <span class="n">m</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#IPAgroup.map file
+groupname       SEC_CHAR    cn                    s
+id              SEC_INT     gidNumber             s
+users           SEC_LIST    member                m
 </pre></div>
 </div>
-</div></blockquote>
 <div class="line-block">
 <div class="line">Change the /etc/security/ldap/ldap.cfg file and set the relevant
 options as follow.</div>
@@ -388,13 +384,13 @@ options as follow.</div>
 dc=example,dc=com</div>
 <div class="line">Change all basedns values to conform to your installation realm name.</div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">userbasedn</span><span class="p">:</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">groupbasedn</span><span class="p">:</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>userbasedn:cn=users,cn=accounts,dc=example,dc=com
+groupbasedn:cn=groups,cn=accounts,dc=example,dc=com
 
-<span class="n">userattrmappath</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">IPAuser</span><span class="o">.</span><span class="n">map</span>
-<span class="n">groupattrmappath</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">IPAgroup</span><span class="o">.</span><span class="n">map</span>
+userattrmappath:/etc/security/ldap/IPAuser.map
+groupattrmappath:/etc/security/ldap/IPAgroup.map
 
-<span class="n">userclasses</span><span class="p">:</span><span class="n">posixaccount</span>
+userclasses:posixaccount
 </pre></div>
 </div>
 <ol class="arabic simple" start="5">
@@ -409,36 +405,30 @@ dc=example,dc=com</div>
 <li><p>Configure the system login to use Krberos and LDAP</p></li>
 </ol>
 <p>Add the following sections to the file /usr/lib/security/methods.cfg</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KRB5A</span><span class="p">:</span>
-        <span class="n">program</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">KRB5A</span>
-        <span class="n">program_64</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">KRB5A_64</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">authonly</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KRB5A:
+        program = /usr/lib/security/KRB5A
+        program_64 = /usr/lib/security/KRB5A_64
+        options = authonly
 
-<span class="n">KRB5ALDAP</span><span class="p">:</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">auth</span><span class="o">=</span><span class="n">KRB5A</span><span class="p">,</span><span class="n">db</span><span class="o">=</span><span class="n">LDAP</span>
+KRB5ALDAP:
+        options = auth=KRB5A,db=LDAP
 </pre></div>
 </div>
-</div></blockquote>
 <p>For AIX 6.1 the line</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">authonly</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>options = authonly
 </pre></div>
 </div>
-</div></blockquote>
 <p>should be changed into</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">authonly</span><span class="p">,</span><span class="n">kadmind</span><span class="o">=</span><span class="n">no</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>options = authonly,kadmind=no
 </pre></div>
 </div>
-</div></blockquote>
 <div class="line-block">
 <div class="line">Edit the file /etc/security/user</div>
 <div class="line">In the default section change the options ‘SYSTEM’ and ‘registry’ to
 look like this:</div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SYSTEM</span> <span class="o">=</span> <span class="s2">&quot;KRB5ALDAP&quot;</span>
-<span class="n">regisrty</span> <span class="o">=</span> <span class="n">LDAP</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SYSTEM = &quot;KRB5ALDAP&quot;
+regisrty = LDAP
 </pre></div>
 </div>
 <p>Please note: due to these changes to /etc/security/user LDAP is
@@ -457,41 +447,41 @@ with your own host and domain names:</p>
 <ol class="arabic simple">
 <li><p>SSH syslog Configuration</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auth</span><span class="o">.</span><span class="n">info</span>       <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">sshd</span><span class="o">.</span><span class="n">log</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">info</span>       <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">sshd</span><span class="o">.</span><span class="n">log</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">crit</span>       <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">sshd</span><span class="o">.</span><span class="n">log</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">warn</span>       <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">sshd</span><span class="o">.</span><span class="n">log</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">notice</span>     <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">sshd</span><span class="o">.</span><span class="n">log</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">err</span>        <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">sshd</span><span class="o">.</span><span class="n">log</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth.info       /var/log/sshd.log
+auth.info       /var/log/sshd.log
+auth.crit       /var/log/sshd.log
+auth.warn       /var/log/sshd.log
+auth.notice     /var/log/sshd.log
+auth.err        /var/log/sshd.log
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>SSH Logging Configuration</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SyslogFacility</span> <span class="n">AUTH</span>
-<span class="n">LogLevel</span> <span class="n">INFO</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SyslogFacility AUTH
+LogLevel INFO
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Configure sshd for GSSAPI (<code class="docutils literal notranslate"><span class="pre">/etc/ssh/sshd_config</span></code>)</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># GSSAPI options</span>
-<span class="n">GSSAPIAuthentication</span> <span class="n">yes</span>
-<span class="c1">#GSSAPICleanupCredentials yes</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># GSSAPI options
+GSSAPIAuthentication yes
+#GSSAPICleanupCredentials yes
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
 <li><p>Restart sshd</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># stopsrc -s sshd</span>
-<span class="c1"># startsrc -s sshd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># stopsrc -s sshd
+# startsrc -s sshd
 </pre></div>
 </div>
 <ol class="arabic simple" start="5">
 <li><p>Restart syslogd</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># stopsrc -s syslogd</span>
-<span class="c1"># startsrc -s syslogd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># stopsrc -s syslogd
+# startsrc -s syslogd
 </pre></div>
 </div>
 <blockquote>
@@ -505,57 +495,57 @@ IPA server.</p>
 <ol class="arabic simple" start="6">
 <li><p>Add a host service principal on IPA v2:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa service-add host/ipaclient.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa service-add host/ipaclient.example.com
 </pre></div>
 </div>
 <p>Please note: adding the service principal should no longer be required,
 but host-add and a host-add-managedby should be enough:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa host-add ipaclient.example.com</span>
-<span class="c1"># ipa host-add-managedby --hosts=ipaserver.example.com ipaclient.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa host-add ipaclient.example.com
+# ipa host-add-managedby --hosts=ipaserver.example.com ipaclient.example.com
 </pre></div>
 </div>
 <ol class="arabic simple" start="7">
 <li><p>Retrieve the host keytab.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-getkeytab -s ipaserver -p host/ipaclient.example.com -k /tmp/krb5.keytab</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-getkeytab -s ipaserver -p host/ipaclient.example.com -k /tmp/krb5.keytab
 </pre></div>
 </div>
 <ol class="arabic simple" start="8">
 <li><p>Copy the keytab from the server to the client.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># scp /tmp/krb5.keytab root@ipaclient.example.com:/tmp/krb5.keytab</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># scp /tmp/krb5.keytab root@ipaclient.example.com:/tmp/krb5.keytab
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
 <li><p>On the IPA client, use the <strong>ktutil</strong> command to import the keytab.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ktutil</span>
-<span class="n">ktutil</span><span class="p">:</span> <span class="n">read_kt</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">krb5</span><span class="o">.</span><span class="n">keytab</span>
-<span class="n">ktutil</span><span class="p">:</span> <span class="n">write_kt</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">krb5</span><span class="o">/</span><span class="n">krb5</span><span class="o">.</span><span class="n">keytab</span>
-<span class="n">ktutil</span><span class="p">:</span> <span class="n">q</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ktutil
+ktutil: read_kt /tmp/krb5.keytab
+ktutil: write_kt /etc/krb5/krb5.keytab
+ktutil: q
 </pre></div>
 </div>
 <p>10. Add a user that is only used for authentication. (This can be
 substituted with krb5 authentication if that works from the ldap
 client). Otherwise go to the IPA server and use <strong>ldapmodify</strong>, bind as
 <strong>Directory Manager</strong> and create this user.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">nss</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">sysaccounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">account</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">simplesecurityobject</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">uid</span><span class="p">:</span> <span class="n">nss</span>
-<span class="n">userPassword</span><span class="p">:</span> <span class="n">Your</span> <span class="n">own</span> <span class="n">shared</span> <span class="n">password</span> <span class="n">here</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: uid=nss,cn=sysaccounts,cn=etc,dc=example,dc=com
+objectClass: account
+objectClass: simplesecurityobject
+objectClass: top
+uid: nss
+userPassword: Your own shared password here
 </pre></div>
 </div>
 <ol class="arabic simple" start="11">
 <li><p>On the IPA server, get a ticket for the <strong>admin</strong> user.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
 </pre></div>
 </div>
 <p>You should be able to log in as <strong>admin</strong> using ssh without providing a
 password.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ssh admin@ipaclient.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ssh admin@ipaclient.example.com
 </pre></div>
 </div>
 </section>
@@ -587,88 +577,83 @@ and order as much as possible.</p>
 <p>This example assumes we are going to be granting access to the machine
 to users in the netgroup mygroup. To add this group to IPA and allow the
 user admin do the following on the IPA server:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
 $ ipa netgroup-add --desc=&#39;AIX users&#39; mygroup
 $ ipa netgroup-add-member --users=admin mygroup
 </pre></div>
 </div>
 <p>1. On the AIX client, add the netgroup basedn to
 <code class="docutils literal notranslate"><span class="pre">/etc/security/ldap/ldap.cfg</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">netgroupbasedn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">ng</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">compat</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>netgroupbasedn: cn=ng,cn=compat,dc=example,dc=com
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Restart the LDAP client:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /usr/sbin/restart-secldapclntd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># /usr/sbin/restart-secldapclntd
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Test that a netgroup is visible</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># lsldap -a netgroup mygroup</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># lsldap -a netgroup mygroup
 </pre></div>
 </div>
 <p>4. Add the netgroup option to LDAP and KRB5ALDAP in
 /usr/lib/security/methods.cfg:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP</span><span class="p">:</span>
-        <span class="n">program</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">LDAP</span>
-        <span class="n">program_64</span> <span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">LDAP64</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">netgroup</span>
-<span class="o">...</span>
-<span class="n">KRB5ALDAP</span><span class="p">:</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">auth</span><span class="o">=</span><span class="n">KRB5A</span><span class="p">,</span><span class="n">db</span><span class="o">=</span><span class="n">LDAP</span><span class="p">,</span><span class="n">netgroup</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LDAP:
+        program = /usr/lib/security/LDAP
+        program_64 =/usr/lib/security/LDAP64
+        options = netgroup
+...
+KRB5ALDAP:
+        options = auth=KRB5A,db=LDAP,netgroup
 </pre></div>
 </div>
-</div></blockquote>
 <ol class="arabic simple" start="5">
 <li><p>Configure <code class="docutils literal notranslate"><span class="pre">/etc/irs.conf</span></code> for netgroups:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat /etc/irs.conf</span>
-<span class="n">netgroup</span> <span class="n">nis_ldap</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat /etc/irs.conf
+netgroup nis_ldap
 </pre></div>
 </div>
 <p>6. Either modify the default user in <code class="docutils literal notranslate"><span class="pre">/etc/security/user</span></code> to use
 <code class="docutils literal notranslate"><span class="pre">SYSTEM</span> <span class="pre">=</span> <span class="pre">compat</span></code> and <code class="docutils literal notranslate"><span class="pre">registry</span> <span class="pre">=</span> <span class="pre">compat</span></code> or create a user <code class="docutils literal notranslate"><span class="pre">admin</span></code>
 entry and configure that for compat:</p>
 <p>This is what it looks like if you create a separate user:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">default</span><span class="p">:</span>
-        <span class="o">...</span>
-        <span class="n">SYSTEM</span> <span class="o">=</span> <span class="n">compat</span>
-        <span class="n">registry</span> <span class="o">=</span> <span class="n">compat</span>
-        <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>default:
+        ...
+        SYSTEM = compat
+        registry = compat
+        ...
 </pre></div>
 </div>
-</div></blockquote>
 <p>OR</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">admin</span><span class="p">:</span>
-    <span class="n">SYSTEM</span> <span class="o">=</span> <span class="n">compat</span>
-    <span class="n">registry</span> <span class="o">=</span> <span class="n">compat</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>admin:
+    SYSTEM = compat
+    registry = compat
 </pre></div>
 </div>
-</div></blockquote>
 <ol class="arabic simple" start="7">
 <li><p>Add our netgroup to <code class="docutils literal notranslate"><span class="pre">/etc/passwd</span></code>:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">&quot;+@mygroup&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">passwd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>echo &quot;+@mygroup&quot; &gt;&gt; /etc/passwd
 </pre></div>
 </div>
 <ol class="arabic simple" start="8">
 <li><p>Configure <code class="docutils literal notranslate"><span class="pre">/etc/group</span></code> for netgroups:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># echo &quot;+:&quot; &gt;&gt; /etc/group</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># echo &quot;+:&quot; &gt;&gt; /etc/group
 </pre></div>
 </div>
-<ol class="arabic" start="9">
-<li><p>Test the admin user:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># lsuser -R compat admin</span>
-<span class="n">admin</span> <span class="nb">id</span><span class="o">=</span><span class="mi">155000000</span> <span class="n">pgrp</span><span class="o">=</span><span class="n">admins</span> <span class="n">groups</span><span class="o">=</span><span class="n">admins</span> <span class="n">home</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">admin</span><span class="o">...</span>
+<ol class="arabic simple" start="9">
+<li><p>Test the admin user:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># lsuser -R compat admin
+admin id=155000000 pgrp=admins groups=admins home=/home/admin...
 </pre></div>
 </div>
-</li>
+<ol class="arabic simple" start="10">
 <li><p>A full test is to su to the user or log in via ssh.</p></li>
 </ol>
 <p>For users not found in the netgroup you’ll get a log entry like this in

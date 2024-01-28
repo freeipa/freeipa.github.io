@@ -72,7 +72,7 @@ Get the source
 The source `repository <https://www.freeipa.org/page/Repository>`__ for FreeIPA is stored
 in git. Retrieve it with:
 
-::
+.. code-block:: text
 
     git clone https://pagure.io/freeipa.git
 
@@ -91,14 +91,14 @@ Debugging
 
 To debug the code you can do:
 
-::
+.. code-block:: text
 
    python -m pdb /usr/bin/ipa <command>
 
 However, sometimes you will need to debug with the server context. Then,
 you can use a script like this:
 
-::
+.. code-block:: text
 
    # debug_ipa.py
    from ipalib import api
@@ -113,7 +113,7 @@ you can use a script like this:
 
 Then, you just need to run:
 
-::
+.. code-block:: text
 
    $ kinit admin -c <path in kinit_path>
    $ sudo python -m pdb debug_ipa.py
@@ -243,7 +243,7 @@ Commit message requirements
 The pull request must contain a commit message following the template
 present in the source tree (.git-commit-template):
 
-::
+.. code-block:: text
 
   component: Subject
 

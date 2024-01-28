@@ -139,7 +139,7 @@ Configuring VLV
 
 Configure DS:
 
-::
+.. code-block:: text
 
    ldapadd -x -D "cn=Directory Manager" -w Secret123 << EOF
    dn: cn=Users cn=users cn=accounts dc=example dc=com,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
@@ -160,20 +160,20 @@ Configure DS:
 
 Stop DS:
 
-::
+.. code-block:: text
 
    service dirsrv stop EXAMPLE-COM
 
 Generate indexes:
 
-::
+.. code-block:: text
 
    /var/lib/dirsrv/scripts-EXAMPLE-COM/vlvindex -n userRoot \
    -T "by UID cn=users cn=accounts dc=example dc=com"
 
 Start DS:
 
-::
+.. code-block:: text
 
    service dirsrv start EXAMPLE-COM
 
@@ -182,7 +182,7 @@ Start DS:
 Using VLV
 =========
 
-::
+.. code-block:: text
 
    ldapsearch -x -D "cn=Directory Manager" -w Secret123 -b "cn=users,cn=accounts,dc=example,dc=com" -s one \
    -E \!vlv=0/100/1/0 -E \!sss=uid/givenName/sn \
@@ -193,7 +193,7 @@ Using VLV
 Using Simple Paged Results
 ==========================
 
-::
+.. code-block:: text
 
    ldapsearch -x -D "cn=Directory Manager" -w Secret123 -b "cn=users,cn=accounts,dc=example,dc=com" -s one \
    -E \!pr=100 -E \!sss=uid/givenName/sn \

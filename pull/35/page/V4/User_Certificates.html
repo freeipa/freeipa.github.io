@@ -570,7 +570,7 @@ in the <code class="docutils literal notranslate"><span class="pre">userCertific
 were developed to add or remove arbitrary certificates to/from user’s
 <code class="docutils literal notranslate"><span class="pre">userCertificate;binary</span></code> attribute. Both command share the following
 syntax:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="p">{</span><span class="n">add</span><span class="o">|</span><span class="n">remove</span><span class="p">}</span><span class="o">-</span><span class="n">cert</span> <span class="p">[</span><span class="n">UID</span><span class="p">]</span> <span class="o">--</span><span class="n">certificate</span><span class="o">=</span><span class="p">[</span><span class="n">BASE64</span> <span class="n">BLOB</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa user-{add|remove}-cert [UID] --certificate=[BASE64 BLOB]
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">UID</span></code> corresponds to the user login and <code class="docutils literal notranslate"><span class="pre">BASE64</span> <span class="pre">BLOB</span></code> is the
@@ -615,7 +615,7 @@ export the default FreeIPA certificate profile to a file, change the
 <code class="docutils literal notranslate"><span class="pre">profileId</span></code> and <code class="docutils literal notranslate"><span class="pre">desc</span></code> fields to values you like and import the
 modified profile back to FreeIPA:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa certprofile-show caIPAserviceCert --out=caIPAuserCert.txt
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa certprofile-show caIPAserviceCert --out=caIPAuserCert.txt
 ...edit the resulting file...
 $ ipa certprofile-import caIPAuserCert --file=caIPAuserCert.txt --store=True
 </pre></div>
@@ -627,21 +627,21 @@ Tweedale</a></p>
 <li><p>add a new CA ACL which permits requesting certificates for user
 entries and add the custom profile to this CA ACL</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa caacl-add users_caIPAuserCert --usercat=all
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa caacl-add users_caIPAuserCert --usercat=all
 $ ipa caacl-add-profile users_caIPAuserCert --certprofiles=caIPAuserCert
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>generate a certificate request for the user e.g. using OpenSSL</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ openssl req -new -newkey rsa:2048 -days 365 -nodes -keyout private.key -out cert.csr -subj &#39;/CN=tuser&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ openssl req -new -newkey rsa:2048 -days 365 -nodes -keyout private.key -out cert.csr -subj &#39;/CN=tuser&#39;
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>use <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span></code> command to request a new certificate for the
 user.</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-request cert.csr --principal=tuser --profile-id=caIPAuserCert
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-request cert.csr --principal=tuser --profile-id=caIPAuserCert
 </pre></div>
 </div>
 <ul class="simple">
@@ -652,7 +652,7 @@ the Base64 encoded CSR into the text field</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-show</span></code> and the user entry in WebUI should now display the
 Base64 encoded certificate in addition to other attributes</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa user-show tuser
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-show tuser
   User login: tuser
   First name: Test
   Last name: User
@@ -678,26 +678,26 @@ certificates in WebUI</p></li>
 <ul class="simple">
 <li><p>generate one or more self-signed certificates using e.g. OpenSSL</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ openssl req -x509 -newkey rsa:2048 -days 365 -nodes -keyout private.key -out cert.pem -subj &#39;/CN=tuser&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ openssl req -x509 -newkey rsa:2048 -days 365 -nodes -keyout private.key -out cert.pem -subj &#39;/CN=tuser&#39;
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>convert the certificate do DER for easier handling through CLI</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ openssl x509 -outform der -in cert.pem -out cert.der
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ openssl x509 -outform der -in cert.pem -out cert.der
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>use <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-add-cert</span></code> to add the certificate(s) to the user:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa user-add-cert tuser --certificate=&quot;$(base64 cert.der)&quot;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-add-cert tuser --certificate=&quot;$(base64 cert.der)&quot;
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>use <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-show</span> <span class="pre">tuser</span></code> or view the user in the WebUI to verify
 that the newly added certificate is displayed</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa user-show tuser
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-show tuser
   User login: tuser
   First name: Test
   Last name: User
@@ -717,21 +717,21 @@ that the newly added certificate is displayed</p></li>
 <li><p>check that the following error is raised when you try to add the same
 certificate again</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="p">:</span> <span class="n">ERROR</span><span class="p">:</span> <span class="s1">&#39;usercertificate;binary&#39;</span> <span class="n">already</span> <span class="n">contains</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">values</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa: ERROR: &#39;usercertificate;binary&#39; already contains one or more values
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>remove the certificate from the user entry using
 <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-remove-cert</span></code></p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa user-remove-cert tuser --certificate=&quot;$(base64 cert.der)&quot;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-remove-cert tuser --certificate=&quot;$(base64 cert.der)&quot;
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>run <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-show</span> <span class="pre">tuser</span></code> or view the user in the WebUI; the
 certificate will be no longer present</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa user-show tuser
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-show tuser
   User login: tuser
   First name: Test
   Last name: User
@@ -750,7 +750,7 @@ certificate will be no longer present</p></li>
 <li><p>check that an attempt to remove already removed certificate will
 raise the error:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="p">:</span> <span class="n">ERROR</span><span class="p">:</span> <span class="n">usercertificate</span><span class="p">;</span><span class="n">binary</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">contain</span> <span class="s1">&#39;one or more values to remove&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa: ERROR: usercertificate;binary does not contain &#39;one or more values to remove&#39;
 </pre></div>
 </div>
 </section>
@@ -773,8 +773,8 @@ interface</a>
 for the user entry associated with the certificate by running the
 following command as root:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># dbus-send --system --print-reply  --dest=org.freedesktop.sssd.infopipe /org/freedesktop/sssd/infopipe/Users \</span>
-<span class="n">org</span><span class="o">.</span><span class="n">freedesktop</span><span class="o">.</span><span class="n">sssd</span><span class="o">.</span><span class="n">infopipe</span><span class="o">.</span><span class="n">Users</span><span class="o">.</span><span class="n">FindByCertificate</span> <span class="n">string</span><span class="p">:</span><span class="s2">&quot;$(cat cert.pem)&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># dbus-send --system --print-reply  --dest=org.freedesktop.sssd.infopipe /org/freedesktop/sssd/infopipe/Users \
+org.freedesktop.sssd.infopipe.Users.FindByCertificate string:&quot;$(cat cert.pem)&quot;
 </pre></div>
 </div>
 <ul class="simple">
@@ -782,8 +782,8 @@ following command as root:</p></li>
 interface is the same as the UID of the user possessing the
 certificate:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">method</span> <span class="k">return</span> <span class="n">sender</span><span class="o">=</span><span class="p">:</span><span class="mf">1.792</span> <span class="o">-&gt;</span> <span class="n">dest</span><span class="o">=</span><span class="p">:</span><span class="mf">1.793</span> <span class="n">reply_serial</span><span class="o">=</span><span class="mi">2</span> <span class="nb">object</span> <span class="n">path</span>
-<span class="s2">&quot;/org/freedesktop/sssd/infopipe/Users/ipadom_2eorg/883600001&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>method return sender=:1.792 -&gt; dest=:1.793 reply_serial=2 object path
+&quot;/org/freedesktop/sssd/infopipe/Users/ipadom_2eorg/883600001&quot;
 </pre></div>
 </div>
 </section>

@@ -314,26 +314,26 @@ configured to use TSIG for dynamic updates and zone transfers.</p>
 </section>
 <section id="generate-a-new-tsig-key">
 <h2>Generate a new TSIG key<a class="headerlink" href="#generate-a-new-tsig-key" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dnssec-keygen</span> <span class="pre">-a</span> <span class="pre">HMAC-SHA512</span> <span class="pre">-b</span> <span class="pre">512</span> <span class="pre">-n</span> <span class="pre">HOST</span> <span class="pre">keyname</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Kkeyname.+165+03160</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname
+Kkeyname.+165+03160
+</pre></div>
 </div>
 </section>
 <section id="copy-and-paste-key-from-key-file-to-named-conf">
 <h2>Copy and paste key from key file to named.conf<a class="headerlink" href="#copy-and-paste-key-from-key-file-to-named-conf" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">Kkeyname.+165+0316.private</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Private-key-format:</span> <span class="pre">v1.3</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Algorithm:</span> <span class="pre">165</span> <span class="pre">(HMAC_SHA512)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Key:</span> <span class="pre">keyvalue</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bits:</span> <span class="pre">AAA=</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ cat Kkeyname.+165+0316.private
+Private-key-format: v1.3
+Algorithm: 165 (HMAC_SHA512)
+Key: keyvalue
+Bits: AAA=
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">vim</span> <span class="pre">/etc/named.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">&quot;keyname&quot;</span> <span class="pre">{</span></code></div>
-<div class="line">``       algorithm hmac-sha512;``</div>
-<div class="line">``       secret “keyvalue”;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ vim /etc/named.conf
+key &quot;keyname&quot; {
+       algorithm hmac-sha512;
+       secret &quot;keyvalue&quot;;
+};
+</pre></div>
 </div>
 <p>You have to repeat this copy&amp;paste step for every FreeIPA server.</p>
 </section>
@@ -369,15 +369,15 @@ E.g.</p>
 policy directly because it expects that allow-transfer consists only of
 IP addresses. You have to modify LDAP directly.</p>
 <p>Run this on one of FreeIPA servers:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ldapmodify</span> <span class="pre">-Y</span> <span class="pre">GSSAPI</span> <span class="pre">&lt;&lt;</span> <span class="pre">EOF</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">idnsname=example.com.,cn=dns,dc=ipa,dc=example</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace:</span> <span class="pre">idnsAllowTransfer</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsAllowTransfer:</span> <span class="pre">key</span> <span class="pre">keyname;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">EOF</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+$ ldapmodify -Y GSSAPI &lt;&lt; EOF
+dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example
+changetype: modify
+replace: idnsAllowTransfer
+idnsAllowTransfer: key keyname;
+-
+EOF
+</pre></div>
 </div>
 <p>Don’t forget to replace zone name in <code class="docutils literal notranslate"><span class="pre">idnsname</span></code> component of DN and
 realm name in <code class="docutils literal notranslate"><span class="pre">dc=ipa,dc=example</span></code> components.</p>

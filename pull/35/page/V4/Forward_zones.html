@@ -412,9 +412,9 @@ not reply)</p></li>
 <h3>Avoid an ineffective forward zone<a class="headerlink" href="#avoid-an-ineffective-forward-zone" title="Link to this heading">#</a></h3>
 <p>Be careful using following set of zones, where a master zone exists for
 a forward zone.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnszone-add</span> <span class="pre">example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnsforwardzone-add</span>&#160; <span class="pre">fw.example.com.</span> <span class="pre">--forwarder</span> <span class="pre">192.0.2.1</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa dnszone-add example.com.
+$ ipa dnsforwardzone-add  fw.example.com. --forwarder 192.0.2.1
+</pre></div>
 </div>
 <p>In this case, forwarding will not work, because zone <em>example.com.</em> is
 authoritative, and server return NXDOMAIN answer. To make forward zone
@@ -428,14 +428,14 @@ different name server.</p>
 <h2>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h2>
 <p>No changes for master zones required (‘idnsZone’ objectclass).</p>
 <p>Forward zone will use own objectclass ‘idnsForwardZone’. (see below).</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.6.3</span></code></div>
-<div class="line">``   NAME ‘idnsForwardZone’``</div>
-<div class="line">``   DESC ‘Forward Zone class’``</div>
-<div class="line">``   SUP top``</div>
-<div class="line">``   STRUCTURAL``</div>
-<div class="line">``   MUST ( idnsName $ idnsZoneActive )``</div>
-<div class="line">``   MAY ( idnsForwarders $ idnsForwardPolicy ) )``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>objectClass ( 2.16.840.1.113730.3.8.6.3
+   NAME &#39;idnsForwardZone&#39;
+   DESC &#39;Forward Zone class&#39;
+   SUP top
+   STRUCTURAL
+   MUST ( idnsName $ idnsZoneActive )
+   MAY ( idnsForwarders $ idnsForwardPolicy ) )
+</pre></div>
 </div>
 <p>The idnsName, idnsZoneActive, idnsForwarders, idnsForwardPolicy are the
 same attributes as the ‘idnsZone’ objectclass uses.</p>
@@ -530,11 +530,11 @@ behavior as they have in dnszone-* commands.</p>
 <h3>dnsforwardzone-add<a class="headerlink" href="#dnsforwardzone-add" title="Link to this heading">#</a></h3>
 <p>will add a new forward zone. Is required to specify at least one
 forwarder if forward-policy is not ‘none’.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-add</span> <span class="pre">zone.test.</span> <span class="pre">--forwarder=172.16.0.1</span> <span class="pre">--forwarder=172.16.0.2</span> <span class="pre">--forward-policy=first</span></code></div>
-<div class="line">``  Zone name: zone.test.``</div>
-<div class="line">``  Zone forwarders: 172.16.0.1, 172.16.0.2``</div>
-<div class="line">``  Forward policy: first``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-add zone.test. --forwarder=172.16.0.1 --forwarder=172.16.0.2 --forward-policy=first
+  Zone name: zone.test.
+  Zone forwarders: 172.16.0.1, 172.16.0.2
+  Forward policy: first
+</pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-mod">
@@ -542,49 +542,49 @@ forwarder if forward-policy is not ‘none’.</p>
 <p>will modify a forward zone. Is required to specify at least one
 forwarder if forward-policy is not ‘none’. Modifications can be
 performed in several ways.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--forwarder=172.16.0.3</span></code></div>
-<div class="line">``  Zone name: zone.test.``</div>
-<div class="line">``  Zone forwarders: 172.16.0.3``</div>
-<div class="line">``  Forward policy: first``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-mod zone.test. --forwarder=172.16.0.3
+  Zone name: zone.test.
+  Zone forwarders: 172.16.0.3
+  Forward policy: first
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-mod</span> <span class="pre">zone.test.</span> <span class="pre">--forward-policy=only</span></code></div>
-<div class="line">``  Zone name: zone.test.``</div>
-<div class="line">``  Zone forwarders: 172.16.0.3``</div>
-<div class="line">``  Forward policy: only``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-mod zone.test. --forward-policy=only
+  Zone name: zone.test.
+  Zone forwarders: 172.16.0.3
+  Forward policy: only
+</pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-show">
 <h3>dnsforwardzone-show<a class="headerlink" href="#dnsforwardzone-show" title="Link to this heading">#</a></h3>
 <p>will show specified forward zone</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-show</span> <span class="pre">zone.test.</span></code></div>
-<div class="line">``  Zone name: zone.test.``</div>
-<div class="line">``  Zone forwarders: 172.16.0.5``</div>
-<div class="line">``  Forward policy: first``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-show zone.test.
+  Zone name: zone.test.
+  Zone forwarders: 172.16.0.5
+  Forward policy: first
+</pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-find">
 <h3>dnsforwardzone-find<a class="headerlink" href="#dnsforwardzone-find" title="Link to this heading">#</a></h3>
 <p>will find specified forward zone</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-find</span> <span class="pre">zone.test.</span></code></div>
-<div class="line">``  Zone name: zone.test.``</div>
-<div class="line">``  Zone forwarders: 172.16.0.3``</div>
-<div class="line">``  Forward policy: first``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">entries</span> <span class="pre">returned</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-find zone.test.
+  Zone name: zone.test.
+  Zone forwarders: 172.16.0.3
+  Forward policy: first
+----------------------------
+Number of entries returned 1
+----------------------------
+</pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-del">
 <h3>dnsforwardzone-del<a class="headerlink" href="#dnsforwardzone-del" title="Link to this heading">#</a></h3>
 <p>will delete specified forward zone(s)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dnsforwardzone-del zone.test. ``
-| ``----------------------------``
-| ``Deleted forward DNS zone &quot;zone.test.&quot;``
-| ``----------------------------``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-del zone.test. ``
+----------------------------``
+Deleted forward DNS zone &quot;zone.test.&quot;``
+----------------------------``
 </pre></div>
 </div>
 </section>
@@ -592,43 +592,43 @@ performed in several ways.</p>
 <h3>dnsforwardzone-enable<a class="headerlink" href="#dnsforwardzone-enable" title="Link to this heading">#</a></h3>
 <p>will enable specified forward zone(s) NOTE: Forward zones are enabled by
 default.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dnsforwardzone-enable zone.test. ``
-| ``----------------------------``
-| ``Enabled forward DNS zone &quot;zone.test.&quot;``
-| ``----------------------------``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-enable zone.test. ``
+----------------------------``
+Enabled forward DNS zone &quot;zone.test.&quot;``
+----------------------------``
 </pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-disable">
 <h3>dnsforwardzone-disable<a class="headerlink" href="#dnsforwardzone-disable" title="Link to this heading">#</a></h3>
 <p>will disable specified forward zone(s)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dnsforwardzone-disable zone.test. ``
-| ``----------------------------``
-| ``Disabled forward DNS zone &quot;zone.test.&quot;``
-| ``----------------------------``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-disable zone.test. ``
+----------------------------``
+Disabled forward DNS zone &quot;zone.test.&quot;``
+----------------------------``
 </pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-add-permission">
 <h3>dnsforwardzone-add-permission<a class="headerlink" href="#dnsforwardzone-add-permission" title="Link to this heading">#</a></h3>
 <p>will add system permission</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-add-permission</span> <span class="pre">zone.test.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Added</span> <span class="pre">system</span> <span class="pre">permission</span> <span class="pre">&quot;Manage</span> <span class="pre">DNS</span> <span class="pre">zone</span> <span class="pre">zone.test.&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------------------------------------------</span></code></div>
-<div class="line">``  Manage DNS zone zone.test.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-add-permission zone.test.
+---------------------------------------------------------
+Added system permission &quot;Manage DNS zone zone.test.&quot;
+---------------------------------------------------------
+  Manage DNS zone zone.test.
+</pre></div>
 </div>
 </section>
 <section id="dnsforwardzone-remove-permission">
 <h3>dnsforwardzone-remove-permission<a class="headerlink" href="#dnsforwardzone-remove-permission" title="Link to this heading">#</a></h3>
 <p>will remove system permission</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dnsforwardzone-remove-permission</span> <span class="pre">zone.test.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Removed</span> <span class="pre">system</span> <span class="pre">permission</span> <span class="pre">&quot;Manage</span> <span class="pre">DNS</span> <span class="pre">zone</span> <span class="pre">zone.test.&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------------------------------------------</span></code></div>
-<div class="line">``  Manage DNS zone zone.test.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dnsforwardzone-remove-permission zone.test.
+---------------------------------------------------------
+Removed system permission &quot;Manage DNS zone zone.test.&quot;
+---------------------------------------------------------
+  Manage DNS zone zone.test.
+</pre></div>
 </div>
 </section>
 </section>

@@ -33,13 +33,13 @@ Listing accessible vaults
 A user can search the vaults that it owns or it's a member of using the
 following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-find [OPTIONS]
 
 By default the command will list the vaults in the private container:
 
-::
+.. code-block:: text
 
    $ ipa vault-find
    ---------------
@@ -54,7 +54,7 @@ By default the command will list the vaults in the private container:
 
 To find all service vaults, specify --services:
 
-::
+.. code-block:: text
 
    $ ipa vault-find --services
    ---------------
@@ -70,7 +70,7 @@ To find all service vaults, specify --services:
 To find service vaults belonging to a specific service, specify
 --service :
 
-::
+.. code-block:: text
 
    $ ipa vault-find --service HTTP/server.example.com
    ---------------
@@ -85,7 +85,7 @@ To find service vaults belonging to a specific service, specify
 
 To find shared vaults, specify -shared:
 
-::
+.. code-block:: text
 
    $ ipa vault-find --shared
    ---------------
@@ -100,7 +100,7 @@ To find shared vaults, specify -shared:
 
 To find all user vaults, specify --users:
 
-::
+.. code-block:: text
 
    $ ipa vault-find --users
    ---------------
@@ -115,7 +115,7 @@ To find all user vaults, specify --users:
 
 To find user vaults, specify --user :
 
-::
+.. code-block:: text
 
    $ ipa vault-find --user testuser
    ---------------
@@ -135,7 +135,7 @@ Changing vault type
 
 An owner can change the vault type using the following command.
 
-::
+.. code-block:: text
 
    $ ipa vault-mod <name> --type <new type> [OPTIONS]
 
@@ -156,7 +156,7 @@ If the passwords is not specified, they will be asked interactively.
 To change a standard vault into an symmetric vault the new password must
 be specified:
 
-::
+.. code-block:: text
 
    $ ipa vault-show test
      Vault name: test
@@ -174,7 +174,7 @@ be specified:
 To change a symmetric vault into an asymmetric vault the old password
 and the new public key must be specified:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod test --type asymmetric --public-key-file public.pem
    Password: ********
@@ -187,7 +187,7 @@ and the new public key must be specified:
 To convert an asymmetric vault into a standard vault the old private key
 must be specified:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod test --type standard --private-key-file private.pem
    ---------------------
@@ -204,13 +204,13 @@ Changing vault password
 An owner can change the password of a symmetric vault using the
 following command.
 
-::
+.. code-block:: text
 
    $ ipa vault-mod <name> [OPTIONS]
 
 To change the password interactively:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod test --change-password
    Password: ********
@@ -224,7 +224,7 @@ To change the password interactively:
 
 To change the password silently:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod test --old-password-file <old password file> --new-password-file <new password file>
    ---------------------
@@ -241,13 +241,13 @@ Changing vault keys
 An owner can change the keys of an asymmetric vault using the following
 command.
 
-::
+.. code-block:: text
 
    $ ipa vault-mod <name> [OPTIONS]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-mod test --private-key-file private.pem --public-key-file new-public.pem
    ---------------------
@@ -268,13 +268,13 @@ Adding vault member
 
 A vault owner can add members to the vault with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-member <name> [--users <list of users>] [--groups <list of groups>] [--services <list of services>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-member MyVault --users testmember
    ---------------------------------
@@ -289,13 +289,13 @@ Removing vault member
 A vault owner can remove a member from the vault with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-member <name> [--users <list of users>] [--groups <list of groups>] [--services <list of services>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-member MyVault --users testmember
    -------------------------------------
@@ -309,13 +309,13 @@ Adding vault owner
 
 An owner can add another owner to the vault with the following command:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-owner <vault ID> [--users <list of users>] [--groups <list of groups>] [--services <list of services>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-add-owner MyVault --users testowner
    ----------------------------------
@@ -330,13 +330,13 @@ Removing vault owner
 An owner can remove another owner from the vault with the following
 command:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-owner <name> [--users <list of users>] [--groups <list of groups>] [--services <list of services>]
 
 For example:
 
-::
+.. code-block:: text
 
    $ ipa vault-remove-owner MyVault --users testowner
    ------------------------------------
@@ -354,7 +354,7 @@ contains vault. There are three types: shared, per-user, per-service.
 Per-user and per-service container is created with a first user/service
 vault.
 
-::
+.. code-block:: text
 
     vaultcontainer-show [--service <service>|--user <user>|--shared ]
     vaultcontainer-del [--service <service>|--user <user>|--shared ]

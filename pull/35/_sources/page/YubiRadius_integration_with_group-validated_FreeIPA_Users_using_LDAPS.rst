@@ -44,16 +44,18 @@ Step 1. Create our Group to be used for user validation
 
 On your FreeIPA server, run the following:
 
-| ``[root@ds01 ~]# ipa group-add``
-| ``Group name: yubikey``
-| ``Description: YubiKey validation group``
-| ``---------------------``
-| ``Added group "yubikey"``
-| ``---------------------``
-| ``Group name: yubikey``
-| ``Description: YubiKey validation group``
-| ``GID: 1870200005``
-| ``[root@ds01 ~]#``
+.. code-block:: text
+
+    [root@ds01 ~]# ipa group-add
+    Group name: yubikey
+    Description: YubiKey validation group
+    ---------------------
+    Added group "yubikey"
+    ---------------------
+    Group name: yubikey
+    Description: YubiKey validation group
+    GID: 1870200005
+    [root@ds01 ~]#
 
 
 
@@ -63,17 +65,19 @@ Step 2. Add users to your new group.
 As I have already created my users, I will add them to the group I have
 just created.
 
-| ``[root@ds01 ~]# ipa group-add-member yubikey``
-| ``[member user]: euser1,euser2,euser3,euser4,euser5``
-| ``[member group]:``
-| ``Group name: yubikey``
-| ``Description: YubiKey validation group``
-| ``GID: 1870200005``
-| ``Member users: euser1, euser2, euser3, euser4, euser5``
-| ``-------------------------``
-| ``Number of members added 5``
-| ``-------------------------``
-| ``[root@ds01 ~]#``
+.. code-block:: text
+
+    [root@ds01 ~]# ipa group-add-member yubikey
+    [member user]: euser1,euser2,euser3,euser4,euser5
+    [member group]:
+    Group name: yubikey
+    Description: YubiKey validation group
+    GID: 1870200005
+    Member users: euser1, euser2, euser3, euser4, euser5
+    -------------------------
+    Number of members added 5
+    -------------------------
+    [root@ds01 ~]#
 
 
 
@@ -85,23 +89,25 @@ Create a text file called "yubiradius.ldif" with the following content.
 Be sure to change the password to something secure. In this example I
 have used "redhat123"
 
-::
+.. code-block:: text
 
-   | ``dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com``
-   | ``changetype: add``
-   | ``objectclass: account``
-   | ``objectclass: simplesecurityobject``
-   | ``uid: yubiradius``
-   | ``userPassword: redhat123``
-   | ``passwordExpirationTime: 20380119031407Z``
-   | ``nsIdleTimeout: 0 ``
+    dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com``
+    changetype: add``
+    objectclass: account``
+    objectclass: simplesecurityobject``
+    uid: yubiradius``
+    userPassword: redhat123``
+    passwordExpirationTime: 20380119031407Z``
+    nsIdleTimeout: 0 ``
 
 Now, import yubiradius.ldif into FreeIPA. You will need to enter your
 Directory Manager password, as you are making additions to LDAP.
 
-| ``[root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D "cn=Directory  Manager" -W -f yubiradius.ldif``
-| ``Enter LDAP Password:``
-| ``adding new entry "uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com"``
+.. code-block:: text
+
+    [root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D "cn=Directory  Manager" -W -f yubiradius.ldif
+    Enter LDAP Password:
+    adding new entry "uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com"
 
 ``[root@ds01 ~]#``
 
@@ -110,13 +116,15 @@ Directory Manager password, as you are making additions to LDAP.
 Step 4. Add your YubiRadius server's hostname to our DNS environment. If you are using IPA to manage your DNS, do the following.
 --------------------------------------------------------------------------------------------------------------------------------
 
-| ``[root@ds01 ~]# ipa dnsrecord-add example.com yubiradius01 --a-rec 10.0.1.31``
-| ``Record name: yubiradius01``
-| ``A record: 10.0.1.31``
-| ``[root@ds01 ~]# ipa dnsrecord-add 1.0.10.in-addr.arpa. 31 --ptr-rec   yubiradius01.example.com.``
-| ``Record name: 31``
-| ``PTR record: yubiradius01.example.com.``
-| ``[root@ds01 ~]#``
+.. code-block:: text
+
+    [root@ds01 ~]# ipa dnsrecord-add example.com yubiradius01 --a-rec 10.0.1.31
+    Record name: yubiradius01
+    A record: 10.0.1.31
+    [root@ds01 ~]# ipa dnsrecord-add 1.0.10.in-addr.arpa. 31 --ptr-rec   yubiradius01.example.com.
+    Record name: 31
+    PTR record: yubiradius01.example.com.
+    [root@ds01 ~]#
 
 
 

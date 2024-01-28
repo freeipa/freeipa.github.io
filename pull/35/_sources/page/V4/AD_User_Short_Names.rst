@@ -133,11 +133,15 @@ The LDAP schema of the global config object
 by a new objectclass providing the attribute which stores the domain
 resolution:
 
-| ``   objectclasses: ( 2.16.840.1.113730.3.8.12.39  NAME 'ipaNameResolutionData' DESC 'Data used to resolve short names``
-| ``   to fully-qualified form' SUP top AUXILIARY MAY ( ipaDomainResolutionOrder ) X-ORIGIN 'IPA v4.5' )``
+.. code-block:: text
 
-| ``   attributeTypes: ( 2.16.840.1.113730.3.8.11.77 NAME 'ipaDomainResolutionOrder' DESC 'List of domains used to resolve ``
-| ``   a short name' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )``
+       objectclasses: ( 2.16.840.1.113730.3.8.12.39  NAME 'ipaNameResolutionData' DESC 'Data used to resolve short names
+       to fully-qualified form' SUP top AUXILIARY MAY ( ipaDomainResolutionOrder ) X-ORIGIN 'IPA v4.5' )
+
+.. code-block:: text
+
+       attributeTypes: ( 2.16.840.1.113730.3.8.11.77 NAME 'ipaDomainResolutionOrder' DESC 'List of domains used to resolve 
+       a short name' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )
 
 The value of the ``ipaDomainResolutionOrder`` consist of a
 colon-separated list of domain names (e.g
@@ -212,7 +216,7 @@ Example 1: Create a global resolution order
 just directly set the value of ``--domain-resolution-order`` attribute
 to the desired value:
 
-::
+.. code-block:: text
 
    $ ipa config-mod --domain-resolution-order='ipa.test:ad.forest.test:child1.ad.forest.test:child2.ad.forest.test'
      Maximum username length: 32
@@ -229,13 +233,13 @@ Example 1 more conductive to automation
 -  store to FreeIPA domain name in the temporary file which will store
    the entries of interest:
 
-::
+.. code-block:: text
 
    $ ipa env domain | awk '{print $2}' > domain_list.txt 
 
 -  append the list of trusted domains to the file:
 
-::
+.. code-block:: text
 
     $ ipa trustdomain-find ad.forest.test --pkey-only --raw | grep 'cn:' | awk '{ print $2}' >> domain_list.txt
 
@@ -244,7 +248,7 @@ the order of operations.
 
 -  now set the ``domain-resolution-order`` attribute value:
 
-::
+.. code-block:: text
 
    $ ipa config-mod --domain-resolution-order=$(cat domain_list.txt | tr '\n ':')
      Maximum username length: 32
@@ -267,7 +271,7 @@ this one tried out first when resolving short names.
 -  first we create an ID view which will hold the modified resolution
    order:
 
-::
+.. code-block:: text
 
    $ ipa idview-add special_host_view --desc 'ID view for custom shortname resolution on special hosts' --domain-resolution-order 'child2.ad.forest:test:child1.ad.forest'
    ---------------------------------
@@ -279,7 +283,7 @@ this one tried out first when resolving short names.
 
 -  then we apply the view on the host
 
-::
+.. code-block:: text
 
    $ ipa idview-apply special_host_view --hosts special.ipa.test
    -----------------------------------

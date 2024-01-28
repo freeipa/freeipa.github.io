@@ -327,11 +327,11 @@ service can continue running but it does not listen to the ports.</p>
 <p>Currently Samba supports configuring the ports for Kerberos and kpasswd
 services in smb.conf. By default they will be set to 88 and 464 in
 source4/param/loadparam.c.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">loadparm_context</span> <span class="o">*</span><span class="n">loadparm_init</span><span class="p">(</span><span class="n">TALLOC_CTX</span> <span class="o">*</span><span class="n">mem_ctx</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">lp_do_global_parameter</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="s2">&quot;krb5 port&quot;</span><span class="p">,</span> <span class="s2">&quot;88&quot;</span><span class="p">);</span>
-    <span class="n">lp_do_global_parameter</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="s2">&quot;kpasswd port&quot;</span><span class="p">,</span> <span class="s2">&quot;464&quot;</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>struct loadparm_context *loadparm_init(TALLOC_CTX *mem_ctx)
+{
+    lp_do_global_parameter(lp_ctx, &quot;krb5 port&quot;, &quot;88&quot;);
+    lp_do_global_parameter(lp_ctx, &quot;kpasswd port&quot;, &quot;464&quot;);
+}
 </pre></div>
 </div>
 </section>
@@ -339,99 +339,99 @@ source4/param/loadparam.c.</p>
 <h2>KDC Initialization<a class="headerlink" href="#kdc-initialization" title="Link to this heading">#</a></h2>
 <p>The code for Heimdal KDC service is located in kdc_task_init() in
 source4/kdc/kdc.c.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">kdc_task_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">task_server</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">load_interfaces</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">lp_interfaces</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ifaces</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static void kdc_task_init(struct task_server *task)
+{
+    load_interfaces(task, lp_interfaces(task-&gt;lp_ctx), &amp;ifaces);
 
-    <span class="n">smb_krb5_init_context</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="p">);</span>
+    smb_krb5_init_context(kdc, task-&gt;event_ctx, task-&gt;lp_ctx,
+        &amp;kdc-&gt;smb_krb5_context);
 
-    <span class="n">krb5_add_et_list</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
-        <span class="n">initialize_hdb_error_table_r</span><span class="p">);</span>
+    krb5_add_et_list(kdc-&gt;smb_krb5_context-&gt;krb5_context,
+        initialize_hdb_error_table_r);
 
-    <span class="n">krb5_kdc_get_config</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">config</span><span class="p">);</span>
+    krb5_kdc_get_config(kdc-&gt;smb_krb5_context-&gt;krb5_context,
+        &amp;kdc-&gt;config);
 
-    <span class="n">hdb_samba4_create_kdc</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">db</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    hdb_samba4_create_kdc(kdc, task-&gt;event_ctx, task-&gt;lp_ctx,
+        kdc-&gt;smb_krb5_context-&gt;krb5_context,
+        &amp;kdc-&gt;config-&gt;db[0]);
 
-    <span class="n">krb5_plugin_register</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
-        <span class="n">PLUGIN_TYPE_DATA</span><span class="p">,</span> <span class="s2">&quot;hdb&quot;</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">hdb_samba4</span><span class="p">);</span>
+    krb5_plugin_register(kdc-&gt;smb_krb5_context-&gt;krb5_context,
+        PLUGIN_TYPE_DATA, &quot;hdb&quot;,
+        &amp;hdb_samba4);
 
-    <span class="n">krb5_kt_register</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hdb_kt_ops</span><span class="p">);</span>
+    krb5_kt_register(kdc-&gt;smb_krb5_context-&gt;krb5_context, &amp;hdb_kt_ops);
 
-    <span class="n">krb5_plugin_register</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">,</span>
-        <span class="n">PLUGIN_TYPE_DATA</span><span class="p">,</span> <span class="s2">&quot;windc&quot;</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">windc_plugin_table</span><span class="p">);</span>
+    krb5_plugin_register(kdc-&gt;smb_krb5_context-&gt;krb5_context,
+        PLUGIN_TYPE_DATA, &quot;windc&quot;,
+        &amp;windc_plugin_table);
 
-    <span class="n">krb5_kdc_windc_init</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">smb_krb5_context</span><span class="o">-&gt;</span><span class="n">krb5_context</span><span class="p">);</span>
+    krb5_kdc_windc_init(kdc-&gt;smb_krb5_context-&gt;krb5_context);
 
-    <span class="o">//</span> <span class="n">create</span> <span class="n">sockets</span>
-    <span class="n">kdc_startup_interfaces</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="n">ifaces</span><span class="p">);</span>
+    // create sockets
+    kdc_startup_interfaces(kdc, task-&gt;lp_ctx, ifaces);
 
-    <span class="n">IRPC_REGISTER</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">msg_ctx</span><span class="p">,</span> <span class="n">irpc</span><span class="p">,</span> <span class="n">KDC_CHECK_GENERIC_KERBEROS</span><span class="p">,</span>
-        <span class="n">kdc_check_generic_kerberos</span><span class="p">,</span> <span class="n">kdc</span><span class="p">);</span>
-<span class="p">}</span>
+    IRPC_REGISTER(task-&gt;msg_ctx, irpc, KDC_CHECK_GENERIC_KERBEROS,
+        kdc_check_generic_kerberos, kdc);
+}
 </pre></div>
 </div>
 </section>
 <section id="socket-creation">
 <h2>Socket Creation<a class="headerlink" href="#socket-creation" title="Link to this heading">#</a></h2>
 <p>The kdc_startup_interfaces() creates sockets for all interfaces:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_startup_interfaces</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
-        <span class="n">struct</span> <span class="n">loadparm_context</span> <span class="o">*</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">struct</span> <span class="n">interface</span> <span class="o">*</span><span class="n">ifaces</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">num_interfaces</span> <span class="o">=</span> <span class="n">iface_count</span><span class="p">(</span><span class="n">ifaces</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static NTSTATUS kdc_startup_interfaces(struct kdc_server *kdc,
+        struct loadparm_context *lp_ctx,
+        struct interface *ifaces)
+{
+    num_interfaces = iface_count(ifaces);
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">num_interfaces</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">talloc_strdup</span><span class="p">(</span><span class="n">tmp_ctx</span><span class="p">,</span> <span class="n">iface_n_ip</span><span class="p">(</span><span class="n">ifaces</span><span class="p">,</span> <span class="n">i</span><span class="p">));</span>
-        <span class="n">kdc_add_socket</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">lp_krb5_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">),</span>
-            <span class="n">lp_kpasswd_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">));</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    for (i=0; i&lt;num_interfaces; i++) {
+        address = talloc_strdup(tmp_ctx, iface_n_ip(ifaces, i));
+        kdc_add_socket(kdc, address, lp_krb5_port(lp_ctx),
+            lp_kpasswd_port(lp_ctx));
+    }
+}
 </pre></div>
 </div>
 <p>The kdc_add_socket() creates TCP and UDP sockets for kdc and kpasswd
 services:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_add_socket</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span><span class="p">,</span>
-                   <span class="n">uint16_t</span> <span class="n">kdc_port</span><span class="p">,</span> <span class="n">uint16_t</span> <span class="n">kpasswd_port</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">UDP</span> <span class="n">port</span>
-    <span class="n">kdc_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kdc_socket</span><span class="p">,</span>
-        <span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kdc_port</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static NTSTATUS kdc_add_socket(struct kdc_server *kdc, const char *address,
+                   uint16_t kdc_port, uint16_t kpasswd_port)
+{
+    // listen to kdc UDP port
+    kdc_address = socket_address_from_strings(kdc_socket,
+        kdc_socket-&gt;sock-&gt;backend_name, address, kdc_port);
 
-    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kdc_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    socket_listen(kdc_socket-&gt;sock, kdc_address, 0, 0);
 
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">UDP</span> <span class="n">port</span>
-    <span class="n">kpasswd_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="p">,</span>
-        <span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kpasswd_port</span><span class="p">);</span>
+    // listen to kpasswd UDP port
+    kpasswd_address = socket_address_from_strings(kpasswd_socket,
+        kpasswd_socket-&gt;sock-&gt;backend_name, address, kpasswd_port);
 
-    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kpasswd_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    socket_listen(kpasswd_socket-&gt;sock, kpasswd_address, 0, 0);
 
-    <span class="o">//</span> <span class="n">create</span> <span class="n">process</span> <span class="n">model</span>
-    <span class="n">model_ops</span> <span class="o">=</span> <span class="n">process_model_startup</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">);</span>
+    // create process model
+    model_ops = process_model_startup(kdc-&gt;task-&gt;event_ctx, &quot;single&quot;);
 
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">TCP</span> <span class="n">port</span>
-    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
-        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">model_ops</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kdc_tcp_stream_ops</span><span class="p">,</span>
-        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kdc_port</span><span class="p">,</span>
-        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
-        <span class="n">kdc</span><span class="p">);</span>
+    // listen to kdc TCP port
+    stream_setup_socket(kdc-&gt;task-&gt;event_ctx,
+        kdc-&gt;task-&gt;lp_ctx,
+        model_ops,
+        &amp;kdc_tcp_stream_ops,
+        &quot;ip&quot;, address, &amp;kdc_port,
+        lp_socket_options(kdc-&gt;task-&gt;lp_ctx),
+        kdc);
 
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">TCP</span> <span class="n">port</span>
-    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
-        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">model_ops</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kpasswdd_tcp_stream_ops</span><span class="p">,</span>
-        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kpasswd_port</span><span class="p">,</span>
-        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
-        <span class="n">kdc</span><span class="p">);</span>
-<span class="p">}</span>
+    // listen to kpasswd TCP port
+    stream_setup_socket(kdc-&gt;task-&gt;event_ctx,
+        kdc-&gt;task-&gt;lp_ctx,
+        model_ops,
+        &amp;kpasswdd_tcp_stream_ops,
+        &quot;ip&quot;, address, &amp;kpasswd_port,
+        lp_socket_options(kdc-&gt;task-&gt;lp_ctx),
+        kdc);
+}
 </pre></div>
 </div>
 </section>
@@ -441,9 +441,9 @@ services:</p>
 <section id="id1">
 <h2>Port Configuration<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>Heimdal ports could be disabled by setting them to 0 in smb.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
-    <span class="n">krb5</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">kpasswd</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[global]
+    krb5 port = 0
+    kpasswd port = 0
 </pre></div>
 </div>
 <p>Note: No Samba source code will be changed for this.</p>
@@ -457,74 +457,74 @@ initialize Heimdal service.</p>
 <h2>Socket Creation<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p>The kdc_startup_interfaces() should be changed such that it does not
 create the sockets when the ports are set to 0.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_startup_interfaces</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
-        <span class="n">struct</span> <span class="n">loadparm_context</span> <span class="o">*</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">struct</span> <span class="n">interface</span> <span class="o">*</span><span class="n">ifaces</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="o">//</span> <span class="n">create</span> <span class="n">process</span> <span class="n">model</span>
-    <span class="n">model_ops</span> <span class="o">=</span> <span class="n">process_model_startup</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static NTSTATUS kdc_startup_interfaces(struct kdc_server *kdc,
+        struct loadparm_context *lp_ctx,
+        struct interface *ifaces)
+{
+    // create process model
+    model_ops = process_model_startup(kdc-&gt;task-&gt;event_ctx, &quot;single&quot;);
 
-    <span class="n">num_interfaces</span> <span class="o">=</span> <span class="n">iface_count</span><span class="p">(</span><span class="n">ifaces</span><span class="p">);</span>
+    num_interfaces = iface_count(ifaces);
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">num_interfaces</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">talloc_strdup</span><span class="p">(</span><span class="n">tmp_ctx</span><span class="p">,</span> <span class="n">iface_n_ip</span><span class="p">(</span><span class="n">ifaces</span><span class="p">,</span> <span class="n">i</span><span class="p">));</span>
-        <span class="n">kdc_port</span> <span class="o">=</span> <span class="n">lp_krb5_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">);</span>
-        <span class="n">kpasswd_port</span> <span class="o">=</span> <span class="n">lp_kpasswd_port</span><span class="p">(</span><span class="n">lp_ctx</span><span class="p">);</span>
+    for (i=0; i&lt;num_interfaces; i++) {
+        address = talloc_strdup(tmp_ctx, iface_n_ip(ifaces, i));
+        kdc_port = lp_krb5_port(lp_ctx);
+        kpasswd_port = lp_kpasswd_port(lp_ctx);
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">kdc_port</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">kdc_add_kdc_socket</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">model_ops</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kdc_port</span><span class="p">);</span>
-        <span class="p">}</span>
+        if (kdc_port) {
+            kdc_add_kdc_socket(kdc, model_ops, address, kdc_port);
+        }
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">kpasswd_port</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">kdc_add_passwd_socket</span><span class="p">(</span><span class="n">kdc</span><span class="p">,</span> <span class="n">model_ops</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kpasswd_port</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+        if (kpasswd_port) {
+            kdc_add_passwd_socket(kdc, model_ops, address, kpasswd_port);
+        }
+    }
+}
 </pre></div>
 </div>
 <p>The kdc_add_socket() should be split into kdc_add_kdc_socket() and
 kdc_add_kpasswd_socket() as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_add_kdc_socket</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
-        <span class="n">const</span> <span class="n">struct</span> <span class="n">model_ops</span> <span class="o">*</span><span class="n">model_ops</span><span class="p">,</span>
-        <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span><span class="p">,</span>
-        <span class="n">uint16_t</span> <span class="n">kdc_port</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">UDP</span> <span class="n">port</span>
-    <span class="n">kdc_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kdc_socket</span><span class="p">,</span>
-        <span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kdc_port</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static NTSTATUS kdc_add_kdc_socket(struct kdc_server *kdc,
+        const struct model_ops *model_ops,
+        const char *address,
+        uint16_t kdc_port)
+{
+    // listen to kdc UDP port
+    kdc_address = socket_address_from_strings(kdc_socket,
+        kdc_socket-&gt;sock-&gt;backend_name, address, kdc_port);
 
-    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kdc_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kdc_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    socket_listen(kdc_socket-&gt;sock, kdc_address, 0, 0);
 
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kdc</span> <span class="n">TCP</span> <span class="n">port</span>
-    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
-        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">model_ops</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kdc_tcp_stream_ops</span><span class="p">,</span>
-        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kdc_port</span><span class="p">,</span>
-        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
-        <span class="n">kdc</span><span class="p">);</span>
-<span class="p">}</span>
+    // listen to kdc TCP port
+    stream_setup_socket(kdc-&gt;task-&gt;event_ctx,
+        kdc-&gt;task-&gt;lp_ctx,
+        model_ops,
+        &amp;kdc_tcp_stream_ops,
+        &quot;ip&quot;, address, &amp;kdc_port,
+        lp_socket_options(kdc-&gt;task-&gt;lp_ctx),
+        kdc);
+}
 
-<span class="n">static</span> <span class="n">NTSTATUS</span> <span class="n">kdc_add_kpasswd_socket</span><span class="p">(</span><span class="n">struct</span> <span class="n">kdc_server</span> <span class="o">*</span><span class="n">kdc</span><span class="p">,</span>
-        <span class="n">const</span> <span class="n">struct</span> <span class="n">model_ops</span> <span class="o">*</span><span class="n">model_ops</span><span class="p">,</span>
-        <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span><span class="p">,</span>
-        <span class="n">uint16_t</span> <span class="n">kpasswd_port</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">UDP</span> <span class="n">port</span>
-    <span class="n">kpasswd_address</span> <span class="o">=</span> <span class="n">socket_address_from_strings</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="p">,</span>
-        <span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="o">-&gt;</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">kpasswd_port</span><span class="p">);</span>
+static NTSTATUS kdc_add_kpasswd_socket(struct kdc_server *kdc,
+        const struct model_ops *model_ops,
+        const char *address,
+        uint16_t kpasswd_port)
+{
+    // listen to kpasswd UDP port
+    kpasswd_address = socket_address_from_strings(kpasswd_socket,
+        kpasswd_socket-&gt;sock-&gt;backend_name, address, kpasswd_port);
 
-    <span class="n">socket_listen</span><span class="p">(</span><span class="n">kpasswd_socket</span><span class="o">-&gt;</span><span class="n">sock</span><span class="p">,</span> <span class="n">kpasswd_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    socket_listen(kpasswd_socket-&gt;sock, kpasswd_address, 0, 0);
 
-    <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">kpasswd</span> <span class="n">TCP</span> <span class="n">port</span>
-    <span class="n">stream_setup_socket</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span>
-        <span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span>
-        <span class="n">model_ops</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">kpasswdd_tcp_stream_ops</span><span class="p">,</span>
-        <span class="s2">&quot;ip&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kpasswd_port</span><span class="p">,</span>
-        <span class="n">lp_socket_options</span><span class="p">(</span><span class="n">kdc</span><span class="o">-&gt;</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span>
-        <span class="n">kdc</span><span class="p">);</span>
-<span class="p">}</span>
+    // listen to kpasswd TCP port
+    stream_setup_socket(kdc-&gt;task-&gt;event_ctx,
+        kdc-&gt;task-&gt;lp_ctx,
+        model_ops,
+        &amp;kpasswdd_tcp_stream_ops,
+        &quot;ip&quot;, address, &amp;kpasswd_port,
+        lp_socket_options(kdc-&gt;task-&gt;lp_ctx),
+        kdc);
+}
 </pre></div>
 </div>
 </section>

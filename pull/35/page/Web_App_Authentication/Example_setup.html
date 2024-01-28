@@ -323,29 +323,29 @@ An example can be found at
 <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/tree/?id=start">fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/tree/?id=start</a>.
 It is plain CGI application written in Perl. Assuming you have the
 Apache HTTP Server, perl, and the CGI module installed with command like</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">httpd</span> <span class="n">perl</span><span class="o">-</span><span class="n">CGI</span> <span class="o">-</span><span class="n">y</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>yum install httpd perl-CGI -y
 </pre></div>
 </div>
 <p>you can retrieve the example application for testing using curl:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">Lo</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/app.cgi?id=start&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -Lo /var/www/app.cgi &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/app.cgi?id=start&#39;
 </pre></div>
 </div>
 <p>Make sure it is executable as CGI script:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">x</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span>
-<span class="n">yum</span> <span class="n">install</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">semanage</span> <span class="o">-</span><span class="n">y</span>
-<span class="n">semanage</span> <span class="n">fcontext</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">t</span> <span class="n">httpd_sys_script_exec_t</span> <span class="s1">&#39;/var/www/app\.cgi&#39;</span>
-<span class="n">restorecon</span> <span class="o">-</span><span class="n">rvv</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>chmod a+x /var/www/app.cgi
+yum install /usr/sbin/semanage -y
+semanage fcontext -a -t httpd_sys_script_exec_t &#39;/var/www/app\.cgi&#39;
+restorecon -rvv /var/www/app.cgi
 </pre></div>
 </div>
 <p>Configure it to “live” in /application location (for example,
 <a class="reference external" href="http://wikiapp.example.com/application">http://wikiapp.example.com/application</a>) via ScriptAlias directive in
 /etc/httpd/conf/httpd.conf or in some configuration file in
 /etc/httpd/conf.d/*.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ScriptAlias</span> <span class="o">/</span><span class="n">application</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ScriptAlias /application /var/www/app.cgi
 </pre></div>
 </div>
 <p>Then restart the Apache HTTP daemon:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">httpd</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>service httpd restart
 </pre></div>
 </div>
 <p>The application when deployed at <strong>wikiapp.example.com/application</strong> and
@@ -355,11 +355,11 @@ accessed from browser will show a very simple page:</p>
 <hr class="docutils" />
 <p>Log in</p>
 <p>You can also use command line tools to test the application:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">i</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">application</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -i http://wikiapp.example.com/application
 </pre></div>
 </div>
 <p>or locally</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>curl -i http://$( hostname )/application
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -i http://$( hostname )/application
 </pre></div>
 </div>
 <p>The link <strong>Log in</strong> leads to <strong>wikiapp.example.com/application/login</strong>
@@ -404,8 +404,8 @@ active user, and redirect back to <strong>wikiapp.example.com/application</stron
 <h2>Enrolling the web machine to IPA server<a class="headerlink" href="#enrolling-the-web-machine-to-ipa-server" title="Link to this heading">#</a></h2>
 <p>We assume that the machine on which the wikiapp is hosted is enrolled to
 an IPA server. The commands</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">install</span> <span class="o">-</span><span class="n">y</span>
-<span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">install</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>yum install /usr/sbin/ipa-client-install -y
+ipa-client-install
 </pre></div>
 </div>
 <p>can be used to achieve the enrollment – <code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code> will
@@ -418,7 +418,7 @@ parameters, or you can explore its <code class="docutils literal notranslate"><s
 <p>The IPA server serves as a Kerberos Key Distribution Center, among
 others. Users that have access to the Kerberos server for the
 <strong>example.com</strong> domain can use</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit
 </pre></div>
 </div>
 <p>to obtain their ticket-granting ticket which can then be used by
@@ -429,12 +429,12 @@ usually written in upper case, in our case <strong>EXAMPLE.COM</strong>.</p>
 <p>We will need Apache module <strong>mod_auth_gssapi</strong> or <strong>mod_auth_kerb</strong>
 installed and configured. We will also need to obtain keytab from the
 IPA server for our HTTP service. On the IPA server:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">admin</span>  <span class="c1"># or other user with permissions to create new service for wikiapp.example.com</span>
-<span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit admin  # or other user with permissions to create new service for wikiapp.example.com
+ipa service-add HTTP/wikiapp.example.com
 </pre></div>
 </div>
 <p>On our web application machine:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kinit admin   # or other user with permissions to retrieve the keytab
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit admin   # or other user with permissions to retrieve the keytab
 ipa-getkeytab -s $( awk &#39;/^server/ { print $3 }&#39; /etc/ipa/default.conf ) -k /etc/http.keytab -p HTTP/wikiapp.example.com
 chown apache /etc/http.keytab
 chmod 600 /etc/http.keytab
@@ -447,24 +447,24 @@ Negotiate authentication for <strong>wikiapp.example.com/application/login</stro
 <a class="reference external" href="https://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?h=negotiate-mod_auth_gssapi">wikiapp_kerb.conf for
 mod_auth_gssapi</a>,
 retrieve with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">Lo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">wikiapp_kerb</span><span class="o">.</span><span class="n">conf</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate-mod_auth_gssapi&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -Lo /etc/httpd/conf.d/wikiapp_kerb.conf &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate-mod_auth_gssapi&#39;
 </pre></div>
 </div>
 <p>or <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=negotiate">wikiapp_kerb.conf for
 mod_auth_kerb</a>,
 retrieve with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">Lo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">wikiapp_kerb</span><span class="o">.</span><span class="n">conf</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -Lo /etc/httpd/conf.d/wikiapp_kerb.conf &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate&#39;
 </pre></div>
 </div>
 </section>
 <section id="successful-negotiate">
 <h2>Successful Negotiate<a class="headerlink" href="#successful-negotiate" title="Link to this heading">#</a></h2>
 <p>We can restart the Apache now</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">httpd</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>service httpd restart
 </pre></div>
 </div>
 <p>and try to access the login page either from browser or via command line</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>curl -i --negotiate -u : http://$( hostname )/application/login
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -i --negotiate -u : http://$( hostname )/application/login
 </pre></div>
 </div>
 <p>When the user has valid Kerberos ticket in the EXAMPLE.COM realm and
@@ -476,8 +476,8 @@ The browser will try to obtain the ticket for
 appropriate <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> header. In the
 <strong>/var/log/httpd/access_log</strong> will see that we have authenticated
 correctly</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">192.168.89.2</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">08</span><span class="o">/</span><span class="n">Jan</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">30</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="s2">&quot;GET /application/login HTTP/1.1&quot;</span> <span class="mi">401</span> <span class="mi">127</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;</span>
-<span class="mf">192.168.89.2</span> <span class="o">-</span> <span class="n">bob</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="p">[</span><span class="mi">08</span><span class="o">/</span><span class="n">Jan</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">32</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="s2">&quot;GET /application/login HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">1980</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>192.168.89.2 - - [08/Jan/2014:22:20:30 -0500] &quot;GET /application/login HTTP/1.1&quot; 401 127 &quot;-&quot; &quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;
+192.168.89.2 - bob@EXAMPLE.COM [08/Jan/2014:22:20:32 -0500] &quot;GET /application/login HTTP/1.1&quot; 200 1980 &quot;-&quot; &quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;
 </pre></div>
 </div>
 <p>However, the application will still show the same login form, rather
@@ -488,7 +488,7 @@ Apache authentication modules when their authentication attempt passes:
 <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=trust-REMOTE_USER">trust
 REMOTE_USER</a>,
 apply with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=trust-REMOTE_USER&#39;</span> <span class="o">|</span> <span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -L &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=trust-REMOTE_USER&#39; | patch -p1 /var/www/app.cgi
 </pre></div>
 </div>
 <p>With the above changes in place, application will consult the
@@ -512,7 +512,7 @@ authenticated users. […]</p>
 <p>Note the ErrorDocument client-side redirect to <strong>/application/login2</strong>
 – it is there as a fallback to the login form in case the user has no
 valid ticket:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kdestroy -A
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kdestroy -A
 curl -i --negotiate -u : http://$( hostname )/application/login
 </pre></div>
 </div>
@@ -532,7 +532,7 @@ case, we just modify the application to consider any path starting with
 <strong>login</strong> as login application: <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=login2">support
 login2</a>,
 apply with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=login2&#39;</span> <span class="o">|</span> <span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -L &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=login2&#39; | patch -p1 /var/www/app.cgi
 </pre></div>
 </div>
 <p>In real applications, this part can either go to the application code,
@@ -555,7 +555,7 @@ packages for popular OSes (namely RHEL 7) are at
 the <strong>adelton-identity_demo*.repo</strong> link in the line matching your OS
 and version and store the .repo file in <strong>/etc/yum.repos.d</strong>.</p>
 <p>You can also retrieve the .repo file via curl: for example, for RHEL 7:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">Lo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">yum</span><span class="o">.</span><span class="n">repos</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">identity_demo</span><span class="o">.</span><span class="n">repo</span> <span class="s1">&#39;http://copr.fedoraproject.org/coprs/adelton/identity_demo/repo/epel-7/adelton-identity_demo-epel-7.repo&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -Lo /etc/yum.repos.d/identity_demo.repo &#39;http://copr.fedoraproject.org/coprs/adelton/identity_demo/repo/epel-7/adelton-identity_demo-epel-7.repo&#39;
 </pre></div>
 </div>
 </section>
@@ -572,51 +572,51 @@ need to <a class="reference external" href="http://www.freeipa.org/page/Howto/HB
 configuration, creating for example PAM service wikiapp for our
 application</a>.
 You should see</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">hbactest</span> <span class="o">--</span><span class="n">user</span><span class="o">=</span><span class="n">bob</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">service</span><span class="o">=</span><span class="n">wikiapp</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa hbactest --user=bob --host=wikiapp.example.com --service=wikiapp
 </pre></div>
 </div>
 <p>not matching any rule and after adding the host to the <strong>allow_wikiapp</strong>
 HBAC rule, see it match:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">hbacrule</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">host</span> <span class="n">allow_wikiapp</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">ipa</span> <span class="n">hbacrule</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">user</span> <span class="n">allow</span><span class="o">-</span><span class="n">wikiapp</span> <span class="o">--</span><span class="n">user</span><span class="o">=</span><span class="n">bob</span>
-<span class="n">ipa</span> <span class="n">hbactest</span> <span class="o">--</span><span class="n">user</span><span class="o">=</span><span class="n">bob</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">service</span><span class="o">=</span><span class="n">wikiapp</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa hbacrule-add-host allow_wikiapp --hosts=wikiapp.example.com
+ipa hbacrule-add-user allow-wikiapp --user=bob
+ipa hbactest --user=bob --host=wikiapp.example.com --service=wikiapp
 </pre></div>
 </div>
 <p>Configure PAM service wikiapp. Create <strong>/etc/pam.d/wikiapp</strong> with the
 following content:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auth</span>    <span class="n">required</span>   <span class="n">pam_sss</span><span class="o">.</span><span class="n">so</span>
-<span class="n">account</span> <span class="n">required</span>   <span class="n">pam_sss</span><span class="o">.</span><span class="n">so</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth    required   pam_sss.so
+account required   pam_sss.so
 </pre></div>
 </div>
 <p>Note that the <strong>wikiapp</strong> HBAC service name needs to match the PAM
 service name but it’s just a string, it does not need to match the
 hostname. We could have used <strong>wiki</strong> or <strong>test</strong> instead.</p>
 <p>Install the mod_authnz_pam</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">mod_authnz_pam</span> <span class="o">-</span><span class="n">y</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>yum install mod_authnz_pam -y
 </pre></div>
 </div>
 <p>Our current wikiapp_kerb.conf needs to be amended to load mod_authnz_pam
 and <code class="docutils literal notranslate"><span class="pre">require</span> <span class="pre">pam-account</span> <span class="pre">wikiapp</span></code>: for mod_auth_gssapi
 <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=mod_authnz_pam-pam-account-mod_auth_gssapi">mod_authnz_pam-pam-account-mod_auth_gssapi</a>,
 apply with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/auth_kerb.conf?id=mod_authnz_pam-pam-account-mod_auth_gssapi&#39;</span> <span class="o">|</span> <span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">wikiapp_kerb</span><span class="o">.</span><span class="n">conf</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -L &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/auth_kerb.conf?id=mod_authnz_pam-pam-account-mod_auth_gssapi&#39; | patch -p1 /etc/httpd/conf.d/wikiapp_kerb.conf
 </pre></div>
 </div>
 <p>and for mod_auth_kerb
 <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=mod_authnz_pam-pam-account">mod_authnz_pam-pam-account</a>,
 apply with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/auth_kerb.conf?id=mod_authnz_pam-pam-account&#39;</span> <span class="o">|</span> <span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">wikiapp_kerb</span><span class="o">.</span><span class="n">conf</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -L &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/auth_kerb.conf?id=mod_authnz_pam-pam-account&#39; | patch -p1 /etc/httpd/conf.d/wikiapp_kerb.conf
 </pre></div>
 </div>
 <p>Enable Apache to use the PAM stack and restart it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setsebool</span> <span class="o">-</span><span class="n">P</span> <span class="n">allow_httpd_mod_auth_pam</span> <span class="mi">1</span>
-<span class="n">service</span> <span class="n">httpd</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>setsebool -P allow_httpd_mod_auth_pam 1
+service httpd restart
 </pre></div>
 </div>
 <p>After restarting Apache, we can check that the access works and if we
 remove either the machine or the user from the HBAC rule</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">hbacrule</span><span class="o">-</span><span class="n">remove</span><span class="o">-</span><span class="n">host</span> <span class="n">allow_wikiapp</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">ipa</span> <span class="n">hbacrule</span><span class="o">-</span><span class="n">remove</span><span class="o">-</span><span class="n">user</span> <span class="n">allow_wikiapp</span> <span class="o">--</span><span class="n">users</span><span class="o">=</span><span class="n">bob</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa hbacrule-remove-host allow_wikiapp --hosts=wikiapp.example.com
+ipa hbacrule-remove-user allow_wikiapp --users=bob
 </pre></div>
 </div>
 <p>or perhaps indirectly from host/user-group, the Kerberos authentication
@@ -632,13 +632,13 @@ access the web application. Eventually, sssd will provide way to set up
 access control on per-PAM service basis. For now, with mod_authnz_pam,
 we have all the PAM modules at our disposal, including pam_access. For
 example, adding line</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">account</span> <span class="n">required</span>   <span class="n">pam_access</span><span class="o">.</span><span class="n">so</span> <span class="n">accessfile</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">http</span><span class="o">-</span><span class="n">access</span><span class="o">.</span><span class="n">conf</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>account required   pam_access.so accessfile=/etc/http-access.conf
 </pre></div>
 </div>
 <p>to <strong>/etc/pam.d/wikiapp</strong> will enable the access control using file
 <strong>/etc/http-access.conf</strong>. If the content of that file is</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span> <span class="p">:</span> <span class="p">(</span><span class="n">wiki</span><span class="o">-</span><span class="n">group</span><span class="o">-</span><span class="n">test</span><span class="p">)</span> <span class="p">:</span> <span class="n">ALL</span>
-<span class="o">-</span> <span class="p">:</span> <span class="n">ALL</span> <span class="p">:</span> <span class="n">ALL</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>+ : (wiki-group-test) : ALL
+- : ALL : ALL
 </pre></div>
 </div>
 <p>only users in the wiki-group-test group will be granted access. Both
@@ -653,14 +653,14 @@ the same PAM service <strong>wikiapp</strong> that we used to run access check f
 the Kerberos authentication can be used to silently try authentication
 against the IPA server (via PAM and sssd) whenever the user submits the
 login form. The module needs to be installed</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">mod_intercept_form_submit</span> <span class="o">-</span><span class="n">y</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>yum install mod_intercept_form_submit -y
 </pre></div>
 </div>
 <p>and configured:
 <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=intercept-form-submit">intercept-form-submit</a>,
 apply with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">Lo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">wikiapp_form_submit</span><span class="o">.</span><span class="n">conf</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/intercept_form_submit.conf?id=intercept-form-submit&#39;</span>
-<span class="n">service</span> <span class="n">httpd</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -Lo /etc/httpd/conf.d/wikiapp_form_submit.conf &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/intercept_form_submit.conf?id=intercept-form-submit&#39;
+service httpd restart
 </pre></div>
 </div>
 <p>With <strong>/etc/pam.d/wikiapp</strong> in place and <strong>mod_intercept_form_submit</strong>,
@@ -711,75 +711,75 @@ and sssd-dbus package, sssd can retrieve additional attributes from the
 IPA server and make them available to the to the module and thus to the
 application during authentication using Apache module.</p>
 <p>We start with configuring sssd: install sssd-dbus</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">sssd</span><span class="o">-</span><span class="n">dbus</span> <span class="o">-</span><span class="n">y</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>yum install sssd-dbus -y
 </pre></div>
 </div>
 <p>and enable and configure its <strong>ifp</strong> subsystem:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sssd</span><span class="o">/</span><span class="n">sssd</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">orig</span>    <span class="mi">2013</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">10</span> <span class="mi">03</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">20.751552952</span> <span class="o">-</span><span class="mi">0500</span>
-<span class="o">+++</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sssd</span><span class="o">/</span><span class="n">sssd</span><span class="o">.</span><span class="n">conf</span>    <span class="mi">2013</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">00</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="mf">30.791240631</span> <span class="o">-</span><span class="mi">0500</span>
-<span class="o">@@</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span><span class="mi">8</span> <span class="o">+</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span> <span class="o">@@</span>
- <span class="n">chpass_provider</span> <span class="o">=</span> <span class="n">ipa</span>
- <span class="n">ipa_server</span> <span class="o">=</span> <span class="n">_srv_</span><span class="p">,</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
- <span class="n">dns_discovery_domain</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="o">+</span><span class="n">ldap_user_extra_attrs</span> <span class="o">=</span> <span class="n">mail</span><span class="p">,</span> <span class="n">givenname</span><span class="p">,</span> <span class="n">sn</span>
-<span class="o">+</span>
- <span class="p">[</span><span class="n">sssd</span><span class="p">]</span>
-<span class="o">-</span><span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span>
-<span class="o">+</span><span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span><span class="p">,</span> <span class="n">ifp</span>
- <span class="n">config_file_version</span> <span class="o">=</span> <span class="mi">2</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--- /etc/sssd/sssd.conf.orig    2013-12-10 03:09:20.751552952 -0500
++++ /etc/sssd/sssd.conf    2013-12-12 00:52:30.791240631 -0500
+@@ -11,8 +11,10 @@
+ chpass_provider = ipa
+ ipa_server = _srv_, ipa.example.com
+ dns_discovery_domain = example.com
++ldap_user_extra_attrs = mail, givenname, sn
++
+ [sssd]
+-services = nss, pam, ssh
++services = nss, pam, ssh, ifp
+ config_file_version = 2
 
- <span class="n">domains</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="o">@@</span> <span class="o">-</span><span class="mi">28</span><span class="p">,</span><span class="mi">3</span> <span class="o">+</span><span class="mi">30</span><span class="p">,</span><span class="mi">7</span> <span class="o">@@</span>
+ domains = example.com
+@@ -28,3 +30,7 @@
 
- <span class="p">[</span><span class="n">pac</span><span class="p">]</span>
+ [pac]
 
-<span class="o">+</span><span class="p">[</span><span class="n">ifp</span><span class="p">]</span>
-<span class="o">+</span><span class="n">allowed_uids</span> <span class="o">=</span> <span class="n">apache</span><span class="p">,</span> <span class="n">root</span>
-<span class="o">+</span><span class="n">user_attributes</span> <span class="o">=</span> <span class="o">+</span><span class="n">mail</span><span class="p">,</span> <span class="o">+</span><span class="n">givenname</span><span class="p">,</span> <span class="o">+</span><span class="n">sn</span>
-<span class="o">+</span>
++[ifp]
++allowed_uids = apache, root
++user_attributes = +mail, +givenname, +sn
++
 </pre></div>
 </div>
 <p>Restart sssd and attempt to retrieve some information using
 <strong>dbus-send</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">sssd</span> <span class="n">restart</span>
-<span class="n">dbus</span><span class="o">-</span><span class="n">send</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">reply</span> <span class="o">--</span><span class="n">system</span> <span class="o">--</span><span class="n">dest</span><span class="o">=</span><span class="n">org</span><span class="o">.</span><span class="n">freedesktop</span><span class="o">.</span><span class="n">sssd</span><span class="o">.</span><span class="n">infopipe</span> <span class="o">/</span><span class="n">org</span><span class="o">/</span><span class="n">freedesktop</span><span class="o">/</span><span class="n">sssd</span><span class="o">/</span><span class="n">infopipe</span> <span class="n">org</span><span class="o">.</span><span class="n">freedesktop</span><span class="o">.</span><span class="n">sssd</span><span class="o">.</span><span class="n">infopipe</span><span class="o">.</span><span class="n">GetUserAttr</span> <span class="n">string</span><span class="p">:</span><span class="n">bob</span> <span class="n">array</span><span class="p">:</span><span class="n">string</span><span class="p">:</span><span class="n">gecos</span><span class="p">,</span><span class="n">mail</span>
-<span class="n">dbus</span><span class="o">-</span><span class="n">send</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">reply</span> <span class="o">--</span><span class="n">system</span> <span class="o">--</span><span class="n">dest</span><span class="o">=</span><span class="n">org</span><span class="o">.</span><span class="n">freedesktop</span><span class="o">.</span><span class="n">sssd</span><span class="o">.</span><span class="n">infopipe</span> <span class="o">/</span><span class="n">org</span><span class="o">/</span><span class="n">freedesktop</span><span class="o">/</span><span class="n">sssd</span><span class="o">/</span><span class="n">infopipe</span> <span class="n">org</span><span class="o">.</span><span class="n">freedesktop</span><span class="o">.</span><span class="n">sssd</span><span class="o">.</span><span class="n">infopipe</span><span class="o">.</span><span class="n">GetUserGroups</span> <span class="n">string</span><span class="p">:</span><span class="n">bob</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>service sssd restart
+dbus-send --print-reply --system --dest=org.freedesktop.sssd.infopipe /org/freedesktop/sssd/infopipe org.freedesktop.sssd.infopipe.GetUserAttr string:bob array:string:gecos,mail
+dbus-send --print-reply --system --dest=org.freedesktop.sssd.infopipe /org/freedesktop/sssd/infopipe org.freedesktop.sssd.infopipe.GetUserGroups string:bob
 </pre></div>
 </div>
 <p>You may need to set <code class="docutils literal notranslate"><span class="pre">setenforce</span> <span class="pre">0</span></code> for the above part to work. For
 dbus calls from httpd which we will do below,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setenforce</span> <span class="mi">1</span>
-<span class="n">setsebool</span> <span class="o">-</span><span class="n">P</span> <span class="n">httpd_dbus_sssd</span> <span class="n">on</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>setenforce 1
+setsebool -P httpd_dbus_sssd on
 </pre></div>
 </div>
 <p>should work provided you have recent enough selinux-policy.</p>
 <p>If we are able to retrieve information using dbus, we can proceed to
 install and configure mod_lookup_identity:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">mod_lookup_identity</span> <span class="o">-</span><span class="n">y</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>yum install mod_lookup_identity -y
 </pre></div>
 </div>
 <p>and configure it: <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/tree/lookup_identity.conf?id=additional-attributes">additional-attributes,
 lookup_identity.conf</a>,
 use curl to retrieve:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">Lo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">wikiapp_lookup</span><span class="o">.</span><span class="n">conf</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/lookup_identity.conf?id=additional-attributes&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -Lo /etc/httpd/conf.d/wikiapp_lookup.conf &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/lookup_identity.conf?id=additional-attributes&#39;
 </pre></div>
 </div>
 <p>When you then restart Apache</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">httpd</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>service httpd restart
 </pre></div>
 </div>
 <p>and connect in authenticated manner to it, you will see variables
 populated by the module:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kinit bob
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit bob
 curl -i --negotiate -u : http://$( hostname )/application/login | grep REMOTE_USER
 </pre></div>
 </div>
 <p>The grep should list something like</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">REMOTE_USER</span><span class="o">=</span><span class="n">bob</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="n">REMOTE_USER_EMAIL</span><span class="o">=</span><span class="n">bob</span><span class="nd">@example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">REMOTE_USER_FIRSTNAME</span><span class="o">=</span><span class="n">Robert</span>
-<span class="n">REMOTE_USER_GECOS</span><span class="o">=</span><span class="n">Robert</span> <span class="n">Puk</span>
-<span class="n">REMOTE_USER_LASTNAME</span><span class="o">=</span><span class="n">Puk</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>REMOTE_USER=bob@EXAMPLE.COM
+REMOTE_USER_EMAIL=bob@example.com
+REMOTE_USER_FIRSTNAME=Robert
+REMOTE_USER_GECOS=Robert Puk
+REMOTE_USER_LASTNAME=Puk
 </pre></div>
 </div>
 <p>– the web page actually contains (commented out in HTML) list of all
@@ -788,7 +788,7 @@ environment variables that were passed to our application.</p>
 attributes: <a class="reference external" href="http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/diff/app.cgi?id=additional-attributes">additional-attributes, application
 change</a>,
 apply with curl using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s1">&#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=additional-attributes&#39;</span> <span class="o">|</span> <span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">cgi</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl -L &#39;http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=additional-attributes&#39; | patch -p1 /var/www/app.cgi
 </pre></div>
 </div>
 <p>In our simple application, we just store the values in the cookie to
@@ -861,11 +861,11 @@ only REMOTE_USER and then environment variables that start with AJP_
 are passed. So the environment variables populated by
 mod_lookup_identity need to be prefixed with AJP_. In Apache
 configuration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LookupUserAttr</span> <span class="n">mail</span> <span class="n">AJP_REMOTE_USER_EMAIL</span> <span class="s2">&quot; &quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LookupUserAttr mail AJP_REMOTE_USER_EMAIL &quot; &quot;
 </pre></div>
 </div>
 <p>In application code:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">email</span> <span class="o">=</span> <span class="n">String</span><span class="p">(((</span><span class="n">String</span><span class="p">)</span> <span class="n">request</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">&quot;REMOTE_USER_EMAIL&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">getBytes</span><span class="p">(</span><span class="s2">&quot;ISO8859-1&quot;</span><span class="p">),</span> <span class="s2">&quot;UTF-8&quot;</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>String email = String(((String) request.getAttribute(&quot;REMOTE_USER_EMAIL&quot;)).getBytes(&quot;ISO8859-1&quot;), &quot;UTF-8&quot;);
 </pre></div>
 </div>
 <p>In case of deployments that use mod_proxy_balancer where no out-of-band
@@ -873,17 +873,17 @@ information passing is available, headers of the HTTP request can be
 used. Of course, caution is needed to properly clear any headers of the
 same name in the incoming HTTP request to prevent the end user from
 breaching the authentication/access control:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RequestHeader</span> <span class="n">unset</span> <span class="n">X</span><span class="o">-</span><span class="n">THE</span><span class="o">-</span><span class="n">USER</span>
-<span class="n">RequestHeader</span> <span class="nb">set</span> <span class="n">X</span><span class="o">-</span><span class="n">THE</span><span class="o">-</span><span class="n">USER</span> <span class="o">%</span><span class="p">{</span><span class="n">REMOTE_USER</span><span class="p">}</span><span class="n">e</span> <span class="n">env</span><span class="o">=</span><span class="n">REMOTE_USER</span>
-<span class="n">RequestHeader</span> <span class="n">unset</span> <span class="n">X</span><span class="o">-</span><span class="n">THE</span><span class="o">-</span><span class="n">USER</span><span class="o">-</span><span class="n">EMAIL</span>
-<span class="n">RequestHeader</span> <span class="nb">set</span> <span class="n">X</span><span class="o">-</span><span class="n">THE</span><span class="o">-</span><span class="n">USER</span><span class="o">-</span><span class="n">EMAIL</span> <span class="o">%</span><span class="p">{</span><span class="n">REMOTE_USER_EMAIL</span><span class="p">}</span><span class="n">e</span> <span class="n">env</span><span class="o">=</span><span class="n">REMOTE_USER_EMAIL</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>RequestHeader unset X-THE-USER
+RequestHeader set X-THE-USER %{REMOTE_USER}e env=REMOTE_USER
+RequestHeader unset X-THE-USER-EMAIL
+RequestHeader set X-THE-USER-EMAIL %{REMOTE_USER_EMAIL}e env=REMOTE_USER_EMAIL
 </pre></div>
 </div>
 <p>On the application end, in case of CGI script, the incoming HTTP request
 headers are presented as environment variables prefixed with HTTP_, with
 dashes turned into underscores, so the application code would need to be
 along the lines of</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>if (defined $ENV{HTTP_X_THE_USER}) {
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>if (defined $ENV{HTTP_X_THE_USER}) {
         $login = $ENV{HTTP_X_THE_USER};
 [...]
 </pre></div>
@@ -900,7 +900,7 @@ to get values of the HTTP headers of the request more directly.</p>
 <p>For tomcat, the Connectors need to be set with
 <code class="docutils literal notranslate"><span class="pre">tomcatAuthentication=&quot;false&quot;</span></code> to accept the REMOTE_USER information
 from Apache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Connector</span> <span class="n">port</span><span class="o">=</span><span class="s2">&quot;8009&quot;</span> <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;AJP/1.3&quot;</span> <span class="n">redirectPort</span><span class="o">=</span><span class="s2">&quot;8443&quot;</span> <span class="n">URIEncoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span> <span class="n">address</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span> <span class="n">tomcatAuthentication</span><span class="o">=</span><span class="s2">&quot;false&quot;</span> <span class="o">/&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; URIEncoding=&quot;UTF-8&quot; address=&quot;127.0.0.1&quot; tomcatAuthentication=&quot;false&quot; /&gt;
 </pre></div>
 </div>
 </section>

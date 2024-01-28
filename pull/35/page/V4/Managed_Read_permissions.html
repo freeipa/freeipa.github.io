@@ -336,50 +336,50 @@ behavior over upgrades.</p>
 restricted to changing the attribute lists and bind types.</p>
 <p>For example, attempting to change a default “Modify Users” permission to
 apply to Groups will fail:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">permission-mod</span> <span class="pre">'System:</span> <span class="pre">Modify</span> <span class="pre">Users'</span> <span class="pre">--type=group</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">invalid</span> <span class="pre">'ipapermlocation':</span> <span class="pre">not</span> <span class="pre">modifiable</span> <span class="pre">on</span> <span class="pre">managed</span> <span class="pre">permissions</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa permission-mod &#39;System: Modify Users&#39; --type=group
+ipa: ERROR: invalid &#39;ipapermlocation&#39;: not modifiable on managed permissions
+</pre></div>
 </div>
 <p>So will attempting to make it apply to Read operations:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">permission-mod</span> <span class="pre">'System:</span> <span class="pre">Modify</span> <span class="pre">Users'</span> <span class="pre">--right=read,</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">invalid</span> <span class="pre">'ipapermright':</span> <span class="pre">not</span> <span class="pre">modifiable</span> <span class="pre">on</span> <span class="pre">managed</span> <span class="pre">permissions</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa permission-mod &#39;System: Modify Users&#39; --right=read,
+ipa: ERROR: invalid &#39;ipapermright&#39;: not modifiable on managed permissions
+</pre></div>
 </div>
 <p>On the other hand, making the permission not apply to the “gecos”
 attribute is possible:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">permission-mod</span> <span class="pre">'System:</span> <span class="pre">Modify</span> <span class="pre">Users'</span> <span class="pre">--excludedattrs=gecos</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Modified</span> <span class="pre">permission</span> <span class="pre">&quot;System:</span> <span class="pre">Modify</span> <span class="pre">Users&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">------------------------------------------</span></code></div>
-<div class="line">``  Permission name: System: Modify Users``</div>
-<div class="line">``  Granted rights: write``</div>
-<div class="line">``  Effective attributes: businesscategory, carlicense, cn, description, displayname, employeetype, facsimiletelephonenumber, givenname, homephone, inetuserhttpurl, initials, l, labeleduri, loginshell, manager, mepmanagedentry, mobile, objectclass, ou, pager, postalcode,``</div>
-<div class="line">``                        preferredlanguage, roomnumber, secretary, seealso, sn, st, street, telephonenumber, title, userclass``</div>
-<div class="line">``  Excluded attributes: gecos``</div>
-<div class="line">``  Default attributes: telephonenumber, cn, labeleduri, manager, street, displayname, homephone, title, facsimiletelephonenumber, loginshell, employeetype, description, businesscategory, preferredlanguage, roomnumber, mepmanagedentry, carlicense, postalcode, givenname,``</div>
-<div class="line">``                      pager, seealso, objectclass, inetuserhttpurl, l, st, mobile, gecos, sn, ou, secretary, userclass, initials``</div>
-<div class="line">``  Bind rule type: permission``</div>
-<div class="line">``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</div>
-<div class="line">``  Type: user``</div>
-<div class="line">``  Granted to Privilege: Modify Users and Reset passwords, User Administrators``</div>
-<div class="line">``  Indirect Member of roles: helpdesk, User Administrator``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa permission-mod &#39;System: Modify Users&#39; --excludedattrs=gecos
+------------------------------------------
+Modified permission &quot;System: Modify Users&quot;
+------------------------------------------
+  Permission name: System: Modify Users
+  Granted rights: write
+  Effective attributes: businesscategory, carlicense, cn, description, displayname, employeetype, facsimiletelephonenumber, givenname, homephone, inetuserhttpurl, initials, l, labeleduri, loginshell, manager, mepmanagedentry, mobile, objectclass, ou, pager, postalcode,
+                        preferredlanguage, roomnumber, secretary, seealso, sn, st, street, telephonenumber, title, userclass
+  Excluded attributes: gecos
+  Default attributes: telephonenumber, cn, labeleduri, manager, street, displayname, homephone, title, facsimiletelephonenumber, loginshell, employeetype, description, businesscategory, preferredlanguage, roomnumber, mepmanagedentry, carlicense, postalcode, givenname,
+                      pager, seealso, objectclass, inetuserhttpurl, l, st, mobile, gecos, sn, ou, secretary, userclass, initials
+  Bind rule type: permission
+  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+  Type: user
+  Granted to Privilege: Modify Users and Reset passwords, User Administrators
+  Indirect Member of roles: helpdesk, User Administrator
+</pre></div>
 </div>
 <p>So is changing the bind rule type, i.e. making a permission apply to all
 authenticated users, anyone including anonymous users, or specific users
 selected by privileges:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">permission-mod</span> <span class="pre">'System:</span> <span class="pre">Read</span> <span class="pre">User</span> <span class="pre">Membership'</span> <span class="pre">--bindtype=anonymous</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--------------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Modified</span> <span class="pre">permission</span> <span class="pre">&quot;System:</span> <span class="pre">Read</span> <span class="pre">User</span> <span class="pre">Membership&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--------------------------------------------------</span></code></div>
-<div class="line">``  Permission name: System: Read User Membership``</div>
-<div class="line">``  Granted rights: read, compare, search``</div>
-<div class="line">``  Effective attributes: memberof``</div>
-<div class="line">``  Default attributes: memberof``</div>
-<div class="line">``  Bind rule type: anonymous``</div>
-<div class="line">``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</div>
-<div class="line">``  Type: user``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa permission-mod &#39;System: Read User Membership&#39; --bindtype=anonymous
+--------------------------------------------------
+Modified permission &quot;System: Read User Membership&quot;
+--------------------------------------------------
+  Permission name: System: Read User Membership
+  Granted rights: read, compare, search
+  Effective attributes: memberof
+  Default attributes: memberof
+  Bind rule type: anonymous
+  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+  Type: user
+</pre></div>
 </div>
 </section>
 <section id="documentation-draft">
@@ -441,39 +441,39 @@ permissions follows:</p>
 <h2>Upgrade considerations<a class="headerlink" href="#upgrade-considerations" title="Link to this heading">#</a></h2>
 <p>When upgrading to IPA 4.0, the process will convert old default
 permissions, such as.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-3-3$</span> <span class="pre">ipa</span> <span class="pre">permission-find</span> <span class="pre">'Modify</span> <span class="pre">Groups'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">permission</span> <span class="pre">matched</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--------------------</span></code></div>
-<div class="line">``  Permission name: Modify Groups``</div>
-<div class="line">``  Permissions: write``</div>
-<div class="line">``  Attributes: cn, description, gidnumber, objectclass, mepmanagedby, ipauniqueid``</div>
-<div class="line">``  Type: group``</div>
-<div class="line">``  Granted to Privilege: Group Administrators``</div>
-<div class="line">``  Indirect Member of roles: User Administrator``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">entries</span> <span class="pre">returned</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-3-3$ ipa permission-find &#39;Modify Groups&#39;
+--------------------
+1 permission matched
+--------------------
+  Permission name: Modify Groups
+  Permissions: write
+  Attributes: cn, description, gidnumber, objectclass, mepmanagedby, ipauniqueid
+  Type: group
+  Granted to Privilege: Group Administrators
+  Indirect Member of roles: User Administrator
+----------------------------
+Number of entries returned 1
+----------------------------
+</pre></div>
 </div>
 <p>to managed ones, e.g.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">permission-find</span> <span class="pre">'System:</span> <span class="pre">Modify</span> <span class="pre">Groups'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">permission</span> <span class="pre">matched</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--------------------</span></code></div>
-<div class="line">``  Permission name: System: Modify Groups``</div>
-<div class="line">``  Granted rights: write``</div>
-<div class="line">``  Effective attributes: cn, description, gidnumber, ipauniqueid, mepmanagedby, objectclass``</div>
-<div class="line">``  Default attributes: cn, objectclass, mepmanagedby, gidnumber, ipauniqueid, description``</div>
-<div class="line">``  Bind rule type: permission``</div>
-<div class="line">``  Subtree: cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</div>
-<div class="line">``  Type: group``</div>
-<div class="line">``  Granted to Privilege: Group Administrators``</div>
-<div class="line">``  Indirect Member of roles: User Administrator``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">entries</span> <span class="pre">returned</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa permission-find &#39;System: Modify Groups&#39;
+--------------------
+1 permission matched
+--------------------
+  Permission name: System: Modify Groups
+  Granted rights: write
+  Effective attributes: cn, description, gidnumber, ipauniqueid, mepmanagedby, objectclass
+  Default attributes: cn, objectclass, mepmanagedby, gidnumber, ipauniqueid, description
+  Bind rule type: permission
+  Subtree: cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+  Type: group
+  Granted to Privilege: Group Administrators
+  Indirect Member of roles: User Administrator
+----------------------------
+Number of entries returned 1
+----------------------------
+</pre></div>
 </div>
 <p>If the default permissions that come with IPA have been modified,
 special care should be taken when upgrading.</p>
@@ -548,27 +548,27 @@ by taking the <code class="docutils literal notranslate"><span class="pre">ipaPe
 <code class="docutils literal notranslate"><span class="pre">ipaPermIncludedAttr</span></code>s, and then removing any
 <code class="docutils literal notranslate"><span class="pre">ipaPermExcludedAttr</span></code>s.</p>
 <p>For example, this permission:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=Read</span> <span class="pre">Users,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn:</span> <span class="pre">Read</span> <span class="pre">Users</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr:</span> <span class="pre">cn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr:</span> <span class="pre">sn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr:</span> <span class="pre">givenName</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr:</span> <span class="pre">l</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermIncludedAttr:</span> <span class="pre">favoriteColor</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermExcludedAttr:</span> <span class="pre">givenName</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">groupOfNames</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">ipaPermission</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">ipaManagedPermission</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermType:</span> <span class="pre">SYSTEM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermType:</span> <span class="pre">V2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermType:</span> <span class="pre">MANAGED</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation:</span> <span class="pre">cn=users,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight:</span> <span class="pre">read</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget:</span> <span class="pre">uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType:</span> <span class="pre">permission</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=Read Users,cn=permissions,cn=pbac,$SUFFIX
+cn: Read Users
+ipaPermDefaultAttr: cn
+ipaPermDefaultAttr: sn
+ipaPermDefaultAttr: givenName
+ipaPermDefaultAttr: l
+...
+ipaPermIncludedAttr: favoriteColor
+ipaPermExcludedAttr: givenName
+objectClass: top
+objectClass: groupOfNames
+objectclass: ipaPermission
+objectclass: ipaManagedPermission
+ipaPermType: SYSTEM
+ipaPermType: V2
+ipaPermType: MANAGED
+ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+ipaPermRight: read
+ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+ipaPermBindRuleType: permission
+</pre></div>
 </div>
 <p>would allow users to read all default user attributes except
 <code class="docutils literal notranslate"><span class="pre">givenName</span></code>, plus additionally <code class="docutils literal notranslate"><span class="pre">favoriteColor</span></code>.</p>
@@ -620,23 +620,23 @@ the <code class="docutils literal notranslate"><span class="pre">update_managed_
 <p>Another entry in the <code class="docutils literal notranslate"><span class="pre">managed_permissions</span></code>template, <code class="docutils literal notranslate"><span class="pre">replaces</span></code>,
 will be used for replacing legacy permissions with new managed ones.
 Example:</p>
-<div class="line-block">
-<div class="line">``   managed_permissions = {``</div>
-<div class="line">``       ‘ipa:Modify SUDO Rule’: {``</div>
-<div class="line">``           ‘ipapermbindruletype’: ‘permission’,``</div>
-<div class="line">``           ‘ipapermright’: {‘write’},``</div>
-<div class="line">``           ‘ipapermdefaultattr’: {``</div>
-<div class="line">``               ‘description’, ‘ipaenabledflag’, ‘usercategory’,``</div>
-<div class="line">``               ‘hostcategory’, ‘cmdcategory’, ‘ipasudorunasusercategory’,``</div>
-<div class="line">``               ‘ipasudorunasgroupcategory’, ‘externaluser’,``</div>
-<div class="line">``               ‘ipasudorunasextuser’, ‘ipasudorunasextgroup’, ‘memberdenycmd’,``</div>
-<div class="line">``               ‘memberallowcmd’, ‘memberuser’``</div>
-<div class="line">``           },``</div>
-<div class="line">``           ‘replaces’: [``</div>
-<div class="line">``               ‘(targetattr = “description || ipaenabledflag || usercategory || hostcategory || cmdcategory || ipasudorunasusercategory || ipasudorunasgroupcategory || externaluser || ipasudorunasextuser || ipasudorunasextgroup || memberdenycmd || memberallowcmd || memberuser”)(target = “<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```ldap:///ipauniqueid=</span></code> &lt;<a class="reference external" href="ldap:///ipauniqueid=">ldap:///ipauniqueid=</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">*,cn=sudorules,cn=sudo,$SUFFIX&quot;)(version</span> <span class="pre">3.0;acl</span> <span class="pre">&quot;permission:Modify</span> <span class="pre">Sudo</span> <span class="pre">rule&quot;;allow</span> <span class="pre">(write)</span> <span class="pre">groupdn</span> <span class="pre">=</span> <span class="pre">&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///cn=Modify</span></code> &lt;<a class="reference external" href="ldap:///cn=Modify">ldap:///cn=Modify</a>&gt;`__`` Sudo rule,cn=permissions,cn=pbac,$SUFFIX”;)’,``</div>
-<div class="line">``           }``</div>
-<div class="line">``       },``</div>
-<div class="line">``       …``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>managed_permissions = {
+    &#39;ipa:Modify SUDO Rule&#39;: {
+        &#39;ipapermbindruletype&#39;: &#39;permission&#39;,
+        &#39;ipapermright&#39;: {&#39;write&#39;},
+        &#39;ipapermdefaultattr&#39;: {
+            &#39;description&#39;, &#39;ipaenabledflag&#39;, &#39;usercategory&#39;,
+            &#39;hostcategory&#39;, &#39;cmdcategory&#39;, &#39;ipasudorunasusercategory&#39;,
+            &#39;ipasudorunasgroupcategory&#39;, &#39;externaluser&#39;,
+            &#39;ipasudorunasextuser&#39;, &#39;ipasudorunasextgroup&#39;, &#39;memberdenycmd&#39;,
+            &#39;memberallowcmd&#39;, &#39;memberuser&#39;
+        },
+        &#39;replaces&#39;: [
+            &#39;(targetattr = &quot;description || ipaenabledflag || usercategory || hostcategory || cmdcategory || ipasudorunasusercategory || ipasudorunasgroupcategory || externaluser || ipasudorunasextuser || ipasudorunasextgroup || memberdenycmd || memberallowcmd || memberuser&quot;)(target = &quot;``\ ```ldap:///ipauniqueid=`` &lt;ldap:///ipauniqueid=&gt;`__\ ``*,cn=sudorules,cn=sudo,$SUFFIX&quot;)(version 3.0;acl &quot;permission:Modify Sudo rule&quot;;allow (write) groupdn = &quot;``\ ```ldap:///cn=Modify`` &lt;ldap:///cn=Modify&gt;`__\ `` Sudo rule,cn=permissions,cn=pbac,$SUFFIX&quot;;)&#39;,
+        }
+    },
+    ...
+</pre></div>
 </div>
 <p>If the an existing <em>legacy</em> (i.e. non-v2) permission exists either
 without an associated ACI or with an ACI that <em>exactly</em> matches the

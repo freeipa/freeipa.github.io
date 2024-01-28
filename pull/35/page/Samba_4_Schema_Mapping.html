@@ -650,20 +650,20 @@ ba4InetOrgPerson-oid</p></td>
 <p>Some of the schema conversions are already configured at
 source4/setup/schema-map-fedora-ds-1.0. The file uses the following
 format:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Skip attribute/object class</span>
-<span class="o">&lt;</span><span class="n">attribute</span><span class="o">/</span><span class="nb">object</span> <span class="n">class</span><span class="o">&gt;</span>
-<span class="o">...</span>
-<span class="c1"># Rename OID/attribute/object class</span>
-<span class="o">&lt;</span><span class="n">old</span> <span class="n">OID</span><span class="o">/</span><span class="n">attribute</span><span class="o">/</span><span class="nb">object</span> <span class="n">class</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">new</span> <span class="n">OID</span><span class="o">/</span><span class="n">attribute</span><span class="o">/</span><span class="nb">object</span> <span class="n">class</span><span class="o">&gt;</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Skip attribute/object class
+&lt;attribute/object class&gt;
+...
+# Rename OID/attribute/object class
+&lt;old OID/attribute/object class&gt;:&lt;new OID/attribute/object class&gt;
+...
 </pre></div>
 </div>
 <p>The conversion code is located in
 source4/dsdb/schema/schema_convert_to_ol.c:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">char</span> <span class="o">*</span><span class="n">dsdb_convert_schema_to_openldap</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_context</span> <span class="o">*</span><span class="n">ldb</span><span class="p">,</span>
-    <span class="n">char</span> <span class="o">*</span><span class="n">target_str</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">mappings</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>char *dsdb_convert_schema_to_openldap(struct ldb_context *ldb,
+    char *target_str, const char *mappings)
+{
+}
 </pre></div>
 </div>
 <p>Current the code doesn’t map the object class parent.</p>
@@ -768,34 +768,34 @@ mestamp_to_usn</p></td>
 </tbody>
 </table>
 <p>The attribute mapping is stored in the following structure:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_map_attribute</span> <span class="n">nsuniqueid_attributes</span><span class="p">[]</span> <span class="o">=</span>
-<span class="p">{</span>
-    <span class="p">{</span>
-        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-        <span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">MAP_CONVERT</span> <span class="o">|</span> <span class="n">MAP_RENAME</span> <span class="o">|</span> <span class="n">MAP_KEEP</span><span class="p">,</span>
-        <span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="o">.</span><span class="n">convert</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="o">.</span><span class="n">remote_name</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-                <span class="o">.</span><span class="n">convert_local</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-                <span class="o">.</span><span class="n">convert_remote</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="n">NULL</span>
-    <span class="p">}</span>
-<span class="p">};</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static const struct ldb_map_attribute nsuniqueid_attributes[] =
+{
+    {
+        .local_name = &quot;...&quot;,
+        .type = MAP_CONVERT | MAP_RENAME | MAP_KEEP,
+        .u = {
+            .convert = {
+                .remote_name = &quot;...&quot;,
+                .convert_local = ...,
+                .convert_remote = ...,
+            }
+        }
+    },
+    {
+        .local_name = NULL
+    }
+};
 </pre></div>
 </div>
 <p>Currently there is no object class mapping for DS.</p>
 <p>The module is initialized in the following method:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">nsuniqueid_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">ldb_map_init</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">nsuniqueid_attributes</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span>
-        <span class="n">nsuniqueid_wildcard_attributes</span><span class="p">,</span> <span class="s2">&quot;extensibleObject&quot;</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int nsuniqueid_init(struct ldb_module *module)
+{
+    ldb_map_init(module, nsuniqueid_attributes, NULL,
+        nsuniqueid_wildcard_attributes, &quot;extensibleObject&quot;, NULL);
 
-    <span class="k">return</span> <span class="n">ldb_next_init</span><span class="p">(</span><span class="n">module</span><span class="p">);</span>
-<span class="p">}</span>
+    return ldb_next_init(module);
+}
 </pre></div>
 </div>
 </section>
@@ -807,94 +807,94 @@ mestamp_to_usn</p></td>
 <p>Samba 3 schema and its dependencies have to be included during DS
 instance creation. The following lines should be added into
 source4/setup/fedorads.inf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SchemaFile</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="mi">10</span><span class="n">rfc2307</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">SchemaFile</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="mi">05</span><span class="n">rfc4523</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">SchemaFile</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="mi">05</span><span class="n">rfc4524</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">SchemaFile</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="mi">06</span><span class="n">inetorgperson</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">SchemaFile</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="mi">60</span><span class="n">samba3</span><span class="o">.</span><span class="n">ldif</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SchemaFile=/etc/dirsrv/schema/10rfc2307.ldif
+SchemaFile=/etc/dirsrv/schema/05rfc4523.ldif
+SchemaFile=/etc/dirsrv/schema/05rfc4524.ldif
+SchemaFile=/etc/dirsrv/schema/06inetorgperson.ldif
+SchemaFile=/usr/share/dirsrv/data/60samba3.ldif
 </pre></div>
 </div>
 </section>
 <section id="id1">
 <h2>Schema Conversion<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>The following schema conversion should be added:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Standard FDS attributes</span>
-<span class="n">homePostalAddress</span>
-<span class="n">info</span>
-<span class="n">displayName</span>
-<span class="n">employeeNumber</span>
-<span class="n">employeeType</span>
-<span class="n">personalTitle</span>
-<span class="n">co</span>
-<span class="n">userSMIMECertificate</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#Standard FDS attributes
+homePostalAddress
+info
+displayName
+employeeNumber
+employeeType
+personalTitle
+co
+userSMIMECertificate
 
-<span class="c1">#Remap into existing schema</span>
-<span class="n">unixHomeDirectory</span>
-<span class="n">unixHomeDirectory</span><span class="p">:</span><span class="n">homeDirectory</span>
-<span class="n">pwdLastSet</span>
-<span class="n">pwdLastSet</span><span class="p">:</span><span class="n">sambaPwdLastSet</span>
-<span class="n">lastLogon</span>
-<span class="n">lastLogon</span><span class="p">:</span><span class="n">sambaLogonTime</span>
-<span class="n">lastLogoff</span>
-<span class="n">lastLogoff</span><span class="p">:</span><span class="n">sambaLogoffTime</span>
-<span class="n">badPwdCount</span>
-<span class="n">badPwdCount</span><span class="p">:</span><span class="n">sambaBadPasswordCount</span>
-<span class="n">logonHours</span>
-<span class="n">logonHours</span><span class="p">:</span><span class="n">sambaLogonHours</span>
-<span class="n">homeDrive</span>
-<span class="n">homeDrive</span><span class="p">:</span><span class="n">sambaHomeDrive</span>
-<span class="n">scriptPath</span>
-<span class="n">scriptPath</span><span class="p">:</span><span class="n">sambaLogonScript</span>
-<span class="n">profilePath</span>
-<span class="n">profilePath</span><span class="p">:</span><span class="n">sambaProfilePath</span>
-<span class="n">userWorkstations</span>
-<span class="n">userWorkstations</span><span class="p">:</span><span class="n">sambaUserWorkstations</span>
-<span class="n">homeDirectory</span>
-<span class="n">homeDirectory</span><span class="p">:</span><span class="n">sambaHomePath</span>
-<span class="n">groupType</span>
-<span class="n">groupType</span><span class="p">:</span><span class="n">sambaGroupType</span>
-<span class="n">nextRid</span>
-<span class="n">nextRid</span><span class="p">:</span><span class="n">sambaNextRid</span>
-<span class="n">privilegeDisplayName</span>
-<span class="n">privilegeDisplayName</span><span class="p">:</span><span class="n">sambaPrivName</span>
+#Remap into existing schema
+unixHomeDirectory
+unixHomeDirectory:homeDirectory
+pwdLastSet
+pwdLastSet:sambaPwdLastSet
+lastLogon
+lastLogon:sambaLogonTime
+lastLogoff
+lastLogoff:sambaLogoffTime
+badPwdCount
+badPwdCount:sambaBadPasswordCount
+logonHours
+logonHours:sambaLogonHours
+homeDrive
+homeDrive:sambaHomeDrive
+scriptPath
+scriptPath:sambaLogonScript
+profilePath
+profilePath:sambaProfilePath
+userWorkstations
+userWorkstations:sambaUserWorkstations
+homeDirectory
+homeDirectory:sambaHomePath
+groupType
+groupType:sambaGroupType
+nextRid
+nextRid:sambaNextRid
+privilegeDisplayName
+privilegeDisplayName:sambaPrivName
 
-<span class="c1">#Resolve conflicting attributes</span>
-<span class="mf">1.2.840.113556.1.4.484</span><span class="p">:</span><span class="n">fRSDirectoryFilter</span><span class="o">-</span><span class="n">oid</span>
-<span class="mf">1.2.840.113556.1.4.483</span><span class="p">:</span><span class="n">fRSFileFilter</span><span class="o">-</span><span class="n">oid</span>
-<span class="mf">1.2.840.113556.1.4.485</span><span class="p">:</span><span class="n">fRSUpdateTimeout</span><span class="o">-</span><span class="n">oid</span>
-<span class="mf">2.16.840.1.113730.3.1.36</span><span class="p">:</span><span class="n">thumbnailLogo</span><span class="o">-</span><span class="n">oid</span>
-<span class="mf">2.16.840.1.113730.3.1.35</span><span class="p">:</span><span class="n">thumbnailPhoto</span><span class="o">-</span><span class="n">oid</span>
-<span class="mf">1.2.840.113556.1.4.481</span><span class="p">:</span><span class="n">schemaUpdate</span><span class="o">-</span><span class="n">oid</span>
+#Resolve conflicting attributes
+1.2.840.113556.1.4.484:fRSDirectoryFilter-oid
+1.2.840.113556.1.4.483:fRSFileFilter-oid
+1.2.840.113556.1.4.485:fRSUpdateTimeout-oid
+2.16.840.1.113730.3.1.36:thumbnailLogo-oid
+2.16.840.1.113730.3.1.35:thumbnailPhoto-oid
+1.2.840.113556.1.4.481:schemaUpdate-oid
 
-<span class="c1">#Resolve conflicting object classes</span>
-<span class="n">domain</span><span class="p">:</span><span class="n">samba4Domain</span>
-<span class="n">rFC822LocalPart</span><span class="p">:</span><span class="n">samba4RFC822LocalPart</span>
-<span class="n">mailRecipient</span><span class="p">:</span><span class="n">samba4MailRecipient</span>
-<span class="n">nisMap</span><span class="p">:</span><span class="n">samba4NisMap</span>
-<span class="mf">0.9.2342.19200300.100.4.14</span><span class="p">:</span><span class="n">samba4RFC822LocalPart</span><span class="o">-</span><span class="n">oid</span>
-<span class="n">person</span><span class="p">:</span><span class="n">samba4Person</span>
-<span class="mf">2.5.6.6</span><span class="p">:</span><span class="n">samba4Person</span><span class="o">-</span><span class="n">oid</span>
-<span class="n">organizationalPerson</span><span class="p">:</span><span class="n">samba4OrganizationalPerson</span>
-<span class="mf">2.5.6.7</span><span class="p">:</span><span class="n">samba4OrganizationalPerson</span><span class="o">-</span><span class="n">oid</span>
-<span class="n">residentialPerson</span><span class="p">:</span><span class="n">samba4ResidentialPerson</span>
-<span class="mf">2.5.6.10</span><span class="p">:</span><span class="n">samba4ResidentialPerson</span><span class="o">-</span><span class="n">oid</span>
-<span class="n">inetOrgPerson</span><span class="p">:</span><span class="n">samba4InetOrgPerson</span>
-<span class="mf">2.16.840.1.113730.3.2.2</span><span class="p">:</span><span class="n">samba4InetOrgPerson</span><span class="o">-</span><span class="n">oid</span>
+#Resolve conflicting object classes
+domain:samba4Domain
+rFC822LocalPart:samba4RFC822LocalPart
+mailRecipient:samba4MailRecipient
+nisMap:samba4NisMap
+0.9.2342.19200300.100.4.14:samba4RFC822LocalPart-oid
+person:samba4Person
+2.5.6.6:samba4Person-oid
+organizationalPerson:samba4OrganizationalPerson
+2.5.6.7:samba4OrganizationalPerson-oid
+residentialPerson:samba4ResidentialPerson
+2.5.6.10:samba4ResidentialPerson-oid
+inetOrgPerson:samba4InetOrgPerson
+2.16.840.1.113730.3.2.2:samba4InetOrgPerson-oid
 </pre></div>
 </div>
 <p>The conversion code should be modified map the object class parent:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">char</span> <span class="o">*</span><span class="n">print_schema_recursive</span><span class="p">(</span>
-    <span class="n">char</span> <span class="o">*</span><span class="n">append_to_string</span><span class="p">,</span> <span class="n">struct</span> <span class="n">dsdb_schema</span> <span class="o">*</span><span class="n">schema</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">print_class</span><span class="p">,</span>
-    <span class="n">enum</span> <span class="n">dsdb_schema_convert_target</span> <span class="n">target</span><span class="p">,</span>
-    <span class="n">const</span> <span class="n">char</span> <span class="o">**</span><span class="n">attrs_skip</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">attr_map</span> <span class="o">*</span><span class="n">attr_map</span><span class="p">,</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">oid_map</span> <span class="o">*</span><span class="n">oid_map</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">subClassOf</span> <span class="o">&amp;&amp;</span> <span class="n">attr_map</span> <span class="o">&amp;&amp;</span> <span class="n">attr_map</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">old_attr</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">strcasecmp</span><span class="p">(</span><span class="n">subClassOf</span><span class="p">,</span> <span class="n">attr_map</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">old_attr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">subClassOf</span> <span class="o">=</span>  <span class="n">attr_map</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">new_attr</span><span class="p">;</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static char *print_schema_recursive(
+    char *append_to_string, struct dsdb_schema *schema, const char *print_class,
+    enum dsdb_schema_convert_target target,
+    const char **attrs_skip, const struct attr_map *attr_map, const struct oid_map *oid_map)
+{
+    for (j=0; subClassOf &amp;&amp; attr_map &amp;&amp; attr_map[j].old_attr; j++) {
+        if (strcasecmp(subClassOf, attr_map[j].old_attr) == 0) {
+            subClassOf =  attr_map[j].new_attr;
+            break;
+        }
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -1029,27 +1029,27 @@ source4/setup/fedorads.inf:</p>
 </tbody>
 </table>
 <p>The object class mapping should stored in the following structure:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_map_objectclass</span> <span class="n">nsuniqueid_objectclasses</span><span class="p">[]</span> <span class="o">=</span>
-<span class="p">{</span>
-    <span class="p">{</span>
-        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-        <span class="o">.</span><span class="n">remote_name</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="o">.</span><span class="n">local_name</span> <span class="o">=</span> <span class="n">NULL</span>
-    <span class="p">}</span>
-<span class="p">};</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>const struct ldb_map_objectclass nsuniqueid_objectclasses[] =
+{
+    {
+        .local_name = &quot;...&quot;,
+        .remote_name = &quot;...&quot;
+    },
+    {
+        .local_name = NULL
+    }
+};
 </pre></div>
 </div>
 <p>The module initialization should be changed to use the object class
 mapping:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">nsuniqueid_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">ldb_map_init</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">nsuniqueid_attributes</span><span class="p">,</span> <span class="n">nsuniqueid_objectclasses</span><span class="p">,</span>
-        <span class="n">nsuniqueid_wildcard_attributes</span><span class="p">,</span> <span class="s2">&quot;extensibleObject&quot;</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int nsuniqueid_init(struct ldb_module *module)
+{
+    ldb_map_init(module, nsuniqueid_attributes, nsuniqueid_objectclasses,
+        nsuniqueid_wildcard_attributes, &quot;extensibleObject&quot;, NULL);
 
-    <span class="k">return</span> <span class="n">ldb_next_init</span><span class="p">(</span><span class="n">module</span><span class="p">);</span>
-<span class="p">}</span>
+    return ldb_next_init(module);
+}
 </pre></div>
 </div>
 </section>

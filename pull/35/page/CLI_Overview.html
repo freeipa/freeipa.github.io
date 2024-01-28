@@ -378,9 +378,9 @@ majority of all plugins) automatically transform attributes as they are
 stored in LDAP into a more user-friendly form and most of the time, some
 less relevant attributes are hidden by default. Since this behaviour
 isn’t always desirable, all such commands accept the following options:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--all</span>&#160;&#160;&#160;&#160; <span class="pre">display</span> <span class="pre">all</span> <span class="pre">attributes</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">--raw</span>&#160;&#160;&#160;&#160; <span class="pre">display</span> <span class="pre">attributes</span> <span class="pre">as</span> <span class="pre">they</span> <span class="pre">are</span> <span class="pre">stored</span> <span class="pre">in</span> <span class="pre">LDAP</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--all     display all attributes
+--raw     display attributes as they are stored in LDAP
+</pre></div>
 </div>
 <p>–all makes the command retrieve all attributes and display them, this
 doesn’t apply to explicitly hidden attributes.</p>
@@ -452,9 +452,9 @@ indirect map is equivalent to an automount file listed in
 <p>There are 2 ways of creating them; the simple way:</p>
 <p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">automountmap-add-indirect</span> <span class="pre">LOCATION_NAME</span> <span class="pre">MAP_NAME</span> <span class="pre">--mount=MOUNT_POINT</span></code></p>
 <p>and the hard(er) way:</p>
-<div class="line-block">
-<div class="line">`` ipa automountmap-add LOCATION_NAME MAP_NAME``</div>
-<div class="line">`` ipa automountkey-add LOCATION_NAME auto.master MOUNT_POINT –info=MAP_NAME``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa automountmap-add LOCATION_NAME MAP_NAME
+ipa automountkey-add LOCATION_NAME auto.master MOUNT_POINT --info=MAP_NAME
+</pre></div>
 </div>
 <p>MOUNT_POINT is the mount point such as “/mnt”.</p>
 </section>
@@ -509,14 +509,14 @@ choise is $AUTOMOUNT_LOCATION.</p></li>
 <p>to</p>
 <p><code class="docutils literal notranslate"><span class="pre">automount</span> <span class="pre">ldap</span></code></p>
 <p>In file /etc/sysconfig/autofs add the following lines at its end:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">LDAP_URI=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap://$SERVER_HOSTNAME</span></code> &lt;<a class="reference external" href="ldap://$SERVER_HOSTNAME">ldap://$SERVER_HOSTNAME</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SEARCH_BASE=&quot;cn=$AUTOMOUNT_LOCATION,cn=automount,$LDAP_BASE_DN&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">MAP_OBJECT_CLASS=&quot;automountMap&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ENTRY_OBJECT_CLASS=&quot;automount&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">MAP_ATTRIBUTE=&quot;automountMapName&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ENTRY_ATTRIBUTE=&quot;automountKey&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">VALUE_ATTRIBUTE=&quot;automountInformation&quot;</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LDAP_URI=&quot;``\ ```ldap://$SERVER_HOSTNAME`` &lt;ldap://$SERVER_HOSTNAME&gt;`__\ ``&quot;
+SEARCH_BASE=&quot;cn=$AUTOMOUNT_LOCATION,cn=automount,$LDAP_BASE_DN&quot;
+MAP_OBJECT_CLASS=&quot;automountMap&quot;
+ENTRY_OBJECT_CLASS=&quot;automount&quot;
+MAP_ATTRIBUTE=&quot;automountMapName&quot;
+ENTRY_ATTRIBUTE=&quot;automountKey&quot;
+VALUE_ATTRIBUTE=&quot;automountInformation&quot;
+</pre></div>
 </div>
 <p>If unsure about what to put into the SEARCH_BASE line, issue this
 command to retrieve the correct DN:</p>
@@ -634,11 +634,11 @@ host)</p></li>
 </ul>
 <p>A simple example: Allow the user admin to ssh into the host tiger from
 the host lion.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">hbac-add</span> <span class="pre">--type=allow</span> <span class="pre">--service=sshd</span> <span class="pre">tiger_sshd</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">hbac-add-host</span> <span class="pre">tiger_sshd</span> <span class="pre">--hosts=tiger.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">hbac-add-sourcehost</span> <span class="pre">tiger_sshd</span> <span class="pre">--hosts=lion.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">hbac-add-user</span> <span class="pre">--users=admin</span> <span class="pre">tiger_sshd</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa hbac-add --type=allow --service=sshd tiger_sshd
+$ ipa hbac-add-host tiger_sshd --hosts=tiger.example.com
+$ ipa hbac-add-sourcehost tiger_sshd --hosts=lion.example.com
+$ ipa hbac-add-user --users=admin tiger_sshd
+</pre></div>
 </div>
 <p>There is no access time associated with this rule so it is is always
 available.</p>

@@ -330,26 +330,28 @@ key generation and rotation.</p>
 <p>Following command will install DNSSEC key master role to a replica. This
 command can be run on FreeIPA server which is already configured as
 FreeIPA DNS server:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-dns-install --dnssec-master
+The log file for this installation can be found in /var/log/ipaserver-install.log
+==============================================================================
+This program will setup DNS for the FreeIPA Server.
+This includes:
+  * Configure DNS (bind)
+  * Configure SoftHSM (required by DNSSEC)
+  * Configure ipa-dnskeysyncd (required by DNSSEC)
+  * Configure ipa-ods-exporter (required by DNSSEC key master)
+  * Configure OpenDNSSEC (required by DNSSEC key master)
+  * Generate DNSSEC master key (required by DNSSEC key master)
+NOTE: DNSSEC zone signing is not enabled by default
+DNSSEC support is experimental!
+Plan carefully, current version doesn&#39;t allow you to move DNSSEC
+key master to different server and master cannot be uninstalled
+To accept the default shown in brackets, press the Enter key.
+</pre></div>
+</div>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-dns-install</span> <span class="pre">--dnssec-master</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">log</span> <span class="pre">file</span> <span class="pre">for</span> <span class="pre">this</span> <span class="pre">installation</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">/var/log/ipaserver-install.log</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">==============================================================================</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">This</span> <span class="pre">program</span> <span class="pre">will</span> <span class="pre">setup</span> <span class="pre">DNS</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">FreeIPA</span> <span class="pre">Server.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">This</span> <span class="pre">includes:</span></code></div>
-<div class="line">``  * Configure DNS (bind)``</div>
-<div class="line">``  * Configure SoftHSM (required by DNSSEC)``</div>
-<div class="line">``  * Configure ipa-dnskeysyncd (required by DNSSEC)``</div>
-<div class="line">``  * Configure ipa-ods-exporter (required by DNSSEC key master)``</div>
-<div class="line">``  * Configure OpenDNSSEC (required by DNSSEC key master)``</div>
-<div class="line">``  * Generate DNSSEC master key (required by DNSSEC key master)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NOTE:</span> <span class="pre">DNSSEC</span> <span class="pre">zone</span> <span class="pre">signing</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">enabled</span> <span class="pre">by</span> <span class="pre">default</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DNSSEC</span> <span class="pre">support</span> <span class="pre">is</span> <span class="pre">experimental!</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Plan</span> <span class="pre">carefully,</span> <span class="pre">current</span> <span class="pre">version</span> <span class="pre">doesn't</span> <span class="pre">allow</span> <span class="pre">you</span> <span class="pre">to</span> <span class="pre">move</span> <span class="pre">DNSSEC</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">master</span> <span class="pre">to</span> <span class="pre">different</span> <span class="pre">server</span> <span class="pre">and</span> <span class="pre">master</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">uninstalled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">To</span> <span class="pre">accept</span> <span class="pre">the</span> <span class="pre">default</span> <span class="pre">shown</span> <span class="pre">in</span> <span class="pre">brackets,</span> <span class="pre">press</span> <span class="pre">the</span> <span class="pre">Enter</span> <span class="pre">key.</span></code></div>
-<div class="line"><strong>``Do````````you````````want````````to````````setup````````this````````IPA````````server````````as````````DNSSEC````````key````````master?````````[no]:````````yes``</strong></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Existing</span> <span class="pre">BIND</span> <span class="pre">configuration</span> <span class="pre">detected,</span> <span class="pre">overwrite?</span> <span class="pre">[no]:</span> <span class="pre">yes</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+<div class="line"><strong>``Do````````you````````want````````to````````setup````````this````````IPA````````server````````as````````DNSSEC````````key````````master?````````[no]:````````yes``</strong>
+Existing BIND configuration detected, overwrite? [no]: yes
+…</div>
 </div>
 <p>Please verify the file <em>kasp.xml</em> (<em>/etc/opendnssec/kasp.xml</em>) if it
 satisfies your DNSSEC configuration requirements.</p>
@@ -358,12 +360,12 @@ satisfies your DNSSEC configuration requirements.</p>
 <h2>Enable zone signing<a class="headerlink" href="#enable-zone-signing" title="Link to this heading">#</a></h2>
 <p>Zones are not signed by default. Zone signing has to be enabled per zone
 using following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ ipa dnszone-add example.test. --dnssec=true``
-| ``  Zone name: example.test.``
-| ``  Active zone: TRUE``
-| ``. . .``
-| `` Allow query: any;``
-| `` Allow transfer: none;``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> $ ipa dnszone-add example.test. --dnssec=true``
+   Zone name: example.test.``
+   Active zone: TRUE``
+ . . .``
+  Allow query: any;``
+  Allow transfer: none;``
 | `` ``\ **``Allow``\ ````\ ``in-line``\ ````\ ``DNSSEC``\ ````\ ``signing:``\ ````\ ``TRUE``**
 </pre></div>
 </div>
@@ -379,9 +381,9 @@ using following command:</p>
 <h2>Add a zone to be signed<a class="headerlink" href="#add-a-zone-to-be-signed" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-add</span> <span class="pre">example.test.</span> <span class="pre">--dnssec=true</span></code></p>
 <p>or</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-add</span> <span class="pre">example.test.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">--dnssec=true</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnszone-add example.test.
+ipa dnszone-mod --dnssec=true
+</pre></div>
 </div>
 </section>
 <section id="verify-if-zone-is-signed">
@@ -389,18 +391,18 @@ using following command:</p>
 <p>Verify using <em>dig</em> utility if answer contains RRSIG record. This may
 take a few minutes until proper key are distributed to all replicas in
 topology.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;server.ipa.test.</span> <span class="pre">+dnssec</span> <span class="pre">example.test.</span> <span class="pre">SOA</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">Got</span> <span class="pre">answer:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">-&gt;&gt;HEADER&lt;&lt;-</span> <span class="pre">opcode:</span> <span class="pre">QUERY,</span> <span class="pre">status:</span> <span class="pre">NOERROR,</span> <span class="pre">id:</span> <span class="pre">41379</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">flags:</span> <span class="pre">qr</span> <span class="pre">aa</span> <span class="pre">rd</span> <span class="pre">ra;</span> <span class="pre">QUERY:</span> <span class="pre">1,</span> <span class="pre">ANSWER:</span> <span class="pre">2,</span> <span class="pre">AUTHORITY:</span> <span class="pre">3,</span> <span class="pre">ADDITIONAL:</span> <span class="pre">2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">OPT</span> <span class="pre">PSEUDOSECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;</span> <span class="pre">EDNS:</span> <span class="pre">version:</span> <span class="pre">0,</span> <span class="pre">flags:</span> <span class="pre">do;</span> <span class="pre">udp:</span> <span class="pre">4096</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">QUESTION</span> <span class="pre">SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;example.test.</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">IN</span>&#160; <span class="pre">SOA</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">ANSWER</span> <span class="pre">SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">example.test.</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">86400</span>&#160;&#160; <span class="pre">IN</span>&#160; <span class="pre">SOA</span>&#160;&#160;&#160; <span class="pre">server.ipa.test.</span> <span class="pre">hostmaster.example.test.</span> <span class="pre">1426005184</span> <span class="pre">3600</span> <span class="pre">900</span> <span class="pre">1209600</span> <span class="pre">3600</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">example.test.</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">86400</span>&#160;&#160; <span class="pre">IN</span>&#160; <span class="pre">``\</span> <span class="pre">**``RRSIG``**\</span> <span class="pre">``</span>&#160; <span class="pre">SOA</span> <span class="pre">8</span> <span class="pre">2</span> <span class="pre">86400</span> <span class="pre">20150409163304</span> <span class="pre">20150310153304</span> <span class="pre">30144</span> <span class="pre">example.test.</span> <span class="pre">8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6</span> <span class="pre">...</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dig @server.ipa.test. +dnssec example.test. SOA
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 41379
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 3, ADDITIONAL: 2
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;example.test.         IN  SOA
+;; ANSWER SECTION:
+example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600
+example.test.      86400   IN  ``\ **``RRSIG``**\ ``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...
+</pre></div>
 </div>
 </section>
 <section id="key-types-ksk-and-zsk">
@@ -421,21 +423,21 @@ Public key exposed in <strong>DNSKEY 256</strong> record is used to verify
 signatures over other resource records in the DNS zone.</p>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ dig +rrcomments example.test. DNSKEY``
-| ``...``
-| ``;; ANSWER SECTION:``
-| ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466``
-| ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dig +rrcomments example.test. DNSKEY``
+...``
+;; ANSWER SECTION:``
+example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466``
+example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144``
 </pre></div>
 </div>
 <p>On <strong>DNSSEC key master</strong> all currently used keys can be shown using
 following command (replace <code class="docutils literal notranslate"><span class="pre">ods-enforcer</span></code> by <code class="docutils literal notranslate"><span class="pre">ods-ksmutil</span></code> on RHEL
 7):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
-| ``SQLite database set to: /var/opendnssec/kasp.db``
-| ``Keys:``
-| ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
-| ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> $ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
+ SQLite database set to: /var/opendnssec/kasp.db``
+ Keys:``
+ Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
+ example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
 | ``example.test    ``\ **``KSK``**\ ``      ``\ **``ready``**\ ``   ``\ **``waiting``\ ````\ ``for``\ ````\ ``ds-seen``\ ````\ ``(active)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
 </pre></div>
 </div>
@@ -444,10 +446,10 @@ following command (replace <code class="docutils literal notranslate"><span clas
 <h2>Get the DS record<a class="headerlink" href="#get-the-ds-record" title="Link to this heading">#</a></h2>
 <p>The DS record of the zone, has to be uploaded to parent zone, otherwise
 chain of trust can not be completed.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">example.test.</span> <span class="pre">DNSKEY</span> <span class="pre">&gt;</span> <span class="pre">dnskey.txt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dnssec-dsfromkey</span> <span class="pre">-f</span> <span class="pre">dnskey.txt</span> <span class="pre">-2</span> <span class="pre">example.test</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">example.test.</span> <span class="pre">IN</span> <span class="pre">DS</span> <span class="pre">``\</span> <span class="pre">**``60466``**\</span> <span class="pre">``</span> <span class="pre">8</span> <span class="pre">2</span> <span class="pre">0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dig example.test. DNSKEY &gt; dnskey.txt
+$ dnssec-dsfromkey -f dnskey.txt -2 example.test
+example.test. IN DS ``\ **``60466``**\ `` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956
+</pre></div>
 </div>
 <p>Output of the <em>dnssec-dsfromkey</em> is the DS record for zone
 <em>example.test.</em>, which has to be uploaded to parent zone, e.g. <em>test.</em>.</p>
@@ -456,7 +458,7 @@ chain of trust can not be completed.</p>
 <h2>Add DS record into parent zone<a class="headerlink" href="#add-ds-record-into-parent-zone" title="Link to this heading">#</a></h2>
 <p>Following example shows how to add DS record of <em>example.test.</em> zone
 into a parent zone <em>test.</em> which is managed by IPA:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  ``\ **``--ds-rec=&quot;60466``\ ````\ ``8``\ ````\ ``2``\ ````\ ``0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956&quot;``**
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  ``\ **``--ds-rec=&quot;60466``\ ````\ ``8``\ ````\ ``2``\ ````\ ``0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956&quot;``**
 </pre></div>
 </div>
 <p>DS record has to be added to the same name as NS record (delegation)
@@ -468,24 +470,25 @@ trust from the parent zone.</p>
 </section>
 <section id="confirm-ds-record-upload">
 <h2>Confirm DS record upload<a class="headerlink" href="#confirm-ds-record-upload" title="Link to this heading">#</a></h2>
-<p>Verify that DS record is available from the parent zone:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ dig +rrcomments example.test DS ``
-| ``example.test       86400   IN  DS  ``\ **``60466``**\ `` 8 2 0A758A8B ...``
-</pre></div>
-</div>
+<p>Verify that DS record is available from the parent zone:
+.. code-block:: text</p>
+<blockquote>
+<div><p>$ dig +rrcomments example.test DS ``
+example.test       86400   IN  DS  <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``60466``**\</span> <span class="pre">``</span> <span class="pre">8</span> <span class="pre">2</span> <span class="pre">0A758A8B</span> <span class="pre">...</span></code></p>
+</div></blockquote>
 <p>After successfull DS record upload to the parent zone, the following
 command has to be executed on DNSSEC key master server to enable key
 rotation. Keytag value has to match KSK keytag as shown in outputs
 above:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key ds-seen --zone example.test --keytag ``\ **``60466``**
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key ds-seen --zone example.test --keytag ``\ **``60466``**
 </pre></div>
 </div>
 <p><em>ds-seen</em> command will allow the KSK to proceed to the next state:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
-| ``SQLite database set to: /var/opendnssec/kasp.db``
-| ``Keys:``
-| ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
-| ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> $ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
+ SQLite database set to: /var/opendnssec/kasp.db``
+ Keys:``
+ Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
+ example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
 | ``example.test    ``\ **``KSK``**\ ``       ``\ **``ready``**\ ``   ``\ **``2016-03-09``\ ````\ ``11:34:38``\ ````\ ``(retire)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
 </pre></div>
 </div>
@@ -496,9 +499,9 @@ above:</p>
 chain of trust can be established should follow, to make sure the
 records from zone will pass the DNSSEC validation on DNS servers.</p>
 <p>For example this can be done via <code class="docutils literal notranslate"><span class="pre">drill</span></code> utility:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``drill -TD example.test. -k /etc/trusted-key.key``
-| ``drill -TD example.test. SOA -k /etc/trusted-key.key``
-| ``drill -TD host.example.test. A -k /etc/trusted-key.key``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>drill -TD example.test. -k /etc/trusted-key.key``
+drill -TD example.test. SOA -k /etc/trusted-key.key``
+drill -TD host.example.test. A -k /etc/trusted-key.key``
 </pre></div>
 </div>
 <p>All keys/records should be marked as [T] trusted.</p>
@@ -522,21 +525,23 @@ signing.</p>
 <p>Local resolvers need to know KSK of your root zone because it is entry
 point to the chain of trust from root zone to all other zones.</p>
 <p>Get the KSK key of your root zone:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dig @localhost  . DNSKEY
+...
+;; QUESTION SECTION:
+;.             IN  DNSKEY
+;; ANSWER SECTION:
+.          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...
+</pre></div>
+</div>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;localhost</span>&#160; <span class="pre">.</span> <span class="pre">DNSKEY</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">QUESTION</span> <span class="pre">SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;.</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">IN</span>&#160; <span class="pre">DNSKEY</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;;</span> <span class="pre">ANSWER</span> <span class="pre">SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">.</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">86400</span>&#160;&#160; <span class="pre">IN</span>&#160; <span class="pre">DNSKEY</span>&#160; <span class="pre">256</span> <span class="pre">3</span> <span class="pre">8</span> <span class="pre">AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n</span> <span class="pre">...</span></code></div>
-<div class="line"><strong>``.````````86400````````IN````````DNSKEY````````257````````3````````8````````AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT````````JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X````````AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD````````qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P````````a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l````````Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt````````Fcs8Xgl7E1s=``</strong></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+<div class="line"><strong>``.````````86400````````IN````````DNSKEY````````257````````3````````8````````AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT````````JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X````````AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD````````qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P````````a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l````````Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt````````Fcs8Xgl7E1s=``</strong>
+…</div>
 </div>
 <p>Put your root zone KSK (denoted by flag value <strong>257</strong>) into
 <em>trusted-key.key</em> file on all DNSSEC clients:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">/etc/trusted-key.key</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">.</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">86400</span>&#160;&#160; <span class="pre">IN</span>&#160; <span class="pre">DNSKEY</span>&#160; <span class="pre">257</span> <span class="pre">3</span> <span class="pre">8</span> <span class="pre">AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT</span> <span class="pre">JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X</span> <span class="pre">AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD</span> <span class="pre">qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P</span> <span class="pre">a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l</span> <span class="pre">Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt</span> <span class="pre">Fcs8Xgl7E1s=</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ cat /etc/trusted-key.key
+.          86400   IN  DNSKEY  257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s=
+</pre></div>
 </div>
 </section>
 <section id="migrate-dnssec-master-to-another-ipa-server">
@@ -566,25 +571,25 @@ just disable dnssec master</p></li>
 <h3>Disable current DNSSEC key master<a class="headerlink" href="#disable-current-dnssec-key-master" title="Link to this heading">#</a></h3>
 <p>To disable current DNSSEC master, please reinstall IPA DNS with
 <code class="docutils literal notranslate"><span class="pre">--disable-dnssec-master</span></code> option.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipa-dns-install --disable-dnssec-master``
-| ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-| ``==============================================================================``
-| ``This program will setup DNS for the FreeIPA Server.``
-| ``This includes:``
-| ``  * Configure DNS (bind)``
-| ``  * Configure SoftHSM (required by DNSSEC)``
-| ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-| ``  * Unconfigure ipa-ods-exporter``
-| ``  * Unconfigure OpenDNSSEC``
-| ``No new zones will be signed without DNSSEC key master IPA server.``
-| ``Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key ``
-| ``master server``
-| ``NOTE: DNSSEC zone signing is not enabled by default``
-| ``To accept the default shown in brackets, press the Enter key.``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> # ipa-dns-install --disable-dnssec-master``
+ The log file for this installation can be found in /var/log/ipaserver-install.log``
+ ==============================================================================``
+ This program will setup DNS for the FreeIPA Server.``
+ This includes:``
+   * Configure DNS (bind)``
+   * Configure SoftHSM (required by DNSSEC)``
+   * Configure ipa-dnskeysyncd (required by DNSSEC)``
+   * Unconfigure ipa-ods-exporter``
+   * Unconfigure OpenDNSSEC``
+ No new zones will be signed without DNSSEC key master IPA server.``
+ Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key ``
+ master server``
+ NOTE: DNSSEC zone signing is not enabled by default``
+ To accept the default shown in brackets, press the Enter key.``
 | ``Do you want to disable current DNSSEC key master? [no]: ``\ **``yes``**
 | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
-| `` ``
-| ``...``
+  ``
+ ...``
 </pre></div>
 </div>
 </section>
@@ -601,24 +606,24 @@ restore proper key rotation for existing zones.</p>
 several additional steps, which. Please do not copy this file to
 location where OpenDNSSEC is expecting to find this file, this will not
 work.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup``
-| ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-| ``==============================================================================``
-| ``This program will setup DNS for the FreeIPA Server.``
-| ``This includes:``
-| ``  * Configure DNS (bind)``
-| ``  * Configure SoftHSM (required by DNSSEC)``
-| ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-| ``  * Configure ipa-ods-exporter (required by DNSSEC key master)``
-| ``  * Configure OpenDNSSEC (required by DNSSEC key master)``
-| ``  * Generate DNSSEC master key (required by DNSSEC key master)``
-| ``NOTE: DNSSEC zone signing is not enabled by default``
-| ``DNSSEC support is experimental!``
-| ``Plan carefully, replacing DNSSEC key master is not recommended``
-| ``To accept the default shown in brackets, press the Enter key.``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> # ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup``
+ The log file for this installation can be found in /var/log/ipaserver-install.log``
+ ==============================================================================``
+ This program will setup DNS for the FreeIPA Server.``
+ This includes:``
+   * Configure DNS (bind)``
+   * Configure SoftHSM (required by DNSSEC)``
+   * Configure ipa-dnskeysyncd (required by DNSSEC)``
+   * Configure ipa-ods-exporter (required by DNSSEC key master)``
+   * Configure OpenDNSSEC (required by DNSSEC key master)``
+   * Generate DNSSEC master key (required by DNSSEC key master)``
+ NOTE: DNSSEC zone signing is not enabled by default``
+ DNSSEC support is experimental!``
+ Plan carefully, replacing DNSSEC key master is not recommended``
+ To accept the default shown in brackets, press the Enter key.``
 | ``Do you want to setup this IPA server as DNSSEC key master? [no]: ``\ **``yes``**
 | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
-| ``...``
+ ...``
 </pre></div>
 </div>
 </section>

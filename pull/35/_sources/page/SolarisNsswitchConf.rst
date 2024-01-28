@@ -6,7 +6,7 @@ clients.
 
 Back to `Configuring UNIX Clients <ConfiguringUnixClients>`__
 
-::
+.. code-block:: text
 
    #
    # /etc/nsswitch.conf:

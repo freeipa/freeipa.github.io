@@ -43,7 +43,7 @@ Kerberos Setup
 
 Edit/create the file /etc/krb5.conf as shown below:
 
-::
+.. code-block:: text
 
    [domain_realm]
        .yourdomain.com = YOURDOMAIN.COM
@@ -68,7 +68,7 @@ Edit/create the file /etc/krb5.conf as shown below:
 
 -  Edit /etc/pam.d/authorization as shown below:
 
-::
+.. code-block:: text
 
    # authorization: auth account
    auth          optional       pam_krb5.so use_first_pass use_kcminit default_principal
@@ -78,7 +78,7 @@ Edit/create the file /etc/krb5.conf as shown below:
 
 -  Edit screensaver and passwd as shown below
 
-::
+.. code-block:: text
 
    #cat > /etc/pam.d/screensaver << 'EOF'
    auth       optional       pam_krb5.so use_first_pass use_kcminit
@@ -140,7 +140,7 @@ Generate keytab on IPA server
    ~/workstation.keytab, run *ipa host-show workstation*
 #. The previous should return,
 
-::
+.. code-block:: text
 
    Host name: workstation.yourdomain.com   Principal name: host/workstation.yourdomain.com@YOURDOMAIN.COM
        MAC address: 00:00:00:AA:1B:14
@@ -170,7 +170,7 @@ Directory Utility Setup
    Options
 #. Set the following:
 
-::
+.. code-block:: text
 
    Automatic login: off
    Display login window as: Name and password
@@ -188,7 +188,7 @@ Directory Utility Setup
 #. Select yourserver.yourdomain.com and choose Edit…
 #. Set the following:
 
-::
+.. code-block:: text
 
    Open/close times out in 5 seconds
    Query times out in 5 seconds

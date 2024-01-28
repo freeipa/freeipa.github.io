@@ -170,7 +170,7 @@ levels aren't really standardized and different parts of Samba use
 different levels but for trust operations it is useful to set the log
 level to ``10``:
 
-::
+.. code-block:: text
 
    [global]
      log level = 10
@@ -202,7 +202,7 @@ It has series of files for each GSSAPI service and also a general
 ``/etc/gssproxy/gssproxy.conf``. To enable a reasonable level of debug
 information use the following options:
 
-::
+.. code-block:: text
 
    [gssproxy]
      debug = true
@@ -222,7 +222,7 @@ connecting to GSS-Proxy and asking to acquire credentials for the HTTP
 service. A log is redacted to remove a common date and hostname prefix
 displayed by ``journalctl`` utility:
 
-::
+.. code-block:: text
 
    -- Logs begin at Fri 2017-01-27 16:08:43 CET, end at Fri 2017-04-21 18:15:10 CEST. --
    gssproxy[7186]: [2017/04/21 11:46:20]: Client connected (fd = 18)
@@ -244,7 +244,7 @@ Kerberos service accepts incoming connections by using the
 ``gss_accept_sec_context()`` API call. This can be seen in the following
 example:
 
-::
+.. code-block:: text
 
    gssproxy[7186]: [2017/04/21 11:46:20]: gp_rpc_execute: executing 9 (GSSX_ACCEPT_SEC_CONTEXT) for service &quot;ipa-httpd&quot;, euid: 48,socket: (null)
    gssproxy[7186]:     GSSX_ARG_ACCEPT_SEC_CONTEXT( call_ctx: { &quot;&quot; [  ] } context_handle: &lt;Null&gt; cred_handle: { &quot;HTTP/nyx.xs.ipa.cool@XS.IPA.COOL&quot; [ { &quot;HTTP/nyx.xs.ipa.cool@XS.IPA.COOL&quot; { 1 2 840 113554 1 2 2 } BOTH 86400 86400 } ] [ .h..LWMJ...k....... ] 0 } input_token: [ ...i....H.......... ] input_cb: &lt;Null&gt; ret_deleg_cred: 1 )
@@ -262,7 +262,7 @@ credential is located. Note that the operation is performed by a
 different process, actual FreeIPA framework instance running under the
 ``ipaapi`` user identity:
 
-::
+.. code-block:: text
 
    gssproxy[7186]: [2017/04/21 11:46:20]: gp_rpc_execute: executing 6 (GSSX_ACQUIRE_CRED) for service &quot;ipa-api&quot;, euid: 384,socket: (null)
    gssproxy[7186]:     GSSX_ARG_ACQUIRE_CRED( call_ctx: { &quot;&quot; [  ] } input_cred_handle: { &quot;admin@XS.IPA.COOL&quot; [ { &quot;admin@XS.IPA.COOL&quot; { 1 2 840 113554 1 2 2 } INITIATE 86392 0 } ] [ l.P...8H......T.... ] 0 } add_cred: 0 desired_name: &lt;Null&gt; time_req: 4294967295 desired_mechs: { { 1 2 840 113554 1 2 2 } } cred_usage: INITIATE initiator_time_req: 0 acceptor_time_req: 0 )
@@ -273,7 +273,7 @@ GSS-Proxy to return a ticket for a user that was authenticated. Once the
 ticket is obtained, it can be used to talk to a different service, in
 our case the IPA LDAP server:
 
-::
+.. code-block:: text
 
    gssproxy[7186]: [2017/04/21 11:46:20]: gp_rpc_execute: executing 8 (GSSX_INIT_SEC_CONTEXT) for service &quot;ipa-api&quot;, euid: 384,socket: (null)
    gssproxy[7186]:     GSSX_ARG_INIT_SEC_CONTEXT( call_ctx: { &quot;&quot; [  ] } context_handle: &lt;Null&gt; cred_handle: { &quot;admin@XS.IPA.COOL&quot; [ { &quot;admin@XS.IPA.COOL&quot; { 1 2 840 113554 1 2 2 } INITIATE 86392 0 } ] [ l.P...8H......T.... ] 0 } target_name: &quot;ldap@nyx.xs.ipa.cool&quot; mech_type: { 1 2 840 113554 1 2 2 } req_flags: 58 time_req: 0 input_cb: &lt;Null&gt; input_token: &lt;Null&gt; [ { [ sync.modified.cr... ] [ 64656661756c740 ] } ] )
@@ -296,7 +296,7 @@ will be reflected in the KDC logs. The KDC writes its log in the
 looks like with common date and hostname information removed. In the
 original log file timestamps are in local time zone format.
 
-::
+.. code-block:: text
 
    krb5kdc[15953](info): TGS_REQ (8 etypes {18 17 20 19 16 23 25 26}) IP.AD.DR.ES: ISSUE: authtime 1492775177, etypes {rep=18 tkt=18 ses=18}, admin@XS.IPA.COOL for HTTP/nyx.xs.ipa.cool@XS.IPA.COOL
    krb5kdc[15953](info): closing down fd 11
@@ -336,7 +336,7 @@ forward a request.
 To re-apply the tmpfiles configuration run (in this case fixing bad
 permissions on /run/ipa/ccaches):
 
-::
+.. code-block:: text
 
    # SYSTEMD_LOG_LEVEL=7 systemd-tmpfiles --create  /usr/lib/tmpfiles.d/ipa.conf
    Looking for configuration files in (higher priority first):

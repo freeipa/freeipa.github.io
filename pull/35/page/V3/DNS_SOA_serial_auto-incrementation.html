@@ -460,9 +460,9 @@ option <code class="docutils literal notranslate"><span class="pre">serial_autoi
 <p>WebUI doesn’t manage this option.</p>
 <p>CLI</p>
 <p>New option for <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code>:</p>
-<div class="line-block">
-<div class="line">``   –no-serial-autoincrement``</div>
-<div class="line">``                       Do not enable SOA serial autoincrement``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--no-serial-autoincrement
+                    Do not enable SOA serial autoincrement
+</pre></div>
 </div>
 <p>This feature is enabled by default. Persistent search is required for
 SOA serial auto-increment feature, so <code class="docutils literal notranslate"><span class="pre">--no-persistent-search</span></code> can’t
@@ -515,28 +515,28 @@ so <code class="docutils literal notranslate"><span class="pre">psearch</span></
 <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute in record’s parent zone.</p>
 <section id="basic-idea">
 <h2>Basic idea<a class="headerlink" href="#basic-idea" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">objectClass</span> <span class="pre">is</span> <span class="pre">idnsZone</span></code></div>
-<div class="line">``    increment idnsSOAserial in the same object``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span> <span class="pre">objectClass</span> <span class="pre">is</span> <span class="pre">idnsRecord</span></code></div>
-<div class="line">``    increment idnsSOAserial in object’s immediate parent``</div>
-<div class="line">``    e.g. change in idnsName=test, idnsName=example.com, cn=dns will increment idnsSOAserial in object idnsName=example.com, cn=dns``</div>
-<div class="line">``    if parent’s objectClass is not idnsZone``</div>
-<div class="line">``         log an error (This should never happen :-))``</div>
-<div class="line">`` else``</div>
-<div class="line">``    do nothing``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>if objectClass is idnsZone
+    increment idnsSOAserial in the same object
+else if objectClass is idnsRecord
+    increment idnsSOAserial in object&#39;s immediate parent
+    e.g. change in idnsName=test, idnsName=example.com, cn=dns will increment idnsSOAserial in object idnsName=example.com, cn=dns
+    if parent&#39;s objectClass is not idnsZone
+         log an error (This should never happen :-))
+ else
+    do nothing
+</pre></div>
 </div>
 </section>
 <section id="soa-serial-incrementation-algorithm">
 <h2>SOA serial incrementation algorithm<a class="headerlink" href="#soa-serial-incrementation-algorithm" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">OLDSerial</span> <span class="pre">=</span> <span class="pre">actual</span> <span class="pre">idnsSOAserial</span> <span class="pre">value</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">timestamp</span> <span class="pre">=</span> <span class="pre">actual</span> <span class="pre">UNIX</span> <span class="pre">timestamp</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(OLDSerial</span> <span class="pre">&lt;</span> <span class="pre">timestamp)</span></code></div>
-<div class="line">``    newSerial = timestamp``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
-<div class="line">``   newSerial = OLDSerial + 1``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">newSerial</span> <span class="pre">value</span> <span class="pre">to</span> <span class="pre">particular</span> <span class="pre">idnsSOAserial</span> <span class="pre">attribute</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OLDSerial = actual idnsSOAserial value
+timestamp = actual UNIX timestamp
+if (OLDSerial &lt; timestamp)
+    newSerial = timestamp
+else
+   newSerial = OLDSerial + 1
+Write newSerial value to particular idnsSOAserial attribute
+</pre></div>
 </div>
 </section>
 <section id="interaction-with-bind-serial-update-mechanism">
@@ -556,17 +556,17 @@ inside BIND. This will save some load from LDAP server.</p></li>
 <p>Increment serial value at most once per second.</p>
 <p><strong>Problem</strong>: How to solve LDAP server crash?</p>
 <p>Problematic scenario:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">numbers</span> <span class="n">represent</span> <span class="n">time</span> <span class="ow">in</span> <span class="s2">&quot;second.millisecond&quot;</span> <span class="nb">format</span><span class="p">)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(numbers represent time in &quot;second.millisecond&quot; format)
 
-<span class="mf">1.000</span> <span class="p">:</span> <span class="n">new_serial</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="mf">1.100</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
-<span class="mf">1.100</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">transfer</span> <span class="n">started</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">search</span> <span class="n">result</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">records</span> <span class="ow">and</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">stored</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">search</span> <span class="n">result</span> <span class="ow">is</span> <span class="n">transferred</span> <span class="n">to</span> <span class="n">slaves</span>
-<span class="mf">1.700</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test2</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
-<span class="mf">1.700</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
-<span class="o">&lt;</span><span class="n">no</span> <span class="n">changes</span> <span class="kn">from</span> <span class="nn">now</span><span class="o">&gt;</span>
+1.000 : new_serial = time() + 1
+1.100 : record test.example.com. updated
+1.100 : zone serial overwritten with new_serial
+1.500 : zone transfer started
+1.500 : search result for all records and zone serial stored
+1.500 : search result is transferred to slaves
+1.700 : record test2.example.com. updated
+1.700 : zone serial overwritten with new_serial
+&lt;no changes from now&gt;
 </pre></div>
 </div>
 <p>Result: Zones on master and it’s slave servers have serial =
@@ -575,42 +575,42 @@ test2.example.com. are not equal).</p>
 </section>
 <section id="variant-with-delayed-serial-write">
 <h2>Variant with delayed serial write<a class="headerlink" href="#variant-with-delayed-serial-write" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">When</span> <span class="pre">updating</span> <span class="pre">zone</span> <span class="pre">serial:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(old</span> <span class="pre">serial</span> <span class="pre">value</span> <span class="pre">&lt;</span> <span class="pre">time())</span></code></div>
-<div class="line">``   cancel scheduled serial write (if exists)``</div>
-<div class="line">``   write zone serial = time()``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
-<div class="line">``   schedule serial bump after 1 second``</div>
-<div class="line">``   (do nothing if bump is scheduled already)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>When updating zone serial:
+if (old serial value &lt; time())
+   cancel scheduled serial write (if exists)
+   write zone serial = time()
+else
+   schedule serial bump after 1 second
+   (do nothing if bump is scheduled already)
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">When</span> <span class="pre">starting</span> <span class="pre">Directory</span> <span class="pre">Server:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bump</span> <span class="pre">each</span> <span class="pre">serial</span> <span class="pre">by</span> <span class="pre">one.</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>When starting Directory Server:
+Bump each serial by one.
+</pre></div>
 </div>
 </section>
 <section id="variant-with-modified-search-operation">
 <h2>Variant with modified search operation<a class="headerlink" href="#variant-with-modified-search-operation" title="Link to this heading">#</a></h2>
 <p>Modify search operation for zone serial to return:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(serial</span> <span class="pre">value</span> <span class="pre">==</span> <span class="pre">time())</span></code></div>
-<div class="line">``   return (serial value - 1)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
-<div class="line">``   return (serial value)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>if (serial value == time())
+   return (serial value - 1)
+else
+   return (serial value)
+</pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Scenario</span><span class="p">:</span>
-<span class="mf">1.000</span> <span class="p">:</span> <span class="n">new_serial</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="mf">1.100</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
-<span class="mf">1.100</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">transfer</span> <span class="n">started</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">search</span> <span class="n">result</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">records</span> <span class="ow">and</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">stored</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="ow">in</span> <span class="n">search</span> <span class="n">result</span> <span class="ow">is</span> <span class="p">(</span><span class="n">new_serial</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<span class="mf">1.500</span> <span class="p">:</span> <span class="n">snapshot</span> <span class="ow">is</span> <span class="n">transferred</span> <span class="n">to</span> <span class="n">slaves</span>
-<span class="mf">1.700</span> <span class="p">:</span> <span class="n">record</span> <span class="n">test2</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">updated</span>
-<span class="mf">1.700</span> <span class="p">:</span> <span class="n">zone</span> <span class="n">serial</span> <span class="n">overwritten</span> <span class="k">with</span> <span class="n">new_serial</span>
-<span class="o">&lt;</span><span class="n">no</span> <span class="n">changes</span> <span class="kn">from</span> <span class="nn">now</span><span class="o">&gt;</span>
-<span class="mf">2.000</span> <span class="p">:</span> <span class="n">now</span> <span class="n">the</span> <span class="n">search</span> <span class="k">for</span> <span class="n">serial</span> <span class="n">value</span> <span class="n">returns</span> <span class="n">new_serial</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">slaves</span> <span class="n">see</span> <span class="n">value</span> <span class="n">incremented</span> <span class="n">by</span> <span class="n">one</span> <span class="kn">from</span> <span class="nn">last</span> <span class="n">zone</span> <span class="n">transfer</span> <span class="p">(</span><span class="mf">1.500</span><span class="p">)</span>
-<span class="mf">9.000</span> <span class="p">:</span> <span class="n">serial</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">unchanged</span> <span class="kn">from</span> <span class="nn">last</span> <span class="n">search</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Scenario:
+1.000 : new_serial = time()
+1.100 : record test.example.com. updated
+1.100 : zone serial overwritten with new_serial
+1.500 : zone transfer started
+1.500 : search result for all records and zone serial stored
+1.500 : zone serial in search result is (new_serial - 1)
+1.500 : snapshot is transferred to slaves
+1.700 : record test2.example.com. updated
+1.700 : zone serial overwritten with new_serial
+&lt;no changes from now&gt;
+2.000 : now the search for serial value returns new_serial, i.e. slaves see value incremented by one from last zone transfer (1.500)
+9.000 : serial value is unchanged from last search
 </pre></div>
 </div>
 <p><strong>Expected result:</strong> Zone data can be inconsistent between master and

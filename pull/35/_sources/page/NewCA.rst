@@ -46,7 +46,7 @@ is probably best to shut down all IPA services before running the tool.
 
 **Step 2** Generate a new CA certificate
 
-::
+.. code-block:: text
 
    # /usr/sbin/ipactl stop
    # chmod +x ipa-newca
@@ -61,7 +61,7 @@ This new CA certificate needs to be manually installed into all other
 IPA replicas. The new certificate be install on other machines by
 logging into it and running:
 
-::
+.. code-block:: text
 
    # cd /usr/share/ipa/html
    # wget -O ipa.crt http://replica4.greyoak.com/ipa/config/ca.crt

@@ -310,7 +310,7 @@ below.</p>
 <h2>Recovery procedure<a class="headerlink" href="#recovery-procedure" title="Link to this heading">#</a></h2>
 <p>In order to recreate the admin user, the following <code class="docutils literal notranslate"><span class="pre">admin-user.update</span></code> file
 needs to be customized and provided to <code class="docutils literal notranslate"><span class="pre">ipa-ldap-updater</span></code> tool.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[root@server ~]# cat /tmp/admin-user.update
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~]# cat /tmp/admin-user.update
 dn: uid=admin,cn=users,cn=accounts,$SUFFIX
 default: objectClass: top
 default: objectClass: person
@@ -338,27 +338,27 @@ default: ipaNTSecurityIdentifier: VALUESID-500
 <p>In this file, the values VALUE_UID and VALUE_SID must be replaced with
 correct values obtained with these commands (let’s consider that your
 alternate admin user is <code class="docutils literal notranslate"><span class="pre">otheradmin</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span> <span class="n">kinit</span> <span class="n">otheradmin</span>
-<span class="n">Password</span> <span class="k">for</span> <span class="n">otheradmin</span><span class="nd">@IPA</span><span class="o">.</span><span class="n">TEST</span><span class="p">:</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span> <span class="n">ipa</span> <span class="n">idrange</span><span class="o">-</span><span class="n">find</span> <span class="o">--</span><span class="nb">type</span> <span class="n">ipa</span><span class="o">-</span><span class="n">local</span>
-<span class="o">---------------</span>
-<span class="mi">1</span> <span class="nb">range</span> <span class="n">matched</span>
-<span class="o">---------------</span>
-  <span class="n">Range</span> <span class="n">name</span><span class="p">:</span> <span class="n">IPA</span><span class="o">.</span><span class="n">TEST_id_range</span>
-  <span class="n">First</span> <span class="n">Posix</span> <span class="n">ID</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">range</span><span class="p">:</span> <span class="mi">1206200000</span>
-  <span class="n">Number</span> <span class="n">of</span> <span class="n">IDs</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">range</span><span class="p">:</span> <span class="mi">200000</span>
-  <span class="n">First</span> <span class="n">RID</span> <span class="n">of</span> <span class="n">the</span> <span class="n">corresponding</span> <span class="n">RID</span> <span class="nb">range</span><span class="p">:</span> <span class="mi">1000</span>
-  <span class="n">First</span> <span class="n">RID</span> <span class="n">of</span> <span class="n">the</span> <span class="n">secondary</span> <span class="n">RID</span> <span class="nb">range</span><span class="p">:</span> <span class="mi">100000000</span>
-  <span class="n">Range</span> <span class="nb">type</span><span class="p">:</span> <span class="n">local</span> <span class="n">domain</span> <span class="nb">range</span>
-<span class="o">----------------------------</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">entries</span> <span class="n">returned</span> <span class="mi">1</span>
-<span class="o">----------------------------</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa trustconfig-show</span>
-  <span class="n">Domain</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">test</span>
-  <span class="n">Security</span> <span class="n">Identifier</span><span class="p">:</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">3674471173</span><span class="o">-</span><span class="mi">2442480195</span><span class="o">-</span><span class="mi">1112681658</span>
-  <span class="n">NetBIOS</span> <span class="n">name</span><span class="p">:</span> <span class="n">IPA</span>
-  <span class="n">Domain</span> <span class="n">GUID</span><span class="p">:</span> <span class="mi">773</span><span class="n">b0192</span><span class="o">-</span><span class="mi">6402</span><span class="o">-</span><span class="mi">40</span><span class="n">a7</span><span class="o">-</span><span class="mi">9026</span><span class="o">-</span><span class="n">e6b557f6daac</span>
-  <span class="n">Fallback</span> <span class="n">primary</span> <span class="n">group</span><span class="p">:</span> <span class="n">Default</span> <span class="n">SMB</span> <span class="n">Group</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~] kinit otheradmin
+Password for otheradmin@IPA.TEST:
+[root@server ~] ipa idrange-find --type ipa-local
+---------------
+1 range matched
+---------------
+  Range name: IPA.TEST_id_range
+  First Posix ID of the range: 1206200000
+  Number of IDs in the range: 200000
+  First RID of the corresponding RID range: 1000
+  First RID of the secondary RID range: 100000000
+  Range type: local domain range
+----------------------------
+Number of entries returned 1
+----------------------------
+[root@server ~]# ipa trustconfig-show
+  Domain: ipa.test
+  Security Identifier: S-1-5-21-3674471173-2442480195-1112681658
+  NetBIOS name: IPA
+  Domain GUID: 773b0192-6402-40a7-9026-e6b557f6daac
+  Fallback primary group: Default SMB Group
 </pre></div>
 </div>
 <p>Carefully note the value corresponding to <code class="docutils literal notranslate"><span class="pre">First</span> <span class="pre">Posix</span> <span class="pre">ID</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">range</span></code>
@@ -373,7 +373,7 @@ user). If your deployment does not display any value for
 <code class="docutils literal notranslate"><span class="pre">ipaNTSecurityIdentifier</span></code> and <code class="docutils literal notranslate"><span class="pre">ipaNTUserAttrs</span></code> from the
 <code class="docutils literal notranslate"><span class="pre">admin-user.update</span></code> file.</p>
 <p>The resulting file should look like the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[root@server ~]# cat /tmp/admin-user.update
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~]# cat /tmp/admin-user.update
 dn: uid=admin,cn=users,cn=accounts,$SUFFIX
 default: objectClass: top
 default: objectClass: person
@@ -399,42 +399,42 @@ default: ipaNTSecurityIdentifier: S-1-5-21-3674471173-2442480195-1112681658-500
 </pre></div>
 </div>
 <p>The tool <code class="docutils literal notranslate"><span class="pre">ipa-ldap-updater</span></code> can now be used to create the admin user:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa-ldap-updater /tmp/admin-user.update</span>
-<span class="n">Update</span> <span class="n">complete</span>
-<span class="n">The</span> <span class="n">ipa</span><span class="o">-</span><span class="n">ldap</span><span class="o">-</span><span class="n">updater</span> <span class="n">command</span> <span class="n">was</span> <span class="n">successful</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~]# ipa-ldap-updater /tmp/admin-user.update
+Update complete
+The ipa-ldap-updater command was successful
 </pre></div>
 </div>
 <p>After this step, you can add the admin user to the admins group:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa group-add-member admins --users admin</span>
-  <span class="n">Group</span> <span class="n">name</span><span class="p">:</span> <span class="n">admins</span>
-  <span class="n">Description</span><span class="p">:</span> <span class="n">Account</span> <span class="n">administrators</span> <span class="n">group</span>
-  <span class="n">GID</span><span class="p">:</span> <span class="mi">1206200000</span>
-  <span class="n">Member</span> <span class="n">users</span><span class="p">:</span> <span class="n">otheradmin</span><span class="p">,</span> <span class="n">admin</span>
-<span class="o">-------------------------</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
-<span class="o">-------------------------</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~]# ipa group-add-member admins --users admin
+  Group name: admins
+  Description: Account administrators group
+  GID: 1206200000
+  Member users: otheradmin, admin
+-------------------------
+Number of members added 1
+-------------------------
 </pre></div>
 </div>
 <p>If you had SIDs for your domain, re-run the sid generation task and verify
 that the admins group has a SID ending with -512 as before:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa config-mod --add-sids --enable-sid</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa group-show admins --all</span>
-  <span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">admins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">test</span>
-  <span class="n">Group</span> <span class="n">name</span><span class="p">:</span> <span class="n">admins</span>
-  <span class="n">Description</span><span class="p">:</span> <span class="n">Account</span> <span class="n">administrators</span> <span class="n">group</span>
-  <span class="n">GID</span><span class="p">:</span> <span class="mi">1206200000</span>
-  <span class="n">Member</span> <span class="n">users</span><span class="p">:</span> <span class="n">otheradmin</span><span class="p">,</span> <span class="n">admin</span>
-  <span class="n">ipantsecurityidentifier</span><span class="p">:</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">3674471173</span><span class="o">-</span><span class="mi">2442480195</span><span class="o">-</span><span class="mi">1112681658</span><span class="o">-</span><span class="mi">512</span>
-  <span class="n">ipauniqueid</span><span class="p">:</span> <span class="mi">53</span><span class="n">f23254</span><span class="o">-</span><span class="n">ab15</span><span class="o">-</span><span class="mi">11</span><span class="n">ee</span><span class="o">-</span><span class="n">bdf6</span><span class="o">-</span><span class="n">fa163ee87a63</span>
-  <span class="n">objectclass</span><span class="p">:</span> <span class="n">top</span><span class="p">,</span> <span class="n">groupofnames</span><span class="p">,</span> <span class="n">posixgroup</span><span class="p">,</span> <span class="n">ipausergroup</span><span class="p">,</span> <span class="n">ipaobject</span><span class="p">,</span>
-               <span class="n">nestedGroup</span><span class="p">,</span> <span class="n">ipaNTGroupAttrs</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~]# ipa config-mod --add-sids --enable-sid
+[root@server ~]# ipa group-show admins --all
+  dn: cn=admins,cn=groups,cn=accounts,dc=ipa,dc=test
+  Group name: admins
+  Description: Account administrators group
+  GID: 1206200000
+  Member users: otheradmin, admin
+  ipantsecurityidentifier: S-1-5-21-3674471173-2442480195-1112681658-512
+  ipauniqueid: 53f23254-ab15-11ee-bdf6-fa163ee87a63
+  objectclass: top, groupofnames, posixgroup, ipausergroup, ipaobject,
+               nestedGroup, ipaNTGroupAttrs
 </pre></div>
 </div>
 <p>If you do not want to use the admin user, you can disable the account using:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@server</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa user-disable admin</span>
-<span class="o">-----------------------------</span>
-<span class="n">Disabled</span> <span class="n">user</span> <span class="n">account</span> <span class="s2">&quot;admin&quot;</span>
-<span class="o">-----------------------------</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@server ~]# ipa user-disable admin
+-----------------------------
+Disabled user account &quot;admin&quot;
+-----------------------------
 </pre></div>
 </div>
 </section>

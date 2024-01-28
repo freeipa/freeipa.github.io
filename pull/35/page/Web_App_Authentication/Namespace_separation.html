@@ -301,11 +301,11 @@ able to control access to OS vs. to the applications (for example with
 FreeIPA, using host-based access control (HBAC) rules), and users can
 enjoy single sign-on to both the OS and to the applications, based on
 their access privileges. We can use mod_gssapi’s</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GssapiLocalName</span> <span class="n">on</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>GssapiLocalName on
 </pre></div>
 </div>
 <p>or mod_auth_kerb’s</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KrbLocalUserMapping</span> <span class="n">On</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KrbLocalUserMapping On
 </pre></div>
 </div>
 <p>option to enable stripping of the &#64;REALM part from user’s username, so
@@ -325,11 +325,11 @@ or &#64;domain parts, and have all externally-authenticated users have
 username in the form of <a class="reference external" href="mailto:'login&#37;&#52;&#48;REALM">‘login<span>&#64;</span>REALM</a>’.</p>
 <p>For Kerberos ticket-based SSO using mod_auth_gssapi/mod_auth_kerb, the
 default value of</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GssapiLocalName</span> <span class="n">Off</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>GssapiLocalName Off
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KrbLocalUserMapping</span> <span class="n">Off</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KrbLocalUserMapping Off
 </pre></div>
 </div>
 <p>will pass the full name of the user including the &#64;REALM part to the
@@ -343,10 +343,10 @@ Whenever the login name used for PAM authentication does not include the
 with the full user name (or if multiple realms are specified, they are
 tried in cycle). For example, if mod_intercept_form_submit is configured
 as</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">InterceptFormPAMService</span> <span class="n">wikiapp</span>
-<span class="n">InterceptFormLogin</span> <span class="n">login_fld</span>
-<span class="n">InterceptFormPassword</span> <span class="n">passwd_fld</span>
-<span class="n">InterceptFormLoginRealms</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>InterceptFormPAMService wikiapp
+InterceptFormLogin login_fld
+InterceptFormPassword passwd_fld
+InterceptFormLoginRealms EXAMPLE.COM
 </pre></div>
 </div>
 <p>and user attempts to log in with login ‘bob’, PAM authentication of
@@ -371,7 +371,7 @@ authentication provider.</p>
 <p>To use second FreeIPA server for the web application development or
 testing on already IPA-enrolled machine, we install and configure the
 server on separate host using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">install</span> <span class="o">--</span><span class="n">no_hbac_allow</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-server-install --no_hbac_allow
 </pre></div>
 </div>
 <p>It is important to choose different realm than the one used by the
@@ -384,9 +384,9 @@ seen by sssd on our web server, incorrectly configured access control
 can grant ssh access using these testing users.</p>
 <p>We will want to manually create host and service records for our web
 application machine. Assuming it is wikiapp.example.com, we run</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">admin</span>
-<span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span> <span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit admin
+ipa host-add wikiapp.example.com
+ipa service-add HTTP/wikiapp.example.com
 </pre></div>
 </div>
 <p>on the second FreeIPA server. We can also use <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-add</span></code> to add
@@ -397,19 +397,19 @@ will configure access to the second FreeIPA server manually. In the
 following examples we will assume that the realm of the second FreeIPA
 server is EXAMPLE.COM and its hostname is ipa2.devel.company.net.</p>
 <p>To <strong>/etc/krb5.conf</strong>, we add</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">realms</span><span class="p">]</span>
-        <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">kdc</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">:</span><span class="mi">88</span>
-                <span class="n">master_kdc</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">:</span><span class="mi">88</span>
-                <span class="n">admin_server</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">:</span><span class="mi">749</span>
-        <span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[realms]
+        EXAMPLE.COM = {
+                kdc = ipa2.devel.company.net:88
+                master_kdc = ipa2.devel.company.net:88
+                admin_server = ipa2.devel.company.net:749
+        }
 
-<span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
-        <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+[domain_realm]
+        ipa2.devel.company.net = EXAMPLE.COM
 </pre></div>
 </div>
 <p>We should now be able to</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit admin@EXAMPLE.COM
 </pre></div>
 </div>
 <p>If it succeeds, we can retrieve the keytab for the host and for the HTTP
@@ -417,13 +417,13 @@ service. The keytab for the host is used by sssd when connecting to our
 second FreeIPA server to get for example user attributes. The keytab for
 the HTTP service is used by mod_auth_gssapi/mod_auth_kerb to facilitate
 Negotiate authentication.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="o">-</span><span class="n">getkeytab</span> <span class="o">-</span><span class="n">s</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">-</span><span class="n">k</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">krb5</span><span class="o">.</span><span class="n">keytab</span> <span class="o">-</span><span class="n">p</span> <span class="n">host</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="n">ipa</span><span class="o">-</span><span class="n">getkeytab</span> <span class="o">-</span><span class="n">s</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">-</span><span class="n">k</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span> <span class="o">-</span><span class="n">p</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">wikiapp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-getkeytab -s ipa2.devel.company.net -k /etc/krb5.keytab -p host/wikiapp.example.com@EXAMPLE.COM
+ipa-getkeytab -s ipa2.devel.company.net -k /etc/http.keytab -p HTTP/wikiapp.example.com@EXAMPLE.COM
 </pre></div>
 </div>
 <p>This is the only time the</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
-        <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[domain_realm]
+        ipa2.devel.company.net = EXAMPLE.COM
 </pre></div>
 </div>
 <p>part in krb5.conf is needed. We could have omitted it and could have run
@@ -437,19 +437,19 @@ already been created and populated by <code class="docutils literal notranslate"
 machine’s primary keytab, from the primary FreeIPA. The same keytab file
 can be used as long as the realms are different.</p>
 <p>The next part to configure is sssd, in <strong>/etc/sssd/sssd.conf</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># in [sssd] section, append EXAMPLE.COM to domains</span>
-<span class="p">[</span><span class="n">sssd</span><span class="p">]</span>
-<span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span><span class="p">,</span> <span class="n">ifp</span>
-<span class="n">config_file_version</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">domains</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">net</span><span class="p">,</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="c1"># add new section [domain/EXAMPLE.COM]</span>
-<span class="p">[</span><span class="n">domain</span><span class="o">/</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="p">]</span>
-<span class="n">id_provider</span> <span class="o">=</span> <span class="n">ipa</span>
-<span class="n">auth_provider</span> <span class="o">=</span> <span class="n">ipa</span>
-<span class="n">access_provider</span> <span class="o">=</span> <span class="n">ipa</span>
-<span class="n">ipa_server</span> <span class="o">=</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">devel</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">net</span>
-<span class="n">ldap_user_extra_attrs</span> <span class="o">=</span> <span class="n">mail</span><span class="p">,</span> <span class="n">givenname</span><span class="p">,</span> <span class="n">sn</span>
-<span class="n">use_fully_qualified_names</span> <span class="o">=</span> <span class="kc">True</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># in [sssd] section, append EXAMPLE.COM to domains
+[sssd]
+services = nss, pam, ssh, ifp
+config_file_version = 2
+domains = company.net, EXAMPLE.COM
+# add new section [domain/EXAMPLE.COM]
+[domain/EXAMPLE.COM]
+id_provider = ipa
+auth_provider = ipa
+access_provider = ipa
+ipa_server = ipa2.devel.company.net
+ldap_user_extra_attrs = mail, givenname, sn
+use_fully_qualified_names = True
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">ldap_user_extra_attrs</span></code> should be set to whatever our application
@@ -461,7 +461,7 @@ that mod_lookup_identity correctly makes lookup calls to the correct
 FreeIPA server, should there be for example user ‘bob’ both in the
 central organization’s server and in ipa2.devel.company.net.</p>
 <p>Restarting sssd</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">sssd</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>service sssd restart
 </pre></div>
 </div>
 <p>and possibly httpd (if we’ve done some changes) should make the machine

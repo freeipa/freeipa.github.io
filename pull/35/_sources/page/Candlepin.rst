@@ -14,7 +14,7 @@ to build Candlepin.
 
 If there's a problem installing buildr, try the following commands:
 
-::
+.. code-block:: text
 
    % gem install rdoc
    % gem install rdoc-data
@@ -23,7 +23,7 @@ If there's a problem installing buildr, try the following commands:
 
 Build works on F14 with the following gem combination:
 
-::
+.. code-block:: text
 
    % gem list
 
@@ -61,7 +61,7 @@ Deployment
 
 Deploy Candlepin to Tomcat 6 with test data:
 
-::
+.. code-block:: text
 
    % TESTDATA=1 buildconf/scripts/deploy
    % ln -s /etc/candlepin/certs/keystore /usr/share/tomcat6/conf/keystore
@@ -73,7 +73,7 @@ Deploy Candlepin to Tomcat 6 with test data:
 Registering IPA
 ===============
 
-::
+.. code-block:: text
 
    % ipa entitle-register admin
    Password: admin

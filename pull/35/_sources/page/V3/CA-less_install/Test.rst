@@ -9,7 +9,7 @@ Test
 
 Create a testing PKI using the following script:
 
-::
+.. code-block:: text
 
    #!/bin/bash -e
 

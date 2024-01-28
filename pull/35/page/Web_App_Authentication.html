@@ -384,7 +384,7 @@ access of web applications, while preserving the distinction of the
 operating system and web application deployed on it.</p>
 <p>We will assume that the system on which the web application is deployed
 is IPA-enrolled. Using the command</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">install</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-client-install
 </pre></div>
 </div>
 <p>the local configuration of a couple of subsystems including sssd can be
@@ -497,7 +497,7 @@ users.</p>
 <h2>HBAC rules<a class="headerlink" href="#hbac-rules" title="Link to this heading">#</a></h2>
 <p>We will start from the end – from the FreeIPA HBAC service. It is just
 a string which distinguishes one service from another. Running</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">hbacsvc</span><span class="o">-</span><span class="n">find</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa hbacsvc-find
 </pre></div>
 </div>
 <p>will show pre-created services like ssh, kdm, login, or kdm. Their names
@@ -507,9 +507,9 @@ service for a reporting web application in our organization, we can name
 it <strong>reporting</strong> or <strong>reporting.example.com</strong> or <strong>reporting-prod</strong> and
 <strong>reporting-qa</strong> if we have multiple environments. Please consult help
 pages</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">help</span> <span class="n">hbacsvc</span>
-<span class="n">ipa</span> <span class="n">help</span> <span class="n">hbacrule</span>
-<span class="n">ipa</span> <span class="n">help</span> <span class="n">hbactest</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa help hbacsvc
+ipa help hbacrule
+ipa help hbactest
 </pre></div>
 </div>
 <p>for detailed description of creating HBAC services and rules in FreeIPA.
@@ -525,8 +525,8 @@ file named the same as the HBAC service we’ve created with
 <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">hbacsvc-add</span></code> and configure <code class="docutils literal notranslate"><span class="pre">pam_sss.so</span></code> for both auth and
 account. For example, if the HBAC service is <strong>reporting-prod</strong>, we will
 need file <strong>/etc/pam.d/reporting-prod</strong> with content</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auth</span>    <span class="n">required</span>   <span class="n">pam_sss</span><span class="o">.</span><span class="n">so</span>
-<span class="n">account</span> <span class="n">required</span>   <span class="n">pam_sss</span><span class="o">.</span><span class="n">so</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth    required   pam_sss.so
+account required   pam_sss.so
 </pre></div>
 </div>
 </section>
@@ -535,7 +535,7 @@ need file <strong>/etc/pam.d/reporting-prod</strong> with content</p>
 <p>The module <strong>mod_authnz_pam</strong> adds access control checks to
 authentication phase of HTTP request processing in Apache. The typical
 mod_auth_gssapi/mod_auth_kerb configuration will have</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>require valid-user
 </pre></div>
 </div>
 <p>in it, saying that any authenticated user should be allowed. When we
@@ -545,19 +545,19 @@ which in case of <code class="docutils literal notranslate"><span class="pre">pa
 FreeIPA will lead to HBAC rule check, with the PAM service name used as
 the HBAC service. For our <strong>reporting-prod</strong> example, the
 <code class="docutils literal notranslate"><span class="pre">require</span> <span class="pre">valid-user</span></code> will change to</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">require</span> <span class="n">pam</span><span class="o">-</span><span class="n">account</span> <span class="n">reporting</span><span class="o">-</span><span class="n">prod</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>require pam-account reporting-prod
 </pre></div>
 </div>
 <p>We can even used different PAM services for different parts of the
 application, provided they can be identified using URLs. If the
 application has a special admin section, we can define separate PAM
 service (which possibly more strict rules) for this part:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Location</span> <span class="o">/</span><span class="n">app</span><span class="o">&gt;</span>
-<span class="n">require</span> <span class="n">pam</span><span class="o">-</span><span class="n">account</span> <span class="n">reporting</span><span class="o">-</span><span class="n">prod</span>
-<span class="o">&lt;/</span><span class="n">Location</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">Location</span> <span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">admin</span><span class="o">&gt;</span>
-<span class="n">require</span> <span class="n">pam</span><span class="o">-</span><span class="n">account</span> <span class="n">reporting</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">admin</span>
-<span class="o">&lt;/</span><span class="n">Location</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;Location /app&gt;
+require pam-account reporting-prod
+&lt;/Location&gt;
+&lt;Location /app/admin&gt;
+require pam-account reporting-prod-admin
+&lt;/Location&gt;
 </pre></div>
 </div>
 </section>
@@ -791,15 +791,15 @@ example, for SAML (Security Assertion Markup Language),
 <a class="reference external" href="https://github.com/UNINETT/mod_auth_mellon">mod_auth_mellon</a> can be
 used and starting with version 0.11.0, it can be configured to populate
 environment variables exactly like mod_lookup_identity does:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MellonSetEnvNoPrefix</span> <span class="s2">&quot;REMOTE_USER_GROUP&quot;</span> <span class="s2">&quot;groups&quot;</span>
-<span class="n">MellonEnvVarsIndexStart</span> <span class="mi">1</span>
-<span class="n">MellonEnvVarsSetCount</span> <span class="n">On</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>MellonSetEnvNoPrefix &quot;REMOTE_USER_GROUP&quot; &quot;groups&quot;
+MellonEnvVarsIndexStart 1
+MellonEnvVarsSetCount On
 </pre></div>
 </div>
 <p>and we can pass other attributes as well:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MellonSetEnvNoPrefix</span> <span class="s2">&quot;REMOTE_USER_LASTNAME&quot;</span> <span class="s2">&quot;surname&quot;</span>
-<span class="n">MellonSetEnvNoPrefix</span> <span class="s2">&quot;REMOTE_USER_FIRSTNAME&quot;</span> <span class="s2">&quot;givenname&quot;</span>
-<span class="n">MellonSetEnvNoPrefix</span> <span class="s2">&quot;REMOTE_USER_EMAIL&quot;</span> <span class="s2">&quot;email&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>MellonSetEnvNoPrefix &quot;REMOTE_USER_LASTNAME&quot; &quot;surname&quot;
+MellonSetEnvNoPrefix &quot;REMOTE_USER_FIRSTNAME&quot; &quot;givenname&quot;
+MellonSetEnvNoPrefix &quot;REMOTE_USER_EMAIL&quot; &quot;email&quot;
 </pre></div>
 </div>
 </section>

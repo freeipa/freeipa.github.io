@@ -515,61 +515,61 @@ behavior for all helpers</p></li>
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
 <p>A profile for a user cert could have the following configuration:</p>
 <p><code class="docutils literal notranslate"><span class="pre">userCert.json</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;syntax&quot;</span><span class="p">:</span> <span class="s2">&quot;syntaxSubject&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;dataUsernameCN&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;dataSubjectBase&quot;</span>
-        <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;syntax&quot;</span><span class="p">:</span> <span class="s2">&quot;syntaxSAN&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;dataEmail&quot;</span>
-        <span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[
+    {
+        &quot;syntax&quot;: &quot;syntaxSubject&quot;,
+        &quot;data&quot;: [
+            &quot;dataUsernameCN&quot;,
+            &quot;dataSubjectBase&quot;
+        ]
+    },
+    {
+        &quot;syntax&quot;: &quot;syntaxSAN&quot;,
+        &quot;data&quot;: [
+            &quot;dataEmail&quot;
+        ]
+    }
+]
 </pre></div>
 </div>
 <p>Then, the definitions of a couple of these cert mapping rules (see
 <a class="reference external" href="V4/Automatic_Certificate_Request_Generation/Mapping_Rules">V4/Automatic_Certificate_Request_Generation/Mapping_Rules</a>
 for discussion of the template syntax):</p>
 <p><code class="docutils literal notranslate"><span class="pre">syntaxSubject.json</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;openssl&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;distinguished_name = {</span><span class="si">% c</span><span class="s2">all openssl.section() %}{{ datarules|reverse|join(&#39;</span><span class="se">\n</span><span class="s2">&#39;) }}{</span><span class="si">% e</span><span class="s2">ndcall %}&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;certutil&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;-s {{ datarules|join(&#39;,&#39;) }}&quot;</span>
-    <span class="p">}</span>
-  <span class="p">],</span>
-  <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
-    <span class="s2">&quot;data_source_combinator&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
+  &quot;rules&quot;: [
+    {
+      &quot;helper&quot;: &quot;openssl&quot;,
+      &quot;template&quot;: &quot;distinguished_name = {% call openssl.section() %}{{ datarules|reverse|join(&#39;\n&#39;) }}{% endcall %}&quot;
+    },
+    {
+      &quot;helper&quot;: &quot;certutil&quot;,
+      &quot;template&quot;: &quot;-s {{ datarules|join(&#39;,&#39;) }}&quot;
+    }
+  ],
+  &quot;options&quot;: {
+    &quot;required&quot;: true,
+    &quot;data_source_combinator&quot;: &quot;and&quot;
+  }
+}
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">dataUsernameCN.json</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;openssl&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;CN={{subject.uid.0}}&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;helper&quot;</span><span class="p">:</span> <span class="s2">&quot;certutil&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="s2">&quot;CN={{subject.uid.0|quote}}&quot;</span>
-    <span class="p">}</span>
-  <span class="p">],</span>
-  <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;subject.uid.0&quot;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
+  &quot;rules&quot;: [
+    {
+      &quot;helper&quot;: &quot;openssl&quot;,
+      &quot;template&quot;: &quot;CN={{subject.uid.0}}&quot;
+    },
+    {
+      &quot;helper&quot;: &quot;certutil&quot;,
+      &quot;template&quot;: &quot;CN={{subject.uid.0|quote}}&quot;
+    }
+  ],
+  &quot;options&quot;: {
+    &quot;data_source&quot;: &quot;subject.uid.0&quot;
+  }
+}
 </pre></div>
 </div>
 </section>
@@ -591,25 +591,25 @@ a full command line or config file to generate the certificate.</p>
 <p>For example, a request targeting openssl would produce a script which
 uses a config file like the following to generate the csr with the
 <code class="docutils literal notranslate"><span class="pre">openssl</span></code> command:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">req</span> <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">prompt</span> <span class="pre">=</span> <span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">encrypt_key</span> <span class="pre">=</span> <span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">distinguished_name</span> <span class="pre">=</span> <span class="pre">dn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">req_extensions</span> <span class="pre">=</span> <span class="pre">exts</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">dn</span> <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">O=DOMAIN.EXAMPLE.COM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">CN=user</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">exts</span> <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">subjectAltName=&#64;SAN</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SAN</span> <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">email=user&#64;example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dirName=SANdn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SANdn</span> <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1.DC=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2.DC=example</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">CN=users</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">UID=user</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[ req ]
+prompt = no
+encrypt_key = no
+distinguished_name = dn
+req_extensions = exts
+[ dn ]
+O=DOMAIN.EXAMPLE.COM
+CN=user
+[ exts ]
+subjectAltName=@SAN
+[ SAN ]
+email=user@example.com
+dirName=SANdn
+[ SANdn ]
+1.DC=com
+2.DC=example
+CN=users
+UID=user
+</pre></div>
 </div>
 <p>The “req” section is required and defines parameters for the openssl req
 command. The “dn” and “exts” sections contain components of the
@@ -763,7 +763,7 @@ for upgrades are necessary.</p>
 <section id="id2">
 <h2>TLS server authentication<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>Certmonger:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>`` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
 </pre></div>
 </div>
 <p>IPA CLI:</p>
@@ -785,12 +785,12 @@ for upgrades are necessary.</p>
 </section>
 <section id="id5">
 <h2>Smart Card Authentication<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line">`` $ ipa cert-get-requestdata –principal=${USER} –profile-id=caIPAUserCert –helper=openssl –out=user.conf  # Something like this, –out flag may be something else``</div>
-<div class="line">`` $ openssl``</div>
-<div class="line">`` OpenSSL&gt; engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so``</div>
-<div class="line">`` OpenSSL&gt; req -engine pkcs11 -new -key <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span> <span class="pre">-keyform</span> <span class="pre">engine</span> <span class="pre">-out</span> <span class="pre">user.req</span> <span class="pre">-text</span> <span class="pre">-config</span> <span class="pre">user.conf</span></code></div>
-<div class="line">`` $ ipa cert-request user.req –principal=${USER} –profile-id=caIPAUserCert``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-get-requestdata --principal=${USER} --profile-id=caIPAUserCert --helper=openssl --out=user.conf  # Something like this, --out flag may be something else
+$ openssl
+OpenSSL&gt; engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so
+OpenSSL&gt; req -engine pkcs11 -new -key ``\ `` -keyform engine -out user.req -text -config user.conf
+$ ipa cert-request user.req --principal=${USER} --profile-id=caIPAUserCert
+</pre></div>
 </div>
 <p>Thanks to <a class="reference external" href="https://blog-nkinder.rhcloud.com/?p=184">Nathan Kinder</a>
 for guidance on smart card interaction.</p>
@@ -810,14 +810,13 @@ use the ipa cert-get-requestdata API for its CSR generation.</p>
 <section id="id8">
 <h2>IECUserRoles<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>Certmonger:</p>
-<div class="line-block">
-<div class="line">`` sudo ipa-getcert request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span> <span class="pre">-K</span> <span class="pre">${USER}</span> <span class="pre">-N</span> <span class="pre">CN=${USER},O=EXAMPLE.COM</span> <span class="pre">-T</span> <span class="pre">IECUserRoles</span> <span class="pre">\</span></code></div>
-<div class="line">``   -V IECUserRoles=``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T IECUserRoles \
+  -V IECUserRoles=
+</pre></div>
 </div>
 <p>IPA CLI:</p>
-<div class="line-block">
-<div class="line">`` ipa cert-request <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span> <span class="pre">--autofill</span> <span class="pre">--principal=${USER}</span> <span class="pre">--profile-id=IECUserRoles</span></code></div>
-<div class="line">`` ``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=IECUserRoles
+</pre></div>
 </div>
 </section>
 </section>

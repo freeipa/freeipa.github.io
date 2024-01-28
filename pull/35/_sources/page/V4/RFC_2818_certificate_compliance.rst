@@ -107,7 +107,7 @@ The existing subject name profile policy component,
 either the presence or absense of a Subject DN field (e.g. CN). For
 example, the ``caIPAserviceCert`` profile configuration:
 
-::
+.. code-block:: text
 
    policyset.serverCertSet.1.default.class_id=subjectNameDefaultImpl
    policyset.serverCertSet.1.default.name=Subject Name Default
@@ -137,7 +137,7 @@ would need to support configuration that allows a profile to define:
 With these requirements in mind, a configuration suitable to replace the
 above configuration would be:
 
-::
+.. code-block:: text
 
    policyset.serverCertSet.1.default.class_id=subjectNameFieldsDefaultImpl
    policyset.serverCertSet.1.default.name=Subject Name Fields Default
@@ -240,7 +240,7 @@ The ``certutil`` instructions "New certificate for Host/Service" dialog
 in the Web UI should be updated to indicate how to add a DNS names to
 the subjectAltName request extension, e.g.:
 
-::
+.. code-block:: text
 
    # certutil -R -d &lt;database path&gt; -a -g &lt;key size&gt;
      -s 'CN=f23-2.ipa.local,O=IPA.LOCAL' -8 'f23-2.ipa.local'

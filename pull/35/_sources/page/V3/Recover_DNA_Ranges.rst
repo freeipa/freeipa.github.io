@@ -115,7 +115,7 @@ We will need to write a new ACI to allow admins to write a subset of DNA
 attributes, including dnaNextRange, dnaNextValue and dnaMaxValue. This
 will look like:
 
-::
+.. code-block:: text
 
    dn: cn=Posix IDs,cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
    changetype: modify
@@ -167,35 +167,35 @@ Enhancing ipa-replica-manage
 Four new commands will be added, in sets of two: dnarange-show and
 dnarange-set and dnanextrange-show and dnanextrange-set.
 
-::
+.. code-block:: text
 
    # ipa-replica-manage dnarange-show
    masterA.example.com: 100-500
    masterB.example.com: 500-1000
    masterC.example.com: No range set
 
-::
+.. code-block:: text
 
    # ipa-replica-manage dnarange-show masterA.example.com
     masterA.example.com: 100-500
 
-::
+.. code-block:: text
 
    # ipa-replica-manage dnarange-set masterA.example.com 250-499
 
-::
+.. code-block:: text
 
    # ipa-replica-manage dnanextrange-show
    masterA.example.com: 1001-1500
    masterB.example.com: No on-deck range set
    masterC.example.com: No on-deck range set
 
-::
+.. code-block:: text
 
     # ipa-replica-manage dnanextrange-show masterA.example.com
     masterA.example.com: 1001-1500
 
-::
+.. code-block:: text
 
    # ipa-replica-manage dnanextrange-set masterB.example.com 1001-5000
 
@@ -296,7 +296,7 @@ Indirectly. It can affect the available range(s) to a replica. If a
 replica runs out and not enough values are left then the DNA plugin will
 give up:
 
-::
+.. code-block:: text
 
    # ipa user-add --first=tim --last=user tuser4
    ipa: ERROR: Operations error: Allocation of a new value for range cn=posix ids,cn=distributed numeric assignment plugin,cn=plugins,cn=config failed! Unable to proceed.

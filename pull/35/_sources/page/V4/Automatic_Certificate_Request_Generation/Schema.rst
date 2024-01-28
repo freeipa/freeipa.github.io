@@ -150,7 +150,7 @@ into the certificate request.
 
 -  Cert field mapping (multi-value): reference to CertFieldMappingRule
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.9 NAME 'ipaCertFieldMapping' DESC 'Reference to ipaCertFieldMappingRule: Ruleset describing how to construct a certificate field' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.5' )
    objectClasses: (2.16.840.1.113730.3.8.21.2.1 NAME 'ipaCertProfile' SUP top STRUCTURAL MUST ( cn $ description $ ipaCertProfileStoreIssued ) MAY ipaCertFieldMapping X-ORIGIN 'IPA v4.2' )
@@ -167,7 +167,7 @@ in CSRs for this certificate profile.
 -  Cert data mapping (multi-value): DN of CertMappingRuleset for field
    value
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.10 NAME 'ipaCertSyntaxMapping' DESC 'Reference to ipaCertMappingRuleset: How to format the specification for this field' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )
    attributeTypes: (2.16.840.1.113730.3.8.21.1.11 NAME 'ipaCertDataMapping' DESC 'Reference to ipaCertMappingRuleset: How to map data into field values' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.5' )
@@ -217,7 +217,7 @@ helpers.
 -  Transformation rule (multi-value): reference to
    CertTransformationRule
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.12 NAME 'ipaCertTransformation' DESC 'Reference to ipaCertTransformationRule: How a data item should be mapped for a particular helper' SUP distinguishedName EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 X-ORIGIN 'IPA v4.5' )
    objectClasses: (2.16.840.1.113730.3.8.21.2.5 NAME 'ipaCertMappingRuleset' SUP top STRUCTURAL MUST ( cn $ description $ ipaCertTransformation ) X-ORIGIN 'IPA v4.5' )
@@ -233,7 +233,7 @@ particular CSR generation helper.
 -  Transformation template (see
    `V4/Automatic_Certificate_Request_Generation/Mapping_Rules <V4/Automatic_Certificate_Request_Generation/Mapping_Rules>`__)
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.13 NAME 'ipaCertTransformationTemplate' DESC 'How to transform a specific data item' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )
    attributeTypes: (2.16.840.1.113730.3.8.21.1.14 NAME 'ipaCertTransformationHelper' DESC 'Helper to which this transformation is targeted' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4.5' )
@@ -263,7 +263,7 @@ helpers.
 -  Transformation rule (multi-value): Rule for transforming data into
    helper syntax. Must provide the helper name as attribute tag.
 
-::
+.. code-block:: text
 
    attributeTypes: (2.16.840.1.113730.3.8.21.1.12 NAME 'ipaCertTransformation' DESC 'How to transform a specific item for a specific helper' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.5' )
    objectClasses: (2.16.840.1.113730.3.8.21.2.5 NAME 'ipaCertMappingRuleset' SUP top STRUCTURAL MUST ( cn $ description $ ipaCertTransformation ) X-ORIGIN 'IPA v4.5' )

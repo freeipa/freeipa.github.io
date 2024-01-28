@@ -342,9 +342,9 @@ certificate, run:</p>
 <section id="request-renewed-certificate">
 <h2>Request renewed certificate<a class="headerlink" href="#request-renewed-certificate" title="Link to this heading">#</a></h2>
 <p>On a random FreeIPA server with CA installed run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert start-tracking -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39; -P &lt;pin&gt; -c dogtag-ipa-ca-renew-agent</span>
-<span class="c1"># getcert resubmit -i &lt;id&gt; -T ipaCSRExport</span>
-<span class="c1"># getcert stop-tracking -i &lt;id&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert start-tracking -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39; -P &lt;pin&gt; -c dogtag-ipa-ca-renew-agent
+# getcert resubmit -i &lt;id&gt; -T ipaCSRExport
+# getcert stop-tracking -i &lt;id&gt;
 </pre></div>
 </div>
 <p>This will get a certificate request file (CSR) in <code class="docutils literal notranslate"><span class="pre">/root/ipa.csr</span></code>.
@@ -354,24 +354,24 @@ certificate to <code class="docutils literal notranslate"><span class="pre">ipa.
 <section id="renew-ca-certificate-on-ca-servers">
 <h2>Renew CA Certificate on CA Servers<a class="headerlink" href="#renew-ca-certificate-on-ca-servers" title="Link to this heading">#</a></h2>
 <p>On all FreeIPA servers <strong>with CA</strong> installed, run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /usr/lib64/ipa/certmonger/stop_pkicad</span>
-<span class="c1"># certutil -A -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39; -t CT,C,C -a -i ipa.crt</span>
-<span class="c1"># /usr/lib64/ipa/certmonger/renew_ca_cert &#39;caSigningCert cert-pki-ca&#39;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># /usr/lib64/ipa/certmonger/stop_pkicad
+# certutil -A -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39; -t CT,C,C -a -i ipa.crt
+# /usr/lib64/ipa/certmonger/renew_ca_cert &#39;caSigningCert cert-pki-ca&#39;
 </pre></div>
 </div>
 <p>On all FreeIPA servers run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># certutil -A -d /etc/dirsrv/slapd-REALM -n &#39;REALM IPA CA&#39; -t CT,,C -f /etc/dirsrv/slapd-REALM/pwdfile.txt -a -i ipa.crt</span>
-<span class="c1"># certutil -A -d /etc/httpd/alias -n &#39;REALM IPA CA&#39; -t CT,C,C -f /etc/httpd/alias/pwdfile.txt -a -i ipa.crt</span>
-<span class="c1"># systemctl restart dirsrv@REALM.service</span>
-<span class="c1"># systemctl restart httpd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/dirsrv/slapd-REALM -n &#39;REALM IPA CA&#39; -t CT,,C -f /etc/dirsrv/slapd-REALM/pwdfile.txt -a -i ipa.crt
+# certutil -A -d /etc/httpd/alias -n &#39;REALM IPA CA&#39; -t CT,C,C -f /etc/httpd/alias/pwdfile.txt -a -i ipa.crt
+# systemctl restart dirsrv@REALM.service
+# systemctl restart httpd
 </pre></div>
 </div>
 </section>
 <section id="renew-ca-certificate-on-freeipa-clients">
 <h2>Renew CA Certificate on FreeIPA clients<a class="headerlink" href="#renew-ca-certificate-on-freeipa-clients" title="Link to this heading">#</a></h2>
 <p>On all FreeIPA servers and FreeIPA clients run</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># certutil -A -d /etc/pki/nssdb -n &#39;IPA CA&#39; -t CT,C,C -a -i ipa.crt</span>
-<span class="c1"># cp ipa.crt /etc/ipa/ca.crt</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/pki/nssdb -n &#39;IPA CA&#39; -t CT,C,C -a -i ipa.crt
+# cp ipa.crt /etc/ipa/ca.crt
 </pre></div>
 </div>
 </section>
@@ -400,28 +400,28 @@ saved into /root/external-ca.pem.</p>
 renewals.</p>
 <p>One way to identify the initial IPA master is to see if the value for
 <code class="docutils literal notranslate"><span class="pre">subsystem.select</span></code> is New.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># grep subsystem.select /etc/pki-ca/CS.cfg</span>
-<span class="n">subsystem</span><span class="o">.</span><span class="n">select</span><span class="o">=</span><span class="n">New</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># grep subsystem.select /etc/pki-ca/CS.cfg
+subsystem.select=New
 </pre></div>
 </div>
 <p>An alternative method is to look at the post-save command in this
 output. It needs to be renew_ca_cert:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert list</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">certificates</span> <span class="ow">and</span> <span class="n">requests</span> <span class="n">being</span> <span class="n">tracked</span><span class="p">:</span> <span class="mf">8.</span>
-<span class="n">Request</span> <span class="n">ID</span> <span class="s1">&#39;20131125153455&#39;</span><span class="p">:</span>
-        <span class="n">status</span><span class="p">:</span> <span class="n">MONITORING</span>
-        <span class="n">stuck</span><span class="p">:</span> <span class="n">no</span>
-        <span class="n">key</span> <span class="n">pair</span> <span class="n">storage</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">NSSDB</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/var/lib/pki-ca/alias&#39;</span><span class="p">,</span><span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;auditSigningCert cert-pki-ca&#39;</span><span class="p">,</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span><span class="p">,</span><span class="n">pin</span><span class="o">=</span><span class="s1">&#39;455536908955&#39;</span>
-        <span class="n">certificate</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">NSSDB</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/var/lib/pki-ca/alias&#39;</span><span class="p">,</span><span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;auditSigningCert cert-pki-ca&#39;</span><span class="p">,</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span>
-        <span class="n">CA</span><span class="p">:</span> <span class="n">dogtag</span><span class="o">-</span><span class="n">ipa</span><span class="o">-</span><span class="n">renew</span><span class="o">-</span><span class="n">agent</span>
-        <span class="n">issuer</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-        <span class="n">subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">CA</span> <span class="n">Audit</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-        <span class="n">expires</span><span class="p">:</span> <span class="mi">2015</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">15</span> <span class="mi">15</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">12</span> <span class="n">UTC</span>
-        <span class="n">pre</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">stop_pkicad</span>
-        <span class="n">post</span><span class="o">-</span><span class="n">save</span> <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">certmonger</span><span class="o">/</span><span class="n">renew_ca_cert</span> <span class="s2">&quot;auditSigningCert cert-pki-ca&quot;</span>
-        <span class="n">track</span><span class="p">:</span> <span class="n">yes</span>
-        <span class="n">auto</span><span class="o">-</span><span class="n">renew</span><span class="p">:</span> <span class="n">yes</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert list
+Number of certificates and requests being tracked: 8.
+Request ID &#39;20131125153455&#39;:
+        status: MONITORING
+        stuck: no
+        key pair storage: type=NSSDB,location=&#39;/var/lib/pki-ca/alias&#39;,nickname=&#39;auditSigningCert cert-pki-ca&#39;,token=&#39;NSS Certificate DB&#39;,pin=&#39;455536908955&#39;
+        certificate: type=NSSDB,location=&#39;/var/lib/pki-ca/alias&#39;,nickname=&#39;auditSigningCert cert-pki-ca&#39;,token=&#39;NSS Certificate DB&#39;
+        CA: dogtag-ipa-renew-agent
+        issuer: CN=Certificate Authority,O=EXAMPLE.COM
+        subject: CN=CA Audit,O=EXAMPLE.COM
+        expires: 2015-11-15 15:34:12 UTC
+        pre-save command: /usr/lib64/ipa/certmonger/stop_pkicad
+        post-save command: /usr/lib64/ipa/certmonger/renew_ca_cert &quot;auditSigningCert cert-pki-ca&quot;
+        track: yes
+        auto-renew: yes
+...
 </pre></div>
 </div>
 </section>
@@ -437,16 +437,16 @@ the BEGIN/END blocks from ipa.crt and compressing it into a single line.</p>
 <p>Update the Apache NSS database:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span>&#160; <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></p>
 <p>Update the LDAP server instances:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-REALM</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-PKI-IPA</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/dirsrv/slapd-REALM -n &#39;EXAMPLE.COM IPA CA&#39; -t CT,C,C -a -i /root/ipa.crt
+# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n &#39;EXAMPLE.COM IPA CA&#39; -t CT,C,C -a -i /root/ipa.crt
+</pre></div>
 </div>
 <p>Update the shared system database:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span>&#160; <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></p>
 <p>Update the CA in the filesystem:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/root/ipa.crt</span> <span class="pre">/root/external-ca.pem</span> <span class="pre">&gt;/usr/share/ipa/html/ca.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cp</span> <span class="pre">/root/ipa.crt</span> <span class="pre">/etc/ipa/ca.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat /root/ipa.crt /root/external-ca.pem &gt;/usr/share/ipa/html/ca.crt
+# cp /root/ipa.crt /etc/ipa/ca.crt
+</pre></div>
 </div>
 <p>Restart the world</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">ipa</span> <span class="pre">start</span></code></p>
@@ -454,16 +454,16 @@ the BEGIN/END blocks from ipa.crt and compressing it into a single line.</p>
 <p>First convert the certificate to DER form:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">openssl</span> <span class="pre">x509</span> <span class="pre">-outform</span> <span class="pre">DER</span> <span class="pre">-in</span> <span class="pre">/root/ipa.crt</span>&#160; <span class="pre">-out</span> <span class="pre">/tmp/ipa.der</span></code></p>
 <p>Add to LDAP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
-<span class="c1"># ldapmodify -Y GSSAPI</span>
-<span class="n">SASL</span><span class="o">/</span><span class="n">GSSAPI</span> <span class="n">authentication</span> <span class="n">started</span>
-<span class="n">SASL</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="n">SASL</span> <span class="n">SSF</span><span class="p">:</span> <span class="mi">56</span>
-<span class="n">SASL</span> <span class="n">data</span> <span class="n">security</span> <span class="n">layer</span> <span class="n">installed</span><span class="o">.</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">CAcert</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">cacertificate</span><span class="p">;</span><span class="n">binary</span>
-<span class="n">cacertificate</span><span class="p">;</span><span class="n">binary</span><span class="p">:</span><span class="o">&lt;</span><span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">der</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
+# ldapmodify -Y GSSAPI
+SASL/GSSAPI authentication started
+SASL username: admin@EXAMPLE.COM
+SASL SSF: 56
+SASL data security layer installed.
+dn: cn=CAcert,cn=ipa,cn=etc,dc=example,dc=com
+changetype: modify
+replace: cacertificate;binary
+cacertificate;binary:&lt;file:///tmp/ipa.der
 </pre></div>
 </div>
 </section>
@@ -479,16 +479,16 @@ the BEGIN/END blocks from ipa.crt and compressing it into a single line.</p>
 <p>Update the Apache NSS database:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span>&#160; <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></p>
 <p>Update the LDAP server instances:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-REALM</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-PKI-IPA</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/dirsrv/slapd-REALM -n &#39;EXAMPLE.COM IPA CA&#39; -t CT,C,C -a -i /root/ipa.crt
+# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n &#39;EXAMPLE.COM IPA CA&#39; -t CT,C,C -a -i /root/ipa.crt
+</pre></div>
 </div>
 <p>Update the shared system database:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span>&#160; <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></p>
 <p>Update the CA in the filesystem:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/root/ipa.crt</span> <span class="pre">/root/external-ca.pem</span> <span class="pre">&gt;/usr/share/ipa/html/ca.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cp</span> <span class="pre">/root/ipa.crt</span> <span class="pre">/etc/ipa/ca.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat /root/ipa.crt /root/external-ca.pem &gt;/usr/share/ipa/html/ca.crt
+# cp /root/ipa.crt /etc/ipa/ca.crt
+</pre></div>
 </div>
 <p>Restart the world</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">ipa</span> <span class="pre">start</span></code></p>
@@ -501,16 +501,16 @@ the BEGIN/END blocks from ipa.crt and compressing it into a single line.</p>
 <p>Update the Apache NSS database:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span>&#160; <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></p>
 <p>Update the LDAP server instances:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-REALM</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/dirsrv/slapd-PKI-IPA</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certutil -A -d /etc/dirsrv/slapd-REALM -n &#39;EXAMPLE.COM IPA CA&#39; -t CT,C,C -a -i /root/ipa.crt
+# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n &#39;EXAMPLE.COM IPA CA&#39; -t CT,C,C -a -i /root/ipa.crt
+</pre></div>
 </div>
 <p>Update the shared system database:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-n</span> <span class="pre">'EXAMPLE.COM</span> <span class="pre">IPA</span> <span class="pre">CA'</span>&#160; <span class="pre">-t</span> <span class="pre">CT,C,C</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">/root/ipa.crt</span></code></p>
 <p>Update the CA in the filesystem:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/root/ipa.crt</span> <span class="pre">/root/external-ca.pem</span> <span class="pre">&gt;/usr/share/ipa/html/ca.crt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cp</span> <span class="pre">/root/ipa.crt</span> <span class="pre">/etc/ipa/ca.crt</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat /root/ipa.crt /root/external-ca.pem &gt;/usr/share/ipa/html/ca.crt
+# cp /root/ipa.crt /etc/ipa/ca.crt
+</pre></div>
 </div>
 <p>Restart the world</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">ipa</span> <span class="pre">start</span></code></p>

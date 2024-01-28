@@ -282,97 +282,97 @@ document.write(`
   <section id="solarispamconf10">
 <h1>SolarisPamConf10<a class="headerlink" href="#solarispamconf10" title="Link to this heading">#</a></h1>
 <p>Back to <a class="reference external" href="ConfiguringUnixClients">Configuring UNIX Clients</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#*************************************************</span>
-<span class="c1"># pam.conf for Solaris 10</span>
-<span class="c1">#*************************************************</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#*************************************************
+# pam.conf for Solaris 10
+#*************************************************
 
 
-<span class="c1"># pam.conf being used on trout</span>
-<span class="c1"># should work for all solaris machines from 2.6 to 10.</span>
-<span class="c1"># only exception is that sol 10 must have pam_unix_cred.so.1 enabled</span>
-<span class="c1"># while the others mush have it disabled</span>
-<span class="c1"># telnet/ssh work.  try ftp, dtlogin, etc. later</span>
+# pam.conf being used on trout
+# should work for all solaris machines from 2.6 to 10.
+# only exception is that sol 10 must have pam_unix_cred.so.1 enabled
+# while the others mush have it disabled
+# telnet/ssh work.  try ftp, dtlogin, etc. later
 
-<span class="c1"># /etc/pam_conf for pam_ldap for solaris.</span>
-<span class="c1"># from: http://docs.sun.com/app/docs/doc/816-4556/6maort2te?a=view</span>
-<span class="c1">#</span>
-<span class="c1"># Authentication management</span>
-<span class="c1">#</span>
-<span class="c1"># login service (explicit because of pam_dial_auth)</span>
-<span class="c1">#</span>
-<span class="n">login</span>   <span class="n">auth</span> <span class="n">requisite</span>        <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_unix_cred</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>              <span class="c1"># sol 10 requires this.</span>
-<span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_dial_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">login</span>   <span class="n">auth</span> <span class="n">binding</span>          <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># rlogin service (explicit because of pam_rhost_auth)</span>
-<span class="c1">#</span>
-<span class="n">rlogin</span>  <span class="n">auth</span> <span class="n">sufficient</span>       <span class="n">pam_rhosts_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">rlogin</span>  <span class="n">auth</span> <span class="n">requisite</span>        <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">rlogin</span>  <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">rlogin</span>  <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_unix_cred</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">rlogin</span>  <span class="n">auth</span> <span class="n">binding</span>          <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">rlogin</span>  <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># rsh service (explicit because of pam_rhost_auth,</span>
-<span class="c1"># and pam_unix_auth for meaningful pam_setcred)</span>
-<span class="c1">#</span>
-<span class="n">rsh</span>     <span class="n">auth</span> <span class="n">sufficient</span>       <span class="n">pam_rhosts_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">rsh</span>     <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_unix_cred</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">rsh</span>     <span class="n">auth</span> <span class="n">binding</span>          <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">rsh</span>     <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># PPP service (explicit because of pam_dial_auth)</span>
-<span class="c1">#</span>
-<span class="n">ppp</span>     <span class="n">auth</span> <span class="n">requisite</span>        <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">ppp</span>     <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">ppp</span>     <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_dial_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">ppp</span>     <span class="n">auth</span> <span class="n">binding</span>          <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">ppp</span>     <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># Default definitions for Authentication management</span>
-<span class="c1"># Used when service name is not explicitly mentioned for authentication</span>
-<span class="c1">#</span>
-<span class="n">other</span>   <span class="n">auth</span> <span class="n">requisite</span>        <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_unix_cred</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">auth</span> <span class="n">binding</span>          <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">other</span>   <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># passwd command (explicit because of a different authentication module)</span>
-<span class="c1">#</span>
-<span class="n">passwd</span>  <span class="n">auth</span> <span class="n">binding</span>          <span class="n">pam_passwd_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">passwd</span>  <span class="n">auth</span> <span class="n">required</span>         <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># cron service (explicit because of non-usage of pam_roles.so.1)</span>
-<span class="c1">#</span>
-<span class="n">cron</span>    <span class="n">account</span> <span class="n">required</span>      <span class="n">pam_unix_account</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># Default definition for Account management</span>
-<span class="c1"># Used when service name is not explicitly mentioned for account management</span>
-<span class="c1">#</span>
-<span class="n">other</span>   <span class="n">account</span> <span class="n">requisite</span>     <span class="n">pam_roles</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">account</span> <span class="n">binding</span>       <span class="n">pam_unix_account</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="n">other</span>   <span class="n">account</span> <span class="n">required</span>      <span class="n">pam_ldap</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># Default definition for Session management</span>
-<span class="c1"># Used when service name is not explicitly mentioned for session management</span>
-<span class="c1">#</span>
-<span class="n">other</span>   <span class="n">session</span> <span class="n">required</span>      <span class="n">pam_unix_session</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="c1">#</span>
-<span class="c1"># Default definition for  Password management</span>
-<span class="c1"># Used when service name is not explicitly mentioned for password management</span>
-<span class="c1">#</span>
-<span class="n">other</span>   <span class="n">password</span> <span class="n">required</span>     <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">password</span> <span class="n">requisite</span>    <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">password</span> <span class="n">requisite</span>    <span class="n">pam_authtok_check</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
-<span class="n">other</span>   <span class="n">password</span> <span class="n">required</span>     <span class="n">pam_authtok_store</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">server_policy</span>
-<span class="c1">#</span>
-<span class="c1"># Support for Kerberos V5 authentication and example configurations can</span>
-<span class="c1"># be found in the pam_krb5(5) man page under the &quot;EXAMPLES&quot; section.</span>
-<span class="c1">#</span>
+# /etc/pam_conf for pam_ldap for solaris.
+# from: http://docs.sun.com/app/docs/doc/816-4556/6maort2te?a=view
+#
+# Authentication management
+#
+# login service (explicit because of pam_dial_auth)
+#
+login   auth requisite        pam_authtok_get.so.1
+login   auth required         pam_dhkeys.so.1
+login   auth required         pam_unix_cred.so.1              # sol 10 requires this.
+login   auth required         pam_dial_auth.so.1
+login   auth binding          pam_unix_auth.so.1 server_policy
+login   auth required         pam_ldap.so.1
+#
+# rlogin service (explicit because of pam_rhost_auth)
+#
+rlogin  auth sufficient       pam_rhosts_auth.so.1
+rlogin  auth requisite        pam_authtok_get.so.1
+rlogin  auth required         pam_dhkeys.so.1
+rlogin  auth required         pam_unix_cred.so.1
+rlogin  auth binding          pam_unix_auth.so.1 server_policy
+rlogin  auth required         pam_ldap.so.1
+#
+# rsh service (explicit because of pam_rhost_auth,
+# and pam_unix_auth for meaningful pam_setcred)
+#
+rsh     auth sufficient       pam_rhosts_auth.so.1
+rsh     auth required         pam_unix_cred.so.1
+rsh     auth binding          pam_unix_auth.so.1 server_policy
+rsh     auth required         pam_ldap.so.1
+#
+# PPP service (explicit because of pam_dial_auth)
+#
+ppp     auth requisite        pam_authtok_get.so.1
+ppp     auth required         pam_dhkeys.so.1
+ppp     auth required         pam_dial_auth.so.1
+ppp     auth binding          pam_unix_auth.so.1 server_policy
+ppp     auth required         pam_ldap.so.1
+#
+# Default definitions for Authentication management
+# Used when service name is not explicitly mentioned for authentication
+#
+other   auth requisite        pam_authtok_get.so.1
+other   auth required         pam_dhkeys.so.1
+other   auth required         pam_unix_cred.so.1
+other   auth binding          pam_unix_auth.so.1 server_policy
+other   auth required         pam_ldap.so.1
+#
+# passwd command (explicit because of a different authentication module)
+#
+passwd  auth binding          pam_passwd_auth.so.1 server_policy
+passwd  auth required         pam_ldap.so.1
+#
+# cron service (explicit because of non-usage of pam_roles.so.1)
+#
+cron    account required      pam_unix_account.so.1
+#
+# Default definition for Account management
+# Used when service name is not explicitly mentioned for account management
+#
+other   account requisite     pam_roles.so.1
+other   account binding       pam_unix_account.so.1 server_policy
+other   account required      pam_ldap.so.1
+#
+# Default definition for Session management
+# Used when service name is not explicitly mentioned for session management
+#
+other   session required      pam_unix_session.so.1
+#
+# Default definition for  Password management
+# Used when service name is not explicitly mentioned for password management
+#
+other   password required     pam_dhkeys.so.1
+other   password requisite    pam_authtok_get.so.1
+other   password requisite    pam_authtok_check.so.1
+other   password required     pam_authtok_store.so.1 server_policy
+#
+# Support for Kerberos V5 authentication and example configurations can
+# be found in the pam_krb5(5) man page under the &quot;EXAMPLES&quot; section.
+#
 </pre></div>
 </div>
 </section>

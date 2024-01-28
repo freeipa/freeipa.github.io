@@ -25,7 +25,7 @@ Provisioning Tool
 The provisioning tool uses extended_dn_out_dereference module for both
 OpenLDAP and DS:
 
-::
+.. code-block:: text
 
    if ldap_backend.ldap_backend_type == "fedora-ds":
        tdb_modules_list = ["extended_dn_out_dereference"]
@@ -41,7 +41,7 @@ Module Definition
 The module is defined in
 source/dsdb/samdb/ldb_modules/extended_dn_out.c:
 
-::
+.. code-block:: text
 
    _PUBLIC_ const struct ldb_module_ops ldb_extended_dn_out_dereference_module_ops = {
        .name         = "extended_dn_out_dereference",
@@ -57,7 +57,7 @@ Initialization Method
 The initialization method is contains OpenLDAP-specific attribute
 entryUUID.
 
-::
+.. code-block:: text
 
    static int extended_dn_out_dereference_init(struct ldb_module *module) {
        for (cur = schema->attributes; cur; cur = cur->next) {
@@ -77,7 +77,7 @@ Search Method
 The search method specifies a callback function when constructing a
 search request.
 
-::
+.. code-block:: text
 
    static int extended_dn_out_search(struct ldb_module *module, struct ldb_request *req)
    {
@@ -99,7 +99,7 @@ Callback Function
 
 The callback function calls a handler function.
 
-::
+.. code-block:: text
 
    static int extended_callback(struct ldb_request *req, struct ldb_reply *ares)
    {
@@ -116,7 +116,7 @@ Handler Function
 
 The handler function uses OpenLDAP-specific attribute entryUUID.
 
-::
+.. code-block:: text
 
    static int handle_dereference(struct ldb_dn *dn,
        struct dsdb_openldap_dereference_result **dereference_attrs, 
@@ -149,7 +149,7 @@ Provisioning Tool
 The provisioning tool should be changed to use different modules for
 OpenLDAP and DS:
 
-::
+.. code-block:: text
 
    if ldap_backend.ldap_backend_type == "fedora-ds":
        tdb_modules_list = ["extended_dn_out_fds"]
@@ -165,7 +165,7 @@ Module Definition
 The extended_dn_out_dereference module should be replaced by
 extended_dn_out_openldap and extended_dn_out_fds modules:
 
-::
+.. code-block:: text
 
    _PUBLIC_ const struct ldb_module_ops ldb_extended_dn_out_openldap_module_ops = {
        .name         = "extended_dn_out_openldap",
@@ -189,7 +189,7 @@ attribute list. There will be separate initialization methods for
 OpenLDAP and DS which will call the generic initialization method and
 supply the appropriate attribute list for the backend.
 
-::
+.. code-block:: text
 
    static int extended_dn_out_dereference_init(struct ldb_module *module,
        const char *attrs[]) {
@@ -227,7 +227,7 @@ function. There will be separate search methods for OpenLDAP and DS
 which will call the generic search method and supply the appropriate
 callback function for the backend.
 
-::
+.. code-block:: text
 
    static int extended_dn_out_search(
        struct ldb_module *module, struct ldb_request *req,
@@ -264,7 +264,7 @@ function. There will be separate callback functions for OpenLDAP and DS
 which will call the generic callback function and supply the appropriate
 handler function.
 
-::
+.. code-block:: text
 
    static int extended_callback(struct ldb_request *req, struct ldb_reply *ares,
        int (*handle_dereference)(struct ldb_dn *dn,
@@ -296,7 +296,7 @@ The original handler function that reads the entryUUID attribute should
 be used for OpenLDAP only. A new handler function that reads nsUniqueId
 should be used for DS.
 
-::
+.. code-block:: text
 
    static int handle_dereference_openldap(struct ldb_dn *dn,
        struct dsdb_openldap_dereference_result **dereference_attrs, 

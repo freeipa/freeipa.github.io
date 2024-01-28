@@ -57,7 +57,7 @@ Example
 
 Example:
 
-::
+.. code-block:: text
 
    # create and activate a virtual env
    $ virtualenv /tmp/ipaenv

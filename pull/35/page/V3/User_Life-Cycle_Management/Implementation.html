@@ -306,9 +306,9 @@ document.write(`
 <p>When activating a <em>stage</em> user, we need to copy (if they exists) the
 credential from the <em>stage</em> entry to the <em>active</em> entry. Helpdesk is
 granted the access to do that:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=stage</span> <span class="pre">users,cn=accounts,cn=provisioning,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add:aci:</span> <span class="pre">'(targetattr=&quot;userPassword</span> <span class="pre">||</span> <span class="pre">krbPrincipalKey&quot;)(version</span> <span class="pre">3.0;</span> <span class="pre">acl</span> <span class="pre">&quot;Search</span> <span class="pre">existence</span> <span class="pre">of</span> <span class="pre">password</span> <span class="pre">and</span> <span class="pre">kerberos</span> <span class="pre">keys&quot;;</span> <span class="pre">allow(read,</span> <span class="pre">search)</span> <span class="pre">userdn</span> <span class="pre">=</span> <span class="pre">&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</span></code> &lt;<a class="reference external" href="ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX">ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)'</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=stage users,cn=accounts,cn=provisioning,$SUFFIX
+add:aci: &#39;(targetattr=&quot;userPassword || krbPrincipalKey&quot;)(version 3.0; acl &quot;Search existence of password and kerberos keys&quot;; allow(read, search) userdn = &quot;``\ ```ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX`` &lt;ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX&gt;`__\ ``&quot;;)&#39;
+</pre></div>
 </div>
 <p>TODO: need the same aci for ‘stage user administrator ‘ TODO: clarify if
 <em>admin</em> is helpdesk or support engineer</p>
@@ -318,9 +318,9 @@ granted the access to do that:</p>
 <p>When the option <em>–preserve</em> moves the entry from the <em>Active</em> container
 to the <em>Delete</em> container, we need to remove the credential. This
 requires the following aci for the <em>helpdesk</em>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=deleted</span> <span class="pre">users,cn=accounts,cn=provisioning,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add:aci:</span> <span class="pre">'(targetattr=&quot;userPassword</span> <span class="pre">||</span> <span class="pre">krbPrincipalKey&quot;)(version</span> <span class="pre">3.0;</span> <span class="pre">acl</span> <span class="pre">&quot;Admins</span> <span class="pre">allowed</span> <span class="pre">to</span> <span class="pre">reset</span> <span class="pre">password</span> <span class="pre">and</span> <span class="pre">kerberos</span> <span class="pre">keys&quot;;</span> <span class="pre">allow(read,</span> <span class="pre">search,</span> <span class="pre">write)</span> <span class="pre">userdn</span> <span class="pre">=</span> <span class="pre">&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</span></code> &lt;<a class="reference external" href="ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX">ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=deleted users,cn=accounts,cn=provisioning,$SUFFIX
+add:aci: &#39;(targetattr=&quot;userPassword || krbPrincipalKey&quot;)(version 3.0; acl &quot;Admins allowed to reset password and kerberos keys&quot;; allow(read, search, write) userdn = &quot;``\ ```ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX`` &lt;ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX&gt;`__\ ``&quot;;)
+</pre></div>
 </div>
 <p>TODO: clarify if <em>admin</em> is helpdesk or support engineer</p>
 </section>
@@ -329,22 +329,22 @@ requires the following aci for the <em>helpdesk</em>:</p>
 <p>In order to prevent authentication with <em>Delete</em> and <em>Stage</em> users, the
 following pointer cos is implemented at the <em>provisioning/accounts</em>
 level:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=provisioning</span> <span class="pre">account</span> <span class="pre">lock,cn=accounts,cn=provisioning,SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">cosSuperDefinition</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">cosPointerDefinition</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">ldapSubEntry</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">costemplatedn:</span> <span class="pre">cn=Inactivation</span> <span class="pre">cos</span> <span class="pre">template,cn=staged</span> <span class="pre">users,cn=provisioning,SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cosAttribute:</span> <span class="pre">nsaccountlock</span> <span class="pre">operational</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn:</span> <span class="pre">provisioning</span> <span class="pre">account</span> <span class="pre">lock</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=provisioning</span> <span class="pre">account</span> <span class="pre">lock</span> <span class="pre">cos</span> <span class="pre">template,cn=accounts,cn=provisioning,SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">extensibleObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">cosTemplate</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cosPriority:</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn:</span> <span class="pre">provisioning</span> <span class="pre">account</span> <span class="pre">lock</span> <span class="pre">cos</span> <span class="pre">template</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsAccountLock:</span> <span class="pre">true</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=provisioning account lock,cn=accounts,cn=provisioning,SUFFIX
+objectClass: top
+objectClass: cosSuperDefinition
+objectClass: cosPointerDefinition
+objectClass: ldapSubEntry
+costemplatedn: cn=Inactivation cos template,cn=staged users,cn=provisioning,SUFFIX
+cosAttribute: nsaccountlock operational
+cn: provisioning account lock
+dn: cn=provisioning account lock cos template,cn=accounts,cn=provisioning,SUFFIX
+objectClass: top
+objectClass: extensibleObject
+objectClass: cosTemplate
+cosPriority: 1
+cn: provisioning account lock cos template
+nsAccountLock: true
+</pre></div>
 </div>
 </section>
 </section>

@@ -16,7 +16,7 @@ IPA server configuration
 First of all we need to install FreeIPA server to one of our machines.
 This should be easily done with command:
 
-::
+.. code-block:: text
 
    dnf install -y freeipa-server freeipa-server-dns
 
@@ -31,7 +31,7 @@ install freeipa-server-dns too.
 
 After this we can set up our server defaults using command:
 
-::
+.. code-block:: text
 
    ipa-server-install --domain=example.test --realm=EXAMPLE.TEST
 
@@ -39,7 +39,7 @@ This installation will ask for some additional information including
 server administrator and Directory Manager password which you can see
 down below:
 
-::
+.. code-block:: text
 
    Do you want to configure DNS forwarders? [yes]: yes
    Following DNS servers are configured in /etc/resolv.conf: 10.10.160.1, 10.16.101.41, 10.11.5.19
@@ -72,7 +72,7 @@ done.
 Now we could get credentials as server administrator to test and later
 configure ipa-server
 
-::
+.. code-block:: text
 
    kinit admin
 
@@ -105,13 +105,13 @@ done is to have already enrolled replica machine added into
 enroll machine to IPA server first (if you had one please skip this
 step). **On the replica1 machine run:**
 
-::
+.. code-block:: text
 
    dnf install -y ipa-server
 
 Configure client side components and use admin's password:
 
-::
+.. code-block:: text
 
    ipa-client-install --domain=example.test --realm=EXAMPLE.TEST --server=ipa-server.example.test
    ...
@@ -143,7 +143,7 @@ Configure client side components and use admin's password:
 **On the ipa-server** we should now add our replica1 host into
 ipaservers group with command:
 
-::
+.. code-block:: text
 
    ipa hostgroup-add-member ipaservers --hosts replica1.example.test
      Host-group: ipaservers
@@ -155,7 +155,7 @@ ipaservers group with command:
 
 Obviously the result of command ``ipa hostgroup-find`` should be:
 
-::
+.. code-block:: text
 
    ipa hostgroup-find
    -------------------
@@ -170,7 +170,7 @@ Obviously the result of command ``ipa hostgroup-find`` should be:
 
 and result of ``ipa host-find``:
 
-::
+.. code-block:: text
 
    ---------------
    2 hosts matched
@@ -202,7 +202,7 @@ If host **replica1** is successfully enrolled and in host group
 ipaservers then we just run command ``ipa-replica-install`` and there is
 no need for admin's password as you can see:
 
-::
+.. code-block:: text
 
    ipa-replica-install
    WARNING: conflicting time&date synchronization service 'chronyd' will
@@ -229,7 +229,7 @@ privileged to promote host into replica.
 
 We can now ``kinit`` as admin on **replica1** and add new user:
 
-::
+.. code-block:: text
 
     ipa user-add csantana --first=Carlos --last=Santana
    ---------------------
@@ -255,7 +255,7 @@ We can now ``kinit`` as admin on **replica1** and add new user:
 Now the ``ipa user-find`` command should display same output **on both
 ipa-server and replica1 machine**:
 
-::
+.. code-block:: text
 
    ipa user-find
    ---------------
@@ -296,7 +296,7 @@ IPA client enrolled and promoted to replica with One Time Password in one step
 **On the IPA server** we should add new host and copy *OTP* (Random
 password):
 
-::
+.. code-block:: text
 
    ipa host-add replica2.example.test --random
    ----------------------------------------------
@@ -310,7 +310,7 @@ password):
 
 Then we make him member of host group ipaservers:
 
-::
+.. code-block:: text
 
    ipa hostgroup-add-member ipaservers --hosts replica2.example.test 
      Host-group: ipaservers
@@ -324,7 +324,7 @@ Then we make him member of host group ipaservers:
 
 Now we have to install freeipa-server **on replica2**.example.test :
 
-::
+.. code-block:: text
 
    dnf install -y freeipa-server
 
@@ -333,7 +333,7 @@ To configure replica on replica2.example.test machine just run:
 -  make sure that OTP is closed in quotes, there may be some special
    characters which might be interpreted by shell
 
-::
+.. code-block:: text
 
    ipa-replica-install -p 'huN@Nk5k9vjg' --server ipa-server.example.test --domain example.test --realm EXAMPLE.TEST
 
@@ -342,7 +342,7 @@ To configure replica on replica2.example.test machine just run:
 After successful configuration on all three machines the output of
 command ``ipa-host-find`` should be:
 
-::
+.. code-block:: text
 
    ipa host-find
    ---------------
@@ -381,7 +381,7 @@ command ``ipa-host-find`` should be:
 We just add one other user for example again **on** new
 **replica2**.example.test to test functionality
 
-::
+.. code-block:: text
 
    ipa user-add sclaus --first=Santa --last=Claus
    -------------------
@@ -406,7 +406,7 @@ We just add one other user for example again **on** new
 
 And all ipaservers should display same info:
 
-::
+.. code-block:: text
 
    ipa user-find
    ---------------

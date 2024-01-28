@@ -112,7 +112,7 @@ Initially the only configuration available is to enable or disable the
 servicing of requests by the Dogtag ACME service. This is accomplished
 via the ``ipa-acme-manage`` command:
 
-::
+.. code-block:: text
 
    # enable the service
    ipa-acme-manage enable
@@ -128,7 +128,7 @@ control the ACME service. The ``ipa-acme-manage`` command will be
 deprecated or removed. Examples of what the commands may look like
 (non-prescriptive):
 
-::
+.. code-block:: text
 
    # enable service
    ipa acme-manage --enabled=1
@@ -235,7 +235,7 @@ In addition to creating the configuration files as described in the
 following sections, FreeIPA shall run the following two commands to
 create and deploy the Dogtag ACME service instance:
 
-::
+.. code-block:: text
 
    pki-server acme-create
    pki-server acme-deploy
@@ -246,7 +246,7 @@ Database
 Configure the Dogtag ACME service to use the ``ou=acme,o=ipaca`` subtree
 via ``/etc/pki/pki-tomcat/acme/database.conf``:
 
-::
+.. code-block:: text
 
    class=org.dogtagpki.acme.database.LDAPDatabase
    basedn=ou=acme,o=ipaca
@@ -260,7 +260,7 @@ The ACME schema is automatically added in new installations. See
 
 Create the ACME object heirarchy under ``ou=acme,o=ipaca``:
 
-::
+.. code-block:: text
 
    dn: ou=nonces,ou=acme,o=ipaca
    objectClass: organizationalUnit
@@ -285,7 +285,7 @@ Create the ACME object heirarchy under ``ou=acme,o=ipaca``:
 Schema
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    attributeTypes: ( acmeExpires-oid NAME 'acmeExpires'
      SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
@@ -382,7 +382,7 @@ Issuer
 
 The template for ``/etc/pki/pki-tomcat/acme/issuer.conf`` is:
 
-::
+.. code-block:: text
 
    class=org.dogtagpki.acme.issuer.PKIIssuer
    url=https://$FQDN:8443
@@ -442,7 +442,7 @@ The chosen option was #2. Therefore the implementation is required to:
 -  Add a Dogtag ACL allowing members of ``ACME Agents`` to revoke
    certificates (once only):
 
-   ::
+.. code-block:: text
 
       certServer.ca.certs:execute
         :allow (execute) group=&quot;ACME Agents&quot;
@@ -470,14 +470,14 @@ differences:
 -  Only members of the ``ACME Agents`` group can issue certificates
    using this profile:
 
-   ::
+.. code-block:: text
 
       auth.instance_id=SessionAuthentication
       authz.acl=group=&quot;$ACME_AGENT_GROUP&quot;   
 
 -  The certificate lifetime is 90 days:
 
-   ::
+.. code-block:: text
 
       policyset.serverCertSet.7.constraint.params.range=90
 
@@ -485,7 +485,7 @@ differences:
    field because some ACME clients create CSRs with an empty Subject
    field:
 
-   ::
+.. code-block:: text
 
       policyset.serverCertSet.9.default.class_id=sanToCNDefaultImpl
       policyset.serverCertSet.9.default.name=SAN to CN Default     
@@ -634,7 +634,7 @@ some specific scenarios using the *Certbot* and *mod_md* clients.
 As a concrete example, here is how you could use *Certbot* to register
 an account and acquire a certificate from the FreeIPA ACME service:
 
-::
+.. code-block:: text
 
    # certbot --server https://ipa-ca.ipa.local/acme/directory \
      register -m ftweedal@redhat.com --agree-tos --no-eff-email

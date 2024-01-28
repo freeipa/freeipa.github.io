@@ -47,7 +47,7 @@ command to the server. The server then compares the API version with
 it's own and if the client is compatible, it executes the command. If
 not, the command errors out:
 
-::
+.. code-block:: text
 
    $ ipa user-find example
    ipa: ERROR: 2.65 client incompatible with 2.49 server at u'https://ipa.example.com/ipa/xml'

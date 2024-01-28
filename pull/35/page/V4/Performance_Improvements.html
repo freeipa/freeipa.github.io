@@ -457,12 +457,12 @@ and duration of individual ldap request are given in percentage of 10s.</p>
 (initial durations) of the ldap operations given below. It shows that
 ‘~90%’ of “user-add” duration is spent in ‘DS’:</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">kerberos</span> <span class="pre">authentication:</span> <span class="pre">30%</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap</span> <span class="pre">add:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">28%</span>&#160; <span class="pre">(sum</span> <span class="pre">58%)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">update</span> <span class="pre">group</span> <span class="pre">membership:</span> <span class="pre">15%</span>&#160; <span class="pre">(sum</span> <span class="pre">73%)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap</span> <span class="pre">bind:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">10%</span>&#160; <span class="pre">(sum</span> <span class="pre">83%)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">user</span> <span class="pre">membership</span> <span class="pre">lookup:</span>&#160;&#160; <span class="pre">8%</span>&#160; <span class="pre">(sum</span> <span class="pre">91%)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kerberos authentication: 30%
+ldap add:                28%  (sum 58%)
+update group membership: 15%  (sum 73%)
+ldap bind:               10%  (sum 83%)
+user membership lookup:   8%  (sum 91%)
+</pre></div>
 </div>
 <section id="authenticate">
 <h4>authenticate<a class="headerlink" href="#authenticate" title="Link to this heading">#</a></h4>
@@ -471,21 +471,21 @@ mechanism and then being bound with the entry mapping the kerberos
 principal. GSSAPI Kerberos authentication is also using LDAP server so
 the complete authentication is looking like (note the delay between the
 connection open and the BIND:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``Details:``
 
-| ``[11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
-| ``...``
-| ``[11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
-| ``[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
-| ``[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
-| ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn=&quot;uid=admin,cn=users,cn=accounts,``\ ``&quot;``
-| ``.... ``
-| ``.... ``
-| ``&lt;MOD(s) to add the users into the related groups&gt;``
-| ``.... ``
+ [11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
+ ...``
+ [11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
+ [11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
+ [11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
+ [11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
+ [11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
+ [11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn=&quot;&quot; method=sasl version=3 mech=GSSAPI``
+ [11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn=&quot;uid=admin,cn=users,cn=accounts,``\ ``&quot;``
+ .... ``
+ .... ``
+ &lt;MOD(s) to add the users into the related groups&gt;``
+ .... ``
 </pre></div>
 </div>
 <p>kerberos authentication cost</p>
@@ -493,21 +493,21 @@ connection open and the BIND:</p>
 authentication is that kerberos is doing several LDAP lookup and some of
 them are quite expensive:</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:24</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=367</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=krbtgt/</span></code><code class="docutils literal notranslate"><span class="pre">&#64;</span></code><code class="docutils literal notranslate"><span class="pre">)(krbPrincipalName=krbtgt/</span></code><code class="docutils literal notranslate"><span class="pre">&#64;</span></code><code class="docutils literal notranslate"><span class="pre">)))&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:24</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=367</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=1</span> <span class="pre">etime=0.648000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:24</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=369</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=ldap/</span></code><code class="docutils literal notranslate"><span class="pre">.</span></code><code class="docutils literal notranslate"><span class="pre">&#64;</span></code><code class="docutils literal notranslate"><span class="pre">)(krbPrincipalName=ldap/</span></code><code class="docutils literal notranslate"><span class="pre">.</span></code><code class="docutils literal notranslate"><span class="pre">&#64;</span></code><code class="docutils literal notranslate"><span class="pre">)))&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:25</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=369</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=1</span> <span class="pre">etime=0.646000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:25</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=371</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=HTTP/</span></code><code class="docutils literal notranslate"><span class="pre">.</span></code><code class="docutils literal notranslate"><span class="pre">&#64;</span></code><code class="docutils literal notranslate"><span class="pre">))&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:26</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=371</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=1</span> <span class="pre">etime=0.530000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:26</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=373</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(objectClass=ipaKrb5DelegationACL)(memberPrincipal=HTTP/</span></code><code class="docutils literal notranslate"><span class="pre">.</span></code><code class="docutils literal notranslate"><span class="pre">&#64;</span></code><code class="docutils literal notranslate"><span class="pre">))&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:26</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=373</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=1</span> <span class="pre">etime=0.424000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:26</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=374</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=admin&#64;</span></code><code class="docutils literal notranslate"><span class="pre">))&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[11/Jan/2016:14:35:27</span> <span class="pre">+0100]</span> <span class="pre">conn=4</span> <span class="pre">op=374</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=1</span> <span class="pre">etime=0.551000</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[11/Jan/2016:14:35:24 +0100] conn=4 op=367 SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=krbtgt/``\ ``@``\ ``)(krbPrincipalName=krbtgt/``\ ``@``\ ``)))&quot;
+[11/Jan/2016:14:35:24 +0100] conn=4 op=367 RESULT err=0 tag=101 nentries=1 etime=0.648000
+...
+[11/Jan/2016:14:35:24 +0100] conn=4 op=369 SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=ldap/``\ ``.``\ ``@``\ ``)(krbPrincipalName=ldap/``\ ``.``\ ``@``\ ``)))&quot;
+[11/Jan/2016:14:35:25 +0100] conn=4 op=369 RESULT err=0 tag=101 nentries=1 etime=0.646000
+...
+[11/Jan/2016:14:35:25 +0100] conn=4 op=371 SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=HTTP/``\ ``.``\ ``@``\ ``))&quot;
+[11/Jan/2016:14:35:26 +0100] conn=4 op=371 RESULT err=0 tag=101 nentries=1 etime=0.530000
+...
+[11/Jan/2016:14:35:26 +0100] conn=4 op=373 SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(objectClass=ipaKrb5DelegationACL)(memberPrincipal=HTTP/``\ ``.``\ ``@``\ ``))&quot;
+[11/Jan/2016:14:35:26 +0100] conn=4 op=373 RESULT err=0 tag=101 nentries=1 etime=0.424000
+...
+[11/Jan/2016:14:35:26 +0100] conn=4 op=374 SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=admin@``\ ``))&quot;
+[11/Jan/2016:14:35:27 +0100] conn=4 op=374 RESULT err=0 tag=101 nentries=1 etime=0.551000
+</pre></div>
 </div>
 <p>The SRCH requests are costly because of the base search, each of them
 triggers an internal lookup in the schema compat plugin map. The more
@@ -564,17 +564,17 @@ The caching of the ipaconfig has been fixed in
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5463">5463</a>. With this fix,
 only one lookup of ipaconfig is done.</p>
 <p>The request that is expensive is :</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[05/Apr/2016:13:57:33</span> <span class="pre">+0200]</span> <span class="pre">conn=75540</span> <span class="pre">op=17</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(|(member=uid=tb51420,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">)(memberUser=uid=tb51420,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">)(memberHost=uid=tb51420,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">))&quot;</span> <span class="pre">attrs=&quot;&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[05/Apr/2016:13:57:33</span> <span class="pre">+0200]</span> <span class="pre">conn=75540</span> <span class="pre">op=17</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=0</span> <span class="pre">etime=0.275000</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[05/Apr/2016:13:57:33 +0200] conn=75540 op=17 SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(|(member=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberUser=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberHost=uid=tb51420,cn=users,cn=accounts,``\ ``))&quot; attrs=&quot;&quot;
+[05/Apr/2016:13:57:33 +0200] conn=75540 op=17 RESULT err=0 tag=101 nentries=0 etime=0.275000
+</pre></div>
 </div>
 </section>
 <section id="add-user">
 <h4>Add user<a class="headerlink" href="#add-user" title="Link to this heading">#</a></h4>
 <p>The add of the user account is looking like</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[05/Apr/2016:13:57:31</span> <span class="pre">+0200]</span> <span class="pre">conn=75540</span> <span class="pre">op=13</span> <span class="pre">ADD</span> <span class="pre">dn=&quot;uid=tb51420,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[05/Apr/2016:13:57:33</span> <span class="pre">+0200]</span> <span class="pre">conn=75540</span> <span class="pre">op=13</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=105</span> <span class="pre">nentries=0</span> <span class="pre">etime=1.850000</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[05/Apr/2016:13:57:31 +0200] conn=75540 op=13 ADD dn=&quot;uid=tb51420,cn=users,cn=accounts,``\ ``&quot;
+[05/Apr/2016:13:57:33 +0200] conn=75540 op=13 RESULT err=0 tag=105 nentries=0 etime=1.850000
+</pre></div>
 </div>
 <p>The ldap ADD accounts for nearly 20% of the total CLI. But
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5448#comment:6">90%</a> of the
@@ -583,15 +583,15 @@ lookup are <strong>internal searches</strong> done by DNA, uniqueness
 (krbPrincipalName, krbCanonicalName, ipaUniqueID, uid) and schema compat
 itself.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">identical</span> <span class="pre">internal</span> <span class="pre">search</span> <span class="pre">done</span> <span class="pre">by</span> <span class="pre">'DNA'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(|(objectClass=posixAccount)(objectClass=posixGroup)(objectClass=ipaIDobject))(|(uidNumber=1677038171)(gidNumber=1677038171)))&quot;</span> <span class="pre">attrs=&quot;dn&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">searches</span> <span class="pre">done</span> <span class="pre">by</span> <span class="pre">'uniqueness'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(&amp;(objectClass=posixAccount)(|(uid=tb38189)))&quot;</span> <span class="pre">attrs=&quot;dn&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(|(ipaUniqueID=8549a6d6-a969-11e5-bfb1-001a4a231292))&quot;</span> <span class="pre">attrs=&quot;dn&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SRCH</span> <span class="pre">base=&quot;</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=2</span> <span class="pre">filter=&quot;(|(krbPrincipalName=tb38189&#64;</span></code><code class="docutils literal notranslate"><span class="pre">))&quot;</span> <span class="pre">attrs=&quot;dn&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">search</span> <span class="pre">done</span> <span class="pre">by</span> <span class="pre">'schema</span> <span class="pre">compat'.</span> <span class="pre">note</span> <span class="pre">this</span> <span class="pre">one</span> <span class="pre">dumps</span> <span class="pre">ipausers</span> <span class="pre">group</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">SRCH</span> <span class="pre">base=&quot;cn=groups,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">scope=1</span> <span class="pre">filter=&quot;(member=uid=tb38189,cn=users,cn=accounts,</span></code><code class="docutils literal notranslate"><span class="pre">)&quot;</span> <span class="pre">attrs=ALL</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2 identical internal search done by &#39;DNA&#39;
+SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(|(objectClass=posixAccount)(objectClass=posixGroup)(objectClass=ipaIDobject))(|(uidNumber=1677038171)(gidNumber=1677038171)))&quot; attrs=&quot;dn&quot;
+3 searches done by &#39;uniqueness&#39;
+SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(&amp;(objectClass=posixAccount)(|(uid=tb38189)))&quot; attrs=&quot;dn&quot;
+SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(|(ipaUniqueID=8549a6d6-a969-11e5-bfb1-001a4a231292))&quot; attrs=&quot;dn&quot;
+SRCH base=&quot;``\ ``&quot; scope=2 filter=&quot;(|(krbPrincipalName=tb38189@``\ ``))&quot; attrs=&quot;dn&quot;
+1 search done by &#39;schema compat&#39;. note this one dumps ipausers group
+SRCH base=&quot;cn=groups,cn=accounts,``\ ``&quot; scope=1 filter=&quot;(member=uid=tb38189,cn=users,cn=accounts,``\ ``)&quot; attrs=ALL
+</pre></div>
 </div>
 <p>There are two options to reduce the impact of those internal searches:</p>
 <ul class="simple">
@@ -649,18 +649,18 @@ that was implemented.</p>
 <p>Due <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/5787">#5787</a> every IPA
 command call downloads the LDAP schema first without any caching. It
 took 40-60% of time of user-add command without groups.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Profiler output:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``Profiler output:``
 
 | ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
-| ``Ordered by: cumulative time``
-| `` ``
-| ``ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-| ``...``
-| ``206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
-| ``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
-| ``  1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
-| `` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-| ``...``
+ Ordered by: cumulative time``
+  ``
+ ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
+ ...``
+ 206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
+   1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
+   1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
+  32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
+ ...``
 </pre></div>
 </div>
 <p>This performance issue will be resolved by fixing
@@ -710,12 +710,12 @@ when initialization
 completed</a>.
 Actually the subject of the commit does not reflect those changes in
 that file, where the perf improvement are</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">+</span>&#160; <span class="pre">if</span> <span class="pre">(slapi_op_internal(pb)</span> <span class="pre">||</span> <span class="pre">(slapi_is_ldapi_conn(pb)</span> <span class="pre">&amp;&amp;</span> <span class="pre">isroot))</span> <span class="pre">{</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">+</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">/*</span> <span class="pre">The</span> <span class="pre">plugin</span> <span class="pre">should</span> <span class="pre">not</span> <span class="pre">engage</span> <span class="pre">in</span> <span class="pre">internal</span> <span class="pre">searches</span> <span class="pre">of</span> <span class="pre">other</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">+</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">*</span> <span class="pre">plugins</span> <span class="pre">or</span> <span class="pre">ldapi+cn=DM</span> <span class="pre">*/</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">+</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">0;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">+</span>&#160; <span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>+  if (slapi_op_internal(pb) || (slapi_is_ldapi_conn(pb) &amp;&amp; isroot)) {
++      /* The plugin should not engage in internal searches of other
++       * plugins or ldapi+cn=DM */
++      return 0;
++  }
+</pre></div>
 </div>
 <p>Those improvements are available since <strong>Release 0.55</strong></p>
 </section>
@@ -755,32 +755,32 @@ searches in LDAP take too long and may result into timeout.</p></li>
 <p><em>ipasshpubkey</em> can be fetched together with user entry, there is no need
 for an extra search operation.</p>
 <p><code class="docutils literal notranslate"><span class="pre">User-find</span> <span class="pre">with</span> <span class="pre">2000</span> <span class="pre">entries</span> <span class="pre">with</span> <span class="pre">sshpubkey</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">6310241</span> <span class="pre">function</span> <span class="pre">calls</span> <span class="pre">(6200125</span> <span class="pre">primitive</span> <span class="pre">calls)</span> <span class="pre">in</span> <span class="pre">``\</span> <span class="pre">**``16.453``**\</span> <span class="pre">``</span> <span class="pre">seconds</span></code></div>
-<div class="line">``   Ordered by: cumulative time``</div>
-<div class="line">``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">....</span></code></div>
-<div class="line">``        1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``</div>
-<div class="line">``     6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)``</div>
-<div class="line">``        1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)``</div>
-<div class="line">``        1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)``</div>
-<div class="line">``    16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``</div>
-<div class="line">``    10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)``</div>
-<div class="line">``    10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)``</div>
-<div class="line">``    10006    6.114    0.001    6.114    0.001 {built-in method result4}``</div>
-<div class="line">``     2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)``</div>
-<div class="line">``        1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)``</div>
-<div class="line">``     2000    0.043    0.000    <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``3.787``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.002</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/util.py:293(</span></code><strong>``convert_sshpubkey_post``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``    10004    0.095    0.000    3.147    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">.....</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>6310241 function calls (6200125 primitive calls) in ``\ **``16.453``**\ `` seconds
+   Ordered by: cumulative time
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+....
+        1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+     6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+        1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)
+        1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)
+    16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+    10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
+    10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
+    10006    6.114    0.001    6.114    0.001 {built-in method result4}
+     2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)
+        1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
+     2000    0.043    0.000    ``\ **``3.787``**\ ``    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(``\ **``convert_sshpubkey_post``**\ ``)
+    10004    0.095    0.000    3.147    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
+.....
+</pre></div>
 </div>
 <p>As profiling output shows approximately <strong>23%</strong> of time was spent on
 processing <em>ipasshpubkey</em> attribute because for each user it was
 downloaded separately</p>
 <p>ldap access log contains</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[15/Apr/2016:12:59:11</span> <span class="pre">+0200]</span> <span class="pre">conn=30</span> <span class="pre">op=5624</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;uid=user1871,cn=users,cn=accounts,dc=example,dc=com&quot;</span> <span class="pre">scope=0</span> <span class="pre">filter=&quot;(objectClass=*)&quot;</span> <span class="pre">attrs=&quot;ipaSshPubKey&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[15/Apr/2016:12:59:11</span> <span class="pre">+0200]</span> <span class="pre">conn=30</span> <span class="pre">op=5624</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=1</span> <span class="pre">etime=0</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[15/Apr/2016:12:59:11 +0200] conn=30 op=5624 SRCH base=&quot;uid=user1871,cn=users,cn=accounts,dc=example,dc=com&quot; scope=0 filter=&quot;(objectClass=*)&quot; attrs=&quot;ipaSshPubKey&quot;
+[15/Apr/2016:12:59:11 +0200] conn=30 op=5624 RESULT err=0 tag=101 nentries=1 etime=0
+</pre></div>
 </div>
 <p>for each user (2000 times for this case)</p>
 <p>Fetching <em>ipsshpubkey</em> together with all attributes in one search will
@@ -794,29 +794,29 @@ increase speed rapidly.</p>
 These attribute should be removed from user-find command to get better
 performance.</p>
 <p><code class="docutils literal notranslate"><span class="pre">user-find</span> <span class="pre">with</span> <span class="pre">2000</span> <span class="pre">users:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">6310241</span> <span class="pre">function</span> <span class="pre">calls</span> <span class="pre">(6200125</span> <span class="pre">primitive</span> <span class="pre">calls)</span> <span class="pre">in</span> <span class="pre">``\</span> <span class="pre">**``16.453``**\</span> <span class="pre">``</span> <span class="pre">seconds</span></code></div>
-<div class="line">``   Ordered by: cumulative time``</div>
-<div class="line">``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">....</span></code></div>
-<div class="line">``        1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``</div>
-<div class="line">``     6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)``</div>
-<div class="line">``        1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)``</div>
-<div class="line">``        1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)``</div>
-<div class="line">``    16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``</div>
-<div class="line">``    10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)``</div>
-<div class="line">``    10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)``</div>
-<div class="line">``    10006    6.114    0.001    6.114    0.001 {built-in method result4}``</div>
-<div class="line">``     2000    0.053    0.000    <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``5.341``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.003</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(</span></code><strong>``get_password_attributes``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``        1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">....</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>6310241 function calls (6200125 primitive calls) in ``\ **``16.453``**\ `` seconds
+   Ordered by: cumulative time
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+....
+        1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+     6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+        1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)
+        1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)
+    16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+    10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
+    10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
+    10006    6.114    0.001    6.114    0.001 {built-in method result4}
+     2000    0.053    0.000    ``\ **``5.341``**\ ``    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(``\ **``get_password_attributes``**\ ``)
+        1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
+....
+</pre></div>
 </div>
 <p>Getting and processing password attributes took approximately <strong>32%</strong> of
 time.</p>
 <p>The ldap access log contains</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[15/Apr/2016:12:59:12</span> <span class="pre">+0200]</span> <span class="pre">conn=30</span> <span class="pre">op=5764</span> <span class="pre">SRCH</span> <span class="pre">base=&quot;uid=user1918,cn=users,cn=accounts,dc=example,dc=com&quot;</span> <span class="pre">scope=0</span> <span class="pre">filter=&quot;(krbPrincipalKey=*)&quot;</span> <span class="pre">attrs=&quot;krbPrincipalKey&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[15/Apr/2016:12:59:12</span> <span class="pre">+0200]</span> <span class="pre">conn=30</span> <span class="pre">op=5764</span> <span class="pre">RESULT</span> <span class="pre">err=0</span> <span class="pre">tag=101</span> <span class="pre">nentries=0</span> <span class="pre">etime=0</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[15/Apr/2016:12:59:12 +0200] conn=30 op=5764 SRCH base=&quot;uid=user1918,cn=users,cn=accounts,dc=example,dc=com&quot; scope=0 filter=&quot;(krbPrincipalKey=*)&quot; attrs=&quot;krbPrincipalKey&quot;
+[15/Apr/2016:12:59:12 +0200] conn=30 op=5764 RESULT err=0 tag=101 nentries=0 etime=0
+</pre></div>
 </div>
 <p>for each user (2000 times for this case)</p>
 <p>Note: this change causes that the output of user-find is not backward
@@ -827,9 +827,9 @@ compatible.</p>
 <p>user-find does not process members (groups, roles, sudorules, hbacrules,
 …) by default.</p>
 <p>However with option –all</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">user-find</span> <span class="pre">--all</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">cannot</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">'</span></code><code class="docutils literal notranslate"><span class="pre">`https://ipa.example.com/ipa/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/json">https://ipa.example.com/ipa/json</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">':</span> <span class="pre">Gateway</span> <span class="pre">Timeout</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-find --all
+ipa: ERROR: cannot connect to &#39;``\ ```https://ipa.example.com/ipa/json`` &lt;https://ipa.example.com/ipa/json&gt;`__\ ``&#39;: Gateway Timeout
+</pre></div>
 </div>
 <p>This testcase contains 2000 users with 110 direct and indirect
 memberships.</p>
@@ -887,9 +887,9 @@ searches in LDAP take too long and may result into timeout.</p></li>
 </section>
 <section id="id11">
 <h3>processing members<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">host-find</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">cannot</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">'</span></code><code class="docutils literal notranslate"><span class="pre">`https://ipa.example.com/ipa/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/json">https://ipa.example.com/ipa/json</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">':</span> <span class="pre">Gateway</span> <span class="pre">Timeout</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa host-find
+ipa: ERROR: cannot connect to &#39;``\ ```https://ipa.example.com/ipa/json`` &lt;https://ipa.example.com/ipa/json&gt;`__\ ``&#39;: Gateway Timeout
+</pre></div>
 </div>
 <p>This testcase contains 2000 hostss with 110 direct and indirect
 memberships.</p>
@@ -1065,12 +1065,12 @@ the priority to entry cache</p>
 <h4>database locks<a class="headerlink" href="#database-locks" title="Link to this heading">#</a></h4>
 <p>During tests it appears that the default number of database locks was
 too low. This can be monitored with</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldapsearch</span> <span class="pre">-LLL</span> <span class="pre">-o</span> <span class="pre">ldif-wrap=no</span> <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-w</span> <span class="pre">Secret123</span> <span class="pre">-b</span> <span class="pre">&quot;cn=database,cn=monitor,cn=ldbm</span> <span class="pre">database,cn=plugins,cn=config&quot;</span> <span class="pre">nsslapd-db-configured-locks</span> <span class="pre">nsslapd-db-current-locks</span> <span class="pre">nsslapd-db-max-locks</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=database,cn=monitor,cn=ldbm</span> <span class="pre">database,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-db-configured-locks:</span> <span class="pre">100000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-db-current-locks:</span> <span class="pre">8980</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-db-max-locks:</span> <span class="pre">42675</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ldapsearch -LLL -o ldif-wrap=no -D &quot;cn=directory manager&quot; -w Secret123 -b &quot;cn=database,cn=monitor,cn=ldbm database,cn=plugins,cn=config&quot; nsslapd-db-configured-locks nsslapd-db-current-locks nsslapd-db-max-locks
+dn: cn=database,cn=monitor,cn=ldbm database,cn=plugins,cn=config
+nsslapd-db-configured-locks: 100000
+nsslapd-db-current-locks: 8980
+nsslapd-db-max-locks: 42675
+</pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">One</span> <span class="pre">rule</span> <span class="pre">of</span> <span class="pre">thumb,</span> <span class="pre">for</span> <span class="pre">large</span> <span class="pre">provisioning,</span> <span class="pre">is</span> <span class="pre">to</span> <span class="pre">set</span> <span class="pre">database</span> <span class="pre">lock</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">half</span> <span class="pre">of</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">provisioned</span> <span class="pre">users</span> <span class="pre">and</span> <span class="pre">hosts.</span></code></p>
 </section>
@@ -1282,14 +1282,14 @@ syncrepl the provisioned entries.</p>
 a requirement</strong>, it is ok to keep <strong>RetroCL enabled</strong>.</p>
 <p>The ticket <a class="reference external" href="https://fedorahosted.org/389/ticket/48812">48812</a> does
 not provide a measurable performance gain:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DBcache:</span> <span class="pre">100Mb</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Entrycache:</span> <span class="pre">110Mb</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DNcache:</span> <span class="pre">60Mb</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Memberof:</span>&#160;&#160;&#160;&#160; <span class="pre">disabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">slapi-nis:</span>&#160;&#160;&#160;&#160; <span class="pre">disabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">RetroCL:</span>&#160;&#160;&#160;&#160; <span class="pre">enabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Content:</span>&#160;&#160;&#160;&#160; <span class="pre">enabled</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>DBcache: 100Mb
+Entrycache: 110Mb
+DNcache: 60Mb
+Memberof:     disabled
+slapi-nis:     disabled
+RetroCL:     enabled
+Content:     enabled
+</pre></div>
 </div>
 <table class="table">
 <tbody>
@@ -1342,52 +1342,52 @@ tune DS during provisioning and avoid ACL cost.</p></li>
 <li><p>Parse ldif file to check that each provisioned entry matches one of
 the condition:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``(objectClass=inetorgperson)``
-| ``(objectClass=ipausergroup)``
-| ``(objectClass=ipahost)``
-| ``(objectClass=ipahostgroup)``
-| ``(objectClass=ipasudorule)``
-| ``(objectClass=ipahbacrule)``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(objectClass=inetorgperson)``
+(objectClass=ipausergroup)``
+(objectClass=ipahost)``
+(objectClass=ipahostgroup)``
+(objectClass=ipasudorule)``
+(objectClass=ipahbacrule)``
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Compute and set the appropriate <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning">db cache</a>
 size and <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#database_locks">db locks</a></p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-dbcachesize``
-| ``nsslapd-dbcachesize: ``
-| ``-``
-| ``replace: nsslapd-db-locks``
-| ``nsslapd-db-locks: ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
+changetype: modify``
+replace: nsslapd-dbcachesize``
+nsslapd-dbcachesize: ``
+-``
+replace: nsslapd-db-locks``
+nsslapd-db-locks: ``
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Compute and set the appropriate <em>domain</em> <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning">entry cache</a> size</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-cachememsize``
-| ``nsslapd-cachememsize: ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
+changetype: modify``
+replace: nsslapd-cachememsize``
+nsslapd-cachememsize: ``
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Disable memberof</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-pluginEnabled``
-| ``nsslapd-pluginEnabled: off``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=MemberOf Plugin,cn=plugins,cn=config``
+changetype: modify``
+replace: nsslapd-pluginEnabled``
+nsslapd-pluginEnabled: off``
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Disable Schema Compat</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-pluginEnabled``
-| ``nsslapd-pluginEnabled: off``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=Schema Compatibility,cn=plugins,cn=config``
+changetype: modify``
+replace: nsslapd-pluginEnabled``
+nsslapd-pluginEnabled: off``
 </pre></div>
 </div>
 <ul class="simple">
@@ -1396,33 +1396,33 @@ size and <a class="reference external" href="http://www.freeipa.org/page/V4/Perf
 <li><p>ldapadd -D “xxx” -y -f</p></li>
 <li><p>Enable memberof</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=MemberOf</span> <span class="pre">Plugin,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace:</span> <span class="pre">nsslapd-pluginEnabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-pluginEnabled:</span> <span class="pre">on</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=MemberOf Plugin,cn=plugins,cn=config
+changetype: modify
+replace: nsslapd-pluginEnabled
+nsslapd-pluginEnabled: on
+</pre></div>
 </div>
 <ul class="simple">
 <li><p><strong>restart DS</strong></p></li>
 <li><p>Run fixup (and monitor completion) for each of the following filters
 (if it existed entries in the ldif file matching the filter).</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fixup-memberof.pl</span>&#160; <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-j</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">-Z</span> <span class="pre">``\</span> <span class="pre">*``server-id``*\</span> <span class="pre">``</span> <span class="pre">-b</span> <span class="pre">&quot;</span></code><em>``suffix``</em><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">-f</span> <span class="pre">&quot;(objectClass=inetorgperson)&quot;</span> <span class="pre">-P</span> <span class="pre">LDAP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fixup-memberof.pl</span>&#160; <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-j</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">-Z</span> <span class="pre">``\</span> <span class="pre">*``server-id``*\</span> <span class="pre">``</span> <span class="pre">-b</span> <span class="pre">&quot;</span></code><em>``suffix``</em><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">-f</span> <span class="pre">&quot;(objectClass=ipausergroup)&quot;</span> <span class="pre">-P</span> <span class="pre">LDAP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fixup-memberof.pl</span>&#160; <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-j</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">-Z</span> <span class="pre">``\</span> <span class="pre">*``server-id``*\</span> <span class="pre">``</span> <span class="pre">-b</span> <span class="pre">&quot;</span></code><em>``suffix``</em><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">-f</span> <span class="pre">&quot;(objectClass=ipahost)&quot;</span> <span class="pre">-P</span> <span class="pre">LDAP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fixup-memberof.pl</span>&#160; <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-j</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">-Z</span> <span class="pre">``\</span> <span class="pre">*``server-id``*\</span> <span class="pre">``</span> <span class="pre">-b</span> <span class="pre">&quot;</span></code><em>``suffix``</em><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">-f</span> <span class="pre">&quot;(objectClass=ipahostgroup)&quot;</span> <span class="pre">-P</span> <span class="pre">LDAP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fixup-memberof.pl</span>&#160; <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-j</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">-Z</span> <span class="pre">``\</span> <span class="pre">*``server-id``*\</span> <span class="pre">``</span> <span class="pre">-b</span> <span class="pre">&quot;</span></code><em>``suffix``</em><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">-f</span> <span class="pre">&quot;(objectClass=ipasudorule)&quot;</span> <span class="pre">-P</span> <span class="pre">LDAP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">fixup-memberof.pl</span>&#160; <span class="pre">-D</span> <span class="pre">&quot;cn=directory</span> <span class="pre">manager&quot;</span> <span class="pre">-j</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">-Z</span> <span class="pre">``\</span> <span class="pre">*``server-id``*\</span> <span class="pre">``</span> <span class="pre">-b</span> <span class="pre">&quot;</span></code><em>``suffix``</em><code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">-f</span> <span class="pre">&quot;(objectClass=ipahbacrule)&quot;</span> <span class="pre">-P</span> <span class="pre">LDAP</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>fixup-memberof.pl  -D &quot;cn=directory manager&quot; -j ``\ `` -Z ``\ *``server-id``*\ `` -b &quot;``\ *``suffix``*\ ``&quot; -f &quot;(objectClass=inetorgperson)&quot; -P LDAP
+fixup-memberof.pl  -D &quot;cn=directory manager&quot; -j ``\ `` -Z ``\ *``server-id``*\ `` -b &quot;``\ *``suffix``*\ ``&quot; -f &quot;(objectClass=ipausergroup)&quot; -P LDAP
+fixup-memberof.pl  -D &quot;cn=directory manager&quot; -j ``\ `` -Z ``\ *``server-id``*\ `` -b &quot;``\ *``suffix``*\ ``&quot; -f &quot;(objectClass=ipahost)&quot; -P LDAP
+fixup-memberof.pl  -D &quot;cn=directory manager&quot; -j ``\ `` -Z ``\ *``server-id``*\ `` -b &quot;``\ *``suffix``*\ ``&quot; -f &quot;(objectClass=ipahostgroup)&quot; -P LDAP
+fixup-memberof.pl  -D &quot;cn=directory manager&quot; -j ``\ `` -Z ``\ *``server-id``*\ `` -b &quot;``\ *``suffix``*\ ``&quot; -f &quot;(objectClass=ipasudorule)&quot; -P LDAP
+fixup-memberof.pl  -D &quot;cn=directory manager&quot; -j ``\ `` -Z ``\ *``server-id``*\ `` -b &quot;``\ *``suffix``*\ ``&quot; -f &quot;(objectClass=ipahbacrule)&quot; -P LDAP
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Enable Schema Compat</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=Schema</span> <span class="pre">Compatibility,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace:</span> <span class="pre">nsslapd-pluginEnabled</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsslapd-pluginEnabled:</span> <span class="pre">on</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=Schema Compatibility,cn=plugins,cn=config
+changetype: modify
+replace: nsslapd-pluginEnabled
+nsslapd-pluginEnabled: on
+</pre></div>
 </div>
 <ul class="simple">
 <li><p><strong>stop DS</strong></p></li>
@@ -1483,21 +1483,21 @@ important to identify the filters that will cover all the provisioned
 entries. For example if we provision
 <em>user/usergroup/host/hostgroup/sudorules/hbacrules</em> the following set of
 filters will fixup all the them</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=inetorgperson)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipausergroup)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahost)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahostgroup)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipasudorule)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahbacrule)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(objectClass=inetorgperson)
+(objectClass=ipausergroup)
+(objectClass=ipahost)
+(objectClass=ipahostgroup)
+(objectClass=ipasudorule)
+(objectClass=ipahbacrule)
+</pre></div>
 </div>
 <p>A second difficulty is to have filters that do not overlap. Else we will
 fixup several times the same entries. For example adding
 <em>usergroup/hostgroup</em> the following set of filters overlaps because
 <em>hostgroup</em> also match the first filter.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=groupofnames)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(objectClass=ipahostgroup)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(objectClass=groupofnames)
+(objectClass=ipahostgroup)
+</pre></div>
 </div>
 <p>A third difficulty is if provisioning is adding entries (e.g. user) in a
 server where it already exists others users. In that case the filter
@@ -1705,28 +1705,28 @@ disabled is <strong>3.3 times less</strong> presented in the table below</p>
 <p>The add of <strong>one</strong> user triggers the following operations (1 direct, 31
 internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">a</span> <span class="pre">user</span></code></div>
-<div class="line">``   22 SRCHs``</div>
-<div class="line">``       5 for uniqueness (ipaUniqueID, krbPrincipalName, uid, uidNumber, gidNumber)``</div>
-<div class="line">``       3 for DNA config update (2 identicals (*))``</div>
-<div class="line">``       2 for DNA shared config (2 identicals (*))``</div>
-<div class="line">``       4 for group membership of the added user  (2 identicals (*))``</div>
-<div class="line">``       4 for group membership of the added private group  (2 identicals (*))``</div>
-<div class="line">``       2 for group membership``</div>
-<div class="line">``       2 for updating the added user with its private group``</div>
-<div class="line">``    4 MODs``</div>
-<div class="line">``       1 for DNA config``</div>
-<div class="line">``       1 for DNA shared config``</div>
-<div class="line">``       2 for updating the added user with its private group/entryusn (curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)``</div>
-<div class="line">``    6 ADD``</div>
-<div class="line">``       user ADD``</div>
-<div class="line">``       private group ADD``</div>
-<div class="line">``       retroCL log of ADD user ``</div>
-<div class="line">``       retroCL log of MOD of DNA share config``</div>
-<div class="line">``       retroCL log of ADD private group``</div>
-<div class="line">``       retroCL log of MOD user (adding its private group)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(*)</span> <span class="pre">Searches</span> <span class="pre">are</span> <span class="pre">identicals</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ADD a user
+   22 SRCHs
+       5 for uniqueness (ipaUniqueID, krbPrincipalName, uid, uidNumber, gidNumber)
+       3 for DNA config update (2 identicals (*))
+       2 for DNA shared config (2 identicals (*))
+       4 for group membership of the added user  (2 identicals (*))
+       4 for group membership of the added private group  (2 identicals (*))
+       2 for group membership
+       2 for updating the added user with its private group
+    4 MODs
+       1 for DNA config
+       1 for DNA shared config
+       2 for updating the added user with its private group/entryusn (curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)
+    6 ADD
+       user ADD
+       private group ADD
+       retroCL log of ADD user
+       retroCL log of MOD of DNA share config
+       retroCL log of ADD private group
+       retroCL log of MOD user (adding its private group)
+(*) Searches are identicals
+</pre></div>
 </div>
 <p>add a usergroup</p>
 <p>The add of <strong>one</strong> user group triggers the following operations:</p>
@@ -1735,22 +1735,22 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 15SRCHs</p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">an</span> <span class="pre">empty</span> <span class="pre">usergroup</span></code></div>
-<div class="line">``   15 SRCHs``</div>
-<div class="line">``       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)``</div>
-<div class="line">``       3 for DNA config update (3 identicals (*))``</div>
-<div class="line">``       2 for DNA shared config (2 identicals (*))``</div>
-<div class="line">``       1 for ?? (lookup objectclass=ipantdomainattrs)``</div>
-<div class="line">``       2 for group members (2 identicals (*))``</div>
-<div class="line">``       4 for group membership of the added user group  (2 identicals (*))``</div>
-<div class="line">``    2 MODs``</div>
-<div class="line">``       1 for DNA config``</div>
-<div class="line">``       1 for DNA shared config``</div>
-<div class="line">``    3 ADD``</div>
-<div class="line">``       user group``</div>
-<div class="line">``       retroCL log of ADD user ``</div>
-<div class="line">``       retroCL log of MOD of DNA share config``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ADD an empty usergroup
+   15 SRCHs
+       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)
+       3 for DNA config update (3 identicals (*))
+       2 for DNA shared config (2 identicals (*))
+       1 for ?? (lookup objectclass=ipantdomainattrs)
+       2 for group members (2 identicals (*))
+       4 for group membership of the added user group  (2 identicals (*))
+    2 MODs
+       1 for DNA config
+       1 for DNA shared config
+    3 ADD
+       user group
+       retroCL log of ADD user
+       retroCL log of MOD of DNA share config
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>If the group contains 102 members (100+2nested) (1 direct, 105ADD,
@@ -1758,56 +1758,56 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
 <p>ADD usergroup with 100 user member and 2 nested groups</p>
-<div class="line-block">
-<div class="line">``   1342 SRCHs``</div>
-<div class="line">``       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)``</div>
-<div class="line">``       3 for DNA config update (3 identicals (*))``</div>
-<div class="line">``       2 for DNA shared config (2 identicals (*))``</div>
-<div class="line">``       1 for ?? (lookup objectclass=ipantdomainattrs)``</div>
-<div class="line">``       1 for group members``</div>
-<div class="line">``       202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)``</div>
-<div class="line">``       101 = searchs for members of each direct member [435]``</div>
-<div class="line">``         2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)``</div>
-<div class="line">``         1 = searchs for members of each indirect member``</div>
-<div class="line">``       102 = search for ‘uid’ of each direct/indirect members [643]``</div>
-<div class="line">``       1 for group members [847]``</div>
-<div class="line">``       202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)``</div>
-<div class="line">``       101 = searchs for members of each direct member [1254] (slapi-nis ?)``</div>
-<div class="line">``         2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)``</div>
-<div class="line">``         1 = searchs for members of each indirect member``</div>
-<div class="line">``       ``</div>
-<div class="line">``       1 for group members [1459]``</div>
-<div class="line">``       103 = search for members direct/indirect of the group ‘ipaexternalmember’ (slapi-nis ?)``</div>
-<div class="line">``       4 search for group memberships [1665]``</div>
-<div class="line">``       for each member (total srch = 510 (102*5), 102 ADD, 102 MOD)``</div>
-<div class="line">``           1 search “member memberUser memberHost”``</div>
-<div class="line">``           1 search group owner of the member``</div>
-<div class="line">``           1 search group owner of the usergroup (done at each iteration)``</div>
-<div class="line">``           1 MOD + 1 ADD (see MOD/ADD)``</div>
-<div class="line">``           2 search of the member (2 identical)``</div>
-<div class="line">``   104 MODs``</div>
-<div class="line">``       1 for DNA config``</div>
-<div class="line">``       1 for DNA shared config``</div>
-<div class="line">``       for each member (102)``</div>
-<div class="line">``           MOD users to add ‘memberof’``</div>
-<div class="line">``       ``</div>
-<div class="line">``   105 ADDs``</div>
-<div class="line">``       user group``</div>
-<div class="line">``       for each member (102)``</div>
-<div class="line">``               RetroCL log for above MODs (MOD member to add ‘memberof’)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1342 SRCHs
+    3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)
+    3 for DNA config update (3 identicals (*))
+    2 for DNA shared config (2 identicals (*))
+    1 for ?? (lookup objectclass=ipantdomainattrs)
+    1 for group members
+    202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)
+    101 = searchs for members of each direct member [435]
+      2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)
+      1 = searchs for members of each indirect member
+    102 = search for &#39;uid&#39; of each direct/indirect members [643]
+    1 for group members [847]
+    202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)
+    101 = searchs for members of each direct member [1254] (slapi-nis ?)
+      2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)
+      1 = searchs for members of each indirect member
+
+    1 for group members [1459]
+    103 = search for members direct/indirect of the group &#39;ipaexternalmember&#39; (slapi-nis ?)
+    4 search for group memberships [1665]
+    for each member (total srch = 510 (102*5), 102 ADD, 102 MOD)
+        1 search &quot;member memberUser memberHost&quot;
+        1 search group owner of the member
+        1 search group owner of the usergroup (done at each iteration)
+        1 MOD + 1 ADD (see MOD/ADD)
+        2 search of the member (2 identical)
+104 MODs
+    1 for DNA config
+    1 for DNA shared config
+    for each member (102)
+        MOD users to add &#39;memberof&#39;
+
+105 ADDs
+    user group
+    for each member (102)
+            RetroCL log for above MODs (MOD member to add &#39;memberof&#39;)
+</pre></div>
 </div>
 <p>add host</p>
 <p>The add of <strong>one</strong> host triggers : 2 ADD, 7 SRCHs</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">a</span> <span class="pre">host</span></code></div>
-<div class="line">``   7 SRCH``</div>
-<div class="line">``       2 search (uniqueness ipaUniqueID, krbPrincipalName)``</div>
-<div class="line">``       4 membership search (2 identical)``</div>
-<div class="line">``       1 search for group from ‘ipantdomainattrs’``</div>
-<div class="line">``   2 ADD``</div>
-<div class="line">``       add host``</div>
-<div class="line">``       RetroCL add``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ADD a host
+   7 SRCH
+       2 search (uniqueness ipaUniqueID, krbPrincipalName)
+       4 membership search (2 identical)
+       1 search for group from &#39;ipantdomainattrs&#39;
+   2 ADD
+       add host
+       RetroCL add
+</pre></div>
 </div>
 <p>add a hostgroup</p>
 <p>The add of <strong>one</strong> host group triggers the following operations:</p>
@@ -1816,129 +1816,129 @@ internals): 6 ADDs, 4 MODs, 22SRCHs</p>
 32SRCHs</p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">empty</span> <span class="pre">hostgroup</span></code></div>
-<div class="line">``   32 SEARCHES``</div>
-<div class="line">``       1 search (uniqueness ipaUniqueID)``</div>
-<div class="line">``       4 membership search (2 identical)``</div>
-<div class="line">``       5 search of the alt networkgroup (3 for ‘member’, 1 for ‘memberuser’, 1 for ‘memberhost’)``</div>
-<div class="line">``       6 searches of added hostgroup (2 for ALL, 1 for ‘memberuser’, 1 for ‘memberhost, 1 for ‘fqdn’, 1 for “member memberUser  memberHost”)``</div>
-<div class="line">``       8 searches to find groups owning alt networkgroup``</div>
-<div class="line">``       2 searches to find groups owning hostgroup``</div>
-<div class="line">``       4 search of add hostgroup (4 identical) related to MODs``</div>
-<div class="line">``       1 search for group from ‘ipantdomainattrs’``</div>
-<div class="line">``           ``</div>
-<div class="line">``   3 MOD``</div>
-<div class="line">``       1 update hostgroup to ‘memberof’ alt networkgroup (memberof plugin)``</div>
-<div class="line">``       1 update hostgroup to ‘mepManagedEntry’ alt networkgroup (mep plugin) ((curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)``</div>
-<div class="line">``   5 ADD``</div>
-<div class="line">``       add hostgroup``</div>
-<div class="line">``       add hostgroup alt networkgroup (slapi-nis)``</div>
-<div class="line">``       3 retroCL``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ADD empty hostgroup
+   32 SEARCHES
+       1 search (uniqueness ipaUniqueID)
+       4 membership search (2 identical)
+       5 search of the alt networkgroup (3 for &#39;member&#39;, 1 for &#39;memberuser&#39;, 1 for &#39;memberhost&#39;)
+       6 searches of added hostgroup (2 for ALL, 1 for &#39;memberuser&#39;, 1 for &#39;memberhost, 1 for &#39;fqdn&#39;, 1 for &quot;member memberUser  memberHost&quot;)
+       8 searches to find groups owning alt networkgroup
+       2 searches to find groups owning hostgroup
+       4 search of add hostgroup (4 identical) related to MODs
+       1 search for group from &#39;ipantdomainattrs&#39;
+
+   3 MOD
+       1 update hostgroup to &#39;memberof&#39; alt networkgroup (memberof plugin)
+       1 update hostgroup to &#39;mepManagedEntry&#39; alt networkgroup (mep plugin) ((curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)
+   5 ADD
+       add hostgroup
+       add hostgroup alt networkgroup (slapi-nis)
+       3 retroCL
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>If the hostgroup contains 42 members (40 direct, 2 nested) (1 direct,
 895 internals): 90 ADDs, 88 MODs, 718 SRCHs</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``Details:``
 
-| ``ADD hostgroup with 42 members (nested)``
-| ``   718 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``       4 membership search (2 identical)``
-| ``       5 search of the alt networkgroup (3 for &#39;member&#39;, 1 for &#39;memberuser&#39;, 1 for &#39;memberhost&#39;)``
-| ``       for each member (42): total = 84srch``
-| ``               2 search of the member entry (identical BUG)``
-| ``    ``
-| ``       for each member (42): total = 84``
-| ``               1 search of &#39;member&#39; ``
-| ``               1 search of &#39;fqdn&#39;``
-| ``       10 search to find groups owning hostgroup (4 identical )``
-| ``       for each member (42): total = 252srch [405-&gt;1125]``
-| ``           /* related to the MOD &#39;memberof&#39; of the member */``
-| ``           1 search to find the member &quot;member memberUser memberHost&quot;``
-| ``           1 search to find groups owning member``
-| ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-| ``           2 search member during MOD (identical BUG ?)``
-| ``       for each member (42): total = 252srch [1125-&gt;1760]``
-| ``           /* related to the second &quot;BUGGY&quot; MOD &#39;memberof&#39; of the member */``
-| ``           1 search to find the member &quot;member memberUser memberHost&quot;``
-| ``           1 search to find groups owning member``
-| ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-| ``           2 search member during MOD (identical BUG ?)``
-| ``    87 MOD``
-| ``       for each host in hostgroup [418]``
-| ``           update &#39;memberof&#39; for hostgroup and alt networkgroup``
-| ``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
-| ``           update &#39;memberof&#39; for hostgroup and alt networkgroup``
-| ``       update hostgroup for &#39;mepmanageentry&#39;``
-| ``        ``
-| ``    90 ADD``
-| ``      add hostgroup``
-| ``      add alt networkgroup``
-| ``      88 RetroCL add due to MODs``
+ ADD hostgroup with 42 members (nested)``
+    718 SRCH``
+        1 search (uniqueness ipaUniqueID)``
+        4 membership search (2 identical)``
+        5 search of the alt networkgroup (3 for &#39;member&#39;, 1 for &#39;memberuser&#39;, 1 for &#39;memberhost&#39;)``
+        for each member (42): total = 84srch``
+                2 search of the member entry (identical BUG)``
+     ``
+        for each member (42): total = 84``
+                1 search of &#39;member&#39; ``
+                1 search of &#39;fqdn&#39;``
+        10 search to find groups owning hostgroup (4 identical )``
+        for each member (42): total = 252srch [405-&gt;1125]``
+            /* related to the MOD &#39;memberof&#39; of the member */``
+            1 search to find the member &quot;member memberUser memberHost&quot;``
+            1 search to find groups owning member``
+            2 search to find groups owning hostgroup (identical BUG + same search for each member)``
+            2 search member during MOD (identical BUG ?)``
+        for each member (42): total = 252srch [1125-&gt;1760]``
+            /* related to the second &quot;BUGGY&quot; MOD &#39;memberof&#39; of the member */``
+            1 search to find the member &quot;member memberUser memberHost&quot;``
+            1 search to find groups owning member``
+            2 search to find groups owning hostgroup (identical BUG + same search for each member)``
+            2 search member during MOD (identical BUG ?)``
+     87 MOD``
+        for each host in hostgroup [418]``
+            update &#39;memberof&#39; for hostgroup and alt networkgroup``
+        for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
+            update &#39;memberof&#39; for hostgroup and alt networkgroup``
+        update hostgroup for &#39;mepmanageentry&#39;``
+         ``
+     90 ADD``
+       add hostgroup``
+       add alt networkgroup``
+       88 RetroCL add due to MODs``
 </pre></div>
 </div>
 <p>add sudorules</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations 47 ADDs, 45 MODs and 918 SRCH</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``Details:``
 
-| ``ADD sudorules 25 users/20 hosts``
-| ``   918 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``           /* Follow comes slapi-nis &#39;cn=sudoers,cn=Schema Compatibility&#39; */``
-| ``               for each memberHost (20): 40``
-| ``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-| ``                   ``
-| ``               for each memberuser (25): 25``
-| ``                   1 search &#39;cn&#39;``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-| ``               for each memberUser (25): 25 ``
-| ``                   1 search &#39;uid&#39;``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host (ipaNisNetgroup)``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host (objectclass=ipaHost)``
-| ``               for each memberUser (25): 50``
-| ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-| ``               for each memberUser (25):  25``
-| ``                   1 search user (objectclass=ipaNisNetgroup)``
-| ``       10 searchs to find if add sudorules belong to a group``
-| ``       For each memberUser (25):``
-| ``           /* search all groups it can belong to */``
-| ``           10 search based on member &#39;memberof&#39;``
-| ``   45 MOD``
-| ``       for each users:``
-| ``           update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``&#39; value``
-| ``       for each host:``
-| ``           update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``&#39; value``
-| ``   47 ADD``
-| ``       add sudorule``
-| ``       RetroCL add sudorule + 45 updates of memberof (MODs)``
+ ADD sudorules 25 users/20 hosts``
+    918 SRCH``
+        1 search (uniqueness ipaUniqueID)``
+            /* Follow comes slapi-nis &#39;cn=sudoers,cn=Schema Compatibility&#39; */``
+                for each memberHost (20): 40``
+                    2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
+                    ``
+                for each memberuser (25): 25``
+                    1 search &#39;cn&#39;``
+                for each memberHost (20): 20``
+                    1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
+                for each memberUser (25): 25 ``
+                    1 search &#39;uid&#39;``
+                for each memberHost (20): 20``
+                    1 search host (ipaNisNetgroup)``
+                for each memberHost (20): 20``
+                    1 search host (objectclass=ipaHost)``
+                for each memberUser (25): 50``
+                    2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
+                for each memberUser (25):  25``
+                    1 search user (objectclass=ipaNisNetgroup)``
+        10 searchs to find if add sudorules belong to a group``
+        For each memberUser (25):``
+            /* search all groups it can belong to */``
+            10 search based on member &#39;memberof&#39;``
+    45 MOD``
+        for each users:``
+            update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``&#39; value``
+        for each host:``
+            update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``&#39; value``
+    47 ADD``
+        add sudorule``
+        RetroCL add sudorule + 45 updates of memberof (MODs)``
 </pre></div>
 </div>
 <p>add hbacrules</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations 47 ADDs, 45 MODs and 1313 SRCH</p>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">hbacrule</span> <span class="pre">25</span> <span class="pre">users/20</span> <span class="pre">hosts</span></code></div>
-<div class="line">``   1313 SRCH``</div>
-<div class="line">``       For each memberUser 25: ``</div>
-<div class="line">``           search the groups it belongs to (17)``</div>
-<div class="line">``       For each memberHost 20: ``</div>
-<div class="line">``           search the groups it belongs to (40)``</div>
-<div class="line">`` ``</div>
-<div class="line">``   45 MOD``</div>
-<div class="line">``       for each users:``</div>
-<div class="line">``           update memberof attribute to add the ‘ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">value</span></code></div>
-<div class="line">``       for each host:``</div>
-<div class="line">``           update memberof attribute to add the ‘ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``<code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">value</span></code></div>
-<div class="line">``   47 ADD``</div>
-<div class="line">``       add hbacrule``</div>
-<div class="line">``       RetroCL add hbacrule + 45 updates of memberof (MODs)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ADD hbacrule 25 users/20 hosts
+   1313 SRCH
+       For each memberUser 25:
+           search the groups it belongs to (17)
+       For each memberHost 20:
+           search the groups it belongs to (40)
+
+   45 MOD
+       for each users:
+           update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``\ ``&#39; value
+       for each host:
+           update memberof attribute to add the &#39;ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``\ ``&#39; value
+   47 ADD
+       add hbacrule
+       RetroCL add hbacrule + 45 updates of memberof (MODs)
+</pre></div>
 </div>
 </section>
 <section id="provisioning-without-memberof-plugin">
@@ -1956,28 +1956,28 @@ memberof</a></p></li>
 MOD, 813 SRCH)</p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line">``   813 SRCHs``</div>
-<div class="line">``       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)``</div>
-<div class="line">``       3 for DNA config update (3 identicals (*))``</div>
-<div class="line">``       2 for DNA shared config (2 identicals (*))``</div>
-<div class="line">``       1 for ?? (lookup objectclass=ipantdomainattrs)``</div>
-<div class="line">``       A) for each group members (102): (total 204)``</div>
-<div class="line">``           2 identical base search of the member all_attr (BUG)``</div>
-<div class="line">``       B) for each group members (102): (total 102)``</div>
-<div class="line">``           base search of the member ‘member’ (BUG it could reuse the A)``</div>
-<div class="line">``       C) for each group members (102): (total 102)``</div>
-<div class="line">``           base search of the member ‘uid’ (BUG it could reuse the A)``</div>
-<div class="line">``       D) identical to A (total 102)``</div>
-<div class="line">``       E) identical to B (total 102)``</div>
-<div class="line">``       F) for each group members (102): (total 102)``</div>
-<div class="line">``           base search of the member ‘ipaexternalmember’ (BUG it could reuse the A)``</div>
-<div class="line">``   2 MODs                                                                                                                          ``</div>
-<div class="line">``       1 for DNA config``</div>
-<div class="line">``       1 for DNA shared config``</div>
-<div class="line">``   3 ADDs``</div>
-<div class="line">``       user group``</div>
-<div class="line">``       RetroCL for user_group and MOD DNA``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>813 SRCHs
+    3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)
+    3 for DNA config update (3 identicals (*))
+    2 for DNA shared config (2 identicals (*))
+    1 for ?? (lookup objectclass=ipantdomainattrs)
+    A) for each group members (102): (total 204)
+        2 identical base search of the member all_attr (BUG)
+    B) for each group members (102): (total 102)
+        base search of the member &#39;member&#39; (BUG it could reuse the A)
+    C) for each group members (102): (total 102)
+        base search of the member &#39;uid&#39; (BUG it could reuse the A)
+    D) identical to A (total 102)
+    E) identical to B (total 102)
+    F) for each group members (102): (total 102)
+        base search of the member &#39;ipaexternalmember&#39; (BUG it could reuse the A)
+2 MODs
+    1 for DNA config
+    1 for DNA shared config
+3 ADDs
+    user group
+    RetroCL for user_group and MOD DNA
+</pre></div>
 </div>
 <p>add host</p>
 <p>The add of <strong>one</strong> host gives same results as <a class="reference external" href="http://www.freeipa.org/page/V4/Performance_Improvements#add_host">add host with memberof
@@ -1999,94 +1999,94 @@ SRCHs</strong>.</p>
 895 internals): 5 ADDs, 2 MODs, 201 SRCHs</p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Details:</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">hostgroup</span> <span class="pre">with</span> <span class="pre">42</span> <span class="pre">members</span> <span class="pre">(nested)</span></code></div>
-<div class="line">``   201 SRCH``</div>
-<div class="line">``       1 search (uniqueness ipaUniqueID)``</div>
-<div class="line">``       4 membership search on netgroup``</div>
-<div class="line">``       4 membership search on groups``</div>
-<div class="line">``       5 search on add hostgroup (2 ALL, 1 ‘member’, 1 ‘fqdn’, 1 ‘memberHost’ , 1 ‘member’)``</div>
-<div class="line">``       for each member (42): total = 84srch``</div>
-<div class="line">``               2 search of the member entry (identical BUG)``</div>
-<div class="line">``    ``</div>
-<div class="line">``       for each member (42): total = 84``</div>
-<div class="line">``               1 search of ‘member’ ``</div>
-<div class="line">``               1 search of ‘fqdn’``</div>
-<div class="line">``       9 searches to find groups (ng, users, groups, computers, hostgoups) owning the added hostgroup``</div>
-<div class="line">``                                                                                                                                   ``</div>
-<div class="line">``    2 MOD``</div>
-<div class="line">``       2 update hostgroup to ‘mepManagedEntry’ alt networkgroup (mep plugin) (the first MOD fails with LDAP_TYPE_OR_VALUE_EXISTS)``</div>
-<div class="line">``       ``</div>
-<div class="line">``    5 ADD``</div>
-<div class="line">``      add hostgroup``</div>
-<div class="line">``      add alt networkgroup``</div>
-<div class="line">``       RetroCL add due to MODs``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ADD hostgroup with 42 members (nested)
+   201 SRCH
+       1 search (uniqueness ipaUniqueID)
+       4 membership search on netgroup
+       4 membership search on groups
+       5 search on add hostgroup (2 ALL, 1 &#39;member&#39;, 1 &#39;fqdn&#39;, 1 &#39;memberHost&#39; , 1 &#39;member&#39;)
+       for each member (42): total = 84srch
+               2 search of the member entry (identical BUG)
+
+       for each member (42): total = 84
+               1 search of &#39;member&#39;
+               1 search of &#39;fqdn&#39;
+       9 searches to find groups (ng, users, groups, computers, hostgoups) owning the added hostgroup
+
+    2 MOD
+       2 update hostgroup to &#39;mepManagedEntry&#39; alt networkgroup (mep plugin) (the first MOD fails with LDAP_TYPE_OR_VALUE_EXISTS)
+
+    5 ADD
+      add hostgroup
+      add alt networkgroup
+       RetroCL add due to MODs
+</pre></div>
 </div>
 <p>add sudorule</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations: 2 ADD, 0 MOD, 243 SRCH</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``Details:``
 
-| ``ADD sudorules 25 users/20 hosts``
-| ``   243 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``               for each memberHost (20): 40``
-| ``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-| ``                   ``
-| ``               for each memberuser (25): 25``
-| ``                   1 search &#39;cn&#39;``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host &#39;cn&#39; ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-| ``               for each memberUser (25): 25 ``
-| ``                   1 search &#39;uid&#39;((objectclass=posixAccount))``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host &#39;cn&#39; ((objectclass=ipaNisNetgroup))``
-| ``               for each memberHost (20): 20``
-| ``                   1 search host &#39;fqdn&#39; (objectclass=ipaHost)``
-| ``               for each memberUser (25): 50``
-| ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-| ``               for each memberUser (25):  25``
-| ``                   1 search user (objectclass=ipaNisNetgroup)``
-| ``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
-| `` ``
-| ``       For each memberUser (25):``
-| ``           /* search all groups it can belong to */``
-| ``           10 search based on member &#39;memberof&#39;``
-| `` ``
-| ``   0 MOD``
-| `` ``
-| ``   2 ADD``
-| ``       add sudorule``
-| ``       RetroCL add sudorule``
+ ADD sudorules 25 users/20 hosts``
+    243 SRCH``
+        1 search (uniqueness ipaUniqueID)``
+                for each memberHost (20): 40``
+                    2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
+                    ``
+                for each memberuser (25): 25``
+                    1 search &#39;cn&#39;``
+                for each memberHost (20): 20``
+                    1 search host &#39;cn&#39; ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
+                for each memberUser (25): 25 ``
+                    1 search &#39;uid&#39;((objectclass=posixAccount))``
+                for each memberHost (20): 20``
+                    1 search host &#39;cn&#39; ((objectclass=ipaNisNetgroup))``
+                for each memberHost (20): 20``
+                    1 search host &#39;fqdn&#39; (objectclass=ipaHost)``
+                for each memberUser (25): 50``
+                    2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
+                for each memberUser (25):  25``
+                    1 search user (objectclass=ipaNisNetgroup)``
+        10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
+  ``
+        For each memberUser (25):``
+            /* search all groups it can belong to */``
+            10 search based on member &#39;memberof&#39;``
+  ``
+    0 MOD``
+  ``
+    2 ADD``
+        add sudorule``
+        RetroCL add sudorule``
 </pre></div>
 </div>
 <p>add hbacrules</p>
 <p>Adding <strong>one</strong> sudorule with 25 users/20 hosts, triggers the following
 internal operations 2ADD, 0 MOD, 13 SRCH</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``Details:``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``Details:``
 
-| ``ADD hbacrule 25 users/20 hosts``
-| ``   13 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
-| ``       1 unindexed search in sudorules if one of them owns the added hbacrule``
-| `` ``
-| ``           (&amp;(&amp;(objectclass=ipaSudoRule)``
-| ``               (!(compatVisible=FALSE))``
-| ``               (!(ipaEnabledFlag=FALSE)))``
-| ``             (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
-| ``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-| ``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
-| ``           )``
-| `` ``
-| ``   0 MOD``
-| `` ``
-| ``   2 ADD``
-| ``       add hbacrule``
-| ``       RetroCL add hbacrule``
+ ADD hbacrule 25 users/20 hosts``
+    13 SRCH``
+        1 search (uniqueness ipaUniqueID)``
+        10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
+        1 unindexed search in sudorules if one of them owns the added hbacrule``
+  ``
+            (&amp;(&amp;(objectclass=ipaSudoRule)``
+                (!(compatVisible=FALSE))``
+                (!(ipaEnabledFlag=FALSE)))``
+              (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+                (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+                (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+                (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
+                (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
+                (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
+            )``
+  ``
+    0 MOD``
+  ``
+    2 ADD``
+        add hbacrule``
+        RetroCL add hbacrule``
 </pre></div>
 </div>
 <p>memberof fixup</p>
@@ -2149,28 +2149,28 @@ option <em>–no-members</em> that can be public visible.</p>
 <p>Related ticket(s):
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/4995">#4995</a></p>
 <p><code class="docutils literal notranslate"><span class="pre">host-find</span> <span class="pre">(2000</span> <span class="pre">hosts):</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">76640658</span> <span class="pre">function</span> <span class="pre">calls</span> <span class="pre">(75069144</span> <span class="pre">primitive</span> <span class="pre">calls)</span> <span class="pre">in</span> <span class="pre">``\</span> <span class="pre">**``227.351``**\</span> <span class="pre">``</span> <span class="pre">seconds</span></code></div>
-<div class="line">`` ``</div>
-<div class="line">``   Ordered by: cumulative time``</div>
-<div class="line">`` ``</div>
-<div class="line">``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``</div>
-<div class="line">`` ….``</div>
-<div class="line">``        1    0.103    0.103  227.348  227.348 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">73967/73966</span>&#160;&#160;&#160; <span class="pre">3.240</span>&#160;&#160;&#160; <span class="pre">0.000</span>&#160; <span class="pre">186.341</span>&#160;&#160;&#160; <span class="pre">0.003</span> <span class="pre">/usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)</span></code></div>
-<div class="line">``   247887    1.882    0.000  131.877    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``</div>
-<div class="line">``   173920    0.392    0.000  127.617    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)``</div>
-<div class="line">``   173920    0.953    0.000  127.225    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)``</div>
-<div class="line">``   173920  123.784    0.001  123.784    0.001 {built-in method result4}``</div>
-<div class="line">``     2000    2.283    0.001  <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``111.509``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.056</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:637(</span></code><strong>``convert_attribute_members``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``     2000    0.014    0.000  <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``104.078``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.052</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(</span></code><strong>``get_indirect_members``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``     2000    0.249    0.000  104.064    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)``</div>
-<div class="line">``    77961    0.571    0.000   <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``85.341``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.001</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(</span></code><strong>``get_primary_key_from_dn``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``    67965    0.323    0.000   79.816    0.001 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1415(get_entry)``</div>
-<div class="line">``   173919    1.286    0.000   23.806    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)``</div>
-<div class="line">``   283906    0.407    0.000   16.624    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1265(endswith)``</div>
-<div class="line">``   283906    0.996    0.000   16.077    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1280(_tailmatch)``</div>
-<div class="line">`` ….``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>76640658 function calls (75069144 primitive calls) in ``\ **``227.351``**\ `` seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+ ....
+        1    0.103    0.103  227.348  227.348 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+73967/73966    3.240    0.000  186.341    0.003 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+   247887    1.882    0.000  131.877    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+   173920    0.392    0.000  127.617    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
+   173920    0.953    0.000  127.225    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
+   173920  123.784    0.001  123.784    0.001 {built-in method result4}
+     2000    2.283    0.001  ``\ **``111.509``**\ ``    0.056 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:637(``\ **``convert_attribute_members``**\ ``)
+     2000    0.014    0.000  ``\ **``104.078``**\ ``    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(``\ **``get_indirect_members``**\ ``)
+     2000    0.249    0.000  104.064    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
+    77961    0.571    0.000   ``\ **``85.341``**\ ``    0.001 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(``\ **``get_primary_key_from_dn``**\ ``)
+    67965    0.323    0.000   79.816    0.001 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1415(get_entry)
+   173919    1.286    0.000   23.806    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
+   283906    0.407    0.000   16.624    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1265(endswith)
+   283906    0.996    0.000   16.077    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1280(_tailmatch)
+ ....
+</pre></div>
 </div>
 <p>As is show in output of profiler, the most time consuming operations are
 <strong>convert_attribute_members</strong>, <strong>get_indirect_members</strong>,
@@ -2201,26 +2201,26 @@ operations.</p>
 <p>Test with cache only for <strong>convert_attribute_members</strong> method reduces
 total time of operation from 227.351 (111.509) to 113.474 (3.892)
 seconds</p>
-<div class="line-block">
-<div class="line">`` 16803443 function calls (16602409 primitive calls) in <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``113.474``**\</span> <span class="pre">``</span> <span class="pre">seconds</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>16803443 function calls (16602409 primitive calls) in ``\ **``113.474``**\ `` seconds
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line">``   Ordered by: cumulative time``</div>
-<div class="line">`` ``</div>
-<div class="line">``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``</div>
-<div class="line">``        1    0.031    0.031  113.471  113.471 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">8137/8136</span>&#160;&#160;&#160; <span class="pre">0.512</span>&#160;&#160;&#160; <span class="pre">0.000</span>&#160; <span class="pre">103.554</span>&#160;&#160;&#160; <span class="pre">0.013</span> <span class="pre">/usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)</span></code></div>
-<div class="line">``     2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)``</div>
-<div class="line">``     2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)``</div>
-<div class="line">``    50397    0.342    0.000   93.376    0.002 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">....</span></code></div>
-<div class="line">``    44123    0.874    0.000    4.029    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:56(dn2str)``</div>
-<div class="line">``     2000    0.321    0.000    <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``3.892``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.002</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(</span></code><strong>``convert_attribute_members``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">``     2000    0.039    0.000    3.204    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)``</div>
-<div class="line">``   469301    1.701    0.000    2.919    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:20(escape_dn_chars)``</div>
-<div class="line">`` ….``</div>
-<div class="line">``     2161    0.012    0.000    <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">**``0.233``**\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">0.000</span> <span class="pre">/usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(</span></code><strong>``get_primary_key_from_dn``</strong><code class="docutils literal notranslate"><span class="pre">)</span></code></div>
-<div class="line">`` ….``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.031    0.031  113.471  113.471 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+8137/8136    0.512    0.000  103.554    0.013 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+     2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
+     2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
+    50397    0.342    0.000   93.376    0.002 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+....
+    44123    0.874    0.000    4.029    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:56(dn2str)
+     2000    0.321    0.000    ``\ **``3.892``**\ ``    0.002 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(``\ **``convert_attribute_members``**\ ``)
+     2000    0.039    0.000    3.204    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)
+   469301    1.701    0.000    2.919    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:20(escape_dn_chars)
+ ....
+     2161    0.012    0.000    ``\ **``0.233``**\ ``    0.000 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(``\ **``get_primary_key_from_dn``**\ ``)
+ ....
+</pre></div>
 </div>
 <p>For case when</p>
 <p><code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">groups/sudorules/hostgroups/hbacrules/roles</span> <span class="pre">``\</span> <span class="pre">**``&lt;&lt;``**\</span> <span class="pre">``</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">users/host</span></code></p>
@@ -2230,9 +2230,9 @@ but it should not be very noticeable.</p>
 for having outdated copy of ldap data.</p>
 <p><strong>Indirect members</strong></p>
 <p>Now the most time consumig operation is getting indirect members:</p>
-<div class="line-block">
-<div class="line">``     2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)``</div>
-<div class="line">``     2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
+2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
+</pre></div>
 </div>
 <p>For indirect members, each entry currently requires 2 LDAP searches.
 Implemented search are very effective, but results are not usable for

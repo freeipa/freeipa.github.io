@@ -324,33 +324,33 @@ single sign on web caching.</p>
 </section>
 <section id="install-squid-and-set-service-to-start-on-boot">
 <h2>Install Squid and set service to start on boot<a class="headerlink" href="#install-squid-and-set-service-to-start-on-boot" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">squid</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chkconfig</span> <span class="pre">squid</span> <span class="pre">on</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># yum install squid
+# chkconfig squid on
+</pre></div>
 </div>
 </section>
 <section id="edit-etc-squid-squid-conf-to-configure-kerberos-authentication">
 <h2>Edit /etc/squid/squid.conf to configure kerberos authentication<a class="headerlink" href="#edit-etc-squid-squid-conf-to-configure-kerberos-authentication" title="Link to this heading">#</a></h2>
 <p>add the below lines to the top of /etc/squid/squid.conf</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_param</span> <span class="pre">negotiate</span> <span class="pre">program</span> <span class="pre">/usr/lib64/squid/squid_kerb_auth</span> <span class="pre">-d</span> <span class="pre">-s</span> <span class="pre">HTTP/squid01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_param</span> <span class="pre">negotiate</span> <span class="pre">children</span> <span class="pre">10</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_param</span> <span class="pre">negotiate</span> <span class="pre">keep_alive</span> <span class="pre">on</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">acl</span> <span class="pre">auth</span> <span class="pre">proxy_auth</span> <span class="pre">REQUIRED</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth_param negotiate program /usr/lib64/squid/squid_kerb_auth -d -s HTTP/squid01.example.com
+auth_param negotiate children 10
+auth_param negotiate keep_alive on
+acl auth proxy_auth REQUIRED
+</pre></div>
 </div>
 <p>Change the below text:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">allow</span> <span class="pre">localnet</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">allow</span> <span class="pre">localhost</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http_access allow localnet
+http_access allow localhost
+</pre></div>
 </div>
 <p>And finally deny all other access to this proxy</p>
 <p><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">deny</span> <span class="pre">all</span></code></p>
 <p>to look like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">allow</span> <span class="pre">localnet</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">allow</span> <span class="pre">localhost</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">deny</span> <span class="pre">!auth</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">allow</span> <span class="pre">auth</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http_access allow localnet
+http_access allow localhost
+http_access deny !auth
+http_access allow auth
+</pre></div>
 </div>
 <p>And finally deny all other access to this proxy</p>
 <p><code class="docutils literal notranslate"><span class="pre">http_access</span> <span class="pre">deny</span> <span class="pre">all</span></code></p>
@@ -358,18 +358,18 @@ single sign on web caching.</p>
 <section id="generate-a-kerberos-keytab-for-squid-http-access">
 <h2>Generate a kerberos keytab for Squid HTTP access<a class="headerlink" href="#generate-a-kerberos-keytab-for-squid-http-access" title="Link to this heading">#</a></h2>
 <p>On the IPA server run:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Password</span> <span class="pre">for</span> <span class="pre">admin&#64;EXAMPLE.COM:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">HTTP/squid01.example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
+Password for admin@EXAMPLE.COM:
+# ipa service-add HTTP/squid01.example.com
+</pre></div>
 </div>
 <p>If successful, you will see the below output</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Added</span> <span class="pre">service</span> <span class="pre">&quot;HTTP/squid01.example.com&#64;EXAMPLE.COM&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------------------------------</span></code></div>
-<div class="line">``  Principal: <a class="reference external" href="mailto:HTTP/squid01&#46;example&#46;com&#37;&#52;&#48;EXAMPLE">HTTP/squid01<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE</a>.COM``</div>
-<div class="line">``  Managed by: squid01.example.com``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>----------------------------------------------------
+Added service &quot;HTTP/squid01.example.com@EXAMPLE.COM&quot;
+----------------------------------------------------
+  Principal: HTTP/squid01.example.com@EXAMPLE.COM
+  Managed by: squid01.example.com
+</pre></div>
 </div>
 <p>On the Squid server run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-getkeytab</span> <span class="pre">-s</span> <span class="pre">ds01.example.com</span> <span class="pre">-p</span> <span class="pre">HTTP/squid01.example.com</span> <span class="pre">-k</span> <span class="pre">/etc/squid/krb5.keytab</span></code></p>
@@ -378,32 +378,32 @@ single sign on web caching.</p>
 </section>
 <section id="change-the-permissions-of-the-keytab-to-allow-squid-to-read-the-file-note-this-should-be-kept-secure-so-only-grant-enough-privileges-as-absolutely-necessary">
 <h2>Change the permissions of the keytab to allow Squid to read the file (Note, this should be kept secure, so only grant enough privileges as absolutely necessary.)<a class="headerlink" href="#change-the-permissions-of-the-keytab-to-allow-squid-to-read-the-file-note-this-should-be-kept-secure-so-only-grant-enough-privileges-as-absolutely-necessary" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chown</span> <span class="pre">root:squid</span> <span class="pre">/etc/squid/krb5.keytab</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chmod</span> <span class="pre">640</span> <span class="pre">/etc/squid/krb5.keytab</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># chown root:squid /etc/squid/krb5.keytab
+# chmod 640 /etc/squid/krb5.keytab
+</pre></div>
 </div>
 </section>
 <section id="add-keytab-location-to-etc-sysconfig-squid">
 <h2>Add keytab location to /etc/sysconfig/squid<a class="headerlink" href="#add-keytab-location-to-etc-sysconfig-squid" title="Link to this heading">#</a></h2>
 <p>Add the below lines at the end of the file /etc/sysconfig/squid</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">KRB5_KTNAME=/etc/squid/krb5.keytab</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">KRB5_KTNAME</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KRB5_KTNAME=/etc/squid/krb5.keytab
+export KRB5_KTNAME
+</pre></div>
 </div>
 </section>
 <section id="restart-squid">
 <h2>Restart squid<a class="headerlink" href="#restart-squid" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">squid</span> <span class="pre">restart</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Stopping</span> <span class="pre">squid:</span> <span class="pre">................</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">squid:</span> <span class="pre">.</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service squid restart
+Stopping squid: ................                           [  OK  ]
+Starting squid: .                                          [  OK  ]
+</pre></div>
 </div>
 </section>
 <section id="open-port-3128-in-iptables">
 <h2>Open Port 3128 in IPTables<a class="headerlink" href="#open-port-3128-in-iptables" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">iptables</span> <span class="pre">-I</span> <span class="pre">INPUT</span> <span class="pre">-p</span> <span class="pre">tcp</span> <span class="pre">--dport</span> <span class="pre">3128</span> <span class="pre">-j</span> <span class="pre">ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">iptables</span> <span class="pre">save</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># iptables -I INPUT -p tcp --dport 3128 -j ACCEPT
+# service iptables save
+</pre></div>
 </div>
 </section>
 <section id="configure-browser-on-ipa-client">
@@ -429,10 +429,10 @@ in the Port field.</p></li>
 <p>Watch the logs on your server appear as the web request is made.</p>
 <p>If everything is working as expected, you will see messages similar to
 the below.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1328722977.370</span>&#160;&#160;&#160;&#160; <span class="pre">31</span> <span class="pre">192.168.122.91</span> <span class="pre">TCP_MISS/200</span> <span class="pre">34444</span> <span class="pre">GET</span> <span class="pre">``\</span> <span class="pre">```http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground</span></code> &lt;<a class="reference external" href="http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground">http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground</a>&gt;`__`` <a class="reference external" href="mailto:user1&#37;&#52;&#48;EXAMPLE&#46;COM">user1<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> DIRECT/2.19.215.214 image/png``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1328722979.315</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">7</span> <span class="pre">192.168.122.91</span> <span class="pre">TCP_REFRESH_UNMODIFIED/304</span> <span class="pre">546</span> <span class="pre">GET</span> <span class="pre">``\</span> <span class="pre">```http://www.redhat.com/rh-resources/skin/RedhatStyle/Redhat/images/ui/whitedot.png</span></code> &lt;<a class="reference external" href="http://www.redhat.com/rh-resources/skin/RedhatStyle/Redhat/images/ui/whitedot.png">http://www.redhat.com/rh-resources/skin/RedhatStyle/Redhat/images/ui/whitedot.png</a>&gt;`__`` <a class="reference external" href="mailto:user1&#37;&#52;&#48;EXAMPLE&#46;COM">user1<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> DIRECT/2.19.215.214 image/png``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1328722984.326</span>&#160;&#160;&#160;&#160; <span class="pre">18</span> <span class="pre">192.168.122.91</span> <span class="pre">TCP_MISS/200</span> <span class="pre">34444</span> <span class="pre">GET</span> <span class="pre">``\</span> <span class="pre">```http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground</span></code> &lt;<a class="reference external" href="http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground">http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground</a>&gt;`__`` <a class="reference external" href="mailto:user1&#37;&#52;&#48;EXAMPLE&#46;COM">user1<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> DIRECT/2.19.215.214 image/png``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1328722977.370     31 192.168.122.91 TCP_MISS/200 34444 GET ``\ ```http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground`` &lt;http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground&gt;`__\ `` user1@EXAMPLE.COM DIRECT/2.19.215.214 image/png
+1328722979.315      7 192.168.122.91 TCP_REFRESH_UNMODIFIED/304 546 GET ``\ ```http://www.redhat.com/rh-resources/skin/RedhatStyle/Redhat/images/ui/whitedot.png`` &lt;http://www.redhat.com/rh-resources/skin/RedhatStyle/Redhat/images/ui/whitedot.png&gt;`__\ `` user1@EXAMPLE.COM DIRECT/2.19.215.214 image/png
+1328722984.326     18 192.168.122.91 TCP_MISS/200 34444 GET ``\ ```http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground`` &lt;http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5337fdf20a0526027ecb0b4331b2b334/2/jcr:frozenNode/rh:homepageBground&gt;`__\ `` user1@EXAMPLE.COM DIRECT/2.19.215.214 image/png
+</pre></div>
 </div>
 <p>Note that the requests will be showing up in the logs as
 <a class="reference external" href="mailto:user1&#37;&#52;&#48;EXAMPLE&#46;COM">user1<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> (my IPA test user).</p>

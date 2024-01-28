@@ -360,33 +360,33 @@ IPA locations properly.</p></li>
 <p>Please note the following steps are just examples, in real world, do not
 forget to add additional replication agreements as backup to prevents
 disconnect topology.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``[root@berlin ~
-| ``[root@prague1 ~]# ipa-replica-install --setup-dns``
-| ``[root@prague2 ~]# ipa-replica-install --setup-dns``
-| ``[root@paris1 ~]# ipa-replica-install --setup-dns``
-| ``[root@paris2 ~]# ipa-replica-install``
-| ``[root@paris3 ~]# ipa-replica-install --setup-dns``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>| ``[root@berlin ~
+ [root@prague1 ~]# ipa-replica-install --setup-dns``
+ [root@prague2 ~]# ipa-replica-install --setup-dns``
+ [root@paris1 ~]# ipa-replica-install --setup-dns``
+ [root@paris2 ~]# ipa-replica-install``
+ [root@paris3 ~]# ipa-replica-install --setup-dns``
 </pre></div>
 </div>
 </section>
 <section id="adding-locations">
 <h2>Adding locations<a class="headerlink" href="#adding-locations" title="Link to this heading">#</a></h2>
 <p>Use <strong>location-add</strong> command to create a new location.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">location-add</span> <span class="pre">czechrep</span> <span class="pre">--description=&quot;Czech</span> <span class="pre">republic</span> <span class="pre">clients&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">location-add</span> <span class="pre">france</span> <span class="pre">--description=&quot;France</span> <span class="pre">clients&quot;</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@berlin ~]# ipa location-add czechrep --description=&quot;Czech republic clients&quot;
+[root@berlin ~]# ipa location-add france --description=&quot;France clients&quot;
+</pre></div>
 </div>
 </section>
 <section id="adding-servers-to-locations">
 <h2>Adding servers to locations<a class="headerlink" href="#adding-servers-to-locations" title="Link to this heading">#</a></h2>
 <p>Use <strong>server-mod</strong> command to add server into location. Server can be
 member of only one location.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">prague1.example.com</span> <span class="pre">--location=czechrep</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">prague2.example.com</span> <span class="pre">--location=czechrep</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">paris1.example.com</span> <span class="pre">--location=france</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">paris2.example.com</span> <span class="pre">--location=france</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">paris3.example.com</span> <span class="pre">--location=france</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@berlin ~]# ipa server-mod prague1.example.com --location=czechrep
+[root@berlin ~]# ipa server-mod prague2.example.com --location=czechrep
+[root@berlin ~]# ipa server-mod paris1.example.com --location=france
+[root@berlin ~]# ipa server-mod paris2.example.com --location=france
+[root@berlin ~]# ipa server-mod paris3.example.com --location=france
+</pre></div>
 </div>
 </section>
 <section id="advanced-configuration">
@@ -423,17 +423,17 @@ addresses, thus this should be done without any extra configuration.</p>
 <p>Please note that all nameservers configured on client should be in the
 same location. A configuration with nameservers from various location
 will work, but it may result into inefficient resolving.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;client-prague</span> <span class="pre">~]</span> <span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/etc/resolv.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nameserver</span> <span class="pre">10.10.0.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nameserver</span> <span class="pre">10.10.0.2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;client-paris</span> <span class="pre">~]#</span> <span class="pre">cat</span> <span class="pre">/etc/resolv.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nameserver</span> <span class="pre">10.50.0.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nameserver</span> <span class="pre">10.50.0.3</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;client-berlin</span> <span class="pre">~]#</span> <span class="pre">cat</span> <span class="pre">/etc/resolv.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nameserver</span> <span class="pre">10.30.0.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;client-oslo</span> <span class="pre">~]#</span> <span class="pre">cat</span> <span class="pre">/etc/resolv.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nameserver</span> <span class="pre">10.30.0.1</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@client-prague ~] # cat /etc/resolv.conf
+nameserver 10.10.0.1
+nameserver 10.10.0.2
+[root@client-paris ~]# cat /etc/resolv.conf
+nameserver 10.50.0.1
+nameserver 10.50.0.3
+[root@client-berlin ~]# cat /etc/resolv.conf
+nameserver 10.30.0.1
+[root@client-oslo ~]# cat /etc/resolv.conf
+nameserver 10.30.0.1
+</pre></div>
 </div>
 <p>If resolvers are properly set, you can install clients by using
 <strong>ipa-client-install</strong>.</p>
@@ -442,36 +442,36 @@ will work, but it may result into inefficient resolving.</p>
 <h2>Verification<a class="headerlink" href="#verification" title="Link to this heading">#</a></h2>
 <p>We can use <strong>dig</strong> to verify returned DNS records</p>
 <p>Server/client without locations</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">dig</span> <span class="pre">+short</span> <span class="pre">_ldap._tcp.example.com</span> <span class="pre">SRV</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">berlin.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">prague1.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">prague2.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">paris1.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">2000</span> <span class="pre">389</span> <span class="pre">paris2.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">paris3.example.com.</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@berlin ~]# dig +short _ldap._tcp.example.com SRV
+0 100 389 berlin.example.com.
+0 100 389 prague1.example.com.
+0 100 389 prague2.example.com.
+0 100 389 paris1.example.com.
+0 2000 389 paris2.example.com.
+0 100 389 paris3.example.com.
+</pre></div>
 </div>
 <p>Server/client inside <em>czechrep</em> location</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;client-prague</span> <span class="pre">~]#</span> <span class="pre">dig</span> <span class="pre">+short</span> <span class="pre">_ldap._tcp.example.com</span> <span class="pre">SRV</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.czechrep._locations.example.com.</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">CNAME</span> <span class="pre">alias</span> <span class="pre">_ldap._tcp</span> <span class="pre">--&gt;</span> <span class="pre">_ldap._tcp.czechrep._locations</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">berlin.example.com.</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">server</span> <span class="pre">with</span> <span class="pre">lower</span> <span class="pre">priority</span> <span class="pre">(50),</span> <span class="pre">outside</span> <span class="pre">of</span> <span class="pre">location</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">prague1.example.com.</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">server</span> <span class="pre">inside</span> <span class="pre">location</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">prague2.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">paris1.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">2000</span> <span class="pre">389</span> <span class="pre">paris2.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">paris3.example.com.</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@client-prague ~]# dig +short _ldap._tcp.example.com SRV
+_ldap._tcp.czechrep._locations.example.com.    # CNAME alias _ldap._tcp --&gt; _ldap._tcp.czechrep._locations
+50 100 389 berlin.example.com.    # server with lower priority (50), outside of location
+0 100 389 prague1.example.com.    # server inside location
+0 100 389 prague2.example.com.
+50 100 389 paris1.example.com.
+50 2000 389 paris2.example.com.
+50 100 389 paris3.example.com.
+</pre></div>
 </div>
 <p>Server/client inside <em>france</em> location</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;client-paris</span> <span class="pre">~]#</span> <span class="pre">dig</span> <span class="pre">+short</span> <span class="pre">_ldap._tcp.example.com</span> <span class="pre">SRV</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.france._locations.example.com.</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">CNAME</span> <span class="pre">alias</span> <span class="pre">_ldap._tcp</span> <span class="pre">--&gt;</span> <span class="pre">_ldap._tcp.france._locations</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">berlin.example.com.</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">server</span> <span class="pre">with</span> <span class="pre">lower</span> <span class="pre">priority</span> <span class="pre">(50),</span> <span class="pre">outside</span> <span class="pre">of</span> <span class="pre">location</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">prague1.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">prague2.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">paris1.example.com.</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">server</span> <span class="pre">inside</span> <span class="pre">location</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">2000</span> <span class="pre">389</span> <span class="pre">paris2.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">100</span> <span class="pre">389</span> <span class="pre">paris3.example.com.</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@client-paris ~]# dig +short _ldap._tcp.example.com SRV
+_ldap._tcp.france._locations.example.com.    # CNAME alias _ldap._tcp --&gt; _ldap._tcp.france._locations
+50 100 389 berlin.example.com.    # server with lower priority (50), outside of location
+50 100 389 prague1.example.com.
+50 100 389 prague2.example.com.
+0 100 389 paris1.example.com.    # server inside location
+0 2000 389 paris2.example.com.
+0 100 389 paris3.example.com.
+</pre></div>
 </div>
 <section id="get-list-of-all-required-records">
 <h3>Get list of all required records<a class="headerlink" href="#get-list-of-all-required-records" title="Link to this heading">#</a></h3>
@@ -503,11 +503,11 @@ produced by the IPA server.</p>
 <p><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">dns-update-system-records</span> <span class="pre">--dry-run</span></code></p>
 <p>It will produce a lot of DNS records. We are interested in records
 listed in section <strong>IPA location records</strong>:</p>
-<div class="line-block">
-<div class="line">`` IPA location records:``</div>
-<div class="line">``   _kerberos-master._tcp.czechrep._locations.example.com. …``</div>
-<div class="line">``   _kerberos-master._udp.france._locations.example.com. …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> IPA location records:
+   _kerberos-master._tcp.czechrep._locations.example.com. ...
+   _kerberos-master._udp.france._locations.example.com. ...
+...
+</pre></div>
 </div>
 <p>Each IPA location has own set of records. Records specific to given
 location contain <code class="docutils literal notranslate"><span class="pre">._locations</span></code> in their name.</p>
@@ -516,9 +516,9 @@ location contain <code class="docutils literal notranslate"><span class="pre">._
 <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dns-update-system-records</span> <span class="pre">--dry-run</span></code>’s output and transform
 them to form suitable for general purpose DNS server. E.g.:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">LOCATION=czechrep</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;berlin</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">dns-update-system-records</span> <span class="pre">--dry-run</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">$LOCATION._locations</span> <span class="pre">|</span> <span class="pre">sed</span> <span class="pre">&quot;s/\.$LOCATION\._locations//&quot;</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LOCATION=czechrep
+[root@berlin ~]# ipa dns-update-system-records --dry-run | grep $LOCATION._locations | sed &quot;s/\.$LOCATION\._locations//&quot;
+</pre></div>
 </div>
 <p>This way, you will obtain list of records for each location. Each list
 contains records with the same names (the left side) but different data

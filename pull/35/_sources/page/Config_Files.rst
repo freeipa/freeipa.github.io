@@ -13,13 +13,16 @@ and the ``ipa`` command every time it is executed.
 The section ``[global]`` is mandatory and the only section used. A
 sample default configuration file is:
 
-| ``[global]``
-| ``basedn=dc=example,dc=com``
-| ``realm=EXAMPLE.COM``
-| ``domain=example.com``
-| ``xmlrpc_uri=``\ ```https://ipa.example.com/ipa/xml`` <https://ipa.example.com/ipa/xml>`__
-| ``ldap_uri=ldapi://%2fvar%2frun%2fslapd-EXAMPLE-COM.socket``
-| ``enable_ra=True``
+.. code-block:: text
+
+    [global]
+    basedn=dc=example,dc=com
+    realm=EXAMPLE.COM
+    domain=example.com
+    xmlrpc_uri=``\ ```https://ipa.example.com/ipa/xml`` <https://ipa.example.com/ipa/xml>`__
+
+    ldap_uri=ldapi://%2fvar%2frun%2fslapd-EXAMPLE-COM.socket
+    enable_ra=True
 
 These values are shared between the client and server (on the same
 machine). If you need to make client or server-specific configuration
@@ -30,14 +33,18 @@ changes you can create a configuration file for it. For the server used
 For example, if you want to enable debug logging for the server only,
 create ``/etc/ipa/server.conf`` containing:
 
-| ``[global]``
-| ``debug=True``
+.. code-block:: text
+
+    [global]
+    debug=True
 
 To always have verbose mode set on the client, create
 ``/etc/ipa/cli.conf`` that contains:
 
-| ``[global]``
-| ``verbose=True``
+.. code-block:: text
+
+    [global]
+    verbose=True
 
 Merging
 ----------------------------------------------------------------------------------------------

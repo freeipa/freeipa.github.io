@@ -57,7 +57,7 @@ Request renewed certificate
 
 On a random FreeIPA server with CA installed run:
 
-::
+.. code-block:: text
 
    # getcert start-tracking -d /etc/pki/pki-tomcat/alias -n 'caSigningCert cert-pki-ca' -P <pin> -c dogtag-ipa-ca-renew-agent
    # getcert resubmit -i <id> -T ipaCSRExport
@@ -74,7 +74,7 @@ Renew CA Certificate on CA Servers
 
 On all FreeIPA servers **with CA** installed, run:
 
-::
+.. code-block:: text
 
    # /usr/lib64/ipa/certmonger/stop_pkicad
    # certutil -A -d /etc/pki/pki-tomcat/alias -n 'caSigningCert cert-pki-ca' -t CT,C,C -a -i ipa.crt
@@ -82,7 +82,7 @@ On all FreeIPA servers **with CA** installed, run:
 
 On all FreeIPA servers run:
 
-::
+.. code-block:: text
 
    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'REALM IPA CA' -t CT,,C -f /etc/dirsrv/slapd-REALM/pwdfile.txt -a -i ipa.crt
    # certutil -A -d /etc/httpd/alias -n 'REALM IPA CA' -t CT,C,C -f /etc/httpd/alias/pwdfile.txt -a -i ipa.crt
@@ -96,7 +96,7 @@ Renew CA Certificate on FreeIPA clients
 
 On all FreeIPA servers and FreeIPA clients run
 
-::
+.. code-block:: text
 
    # certutil -A -d /etc/pki/nssdb -n 'IPA CA' -t CT,C,C -a -i ipa.crt
    # cp ipa.crt /etc/ipa/ca.crt 
@@ -137,7 +137,7 @@ renewals.
 One way to identify the initial IPA master is to see if the value for
 ``subsystem.select`` is New.
 
-::
+.. code-block:: text
 
    # grep subsystem.select /etc/pki-ca/CS.cfg
    subsystem.select=New
@@ -145,7 +145,7 @@ One way to identify the initial IPA master is to see if the value for
 An alternative method is to look at the post-save command in this
 output. It needs to be renew_ca_cert:
 
-::
+.. code-block:: text
 
    # getcert list
    Number of certificates and requests being tracked: 8.
@@ -187,8 +187,10 @@ Update the Apache NSS database:
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+.. code-block:: text
+
+    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
+    # certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
 
 Update the shared system database:
 
@@ -196,8 +198,10 @@ Update the shared system database:
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+.. code-block:: text
+
+    # cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt
+    # cp /root/ipa.crt /etc/ipa/ca.crt
 
 Restart the world
 
@@ -211,7 +215,7 @@ First convert the certificate to DER form:
 
 Add to LDAP:
 
-::
+.. code-block:: text
 
    # kinit admin
    # ldapmodify -Y GSSAPI
@@ -247,8 +251,10 @@ Update the Apache NSS database:
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+.. code-block:: text
+
+    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
+    # certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
 
 Update the shared system database:
 
@@ -256,8 +262,10 @@ Update the shared system database:
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+.. code-block:: text
+
+    # cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt
+    # cp /root/ipa.crt /etc/ipa/ca.crt
 
 Restart the world
 
@@ -280,8 +288,10 @@ Update the Apache NSS database:
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+.. code-block:: text
+
+    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
+    # certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
 
 Update the shared system database:
 
@@ -289,8 +299,10 @@ Update the shared system database:
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+.. code-block:: text
+
+    # cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt
+    # cp /root/ipa.crt /etc/ipa/ca.crt
 
 Restart the world
 

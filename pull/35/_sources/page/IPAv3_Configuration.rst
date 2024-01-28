@@ -14,7 +14,7 @@ Prerequisites
 Configuration
 =============
 
-::
+.. code-block:: text
 
    % ipa-server-install
    Server host name [ipa.example.com]:
@@ -27,29 +27,29 @@ Configuration
 
 To restart IPA:
 
-::
+.. code-block:: text
 
    % ipactl restart
 
 If you need to uninstall:
 
-::
+.. code-block:: text
 
    % ipa-server-install --uninstall
 
 Verification
 ============
 
-::
+.. code-block:: text
 
    % kinit admin
    Password for admin@EXAMPLE.COM: Secret123
 
-::
+.. code-block:: text
 
    % klist
 
-::
+.. code-block:: text
 
    % ipa-finduser admin
 
@@ -83,11 +83,11 @@ LDAP Client
 | Bind DN: cn=Directory Manager
 | Password: Secret123
 
-::
+.. code-block:: text
 
    % ldapsearch -x -b dc=example,dc=com
 
-::
+.. code-block:: text
 
    % ldapsearch -Y GSSAPI -b dc=example,dc=com
 
@@ -96,7 +96,7 @@ LDAP Client
 Configure Listen Host
 =====================
 
-::
+.. code-block:: text
 
    % ldapmodify -h ipa.example.com -p 389 -x -D "cn=Directory Manager" -w Secret123
    dn: cn=config
@@ -110,7 +110,7 @@ Configure Listen Host
 
 Restart DS:
 
-::
+.. code-block:: text
 
    % service dirsrv restart
 
@@ -121,7 +121,7 @@ Configure Kerberos
 
 Edit /etc/krb5.conf:
 
-::
+.. code-block:: text
 
    [dbmodules]
      EXAMPLE.COM = {
@@ -132,7 +132,7 @@ Edit /etc/krb5.conf:
 
 Restart Kerberos:
 
-::
+.. code-block:: text
 
    % service krb5kdc restart
 
@@ -143,7 +143,7 @@ Enable Change Log
 
 Enable Retro Changelog plugin:
 
-::
+.. code-block:: text
 
    % ldapmodify -h ipa.example.com -p 389 -x -D "cn=Directory Manager" -w Secret123
    dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
@@ -154,11 +154,11 @@ Enable Retro Changelog plugin:
 
 Restart DS:
 
-::
+.. code-block:: text
 
    % service dirsrv restart
 
-::
+.. code-block:: text
 
    % ldapsearch -h ipa.example.com -p 389 -x -D "cn=Directory Manager" -w Secret123 -b "cn=changelog"
 
@@ -167,7 +167,7 @@ Restart DS:
 Create Sync User Account
 ========================
 
-::
+.. code-block:: text
 
    % ldapadd -h ipa.example.com -p 389 -x -D "cn=Directory Manager" -w Secret123
    dn: uid=sync,cn=sysaccounts,cn=etc,dc=example,dc=com
@@ -176,7 +176,7 @@ Create Sync User Account
    uid: sync
    userPassword: Secret123
 
-::
+.. code-block:: text
 
    % ldapmodify -h ipa.example.com -p 389 -x -D "cn=Directory Manager" -w Secret123
    dn: dc=example,dc=com

@@ -90,7 +90,7 @@ support. Unless you got your sudo package from Michale's repository its
 most likely your sudo won't have LDAP support, however, just to be sure,
 check it by running the following command as root:
 
-::
+.. code-block:: text
 
    sudo -V | grep -i ldap
 
@@ -161,7 +161,7 @@ you have just downloaded.
 Go to the ``/tmp/sudo`` directory and test installing the RPM packages
 with the following commands:
 
-::
+.. code-block:: text
 
    cd /tmp/sudo
    rpm -ivh *.rpm --test
@@ -170,7 +170,7 @@ In accordance with the `POSIX <http://en.wikipedia.org/wiki/POSIX>`__
 spirit, if no output is given by the RPM command, your test went well
 and you may proceed with installation using the following command:
 
-::
+.. code-block:: text
 
    rpm -ivh *.rpm
 
@@ -215,7 +215,7 @@ In order tell sudo on your AIX LPAR to request its rules on LDAP if none
 are found on the ``/etc/sudoers`` file, is by adding the following line
 on the ``/etc/netsvc.conf`` configuration file:
 
-::
+.. code-block:: text
 
    sudoers = files, ldap
 
@@ -237,7 +237,7 @@ to create it.
 | Create a file called ``/etc/ldap.conf`` and add the following content
   to it:
 
-::
+.. code-block:: text
 
    tls_cacert /etc/ipa/ca.crt
    uri ldap://youripaserver.domain.com
@@ -267,7 +267,7 @@ If you have the proper firewall rules in place and the wget package
 installed on you AIX LPAR you can get this CA certificate by running the
 following command:
 
-::
+.. code-block:: text
 
    wget -O /etc/ipa/ca.crt http://youripaserver.domain.com/ipa/config/ca.crt
 
@@ -280,14 +280,14 @@ If everything goes as planned your sudo will be working with IPA on your
 AIX LPAR. You may test this by logging into your AIX LPAR with an LDAP
 user and running the following command:
 
-::
+.. code-block:: text
 
    sudo -l
 
 If it brings the sudo rules you set up on your IPA server, like the
 example bellow, you are all set.
 
-::
+.. code-block:: text
 
    [thisuser@thisserver]$ sudo -l
    User this user may run the following commands on this server:

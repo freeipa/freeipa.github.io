@@ -23,7 +23,7 @@ Configuring Samba
 
 Create SAMBA_HOME/etc/smb.conf:
 
-::
+.. code-block:: text
 
    [globals]
            netbios name     = samba1
@@ -48,7 +48,7 @@ Provisioning Samba Backend
 
 Execute the following command to provision Samba backend:
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % export PYTHONPATH=SAMBA_HOME/lib64/python2.6/site-packages
@@ -65,7 +65,7 @@ Execute the following command to provision Samba backend:
 Starting DS Instance
 ====================
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % private/ldap/slapd-samba4/start-slapd
@@ -77,7 +77,7 @@ Enabling DS Change Log
 
 Enable DS Change Log:
 
-::
+.. code-block:: text
 
    % ldapmodify -H ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi -x -D "cn=Manager,dc=samba,dc=example,dc=com" -w Secret123
    dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
@@ -88,7 +88,7 @@ Enable DS Change Log:
 
 Restart DS:
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % private/ldap/slapd-samba4/stop-slapd
@@ -103,7 +103,7 @@ Copy syncback.so into SAMBA_HOME/modules/ldb directory.
 
 Edit private/sam.ldb:
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % bin/ldbedit -H private/sam.ldb -b ""
@@ -111,7 +111,7 @@ Edit private/sam.ldb:
 Search for @MODULES entry, add the syncback module at the beginning of
 the @LIST as follows:
 
-::
+.. code-block:: text
 
    dn: @MODULES
    @LIST: syncback,resolve_oids,rootdse,lazy_commit,paged_results,ranged_results,anr,serve
@@ -125,7 +125,7 @@ the @LIST as follows:
 Starting Samba
 ==============
 
-::
+.. code-block:: text
 
    % cd SAMBA_HOME
    % sbin/samba -i -M single
@@ -137,7 +137,7 @@ Enabling Clear Text Password
 
 Check the current password policy:
 
-::
+.. code-block:: text
 
    % ldapsearch -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" \
     -w Secret123 -b "dc=samba,dc=example,dc=com" -s base pwdProperties
@@ -146,7 +146,7 @@ Check the current password policy:
 
 Enable storing clear text password:
 
-::
+.. code-block:: text
 
    % ldapmodify -x -D "cn=Administrator,cn=Users,dc=samba,dc=example,dc=com" \
     -w Secret123

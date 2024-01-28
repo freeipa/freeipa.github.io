@@ -127,7 +127,7 @@ status of the user. There are 3 differents status:
 workflows
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    ``The main workflow allows  moves: ``\ *``stage``*\ `` ``\ **``-->``**\ `` ``\ *``active``*\ `` ``\ **``<-->``**\ `` ``\ *``delete``*
 
@@ -163,7 +163,7 @@ The workflow allows to modify user account from:
 -  stage: modify the user account that remains in stage
 -  active: modify the user account that remains in active
 
-::
+.. code-block:: text
 
                                                        -- find ---+                     -- find --+
                                                        -- show ---+                     -- show --+
@@ -199,14 +199,14 @@ Add a stage entry
    -  ipa stageuser-add <*user_identifier*> --first=<*first name*>
       --last=<*last name*>
 
-      ::
+.. code-block:: text
 
          ipa stageuser-add tuser  --first=test --last=user
 
    -  if needed, command may specify more details about the user,
       including the password
 
-      ::
+.. code-block:: text
 
          ipa stageuser-add  tuser --first=Test --last=User --random --manager=muser --phone 123456789
 
@@ -221,7 +221,7 @@ Add a stage entry
       `placeholders <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Stage_placeholders>`__
       the entry will look like
 
-::
+.. code-block:: text
 
    dn: uid=tuser,cn=staged users,cn=accounts,cn=provisioning,dc=example,dc=com
    objectClass: top
@@ -246,7 +246,7 @@ Add a stage entry
 
 Currently the proposed interface are
 
-::
+.. code-block:: text
 
    stageuser-add <uid> --from-delete
 
@@ -294,7 +294,7 @@ Provision stage entry
       FreeIPA user has. In order to allow the correct processing of User
       Life Cycle, staged users must have a minimal set of attributes
 
-::
+.. code-block:: text
 
    dn: uid=tuser,cn=staged users,cn=accounts,cn=provisioning,dc=example,dc=com
    objectClass: top
@@ -315,7 +315,7 @@ it. This action is only authorised to Support Engineer.
 -  Support Engineer is using FreeIPA CLI: ipa stageuser-activate
    <*user_identifier*>
 
-   ::
+.. code-block:: text
 
       ipa stageuser-activate tuser
 
@@ -325,7 +325,7 @@ it. This action is only authorised to Support Engineer.
 -  This operation 'moves' the entry, using LDAP ADD on the destination
    entry then DEL on the source entry
 
-::
+.. code-block:: text
 
    Source:           cn=staged users,cn=accounts,cn=provisioning,SUFFIX
    Destination:     cn=users,cn=accounts,SUFFIX
@@ -371,7 +371,7 @@ it. This action is only authorised to Support Engineer.
    entry with multiple *uid*. *foo* can not be *Activate* because *jdoe*
    already have the *uid: foo* value:
 
-::
+.. code-block:: text
 
    dn: uid=foo,cn=staged users,cn=accounts,cn=provisioning,SUFFIX
    ...
@@ -384,7 +384,7 @@ it. This action is only authorised to Support Engineer.
 
 or if it exists a *Delete* entry that already have the ''uid: foo value:
 
-::
+.. code-block:: text
 
    dn: uid=foo,cn=staged users,cn=accounts,cn=provisioning,SUFFIX
    ...
@@ -515,7 +515,7 @@ Delete StageUser
 Restore StageUser
 '''''''''''''''''
 
-::
+.. code-block:: text
 
    ``Support engineer can restore a ``\ *``Delete``*\ `` user (under ``\ *``cn=deleted``\ ````\ ``users,cn=accounts,cn=provisioning,SUFFIX``*\ ``). ``\ *``Delete``*\ `` user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\ ```restore``\ ````\ ``and``\ ````\ ``activate`` <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User>`__\ `` a ``\ *``Delete``*\ `` user. Stepping the entry into ``\ *``Stage``*\ `` allows to keep valid properties and update the corrupted ones before making the user ``\ *``Active``*\ ``.``
 
@@ -536,7 +536,7 @@ Find StageUser
    the flag *--preserved=<true|false* because stageuser-find only deal
    with *Stage* accounts (not *Delete* or *Active*)
 
-::
+.. code-block:: text
 
    ipa stageuser-find
    ---------------
@@ -587,7 +587,7 @@ Add an active user
    following FreeIPA CLI : ipa user-add <*user_identifier*>
    --first=<*first name*> --last=<*last name*>
 
-   ::
+.. code-block:: text
 
       ipa user-add tuser  --first=test --last=user
 
@@ -596,7 +596,7 @@ Add an active user
 
 -  if needed, command may specify more details about the user
 
-   ::
+.. code-block:: text
 
       ipa user-add  tuser --first=Test --last=User  --manager=muser --phone 123456789
 
@@ -610,7 +610,7 @@ Add an active user
 
 -  The active user entry looks like
 
-::
+.. code-block:: text
 
    dn: uid=test_user, cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
    objectClass: top
@@ -868,7 +868,7 @@ Find User
 In addition if the retrieved entry is *preserved* it displays a flag:
 **Preserved user: True**
 
-::
+.. code-block:: text
 
    prompt> ipa user-find --preserved=true
    --------------
@@ -904,7 +904,7 @@ Show User
    returned account is *delete* account, it displays a flag: **Preserved
    user: True**
 
-::
+.. code-block:: text
 
    prompt> ipa user-show xy2
      User login: xy2
@@ -944,7 +944,7 @@ set). A placeholder is couple attribute/value that defines the default
 value of a given attribute. The placeholders definitions will be stored
 under the FreeiPa configuration under the following entries:
 
-::
+.. code-block:: text
 
    # placeholders for ADD entries
    dn: cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
@@ -978,7 +978,7 @@ with different syntaxes, they should follow the most restrictive syntax.
 In case of LDAP, it should follow *Printable String* syntax (also see
 RFC 4517):
 
-::
+.. code-block:: text
 
          PrintableCharacter = ALPHA / DIGIT / SQUOTE / LPAREN / RPAREN /
                                          PLUS / COMMA / HYPHEN / DOT / EQUALS /
@@ -1116,7 +1116,7 @@ Stage placeholders
 
 The placeholders for the staging container are:
 
-::
+.. code-block:: text
 
    # placeholders for ADD entries
    dn: cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
@@ -1174,7 +1174,7 @@ Example of Stage entry (stageuser-add)
 
 A *staged* entry created with FreeIPA CLI is looking like the following:
 
-::
+.. code-block:: text
 
    dn: uid=test_user, cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
    objectClass: top
@@ -1235,7 +1235,7 @@ attributes:
 -  gidNumber (with value different from **-1**)
 -  ipaUniqueID (with value different from **autogenerate**)
 
-::
+.. code-block:: text
 
    dn: uid=test_user, cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
    objectClass: top
@@ -1284,7 +1284,7 @@ Active Placeholders
 
 The placeholders for the *Active* container are:
 
-::
+.. code-block:: text
 
    # placeholders for ADD entries
    dn: cn=placeholders,cn=ipaConfig,cn=etc,$SUFFIX
@@ -1333,7 +1333,7 @@ Example of Active entry (user-add)
 
 The freeipa CLI creates an entry like:
 
-::
+.. code-block:: text
 
    dn: uid=test_user, cn=users,cn=accounts,SUFFIX
    objectClass: top
@@ -1415,7 +1415,7 @@ Example of Delete entry
 
 A entry in Delete container is looking like
 
-::
+.. code-block:: text
 
    dn: uid=test_user, cn=deleted users,cn=accounts,cn=provisioning,SUFFIX
    objectClass: top
@@ -1624,7 +1624,7 @@ entries. so DNA plugin should exclude *cn=provisioning,SUFFIX* (relies
 on `47828 <https://fedorahosted.org/389/ticket/47828>`__) from its scope
 set to:
 
-::
+.. code-block:: text
 
    dn: cn=Posix IDs,cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
    ...
@@ -1670,7 +1670,7 @@ In order to check simultaneous (requires
 `47823 <https://fedorahosted.org/389/ticket/47823>`__) both container
 the plugin configuration contains:
 
-::
+.. code-block:: text
 
    dn: cn=krbPrincipalName uniqueness,cn=plugins,cn=config
    ...
@@ -1689,7 +1689,7 @@ For the same reasons as
 `krbPrincipalName <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness>`__,
 we apply the following configuration
 
-::
+.. code-block:: text
 
    dn: cn=krbCanonicalName uniqueness,cn=plugins,cn=config
    ...
@@ -1708,7 +1708,7 @@ For the same reasons as
 `krbPrincipalName <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness>`__,
 we apply the following configuration
 
-::
+.. code-block:: text
 
    nsslapd-pluginAllSubtrees: on
    nsslapd-pluginAttributeName: uid
@@ -1725,7 +1725,7 @@ For the same reasons as
 `krbPrincipalName <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness>`__,
 we apply the following configuration
 
-::
+.. code-block:: text
 
    dn: cn=ipaUniqueID uniqueness,cn=plugins,cn=config
    ...
@@ -1770,7 +1770,7 @@ or elsewhere), then the entry **A** may get corrupted
 
 The configuration of this plugin is :
 
-::
+.. code-block:: text
 
    dn: cn=referential integrity postoperation,cn=plugins,cn=config
    ...
@@ -1793,7 +1793,7 @@ if an *Active account* is member of a group and the account is deleted
 
 the configuration of this plugin is:
 
-::
+.. code-block:: text
 
    dn: cn=MemberOf Plugin,cn=plugins,cn=config
    ..
@@ -1812,7 +1812,7 @@ entry is deleted (MODRDN or DEL), the managed entry is removed and
 
 So configuration of that
 
-::
+.. code-block:: text
 
    dn: cn=NGP Definition,cn=Definitions,cn=Managed Entries,cn=etc,SUFFIX
    ...
@@ -1848,7 +1848,7 @@ of *ipaUniqueID*.
 
 The configuration of that plugin is
 
-::
+.. code-block:: text
 
    dn: cn=IPA Unique IDs,cn=IPA UUID,cn=plugins,cn=config
    ...
@@ -2124,7 +2124,7 @@ without using any FreeIPA specific attribute.
 
 Add Stage User with ldapmodify:
 
-::
+.. code-block:: text
 
    # ldapmodify -Y GSSAPI
    SASL/GSSAPI authentication started
@@ -2143,7 +2143,7 @@ Add Stage User with ldapmodify:
 Show it's all attributes (see that the account is explicitly disabled by
 nsaccountlock attribute):
 
-::
+.. code-block:: text
 
    # ipa stageuser-show stageuser --all --raw
      dn: uid=stageuser,cn=staged users,cn=accounts,cn=provisioning,dc=rhel72
@@ -2161,7 +2161,7 @@ nsaccountlock attribute):
 Activate the Stage User (may be also done by other admin, with *System:
 Add Users* permission):
 
-::
+.. code-block:: text
 
    # ipa stageuser-activate stageuser
    ------------------------------
@@ -2180,7 +2180,7 @@ Add Users* permission):
 Show the resulting activated user which has all the FreeIPA specific
 attributes generated:
 
-::
+.. code-block:: text
 
    # ipa user-show stageuser --all --raw
      dn: uid=stageuser,cn=users,cn=accounts,dc=rhel72
@@ -2226,7 +2226,7 @@ that would periodically *kinit* with a keytab of a service allowed to
 
 Original situation:
 
-::
+.. code-block:: text
 
    # ipa stageuser-find
    ---------------
@@ -2259,7 +2259,7 @@ Original situation:
 
 The automated activation task example that can be used in cron script:
 
-::
+.. code-block:: text
 
    # kinit -kt service.keytab activator/ipa.provisioning.system.rhel72.test
    # for x in `ipa stageuser-find | grep "User login:" | cut -d":" -f 2`; do
@@ -2309,7 +2309,7 @@ simply issue LDAP DEL operation. When the user account is to be
 
 Preserving a user can be done with CLI/API call:
 
-::
+.. code-block:: text
 
    # ipa user-find
    ...
@@ -2365,7 +2365,7 @@ authenticate.
 
 Second option is to preserve the user via LDAP MODRDN command directly:
 
-::
+.. code-block:: text
 
    # ldapmodify -Y GSSAPI
    SASL/GSSAPI authentication started
@@ -2425,7 +2425,7 @@ Administrator*.
 First, Stage User is added (*System: Add Stage User* permission is
 sufficient for that operation):
 
-::
+.. code-block:: text
 
    # ipa stageuser-add barbar --first Bar --last Bar
    -------------------------
@@ -2450,7 +2450,7 @@ sufficient for that operation):
 The user is already created with all FreeIPA specific attributes. UID
 and GID are not generated yet:
 
-::
+.. code-block:: text
 
    # ipa stageuser-show barbar --all --raw
      dn: uid=barbar,cn=staged users,cn=accounts,cn=provisioning,dc=rhel72
@@ -2486,7 +2486,7 @@ and GID are not generated yet:
 
 Activate the Stage User (*System: Add Users* permission is required):
 
-::
+.. code-block:: text
 
    # ipa stageuser-activate barbar
    ---------------------------
@@ -2509,7 +2509,7 @@ Activate the Stage User (*System: Add Users* permission is required):
 See that the user has all the FreeIPA attributes including UID and GID
 generated:
 
-::
+.. code-block:: text
 
    # ipa user-show barbar --all --raw
      dn: uid=barbar,cn=users,cn=accounts,dc=rhel72

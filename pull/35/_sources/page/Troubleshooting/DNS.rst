@@ -40,18 +40,18 @@ misconfiguration. When investigating such issue make sure that:
 -  Client forward record is OK both on FreeIPA server and the affected
    FreeIPA client:
 
-      ::
+.. code-block:: text
 
          host $IPA_CLIENT_FQDN
 
 -  Server forward and reverse record is OK both on FreeIPA server and
    the affected FreeIPA client:
 
-      ::
+.. code-block:: text
 
          host $IPA_SERVER_FQDN
 
-      ::
+.. code-block:: text
 
          host $IPA_SERVER_IP_ADDRESS
 
@@ -129,10 +129,12 @@ subzone) <http://www.zytrax.com/books/dns/ch9/delegate.html>`__).
 
 Example:
 
-| ``$ORIGIN ipa.freeipa.org.``
-| ``others ``\ **``NS``**\ `` ns.others.ipa.freeipa.org.``
-| ``ns.others ``\ **``A``**\ `` 192.0.2.1``
-| ``ns.others ``\ **``AAAA``**\ `` 2001:db8::1``
+.. code-block:: text
+
+    $ORIGIN ipa.freeipa.org.
+    others ``\ **``NS``**\ `` ns.others.ipa.freeipa.org.
+    ns.others ``\ **``A``**\ `` 192.0.2.1
+    ns.others ``\ **``AAAA``**\ `` 2001:db8::1
 
 Without zone delegation all queries are processed by master zone and
 NXDOMAIN is returned (`Forward zones design
@@ -165,7 +167,7 @@ DNSSEC signing is not enabled for the particular zone
 
 ``ipa dnszone-show ipa.example``
 
-::
+.. code-block:: text
 
    Allow in-line DNSSEC signing: TRUE
 
@@ -184,7 +186,7 @@ LDAP entry is printed out:
 -  ``kinit admin``
 -  ``ldapsearch -Y GSSAPI '(&(ipaConfigString=enabledService)(ipaConfigString=dnssecKeyMaster))'``
 
-::
+.. code-block:: text
 
    dn: cn=DNSSEC,cn=vm-236.idm.lab.eng.brq.redhat.com,cn=masters,cn=ipa,cn=etc,dc=ipa,dc=example
    objectClass: ipaConfigObject
@@ -226,7 +228,7 @@ Now you can list zones managed by OpenDNSSEC:
 
 -  ``ods-enforcer zone list`` (use ``ods-ksmutil`` on RHEL 7)
 
-::
+.. code-block:: text
 
    Found Zone: ipa.example; on policy default
 
@@ -243,7 +245,7 @@ the zone. You should see:
 
 -  ``ods-enforcer key list --verbose`` (use ``ods-ksmutil`` on RHEL 7)
 
-::
+.. code-block:: text
 
    Zone:         Keytype:   State:    Date of next transition (to):  Size:   Algorithm:  CKA_ID:     Repository:   Keytag:
    ipa.example   ZSK        active    2015-06-03 12:52:07 (retire)   2048    8           623d723...  SoftHSM       60195
@@ -266,7 +268,7 @@ in local HSM on the DNSSEC key master replica:
 Every CKA_ID has to be listed in twice with boolean parameters shown
 below. Please ignore other values printed by ``localhsm`` command.
 
-::
+.. code-block:: text
 
    zone public keys
    ================

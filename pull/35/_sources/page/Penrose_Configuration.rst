@@ -4,7 +4,7 @@ Penrose_Configuration
 Configuration
 =============
 
-::
+.. code-block:: text
 
    % cd /opt/vd-server-2.0
    % cp -r samples/ipa partitions
@@ -16,7 +16,7 @@ Configure the hostname, suffix, and credentials in these files:
 
 Start Penrose:
 
-::
+.. code-block:: text
 
    % service vd-server start
 

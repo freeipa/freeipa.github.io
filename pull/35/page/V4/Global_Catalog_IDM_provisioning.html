@@ -366,38 +366,38 @@ with or without cookie.</p>
 <h4>Sync Request Control<a class="headerlink" href="#sync-request-control" title="Link to this heading">#</a></h4>
 <p>This control is used in the search request to trigger a content
 synchronization</p>
-<div class="line-block">
-<div class="line">``   syncRequestValue ::= SEQUENCE {``</div>
-<div class="line">``         mode ENUMERATED {``</div>
-<div class="line">``             – 0 unused``</div>
-<div class="line">``             refreshOnly       (1),``</div>
-<div class="line">``             – 2 reserved``</div>
-<div class="line">``             refreshAndPersist (3)``</div>
-<div class="line">``         },``</div>
-<div class="line">``         cookie     syncCookie OPTIONAL,``</div>
-<div class="line">``         reloadHint BOOLEAN DEFAULT FALSE``</div>
-<div class="line">``     }``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>syncRequestValue ::= SEQUENCE {
+      mode ENUMERATED {
+          -- 0 unused
+          refreshOnly       (1),
+          -- 2 reserved
+          refreshAndPersist (3)
+      },
+      cookie     syncCookie OPTIONAL,
+      reloadHint BOOLEAN DEFAULT FALSE
+  }
+</pre></div>
 </div>
 </section>
 <section id="sync-info-message">
 <h4>Sync Info Message<a class="headerlink" href="#sync-info-message" title="Link to this heading">#</a></h4>
-<div class="line-block">
-<div class="line">``  syncInfoValue ::= CHOICE {``</div>
-<div class="line">``         newcookie      [0] syncCookie,``</div>
-<div class="line">``         refreshDelete  [1] SEQUENCE {``</div>
-<div class="line">``             cookie         syncCookie OPTIONAL,``</div>
-<div class="line">``             refreshDone    BOOLEAN DEFAULT TRUE``</div>
-<div class="line">``         },``</div>
-<div class="line">``         refreshPresent [2] SEQUENCE {``</div>
-<div class="line">``             cookie         syncCookie OPTIONAL,``</div>
-<div class="line">``             refreshDone    BOOLEAN DEFAULT TRUE``</div>
-<div class="line">``         },``</div>
-<div class="line">``         syncIdSet      [3] SEQUENCE {``</div>
-<div class="line">``             cookie         syncCookie OPTIONAL,``</div>
-<div class="line">``             refreshDeletes BOOLEAN DEFAULT FALSE,``</div>
-<div class="line">``             syncUUIDs      SET OF syncUUID``</div>
-<div class="line">``         }``</div>
-<div class="line">``     }``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>syncInfoValue ::= CHOICE {
+       newcookie      [0] syncCookie,
+       refreshDelete  [1] SEQUENCE {
+           cookie         syncCookie OPTIONAL,
+           refreshDone    BOOLEAN DEFAULT TRUE
+       },
+       refreshPresent [2] SEQUENCE {
+           cookie         syncCookie OPTIONAL,
+           refreshDone    BOOLEAN DEFAULT TRUE
+       },
+       syncIdSet      [3] SEQUENCE {
+           cookie         syncCookie OPTIONAL,
+           refreshDeletes BOOLEAN DEFAULT FALSE,
+           syncUUIDs      SET OF syncUUID
+       }
+   }
+</pre></div>
 </div>
 <p>In <em>RefreshAndPersist</em> mode, the refresh stage does <strong>not</strong> end with a
 SearchResultDone but with <strong>refreshDone</strong> (refreshDelete or
@@ -408,17 +408,17 @@ deleted.</p>
 </section>
 <section id="sync-state-control">
 <h4>Sync state control<a class="headerlink" href="#sync-state-control" title="Link to this heading">#</a></h4>
-<div class="line-block">
-<div class="line">``     syncStateValue ::= SEQUENCE {``</div>
-<div class="line">``         state ENUMERATED {``</div>
-<div class="line">``             present (0),``</div>
-<div class="line">``             add (1),``</div>
-<div class="line">``             modify (2),``</div>
-<div class="line">``             delete (3)``</div>
-<div class="line">``         },``</div>
-<div class="line">``         entryUUID syncUUID,``</div>
-<div class="line">``         cookie    syncCookie OPTIONAL``</div>
-<div class="line">``     }``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>syncStateValue ::= SEQUENCE {
+    state ENUMERATED {
+        present (0),
+        add (1),
+        modify (2),
+        delete (3)
+    },
+    entryUUID syncUUID,
+    cookie    syncCookie OPTIONAL
+}
+</pre></div>
 </div>
 <p>In persist stage, for each updated entry/reference is send in a
 SearchResultEntry/SearchResultReference message with sync state control.

@@ -22,19 +22,19 @@ An example can be found at
 It is plain CGI application written in Perl. Assuming you have the
 Apache HTTP Server, perl, and the CGI module installed with command like
 
-::
+.. code-block:: text
 
    yum install httpd perl-CGI -y
 
 you can retrieve the example application for testing using curl:
 
-::
+.. code-block:: text
 
    curl -Lo /var/www/app.cgi 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/app.cgi?id=start'
 
 Make sure it is executable as CGI script:
 
-::
+.. code-block:: text
 
    chmod a+x /var/www/app.cgi
    yum install /usr/sbin/semanage -y
@@ -46,13 +46,13 @@ http://wikiapp.example.com/application) via ScriptAlias directive in
 /etc/httpd/conf/httpd.conf or in some configuration file in
 /etc/httpd/conf.d/\*.conf:
 
-::
+.. code-block:: text
 
    ScriptAlias /application /var/www/app.cgi
 
 Then restart the Apache HTTP daemon:
 
-::
+.. code-block:: text
 
    service httpd restart
 
@@ -69,13 +69,13 @@ Log in
 
 You can also use command line tools to test the application:
 
-::
+.. code-block:: text
 
    curl -i http://wikiapp.example.com/application
 
 or locally
 
-::
+.. code-block:: text
 
    curl -i http://$( hostname )/application
 
@@ -142,7 +142,7 @@ Enrolling the web machine to IPA server
 We assume that the machine on which the wikiapp is hosted is enrolled to
 an IPA server. The commands
 
-::
+.. code-block:: text
 
    yum install /usr/sbin/ipa-client-install -y
    ipa-client-install
@@ -159,7 +159,7 @@ The IPA server serves as a Kerberos Key Distribution Center, among
 others. Users that have access to the Kerberos server for the
 **example.com** domain can use
 
-::
+.. code-block:: text
 
    kinit
 
@@ -173,14 +173,14 @@ We will need Apache module **mod_auth_gssapi** or **mod_auth_kerb**
 installed and configured. We will also need to obtain keytab from the
 IPA server for our HTTP service. On the IPA server:
 
-::
+.. code-block:: text
 
    kinit admin  # or other user with permissions to create new service for wikiapp.example.com
    ipa service-add HTTP/wikiapp.example.com
 
 On our web application machine:
 
-::
+.. code-block:: text
 
    kinit admin   # or other user with permissions to retrieve the keytab
    ipa-getkeytab -s $( awk '/^server/ { print $3 }' /etc/ipa/default.conf ) -k /etc/http.keytab -p HTTP/wikiapp.example.com
@@ -195,7 +195,7 @@ Negotiate authentication for **wikiapp.example.com/application/login**:
 mod_auth_gssapi <https://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?h=negotiate-mod_auth_gssapi>`__,
 retrieve with curl using
 
-::
+.. code-block:: text
 
    curl -Lo /etc/httpd/conf.d/wikiapp_kerb.conf 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate-mod_auth_gssapi'
 
@@ -203,7 +203,7 @@ or `wikiapp_kerb.conf for
 mod_auth_kerb <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=negotiate>`__,
 retrieve with curl using
 
-::
+.. code-block:: text
 
    curl -Lo /etc/httpd/conf.d/wikiapp_kerb.conf 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/auth_kerb.conf?id=negotiate'
 
@@ -214,13 +214,13 @@ Successful Negotiate
 
 We can restart the Apache now
 
-::
+.. code-block:: text
 
    service httpd restart
 
 and try to access the login page either from browser or via command line
 
-::
+.. code-block:: text
 
    curl -i --negotiate -u : http://$( hostname )/application/login
 
@@ -234,7 +234,7 @@ appropriate ``Authorization`` header. In the
 **/var/log/httpd/access_log** will see that we have authenticated
 correctly
 
-::
+.. code-block:: text
 
    192.168.89.2 - - [08/Jan/2014:22:20:30 -0500] "GET /application/login HTTP/1.1" 401 127 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0"
    192.168.89.2 - bob@EXAMPLE.COM [08/Jan/2014:22:20:32 -0500] "GET /application/login HTTP/1.1" 200 1980 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0"
@@ -248,7 +248,7 @@ Apache authentication modules when their authentication attempt passes:
 REMOTE_USER <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=trust-REMOTE_USER>`__,
 apply with curl using
 
-::
+.. code-block:: text
 
    curl -L 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=trust-REMOTE_USER' | patch -p1 /var/www/app.cgi
 
@@ -286,7 +286,7 @@ Note the ErrorDocument client-side redirect to **/application/login2**
 -- it is there as a fallback to the login form in case the user has no
 valid ticket:
 
-::
+.. code-block:: text
 
    kdestroy -A
    curl -i --negotiate -u : http://$( hostname )/application/login
@@ -315,7 +315,7 @@ case, we just modify the application to consider any path starting with
 login2 <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=login2>`__,
 apply with curl using
 
-::
+.. code-block:: text
 
    curl -L 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=login2' | patch -p1 /var/www/app.cgi
 
@@ -347,7 +347,7 @@ and version and store the .repo file in **/etc/yum.repos.d**.
 
 You can also retrieve the .repo file via curl: for example, for RHEL 7:
 
-::
+.. code-block:: text
 
    curl -Lo /etc/yum.repos.d/identity_demo.repo 'http://copr.fedoraproject.org/coprs/adelton/identity_demo/repo/epel-7/adelton-identity_demo-epel-7.repo'
 
@@ -369,14 +369,14 @@ configuration, creating for example PAM service wikiapp for our
 application <http://www.freeipa.org/page/Howto/HBAC_and_allow_all>`__.
 You should see
 
-::
+.. code-block:: text
 
    ipa hbactest --user=bob --host=wikiapp.example.com --service=wikiapp
 
 not matching any rule and after adding the host to the **allow_wikiapp**
 HBAC rule, see it match:
 
-::
+.. code-block:: text
 
    ipa hbacrule-add-host allow_wikiapp --hosts=wikiapp.example.com
    ipa hbacrule-add-user allow-wikiapp --user=bob
@@ -385,7 +385,7 @@ HBAC rule, see it match:
 Configure PAM service wikiapp. Create **/etc/pam.d/wikiapp** with the
 following content:
 
-::
+.. code-block:: text
 
    auth    required   pam_sss.so
    account required   pam_sss.so
@@ -396,7 +396,7 @@ hostname. We could have used **wiki** or **test** instead.
 
 Install the mod_authnz_pam
 
-::
+.. code-block:: text
 
    yum install mod_authnz_pam -y
 
@@ -405,7 +405,7 @@ and ``require pam-account wikiapp``: for mod_auth_gssapi
 `mod_authnz_pam-pam-account-mod_auth_gssapi <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=mod_authnz_pam-pam-account-mod_auth_gssapi>`__,
 apply with curl using
 
-::
+.. code-block:: text
 
    curl -L 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/auth_kerb.conf?id=mod_authnz_pam-pam-account-mod_auth_gssapi' | patch -p1 /etc/httpd/conf.d/wikiapp_kerb.conf
 
@@ -413,13 +413,13 @@ and for mod_auth_kerb
 `mod_authnz_pam-pam-account <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=mod_authnz_pam-pam-account>`__,
 apply with curl using
 
-::
+.. code-block:: text
 
    curl -L 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/auth_kerb.conf?id=mod_authnz_pam-pam-account' | patch -p1 /etc/httpd/conf.d/wikiapp_kerb.conf
 
 Enable Apache to use the PAM stack and restart it:
 
-::
+.. code-block:: text
 
    setsebool -P allow_httpd_mod_auth_pam 1
    service httpd restart
@@ -427,7 +427,7 @@ Enable Apache to use the PAM stack and restart it:
 After restarting Apache, we can check that the access works and if we
 remove either the machine or the user from the HBAC rule
 
-::
+.. code-block:: text
 
    ipa hbacrule-remove-host allow_wikiapp --hosts=wikiapp.example.com
    ipa hbacrule-remove-user allow_wikiapp --users=bob
@@ -449,14 +449,14 @@ access control on per-PAM service basis. For now, with mod_authnz_pam,
 we have all the PAM modules at our disposal, including pam_access. For
 example, adding line
 
-::
+.. code-block:: text
 
    account required   pam_access.so accessfile=/etc/http-access.conf
 
 to **/etc/pam.d/wikiapp** will enable the access control using file
 **/etc/http-access.conf**. If the content of that file is
 
-::
+.. code-block:: text
 
    + : (wiki-group-test) : ALL
    - : ALL : ALL
@@ -477,7 +477,7 @@ the Kerberos authentication can be used to silently try authentication
 against the IPA server (via PAM and sssd) whenever the user submits the
 login form. The module needs to be installed
 
-::
+.. code-block:: text
 
    yum install mod_intercept_form_submit -y
 
@@ -485,7 +485,7 @@ and configured:
 `intercept-form-submit <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/commit/?id=intercept-form-submit>`__,
 apply with curl using
 
-::
+.. code-block:: text
 
    curl -Lo /etc/httpd/conf.d/wikiapp_form_submit.conf 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/intercept_form_submit.conf?id=intercept-form-submit'
    service httpd restart
@@ -552,13 +552,13 @@ application during authentication using Apache module.
 
 We start with configuring sssd: install sssd-dbus
 
-::
+.. code-block:: text
 
    yum install sssd-dbus -y
 
 and enable and configure its **ifp** subsystem:
 
-::
+.. code-block:: text
 
    --- /etc/sssd/sssd.conf.orig    2013-12-10 03:09:20.751552952 -0500
    +++ /etc/sssd/sssd.conf    2013-12-12 00:52:30.791240631 -0500
@@ -586,7 +586,7 @@ and enable and configure its **ifp** subsystem:
 Restart sssd and attempt to retrieve some information using
 **dbus-send**:
 
-::
+.. code-block:: text
 
    service sssd restart
    dbus-send --print-reply --system --dest=org.freedesktop.sssd.infopipe /org/freedesktop/sssd/infopipe org.freedesktop.sssd.infopipe.GetUserAttr string:bob array:string:gecos,mail
@@ -595,7 +595,7 @@ Restart sssd and attempt to retrieve some information using
 You may need to set ``setenforce 0`` for the above part to work. For
 dbus calls from httpd which we will do below,
 
-::
+.. code-block:: text
 
    setenforce 1
    setsebool -P httpd_dbus_sssd on
@@ -605,7 +605,7 @@ should work provided you have recent enough selinux-policy.
 If we are able to retrieve information using dbus, we can proceed to
 install and configure mod_lookup_identity:
 
-::
+.. code-block:: text
 
    yum install mod_lookup_identity -y
 
@@ -613,27 +613,27 @@ and configure it: `additional-attributes,
 lookup_identity.conf <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/tree/lookup_identity.conf?id=additional-attributes>`__,
 use curl to retrieve:
 
-::
+.. code-block:: text
 
    curl -Lo /etc/httpd/conf.d/wikiapp_lookup.conf 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/plain/lookup_identity.conf?id=additional-attributes'
 
 When you then restart Apache
 
-::
+.. code-block:: text
 
    service httpd restart
 
 and connect in authenticated manner to it, you will see variables
 populated by the module:
 
-::
+.. code-block:: text
 
    kinit bob
    curl -i --negotiate -u : http://$( hostname )/application/login | grep REMOTE_USER
 
 The grep should list something like
 
-::
+.. code-block:: text
 
    REMOTE_USER=bob@EXAMPLE.COM
    REMOTE_USER_EMAIL=bob@example.com
@@ -649,7 +649,7 @@ attributes: `additional-attributes, application
 change <http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/diff/app.cgi?id=additional-attributes>`__,
 apply with curl using
 
-::
+.. code-block:: text
 
    curl -L 'http://fedorapeople.org/cgit/adelton/public_git/CGI-sessions.git/patch/app.cgi?id=additional-attributes' | patch -p1 /var/www/app.cgi
 
@@ -741,13 +741,13 @@ are passed. So the environment variables populated by
 mod_lookup_identity need to be prefixed with AJP\_. In Apache
 configuration:
 
-::
+.. code-block:: text
 
      LookupUserAttr mail AJP_REMOTE_USER_EMAIL " " 
 
 In application code:
 
-::
+.. code-block:: text
 
           String email = String(((String) request.getAttribute("REMOTE_USER_EMAIL")).getBytes("ISO8859-1"), "UTF-8"); 
 
@@ -757,7 +757,7 @@ used. Of course, caution is needed to properly clear any headers of the
 same name in the incoming HTTP request to prevent the end user from
 breaching the authentication/access control:
 
-::
+.. code-block:: text
 
      RequestHeader unset X-THE-USER
      RequestHeader set X-THE-USER %{REMOTE_USER}e env=REMOTE_USER
@@ -769,7 +769,7 @@ headers are presented as environment variables prefixed with HTTP\_, with
 dashes turned into underscores, so the application code would need to be
 along the lines of
 
-::
+.. code-block:: text
 
           if (defined $ENV{HTTP_X_THE_USER}) {
                   $login = $ENV{HTTP_X_THE_USER};
@@ -792,7 +792,7 @@ For tomcat, the Connectors need to be set with
 ``tomcatAuthentication="false"`` to accept the REMOTE_USER information
 from Apache:
 
-::
+.. code-block:: text
 
    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" URIEncoding="UTF-8" address="127.0.0.1" tomcatAuthentication="false" />
 

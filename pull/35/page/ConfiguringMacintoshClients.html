@@ -345,14 +345,14 @@ example, EXAMPLE.COM).</p>
 <p>5. On the <strong>Servers</strong> tab, leave two lines, whose hostnames you then
 need to replace with your IPA server’s hostname (for example,
 <em>ipaserver.example.com</em>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kdc</span>  <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="mi">88</span>
-<span class="n">admin</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="mi">749</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kdc  ipaserver.example.com 88
+admin ipaserver.example.com 749
 </pre></div>
 </div>
 <p>6. On the <strong>Domains</strong> tab, replace the existing domains with your IPA
 server’s actual domain (such as example.com):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.example.com
+example.com
 </pre></div>
 </div>
 <p>7. Click <strong>Make default</strong>, and then close the Kerberos tool. This
@@ -361,21 +361,21 @@ recommended that you verify them manually.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">/Library/Preferences/edu.mit.kerberos</span></code> file should look similar
 to the following. Remember to replace the example.com settings with your
 own IPA server name, Kerberos realm and domain details.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
-    <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-    <span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="p">[</span><span class="n">libdefaults</span><span class="p">]</span>
-    <span class="n">default_realm</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-    <span class="n">dns_lookup_realm</span> <span class="o">=</span> <span class="n">true</span>
-    <span class="n">dns_lookup_kdc</span> <span class="o">=</span> <span class="n">true</span>
-    <span class="n">ticket_lifetime</span> <span class="o">=</span> <span class="mi">24</span><span class="n">h</span>
-    <span class="n">forwardable</span> <span class="o">=</span> <span class="n">yes</span>
-<span class="p">[</span><span class="n">realms</span><span class="p">]</span>
-    <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">admin_server</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">749</span>
-    <span class="n">default_domain</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
-    <span class="n">kdc</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">88</span>
-    <span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[domain_realm]
+    example.com = EXAMPLE.COM
+    .example.com = .EXAMPLE.COM
+[libdefaults]
+    default_realm = EXAMPLE.COM
+    dns_lookup_realm = true
+    dns_lookup_kdc = true
+    ticket_lifetime = 24h
+    forwardable = yes
+[realms]
+    EXAMPLE.COM = {
+    admin_server = ipaserver.example.com:749
+    default_domain = example.com
+    kdc = ipaserver.example.com:88
+    }
 </pre></div>
 </div>
 </section>
@@ -387,8 +387,8 @@ Kerberos authentication.</p>
 <strong>/Applications/Utilities/Terminal</strong> application.</p>
 <p>2. Change to the <code class="docutils literal notranslate"><span class="pre">/private/etc</span></code> directory and make a backup of the
 existing authorization file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cd /private/etc</span>
-<span class="c1"># cp -p authorization authorization_bak</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cd /private/etc
+# cp -p authorization authorization_bak
 </pre></div>
 </div>
 <p>3. Open the authorization file, and locate the string
@@ -533,13 +533,13 @@ to connect to the IPA server without be prompted for a password.</p>
 <ol class="arabic simple">
 <li><p>Get a Kerberos ticket for the <strong>admin</strong> user.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
-<span class="c1"># klist (to verify that you successfully retrieved a ticket)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
+# klist (to verify that you successfully retrieved a ticket)
 </pre></div>
 </div>
 <p>2. If you have a valid Kerberos ticket, ssh should proceed with GSSAPI
 authentication without asking for a password:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ssh admin@ipaserver.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ssh admin@ipaserver.example.com
 </pre></div>
 </div>
 </section>
@@ -552,7 +552,7 @@ authentication without asking for a password:</p>
 <li><p>On the Mac login window, log in as an IPA user.</p></li>
 <li><p>After you have logged in, open a terminal and try the following:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ id (ensure that the userid and groupid are correct)
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ id (ensure that the userid and groupid are correct)
 $ klist (ensure that you have a valid Kerberos ticket)
 </pre></div>
 </div>

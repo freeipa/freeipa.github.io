@@ -4,7 +4,7 @@ IPAv3_Installation
 Prerequisites
 =============
 
-::
+.. code-block:: text
 
    % yum install python-configobj python-ldap certmonger krb5-workstation \
    pam_krb5 sssd pyOpenSSL python-kerberos python-lxml python-nss \
@@ -14,7 +14,7 @@ Prerequisites
 
 Obsolete:
 
-::
+.. code-block:: text
 
    % yum install python-kerberos krb5-server krb5-server-ldap \
    mod_auth_kerb mod_nss mod_python freeradius openldap-clients \
@@ -28,7 +28,7 @@ Hosts File
 
 Edit /etc/hosts:
 
-::
+.. code-block:: text
 
    127.0.0.1     localhost.localdomain localhost
    ::1           localhost6.localdomain6 localhost6
@@ -39,7 +39,7 @@ Edit /etc/hosts:
 Installing Released Binaries
 ============================
 
-::
+.. code-block:: text
 
    % yum install ipa-server
 
@@ -50,7 +50,7 @@ Installing Daily Build
 
 Create a .repo file in /etc/yum.repos.d:
 
-::
+.. code-block:: text
 
    [ipa-daily]
    name=ipa-daily
@@ -62,7 +62,7 @@ Create a .repo file in /etc/yum.repos.d:
 Building from Source Code
 =========================
 
-::
+.. code-block:: text
 
    % yum install git autoconf automake libtool \
    openldap-devel libcurl-devel xmlrpc-c-devel \
@@ -73,28 +73,28 @@ Building from Source Code
 
 Obsolete:
 
-::
+.. code-block:: text
 
    % yum install krb5-devel \
    cyrus-sasl-devel \
    python-ldap \
    python-pyasn1 TurboGears openldap-devel 
 
-::
+.. code-block:: text
 
    % git clone git://git.fedorahosted.org/git/freeipa.git
    % cd freeipa
 
 IPA 1.2:
 
-::
+.. code-block:: text
 
    % git checkout -b ipa-1-2 origin/ipa-1-2
    % make local-dist
 
 IPA 2.0:
 
-::
+.. code-block:: text
 
    % git checkout -b ipa-2-0 origin/HEAD
    % make rpms

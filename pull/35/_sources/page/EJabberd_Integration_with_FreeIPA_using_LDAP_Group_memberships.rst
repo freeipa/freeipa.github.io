@@ -23,14 +23,16 @@ LDAP authentication with Group validation.
 
 Details of this example are as follows
 
-| ``Domain name: example.com``
-| ``IPA Server: ds01.example.com``
-| ``Jabber Server: jabber01.example.com``
-| ``IPA Client: workstation01.example.com``
-| ``IPA User: testuser``
-| ``Group Name = "jabber_users"``
-| ``Bind account = "ejabberd"``
-| ``Bind password = "secret123"``
+.. code-block:: text
+
+    Domain name: example.com
+    IPA Server: ds01.example.com
+    Jabber Server: jabber01.example.com
+    IPA Client: workstation01.example.com
+    IPA User: testuser
+    Group Name = "jabber_users"
+    Bind account = "ejabberd"
+    Bind password = "secret123"
 
 
 
@@ -41,38 +43,49 @@ Start by logging into your IPA server. If you did not log in as the
 admin user, optain a tgt for the admin user so we can add what we need
 to. To do this, run the following.
 
-| ``[root@ds01 ~]# kinit admin``
-| ``Password for admin@EXAMPLE.COM:``
+.. code-block:: text
+
+    [root@ds01 ~]# kinit admin
+    Password for admin@EXAMPLE.COM:
 
 You can verify your ticket with the following command.
 
-| ``[root@ds01 ~]# klist``
-| ``Ticket cache: ``\ ```FILE:/tmp/krb5cc_0`` <FILE:/tmp/krb5cc_0>`__
-| ``Default principal: admin@EXAMPLE.COM``
+.. code-block:: text
 
-| ``Valid starting     Expires            Service principal``
-| ``06/13/12 23:28:48  06/14/12 23:28:45  krbtgt/EXAMPLE.COM@EXAMPLE.COM``
+    [root@ds01 ~]# klist
+    Ticket cache: ``\ ```FILE:/tmp/krb5cc_0`` <FILE:/tmp/krb5cc_0>`__
+
+    Default principal: admin@EXAMPLE.COM
+
+.. code-block:: text
+
+    Valid starting     Expires            Service principal
+    06/13/12 23:28:48  06/14/12 23:28:45  krbtgt/EXAMPLE.COM@EXAMPLE.COM
 
 Create a file with the following information. In this example, I created
 /root/jabber.ldif. Don't forget to change the userPassword to something
 secure.
 
-| ``dn: uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| ``changetype: add``
-| ``objectclass: account``
-| ``objectclass: simplesecurityobject``
-| ``uid: ejabberd``
-| ``userPassword: secret123``
-| ``passwordExpirationTime: 20380119031407Z``
-| ``nsIdleTimeout: 0``
+.. code-block:: text
+
+    dn: uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com
+    changetype: add
+    objectclass: account
+    objectclass: simplesecurityobject
+    uid: ejabberd
+    userPassword: secret123
+    passwordExpirationTime: 20380119031407Z
+    nsIdleTimeout: 0
 
 Once you have saved your file, import the information into LDAP with the
 following command. Please note, you will need your Directory Manager
 password here.
 
-| ``[root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D "cn=Directory Manager" -w redhat123 -f jabber.ldif``
-| ``adding new entry "uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com"``
-| ``[root@ds01 ~]#``
+.. code-block:: text
+
+    [root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D "cn=Directory Manager" -w redhat123 -f jabber.ldif
+    adding new entry "uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com"
+    [root@ds01 ~]#
 
 
 
@@ -82,16 +95,18 @@ Create Group in FreeIPA
 Whilst you are still on the IPA server, add the group to be used for our
 jabber users.
 
-| ``[root@ds01 ~]# ipa group-add``
-| ``Group name: jabber_users``
-| ``Description: Group used to validate Jabber authentication to allowed users``
-| ``- --------------------------``
-| ``Added group "jabber_users"``
-| ``- --------------------------``
-| ``  Group name: jabber_users``
-| ``  Description: Group used to validate Jabber authentication to allowed users``
-| ``  GID: 1668600006``
-| ``[root@ds01 ~]#``
+.. code-block:: text
+
+    [root@ds01 ~]# ipa group-add
+    Group name: jabber_users
+    Description: Group used to validate Jabber authentication to allowed users
+    - --------------------------
+    Added group "jabber_users"
+    - --------------------------
+      Group name: jabber_users
+      Description: Group used to validate Jabber authentication to allowed users
+      GID: 1668600006
+    [root@ds01 ~]#
 
 
 
@@ -165,25 +180,31 @@ Open /etc/ejabberd/ejabberd.cfg and add the following lines in the
 Authentication section. Don't forget to change the password to the one
 you used earlier for your BIND account.
 
-| ``{auth_method, ldap}.``
-| ``{ldap_servers, ["ds01.example.com"]}.``
-| ``{ldap_uids, [{"uid"}]}.``
-| ``{ldap_filter, "(memberOf=cn=jabber_users,cn=groups,cn=accounts,dc=example,dc=com)"}.``
-| ``{ldap_base, "dc=example,dc=com"}.``
-| ``{ldap_rootdn, "uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com"}.``
-| ``{ldap_password, "secret123"}.``
+.. code-block:: text
+
+    {auth_method, ldap}.
+    {ldap_servers, ["ds01.example.com"]}.
+    {ldap_uids, [{"uid"}]}.
+    {ldap_filter, "(memberOf=cn=jabber_users,cn=groups,cn=accounts,dc=example,dc=com)"}.
+    {ldap_base, "dc=example,dc=com"}.
+    {ldap_rootdn, "uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com"}.
+    {ldap_password, "secret123"}.
 
 Save the config file once you have finished and restart ejabberd
 
-| ``[root@jabber02 ~]# service ejabberd start``
-| ``Starting ejabberd:                                         [  OK  ]``
+.. code-block:: text
+
+    [root@jabber02 ~]# service ejabberd start
+    Starting ejabberd:                                         [  OK  ]
 
 Verify that your service has started correctly after your changes.
 
-| ``[root@jabber02 ~]# service ejabberd status``
-| ``The node ejabberd@jabber02 is started with status: started``
-| ``ejabberd 2.1.11 is running in that node``
-| ``[root@jabber02 ~]#``
+.. code-block:: text
+
+    [root@jabber02 ~]# service ejabberd status
+    The node ejabberd@jabber02 is started with status: started
+    ejabberd 2.1.11 is running in that node
+    [root@jabber02 ~]#
 
 
 
@@ -193,10 +214,12 @@ Open TCP ports on local Server
 Now we need to open our firewall for a few ports for jabber to work with
 our clients.
 
-| ``[root@jabber02 ~]# for x in 5269 5222 5223 5280 ; do iptables -I INPUT -p tcp --dport $x -j ACCEPT ; done``
-| ``[root@jabber02 ~]# service iptables save``
-| ``iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]``
-| ``[root@jabber02 ~]#``
+.. code-block:: text
+
+    [root@jabber02 ~]# for x in 5269 5222 5223 5280 ; do iptables -I INPUT -p tcp --dport $x -j ACCEPT ; done
+    [root@jabber02 ~]# service iptables save
+    iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+    [root@jabber02 ~]#
 
 
 
@@ -255,42 +278,54 @@ failed authentication attempt in the above step.
 
 ``[root@jabber02 ~]# tail -f /var/log/ejabberd/ejabberd.log``
 
-| ``=INFO REPORT==== 2012-06-14 00:03:30 ===``
-| ``I(<0.376.0>:ejabberd_listener:281) : (#Port<0.4119>) Accepted connection  {{10,0,1,101},60643} -> {{10,0,1,32},5222}``
+.. code-block:: text
 
-| ``=INFO REPORT==== 2012-06-14 00:03:30 ===``
-| ``I(<0.380.0>:ejabberd_c2s:657) : ({socket_state,tls,  {tlssock,#Port<0.4119>,#Port<0.4141>},<0.379.0>}) Failed authentication for testuser@example.com``
+    =INFO REPORT==== 2012-06-14 00:03:30 ===
+    I(<0.376.0>:ejabberd_listener:281) : (#Port<0.4119>) Accepted connection  {{10,0,1,101},60643} -> {{10,0,1,32},5222}
+
+.. code-block:: text
+
+    =INFO REPORT==== 2012-06-14 00:03:30 ===
+    I(<0.380.0>:ejabberd_c2s:657) : ({socket_state,tls,  {tlssock,#Port<0.4119>,#Port<0.4141>},<0.379.0>}) Failed authentication for testuser@example.com
 
 Leave the tailing log running and switch back to your IPA server and add
 your test user.
 
 You can do this by doing the following.
 
-| ``[root@ds01 ~]# ipa group-add-member``
-| ``Group name: jabber_users``
-| ``[member user]: testuser``
-| ``[member group]:``
-| ``  Group name: jabber_users``
-| ``  Description: Group used to validate Jabber authentication to allowed users``
-| ``  GID: 1668600006``
-| ``  Member users: testuser``
-| ``- -------------------------``
-| ``Number of members added 1``
-| ``- -------------------------``
-| ``[root@ds01 ~]#``
+.. code-block:: text
+
+    [root@ds01 ~]# ipa group-add-member
+    Group name: jabber_users
+    [member user]: testuser
+    [member group]:
+      Group name: jabber_users
+      Description: Group used to validate Jabber authentication to allowed users
+      GID: 1668600006
+      Member users: testuser
+    - -------------------------
+    Number of members added 1
+    - -------------------------
+    [root@ds01 ~]#
 
 Jump back to your workstation and click the reconnect button. You should
 see that your client has now logged in, and the following will appear in
 the tailing logs on the jabber server.
 
-| ``=INFO REPORT==== 2012-06-14 00:08:35 ===``
-| ``I(<0.376.0>:ejabberd_listener:281) : (#Port<0.4159>) Accepted connection {{10,0,1,101},60644} -> {{10,0,1,32},5222}``
+.. code-block:: text
 
-| ``=INFO REPORT==== 2012-06-14 00:08:35 ===``
-| ``I(<0.393.0>:ejabberd_c2s:639) : ({socket_state,tls, {tlssock,#Port<0.4159>,#Port<0.4161>},<0.392.0>}) Accepted authentication for testuser by ejabberd_auth_ldap``
+    =INFO REPORT==== 2012-06-14 00:08:35 ===
+    I(<0.376.0>:ejabberd_listener:281) : (#Port<0.4159>) Accepted connection {{10,0,1,101},60644} -> {{10,0,1,32},5222}
 
-| ``=INFO REPORT==== 2012-06-14 00:08:36 ===``
-| ``I(<0.393.0>:ejabberd_c2s:946) : ({socket_state,tls,{tlssock,#Port<0.4159>,#Port<0.4161>},<0.392.0>}) Opened session for testuser@example.com/91030605413396289162377``
+.. code-block:: text
+
+    =INFO REPORT==== 2012-06-14 00:08:35 ===
+    I(<0.393.0>:ejabberd_c2s:639) : ({socket_state,tls, {tlssock,#Port<0.4159>,#Port<0.4161>},<0.392.0>}) Accepted authentication for testuser by ejabberd_auth_ldap
+
+.. code-block:: text
+
+    =INFO REPORT==== 2012-06-14 00:08:36 ===
+    I(<0.393.0>:ejabberd_c2s:946) : ({socket_state,tls,{tlssock,#Port<0.4159>,#Port<0.4161>},<0.392.0>}) Opened session for testuser@example.com/91030605413396289162377
 
 Thats all folks, your jabber server is now finished and validating your
 "jabber_users" Group.

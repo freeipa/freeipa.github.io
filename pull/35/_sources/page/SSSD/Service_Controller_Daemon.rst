@@ -107,7 +107,7 @@ The configuration store can will be represented by LDB which give a
 flexibility of the memory mapped LDAP. The structure of the
 configuration store will be represented thusly:
 
-::
+.. code-block:: text
 
    cn=config
    |

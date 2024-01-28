@@ -304,9 +304,9 @@ configure Zimbra Collaboration Server.</p>
 x86_64 running Zimbra Collaboration Server 7.2 (Network Edition)</p>
 <p>For the purpose of this document, the following information is given</p>
 <p>Servers:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">Server</span> <span class="pre">=</span> <span class="pre">ds01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Zimbra</span> <span class="pre">Server</span> <span class="pre">=</span> <span class="pre">zimbra03.example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IPA Server = ds01.example.com
+Zimbra Server = zimbra03.example.com
+</pre></div>
 </div>
 <p><strong>``IMPORTANT``</strong></p>
 <p>Please note, that by adding FreeIPA as the external authentication
@@ -317,10 +317,10 @@ what ever reason, you will be able to still login with the local admin
 account.</p>
 <p>If you do not do this and you lose LDAP authentication, you will not be
 able to log in as the Zimbra Admin user.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;zimbra03</span> <span class="pre">~]#</span> <span class="pre">su</span> <span class="pre">-l</span> <span class="pre">zimbra</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[zimbra&#64;zimbra03</span> <span class="pre">~]$</span> <span class="pre">zmprov</span> <span class="pre">modifydomain</span> <span class="pre">example.com</span> <span class="pre">zimbraAuthFallbackToLocal</span> <span class="pre">TRUE</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[zimbra&#64;zimbra03</span> <span class="pre">~]$</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@zimbra03 ~]# su -l zimbra
+[zimbra@zimbra03 ~]$ zmprov modifydomain example.com zimbraAuthFallbackToLocal TRUE
+[zimbra@zimbra03 ~]$
+</pre></div>
 </div>
 <section id="prerequisite">
 <h1>Prerequisite:<a class="headerlink" href="#prerequisite" title="Link to this heading">#</a></h1>
@@ -328,21 +328,21 @@ able to log in as the Zimbra Admin user.</p>
 as a service account.</p>
 <p>To do this, create an ldif file detailing your service account. I used
 the following, saved as zimbra.ldif</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">account</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">simplesecurityobject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">uid:</span> <span class="pre">zimbra</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">userPassword:</span> <span class="pre">woofwoofimasecretpasswordthatisreallydifficult</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">passwordExpirationTime:</span> <span class="pre">20380119031407Z</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsIdleTimeout:</span> <span class="pre">0</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com
+changetype: add
+objectclass: account
+objectclass: simplesecurityobject
+uid: zimbra
+userPassword: woofwoofimasecretpasswordthatisreallydifficult
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+</pre></div>
 </div>
 <p>Save your file, and then import it on your IPA server</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ldapmodify</span> <span class="pre">-h</span> <span class="pre">ds01.example.com</span> <span class="pre">-p</span> <span class="pre">389</span> <span class="pre">-x</span> <span class="pre">-D</span> <span class="pre">&quot;cn=Directory</span>&#160; <span class="pre">Manager&quot;</span> <span class="pre">-w</span> <span class="pre">redhat123</span> <span class="pre">-f</span> <span class="pre">zimbra.ldif</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">adding</span> <span class="pre">new</span> <span class="pre">entry</span> <span class="pre">&quot;uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D &quot;cn=Directory  Manager&quot; -w redhat123 -f zimbra.ldif
+adding new entry &quot;uid=zimbra,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;
+[root@ds01 ~]#
+</pre></div>
 </div>
 <p>Your service account is now imported</p>
 </section>

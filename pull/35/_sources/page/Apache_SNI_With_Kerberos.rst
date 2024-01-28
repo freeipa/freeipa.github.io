@@ -97,7 +97,7 @@ To check the status of the request use:
 
 If all is well there should be output similar to:
 
-::
+.. code-block:: text
 
      Request ID '20120618111406':
          status: MONITORING
@@ -118,8 +118,10 @@ changed to make them readable by apache.
 Following this edit /etc/httpd/conf.d/ssl.conf to make sure the
 following entries read as so:
 
-| `` SSLCertificateFile /etc/httpd/certs/default.crt``
-| `` SSLCertificateKeyFile /etc/httpd/certs/default.key``
+.. code-block:: text
+
+     SSLCertificateFile /etc/httpd/certs/default.crt
+     SSLCertificateKeyFile /etc/httpd/certs/default.key
 
 If you require client validation link or copy /etc/ipa/ca.crt to
 /etc/httpd/certs and include:
@@ -158,16 +160,20 @@ A DNS record should already be in place for this (or just use the
 
 To do this via the ipa-admin tools do as follows (or just use the GUI):
 
-| `` ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1``
-| `` ipa host-add dummyhost.example.com --desc="Dummy Host" --location="``\ ``"``
-| `` ipa host-add-managedby dummyhost.example.com --hosts="``\ ``"``
-| `` ``
+.. code-block:: text
+
+     ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1
+     ipa host-add dummyhost.example.com --desc="Dummy Host" --location="``\ ``"
+     ipa host-add-managedby dummyhost.example.com --hosts="``\ ``"
+     
 
 Now that the dummy host is in place (no enrollment, keytabs or
 certificates needed for this bit) the service can be added.
 
-| `` ipa service-add HTTP/dummyhost.example.com``
-| `` ipa service-add-host HTTP/dummyhost.example.com --hosts="``\ ``"``
+.. code-block:: text
+
+     ipa service-add HTTP/dummyhost.example.com
+     ipa service-add-host HTTP/dummyhost.example.com --hosts="``\ ``"
 
 The IPA topology is then ready to add this as a virtual host on the web
 server.
@@ -186,7 +192,7 @@ itself can be configured for it.
 Configure Apache to use name based virtual hosts on port 443 (in
 addition to the standard 80):
 
-::
+.. code-block:: text
 
      | `` NameVirtualHost *:80``
      | `` NameVirtualHost *:443``
@@ -194,7 +200,7 @@ addition to the standard 80):
 Optionally add a redirect from non-SSL to SSL if you want it as a
 requirement:
 
-::
+.. code-block:: text
 
      <VirtualHost *:80>
      ServerName dummyhost.example.com
@@ -205,7 +211,7 @@ requirement:
 
 And then add the SSL enabled virtual host:
 
-::
+.. code-block:: text
 
      <VirtualHost *:443>
      ServerName dummyhost.example.com
@@ -264,8 +270,10 @@ server:
 
 Create a directory to store keytabs for authenticating against IPA:
 
-| `` mkdir /etc/httpd/keytabs``
-| `` semanage fcontext -a -t httpd_keytab_t '/etc/httpd/keytabs/(.*)?'``
+.. code-block:: text
+
+     mkdir /etc/httpd/keytabs
+     semanage fcontext -a -t httpd_keytab_t '/etc/httpd/keytabs/(.*)?'
 
 Note that with the selinux context the directory should maintain the
 httpd_config_t type (default for anything in /etc/httpd/) but only the
@@ -274,13 +282,13 @@ contents has the httpd_keytabs_t type.
 The default keytab for the host (for any 'default' site requests) can be
 obtained via:
 
-::
+.. code-block:: text
 
      `` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
 
 To get a site specific keytab use:
 
-::
+.. code-block:: text
 
      `` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
 
@@ -291,7 +299,7 @@ grained controls later on when integrating with other systems.
 Check the contents of the keytab to ensure the expected principals are
 present:
 
-::
+.. code-block:: text
 
      klist -k /etc/httpd/keytabs/default
      Keytab name: WRFILE:/etc/httpd/keytabs/default
@@ -312,7 +320,7 @@ present:
 
 To require login for all pages in a virtual host add:
 
-::
+.. code-block:: text
 
      <Location />
        AuthType Kerberos
@@ -326,8 +334,10 @@ To require login for all pages in a virtual host add:
 For a non-default keytab (eg the dummyhost above) add/amend as
 appropriate:
 
-| `` KrbServiceName HTTP/dummyhost.example.com``
-| `` Krb5KeyTab /etc/httpd/keytabs/dummyhost``
+.. code-block:: text
+
+     KrbServiceName HTTP/dummyhost.example.com
+     Krb5KeyTab /etc/httpd/keytabs/dummyhost
 
 The REMOTE_USER environment variable will be set to username@ by
 default. For some systems it's preferable to just have the shorter

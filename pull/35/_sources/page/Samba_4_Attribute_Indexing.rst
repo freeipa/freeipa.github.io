@@ -17,7 +17,7 @@ AD schema uses the fATTINDEX bit in the searchFlags attribute of an
 attribute type to indicate whether the attribute will be indexed. For
 example:
 
-::
+.. code-block:: text
 
    cn: Alt-Security-Identities
    searchFlags: fATTINDEX
@@ -25,7 +25,7 @@ example:
 Finding the attributes that need to be indexed can be done by searching
 the schema subtree using the following filter:
 
-::
+.. code-block:: text
 
    (&(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))
 
@@ -44,7 +44,7 @@ OpenLDAP Configuration
 Indexing an attribute in OpenLDAP can be done by specifying the
 following directive in slapd.conf:
 
-::
+.. code-block:: text
 
    index ${ATTR} eq
 
@@ -56,7 +56,7 @@ Provisioning Tool
 The provision_openldap_backend() uses the following code to configure
 attribute indexing in OpenLDAP:
 
-::
+.. code-block:: text
 
    index_config = ""
 
@@ -170,7 +170,7 @@ DS Configuration
 Indexing an attribute in DS can be done by adding the following
 configuration entry:
 
-::
+.. code-block:: text
 
    dn: cn=${ATTR},cn=default indexes,cn=config,cn=ldbm database,cn=plugins,cn=config
    objectClass: top
@@ -192,7 +192,7 @@ linked attributes, then it will configure the indexes for all indexed
 attributes as defined in AD schema. The code might generate duplicate
 indexes, but they will be ignored during instance creation.
 
-::
+.. code-block:: text
 
    index_config = ""
 

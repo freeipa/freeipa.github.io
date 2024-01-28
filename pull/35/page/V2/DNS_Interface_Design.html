@@ -370,24 +370,24 @@ When any new option for a DNS RR type is detected, the command assumes
 that the new API is used and all required DNS RR type options have to be
 passed.</p>
 <p>Adding of MX record using a standard ADD operation:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-add</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--mx-rec=&quot;0</span> <span class="pre">server1.example.com.&quot;</span></code></div>
-<div class="line">``  Record name: example.com``</div>
-<div class="line">``  MX record: 0 server1.example.com.``</div>
-<div class="line">``  NS record: ns.example.com.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-add example.com @ --mx-rec=&quot;0 server1.example.com.&quot;
+  Record name: example.com
+  MX record: 0 server1.example.com.
+  NS record: ns.example.com.
+</pre></div>
 </div>
 <p>Adding MX record using new API:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-add</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--mx-preference=0</span> <span class="pre">--mx-exchanger=</span> <span class="pre">server1.example.com.</span></code></div>
-<div class="line">``  Record name: example.com``</div>
-<div class="line">``  MX record: 0 server1.example.com.``</div>
-<div class="line">``  NS record: ns.example.com.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-add example.com @ --mx-preference=0 --mx-exchanger= server1.example.com.
+  Record name: example.com
+  MX record: 0 server1.example.com.
+  NS record: ns.example.com.
+</pre></div>
 </div>
 <p>Adding MX record using new interactive help:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-add</span> <span class="pre">example.com</span> <span class="pre">&#64;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Please</span> <span class="pre">choose</span> <span class="pre">a</span> <span class="pre">type</span> <span class="pre">of</span> <span class="pre">DNS</span> <span class="pre">resource</span> <span class="pre">record</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">added</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">most</span> <span class="pre">common</span> <span class="pre">types</span> <span class="pre">for</span> <span class="pre">this</span> <span class="pre">type</span> <span class="pre">of</span> <span class="pre">zone</span> <span class="pre">are:</span> <span class="pre">NS,</span> <span class="pre">MX,</span> <span class="pre">LOC</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-add example.com @
+Please choose a type of DNS resource record to be added
+The most common types for this type of zone are: NS, MX, LOC
+</pre></div>
 </div>
 </section>
 <section id="dnsrecord-mod-command">
@@ -406,35 +406,38 @@ record:</p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-mod</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--mx-rec=&quot;1</span> <span class="pre">server2.example.com.&quot;</span> <span class="pre">--mx-preference=2</span></code></p>
 <p>A full example of old-style record modification:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-mod</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--mx-rec=&quot;0</span> <span class="pre">server1.example.com.&quot;,&quot;1</span> <span class="pre">server2.example.com.&quot;</span></code></div>
-<div class="line">``  Record name: example.com``</div>
-<div class="line">``  MX record: 0 server1.example.com., 1 server2.example.com.``</div>
-<div class="line">``  NS record: ns.example.com.``</div>
-</div>
-<p>A full example of a modification using the new API:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-mod</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--mx-rec=&quot;1</span> <span class="pre">server2.example.com.&quot;</span> <span class="pre">--mx-preference=2</span></code></div>
-<div class="line">``  Record name: example.com``</div>
-<div class="line">``  MX record: 0 server1.example.com., 2 server2.example.com.``</div>
-<div class="line">``  NS record: ns.example.com.``</div>
-</div>
-<p>An example of new interactive mode:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``ipa dnsrecord-mod example.com @``
-| ``No option to modify specific record provided.``
-| ``Current DNS record contents:``
-| ``MX record: 0 server1.example.com., 2 server2.example.com.``
-| ``NS record: ns.example.com.``
-| ``Modify MX record &#39;0 server1.example.com.&#39;? Yes/No (default No): ``
-| ``Modify MX record &#39;2 server2.example.com.&#39;? Yes/No (default No): y``
-| ``MX Preference [2]: 3``
-| ``MX Exchanger [server2.example.com.]: ``
-| ``Modify NS record &#39;ns.example.com.&#39;? Yes/No (default No): ``
-| ``  Record name: example.com``
-| ``  MX record: 0 server1.example.com., 3 server2.example.com.``
-| ``  NS record: ns.example.com.``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-mod example.com @ --mx-rec=&quot;0 server1.example.com.&quot;,&quot;1 server2.example.com.&quot;
+  Record name: example.com
+  MX record: 0 server1.example.com., 1 server2.example.com.
+  NS record: ns.example.com.
 </pre></div>
 </div>
+<p>A full example of a modification using the new API:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-mod example.com @ --mx-rec=&quot;1 server2.example.com.&quot; --mx-preference=2
+  Record name: example.com
+  MX record: 0 server1.example.com., 2 server2.example.com.
+  NS record: ns.example.com.
+</pre></div>
+</div>
+<p>An example of new interactive mode:
+.. code-block:: text</p>
+<blockquote>
+<div><p>ipa dnsrecord-mod example.com &#64;``
+No option to modify specific record provided.``
+Current DNS record contents:``
+MX record: 0 server1.example.com., 2 server2.example.com.``
+NS record: ns.example.com.``
+Modify MX record ‘0 server1.example.com.’? Yes/No (default No): ``
+Modify MX record ‘2 server2.example.com.’? Yes/No (default No): y``
+MX Preference [2]: 3``
+MX Exchanger [server2.example.com.]: ``
+Modify NS record ‘ns.example.com.’? Yes/No (default No): ``</p>
+<blockquote>
+<div><p>Record name: example.com``
+MX record: 0 server1.example.com., 3 server2.example.com.``
+NS record: ns.example.com.``</p>
+</div></blockquote>
+</div></blockquote>
 </section>
 <section id="dnsrecord-del-command">
 <h3>dnsrecord-del command<a class="headerlink" href="#dnsrecord-del-command" title="Link to this heading">#</a></h3>
@@ -444,25 +447,25 @@ record:</p></li>
 <h3>Improved output<a class="headerlink" href="#improved-output" title="Link to this heading">#</a></h3>
 <p>A new option <em>–structured</em> has been implemented which can be useful for
 displaying more complex records:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-show</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--structured</span></code></div>
-<div class="line">``  Record name: &#64;``</div>
-<div class="line">``  Records: ``</div>
-<div class="line">``    Record type: MX``</div>
-<div class="line">``    Record data: 0 server1.example.com.``</div>
-<div class="line">``    MX Preference: 0``</div>
-<div class="line">``    MX Exchanger: server1.example.com.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-show example.com @ --structured
+  Record name: @
+  Records:
+    Record type: MX
+    Record data: 0 server1.example.com.
+    MX Preference: 0
+    MX Exchanger: server1.example.com.
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line">``    Record type: MX``</div>
-<div class="line">``    Record data: 3 server2.example.com.``</div>
-<div class="line">``    MX Preference: 3``</div>
-<div class="line">``    MX Exchanger: server2.example.com.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Record type: MX
+Record data: 3 server2.example.com.
+MX Preference: 3
+MX Exchanger: server2.example.com.
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line">``    Record type: NS``</div>
-<div class="line">``    Record data: ns.example.com.``</div>
-<div class="line">``    NS Hostname: ns.example.com.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Record type: NS
+Record data: ns.example.com.
+NS Hostname: ns.example.com.
+</pre></div>
 </div>
 <p>The output then shows all record in a structured format including the
 record type, raw DNS record data and an attribute for every part of the
@@ -476,22 +479,22 @@ are detected and reported by IPA client and by <em>bind-dyndb-ldap</em> plugin
 failing to serve the record.</p>
 <p>A better help with a pointer to further information (RFC) should be
 produced when validation fails:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-add</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--mx-rec=BADRECORD</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">invalid</span> <span class="pre">'mx_rec':</span> <span class="pre">format</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">specified</span> <span class="pre">as</span> <span class="pre">&quot;PREFERENCE</span> <span class="pre">EXCHANGER&quot;</span>&#160; <span class="pre">(see</span> <span class="pre">RFC</span> <span class="pre">1035</span> <span class="pre">for</span> <span class="pre">details)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-add example.com @ --mx-rec=BADRECORD
+ipa: ERROR: invalid &#39;mx_rec&#39;: format must be specified as &quot;PREFERENCE EXCHANGER&quot;  (see RFC 1035 for details)
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnsrecord-add</span> <span class="pre">example.com</span> <span class="pre">&#64;</span> <span class="pre">--loc-rec=BADRECORD</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa:</span> <span class="pre">ERROR:</span> <span class="pre">invalid</span> <span class="pre">'loc_rec':</span> <span class="pre">format</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">specified</span> <span class="pre">as</span></code></div>
-<div class="line">``    “d1 [m1 [s1]] {“N”|”S”}  d2 [m2 [s2]] {“E”|”W”} alt[“m”] [siz[“m”] [hp[“m”] [vp[“m”]]]]”``</div>
-<div class="line">``    where:``</div>
-<div class="line">``       d1:     [0 .. 90]            (degrees latitude)``</div>
-<div class="line">``       d2:     [0 .. 180]           (degrees longitude)``</div>
-<div class="line">``       m1, m2: [0 .. 59]            (minutes latitude/longitude)``</div>
-<div class="line">``       s1, s2: [0 .. 59.999]        (seconds latitude/longitude)``</div>
-<div class="line">``       alt:    [-100000.00 .. 42849672.95] BY .01 (altitude in meters)``</div>
-<div class="line">``       siz, hp, vp: [0 .. 90000000.00] (size/precision in meters)``</div>
-<div class="line">``    See RFC 1876 for details``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-add example.com @ --loc-rec=BADRECORD
+ipa: ERROR: invalid &#39;loc_rec&#39;: format must be specified as
+    &quot;d1 [m1 [s1]] {&quot;N&quot;|&quot;S&quot;}  d2 [m2 [s2]] {&quot;E&quot;|&quot;W&quot;} alt[&quot;m&quot;] [siz[&quot;m&quot;] [hp[&quot;m&quot;] [vp[&quot;m&quot;]]]]&quot;
+    where:
+       d1:     [0 .. 90]            (degrees latitude)
+       d2:     [0 .. 180]           (degrees longitude)
+       m1, m2: [0 .. 59]            (minutes latitude/longitude)
+       s1, s2: [0 .. 59.999]        (seconds latitude/longitude)
+       alt:    [-100000.00 .. 42849672.95] BY .01 (altitude in meters)
+       siz, hp, vp: [0 .. 90000000.00] (size/precision in meters)
+    See RFC 1876 for details
+</pre></div>
 </div>
 </section>
 </section>

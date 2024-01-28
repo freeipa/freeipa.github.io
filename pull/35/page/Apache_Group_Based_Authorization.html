@@ -307,12 +307,12 @@ will install teh module, add a configuration file to httpd to enable the
 module and place an httpd file in /etc/pam.d for the PAM configuration.</p>
 <p>The default is to use whatever is in /etc/pam.d/password-auth but this
 may be overkill. To just use SSSD all that is needed is:</p>
-<div class="line-block">
-<div class="line">`` auth        required      pam_env.so``</div>
-<div class="line">`` auth        sufficient    pam_sss.so ``</div>
-<div class="line">`` auth        required      pam_deny.so``</div>
-<div class="line">`` account     sufficient    pam_sss.so``</div>
-<div class="line">`` account     required      pam_deny.so``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth        required      pam_env.so
+auth        sufficient    pam_sss.so
+auth        required      pam_deny.so
+account     sufficient    pam_sss.so
+account     required      pam_deny.so
+</pre></div>
 </div>
 <p>To allow httpd to talk to PAM with selinux enabled a boolean needs to be
 set:</p>
@@ -320,11 +320,11 @@ set:</p>
 <p>With that in place it’s simple enough to add user/group behaviour via
 adding the appropriate entries for the directory or location concerned
 in the conf files or .htaccess:</p>
-<div class="line-block">
-<div class="line">`` AuthPAM_Enabled on``</div>
-<div class="line">`` AuthType Basic``</div>
-<div class="line">`` AuthName “Group Restricted  Server”``</div>
-<div class="line">`` require valid-user``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>AuthPAM_Enabled on
+AuthType Basic
+AuthName &quot;Group Restricted  Server&quot;
+require valid-user
+</pre></div>
 </div>
 <p>Pros</p>
 <p>This will work with the HBAC options/pages in IPA (add httpd as a
@@ -350,39 +350,39 @@ available - if that’s a desirable feature.</p>
 LDAP groups via mod_authnz_ldap which is included in the base httpd
 install. The important lines to look at for basic lockdown via groups
 are:</p>
-<div class="line-block">
-<div class="line">`` AuthLDAPURL   ``</div>
-<div class="line">`` AuthLDAPBindDN    ``</div>
-<div class="line">`` AuthLDAPBindPassword  ``</div>
-<div class="line">`` require ldap-group``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>AuthLDAPURL
+AuthLDAPBindDN
+AuthLDAPBindPassword
+require ldap-group
+</pre></div>
 </div>
 <p>The bind user and password are only required if anonymous lookups are
 disabled (which is preferred in general).</p>
 <p>First a dedicated system user should be created to use to bind with. To
 do this create a file (eg httpbind.ldif) containing the following:</p>
-<div class="line-block">
-<div class="line">`` dn: uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com``</div>
-<div class="line">`` changetype: add``</div>
-<div class="line">`` objectclass: account``</div>
-<div class="line">`` objectclass: simplesecurityobject``</div>
-<div class="line">`` uid: httpbind``</div>
-<div class="line">`` userPassword: ohaimakethissimethingtoughtobreak``</div>
-<div class="line">`` passwordExpirationTime: 20380119031407Z``</div>
-<div class="line">`` nsIdleTimeout: 0``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com
+changetype: add
+objectclass: account
+objectclass: simplesecurityobject
+uid: httpbind
+userPassword: ohaimakethissimethingtoughtobreak
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+</pre></div>
 </div>
 <p>This can then be imported by:</p>
 <p>`` ldapmodify -h ipa01.example.com -p 389 -x -D “cn=Directory  Manager” -w <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span> <span class="pre">-f</span> <span class="pre">httpbind.ldif</span></code></p>
 <p>Now the configuration can be carried out. Full details can be found
 <a class="reference external" href="http://httpd.apache.org/docs/2.2/mod/mod_authnz_ldap.html">here</a> but
 in brief…</p>
-<div class="line-block">
-<div class="line">`` AuthLDAPURL   <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```ldaps://ipa01.example.com:636/dc=example,dc=com</span></code> &lt;ldaps://ipa01.example.com:636/dc=example,dc=com&gt;`__</div>
-<div class="line">`` AuthLDAPBindDN    uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com``</div>
-<div class="line">`` AuthLDAPBindPassword  ohaimakethissimethingtoughtobreak``</div>
-<div class="line">`` require ldap-group``</div>
-<div class="line">`` LDAPTrustedGlobalCert CA_BASE64 /etc/httpd/certs/ca.crt``</div>
-<div class="line">`` AuthLDAPGroupAttributeIsDN off``</div>
-<div class="line">`` ``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>AuthLDAPURL   ``\ ```ldaps://ipa01.example.com:636/dc=example,dc=com`` &lt;ldaps://ipa01.example.com:636/dc=example,dc=com&gt;`__
+
+AuthLDAPBindDN    uid=httpbind,cn=sysaccounts,cn=etc,dc=example,dc=com
+AuthLDAPBindPassword  ohaimakethissimethingtoughtobreak
+require ldap-group
+LDAPTrustedGlobalCert CA_BASE64 /etc/httpd/certs/ca.crt
+AuthLDAPGroupAttributeIsDN off
+</pre></div>
 </div>
 <p>Make sure that /etc/ipa/ca.crt has been copied to a location that httpd
 can read (such as /etc/httpd/certs/ca.crt if following the previous

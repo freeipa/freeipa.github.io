@@ -139,7 +139,7 @@ altogether, or change the default settings to use a shorter cache time.
 In particular, consider changing the following values in the
 ``/etc/nscd.conf`` file to suit the usage patterns of your deployment:
 
-::
+.. code-block:: text
 
    positive-time-to-live   group           3600
    negative-time-to-live   group           60
@@ -175,7 +175,7 @@ The ``/etc/hosts`` file should list the FQDN for your IPA server
 part of the localhost entry. The following is an example of a valid
 hosts file:
 
-::
+.. code-block:: text
 
    127.0.0.1       localhost.localdomain   localhost
    ::1     localhost6.localdomain6 localhost6
@@ -263,7 +263,7 @@ as shown in step 2:
 
 2. Run the following command to install the IPA server packages:
 
-::
+.. code-block:: text
 
    # yum install --enablerepo=updates-testing ipa-server
 
@@ -293,7 +293,7 @@ ensure you have the minimum version of **krb5-libs** as listed above.
       you *not* use **NetworkManager**. Instead, run the following
       commands to use **network** to manage the network service:
 
-   ::
+.. code-block:: text
 
       # chkconfig NetworkManager off
       # chkconfig network on
@@ -381,14 +381,14 @@ running. You can test your installation as follows:
 
 1. Use the **kinit** command to request a Kerberos ticket:
 
-::
+.. code-block:: text
 
     $ kinit admin
     Password for admin@EXAMPLE.COM:
 
 2. Use the **klist** command to display the list of Kerberos tickets:
 
-::
+.. code-block:: text
 
     $ klist
     Ticket cache: FILE:/tmp/krb5cc_0
@@ -400,7 +400,7 @@ running. You can test your installation as follows:
 
 3. Use the **ipa user-find** command to search for the admin user:
 
-::
+.. code-block:: text
 
     $ ipa-finduser admin
     cn: Administrator
@@ -411,8 +411,10 @@ running. You can test your installation as follows:
 If you receive output similar to the following, ensure that DNS is
 configured correctly:
 
-| ``Could not initialize GSSAPI: Unspecified GSS failure.``
-| ``Minor code may provide more information/Server not found in Kerberos database.``
+.. code-block:: text
+
+    Could not initialize GSSAPI: Unspecified GSS failure.
+    Minor code may provide more information/Server not found in Kerberos database.
 
 
 
@@ -430,7 +432,7 @@ which attributes.
 3. Ensure the following lines reflect your setup. Replace "example.com"
 with your own IPA server's domain, with a preceding period (.):
 
-::
+.. code-block:: text
 
     network.negotiate-auth.trusted-uris  .example.com
     network.negotiate-auth.delegation-uris  .example.com
@@ -452,13 +454,13 @@ already has Kerberos set up for a different realm.
 1. Copy the ``/etc/krb5.conf`` file from the IPA server to the client
 system. Do not overwrite the existing ``krb5.conf`` file.
 
-::
+.. code-block:: text
 
    # scp /etc/krb5.conf root@ipaclient:/etc/krb5_ipa.conf
 
 2. On the IPA client, open a terminal and run the following commands:
 
-::
+.. code-block:: text
 
    $ export KRB5_CONFIG=/etc/krb5_ipa.conf
    $ kinit user@EXAMPLE.COM
@@ -534,13 +536,13 @@ Run the following command on the master IPA server, where
 *ipareplica.example.com* is the FQDN of the server where you are going
 to create the replica:
 
-::
+.. code-block:: text
 
    # ipa-replica-prepare ipareplica.example.com
 
 This should produce output similar to the following:
 
-::
+.. code-block:: text
 
    Determining current realm name
    Getting domain name from LDAP
@@ -610,7 +612,7 @@ entries so that IPA clients can discover the new server. For example,
 for an IPA replica with a server name of $HOST, you should add the
 following entries to your zone file:
 
-::
+.. code-block:: text
 
    _ldap._tcp             IN SRV 0 100 389 $HOST
    _kerberos._tcp         IN SRV 0 100 88 $HOST
@@ -690,7 +692,7 @@ on port 80, and wish to move it to a different port.
 2. Edit the ``/etc/httpd/conf.d/ipa.conf`` file. Add the following three
 lines to the top of the file:
 
-::
+.. code-block:: text
 
    Listen 8089
    NameVirtualHost *:8089
@@ -698,7 +700,7 @@ lines to the top of the file:
 
 3. Add the following line to the end of the file:
 
-::
+.. code-block:: text
 
    </VirtualHost>
 
@@ -713,7 +715,7 @@ that Apache is listening to that port.
 4. Comment out the following rewrite rules from the
 ``/etc/httpd/conf.d/ipa.conf`` file:
 
-::
+.. code-block:: text
 
    ----------------------------------------------------------------------
    # Redirect to the fully-qualified hostname. Not redirecting to secure
@@ -730,7 +732,7 @@ that Apache is listening to that port.
 
 5. Reload the **httpd** service.
 
-::
+.. code-block:: text
 
    # service httpd reload
 

@@ -328,17 +328,17 @@ profile for issuing wildcard certificates.</p>
 <p>This procedure works on FreeIPA 4.2 (RHEL 7.2) and later.</p>
 <p>First, <code class="docutils literal notranslate"><span class="pre">kinit</span> <span class="pre">admin</span></code> and export an existing service certificate
 profile configuration to a file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">certprofile</span><span class="o">-</span><span class="n">show</span> <span class="n">caIPAserviceCert</span> <span class="o">--</span><span class="n">out</span> <span class="n">wildcard</span><span class="o">.</span><span class="n">cfg</span>
-<span class="o">---------------------------------------------------</span>
-<span class="n">Profile</span> <span class="n">configuration</span> <span class="n">stored</span> <span class="ow">in</span> <span class="n">file</span> <span class="s1">&#39;wildcard.cfg&#39;</span>
-<span class="o">---------------------------------------------------</span>
-  <span class="n">Profile</span> <span class="n">ID</span><span class="p">:</span> <span class="n">caIPAserviceCert</span>
-  <span class="n">Profile</span> <span class="n">description</span><span class="p">:</span> <span class="n">Standard</span> <span class="n">profile</span> <span class="k">for</span> <span class="n">network</span> <span class="n">services</span>
-  <span class="n">Store</span> <span class="n">issued</span> <span class="n">certificates</span><span class="p">:</span> <span class="n">TRUE</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ftweedal% ipa certprofile-show caIPAserviceCert --out wildcard.cfg
+---------------------------------------------------
+Profile configuration stored in file &#39;wildcard.cfg&#39;
+---------------------------------------------------
+  Profile ID: caIPAserviceCert
+  Profile description: Standard profile for network services
+  Store issued certificates: TRUE
 </pre></div>
 </div>
 <p>Modify the profile; the minimal diff is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--- wildcard.cfg.bak
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--- wildcard.cfg.bak
 +++ wildcard.cfg
 @@ -19 +19 @@
 -policyset.serverCertSet.1.default.params.name=CN=$request.req_subject_name.cn$, o=EXAMPLE.COM
@@ -350,78 +350,78 @@ profile configuration to a file:</p>
 </div>
 <p>Now import the modified configuration as a new profile called
 <code class="docutils literal notranslate"><span class="pre">wildcard</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">certprofile</span><span class="o">-</span><span class="kn">import</span> <span class="nn">wildcard</span> \
-    <span class="o">--</span><span class="n">file</span> <span class="n">wildcard</span><span class="o">.</span><span class="n">cfg</span> \
-    <span class="o">--</span><span class="n">desc</span> <span class="s1">&#39;Wildcard certificates&#39;</span> \
-    <span class="o">--</span><span class="n">store</span> <span class="mi">1</span>
-<span class="o">---------------------------</span>
-<span class="n">Imported</span> <span class="n">profile</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">wildcard</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
-<span class="o">---------------------------</span>
-  <span class="n">Profile</span> <span class="n">ID</span><span class="p">:</span> <span class="n">wildcard</span>
-  <span class="n">Profile</span> <span class="n">description</span><span class="p">:</span> <span class="n">Wildcard</span> <span class="n">certificates</span>
-  <span class="n">Store</span> <span class="n">issued</span> <span class="n">certificates</span><span class="p">:</span> <span class="n">TRUE</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ftweedal% ipa certprofile-import wildcard \
+    --file wildcard.cfg \
+    --desc &#39;Wildcard certificates&#39; \
+    --store 1
+---------------------------
+Imported profile &amp;quot;wildcard&amp;quot;
+---------------------------
+  Profile ID: wildcard
+  Profile description: Wildcard certificates
+  Store issued certificates: TRUE
 </pre></div>
 </div>
 <p>Next, set up a CA ACL to allow the <code class="docutils literal notranslate"><span class="pre">wildcard</span></code> profile to be used with
 the <code class="docutils literal notranslate"><span class="pre">cloudapps.example.com</span></code> host:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span>
-<span class="o">-----------------------------</span>
-<span class="n">Added</span> <span class="n">CA</span> <span class="n">ACL</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
-<span class="o">-----------------------------</span>
-  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span>
-  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ftweedal% ipa caacl-add wildcard-hosts
+-----------------------------
+Added CA ACL &amp;quot;wildcard-hosts&amp;quot;
+-----------------------------
+  ACL name: wildcard-hosts
+  Enabled: TRUE
 
-<span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">profile</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span> <span class="o">--</span><span class="n">certprofiles</span> <span class="n">wildcard</span>
-  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span>
-  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
-  <span class="n">CAs</span><span class="p">:</span> <span class="n">ipa</span>
-  <span class="n">Profiles</span><span class="p">:</span> <span class="n">wildcard</span>
-<span class="o">-------------------------</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
-<span class="o">-------------------------</span>
+ftweedal% ipa caacl-add-profile wildcard-hosts --certprofiles wildcard
+  ACL name: wildcard-hosts
+  Enabled: TRUE
+  CAs: ipa
+  Profiles: wildcard
+-------------------------
+Number of members added 1
+-------------------------
 
-<span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">host</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span> <span class="o">--</span><span class="n">hosts</span> <span class="n">cloudapps</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span>
-  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
-  <span class="n">CAs</span><span class="p">:</span> <span class="n">ipa</span>
-  <span class="n">Profiles</span><span class="p">:</span> <span class="n">wildcard</span>
-  <span class="n">Hosts</span><span class="p">:</span> <span class="n">cloudapps</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="o">-------------------------</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
-<span class="o">-------------------------</span>
+ftweedal% ipa caacl-add-host wildcard-hosts --hosts cloudapps.example.com
+  ACL name: wildcard-hosts
+  Enabled: TRUE
+  CAs: ipa
+  Profiles: wildcard
+  Hosts: cloudapps.example.com
+-------------------------
+Number of members added 1
+-------------------------
 </pre></div>
 </div>
 <p>An additional step is required in FreeIPA 4.4 (RHEL 7.3) and later (it
 does not apply to FreeIPA &lt; 4.4):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">caacl</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">ca</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span> <span class="o">--</span><span class="n">cas</span> <span class="n">ipa</span>
-  <span class="n">ACL</span> <span class="n">name</span><span class="p">:</span> <span class="n">wildcard</span><span class="o">-</span><span class="n">hosts</span>
-  <span class="n">Enabled</span><span class="p">:</span> <span class="n">TRUE</span>
-  <span class="n">CAs</span><span class="p">:</span> <span class="n">ipa</span>
-<span class="o">-------------------------</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">1</span>
-<span class="o">-------------------------</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ftweedal% ipa caacl-add-ca wildcard-hosts --cas ipa
+  ACL name: wildcard-hosts
+  Enabled: TRUE
+  CAs: ipa
+-------------------------
+Number of members added 1
+-------------------------
 </pre></div>
 </div>
 <p>Then create a CSR with subject <code class="docutils literal notranslate"><span class="pre">CN=cloudapps.example.com</span></code> (details
 omitted), and issue the certificate:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">request</span> <span class="n">my</span><span class="o">.</span><span class="n">csr</span> \
-    <span class="o">--</span><span class="n">principal</span> <span class="n">host</span><span class="o">/</span><span class="n">cloudapps</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> \
-    <span class="o">--</span><span class="n">profile</span> <span class="n">wildcard</span>
-  <span class="n">Issuing</span> <span class="n">CA</span><span class="p">:</span> <span class="n">ipa</span>
-  <span class="n">Certificate</span><span class="p">:</span> <span class="n">MIIEJzCCAw</span><span class="o">+</span><span class="n">gAwIBAgIBCzANBgkqhkiG9w0BAQsFADBBMR8</span><span class="o">...</span>
-  <span class="n">Subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=*.</span><span class="n">cloudapps</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-  <span class="n">Issuer</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-  <span class="n">Not</span> <span class="n">Before</span><span class="p">:</span> <span class="n">Mon</span> <span class="n">Feb</span> <span class="mi">20</span> <span class="mi">04</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span><span class="mi">41</span> <span class="mi">2017</span> <span class="n">UTC</span>
-  <span class="n">Not</span> <span class="n">After</span><span class="p">:</span> <span class="n">Thu</span> <span class="n">Feb</span> <span class="mi">21</span> <span class="mi">04</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span><span class="mi">41</span> <span class="mi">2019</span> <span class="n">UTC</span>
-  <span class="n">Serial</span> <span class="n">number</span><span class="p">:</span> <span class="mi">11</span>
-  <span class="n">Serial</span> <span class="n">number</span> <span class="p">(</span><span class="nb">hex</span><span class="p">):</span> <span class="mh">0xB</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ftweedal% ipa cert-request my.csr \
+    --principal host/cloudapps.example.com \
+    --profile wildcard
+  Issuing CA: ipa
+  Certificate: MIIEJzCCAw+gAwIBAgIBCzANBgkqhkiG9w0BAQsFADBBMR8...
+  Subject: CN=*.cloudapps.example.com,O=EXAMPLE.COM
+  Issuer: CN=Certificate Authority,O=EXAMPLE.COM
+  Not Before: Mon Feb 20 04:21:41 2017 UTC
+  Not After: Thu Feb 21 04:21:41 2019 UTC
+  Serial number: 11
+  Serial number (hex): 0xB
 </pre></div>
 </div>
 <p>Alternatively, you can use Certmonger to request the certificate:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ftweedal</span><span class="o">%</span> <span class="n">ipa</span><span class="o">-</span><span class="n">getcert</span> <span class="n">request</span> \
-  <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">alias</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">alias</span><span class="o">/</span><span class="n">pwdfile</span><span class="o">.</span><span class="n">txt</span> \
-  <span class="o">-</span><span class="n">n</span> <span class="n">wildcardCert</span> \
-  <span class="o">-</span><span class="n">T</span> <span class="n">wildcard</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ftweedal% ipa-getcert request \
+  -d /etc/httpd/alias -p /etc/httpd/alias/pwdfile.txt \
+  -n wildcardCert \
+  -T wildcard
 </pre></div>
 </div>
 <p>This will request a certificate for the current host. The <code class="docutils literal notranslate"><span class="pre">-T</span></code> option
@@ -440,7 +440,7 @@ substitution into a subject name string. That string contains the
 literal wildcard and the period to its right, and the common name (CN)
 from the CSR gets substituted in after that. The relevant line in the
 profile configuration is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>policyset.serverCertSet.1.default.params.name=CN=*.$request.req_subject_name.cn$, o=EXAMPLE.COM
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>policyset.serverCertSet.1.default.params.name=CN=*.$request.req_subject_name.cn$, o=EXAMPLE.COM
 </pre></div>
 </div>
 <p>When it comes to wildcards in <em>Subject Alternative Name</em> DNS-IDs, it

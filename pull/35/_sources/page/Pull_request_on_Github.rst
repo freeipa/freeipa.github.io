@@ -8,9 +8,12 @@ At first you have to create your own fork of FreeIPA on
 Add your github fork to git remote branches in your local freeipa
 repository (cloned from fedorahosted)
 
-| ``$ git clone ``\ ```https://pagure.io/freeipa.git`` <https://pagure.io/freeipa.git>`__
-| ``$ cd freeipa/``
-| ``$ git remote add myfork git@github.com:``\ ``/freeipa.git``
+.. code-block:: text
+
+    $ git clone ``\ ```https://pagure.io/freeipa.git`` <https://pagure.io/freeipa.git>`__
+
+    $ cd freeipa/
+    $ git remote add myfork git@github.com:``\ ``/freeipa.git
 
 Create a new branch (from master)
 

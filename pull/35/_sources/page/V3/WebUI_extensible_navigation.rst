@@ -74,7 +74,7 @@ Add menu item
 
 Example with specified dependencies and recommended phase.
 
-::
+.. code-block:: text
 
    define([
            'freeipa/menu',
@@ -101,7 +101,7 @@ Example with specified dependencies and recommended phase.
 Remove menu item
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
        // remove previously added item
        menu.remove_item('identity/dhcp');
@@ -109,7 +109,7 @@ Remove menu item
 Query
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
        // get added item
        var item = menu.get({name: 'identity/dhcp'})[0];
@@ -119,7 +119,7 @@ Query
 Observing menu store
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
        var m = menu.get(); // get current menu instance
 

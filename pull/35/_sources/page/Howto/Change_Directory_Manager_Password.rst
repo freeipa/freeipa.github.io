@@ -43,7 +43,7 @@ Configure all replicas to use the new password by editing
 ``/etc/pki-ca/password.conf`` for Dogtag 9 or
 ``/etc/pki/pki-tomcat/password.conf`` for Dogtag 10:
 
-::
+.. code-block:: text
 
    ...
    internaldb=<password>
@@ -56,7 +56,7 @@ Configure all replicas to use the new password by editing
 
 On all replicas create the password files using the following commands:
 
-::
+.. code-block:: text
 
    # echo -n $DM_PASSWORD > /root/dm_password
    # echo -n $KEYDB_PIN > /root/keydb_pin
@@ -65,7 +65,7 @@ On all replicas create the password files using the following commands:
 might contain EOL characters. Trim the EOL characters with the following
 commands:
 
-::
+.. code-block:: text
 
    # tr -d '\n' < /root/dm_password > /root/dm_password.new
    # mv /root/dm_password.new /root/dm_password
@@ -74,7 +74,7 @@ commands:
 
 Then re-generate the ``cacert.p12`` file with the following command:
 
-::
+.. code-block:: text
 
    # /usr/bin/PKCS12Export -d $ALIAS_PATH -p /root/keydb_pin -w /root/dm_password -o /root/cacert.p12
 
@@ -86,13 +86,13 @@ Then re-generate the ``cacert.p12`` file with the following command:
 From one of the replicas change PKI admin password with the following
 command:
 
-::
+.. code-block:: text
 
    # ldappasswd -h localhost -ZZ -p $CA_PORT -x -D "cn=Directory Manager" -W -T /root/dm_password "uid=admin,ou=people,o=ipaca"
 
 **Important:** Verify the password with the following command:
 
-::
+.. code-block:: text
 
    # ldapsearch -h localhost -ZZ -p $CA_PORT -x -D "uid=admin,ou=people,o=ipaca" -W -b "" -s base
 
@@ -101,7 +101,7 @@ command:
 
 Remove password files from all replicas:
 
-::
+.. code-block:: text
 
    # rm /root/dm_password
    # rm /root/keydb_pin

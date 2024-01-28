@@ -13,7 +13,7 @@ manual steps that should get you moving forward.
 You probably have several certificates tracked by certmonger in a
 CA_UNREACHABLE state, like:
 
-::
+.. code-block:: text
 
    Request ID '20111111152846':
            status: CA_UNREACHABLE
@@ -51,7 +51,7 @@ service:
 
 To find out when the certificates were still valid, run:
 
-::
+.. code-block:: text
 
     # for nickname in "auditSigningCert cert-pki-ca" "ocspSigningCert cert-pki-ca" "subsystemCert cert-pki-ca" "Server-Cert cert-pki-ca"
       do
@@ -69,7 +69,7 @@ Next, you need to determine the PIN for the CA NSS database:
 Now we need to tell certmonger about all the CA certificates it needs to
 renew
 
-::
+.. code-block:: text
 
    # for nickname in "auditSigningCert cert-pki-ca" "ocspSigningCert cert-pki-ca" "subsystemCert cert-pki-ca" "Server-Cert cert-pki-ca"
     do
@@ -107,7 +107,7 @@ Let's continue getting the CA up and running. The audit subsystem
 certificate is recreated with the wrong trust permissions. To fix this
 run:
 
-::
+.. code-block:: text
 
    ``# certutil -M -n "auditSigningCert cert-pki-ca" -d /var/lib/pki-ca/alias -t u,u,Pu ``
 
@@ -129,7 +129,7 @@ are 4 certs you need to replace.
 
 Here are the nicknames and values:
 
-::
+.. code-block:: text
 
    'auditSigningCert cert-pki-ca': 'ca.audit_signing.cert'
    'ocspSigningCert cert-pki-ca': 'ca.ocsp_signing.cert'
@@ -174,7 +174,7 @@ description line is:
 
 The change is going to look something like:
 
-::
+.. code-block:: text
 
    # ldapmodify -x -h localhost -p 7389 -D 'cn=directory manager' -w password
    dn: uid=ipara,ou=people,o=ipaca
@@ -197,7 +197,7 @@ Next we need to renew the two 389-ds and the Apache server certificates.
 
 For each of the three Request IDs run something like this:
 
-::
+.. code-block:: text
 
    ``# ipa-getcert resubmit -i ``
 
@@ -207,8 +207,10 @@ Restart the world:
 
 Return to the present time.
 
-| ``# /sbin/service ntpd start``
-| ``# date (confirm it is now)``
+.. code-block:: text
+
+    # /sbin/service ntpd start
+    # date (confirm it is now)
 
 To make sure that communication with the CA is working run:
 
@@ -220,12 +222,14 @@ Notes
 I tested this on a RHEL 6.4 system that I installed ipa-server-2.2.0 and
 krb5-server-1.9. I did this by:
 
-| ``# date 111110262011``
-| ``# ipa-server-install -N ...``
+.. code-block:: text
+
+    # date 111110262011
+    # ipa-server-install -N ...
 
 I confirmed that things were working, then I brought time to today:
 
-::
+.. code-block:: text
 
    ``# rdate -s ``
 

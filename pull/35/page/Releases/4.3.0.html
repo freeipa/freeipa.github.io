@@ -373,15 +373,15 @@ topology management.</p>
 domain level 0. In order to use new functionality all servers needs to
 be updated to a version which supports the domain level, right now it is
 only version 4.3. Domain level is raised by command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">domainlevel</span><span class="o">-</span><span class="nb">set</span> <span class="mi">1</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa domainlevel-set 1
 </pre></div>
 </div>
 <p>Current domain can be obtained by:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">domainlevel</span><span class="o">-</span><span class="n">get</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa domainlevel-get
 </pre></div>
 </div>
 <p>Or supported levels of individual FreeIPA servers:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa server-show $HOSTNAME
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa server-show $HOSTNAME
 </pre></div>
 </div>
 </section>
@@ -392,13 +392,13 @@ only version 4.3. Domain level is raised by command:</p>
 <p>Prior FreeIPA 4.3 replica installation needed to perform actions on both
 master and future replica.</p>
 <p>First step on master:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-replica-prepare $REPLICA_HOSTNAME --ip-address $REPLICA_IP
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-replica-prepare $REPLICA_HOSTNAME --ip-address $REPLICA_IP
 </pre></div>
 </div>
 <p>It created a replica file - an encrypted file containing secrets and
 other data needed for replica installation.</p>
 <p>Second step on replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-replica-install --various-options $REPLICA_FILE
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-replica-install --various-options $REPLICA_FILE
 </pre></div>
 </div>
 <p>Disadvantage is that both <code class="docutils literal notranslate"><span class="pre">ipa-replica-prepared</span></code> and
@@ -417,14 +417,14 @@ with replica file. There are multiple ways to install new replica:</p>
 <section id="promotion-of-existing-client">
 <h3>1. Promotion of existing client<a class="headerlink" href="#promotion-of-existing-client" title="Link to this heading">#</a></h3>
 <p>On client which will become new FreeIPA server:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
 $ ipa-replica-install [--various-options, ...]
 </pre></div>
 </div>
 </section>
 <section id="installation-of-replica-on-non-freeipa-client-machine">
 <h3>2. Installation of replica on non-FreeIPA client machine<a class="headerlink" href="#installation-of-replica-on-non-freeipa-client-machine" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa-replica-install --principal admin -W [--various-options, ...]
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa-replica-install --principal admin -W [--various-options, ...]
 </pre></div>
 </div>
 <p>It will ask for admin password, install a client and then promote it to
@@ -437,13 +437,13 @@ can be provided: <code class="docutils literal notranslate"><span class="pre">--
 <p>On any host with <code class="docutils literal notranslate"><span class="pre">ipa</span></code> command line utility available first prepare
 the host entry with One Time Password set and assign it to
 <code class="docutils literal notranslate"><span class="pre">ipaservers</span></code> hostgroup to mark it as future IPA server.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
 $ ipa host-add $REPLICA_HOSTNAME --password $OTP
 $ ipa hostgroup-add-member ipaservers --hosts=$REPLICA_HOSTNAME
 </pre></div>
 </div>
 <p>On future replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa-replica-install --password $OTP [--various-options, ...]
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa-replica-install --password $OTP [--various-options, ...]
 </pre></div>
 </div>
 </section>
@@ -451,7 +451,7 @@ $ ipa hostgroup-add-member ipaservers --hosts=$REPLICA_HOSTNAME
 <h3>4. Installation of replica using a host keytab<a class="headerlink" href="#installation-of-replica-using-a-host-keytab" title="Link to this heading">#</a></h3>
 <p>Steps are similar as in installation with OTP:</p>
 <p>On arbitrary FreeIPA client or server:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
 $ ipa host-add $REPLICA_HOSTNAME
 $ ipa hostgroup-add-member ipaservers --hosts=$REPLICA_HOSTNAME
 $ ipa-getkeytab --server=$IPASERVER_HOSTNAME --principal=host/$REPLICA_HOSTNAME@$REALM --keytab=replica_host.keytab
@@ -459,7 +459,7 @@ $ # copy the replica_host.keytab  to a replica on $REPLICA_KEYTAB_PATH (arbitrar
 </pre></div>
 </div>
 <p>On future replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa-replica-install --keytab  $REPLICA_KEYTAB_PATH [--various-options, ...]
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa-replica-install --keytab  $REPLICA_KEYTAB_PATH [--various-options, ...]
 </pre></div>
 </div>
 </section>

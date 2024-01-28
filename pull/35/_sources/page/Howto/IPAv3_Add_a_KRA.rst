@@ -63,7 +63,7 @@ only needed during installation of the KRA.
 Replace the password, host name and realm names as appropriate to your
 installation.
 
-::
+.. code-block:: text
 
    [KRA]
    pki_security_domain_https_port=443
@@ -108,7 +108,7 @@ Update IPA proxy configuration
 
 Replace /etc/httpd/conf.d/ipa-pki-proxy.conf with this:
 
-::
+.. code-block:: text
 
    # VERSION 3 - DO NOT REMOVE THIS LINE
 
@@ -184,8 +184,10 @@ KRA work is in /root/ca-agent.p12. Copy this to your client machine, or
 to a location on the server that is readable by the user you want to run
 Firefox. Fix permissions as needed.
 
-| ``# cp /root/ca-agent.p12 /home/someuser``
-| ``# chown someuser /home/someuser/ca-agent.p12``
+.. code-block:: text
+
+    # cp /root/ca-agent.p12 /home/someuser
+    # chown someuser /home/someuser/ca-agent.p12
 
 
 

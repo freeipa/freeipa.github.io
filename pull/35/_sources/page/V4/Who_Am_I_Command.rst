@@ -98,36 +98,39 @@ How to Use
 Below is an example of how communication looks like for an Active
 Directory user which has ID override in 'Default Trust View'.
 
-| ``       $ ipa -vv console``
-| ``       >>> api.Command.whoami()``
-| ``       ipa: INFO: trying ``\ ```https://ipa.example.com/ipa/session/json`` <https://ipa.example.com/ipa/session/json>`__
-| ``       ipa: INFO: Forwarding 'whoami/1' to json server '``\ ```https://ipa.example.com/ipa/session/json`` <https://ipa.example.com/ipa/session/json>`__\ ``'``
-| ``       ipa: INFO: Request: {``
-| ``           "id": 0,``
-| ``           "method": "whoami/1",``
-| ``           "params": [``
-| ``               [],``
-| ``               {``
-| ``                   "version": "2.220"``
-| ``               }``
-| ``           ]``
-| ``       }``
-| ``       ipa: INFO: Response: {``
-| ``           "error": null,``
-| ``           "id": 0,``
-| ``           "principal": "Administrator@AD.DOMAIN",``
-| ``           "result": {``
-| ``               "arguments": [``
-| ``                   "default trust view",``
-| ``                   "administrator@ad.domain"``
-| ``               ],``
-| ``               "command": "idoverrideuser_show/1",``
-| ``               "object": "idoverrideuser",``
-| ``               "options": []``
-| ``           },``
-| ``           "version": "``\ ``"``
-| ``       }``
-| ``      {'command': 'idoverrideuser_show/1', 'object': 'idoverrideuser', 'arguments': ('default trust view', 'administrator@ad.domain')}``
+.. code-block:: text
+
+           $ ipa -vv console
+           >>> api.Command.whoami()
+           ipa: INFO: trying ``\ ```https://ipa.example.com/ipa/session/json`` <https://ipa.example.com/ipa/session/json>`__
+
+           ipa: INFO: Forwarding 'whoami/1' to json server '``\ ```https://ipa.example.com/ipa/session/json`` <https://ipa.example.com/ipa/session/json>`__\ ``'
+           ipa: INFO: Request: {
+               "id": 0,
+               "method": "whoami/1",
+               "params": [
+                   [],
+                   {
+                       "version": "2.220"
+                   }
+               ]
+           }
+           ipa: INFO: Response: {
+               "error": null,
+               "id": 0,
+               "principal": "Administrator@AD.DOMAIN",
+               "result": {
+                   "arguments": [
+                       "default trust view",
+                       "administrator@ad.domain"
+                   ],
+                   "command": "idoverrideuser_show/1",
+                   "object": "idoverrideuser",
+                   "options": []
+               },
+               "version": "``\ ``"
+           }
+          {'command': 'idoverrideuser_show/1', 'object': 'idoverrideuser', 'arguments': ('default trust view', 'administrator@ad.domain')}
 
 
 
@@ -154,7 +157,7 @@ Below is a short summary demonstrating possible test cases for the
 Using host principal
 ----------------------------------------------------------------------------------------------
 
-::
+.. code-block:: text
 
    [root@ipa ~]# klist
    Ticket cache: KEYRING:persistent:0:krb_ccache_uA6VDOR

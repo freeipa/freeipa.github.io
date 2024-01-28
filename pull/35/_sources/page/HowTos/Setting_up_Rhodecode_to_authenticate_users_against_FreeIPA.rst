@@ -14,19 +14,23 @@ Therefore, it is better to create a specialized system account for the
 application access. By default system accounts give read-only access. To
 do this create a file (eg rhodecodebind.ldif) containing the following:
 
-| `` dn: uid=rhodecodebind,cn=sysaccounts,cn=etc,dc=yourlocaldomain,dc=tld``
-| `` changetype: add``
-| `` objectclass: account``
-| `` objectclass: simplesecurityobject``
-| `` uid: rhodecode``
-| `` userPassword: ohaimakethissimethingtoughtobreak``
-| `` passwordExpirationTime: 20380119031407Z``
-| `` nsIdleTimeout: 0``
+.. code-block:: text
+
+     dn: uid=rhodecodebind,cn=sysaccounts,cn=etc,dc=yourlocaldomain,dc=tld
+     changetype: add
+     objectclass: account
+     objectclass: simplesecurityobject
+     uid: rhodecode
+     userPassword: ohaimakethissimethingtoughtobreak
+     passwordExpirationTime: 20380119031407Z
+     nsIdleTimeout: 0
 
 This can then be imported by:
 
-| `` kinit admin``
-| `` ldapmodify -Y GSSAPI -f rhodecodebind.ldif``
+.. code-block:: text
+
+     kinit admin
+     ldapmodify -Y GSSAPI -f rhodecodebind.ldif
 
 Next, log in to Rhodecode with your local admin account.
 
@@ -36,7 +40,7 @@ Enable rhodecode.lib.auth_modules.auth_ldap
 
 Fill in the following values:
 
-::
+.. code-block:: text
 
    LDAP Host youripaserver1,youripaserver2…
    Port 636

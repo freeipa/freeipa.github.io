@@ -310,66 +310,66 @@ blog</a>.</p>
 user/host we want to create a certificate for. For user10, create a
 user10 folder.</p>
 <p>Inside this folder, create a text file user10.inf like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="n">req</span> <span class="p">]</span>
-<span class="n">prompt</span> <span class="o">=</span> <span class="n">no</span>
-<span class="n">encrypt_key</span> <span class="o">=</span> <span class="n">no</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[ req ]
+prompt = no
+encrypt_key = no
 
-<span class="n">distinguished_name</span> <span class="o">=</span> <span class="n">dn</span>
-<span class="n">req_extensions</span> <span class="o">=</span> <span class="n">exts</span>
+distinguished_name = dn
+req_extensions = exts
 
-<span class="p">[</span> <span class="n">dn</span> <span class="p">]</span>
-<span class="n">commonName</span> <span class="o">=</span> <span class="s2">&quot;user10&quot;</span>
+[ dn ]
+commonName = &quot;user10&quot;
 
-<span class="p">[</span> <span class="n">exts</span> <span class="p">]</span>
-<span class="n">subjectAltName</span><span class="o">=</span><span class="n">email</span><span class="p">:</span><span class="n">user10</span><span class="nd">@yourdomain</span><span class="o">.</span><span class="n">tld</span>
+[ exts ]
+subjectAltName=email:user10@yourdomain.tld
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>generate a key:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">genrsa</span> <span class="o">-</span><span class="n">out</span> <span class="n">user10</span><span class="o">.</span><span class="n">key</span> <span class="mi">2048</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>openssl genrsa -out user10.key 2048
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>generate the csr:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">key</span> <span class="n">user10</span><span class="o">.</span><span class="n">key</span> <span class="o">-</span><span class="n">out</span> <span class="n">user10</span><span class="o">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">config</span> <span class="n">user10</span><span class="o">.</span><span class="n">inf</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>openssl req -new -key user10.key -out user10.csr -config user10.inf
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>verify csr:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="ow">in</span> <span class="n">user10</span><span class="o">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">text</span> <span class="o">-</span><span class="n">noout</span>
-<span class="n">Certificate</span> <span class="n">Request</span><span class="p">:</span>
-    <span class="n">Data</span><span class="p">:</span>
-        <span class="n">Version</span><span class="p">:</span> <span class="mi">0</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
-        <span class="n">Subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">user10</span>
-        <span class="n">Subject</span> <span class="n">Public</span> <span class="n">Key</span> <span class="n">Info</span><span class="p">:</span>
-            <span class="n">Public</span> <span class="n">Key</span> <span class="n">Algorithm</span><span class="p">:</span> <span class="n">rsaEncryption</span>
-                <span class="n">Public</span><span class="o">-</span><span class="n">Key</span><span class="p">:</span> <span class="p">(</span><span class="mi">2048</span> <span class="n">bit</span><span class="p">)</span>
-                <span class="n">Modulus</span><span class="p">:</span>
-                    <span class="mi">00</span><span class="p">:</span><span class="n">c2</span><span class="p">:</span><span class="n">d2</span><span class="p">:</span><span class="mi">0</span><span class="n">c</span><span class="p">:</span><span class="mi">44</span><span class="p">:</span><span class="n">c8</span><span class="p">:</span><span class="n">e3</span><span class="p">:</span><span class="mi">8</span><span class="n">b</span><span class="p">:</span><span class="n">d7</span><span class="p">:</span><span class="n">e5</span><span class="p">:</span><span class="n">bc</span><span class="p">:</span><span class="n">b6</span><span class="p">:</span><span class="mi">5</span><span class="n">d</span><span class="p">:</span><span class="n">fc</span><span class="p">:</span><span class="n">cf</span><span class="p">:</span>
-                    <span class="n">xxxxx</span>
-                <span class="n">Exponent</span><span class="p">:</span> <span class="mi">65537</span> <span class="p">(</span><span class="mh">0x10001</span><span class="p">)</span>
-        <span class="n">Attributes</span><span class="p">:</span>
-        <span class="n">Requested</span> <span class="n">Extensions</span><span class="p">:</span>
-            <span class="n">X509v3</span> <span class="n">Subject</span> <span class="n">Alternative</span> <span class="n">Name</span><span class="p">:</span>
-                <span class="n">email</span><span class="p">:</span><span class="n">user10</span><span class="nd">@yourdomain</span><span class="o">.</span><span class="n">tld</span>
-    <span class="n">Signature</span> <span class="n">Algorithm</span><span class="p">:</span> <span class="n">sha1WithRSAEncryption</span>
-         <span class="mi">05</span><span class="p">:</span><span class="mi">7</span><span class="n">b</span><span class="p">:</span><span class="n">a7</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">1</span><span class="n">e</span><span class="p">:</span><span class="mi">28</span><span class="p">:</span><span class="mi">25</span><span class="p">:</span><span class="mi">8</span><span class="n">d</span><span class="p">:</span><span class="mi">78</span><span class="p">:</span><span class="n">fb</span><span class="p">:</span><span class="n">d9</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">43</span><span class="p">:</span><span class="mi">6</span><span class="n">d</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="n">db</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span>
-         <span class="n">xxxxxxxxxxxxxxxxxxxxx</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>openssl req -in user10.csr -text -noout
+Certificate Request:
+    Data:
+        Version: 0 (0x0)
+        Subject: CN=user10
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:c2:d2:0c:44:c8:e3:8b:d7:e5:bc:b6:5d:fc:cf:
+                    xxxxx
+                Exponent: 65537 (0x10001)
+        Attributes:
+        Requested Extensions:
+            X509v3 Subject Alternative Name:
+                email:user10@yourdomain.tld
+    Signature Algorithm: sha1WithRSAEncryption
+         05:7b:a7:51:1e:28:25:8d:78:fb:d9:08:43:6d:54:51:db:10:
+         xxxxxxxxxxxxxxxxxxxxx
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>request the certificate (as the user self or as an admin user):</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-request user10.csr --principal user10
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-request user10.csr --principal user10
 ....
 </pre></div>
 </div>
 <p>If everything goes according to plan, you know have a certificate
 coupled to the user account</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa user-show user10
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa user-show user10
   User login: user10
   First name: ipa
   Last name: user
@@ -389,23 +389,23 @@ coupled to the user account</p>
 <li><p>retrieve the certificate:</p></li>
 </ul>
 <p>first we need to get the certificate’s serial number.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">find</span>
-<span class="o">...</span>
-  <span class="n">Serial</span> <span class="n">number</span> <span class="p">(</span><span class="nb">hex</span><span class="p">):</span> <span class="mh">0xE</span>
-  <span class="n">Serial</span> <span class="n">number</span><span class="p">:</span> <span class="mi">14</span>
-  <span class="n">Status</span><span class="p">:</span> <span class="n">VALID</span>
-  <span class="n">Subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">user10</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">YOURDOMAIN</span><span class="o">.</span><span class="n">TLD</span>
-<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="n">So</span><span class="p">,</span> <span class="n">number</span> <span class="mf">14.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa cert-find
+...
+  Serial number (hex): 0xE
+  Serial number: 14
+  Status: VALID
+  Subject: CN=user10,O=YOURDOMAIN.TLD
+&lt;pre&gt;
+So, number 14.
 
-<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">show</span> <span class="mi">14</span> <span class="o">--</span><span class="n">out</span> <span class="n">user10</span><span class="o">.</span><span class="n">pem</span>
+&lt;pre&gt;
+ipa cert-show 14 --out user10.pem
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>eventually, verify certificate:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">x509</span> <span class="o">-</span><span class="ow">in</span> <span class="n">user10</span><span class="o">.</span><span class="n">pem</span> <span class="o">-</span><span class="n">noout</span> <span class="o">-</span><span class="n">text</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>openssl x509 -in user10.pem -noout -text
 </pre></div>
 </div>
 <p>which will give you all the certificate output on screen.</p>
@@ -418,18 +418,18 @@ coupled to the user account</p>
 <ul class="simple">
 <li><p>verify /etc/dirsrv/slapd-INSTANCE-NAME/certmap.conf looks like this:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certmap</span> <span class="n">default</span>         <span class="n">default</span>
-<span class="c1">#default:DNComps</span>
-<span class="c1">#default:FilterComps    e, uid</span>
-<span class="c1">#default:verifycert     on</span>
-<span class="c1">#default:CmapLdapAttr   certSubjectDN</span>
-<span class="c1">#default:library        &lt;path_to_shared_lib_or_dll&gt;</span>
-<span class="c1">#default:InitFn         &lt;Init function&#39;s name&gt;</span>
-<span class="n">default</span><span class="p">:</span><span class="n">DNComps</span>
-<span class="n">default</span><span class="p">:</span><span class="n">FilterComps</span>     <span class="n">uid</span>
-<span class="n">certmap</span> <span class="n">ipaca</span>           <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">SUB</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">TLD</span>
-<span class="n">ipaca</span><span class="p">:</span><span class="n">CmapLdapAttr</span>      <span class="n">seeAlso</span>
-<span class="n">ipaca</span><span class="p">:</span><span class="n">verifycert</span>        <span class="n">on</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>certmap default         default
+#default:DNComps
+#default:FilterComps    e, uid
+#default:verifycert     on
+#default:CmapLdapAttr   certSubjectDN
+#default:library        &lt;path_to_shared_lib_or_dll&gt;
+#default:InitFn         &lt;Init function&#39;s name&gt;
+default:DNComps
+default:FilterComps     uid
+certmap ipaca           CN=Certificate Authority,O=SUB.DOMAIN.TLD
+ipaca:CmapLdapAttr      seeAlso
+ipaca:verifycert        on
 </pre></div>
 </div>
 <p>As you see, there is a ‘default’ mapping and an ‘ipaca’ mapping.</p>
@@ -448,7 +448,7 @@ not modify it! We cannot modify this mapping or the PKI subsystem will
 stop working.</p>
 <p>So the solution is quite simple. We need to populate the seeAlso
 attribute of the user10 account with this value:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn</span><span class="o">=</span><span class="n">user10</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">SUB</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">TLD</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cn=user10,o=SUB.DOMAIN.TLD
 </pre></div>
 </div>
 <p>You can add this value to the seeAlso attribute using your favourite
@@ -459,12 +459,12 @@ studio</a></p>
 <h2>configure ldap client<a class="headerlink" href="#configure-ldap-client" title="Link to this heading">#</a></h2>
 <p>we can easily test this using ldapsearch. We need to set two environment
 variables in ~/.ldaprc:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TLS_CERT</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">user10</span><span class="o">.</span><span class="n">pem</span>
-<span class="n">TLS_KEY</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">user10</span><span class="o">.</span><span class="n">key</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>TLS_CERT /path/to/user10.pem
+TLS_KEY /path/to/user10.key
 </pre></div>
 </div>
 <p>And now search:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ldapsearch -h kdc.domain.tld -ZZ -Y EXTERNAL objectclass=person -s sub -b dc=sub,dc=domain,dc=tld cn
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ldapsearch -h kdc.domain.tld -ZZ -Y EXTERNAL objectclass=person -s sub -b dc=sub,dc=domain,dc=tld cn
 ...
 # search result
 search: 3
@@ -476,15 +476,15 @@ result: 0 Success
 </div>
 <p>And in the log files (/var/log/dirsrv/slapd-INSTANCE-NAME/access) of the
 ldap server we see this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">fd</span><span class="o">=</span><span class="mi">111</span> <span class="n">slot</span><span class="o">=</span><span class="mi">111</span> <span class="n">connection</span> <span class="kn">from</span> <span class="mf">192.168.0.124</span> <span class="n">to</span> <span class="mf">192.168.5.10</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">op</span><span class="o">=</span><span class="mi">0</span> <span class="n">EXT</span> <span class="n">oid</span><span class="o">=</span><span class="s2">&quot;1.3.6.1.4.1.1466.20037&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;startTLS&quot;</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">op</span><span class="o">=</span><span class="mi">0</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">120</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">0</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">TLS1</span><span class="mf">.2</span> <span class="mi">256</span><span class="o">-</span><span class="n">bit</span> <span class="n">AES</span><span class="p">;</span> <span class="n">client</span> <span class="n">CN</span><span class="o">=</span><span class="n">user10</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">SUB</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">TLD</span> <span class="n">issuer</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=</span><span class="n">SUB</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">TLD</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">TLS1</span><span class="mf">.2</span> <span class="n">client</span> <span class="n">bound</span> <span class="k">as</span> <span class="n">uid</span><span class="o">=</span><span class="n">user10</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">sub</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">tld</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">op</span><span class="o">=</span><span class="mi">1</span> <span class="n">BIND</span> <span class="n">dn</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="n">method</span><span class="o">=</span><span class="n">sasl</span> <span class="n">version</span><span class="o">=</span><span class="mi">3</span> <span class="n">mech</span><span class="o">=</span><span class="n">EXTERNAL</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">op</span><span class="o">=</span><span class="mi">1</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">97</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">0</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span> <span class="n">dn</span><span class="o">=</span><span class="s2">&quot;uid=user10,cn=users,cn=accounts,dc=sub,dc=domain,dc=tld&quot;</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">op</span><span class="o">=</span><span class="mi">2</span> <span class="n">SRCH</span> <span class="n">base</span><span class="o">=</span><span class="s2">&quot;dc=sub,dc=domain,dc=tld&quot;</span> <span class="n">scope</span><span class="o">=</span><span class="mi">2</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;(objectClass=person)&quot;</span> <span class="n">attrs</span><span class="o">=</span><span class="s2">&quot;cn&quot;</span>
-<span class="p">[</span><span class="mi">04</span><span class="o">/</span><span class="n">Mar</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">57</span> <span class="o">+</span><span class="mi">0100</span><span class="p">]</span> <span class="n">conn</span><span class="o">=</span><span class="mi">100</span> <span class="n">op</span><span class="o">=</span><span class="mi">2</span> <span class="n">RESULT</span> <span class="n">err</span><span class="o">=</span><span class="mi">0</span> <span class="n">tag</span><span class="o">=</span><span class="mi">101</span> <span class="n">nentries</span><span class="o">=</span><span class="mi">1001</span> <span class="n">etime</span><span class="o">=</span><span class="mi">0</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[04/Mar/2016:23:34:57 +0100] conn=100 fd=111 slot=111 connection from 192.168.0.124 to 192.168.5.10
+[04/Mar/2016:23:34:57 +0100] conn=100 op=0 EXT oid=&quot;1.3.6.1.4.1.1466.20037&quot; name=&quot;startTLS&quot;
+[04/Mar/2016:23:34:57 +0100] conn=100 op=0 RESULT err=0 tag=120 nentries=0 etime=0
+[04/Mar/2016:23:34:57 +0100] conn=100 TLS1.2 256-bit AES; client CN=user10,O=SUB.DOMAIN.TLD issuer CN=Certificate Authority,O=SUB.DOMAIN.TLD
+[04/Mar/2016:23:34:57 +0100] conn=100 TLS1.2 client bound as uid=user10,cn=users,cn=accounts,dc=sub,dc=domain,dc=tld
+[04/Mar/2016:23:34:57 +0100] conn=100 op=1 BIND dn=&quot;&quot; method=sasl version=3 mech=EXTERNAL
+[04/Mar/2016:23:34:57 +0100] conn=100 op=1 RESULT err=0 tag=97 nentries=0 etime=0 dn=&quot;uid=user10,cn=users,cn=accounts,dc=sub,dc=domain,dc=tld&quot;
+[04/Mar/2016:23:34:57 +0100] conn=100 op=2 SRCH base=&quot;dc=sub,dc=domain,dc=tld&quot; scope=2 filter=&quot;(objectClass=person)&quot; attrs=&quot;cn&quot;
+[04/Mar/2016:23:34:57 +0100] conn=100 op=2 RESULT err=0 tag=101 nentries=1001 etime=0
 </pre></div>
 </div>
 </section>
@@ -492,7 +492,7 @@ ldap server we see this:</p>
 <h2>perl5 example<a class="headerlink" href="#perl5-example" title="Link to this heading">#</a></h2>
 <p>you need the perl-LDAP and perl-IO-Socket-SSL packages for this
 (fedora/rhel/centos).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/usr/bin/env perl
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -539,7 +539,7 @@ disable its access to the directory.</p>
 <ul class="simple">
 <li><p>revoke it:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">revoke</span> <span class="o">&lt;</span><span class="n">serialnr</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa cert-revoke &lt;serialnr&gt;
 </pre></div>
 </div>
 <ul class="simple">

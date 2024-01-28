@@ -317,8 +317,10 @@ The basic execution will look like:
 
 for source in sources:
 
-| ``   for check in sources.check():``
-| ``       check()``
+.. code-block:: text
+
+       for check in sources.check():
+           check()
 
 The analysis (deduplicating, writing to LDAP, etc) can be either done
 per-source or once globally. It would be fewer LDAP searches to do
@@ -448,8 +450,10 @@ The ipa-healthcheck tool will store its configuration in
 /etc/ipa/healthcheck.conf. It will be an ini-style config file using the
 same config routines as IPA. The format is
 
-| ``[global]``
-| ``plugin_timeout=300``
+.. code-block:: text
+
+    [global]
+    plugin_timeout=300
 
 In general it would be best to store configuration in LDAP. For the
 purposes of timeout LDAP may not be reachable so needs local
@@ -525,19 +529,21 @@ to stdout. --output-file can be used to write the JSON output to a file.
 
 The output format by default is JSON and will look like:
 
-| `` {``
-| ``   "source": "filesystemspace",``
-| ``   "check": "FileSystemSpaceCheck",``
-| ``   "severity": 0,``
-| ``   "uuid": "7bc5e1f1-a67f-4fe4-8eb2-ffba890aa1a7",``
-| ``   "when": "20190620171103Z",``
-| ``   "duration": null,``
-| ``   "kw": {``
-| ``     "msg": "/tmp: free space within limits: 1971 MiB >= 512 MiB",``
-| ``     "store": "/tmp",``
-| ``     "free_space": 1971,``
-| ``     "threshold": 512``
-| ``   }``
+.. code-block:: text
+
+     {
+       "source": "filesystemspace",
+       "check": "FileSystemSpaceCheck",
+       "severity": 0,
+       "uuid": "7bc5e1f1-a67f-4fe4-8eb2-ffba890aa1a7",
+       "when": "20190620171103Z",
+       "duration": null,
+       "kw": {
+         "msg": "/tmp: free space within limits: 1971 MiB >= 512 MiB",
+         "store": "/tmp",
+         "free_space": 1971,
+         "threshold": 512
+       }
 
 
 

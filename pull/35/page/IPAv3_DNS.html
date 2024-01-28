@@ -299,7 +299,7 @@ document.write(`
 </section>
 <section id="prerequisites">
 <h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">bind</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% yum install bind
 </pre></div>
 </div>
 </section>
@@ -308,7 +308,7 @@ document.write(`
 <p>If your DNS server is using chroot, make sure the following files are
 placed in the appropriate location. Create zone data file
 /var/named/domain1.com.zone.db:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ORIGIN domain1.com.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ORIGIN domain1.com.
 $TTL    1W
 @                       IN SOA  domain1.com. root.domain1.com. (
                                 01              ; serial
@@ -339,7 +339,7 @@ _ntp._udp               IN SRV 0 100 123        ipa1
 </pre></div>
 </div>
 <p>Create reverse mapping file /var/named/192.168.1.rev:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ORIGIN 1.168.192.in-addr.arpa.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ORIGIN 1.168.192.in-addr.arpa.
 $TTL    1W
 @                       IN SOA  domain1.com. root.domain1.com. (
                                 01              ; serial
@@ -357,55 +357,55 @@ $TTL    1W
 </pre></div>
 </div>
 <p>Set file ownership:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">chown</span> <span class="n">named</span><span class="o">.</span><span class="n">named</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">named</span><span class="o">/</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">zone</span><span class="o">.</span><span class="n">db</span>
-<span class="o">%</span> <span class="n">chown</span> <span class="n">named</span><span class="o">.</span><span class="n">named</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">named</span><span class="o">/</span><span class="mf">192.168.1</span><span class="o">.</span><span class="n">rev</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% chown named.named /var/named/domain1.com.zone.db
+% chown named.named /var/named/192.168.1.rev
 </pre></div>
 </div>
 <p>Edit /etc/named.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="p">{</span>
-        <span class="c1">#listen-on port 53 { 127.0.0.1; };</span>
-        <span class="c1">#listen-on-v6 port 53 { ::1; };</span>
-        <span class="c1">#allow-query     { localhost; };</span>
-        <span class="o">...</span>
-<span class="p">};</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>options {
+        #listen-on port 53 { 127.0.0.1; };
+        #listen-on-v6 port 53 { ::1; };
+        #allow-query     { localhost; };
+        ...
+};
 
-<span class="n">zone</span> <span class="s2">&quot;domain1.com.&quot;</span> <span class="n">IN</span> <span class="p">{</span>
-        <span class="nb">type</span> <span class="n">master</span><span class="p">;</span>
-        <span class="n">file</span> <span class="s2">&quot;domain1.com.zone.db&quot;</span><span class="p">;</span>
-<span class="p">};</span>
+zone &quot;domain1.com.&quot; IN {
+        type master;
+        file &quot;domain1.com.zone.db&quot;;
+};
 
-<span class="n">zone</span> <span class="s2">&quot;1.168.192.in-addr.arpa.&quot;</span> <span class="n">IN</span> <span class="p">{</span>
-        <span class="nb">type</span> <span class="n">master</span><span class="p">;</span>
-        <span class="n">file</span> <span class="s2">&quot;192.168.1.rev&quot;</span><span class="p">;</span>
-<span class="p">};</span>
+zone &quot;1.168.192.in-addr.arpa.&quot; IN {
+        type master;
+        file &quot;192.168.1.rev&quot;;
+};
 </pre></div>
 </div>
 <p>Restart DNS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">service</span> <span class="n">named</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% service named restart
 </pre></div>
 </div>
 </section>
 <section id="verification">
 <h1>Verification<a class="headerlink" href="#verification" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">dig</span> <span class="n">_kerberos</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">TXT</span> <span class="nd">@localhost</span>
-<span class="o">...</span>
-<span class="p">;;</span> <span class="n">ANSWER</span> <span class="n">SECTION</span><span class="p">:</span>
-<span class="n">_kerberos</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>  <span class="mi">86400</span>   <span class="n">IN</span>  <span class="n">TXT</span> <span class="s2">&quot;EXAMPLE.COM&quot;</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% dig _kerberos.example.com TXT @localhost
+...
+;; ANSWER SECTION:
+_kerberos.example.com.  86400   IN  TXT &quot;EXAMPLE.COM&quot;
+...
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">dig</span> <span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">SRV</span> <span class="nd">@localhost</span>
-<span class="o">...</span>
-<span class="p">;;</span> <span class="n">ANSWER</span> <span class="n">SECTION</span><span class="p">:</span>
-<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="mi">86400</span>   <span class="n">IN</span>  <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% dig _ldap._tcp.example.com SRV @localhost
+...
+;; ANSWER SECTION:
+_ldap._tcp.example.com. 86400   IN  SRV 0 100 389 ipa.example.com.
+...
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">nslookup</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="o">%</span> <span class="n">nslookup</span> <span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% nslookup ipa.example.com
+% nslookup ipa-client.example.com
 
-<span class="o">%</span> <span class="n">nslookup</span> <span class="mf">192.168.1.100</span>
-<span class="o">%</span> <span class="n">nslookup</span> <span class="mf">192.168.1.101</span>
+% nslookup 192.168.1.100
+% nslookup 192.168.1.101
 </pre></div>
 </div>
 </section>

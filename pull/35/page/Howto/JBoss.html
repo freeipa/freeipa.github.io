@@ -336,7 +336,7 @@ on www.example.com.</p>
 <p>Since many IPA services rely on correct fully qualified domain name of
 the web server, we will make JBoss listen not just on the loopback
 interface:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>diff --git a/standalone/configuration/standalone.xml b/standalone/configuration/standalone.xml
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>diff --git a/standalone/configuration/standalone.xml b/standalone/configuration/standalone.xml
 --- a/standalone/configuration/standalone.xml
 +++ b/standalone/configuration/standalone.xml
 @@ -279,7 +279,7 @@
@@ -363,9 +363,9 @@ command</p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">HTTP/www.example.com</span></code></p>
 <p>will create the service and we can then retrieve the keytab on the JBoss
 server:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa-getkeytab</span> <span class="pre">-s</span> <span class="pre">ipa.example.com</span> <span class="pre">-p</span> <span class="pre">HTTP/www.example.com</span> <span class="pre">-k</span> <span class="pre">/path/to/keytab</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab
+</pre></div>
 </div>
 </section>
 <section id="configure-jboss-to-use-spnego-authentication">
@@ -373,41 +373,41 @@ server:</p>
 <p>The examples below are taken from <a class="github reference external" href="https://github.com/kwart/spnego-demo">kwart/spnego-demo</a>.</p>
 <p>In the <code class="docutils literal notranslate"><span class="pre">standalone/configuration/standalone.xml</span></code> configuration file,
 we will define the SPNEGO security domain:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">--</span><span class="n">git</span> <span class="n">a</span><span class="o">/</span><span class="n">standalone</span><span class="o">/</span><span class="n">configuration</span><span class="o">/</span><span class="n">standalone</span><span class="o">.</span><span class="n">xml</span> <span class="n">b</span><span class="o">/</span><span class="n">standalone</span><span class="o">/</span><span class="n">configuration</span><span class="o">/</span><span class="n">standalone</span><span class="o">.</span><span class="n">xml</span>
-<span class="o">---</span> <span class="n">a</span><span class="o">/</span><span class="n">standalone</span><span class="o">/</span><span class="n">configuration</span><span class="o">/</span><span class="n">standalone</span><span class="o">.</span><span class="n">xml</span>
-<span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">standalone</span><span class="o">/</span><span class="n">configuration</span><span class="o">/</span><span class="n">standalone</span><span class="o">.</span><span class="n">xml</span>
-<span class="o">@@</span> <span class="o">-</span><span class="mi">242</span><span class="p">,</span><span class="mi">6</span> <span class="o">+</span><span class="mi">242</span><span class="p">,</span><span class="mi">32</span> <span class="o">@@</span>
-                         <span class="o">&lt;</span><span class="n">policy</span><span class="o">-</span><span class="n">module</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;Delegating&quot;</span> <span class="n">flag</span><span class="o">=</span><span class="s2">&quot;required&quot;</span><span class="o">/&gt;</span>
-                     <span class="o">&lt;/</span><span class="n">authorization</span><span class="o">&gt;</span>
-                 <span class="o">&lt;/</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span><span class="o">&gt;</span>
-<span class="o">+</span>                <span class="o">&lt;</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;host&quot;</span> <span class="n">cache</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="o">&gt;</span>
-<span class="o">+</span>                    <span class="o">&lt;</span><span class="n">authentication</span><span class="o">&gt;</span>
-<span class="o">+</span>                        <span class="o">&lt;</span><span class="n">login</span><span class="o">-</span><span class="n">module</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;Kerberos&quot;</span> <span class="n">flag</span><span class="o">=</span><span class="s2">&quot;required&quot;</span><span class="o">&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;debug&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;storeKey&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;refreshKrb5Config&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;useKeyTab&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;doNotPrompt&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;keyTab&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;/path/to/keytab&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;principal&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;HTTP/$</span><span class="si">{jboss.qualified.host.name}</span><span class="s2">@EXAMPLE.NET&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                        <span class="o">&lt;/</span><span class="n">login</span><span class="o">-</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="o">+</span>                    <span class="o">&lt;/</span><span class="n">authentication</span><span class="o">&gt;</span>
-<span class="o">+</span>                <span class="o">&lt;/</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span><span class="o">&gt;</span>
-<span class="o">+</span>                <span class="o">&lt;</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SPNEGO&quot;</span> <span class="n">cache</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="o">&gt;</span>
-<span class="o">+</span>                    <span class="o">&lt;</span><span class="n">authentication</span><span class="o">&gt;</span>
-<span class="o">+</span>                        <span class="o">&lt;</span><span class="n">login</span><span class="o">-</span><span class="n">module</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;SPNEGO&quot;</span> <span class="n">flag</span><span class="o">=</span><span class="s2">&quot;required&quot;</span><span class="o">&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;serverSecurityDomain&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;host&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;password-stacking&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;useFirstPass&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                        <span class="o">&lt;/</span><span class="n">login</span><span class="o">-</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="o">+</span>                    <span class="o">&lt;/</span><span class="n">authentication</span><span class="o">&gt;</span>
-<span class="o">+</span>                    <span class="o">&lt;</span><span class="n">mapping</span><span class="o">&gt;</span>
-<span class="o">+</span>                        <span class="o">&lt;</span><span class="n">mapping</span><span class="o">-</span><span class="n">module</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;SimpleRoles&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;role&quot;</span><span class="o">&gt;</span>
-<span class="o">+</span>                            <span class="o">&lt;</span><span class="n">module</span><span class="o">-</span><span class="n">option</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;admin@EXAMPLE.NET&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="o">/&gt;</span>
-<span class="o">+</span>                        <span class="o">&lt;/</span><span class="n">mapping</span><span class="o">-</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="o">+</span>                    <span class="o">&lt;/</span><span class="n">mapping</span><span class="o">&gt;</span>
-<span class="o">+</span>                <span class="o">&lt;/</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span><span class="o">&gt;</span>
-             <span class="o">&lt;/</span><span class="n">security</span><span class="o">-</span><span class="n">domains</span><span class="o">&gt;</span>
-         <span class="o">&lt;/</span><span class="n">subsystem</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>diff --git a/standalone/configuration/standalone.xml b/standalone/configuration/standalone.xml
+--- a/standalone/configuration/standalone.xml
++++ b/standalone/configuration/standalone.xml
+@@ -242,6 +242,32 @@
+                         &lt;policy-module code=&quot;Delegating&quot; flag=&quot;required&quot;/&gt;
+                     &lt;/authorization&gt;
+                 &lt;/security-domain&gt;
++                &lt;security-domain name=&quot;host&quot; cache-type=&quot;default&quot;&gt;
++                    &lt;authentication&gt;
++                        &lt;login-module code=&quot;Kerberos&quot; flag=&quot;required&quot;&gt;
++                            &lt;module-option name=&quot;debug&quot; value=&quot;true&quot;/&gt;
++                            &lt;module-option name=&quot;storeKey&quot; value=&quot;true&quot;/&gt;
++                            &lt;module-option name=&quot;refreshKrb5Config&quot; value=&quot;true&quot;/&gt;
++                            &lt;module-option name=&quot;useKeyTab&quot; value=&quot;true&quot;/&gt;
++                            &lt;module-option name=&quot;doNotPrompt&quot; value=&quot;true&quot;/&gt;
++                            &lt;module-option name=&quot;keyTab&quot; value=&quot;/path/to/keytab&quot;/&gt;
++                            &lt;module-option name=&quot;principal&quot; value=&quot;HTTP/${jboss.qualified.host.name}@EXAMPLE.NET&quot;/&gt;
++                        &lt;/login-module&gt;
++                    &lt;/authentication&gt;
++                &lt;/security-domain&gt;
++                &lt;security-domain name=&quot;SPNEGO&quot; cache-type=&quot;default&quot;&gt;
++                    &lt;authentication&gt;
++                        &lt;login-module code=&quot;SPNEGO&quot; flag=&quot;required&quot;&gt;
++                            &lt;module-option name=&quot;serverSecurityDomain&quot; value=&quot;host&quot;/&gt;
++                            &lt;module-option name=&quot;password-stacking&quot; value=&quot;useFirstPass&quot;/&gt;
++                        &lt;/login-module&gt;
++                    &lt;/authentication&gt;
++                    &lt;mapping&gt;
++                        &lt;mapping-module code=&quot;SimpleRoles&quot; type=&quot;role&quot;&gt;
++                            &lt;module-option name=&quot;admin@EXAMPLE.NET&quot; value=&quot;admin&quot;/&gt;
++                        &lt;/mapping-module&gt;
++                    &lt;/mapping&gt;
++                &lt;/security-domain&gt;
+             &lt;/security-domains&gt;
+         &lt;/subsystem&gt;
 </pre></div>
 </div>
 <p>Change the <em>/path/to/keytab</em> to the real path of your
@@ -419,20 +419,20 @@ authentication. Adjust this value to match the user you will be able to
 kinit to.</p>
 <p>We then create application in <strong>standalone/deployments/kerberos.war</strong>:</p>
 <p><code class="docutils literal notranslate"><span class="pre">standalone/deployments/kerberos.war/index.html</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OK</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OK
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">standalone/deployments/kerberos.war/WEB-INF/jboss-web.xml</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">jboss</span><span class="o">-</span><span class="n">web</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span><span class="o">&gt;</span><span class="n">SPNEGO</span><span class="o">&lt;/</span><span class="n">security</span><span class="o">-</span><span class="n">domain</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">valve</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">class</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">jboss</span><span class="o">.</span><span class="n">security</span><span class="o">.</span><span class="n">negotiation</span><span class="o">.</span><span class="n">NegotiationAuthenticator</span><span class="o">&lt;/</span><span class="n">class</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">valve</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">jboss</span><span class="o">-</span><span class="n">web</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;jboss-web&gt;
+    &lt;security-domain&gt;SPNEGO&lt;/security-domain&gt;
+    &lt;valve&gt;
+        &lt;class-name&gt;org.jboss.security.negotiation.NegotiationAuthenticator&lt;/class-name&gt;
+    &lt;/valve&gt;
+&lt;/jboss-web&gt;
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">standalone/deployments/kerberos.war/WEB-INF/web.xml</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;web-app version=&quot;2.4&quot; xmlns=&quot;http://java.sun.com/xml/ns/j2ee&quot;
     xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
     xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd&quot;&gt;
@@ -454,27 +454,28 @@ kinit to.</p>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">standalone/deployments/kerberos.war/META-INF/jboss-deployment-structure.xml</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">jboss</span><span class="o">-</span><span class="n">deployment</span><span class="o">-</span><span class="n">structure</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">deployment</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">dependencies</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">module</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;org.jboss.security.negotiation&quot;</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;/</span><span class="n">dependencies</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">deployment</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">jboss</span><span class="o">-</span><span class="n">deployment</span><span class="o">-</span><span class="n">structure</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;jboss-deployment-structure&gt;
+    &lt;deployment&gt;
+        &lt;dependencies&gt;
+            &lt;module name=&quot;org.jboss.security.negotiation&quot; /&gt;
+        &lt;/dependencies&gt;
+    &lt;/deployment&gt;
+&lt;/jboss-deployment-structure&gt;
 </pre></div>
 </div>
 <p>We then touch file <code class="docutils literal notranslate"><span class="pre">standalone/deployments/kerberos.war</span></code> and start the
 server, we should see message like</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Register</span> <span class="pre">web</span> <span class="pre">context:</span> <span class="pre">/kerberos</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Deployed</span> <span class="pre">&quot;kerberos.war&quot;</span> <span class="pre">(runtime-name</span> <span class="pre">:</span> <span class="pre">&quot;kerberos.war&quot;)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Register web context: /kerberos
+Deployed &quot;kerberos.war&quot; (runtime-name : &quot;kerberos.war&quot;)
+</pre></div>
 </div>
 <p>We then obtain a ticket:</p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kinit</span> <span class="pre">admin&#64;EXAMPLE.NET</span></code></p>
 <p>and we will run curl with Negotiate authentication enabled:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">curl</span> <span class="pre">--negotiate</span> <span class="pre">-u</span> <span class="pre">:</span> <span class="pre">``\</span> <span class="pre">```http://$(hostname):8080/kerberos/</span></code> &lt;<a class="reference external" href="http://$(hostname):8080/kerberos/">http://$(hostname):8080/kerberos/</a>&gt;`__</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">OK</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` &lt;http://$(hostname):8080/kerberos/&gt;`__
+
+OK
+</pre></div>
 </div>
 <p>We should see the <code class="docutils literal notranslate"><span class="pre">OK</span></code> (the content of the index.html file) printed.</p>
 </section>

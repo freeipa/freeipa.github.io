@@ -338,68 +338,67 @@ or journal).</p>
 replica, check the aforementioned <a class="reference external" href="PKI">PKI</a> logs as well.</p>
 <section id="migrating-from-rhel-6-centos-6">
 <h2>Migrating from RHEL 6/CentOS 6<a class="headerlink" href="#migrating-from-rhel-6-centos-6" title="Link to this heading">#</a></h2>
-<ul>
-<li><p>Installation of certificate server fails with:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Clone</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">have</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">required</span> <span class="n">certificates</span>
-</pre></div>
-</div>
-<p>It indicates <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1322059">bug
-1322059</a>.
+<ul class="simple">
+<li><p>Installation of certificate server fails with:</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   Clone does not have all the required certificates
+
+It indicates `bug
+1322059 &lt;https://bugzilla.redhat.com/show_bug.cgi?id=1322059&gt;`__.
 Issue is that RHEL6, while creating replica file, uses
 certificates from a file which was created during server
 installation and potentially contains expired certificates instead
 of fetching the certs from database where they are valid. It is
 fixed on FreeIPA 3.2+. Recovery is to update the file with valid
-certs and then run <code class="docutils literal notranslate"><span class="pre">ipa-replica-prepare</span></code> again and try replica
-installation again:</p>
-<ol class="arabic">
-<li><p>create a /root/dbpass file containing the ‘internal’ (not
-‘internaldb’) password from /etc/pki-ca/password</p></li>
-<li><p>create a /root/dmpass file containing the DM password</p></li>
-<li><p>run PKCS12Export:</p></li>
-<li><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#PKCS12Export -debug -d /var/lib/pki-ca/alias -p /root/dbpass -w /root/dmpass -o /root/cacert.p12</span>
+certs and then run ``ipa-replica-prepare`` again and try replica
+installation again:
+
+#. create a /root/dbpass file containing the &#39;internal&#39; (not
+   &#39;internaldb&#39;) password from /etc/pki-ca/password
+
+#. create a /root/dmpass file containing the DM password
+
+#. run PKCS12Export:
+
+#. ::
+
+      #PKCS12Export -debug -d /var/lib/pki-ca/alias -p /root/dbpass -w /root/dmpass -o /root/cacert.p12
 </pre></div>
 </div>
-</li>
-</ol>
-</div></blockquote>
-</li>
-<li><p>Installation of certificate server fails with:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="k">while</span> <span class="n">updating</span> <span class="n">security</span> <span class="n">domain</span><span class="p">:</span> <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">IOException</span><span class="p">:</span> <span class="mi">2</span>
-</pre></div>
-</div>
-<p>It indicates <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1256039">bug
-1256039</a>.
+<ul class="simple">
+<li><p>Installation of certificate server fails with:</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   Error while updating security domain: java.io.IOException: 2
+
+It indicates `bug
+1256039 &lt;https://bugzilla.redhat.com/show_bug.cgi?id=1256039&gt;`__.
 The issue is that certificate server users on master server has
 invalid, usually expired cert, in its database entry even though
 all certs tracked by certmonger are valid. Recovery is to update
 the database entry with correct certificate. Run following script
-or use manual method is described at <a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2016-April/msg00143.html">freeipa users list
-mail</a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /usr/share/pki/scripts/restore-subsystem-user.py -v</span>
+or use manual method is described at `freeipa users list
+mail &lt;https://www.redhat.com/archives/freeipa-users/2016-April/msg00143.html&gt;`__.
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># /usr/share/pki/scripts/restore-subsystem-user.py -v
+</pre></div>
+</div>
 </section>
 <section id="replica-installation-fails-with-invalid-credentials">
 <h2>Replica Installation fails with Invalid Credentials<a class="headerlink" href="#replica-installation-fails-with-invalid-credentials" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Installation of the replica fails with:</p></li>
 </ul>
-<div class="line-block">
-<div class="line">``  [27/40]: setting up initial replication``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">replication,</span> <span class="pre">please</span> <span class="pre">wait</span> <span class="pre">until</span> <span class="pre">this</span> <span class="pre">has</span> <span class="pre">completed.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Update</span> <span class="pre">in</span> <span class="pre">progress,</span> <span class="pre">15</span> <span class="pre">seconds</span> <span class="pre">elapsed</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">`1</span></code> &lt;<a class="reference external" href="ldap://master.example.com:389">ldap://master.example.com:389</a>&gt;`__`` reports: Update failed! Status: [49  - LDAP error: Invalid credentials]``</div>
-<div class="line">``  [error] RuntimeError: Failed to start replication``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Your</span> <span class="pre">system</span> <span class="pre">may</span> <span class="pre">be</span> <span class="pre">partly</span> <span class="pre">configured.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">/usr/sbin/ipa-server-install</span> <span class="pre">--uninstall</span> <span class="pre">to</span> <span class="pre">clean</span> <span class="pre">up.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall):</span> <span class="pre">ERROR</span>&#160;&#160;&#160; <span class="pre">Failed</span> <span class="pre">to</span> <span class="pre">start</span> <span class="pre">replication</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall):</span> <span class="pre">ERROR</span>&#160;&#160;&#160; <span class="pre">The</span> <span class="pre">ipa-replica-install</span> <span class="pre">command</span> <span class="pre">failed.</span> <span class="pre">See</span> <span class="pre">/var/log/ipareplica-install.log</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">information</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>  [27/40]: setting up initial replication
+Starting replication, please wait until this has completed.
+Update in progress, 15 seconds elapsed
+`1`` &lt;ldap://master.example.com:389&gt;`__\ `` reports: Update failed! Status: [49  - LDAP error: Invalid credentials]
+  [error] RuntimeError: Failed to start replication
+Your system may be partly configured.
+Run /usr/sbin/ipa-server-install --uninstall to clean up.
+ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    Failed to start replication
+ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    The ipa-replica-install command failed. See /var/log/ipareplica-install.log for more information
+</pre></div>
 </div>
 <p>This can happen when the ipa-replica-install command is called with
 –no-ntp and the clocks of the master and the replica are not in sync.
@@ -458,11 +457,11 @@ case</a>)</p></li>
 <section id="installation-breaks-on-joining-realm">
 <h2>Installation breaks on Joining realm<a class="headerlink" href="#installation-breaks-on-joining-realm" title="Link to this heading">#</a></h2>
 <p>ipa-client-install may fail with the following error:</p>
-<div class="line-block">
-<div class="line">`` Joining realm failed: Failed to add key to the keytab``</div>
-<div class="line">`` child exited with 11``</div>
-<div class="line">`` ``</div>
-<div class="line">`` Installation failed. Rolling back changes.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Joining realm failed: Failed to add key to the keytab
+child exited with 11
+
+Installation failed. Rolling back changes.
+</pre></div>
 </div>
 <p>This failure may be caused by an empty /etc/krb5.keytab. In this case,
 simply delete the file and restart the installation.</p>

@@ -45,7 +45,7 @@ Mapping a DN
 
 The following mapping rule constructs a Samba DN from an IPA attribute:
 
-::
+.. code-block:: text
 
    <rule name="dn">
       <expression>
@@ -61,7 +61,7 @@ Mapping an Object Class
 The object class of an object is usually static, it can be generated
 from constant values:
 
-::
+.. code-block:: text
 
    <rule name="objectClass">
        <constant>user</constant>
@@ -80,7 +80,7 @@ Mapping an Attribute
 
 Some attributes can be mapped directly from another attribute.
 
-::
+.. code-block:: text
 
    <rule name="sAMAccountName">
        <variable>ipa.uid</variable>
@@ -89,7 +89,7 @@ Some attributes can be mapped directly from another attribute.
 Some attributes require more complex mapping. In the following example
 Samba's accountExpires is generated from IPA's krbPasswordExpiration.
 
-::
+.. code-block:: text
 
    <rule name="accountExpires">
        <expression>

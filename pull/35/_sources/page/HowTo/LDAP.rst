@@ -43,7 +43,7 @@ not always possible. Do **not** use the Directory Manager account to
 authenticate remote services to the IPA LDAP server. Use a system
 account, created like this:.
 
-::
+.. code-block:: text
 
    # ldapmodify -x -D 'cn=Directory Manager' -W
    dn: uid=system,cn=sysaccounts,cn=etc,dc=example,dc=com
@@ -99,7 +99,7 @@ Tool configuration
 Since IPA 3.0 we've configured /etc/openldap/ldap.conf with some bare
 defaults:
 
-::
+.. code-block:: text
 
    URI ldaps://ipaserver.example.com
    BASE dc=example,dc=com

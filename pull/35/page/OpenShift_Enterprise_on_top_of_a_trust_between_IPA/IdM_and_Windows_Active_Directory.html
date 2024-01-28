@@ -410,10 +410,10 @@ RubyInstaller and RHC installed.</p>
 <h2>krb5.conf<a class="headerlink" href="#krb5-conf" title="Link to this heading">#</a></h2>
 <p>On both the Broker and Node machines, edit <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> for the
 following lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># &amp;lt;--snip--&amp;gt;</span>
-<span class="n">dns_lookup_realm</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">dns_lookup_kdc</span> <span class="o">=</span> <span class="n">true</span>
-<span class="c1"># &amp;lt;--snip--&amp;gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># &amp;lt;--snip--&amp;gt;
+dns_lookup_realm = true
+dns_lookup_kdc = true
+# &amp;lt;--snip--&amp;gt;
 </pre></div>
 </div>
 <p>This allows the clients to defer to DNS if/when a user has a different
@@ -428,20 +428,20 @@ realm, e.g. <a class="reference external" href="mailto:user&#37;&#52;&#48;ADDOMA
 the following with the appropriate parameters. Notice there are <strong>two</strong>
 realms for <code class="docutils literal notranslate"><span class="pre">KrbAuthRealms</span></code>, one is the IPA Realm, and one is the
 $AD_DOMAIN:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Provided by the mod_auth_kerb package</span>
-<span class="n">LoadModule</span> <span class="n">authz_user_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_authz_user</span><span class="o">.</span><span class="n">so</span>
-<span class="n">LoadModule</span> <span class="n">auth_kerb_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_auth_kerb</span><span class="o">.</span><span class="n">so</span>
-<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Location</span> <span class="o">/</span><span class="n">broker</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
-    <span class="n">AuthName</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">OpenShift</span> <span class="n">broker</span> <span class="n">API</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
-    <span class="n">AuthType</span> <span class="n">Kerberos</span>
-    <span class="n">KrbMethodNegotiate</span> <span class="n">On</span>
-    <span class="n">KrbMethodK5Passwd</span> <span class="n">On</span>
-    <span class="n">KrbServiceName</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">broker</span><span class="o">.</span><span class="n">ipadomain</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">org</span>
-    <span class="n">KrbAuthRealms</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">ORG</span> <span class="n">ADDOMAIN</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">ORG</span>
-    <span class="n">Krb5KeyTab</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">openshift</span><span class="o">/</span><span class="n">broker</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span>
-    <span class="n">require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Provided by the mod_auth_kerb package
+LoadModule authz_user_module modules/mod_authz_user.so
+LoadModule auth_kerb_module modules/mod_auth_kerb.so
+&amp;lt;Location /broker&amp;gt;
+    AuthName &amp;quot;OpenShift broker API&amp;quot;
+    AuthType Kerberos
+    KrbMethodNegotiate On
+    KrbMethodK5Passwd On
+    KrbServiceName HTTP/broker.ipadomain.example.org
+    KrbAuthRealms EXAMPLE.ORG ADDOMAIN.EXAMPLE.ORG
+    Krb5KeyTab /var/www/openshift/broker/httpd/conf.d/http.keytab
+    require valid-user
 
-<span class="c1"># &amp;lt;--snip--&amp;gt;</span>
+# &amp;lt;--snip--&amp;gt;
 </pre></div>
 </div>
 <p>This allows Apache to accept AD users when username is

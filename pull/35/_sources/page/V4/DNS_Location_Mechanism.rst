@@ -153,7 +153,7 @@ static set of records, there is no way how to prioritize a server
 'nearest' to the client at the moment. Consequenty, all FreeIPA servers
 typically have the same priority (0) and weight (100):
 
-::
+.. code-block:: text
 
    ``;; QUESTION SECTION:``
    ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
@@ -483,13 +483,15 @@ Example
 Clients will query name ``_ldap._tcp.example.com.`` as usual but this
 name will be redirected to location-specific sub-tree:
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.example.com. IN SRV``
-| ``;; ANSWER SECTION:``
-| ``_tcp.example.com. DNAME _tcp.cz._locations.example.com.``
-| ``_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.``
+.. code-block:: text
+
+    ;; QUESTION SECTION:
+    ;_ldap._tcp.example.com. IN SRV
+    ;; ANSWER SECTION:
+    _tcp.example.com. DNAME _tcp.cz._locations.example.com.
+    _ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.
+    _ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.
+    _ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.
 
 .. figure:: ExampleLocationsV2.svg
    :alt: ExampleLocationsV2.svg
@@ -609,12 +611,14 @@ The template will generate CNAME redirection from original name to the
 location-specific name (which can be different on each DNS server).
 Example:
 
-| ``;; QUESTION SECTION:``
-| ``;_ldap._tcp.example.com. IN SRV``
-| ``;; ANSWER SECTION:``
-| ``_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.``
-| ``_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.``
+.. code-block:: text
+
+    ;; QUESTION SECTION:
+    ;_ldap._tcp.example.com. IN SRV
+    ;; ANSWER SECTION:
+    _ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.
+    _ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.
+    _ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.
 
 Servers which are not assigned to a location (or are too old to
 understand the template) will ignore the template and use the original
@@ -881,13 +885,15 @@ Following example will instruct bind-dyndb-ldap to generate
 ``CNAMERecord`` attribute with value constructed from prefix ``_udp.``,
 user-defined variable ``ipalocation``, and suffix ``._locations``.
 
-| ``dn: idnsName=_ldap._tcp,idnsname=example.com.,cn=dns,dc=example,dc=com``
-| ``objectClass: idnsTemplateObject``
-| ``objectClass: top``
-| ``objectClass: idnsRecord``
-| ``idnsName: _ldap._tcp``
-| ``srvrecord: 0 100 389 ipa.example.com.``
-| ``idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations``
+.. code-block:: text
+
+    dn: idnsName=_ldap._tcp,idnsname=example.com.,cn=dns,dc=example,dc=com
+    objectClass: idnsTemplateObject
+    objectClass: top
+    objectClass: idnsRecord
+    idnsName: _ldap._tcp
+    srvrecord: 0 100 389 ipa.example.com.
+    idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations
 
 
 
@@ -900,18 +906,22 @@ Records generated for IPA services
 
 **For each IPA master:**
 
-| ``_ldap._tcp SRV 0 100 389 {hostname}``
-| ``_kerberos._tcp SRV 0 100 88 {hostname}``
-| ``_kerberos._udp SRV 0 100 88 {hostname}``
-| ``_kerberos-master._tcp SRV 0 100 88 {hostname}``
-| ``_kerberos-master._udp SRV 0 100 88 {hostname}``
-| ``_kpasswd._tcp SRV 0 100 464 {hostname}``
-| ``_kpasswd._udp SRV 0 100 464 {hostname}``
+.. code-block:: text
+
+    _ldap._tcp SRV 0 100 389 {hostname}
+    _kerberos._tcp SRV 0 100 88 {hostname}
+    _kerberos._udp SRV 0 100 88 {hostname}
+    _kerberos-master._tcp SRV 0 100 88 {hostname}
+    _kerberos-master._udp SRV 0 100 88 {hostname}
+    _kpasswd._tcp SRV 0 100 464 {hostname}
+    _kpasswd._udp SRV 0 100 464 {hostname}
 
 **For each IPA CA server:**
 
-| ``ipa-ca A {ipv4 address of server}``
-| ``ipa-ca AAAA {ipv6 address of server}``
+.. code-block:: text
+
+    ipa-ca A {ipv4 address of server}
+    ipa-ca AAAA {ipv6 address of server}
 
 **For each IPA NTP server:**
 
@@ -919,12 +929,14 @@ Records generated for IPA services
 
 **For each ADTrust controller**:
 
-| ``_ldap._tcp.Default-First-Site-Name._sites.dc._msdcs SRV  0 100 389 {hostname}``
-| ``_ldap._tcp.dc._msdcs SRV 0 100 389 {hostname}``
-| ``_kerberos._tcp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}``
-| ``_kerberos._udp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}``
-| ``_kerberos._tcp.dc._msdcs SRV 0 100 88 {hostname}``
-| ``_kerberos._udp.dc._msdcs SRV 0 100 88 {hostname}``
+.. code-block:: text
+
+    _ldap._tcp.Default-First-Site-Name._sites.dc._msdcs SRV  0 100 389 {hostname}
+    _ldap._tcp.dc._msdcs SRV 0 100 389 {hostname}
+    _kerberos._tcp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}
+    _kerberos._udp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}
+    _kerberos._tcp.dc._msdcs SRV 0 100 88 {hostname}
+    _kerberos._udp.dc._msdcs SRV 0 100 88 {hostname}
 
 
 
@@ -988,31 +1000,37 @@ IPA locations part, in cn=etc subtree:
 Locations LDAP structure
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-| ``DN: cn=locations, cn=etc, $SUFFIX``
-| ``objectlcass: nsContainer``
-| ``cn: locations``
+.. code-block:: text
 
-| ``DN: idnsName=prague, cn=locations, cn=etc, $SUFFIX``
-| ``objectclass: ipaLocationObject``
-| ``idnsName: prague``
-| ``description: Servers in Prague area``
+    DN: cn=locations, cn=etc, $SUFFIX
+    objectlcass: nsContainer
+    cn: locations
+
+.. code-block:: text
+
+    DN: idnsName=prague, cn=locations, cn=etc, $SUFFIX
+    objectclass: ipaLocationObject
+    idnsName: prague
+    description: Servers in Prague area
 
 
 
 Servers LDAP structure
 ^^^^^^^^^^^^^^^^^^^^^^
 
-| ``DN: cn=ipa-server.example.com,cn=masters,cn=ipa,cn=etc, $SUFFIX``
-| ``objectclass: top``
-| ``objectclass: nsContainer``
-| ``objectclass: ipaSupportedDomainLevelConfig``
-| ``objectclass: ipaReplTopoManagedService``
+.. code-block:: text
+
+    DN: cn=ipa-server.example.com,cn=masters,cn=ipa,cn=etc, $SUFFIX
+    objectclass: top
+    objectclass: nsContainer
+    objectclass: ipaSupportedDomainLevelConfig
+    objectclass: ipaReplTopoManagedService
 | **``objectclass:``\ ````\ ``ipaLocationMember``**
-| ``cn: ipa-server.example.com``
-| ``ipaMaxDomainLevel: 1``
-| ``ipaMinDomainLevel: 0``
-| ``ipaReplTopoManagedSuffix: o=ipaca``
-| ``ipaReplTopoManagedSuffix: $SUFFIX``
+    cn: ipa-server.example.com
+    ipaMaxDomainLevel: 1
+    ipaMinDomainLevel: 0
+    ipaReplTopoManagedSuffix: o=ipaca
+    ipaReplTopoManagedSuffix: $SUFFIX
 | **``ipaLocation:``\ ````\ ``idnsName=prague,cn=locations,cn=etc,$SUFFIX``**
 | **``ipaLocationWeight:``\ ````\ ``100``**
 
@@ -1125,8 +1143,10 @@ How to Test
 -  Install at least two IPA DNS servers
 -  Create at least two locations:
 
-| ``ipa location-add loc1``
-| ``ipa location-add loc2``
+.. code-block:: text
+
+    ipa location-add loc1
+    ipa location-add loc2
 
 -  Assign one or more FreeIPA servers to each location
 -  Assign first FreeIPA DNS server to one location (must have non-empty

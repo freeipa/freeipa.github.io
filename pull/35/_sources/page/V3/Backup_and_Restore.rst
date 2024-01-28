@@ -164,11 +164,11 @@ services need to be stopped in order to ensure a safe backup.
 This will include the LDAP DB files so this is a standalone backup. A
 scripted process would include this:
 
-::
+.. code-block:: text
 
-   | ``# ipactl stop``
-   | ``# tar --xattrs --selinux -czf /path/to/backup ``
-   | ``# ipactl start``
+    # ipactl stop``
+    # tar --xattrs --selinux -czf /path/to/backup ``
+    # ipactl start``
 
 Note that this a simplified view and doesn't include the metadata we
 will package as well.
@@ -178,10 +178,12 @@ will package as well.
 Full System Restore Process
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-| ``# ipactl stop``
-| ``# cd / && tar -xzf /path/to/backup``
-| ``# ipactl start``
-| ``# service sssd restart``
+.. code-block:: text
+
+    # ipactl stop
+    # cd / && tar -xzf /path/to/backup
+    # ipactl start
+    # service sssd restart
 
 Note that this a simplified view and doesn't include the metadata we
 will package as well.
@@ -474,7 +476,7 @@ Backup, uninstall, reinstall, restore JUST the LDAP server
 So I wanted to verify that the restoration actually worked, so what I
 did was:
 
-::
+.. code-block:: text
 
    #. ipa-server-install ...
    #. kinit admin
@@ -539,26 +541,30 @@ CLI
 
 There will be two basic, standalone commands:
 
-| ``ipa-backup OPTIONS``
-| ``   --data    Back up just the data. Default is full system backup.``
-| ``   --gpg     Encrypt the backup``
-| ``   --gpg-keyring ``\ ``   The gpg key name to be used (or full path)``
-| ``   --logs    Include logs in backup``
-| ``   --online Perform the LDAP backups online, for data only.``
+.. code-block:: text
+
+    ipa-backup OPTIONS
+       --data    Back up just the data. Default is full system backup.
+       --gpg     Encrypt the backup
+       --gpg-keyring ``\ ``   The gpg key name to be used (or full path)
+       --logs    Include logs in backup
+       --online Perform the LDAP backups online, for data only.
 
 We will only encrypt the payload. The header will be in the clear.
 
-| ``ipa-restore OPTIONS /path/to/backup``
-| ``   --data             If the backup is a full backup, restore only the data``
-| ``   --extract        Extract the backup files, do not restore (including the LDIF)``
-| ``   --gpg-keyring ``\ ``    The key name to be used by gpg``
-| ``   --data             Restore only the data``
-| ``   --online          Perform the LDAP restores online, for data only.``
-| ``   --instance=INSTANCE   The 389-ds instance to restore (defaults to all found)``
-| ``   --backend=BACKEND     The backend to restore within the instance or``
-| ``                                              instances``
-| ``   --no-logs         Do not restore log files from the backup``
-| ``   -U, --unattended      Unattended restoration never prompts the user``
+.. code-block:: text
+
+    ipa-restore OPTIONS /path/to/backup
+       --data             If the backup is a full backup, restore only the data
+       --extract        Extract the backup files, do not restore (including the LDIF)
+       --gpg-keyring ``\ ``    The key name to be used by gpg
+       --data             Restore only the data
+       --online          Perform the LDAP restores online, for data only.
+       --instance=INSTANCE   The 389-ds instance to restore (defaults to all found)
+       --backend=BACKEND     The backend to restore within the instance or
+                                                  instances
+       --no-logs         Do not restore log files from the backup
+       -U, --unattended      Unattended restoration never prompts the user
 
 ipa-restore will detect if the backup file provide contains only the
 data, but if provided a full backup it should be able to restore just
@@ -566,14 +572,16 @@ the data component.
 
 There are also common options:
 
-| ``   --version             show program's version number and exit``
-| ``   -h, --help            show this help message and exit``
-| ``   -p PASSWORD, --password=PASSWORD``
-| ``                       Directory Manager password``
-| ``   -v, --verbose       print debugging information``
-| ``   -d, --debug         alias for --verbose (deprecated)``
-| ``   -q, --quiet         output only errors``
-| ``   --log-file=FILE     log to the given file``
+.. code-block:: text
+
+       --version             show program's version number and exit
+       -h, --help            show this help message and exit
+       -p PASSWORD, --password=PASSWORD
+                           Directory Manager password
+       -v, --verbose       print debugging information
+       -d, --debug         alias for --verbose (deprecated)
+       -q, --quiet         output only errors
+       --log-file=FILE     log to the given file
 
 
 
@@ -670,7 +678,7 @@ GPG encryption
 The backup can be optionally encrypted using GPG. To create a key you
 can run:
 
-::
+.. code-block:: text
 
    # cat >keygen <<EOF
         %echo Generating a standard key

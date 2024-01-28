@@ -325,30 +325,30 @@ modified to utilize these plugins.</p>
 <p>Attribute linking is defined using the linkID attribute in Active
 Directory schema. An attribute with linkID n is linked to another
 attribute with linkID n+1. See the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn</span><span class="p">:</span> <span class="n">Member</span>
-<span class="n">ldapDisplayName</span><span class="p">:</span> <span class="n">member</span>
-<span class="n">linkID</span><span class="p">:</span> <span class="mi">2</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cn: Member
+ldapDisplayName: member
+linkID: 2
 
-<span class="n">cn</span><span class="p">:</span> <span class="n">Is</span><span class="o">-</span><span class="n">Member</span><span class="o">-</span><span class="n">Of</span><span class="o">-</span><span class="n">DL</span>
-<span class="n">ldapDisplayName</span><span class="p">:</span> <span class="n">memberOf</span>
-<span class="n">linkID</span><span class="p">:</span> <span class="mi">3</span>
+cn: Is-Member-Of-DL
+ldapDisplayName: memberOf
+linkID: 3
 </pre></div>
 </div>
 <p>In this example the member attribute is linked to the memberOf
 attribute.</p>
 <p>Suppose in the DIT there’s already an entry as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Administrator</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: CN=Administrator,CN=Users,DC=example,DC=com
 </pre></div>
 </div>
 <p>Suppose a new entry is added with a link pointing to the above entry:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Enterprise</span> <span class="n">Admins</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">member</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Administrator</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: CN=Enterprise Admins,CN=Users,DC=example,DC=com
+member: CN=Administrator,CN=Users,DC=example,DC=com
 </pre></div>
 </div>
 <p>A new attribute will be added to the target entry pointing back to the
 new entry:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Administrator</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">memberOf</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Enterprise</span> <span class="n">Admins</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: CN=Administrator,CN=Users,DC=example,DC=com
+memberOf: CN=Enterprise Admins,CN=Users,DC=example,DC=com
 </pre></div>
 </div>
 </section>
@@ -358,7 +358,7 @@ new entry:</p>
 <h2>OpenLDAP Configuration<a class="headerlink" href="#openldap-configuration" title="Link to this heading">#</a></h2>
 <p>The template for the memberof overlay configuration is stored in
 source4/setup/memberof.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>overlay memberof
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>overlay memberof
 memberof-dn cn=samba-admin,cn=samba
 memberof-dangling error
 memberof-refint TRUE
@@ -370,7 +370,7 @@ memberof-dangling-error 32
 </div>
 <p>The template for the refint overlay configuration is stored in
 source4/setup/refint.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>overlay refint
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>overlay refint
 refint_modifiersName cn=samba-admin,cn=samba
 refint_attributes ${LINK_ATTRS}
 </pre></div>
@@ -380,18 +380,18 @@ refint_attributes ${LINK_ATTRS}
 <h2>Provisioning Tool<a class="headerlink" href="#provisioning-tool" title="Link to this heading">#</a></h2>
 <p>The provision_openldap_backend() uses the following code to configure
 attribute linking in OpenLDAP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lnkattr</span> <span class="o">=</span> <span class="n">get_linked_attributes</span><span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span><span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="p">)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>lnkattr = get_linked_attributes(names.schemadn,schema.ldb)
 
-<span class="n">refint_attributes</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="n">memberof_config</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+refint_attributes = &quot;&quot;
+memberof_config = &quot;&quot;
 
-<span class="k">for</span> <span class="n">att</span> <span class="ow">in</span>  <span class="n">lnkattr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+for att in  lnkattr.keys():
 
-    <span class="n">refint_attributes</span> <span class="o">=</span> <span class="n">refint_attributes</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">att</span>
+    refint_attributes = refint_attributes + &quot; &quot; + att
 
-    <span class="n">memberof_config</span> <span class="o">+=</span> <span class="n">read_and_sub_file</span><span class="p">(</span><span class="n">setup_path</span><span class="p">(</span><span class="s2">&quot;memberof.conf&quot;</span><span class="p">),</span>
-        <span class="p">{</span> <span class="s2">&quot;MEMBER_ATTR&quot;</span> <span class="p">:</span> <span class="n">att</span> <span class="p">,</span>
-          <span class="s2">&quot;MEMBEROF_ATTR&quot;</span> <span class="p">:</span> <span class="n">lnkattr</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="p">})</span>
+    memberof_config += read_and_sub_file(setup_path(&quot;memberof.conf&quot;),
+        { &quot;MEMBER_ATTR&quot; : att ,
+          &quot;MEMBEROF_ATTR&quot; : lnkattr[att] })
 </pre></div>
 </div>
 </section>
@@ -401,7 +401,7 @@ attribute linking in OpenLDAP:</p>
 <section id="ds-configuration">
 <h2>DS Configuration<a class="headerlink" href="#ds-configuration" title="Link to this heading">#</a></h2>
 <p>The Linked Attributes Plugin should be configured as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=${MEMBER_ATTR} to ${MEMBEROF_ATTR},cn=Linked Attributes,cn=plugins,cn=config
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=${MEMBER_ATTR} to ${MEMBEROF_ATTR},cn=Linked Attributes,cn=plugins,cn=config
 objectclass: extensibleObject
 cn: ${MEMBER_ATTR} to ${MEMBEROF_ATTR}
 linkType: ${MEMBER_ATTR}
@@ -409,7 +409,7 @@ managedType: ${MEMBEROF_ATTR}
 </pre></div>
 </div>
 <p>The Referential Integrity Plugin should be configured as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=referential integrity postoperation,cn=plugins,cn=config
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=referential integrity postoperation,cn=plugins,cn=config
 nsslapd-pluginArg0: 0
 nsslapd-pluginArg1: %log_dir%/referint
 nsslapd-pluginArg2: 0

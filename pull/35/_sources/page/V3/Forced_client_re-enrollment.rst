@@ -179,7 +179,7 @@ As machine-level backup and restore is difficult to automate for testing
 purposes, restoring the client from backup can be simulated by
 performing the following steps:
 
-::
+.. code-block:: text
 
    # iptables -A INPUT -j REJECT -p all --source $MASTER_IP
    # ipa-client-install --uninstall -U

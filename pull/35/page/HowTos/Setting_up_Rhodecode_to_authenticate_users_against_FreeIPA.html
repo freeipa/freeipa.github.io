@@ -292,26 +292,26 @@ for this purpose, there are few limitations:</p>
 <p>Therefore, it is better to create a specialized system account for the
 application access. By default system accounts give read-only access. To
 do this create a file (eg rhodecodebind.ldif) containing the following:</p>
-<div class="line-block">
-<div class="line">`` dn: uid=rhodecodebind,cn=sysaccounts,cn=etc,dc=yourlocaldomain,dc=tld``</div>
-<div class="line">`` changetype: add``</div>
-<div class="line">`` objectclass: account``</div>
-<div class="line">`` objectclass: simplesecurityobject``</div>
-<div class="line">`` uid: rhodecode``</div>
-<div class="line">`` userPassword: ohaimakethissimethingtoughtobreak``</div>
-<div class="line">`` passwordExpirationTime: 20380119031407Z``</div>
-<div class="line">`` nsIdleTimeout: 0``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: uid=rhodecodebind,cn=sysaccounts,cn=etc,dc=yourlocaldomain,dc=tld
+changetype: add
+objectclass: account
+objectclass: simplesecurityobject
+uid: rhodecode
+userPassword: ohaimakethissimethingtoughtobreak
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+</pre></div>
 </div>
 <p>This can then be imported by:</p>
-<div class="line-block">
-<div class="line">`` kinit admin``</div>
-<div class="line">`` ldapmodify -Y GSSAPI -f rhodecodebind.ldif``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit admin
+ldapmodify -Y GSSAPI -f rhodecodebind.ldif
+</pre></div>
 </div>
 <p>Next, log in to Rhodecode with your local admin account.</p>
 <p>Admin menu -&gt; authentification.</p>
 <p>Enable rhodecode.lib.auth_modules.auth_ldap</p>
 <p>Fill in the following values:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>LDAP Host youripaserver1,youripaserver2…
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LDAP Host youripaserver1,youripaserver2…
 Port 636
 Account: uid=rhodecodebind,cn=sysaccounts,cn=etc,dc=yourlocaldomain,dc=tld
 Password: ohaimakethissimethingtoughtobreak

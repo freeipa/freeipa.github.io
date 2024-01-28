@@ -381,37 +381,38 @@ authenticated identity as its input.</p>
 <h2>How to Use<a class="headerlink" href="#how-to-use" title="Link to this heading">#</a></h2>
 <p>Below is an example of how communication looks like for an Active
 Directory user which has ID override in ‘Default Trust View’.</p>
-<div class="line-block">
-<div class="line">``       $ ipa -vv console``</div>
-<div class="line">``       &gt;&gt;&gt; api.Command.whoami()``</div>
-<div class="line">``       ipa: INFO: trying <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://ipa.example.com/ipa/session/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/session/json">https://ipa.example.com/ipa/session/json</a>&gt;`__</div>
-<div class="line">``       ipa: INFO: Forwarding ‘whoami/1’ to json server ‘<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://ipa.example.com/ipa/session/json</span></code> &lt;<a class="reference external" href="https://ipa.example.com/ipa/session/json">https://ipa.example.com/ipa/session/json</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">'</span></code></div>
-<div class="line">``       ipa: INFO: Request: {``</div>
-<div class="line">``           “id”: 0,``</div>
-<div class="line">``           “method”: “whoami/1”,``</div>
-<div class="line">``           “params”: [``</div>
-<div class="line">``               [],``</div>
-<div class="line">``               {``</div>
-<div class="line">``                   “version”: “2.220”``</div>
-<div class="line">``               }``</div>
-<div class="line">``           ]``</div>
-<div class="line">``       }``</div>
-<div class="line">``       ipa: INFO: Response: {``</div>
-<div class="line">``           “error”: null,``</div>
-<div class="line">``           “id”: 0,``</div>
-<div class="line">``           “principal”: “<a class="reference external" href="mailto:Administrator&#37;&#52;&#48;AD&#46;DOMAIN">Administrator<span>&#64;</span>AD<span>&#46;</span>DOMAIN</a>”,``</div>
-<div class="line">``           “result”: {``</div>
-<div class="line">``               “arguments”: [``</div>
-<div class="line">``                   “default trust view”,``</div>
-<div class="line">``                   “<a class="reference external" href="mailto:administrator&#37;&#52;&#48;ad&#46;domain">administrator<span>&#64;</span>ad<span>&#46;</span>domain</a>”``</div>
-<div class="line">``               ],``</div>
-<div class="line">``               “command”: “idoverrideuser_show/1”,``</div>
-<div class="line">``               “object”: “idoverrideuser”,``</div>
-<div class="line">``               “options”: []``</div>
-<div class="line">``           },``</div>
-<div class="line">``           “version”: “<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
-<div class="line">``       }``</div>
-<div class="line">``      {‘command’: ‘idoverrideuser_show/1’, ‘object’: ‘idoverrideuser’, ‘arguments’: (‘default trust view’, <a class="reference external" href="mailto:'administrator&#37;&#52;&#48;ad&#46;domain">‘administrator<span>&#64;</span>ad<span>&#46;</span>domain</a>’)}``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> $ ipa -vv console
+ &gt;&gt;&gt; api.Command.whoami()
+ ipa: INFO: trying ``\ ```https://ipa.example.com/ipa/session/json`` &lt;https://ipa.example.com/ipa/session/json&gt;`__
+
+ ipa: INFO: Forwarding &#39;whoami/1&#39; to json server &#39;``\ ```https://ipa.example.com/ipa/session/json`` &lt;https://ipa.example.com/ipa/session/json&gt;`__\ ``&#39;
+ ipa: INFO: Request: {
+     &quot;id&quot;: 0,
+     &quot;method&quot;: &quot;whoami/1&quot;,
+     &quot;params&quot;: [
+         [],
+         {
+             &quot;version&quot;: &quot;2.220&quot;
+         }
+     ]
+ }
+ ipa: INFO: Response: {
+     &quot;error&quot;: null,
+     &quot;id&quot;: 0,
+     &quot;principal&quot;: &quot;Administrator@AD.DOMAIN&quot;,
+     &quot;result&quot;: {
+         &quot;arguments&quot;: [
+             &quot;default trust view&quot;,
+             &quot;administrator@ad.domain&quot;
+         ],
+         &quot;command&quot;: &quot;idoverrideuser_show/1&quot;,
+         &quot;object&quot;: &quot;idoverrideuser&quot;,
+         &quot;options&quot;: []
+     },
+     &quot;version&quot;: &quot;``\ ``&quot;
+ }
+{&#39;command&#39;: &#39;idoverrideuser_show/1&#39;, &#39;object&#39;: &#39;idoverrideuser&#39;, &#39;arguments&#39;: (&#39;default trust view&#39;, &#39;administrator@ad.domain&#39;)}
+</pre></div>
 </div>
 </section>
 <section id="test-plan">
@@ -432,44 +433,44 @@ mapping rule in 389-ds for users from trusted Active Directory forests.</p>
 </section>
 <section id="using-host-principal">
 <h2>Using host principal<a class="headerlink" href="#using-host-principal" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipa</span> <span class="o">~</span><span class="p">]</span><span class="c1"># klist</span>
-<span class="n">Ticket</span> <span class="n">cache</span><span class="p">:</span> <span class="n">KEYRING</span><span class="p">:</span><span class="n">persistent</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="n">krb_ccache_uA6VDOR</span>
-<span class="n">Default</span> <span class="n">principal</span><span class="p">:</span> <span class="n">host</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ipa ~]# klist
+Ticket cache: KEYRING:persistent:0:krb_ccache_uA6VDOR
+Default principal: host/ipa.example.com@EXAMPLE.COM
 
-<span class="n">Valid</span> <span class="n">starting</span>       <span class="n">Expires</span>              <span class="n">Service</span> <span class="n">principal</span>
-<span class="mi">03</span><span class="o">/</span><span class="mi">08</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">47</span>  <span class="mi">03</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">42</span>  <span class="n">HTTP</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="mi">03</span><span class="o">/</span><span class="mi">08</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">42</span>  <span class="mi">03</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2017</span> <span class="mi">15</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">42</span>  <span class="n">krbtgt</span><span class="o">/</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@ipa</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa -vv console</span>
-<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">trying</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">session</span><span class="o">/</span><span class="n">json</span>
-<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Forwarding</span> <span class="s1">&#39;schema&#39;</span> <span class="n">to</span> <span class="n">json</span> <span class="n">server</span> <span class="s1">&#39;https://ipa.example.com/ipa/session/json&#39;</span>
-<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">trying</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">session</span><span class="o">/</span><span class="n">json</span>
-<span class="p">(</span><span class="n">Custom</span> <span class="n">IPA</span> <span class="n">interactive</span> <span class="n">Python</span> <span class="n">console</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">whoami</span><span class="p">()</span>
-<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Forwarding</span> <span class="s1">&#39;whoami/1&#39;</span> <span class="n">to</span> <span class="n">json</span> <span class="n">server</span> <span class="s1">&#39;https://ipa.example.com/ipa/session/json&#39;</span>
-<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Request</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;whoami/1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">[],</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;2.220&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-<span class="n">ipa</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Response</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;principal&quot;</span><span class="p">:</span> <span class="s2">&quot;host/ipa.example.com@EXAMPLE.COM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;arguments&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;ipa.example.com&quot;</span>
-        <span class="p">],</span>
-        <span class="s2">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;host_show/1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="s2">&quot;host&quot;</span>
-    <span class="p">},</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;4.4.90.dev201703081319+git708d826&quot;</span>
-<span class="p">}</span>
-<span class="p">{</span><span class="sa">u</span><span class="s1">&#39;command&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;host_show/1&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;object&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;host&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;arguments&#39;</span><span class="p">:</span> <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;ipa.example.com&#39;</span><span class="p">,)}</span>
+Valid starting       Expires              Service principal
+03/08/2017 15:37:47  03/09/2017 15:37:42  HTTP/ipa.example.com@EXAMPLE.COM
+03/08/2017 15:37:42  03/09/2017 15:37:42  krbtgt/EXAMPLE.COM@EXAMPLE.COM
+[root@ipa ~]# ipa -vv console
+ipa: INFO: trying https://ipa.example.com/ipa/session/json
+ipa: INFO: Forwarding &#39;schema&#39; to json server &#39;https://ipa.example.com/ipa/session/json&#39;
+ipa: INFO: trying https://ipa.example.com/ipa/session/json
+(Custom IPA interactive Python console)
+&gt;&gt;&gt; api.Command.whoami()
+ipa: INFO: Forwarding &#39;whoami/1&#39; to json server &#39;https://ipa.example.com/ipa/session/json&#39;
+ipa: INFO: Request: {
+    &quot;id&quot;: 0,
+    &quot;method&quot;: &quot;whoami/1&quot;,
+    &quot;params&quot;: [
+        [],
+        {
+            &quot;version&quot;: &quot;2.220&quot;
+        }
+    ]
+}
+ipa: INFO: Response: {
+    &quot;error&quot;: null,
+    &quot;id&quot;: 0,
+    &quot;principal&quot;: &quot;host/ipa.example.com@EXAMPLE.COM&quot;,
+    &quot;result&quot;: {
+        &quot;arguments&quot;: [
+            &quot;ipa.example.com&quot;
+        ],
+        &quot;command&quot;: &quot;host_show/1&quot;,
+        &quot;object&quot;: &quot;host&quot;
+    },
+    &quot;version&quot;: &quot;4.4.90.dev201703081319+git708d826&quot;
+}
+{u&#39;command&#39;: u&#39;host_show/1&#39;, u&#39;object&#39;: u&#39;host&#39;, u&#39;arguments&#39;: (u&#39;ipa.example.com&#39;,)}
 </pre></div>
 </div>
 </section>

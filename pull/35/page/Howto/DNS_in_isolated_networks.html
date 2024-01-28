@@ -314,15 +314,15 @@ inside the isolated network.</p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnszone-add</span> <span class="pre">.</span></code></p>
 <p>Without proper delegation of zone where nameserver is located, BIND will
 show following error and will not load the root zone.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">journalctl</span> <span class="pre">-b</span> <span class="pre">-u</span> <span class="pre">named[-pkcs11]</span></code></div>
-<div class="line">``  zone ./IN: NS ‘ipa.example.com’ has no address records (A or AAAA)``</div>
-<div class="line">``  zone ./IN: not loaded due to errors.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># journalctl -b -u named[-pkcs11]
+  zone ./IN: NS &#39;ipa.example.com&#39; has no address records (A or AAAA)
+  zone ./IN: not loaded due to errors.
+</pre></div>
 </div>
 <p><strong>Note:</strong> IPA adds all DNS capable IPA replicas as default NS records to
 zone apex.</p>
 <p>Add NS delegation for all child zones on server.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ ipa dnszone-find --pkey-only``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>| ``$ ipa dnszone-find --pkey-only``
 | ``  Zone name: .``
 | ``  Zone name: ``\ **``2.0.192.in-addr.arpa.``**
 | ``  Zone name: ``\ **``example.com.``**
@@ -351,16 +351,16 @@ as zone file, so output from dig command can be used directly.</p>
 <p>For BIND 9:</p>
 <p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;192.0.2.1</span> <span class="pre">.</span> <span class="pre">NS</span> <span class="pre">&gt;</span> <span class="pre">/var/named/named.ca</span></code></p>
 <p>For Unbound:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;192.0.2.1</span> <span class="pre">.</span> <span class="pre">NS</span> <span class="pre">&gt;</span> <span class="pre">/var/unbound/hints.ca</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">add</span> <span class="pre">option</span> <span class="pre">&quot;roothints:</span> <span class="pre">/var/unbound/hints.ca&quot;</span> <span class="pre">to</span> <span class="pre">&quot;server&quot;</span> <span class="pre">section</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">in</span> <span class="pre">/etc/unbound/unbound.conf</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dig @192.0.2.1 . NS &gt; /var/unbound/hints.ca
+# add option &quot;roothints: /var/unbound/hints.ca&quot; to &quot;server&quot; section
+# in /etc/unbound/unbound.conf
+</pre></div>
 </div>
 <p>For Unbound utilities (drill etc.):</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;192.0.2.1</span> <span class="pre">.</span> <span class="pre">NS</span> <span class="pre">&gt;</span> <span class="pre">/tmp/hints.ca</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">use</span> <span class="pre">-r</span> <span class="pre">option</span> <span class="pre">for</span> <span class="pre">every</span> <span class="pre">call</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">command</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">drill</span> <span class="pre">-r</span> <span class="pre">/tmp/hints.ca</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dig @192.0.2.1 . NS &gt; /tmp/hints.ca
+# use -r option for every call of the command
+$ drill -r /tmp/hints.ca
+</pre></div>
 </div>
 </section>
 <section id="dnssec">

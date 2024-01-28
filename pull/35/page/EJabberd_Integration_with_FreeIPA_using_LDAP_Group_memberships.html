@@ -314,72 +314,73 @@ so at your own risk.</p>
 Linux 6.2 system to an IPA domain, and then configure eJabberd to allow
 LDAP authentication with Group validation.</p>
 <p>Details of this example are as follows</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Domain</span> <span class="pre">name:</span> <span class="pre">example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">Server:</span> <span class="pre">ds01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Jabber</span> <span class="pre">Server:</span> <span class="pre">jabber01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">Client:</span> <span class="pre">workstation01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">User:</span> <span class="pre">testuser</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">Name</span> <span class="pre">=</span> <span class="pre">&quot;jabber_users&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bind</span> <span class="pre">account</span> <span class="pre">=</span> <span class="pre">&quot;ejabberd&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bind</span> <span class="pre">password</span> <span class="pre">=</span> <span class="pre">&quot;secret123&quot;</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Domain name: example.com
+IPA Server: ds01.example.com
+Jabber Server: jabber01.example.com
+IPA Client: workstation01.example.com
+IPA User: testuser
+Group Name = &quot;jabber_users&quot;
+Bind account = &quot;ejabberd&quot;
+Bind password = &quot;secret123&quot;
+</pre></div>
 </div>
 <section id="create-bind-account-in-freeipa">
 <h2>Create Bind account in FreeIPA<a class="headerlink" href="#create-bind-account-in-freeipa" title="Link to this heading">#</a></h2>
 <p>Start by logging into your IPA server. If you did not log in as the
 admin user, optain a tgt for the admin user so we can add what we need
 to. To do this, run the following.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Password</span> <span class="pre">for</span> <span class="pre">admin&#64;EXAMPLE.COM:</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# kinit admin
+Password for admin@EXAMPLE.COM:
+</pre></div>
 </div>
 <p>You can verify your ticket with the following command.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">klist</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Ticket</span> <span class="pre">cache:</span> <span class="pre">``\</span> <span class="pre">```FILE:/tmp/krb5cc_0</span></code> &lt;<a class="reference external" href="FILE:/tmp/krb5cc_0">FILE:/tmp/krb5cc_0</a>&gt;`__</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">principal:</span> <span class="pre">admin&#64;EXAMPLE.COM</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# klist
+Ticket cache: ``\ ```FILE:/tmp/krb5cc_0`` &lt;FILE:/tmp/krb5cc_0&gt;`__
+
+Default principal: admin@EXAMPLE.COM
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Valid</span> <span class="pre">starting</span>&#160;&#160;&#160;&#160; <span class="pre">Expires</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Service</span> <span class="pre">principal</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">06/13/12</span> <span class="pre">23:28:48</span>&#160; <span class="pre">06/14/12</span> <span class="pre">23:28:45</span>&#160; <span class="pre">krbtgt/EXAMPLE.COM&#64;EXAMPLE.COM</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Valid starting     Expires            Service principal
+06/13/12 23:28:48  06/14/12 23:28:45  krbtgt/EXAMPLE.COM@EXAMPLE.COM
+</pre></div>
 </div>
 <p>Create a file with the following information. In this example, I created
 /root/jabber.ldif. Don’t forget to change the userPassword to something
 secure.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">account</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">simplesecurityobject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">uid:</span> <span class="pre">ejabberd</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">userPassword:</span> <span class="pre">secret123</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">passwordExpirationTime:</span> <span class="pre">20380119031407Z</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsIdleTimeout:</span> <span class="pre">0</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com
+changetype: add
+objectclass: account
+objectclass: simplesecurityobject
+uid: ejabberd
+userPassword: secret123
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+</pre></div>
 </div>
 <p>Once you have saved your file, import the information into LDAP with the
 following command. Please note, you will need your Directory Manager
 password here.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ldapmodify</span> <span class="pre">-h</span> <span class="pre">ds01.example.com</span> <span class="pre">-p</span> <span class="pre">389</span> <span class="pre">-x</span> <span class="pre">-D</span> <span class="pre">&quot;cn=Directory</span> <span class="pre">Manager&quot;</span> <span class="pre">-w</span> <span class="pre">redhat123</span> <span class="pre">-f</span> <span class="pre">jabber.ldif</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">adding</span> <span class="pre">new</span> <span class="pre">entry</span> <span class="pre">&quot;uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D &quot;cn=Directory Manager&quot; -w redhat123 -f jabber.ldif
+adding new entry &quot;uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;
+[root@ds01 ~]#
+</pre></div>
 </div>
 </section>
 <section id="create-group-in-freeipa">
 <h2>Create Group in FreeIPA<a class="headerlink" href="#create-group-in-freeipa" title="Link to this heading">#</a></h2>
 <p>Whilst you are still on the IPA server, add the group to be used for our
 jabber users.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">group-add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">name:</span> <span class="pre">jabber_users</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Description:</span> <span class="pre">Group</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">validate</span> <span class="pre">Jabber</span> <span class="pre">authentication</span> <span class="pre">to</span> <span class="pre">allowed</span> <span class="pre">users</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">--------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Added</span> <span class="pre">group</span> <span class="pre">&quot;jabber_users&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">--------------------------</span></code></div>
-<div class="line">``  Group name: jabber_users``</div>
-<div class="line">``  Description: Group used to validate Jabber authentication to allowed users``</div>
-<div class="line">``  GID: 1668600006``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# ipa group-add
+Group name: jabber_users
+Description: Group used to validate Jabber authentication to allowed users
+- --------------------------
+Added group &quot;jabber_users&quot;
+- --------------------------
+  Group name: jabber_users
+  Description: Group used to validate Jabber authentication to allowed users
+  GID: 1668600006
+[root@ds01 ~]#
+</pre></div>
 </div>
 </section>
 <section id="enable-epel-repository">
@@ -421,37 +422,37 @@ lines</p>
 <p>Open /etc/ejabberd/ejabberd.cfg and add the following lines in the
 Authentication section. Don’t forget to change the password to the one
 you used earlier for your BIND account.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{auth_method,</span> <span class="pre">ldap}.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_servers,</span> <span class="pre">[&quot;ds01.example.com&quot;]}.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_uids,</span> <span class="pre">[{&quot;uid&quot;}]}.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_filter,</span> <span class="pre">&quot;(memberOf=cn=jabber_users,cn=groups,cn=accounts,dc=example,dc=com)&quot;}.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_base,</span> <span class="pre">&quot;dc=example,dc=com&quot;}.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_rootdn,</span> <span class="pre">&quot;uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;}.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">{ldap_password,</span> <span class="pre">&quot;secret123&quot;}.</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{auth_method, ldap}.
+{ldap_servers, [&quot;ds01.example.com&quot;]}.
+{ldap_uids, [{&quot;uid&quot;}]}.
+{ldap_filter, &quot;(memberOf=cn=jabber_users,cn=groups,cn=accounts,dc=example,dc=com)&quot;}.
+{ldap_base, &quot;dc=example,dc=com&quot;}.
+{ldap_rootdn, &quot;uid=ejabberd,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;}.
+{ldap_password, &quot;secret123&quot;}.
+</pre></div>
 </div>
 <p>Save the config file once you have finished and restart ejabberd</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">service</span> <span class="pre">ejabberd</span> <span class="pre">start</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">ejabberd:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@jabber02 ~]# service ejabberd start
+Starting ejabberd:                                         [  OK  ]
+</pre></div>
 </div>
 <p>Verify that your service has started correctly after your changes.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">service</span> <span class="pre">ejabberd</span> <span class="pre">status</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">node</span> <span class="pre">ejabberd&#64;jabber02</span> <span class="pre">is</span> <span class="pre">started</span> <span class="pre">with</span> <span class="pre">status:</span> <span class="pre">started</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ejabberd</span> <span class="pre">2.1.11</span> <span class="pre">is</span> <span class="pre">running</span> <span class="pre">in</span> <span class="pre">that</span> <span class="pre">node</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@jabber02 ~]# service ejabberd status
+The node ejabberd@jabber02 is started with status: started
+ejabberd 2.1.11 is running in that node
+[root@jabber02 ~]#
+</pre></div>
 </div>
 </section>
 <section id="open-tcp-ports-on-local-server">
 <h2>Open TCP ports on local Server<a class="headerlink" href="#open-tcp-ports-on-local-server" title="Link to this heading">#</a></h2>
 <p>Now we need to open our firewall for a few ports for jabber to work with
 our clients.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">5269</span> <span class="pre">5222</span> <span class="pre">5223</span> <span class="pre">5280</span> <span class="pre">;</span> <span class="pre">do</span> <span class="pre">iptables</span> <span class="pre">-I</span> <span class="pre">INPUT</span> <span class="pre">-p</span> <span class="pre">tcp</span> <span class="pre">--dport</span> <span class="pre">$x</span> <span class="pre">-j</span> <span class="pre">ACCEPT</span> <span class="pre">;</span> <span class="pre">done</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">service</span> <span class="pre">iptables</span> <span class="pre">save</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">iptables:</span> <span class="pre">Saving</span> <span class="pre">firewall</span> <span class="pre">rules</span> <span class="pre">to</span> <span class="pre">/etc/sysconfig/iptables:[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@jabber02 ~]# for x in 5269 5222 5223 5280 ; do iptables -I INPUT -p tcp --dport $x -j ACCEPT ; done
+[root@jabber02 ~]# service iptables save
+iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+[root@jabber02 ~]#
+</pre></div>
 </div>
 </section>
 <section id="configure-xmpp-client-on-a-workstation">
@@ -498,45 +499,45 @@ attempt failed. This is because we have not added any users to the
 <p>If you tail the logs of the jabber server as follows, you will see the
 failed authentication attempt in the above step.</p>
 <p><code class="docutils literal notranslate"><span class="pre">[root&#64;jabber02</span> <span class="pre">~]#</span> <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/var/log/ejabberd/ejabberd.log</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:03:30</span> <span class="pre">===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.376.0&gt;:ejabberd_listener:281)</span> <span class="pre">:</span> <span class="pre">(#Port&lt;0.4119&gt;)</span> <span class="pre">Accepted</span> <span class="pre">connection</span>&#160; <span class="pre">{{10,0,1,101},60643}</span> <span class="pre">-&gt;</span> <span class="pre">{{10,0,1,32},5222}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=INFO REPORT==== 2012-06-14 00:03:30 ===
+I(&lt;0.376.0&gt;:ejabberd_listener:281) : (#Port&lt;0.4119&gt;) Accepted connection  {{10,0,1,101},60643} -&gt; {{10,0,1,32},5222}
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:03:30</span> <span class="pre">===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.380.0&gt;:ejabberd_c2s:657)</span> <span class="pre">:</span> <span class="pre">({socket_state,tls,</span>&#160; <span class="pre">{tlssock,#Port&lt;0.4119&gt;,#Port&lt;0.4141&gt;},&lt;0.379.0&gt;})</span> <span class="pre">Failed</span> <span class="pre">authentication</span> <span class="pre">for</span> <span class="pre">testuser&#64;example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=INFO REPORT==== 2012-06-14 00:03:30 ===
+I(&lt;0.380.0&gt;:ejabberd_c2s:657) : ({socket_state,tls,  {tlssock,#Port&lt;0.4119&gt;,#Port&lt;0.4141&gt;},&lt;0.379.0&gt;}) Failed authentication for testuser@example.com
+</pre></div>
 </div>
 <p>Leave the tailing log running and switch back to your IPA server and add
 your test user.</p>
 <p>You can do this by doing the following.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span> <span class="pre">ipa</span> <span class="pre">group-add-member</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">name:</span> <span class="pre">jabber_users</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[member</span> <span class="pre">user]:</span> <span class="pre">testuser</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[member</span> <span class="pre">group]:</span></code></div>
-<div class="line">``  Group name: jabber_users``</div>
-<div class="line">``  Description: Group used to validate Jabber authentication to allowed users``</div>
-<div class="line">``  GID: 1668600006``</div>
-<div class="line">``  Member users: testuser``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">-------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">members</span> <span class="pre">added</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">-------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# ipa group-add-member
+Group name: jabber_users
+[member user]: testuser
+[member group]:
+  Group name: jabber_users
+  Description: Group used to validate Jabber authentication to allowed users
+  GID: 1668600006
+  Member users: testuser
+- -------------------------
+Number of members added 1
+- -------------------------
+[root@ds01 ~]#
+</pre></div>
 </div>
 <p>Jump back to your workstation and click the reconnect button. You should
 see that your client has now logged in, and the following will appear in
 the tailing logs on the jabber server.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:08:35</span> <span class="pre">===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.376.0&gt;:ejabberd_listener:281)</span> <span class="pre">:</span> <span class="pre">(#Port&lt;0.4159&gt;)</span> <span class="pre">Accepted</span> <span class="pre">connection</span> <span class="pre">{{10,0,1,101},60644}</span> <span class="pre">-&gt;</span> <span class="pre">{{10,0,1,32},5222}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=INFO REPORT==== 2012-06-14 00:08:35 ===
+I(&lt;0.376.0&gt;:ejabberd_listener:281) : (#Port&lt;0.4159&gt;) Accepted connection {{10,0,1,101},60644} -&gt; {{10,0,1,32},5222}
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:08:35</span> <span class="pre">===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.393.0&gt;:ejabberd_c2s:639)</span> <span class="pre">:</span> <span class="pre">({socket_state,tls,</span> <span class="pre">{tlssock,#Port&lt;0.4159&gt;,#Port&lt;0.4161&gt;},&lt;0.392.0&gt;})</span> <span class="pre">Accepted</span> <span class="pre">authentication</span> <span class="pre">for</span> <span class="pre">testuser</span> <span class="pre">by</span> <span class="pre">ejabberd_auth_ldap</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=INFO REPORT==== 2012-06-14 00:08:35 ===
+I(&lt;0.393.0&gt;:ejabberd_c2s:639) : ({socket_state,tls, {tlssock,#Port&lt;0.4159&gt;,#Port&lt;0.4161&gt;},&lt;0.392.0&gt;}) Accepted authentication for testuser by ejabberd_auth_ldap
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">=INFO</span> <span class="pre">REPORT====</span> <span class="pre">2012-06-14</span> <span class="pre">00:08:36</span> <span class="pre">===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">I(&lt;0.393.0&gt;:ejabberd_c2s:946)</span> <span class="pre">:</span> <span class="pre">({socket_state,tls,{tlssock,#Port&lt;0.4159&gt;,#Port&lt;0.4161&gt;},&lt;0.392.0&gt;})</span> <span class="pre">Opened</span> <span class="pre">session</span> <span class="pre">for</span> <span class="pre">testuser&#64;example.com/91030605413396289162377</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=INFO REPORT==== 2012-06-14 00:08:36 ===
+I(&lt;0.393.0&gt;:ejabberd_c2s:946) : ({socket_state,tls,{tlssock,#Port&lt;0.4159&gt;,#Port&lt;0.4161&gt;},&lt;0.392.0&gt;}) Opened session for testuser@example.com/91030605413396289162377
+</pre></div>
 </div>
 <p>Thats all folks, your jabber server is now finished and validating your
 “jabber_users” Group.</p>

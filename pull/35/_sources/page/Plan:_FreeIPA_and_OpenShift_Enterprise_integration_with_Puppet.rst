@@ -104,15 +104,15 @@ Puppet IPA/OpenShift Module in Detail
    host <https://docs.fedoraproject.org/en-US/Fedora/17/html/FreeIPA_Guide/Extending_the_Permissions_of_IPA_Managed_Hosts.html#Delegating_Service_Management>`__,
    runs:
 
-   ::
+.. code-block:: text
 
       $ kinit -kt /etc/krb5.keytab host/`hostname` 
 
-   ::
+.. code-block:: text
 
       $ ipa-service-add HTTP/${broker/node}.example.com 
 
-   ::
+.. code-block:: text
 
       $ ipa-getkeytab -s `hostname` -k /etc/httpd/conf/krb5.keytab -p HTTP/${broker/node}.example.com 
 

@@ -357,22 +357,22 @@ master-server installers). For this purpose, there’s a set of decorators
 that allows some of the options to only appear in certain set of
 installers, excluding them from the others.</p>
 <p>We have a list (extensible) of option-scope limiting decorators:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">prepare_only</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">enroll_only</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">master_install_only</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replica_install_only</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>prepare_only
+enroll_only
+master_install_only
+replica_install_only
+</pre></div>
 </div>
 <p>These decorators are applied on class variables to limit the scope of
 where (in which classes) should these variables (containing knobs)
 appear. For these restrictions to apply during inheritance, it’s
 required to use a set of functions that reflects these restrictions on a
 given class. This set is (obviously):</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">prepares</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">enrolls</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">installs_master</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">installs_replica</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>prepares
+enrolls
+installs_master
+installs_replica
+</pre></div>
 </div>
 <p>It takes a given class as an argument and returns a subclass with any
 attributes that should not appear in it removed.</p>
@@ -380,18 +380,18 @@ attributes that should not appear in it removed.</p>
 it makes sense to have ‘–external-ca’ option there while classes that
 implement replication installers interface also inherit from this class.
 Defining such a class:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">MyClass(ServiceInstallInterface):</span></code></div>
-<div class="line">``    …``</div>
-<div class="line">``    external_ca = knob(<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``)</span></code></div>
-<div class="line">``    external_ca = master_install_only(external_ca)``</div>
-<div class="line">``    …``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>class MyClass(ServiceInstallInterface):
+    ...
+    external_ca = knob(``\ ``)
+    external_ca = master_install_only(external_ca)
+    ...
+</pre></div>
 </div>
 <p>Then, to create a class that inherits from MyClass and should serve
 later to install some service as a master:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">MasterInstallClass(installs_master(MyClass),</span> <span class="pre">``\</span> <span class="pre">``):</span></code></div>
-<div class="line">``    pass``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>class MasterInstallClass(installs_master(MyClass), ``\ ``):
+    pass
+</pre></div>
 </div>
 </section>
 <section id="backward-compatibility">

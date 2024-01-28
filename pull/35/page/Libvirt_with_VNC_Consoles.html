@@ -323,14 +323,14 @@ kvmguest01.example.com.</p>
 <p>In order to allow for all this to work keytabs need to be arranged for
 libvirt and VNC. On ipa01.example.com (or any system with ipa-admintools
 installed or the GUI):</p>
-<div class="line-block">
-<div class="line">`` ipa service-add libvirt/kvmhost01.example.com``</div>
-<div class="line">`` ipa service-add vnc/kvmhost01.example.com``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa service-add libvirt/kvmhost01.example.com
+ipa service-add vnc/kvmhost01.example.com
+</pre></div>
 </div>
 <p>On the KVM host server:</p>
-<div class="line-block">
-<div class="line">`` ipa-getkeytab -s ipa01.example.com -p libvirt/kvmhost01.example.com -k /etc/libvirt/krb5.tab``</div>
-<div class="line">`` ipa-getkeytab -s ipa01.example.com -p vnc/kvmhost01.example.com -k /etc/qemu/krb5.tab``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-getkeytab -s ipa01.example.com -p libvirt/kvmhost01.example.com -k /etc/libvirt/krb5.tab
+ipa-getkeytab -s ipa01.example.com -p vnc/kvmhost01.example.com -k /etc/qemu/krb5.tab
+</pre></div>
 </div>
 <p><strong>Notes</strong></p>
 <ul class="simple">
@@ -348,17 +348,17 @@ make use of them and enable TCP connections.</p>
 allow connections over tcp the following configuration needs to be
 carried out:</p>
 <p>The appropriate changes in /etc/libvirt/libvirtd.conf are:</p>
-<div class="line-block">
-<div class="line">`` listen_tls = 0``</div>
-<div class="line">`` listen_tcp = 1``</div>
-<div class="line">`` auth_tcp = “sasl”``</div>
-<div class="line">`` sasl_allowed_username_list = [”<a class="reference external" href="mailto:*&#37;&#52;&#48;EXAMPLE&#46;COM">*<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>” ]``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>listen_tls = 0
+listen_tcp = 1
+auth_tcp = &quot;sasl&quot;
+sasl_allowed_username_list = [&quot;\*@EXAMPLE.COM&quot; ]
+</pre></div>
 </div>
 <p>To configure the SASL auth for libvirtd following this make sure you
 have the following in /etc/sasl2/libvirt.conf:</p>
-<div class="line-block">
-<div class="line">`` mech_list: gssapi``</div>
-<div class="line">`` keytab: /etc/libvirt/krb5.tab``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mech_list: gssapi
+keytab: /etc/libvirt/krb5.tab
+</pre></div>
 </div>
 <p>Finally listening on TCP needs to be enabled in /etc/sysconfig/libvirtd:</p>
 <p>`` LIBVIRTD_ARGS=”–listen”``</p>
@@ -369,10 +369,10 @@ have the following in /etc/sasl2/libvirt.conf:</p>
 to console. This part of things it’s the qemu process running the guest
 rather than the overall libvirt daemon that’s responsible.</p>
 <p>To enable the VNC side of things edit /etc/libvirt/qemu.conf:</p>
-<div class="line-block">
-<div class="line">`` vnc_listen = “0.0.0.0”``</div>
-<div class="line">`` vnc_tls = 0``</div>
-<div class="line">`` vnc_sasl = 1``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>vnc_listen = &quot;0.0.0.0&quot;
+vnc_tls = 0
+vnc_sasl = 1
+</pre></div>
 </div>
 <p>If SELinux is enabled on the host, it may prevent qemu to use GSSAPI.
 This is the case with CentOS 7.1.1503, but other distributions may be
@@ -380,23 +380,23 @@ impacted. Either disable SELinux completely or add the following line to
 /etc/libvirt/qemu.conf to disable SELinux integration:</p>
 <p>`` secure_driver = “none”``</p>
 <p>Then configure SASL2 appropriately in /etc/sasl2/qemu.conf:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">mech_list:</span> <span class="pre">gssapi</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">keytab:</span> <span class="pre">/etc/qemu/krb5.tab</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mech_list: gssapi
+keytab: /etc/qemu/krb5.tab
+</pre></div>
 </div>
 <p>On CentOS 7, the file is named /etc/sasl2/qemu-kvm.conf, and the keytab
 location is different:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">mech_list:</span> <span class="pre">gssapi</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">keytab:</span> <span class="pre">/etc/qemu-kvm/krb5.tab</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mech_list: gssapi
+keytab: /etc/qemu-kvm/krb5.tab
+</pre></div>
 </div>
 <p>On CentOS 7, qemu will try to read VNC SASL configuration from the file
 /etc/sasl2/spice.conf. Other distributions may exhibit the same
 behaviour. In that case, just create a symbolic link
 /etc/sasl2/spice.conf pointing to /etc/sasl2/qemu-kvm.conf:</p>
-<div class="line-block">
-<div class="line">`` cd /etc/sasl2``</div>
-<div class="line">`` ln -s qemu-kvm.conf spice.conf``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cd /etc/sasl2
+ln -s qemu-kvm.conf spice.conf
+</pre></div>
 </div>
 <p>The final note to make is an <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=718377">outstanding
 bug</a> that affects
@@ -416,18 +416,18 @@ cache for the credentials.</p>
 iptables should still be blocking connections. Assuming default ports
 for libvirt and VNC the following lines should be put in
 /etc/sysconfig/iptables:</p>
-<div class="line-block">
-<div class="line">`` -A INPUT -m state –state NEW -m tcp -p tcp –dport 5900:5999 -j ACCEPT``</div>
-<div class="line">`` -A INPUT -m state –state NEW -m tcp -p tcp –dport 16509 -j ACCEPT``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-A INPUT -m state --state NEW -m tcp -p tcp --dport 5900:5999 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 16509 -j ACCEPT
+</pre></div>
 </div>
 <p>If you don’t want to deal with iptables directly, you may use
 firewall-cmd instead. Assuming your network interface is bound to the
 ‘public’ zone:</p>
-<div class="line-block">
-<div class="line">`` firewall-cmd –zone=public –add-service=libvirt``</div>
-<div class="line">`` firewall-cmd –zone=public –add-service=libvirt –permanent``</div>
-<div class="line">`` firewall-cmd –zone=public –add-port=5900:5999/tcp``</div>
-<div class="line">`` firewall-cmd –zone=public –add-port=5900:5999/tcp –permanent``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>firewall-cmd --zone=public --add-service=libvirt
+firewall-cmd --zone=public --add-service=libvirt --permanent
+firewall-cmd --zone=public --add-port=5900:5999/tcp
+firewall-cmd --zone=public --add-port=5900:5999/tcp --permanent
+</pre></div>
 </div>
 <p>This should be the only requirement left for connectivity.</p>
 </section>

@@ -329,7 +329,7 @@ your system with all the latest packages.</p>
 <ol class="arabic simple">
 <li><p>Install the client and tools with:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yum install ipa-client</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># yum install ipa-client
 </pre></div>
 </div>
 <p>This should install all the dependencies as well.</p>
@@ -338,7 +338,7 @@ the client, add the server’s IP address to the client’s
 <code class="docutils literal notranslate"><span class="pre">/etc/resolv.conf</span></code> file.</p>
 <p>So add a line that looks something like (depending on the IP address of
 your IPA server).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nameserver</span> <span class="mf">192.168.100.1</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>nameserver 192.168.100.1
 </pre></div>
 </div>
 <p>Note: this is not typical.</p>
@@ -356,7 +356,7 @@ your IPA server).</p>
 <ol class="arabic simple">
 <li><p>Use the following command to set up the freeIPA client:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-client-install</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-client-install
 </pre></div>
 </div>
 <p>The script should set up the IPA client without prompting for any
@@ -366,7 +366,7 @@ service requests from the client, and reduce the load on the server.</p>
 <p>When the script has finished configuring the freeIPA client, it will
 display information about the realm, DNS domain, IPA server, etc. You
 should see output similar to the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Discovery was successful!
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Discovery was successful!
 Realm: EXAMPLE.COM
 DNS Domain: example.com
 IPA Server: ipaserver.example.com
@@ -389,22 +389,22 @@ remaining configuration changes manually.</p>
 <p>1. Modify the <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> file on the client as shown below.
 Ensure that you replace the example values with those that apply to your
 deployment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">libdefaults</span><span class="p">]</span>
- <span class="n">default_realm</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
- <span class="n">dns_lookup_realm</span> <span class="o">=</span> <span class="n">true</span>
- <span class="n">dns_lookup_kdc</span> <span class="o">=</span> <span class="n">true</span>
- <span class="n">forwardable</span> <span class="o">=</span> <span class="n">yes</span>
- <span class="n">ticket_lifetime</span> <span class="o">=</span> <span class="mi">24</span><span class="n">h</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[libdefaults]
+ default_realm = EXAMPLE.COM
+ dns_lookup_realm = true
+ dns_lookup_kdc = true
+ forwardable = yes
+ ticket_lifetime = 24h
 
-<span class="p">[</span><span class="n">realms</span><span class="p">]</span>
- <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="n">kdc</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">88</span>
-  <span class="n">admin_server</span> <span class="o">=</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">749</span>
-  <span class="n">default_domain</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
- <span class="p">}</span>
-<span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
- <span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
- <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+[realms]
+ EXAMPLE.COM = {
+  kdc = ipaserver.example.com:88
+  admin_server = ipaserver.example.com:749
+  default_domain = example.com
+ }
+[domain_realm]
+ .example.com = EXAMPLE.COM
+ example.com = EXAMPLE.COM
 </pre></div>
 </div>
 </section>
@@ -419,11 +419,11 @@ any additional information is required. The basic steps required are:</p>
 <ol class="arabic simple">
 <li><p>Modify the following in the <code class="docutils literal notranslate"><span class="pre">/etc/ldap.conf</span></code> file:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">URI</span>     <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">BASE</span> <span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">HOST</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">TLS_CACERTDIR</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">cacerts</span><span class="o">/</span>
-<span class="n">TLS_REQCERT</span> <span class="n">allow</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>URI     ldap://ipaserver.example.com
+BASE dc=example,dc=com
+HOST ipaserver.example.com
+TLS_CACERTDIR /etc/cacerts/
+TLS_REQCERT allow
 </pre></div>
 </div>
 <blockquote>
@@ -437,7 +437,7 @@ exists.</p>
 with the <strong>-a</strong> option.</p>
 <p>3. Install this certificate in the <code class="docutils literal notranslate"><span class="pre">/etc/cacerts</span></code> directory as
 follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># cp cacert.asc /etc/cacerts/`openssl x509 -noout \
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cp cacert.asc /etc/cacerts/`openssl x509 -noout \
   -hash -in cacert.asc`.0
 
 The file name is the hash of the contents with a &quot;.0&quot; filename
@@ -458,19 +458,19 @@ certificates into a single file.</p>
 <ol class="arabic simple">
 <li><p>Obtain a Kerberos ticket for the <strong>admin</strong> user.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Add an NFS service principal on the client.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-addservice nfs/ipaclient.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-addservice nfs/ipaclient.example.com
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Get a keytab for the NFS service principal.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-getkeytab -s ipaserver.example.com -p nfs/ipaclient.example.com -k /etc/krb5.keytab</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-getkeytab -s ipaserver.example.com -p nfs/ipaclient.example.com -k /etc/krb5.keytab
 </pre></div>
 </div>
 <blockquote>
@@ -490,13 +490,13 @@ will instruct the KDC to generate only DES keys.</p>
 <ol class="arabic simple" start="4">
 <li><p>Start the <strong>rpcgssd</strong> daemon.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service rpcgssd start</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service rpcgssd start
 </pre></div>
 </div>
 <p>Your IPA client should now be fully configured to mount NFS shares using
 your Kerberos credentials. You can use the following command to test the
 configuration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mount -v -t nfs4 -o sec=krb5 ipaserver.example.com:/ /mnt</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># mount -v -t nfs4 -o sec=krb5 ipaserver.example.com:/ /mnt
 </pre></div>
 </div>
 </section>
@@ -513,32 +513,32 @@ time on the IPA client and server is synchronized. If it is not, you
 should run the following command on the IPA client. You will need to
 stop <strong>ntpd</strong> and retsart it after the command is issued, because
 <strong>ntpdate</strong> does not work if <strong>ntpd</strong> is running.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ntpdate -s -p 8 -u ipaserver.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ntpdate -s -p 8 -u ipaserver.example.com
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Obtain a Kerberos ticket for the <strong>admin</strong> user.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Add a host service principal on the IPA client.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-addservice host/ipaclient.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-addservice host/ipaclient.example.com
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
 <li><p>Retrieve the keytab.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-getkeytab -s ipaserver.example.com -p host/ipaclient.example.com -k /etc/krb5.keytab</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-getkeytab -s ipaserver.example.com -p host/ipaclient.example.com -k /etc/krb5.keytab
 </pre></div>
 </div>
 <p>Your IPA client should now be fully configured to accept incoming SSH
 connections and authenticate with the user’s Kerberos credentials. Use
 the following command from another machine to test the configuration.
 This should succeed without asking for a password.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ssh admin@ipaclient.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ssh admin@ipaclient.example.com
 </pre></div>
 </div>
 </section>

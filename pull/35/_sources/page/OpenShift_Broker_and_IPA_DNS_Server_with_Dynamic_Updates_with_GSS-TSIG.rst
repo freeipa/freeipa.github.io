@@ -26,7 +26,7 @@ Install plugins on Broker
    ``/etc/openshift/plugins.d/openshift-origin-dns-nsupdate.conf`` to
    look like this (make the file if it doesn't exist):
 
-::
+.. code-block:: text
 
    BIND_SERVER="IPA_SERVER_IP_ADDRESS"
    BIND_PORT=53
@@ -36,7 +36,7 @@ Install plugins on Broker
 
 -  Mine looks like:
 
-::
+.. code-block:: text
 
    BIND_SERVER="10.16.78.111"
    BIND_PORT=53
@@ -56,7 +56,7 @@ Broker machine and with correct ownership.
 **If ipa-admintools** is installed on the Broker, then you can do the
 following command on the Broker. Else, do it on the IPA Server machine:
 
-::
+.. code-block:: text
 
    kinit admin
    ipa service-add DNS/$BROKER_FQDN
@@ -74,7 +74,7 @@ the BIND policy.
 
 **On the Broker host**:
 
-::
+.. code-block:: text
 
    ipa-getkeytab -s $IPA_SERVER_HOSTNAME -p DNS/$BROKER_FQDN -k /etc/dns.keytab
    kinit -kt /etc/dns.keytab -p DNS/$BROKER_FQDN
@@ -102,7 +102,7 @@ Manually
 First we should manually see if nsupdate works on our **Broker machine**
 to see if it can correctly update its zone:
 
-::
+.. code-block:: text
 
    [root@broker]# kinit -kt /etc/dns.keytab DNS/$BROKER_FQDN
    [root@broker]# nsupdate -g
@@ -117,7 +117,7 @@ You should have no response after ``send`` - that means it went through.
 Then try the following on the Broker, the IPA Server, and a third
 machine in the realm (admin, client, anything)
 
-::
+.. code-block:: text
 
    [root@broker]# dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN
    [root@ipaserver]# dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN
@@ -125,7 +125,7 @@ machine in the realm (admin, client, anything)
 
 Then on the IPA Server or Broker if the Broker has ``ipa-admintools``:
 
-::
+.. code-block:: text
 
    [root@ipaserver]# ipa dns-resolve $YOUR_TEST_APP_FQDN
 
@@ -136,7 +136,7 @@ With OpenShift Enterprise
 On the OSE Broker, move into the broker directory, remove the
 Gemfile.lock (NOT Gemfile!), and locally install the :
 
-::
+.. code-block:: text
 
    [root@broker]# cd /var/www/openshift/broker
    [root@broker]# rm -rf Gemfile.lock
@@ -146,7 +146,7 @@ Then we'll start the rails console that has access to all the Broker
 gems, create a DNS instance, and create a CNAME record through the rails
 console:
 
-::
+.. code-block:: text
 
    [root@broker]# rails console
    irb(main):001:0&gt; d = OpenShift::DnsService.instance
@@ -179,7 +179,7 @@ record for the FQDN, you will need to choose another test FQDN.
 
 On your client machine:
 
-::
+.. code-block:: text
 
    [root@client]#  rhc app create APP_NAME APP_TYPE
 

@@ -309,49 +309,49 @@ the services must bind to different addresses.</p>
 <h1>Configuring IPA<a class="headerlink" href="#configuring-ipa" title="Link to this heading">#</a></h1>
 <p>IPA can listen to a specific address by specifying the
 nsslapd-listenhost parameter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">listenhost</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">port</span><span class="p">:</span> <span class="mi">389</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">securelistenhost</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">secureport</span><span class="p">:</span> <span class="mi">636</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=config
+nsslapd-listenhost: ipa.example.com
+nsslapd-port: 389
+nsslapd-securelistenhost: ipa.example.com
+nsslapd-secureport: 636
 </pre></div>
 </div>
 <p>Note that IPA can only listen to one IP address.</p>
 <p>The socket is created in ldap/servers/slapd/main.c and
 ldap/servers/slapd/daemon.c:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>int main(int argc, char **argv) {
 
-    <span class="o">//</span> <span class="n">get</span> <span class="n">port</span>
-    <span class="n">n_port</span> <span class="o">=</span> <span class="n">config_get_port</span><span class="p">();</span>
-    <span class="n">ports_info</span><span class="o">.</span><span class="n">n_port</span> <span class="o">=</span> <span class="p">(</span><span class="n">unsigned</span> <span class="n">short</span><span class="p">)</span><span class="n">n_port</span><span class="p">;</span>
+    // get port
+    n_port = config_get_port();
+    ports_info.n_port = (unsigned short)n_port;
 
-    <span class="o">//</span> <span class="n">get</span> <span class="n">listen</span> <span class="n">address</span>
-    <span class="n">slapd_listenhost2addr</span><span class="p">(</span><span class="n">config_get_listenhost</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">ports_info</span><span class="o">.</span><span class="n">n_listenaddr</span><span class="p">);</span>
+    // get listen address
+    slapd_listenhost2addr(config_get_listenhost(), &amp;ports_info.n_listenaddr);
 
-    <span class="o">//</span> <span class="n">create</span> <span class="n">sockets</span>
-    <span class="n">daemon_pre_setuid_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ports_info</span><span class="p">);</span>
+    // create sockets
+    daemon_pre_setuid_init(&amp;ports_info);
 
-    <span class="n">slapd_daemon</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ports_info</span><span class="p">);</span>
-<span class="p">}</span>
+    slapd_daemon(&amp;ports_info);
+}
 
-<span class="nb">int</span> <span class="n">daemon_pre_setuid_init</span><span class="p">(</span><span class="n">daemon_ports_t</span> <span class="o">*</span><span class="n">ports</span><span class="p">)</span> <span class="p">{</span>
+int daemon_pre_setuid_init(daemon_ports_t *ports) {
 
-    <span class="o">//</span> <span class="n">create</span> <span class="n">sockets</span>
-    <span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_socket</span> <span class="o">=</span> <span class="n">createprlistensockets</span><span class="p">(</span><span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_port</span><span class="p">,</span> <span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_listenaddr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+    // create sockets
+    ports-&gt;n_socket = createprlistensockets(ports-&gt;n_port, ports-&gt;n_listenaddr, 0, 0);
+}
 
-<span class="n">void</span> <span class="n">slapd_daemon</span><span class="p">(</span><span class="n">daemon_ports_t</span> <span class="o">*</span><span class="n">ports</span><span class="p">)</span> <span class="p">{</span>
+void slapd_daemon(daemon_ports_t *ports) {
 
-    <span class="o">//</span> <span class="n">get</span> <span class="n">sockets</span>
-    <span class="n">n_tcps</span> <span class="o">=</span> <span class="n">ports</span><span class="o">-&gt;</span><span class="n">n_socket</span><span class="p">;</span>
+    // get sockets
+    n_tcps = ports-&gt;n_socket;
 
-    <span class="o">//</span> <span class="n">iterate</span> <span class="n">through</span> <span class="n">each</span> <span class="n">socket</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">fdesp</span> <span class="o">=</span> <span class="n">n_tcps</span><span class="p">;</span> <span class="n">fdesp</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">fdesp</span><span class="p">;</span> <span class="n">fdesp</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    // iterate through each socket
+    for (fdesp = n_tcps; fdesp &amp;&amp; *fdesp; fdesp++) {
 
-        <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">socket</span>
-        <span class="n">PR_Listen</span><span class="p">(</span><span class="o">*</span><span class="n">fdesp</span><span class="p">,</span> <span class="n">DAEMON_LISTEN_SIZE</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+        // listen to socket
+        PR_Listen(*fdesp, DAEMON_LISTEN_SIZE);
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -359,39 +359,39 @@ ldap/servers/slapd/daemon.c:</p>
 <h1>Configuring Samba<a class="headerlink" href="#configuring-samba" title="Link to this heading">#</a></h1>
 <p>Samba services can listen to specific interfaces only by adding the
 following parameters in smb.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
-    <span class="n">interfaces</span>           <span class="o">=</span> <span class="n">eth1</span><span class="p">,</span> <span class="n">eth4</span>
-    <span class="n">bind</span> <span class="n">interfaces</span> <span class="n">only</span> <span class="o">=</span> <span class="n">Yes</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[global]
+    interfaces           = eth1, eth4
+    bind interfaces only = Yes
 </pre></div>
 </div>
 <p>Note that the port number is not configurable. Each interface
 corresponds to one IP address.</p>
 <p>The socket is created in source4/ldap_server/ldap_server.c:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NTSTATUS</span> <span class="n">server_service_ldap_init</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">register_server_service</span><span class="p">(</span><span class="s2">&quot;ldap&quot;</span><span class="p">,</span> <span class="n">ldapsrv_task_init</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NTSTATUS server_service_ldap_init() {
+    return register_server_service(&quot;ldap&quot;, ldapsrv_task_init);
+}
 
-<span class="n">static</span> <span class="n">void</span> <span class="n">ldapsrv_task_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">task_server</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span> <span class="p">{</span>
+static void ldapsrv_task_init(struct task_server *task) {
 
-    <span class="o">//</span> <span class="k">if</span> <span class="s2">&quot;interfaces&quot;</span> <span class="ow">and</span> <span class="s2">&quot;bind interfaces only&quot;</span> <span class="n">are</span> <span class="n">defined</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lp_interfaces</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">lp_bind_interfaces_only</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">))</span> <span class="p">{</span>
+    // if &quot;interfaces&quot; and &quot;bind interfaces only&quot; are defined
+    if (lp_interfaces(task-&gt;lp_ctx) &amp;&amp; lp_bind_interfaces_only(task-&gt;lp_ctx)) {
 
-        <span class="o">//</span> <span class="n">load</span> <span class="n">interfaces</span>
-        <span class="n">load_interfaces</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">lp_interfaces</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ifaces</span><span class="p">);</span>
-        <span class="n">num_interfaces</span> <span class="o">=</span> <span class="n">iface_count</span><span class="p">(</span><span class="n">ifaces</span><span class="p">);</span>
+        // load interfaces
+        load_interfaces(task, lp_interfaces(task-&gt;lp_ctx), &amp;ifaces);
+        num_interfaces = iface_count(ifaces);
 
-        <span class="o">//</span> <span class="n">iterate</span> <span class="n">through</span> <span class="n">each</span> <span class="n">interface</span>
-        <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_interfaces</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        // iterate through each interface
+        for(i = 0; i &lt; num_interfaces; i++) {
 
-            <span class="o">//</span> <span class="n">get</span> <span class="n">interface</span> <span class="n">address</span>
-            <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">address</span> <span class="o">=</span> <span class="n">iface_n_ip</span><span class="p">(</span><span class="n">ifaces</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+            // get interface address
+            const char *address = iface_n_ip(ifaces, i);
 
-            <span class="o">//</span> <span class="n">listen</span> <span class="n">to</span> <span class="n">address</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="n">add_socket</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">event_ctx</span><span class="p">,</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">lp_ctx</span><span class="p">,</span> <span class="n">model_ops</span><span class="p">,</span>
-                <span class="n">address</span><span class="p">,</span> <span class="n">ldap_service</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+            // listen to address
+            status = add_socket(task-&gt;event_ctx, task-&gt;lp_ctx, model_ops,
+                address, ldap_service);
+        }
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -399,17 +399,17 @@ corresponds to one IP address.</p>
 <h1>Creating Virtual IP Address<a class="headerlink" href="#creating-virtual-ip-address" title="Link to this heading">#</a></h1>
 <p>Make sure the machine has an network interface with a static IP address.
 Create a new network interface as its child:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sysconfig</span><span class="o">/</span><span class="n">network</span><span class="o">-</span><span class="n">scripts</span>
-<span class="o">%</span> <span class="n">cp</span> <span class="n">ifcfg</span><span class="o">-</span><span class="n">eth0</span> <span class="n">ifcfg</span><span class="o">-</span><span class="n">eth0</span><span class="p">:</span><span class="mi">0</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /etc/sysconfig/network-scripts
+% cp ifcfg-eth0 ifcfg-eth0:0
 </pre></div>
 </div>
 <p>Edit ifcfg-eth0:0:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEVICE</span><span class="o">=</span><span class="n">eth0</span><span class="p">:</span><span class="mi">0</span>
-<span class="n">IPADDR</span><span class="o">=&lt;</span><span class="n">new</span> <span class="n">IP</span> <span class="n">address</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>DEVICE=eth0:0
+IPADDR=&lt;new IP address&gt;
 </pre></div>
 </div>
 <p>Restart networking service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">service</span> <span class="n">network</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% service network restart
 </pre></div>
 </div>
 </section>

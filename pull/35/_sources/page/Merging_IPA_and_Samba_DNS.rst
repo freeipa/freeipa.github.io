@@ -16,7 +16,7 @@ service).
 IPA DNS Records
 ===============
 
-::
+.. code-block:: text
 
    _ldap._tcp              IN SRV 0 100 389        ipa
 
@@ -36,7 +36,7 @@ IPA DNS Records
 Samba DNS Records
 =================
 
-::
+.. code-block:: text
 
    gc._msdcs               IN CNAME        samba
    27f515e4-f5af-4396-bc93-130013076ab7._msdcs     IN CNAME        samba
@@ -80,7 +80,7 @@ will remain the same and point to Samba's virtual hostname. The IPA
 clients will be modified to look for the new DNS record. Samba clients
 will continue to use the existing DNS record.
 
-::
+.. code-block:: text
 
    _ldap._tcp._ipa         IN SRV 0 100 389        ipa
    _ldap._tcp              IN SRV 0 100 389        samba
@@ -89,7 +89,7 @@ There will be only 1 Kerberos service with could be accessed using IPA's
 and Samba's virtual hostname. Both IPA and Samba clients will use the
 same KDC.
 
-::
+.. code-block:: text
 
    _kerberos               IN TXT EXAMPLE.COM
 

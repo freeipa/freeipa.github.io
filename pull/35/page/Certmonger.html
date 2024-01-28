@@ -363,21 +363,21 @@ itself requires.</p>
 <section id="anatomy-of-a-tracked-certificate">
 <h3>Anatomy of a tracked certificate<a class="headerlink" href="#anatomy-of-a-tracked-certificate" title="Link to this heading">#</a></h3>
 <p>A typical OpenSSL certificate looks like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Request</span> <span class="pre">ID</span> <span class="pre">'20120912211542':</span></code></div>
-<div class="line">``       status: MONITORING``</div>
-<div class="line">``       stuck: no``</div>
-<div class="line">``       key pair storage: type=FILE,location=’/etc/ssl/private.key’``</div>
-<div class="line">``       certificate: type=FILE,location=’/etc/ssl/server.crt’``</div>
-<div class="line">``       CA: IPA``</div>
-<div class="line">``       issuer: CN=Certificate Authority,O=EXAMPLE.COM``</div>
-<div class="line">``       subject: CN=edsel.example.com,O=EXAMPLE.COM``</div>
-<div class="line">``       expires: 2014-09-13 21:15:44 UTC``</div>
-<div class="line">``       eku: id-kp-serverAuth,id-kp-clientAuth``</div>
-<div class="line">``       pre-save command: ``</div>
-<div class="line">``       post-save command: ``</div>
-<div class="line">``       track: yes``</div>
-<div class="line">``       auto-renew: yes``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Request ID &#39;20120912211542&#39;:
+       status: MONITORING
+       stuck: no
+       key pair storage: type=FILE,location=&#39;/etc/ssl/private.key&#39;
+       certificate: type=FILE,location=&#39;/etc/ssl/server.crt&#39;
+       CA: IPA
+       issuer: CN=Certificate Authority,O=EXAMPLE.COM
+       subject: CN=edsel.example.com,O=EXAMPLE.COM
+       expires: 2014-09-13 21:15:44 UTC
+       eku: id-kp-serverAuth,id-kp-clientAuth
+       pre-save command:
+       post-save command:
+       track: yes
+       auto-renew: yes
+</pre></div>
 </div>
 <p>You’ll need the Request ID when running other certmonger commands. This
 will be a number if an ID is not provided when the request is originally
@@ -427,13 +427,13 @@ RSA key size -I to set the ID of the certmonger request</p>
 will disable this.</p>
 <section id="openssl">
 <h3>OpenSSL<a class="headerlink" href="#openssl" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
 </pre></div>
 </div>
 </section>
 <section id="nss">
 <h3>NSS<a class="headerlink" href="#nss" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# ipa-getcert request -d /path/to/database -n &#39;Test&#39; -K ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>``# ipa-getcert request -d /path/to/database -n &#39;Test&#39; -K ``
 </pre></div>
 </div>
 </section>
@@ -458,12 +458,13 @@ certmonger to not track it for for rewnewals.</p>
 additional options to the utility. <code class="docutils literal notranslate"><span class="pre">getcert</span></code> has a lot of flexibility
 with options described in its manual page. For example, to issue a
 certificate for Nginx to use a specific fully qualified hostname on a
-host without it, use following sequence:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# cd /etc/nginx/ssl``
-| ``# fqdn=$(hostname -f); REALM=(hostname -d|tr &#39;[:lower:]&#39; &#39;[:upper:]&#39;); ``
-| ``# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
-</pre></div>
-</div>
+host without it, use following sequence:
+.. code-block:: text</p>
+<blockquote>
+<div><p># cd /etc/nginx/ssl``
+# fqdn=$(hostname -f); REALM=(hostname -d|tr ‘[:lower:]’ ‘[:upper:]’); ``
+# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K <a class="reference external" href="mailto:HTTP/$fqdn&#37;&#52;&#48;$REALM">HTTP/$fqdn<span>&#64;</span>$REALM</a> -N $fqdn``</p>
+</div></blockquote>
 <p>The CA has the final say on what the subject will be in the certificate
 it issues.</p>
 </section>

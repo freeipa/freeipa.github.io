@@ -366,22 +366,22 @@ existing one and aim to supplant the current setkeytab extended
 operation, allowing to eventually turn off the old one.</p>
 <p>The following is the psudo-ASN.1 code definition for the extended
 operation payload:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">KeytabGetRequest</span> <span class="pre">::=</span> <span class="pre">CHOICE</span> <span class="pre">{</span></code></div>
-<div class="line">``    newkey s     [0] NewKeys,``</div>
-<div class="line">``    curkey s     [0] CurrentKeys,``</div>
-<div class="line">``    reply        [2] Reply``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NewKeys</span> <span class="pre">::=</span> <span class="pre">SEQUENCE</span> <span class="pre">{</span></code></div>
-<div class="line">``    serviceIdentity [0] OCTET STRING,``</div>
-<div class="line">``    enctypes        [1] SEQUENCE OF Int16,``</div>
-<div class="line">``    password        [2] OCTET STRING OPTIONAL``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KeytabGetRequest ::= CHOICE {
+    newkey s     [0] NewKeys,
+    curkey s     [0] CurrentKeys,
+    reply        [2] Reply
+}
+NewKeys ::= SEQUENCE {
+    serviceIdentity [0] OCTET STRING,
+    enctypes        [1] SEQUENCE OF Int16,
+    password        [2] OCTET STRING OPTIONAL
+}
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">CurrentKeys</span> <span class="pre">::=</span> <span class="pre">SEQUENCE</span> <span class="pre">{</span></code></div>
-<div class="line">``    serviceIdentity [0] OCTET STRING``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CurrentKeys ::= SEQUENCE {
+    serviceIdentity [0] OCTET STRING
+}
+</pre></div>
 </div>
 <p>If the getNew attribute is true a new keytab is being requested. In this
 case a password may be provided or not. If not one is generated
@@ -392,30 +392,30 @@ a new keytab is requested. However the list is filtered though the
 allowable enctypes list and if nothing is left the operation is refused.</p>
 <p>If the getNew attribute is false, then the existing key is being
 requested. In this case password and enctypes MUST NOT be set.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Reply</span> <span class="pre">::=</span> <span class="pre">SEQUENCE</span> <span class="pre">{</span></code></div>
-<div class="line">``    new_kvno        Int32``</div>
-<div class="line">``    keys            SEQUENCE OF KrbKey,``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Reply ::= SEQUENCE {
+    new_kvno        Int32
+    keys            SEQUENCE OF KrbKey,
+}
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">KrbKey</span> <span class="pre">::=</span> <span class="pre">SEQUENCE</span> <span class="pre">{</span></code></div>
-<div class="line">``    key       [0] EncryptionKey,``</div>
-<div class="line">``    salt      [1] KrbSalt OPTIONAL,``</div>
-<div class="line">``    s2kparams [2] OCTET STRING OPTIONAL,``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KrbKey ::= SEQUENCE {
+    key       [0] EncryptionKey,
+    salt      [1] KrbSalt OPTIONAL,
+    s2kparams [2] OCTET STRING OPTIONAL,
+}
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">EncryptionKey</span> <span class="pre">::=</span> <span class="pre">SEQUENCE</span> <span class="pre">{</span></code></div>
-<div class="line">``    keytype   [0] Int32,``</div>
-<div class="line">``    keyvalue  [1] OCTET STRING``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>EncryptionKey ::= SEQUENCE {
+    keytype   [0] Int32,
+    keyvalue  [1] OCTET STRING
+}
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">KrbSalt</span> <span class="pre">::=</span> <span class="pre">SEQUENCE</span> <span class="pre">{</span></code></div>
-<div class="line">``    type      [0] Int32,``</div>
-<div class="line">``    salt      [1] OCTET STRING``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KrbSalt ::= SEQUENCE {
+    type      [0] Int32,
+    salt      [1] OCTET STRING
+}
+</pre></div>
 </div>
 <p>The reply actually is very similar to the current <code class="docutils literal notranslate"><span class="pre">setkeytab</span></code> request
 format.</p>
@@ -443,20 +443,20 @@ available in LDAP - <em>sub-types</em>.</p>
 <section id="new-schema">
 <h2>New Schema<a class="headerlink" href="#new-schema" title="Link to this heading">#</a></h2>
 <p>Attributes:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA_OID.11.51</span> <span class="pre">NAME</span> <span class="pre">'ipaAllowedToPerform'</span></code></div>
-<div class="line">``              DESC ‘DNs allowed to perform an operation’``</div>
-<div class="line">``              SUP distinguishedName X-ORIGIN ‘IPA-v3’)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA_OID.11.52</span> <span class="pre">NAME</span> <span class="pre">'ipaProtectedOperation'</span></code></div>
-<div class="line">``              DESC ‘Operation to be protected’``</div>
-<div class="line">``              EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IPA_OID.11.51 NAME &#39;ipaAllowedToPerform&#39;
+              DESC &#39;DNs allowed to perform an operation&#39;
+              SUP distinguishedName X-ORIGIN &#39;IPA-v3&#39;)
+IPA_OID.11.52 NAME &#39;ipaProtectedOperation&#39;
+              DESC &#39;Operation to be protected&#39;
+              EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )
+</pre></div>
 </div>
 <p>Objectclasses:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA_OID.12.22</span> <span class="pre">NAME</span> <span class="pre">'ipaAllowedOperations'</span></code></div>
-<div class="line">``              SUP top AUXILIARY``</div>
-<div class="line">``              DESC ‘Class to apply access controls to arbitrary operations’``</div>
-<div class="line">``              MAY ( ipaAllowedToPerform $ ipaProtectedOperation ) X-ORIGIN ‘IPA v3’)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IPA_OID.12.22 NAME &#39;ipaAllowedOperations&#39;
+              SUP top AUXILIARY
+              DESC &#39;Class to apply access controls to arbitrary operations&#39;
+              MAY ( ipaAllowedToPerform $ ipaProtectedOperation ) X-ORIGIN &#39;IPA v3&#39;)
+</pre></div>
 </div>
 <p>This schema allows to add the <code class="docutils literal notranslate"><span class="pre">ipaAllowedToPerform</span></code> attribute to an
 object, with a sub-type that indicates what special operation we want to
@@ -480,16 +480,16 @@ randomly generated one).</p>
 <p><code class="docutils literal notranslate"><span class="pre">aci:</span> <span class="pre">(targetattr=&quot;ipaProtectedOperation;read_keys&quot;)(version</span> <span class="pre">3.0;</span> <span class="pre">acl</span> <span class="pre">&quot;Users</span> <span class="pre">allowed</span> <span class="pre">to</span> <span class="pre">retrieve</span> <span class="pre">keytab</span> <span class="pre">keys&quot;;</span> <span class="pre">allow(read)</span> <span class="pre">userattr=&quot;ipaAllowedToPerform;read_keys#USERDN&quot;;)</span></code></p>
 <p>For this ACI to have effect an attribute needs to be added to a target
 service entry like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">HTTP/www.example.com&#64;EXAMPLE.COM,cn=services,cn=accounts,dc=example,dc=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype:</span> <span class="pre">modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add:</span> <span class="pre">objectclass</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass:</span> <span class="pre">ipaAllowedOperations</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add:</span> <span class="pre">ipaAllowedToPerform;read_key</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaAllowedToPerform;read_key:</span> <span class="pre">fqdn=clustermember1.example.com,cn=computers,cn=accounts,dc=example,dc=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaAllowedToPerform;read_key:</span> <span class="pre">fqdn=clustermember2.example.com,cn=computers,cn=accounts,dc=example,dc=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaAllowedToPerform;read_key:</span> <span class="pre">fqdn=clustermember3.example.com,cn=computers,cn=accounts,dc=example,dc=com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: HTTP/www.example.com@EXAMPLE.COM,cn=services,cn=accounts,dc=example,dc=com
+changetype: modify
+add: objectclass
+objectclass: ipaAllowedOperations
+-
+add: ipaAllowedToPerform;read_key
+ipaAllowedToPerform;read_key: fqdn=clustermember1.example.com,cn=computers,cn=accounts,dc=example,dc=com
+ipaAllowedToPerform;read_key: fqdn=clustermember2.example.com,cn=computers,cn=accounts,dc=example,dc=com
+ipaAllowedToPerform;read_key: fqdn=clustermember3.example.com,cn=computers,cn=accounts,dc=example,dc=com
+</pre></div>
 </div>
 <p>With this ACI and attributes in place clustermember1.example.com,
 clustermember2.example.com and clustermember3.example.com hosts can

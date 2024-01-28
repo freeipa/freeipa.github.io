@@ -203,7 +203,7 @@ Some of the schema conversions are already configured at
 source4/setup/schema-map-fedora-ds-1.0. The file uses the following
 format:
 
-::
+.. code-block:: text
 
    # Skip attribute/object class
    <attribute/object class>
@@ -215,7 +215,7 @@ format:
 The conversion code is located in
 source4/dsdb/schema/schema_convert_to_ol.c:
 
-::
+.. code-block:: text
 
    char *dsdb_convert_schema_to_openldap(struct ldb_context *ldb,
        char *target_str, const char *mappings) 
@@ -277,7 +277,7 @@ separate mapping configuration:
 
 The attribute mapping is stored in the following structure:
 
-::
+.. code-block:: text
 
    static const struct ldb_map_attribute nsuniqueid_attributes[] = 
    {
@@ -301,7 +301,7 @@ Currently there is no object class mapping for DS.
 
 The module is initialized in the following method:
 
-::
+.. code-block:: text
 
    static int nsuniqueid_init(struct ldb_module *module)
    {
@@ -325,7 +325,7 @@ Samba 3 schema and its dependencies have to be included during DS
 instance creation. The following lines should be added into
 source4/setup/fedorads.inf:
 
-::
+.. code-block:: text
 
    SchemaFile=/etc/dirsrv/schema/10rfc2307.ldif
    SchemaFile=/etc/dirsrv/schema/05rfc4523.ldif
@@ -340,7 +340,7 @@ Schema Conversion
 
 The following schema conversion should be added:
 
-::
+.. code-block:: text
 
    #Standard FDS attributes
    homePostalAddress
@@ -407,7 +407,7 @@ The following schema conversion should be added:
 
 The conversion code should be modified map the object class parent:
 
-::
+.. code-block:: text
 
    static char *print_schema_recursive(
        char *append_to_string, struct dsdb_schema *schema, const char *print_class,
@@ -472,7 +472,7 @@ inetOrgPerson        samba4InetOrgPerson
 
 The object class mapping should stored in the following structure:
 
-::
+.. code-block:: text
 
    const struct ldb_map_objectclass nsuniqueid_objectclasses[] =
    {
@@ -488,7 +488,7 @@ The object class mapping should stored in the following structure:
 The module initialization should be changed to use the object class
 mapping:
 
-::
+.. code-block:: text
 
    static int nsuniqueid_init(struct ldb_module *module)
    {

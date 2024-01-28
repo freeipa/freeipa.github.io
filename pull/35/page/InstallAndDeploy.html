@@ -447,10 +447,10 @@ visible.</p>
 altogether, or change the default settings to use a shorter cache time.
 In particular, consider changing the following values in the
 <code class="docutils literal notranslate"><span class="pre">/etc/nscd.conf</span></code> file to suit the usage patterns of your deployment:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">positive</span><span class="o">-</span><span class="n">time</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">live</span>   <span class="n">group</span>           <span class="mi">3600</span>
-<span class="n">negative</span><span class="o">-</span><span class="n">time</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">live</span>   <span class="n">group</span>           <span class="mi">60</span>
-<span class="n">positive</span><span class="o">-</span><span class="n">time</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">live</span>   <span class="n">hosts</span>           <span class="mi">3600</span>
-<span class="n">negative</span><span class="o">-</span><span class="n">time</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">live</span>   <span class="n">hosts</span>           <span class="mi">20</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>positive-time-to-live   group           3600
+negative-time-to-live   group           60
+positive-time-to-live   hosts           3600
+negative-time-to-live   hosts           20
 </pre></div>
 </div>
 </section>
@@ -475,9 +475,9 @@ correctly, or the <strong>ipa-*</strong> commands may not work correctly.</p>
 <em>before</em> any aliases. You should also ensure that the hostname is not
 part of the localhost entry. The following is an example of a valid
 hosts file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">127.0.0.1</span>       <span class="n">localhost</span><span class="o">.</span><span class="n">localdomain</span>   <span class="n">localhost</span>
-<span class="p">::</span><span class="mi">1</span>     <span class="n">localhost6</span><span class="o">.</span><span class="n">localdomain6</span> <span class="n">localhost6</span>
-<span class="mf">192.168.1.1</span>     <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>      <span class="n">ipaserver</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>127.0.0.1       localhost.localdomain   localhost
+::1     localhost6.localdomain6 localhost6
+192.168.1.1     ipaserver.example.com      ipaserver
 </pre></div>
 </div>
 </section>
@@ -588,7 +588,7 @@ as shown in step 2:</p>
 <ol class="arabic simple" start="2">
 <li><p>Run the following command to install the IPA server packages:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yum install --enablerepo=updates-testing ipa-server</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># yum install --enablerepo=updates-testing ipa-server
 </pre></div>
 </div>
 <p>For Fedora 9 you do not need to include <code class="docutils literal notranslate"><span class="pre">--enablerepo=updates-testing</span></code></p>
@@ -615,12 +615,12 @@ ensure you have the minimum version of <strong>krb5-libs</strong> as listed abov
 you <em>not</em> use <strong>NetworkManager</strong>. Instead, run the following
 commands to use <strong>network</strong> to manage the network service:</p>
 </div></blockquote>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># chkconfig NetworkManager off</span>
-<span class="c1"># chkconfig network on</span>
-<span class="c1"># service network start</span>
+</div></blockquote>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># chkconfig NetworkManager off
+# chkconfig network on
+# service network start
 </pre></div>
 </div>
-</div></blockquote>
 <p>Now you are ready to configure your IPA server.</p>
 </section>
 <section id="configuring-the-ipa-server">
@@ -697,14 +697,14 @@ running. You can test your installation as follows:</p>
 <ol class="arabic simple">
 <li><p>Use the <strong>kinit</strong> command to request a Kerberos ticket:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ kinit admin
 Password for admin@EXAMPLE.COM:
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Use the <strong>klist</strong> command to display the list of Kerberos tickets:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ klist
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ klist
 Ticket cache: FILE:/tmp/krb5cc_0
 Default principal: admin@EXAMPLE.COM
 Valid starting     Expires            Service principal
@@ -716,7 +716,7 @@ klist: You have no tickets cached
 <ol class="arabic simple" start="3">
 <li><p>Use the <strong>ipa user-find</strong> command to search for the admin user:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa-finduser admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa-finduser admin
 cn: Administrator
 homedirectory: /home/admin
 loginshell: /bin/bash
@@ -725,9 +725,9 @@ uid: admin
 </div>
 <p>If you receive output similar to the following, ensure that DNS is
 configured correctly:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Could</span> <span class="pre">not</span> <span class="pre">initialize</span> <span class="pre">GSSAPI:</span> <span class="pre">Unspecified</span> <span class="pre">GSS</span> <span class="pre">failure.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Minor</span> <span class="pre">code</span> <span class="pre">may</span> <span class="pre">provide</span> <span class="pre">more</span> <span class="pre">information/Server</span> <span class="pre">not</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">Kerberos</span> <span class="pre">database.</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Could not initialize GSSAPI: Unspecified GSS failure.
+Minor code may provide more information/Server not found in Kerberos database.
+</pre></div>
 </div>
 </section>
 <section id="configuring-your-browser">
@@ -741,9 +741,9 @@ which attributes.</p>
 </ol>
 <p>3. Ensure the following lines reflect your setup. Replace “example.com”
 with your own IPA server’s domain, with a preceding period (.):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span><span class="o">.</span><span class="n">negotiate</span><span class="o">-</span><span class="n">auth</span><span class="o">.</span><span class="n">trusted</span><span class="o">-</span><span class="n">uris</span>  <span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">network</span><span class="o">.</span><span class="n">negotiate</span><span class="o">-</span><span class="n">auth</span><span class="o">.</span><span class="n">delegation</span><span class="o">-</span><span class="n">uris</span>  <span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">network</span><span class="o">.</span><span class="n">negotiate</span><span class="o">-</span><span class="n">auth</span><span class="o">.</span><span class="n">using</span><span class="o">-</span><span class="n">native</span><span class="o">-</span><span class="n">gsslib</span> <span class="n">true</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>network.negotiate-auth.trusted-uris  .example.com
+network.negotiate-auth.delegation-uris  .example.com
+network.negotiate-auth.using-native-gsslib true
 </pre></div>
 </div>
 <p>4. In Firefox, navigate to your IPA server (use the fully-qualified
@@ -757,13 +757,13 @@ interact with the Web interface.</p>
 already has Kerberos set up for a different realm.</p>
 <p>1. Copy the <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> file from the IPA server to the client
 system. Do not overwrite the existing <code class="docutils literal notranslate"><span class="pre">krb5.conf</span></code> file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># scp /etc/krb5.conf root@ipaclient:/etc/krb5_ipa.conf</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># scp /etc/krb5.conf root@ipaclient:/etc/krb5_ipa.conf
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>On the IPA client, open a terminal and run the following commands:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export KRB5_CONFIG=/etc/krb5_ipa.conf
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ export KRB5_CONFIG=/etc/krb5_ipa.conf
 $ kinit user@EXAMPLE.COM
 $ /usr/bin/firefox
 </pre></div>
@@ -821,18 +821,18 @@ will be created.</p>
 <p>Run the following command on the master IPA server, where
 <em>ipareplica.example.com</em> is the FQDN of the server where you are going
 to create the replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-prepare ipareplica.example.com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-prepare ipareplica.example.com
 </pre></div>
 </div>
 <p>This should produce output similar to the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Determining</span> <span class="n">current</span> <span class="n">realm</span> <span class="n">name</span>
-<span class="n">Getting</span> <span class="n">domain</span> <span class="n">name</span> <span class="kn">from</span> <span class="nn">LDAP</span>
-<span class="n">Preparing</span> <span class="n">replica</span> <span class="k">for</span> <span class="n">ipareplica</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="kn">from</span> <span class="nn">ipaserver.example.com</span>
-<span class="n">Creating</span> <span class="n">SSL</span> <span class="n">certificate</span> <span class="k">for</span> <span class="n">the</span> <span class="n">Directory</span> <span class="n">Server</span>
-<span class="n">Creating</span> <span class="n">SSL</span> <span class="n">certificate</span> <span class="k">for</span> <span class="n">the</span> <span class="n">Web</span> <span class="n">Server</span>
-<span class="n">Copying</span> <span class="n">additional</span> <span class="n">files</span>
-<span class="n">Finalizing</span> <span class="n">configuration</span>
-<span class="n">Packaging</span> <span class="n">the</span> <span class="n">replica</span> <span class="n">into</span> <span class="n">replica</span><span class="o">-</span><span class="n">info</span><span class="o">-</span><span class="n">ipareplica</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Determining current realm name
+Getting domain name from LDAP
+Preparing replica for ipareplica.example.com from ipaserver.example.com
+Creating SSL certificate for the Directory Server
+Creating SSL certificate for the Web Server
+Copying additional files
+Finalizing configuration
+Packaging the replica into replica-info-ipareplica.example.com
 </pre></div>
 </div>
 <blockquote>
@@ -889,7 +889,7 @@ prompted to remove it.</p>
 entries so that IPA clients can discover the new server. For example,
 for an IPA replica with a server name of $HOST, you should add the
 following entries to your zone file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>_ldap._tcp             IN SRV 0 100 389 $HOST
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_ldap._tcp             IN SRV 0 100 389 $HOST
 _kerberos._tcp         IN SRV 0 100 88 $HOST
 _kerberos._udp         IN SRV 0 100 88 $HOST
 _kerberos-master._tcp  IN SRV 0 100 88 $HOST
@@ -955,15 +955,15 @@ on port 80, and wish to move it to a different port.</p>
 </ol>
 <p>2. Edit the <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa.conf</span></code> file. Add the following three
 lines to the top of the file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Listen</span> <span class="mi">8089</span>
-<span class="n">NameVirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">8089</span>
-<span class="o">&lt;</span><span class="n">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">8089</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Listen 8089
+NameVirtualHost *:8089
+&lt;VirtualHost *:8089&gt;
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Add the following line to the end of the file:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">VirtualHost</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;/VirtualHost&gt;
 </pre></div>
 </div>
 <p>This wraps the entire IPA configuration in a VirtualHost, and ensures
@@ -977,7 +977,7 @@ service.</p>
 </div></blockquote>
 <p>4. Comment out the following rewrite rules from the
 <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/ipa.conf</span></code> file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>----------------------------------------------------------------------
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>----------------------------------------------------------------------
 # Redirect to the fully-qualified hostname. Not redirecting to secure
 # port so configuration files can be retrieved without requiring SSL.
 RewriteCond %{HTTP_HOST}    !^host.foo.com$ [NC]
@@ -994,7 +994,7 @@ RewriteRule ^/(.*)          https://host.foo.com/$1 [L,R=301,NC]
 <ol class="arabic simple" start="5">
 <li><p>Reload the <strong>httpd</strong> service.</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service httpd reload</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service httpd reload
 </pre></div>
 </div>
 <p>IPA should now be running on port 8089, leaving port 8080 free for your

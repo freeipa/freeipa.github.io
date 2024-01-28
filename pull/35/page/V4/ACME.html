@@ -415,11 +415,11 @@ design proposal.</p>
 <p>Initially the only configuration available is to enable or disable the
 servicing of requests by the Dogtag ACME service. This is accomplished
 via the <code class="docutils literal notranslate"><span class="pre">ipa-acme-manage</span></code> command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># enable the service</span>
-<span class="n">ipa</span><span class="o">-</span><span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="n">enable</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># enable the service
+ipa-acme-manage enable
 
-<span class="c1"># disable the service</span>
-<span class="n">ipa</span><span class="o">-</span><span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="n">disable</span>
+# disable the service
+ipa-acme-manage disable
 </pre></div>
 </div>
 <p>These commands operate on a per-server basis. Subsequent work will
@@ -429,23 +429,23 @@ the FreeIPA API will allow users with the appropriate privileges to
 control the ACME service. The <code class="docutils literal notranslate"><span class="pre">ipa-acme-manage</span></code> command will be
 deprecated or removed. Examples of what the commands may look like
 (non-prescriptive):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># enable service</span>
-<span class="n">ipa</span> <span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="o">--</span><span class="n">enabled</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># enable service
+ipa acme-manage --enabled=1
 
-<span class="c1"># enable issuance of wildcard certificates</span>
-<span class="n">ipa</span> <span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="o">--</span><span class="n">wildcard</span><span class="o">=</span><span class="mi">1</span>
+# enable issuance of wildcard certificates
+ipa acme-manage --wildcard=1
 
-<span class="c1"># set profile to use</span>
-<span class="n">ipa</span> <span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">customProfile</span>
+# set profile to use
+ipa acme-manage --profile=customProfile
 
-<span class="c1"># set CA to use</span>
-<span class="n">ipa</span> <span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="o">--</span><span class="n">ca</span><span class="o">=&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">ACME</span> <span class="n">sub</span><span class="o">-</span><span class="n">CA</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
+# set CA to use
+ipa acme-manage --ca=&amp;quot;ACME sub-CA&amp;quot;
 
-<span class="c1"># set enabled challenges (http-01 enabled, dns-01 disabled)</span>
-<span class="n">ipa</span> <span class="n">acme</span><span class="o">-</span><span class="n">manage</span> <span class="o">--</span><span class="n">challenges</span><span class="o">=</span><span class="n">http</span><span class="o">-</span><span class="mi">01</span>
+# set enabled challenges (http-01 enabled, dns-01 disabled)
+ipa acme-manage --challenges=http-01
 
-<span class="c1"># show configuration</span>
-<span class="n">ipa</span> <span class="n">acme</span><span class="o">-</span><span class="n">info</span>
+# show configuration
+ipa acme-info
 </pre></div>
 </div>
 </section>
@@ -519,8 +519,8 @@ requirement to add a new DNS name to the FreeIPA HTTP certificate. See
 <p>In addition to creating the configuration files as described in the
 following sections, FreeIPA shall run the following two commands to
 create and deploy the Dogtag ACME service instance:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pki</span><span class="o">-</span><span class="n">server</span> <span class="n">acme</span><span class="o">-</span><span class="n">create</span>
-<span class="n">pki</span><span class="o">-</span><span class="n">server</span> <span class="n">acme</span><span class="o">-</span><span class="n">deploy</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pki-server acme-create
+pki-server acme-deploy
 </pre></div>
 </div>
 </section>
@@ -528,9 +528,9 @@ create and deploy the Dogtag ACME service instance:</p>
 <h2>Database<a class="headerlink" href="#database" title="Link to this heading">#</a></h2>
 <p>Configure the Dogtag ACME service to use the <code class="docutils literal notranslate"><span class="pre">ou=acme,o=ipaca</span></code> subtree
 via <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/acme/database.conf</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">class</span><span class="o">=</span><span class="n">org</span><span class="o">.</span><span class="n">dogtagpki</span><span class="o">.</span><span class="n">acme</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">LDAPDatabase</span>
-<span class="n">basedn</span><span class="o">=</span><span class="n">ou</span><span class="o">=</span><span class="n">acme</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
-<span class="n">configFile</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">pki</span><span class="o">/</span><span class="n">pki</span><span class="o">-</span><span class="n">tomcat</span><span class="o">/</span><span class="n">ca</span><span class="o">/</span><span class="n">CS</span><span class="o">.</span><span class="n">cfg</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>class=org.dogtagpki.acme.database.LDAPDatabase
+basedn=ou=acme,o=ipaca
+configFile=/etc/pki/pki-tomcat/ca/CS.cfg
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">configFile</span></code> directive tells the <code class="docutils literal notranslate"><span class="pre">LDAPDatabase</span></code> where to find
@@ -538,31 +538,31 @@ database connection settings.</p>
 <p>The ACME schema is automatically added in new installations. See
 <a class="reference external" href="#Upgrade">#Upgrade</a> for upgrade steps.</p>
 <p>Create the ACME object heirarchy under <code class="docutils literal notranslate"><span class="pre">ou=acme,o=ipaca</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">ou</span><span class="o">=</span><span class="n">nonces</span><span class="p">,</span><span class="n">ou</span><span class="o">=</span><span class="n">acme</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalUnit</span>
-<span class="n">ou</span><span class="p">:</span> <span class="n">nonces</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: ou=nonces,ou=acme,o=ipaca
+objectClass: organizationalUnit
+ou: nonces
 
-<span class="n">dn</span><span class="p">:</span> <span class="n">ou</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">ou</span><span class="o">=</span><span class="n">acme</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalUnit</span>
-<span class="n">ou</span><span class="p">:</span> <span class="n">accounts</span>
+dn: ou=accounts,ou=acme,o=ipaca
+objectClass: organizationalUnit
+ou: accounts
 
-<span class="n">dn</span><span class="p">:</span> <span class="n">ou</span><span class="o">=</span><span class="n">orders</span><span class="p">,</span><span class="n">ou</span><span class="o">=</span><span class="n">acme</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalUnit</span>
-<span class="n">ou</span><span class="p">:</span> <span class="n">orders</span>
+dn: ou=orders,ou=acme,o=ipaca
+objectClass: organizationalUnit
+ou: orders
 
-<span class="n">dn</span><span class="p">:</span> <span class="n">ou</span><span class="o">=</span><span class="n">authorizations</span><span class="p">,</span><span class="n">ou</span><span class="o">=</span><span class="n">acme</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalUnit</span>
-<span class="n">ou</span><span class="p">:</span> <span class="n">authorizations</span>
+dn: ou=authorizations,ou=acme,o=ipaca
+objectClass: organizationalUnit
+ou: authorizations
 
-<span class="n">dn</span><span class="p">:</span> <span class="n">ou</span><span class="o">=</span><span class="n">challenges</span><span class="p">,</span><span class="n">ou</span><span class="o">=</span><span class="n">acme</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">organizationalUnit</span>
-<span class="n">ou</span><span class="p">:</span> <span class="n">challenges</span>
+dn: ou=challenges,ou=acme,o=ipaca
+objectClass: organizationalUnit
+ou: challenges
 </pre></div>
 </div>
 </section>
 <section id="schema">
 <h2>Schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>attributeTypes: ( acmeExpires-oid NAME &#39;acmeExpires&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>attributeTypes: ( acmeExpires-oid NAME &#39;acmeExpires&#39;
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
   EQUALITY generalizedTimeMatch
   ORDERING generalizedTimeOrderingMatch
@@ -657,7 +657,7 @@ objectClasses: ( acmeChallengeDns01-oid NAME &#39;acmeChallengeDns01&#39;
 <section id="issuer">
 <h2>Issuer<a class="headerlink" href="#issuer" title="Link to this heading">#</a></h2>
 <p>The template for <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/acme/issuer.conf</span></code> is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>class=org.dogtagpki.acme.issuer.PKIIssuer
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>class=org.dogtagpki.acme.issuer.PKIIssuer
 url=https://$FQDN:8443
 profile=acmeServerCert
 username=$USER
@@ -703,18 +703,20 @@ resolving one of the biggest and longest-running problems in the
 FreeIPA architecture.</p></li>
 </ol>
 <p>The chosen option was #2. Therefore the implementation is required to:</p>
-<ul>
+<ul class="simple">
 <li><p>Create the <code class="docutils literal notranslate"><span class="pre">ACME</span> <span class="pre">Agents</span></code> group (once only)</p></li>
 <li><p>Add a Dogtag ACL allowing members of <code class="docutils literal notranslate"><span class="pre">ACME</span> <span class="pre">Agents</span></code> to revoke
-certificates (once only):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certServer</span><span class="o">.</span><span class="n">ca</span><span class="o">.</span><span class="n">certs</span><span class="p">:</span><span class="n">execute</span>
-  <span class="p">:</span><span class="n">allow</span> <span class="p">(</span><span class="n">execute</span><span class="p">)</span> <span class="n">group</span><span class="o">=&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">ACME</span> <span class="n">Agents</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
-  <span class="p">:</span><span class="n">ACME</span> <span class="n">Agents</span> <span class="n">may</span> <span class="n">execute</span> <span class="n">cert</span> <span class="n">operations</span>
+certificates (once only):</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   certServer.ca.certs:execute
+     :allow (execute) group=&amp;quot;ACME Agents&amp;quot;
+     :ACME Agents may execute cert operations
+
+The ``execute`` permission sounds like it has a large scope but it
+indeed only grants permission to revoke (or unrevoke) a certificate.
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">execute</span></code> permission sounds like it has a large scope but it
-indeed only grants permission to revoke (or unrevoke) a certificate.</p>
-</li>
+<ul class="simple">
 <li><p>For each CA server create the <code class="docutils literal notranslate"><span class="pre">acme-$FQDN</span></code> user, with membership in
 <code class="docutils literal notranslate"><span class="pre">ACME</span> <span class="pre">Agents</span></code> and a unique password (to be written in
 <code class="docutils literal notranslate"><span class="pre">issuer.conf</span></code>).</p></li>
@@ -729,28 +731,29 @@ indeed only grants permission to revoke (or unrevoke) a certificate.</p>
 <code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/profiles/acmeServerCert.cfg</span></code>. The definition is
 similar to <code class="docutils literal notranslate"><span class="pre">caIPAserviceCert</span></code> but there are a few important
 differences:</p>
-<ul>
+<ul class="simple">
 <li><p>Only members of the <code class="docutils literal notranslate"><span class="pre">ACME</span> <span class="pre">Agents</span></code> group can issue certificates
-using this profile:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>auth.instance_id=SessionAuthentication
+using this profile:</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth.instance_id=SessionAuthentication
 authz.acl=group=&amp;quot;$ACME_AGENT_GROUP&amp;quot;
 </pre></div>
 </div>
-</li>
-<li><p>The certificate lifetime is 90 days:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">policyset</span><span class="o">.</span><span class="n">serverCertSet</span><span class="mf">.7</span><span class="o">.</span><span class="n">constraint</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">range</span><span class="o">=</span><span class="mi">90</span>
+<ul class="simple">
+<li><p>The certificate lifetime is 90 days:</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>policyset.serverCertSet.7.constraint.params.range=90
 </pre></div>
 </div>
-</li>
+<ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">SANToCNDefault</span></code> component is used to populate the Subject DN
 field because some ACME clients create CSRs with an empty Subject
-field:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">policyset</span><span class="o">.</span><span class="n">serverCertSet</span><span class="mf">.9</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">class_id</span><span class="o">=</span><span class="n">sanToCNDefaultImpl</span>
-<span class="n">policyset</span><span class="o">.</span><span class="n">serverCertSet</span><span class="mf">.9</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">SAN</span> <span class="n">to</span> <span class="n">CN</span> <span class="n">Default</span>
+field:</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>policyset.serverCertSet.9.default.class_id=sanToCNDefaultImpl
+policyset.serverCertSet.9.default.name=SAN to CN Default
 </pre></div>
 </div>
-</li>
-</ul>
 </section>
 <section id="replicated-configuration">
 <h2>Replicated configuration<a class="headerlink" href="#replicated-configuration" title="Link to this heading">#</a></h2>
@@ -867,7 +870,7 @@ out of scope of this document. But see <a class="reference external" href="#Test
 some specific scenarios using the <em>Certbot</em> and <em>mod_md</em> clients.</p>
 <p>As a concrete example, here is how you could use <em>Certbot</em> to register
 an account and acquire a certificate from the FreeIPA ACME service:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># certbot --server https://ipa-ca.ipa.local/acme/directory \
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># certbot --server https://ipa-ca.ipa.local/acme/directory \
   register -m ftweedal@redhat.com --agree-tos --no-eff-email
 
 # certbot --server http://ipa-ca.ipa.local/acme/directory \

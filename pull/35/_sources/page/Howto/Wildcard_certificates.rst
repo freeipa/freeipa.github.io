@@ -45,7 +45,7 @@ This procedure works on FreeIPA 4.2 (RHEL 7.2) and later.
 First, ``kinit admin`` and export an existing service certificate
 profile configuration to a file:
 
-::
+.. code-block:: text
 
    ftweedal% ipa certprofile-show caIPAserviceCert --out wildcard.cfg
    ---------------------------------------------------
@@ -57,7 +57,7 @@ profile configuration to a file:
 
 Modify the profile; the minimal diff is:
 
-::
+.. code-block:: text
 
    --- wildcard.cfg.bak
    +++ wildcard.cfg
@@ -71,7 +71,7 @@ Modify the profile; the minimal diff is:
 Now import the modified configuration as a new profile called
 ``wildcard``:
 
-::
+.. code-block:: text
 
    ftweedal% ipa certprofile-import wildcard \
        --file wildcard.cfg \
@@ -87,7 +87,7 @@ Now import the modified configuration as a new profile called
 Next, set up a CA ACL to allow the ``wildcard`` profile to be used with
 the ``cloudapps.example.com`` host:
 
-::
+.. code-block:: text
 
    ftweedal% ipa caacl-add wildcard-hosts
    -----------------------------
@@ -118,7 +118,7 @@ the ``cloudapps.example.com`` host:
 An additional step is required in FreeIPA 4.4 (RHEL 7.3) and later (it
 does not apply to FreeIPA < 4.4):
 
-::
+.. code-block:: text
 
    ftweedal% ipa caacl-add-ca wildcard-hosts --cas ipa
      ACL name: wildcard-hosts
@@ -131,7 +131,7 @@ does not apply to FreeIPA < 4.4):
 Then create a CSR with subject ``CN=cloudapps.example.com`` (details
 omitted), and issue the certificate:
 
-::
+.. code-block:: text
 
    ftweedal% ipa cert-request my.csr \
        --principal host/cloudapps.example.com \
@@ -147,7 +147,7 @@ omitted), and issue the certificate:
 
 Alternatively, you can use Certmonger to request the certificate:
 
-::
+.. code-block:: text
 
    ftweedal% ipa-getcert request \
      -d /etc/httpd/alias -p /etc/httpd/alias/pwdfile.txt \
@@ -173,7 +173,7 @@ literal wildcard and the period to its right, and the common name (CN)
 from the CSR gets substituted in after that. The relevant line in the
 profile configuration is:
 
-::
+.. code-block:: text
 
    policyset.serverCertSet.1.default.params.name=CN=*.$request.req_subject_name.cn$, o=EXAMPLE.COM
 

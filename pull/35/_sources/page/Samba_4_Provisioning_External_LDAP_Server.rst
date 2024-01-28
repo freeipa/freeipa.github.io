@@ -52,7 +52,7 @@ The provisioning tool is located in these files:
 
 To provision Samba with DS:
 
-::
+.. code-block:: text
 
    % setup/provision --realm=EXAMPLE.COM --domain=EXAMPLE \
    --host-name=samba --host-ip=127.0.0.1 \
@@ -185,7 +185,7 @@ Examples
 Configuring Samba with Internal LDAP Server
 -------------------------------------------
 
-::
+.. code-block:: text
 
    % setup/provision --realm=EXAMPLE.COM --domain=EXAMPLE \
    --host-name=samba --host-ip=127.0.0.1 \
@@ -201,7 +201,7 @@ Configuring Samba with External LDAP Server
 Create a new LDAP server on /root/Samba/fedora-ds using the following
 command:
 
-::
+.. code-block:: text
 
    % setup/provision --realm=EXAMPLE.COM --domain=EXAMPLE \
    --host-name=samba --host-ip=127.0.0.1 \
@@ -212,7 +212,7 @@ command:
 Make sure the LDAP server is running. Then setup Samba using the new
 LDAP server by specifying the LDAP URI:
 
-::
+.. code-block:: text
 
    % setup/provision --realm=EXAMPLE.COM --domain=EXAMPLE \
    --host-name=samba --host-ip=127.0.0.1 \

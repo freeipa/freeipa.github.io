@@ -304,21 +304,21 @@ then move the old configuration:
 <code class="docutils literal notranslate"><span class="pre">/etc/openshift/plugins.d/openshift-origin-dns-nsupdate.conf</span></code> to
 look like this (make the file if it doesn’t exist):</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BIND_SERVER</span><span class="o">=</span><span class="s2">&quot;IPA_SERVER_IP_ADDRESS&quot;</span>
-<span class="n">BIND_PORT</span><span class="o">=</span><span class="mi">53</span>
-<span class="n">BIND_ZONE</span><span class="o">=</span><span class="s2">&quot;BROKER_DOMAIN&quot;</span>
-<span class="n">BIND_KRB_PRINCIPAL</span><span class="o">=</span><span class="s2">&quot;DNS/NODE_HOSTNAME@IPA_REALM&quot;</span>
-<span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>BIND_SERVER=&quot;IPA_SERVER_IP_ADDRESS&quot;
+BIND_PORT=53
+BIND_ZONE=&quot;BROKER_DOMAIN&quot;
+BIND_KRB_PRINCIPAL=&quot;DNS/NODE_HOSTNAME@IPA_REALM&quot;
+BIND_KRB_KEYTAB=&quot;/etc/dns.keytab&quot;
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Mine looks like:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BIND_SERVER</span><span class="o">=</span><span class="s2">&quot;10.16.78.111&quot;</span>
-<span class="n">BIND_PORT</span><span class="o">=</span><span class="mi">53</span>
-<span class="n">BIND_ZONE</span><span class="o">=</span><span class="s2">&quot;idm.lab.bos.redhat.com&quot;</span>
-<span class="n">BIND_KRB_PRINCIPAL</span><span class="o">=</span><span class="s2">&quot;DNS/vm-040.idm.lab.bos.redhat.com@IDM.LAB.BOS.REDHAT.COM&quot;</span>
-<span class="n">BIND_KRB_KEYTAB</span><span class="o">=</span><span class="s2">&quot;/etc/dns.keytab&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>BIND_SERVER=&quot;10.16.78.111&quot;
+BIND_PORT=53
+BIND_ZONE=&quot;idm.lab.bos.redhat.com&quot;
+BIND_KRB_PRINCIPAL=&quot;DNS/vm-040.idm.lab.bos.redhat.com@IDM.LAB.BOS.REDHAT.COM&quot;
+BIND_KRB_KEYTAB=&quot;/etc/dns.keytab&quot;
 </pre></div>
 </div>
 <p>Get IPA Keytab for DNS</p>
@@ -328,7 +328,7 @@ it is allowed to update CNAME records, and 3) get the keytab over to the
 Broker machine and with correct ownership.</p>
 <p><strong>If ipa-admintools</strong> is installed on the Broker, then you can do the
 following command on the Broker. Else, do it on the IPA Server machine:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kinit admin
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>kinit admin
 ipa service-add DNS/$BROKER_FQDN
 ipa dnszone-mod $DNS_ZONE --dynamic-update=true\
     --update-policy=&quot;grant DNS\047$BROKER_FQDN@REALM wildcard * ANY;&quot;
@@ -342,7 +342,7 @@ and just append the policy update is to navigate to the Web UI -&gt; DNS -&gt;
 Settings and add <code class="docutils literal notranslate"><span class="pre">grant</span> <span class="pre">DNS\047$BROKER_FQDN&#64;REALM</span> <span class="pre">wildcard</span> <span class="pre">*</span> <span class="pre">ANY;</span></code> to
 the BIND policy.</p>
 <p><strong>On the Broker host</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-getkeytab -s $IPA_SERVER_HOSTNAME -p DNS/$BROKER_FQDN -k /etc/dns.keytab
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-getkeytab -s $IPA_SERVER_HOSTNAME -p DNS/$BROKER_FQDN -k /etc/dns.keytab
 kinit -kt /etc/dns.keytab -p DNS/$BROKER_FQDN
 </pre></div>
 </div>
@@ -363,7 +363,7 @@ issue with either MongoDB or ActiveMQ/MCollective.</p></li>
 <p>Manually</p>
 <p>First we should manually see if nsupdate works on our <strong>Broker machine</strong>
 to see if it can correctly update its zone:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[root@broker]# kinit -kt /etc/dns.keytab DNS/$BROKER_FQDN
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@broker]# kinit -kt /etc/dns.keytab DNS/$BROKER_FQDN
 [root@broker]# nsupdate -g
 &amp;gt; server $IPA_SERVER_IP_ADDR
 &amp;gt; zone $BROKER_ZONE
@@ -376,30 +376,30 @@ to see if it can correctly update its zone:</p>
 <p>You should have no response after <code class="docutils literal notranslate"><span class="pre">send</span></code> - that means it went through.
 Then try the following on the Broker, the IPA Server, and a third
 machine in the realm (admin, client, anything)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@admin</span><span class="p">]</span><span class="c1"># dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@broker]# dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN
+[root@ipaserver]# dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN
+[root@admin]# dig @IPA_SERVER_IP_ADDR $YOUR_TEST_APP_FQDN
 </pre></div>
 </div>
 <p>Then on the IPA Server or Broker if the Broker has <code class="docutils literal notranslate"><span class="pre">ipa-admintools</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipaserver</span><span class="p">]</span><span class="c1"># ipa dns-resolve $YOUR_TEST_APP_FQDN</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ipaserver]# ipa dns-resolve $YOUR_TEST_APP_FQDN
 </pre></div>
 </div>
 <p>With OpenShift Enterprise</p>
 <p>On the OSE Broker, move into the broker directory, remove the
 Gemfile.lock (NOT Gemfile!), and locally install the :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># cd /var/www/openshift/broker</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># rm -rf Gemfile.lock</span>
-<span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># bundle --local</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@broker]# cd /var/www/openshift/broker
+[root@broker]# rm -rf Gemfile.lock
+[root@broker]# bundle --local
 </pre></div>
 </div>
 <p>Then we’ll start the rails console that has access to all the Broker
 gems, create a DNS instance, and create a CNAME record through the rails
 console:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@broker</span><span class="p">]</span><span class="c1"># rails console</span>
-<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mi">001</span><span class="p">:</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">OpenShift</span><span class="p">::</span><span class="n">DnsService</span><span class="o">.</span><span class="n">instance</span>
-<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mi">002</span><span class="p">:</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">d</span><span class="o">.</span><span class="n">register_application</span> <span class="s2">&quot;testapp1&quot;</span><span class="p">,</span> <span class="s2">&quot;testns1&quot;</span><span class="p">,</span> <span class="s2">&quot;node1.example.com</span>
-<span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">nil</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@broker]# rails console
+irb(main):001:0&amp;gt; d = OpenShift::DnsService.instance
+irb(main):002:0&amp;gt; d.register_application &quot;testapp1&quot;, &quot;testns1&quot;, &quot;node1.example.com
+=&amp;gt; nil
 </pre></div>
 </div>
 <p>If you are successful, the rails console will return with “nil”.</p>
@@ -417,7 +417,7 @@ IPA’s keytab.</p>
 <p>Note that if you didn’t update the manual test to delete the CNAME
 record for the FQDN, you will need to choose another test FQDN.</p>
 <p>On your client machine:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@client</span><span class="p">]</span><span class="c1">#  rhc app create APP_NAME APP_TYPE</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@client]#  rhc app create APP_NAME APP_TYPE
 </pre></div>
 </div>
 <p>It should not hang anywhere (well, creating name space and such can take

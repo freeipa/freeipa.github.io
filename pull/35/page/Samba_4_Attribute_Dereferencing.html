@@ -329,11 +329,11 @@ format</a>.</p>
 <h2>Provisioning Tool<a class="headerlink" href="#provisioning-tool" title="Link to this heading">#</a></h2>
 <p>The provisioning tool uses extended_dn_out_dereference module for both
 OpenLDAP and DS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">ldap_backend</span><span class="o">.</span><span class="n">ldap_backend_type</span> <span class="o">==</span> <span class="s2">&quot;fedora-ds&quot;</span><span class="p">:</span>
-    <span class="n">tdb_modules_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;extended_dn_out_dereference&quot;</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>if ldap_backend.ldap_backend_type == &quot;fedora-ds&quot;:
+    tdb_modules_list = [&quot;extended_dn_out_dereference&quot;]
 
-<span class="k">elif</span> <span class="n">ldap_backend</span><span class="o">.</span><span class="n">ldap_backend_type</span> <span class="o">==</span> <span class="s2">&quot;openldap&quot;</span><span class="p">:</span>
-    <span class="n">tdb_modules_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;extended_dn_out_dereference&quot;</span><span class="p">]</span>
+elif ldap_backend.ldap_backend_type == &quot;openldap&quot;:
+    tdb_modules_list = [&quot;extended_dn_out_dereference&quot;]
 </pre></div>
 </div>
 </section>
@@ -341,11 +341,11 @@ OpenLDAP and DS:</p>
 <h2>Module Definition<a class="headerlink" href="#module-definition" title="Link to this heading">#</a></h2>
 <p>The module is defined in
 source/dsdb/samdb/ldb_modules/extended_dn_out.c:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_PUBLIC_</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_module_ops</span> <span class="n">ldb_extended_dn_out_dereference_module_ops</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="o">.</span><span class="n">name</span>         <span class="o">=</span> <span class="s2">&quot;extended_dn_out_dereference&quot;</span><span class="p">,</span>
-    <span class="o">.</span><span class="n">search</span>       <span class="o">=</span> <span class="n">extended_dn_out_search</span><span class="p">,</span>
-    <span class="o">.</span><span class="n">init_context</span> <span class="o">=</span> <span class="n">extended_dn_out_dereference_init</span><span class="p">,</span>
-<span class="p">};</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_PUBLIC_ const struct ldb_module_ops ldb_extended_dn_out_dereference_module_ops = {
+    .name         = &quot;extended_dn_out_dereference&quot;,
+    .search       = extended_dn_out_search,
+    .init_context = extended_dn_out_dereference_init,
+};
 </pre></div>
 </div>
 </section>
@@ -353,15 +353,15 @@ source/dsdb/samdb/ldb_modules/extended_dn_out.c:</p>
 <h2>Initialization Method<a class="headerlink" href="#initialization-method" title="Link to this heading">#</a></h2>
 <p>The initialization method is contains OpenLDAP-specific attribute
 entryUUID.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_dereference_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">cur</span> <span class="o">=</span> <span class="n">schema</span><span class="o">-&gt;</span><span class="n">attributes</span><span class="p">;</span> <span class="n">cur</span><span class="p">;</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="nb">next</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">static</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attrs</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;entryUUID&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;objectSID&quot;</span><span class="p">,</span>
-            <span class="n">NULL</span>
-        <span class="p">};</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int extended_dn_out_dereference_init(struct ldb_module *module) {
+    for (cur = schema-&gt;attributes; cur; cur = cur-&gt;next) {
+        static const char *attrs[] = {
+            &quot;entryUUID&quot;,
+            &quot;objectSID&quot;,
+            NULL
+        };
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -369,54 +369,54 @@ entryUUID.</p>
 <h2>Search Method<a class="headerlink" href="#search-method" title="Link to this heading">#</a></h2>
 <p>The search method specifies a callback function when constructing a
 search request.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_search</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">ldb_build_search_req_ex</span><span class="p">(</span><span class="o">&amp;</span><span class="n">down_req</span><span class="p">,</span>
-        <span class="n">ldb_module_get_ctx</span><span class="p">(</span><span class="n">module</span><span class="p">),</span> <span class="n">ac</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">op</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">base</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">op</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">scope</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">op</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span>
-        <span class="n">const_attrs</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">controls</span><span class="p">,</span>
-        <span class="n">ac</span><span class="p">,</span> <span class="n">extended_callback</span><span class="p">,</span>
-        <span class="n">req</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int extended_dn_out_search(struct ldb_module *module, struct ldb_request *req)
+{
+    ret = ldb_build_search_req_ex(&amp;down_req,
+        ldb_module_get_ctx(module), ac,
+        req-&gt;op.search.base,
+        req-&gt;op.search.scope,
+        req-&gt;op.search.tree,
+        const_attrs,
+        req-&gt;controls,
+        ac, extended_callback,
+        req);
+}
 </pre></div>
 </div>
 </section>
 <section id="callback-function">
 <h2>Callback Function<a class="headerlink" href="#callback-function" title="Link to this heading">#</a></h2>
 <p>The callback function calls a handler function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">extended_callback</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_reply</span> <span class="o">*</span><span class="n">ares</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">handle_dereference</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span>
-        <span class="n">dereference_control</span><span class="o">-&gt;</span><span class="n">attributes</span><span class="p">,</span>
-        <span class="n">msg</span><span class="o">-&gt;</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int extended_callback(struct ldb_request *req, struct ldb_reply *ares)
+{
+    ret = handle_dereference(dn,
+        dereference_control-&gt;attributes,
+        msg-&gt;elements[i].name,
+        &amp;msg-&gt;elements[i].values[j]);
+}
 </pre></div>
 </div>
 </section>
 <section id="handler-function">
 <h2>Handler Function<a class="headerlink" href="#handler-function" title="Link to this heading">#</a></h2>
 <p>The handler function uses OpenLDAP-specific attribute entryUUID.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
-    <span class="n">struct</span> <span class="n">dsdb_openldap_dereference_result</span> <span class="o">**</span><span class="n">dereference_attrs</span><span class="p">,</span>
-    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span> <span class="n">const</span> <span class="n">DATA_BLOB</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">entryUUIDblob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;entryUUID&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">entryUUIDblob</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">GUID_from_data_blob</span><span class="p">(</span><span class="n">entryUUIDblob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid</span><span class="p">);</span>
-        <span class="n">ndr_push_struct_blob</span><span class="p">(</span><span class="o">&amp;</span><span class="n">guid_blob</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">ndr_push_flags_fn_t</span><span class="p">)</span><span class="n">ndr_push_GUID</span><span class="p">);</span>
-        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;GUID&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid_blob</span><span class="p">);</span>
-    <span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int handle_dereference(struct ldb_dn *dn,
+    struct dsdb_openldap_dereference_result **dereference_attrs,
+    const char *attr, const DATA_BLOB *val)
+{
+    entryUUIDblob = ldb_msg_find_ldb_val(&amp;fake_msg, &quot;entryUUID&quot;);
+    if (entryUUIDblob) {
+        GUID_from_data_blob(entryUUIDblob, &amp;guid);
+        ndr_push_struct_blob(&amp;guid_blob, NULL, NULL, &amp;guid,
+            (ndr_push_flags_fn_t)ndr_push_GUID);
+        ldb_dn_set_extended_component(dn, &quot;GUID&quot;, &amp;guid_blob);
+    }
 
-    <span class="n">sid_blob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;objectSID&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sid_blob</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="n">sid_blob</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    sid_blob = ldb_msg_find_ldb_val(&amp;fake_msg, &quot;objectSID&quot;);
+    if (sid_blob) {
+        ldb_dn_set_extended_component(dn, &quot;SID&quot;, sid_blob);
+    }
+}
 </pre></div>
 </div>
 </section>
@@ -427,11 +427,11 @@ search request.</p>
 <h2>Provisioning Tool<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>The provisioning tool should be changed to use different modules for
 OpenLDAP and DS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">ldap_backend</span><span class="o">.</span><span class="n">ldap_backend_type</span> <span class="o">==</span> <span class="s2">&quot;fedora-ds&quot;</span><span class="p">:</span>
-    <span class="n">tdb_modules_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;extended_dn_out_fds&quot;</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>if ldap_backend.ldap_backend_type == &quot;fedora-ds&quot;:
+    tdb_modules_list = [&quot;extended_dn_out_fds&quot;]
 
-<span class="k">elif</span> <span class="n">ldap_backend</span><span class="o">.</span><span class="n">ldap_backend_type</span> <span class="o">==</span> <span class="s2">&quot;openldap&quot;</span><span class="p">:</span>
-    <span class="n">tdb_modules_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;extended_dn_out_openldap&quot;</span><span class="p">]</span>
+elif ldap_backend.ldap_backend_type == &quot;openldap&quot;:
+    tdb_modules_list = [&quot;extended_dn_out_openldap&quot;]
 </pre></div>
 </div>
 </section>
@@ -439,17 +439,17 @@ OpenLDAP and DS:</p>
 <h2>Module Definition<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>The extended_dn_out_dereference module should be replaced by
 extended_dn_out_openldap and extended_dn_out_fds modules:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_PUBLIC_</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_module_ops</span> <span class="n">ldb_extended_dn_out_openldap_module_ops</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="o">.</span><span class="n">name</span>         <span class="o">=</span> <span class="s2">&quot;extended_dn_out_openldap&quot;</span><span class="p">,</span>
-    <span class="o">.</span><span class="n">search</span>       <span class="o">=</span> <span class="n">extended_dn_out_openldap_search</span><span class="p">,</span>
-    <span class="o">.</span><span class="n">init_context</span> <span class="o">=</span> <span class="n">extended_dn_out_openldap_init</span><span class="p">,</span>
-<span class="p">};</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_PUBLIC_ const struct ldb_module_ops ldb_extended_dn_out_openldap_module_ops = {
+    .name         = &quot;extended_dn_out_openldap&quot;,
+    .search       = extended_dn_out_openldap_search,
+    .init_context = extended_dn_out_openldap_init,
+};
 
-<span class="n">_PUBLIC_</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">ldb_module_ops</span> <span class="n">ldb_extended_dn_out_fds_module_ops</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="o">.</span><span class="n">name</span>         <span class="o">=</span> <span class="s2">&quot;extended_dn_out_fds&quot;</span><span class="p">,</span>
-    <span class="o">.</span><span class="n">search</span>       <span class="o">=</span> <span class="n">extended_dn_out_fds_search</span><span class="p">,</span>
-    <span class="o">.</span><span class="n">init_context</span> <span class="o">=</span> <span class="n">extended_dn_out_fds_init</span><span class="p">,</span>
-<span class="p">};</span>
+_PUBLIC_ const struct ldb_module_ops ldb_extended_dn_out_fds_module_ops = {
+    .name         = &quot;extended_dn_out_fds&quot;,
+    .search       = extended_dn_out_fds_search,
+    .init_context = extended_dn_out_fds_init,
+};
 </pre></div>
 </div>
 </section>
@@ -459,31 +459,31 @@ extended_dn_out_openldap and extended_dn_out_fds modules:</p>
 attribute list. There will be separate initialization methods for
 OpenLDAP and DS which will call the generic initialization method and
 supply the appropriate attribute list for the backend.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_dereference_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span>
-    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attrs</span><span class="p">[])</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int extended_dn_out_dereference_init(struct ldb_module *module,
+    const char *attrs[]) {
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">cur</span> <span class="o">=</span> <span class="n">schema</span><span class="o">-&gt;</span><span class="n">attributes</span><span class="p">;</span> <span class="n">cur</span><span class="p">;</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="nb">next</span><span class="p">)</span> <span class="p">{</span>
-        <span class="o">...</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    for (cur = schema-&gt;attributes; cur; cur = cur-&gt;next) {
+        ...
+    }
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_openldap_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">static</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attrs</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;entryUUID&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;objectSID&quot;</span><span class="p">,</span>
-        <span class="n">NULL</span>
-    <span class="p">};</span>
-    <span class="k">return</span> <span class="n">extended_dn_out_dereference_init</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">attrs</span><span class="p">);</span>
-<span class="p">}</span>
+static int extended_dn_out_openldap_init(struct ldb_module *module) {
+    static const char *attrs[] = {
+        &quot;entryUUID&quot;,
+        &quot;objectSID&quot;,
+        NULL
+    };
+    return extended_dn_out_dereference_init(module, attrs);
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_fds_init</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">static</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attrs</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;nsUniqueId&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;objectSID&quot;</span><span class="p">,</span>
-        <span class="n">NULL</span>
-    <span class="p">};</span>
-    <span class="k">return</span> <span class="n">extended_dn_out_dereference_init</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">attrs</span><span class="p">);</span>
-<span class="p">}</span>
+static int extended_dn_out_fds_init(struct ldb_module *module) {
+    static const char *attrs[] = {
+        &quot;nsUniqueId&quot;,
+        &quot;objectSID&quot;,
+        NULL
+    };
+    return extended_dn_out_dereference_init(module, attrs);
+}
 </pre></div>
 </div>
 </section>
@@ -493,30 +493,30 @@ supply the appropriate attribute list for the backend.</p>
 function. There will be separate search methods for OpenLDAP and DS
 which will call the generic search method and supply the appropriate
 callback function for the backend.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_search</span><span class="p">(</span>
-    <span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span>
-    <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">callback</span><span class="p">)(</span><span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_reply</span> <span class="o">*</span><span class="n">ares</span><span class="p">))</span>
-<span class="p">{</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">ldb_build_search_req_ex</span><span class="p">(</span><span class="o">&amp;</span><span class="n">down_req</span><span class="p">,</span>
-        <span class="n">ldb_module_get_ctx</span><span class="p">(</span><span class="n">module</span><span class="p">),</span> <span class="n">ac</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">op</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">base</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">op</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">scope</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">op</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span>
-        <span class="n">const_attrs</span><span class="p">,</span>
-        <span class="n">req</span><span class="o">-&gt;</span><span class="n">controls</span><span class="p">,</span>
-        <span class="n">ac</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span>
-        <span class="n">req</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int extended_dn_out_search(
+    struct ldb_module *module, struct ldb_request *req,
+    int (*callback)(struct ldb_request *req, struct ldb_reply *ares))
+{
+    ret = ldb_build_search_req_ex(&amp;down_req,
+        ldb_module_get_ctx(module), ac,
+        req-&gt;op.search.base,
+        req-&gt;op.search.scope,
+        req-&gt;op.search.tree,
+        const_attrs,
+        req-&gt;controls,
+        ac, callback,
+        req);
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_openldap_search</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">extended_dn_out_search</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span> <span class="n">extended_callback_openldap</span><span class="p">);</span>
-<span class="p">}</span>
+static int extended_dn_out_openldap_search(struct ldb_module *module, struct ldb_request *req)
+{
+    return extended_dn_out_search(module, req, extended_callback_openldap);
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">extended_dn_out_fds_search</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_module</span> <span class="o">*</span><span class="n">module</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">extended_dn_out_search</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span> <span class="n">extended_callback_fds</span><span class="p">);</span>
-<span class="p">}</span>
+static int extended_dn_out_fds_search(struct ldb_module *module, struct ldb_request *req)
+{
+    return extended_dn_out_search(module, req, extended_callback_fds);
+}
 </pre></div>
 </div>
 </section>
@@ -526,26 +526,26 @@ callback function for the backend.</p>
 function. There will be separate callback functions for OpenLDAP and DS
 which will call the generic callback function and supply the appropriate
 handler function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">extended_callback</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_reply</span> <span class="o">*</span><span class="n">ares</span><span class="p">,</span>
-    <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">handle_dereference</span><span class="p">)(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
-        <span class="n">struct</span> <span class="n">dsdb_openldap_dereference_result</span> <span class="o">**</span><span class="n">dereference_attrs</span><span class="p">,</span>
-        <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span> <span class="n">const</span> <span class="n">DATA_BLOB</span> <span class="o">*</span><span class="n">val</span><span class="p">))</span>
-<span class="p">{</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">handle_dereference</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span>
-        <span class="n">dereference_control</span><span class="o">-&gt;</span><span class="n">attributes</span><span class="p">,</span>
-        <span class="n">msg</span><span class="o">-&gt;</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int extended_callback(struct ldb_request *req, struct ldb_reply *ares,
+    int (*handle_dereference)(struct ldb_dn *dn,
+        struct dsdb_openldap_dereference_result **dereference_attrs,
+        const char *attr, const DATA_BLOB *val))
+{
+    ret = handle_dereference(dn,
+        dereference_control-&gt;attributes,
+        msg-&gt;elements[i].name,
+        &amp;msg-&gt;elements[i].values[j]);
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">extended_callback_openldap</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_reply</span> <span class="o">*</span><span class="n">ares</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">extended_callback</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">ares</span><span class="p">,</span> <span class="n">handler_dereference_openldap</span><span class="p">);</span>
-<span class="p">}</span>
+static int extended_callback_openldap(struct ldb_request *req, struct ldb_reply *ares)
+{
+    return extended_callback(req, ares, handler_dereference_openldap);
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">extended_callback_fds</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_request</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span> <span class="n">struct</span> <span class="n">ldb_reply</span> <span class="o">*</span><span class="n">ares</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">extended_callback</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">ares</span><span class="p">,</span> <span class="n">handler_dereference_fds</span><span class="p">);</span>
-<span class="p">}</span>
+static int extended_callback_fds(struct ldb_request *req, struct ldb_reply *ares)
+{
+    return extended_callback(req, ares, handler_dereference_fds);
+}
 </pre></div>
 </div>
 </section>
@@ -554,41 +554,41 @@ handler function.</p>
 <p>The original handler function that reads the entryUUID attribute should
 be used for OpenLDAP only. A new handler function that reads nsUniqueId
 should be used for DS.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference_openldap</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
-    <span class="n">struct</span> <span class="n">dsdb_openldap_dereference_result</span> <span class="o">**</span><span class="n">dereference_attrs</span><span class="p">,</span>
-    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span> <span class="n">const</span> <span class="n">DATA_BLOB</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">entryUUIDblob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;entryUUID&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">entryUUIDblob</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">GUID_from_data_blob</span><span class="p">(</span><span class="n">entryUUIDblob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid</span><span class="p">);</span>
-        <span class="n">ndr_push_struct_blob</span><span class="p">(</span><span class="o">&amp;</span><span class="n">guid_blob</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">ndr_push_flags_fn_t</span><span class="p">)</span><span class="n">ndr_push_GUID</span><span class="p">);</span>
-        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;GUID&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid_blob</span><span class="p">);</span>
-    <span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>static int handle_dereference_openldap(struct ldb_dn *dn,
+    struct dsdb_openldap_dereference_result **dereference_attrs,
+    const char *attr, const DATA_BLOB *val)
+{
+    entryUUIDblob = ldb_msg_find_ldb_val(&amp;fake_msg, &quot;entryUUID&quot;);
+    if (entryUUIDblob) {
+        GUID_from_data_blob(entryUUIDblob, &amp;guid);
+        ndr_push_struct_blob(&amp;guid_blob, NULL, NULL, &amp;guid,
+            (ndr_push_flags_fn_t)ndr_push_GUID);
+        ldb_dn_set_extended_component(dn, &quot;GUID&quot;, &amp;guid_blob);
+    }
 
-    <span class="n">sid_blob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;objectSID&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sid_blob</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="n">sid_blob</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    sid_blob = ldb_msg_find_ldb_val(&amp;fake_msg, &quot;objectSID&quot;);
+    if (sid_blob) {
+        ldb_dn_set_extended_component(dn, &quot;SID&quot;, sid_blob);
+    }
+}
 
-<span class="n">static</span> <span class="nb">int</span> <span class="n">handle_dereference_fds</span><span class="p">(</span><span class="n">struct</span> <span class="n">ldb_dn</span> <span class="o">*</span><span class="n">dn</span><span class="p">,</span>
-    <span class="n">struct</span> <span class="n">dsdb_openldap_dereference_result</span> <span class="o">**</span><span class="n">dereference_attrs</span><span class="p">,</span>
-    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">attr</span><span class="p">,</span> <span class="n">const</span> <span class="n">DATA_BLOB</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">nsUniqueIdBlob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;nsUniqueId&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">nsUniqueIdBlob</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">NS_GUID_from_string</span><span class="p">((</span><span class="n">char</span> <span class="o">*</span><span class="p">)</span><span class="n">nsUniqueIdBlob</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid</span><span class="p">);</span>
-        <span class="n">ndr_push_struct_blob</span><span class="p">(</span><span class="o">&amp;</span><span class="n">guid_blob</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">ndr_push_flags_fn_t</span><span class="p">)</span><span class="n">ndr_push_GUID</span><span class="p">);</span>
-        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;GUID&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">guid_blob</span><span class="p">);</span>
-    <span class="p">}</span>
+static int handle_dereference_fds(struct ldb_dn *dn,
+    struct dsdb_openldap_dereference_result **dereference_attrs,
+    const char *attr, const DATA_BLOB *val)
+{
+    nsUniqueIdBlob = ldb_msg_find_ldb_val(&amp;fake_msg, &quot;nsUniqueId&quot;);
+    if (nsUniqueIdBlob) {
+        NS_GUID_from_string((char *)nsUniqueIdBlob-&gt;data, &amp;guid);
+        ndr_push_struct_blob(&amp;guid_blob, NULL, NULL, &amp;guid,
+            (ndr_push_flags_fn_t)ndr_push_GUID);
+        ldb_dn_set_extended_component(dn, &quot;GUID&quot;, &amp;guid_blob);
+    }
 
-    <span class="n">sid_blob</span> <span class="o">=</span> <span class="n">ldb_msg_find_ldb_val</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fake_msg</span><span class="p">,</span> <span class="s2">&quot;objectSID&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sid_blob</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">ldb_dn_set_extended_component</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="s2">&quot;SID&quot;</span><span class="p">,</span> <span class="n">sid_blob</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    sid_blob = ldb_msg_find_ldb_val(&amp;fake_msg, &quot;objectSID&quot;);
+    if (sid_blob) {
+        ldb_dn_set_extended_component(dn, &quot;SID&quot;, sid_blob);
+    }
+}
 </pre></div>
 </div>
 </section>

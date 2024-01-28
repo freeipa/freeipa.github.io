@@ -414,13 +414,13 @@ as disabled.</p>
 (<code class="docutils literal notranslate"><span class="pre">cn=ipaConfig,cn=etc,$SUFFIX</span></code>) and ID view objects will be extended
 by a new objectclass providing the attribute which stores the domain
 resolution:</p>
-<div class="line-block">
-<div class="line">``   objectclasses: ( 2.16.840.1.113730.3.8.12.39  NAME ‘ipaNameResolutionData’ DESC ‘Data used to resolve short names``</div>
-<div class="line">``   to fully-qualified form’ SUP top AUXILIARY MAY ( ipaDomainResolutionOrder ) X-ORIGIN ‘IPA v4.5’ )``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>objectclasses: ( 2.16.840.1.113730.3.8.12.39  NAME &#39;ipaNameResolutionData&#39; DESC &#39;Data used to resolve short names
+to fully-qualified form&#39; SUP top AUXILIARY MAY ( ipaDomainResolutionOrder ) X-ORIGIN &#39;IPA v4.5&#39; )
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line">``   attributeTypes: ( 2.16.840.1.113730.3.8.11.77 NAME ‘ipaDomainResolutionOrder’ DESC ‘List of domains used to resolve ``</div>
-<div class="line">``   a short name’ EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE X-ORIGIN ‘IPA v4.5’ )``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>attributeTypes: ( 2.16.840.1.113730.3.8.11.77 NAME &#39;ipaDomainResolutionOrder&#39; DESC &#39;List of domains used to resolve
+a short name&#39; EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE X-ORIGIN &#39;IPA v4.5&#39; )
+</pre></div>
 </div>
 <p>The value of the <code class="docutils literal notranslate"><span class="pre">ipaDomainResolutionOrder</span></code> consist of a
 colon-separated list of domain names (e.g
@@ -474,7 +474,7 @@ log in using short name, we may do the following:</p>
 <h2>Example 1: Create a global resolution order<a class="headerlink" href="#example-1-create-a-global-resolution-order" title="Link to this heading">#</a></h2>
 <p>just directly set the value of <code class="docutils literal notranslate"><span class="pre">--domain-resolution-order</span></code> attribute
 to the desired value:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa config-mod --domain-resolution-order=&#39;ipa.test:ad.forest.test:child1.ad.forest.test:child2.ad.forest.test&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa config-mod --domain-resolution-order=&#39;ipa.test:ad.forest.test:child1.ad.forest.test:child2.ad.forest.test&#39;
   Maximum username length: 32
   Home directory base: /home
   ...
@@ -489,13 +489,13 @@ to the desired value:</p>
 <li><p>store to FreeIPA domain name in the temporary file which will store
 the entries of interest:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa env domain | awk &#39;{print $2}&#39; &gt; domain_list.txt
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa env domain | awk &#39;{print $2}&#39; &gt; domain_list.txt
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>append the list of trusted domains to the file:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa trustdomain-find ad.forest.test --pkey-only --raw | grep &#39;cn:&#39; | awk &#39;{ print $2}&#39; &gt;&gt; domain_list.txt
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa trustdomain-find ad.forest.test --pkey-only --raw | grep &#39;cn:&#39; | awk &#39;{ print $2}&#39; &gt;&gt; domain_list.txt
 </pre></div>
 </div>
 <p>NOTE: if you wish the AD users to be resolved first you can just reverse
@@ -503,7 +503,7 @@ the order of operations.</p>
 <ul class="simple">
 <li><p>now set the <code class="docutils literal notranslate"><span class="pre">domain-resolution-order</span></code> attribute value:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa config-mod --domain-resolution-order=$(cat domain_list.txt | tr &#39;\n &#39;:&#39;)
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa config-mod --domain-resolution-order=$(cat domain_list.txt | tr &#39;\n &#39;:&#39;)
   Maximum username length: 32
   Home directory base: /home
   ...
@@ -523,7 +523,7 @@ this one tried out first when resolving short names.</p>
 <li><p>first we create an ID view which will hold the modified resolution
 order:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa idview-add special_host_view --desc &#39;ID view for custom shortname resolution on special hosts&#39; --domain-resolution-order &#39;child2.ad.forest:test:child1.ad.forest&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa idview-add special_host_view --desc &#39;ID view for custom shortname resolution on special hosts&#39; --domain-resolution-order &#39;child2.ad.forest:test:child1.ad.forest&#39;
 ---------------------------------
 Added ID View &quot;special_host_view&quot;
 ---------------------------------
@@ -535,7 +535,7 @@ Added ID View &quot;special_host_view&quot;
 <ul class="simple">
 <li><p>then we apply the view on the host</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa idview-apply special_host_view --hosts special.ipa.test
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa idview-apply special_host_view --hosts special.ipa.test
 -----------------------------------
 Applied ID View &quot;special_host_view&quot;
 -----------------------------------

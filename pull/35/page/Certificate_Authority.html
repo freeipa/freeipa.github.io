@@ -430,17 +430,17 @@ operations.</p>
 <h2>Request a certificate<a class="headerlink" href="#request-a-certificate" title="Link to this heading">#</a></h2>
 <p>You start with a Certificate Signing Request (CSR). In our case this is
 a base-64 encoded PKCS#10 request which looks something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-----</span><span class="n">BEGIN</span> <span class="n">CERTIFICATE</span> <span class="n">REQUEST</span><span class="o">-----</span>
-<span class="n">MIIBnTCCAQYCAQAwXTELMAkGA1UEBhMCU0cxETAPBgNVBAoTCE0yQ3J5cHRvMRIw</span>
-<span class="n">EAYDVQQDEwlsb2NhbGhvc3QxJzAlBgkqhkiG9w0BCQEWGGFkbWluQHNlcnZlci5l</span>
-<span class="o">...</span>
-<span class="o">...</span>
-<span class="mi">9</span><span class="n">rsQkRc9Urv9mRBIsredGnYECNeRaK5R1yzpOowninXC</span>
-<span class="o">-----</span><span class="n">END</span> <span class="n">CERTIFICATE</span> <span class="n">REQUEST</span><span class="o">-----</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-----BEGIN CERTIFICATE REQUEST-----
+MIIBnTCCAQYCAQAwXTELMAkGA1UEBhMCU0cxETAPBgNVBAoTCE0yQ3J5cHRvMRIw
+EAYDVQQDEwlsb2NhbGhvc3QxJzAlBgkqhkiG9w0BCQEWGGFkbWluQHNlcnZlci5l
+...
+...
+9rsQkRc9Urv9mRBIsredGnYECNeRaK5R1yzpOowninXC
+-----END CERTIFICATE REQUEST-----
 </pre></div>
 </div>
 <p>To generate a CSR using OpenSSL run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">nodes</span> <span class="o">-</span><span class="n">out</span> <span class="n">host</span><span class="o">.</span><span class="n">csr</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% openssl req -new -nodes -out host.csr
 </pre></div>
 </div>
 <p>You will be prompted for the contents of the certificate subject
@@ -450,8 +450,8 @@ common name, this needs to be set to the FQDN of your host.</p>
 <code class="docutils literal notranslate"><span class="pre">privkey.pem</span></code></p>
 <p>In NSS you need to start with a cert database so you have an extra step.
 An NSS CSR generation looks like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">certutil</span> <span class="o">-</span><span class="n">N</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">test</span>
-<span class="o">%</span> <span class="n">certutil</span> <span class="o">-</span><span class="n">R</span> <span class="o">-</span><span class="n">s</span> <span class="s2">&quot;CN=ipa.example.com&quot;</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">test</span> <span class="o">-</span><span class="n">o</span> <span class="n">test</span><span class="o">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">g</span> <span class="mi">1024</span> <span class="o">-</span><span class="n">a</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% certutil -N -d /tmp/test
+% certutil -R -s &quot;CN=ipa.example.com&quot; -d /tmp/test -o test.csr -g 1024 -a
 </pre></div>
 </div>
 <p>The CSR needs to be passed as one single string on the command-line:</p>
@@ -464,25 +464,25 @@ MIIC7DCCAdSgAwIBAgIBCzANBgkqhkiG9w0BAQUFADAuMQwwCgYDVQQKEwNJUEExHjAcBgNVBAMTFUNl
 request_id: 11 serial_number: 0xb status: 0 subject:
 CN=zeus.example.com,OU=pki-ipa,O=IPA</p>
 <p>There is also a short-cut method though it isn’t working today (Oct 9).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">cert</span><span class="o">-</span><span class="n">request</span> <span class="n">file</span><span class="p">:</span><span class="o">//</span><span class="n">test</span><span class="o">.</span><span class="n">csr</span> <span class="o">--</span><span class="n">principal</span><span class="o">=</span><span class="n">ldap3</span><span class="o">/</span><span class="n">zeus</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">add</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa cert-request file://test.csr --principal=ldap3/zeus.example.com --add
 </pre></div>
 </div>
 </section>
 <section id="put-a-cert-on-hold">
 <h2>Put a cert on hold<a class="headerlink" href="#put-a-cert-on-hold" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=6 0xb
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=6 0xb
 </pre></div>
 </div>
 </section>
 <section id="remove-a-cert-from-hold">
 <h2>Remove a cert from hold<a class="headerlink" href="#remove-a-cert-from-hold" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=6 0xb
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=6 0xb
 </pre></div>
 </div>
 </section>
 <section id="revoke-a-certificate">
 <h2>Revoke a certificate<a class="headerlink" href="#revoke-a-certificate" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=1 0xb
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-revoke --revocation-reason=1 0xb
 revoked: True
 status: 0
 </pre></div>
@@ -490,7 +490,7 @@ status: 0
 </section>
 <section id="retrieve-a-revoked-certificate">
 <h2>Retrieve a revoked certificate<a class="headerlink" href="#retrieve-a-revoked-certificate" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa cert-get 0xb
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ipa cert-get 0xb
 certificate: MIIC7D...
 revocation_reason: 1
 status: 0
@@ -552,18 +552,18 @@ and a client machine that is attempting to request a certificate for
 itself. This assumes that the CSR has already been generated and is in
 the file web.csr in the current directory.</p>
 <p><strong>admin</strong></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">host-add</span> <span class="pre">client.example.com</span> <span class="pre">--password=secret123</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">HTTP/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">service-add-host</span> <span class="pre">--hosts=client.example.com</span> <span class="pre">HTTP/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">rolegroup-add-member</span> <span class="pre">--hosts=client.example.com</span> <span class="pre">certadmin</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa host-add client.example.com --password=secret123
+ipa service-add HTTP/client.example.com
+ipa service-add-host --hosts=client.example.com HTTP/client.example.com
+ipa rolegroup-add-member --hosts=client.example.com certadmin
+</pre></div>
 </div>
 <p><strong>client</strong></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-join</span> <span class="pre">-w</span> <span class="pre">secret123</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">kinit</span> <span class="pre">-kt</span> <span class="pre">/etc/krb5.keytab</span> <span class="pre">host/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">-d</span> <span class="pre">cert-request</span> <span class="pre">``\</span> <span class="pre">```file://web.csr</span></code> &lt;<a class="reference external" href="file://web.csr">file://web.csr</a>&gt;`__`` –principal=HTTP/client.example.com``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-client-install
+ipa-join -w secret123
+kinit -kt /etc/krb5.keytab host/client.example.com
+ipa -d cert-request ``\ ```file://web.csr`` &lt;file://web.csr&gt;`__\ `` --principal=HTTP/client.example.com
+</pre></div>
 </div>
 <section id="what-this-does">
 <h3>What this does<a class="headerlink" href="#what-this-does" title="Link to this heading">#</a></h3>
@@ -590,19 +590,19 @@ up a VPN tunnel to a remote host, perhaps at another company. To do this
 we need to create an entry for that remote host, a service principal to
 store the certificate, then we can issue the cert.</p>
 <p>Some of this work needs to be done as an admin:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">%</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">%</span> <span class="pre">ipa</span> <span class="pre">host-add</span> <span class="pre">vpn.remote.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">%</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">vpn/vpn.remote.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">%</span> <span class="pre">ipa</span> <span class="pre">service-add-host</span> <span class="pre">--hosts=ipa.example.com</span> <span class="pre">vpn/vpn.remote.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% kinit admin
+% ipa host-add vpn.remote.com
+% ipa service-add vpn/vpn.remote.com
+% ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com
+</pre></div>
 </div>
 <p>We’ve created the remote host and a service principal for it, then gave
 permission for the host ipa.example.com to request a certificate on
 behalf of vpn.remote.com. This assumes that the certificate request for
 vpn.remote.com is in the file <strong>vpn.csr</strong>.</p>
 <p>On ipa.example com:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``% kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
-| ``% ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> % kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
+ % ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
 | ``% ipa service-show vpn/vpn.remote.com``
 </pre></div>
 </div>

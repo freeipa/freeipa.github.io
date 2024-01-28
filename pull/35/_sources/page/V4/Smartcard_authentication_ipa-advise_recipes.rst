@@ -154,7 +154,7 @@ How to Use
 
 Example 1: configure smart card auth on ``master.example.com``:
 
-::
+.. code-block:: text
 
    # kinit admin
    # ipa-advise enable_client_certificate_logins_on_server > configure_smart_cards.sh

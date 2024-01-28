@@ -203,7 +203,7 @@ A profile for a user cert could have the following configuration:
 
 ``userCert.json``
 
-::
+.. code-block:: text
 
    [
        {
@@ -227,7 +227,7 @@ for discussion of the template syntax):
 
 ``syntaxSubject.json``
 
-::
+.. code-block:: text
 
    {
      "rules": [
@@ -248,7 +248,7 @@ for discussion of the template syntax):
 
 ``dataUsernameCN.json``
 
-::
+.. code-block:: text
 
    {
      "rules": [
@@ -289,24 +289,26 @@ For example, a request targeting openssl would produce a script which
 uses a config file like the following to generate the csr with the
 ``openssl`` command:
 
-| ``[ req ]``
-| ``prompt = no``
-| ``encrypt_key = no``
-| ``distinguished_name = dn``
-| ``req_extensions = exts``
-| ``[ dn ]``
-| ``O=DOMAIN.EXAMPLE.COM``
-| ``CN=user``
-| ``[ exts ]``
-| ``subjectAltName=@SAN``
-| ``[ SAN ]``
-| ``email=user@example.com``
-| ``dirName=SANdn``
-| ``[ SANdn ]``
-| ``1.DC=com``
-| ``2.DC=example``
-| ``CN=users``
-| ``UID=user``
+.. code-block:: text
+
+    [ req ]
+    prompt = no
+    encrypt_key = no
+    distinguished_name = dn
+    req_extensions = exts
+    [ dn ]
+    O=DOMAIN.EXAMPLE.COM
+    CN=user
+    [ exts ]
+    subjectAltName=@SAN
+    [ SAN ]
+    email=user@example.com
+    dirName=SANdn
+    [ SANdn ]
+    1.DC=com
+    2.DC=example
+    CN=users
+    UID=user
 
 The "req" section is required and defines parameters for the openssl req
 command. The "dn" and "exts" sections contain components of the
@@ -512,7 +514,7 @@ TLS server authentication
 
 Certmonger:
 
-::
+.. code-block:: text
 
    `` sudo ipa-getcert request ``\ :literal:` -K HTTP/`hostname` -N CN=`hostname`,O=EXAMPLE.COM`
 
@@ -551,11 +553,13 @@ IPA CLI:
 Smart Card Authentication
 -------------------------
 
-| `` $ ipa cert-get-requestdata --principal=${USER} --profile-id=caIPAUserCert --helper=openssl --out=user.conf  # Something like this, --out flag may be something else``
-| `` $ openssl``
-| `` OpenSSL> engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so``
-| `` OpenSSL> req -engine pkcs11 -new -key ``\ `` -keyform engine -out user.req -text -config user.conf``
-| `` $ ipa cert-request user.req --principal=${USER} --profile-id=caIPAUserCert``
+.. code-block:: text
+
+     $ ipa cert-get-requestdata --principal=${USER} --profile-id=caIPAUserCert --helper=openssl --out=user.conf  # Something like this, --out flag may be something else
+     $ openssl
+     OpenSSL> engine dynamic -pre SO_PATH:/usr/lib64/openssl/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:opensc-pkcs11.so
+     OpenSSL> req -engine pkcs11 -new -key ``\ `` -keyform engine -out user.req -text -config user.conf
+     $ ipa cert-request user.req --principal=${USER} --profile-id=caIPAUserCert
 
 Thanks to `Nathan Kinder <https://blog-nkinder.rhcloud.com/?p=184>`__
 for guidance on smart card interaction.
@@ -588,13 +592,17 @@ IECUserRoles
 
 Certmonger:
 
-| `` sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T IECUserRoles \``
-| ``   -V IECUserRoles=``
+.. code-block:: text
+
+     sudo ipa-getcert request ``\ `` -K ${USER} -N CN=${USER},O=EXAMPLE.COM -T IECUserRoles \
+       -V IECUserRoles=
 
 IPA CLI:
 
-| `` ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=IECUserRoles``
-| `` ``
+.. code-block:: text
+
+     ipa cert-request ``\ `` --autofill --principal=${USER} --profile-id=IECUserRoles
+     
 
 
 

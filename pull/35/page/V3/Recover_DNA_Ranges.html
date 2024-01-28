@@ -401,10 +401,10 @@ range itself.</p>
 <p>We will need to write a new ACI to allow admins to write a subset of DNA
 attributes, including dnaNextRange, dnaNextValue and dnaMaxValue. This
 will look like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Posix</span> <span class="n">IDs</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Distributed</span> <span class="n">Numeric</span> <span class="n">Assignment</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">add</span><span class="p">:</span> <span class="n">aci</span>
-<span class="n">aci</span><span class="p">:</span> <span class="p">(</span><span class="n">targetattr</span><span class="o">=</span><span class="n">dnaNextRange</span> <span class="o">||</span> <span class="n">dnaNextValue</span> <span class="o">||</span> <span class="n">dnaMaxValue</span><span class="p">)(</span><span class="n">version</span> <span class="mf">3.0</span><span class="p">;</span><span class="n">acl</span> <span class="s2">&quot;permission:Modify DNA Range&quot;</span><span class="p">;</span><span class="n">allow</span> <span class="p">(</span><span class="n">write</span><span class="p">)</span> <span class="n">groupdn</span> <span class="o">=</span> <span class="s2">&quot;ldap:///cn=Modify DNA Range,cn=permissions,cn=pbac,$SUFFIX&quot;</span><span class="p">;)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=Posix IDs,cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
+changetype: modify
+add: aci
+aci: (targetattr=dnaNextRange || dnaNextValue || dnaMaxValue)(version 3.0;acl &quot;permission:Modify DNA Range&quot;;allow (write) groupdn = &quot;ldap:///cn=Modify DNA Range,cn=permissions,cn=pbac,$SUFFIX&quot;;)
 </pre></div>
 </div>
 <p>A new permission will need to be added and included in the privilege
@@ -436,30 +436,30 @@ replica, something like:</p>
 <h2>Enhancing ipa-replica-manage<a class="headerlink" href="#enhancing-ipa-replica-manage" title="Link to this heading">#</a></h2>
 <p>Four new commands will be added, in sets of two: dnarange-show and
 dnarange-set and dnanextrange-show and dnanextrange-set.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-manage dnarange-show</span>
-<span class="n">masterA</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="mi">100</span><span class="o">-</span><span class="mi">500</span>
-<span class="n">masterB</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="mi">500</span><span class="o">-</span><span class="mi">1000</span>
-<span class="n">masterC</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="n">No</span> <span class="nb">range</span> <span class="nb">set</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-manage dnarange-show
+masterA.example.com: 100-500
+masterB.example.com: 500-1000
+masterC.example.com: No range set
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-manage dnarange-show masterA.example.com</span>
- <span class="n">masterA</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="mi">100</span><span class="o">-</span><span class="mi">500</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-manage dnarange-show masterA.example.com
+ masterA.example.com: 100-500
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-manage dnarange-set masterA.example.com 250-499</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-manage dnarange-set masterA.example.com 250-499
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-manage dnanextrange-show</span>
-<span class="n">masterA</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="mi">1001</span><span class="o">-</span><span class="mi">1500</span>
-<span class="n">masterB</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="n">No</span> <span class="n">on</span><span class="o">-</span><span class="n">deck</span> <span class="nb">range</span> <span class="nb">set</span>
-<span class="n">masterC</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="n">No</span> <span class="n">on</span><span class="o">-</span><span class="n">deck</span> <span class="nb">range</span> <span class="nb">set</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-manage dnanextrange-show
+masterA.example.com: 1001-1500
+masterB.example.com: No on-deck range set
+masterC.example.com: No on-deck range set
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-manage dnanextrange-show masterA.example.com</span>
-<span class="n">masterA</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span> <span class="mi">1001</span><span class="o">-</span><span class="mi">1500</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-manage dnanextrange-show masterA.example.com
+masterA.example.com: 1001-1500
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-replica-manage dnanextrange-set masterB.example.com 1001-5000</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-replica-manage dnanextrange-set masterB.example.com 1001-5000
 </pre></div>
 </div>
 <p>A show on no specific host will show them all. A show on a specific host
@@ -542,7 +542,7 @@ additional prompts were added.</p></li>
 <p>Indirectly. It can affect the available range(s) to a replica. If a
 replica runs out and not enough values are left then the DNA plugin will
 give up:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># ipa user-add --first=tim --last=user tuser4
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa user-add --first=tim --last=user tuser4
 ipa: ERROR: Operations error: Allocation of a new value for range cn=posix ids,cn=distributed numeric assignment plugin,cn=plugins,cn=config failed! Unable to proceed.
 </pre></div>
 </div>

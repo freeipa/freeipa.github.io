@@ -337,30 +337,27 @@ project</a>.</p>
 <p>From common experience, a great portion of issues with FreeIPA or the
 <a class="reference external" href="Kerberos">Kerberos</a> authentication is caused by DNS
 misconfiguration. When investigating such issue make sure that:</p>
-<ul>
-<li><p>Client forward record is OK both on FreeIPA server and the affected
-FreeIPA client:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>host $IPA_CLIENT_FQDN
-</pre></div>
-</div>
-</div></blockquote>
-</li>
-<li><p>Server forward and reverse record is OK both on FreeIPA server and
-the affected FreeIPA client:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>host $IPA_SERVER_FQDN
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>host $IPA_SERVER_IP_ADDRESS
-</pre></div>
-</div>
-</div></blockquote>
 <ul class="simple">
-<li><p>Returned hostname must be a <strong>fully qualified</strong> hostname with a
-<strong>trailing dot</strong>, e.g. <code class="docutils literal notranslate"><span class="pre">server.example.com.</span></code></p></li>
+<li><p>Client forward record is OK both on FreeIPA server and the affected
+FreeIPA client:</p></li>
 </ul>
-</li>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>host $IPA_CLIENT_FQDN
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Server forward and reverse record is OK both on FreeIPA server and
+the affected FreeIPA client:</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>host $IPA_SERVER_FQDN
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>      host $IPA_SERVER_IP_ADDRESS
+
+-  Returned hostname must be a **fully qualified** hostname with a
+   **trailing dot**, e.g. ``server.example.com.``
+</pre></div>
+</div>
+<ul class="simple">
 <li><p>Check <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code> on the client make sure there is not a wrong
 server entry or a server entry where the first name is not fully
 qualified.</p></li>
@@ -414,11 +411,11 @@ on FreeIPA server)? Example:</p>
 glue records</em> (<a class="reference external" href="http://www.zytrax.com/books/dns/ch9/delegate.html">HOWTO - Delegate a Sub-domain (a.k.a.
 subzone)</a>).</p>
 <p>Example:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ORIGIN</span> <span class="pre">ipa.freeipa.org.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">others</span> <span class="pre">``\</span> <span class="pre">**``NS``**\</span> <span class="pre">``</span> <span class="pre">ns.others.ipa.freeipa.org.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ns.others</span> <span class="pre">``\</span> <span class="pre">**``A``**\</span> <span class="pre">``</span> <span class="pre">192.0.2.1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ns.others</span> <span class="pre">``\</span> <span class="pre">**``AAAA``**\</span> <span class="pre">``</span> <span class="pre">2001:db8::1</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ORIGIN ipa.freeipa.org.
+others ``\ **``NS``**\ `` ns.others.ipa.freeipa.org.
+ns.others ``\ **``A``**\ `` 192.0.2.1
+ns.others ``\ **``AAAA``**\ `` 2001:db8::1
+</pre></div>
 </div>
 <p>Without zone delegation all queries are processed by master zone and
 NXDOMAIN is returned (<a class="reference external" href="http://www.freeipa.org/page/V4/Forward_zones#Avoid_an_ineffective_forward_zone">Forward zones design
@@ -439,7 +436,7 @@ page</a>).</p>
 <section id="dnssec-signing-is-not-enabled-for-the-particular-zone">
 <h2>DNSSEC signing is not enabled for the particular zone<a class="headerlink" href="#dnssec-signing-is-not-enabled-for-the-particular-zone" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-show</span> <span class="pre">ipa.example</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Allow</span> <span class="ow">in</span><span class="o">-</span><span class="n">line</span> <span class="n">DNSSEC</span> <span class="n">signing</span><span class="p">:</span> <span class="n">TRUE</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Allow in-line DNSSEC signing: TRUE
 </pre></div>
 </div>
 <p>Use command <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">ipa.example</span> <span class="pre">--dnssec=1</span></code> to enable DNSSEC
@@ -454,16 +451,16 @@ LDAP entry is printed out:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">kinit</span> <span class="pre">admin</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ldapsearch</span> <span class="pre">-Y</span> <span class="pre">GSSAPI</span> <span class="pre">'(&amp;(ipaConfigString=enabledService)(ipaConfigString=dnssecKeyMaster))'</span></code></p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">DNSSEC</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">vm</span><span class="o">-</span><span class="mf">236.</span><span class="n">idm</span><span class="o">.</span><span class="n">lab</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">brq</span><span class="o">.</span><span class="n">redhat</span><span class="o">.</span><span class="n">com</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">masters</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">ipaConfigObject</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">nsContainer</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">ipaConfigString</span><span class="p">:</span> <span class="n">dnssecKeyMaster</span>
-<span class="n">ipaConfigString</span><span class="p">:</span> <span class="n">startOrder</span> <span class="mi">100</span>
-<span class="n">ipaConfigString</span><span class="p">:</span> <span class="n">enabledService</span>
-<span class="n">cn</span><span class="p">:</span> <span class="n">DNSSEC</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=DNSSEC,cn=vm-236.idm.lab.eng.brq.redhat.com,cn=masters,cn=ipa,cn=etc,dc=ipa,dc=example
+objectClass: ipaConfigObject
+objectClass: nsContainer
+objectClass: top
+ipaConfigString: dnssecKeyMaster
+ipaConfigString: startOrder 100
+ipaConfigString: enabledService
+cn: DNSSEC
 
-<span class="c1"># numEntries: 1</span>
+# numEntries: 1
 </pre></div>
 </div>
 <ul class="simple">
@@ -491,7 +488,7 @@ filesystem permissions:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ods-enforcer</span> <span class="pre">zone</span> <span class="pre">list</span></code> (use <code class="docutils literal notranslate"><span class="pre">ods-ksmutil</span></code> on RHEL 7)</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Found</span> <span class="n">Zone</span><span class="p">:</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="p">;</span> <span class="n">on</span> <span class="n">policy</span> <span class="n">default</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Found Zone: ipa.example; on policy default
 </pre></div>
 </div>
 <p>If the zone is not in the list, restart <code class="docutils literal notranslate"><span class="pre">ipa-dnskeysyncd</span></code> service
@@ -505,9 +502,9 @@ the zone. You should see:</p>
 <li><p>At least one key with type <code class="docutils literal notranslate"><span class="pre">ZSK</span></code> in state <code class="docutils literal notranslate"><span class="pre">active</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ods-enforcer</span> <span class="pre">key</span> <span class="pre">list</span> <span class="pre">--verbose</span></code> (use <code class="docutils literal notranslate"><span class="pre">ods-ksmutil</span></code> on RHEL 7)</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Zone</span><span class="p">:</span>         <span class="n">Keytype</span><span class="p">:</span>   <span class="n">State</span><span class="p">:</span>    <span class="n">Date</span> <span class="n">of</span> <span class="nb">next</span> <span class="n">transition</span> <span class="p">(</span><span class="n">to</span><span class="p">):</span>  <span class="n">Size</span><span class="p">:</span>   <span class="n">Algorithm</span><span class="p">:</span>  <span class="n">CKA_ID</span><span class="p">:</span>     <span class="n">Repository</span><span class="p">:</span>   <span class="n">Keytag</span><span class="p">:</span>
-<span class="n">ipa</span><span class="o">.</span><span class="n">example</span>   <span class="n">ZSK</span>        <span class="n">active</span>    <span class="mi">2015</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">03</span> <span class="mi">12</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="mi">07</span> <span class="p">(</span><span class="n">retire</span><span class="p">)</span>   <span class="mi">2048</span>    <span class="mi">8</span>           <span class="mi">623</span><span class="n">d723</span><span class="o">...</span>  <span class="n">SoftHSM</span>       <span class="mi">60195</span>
-<span class="n">ipa</span><span class="o">.</span><span class="n">example</span>   <span class="n">KSK</span>        <span class="n">publish</span>   <span class="mi">2015</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">06</span> <span class="mi">02</span><span class="p">:</span><span class="mi">52</span><span class="p">:</span><span class="mi">07</span> <span class="p">(</span><span class="n">ready</span><span class="p">)</span>    <span class="mi">2048</span>    <span class="mi">8</span>           <span class="mi">60</span><span class="n">b5ce3</span><span class="o">...</span>  <span class="n">SoftHSM</span>       <span class="mi">6046</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Zone:         Keytype:   State:    Date of next transition (to):  Size:   Algorithm:  CKA_ID:     Repository:   Keytag:
+ipa.example   ZSK        active    2015-06-03 12:52:07 (retire)   2048    8           623d723...  SoftHSM       60195
+ipa.example   KSK        publish   2015-03-06 02:52:07 (ready)    2048    8           60b5ce3...  SoftHSM       6046
 </pre></div>
 </div>
 <p>Missing keys indicate a problem with OpenDNSSEC or possibly lack of
@@ -523,16 +520,16 @@ in local HSM on the DNSSEC key master replica:</p>
 </ul>
 <p>Every CKA_ID has to be listed in twice with boolean parameters shown
 below. Please ignore other values printed by <code class="docutils literal notranslate"><span class="pre">localhsm</span></code> command.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span> <span class="n">public</span> <span class="n">keys</span>
-<span class="o">================</span>
-<span class="mi">623</span><span class="n">d723</span><span class="o">...</span>
-<span class="p">{</span><span class="s1">&#39;ipk11label&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;623d723...&#39;</span><span class="p">,</span> <span class="s1">&#39;ipk11verify&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>zone public keys
+================
+623d723...
+{&#39;ipk11label&#39;: u&#39;623d723...&#39;, &#39;ipk11verify&#39;: True, ...}
+...
 
-<span class="n">zone</span> <span class="n">private</span> <span class="n">keys</span>
-<span class="o">=================</span>
-<span class="mi">623</span><span class="n">d723</span><span class="o">...</span>
-<span class="p">{</span><span class="s1">&#39;ipk11label&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;623d723...&#39;</span><span class="p">,</span> <span class="s1">&#39;ipk11sign&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;ipk11extractable&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+zone private keys
+=================
+623d723...
+{&#39;ipk11label&#39;: u&#39;623d723...&#39;, &#39;ipk11sign&#39;: True, &#39;ipk11extractable&#39;: True, ...}
 </pre></div>
 </div>
 </section>

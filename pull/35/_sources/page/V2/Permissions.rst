@@ -117,7 +117,7 @@ A permission entry and an aci pointing at that permission. The
 permission links back to the ACI though the permission description. The
 ACI is stored in ``dc=example,dc=com``.
 
-::
+.. code-block:: text
 
    dn: cn=addusers,cn=permissions,cn=accounts,dc=example,dc=com
    objectClass: top
@@ -126,7 +126,7 @@ ACI is stored in ``dc=example,dc=com``.
    description: Add Users
    member: cn=useradmin,cn=privileges,cn=accounts,dc=example,dc=com
 
-::
+.. code-block:: text
 
    aci: (target = "ldap:///uid=*,cn=users,cn=accounts,dc=example,dc=com")(version
      3.0;acl "Add Users";allow (add) groupdn = "ldap:///cn=addusers,cn=permission
@@ -141,7 +141,7 @@ A privilege entry using the example permission. Note the other
 permissions that make up this privilege. It is a member of the heldesk
 role.
 
-::
+.. code-block:: text
 
    dn: cn=useradmin,cn=privileges,cn=accounts,dc=example,dc=com
    objectClass: top
@@ -165,7 +165,7 @@ role entry
 The helpdesk role. Note that the memberOf permissions have carried
 forward. This role has no current members of its own.
 
-::
+.. code-block:: text
 
    dn: cn=helpdesk,cn=roles,cn=accounts,dc=example,dc=com
    objectClass: top

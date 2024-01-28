@@ -23,7 +23,7 @@ should be accessible to administrator only...
 
 Consider a webserver with the following URIs:
 
-::
+.. code-block:: text
 
    http://webserver/application/public-content
    http://webserver/application/login-only/all-users

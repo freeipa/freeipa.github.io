@@ -358,24 +358,24 @@ in the domain (<strong>phase 2</strong>).</p>
 <h2>Shared certificate store<a class="headerlink" href="#shared-certificate-store" title="Link to this heading">#</a></h2>
 <p>CA certificates will be stored in entries under
 <code class="docutils literal notranslate"><span class="pre">cn=certificates,cn=ipa,cn=etc,</span></code><em>``suffix``</em>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
-| ``objectClass: ipaCertificate``
-| ``objectClass: pkiCA``
-| ``objectClass: ipaKeyPolicy``
-| ``cn: cn=EXAMPLE.COM IPA CA``
-| ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
-| ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
-| ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>| ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
+ objectClass: ipaCertificate``
+ objectClass: pkiCA``
+ objectClass: ipaKeyPolicy``
+ cn: cn=EXAMPLE.COM IPA CA``
+ ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
+ ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
+ ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
 | ``ipaPublicKey: ``\ *``DER-encoded public key``*
-| ``ipaConfigString: ipaCA``
-| ``ipaConfigString: compatCA``
+ ipaConfigString: ipaCA``
+ ipaConfigString: compatCA``
 | ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
 | ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
-| ``ipaKeyTrust: trusted``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
-| ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
+ ipaKeyTrust: trusted``
+ ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
+ ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
+ ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
+ ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
 </pre></div>
 </div>
 <p>Each entry represents a set of certificates using a single subject name
@@ -456,50 +456,50 @@ NSS / certutil trust flags as follows:</p>
 directory manager (for installers and management tools) and the server
 host (for automatic renewal).</p>
 <p>The new schema used for the entries is:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(2.16.840.1.113730.3.8.11.???</span></code></div>
-<div class="line">``                 NAME ‘ipaCertSubject’``</div>
-<div class="line">``                 DESC ‘Subject name’``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 SINGLE-VALUE``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v4’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(2.16.840.1.113730.3.8.11.???</span></code></div>
-<div class="line">``                 NAME ‘ipaCertIssuerSerial’``</div>
-<div class="line">``                 DESC ‘Issuer name and serial number’``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch``</div>
-<div class="line">``                 SUBSTR caseIgnoreSubstringsMatch``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v4’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(2.16.840.1.113730.3.8.11.???</span></code></div>
-<div class="line">``                 NAME ‘ipaKeyTrust’``</div>
-<div class="line">``                 DESC ‘Key trust (unknown, trusted, distrusted)’``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v4’) ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(2.16.840.1.113730.3.8.11.???</span></code></div>
-<div class="line">``                 NAME ‘ipaKeyUsage’``</div>
-<div class="line">``                 DESC ‘Allowed key usage’``</div>
-<div class="line">``                 EQUALITY caseIgnoreMatch``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v4’) ``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(2.16.840.1.113730.3.8.11.???</span></code></div>
-<div class="line">``                 NAME ‘ipaKeyExtUsage’``</div>
-<div class="line">``                 DESC ‘Allowed extended key usage’``</div>
-<div class="line">``                 EQUALITY objectIdentifierMatch``</div>
-<div class="line">``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.38``</div>
-<div class="line">``                 X-ORIGIN ‘IPA v4’)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClasses:</span> <span class="pre">(2.16.840.1.113730.3.8.12.???</span></code></div>
-<div class="line">``                NAME ‘ipaCertificate’``</div>
-<div class="line">``                SUP top STRUCTURAL``</div>
-<div class="line">``                MUST ( cn $ ipaCertSubject $ ipaCertIssuerSerial $ ipaPublicKey )``</div>
-<div class="line">``                MAY  ( ipaConfigString )``</div>
-<div class="line">``                X-ORIGIN ‘IPA v4’ )``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClasses:</span> <span class="pre">(2.16.840.1.113730.3.8.12.???</span></code></div>
-<div class="line">``                NAME ‘ipaKeyPolicy’``</div>
-<div class="line">``                SUP top AUXILIARY``</div>
-<div class="line">``                MAY  ( ipaKeyTrust $ ipaKeyUsage $ ipaExtKeyUsage )``</div>
-<div class="line">``                X-ORIGIN ‘IPA v4’)``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>attributeTypes: (2.16.840.1.113730.3.8.11.???
+                 NAME &#39;ipaCertSubject&#39;
+                 DESC &#39;Subject name&#39;
+                 EQUALITY caseIgnoreMatch
+                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+                 SINGLE-VALUE
+                 X-ORIGIN &#39;IPA v4&#39; )
+attributeTypes: (2.16.840.1.113730.3.8.11.???
+                 NAME &#39;ipaCertIssuerSerial&#39;
+                 DESC &#39;Issuer name and serial number&#39;
+                 EQUALITY caseIgnoreMatch
+                 SUBSTR caseIgnoreSubstringsMatch
+                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+                 X-ORIGIN &#39;IPA v4&#39; )
+attributeTypes: (2.16.840.1.113730.3.8.11.???
+                 NAME &#39;ipaKeyTrust&#39;
+                 DESC &#39;Key trust (unknown, trusted, distrusted)&#39;
+                 EQUALITY caseIgnoreMatch
+                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+                 X-ORIGIN &#39;IPA v4&#39;)
+attributeTypes: (2.16.840.1.113730.3.8.11.???
+                 NAME &#39;ipaKeyUsage&#39;
+                 DESC &#39;Allowed key usage&#39;
+                 EQUALITY caseIgnoreMatch
+                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+                 X-ORIGIN &#39;IPA v4&#39;)
+attributeTypes: (2.16.840.1.113730.3.8.11.???
+                 NAME &#39;ipaKeyExtUsage&#39;
+                 DESC &#39;Allowed extended key usage&#39;
+                 EQUALITY objectIdentifierMatch
+                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.38
+                 X-ORIGIN &#39;IPA v4&#39;)
+objectClasses: (2.16.840.1.113730.3.8.12.???
+                NAME &#39;ipaCertificate&#39;
+                SUP top STRUCTURAL
+                MUST ( cn $ ipaCertSubject $ ipaCertIssuerSerial $ ipaPublicKey )
+                MAY  ( ipaConfigString )
+                X-ORIGIN &#39;IPA v4&#39; )
+objectClasses: (2.16.840.1.113730.3.8.12.???
+                NAME &#39;ipaKeyPolicy&#39;
+                SUP top AUXILIARY
+                MAY  ( ipaKeyTrust $ ipaKeyUsage $ ipaExtKeyUsage )
+                X-ORIGIN &#39;IPA v4&#39;)
+</pre></div>
 </div>
 </section>
 <section id="automatic-renewal-of-ipa-ca-certificate">
@@ -612,24 +612,22 @@ servers.</p>
 </section>
 <section id="id1">
 <h2>Automated CA certificate renewal<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><p>Install IPA server with CA (either self-signed or signed by external
 CA)</p></li>
-<li><p>Get the expiration date of the IPA CA certificate:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert list -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39;</span>
+<li><p>Get the expiration date of the IPA CA certificate:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert list -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39;
 </pre></div>
 </div>
-</div></blockquote>
-</li>
+<ol class="arabic simple">
 <li><p>Move system time 3 weeks before the expiration date</p></li>
-<li><p>Check the status of the certmonger request:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># getcert list -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39;</span>
+<li><p>Check the status of the certmonger request:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># getcert list -d /etc/pki/pki-tomcat/alias -n &#39;caSigningCert cert-pki-ca&#39;
 </pre></div>
 </div>
-</div></blockquote>
-</li>
+<ol class="arabic simple">
 <li><p>If the IPA CA was installed self-signed:</p>
 <ol class="arabic simple">
 <li><p>Wait for the certmonger request to complete, it should end up with

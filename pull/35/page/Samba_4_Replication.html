@@ -323,73 +323,73 @@ backend.</p>
 <section id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h1>
 <p>Create /usr/local/samba/etc/smb.conf for the replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">globals</span><span class="p">]</span>
-        <span class="n">netbios</span> <span class="n">name</span>    <span class="o">=</span> <span class="n">samba2</span>
-        <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[globals]
+        netbios name    = samba2
+        ...
 </pre></div>
 </div>
 </section>
 <section id="provisioning-fedora-ds-backend">
 <h1>Provisioning Fedora DS Backend<a class="headerlink" href="#provisioning-fedora-ds-backend" title="Link to this heading">#</a></h1>
 <p>Setup Fedora DS instance for the replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">samba</span><span class="o">/</span><span class="n">source4</span>
-<span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">provision</span><span class="o">-</span><span class="n">backend</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">DOMAIN1</span><span class="o">.</span><span class="n">COM</span> <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">DOMAIN1</span> <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s1">&#39;domain controller&#39;</span> \
-<span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">admin</span><span class="o">-</span><span class="k">pass</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd samba/source4
+% setup/provision-backend --realm=DOMAIN1.COM --domain=DOMAIN1 --server-role=&#39;domain controller&#39; \
+--ldap-admin-pass=Secret123 --ldap-backend-type=fedora-ds
 </pre></div>
 </div>
 <p>Edit /usr/local/samba/private/ldap/fedorads.inf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">General</span><span class="p">]</span>
-<span class="n">FullMachineName</span>         <span class="o">=</span> <span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span>
-<span class="n">SuiteSpotUserID</span>         <span class="o">=</span> <span class="n">nobody</span>
-<span class="n">SuiteSpotGroup</span>          <span class="o">=</span> <span class="n">nobody</span>
-<span class="n">ServerRoot</span>              <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[General]
+FullMachineName         = samba2.domain1.com
+SuiteSpotUserID         = nobody
+SuiteSpotGroup          = nobody
+ServerRoot              = /usr/local/samba/private/ldap
 
-<span class="n">ConfigDirectoryLdapURL</span>  <span class="o">=</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span>
-<span class="n">ConfigDirectoryAdminID</span>  <span class="o">=</span> <span class="n">admin</span>
-<span class="n">ConfigDirectoryAdminPwd</span> <span class="o">=</span> <span class="n">Secret123</span>
+ConfigDirectoryLdapURL  = ldap://samba2.domain1.com
+ConfigDirectoryAdminID  = admin
+ConfigDirectoryAdminPwd = Secret123
 
-<span class="n">AdminDomain</span>             <span class="o">=</span> <span class="n">domain1</span><span class="o">.</span><span class="n">com</span>
+AdminDomain             = domain1.com
 
-<span class="p">[</span><span class="n">slapd</span><span class="p">]</span>
-<span class="n">ServerPort</span>              <span class="o">=</span> <span class="mi">390</span>
-<span class="n">ServerIdentifier</span>        <span class="o">=</span> <span class="n">samba</span>
-<span class="n">Suffix</span>                  <span class="o">=</span> <span class="n">DC</span><span class="o">=</span><span class="n">domain1</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
+[slapd]
+ServerPort              = 390
+ServerIdentifier        = samba
+Suffix                  = DC=domain1,DC=com
 
-<span class="n">RootDN</span>                  <span class="o">=</span> <span class="n">cn</span><span class="o">=</span><span class="n">Directory</span> <span class="n">Manager</span>
-<span class="n">RootDNPwd</span>               <span class="o">=</span> <span class="n">Secret123</span>
+RootDN                  = cn=Directory Manager
+RootDNPwd               = Secret123
 
-<span class="n">ldapifilepath</span>           <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">ldapi</span>
+ldapifilepath           = /usr/local/samba/private/ldap/ldapi
 
-<span class="n">start_server</span>            <span class="o">=</span> <span class="mi">0</span>
-<span class="n">install_full_schema</span>     <span class="o">=</span> <span class="mi">0</span>
+start_server            = 0
+install_full_schema     = 0
 
-<span class="n">SchemaFile</span>              <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="mi">99</span><span class="n">_ad</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">ConfigFile</span>              <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">fedorads</span><span class="o">-</span><span class="n">partitions</span><span class="o">.</span><span class="n">ldif</span>
+SchemaFile              = /usr/local/samba/private/ldap/99_ad.ldif
+ConfigFile              = /usr/local/samba/private/ldap/fedorads-partitions.ldif
 
-<span class="n">inst_dir</span>                <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span>
-<span class="n">config_dir</span>              <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span>
-<span class="n">schema_dir</span>              <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">schema</span>
-<span class="n">lock_dir</span>                <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">lock</span>
-<span class="n">log_dir</span>                 <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">logs</span>
-<span class="n">run_dir</span>                 <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">logs</span>
-<span class="n">db_dir</span>                  <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">db</span>
-<span class="n">bak_dir</span>                 <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">bak</span>
-<span class="n">tmp_dir</span>                 <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">tmp</span>
-<span class="n">ldif_dir</span>                <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">ldif</span>
-<span class="n">cert_dir</span>                <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span>
+inst_dir                = /usr/local/samba/private/ldap/slapd-samba
+config_dir              = /usr/local/samba/private/ldap/slapd-samba
+schema_dir              = /usr/local/samba/private/ldap/slapd-samba/schema
+lock_dir                = /usr/local/samba/private/ldap/slapd-samba/lock
+log_dir                 = /usr/local/samba/private/ldap/slapd-samba/logs
+run_dir                 = /usr/local/samba/private/ldap/slapd-samba/logs
+db_dir                  = /usr/local/samba/private/ldap/slapd-samba/db
+bak_dir                 = /usr/local/samba/private/ldap/slapd-samba/bak
+tmp_dir                 = /usr/local/samba/private/ldap/slapd-samba/tmp
+ldif_dir                = /usr/local/samba/private/ldap/slapd-samba/ldif
+cert_dir                = /usr/local/samba/private/ldap/slapd-samba
 </pre></div>
 </div>
 <p>Edit /usr/local/samba/private/ldap/99_ad.ldif, replace
 1.3.6.1.4.1.1466.115.121.1.44 with 1.3.6.1.4.1.1466.115.121.1.26.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span>
-<span class="o">%</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">.</span><span class="n">pl</span> <span class="o">--</span><span class="n">file</span><span class="o">=</span><span class="n">fedorads</span><span class="o">.</span><span class="n">inf</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /usr/local/samba/private/ldap
+% /usr/sbin/setup-ds.pl --file=fedorads.inf
 </pre></div>
 </div>
 </section>
 <section id="starting-fedora-ds">
 <h1>Starting Fedora DS<a class="headerlink" href="#starting-fedora-ds" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span>
-<span class="o">%</span> <span class="n">slapd</span><span class="o">-</span><span class="n">samba</span><span class="o">/</span><span class="n">start</span><span class="o">-</span><span class="n">slapd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /usr/local/samba/private/ldap
+% slapd-samba/start-slapd
 </pre></div>
 </div>
 </section>
@@ -397,94 +397,94 @@ backend.</p>
 <h1>Configuring Multi-Master Replication<a class="headerlink" href="#configuring-multi-master-replication" title="Link to this heading">#</a></h1>
 <p>Samba uses 3 databases in Fedora DS. They require separate replication
 agreements.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">perl</span><span class="o">-</span><span class="n">LDAP</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% yum install perl-LDAP
 </pre></div>
 </div>
 <p>Download <a class="reference external" href="https://wiki.samba.org/images/f/f4/Mmr.txt">mmr.pl</a> script to configure MMR:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">mmr</span><span class="o">.</span><span class="n">pl</span> \
-<span class="o">--</span><span class="n">host1</span> <span class="n">samba1</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">host2</span> <span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">port</span> <span class="mi">390</span> \
-<span class="o">--</span><span class="n">host1_id</span> <span class="mi">1</span> <span class="o">--</span><span class="n">host2_id</span> <span class="mi">2</span> \
-<span class="o">--</span><span class="n">binddn</span> <span class="s1">&#39;cn=Directory Manager&#39;</span> \
-<span class="o">--</span><span class="n">bindpw</span> <span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">repmanpw</span> <span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">base</span> <span class="n">dc</span><span class="o">=</span><span class="n">domain1</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span> \
-<span class="o">--</span><span class="n">create</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% mmr.pl \
+--host1 samba1.domain1.com --host2 samba2.domain1.com --port 390 \
+--host1_id 1 --host2_id 2 \
+--binddn &#39;cn=Directory Manager&#39; \
+--bindpw Secret123 \
+--repmanpw Secret123 \
+--base dc=domain1,dc=com \
+--create
 
-<span class="o">%</span> <span class="n">mmr</span><span class="o">.</span><span class="n">pl</span> \
-<span class="o">--</span><span class="n">host1</span> <span class="n">samba1</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">host2</span> <span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">port</span> <span class="mi">390</span> \
-<span class="o">--</span><span class="n">host1_id</span> <span class="mi">1</span> <span class="o">--</span><span class="n">host2_id</span> <span class="mi">2</span> \
-<span class="o">--</span><span class="n">binddn</span> <span class="s1">&#39;cn=Directory Manager&#39;</span> \
-<span class="o">--</span><span class="n">bindpw</span> <span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">repmanpw</span> <span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">base</span> <span class="n">cn</span><span class="o">=</span><span class="n">Configuration</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain1</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span> \
-<span class="o">--</span><span class="n">create</span>
+% mmr.pl \
+--host1 samba1.domain1.com --host2 samba2.domain1.com --port 390 \
+--host1_id 1 --host2_id 2 \
+--binddn &#39;cn=Directory Manager&#39; \
+--bindpw Secret123 \
+--repmanpw Secret123 \
+--base cn=Configuration,dc=domain1,dc=com \
+--create
 
-<span class="o">%</span> <span class="n">mmr</span><span class="o">.</span><span class="n">pl</span> \
-<span class="o">--</span><span class="n">host1</span> <span class="n">samba1</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">host2</span> <span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">port</span> <span class="mi">390</span> \
-<span class="o">--</span><span class="n">host1_id</span> <span class="mi">1</span> <span class="o">--</span><span class="n">host2_id</span> <span class="mi">2</span> \
-<span class="o">--</span><span class="n">binddn</span> <span class="s1">&#39;cn=Directory Manager&#39;</span> \
-<span class="o">--</span><span class="n">bindpw</span> <span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">repmanpw</span> <span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">base</span> <span class="n">cn</span><span class="o">=</span><span class="n">Schema</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Configuration</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">domain1</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span> \
-<span class="o">--</span><span class="n">create</span>
+% mmr.pl \
+--host1 samba1.domain1.com --host2 samba2.domain1.com --port 390 \
+--host1_id 1 --host2_id 2 \
+--binddn &#39;cn=Directory Manager&#39; \
+--bindpw Secret123 \
+--repmanpw Secret123 \
+--base cn=Schema,cn=Configuration,dc=domain1,dc=com \
+--create
 </pre></div>
 </div>
 </section>
 <section id="provisioning-samba">
 <h1>Provisioning Samba<a class="headerlink" href="#provisioning-samba" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">provision</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">DOMAIN1</span><span class="o">.</span><span class="n">COM</span> <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">DOMAIN1</span> \
-<span class="o">--</span><span class="n">adminpass</span><span class="o">=</span><span class="n">Secret123</span> \
-<span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span> \
-<span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">=</span><span class="n">ldapi</span><span class="p">:</span><span class="o">///</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">ldapi</span> \
-<span class="o">--</span><span class="n">partitions</span><span class="o">-</span><span class="n">only</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% setup/provision --realm=DOMAIN1.COM --domain=DOMAIN1 \
+--adminpass=Secret123 \
+--ldap-backend-type=fedora-ds \
+--ldap-backend=ldapi:///usr/local/samba/private/ldap/ldapi \
+--partitions-only
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Server</span> <span class="n">Role</span><span class="p">:</span>    <span class="n">domain</span> <span class="n">controller</span>
-<span class="n">Hostname</span><span class="p">:</span>       <span class="n">samba2</span>
-<span class="n">NetBIOS</span> <span class="n">Domain</span><span class="p">:</span> <span class="n">DOMAIN1</span>
-<span class="n">DNS</span> <span class="n">Domain</span><span class="p">:</span>     <span class="n">domain1</span><span class="o">.</span><span class="n">com</span>
-<span class="n">DOMAIN</span> <span class="n">SID</span><span class="p">:</span>     <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">3010954269</span><span class="o">-</span><span class="mi">3145692404</span><span class="o">-</span><span class="mi">1112636010</span>
-<span class="n">Admin</span> <span class="n">password</span><span class="p">:</span> <span class="n">Secret123</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Server Role:    domain controller
+Hostname:       samba2
+NetBIOS Domain: DOMAIN1
+DNS Domain:     domain1.com
+DOMAIN SID:     S-1-5-21-3010954269-3145692404-1112636010
+Admin password: Secret123
 </pre></div>
 </div>
 </section>
 <section id="joining-samba-domain">
 <h1>Joining Samba Domain<a class="headerlink" href="#joining-samba-domain" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="nb">bin</span>
-<span class="o">%</span> <span class="n">net</span> <span class="n">join</span> <span class="n">DOMAIN1</span> <span class="n">BDC</span> <span class="o">-</span><span class="n">U</span> <span class="n">Administrator</span> <span class="o">--</span><span class="n">password</span><span class="o">=</span><span class="n">Secret123</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /usr/local/samba/bin
+% net join DOMAIN1 BDC -U Administrator --password=Secret123
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Joined</span> <span class="n">domain</span> <span class="n">DOMAIN1</span> <span class="p">(</span><span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">1030068324</span><span class="o">-</span><span class="mi">2126043060</span><span class="o">-</span><span class="mi">2085863383</span><span class="p">)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Joined domain DOMAIN1 (S-1-5-21-1030068324-2126043060-2085863383)
 </pre></div>
 </div>
 <p>Generate UUID:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">uuidgen</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% uuidgen
 </pre></div>
 </div>
 <p>Create a file containing the following entry:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">NTDS</span> <span class="n">Settings</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">SAMBA2</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Servers</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Default</span><span class="o">-</span><span class="n">First</span><span class="o">-</span><span class="n">Site</span><span class="o">-</span><span class="n">Name</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Sites</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Configuration</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">domain1</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">applicationSettings</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">nTDSDSA</span>
-<span class="n">cn</span><span class="p">:</span> <span class="n">NTDS</span> <span class="n">Settings</span>
-<span class="n">options</span><span class="p">:</span> <span class="mi">1</span>
-<span class="n">showInAdvancedViewOnly</span><span class="p">:</span> <span class="n">TRUE</span>
-<span class="n">systemFlags</span><span class="p">:</span> <span class="mi">33554432</span>
-<span class="n">dMDLocation</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Schema</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Configuration</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">domain1</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">invocationId</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">UUID</span><span class="o">&gt;</span>
-<span class="n">msDS</span><span class="o">-</span><span class="n">Behavior</span><span class="o">-</span><span class="n">Version</span><span class="p">:</span> <span class="mi">2</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: CN=NTDS Settings,CN=SAMBA2,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=domain1,DC=com
+objectClass: top
+objectClass: applicationSettings
+objectClass: nTDSDSA
+cn: NTDS Settings
+options: 1
+showInAdvancedViewOnly: TRUE
+systemFlags: 33554432
+dMDLocation: CN=Schema,CN=Configuration,DC=domain1,DC=com
+invocationId: &lt;UUID&gt;
+msDS-Behavior-Version: 2
 </pre></div>
 </div>
 <p>Add the entry to Samba master:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="nb">bin</span>
-<span class="o">%</span> <span class="o">./</span><span class="n">ldbadd</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">samba1</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">p</span> <span class="o">-</span><span class="n">U</span> <span class="n">Administrator</span> <span class="o">--</span><span class="n">password</span><span class="o">=</span><span class="n">Secret123</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /usr/local/samba/bin
+% ./ldbadd -H ldap://samba1.domain1.com -p -U Administrator --password=Secret123 &lt;file&gt;
 </pre></div>
 </div>
 </section>
 <section id="starting-samba-replica">
 <h1>Starting Samba Replica<a class="headerlink" href="#starting-samba-replica" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">sbin</span>
-<span class="o">%</span> <span class="o">./</span><span class="n">samba</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">M</span> <span class="n">single</span> <span class="o">-</span><span class="n">d</span> <span class="mi">3</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /usr/local/samba/sbin
+% ./samba -i -M single -d 3
 </pre></div>
 </div>
 </section>
@@ -493,21 +493,21 @@ agreements.</p>
 <p>Copy changelog schema into
 /usr/local/schema/private/ldap/slapd-samba/schema.</p>
 <p>Enable Retro Changelog plugin on replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">h</span> <span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">p</span> <span class="mi">390</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Directory Manager&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Retro</span> <span class="n">Changelog</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEnabled</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEnabled</span><span class="p">:</span> <span class="n">on</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapmodify -h samba2.domain1.com -p 390 -x -D &quot;cn=Directory Manager&quot; -w Secret123
+dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
+changetype: modify
+replace: nsslapd-pluginEnabled
+nsslapd-pluginEnabled: on
+-
 </pre></div>
 </div>
 <p>Restart DS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba</span>
-<span class="o">%</span> <span class="n">stop</span><span class="o">-</span><span class="n">slapd</span>
-<span class="o">%</span> <span class="n">start</span><span class="o">-</span><span class="n">slapd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd /usr/local/samba/private/ldap/slapd-samba
+% stop-slapd
+% start-slapd
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapsearch</span> <span class="o">-</span><span class="n">h</span> <span class="n">samba2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">p</span> <span class="mi">390</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Directory Manager&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span> <span class="o">-</span><span class="n">b</span> <span class="s2">&quot;cn=changelog&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapsearch -h samba2.domain1.com -p 390 -x -D &quot;cn=Directory Manager&quot; -w Secret123 -b &quot;cn=changelog&quot;
 </pre></div>
 </div>
 </section>
@@ -516,7 +516,7 @@ agreements.</p>
 <p>The DNS needs to be configured such that it points to both master and
 replica. So if the master fails, the client will be able to find the
 replica automatically.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ORIGIN domain1.com.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ORIGIN domain1.com.
 $TTL 1W
 @               IN SOA  domain1.com. root.domain1.com. (
                                 2009070913   ; serial

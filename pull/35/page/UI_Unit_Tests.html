@@ -319,7 +319,7 @@ UI will still require a visual validation.</p>
 <h1>Running Unit Tests<a class="headerlink" href="#running-unit-tests" title="Link to this heading">#</a></h1>
 <p>The test files are stored in IPA’s git repository. To checkout IPA
 source code execute the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">fedorahosted</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">freeipa</span><span class="o">.</span><span class="n">git</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>git clone git://git.fedorahosted.org/git/freeipa.git
 </pre></div>
 </div>
 <section id="necessary-steps-for-running-tests">
@@ -364,14 +364,14 @@ data are now stored in install/static/test/data, but future test cases
 may need separate folders.</p>
 <p>JSON test data can be created by capturing the output of the API invoked
 using curl. The following example invokes user-find command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span>\
-  <span class="o">-</span><span class="n">H</span> <span class="s2">&quot;Content-Type:application/json&quot;</span>\
-  <span class="o">-</span><span class="n">H</span> <span class="s2">&quot;Accept:applicaton/json&quot;</span>\
-  <span class="o">--</span><span class="n">negotiate</span> <span class="o">-</span><span class="n">u</span> <span class="p">:</span>\
-  <span class="o">--</span><span class="n">cacert</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>\
-  <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;{&quot;method&quot;:&quot;user_find&quot;,&quot;params&quot;:[[&quot;&quot;],</span><span class="si">{}</span><span class="s1">],&quot;id&quot;:0}&#39;</span>\
-  <span class="o">-</span><span class="n">X</span> <span class="n">POST</span>\
-  <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">dev</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">json</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>curl\
+  -H &quot;Content-Type:application/json&quot;\
+  -H &quot;Accept:applicaton/json&quot;\
+  --negotiate -u :\
+  --cacert /etc/ipa/ca.crt\
+  -d &#39;{&quot;method&quot;:&quot;user_find&quot;,&quot;params&quot;:[[&quot;&quot;],{}],&quot;id&quot;:0}&#39;\
+  -X POST\
+  https://dev.example.com/ipa/json
 </pre></div>
 </div>
 <p>The output should be stored in a file named according to the command
@@ -381,30 +381,30 @@ name (e.g. user_find.json).</p>
 <h2>Test Script<a class="headerlink" href="#test-script" title="Link to this heading">#</a></h2>
 <p>Test cases are stored in a JavaScript file (e.g. ipa_tests.js). Each
 test case is usually defined as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="o">&lt;</span><span class="n">description</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">implementation</span><span class="o">&gt;</span><span class="p">);</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>test(&lt;description&gt;, &lt;implementation&gt;);
 </pre></div>
 </div>
 <p>The implementation is a function which prepares the environment,
 executes the operation to be tested, then performs validations, and
 cleans up if necessary.</p>
 <p>See the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="s2">&quot;Testing ipa_init().&quot;</span><span class="p">,</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>test(&quot;Testing ipa_init().&quot;, function() {
 
-    <span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    expect(1);
 
-    <span class="n">ipa_ajax_options</span><span class="p">[</span><span class="s2">&quot;async&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+    ipa_ajax_options[&quot;async&quot;] = false;
 
-    <span class="n">ipa_init</span><span class="p">(</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">,</span>
-        <span class="n">true</span><span class="p">,</span>
-        <span class="n">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">text_status</span><span class="p">,</span> <span class="n">xhr</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">ok</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="s2">&quot;ipa_init() succeeded.&quot;</span><span class="p">);</span>
-        <span class="p">},</span>
-        <span class="n">function</span><span class="p">(</span><span class="n">xhr</span><span class="p">,</span> <span class="n">text_status</span><span class="p">,</span> <span class="n">error_thrown</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">ok</span><span class="p">(</span><span class="n">false</span><span class="p">,</span> <span class="s2">&quot;ipa_init() failed: &quot;</span><span class="o">+</span><span class="n">error_thrown</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
+    ipa_init(
+        &quot;data&quot;,
+        true,
+        function(data, text_status, xhr) {
+            ok(true, &quot;ipa_init() succeeded.&quot;);
+        },
+        function(xhr, text_status, error_thrown) {
+            ok(false, &quot;ipa_init() failed: &quot;+error_thrown);
+        }
+    );
+});
 </pre></div>
 </div>
 <p>The expect() is used to specify the number of validations to be executed
@@ -419,7 +419,7 @@ equals() and same().</p>
 ipa_tests.html) in the browser. The test page should load all necessary
 libraries used by the test script and the test script itself.</p>
 <p>See the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!DOCTYPE html&gt;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;title&gt;Core Test Suite&lt;/title&gt;
@@ -455,16 +455,16 @@ quickly check for regressions.</p>
 <h2>Test Main Page<a class="headerlink" href="#test-main-page" title="Link to this heading">#</a></h2>
 <p>The index.html contains references to all available test suites. New
 test suite should be added to the list below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;content&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;all_tests.html&quot;</span><span class="o">&gt;</span><span class="n">Complete</span> <span class="n">Test</span> <span class="n">Suite</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;ipa_tests.html&quot;</span><span class="o">&gt;</span><span class="n">Core</span> <span class="n">Test</span> <span class="n">Suite</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;entity_tests.html&quot;</span><span class="o">&gt;</span><span class="n">Entity</span> <span class="n">Test</span> <span class="n">Suite</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;details_tests.html&quot;</span><span class="o">&gt;</span><span class="n">Details</span> <span class="n">Test</span> <span class="n">Suite</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;association_tests.html&quot;</span><span class="o">&gt;</span><span class="n">Association</span> <span class="n">Test</span> <span class="n">Suite</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;navigation_tests.html&quot;</span><span class="o">&gt;</span><span class="n">Navigation</span> <span class="n">Test</span> <span class="n">Suite</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;div id=&quot;content&quot;&gt;
+    &lt;a href=&quot;all_tests.html&quot;&gt;Complete Test Suite&lt;/a&gt;
+    &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;ipa_tests.html&quot;&gt;Core Test Suite&lt;/a&gt;
+    &lt;li&gt;&lt;a href=&quot;entity_tests.html&quot;&gt;Entity Test Suite&lt;/a&gt;
+    &lt;li&gt;&lt;a href=&quot;details_tests.html&quot;&gt;Details Test Suite&lt;/a&gt;
+    &lt;li&gt;&lt;a href=&quot;association_tests.html&quot;&gt;Association Test Suite&lt;/a&gt;
+    &lt;li&gt;&lt;a href=&quot;navigation_tests.html&quot;&gt;Navigation Test Suite&lt;/a&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
 </pre></div>
 </div>
 </section>

@@ -359,27 +359,27 @@ web server for the default instance via:</p>
 <p>To check the status of the request use:</p>
 <p>`` ipa-getcert list``</p>
 <p>If all is well there should be output similar to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="n">ID</span> <span class="s1">&#39;20120618111406&#39;</span><span class="p">:</span>
-    <span class="n">status</span><span class="p">:</span> <span class="n">MONITORING</span>
-    <span class="n">stuck</span><span class="p">:</span> <span class="n">no</span>
-    <span class="n">key</span> <span class="n">pair</span> <span class="n">storage</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">FILE</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/etc/httpd/certs/default.key&#39;</span>
-    <span class="n">certificate</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">FILE</span><span class="p">,</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;/etc/httpd/certs/default.crt&#39;</span>
-    <span class="n">CA</span><span class="p">:</span> <span class="n">IPA</span>
-    <span class="n">issuer</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Certificate</span> <span class="n">Authority</span><span class="p">,</span><span class="n">O</span><span class="o">=&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-    <span class="n">subject</span><span class="p">:</span> <span class="n">CN</span><span class="o">=&lt;</span><span class="n">fqdn</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">webserver</span><span class="o">&gt;</span><span class="p">,</span><span class="n">O</span><span class="o">=&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-    <span class="n">expires</span><span class="p">:</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">19</span> <span class="mi">11</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">07</span> <span class="n">UTC</span>
-    <span class="n">eku</span><span class="p">:</span> <span class="nb">id</span><span class="o">-</span><span class="n">kp</span><span class="o">-</span><span class="n">serverAuth</span><span class="p">,</span><span class="nb">id</span><span class="o">-</span><span class="n">kp</span><span class="o">-</span><span class="n">clientAuth</span>
-    <span class="n">track</span><span class="p">:</span> <span class="n">yes</span>
-    <span class="n">auto</span><span class="o">-</span><span class="n">renew</span><span class="p">:</span> <span class="n">yes</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Request ID &#39;20120618111406&#39;:
+    status: MONITORING
+    stuck: no
+    key pair storage: type=FILE,location=&#39;/etc/httpd/certs/default.key&#39;
+    certificate: type=FILE,location=&#39;/etc/httpd/certs/default.crt&#39;
+    CA: IPA
+    issuer: CN=Certificate Authority,O=&lt;KERBEROS-REALM&gt;
+    subject: CN=&lt;fqdn-of-webserver&gt;,O=&lt;KERBEROS-REALM&gt;
+    expires: 2014-06-19 11:14:07 UTC
+    eku: id-kp-serverAuth,id-kp-clientAuth
+    track: yes
+    auto-renew: yes
 </pre></div>
 </div>
 <p>The files should be visible in /etc/httpd/certs - the owner should be
 changed to make them readable by apache.</p>
 <p>Following this edit /etc/httpd/conf.d/ssl.conf to make sure the
 following entries read as so:</p>
-<div class="line-block">
-<div class="line">`` SSLCertificateFile /etc/httpd/certs/default.crt``</div>
-<div class="line">`` SSLCertificateKeyFile /etc/httpd/certs/default.key``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SSLCertificateFile /etc/httpd/certs/default.crt
+SSLCertificateKeyFile /etc/httpd/certs/default.key
+</pre></div>
 </div>
 <p>If you require client validation link or copy /etc/ipa/ca.crt to
 /etc/httpd/certs and include:</p>
@@ -407,17 +407,16 @@ put the location as the fully qualified domain name of the actual host.
 A DNS record should already be in place for this (or just use the
 –force option when adding the host).</p>
 <p>To do this via the ipa-admin tools do as follows (or just use the GUI):</p>
-<div class="line-block">
-<div class="line">`` ipa dnsrecord-add example.com dummyhost –a-rec=10.180.80.1``</div>
-<div class="line">`` ipa host-add dummyhost.example.com –desc=”Dummy Host” –location=”<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
-<div class="line">`` ipa host-add-managedby dummyhost.example.com –hosts=”<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
-<div class="line">`` ``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1
+ipa host-add dummyhost.example.com --desc=&quot;Dummy Host&quot; --location=&quot;``\ ``&quot;
+ipa host-add-managedby dummyhost.example.com --hosts=&quot;``\ ``&quot;
+</pre></div>
 </div>
 <p>Now that the dummy host is in place (no enrollment, keytabs or
 certificates needed for this bit) the service can be added.</p>
-<div class="line-block">
-<div class="line">`` ipa service-add HTTP/dummyhost.example.com``</div>
-<div class="line">`` ipa service-add-host HTTP/dummyhost.example.com –hosts=”<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa service-add HTTP/dummyhost.example.com
+ipa service-add-host HTTP/dummyhost.example.com --hosts=&quot;``\ ``&quot;
+</pre></div>
 </div>
 <p>The IPA topology is then ready to add this as a virtual host on the web
 server.</p>
@@ -430,13 +429,13 @@ apache.</p>
 itself can be configured for it.</p>
 <p>Configure Apache to use name based virtual hosts on port 443 (in
 addition to the standard 80):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| `` NameVirtualHost *:80``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>| `` NameVirtualHost *:80``
 | `` NameVirtualHost *:443``
 </pre></div>
 </div>
 <p>Optionally add a redirect from non-SSL to SSL if you want it as a
 requirement:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;VirtualHost *:80&gt;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;VirtualHost *:80&gt;
 ServerName dummyhost.example.com
 ServerAlias dummyhost
 RewriteEngine on
@@ -445,7 +444,7 @@ RewriteRule ^/(.*)$ https://dummyhost.example.com/$1
 </pre></div>
 </div>
 <p>And then add the SSL enabled virtual host:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;VirtualHost *:443&gt;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;VirtualHost *:443&gt;
 ServerName dummyhost.example.com
 ServerAlias dummyhost
 SSLEngine on
@@ -490,20 +489,20 @@ this will be basic authentication (ie insecure) without SSL in place.</p>
 server:</p>
 <p>`` yum install mod_auth_kerb``</p>
 <p>Create a directory to store keytabs for authenticating against IPA:</p>
-<div class="line-block">
-<div class="line">`` mkdir /etc/httpd/keytabs``</div>
-<div class="line">`` semanage fcontext -a -t httpd_keytab_t ‘/etc/httpd/keytabs/(.*)?’``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mkdir /etc/httpd/keytabs
+semanage fcontext -a -t httpd_keytab_t &#39;/etc/httpd/keytabs/(.*)?&#39;
+</pre></div>
 </div>
 <p>Note that with the selinux context the directory should maintain the
 httpd_config_t type (default for anything in /etc/httpd/) but only the
 contents has the httpd_keytabs_t type.</p>
 <p>The default keytab for the host (for any ‘default’ site requests) can be
 obtained via:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
 </pre></div>
 </div>
 <p>To get a site specific keytab use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
 </pre></div>
 </div>
 <p>Although segregation of keytabs isn’t necessarily required (all hosts
@@ -511,40 +510,40 @@ could use the default keytab in principle) separation allows for fine
 grained controls later on when integrating with other systems.</p>
 <p>Check the contents of the keytab to ensure the expected principals are
 present:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">klist</span> <span class="o">-</span><span class="n">k</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">keytabs</span><span class="o">/</span><span class="n">default</span>
-<span class="n">Keytab</span> <span class="n">name</span><span class="p">:</span> <span class="n">WRFILE</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">keytabs</span><span class="o">/</span><span class="n">default</span>
-<span class="n">KVNO</span> <span class="n">Principal</span>
-<span class="o">----</span> <span class="o">--------------------------------------------------------------------------</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/&lt;</span><span class="n">fqdn</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">webserver</span><span class="o">&gt;@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/&lt;</span><span class="n">fqdn</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">webserver</span><span class="o">&gt;@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/&lt;</span><span class="n">fqdn</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">webserver</span><span class="o">&gt;@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/&lt;</span><span class="n">fqdn</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">webserver</span><span class="o">&gt;@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>klist -k /etc/httpd/keytabs/default
+Keytab name: WRFILE:/etc/httpd/keytabs/default
+KVNO Principal
+---- --------------------------------------------------------------------------
+   1 HTTP/&lt;fqdn-of-webserver&gt;@&lt;KERBEROS-REALM&gt;
+   1 HTTP/&lt;fqdn-of-webserver&gt;@&lt;KERBEROS-REALM&gt;
+   1 HTTP/&lt;fqdn-of-webserver&gt;@&lt;KERBEROS-REALM&gt;
+   1 HTTP/&lt;fqdn-of-webserver&gt;@&lt;KERBEROS-REALM&gt;
 
-<span class="n">klist</span> <span class="o">-</span><span class="n">k</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">keytabs</span><span class="o">/</span><span class="n">dummyhost</span>
-<span class="n">KVNO</span> <span class="n">Principal</span>
-<span class="o">----</span> <span class="o">--------------------------------------------------------------------------</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
-   <span class="mi">1</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">@&lt;</span><span class="n">KERBEROS</span><span class="o">-</span><span class="n">REALM</span><span class="o">&gt;</span>
+klist -k /etc/httpd/keytabs/dummyhost
+KVNO Principal
+---- --------------------------------------------------------------------------
+   1 HTTP/dummyhost.example.com@&lt;KERBEROS-REALM&gt;
+   1 HTTP/dummyhost.example.com@&lt;KERBEROS-REALM&gt;
+   1 HTTP/dummyhost.example.com@&lt;KERBEROS-REALM&gt;
+   1 HTTP/dummyhost.example.com@&lt;KERBEROS-REALM&gt;
 </pre></div>
 </div>
 <p>To require login for all pages in a virtual host add:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Location</span> <span class="o">/&gt;</span>
-  <span class="n">AuthType</span> <span class="n">Kerberos</span>
-  <span class="n">AuthName</span> <span class="s2">&quot;Web Server Login&quot;</span>
-  <span class="n">KrbMethodNegotiate</span> <span class="n">On</span>
-  <span class="n">KrbMethodK5Passwd</span> <span class="n">On</span>
-  <span class="n">Krb5KeyTab</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">keytabs</span><span class="o">/</span><span class="n">default</span>
-  <span class="n">require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
-<span class="o">&lt;/</span><span class="n">Location</span><span class="o">&gt;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;Location /&gt;
+  AuthType Kerberos
+  AuthName &quot;Web Server Login&quot;
+  KrbMethodNegotiate On
+  KrbMethodK5Passwd On
+  Krb5KeyTab /etc/httpd/keytabs/default
+  require valid-user
+&lt;/Location&gt;
 </pre></div>
 </div>
 <p>For a non-default keytab (eg the dummyhost above) add/amend as
 appropriate:</p>
-<div class="line-block">
-<div class="line">`` KrbServiceName HTTP/dummyhost.example.com``</div>
-<div class="line">`` Krb5KeyTab /etc/httpd/keytabs/dummyhost``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>KrbServiceName HTTP/dummyhost.example.com
+Krb5KeyTab /etc/httpd/keytabs/dummyhost
+</pre></div>
 </div>
 <p>The REMOTE_USER environment variable will be set to username&#64; by
 default. For some systems it’s preferable to just have the shorter

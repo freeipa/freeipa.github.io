@@ -242,7 +242,7 @@ Token synchronization is available via a bind control when doing a
 simple bind. The OID of the control is: 2.16.840.1.113730.3.8.10.6. The
 ASN.1 is:
 
-::
+.. code-block:: text
 
    OTPSyncRequest ::= SEQUENCE {
        firstCode   OCTET STRING,
@@ -452,7 +452,7 @@ New OTP Token Commands
 OTP Import Command
 ^^^^^^^^^^^^^^^^^^
 
-::
+.. code-block:: text
 
    ipa-otptoken-import [-k KEYFILE] <PSKC file> <output file>
 
@@ -498,7 +498,7 @@ Creating a User
 We need to create a user to use when testing OTP. For the duration of
 this guide, I will call this user: ``otpuser``.
 
-::
+.. code-block:: text
 
    $ kinit admin
    Password for admin@EXAMPLE.COM: 
@@ -591,7 +591,7 @@ kinit as a non-OTP user, then run klist to show the location of the
 ticket cache. Once you have done this, you can kinit as your OTP user
 using the -T option. For example:
 
-::
+.. code-block:: text
 
    $ kinit admin
    Password for admin@EXAMPLE.COM: 
@@ -608,7 +608,7 @@ using the -T option. For example:
 A failure to properly configure FAST will result in the following error
 message once OTP is configured:
 
-::
+.. code-block:: text
 
    $ kinit otpuser
    kinit: Generic preauthentication failure while getting initial credentials
@@ -845,7 +845,7 @@ RFE Author
 
 For questions or comments, please contact:
 
-::
+.. code-block:: text
 
    Nathaniel McCallum
    Email: npmccallum@redhat.com

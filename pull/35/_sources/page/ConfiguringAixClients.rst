@@ -36,7 +36,7 @@ The following instructions describe how to configure AIX 5.3 as an IPA
 client. The following hostnames are used as examples only; you need to
 replace these with the hostnames that apply to your deployment.
 
-::
+.. code-block:: text
 
            REALM = EXAMPLE.COM
            IPA server = ipaserver.example.com
@@ -63,7 +63,7 @@ Configuring Kerberos and LDAP
 
 Under /etc/security/ldap create 2 new map files:
 
-   ::
+.. code-block:: text
 
       #IPAuser.map file
       keyobjectclass  SEC_CHAR        posixaccount            s
@@ -80,7 +80,7 @@ Under /etc/security/ldap create 2 new map files:
 
 ..
 
-   ::
+.. code-block:: text
 
       #IPAgroup.map file
       groupname       SEC_CHAR    cn                    s
@@ -93,7 +93,7 @@ Under /etc/security/ldap create 2 new map files:
   dc=example,dc=com
 | Change all basedns values to conform to your installation realm name.
 
-::
+.. code-block:: text
 
    userbasedn:cn=users,cn=accounts,dc=example,dc=com
    groupbasedn:cn=groups,cn=accounts,dc=example,dc=com
@@ -115,7 +115,7 @@ Under /etc/security/ldap create 2 new map files:
 
 Add the following sections to the file /usr/lib/security/methods.cfg
 
-   ::
+.. code-block:: text
 
       KRB5A:
               program = /usr/lib/security/KRB5A
@@ -127,13 +127,13 @@ Add the following sections to the file /usr/lib/security/methods.cfg
 
 For AIX 6.1 the line
 
-   ::
+.. code-block:: text
 
               options = authonly
 
 should be changed into
 
-   ::
+.. code-block:: text
 
               options = authonly,kadmind=no
 
@@ -141,7 +141,7 @@ should be changed into
 | In the default section change the options 'SYSTEM' and 'registry' to
   look like this:
 
-::
+.. code-block:: text
 
            SYSTEM = "KRB5ALDAP"
            regisrty = LDAP
@@ -165,7 +165,7 @@ with your own host and domain names:
 
 1. SSH syslog Configuration
 
-::
+.. code-block:: text
 
            auth.info       /var/log/sshd.log
            auth.info       /var/log/sshd.log
@@ -176,14 +176,14 @@ with your own host and domain names:
 
 2. SSH Logging Configuration
 
-::
+.. code-block:: text
 
            SyslogFacility AUTH
            LogLevel INFO
 
 3. Configure sshd for GSSAPI (``/etc/ssh/sshd_config``)
 
-::
+.. code-block:: text
 
            # GSSAPI options
            GSSAPIAuthentication yes
@@ -191,14 +191,14 @@ with your own host and domain names:
 
 4. Restart sshd
 
-::
+.. code-block:: text
 
            # stopsrc -s sshd
            # startsrc -s sshd
 
 5. Restart syslogd
 
-::
+.. code-block:: text
 
            # stopsrc -s syslogd
            # startsrc -s syslogd
@@ -213,33 +213,33 @@ with your own host and domain names:
 
 6. Add a host service principal on IPA v2:
 
-::
+.. code-block:: text
 
            # ipa service-add host/ipaclient.example.com
 
 Please note: adding the service principal should no longer be required,
 but host-add and a host-add-managedby should be enough:
 
-::
+.. code-block:: text
 
        # ipa host-add ipaclient.example.com
        # ipa host-add-managedby --hosts=ipaserver.example.com ipaclient.example.com
 
 7. Retrieve the host keytab.
 
-::
+.. code-block:: text
 
            # ipa-getkeytab -s ipaserver -p host/ipaclient.example.com -k /tmp/krb5.keytab
 
 8. Copy the keytab from the server to the client.
 
-::
+.. code-block:: text
 
            # scp /tmp/krb5.keytab root@ipaclient.example.com:/tmp/krb5.keytab
 
 9. On the IPA client, use the **ktutil** command to import the keytab.
 
-::
+.. code-block:: text
 
            # ktutil
            ktutil: read_kt /tmp/krb5.keytab
@@ -251,7 +251,7 @@ substituted with krb5 authentication if that works from the ldap
 client). Otherwise go to the IPA server and use **ldapmodify**, bind as
 **Directory Manager** and create this user.
 
-::
+.. code-block:: text
 
            dn: uid=nss,cn=sysaccounts,cn=etc,dc=example,dc=com
            objectClass: account
@@ -262,14 +262,14 @@ client). Otherwise go to the IPA server and use **ldapmodify**, bind as
 
 11. On the IPA server, get a ticket for the **admin** user.
 
-::
+.. code-block:: text
 
            # kinit admin
 
 You should be able to log in as **admin** using ssh without providing a
 password.
 
-::
+.. code-block:: text
 
            # ssh admin@ipaclient.example.com
 
@@ -307,7 +307,7 @@ This example assumes we are going to be granting access to the machine
 to users in the netgroup mygroup. To add this group to IPA and allow the
 user admin do the following on the IPA server:
 
-::
+.. code-block:: text
 
    $ kinit admin
    $ ipa netgroup-add --desc='AIX users' mygroup
@@ -316,26 +316,26 @@ user admin do the following on the IPA server:
 1. On the AIX client, add the netgroup basedn to
 ``/etc/security/ldap/ldap.cfg``:
 
-::
+.. code-block:: text
 
    netgroupbasedn: cn=ng,cn=compat,dc=example,dc=com
 
 2. Restart the LDAP client:
 
-::
+.. code-block:: text
 
    # /usr/sbin/restart-secldapclntd
 
 3. Test that a netgroup is visible
 
-::
+.. code-block:: text
 
    # lsldap -a netgroup mygroup
 
 4. Add the netgroup option to LDAP and KRB5ALDAP in
 /usr/lib/security/methods.cfg:
 
-   ::
+.. code-block:: text
 
       LDAP: 
               program = /usr/lib/security/LDAP
@@ -347,7 +347,7 @@ user admin do the following on the IPA server:
 
 5. Configure ``/etc/irs.conf`` for netgroups:
 
-::
+.. code-block:: text
 
    # cat /etc/irs.conf
    netgroup nis_ldap
@@ -358,7 +358,7 @@ entry and configure that for compat:
 
 This is what it looks like if you create a separate user:
 
-   ::
+.. code-block:: text
 
       default:
               ...
@@ -368,7 +368,7 @@ This is what it looks like if you create a separate user:
 
 OR
 
-   ::
+.. code-block:: text
 
       admin:
           SYSTEM = compat
@@ -376,19 +376,19 @@ OR
 
 7. Add our netgroup to ``/etc/passwd``:
 
-::
+.. code-block:: text
 
    echo "+@mygroup" >> /etc/passwd
 
 8. Configure ``/etc/group`` for netgroups:
 
-::
+.. code-block:: text
 
    # echo "+:" >> /etc/group
 
 9. Test the admin user:
 
-   ::
+.. code-block:: text
 
       # lsuser -R compat admin
       admin id=155000000 pgrp=admins groups=admins home=/home/admin...

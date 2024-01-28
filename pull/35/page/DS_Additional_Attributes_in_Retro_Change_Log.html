@@ -344,9 +344,9 @@ Plugin</a></p></li>
 <h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h1>
 <p>The Retro Change Log plugin should accept a new multi-valued parameter
 nsslapd-attribute:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Retro</span> <span class="n">Changelog</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">...</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">attribute</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">attribute</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">[:</span><span class="o">&lt;</span><span class="n">alias</span><span class="o">&gt;</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
+...
+nsslapd-attribute: &lt;attribute name&gt;[:&lt;alias&gt;]
 </pre></div>
 </div>
 <p>The nsslapd-attribute contains the name of the attribute that will be
@@ -374,25 +374,25 @@ replicated</p>
 <p>If at least one nsslapd-attribute is specified, the object class
 extensibleObject will be added to change log entry.</p>
 <p>For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Retro</span> <span class="n">Changelog</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">...</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">attribute</span><span class="p">:</span> <span class="n">nsUniqueId</span><span class="p">:</span><span class="n">targetUniqueId</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">attribute</span><span class="p">:</span> <span class="n">objectClass</span><span class="p">:</span><span class="n">targetObjectClass</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">attribute</span><span class="p">:</span> <span class="n">isReplicated</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
+...
+nsslapd-attribute: nsUniqueId:targetUniqueId
+nsslapd-attribute: objectClass:targetObjectClass
+nsslapd-attribute: isReplicated
 </pre></div>
 </div>
 <p>The change log entry should look as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changeNumber</span><span class="o">=...</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changeLogEntry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="o">...</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="o">...</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">add</span><span class="o">/</span><span class="n">modify</span><span class="o">/</span><span class="n">modrdn</span><span class="o">/</span><span class="n">delete</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="o">...</span>
-<span class="n">targetUniqueId</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">target</span> <span class="nb">object</span><span class="s1">&#39;s nsUniqueId&gt;</span>
-<span class="n">targetObjectClass</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">target</span> <span class="nb">object</span><span class="s1">&#39;s objectClass&gt;</span>
-<span class="n">isReplicated</span><span class="p">:</span> <span class="n">TRUE</span><span class="o">/</span><span class="n">FALSE</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changeNumber=...,cn=changelog
+objectClass: top
+objectClass: changeLogEntry
+objectClass: extensibleObject
+changeNumber: ...
+changeTime: ...
+changeType: add/modify/modrdn/delete
+targetDn: ...
+targetUniqueId: &lt;target object&#39;s nsUniqueId&gt;
+targetObjectClass: &lt;target object&#39;s objectClass&gt;
+isReplicated: TRUE/FALSE
 </pre></div>
 </div>
 </section>
@@ -400,18 +400,18 @@ extensibleObject will be added to change log entry.</p>
 <h1>Schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h1>
 <p>A new attribute isReplicated should be added into 01common.ldif or
 02common.ldif:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attributeTypes</span><span class="p">:</span> <span class="p">(</span> <span class="mf">2.16.840.1.113730.3.1.2085</span> <span class="n">NAME</span> <span class="s1">&#39;isReplicated&#39;</span> <span class="n">DESC</span> <span class="s1">&#39;Changelog attribute type&#39;</span> <span class="n">SYNTAX</span> <span class="mf">1.3.6.1.4.1.1466.115.121.1.7</span> <span class="n">X</span><span class="o">-</span><span class="n">ORIGIN</span> <span class="s1">&#39;Changelog Internet Draft&#39;</span> <span class="p">)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>attributeTypes: ( 2.16.840.1.113730.3.1.2085 NAME &#39;isReplicated&#39; DESC &#39;Changelog attribute type&#39; SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 X-ORIGIN &#39;Changelog Internet Draft&#39; )
 </pre></div>
 </div>
 <p>and 60changelog.ldif:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attributeTypes</span><span class="p">:</span> <span class="p">(</span>
-  <span class="mf">2.16.840.1.113730.3.1.2085</span>
-  <span class="n">NAME</span> <span class="s1">&#39;isReplicated&#39;</span>
-  <span class="n">DESC</span> <span class="s1">&#39;a flag which indicates whether the change was replicated&#39;</span>
-  <span class="n">EQUALITY</span> <span class="n">booleanMatch</span>
-  <span class="n">SYNTAX</span> <span class="mf">1.3.6.1.4.1.1466.115.121.1.7</span>
-  <span class="n">SINGLE</span><span class="o">-</span><span class="n">VALUE</span>
-  <span class="p">)</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>attributeTypes: (
+  2.16.840.1.113730.3.1.2085
+  NAME &#39;isReplicated&#39;
+  DESC &#39;a flag which indicates whether the change was replicated&#39;
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE
+  )
 </pre></div>
 </div>
 <p>See also <a class="reference external" href="http://intranet.corp.redhat.com/ic/intranet/LDAPSchemaOIDs.html">OID Assignments for Red Hat Directory
@@ -428,66 +428,66 @@ methods:</p>
 </ul>
 <section id="global-variables">
 <h2>Global Variables<a class="headerlink" href="#global-variables" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">retrocl_nattributes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="n">char</span> <span class="o">**</span><span class="n">retrocl_attributes</span> <span class="o">=</span> <span class="n">NULL</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>int retrocl_nattributes = 0;
+char **retrocl_attributes = NULL;
 </pre></div>
 </div>
 </section>
 <section id="reading-new-parameters">
 <h2>Reading New Parameters<a class="headerlink" href="#reading-new-parameters" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Slapi_Entry</span> <span class="o">*</span><span class="n">e</span> <span class="o">=</span> <span class="n">NULL</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Slapi_Entry *e = NULL;
 
-<span class="k">if</span> <span class="p">(</span><span class="n">slapi_pblock_get</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">SLAPI_ADD_ENTRY</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">slapi_log_error</span><span class="p">(</span><span class="n">SLAPI_LOG_FATAL</span><span class="p">,</span> <span class="n">RETROCL_PLUGIN_NAME</span><span class="p">,</span> <span class="s2">&quot;missing config entry</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
+if (slapi_pblock_get(pb, SLAPI_ADD_ENTRY, &amp;e) != 0) {
+    slapi_log_error(SLAPI_LOG_FATAL, RETROCL_PLUGIN_NAME, &quot;missing config entry\n&quot;);
+    return -1;
+}
 
-<span class="n">retrocl_attributes</span> <span class="o">=</span> <span class="n">slapi_entry_attr_get_charray</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;nsslapd-attribute&quot;</span><span class="p">);</span>
+retrocl_attributes = slapi_entry_attr_get_charray(e, &quot;nsslapd-attribute&quot;);
 
-<span class="k">for</span> <span class="p">(</span><span class="n">retrocl_nattributes</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-    <span class="n">retrocl_attributes</span><span class="o">&amp;&amp;</span> <span class="n">retrocl_attributes</span><span class="p">[</span><span class="n">retrocl_nattributes</span><span class="p">];</span>
-    <span class="n">retrocl_nattributes</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">...</span>
-<span class="p">}</span>
+for (retrocl_nattributes=0;
+    retrocl_attributes&amp;&amp; retrocl_attributes[retrocl_nattributes];
+    retrocl_nattributes++) {
+    ...
+}
 
-<span class="n">slapi_ch_array_free</span><span class="p">(</span><span class="n">retrocl_attributes</span><span class="p">);</span>
+slapi_ch_array_free(retrocl_attributes);
 </pre></div>
 </div>
 </section>
 <section id="getting-nsuniqueid-attribute">
 <h2>Getting nsUniqueId Attribute<a class="headerlink" href="#getting-nsuniqueid-attribute" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Slapi_Entry</span> <span class="o">*</span><span class="n">entry</span><span class="p">;</span>
-<span class="n">char</span> <span class="o">*</span><span class="n">uniqueId</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Slapi_Entry *entry;
+char *uniqueId;
 
-<span class="n">slapi_pblock_get</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">SLAPI_ENTRY_POST_OP</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
-<span class="n">uniqueId</span> <span class="o">=</span> <span class="n">slapi_entry_get_uniqueid</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span>
+slapi_pblock_get(pb, SLAPI_ENTRY_POST_OP, &amp;entry);
+uniqueId = slapi_entry_get_uniqueid(entry);
 
-<span class="o">...</span>
+...
 </pre></div>
 </div>
 </section>
 <section id="generating-isreplicated-attribute">
 <h2>Generating isReplicated Attribute<a class="headerlink" href="#generating-isreplicated-attribute" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">repl_op</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>int repl_op = 0;
 
-<span class="n">slapi_pblock_get</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">SLAPI_IS_REPLICATED_OPERATION</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">repl_op</span><span class="p">);</span>
+slapi_pblock_get(pb, SLAPI_IS_REPLICATED_OPERATION, &amp;repl_op);
 
-<span class="k">if</span> <span class="p">(</span><span class="n">repl_op</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+if (repl_op) return;
 
-<span class="o">...</span>
+...
 </pre></div>
 </div>
 </section>
 <section id="getting-user-defined-attributes">
 <h2>Getting User-defined Attributes<a class="headerlink" href="#getting-user-defined-attributes" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Slapi_Entry</span> <span class="o">*</span><span class="n">entry</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Slapi_Entry *entry;
 
-<span class="n">slapi_pblock_get</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">SLAPI_ENTRY_POST_OP</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
-<span class="n">char</span> <span class="o">*</span><span class="n">value</span> <span class="o">=</span> <span class="n">slapi_entry_attr_get_charptr</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">attributes</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+slapi_pblock_get(pb, SLAPI_ENTRY_POST_OP, &amp;entry);
+char *value = slapi_entry_attr_get_charptr(entry, attributes[i]);
 
-<span class="o">...</span>
+...
 
-<span class="n">slapi_ch_free_string</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+slapi_ch_free_string(&amp;value);
 </pre></div>
 </div>
 </section>

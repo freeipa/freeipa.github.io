@@ -348,46 +348,46 @@ limitations.</p>
 </section>
 <section id="configure-freeipa">
 <h2>Configure FreeIPA<a class="headerlink" href="#configure-freeipa" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``1. Create the host principal in the web interface``
-| ``2. Create IPA users to correspond to Windows users``
-| ``3. Reset the user&#39;s IPA password to a known password using the web interface or CLI,``
-| ``   the user will be prompted to change at first log in.``
-| ``4. On the IPA server run``
-| `` ipa-getkeytab -s [kdc DNS name]``
-| ``               -p host/[machine-name]``
-| ``               -e  arcfour-hmac``
-| ``               -k krb5.keytab.[machine-name]``
-| ``               -P``
-| `` At the prompt enter a random MACHINE_PASSWORD``
-| `` (you will enter this later on the windows machine too).``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> 1. Create the host principal in the web interface``
+ 2. Create IPA users to correspond to Windows users``
+ 3. Reset the user&#39;s IPA password to a known password using the web interface or CLI,``
+    the user will be prompted to change at first log in.``
+ 4. On the IPA server run``
+  ipa-getkeytab -s [kdc DNS name]``
+                -p host/[machine-name]``
+                -e  arcfour-hmac``
+                -k krb5.keytab.[machine-name]``
+                -P``
+  At the prompt enter a random MACHINE_PASSWORD``
+  (you will enter this later on the windows machine too).``
 | `` ``\ **``Note:``\ ````\ ``you``\ ````\ ``can``\ ````\ ``change``\ ````\ ``the``\ ````\ ``-e``\ ````\ ``argument``\ ````\ ``to``\ ````\ ``include``\ ````\ ``also``**
-| `` ``\ **``AES``\ ````\ ``enctypes``\ ````\ ``from``\ ````\ ``FreeIPA``\ ````\ ``2.1.4``\ ````\ ``and``\ ````\ ``higher.``**\ `` (FreeIPA ticket ``\ ```2038`` &lt;https://fedorahosted.org/freeipa/ticket/2038&gt;`__\ ``)``
+  ``\ **``AES``\ ````\ ``enctypes``\ ````\ ``from``\ ````\ ``FreeIPA``\ ````\ ``2.1.4``\ ````\ ``and``\ ````\ ``higher.``**\ `` (FreeIPA ticket ``\ ```2038`` &lt;https://fedorahosted.org/freeipa/ticket/2038&gt;`__\ ``)``
 
 | `` ``\ **``Note:``\ ````\ ``Windows``\ ````\ ``machines``\ ````\ ``names``\ ````\ ``cannot``\ ````\ ``exceed``\ ````\ ``15``\ ````\ ``characters``**
-| ``  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``
+   -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``
 </pre></div>
 </div>
 </section>
 <section id="configure-windows-ksetup">
 <h2>Configure Windows (ksetup)<a class="headerlink" href="#configure-windows-ksetup" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``1. ksetup /setdomain [REALM NAME]``
-| ``2. ksetup /addkdc [REALM NAME] [kdc DNS name]``
-| ``3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]``
-| ``4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)``
-| ``5. ksetup /mapuser * *``
-| ``6. Run gpedit.msc, open the key called:``
-| `` &quot;Network Security: Configure encryption types allowed for Kerberos”``
-| `` under:``
-| ``   Computer Configuration``
-| ``     Windows Settings``
-| ``       Security Settings``
-| ``         Local Policies``
-| ``           Security Options``
-| `` and deselect everything except RC4_HMAC_MD5``
-| ``7. *** REBOOT ***``
-| ``8. Add local user accounts for all users that need to be able to log in.``
-| ``9. Log in as [user]@[REALM] with the initial password, you will be prompted``
-| ``to change the password then logged in.``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1. ksetup /setdomain [REALM NAME]``
+2. ksetup /addkdc [REALM NAME] [kdc DNS name]``
+3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]``
+4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)``
+5. ksetup /mapuser * *``
+6. Run gpedit.msc, open the key called:``
+ &quot;Network Security: Configure encryption types allowed for Kerberos”``
+ under:``
+   Computer Configuration``
+     Windows Settings``
+       Security Settings``
+         Local Policies``
+           Security Options``
+ and deselect everything except RC4_HMAC_MD5``
+7. *** REBOOT ***``
+8. Add local user accounts for all users that need to be able to log in.``
+9. Log in as [user]@[REALM] with the initial password, you will be prompted``
+to change the password then logged in.``
 </pre></div>
 </div>
 <p><strong>Note: Configuring encryption types is not needed from FreeIPA 2.1.4

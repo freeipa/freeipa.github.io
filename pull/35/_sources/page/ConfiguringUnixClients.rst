@@ -75,14 +75,14 @@ directory. Make sure these files have permissions 0444.
 2. Change the profile reference in /var/ldap/ldap_client_file to the
 correct TLS profile. The TLS profile should have:
 
-::
+.. code-block:: text
 
    authenticationMethod: tls:simple
    serviceAuthenticationMethod:pam_ldap:tls:simple
 
 3. Restart the client:
 
-::
+.. code-block:: text
 
    /usr/lib/ldap/ldap_cachemgr -K
    mv /var/ldap/cachemgr.log /var/ldap/cachemgr.log.old
@@ -133,7 +133,7 @@ compatible with Solaris 7.
 1. Download and install the following packages from
 http://sunfreeware.com/indexsparc26.html:
 
-::
+.. code-block:: text
 
    openssl.0.9.8a.SPARC.Solaris.2.6.pkg.tgz
    make-3.80-sol26-sparc-local.gz
@@ -152,14 +152,14 @@ with the installation.
 2. Download openldap-stable-20060127.tar from the openldap site, and
 extract as follows:
 
-::
+.. code-block:: text
 
    tar -xvf openldap-stable-20060127.tar
    cd openldap-2.3.19
 
 3. Compile openldap:
 
-::
+.. code-block:: text
 
    ./configure --prefix=/opt/ldap --enable-syslog --disable-slapd -with-tls CC=/usr/local/bin/gcc
    make depends
@@ -168,7 +168,7 @@ extract as follows:
 
 4. Download pam_ldap from the padl site, and configure as follows:
 
-::
+.. code-block:: text
 
    tar -xvf pam_ldap.tar
    cd pam_ldap-180
@@ -177,7 +177,7 @@ extract as follows:
 5. Modify the Makefile and add -L/usr/local/lib to the LD_FLAGS, and
 then run make and make install:
 
-::
+.. code-block:: text
 
    pam_ldap_so_LDFLAGS = -B dynamic -M $(srcdir)/exports.solaris -G -B group -lc\ -L/opt/ldap/lib -L/usr/local/lib -R/opt/ldap/lib
 
@@ -200,14 +200,14 @@ then run make and make install:
 
 6. Download nss_ldap from the padl.com site, and extract as follows:
 
-::
+.. code-block:: text
 
    tar -xvf nss_ldap.tar
    cd nss_ldap-248
 
 7. Compile nss_ldap
 
-::
+.. code-block:: text
 
    ./configure --prefix=/opt/ldap --with-ldap-dir=/opt/ldap --enable-rfc2307bis
    /usr/local/bin/make
@@ -224,7 +224,7 @@ a tar file that extract into /opt/ldap.
 
 1. Copy the tar file to the root directory and untar.
 
-::
+.. code-block:: text
 
    cp nss_ldap_solaris_6_7.tar /; tar -xvf nss_ldap_compiled.tar
 
@@ -236,14 +236,14 @@ conflicting files; ignore these and continue with the installation.
 
 4. Create an appropriate symlink as follows:
 
-::
+.. code-block:: text
 
    cd  /opt/ldap/lib/security; ln -s pam_ldap.so ./pam_ldap.so.1
 
 5. For Solaris 7, save the version of pam_unix.so, and copy over the
 Solaris 6 version from /opt/ldap/lib/security/pam_unix.so.
 
-::
+.. code-block:: text
 
    cp /usr/lib/security/pam_unix.so /usr/lib/security/pam_unix.so.sol7
    cp /opt/ldap/lib/security/pam_unix.so  /usr/lib/security/pam_unix.so
@@ -251,7 +251,7 @@ Solaris 6 version from /opt/ldap/lib/security/pam_unix.so.
 6. Check if the pam module can be loaded. That is, see if the dynamic
 linker can resolve all the dependencies by running ldd.
 
-::
+.. code-block:: text
 
    ldd /usr/lib/security/pam_ldap.so
 
@@ -259,7 +259,7 @@ linker can resolve all the dependencies by running ldd.
 /usr/local/lib may not be found. To put them in the search path, create
 symbolic links. You may have to make the following links:
 
-::
+.. code-block:: text
 
    libssl.so.0.9.8 =>       /usr/lib/libssl.so.0.9.8
    libcrypto.so.0.9.8 =>    /usr/lib/libcrypto.so.0.9.8
@@ -274,13 +274,13 @@ For Solaris 7, the openssl libraries can be found in the
 8. Copy nss_ldap from /opt/ldap/lib/nss_ldap.so to /usr/lib/nss_ldap.so
 and then create the following link:
 
-::
+.. code-block:: text
 
    ln -s /usr/lib/nss_ldap.so /usr/lib/nss_ldap.so.1
 
 9. Check if all dynamic libraries are resolved, as follows:
 
-::
+.. code-block:: text
 
    ldd /usr/lib/nss_ldap.so
 
@@ -354,7 +354,7 @@ configured by copying over the relevant files.
 2. Configure a proxy user on the client. This user must exist on the
 Directory Server.
 
-::
+.. code-block:: text
 
    cd /opt/ldapux/config
    ./ldap_proxy_config -i uid=proxyagent,ou=profile,dc=example,dc=com redhat123
@@ -386,7 +386,7 @@ to the /etc/opt/ldapux/cred file.
 
 9. Verify the configuration by running the following commands:
 
-::
+.. code-block:: text
 
    pwget -n username
    grget -n groupname
@@ -399,7 +399,7 @@ on how to do this are in the HP-UX Client Configuration Guide on p.65.
 
 1. Copy the following files to the new server:
 
-::
+.. code-block:: text
 
    /etc/opt/ldapux/pcred
    /etc/opt/ldapux/ldapux_client.conf
@@ -412,13 +412,13 @@ on how to do this are in the HP-UX Client Configuration Guide on p.65.
 
 3. Download the profile:
 
-::
+.. code-block:: text
 
    /opt/ldapux/config/get_profile_entry -s nss
 
 4. Configure the proxy user:
 
-::
+.. code-block:: text
 
    /opt/ldapux/config/ldap_proxy_config
 
@@ -445,7 +445,7 @@ only to copy the generated cert7.db and key3.db files to
 2. To create the cert, change directory to /etc/opt/ldapux. Create a new
 database as follows:
 
-::
+.. code-block:: text
 
    /opt/ldapux/contrib/bin/certutil -N -d /etc/opt/ldapux
 
@@ -455,7 +455,7 @@ This generates empty cert7.db and key3.db databases.
 cacert.asc file (previously exported from ldap01.example.com using
 certutil according to the instructions in Appendix A).
 
-::
+.. code-block:: text
 
    /opt/ldapux/contrib/bin/certutil -A -n ldap08-ca-cert -t "C,," -d /etc/opt/ldapux -a -i /etc/opt/ldapux/cacert.asc
 
@@ -465,7 +465,7 @@ select SSL/Simple. This option will not show up if the db files are not
 in /etc/opt/ldapux. This generates a new profile for TLS/Simple access
 on the server.
 
-::
+.. code-block:: text
 
    cn=hpux_11.0_tls,ou=profile,dc=example,dc=com
 
@@ -496,7 +496,7 @@ descriptors?” The only search descriptor that is required to be
 specified is the one for automounts. Enter the following search
 descriptor for automounts:
 
-::
+.. code-block:: text
 
    searchBase: dc=example,dc=com
    searchScope: sub
@@ -529,7 +529,7 @@ specify SSL and SSL/simple authentication.
 At example, running the setup program resulted in the following profile
 being created:
 
-::
+.. code-block:: text
 
    cn=ldapuxprofile-tls,ou=profile,dc=example,dc=com
 
@@ -575,7 +575,7 @@ available from padl.com was not stable.
 4. Untar the nss_ldap source tarball and configure using the following
 command:
 
-::
+.. code-block:: text
 
    LDFLAGS="-L/opt/freeware/lib" LIBS=-lc \
            CPPFLAGS="-I/opt/freeware/include  -D_LINUX_SOURCE_COMPAT 
@@ -584,7 +584,7 @@ command:
 
 5. Modify the following lines in the Makefile:
 
-::
+.. code-block:: text
 
    nss_ldap_so_LDFLAGS = -bM:SRE -bnoentry -bE:$(srcdir)/exports.aix -brtl -lc
             -L/opt/freeware/lib
@@ -623,7 +623,7 @@ directory if it does not exist.
 5. If irs.conf exists, modify it to use nss_ldap (as appropriate).
 Create this file if it does not exist. A sample file is given below:
 
-::
+.. code-block:: text
 
    hosts dns continue
    hosts nis continue
@@ -644,7 +644,7 @@ Create this file if it does not exist. A sample file is given below:
 
 6. Add the following stanza to /lib/security/methods.cfg:
 
-::
+.. code-block:: text
 
    LDAP:
        program = /usr/lib/security/NSS_LDAP
@@ -686,7 +686,7 @@ Configuring Client Authentication
 Client configuration is performed using the mksecldap command, as
 follows:
 
-::
+.. code-block:: text
 
    mksecldap -c -h ldap03.example.com -a "cn=Directory Manager” \ 
            -p mysecret -d "dc=example,dc=com" -u NONE
@@ -697,7 +697,7 @@ Directory Server. These mappings are likely to be incorrect, however,
 and should be modified to reflect the correct information as in the
 sample below. Full configuration files are found in the Appendix.
 
-::
+.. code-block:: text
 
    # Base DN where the user and group data are stored in the LDAP server.
    # e.g., if user foo's DN is: username=foo,ou=aixuser,cn=aixsecdb
@@ -716,7 +716,7 @@ sample below. Full configuration files are found in the Appendix.
 /etc/irs.conf file. Make sure that the information in this file is
 correct. An example is shown below.
 
-::
+.. code-block:: text
 
    hosts dns continue
    hosts nis continue
@@ -738,7 +738,7 @@ correct. An example is shown below.
 4. If NIS maps are present, the mksecldap command modifies the
 /etc/netsvc.conf file. Make sure these settings are correct, as follows:
 
-::
+.. code-block:: text
 
    hosts = nis_ldap, bind, nis, local
 
@@ -790,14 +790,14 @@ expansion pack CD:
 
 3.Create the key DB:
 
-::
+.. code-block:: text
 
    gsk7cmd -keydb -create -db key.kdb -pw redhat123 -type cms
 
 4. Copy over the DER binary CA Cert file. This is obtained by running
 the following commands on the ldap01 server:
 
-::
+.. code-block:: text
 
    cd /opt/redhat-ds/alias
     ../shared/bin/certutil -L -d . -P slapd-ldap01- -n "Certificate Manager" \
@@ -805,13 +805,13 @@ the following commands on the ldap01 server:
 
 5. Install the CA cert and make it trusted:
 
-::
+.. code-block:: text
 
    gsk7cmd -cert -add -db /usr/ldap/key.kdb -pw redhat123  -label "ldap08 CA Cert" -trust enable -format binary -file cacert.der
 
 6. Now configure the ldap client:
 
-::
+.. code-block:: text
 
    mksecldap -c -h ldap01.example.com -a "cn=Directory Manager" \
    -p redhat123 -k /usr/ldap/key.kdb -w redhat123 -d "dc=example,dc=com"
@@ -821,7 +821,7 @@ the following commands on the ldap01 server:
 
 8. Restart the ldap client:
 
-::
+.. code-block:: text
 
    stop-secldapclntd
    flush-secldapclntd
@@ -851,7 +851,7 @@ very simple.
 
 Example:
 
-::
+.. code-block:: text
 
    root@localhost - PROD# grep authtype /etc/security/ldap/ldap.cfg
    #authtype:unix_auth
@@ -860,7 +860,7 @@ Example:
 
 3. Restart LDAP client, and try to change a user password.
 
-::
+.. code-block:: text
 
    root@localhost - PROD# stop-secldapclntd && sleep 3 && start-secldapclntd
    The secldapclntd daemon terminated successfully.

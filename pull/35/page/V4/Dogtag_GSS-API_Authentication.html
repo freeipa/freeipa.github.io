@@ -498,17 +498,17 @@ responder, is required.</p>
 <p>SSSD on servers must be configured to allow <em>mod_lookup_identity</em> to
 query a principal’s <code class="docutils literal notranslate"><span class="pre">memberOf</span></code> attribute.</p>
 <p>Example <code class="docutils literal notranslate"><span class="pre">/etc/sssd/sssd.conf</span></code> configuration (indicative only):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">sssd</span><span class="p">]</span>
-<span class="n">services</span> <span class="o">=</span> <span class="n">nss</span><span class="p">,</span> <span class="n">sudo</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">ssh</span><span class="p">,</span> <span class="n">ifp</span>
-<span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[sssd]
+services = nss, sudo, pam, ssh, ifp
+...
 
-<span class="p">[</span><span class="n">domain</span><span class="o">/</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="p">]</span>
-<span class="o">...</span>
-<span class="n">ldap_user_extra_attrs</span> <span class="o">=</span> <span class="n">roles</span><span class="p">:</span><span class="n">memberOf</span>
+[domain/EXAMPLE.COM]
+...
+ldap_user_extra_attrs = roles:memberOf
 
-<span class="p">[</span><span class="n">ifp</span><span class="p">]</span>
-<span class="n">allowed_uids</span> <span class="o">=</span> <span class="n">apache</span>
-<span class="n">user_attributes</span> <span class="o">=</span> <span class="o">+</span><span class="n">roles</span>
+[ifp]
+allowed_uids = apache
+user_attributes = +roles
 </pre></div>
 </div>
 <p>The attribute is exposed under the name <code class="docutils literal notranslate"><span class="pre">roles</span></code>. The name <code class="docutils literal notranslate"><span class="pre">memberOf</span></code>
@@ -518,7 +518,7 @@ behaviour.</p>
 <section id="selinux">
 <h2>SELinux<a class="headerlink" href="#selinux" title="Link to this heading">#</a></h2>
 <p>SELinux must be configured to allow Apache to query the SSSD InfoPipe.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo setsebool -P httpd_dbus_sssd 1
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ sudo setsebool -P httpd_dbus_sssd 1
 </pre></div>
 </div>
 </section>
@@ -530,17 +530,17 @@ SPNEGO authentication when a client requests Dogtag resources.
 <code class="docutils literal notranslate"><span class="pre">mod_lookup_identity</span></code> shall populate the AJP request environment with
 groups and permissions of the authenticated principal (if any).</p>
 <p>Example (indicative only):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">If</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="o">%</span><span class="p">{</span><span class="n">QUERY_STRING</span><span class="p">}</span> <span class="o">=~</span> <span class="o">/</span>\<span class="n">bgssapi</span><span class="o">=/&amp;</span><span class="n">quot</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
-  <span class="n">AuthType</span> <span class="n">GSSAPI</span>
-  <span class="n">AuthName</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="n">Kerberos</span> <span class="n">Login</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
-  <span class="n">GssapiCredStore</span> <span class="n">keytab</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">keytab</span>
-  <span class="n">GssapiCredStore</span> <span class="n">client_keytab</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">keytab</span>
-  <span class="n">GssapiDelegCcacheDir</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">clientcaches</span>
-  <span class="n">GssapiUseS4U2Proxy</span> <span class="n">on</span>
-  <span class="n">GssapiAllowedMech</span> <span class="n">krb5</span>
-  <span class="n">Require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
-  <span class="n">LookupUserAttrIter</span> <span class="n">roles</span> <span class="o">+</span><span class="n">AJP_REMOTE_USER_GROUP</span>
-<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">/</span><span class="n">If</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;lt;If &amp;quot;%{QUERY_STRING} =~ /\bgssapi=/&amp;quot;&amp;gt;
+  AuthType GSSAPI
+  AuthName &amp;quot;Kerberos Login&amp;quot;
+  GssapiCredStore keytab:/etc/httpd/conf/ipa.keytab
+  GssapiCredStore client_keytab:/etc/httpd/conf/ipa.keytab
+  GssapiDelegCcacheDir /var/run/httpd/ipa/clientcaches
+  GssapiUseS4U2Proxy on
+  GssapiAllowedMech krb5
+  Require valid-user
+  LookupUserAttrIter roles +AJP_REMOTE_USER_GROUP
+&amp;lt;/If&amp;gt;
 </pre></div>
 </div>
 <p>A query string is used to activate SPNEGO authentication because, due
@@ -564,7 +564,7 @@ configured to present a certificate will still do so.</p>
 <h2><code class="docutils literal notranslate"><span class="pre">pki-tomcatd</span></code><a class="headerlink" href="#pki-tomcatd" title="Link to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">pki-tomcatd</span></code> deployment must be updated to accept external
 authentication. In <code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/server.xml</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&amp;lt;Connector port=&amp;quot;8009&amp;quot;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&amp;lt;Connector port=&amp;quot;8009&amp;quot;
   protocol=&amp;quot;AJP/1.3&amp;quot;
   tomcatAuthentication=&amp;quot;false&amp;quot;  &amp;lt;!-- add this attribute --&amp;gt;
   redirectPort=&amp;quot;8443&amp;quot;
@@ -577,7 +577,7 @@ authentication. In <code class="docutils literal notranslate"><span class="pre">
 <p><code class="docutils literal notranslate"><span class="pre">/etc/pki/pki-tomcat/{ca,kra}/CS.cfg</span></code> must be updated to define an
 <code class="docutils literal notranslate"><span class="pre">IAuthzManager</span></code> plugin instance for the FreeIPA realm.</p>
 <p>Directives to be added:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>authz.instance.IPAAuthz.pluginName=DirAclAuthz
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>authz.instance.IPAAuthz.pluginName=DirAclAuthz
 authz.instance.IPAAuthz.ldap=internaldb
 authz.instance.IPAAuthz.searchBase=cn=IPA,cn=aclResources
 authz.instance.IPAAuthz.realm=${ACTUAL_REALM}
@@ -594,7 +594,7 @@ the <code class="docutils literal notranslate"><span class="pre">IAuthzManager</
 Dogtag ACL syntax but will refer to IPA users (or other principal
 names), groups and permissions, rather than “internal” Dogtag users and
 groups. The entry shall be:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn</span><span class="o">=</span><span class="n">IPA</span><span class="o">.</span><span class="n">LOCAL</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">aclResources</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="n">ipaca</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cn=IPA.LOCAL,cn=aclResources,o=ipaca
 </pre></div>
 </div>
 <p>ACLs may need to allow host principals that are members of the
@@ -651,8 +651,8 @@ directory that is readable only by <code class="docutils literal notranslate"><s
 ownership <code class="docutils literal notranslate"><span class="pre">apache:pkiuser</span></code> and mode <code class="docutils literal notranslate"><span class="pre">0640</span></code>. The credential caches
 created therein shall have mode <code class="docutils literal notranslate"><span class="pre">0644</span></code>. The following <code class="docutils literal notranslate"><span class="pre">httpd</span></code>
 configuration directives are involved:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GssapiDelegCcacheDir</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">pki</span><span class="o">/</span><span class="n">clientcaches</span>
-<span class="n">GssapiDelegCcachePerms</span> <span class="n">mode</span><span class="p">:</span><span class="mi">0644</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>GssapiDelegCcacheDir /var/run/pki/clientcaches
+GssapiDelegCcachePerms mode:0644
 </pre></div>
 </div>
 </section>

@@ -33,7 +33,7 @@ and built mod_auth_gssapi from master
 
 I've configured SSSD:
 
-::
+.. code-block:: text
 
    --- /etc/sssd/sssd.conf.orig    2016-06-16 04:55:01.056705019 -0400
    +++ /etc/sssd/sssd.conf 2016-06-16 07:26:58.078165651 -0400
@@ -49,36 +49,46 @@ I've configured SSSD:
 
 and run
 
-| ``       setsebool -P httpd_dbus_sssd on``
-| ``       systemctl restart sssd``
+.. code-block:: text
+
+           setsebool -P httpd_dbus_sssd on
+           systemctl restart sssd
 
 I have created HTTP/ service for the machine and got its keytab:
 
-| ``       echo Secret123 | kinit admin``
-| ``       ipa service-add HTTP/$(hostname)``
-| ``       IPA_SERVER=$(awk '/^server =/ {print $3}' /etc/ipa/default.conf)``
-| ``       ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)``
-| ``       chown apache /etc/http.keytab``
-| ``       chmod 600 /etc/http.keytab``
+.. code-block:: text
+
+           echo Secret123 | kinit admin
+           ipa service-add HTTP/$(hostname)
+           IPA_SERVER=$(awk '/^server =/ {print $3}' /etc/ipa/default.conf)
+           ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)
+           chown apache /etc/http.keytab
+           chmod 600 /etc/http.keytab
 
 On the IPA server, I've run
 
-| ``       [root@ipa ~]# kadmin.local``
-| ``       Authenticating as principal admin/admin@EXAMPLE.COM with password.``
-| ``       kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com``
-| ``       Principal "HTTP/client.example.com@EXAMPLE.COM" modified.``
-| ``       kadmin.local:  quit``
+.. code-block:: text
+
+           [root@ipa ~]# kadmin.local
+           Authenticating as principal admin/admin@EXAMPLE.COM with password.
+           kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com
+           Principal "HTTP/client.example.com@EXAMPLE.COM" modified.
+           kadmin.local:  quit
 
 I have created directory for the delegated credentials:
 
-| ``       mkdir /var/run/httpd/gssapi_deleg``
-| ``       chown apache /var/run/httpd/gssapi_deleg``
+.. code-block:: text
+
+           mkdir /var/run/httpd/gssapi_deleg
+           chown apache /var/run/httpd/gssapi_deleg
 
 I have created user and associated client certificate (the test
 certificate alpha from mod_nss's default /etc/httpd/alias) with it:
 
-| ``       ipa user-add --first Robert --last Chase --random bob``
-| ``       ipa user-add-cert --certificate="$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v '.---' )" bob``
+.. code-block:: text
+
+           ipa user-add --first Robert --last Chase --random bob
+           ipa user-add-cert --certificate="$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v '.---' )" bob
 
 I had to change bob's password or I was getting CLIENT KEY EXPIRED later
 during gss_acquire_cred_impersonate_name:
@@ -87,7 +97,7 @@ during gss_acquire_cred_impersonate_name:
 
 I have created test content:
 
-::
+.. code-block:: text
 
    # cat > /var/www/cgi-bin/set.cgi <<EOF
    #!/bin/bash
@@ -105,7 +115,7 @@ Started Apache and tested I can talk to it via HTTPS:
 
 I've configured the modules:
 
-::
+.. code-block:: text
 
    --- /etc/httpd/conf.d/nss.conf.orig     2015-09-22 16:51:00.000000000 -0400
    +++ /etc/httpd/conf.d/nss.conf  2016-06-16 07:37:00.591724042 -0400
@@ -149,8 +159,10 @@ uncommented LoadModule in
 
 and run
 
-| ``       echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so > /etc/httpd/conf.modules.d/09-gssapi.conf``
-| ``       systemctl restart httpd``
+.. code-block:: text
+
+           echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so > /etc/httpd/conf.modules.d/09-gssapi.conf
+           systemctl restart httpd
 
 I've now run
 
@@ -158,7 +170,7 @@ I've now run
 
 and in the log I saw
 
-::
+.. code-block:: text
 
    ==> /var/log/httpd/error_log <==
    [Thu Jun 16 08:22:28.070370 2016] [:notice] [pid 18961] lookup_user_by_certificate found [bob]
@@ -217,7 +229,7 @@ That second operation should likely be only run when
 
 When I patch mod_nss that way, the curl will show
 
-::
+.. code-block:: text
 
    ==> /var/log/httpd/error_log <==
    [Thu Jun 16 08:40:41.175368 2016] [:notice] [pid 22993] lookup_user_by_certificate found [bob]

@@ -49,7 +49,7 @@ Migrating from RHEL 6/CentOS 6
 
 -  Installation of certificate server fails with:
 
-      ::
+.. code-block:: text
 
          Clone does not have all the required certificates
 
@@ -76,7 +76,7 @@ Migrating from RHEL 6/CentOS 6
 
 -  Installation of certificate server fails with:
 
-      ::
+.. code-block:: text
 
          Error while updating security domain: java.io.IOException: 2
 
@@ -88,7 +88,7 @@ Migrating from RHEL 6/CentOS 6
       the database entry with correct certificate. Run following script
       or use manual method is described at `freeipa users list
       mail <https://www.redhat.com/archives/freeipa-users/2016-April/msg00143.html>`__.
-      ::
+.. code-block:: text
 
          # /usr/share/pki/scripts/restore-subsystem-user.py -v
 
@@ -99,15 +99,17 @@ Replica Installation fails with Invalid Credentials
 
 -  Installation of the replica fails with:
 
-| ``  [27/40]: setting up initial replication``
-| ``Starting replication, please wait until this has completed.``
-| ``Update in progress, 15 seconds elapsed``
-| ```1`` <ldap://master.example.com:389>`__\ `` reports: Update failed! Status: [49  - LDAP error: Invalid credentials]``
-| ``  [error] RuntimeError: Failed to start replication``
-| ``Your system may be partly configured.``
-| ``Run /usr/sbin/ipa-server-install --uninstall to clean up.``
-| ``ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    Failed to start replication``
-| ``ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    The ipa-replica-install command failed. See /var/log/ipareplica-install.log for more information``
+.. code-block:: text
+
+      [27/40]: setting up initial replication
+    Starting replication, please wait until this has completed.
+    Update in progress, 15 seconds elapsed
+    `1`` <ldap://master.example.com:389>`__\ `` reports: Update failed! Status: [49  - LDAP error: Invalid credentials]
+      [error] RuntimeError: Failed to start replication
+    Your system may be partly configured.
+    Run /usr/sbin/ipa-server-install --uninstall to clean up.
+    ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    Failed to start replication
+    ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    The ipa-replica-install command failed. See /var/log/ipareplica-install.log for more information
 
 This can happen when the ipa-replica-install command is called with
 --no-ntp and the clocks of the master and the replica are not in sync.
@@ -172,10 +174,12 @@ Installation breaks on Joining realm
 
 ipa-client-install may fail with the following error:
 
-| `` Joining realm failed: Failed to add key to the keytab``
-| `` child exited with 11``
-| `` ``
-| `` Installation failed. Rolling back changes.``
+.. code-block:: text
+
+     Joining realm failed: Failed to add key to the keytab
+     child exited with 11
+     
+     Installation failed. Rolling back changes.
 
 This failure may be caused by an empty /etc/krb5.keytab. In this case,
 simply delete the file and restart the installation.

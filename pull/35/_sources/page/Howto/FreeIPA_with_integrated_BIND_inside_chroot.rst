@@ -20,7 +20,7 @@ Please see this `note <#NOTE>`__ about chroots.
 
       Following script should copy all necessary files to "$CHROOT":
 
-::
+.. code-block:: text
 
    CP="cp -Lpcvr"
    ARCH="64" # empty string should work for x86_32 architecture
@@ -69,7 +69,7 @@ Please see this `note <#NOTE>`__ about chroots.
 -  In (chrooted) */etc/named.conf* and replace LDAPI socket with
    localhost:
 
-::
+.. code-block:: text
 
    arg "uri ldap://127.0.0.1:389
 
@@ -79,7 +79,7 @@ Please see this `note <#NOTE>`__ about chroots.
       accesible. **TODO**: Find some nicer way how to handle this
       problem.
 
-::
+.. code-block:: text
 
    includedir /var/lib/sss/pubconf/krb5.include.d
 

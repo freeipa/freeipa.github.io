@@ -350,12 +350,12 @@ The ticket granting ticket (TGT) obtained as result of the **kinit -n**
 request can only be used to create a FAST channel for second factor
 authentication:
 
-::
+.. code-block:: text
 
-   | ``   kinit -n``
-   | ``   klist``
-   | ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
-   | ``   kinit -T $ARMOR_CCACHE principal@REALM ``
+       kinit -n``
+       klist``
+       ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
+       kinit -T $ARMOR_CCACHE principal@REALM ``
 
 **-T** option of kinit allows to specify existing credentials cache with
 a valid TGT to create a FAST channel between the Kerberos client and the
@@ -365,21 +365,25 @@ multi-factor pre-authentication exchange to the KDC.
 
 To query whether the master supports client PKINIT via ``config-show``:
 
-| ``  $ ipa config-show``
-| ``  Maximum username length: 32``
-| ``  Home directory base: /home``
-| ``  Default shell: /bin/sh``
-| ``  Default users group: ipausers``
-| ``  ...``
-| ``  IPA masters supporting PKINIT: master1.ipa.test``
-| ``  ...``
+.. code-block:: text
+
+      $ ipa config-show
+      Maximum username length: 32
+      Home directory base: /home
+      Default shell: /bin/sh
+      Default users group: ipausers
+      ...
+      IPA masters supporting PKINIT: master1.ipa.test
+      ...
 
 To obtain the same information via ``ipa pkinit-status``:
 
-| ``  $ ipa pkinit-status``
-| ``  Server name: master1.ipa.test``
-| ``  PKINIT status: enabled``
-| ``  ...``
-| ``  Server name: replica1.ipa.test``
-| ``  PKINIT status: disabled``
-| ``  ...``
+.. code-block:: text
+
+      $ ipa pkinit-status
+      Server name: master1.ipa.test
+      PKINIT status: enabled
+      ...
+      Server name: replica1.ipa.test
+      PKINIT status: disabled
+      ...

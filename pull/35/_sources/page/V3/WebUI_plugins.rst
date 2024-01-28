@@ -51,7 +51,7 @@ Structure
 Plugin index is a simple AMD module with array *plugins* containing
 plugin names.
 
-::
+.. code-block:: text
 
    define([], function() {
        return [
@@ -96,7 +96,7 @@ From AMD's perspective plugin is a package. Loader can't load it because
 it doesn't know where it is located, so each plugin needs to be
 registered in a loader with:
 
-::
+.. code-block:: text
 
    {
        name: '$plugin_name',

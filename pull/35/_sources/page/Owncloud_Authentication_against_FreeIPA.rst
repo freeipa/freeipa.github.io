@@ -13,8 +13,10 @@ and demo1 ipa server.
 
 For the purpose of this document, the following information is given
 
-| `` Server: ipa.demo1.freeipa.org``
-| `` base dn: dc=demo1,dc=freeipa,dc=org``
+.. code-block:: text
+
+     Server: ipa.demo1.freeipa.org
+     base dn: dc=demo1,dc=freeipa,dc=org
 
 Prerequisite:
 -------------
@@ -35,11 +37,14 @@ Owncloud Authentication
 -  Go to Admin page (right corner)
 -  **Server**
 
-| `` Server: ``\ ```ldap://ipa.demo1.freeipa.org`` <ldap://ipa.demo1.freeipa.org>`__
-| `` Port: 389``
-| `` User DN: uid=admin,cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org``
-| `` Password: Secret123``
-| `` Base DN: dc=demo1,dc=freeipa,dc=org``
+.. code-block:: text
+
+     Server: ``\ ```ldap://ipa.demo1.freeipa.org`` <ldap://ipa.demo1.freeipa.org>`__
+
+     Port: 389
+     User DN: uid=admin,cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org
+     Password: Secret123
+     Base DN: dc=demo1,dc=freeipa,dc=org
 
 .. figure:: Own_ldap_server.png
    :alt: Own_ldap_server.png
@@ -57,8 +62,10 @@ Owncloud Authentication
 
 -  **Login Filter**
 
-| `` LDAP Username: checked``
-| `` Edit raw filter instead: (&(objectclass=*)(uid=%uid))``
+.. code-block:: text
+
+     LDAP Username: checked
+     Edit raw filter instead: (&(objectclass=*)(uid=%uid))
 
 .. figure:: Own_ldap_login_filter.png
    :alt: Own_ldap_login_filter.png
@@ -90,12 +97,14 @@ Owncloud Authentication
 
    -  Directory Settings
 
-| `` User Display Name Field: displayname``
-| `` Base User Tree: cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org``
-| `` Group Display Name Field: cn``
-| `` Base Group Tree: cn=groups,cn=accounts,dc=demo1,dc=freeipa,dc=org``
-| `` Group-Member association: uniqueMember``
-| `` Paging chunksize: 500``
+.. code-block:: text
+
+     User Display Name Field: displayname
+     Base User Tree: cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org
+     Group Display Name Field: cn
+     Base Group Tree: cn=groups,cn=accounts,dc=demo1,dc=freeipa,dc=org
+     Group-Member association: uniqueMember
+     Paging chunksize: 500
 
 .. figure:: Own_ldap_adv_dir_set.png
    :alt: Own_ldap_adv_dir_set.png
@@ -106,8 +115,10 @@ Owncloud Authentication
 
    -  Special Attributes
 
-| `` Email Field: mail``
-| `` User Home Folder Naming Rule: cn``
+.. code-block:: text
+
+     Email Field: mail
+     User Home Folder Naming Rule: cn
 
 .. figure:: Own_ldap_adv_spec_att.png
    :alt: Own_ldap_adv_spec_att.png

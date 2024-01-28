@@ -11,13 +11,13 @@ FreeIPA, using host-based access control (HBAC) rules), and users can
 enjoy single sign-on to both the OS and to the applications, based on
 their access privileges. We can use mod_gssapi's
 
-::
+.. code-block:: text
 
      GssapiLocalName on
 
 or mod_auth_kerb's
 
-::
+.. code-block:: text
 
      KrbLocalUserMapping On
 
@@ -45,13 +45,13 @@ username in the form of 'login@REALM'.
 For Kerberos ticket-based SSO using mod_auth_gssapi/mod_auth_kerb, the
 default value of
 
-::
+.. code-block:: text
 
      GssapiLocalName Off
 
 or
 
-::
+.. code-block:: text
 
      KrbLocalUserMapping Off
 
@@ -68,7 +68,7 @@ with the full user name (or if multiple realms are specified, they are
 tried in cycle). For example, if mod_intercept_form_submit is configured
 as
 
-::
+.. code-block:: text
 
      InterceptFormPAMService wikiapp
      InterceptFormLogin login_fld
@@ -104,7 +104,7 @@ To use second FreeIPA server for the web application development or
 testing on already IPA-enrolled machine, we install and configure the
 server on separate host using
 
-::
+.. code-block:: text
 
    ipa-server-install --no_hbac_allow
 
@@ -121,7 +121,7 @@ can grant ssh access using these testing users.
 We will want to manually create host and service records for our web
 application machine. Assuming it is wikiapp.example.com, we run
 
-::
+.. code-block:: text
 
    kinit admin
    ipa host-add wikiapp.example.com
@@ -138,7 +138,7 @@ server is EXAMPLE.COM and its hostname is ipa2.devel.company.net.
 
 To **/etc/krb5.conf**, we add
 
-::
+.. code-block:: text
 
    [realms]
            EXAMPLE.COM = {
@@ -152,7 +152,7 @@ To **/etc/krb5.conf**, we add
 
 We should now be able to
 
-::
+.. code-block:: text
 
    kinit admin@EXAMPLE.COM
 
@@ -162,14 +162,14 @@ second FreeIPA server to get for example user attributes. The keytab for
 the HTTP service is used by mod_auth_gssapi/mod_auth_kerb to facilitate
 Negotiate authentication.
 
-::
+.. code-block:: text
 
    ipa-getkeytab -s ipa2.devel.company.net -k /etc/krb5.keytab -p host/wikiapp.example.com@EXAMPLE.COM
    ipa-getkeytab -s ipa2.devel.company.net -k /etc/http.keytab -p HTTP/wikiapp.example.com@EXAMPLE.COM
 
 This is the only time the
 
-::
+.. code-block:: text
 
    [domain_realm]
            ipa2.devel.company.net = EXAMPLE.COM
@@ -188,7 +188,7 @@ can be used as long as the realms are different.
 
 The next part to configure is sssd, in **/etc/sssd/sssd.conf**:
 
-::
+.. code-block:: text
 
    # in [sssd] section, append EXAMPLE.COM to domains
    [sssd]
@@ -215,7 +215,7 @@ central organization's server and in ipa2.devel.company.net.
 
 Restarting sssd
 
-::
+.. code-block:: text
 
    service sssd restart
 

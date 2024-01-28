@@ -45,7 +45,7 @@ The freeIPA DIT assumes the following:
 The Suffix (BaseDN) is determined by splitting the realm name into
 domain components. For example:
 
-::
+.. code-block:: text
 
    EXAMPLE.COM -> dc=example,dc=com
 
@@ -69,13 +69,13 @@ Examining the DIT
 
 **To examine the DIT, run the following command:**
 
-::
+.. code-block:: text
 
    ldapsearch -x -b dc=example,dc=com
 
 **or, if you have a kerberos ticket:**
 
-::
+.. code-block:: text
 
    ldapsearch -Y GSSAPI -b dc=example,dc=com
 

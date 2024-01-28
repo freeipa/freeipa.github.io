@@ -326,27 +326,27 @@ eth0:0).</p></li>
 <section id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h1>
 <p>Create SAMBA_HOME/etc/smb.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">globals</span><span class="p">]</span>
-        <span class="n">netbios</span> <span class="n">name</span>     <span class="o">=</span> <span class="n">samba</span>
-        <span class="n">workgroup</span>        <span class="o">=</span> <span class="n">EXAMPLE</span>
-        <span class="n">realm</span>            <span class="o">=</span> <span class="n">SAMBA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
-        <span class="n">server</span> <span class="n">role</span>      <span class="o">=</span> <span class="n">domain</span> <span class="n">controller</span>
-        <span class="n">system</span><span class="p">:</span><span class="n">anonymous</span> <span class="o">=</span> <span class="n">yes</span>
-        <span class="n">sid</span> <span class="n">generator</span>    <span class="o">=</span> <span class="n">backend</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[globals]
+        netbios name     = samba
+        workgroup        = EXAMPLE
+        realm            = SAMBA.EXAMPLE.COM
+        server role      = domain controller
+        system:anonymous = yes
+        sid generator    = backend
 
-        <span class="n">krb5</span> <span class="n">port</span>        <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">kpasswd</span> <span class="n">port</span>     <span class="o">=</span> <span class="mi">0</span>
+        krb5 port        = 0
+        kpasswd port     = 0
 
-        <span class="n">interfaces</span>           <span class="o">=</span> <span class="n">eth0</span><span class="p">:</span><span class="mi">0</span>
-        <span class="n">bind</span> <span class="n">interfaces</span> <span class="n">only</span> <span class="o">=</span> <span class="n">yes</span>
+        interfaces           = eth0:0
+        bind interfaces only = yes
 
-<span class="p">[</span><span class="n">netlogon</span><span class="p">]</span>
-        <span class="n">path</span>      <span class="o">=</span> <span class="n">SAMBA_HOME</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">locks</span><span class="o">/</span><span class="n">sysvol</span><span class="o">/</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">scripts</span>
-        <span class="n">read</span> <span class="n">only</span> <span class="o">=</span> <span class="n">no</span>
+[netlogon]
+        path      = SAMBA_HOME/var/locks/sysvol/samba.example.com/scripts
+        read only = no
 
-<span class="p">[</span><span class="n">sysvol</span><span class="p">]</span>
-        <span class="n">path</span>      <span class="o">=</span> <span class="n">SAMBA_HOME</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">locks</span><span class="o">/</span><span class="n">sysvol</span>
-        <span class="n">read</span> <span class="n">only</span> <span class="o">=</span> <span class="n">no</span>
+[sysvol]
+        path      = SAMBA_HOME/var/locks/sysvol
+        read only = no
 </pre></div>
 </div>
 </section>
@@ -358,107 +358,107 @@ installation folder.</p>
 <section id="provisioning-samba-backend">
 <h1>Provisioning Samba Backend<a class="headerlink" href="#provisioning-samba-backend" title="Link to this heading">#</a></h1>
 <p>Execute the following command to provision Samba backend:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">SAMBA_HOME</span>
-<span class="o">%</span> <span class="n">export</span> <span class="n">PYTHONPATH</span><span class="o">=</span><span class="n">SAMBA_HOME</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">python2</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span>
-<span class="o">%</span> <span class="n">share</span><span class="o">/</span><span class="n">setup</span><span class="o">/</span><span class="n">provision</span> <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;domain controller&quot;</span> \
- <span class="o">--</span><span class="n">domain</span><span class="o">=</span><span class="n">EXAMPLE</span> <span class="o">--</span><span class="n">realm</span><span class="o">=</span><span class="n">SAMBA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> \
- <span class="o">--</span><span class="n">adminpass</span><span class="o">=</span><span class="n">Secret123</span> \
- <span class="o">--</span><span class="n">ldap</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">fedora</span><span class="o">-</span><span class="n">ds</span> \
- <span class="o">--</span><span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">--</span><span class="n">ldapadminpass</span><span class="o">=</span><span class="n">Secret123</span> \
- <span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">samba</span> <span class="o">--</span><span class="n">host</span><span class="o">-</span><span class="n">ip</span><span class="o">=</span><span class="mf">127.0.0.1</span> \
- <span class="o">--</span><span class="n">slapd</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">ns</span><span class="o">-</span><span class="n">slapd</span> <span class="o">--</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">ds</span><span class="o">.</span><span class="n">pl</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd SAMBA_HOME
+% export PYTHONPATH=SAMBA_HOME/lib64/python2.6/site-packages
+% share/setup/provision --server-role=&quot;domain controller&quot; \
+ --domain=EXAMPLE --realm=SAMBA.EXAMPLE.COM \
+ --adminpass=Secret123 \
+ --ldap-backend-type=fedora-ds \
+ --root=root --ldapadminpass=Secret123 \
+ --host-name=samba --host-ip=127.0.0.1 \
+ --slapd-path=/usr/sbin/ns-slapd --setup-ds-path=/usr/sbin/setup-ds.pl
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Server</span> <span class="n">Role</span><span class="p">:</span>           <span class="n">domain</span> <span class="n">controller</span>
-<span class="n">Hostname</span><span class="p">:</span>              <span class="n">samba</span>
-<span class="n">NetBIOS</span> <span class="n">Domain</span><span class="p">:</span>        <span class="n">EXAMPLE</span>
-<span class="n">DNS</span> <span class="n">Domain</span><span class="p">:</span>            <span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">DOMAIN</span> <span class="n">SID</span><span class="p">:</span>            <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">1463069339</span><span class="o">-</span><span class="mi">4227668456</span><span class="o">-</span><span class="mi">4007226777</span>
-<span class="n">Admin</span> <span class="n">password</span><span class="p">:</span>        <span class="n">Secret123</span>
-<span class="n">LDAP</span> <span class="n">Backend</span> <span class="n">Admin</span> <span class="n">DN</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Manager</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">LDAP</span> <span class="n">Admin</span> <span class="n">Password</span><span class="p">:</span>   <span class="n">Secret123</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Server Role:           domain controller
+Hostname:              samba
+NetBIOS Domain:        EXAMPLE
+DNS Domain:            samba.example.com
+DOMAIN SID:            S-1-5-21-1463069339-4227668456-4007226777
+Admin password:        Secret123
+LDAP Backend Admin DN: CN=Manager,DC=samba,DC=example,DC=com
+LDAP Admin Password:   Secret123
 </pre></div>
 </div>
 </section>
 <section id="starting-ds-instance">
 <h1>Starting DS Instance<a class="headerlink" href="#starting-ds-instance" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">SAMBA_HOME</span>
-<span class="o">%</span> <span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba4</span><span class="o">/</span><span class="n">start</span><span class="o">-</span><span class="n">slapd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd SAMBA_HOME
+% private/ldap/slapd-samba4/start-slapd
 </pre></div>
 </div>
 </section>
 <section id="enabling-ds-change-log">
 <h1>Enabling DS Change Log<a class="headerlink" href="#enabling-ds-change-log" title="Link to this heading">#</a></h1>
 <p>Copy common schema into SAMBA_HOME/private/ldap/slapd-samba4/schema:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cp</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="mi">02</span><span class="n">common</span><span class="o">.</span><span class="n">ldif</span> <span class="n">SAMBA_HOME</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba4</span><span class="o">/</span><span class="n">schema</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cp /etc/dirsrv/schema/02common.ldif SAMBA_HOME/private/ldap/slapd-samba4/schema
 </pre></div>
 </div>
 <p>Enable change log plugin:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldapi</span><span class="p">:</span><span class="o">//%</span><span class="mi">2</span><span class="n">Fusr</span><span class="o">%</span><span class="mi">2</span><span class="n">Flocal</span><span class="o">%</span><span class="mi">2</span><span class="n">Fsamba</span><span class="o">%</span><span class="mi">2</span><span class="n">Fprivate</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldap</span><span class="o">%</span><span class="mi">2</span><span class="n">Fldapi</span> \
-<span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Manager,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Retro</span> <span class="n">Changelog</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEnabled</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEnabled</span><span class="p">:</span> <span class="n">on</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapmodify -H ldapi://%2Fusr%2Flocal%2Fsamba%2Fprivate%2Fldap%2Fldapi \
+-x -D &quot;cn=Manager,dc=samba,dc=example,dc=com&quot; -w Secret123
+dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
+changetype: modify
+replace: nsslapd-pluginEnabled
+nsslapd-pluginEnabled: on
+-
 </pre></div>
 </div>
 <p>Restart DS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">SAMBA_HOME</span>
-<span class="o">%</span> <span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba4</span><span class="o">/</span><span class="n">stop</span><span class="o">-</span><span class="n">slapd</span>
-<span class="o">%</span> <span class="n">private</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">slapd</span><span class="o">-</span><span class="n">samba4</span><span class="o">/</span><span class="n">start</span><span class="o">-</span><span class="n">slapd</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd SAMBA_HOME
+% private/ldap/slapd-samba4/stop-slapd
+% private/ldap/slapd-samba4/start-slapd
 </pre></div>
 </div>
 </section>
 <section id="starting-samba">
 <h1>Starting Samba<a class="headerlink" href="#starting-samba" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">SAMBA_HOME</span>
-<span class="o">%</span> <span class="n">sbin</span><span class="o">/</span><span class="n">samba</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">M</span> <span class="n">single</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd SAMBA_HOME
+% sbin/samba -i -M single
 </pre></div>
 </div>
 </section>
 <section id="create-sync-user-account">
 <h1>Create Sync User Account<a class="headerlink" href="#create-sync-user-account" title="Link to this heading">#</a></h1>
 <p>Add Sync user:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapadd</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">x</span> \
-<span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Sync</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">user</span>
-<span class="n">userPassword</span><span class="p">:</span> <span class="n">Secret123</span>
-<span class="n">sAMAccountName</span><span class="p">:</span> <span class="n">sync</span>
-<span class="n">userAccountControl</span><span class="p">:</span> <span class="mi">512</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapadd -H ldap://samba.example.com -x \
+-D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -w Secret123
+dn: cn=Sync,cn=Users,dc=samba,dc=example,dc=com
+objectClass: user
+userPassword: Secret123
+sAMAccountName: sync
+userAccountControl: 512
 </pre></div>
 </div>
 <p>Add user into Administrators group:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">x</span> \
-<span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Administrators</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Builtin</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">add</span><span class="p">:</span> <span class="n">member</span>
-<span class="n">member</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Sync</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapmodify -H ldap://samba.example.com -x \
+-D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -w Secret123
+dn: cn=Administrators,cn=Builtin,dc=samba,dc=example,dc=com
+changetype: modify
+add: member
+member: cn=Sync,cn=Users,dc=samba,dc=example,dc=com
 </pre></div>
 </div>
 <p>Verify:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapsearch</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">x</span> \
-<span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Sync,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span> \
-<span class="o">-</span><span class="n">b</span> <span class="s2">&quot;dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">s</span> <span class="n">base</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapsearch -H ldap://samba.example.com -x \
+-D &quot;cn=Sync,cn=Users,dc=samba,dc=example,dc=com&quot; -w Secret123 \
+-b &quot;dc=samba,dc=example,dc=com&quot; -s base
 </pre></div>
 </div>
 </section>
 <section id="enable-clear-text-password">
 <h1>Enable Clear Text Password<a class="headerlink" href="#enable-clear-text-password" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldapmodify</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldap</span><span class="p">:</span><span class="o">//</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">x</span> \
-<span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span> \
-<span class="n">dn</span><span class="p">:</span> <span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">pwdProperties</span>
-<span class="n">pwdProperties</span><span class="p">:</span> <span class="mi">17</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ldapmodify -H ldap://samba.example.com -x \
+-D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -w Secret123 \
+dn: dc=samba,dc=example,dc=com
+changetype: modify
+replace: pwdProperties
+pwdProperties: 17
 </pre></div>
 </div>
 </section>
 <section id="administration">
 <h1>Administration<a class="headerlink" href="#administration" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">fedora</span><span class="o">-</span><span class="n">idm</span><span class="o">-</span><span class="n">console</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% fedora-idm-console
 </pre></div>
 </div>
 <p>Enter the following information:</p>
@@ -470,9 +470,9 @@ installation folder.</p>
 </section>
 <section id="users">
 <h1>Users<a class="headerlink" href="#users" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">cd</span> <span class="n">samba</span><span class="o">/</span><span class="n">source4</span>
-<span class="o">%</span> <span class="n">setup</span><span class="o">/</span><span class="n">newuser</span> <span class="o">-</span><span class="n">U</span> <span class="n">Administrator</span> <span class="o">--</span><span class="n">password</span><span class="o">=</span><span class="n">Secret123</span> <span class="n">edewata</span>
-<span class="n">New</span> <span class="n">Password</span><span class="p">:</span> <span class="n">Secret123</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% cd samba/source4
+% setup/newuser -U Administrator --password=Secret123 edewata
+New Password: Secret123
 </pre></div>
 </div>
 </section>

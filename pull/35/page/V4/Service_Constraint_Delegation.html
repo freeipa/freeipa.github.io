@@ -318,21 +318,21 @@ delegated.</p>
 <p>Delegation of obtaining an ldap service principal for the HTTP service.
 Two entries are required:</p>
 <p>The first is a rule which defines the ACL:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=ipa-http-delegation,...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">ipaKrb5DelegationACL</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">groupOfPrincipals</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn:</span> <span class="pre">ipa-http-delegation</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">memberPrincipal:</span> <span class="pre">HTTP/ipaserver.example.com&#64;EXAMPLE.COM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaAllowedTarget:</span> <span class="pre">cn=ipa-ldap-delegation-targets,...</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=ipa-http-delegation,...
+objectClass: ipaKrb5DelegationACL
+objectClass: groupOfPrincipals
+cn: ipa-http-delegation
+memberPrincipal: HTTP/ipaserver.example.com@EXAMPLE.COM
+ipaAllowedTarget: cn=ipa-ldap-delegation-targets,...
+</pre></div>
 </div>
 <p>The second is a target of this rule which defines which principals may
 be obtained:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn:</span> <span class="pre">cn=ipa-ldap-delegation-targets,...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass:</span> <span class="pre">groupOfPrincipals</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn:</span> <span class="pre">ipa-ldap-delegation-targets</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">memberPrincipal:</span> <span class="pre">ldap/ipaserver.example.com&#64;EXAMPLE.COM</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=ipa-ldap-delegation-targets,...
+objectClass: groupOfPrincipals
+cn: ipa-ldap-delegation-targets
+memberPrincipal: ldap/ipaserver.example.com@EXAMPLE.COM
+</pre></div>
 </div>
 <p>Both types of entries contain members in the form of memberPrincipal. In
 the case of a rule these are the members that the rule applies to. In
@@ -461,42 +461,42 @@ reason, hence having to use +ok_to_auth_as_delegate. Whatever you do,
 [<strong>NOTE</strong>: DO NOT DO THIS IN PRODUCTION, this allows the ‘test’ service
 to impersonate *any* user to itself and then by proxy to the target
 services]</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">test/ipa.example.com</span> <span class="pre">--force</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kadmin.local</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">kadmin.local:</span> <span class="pre">modprinc</span> <span class="pre">+ok_to_auth_as_delegate</span> <span class="pre">test/ipa.example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa service-add test/ipa.example.com --force
+# kadmin.local
+kadmin.local: modprinc +ok_to_auth_as_delegate test/ipa.example.com
+</pre></div>
 </div>
 <p>Create the second service:</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">test2/ipa.example.com</span> <span class="pre">--force</span></code></p>
 <p>Get keytabs for these services:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-getkeytab</span> <span class="pre">-s</span> <span class="pre">ipa.example.com</span> <span class="pre">-k</span> <span class="pre">/tmp/test.keytab</span> <span class="pre">-p</span> <span class="pre">test/ipa.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-getkeytab</span> <span class="pre">-s</span> <span class="pre">ipa.example.com</span> <span class="pre">-k</span> <span class="pre">/tmp/test2.keytab</span> <span class="pre">-p</span> <span class="pre">test2/ipa.example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipa-getkeytab -s ipa.example.com -k /tmp/test.keytab -p test/ipa.example.com
+# ipa-getkeytab -s ipa.example.com -k /tmp/test2.keytab -p test2/ipa.example.com
+</pre></div>
 </div>
 <p>Show that we can’t do delegation yet:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kdestroy</span> <span class="pre">-A</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">-kt</span> <span class="pre">/tmp/test.keytab</span>&#160; <span class="pre">test/ipa.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kvno</span> <span class="pre">-k</span> <span class="pre">/tmp/test.keytab</span> <span class="pre">-U</span> <span class="pre">admin</span> <span class="pre">-P</span> <span class="pre">test/ipa.example.com</span> <span class="pre">test2/ipa.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">kvno:</span> <span class="pre">KDC</span> <span class="pre">returned</span> <span class="pre">error</span> <span class="pre">string:</span> <span class="pre">NOT_ALLOWED_TO_DELEGATE</span> <span class="pre">test2/ipa.example.com&#64;EXAMPLE.COM:</span> <span class="pre">constrained</span> <span class="pre">delegation</span> <span class="pre">failed</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kdestroy -A
+# kinit -kt /tmp/test.keytab  test/ipa.example.com
+# kvno -k /tmp/test.keytab -U admin -P test/ipa.example.com test2/ipa.example.com
+kvno: KDC returned error string: NOT_ALLOWED_TO_DELEGATE test2/ipa.example.com@EXAMPLE.COM: constrained delegation failed
+</pre></div>
 </div>
 <p>Add the service constraint delegation:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kdestroy</span> <span class="pre">-A</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">servicedelegationrule-add</span> <span class="pre">test</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">servicedelegationtarget-add</span> <span class="pre">target-test</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">servicedelegationrule-add-target</span> <span class="pre">--servicedelegationtargets=target-test</span> <span class="pre">test</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">servicedelegationrule-add-member</span> <span class="pre">--principals</span> <span class="pre">test/ipa.example.com</span> <span class="pre">test</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">servicedelegationtarget-add-member</span> <span class="pre">--principals=test2/ipa.example.com</span> <span class="pre">target-test</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kdestroy -A
+# kinit admin
+# ipa servicedelegationrule-add test
+# ipa servicedelegationtarget-add target-test
+# ipa servicedelegationrule-add-target --servicedelegationtargets=target-test test
+# ipa servicedelegationrule-add-member --principals test/ipa.example.com test
+# ipa servicedelegationtarget-add-member --principals=test2/ipa.example.com target-test
+</pre></div>
 </div>
 <p>Now try again:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kdestroy</span> <span class="pre">-A</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">-kt</span> <span class="pre">/tmp/test.keytab</span>&#160; <span class="pre">test/ipa.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kvno</span> <span class="pre">-k</span> <span class="pre">/tmp/test.keytab</span> <span class="pre">-U</span> <span class="pre">admin</span> <span class="pre">-P</span> <span class="pre">test/ipa.example.com</span> <span class="pre">test2/ipa.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">test/ipa.example.com&#64;EXAMPLE.COM:</span> <span class="pre">kvno</span> <span class="pre">=</span> <span class="pre">2,</span> <span class="pre">keytab</span> <span class="pre">entry</span> <span class="pre">valid</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">test2/ipa.example.com&#64;EXAMPLE.COM:</span> <span class="pre">kvno</span> <span class="pre">=</span> <span class="pre">2,</span> <span class="pre">keytab</span> <span class="pre">entry</span> <span class="pre">valid</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kdestroy -A
+# kinit -kt /tmp/test.keytab  test/ipa.example.com
+# kvno -k /tmp/test.keytab -U admin -P test/ipa.example.com test2/ipa.example.com
+test/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid
+test2/ipa.example.com@EXAMPLE.COM: kvno = 2, keytab entry valid
+</pre></div>
 </div>
 </section>
 <section id="test-plan">

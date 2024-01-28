@@ -57,7 +57,7 @@ Obsolete RUV records
    remove obsolete CA RUVs. They usually manifest in directory server
    log as
 
-      ::
+.. code-block:: text
 
          attrlist_replace - attr_replace (nsslapd-referral, ldap://my.ipa.test:389/o%3Dipaca) failed.
 

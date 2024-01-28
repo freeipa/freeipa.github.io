@@ -19,7 +19,7 @@ verified, add the missing information for Full configuration.
 Basic Configuration
 -------------------
 
-::
+.. code-block:: text
 
    Name: whatever you want
    Host: your ldap server name (e.g., "ldap_server", or "ldap_server.example.com")
@@ -56,7 +56,7 @@ Redmine needs a system account.
 Add the following fields: (after creating the System Account, named
 *redmine* in this example):
 
-::
+.. code-block:: text
 
    Account: uid=redmine,cn=sysaccounts,cn=etc,dc=example,dc=com
    Password:

@@ -312,12 +312,12 @@ Single Sign On.</strong></p>
 Linux 6.2 system to an IPA domain, and then configure Dovecot to allow
 single sign on to user mailboxes with IMAP/S.</p>
 <p>Details of this example are as follows</p>
-<div class="line-block">
-<div class="line">``   Domain name: example.com``</div>
-<div class="line">``   IPA Server: ds01.example.com``</div>
-<div class="line">``   Dovecot Server: mail01.example.com``</div>
-<div class="line">``   IPA Client: workstation01.example.com``</div>
-<div class="line">``   IPA User: user1 and user2``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Domain name: example.com
+IPA Server: ds01.example.com
+Dovecot Server: mail01.example.com
+IPA Client: workstation01.example.com
+IPA User: user1 and user2
+</pre></div>
 </div>
 <p><strong>Please Note: This guide describes using SSL combined with Dovecot to
 deliver IMAPS support. This guide is not designed to cover how to create
@@ -348,9 +348,9 @@ issue and create any directories which aren’t currently present.</p>
 </section>
 <section id="install-dovecot-and-set-service-to-start-on-boot">
 <h2>Install Dovecot and set service to start on boot<a class="headerlink" href="#install-dovecot-and-set-service-to-start-on-boot" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">dovecot</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chkconfig</span> <span class="pre">dovecot</span> <span class="pre">on</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># yum install dovecot
+# chkconfig dovecot on
+</pre></div>
 </div>
 </section>
 <section id="edit-etc-dovecot-dovecot-conf-to-allow-imap">
@@ -364,61 +364,61 @@ issue and create any directories which aren’t currently present.</p>
 <h2>Edit /etc/dovecot/conf.d/10-auth.conf to configure kerberos authentication<a class="headerlink" href="#edit-etc-dovecot-conf-d-10-auth-conf-to-configure-kerberos-authentication" title="Link to this heading">#</a></h2>
 <p>Enter the below lines at the end of the file
 /etc/dovecot/conf.d/10-auth.conf</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">userdb</span> <span class="pre">{</span></code></div>
-<div class="line">``  driver = static``</div>
-<div class="line">``  args = uid=dovecot gid=dovecot home=/var/spool/mail/%u``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>userdb {
+  driver = static
+  args = uid=dovecot gid=dovecot home=/var/spool/mail/%u
+}
+</pre></div>
 </div>
 <p>Next, find the below lines (these will be in various locations inside
 the file)</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_mechanisms</span> <span class="pre">=</span> <span class="pre">plain</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#auth_gssapi_hostname</span> <span class="pre">=</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#auth_krb5_keytab</span> <span class="pre">=</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#auth_realms</span> <span class="pre">=</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#auth_default_realm</span> <span class="pre">=</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth_mechanisms = plain
+#auth_gssapi_hostname =
+#auth_krb5_keytab =
+#auth_realms =
+#auth_default_realm =
+</pre></div>
 </div>
 <p>and replace with</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_mechanisms</span> <span class="pre">=</span> <span class="pre">gssapi</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_gssapi_hostname</span> <span class="pre">=</span> <span class="pre">mail01.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_krb5_keytab</span> <span class="pre">=</span> <span class="pre">/etc/dovecot/krb5.keytab</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_realms</span> <span class="pre">=</span> <span class="pre">example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">auth_default_realm</span> <span class="pre">=</span> <span class="pre">example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>auth_mechanisms = gssapi
+auth_gssapi_hostname = mail01.example.com
+auth_krb5_keytab = /etc/dovecot/krb5.keytab
+auth_realms = example.com
+auth_default_realm = example.com
+</pre></div>
 </div>
 </section>
 <section id="create-new-ipa-group-for-mailbox-access">
 <h2>Create new IPA group for mailbox access<a class="headerlink" href="#create-new-ipa-group-for-mailbox-access" title="Link to this heading">#</a></h2>
 <p>From your IPA server, create a new group for your users to store their
 mailbox</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``[root@ds01~]# ipa group-add``
-| `` Group name: mailusers``
-| `` Description: Mail User Group``
-| `` --------------------``
-| `` Added group &quot;mailusers&quot;``
-| `` --------------------``
-| `` Group name: mailusers``
-| `` Description: Mail User Group``
-| `` GID: 1427200003``
-| ``[root@ds01 ~]# ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01~]# ipa group-add``
+ Group name: mailusers``
+ Description: Mail User Group``
+ --------------------``
+ Added group &quot;mailusers&quot;``
+ --------------------``
+ Group name: mailusers``
+ Description: Mail User Group``
+ GID: 1427200003``
+[root@ds01 ~]# ``
 </pre></div>
 </div>
 </section>
 <section id="add-users-to-mailusers-group">
 <h2>Add users to “mailusers” group<a class="headerlink" href="#add-users-to-mailusers-group" title="Link to this heading">#</a></h2>
 <p>Add your users to the new group</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``[root@ds01 ~]# ipa group-add-member mailusers``
-| ``[member user]: user1``
-| ``[member group]: ``
-| ``  Group name: mailusers``
-| ``  Description: Mail User Group``
-| ``  GID: 1427200003``
-| ``  Member users: user1``
-| ``-------------------------``
-| ``Number of members added 1``
-| ``-------------------------``
-| ``[root@ds01 ~]# ``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[root@ds01 ~]# ipa group-add-member mailusers``
+[member user]: user1``
+[member group]: ``
+  Group name: mailusers``
+  Description: Mail User Group``
+  GID: 1427200003``
+  Member users: user1``
+-------------------------``
+Number of members added 1``
+-------------------------``
+[root@ds01 ~]# ``
 </pre></div>
 </div>
 </section>
@@ -427,11 +427,11 @@ mailbox</p>
 <p>Create a new directory to be used as your mail store for the server.
 Also remember to change the group membership to allow your “mailusers”
 to be able to write to the folder.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">/mail</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">770</span> <span class="pre">/mail</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">chgrp</span> <span class="pre">mailusers</span> <span class="pre">/mail</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">chcon</span> <span class="pre">-t</span> <span class="pre">user_home_t</span> <span class="pre">/mail</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mkdir /mail
+chmod 770 /mail
+chgrp mailusers /mail
+chcon -t user_home_t /mail
+</pre></div>
 </div>
 <p>Note: If you wish to use file system quotas or add high availability to
 your solution, having this folder on a shared file system would be very
@@ -447,40 +447,40 @@ beneficial.</p>
 <section id="generate-a-kerberos-keytab-for-dovecot-imap-access">
 <h2>Generate a kerberos keytab for Dovecot IMAP access<a class="headerlink" href="#generate-a-kerberos-keytab-for-dovecot-imap-access" title="Link to this heading">#</a></h2>
 <p>On the IPA server run:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Password</span> <span class="pre">for</span> <span class="pre">admin&#64;EXAMPLE.COM:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">imap/mail01.example.com</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
+Password for admin@EXAMPLE.COM:
+# ipa service-add imap/mail01.example.com
+</pre></div>
 </div>
 <p>If successful, you will see the below output</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Added</span> <span class="pre">service</span> <span class="pre">&quot;imap/mail01.example.com&#64;EXAMPLE.COM&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------------------------------------</span></code></div>
-<div class="line">``  Principal: <a class="reference external" href="mailto:imap/mail01&#46;example&#46;com&#37;&#52;&#48;EXAMPLE">imap/mail01<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE</a>.COM``</div>
-<div class="line">``  Managed by: mail01.example.com``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>----------------------------------------------------
+Added service &quot;imap/mail01.example.com@EXAMPLE.COM&quot;
+----------------------------------------------------
+  Principal: imap/mail01.example.com@EXAMPLE.COM
+  Managed by: mail01.example.com
+</pre></div>
 </div>
 <p>On the Dovecot server run:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-getkeytab</span> <span class="pre">-s</span> <span class="pre">ds01.example.com</span> <span class="pre">-p</span> <span class="pre">imap/mail01.example.com</span> <span class="pre">-k</span> <span class="pre">/etc/dovecot/krb5.keytab</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># kinit admin
+# ipa-getkeytab -s ds01.example.com -p imap/mail01.example.com -k /etc/dovecot/krb5.keytab
+</pre></div>
 </div>
 <p>if successful, you will see the below output:</p>
 <p><code class="docutils literal notranslate"><span class="pre">Keytab</span> <span class="pre">successfully</span> <span class="pre">retrieved</span> <span class="pre">and</span> <span class="pre">stored</span> <span class="pre">in:</span> <span class="pre">/etc/dovecot/krb5.keytab</span></code></p>
 </section>
 <section id="change-the-permissions-of-the-keytab-to-allow-dovecot-to-read-the-file-note-this-should-be-kept-secure-so-only-grant-enough-privileges-as-absolutely-necessary">
 <h2>Change the permissions of the keytab to allow Dovecot to read the file (Note, this should be kept secure, so only grant enough privileges as absolutely necessary.)<a class="headerlink" href="#change-the-permissions-of-the-keytab-to-allow-dovecot-to-read-the-file-note-this-should-be-kept-secure-so-only-grant-enough-privileges-as-absolutely-necessary" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chown</span> <span class="pre">root:dovecot</span> <span class="pre">/etc/dovecot/krb5.keytab</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chmod</span> <span class="pre">640</span> <span class="pre">/etc/dovecot/krb5.keytab</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># chown root:dovecot /etc/dovecot/krb5.keytab
+# chmod 640 /etc/dovecot/krb5.keytab
+</pre></div>
 </div>
 </section>
 <section id="restart-dovecot">
 <h2>Restart Dovecot<a class="headerlink" href="#restart-dovecot" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">dovecot</span> <span class="pre">restart</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Stopping</span> <span class="pre">Dovecot</span> <span class="pre">IMAP:</span> <span class="pre">................</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">Dovecot</span> <span class="pre">IMAP:</span> <span class="pre">.</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">OK</span>&#160; <span class="pre">]</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># service dovecot restart
+Stopping Dovecot IMAP: ................                           [  OK  ]
+Starting Dovecot IMAP: .                                          [  OK  ]
+</pre></div>
 </div>
 </section>
 <section id="send-a-test-email-to-your-user">
@@ -509,9 +509,9 @@ email you sent in the previous step.</p></li>
 </section>
 <section id="verify-your-authentication-on-the-dovecot-server">
 <h2>Verify your authentication on the Dovecot server<a class="headerlink" href="#verify-your-authentication-on-the-dovecot-server" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">tail</span> <span class="pre">/var/log/maillog</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Feb</span> <span class="pre">10</span> <span class="pre">13:31:22</span> <span class="pre">mail01</span> <span class="pre">dovecot:</span> <span class="pre">imap-login:</span> <span class="pre">Login:</span> <span class="pre">user=&lt;user1&#64;example.com&gt;,</span> <span class="pre">method=GSSAPI,</span> <span class="pre">rip=192.168.122.51,</span> <span class="pre">lip=192.168.122.63,</span> <span class="pre">mpid=1835,</span> <span class="pre">TLS</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># tail /var/log/maillog
+Feb 10 13:31:22 mail01 dovecot: imap-login: Login: user=&lt;user1@example.com&gt;, method=GSSAPI, rip=192.168.122.51, lip=192.168.122.63, mpid=1835, TLS
+</pre></div>
 </div>
 <p>If everything has worked successfully, you will see in your logs that
 your user has connected using the method GSSAPI and has validated their

@@ -320,13 +320,13 @@ still needs to be modified to configure the indexing on DS.</p>
 <p>AD schema uses the fATTINDEX bit in the searchFlags attribute of an
 attribute type to indicate whether the attribute will be indexed. For
 example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn</span><span class="p">:</span> <span class="n">Alt</span><span class="o">-</span><span class="n">Security</span><span class="o">-</span><span class="n">Identities</span>
-<span class="n">searchFlags</span><span class="p">:</span> <span class="n">fATTINDEX</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cn: Alt-Security-Identities
+searchFlags: fATTINDEX
 </pre></div>
 </div>
 <p>Finding the attributes that need to be indexed can be done by searching
 the schema subtree using the following filter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">objectclass</span><span class="o">=</span><span class="n">attributeSchema</span><span class="p">)(</span><span class="n">searchFlags</span><span class="p">:</span><span class="mf">1.2.840.113556.1.4.803</span><span class="o">:=</span><span class="mi">1</span><span class="p">))</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))
 </pre></div>
 </div>
 <p>There are 114 attributes that need indexing in AD schema.</p>
@@ -337,7 +337,7 @@ the schema subtree using the following filter:</p>
 <h2>OpenLDAP Configuration<a class="headerlink" href="#openldap-configuration" title="Link to this heading">#</a></h2>
 <p>Indexing an attribute in OpenLDAP can be done by specifying the
 following directive in slapd.conf:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>index ${ATTR} eq
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>index ${ATTR} eq
 </pre></div>
 </div>
 </section>
@@ -345,26 +345,26 @@ following directive in slapd.conf:</p>
 <h2>Provisioning Tool<a class="headerlink" href="#provisioning-tool" title="Link to this heading">#</a></h2>
 <p>The provision_openldap_backend() uses the following code to configure
 attribute indexing in OpenLDAP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index_config</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>index_config = &quot;&quot;
 
-<span class="o">//</span> <span class="n">get</span> <span class="n">indexed</span> <span class="n">attributes</span>
-<span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;linkID&quot;</span><span class="p">,</span> <span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">]</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-    <span class="n">expression</span><span class="o">=</span><span class="s2">&quot;(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))&quot;</span><span class="p">,</span>
-    <span class="n">base</span><span class="o">=</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span>
-    <span class="n">scope</span><span class="o">=</span><span class="n">SCOPE_ONELEVEL</span><span class="p">,</span>
-    <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
+// get indexed attributes
+attrs = [&quot;linkID&quot;, &quot;lDAPDisplayName&quot;]
+res = schema.ldb.search(
+    expression=&quot;(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))&quot;,
+    base=names.schemadn,
+    scope=SCOPE_ONELEVEL,
+    attrs=attrs)
 
-<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">indexed</span> <span class="n">attribute</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)):</span>
-    <span class="n">index_attr</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+// for each indexed attribute
+for i in range (0, len(res)):
+    index_attr = res[i][&quot;lDAPDisplayName&quot;][0]
 
-    <span class="o">//</span> <span class="nb">map</span> <span class="n">objectGUID</span> <span class="n">to</span> <span class="n">entryUUID</span>
-    <span class="k">if</span> <span class="n">index_attr</span> <span class="o">==</span> <span class="s2">&quot;objectGUID&quot;</span><span class="p">:</span>
-        <span class="n">index_attr</span> <span class="o">=</span> <span class="s2">&quot;entryUUID&quot;</span>
+    // map objectGUID to entryUUID
+    if index_attr == &quot;objectGUID&quot;:
+        index_attr = &quot;entryUUID&quot;
 
-    <span class="o">//</span> <span class="n">generate</span> <span class="n">indexing</span> <span class="n">configuration</span>
-    <span class="n">index_config</span> <span class="o">+=</span> <span class="s2">&quot;index &quot;</span> <span class="o">+</span> <span class="n">index_attr</span> <span class="o">+</span> <span class="s2">&quot; eq</span><span class="se">\n</span><span class="s2">&quot;</span>
+    // generate indexing configuration
+    index_config += &quot;index &quot; + index_attr + &quot; eq\n&quot;
 </pre></div>
 </div>
 </section>
@@ -447,7 +447,7 @@ an equality index.</p>
 <h2>DS Configuration<a class="headerlink" href="#ds-configuration" title="Link to this heading">#</a></h2>
 <p>Indexing an attribute in DS can be done by adding the following
 configuration entry:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=${ATTR},cn=default indexes,cn=config,cn=ldbm database,cn=plugins,cn=config
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: cn=${ATTR},cn=default indexes,cn=config,cn=ldbm database,cn=plugins,cn=config
 objectClass: top
 objectClass: nsIndex
 cn: ${ATTR}
@@ -464,40 +464,40 @@ attribute indexing in DS. First it will configure the indexes for all
 linked attributes, then it will configure the indexes for all indexed
 attributes as defined in AD schema. The code might generate duplicate
 indexes, but they will be ignored during instance creation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index_config</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>index_config = &quot;&quot;
 
-<span class="o">//</span> <span class="n">get</span> <span class="n">linked</span> <span class="n">attributes</span>
-<span class="n">lnkattr</span> <span class="o">=</span> <span class="n">get_linked_attributes</span><span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span><span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="p">)</span>
+// get linked attributes
+lnkattr = get_linked_attributes(names.schemadn,schema.ldb)
 
-<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">linked</span> <span class="n">attribute</span>
-<span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">lnkattr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+// for each linked attribute
+for attr in lnkattr.keys():
 
-    <span class="o">//</span> <span class="n">generate</span> <span class="n">indexing</span> <span class="n">configuration</span>
-    <span class="n">index_config</span> <span class="o">+=</span> <span class="n">read_and_sub_file</span><span class="p">(</span>
-        <span class="n">setup_path</span><span class="p">(</span><span class="s2">&quot;fedorads-index.ldif&quot;</span><span class="p">),</span>
-        <span class="p">{</span> <span class="s2">&quot;ATTR&quot;</span> <span class="p">:</span> <span class="n">attr</span> <span class="p">})</span>
+    // generate indexing configuration
+    index_config += read_and_sub_file(
+        setup_path(&quot;fedorads-index.ldif&quot;),
+        { &quot;ATTR&quot; : attr })
 
-<span class="o">//</span> <span class="n">get</span> <span class="n">indexed</span> <span class="n">attributes</span>
-<span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;linkID&quot;</span><span class="p">,</span> <span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">]</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">ldb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-    <span class="n">expression</span><span class="o">=</span><span class="s2">&quot;(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))&quot;</span><span class="p">,</span>
-    <span class="n">base</span><span class="o">=</span><span class="n">names</span><span class="o">.</span><span class="n">schemadn</span><span class="p">,</span>
-    <span class="n">scope</span><span class="o">=</span><span class="n">SCOPE_ONELEVEL</span><span class="p">,</span>
-    <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
+// get indexed attributes
+attrs = [&quot;linkID&quot;, &quot;lDAPDisplayName&quot;]
+res = schema.ldb.search(
+    expression=&quot;(&amp;(objectclass=attributeSchema)(searchFlags:1.2.840.113556.1.4.803:=1))&quot;,
+    base=names.schemadn,
+    scope=SCOPE_ONELEVEL,
+    attrs=attrs)
 
-<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">indexed</span> <span class="n">attribute</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)):</span>
+// for each indexed attribute
+for i in range (0, len(res)):
 
-    <span class="n">attr</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;lDAPDisplayName&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    attr = res[i][&quot;lDAPDisplayName&quot;][0]
 
-    <span class="o">//</span> <span class="nb">map</span> <span class="n">objectGUID</span> <span class="n">to</span> <span class="n">nsUniqueId</span>
-    <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s2">&quot;objectGUID&quot;</span><span class="p">:</span>
-        <span class="n">attr</span> <span class="o">=</span> <span class="s2">&quot;nsUniqueId&quot;</span>
+    // map objectGUID to nsUniqueId
+    if attr == &quot;objectGUID&quot;:
+        attr = &quot;nsUniqueId&quot;
 
-    <span class="o">//</span> <span class="n">generate</span> <span class="n">indexing</span> <span class="n">configuration</span>
-    <span class="n">index_config</span> <span class="o">+=</span> <span class="n">read_and_sub_file</span><span class="p">(</span>
-        <span class="n">setup_path</span><span class="p">(</span><span class="s2">&quot;fedorads-index.ldif&quot;</span><span class="p">),</span>
-        <span class="p">{</span> <span class="s2">&quot;ATTR&quot;</span> <span class="p">:</span> <span class="n">attr</span> <span class="p">})</span>
+    // generate indexing configuration
+    index_config += read_and_sub_file(
+        setup_path(&quot;fedorads-index.ldif&quot;),
+        { &quot;ATTR&quot; : attr })
 </pre></div>
 </div>
 </section>

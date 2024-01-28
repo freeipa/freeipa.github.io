@@ -52,7 +52,7 @@ information <http://www.microsoft.com/en-us/download/details.aspx?id=2227>`__.
 
 For fast download run the following commands in terminal: '''
 
-::
+.. code-block:: text
 
    mkdir -p /tmp/vhd
    cd /tmp/vhd
@@ -72,7 +72,7 @@ Convert original VHD image for KVM
 
 '''
 
-::
+.. code-block:: text
 
    cd "/tmp/vhd/WS2008R2Fullx64Ent/WS2008R2Fullx64Ent/Virtual Hard Disks"
    qemu-img convert -p -f vpc -O qcow2 WS2008R2Fullx64Ent.vhd WS2008R2Fullx64Ent.qcow2

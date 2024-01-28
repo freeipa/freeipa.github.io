@@ -116,7 +116,7 @@ nss_base_netgroup ou=netgroup,dc=example,dc=com
 
 ##:
 
-::
+.. code-block:: text
 
    nss_base_passwd cn=users,cn=accounts,dc=example,dc=com 
    nss_base_group cn=groups,cn=accounts,dc=example,dc=com 

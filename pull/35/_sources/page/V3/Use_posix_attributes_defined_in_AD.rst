@@ -91,27 +91,27 @@ Obtaining information on use of POSIX attributes in AD
 
 Information on the can be obtained conducting the following ldapsearch:
 
-::
+.. code-block:: text
 
-   | ``# ``\ ``, ypservers, ypServ30, RpcServices, System, ``
-   | ``dn: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
-   | ``objectClass: top``
-   | ``objectClass: msSFU30DomainInfo``
-   | ``cn: idm``
-   | ``distinguishedName: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
-   | ``instanceType: 4``
-   | ``whenCreated: 20130625220322.0Z``
-   | ``whenChanged: 20130626190645.0Z``
-   | ``uSNCreated: 53308``
-   | ``uSNChanged: 61507``
-   | ``showInAdvancedViewOnly: TRUE``
-   | ``name: idm``
-   | ``objectGUID:: 7ntK3glNqE2KGmHY1SePWQ==``
-   | ``objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com``
-   | ``dSCorePropagationData: 16010101000000.0Z``
-   | ``msSFU30MasterServerName: tbad``
+    # ``\ ``, ypservers, ypServ30, RpcServices, System, ``
+    dn: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
+    objectClass: top``
+    objectClass: msSFU30DomainInfo``
+    cn: idm``
+    distinguishedName: CN=idm,CN=ypservers,CN=ypServ30,CN=RpcServices,CN=System,DC=idm,DC=com``
+    instanceType: 4``
+    whenCreated: 20130625220322.0Z``
+    whenChanged: 20130626190645.0Z``
+    uSNCreated: 53308``
+    uSNChanged: 61507``
+    showInAdvancedViewOnly: TRUE``
+    name: idm``
+    objectGUID:: 7ntK3glNqE2KGmHY1SePWQ==``
+    objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com``
+    dSCorePropagationData: 16010101000000.0Z``
+    msSFU30MasterServerName: tbad``
    | **``msSFU30OrderNumber``**\ ``: 10000``
-   | ``msSFU30Domains: idm``
+    msSFU30Domains: idm``
    | **``msSFU30MaxGidNumber``**\ ``: 10001``
    | **``msSFU30MaxUidNumber``**\ ``: 10002``
 

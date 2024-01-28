@@ -316,19 +316,19 @@ things.</p>
 <h2>Decorator-based plugin registration<a class="headerlink" href="#decorator-based-plugin-registration" title="Link to this heading">#</a></h2>
 <p>To allow registering plugins to non-default API objects, plugin
 registration changed from:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">ipalib</span> <span class="pre">import</span> <span class="pre">api</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">myobj_mod(LDAPUpdate):</span> <span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">api.register(myobj_mod)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from ipalib import api
+...
+class myobj_mod(LDAPUpdate): ...
+api.register(myobj_mod)
+</pre></div>
 </div>
 <p>to:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">ipalib.plugable</span> <span class="pre">import</span> <span class="pre">Registry</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">register</span> <span class="pre">=</span> <span class="pre">Registry()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&#64;register()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">myobj_mod(LDAPUpdate):</span> <span class="pre">...</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from ipalib.plugable import Registry
+register = Registry()
+...
+@register()
+class myobj_mod(LDAPUpdate): ...
+</pre></div>
 </div>
 <p>Note that it’s necessary to name the decorator <code class="docutils literal notranslate"><span class="pre">register</span></code>.</p>
 </section>
@@ -337,14 +337,14 @@ registration changed from:</p>
 <p>Long translatable strings, such as plugin modules’ <code class="docutils literal notranslate"><span class="pre">__doc__</span></code>, should
 be split up by paragraph, so that if something is changed/added, only
 the affected part needs to be re-translated. Example:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">__doc__</span> <span class="pre">=</span> <span class="pre">_(&quot;&quot;&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Foo</span> <span class="pre">Plugin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;)</span> <span class="pre">+</span> <span class="pre">_(&quot;&quot;&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">This</span> <span class="pre">plugin</span> <span class="pre">allows</span> <span class="pre">management</span> <span class="pre">of</span> <span class="pre">enterprise</span> <span class="pre">foos</span> <span class="pre">and</span> <span class="pre">bars.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;)</span> <span class="pre">+</span> <span class="pre">_(&quot;&quot;&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Here</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">second</span> <span class="pre">paragraph.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;&quot;)</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>__doc__ = _(&quot;&quot;&quot;
+Foo Plugin
+&quot;&quot;&quot;) + _(&quot;&quot;&quot;
+This plugin allows management of enterprise foos and bars.
+&quot;&quot;&quot;) + _(&quot;&quot;&quot;
+Here is a second paragraph.
+&quot;&quot;&quot;&quot;)
+</pre></div>
 </div>
 <p>Note that the strings should <em>only</em> be split when they are changed,
 because after a split all parts have to be re-translated.</p>
@@ -355,19 +355,19 @@ because after a split all parts have to be re-translated.</p>
 names newly added to the imported module can unintentionally shadow
 variables elsewhere.</p>
 <p>Instead of</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">baseldap</span> <span class="pre">import</span> <span class="pre">*</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">tank_create(LDAPCreate):</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from baseldap import *
+class tank_create(LDAPCreate):
+</pre></div>
 </div>
 <p>use</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">ipalib.plugins</span> <span class="pre">import</span> <span class="pre">baseldap</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">tank_create(baseldap.LDAPCreate):</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from ipalib.plugins import baseldap
+class tank_create(baseldap.LDAPCreate):
+</pre></div>
 </div>
 <p>or</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">ipalib.plugins.baseldap</span> <span class="pre">import</span> <span class="pre">LDAPCreate</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">tank_create(LDAPCreate):</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from ipalib.plugins.baseldap import LDAPCreate
+class tank_create(LDAPCreate):
+</pre></div>
 </div>
 <p>See <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2653">https://fedorahosted.org/freeipa/ticket/2653</a>, and PEP8</p>
 </section>
@@ -390,16 +390,16 @@ way of doing things was disabled.</p>
 <p>See
 <a class="reference external" href="HowTo/Migrate_your_code_to_the_new_LDAP_API">HowTo/Migrate_your_code_to_the_new_LDAP_API</a></p>
 <p>A LDAPEntry no longer unpacks to a tuple:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Old</span> <span class="pre">code</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn,</span> <span class="pre">attrs</span> <span class="pre">=</span> <span class="pre">entry</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">values</span> <span class="pre">=</span> <span class="pre">attrs[attrname]</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Old code
+dn, attrs = entry
+values = attrs[attrname]
+</pre></div>
 </div>
 <p>Instead, the entry is a dict-like object:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">New</span> <span class="pre">code</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn</span> <span class="pre">=</span> <span class="pre">entry.dn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">values</span> <span class="pre">=</span> <span class="pre">entry[attrname]</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># New code
+dn = entry.dn
+values = entry[attrname]
+</pre></div>
 </div>
 <p>To highlight errors, a LDAPEntry currently cannot be iterated.</p>
 </section>

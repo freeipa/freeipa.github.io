@@ -333,17 +333,17 @@ is generally preferable to creating a shared system account but that is
 not always possible. Do <strong>not</strong> use the Directory Manager account to
 authenticate remote services to the IPA LDAP server. Use a system
 account, created like this:.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ldapmodify -x -D &#39;cn=Directory Manager&#39; -W</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">system</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">sysaccounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">add</span>
-<span class="n">objectclass</span><span class="p">:</span> <span class="n">account</span>
-<span class="n">objectclass</span><span class="p">:</span> <span class="n">simplesecurityobject</span>
-<span class="n">uid</span><span class="p">:</span> <span class="n">system</span>
-<span class="n">userPassword</span><span class="p">:</span> <span class="n">secret123</span>
-<span class="n">passwordExpirationTime</span><span class="p">:</span> <span class="mi">20380119031407</span><span class="n">Z</span>
-<span class="n">nsIdleTimeout</span><span class="p">:</span> <span class="mi">0</span>
-<span class="o">&lt;</span><span class="n">blank</span> <span class="n">line</span><span class="o">&gt;</span>
-<span class="o">^</span><span class="n">D</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ldapmodify -x -D &#39;cn=Directory Manager&#39; -W
+dn: uid=system,cn=sysaccounts,cn=etc,dc=example,dc=com
+changetype: add
+objectclass: account
+objectclass: simplesecurityobject
+uid: system
+userPassword: secret123
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+&lt;blank line&gt;
+^D
 </pre></div>
 </div>
 <p>Be sure to change the password to something more secure, and the uid to
@@ -377,9 +377,9 @@ found in /etc/ipa/ca.crt on all enrolled hosts.</p>
 <h1>Tool configuration<a class="headerlink" href="#tool-configuration" title="Link to this heading">#</a></h1>
 <p>Since IPA 3.0 we’ve configured /etc/openldap/ldap.conf with some bare
 defaults:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">URI</span> <span class="n">ldaps</span><span class="p">:</span><span class="o">//</span><span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-<span class="n">BASE</span> <span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">TLS_CACERT</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>URI ldaps://ipaserver.example.com
+BASE dc=example,dc=com
+TLS_CACERT /etc/ipa/ca.crt
 </pre></div>
 </div>
 <p>Setting these defaults means you don’t need to pass as many options to

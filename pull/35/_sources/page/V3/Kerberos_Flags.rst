@@ -49,7 +49,7 @@ CLI
 
 Add a new Bool option to the service and host commands, ok-as-delegate.
 
-::
+.. code-block:: text
 
    # ipa service-mod --ok-as-delegate=TRUE ldap/ipa.example.com
 

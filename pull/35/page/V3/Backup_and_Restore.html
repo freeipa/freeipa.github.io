@@ -482,9 +482,9 @@ are modified/added to IPA.</p>
 services need to be stopped in order to ensure a safe backup.</p>
 <p>This will include the LDAP DB files so this is a standalone backup. A
 scripted process would include this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipactl stop``
-| ``# tar --xattrs --selinux -czf /path/to/backup ``
-| ``# ipactl start``
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipactl stop``
+# tar --xattrs --selinux -czf /path/to/backup ``
+# ipactl start``
 </pre></div>
 </div>
 <p>Note that this a simplified view and doesn’t include the metadata we
@@ -492,11 +492,11 @@ will package as well.</p>
 </section>
 <section id="full-system-restore-process">
 <h3>Full System Restore Process<a class="headerlink" href="#full-system-restore-process" title="Link to this heading">#</a></h3>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipactl</span> <span class="pre">stop</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cd</span> <span class="pre">/</span> <span class="pre">&amp;&amp;</span> <span class="pre">tar</span> <span class="pre">-xzf</span> <span class="pre">/path/to/backup</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipactl</span> <span class="pre">start</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">sssd</span> <span class="pre">restart</span></code></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ipactl stop
+# cd / &amp;&amp; tar -xzf /path/to/backup
+# ipactl start
+# service sssd restart
+</pre></div>
 </div>
 <p>Note that this a simplified view and doesn’t include the metadata we
 will package as well.</p>
@@ -717,7 +717,7 @@ anything.</p>
 <h3>Backup, uninstall, reinstall, restore JUST the LDAP server<a class="headerlink" href="#backup-uninstall-reinstall-restore-just-the-ldap-server" title="Link to this heading">#</a></h3>
 <p>So I wanted to verify that the restoration actually worked, so what I
 did was:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#. ipa-server-install ...
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#. ipa-server-install ...
 #. kinit admin
 #. ipa user-add tuser1
 #. ipa user-add tuser2
@@ -771,41 +771,41 @@ unlikely that system backup/recovery can be managed from the UI. It
 could also represent a chicken-and-egg problem on restoration.</p>
 <p>CLI</p>
 <p>There will be two basic, standalone commands:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-backup</span> <span class="pre">OPTIONS</span></code></div>
-<div class="line">``   –data    Back up just the data. Default is full system backup.``</div>
-<div class="line">``   –gpg     Encrypt the backup``</div>
-<div class="line">``   –gpg-keyring <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span>&#160;&#160; <span class="pre">The</span> <span class="pre">gpg</span> <span class="pre">key</span> <span class="pre">name</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">(or</span> <span class="pre">full</span> <span class="pre">path)</span></code></div>
-<div class="line">``   –logs    Include logs in backup``</div>
-<div class="line">``   –online Perform the LDAP backups online, for data only.``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-backup OPTIONS
+   --data    Back up just the data. Default is full system backup.
+   --gpg     Encrypt the backup
+   --gpg-keyring ``\ ``   The gpg key name to be used (or full path)
+   --logs    Include logs in backup
+   --online Perform the LDAP backups online, for data only.
+</pre></div>
 </div>
 <p>We will only encrypt the payload. The header will be in the clear.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-restore</span> <span class="pre">OPTIONS</span> <span class="pre">/path/to/backup</span></code></div>
-<div class="line">``   –data             If the backup is a full backup, restore only the data``</div>
-<div class="line">``   –extract        Extract the backup files, do not restore (including the LDIF)``</div>
-<div class="line">``   –gpg-keyring <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span>&#160;&#160;&#160; <span class="pre">The</span> <span class="pre">key</span> <span class="pre">name</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">by</span> <span class="pre">gpg</span></code></div>
-<div class="line">``   –data             Restore only the data``</div>
-<div class="line">``   –online          Perform the LDAP restores online, for data only.``</div>
-<div class="line">``   –instance=INSTANCE   The 389-ds instance to restore (defaults to all found)``</div>
-<div class="line">``   –backend=BACKEND     The backend to restore within the instance or``</div>
-<div class="line">``                                              instances``</div>
-<div class="line">``   –no-logs         Do not restore log files from the backup``</div>
-<div class="line">``   -U, –unattended      Unattended restoration never prompts the user``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ipa-restore OPTIONS /path/to/backup
+   --data             If the backup is a full backup, restore only the data
+   --extract        Extract the backup files, do not restore (including the LDIF)
+   --gpg-keyring ``\ ``    The key name to be used by gpg
+   --data             Restore only the data
+   --online          Perform the LDAP restores online, for data only.
+   --instance=INSTANCE   The 389-ds instance to restore (defaults to all found)
+   --backend=BACKEND     The backend to restore within the instance or
+                                              instances
+   --no-logs         Do not restore log files from the backup
+   -U, --unattended      Unattended restoration never prompts the user
+</pre></div>
 </div>
 <p>ipa-restore will detect if the backup file provide contains only the
 data, but if provided a full backup it should be able to restore just
 the data component.</p>
 <p>There are also common options:</p>
-<div class="line-block">
-<div class="line">``   –version             show program’s version number and exit``</div>
-<div class="line">``   -h, –help            show this help message and exit``</div>
-<div class="line">``   -p PASSWORD, –password=PASSWORD``</div>
-<div class="line">``                       Directory Manager password``</div>
-<div class="line">``   -v, –verbose       print debugging information``</div>
-<div class="line">``   -d, –debug         alias for –verbose (deprecated)``</div>
-<div class="line">``   -q, –quiet         output only errors``</div>
-<div class="line">``   –log-file=FILE     log to the given file``</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--version             show program&#39;s version number and exit
+-h, --help            show this help message and exit
+-p PASSWORD, --password=PASSWORD
+                    Directory Manager password
+-v, --verbose       print debugging information
+-d, --debug         alias for --verbose (deprecated)
+-q, --quiet         output only errors
+--log-file=FILE     log to the given file
+</pre></div>
 </div>
 </section>
 <section id="full-list-of-files-and-directories-to-back-up">
@@ -899,22 +899,22 @@ the data component.</p>
 <h2>GPG encryption<a class="headerlink" href="#gpg-encryption" title="Link to this heading">#</a></h2>
 <p>The backup can be optionally encrypted using GPG. To create a key you
 can run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat &gt;keygen &lt;&lt;EOF</span>
-     <span class="o">%</span><span class="n">echo</span> <span class="n">Generating</span> <span class="n">a</span> <span class="n">standard</span> <span class="n">key</span>
-     <span class="n">Key</span><span class="o">-</span><span class="n">Type</span><span class="p">:</span> <span class="n">RSA</span>
-     <span class="n">Key</span><span class="o">-</span><span class="n">Length</span><span class="p">:</span> <span class="mi">2048</span>
-     <span class="n">Name</span><span class="o">-</span><span class="n">Real</span><span class="p">:</span> <span class="n">IPA</span> <span class="n">Backup</span>
-     <span class="n">Name</span><span class="o">-</span><span class="n">Comment</span><span class="p">:</span> <span class="n">IPA</span> <span class="n">Backup</span>
-     <span class="n">Name</span><span class="o">-</span><span class="n">Email</span><span class="p">:</span> <span class="n">root</span><span class="nd">@example</span><span class="o">.</span><span class="n">com</span>
-     <span class="n">Expire</span><span class="o">-</span><span class="n">Date</span><span class="p">:</span> <span class="mi">0</span>
-     <span class="o">%</span><span class="n">pubring</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">backup</span><span class="o">.</span><span class="n">pub</span>
-     <span class="o">%</span><span class="n">secring</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">backup</span><span class="o">.</span><span class="n">sec</span>
-     <span class="o">%</span><span class="n">commit</span>
-     <span class="o">%</span><span class="n">echo</span> <span class="n">done</span>
-<span class="n">EOF</span>
-<span class="c1"># gpg --batch --gen-key keygen</span>
-<span class="c1"># gpg --no-default-keyring --secret-keyring /root/backup.sec \</span>
-      <span class="o">--</span><span class="n">keyring</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">backup</span><span class="o">.</span><span class="n">pub</span> <span class="o">--</span><span class="nb">list</span><span class="o">-</span><span class="n">secret</span><span class="o">-</span><span class="n">keys</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># cat &gt;keygen &lt;&lt;EOF
+     %echo Generating a standard key
+     Key-Type: RSA
+     Key-Length: 2048
+     Name-Real: IPA Backup
+     Name-Comment: IPA Backup
+     Name-Email: root@example.com
+     Expire-Date: 0
+     %pubring /root/backup.pub
+     %secring /root/backup.sec
+     %commit
+     %echo done
+EOF
+# gpg --batch --gen-key keygen
+# gpg --no-default-keyring --secret-keyring /root/backup.sec \
+      --keyring /root/backup.pub --list-secret-keys
 </pre></div>
 </div>
 <p>This will create the key <code class="docutils literal notranslate"><span class="pre">backup</span></code> and can be passed to ipa-backup

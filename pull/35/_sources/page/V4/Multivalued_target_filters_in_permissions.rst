@@ -28,33 +28,37 @@ Use Cases
 It is now possible to use multiple --filter and --memberof options,
 possibly in combination with -type:
 
-| ``$ ipa permission-add foo --type user --filter '(sn=Smith)' --filter '(givenname=John)' --memberof editors --right read``
-| ``----------------------``
-| ``Added permission "foo"``
-| ``----------------------``
-| ``  Permission name: foo``
-| ``  Granted rights: read``
-| ``  Bind rule type: permission``
-| ``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
-| ``  Extra target filter: (givenname=John), (sn=Smith)``
-| ``  Member of group: editors``
-| ``  Type: user``
+.. code-block:: text
+
+    $ ipa permission-add foo --type user --filter '(sn=Smith)' --filter '(givenname=John)' --memberof editors --right read
+    ----------------------
+    Added permission "foo"
+    ----------------------
+      Permission name: foo
+      Granted rights: read
+      Bind rule type: permission
+      Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+      Extra target filter: (givenname=John), (sn=Smith)
+      Member of group: editors
+      Type: user
 
 The --type and --memberof options create filters that can be viewed with
 the --all option:
 
-| ``$ ipa permission-show foo --all``
-| `` dn: cn=foo,cn=permissions,cn=pbac,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
-| `` Permission name: foo``
-| `` Granted rights: read``
-| `` Bind rule type: permission``
-| `` Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
-| `` Extra target filter: (givenname=John), (sn=Smith)``
-| `` Raw target filter: (sn=Smith), (givenname=John), (memberOf=cn=editors,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com), (objectclass=posixaccount)``
-| `` Member of group: editors``
-| `` Type: user``
-| `` ipapermissiontype: V2, SYSTEM``
-| `` objectclass: ipapermission, top, groupofnames, ipapermissionv2``
+.. code-block:: text
+
+    $ ipa permission-show foo --all
+     dn: cn=foo,cn=permissions,cn=pbac,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+     Permission name: foo
+     Granted rights: read
+     Bind rule type: permission
+     Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+     Extra target filter: (givenname=John), (sn=Smith)
+     Raw target filter: (sn=Smith), (givenname=John), (memberOf=cn=editors,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com), (objectclass=posixaccount)
+     Member of group: editors
+     Type: user
+     ipapermissiontype: V2, SYSTEM
+     objectclass: ipapermission, top, groupofnames, ipapermissionv2
 
 Design
 ------

@@ -380,64 +380,66 @@ $<span class="w"> </span>cp<span class="w"> </span>/usr/share/puppet/ext/rack/fi
 </div>
 </li>
 <li><p>Setup the master configuration in <code class="docutils literal notranslate"><span class="pre">/etc/puppet/puppet.conf</span></code> by
-adding:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">master</span><span class="p">]</span>
-    <span class="n">ca</span> <span class="o">=</span> <span class="n">false</span>
-    <span class="n">certificate_revocation</span> <span class="o">=</span> <span class="n">false</span>
-    <span class="n">certname</span> <span class="o">=</span> <span class="s1">&#39;puppetmaster.example.com&#39;</span>
+adding:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[master]
+    ca = false
+    certificate_revocation = false
+    certname = &#39;puppetmaster.example.com&#39;
 </pre></div>
 </div>
-</li>
-<li><p>Setup NSS in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/nss.conf</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LoadModule</span>          <span class="n">nss_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">libmodnss</span><span class="o">.</span><span class="n">so</span>
-<span class="n">AddType</span>             <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">x509</span><span class="o">-</span><span class="n">ca</span><span class="o">-</span><span class="n">cert</span> <span class="o">.</span><span class="n">crt</span>
-<span class="n">AddType</span>             <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">pkcs7</span><span class="o">-</span><span class="n">crl</span>    <span class="o">.</span><span class="n">crl</span>
-<span class="n">NSSPassPhraseDialog</span>     <span class="n">builtin</span>
-<span class="n">NSSPassPhraseHelper</span>     <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nss_pcache</span>
-<span class="n">NSSSessionCacheSize</span>     <span class="mi">10000</span>
-<span class="n">NSSSessionCacheTimeout</span>      <span class="mi">100</span>
-<span class="n">NSSSession3CacheTimeout</span>     <span class="mi">86400</span>
-<span class="n">NSSRandomSeed</span>           <span class="n">startup</span> <span class="n">builtin</span>
-<span class="n">NSSRenegotiation</span>        <span class="n">off</span>
-<span class="n">NSSRequireSafeNegotiation</span>   <span class="n">off</span>
+<ol class="arabic simple">
+<li><p>Setup NSS in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/conf.d/nss.conf</span></code>:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LoadModule          nss_module modules/libmodnss.so
+AddType             application/x-x509-ca-cert .crt
+AddType             application/x-pkcs7-crl    .crl
+NSSPassPhraseDialog     builtin
+NSSPassPhraseHelper     /usr/sbin/nss_pcache
+NSSSessionCacheSize     10000
+NSSSessionCacheTimeout      100
+NSSSession3CacheTimeout     86400
+NSSRandomSeed           startup builtin
+NSSRenegotiation        off
+NSSRequireSafeNegotiation   off
 
-<span class="n">Listen</span> <span class="mi">8140</span>
-<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">VirtualHo8140</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
-    <span class="n">ServerName</span>  <span class="n">puppetmaster</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
-    <span class="n">ServerAdmin</span> <span class="n">puppetmaster</span><span class="nd">@example</span><span class="o">.</span><span class="n">com</span>
+Listen 8140
+&amp;lt;VirtualHo8140&amp;gt;
+    ServerName  puppetmaster.example.com
+    ServerAdmin puppetmaster@example.com
 
-    <span class="n">NSSEngine</span>           <span class="n">on</span>
-    <span class="n">NSSCertificateDatabase</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">alias</span>
-    <span class="n">NSSNickname</span>         <span class="s2">&quot;puppetmaster/puppetmaster.example.com&quot;</span>
-    <span class="n">NSSOptions</span>          <span class="o">+</span><span class="n">StdEnvVars</span>
-    <span class="n">NSSEnforceValidCerts</span>        <span class="n">on</span>
-    <span class="n">NSSVerifyClient</span>         <span class="n">require</span>
-    <span class="n">NSSProtocol</span>         <span class="n">SSLv3</span><span class="p">,</span><span class="n">TLSv1</span>
-    <span class="n">NSSCipherSuite</span>          <span class="o">+</span><span class="n">rsa_rc4_128_md5</span><span class="p">,</span><span class="o">+</span><span class="n">rsa_rc4_128_sha</span><span class="p">,</span><span class="o">+</span><span class="n">rsa_3des_sha</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_des_sha</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_rc4_40_md5</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_rc2_40_md5</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_null_md5</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_null_sha</span><span class="p">,</span><span class="o">+</span><span class="n">fips_3des_sha</span><span class="p">,</span><span class="o">-</span><span class="n">fips_des_sha</span><span class="p">,</span><span class="o">-</span><span class="n">fortezza</span><span class="p">,</span><span class="o">-</span><span class="n">fortezza_rc4_128_sha</span><span class="p">,</span><span class="o">-</span><span class="n">fortezza_null</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_des_56_sha</span><span class="p">,</span><span class="o">-</span><span class="n">rsa_rc4_56_sha</span><span class="p">,</span><span class="o">+</span><span class="n">rsa_aes_128_sha</span><span class="p">,</span><span class="o">+</span><span class="n">rsa_aes_256_sha</span>
+    NSSEngine           on
+    NSSCertificateDatabase  /etc/httpd/alias
+    NSSNickname         &quot;puppetmaster/puppetmaster.example.com&quot;
+    NSSOptions          +StdEnvVars
+    NSSEnforceValidCerts        on
+    NSSVerifyClient         require
+    NSSProtocol         SSLv3,TLSv1
+    NSSCipherSuite          +rsa_rc4_128_md5,+rsa_rc4_128_sha,+rsa_3des_sha,-rsa_des_sha,-rsa_rc4_40_md5,-rsa_rc2_40_md5,-rsa_null_md5,-rsa_null_sha,+fips_3des_sha,-fips_des_sha,-fortezza,-fortezza_rc4_128_sha,-fortezza_null,-rsa_des_56_sha,-rsa_rc4_56_sha,+rsa_aes_128_sha,+rsa_aes_256_sha
 
-    <span class="n">RequestHeader</span> <span class="nb">set</span> <span class="n">X</span><span class="o">-</span><span class="n">SSL</span><span class="o">-</span><span class="n">Subject</span> <span class="o">%</span><span class="p">{</span><span class="n">SSL_CLIENT_S_DN</span><span class="p">}</span><span class="n">e</span>
-    <span class="n">RequestHeader</span> <span class="nb">set</span> <span class="n">X</span><span class="o">-</span><span class="n">Client</span><span class="o">-</span><span class="n">DN</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="o">/</span><span class="n">CN</span><span class="o">=%</span><span class="p">{</span><span class="n">SSL_CLIENT_S_DN_CN</span><span class="p">}</span><span class="n">e</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
-    <span class="n">RequestHeader</span> <span class="nb">set</span> <span class="n">X</span><span class="o">-</span><span class="n">Client</span><span class="o">-</span><span class="n">Verify</span> <span class="o">%</span><span class="p">{</span><span class="n">SSL_CLIENT_VERIFY</span><span class="p">}</span><span class="n">e</span>
+    RequestHeader set X-SSL-Subject %{SSL_CLIENT_S_DN}e
+    RequestHeader set X-Client-DN &amp;quot;/CN=%{SSL_CLIENT_S_DN_CN}e&amp;quot;
+    RequestHeader set X-Client-Verify %{SSL_CLIENT_VERIFY}e
 
-    <span class="n">PassengerHighPerformance</span>    <span class="n">on</span>
-    <span class="n">PassengerStatThrottleRate</span>   <span class="mi">120</span>
-    <span class="n">PassengerUseGlobalQueue</span>     <span class="n">on</span>
+    PassengerHighPerformance    on
+    PassengerStatThrottleRate   120
+    PassengerUseGlobalQueue     on
 
-    <span class="n">RackAutoDetect</span>  <span class="n">off</span>
-    <span class="n">RailsAutoDetect</span> <span class="n">off</span>
-    <span class="n">RackBaseURI</span> <span class="o">/</span>
+    RackAutoDetect  off
+    RailsAutoDetect off
+    RackBaseURI /
 
-    <span class="n">DocumentRoot</span>    <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">puppet</span><span class="o">/</span><span class="n">public</span>
-    <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Directory</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">puppet</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
-        <span class="n">Options</span>     <span class="kc">None</span>
-        <span class="n">AllowOverride</span>   <span class="kc">None</span>
-        <span class="n">Order</span>       <span class="n">allow</span><span class="p">,</span><span class="n">deny</span>
-        <span class="n">Allow</span>       <span class="kn">from</span> <span class="nn">all</span>
-    <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">/</span><span class="n">Directory</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
-<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">/</span><span class="n">VirtualHost</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>
+    DocumentRoot    /var/www/puppet/public
+    &amp;lt;Directory /var/www/puppet&amp;gt;
+        Options     None
+        AllowOverride   None
+        Order       allow,deny
+        Allow       from all
+    &amp;lt;/Directory&amp;gt;
+&amp;lt;/VirtualHost&amp;gt;
 </pre></div>
 </div>
-</li>
+<ol class="arabic">
 <li><p>Open up ports for puppet and restart Apache:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>firewall-cmd<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8140</span>/tcp
 $<span class="w"> </span>service<span class="w"> </span>httpd<span class="w"> </span>restart
@@ -468,20 +470,21 @@ $<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </sp
 </div>
 </li>
 <li><p>Setup the agent configuration in <code class="docutils literal notranslate"><span class="pre">/etc/puppet/puppet.conf</span></code>, by
-editing/adding the <code class="docutils literal notranslate"><span class="pre">[agent]</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">[main]</span></code> block:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">main</span><span class="p">]</span>
-   <span class="c1"># &amp;lt;--snip--&amp;gt;</span>
-   <span class="n">server</span> <span class="o">=</span> <span class="s1">&#39;puppetmaster.example.com&#39;</span>
-   <span class="n">certname</span> <span class="o">=</span> <span class="s1">&#39;puppetmaster.example.com&#39;</span>
-   <span class="c1"># &amp;lt;--snip--&amp;gt;</span>
-<span class="p">[</span><span class="n">agent</span><span class="p">]</span>
-   <span class="c1"># &amp;lt;--snip--&amp;gt;</span>
-   <span class="n">certificate_revocation</span> <span class="o">=</span> <span class="n">false</span>
-   <span class="n">certname</span> <span class="o">=</span> <span class="s1">&#39;puppet.example.com&#39;</span>
-   <span class="c1"># &amp;lt;--snip--&amp;gt;</span>
+editing/adding the <code class="docutils literal notranslate"><span class="pre">[agent]</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">[main]</span></code> block:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[main]
+   # &amp;lt;--snip--&amp;gt;
+   server = &#39;puppetmaster.example.com&#39;
+   certname = &#39;puppetmaster.example.com&#39;
+   # &amp;lt;--snip--&amp;gt;
+[agent]
+   # &amp;lt;--snip--&amp;gt;
+   certificate_revocation = false
+   certname = &#39;puppet.example.com&#39;
+   # &amp;lt;--snip--&amp;gt;
 </pre></div>
 </div>
-</li>
+<ol class="arabic">
 <li><p>Test the entire setup in puppet agent:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open up port for Puppet</span>
 $<span class="w"> </span>firewall-cmd<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8140</span>/tcp

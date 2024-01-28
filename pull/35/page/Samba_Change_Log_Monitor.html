@@ -351,56 +351,56 @@ invokes the Sync Agent to propagate changes from Samba into IPA.</p>
 <section id="adding-samba-user">
 <h1>Adding Samba User<a class="headerlink" href="#adding-samba-user" title="Link to this heading">#</a></h1>
 <p>Consider the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapadd</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">W</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">user</span>
-<span class="n">userPassword</span><span class="p">:</span> <span class="n">secret</span>
-<span class="n">userAccountControl</span><span class="p">:</span> <span class="mi">640</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapadd -x -D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -W
+dn: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
+objectClass: user
+userPassword: secret
+userAccountControl: 640
 </pre></div>
 </div>
 <p>This operation will generate 2 change log records.</p>
 <section id="updating-dna-plugin">
 <h2>Updating DNA Plugin<a class="headerlink" href="#updating-dna-plugin" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">17</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">dnaHostname</span><span class="o">=</span><span class="n">localdc1</span><span class="o">.</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">+</span><span class="n">dnaPortNum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Samba</span> <span class="n">SIDs</span><span class="p">,</span><span class="n">ou</span>
- <span class="o">=</span><span class="n">Ranges</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Samba</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208030510</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=17,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 17
+targetDn: dnaHostname=localdc1.samba.example.com+dnaPortNum=0,cn=Samba SIDs,ou
+ =Ranges,CN=Samba
+changeTime: 20091208030510Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">replace</span><span class="p">:</span> <span class="n">dnaRemainingValues</span>
-<span class="n">dnaRemainingValues</span><span class="p">:</span> <span class="mi">1844674407370955</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Distributed</span> <span class="n">Numeric</span> <span class="n">Assignment</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208030510</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>replace: dnaRemainingValues
+dnaRemainingValues: 1844674407370955
+-
+replace: modifiersname
+modifiersname: cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
+-
+replace: modifytimestamp
+modifytimestamp: 20091208030510Z
+-
 </pre></div>
 </div>
 </section>
 <section id="adding-user-object">
 <h2>Adding User Object<a class="headerlink" href="#adding-user-object" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">18</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208030510</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">add</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=18,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 18
+targetDn: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
+changeTime: 20091208030510Z
+changeType: add
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>userAccountControl: 640
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>userAccountControl: 640
 name: Test User
 cn: Test User
 objectClass: top
@@ -442,55 +442,55 @@ sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1004
 <section id="modifying-samba-user">
 <h1>Modifying Samba User<a class="headerlink" href="#modifying-samba-user" title="Link to this heading">#</a></h1>
 <p>Consider the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">W</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">userPassword</span>
-<span class="n">userPassword</span><span class="p">:</span> <span class="n">secret</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapmodify -x -D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -W
+dn: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
+changetype: modify
+replace: userPassword
+userPassword: secret
 </pre></div>
 </div>
 <p>This operation example will generate 1 change log record.</p>
 <section id="modifying-user-object">
 <h2>Modifying User Object<a class="headerlink" href="#modifying-user-object" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">19</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208030951</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=19,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 19
+targetDn: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
+changeTime: 20091208030951Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">replace</span><span class="p">:</span> <span class="n">unicodePwd</span>
-<span class="n">unicodePwd</span><span class="p">::</span> <span class="n">h42AFGBs2ilnekTvoTU</span><span class="o">/</span><span class="n">xw</span><span class="o">==</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">dBCSPwd</span>
-<span class="n">dBCSPwd</span><span class="p">::</span> <span class="n">VSkCAxvt6e</span><span class="o">+</span><span class="n">q07Q1tRQE7g</span><span class="o">==</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">ntPwdHistory</span>
-<span class="n">ntPwdHistory</span><span class="p">::</span> <span class="n">h42AFGBs2ilnekTvoTU</span><span class="o">/</span><span class="n">xw</span><span class="o">==</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">lmPwdHistory</span>
-<span class="n">lmPwdHistory</span><span class="p">::</span> <span class="n">VSkCAxvt6e</span><span class="o">+</span><span class="n">q07Q1tRQE7g</span><span class="o">==</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">supplementalCredentials</span>
-<span class="n">supplementalCredentials</span><span class="p">::</span> <span class="o">...</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">sambaPwdLastSet</span>
-<span class="n">sambaPwdLastSet</span><span class="p">:</span> <span class="mi">129047153920000000</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">msDS</span><span class="o">-</span><span class="n">KeyVersionNumber</span>
-<span class="n">msDS</span><span class="o">-</span><span class="n">KeyVersionNumber</span><span class="p">:</span> <span class="mi">2</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">samba</span><span class="o">-</span><span class="n">admin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">samba</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208030951</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>replace: unicodePwd
+unicodePwd:: h42AFGBs2ilnekTvoTU/xw==
+-
+replace: dBCSPwd
+dBCSPwd:: VSkCAxvt6e+q07Q1tRQE7g==
+-
+replace: ntPwdHistory
+ntPwdHistory:: h42AFGBs2ilnekTvoTU/xw==
+-
+replace: lmPwdHistory
+lmPwdHistory:: VSkCAxvt6e+q07Q1tRQE7g==
+-
+replace: supplementalCredentials
+supplementalCredentials:: ...
+-
+replace: sambaPwdLastSet
+sambaPwdLastSet: 129047153920000000
+-
+replace: msDS-KeyVersionNumber
+msDS-KeyVersionNumber: 2
+-
+replace: modifiersname
+modifiersname: cn=samba-admin,cn=samba
+-
+replace: modifytimestamp
+modifytimestamp: 20091208030951Z
+-
 </pre></div>
 </div>
 </section>
@@ -498,21 +498,21 @@ sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1004
 <section id="deleting-samba-user">
 <h1>Deleting Samba User<a class="headerlink" href="#deleting-samba-user" title="Link to this heading">#</a></h1>
 <p>Consider the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapdelete</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">W</span>
-<span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapdelete -x -D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -W
+cn=Test User,cn=Users,dc=samba,dc=example,dc=com
 </pre></div>
 </div>
 <p>This operation will generate 1 change log record.</p>
 <section id="deleting-user-object">
 <h2>Deleting User Object<a class="headerlink" href="#deleting-user-object" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">20</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208031201</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">delete</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=20,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 20
+targetDn: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
+changeTime: 20091208031201Z
+changeType: delete
 </pre></div>
 </div>
 </section>
@@ -526,57 +526,57 @@ sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1004
 <section id="adding-samba-group">
 <h1>Adding Samba Group<a class="headerlink" href="#adding-samba-group" title="Link to this heading">#</a></h1>
 <p>Consider the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapadd</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">W</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">Group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">group</span>
-<span class="n">cn</span><span class="p">:</span> <span class="n">Test</span> <span class="n">Group</span>
-<span class="n">member</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapadd -x -D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -W
+dn: cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
+objectClass: top
+objectClass: group
+cn: Test Group
+member: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
 </pre></div>
 </div>
 <p>This operation will generate 2 change log records.</p>
 <section id="id1">
 <h2>Updating DNA Plugin<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">26</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">dnaHostname</span><span class="o">=</span><span class="n">localdc1</span><span class="o">.</span><span class="n">samba</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">+</span><span class="n">dnaPortNum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Samba</span> <span class="n">SIDs</span><span class="p">,</span><span class="n">ou</span>
- <span class="o">=</span><span class="n">Ranges</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Samba</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208080540</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=26,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 26
+targetDn: dnaHostname=localdc1.samba.example.com+dnaPortNum=0,cn=Samba SIDs,ou
+ =Ranges,CN=Samba
+changeTime: 20091208080540Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">replace</span><span class="p">:</span> <span class="n">dnaRemainingValues</span>
-<span class="n">dnaRemainingValues</span><span class="p">:</span> <span class="mi">1844674407370955</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Distributed</span> <span class="n">Numeric</span> <span class="n">Assignment</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208080540</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>replace: dnaRemainingValues
+dnaRemainingValues: 1844674407370955
+-
+replace: modifiersname
+modifiersname: cn=Distributed Numeric Assignment Plugin,cn=plugins,cn=config
+-
+replace: modifytimestamp
+modifytimestamp: 20091208080540Z
+-
 </pre></div>
 </div>
 </section>
 <section id="adding-group-object">
 <h2>Adding Group Object<a class="headerlink" href="#adding-group-object" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">28</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Test</span> <span class="n">Group</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208080540</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">add</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=28,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 28
+targetDn: CN=Test Group,CN=Users,DC=samba,DC=example,DC=com
+changeTime: 20091208080540Z
+changeType: add
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cn: Test Group
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cn: Test Group
 member: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
 name: Test Group
 objectClass: top
@@ -598,27 +598,27 @@ sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1005
 </section>
 <section id="adding-group-member">
 <h2>Adding Group Member<a class="headerlink" href="#adding-group-member" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">27</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208080540</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=27,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 27
+targetDn: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
+changeTime: 20091208080540Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">add</span><span class="p">:</span> <span class="n">memberOf</span>
-<span class="n">memberOf</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">test</span> <span class="n">group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Linked</span> <span class="n">Attributes</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208080540</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>add: memberOf
+memberOf: cn=test group,cn=users,dc=samba,dc=example,dc=com
+-
+replace: modifiersname
+modifiersname: cn=Linked Attributes,cn=plugins,cn=config
+-
+replace: modifytimestamp
+modifytimestamp: 20091208080540Z
+-
 </pre></div>
 </div>
 </section>
@@ -626,63 +626,63 @@ sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1005
 <section id="modifying-samba-group">
 <h1>Modifying Samba Group<a class="headerlink" href="#modifying-samba-group" title="Link to this heading">#</a></h1>
 <p>Consider the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ldapmodify</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">W</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">Group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">add</span><span class="p">:</span> <span class="n">member</span>
-<span class="n">member</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ldapmodify -x -D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -W
+dn: cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
+changetype: modify
+add: member
+member: cn=Test User,cn=Users,dc=samba,dc=example,dc=com
 </pre></div>
 </div>
 <p>This operation will generate 2 change log records.</p>
 <section id="id2">
 <h2>Modifying User Object<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">34</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">34</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208083534</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=34,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 34
+targetDn: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
+changeTime: 20091208083534Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">add</span><span class="p">:</span> <span class="n">memberOf</span>
-<span class="n">memberOf</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">test</span> <span class="n">group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Linked</span> <span class="n">Attributes</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208083534</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>add: memberOf
+memberOf: cn=test group,cn=users,dc=samba,dc=example,dc=com
+-
+replace: modifiersname
+modifiersname: cn=Linked Attributes,cn=plugins,cn=config
+-
+replace: modifytimestamp
+modifytimestamp: 20091208083534Z
+-
 </pre></div>
 </div>
 </section>
 <section id="modifying-group-object">
 <h2>Modifying Group Object<a class="headerlink" href="#modifying-group-object" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">35</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">Group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208083534</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=35,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 35
+targetDn: cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
+changeTime: 20091208083534Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">add</span><span class="p">:</span> <span class="n">member</span>
-<span class="n">member</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">samba</span><span class="o">-</span><span class="n">admin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">samba</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208083534</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>add: member
+member: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
+-
+replace: modifiersname
+modifiersname: cn=samba-admin,cn=samba
+-
+replace: modifytimestamp
+modifytimestamp: 20091208083534Z
+-
 </pre></div>
 </div>
 </section>
@@ -690,47 +690,47 @@ sambaSID: S-1-5-21-1463069339-4227668456-4007226777-1005
 <section id="deleting-samba-group">
 <h1>Deleting Samba Group<a class="headerlink" href="#deleting-samba-group" title="Link to this heading">#</a></h1>
 <p>Consider the following example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapdelete</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot;</span> <span class="o">-</span><span class="n">W</span>
-<span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">Group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapdelete -x -D &quot;cn=Administrator,cn=Users,dc=samba,dc=example,dc=com&quot; -W
+cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
 </pre></div>
 </div>
 <p>This operation generates 2 change log records.</p>
 <section id="id3">
 <h2>Modifying User Object<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">36</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">CN</span><span class="o">=</span><span class="n">Test</span> <span class="n">User</span><span class="p">,</span><span class="n">CN</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">DC</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208084310</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">changes</span><span class="p">::</span> <span class="o">...</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=36,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 36
+targetDn: CN=Test User,CN=Users,DC=samba,DC=example,DC=com
+changeTime: 20091208084310Z
+changeType: modify
+changes:: ...
 </pre></div>
 </div>
 <p>The content of the changes attribute is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">delete</span><span class="p">:</span> <span class="n">memberOf</span>
-<span class="n">memberOf</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">test</span> <span class="n">group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifiersname</span>
-<span class="n">modifiersname</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Linked</span> <span class="n">Attributes</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="o">-</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">modifytimestamp</span>
-<span class="n">modifytimestamp</span><span class="p">:</span> <span class="mi">20091208084310</span><span class="n">Z</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>delete: memberOf
+memberOf: cn=test group,cn=users,dc=samba,dc=example,dc=com
+-
+replace: modifiersname
+modifiersname: cn=Linked Attributes,cn=plugins,cn=config
+-
+replace: modifytimestamp
+modifytimestamp: 20091208084310Z
+-
 </pre></div>
 </div>
 </section>
 <section id="deleting-group-object">
 <h2>Deleting Group Object<a class="headerlink" href="#deleting-group-object" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">changenumber</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">changelog</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">changelogentry</span>
-<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
-<span class="n">changeNumber</span><span class="p">:</span> <span class="mi">37</span>
-<span class="n">targetDn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Test</span> <span class="n">Group</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">Users</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">samba</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
-<span class="n">changeTime</span><span class="p">:</span> <span class="mi">20091208084310</span><span class="n">Z</span>
-<span class="n">changeType</span><span class="p">:</span> <span class="n">delete</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dn: changenumber=37,cn=changelog
+objectClass: top
+objectClass: changelogentry
+objectClass: extensibleObject
+changeNumber: 37
+targetDn: cn=Test Group,cn=Users,dc=samba,dc=example,dc=com
+changeTime: 20091208084310Z
+changeType: delete
 </pre></div>
 </div>
 </section>

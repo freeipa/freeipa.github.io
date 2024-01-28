@@ -301,47 +301,47 @@ document.write(`
 <section id="prepare-replica">
 <h1>Prepare Replica<a class="headerlink" href="#prepare-replica" title="Link to this heading">#</a></h1>
 <p>Execute the following on the master:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span><span class="o">-</span><span class="n">replica</span><span class="o">-</span><span class="n">prepare</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ipa-replica-prepare ipa2.domain1.com
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">scp</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">replica</span><span class="o">-</span><span class="n">info</span><span class="o">-</span><span class="n">ipa2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">gpg</span> <span class="n">root</span><span class="nd">@ipa2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% scp /var/lib/ipa/replica-info-ipa2.domain1.com.gpg root@ipa2.domain1.com:/var/lib/ipa/
 </pre></div>
 </div>
 </section>
 <section id="configure-replica">
 <h1>Configure Replica<a class="headerlink" href="#configure-replica" title="Link to this heading">#</a></h1>
 <p>Execute the following on the replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span><span class="o">-</span><span class="n">replica</span><span class="o">-</span><span class="n">install</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">replica</span><span class="o">-</span><span class="n">info</span><span class="o">-</span><span class="n">ipa2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">gpg</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ipa-replica-install /var/lib/ipa/replica-info-ipa2.domain1.com.gpg
 </pre></div>
 </div>
 <p>If you need to uninstall replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ipa</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">install</span> <span class="o">--</span><span class="n">uninstall</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ipa-server-install --uninstall
 </pre></div>
 </div>
 </section>
 <section id="enable-change-log">
 <h1>Enable Change Log<a class="headerlink" href="#enable-change-log" title="Link to this heading">#</a></h1>
 <p>Enable Retro Changelog plugin on replica:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">h</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">p</span> <span class="mi">389</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Directory Manager&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span>
-<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Retro</span> <span class="n">Changelog</span> <span class="n">Plugin</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
-<span class="n">changetype</span><span class="p">:</span> <span class="n">modify</span>
-<span class="n">replace</span><span class="p">:</span> <span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEnabled</span>
-<span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginEnabled</span><span class="p">:</span> <span class="n">on</span>
-<span class="o">-</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapmodify -h ipa2.domain1.com -p 389 -x -D &quot;cn=Directory Manager&quot; -w Secret123
+dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
+changetype: modify
+replace: nsslapd-pluginEnabled
+nsslapd-pluginEnabled: on
+-
 </pre></div>
 </div>
 <p>Restart DS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">service</span> <span class="n">dirsrv</span> <span class="n">restart</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% service dirsrv restart
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">ldapsearch</span> <span class="o">-</span><span class="n">h</span> <span class="n">ipa2</span><span class="o">.</span><span class="n">domain1</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">p</span> <span class="mi">389</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">D</span> <span class="s2">&quot;cn=Directory Manager&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="n">Secret123</span> <span class="o">-</span><span class="n">b</span> <span class="s2">&quot;cn=changelog&quot;</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>% ldapsearch -h ipa2.domain1.com -p 389 -x -D &quot;cn=Directory Manager&quot; -w Secret123 -b &quot;cn=changelog&quot;
 </pre></div>
 </div>
 </section>
 <section id="dns">
 <h1>DNS<a class="headerlink" href="#dns" title="Link to this heading">#</a></h1>
 <p>Edit zone data file /var/named/domain1.com.zone.db:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ORIGIN domain1.com.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ORIGIN domain1.com.
 $TTL    1W
 @                       IN SOA  domain1.com. root.domain1.com. (
                                 01              ; serial

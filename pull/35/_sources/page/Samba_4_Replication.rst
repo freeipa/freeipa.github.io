@@ -23,7 +23,7 @@ Configuration
 
 Create /usr/local/samba/etc/smb.conf for the replica:
 
-::
+.. code-block:: text
 
    [globals]
            netbios name    = samba2
@@ -36,7 +36,7 @@ Provisioning Fedora DS Backend
 
 Setup Fedora DS instance for the replica:
 
-::
+.. code-block:: text
 
    % cd samba/source4
    % setup/provision-backend --realm=DOMAIN1.COM --domain=DOMAIN1 --server-role='domain controller' \
@@ -44,7 +44,7 @@ Setup Fedora DS instance for the replica:
 
 Edit /usr/local/samba/private/ldap/fedorads.inf:
 
-::
+.. code-block:: text
 
    [General]
    FullMachineName         = samba2.domain1.com
@@ -89,7 +89,7 @@ Edit /usr/local/samba/private/ldap/fedorads.inf:
 Edit /usr/local/samba/private/ldap/99_ad.ldif, replace
 1.3.6.1.4.1.1466.115.121.1.44 with 1.3.6.1.4.1.1466.115.121.1.26.
 
-::
+.. code-block:: text
 
    % cd /usr/local/samba/private/ldap
    % /usr/sbin/setup-ds.pl --file=fedorads.inf
@@ -99,7 +99,7 @@ Edit /usr/local/samba/private/ldap/99_ad.ldif, replace
 Starting Fedora DS
 ==================
 
-::
+.. code-block:: text
 
    % cd /usr/local/samba/private/ldap
    % slapd-samba/start-slapd
@@ -112,13 +112,13 @@ Configuring Multi-Master Replication
 Samba uses 3 databases in Fedora DS. They require separate replication
 agreements.
 
-::
+.. code-block:: text
 
    % yum install perl-LDAP
 
 Download `mmr.pl <https://wiki.samba.org/images/f/f4/Mmr.txt>`__ script to configure MMR:
 
-::
+.. code-block:: text
 
    % mmr.pl \
    --host1 samba1.domain1.com --host2 samba2.domain1.com --port 390 \
@@ -152,7 +152,7 @@ Download `mmr.pl <https://wiki.samba.org/images/f/f4/Mmr.txt>`__ script to confi
 Provisioning Samba
 ==================
 
-::
+.. code-block:: text
 
    % setup/provision --realm=DOMAIN1.COM --domain=DOMAIN1 \
    --adminpass=Secret123 \
@@ -160,7 +160,7 @@ Provisioning Samba
    --ldap-backend=ldapi:///usr/local/samba/private/ldap/ldapi \
    --partitions-only
 
-::
+.. code-block:: text
 
    Server Role:    domain controller
    Hostname:       samba2
@@ -174,24 +174,24 @@ Provisioning Samba
 Joining Samba Domain
 ====================
 
-::
+.. code-block:: text
 
    % cd /usr/local/samba/bin
    % net join DOMAIN1 BDC -U Administrator --password=Secret123
 
-::
+.. code-block:: text
 
    Joined domain DOMAIN1 (S-1-5-21-1030068324-2126043060-2085863383)
 
 Generate UUID:
 
-::
+.. code-block:: text
 
    % uuidgen
 
 Create a file containing the following entry:
 
-::
+.. code-block:: text
 
    dn: CN=NTDS Settings,CN=SAMBA2,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=domain1,DC=com
    objectClass: top
@@ -207,7 +207,7 @@ Create a file containing the following entry:
 
 Add the entry to Samba master:
 
-::
+.. code-block:: text
 
    % cd /usr/local/samba/bin
    % ./ldbadd -H ldap://samba1.domain1.com -p -U Administrator --password=Secret123 <file>
@@ -217,7 +217,7 @@ Add the entry to Samba master:
 Starting Samba Replica
 ======================
 
-::
+.. code-block:: text
 
    % cd /usr/local/samba/sbin
    % ./samba -i -M single -d 3
@@ -232,7 +232,7 @@ Copy changelog schema into
 
 Enable Retro Changelog plugin on replica:
 
-::
+.. code-block:: text
 
    % ldapmodify -h samba2.domain1.com -p 390 -x -D "cn=Directory Manager" -w Secret123
    dn: cn=Retro Changelog Plugin,cn=plugins,cn=config
@@ -243,13 +243,13 @@ Enable Retro Changelog plugin on replica:
 
 Restart DS:
 
-::
+.. code-block:: text
 
    % cd /usr/local/samba/private/ldap/slapd-samba
    % stop-slapd
    % start-slapd
 
-::
+.. code-block:: text
 
    % ldapsearch -h samba2.domain1.com -p 390 -x -D "cn=Directory Manager" -w Secret123 -b "cn=changelog"
 
@@ -260,7 +260,7 @@ The DNS needs to be configured such that it points to both master and
 replica. So if the master fails, the client will be able to find the
 replica automatically.
 
-::
+.. code-block:: text
 
    $ORIGIN domain1.com.
    $TTL 1W

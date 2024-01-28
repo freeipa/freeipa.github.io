@@ -118,7 +118,7 @@ When a host is created with a random password then the only time that
 password will be available is in the return value from the creation. It
 will look something like:
 
-::
+.. code-block:: text
 
    $ curl http://localhost:8090/ipa/rest/host/test18.example.com -X POST --d random=true
    {

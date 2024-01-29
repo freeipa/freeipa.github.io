@@ -1145,7 +1145,7 @@ on the different aspects of the system:
                 ... list of services the Service Controller needs to control.
                 This hive is populated at the install time with the list of services currently installed.
     
-           ...
+     ...
       cn=local
            ... Local accounts information. See the discussion about the authoritative source of this information earlier on this page.
     

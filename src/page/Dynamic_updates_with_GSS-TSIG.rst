@@ -44,7 +44,7 @@ for authenticating dynamic updates:
 ::
 
     options {
-       ...
+    ...
        tkey-gssapi-keytab  "DNS/dns.example.com";
        ...
     };
@@ -54,7 +54,7 @@ for authenticating dynamic updates:
 ::
 
     options {
-       ...
+    ...
        tkey-gssapi-credential  "DNS/dns.example.com";
        tkey-domain             "dns.example.com";
        ...
@@ -132,7 +132,7 @@ IP address matches updated name (in reverse tree).
 ::
 
     zone "2.0.192.in-addr.arpa" IN {
-       ...
+    ...
        update-policy {
            grant * tcp-self * PTR;
        };

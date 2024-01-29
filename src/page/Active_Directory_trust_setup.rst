@@ -559,7 +559,7 @@ to see AD users:
 
     [realms]
      IPA_DOMAIN = { 
-    ....
+     ....
         auth_to_local = RULE:[1:$1@$0](^.*@AD_DOMAIN$)s/@AD_DOMAIN/@ad_domain/ 
       auth_to_local = DEFAULT
     }

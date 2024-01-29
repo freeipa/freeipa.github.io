@@ -162,7 +162,7 @@ output. It needs to be renew_ca_cert:
            post-save command: /usr/lib64/ipa/certmonger/renew_ca_cert "auditSigningCert cert-pki-ca"
            track: yes
            auto-renew: yes
-   ...
+           ...
 
 
 

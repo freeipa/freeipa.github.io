@@ -1819,7 +1819,7 @@ So configuration of that
    originscope: cn=hostgroups,cn=accounts,SUFFIX
 
    dn: cn=UPG Definition,cn=Definitions,cn=Managed Entries,cn=etc,SUFFIX
-    ...
+   ...
    originscope: cn=users,cn=accounts,SUFFIX
 
 When a *stage* entry is created/deleted it is not in under
@@ -2335,7 +2335,7 @@ Preserving a user can be done with CLI/API call:
      Account disabled: False
      Password: False
      Kerberos keys available: False
-   ...
+     ...
    # ipa user-del fbar --preserve
    -------------------
    Deleted user "fbar"

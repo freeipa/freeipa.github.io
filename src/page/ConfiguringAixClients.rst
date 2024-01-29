@@ -341,7 +341,7 @@ user admin do the following on the IPA server:
               program = /usr/lib/security/LDAP
               program_64 =/usr/lib/security/LDAP64
               options = netgroup
-      ...
+              ...
       KRB5ALDAP:
               options = auth=KRB5A,db=LDAP,netgroup
 
@@ -361,7 +361,7 @@ This is what it looks like if you create a separate user:
    ::
 
       default:
-              ...
+      ...
               SYSTEM = compat
               registry = compat
               ...

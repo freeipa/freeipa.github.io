@@ -103,7 +103,7 @@ You can call
                  0x000001c8 (456)
                    info                     : *
                        info                     : union PAC_INFO(case 1)
-   ...
+                       ...
 
 This is basically the same scheme as for the SSSD AD client example
 above with the exception of the *-s /dev/null* option. You can drop this
@@ -137,7 +137,7 @@ utility form the samba-test package
                            info                     : *
                                info                     : union PAC_INFO(case 1)
                                logon_info: struct PAC_LOGON_INFO_CTR
-   ...
+                               ...
 
 If you want to use a different Kerberos service where the keys are not
 stored in the host keytab you can use the following options:

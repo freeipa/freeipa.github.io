@@ -39,9 +39,11 @@ is recommended approach for cases when you don't use IPv6 networking.
 Creating and adding to for example /etc/sysctl.d/ipv6.conf will avoid
 assigning IPv6 addresses to a specific network interface
 
-| `` # Disable IPv6``
-| `` net.ipv6.conf.all.disable_ipv6 = 1``
-| `` net.ipv6.conf.``\ ``.disable_ipv6 = 1``
+::
+
+     # Disable IPv6
+     net.ipv6.conf.all.disable_ipv6 = 1
+     net.ipv6.conf.``\ ``.disable_ipv6 = 1
 
 where *interface0* is your specialized interface.
 
@@ -166,8 +168,10 @@ The password is your admin user's password (from ``-a`` option in the
 Make sure IPA users are available to the system services
 --------------------------------------------------------
 
-| ``# id admin``
-| ``# getent passwd admin``
+::
+
+    # id admin
+    # getent passwd admin
 
 Both above commands should return information about the admin user. If
 above commands fail, restart the ``sssd`` service
@@ -219,8 +223,10 @@ On IPA server
 
 IPA uses the following ports to communicate with its services:
 
-| ``TCP ports: 80, 88, 443, 389, 636, 88, 464, 53, 135, 138, 139, 445, 1024-1300``
-| ``UDP ports: 88, 464, 53, 123, 138, 139, 389, 445``
+::
+
+    TCP ports: 80, 88, 443, 389, 636, 88, 464, 53, 135, 138, 139, 445, 1024-1300
+    UDP ports: 88, 464, 53, 123, 138, 139, 389, 445
 
 These ports must be open and available; they cannot be in use by another
 service or blocked by a firewall. Especially ports 88/udp, 88/tcp,
@@ -262,13 +268,17 @@ section `#iptables <#iptables>`__.
 
 To disable ``firewalld``:
 
-| ``# chkconfig firewalld off``
-| ``# service firewalld stop``
+::
+
+    # chkconfig firewalld off
+    # service firewalld stop
 
 To enable ``iptables``:
 
-| ``# yum install -y iptables-services``
-| ``# chkconfig iptables on``
+::
+
+    # yum install -y iptables-services
+    # chkconfig iptables on
 
 Make sure ``iptables`` configuration file is located at
 ``/etc/sysconfig/iptables`` and contains the desired configuration, and
@@ -288,21 +298,23 @@ is booted:
 into account the rules that must be applied in order for IPA to work
 properly, here is a sample configuration.
 
-| ``*filter``
-| ``:INPUT ACCEPT [0:0]``
-| ``:FORWARD ACCEPT [0:0]``
-| ``:OUTPUT ACCEPT [0:0]``
-| ``-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT``
-| ``-A INPUT -p icmp -j ACCEPT``
-| ``-A INPUT -i lo -j ACCEPT``
-| ``-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT``
-| ``# -A INPUT -s ``\ *``ad_ip_address``*\ `` -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT``
-| ``-A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT``
-| ``-A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT``
-| ``-A INPUT -p udp -j REJECT``
-| ``-A INPUT -p tcp -j REJECT``
-| ``-A FORWARD -j REJECT --reject-with icmp-host-prohibited``
-| ``COMMIT``
+::
+
+    *filter
+    :INPUT ACCEPT [0:0]
+    :FORWARD ACCEPT [0:0]
+    :OUTPUT ACCEPT [0:0]
+    -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+    -A INPUT -p icmp -j ACCEPT
+    -A INPUT -i lo -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+    # -A INPUT -s ``\ *``ad_ip_address``*\ `` -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT
+    -A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT
+    -A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT
+    -A INPUT -p udp -j REJECT
+    -A INPUT -p tcp -j REJECT
+    -A FORWARD -j REJECT --reject-with icmp-host-prohibited
+    COMMIT
 
 Please note that the line containing "ad_ip_address" is not needed
 anymore (see comments above). If you still want to use it please make
@@ -360,8 +372,10 @@ If the AD domain is a subdomain of the IPA domain (e.g. AD domain is
 
 On IPA server, add an A record and a NS record for the AD domain:
 
-| ``# ipa dnsrecord-add ``\ *``ipa_domain``*\ `` ``\ *``ad_hostname``*\ ``.``\ *``ad_netbios``*\ `` --a-ip-address=``\ *``ad_ip_address``*
-| ``# ipa dnsrecord-add ``\ *``ipa_domain``*\ `` ``\ *``ad_netbios``*\ `` --ns-hostname=``\ *``ad_hostname``*\ ``.``\ *``ad_netbios``*
+::
+
+    # ipa dnsrecord-add ``\ *``ipa_domain``*\ `` ``\ *``ad_hostname``*\ ``.``\ *``ad_netbios``*\ `` --a-ip-address=``\ *``ad_ip_address``*
+    # ipa dnsrecord-add ``\ *``ipa_domain``*\ `` ``\ *``ad_netbios``*\ `` --ns-hostname=``\ *``ad_hostname``*\ ``.``\ *``ad_netbios``*
 
 On AD DC, there two options.
 
@@ -411,16 +425,20 @@ records are being properly resolved.
 
 On AD DC:
 
-| ``C:\> nslookup``
-| ``> set type=srv``
-| ``> _ldap._tcp.``\ *``ad_domain``*
-| ``> _ldap._tcp.``\ *``ipa_domain``*
-| ``> quit``
+::
+
+    C:\> nslookup
+    > set type=srv
+    > _ldap._tcp.``\ *``ad_domain``*
+    > _ldap._tcp.``\ *``ipa_domain``*
+    > quit
 
 On IPA server:
 
-| ``# dig SRV _ldap._tcp.``\ *``ipa_domain``*
-| ``# dig SRV _ldap._tcp.``\ *``ad_domain``*
+::
+
+    # dig SRV _ldap._tcp.``\ *``ipa_domain``*
+    # dig SRV _ldap._tcp.``\ *``ad_domain``*
 
 
 
@@ -537,17 +555,21 @@ IPA server is needed, to allow Kerberos authentication.
 Add these two lines to ``/etc/krb5.conf`` on every machine that is going
 to see AD users:
 
-| ``[realms]``
+::
+
+    [realms]
 | *``IPA_DOMAIN``*\ `` = {``
-| ``....``
-| ``  auth_to_local = RULE:[1:$1@$0](^.*@``\ *``AD_DOMAIN``*\ ``$)s/@``\ *``AD_DOMAIN``*\ ``/@``\ *``ad_domain``*\ ``/``
-| ``  auth_to_local = DEFAULT``
-| ``}``
+    ....
+      auth_to_local = RULE:[1:$1@$0](^.*@``\ *``AD_DOMAIN``*\ ``$)s/@``\ *``AD_DOMAIN``*\ ``/@``\ *``ad_domain``*\ ``/
+      auth_to_local = DEFAULT
+    }
 
 Restart KDC and sssd
 
-| ``# service krb5kdc restart``
-| ``# service sssd restart``
+::
+
+    # service krb5kdc restart
+    # service sssd restart
 
 
 
@@ -629,10 +651,12 @@ Using Samba shares
 
 To create a Samba share on IPA server:
 
-| ``# net conf setparm 'share' 'comment' 'Trust test share'``
-| ``# net conf setparm 'share' 'read only' 'no'``
-| ``# net conf setparm 'share' 'valid users' '``\ *``ad_admins_sid``*\ ``'``
-| ``# net conf setparm 'share' 'path' '``\ *``/path/to/share``*\ ``'``
+::
+
+    # net conf setparm 'share' 'comment' 'Trust test share'
+    # net conf setparm 'share' 'read only' 'no'
+    # net conf setparm 'share' 'valid users' '``\ *``ad_admins_sid``*\ ``'
+    # net conf setparm 'share' 'path' '``\ *``/path/to/share``*\ ``'
 
 **NOTE**: To obtain the SID (Security Identifier) of the AD admins
 group, run:
@@ -715,8 +739,10 @@ What you can do is following (assumes Fedora 20+ or RHEL 7+):
    when establishing trust is printed fully in the logs. Change
    /usr/share/ipa/smb.conf.empty:
 
-| ``    [global]``
-| ``    log level = 100``
+::
+
+        [global]
+        log level = 100
 
 -  Remove old /var/log/samba/log.\*
 -  Start smb and winbind services
@@ -740,8 +766,10 @@ What you can do is following (assumes Fedora 20+ or RHEL 7+):
    that general public shouldn't have access to. The logs we are
    interested in are following:
 
-| ``    /var/log/httpd/error_log``
-| ``    /var/log/samba/log.*``
+::
+
+        /var/log/httpd/error_log
+        /var/log/samba/log.*
 
 
 

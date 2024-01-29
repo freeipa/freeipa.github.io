@@ -110,8 +110,10 @@ Example
 
 Example data rules:
 
-| ``email={{subject.email}}``
-| ``O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}``
+::
+
+    email={{subject.email}}
+    O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}
 
 Example syntax rule:
 

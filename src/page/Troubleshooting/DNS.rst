@@ -129,10 +129,12 @@ subzone) <http://www.zytrax.com/books/dns/ch9/delegate.html>`__).
 
 Example:
 
-| ``$ORIGIN ipa.freeipa.org.``
-| ``others ``\ **``NS``**\ `` ns.others.ipa.freeipa.org.``
-| ``ns.others ``\ **``A``**\ `` 192.0.2.1``
-| ``ns.others ``\ **``AAAA``**\ `` 2001:db8::1``
+::
+
+    $ORIGIN ipa.freeipa.org.
+    others ``\ **``NS``**\ `` ns.others.ipa.freeipa.org.
+    ns.others ``\ **``A``**\ `` 192.0.2.1
+    ns.others ``\ **``AAAA``**\ `` 2001:db8::1
 
 Without zone delegation all queries are processed by master zone and
 NXDOMAIN is returned (`Forward zones design

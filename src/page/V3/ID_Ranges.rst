@@ -27,13 +27,15 @@ GID for groups). Their generation from the IDs is completely
 deterministic, and in the simple terms it's just a shift of the
 interval:
 
-| ``   ID       |   RID``
-| ``   10000   ->    0``
-| ``   10001   ->    1``
-| ``   10002   ->    2``
-| ``   10003   ->    3``
-| ``   10004   ->    4``
-| ``   ....``
+::
+
+       ID       |   RID
+       10000   ->    0
+       10001   ->    1
+       10002   ->    2
+       10003   ->    3
+       10004   ->    4
+       ....
 
 However, the UID and GID spaces in UNIX are independent. It's completely
 okay to have an user with UID 10002 and a group with GID 10002.
@@ -42,12 +44,14 @@ objects. To avoid that, we define secondary RID range for local ranges.
 This new interval serves as a backup interval where we shift the object
 if corresponding RID in the primary range is already taken:
 
-| ``     UID    |    GID      |     RID``
-| ``   10000                 ->      0``
-| ``   10001                 ->      1``
-| ``                10001    ->      10001``
-| ``                10002    ->      2``
-| ``   10003                 ->      3``
+::
+
+         UID    |    GID      |     RID
+       10000                 ->      0
+       10001                 ->      1
+                    10001    ->      10001
+                    10002    ->      2
+       10003                 ->      3
 
 (secondary RID range starts at 10000 in this example)
 

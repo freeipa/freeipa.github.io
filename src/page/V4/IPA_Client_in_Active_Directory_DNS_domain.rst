@@ -140,20 +140,22 @@ ipa.example.com* was used to configure the FreeIPA client (abbreviated):
 
 /etc/krb5.conf
 
-| ``   [libdefaults]``
-| ``   dns_lookup_realm = true``
-| ``   dns_lookup_kdc = true``
-| ``   ``
-| ``   [realms]``
-| ``   IPA.EXAMPLE.COM = {``
-| ``       pkinit_anchors = ``\ ```FILE:/etc/ipa/ca.crt`` <FILE:/etc/ipa/ca.crt>`__
-| ``   }``
-| ``   ``
-| ``   [domain_realm]``
-| ``   .ipa.example.com = IPA.EXAMPLE.COM``
-| ``   ipa.example.com = IPA.EXAMPLE.COM``
-| ``   .example.com = IPA.EXAMPLE.COM``
-| ``   example.com = IPA.EXAMPLE.COM``
+::
+
+       [libdefaults]
+       dns_lookup_realm = true
+       dns_lookup_kdc = true
+    
+       [realms]
+       IPA.EXAMPLE.COM = {
+           pkinit_anchors = ``\ ```FILE:/etc/ipa/ca.crt`` <FILE:/etc/ipa/ca.crt>`__
+       }
+    
+       [domain_realm]
+       .ipa.example.com = IPA.EXAMPLE.COM
+       ipa.example.com = IPA.EXAMPLE.COM
+       .example.com = IPA.EXAMPLE.COM
+       example.com = IPA.EXAMPLE.COM
 
 As can be seen above, look up for any service principal on the hosts in
 DNS zone *example.com* will be forced to belong to realm
@@ -164,8 +166,10 @@ KDC of *IPA.EXAMPLE.COM*.
 
 It is, however, possible to change
 
-| ``   .example.com = IPA.EXAMPLE.COM``
-| ``   example.com = IPA.EXAMPLE.COM``
+::
+
+       .example.com = IPA.EXAMPLE.COM
+       example.com = IPA.EXAMPLE.COM
 
 to explicit configuration for the FreeIPA hostname:
 
@@ -286,8 +290,10 @@ domain via SRV records in DNS domain *example.com* will not be done.
 
 Kerberos configuration in */etc/krb5.conf* should be modified to add:
 
-| ``   [domain_realm]``
-| ``     ipa-client.example.com = IPA.EXAMPLE.COM``
+::
+
+       [domain_realm]
+         ipa-client.example.com = IPA.EXAMPLE.COM
 
 This configuration change will ensure that the host itself is associated
 with FreeIPA realm on this machine.
@@ -309,11 +315,13 @@ domain-realm mapping that forces *.example.com* to be associated with
 
 /etc/krb5.conf
 
-| ``   [domain_realm]``
-| ``   .ipa.example.com = IPA.EXAMPLE.COM``
-| ``   ipa.example.com = IPA.EXAMPLE.COM``
-| ``   .example.com = EXAMPLE.COM``
-| ``   example.com = EXAMPLE.COM``
+::
+
+       [domain_realm]
+       .ipa.example.com = IPA.EXAMPLE.COM
+       ipa.example.com = IPA.EXAMPLE.COM
+       .example.com = EXAMPLE.COM
+       example.com = EXAMPLE.COM
 
 Once *.example.com* is associated with *EXAMPLE.COM* realm, actual
 Kerberos credentials obtained on the FreeIPA client as part of the
@@ -339,14 +347,16 @@ This means there is already a host object for *ipa-client.example.com*
 in FreeIPA and Certmonger can already request for the certificate in its
 name:
 
-| ``   ipa-getcert request -r \``
-| ``      -f /etc/httpd/alias/server.crt \``
-| ``      -k /etc/httpd/alias/server.key \``
-| :literal:`      -N CN=`hostname --fqdn` \\`
-| :literal:`      -D `hostname --fqdn` \\`
-| ``      -K host/ipa-client.example.com@IPA.EXAMPLE.COM \``
-| ``      -U id-kp-serverAuth``
-| ``   ``
+::
+
+       ipa-getcert request -r \
+          -f /etc/httpd/alias/server.crt \
+          -k /etc/httpd/alias/server.key \
+          -N CN=`hostname --fqdn` \\`
+          -D `hostname --fqdn` \\`
+          -K host/ipa-client.example.com@IPA.EXAMPLE.COM \
+          -U id-kp-serverAuth
+    
 
 This example allows to request an SSL certificate from FreeIPA CA to
 store it in *server.crt* (public key) and *server.key* (private key)
@@ -375,8 +385,10 @@ server, such server typically does strict check on what Kerberos
 principal was used to target it (so-called, 'acceptor check'). This can
 be relaxed:
 
-| ``   [libdefaults]``
-| ``    ignore_acceptor_hostname = true``
+::
+
+       [libdefaults]
+        ignore_acceptor_hostname = true
 
 For OpenSSH server there is a specific option *GSSAPIStrictAcceptorCheck
 no* to achieve the same.
@@ -396,8 +408,10 @@ FreeIPA database. This means one would need to create host object for
 *ipa-client.example.com* in FreeIPA and make sure the real FreeIPA
 machine's host object is able to manage this host:
 
-| ``   ipa host-add ipa-client.example.com --force``
-| ``   ipa host-add-managedby ipa-client.example.com --hosts=ipa-client.ipa.example.com``
+::
+
+       ipa host-add ipa-client.example.com --force
+       ipa host-add-managedby ipa-client.example.com --hosts=ipa-client.ipa.example.com
 
 We have to use *--force* option here because *ipa-client.example.com* is
 a CNAME, not an A/AAAA DNS record as required by FreeIPA.
@@ -406,11 +420,13 @@ With this setup *ipa-client.ipa.example.com* would be able to request an
 SSL certificate with dNSName extension record for
 *ipa-client.example.com*.
 
-| ``  ipa-getcert request -r \``
-| ``      -f /etc/httpd/alias/server.crt \``
-| ``      -k /etc/httpd/alias/server.key \``
-| :literal:`      -N CN=`hostname --fqdn` \\`
-| :literal:`      -D `hostname --fqdn` \\`
-| ``      -D ipa-client.example.com \``
-| ``      -K host/ipa-client.ipa.example.com@IPA.EXAMPLE.COM \``
-| ``      -U id-kp-serverAuth``
+::
+
+      ipa-getcert request -r \
+          -f /etc/httpd/alias/server.crt \
+          -k /etc/httpd/alias/server.key \
+          -N CN=`hostname --fqdn` \\`
+          -D `hostname --fqdn` \\`
+          -D ipa-client.example.com \
+          -K host/ipa-client.ipa.example.com@IPA.EXAMPLE.COM \
+          -U id-kp-serverAuth

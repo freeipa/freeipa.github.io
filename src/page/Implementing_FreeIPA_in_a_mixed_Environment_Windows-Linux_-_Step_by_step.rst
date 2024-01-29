@@ -44,7 +44,9 @@ mod_nss in apache. You can remove the mod_ssl for the time being.
   127.0.0.1               localhost.localdomain localhost
   172.16.33.1             ds.example.com ds
 
-| ``# cat /etc/sysconfig/network``
+::
+
+    # cat /etc/sysconfig/network
 
 .. code-block:: ini
 
@@ -69,7 +71,9 @@ setup DNS properly.
 
 a. A minimal named.conf should look like
 
-| ``# cat /etc/named.conf``
+::
+
+    # cat /etc/named.conf
 
 .. code-block::
 
@@ -96,7 +100,9 @@ file also.
 No need to change anything in the forward zone file, create a reverse
 zone as follows.
 
-| ``#  cat example.com.zone.rev.db``
+::
+
+    #  cat example.com.zone.rev.db
 
 .. code-block::
 
@@ -125,7 +131,9 @@ and synch all the clients to that.
 
 Sample configuration file for an ntp local server.
 
-| ``# cat /etc/ntp.conf``
+::
+
+    # cat /etc/ntp.conf
 
 .. code-block::
 
@@ -142,7 +150,9 @@ Sample configuration file for an ntp local server.
 
 Sample Configuration for an ntp client
 
-| ``# cat /etc/ntp.conf``
+::
+
+    # cat /etc/ntp.conf
 
 .. code-block::
 
@@ -175,9 +185,11 @@ ipa-server-install, anyway just do a second check.
 6. After the reboot test the IPA server configuration using the
 following commands
 
-| ``# kinit admin``
-| ``# klist``
-| ``# ipa-finduser admin``
+::
+
+    # kinit admin
+    # klist
+    # ipa-finduser admin
 
 **Configuring Windows Client**
 
@@ -250,7 +262,9 @@ http://download.fedora.redhat.com/pub/epel/
 
 4. Apply the patch
 
-| ``# patch -p1 < /path/to/make.patch``
+::
+
+    # patch -p1 < /path/to/make.patch
 
 ``(patch can be found in ``\ ```https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html`` <https://www.redhat.com/archives/freeipa-users/2009-January/msg00022.html>`__\ ``, copy the contents and save it as make.patch)``
 

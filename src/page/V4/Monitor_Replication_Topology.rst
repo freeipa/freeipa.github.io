@@ -50,10 +50,12 @@ applied. A simple time stamp is used as requestID.
 
 Extension to the ipaReplicationTopologySegment:
 
-| ``cn: ``\ ``, cn=``\ ``,cn=topology,``
-| ``objectclass: ipaReplicationTopologySegment``
-| ``ipaReplSegmenState;left : ``\ ``:``
-| ``ipaReplSegmenState;right : ``\ ``:``
+::
+
+    cn: ``\ ``, cn=``\ ``,cn=topology,
+    objectclass: ipaReplicationTopologySegment
+    ipaReplSegmenState;left : ``\ ``:
+    ipaReplSegmenState;right : ``\ ``:
 
 For each agreement a replication state attribute is added ";left"
 ";right" indicate to which of the two agreements that can be represented
@@ -85,9 +87,11 @@ be repeated until a defined maximal waiting period passed.
 Based on the received information, the state of the agreements can be
 listed. The state of the agreement will be:
 
-| ``green: the agrement is operational``
-| ``red: agreement is not working (no more refinements yet)``
-| ``grey: no response for the monitoring request with the given monitoringID was received``
+::
+
+    green: the agrement is operational
+    red: agreement is not working (no more refinements yet)
+    grey: no response for the monitoring request with the given monitoringID was received
 
 
 

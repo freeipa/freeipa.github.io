@@ -184,8 +184,10 @@ KRA work is in /root/ca-agent.p12. Copy this to your client machine, or
 to a location on the server that is readable by the user you want to run
 Firefox. Fix permissions as needed.
 
-| ``# cp /root/ca-agent.p12 /home/someuser``
-| ``# chown someuser /home/someuser/ca-agent.p12``
+::
+
+    # cp /root/ca-agent.p12 /home/someuser
+    # chown someuser /home/someuser/ca-agent.p12
 
 
 

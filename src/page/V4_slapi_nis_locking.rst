@@ -268,9 +268,11 @@ The db_stat output of the locked pages is showing Thread 11 transaction
 (80005604) that is blocking many readers (in the way reproducible test
 case runs)
 
-| ``  80005604 READ          7 HELD    userRoot/entryrdn.db      page          3``
-| ``       426 READ          1 WAIT    userRoot/entryrdn.db      page          3``
-| ``       403 READ          1 WAIT    userRoot/entryrdn.db      page          3``
-| ``       442 READ          1 WAIT    userRoot/entryrdn.db      page          3``
-| ``       443 READ          1 WAIT    userRoot/entryrdn.db      page          3``
-| ``        ......``
+::
+
+      80005604 READ          7 HELD    userRoot/entryrdn.db      page          3
+           426 READ          1 WAIT    userRoot/entryrdn.db      page          3
+           403 READ          1 WAIT    userRoot/entryrdn.db      page          3
+           442 READ          1 WAIT    userRoot/entryrdn.db      page          3
+           443 READ          1 WAIT    userRoot/entryrdn.db      page          3
+            ......

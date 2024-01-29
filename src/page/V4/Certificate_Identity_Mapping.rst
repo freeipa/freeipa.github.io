@@ -179,14 +179,16 @@ certmap-match --certificate BLOB
 
 The output will contain the matching user names, grouped by domain:
 
-| ``---------------``
-| ``2 users matched``
-| ``---------------``
-| ``  Domain: DOMAIN.EXAMPLE.COM``
-| ``  Usernames: user1, user2``
-| ``----------------------------``
-| ``Number of entries returned 2``
-| ``----------------------------``
+::
+
+    ---------------
+    2 users matched
+    ---------------
+      Domain: DOMAIN.EXAMPLE.COM
+      Usernames: user1, user2
+    ----------------------------
+    Number of entries returned 2
+    ----------------------------
 
 UI
 
@@ -248,33 +250,41 @@ The following schema will be used:
 Example
 ^^^^^^^
 
-| ``dn: cn=certmap,$BASEDN``
-| ``objectClass: top``
-| ``objectClass: nsContainer``
-| ``objectClass: ipaCertMapConfigObject``
-| ``cn: certmap``
-| ``ipaCertMapPromptUsername: FALSE``
+::
 
-| ``dn: cn=certmaprules,cn=certmap,$BASEDN``
-| ``objectClass: top``
-| ``objectClass: nsContainer``
-| ``cn: certmaprules``
+    dn: cn=certmap,$BASEDN
+    objectClass: top
+    objectClass: nsContainer
+    objectClass: ipaCertMapConfigObject
+    cn: certmap
+    ipaCertMapPromptUsername: FALSE
 
-| ``dn: cn=rule1,cn=certmaprules,cn=certmap,$BASEDN``
-| ``cn: rule1``
-| ``objectClass: ipacertmaprule``
-| ``associatedDomain: domain.com``
-| ``ipaCertMapMapRule: (ipacertmapdata=X509:<I>{issuer_dn}<S>{subject_dn})``
-| ``ipaCertMapPriority: 1``
-| ``ipaCertMapMatchRule: <ISSUER>CN=Certificate Authority,O=IPA.DEVEL``
-| ``ipaEnabledFlag: TRUE``
-| ``description: rule1 description``
+::
 
-| ``dn: uid=user1,cn=users,cn=accounts,$BASEDN``
-| ``objectclass: top``
-| ``objectclass: (all IPA user objectclasses)``
-| ``objectclass: ipacertmapobject``
-| ``ipacertmapdata: X509:<I>CN=Certificate Authority,O=IPA.DEVEL<S>CN=certmaptest.ipa.devel,O=IPA.DEVEL``
+    dn: cn=certmaprules,cn=certmap,$BASEDN
+    objectClass: top
+    objectClass: nsContainer
+    cn: certmaprules
+
+::
+
+    dn: cn=rule1,cn=certmaprules,cn=certmap,$BASEDN
+    cn: rule1
+    objectClass: ipacertmaprule
+    associatedDomain: domain.com
+    ipaCertMapMapRule: (ipacertmapdata=X509:<I>{issuer_dn}<S>{subject_dn})
+    ipaCertMapPriority: 1
+    ipaCertMapMatchRule: <ISSUER>CN=Certificate Authority,O=IPA.DEVEL
+    ipaEnabledFlag: TRUE
+    description: rule1 description
+
+::
+
+    dn: uid=user1,cn=users,cn=accounts,$BASEDN
+    objectclass: top
+    objectclass: (all IPA user objectclasses)
+    objectclass: ipacertmapobject
+    ipacertmapdata: X509:<I>CN=Certificate Authority,O=IPA.DEVEL<S>CN=certmaptest.ipa.devel,O=IPA.DEVEL
 
 
 

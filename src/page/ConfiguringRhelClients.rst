@@ -450,9 +450,11 @@ System Login
 -  On the RHEL 4 system console, log in as an IPA user. After you have
    logged in, open a terminal and try these commands:
 
-| ``id (look for userid and group id correctness)``
-| ``getent passwd``
-| ``getent group``
+::
+
+    id (look for userid and group id correctness)
+    getent passwd
+    getent group
 
 
 

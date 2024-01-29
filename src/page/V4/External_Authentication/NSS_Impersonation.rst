@@ -49,36 +49,46 @@ I've configured SSSD:
 
 and run
 
-| ``       setsebool -P httpd_dbus_sssd on``
-| ``       systemctl restart sssd``
+::
+
+           setsebool -P httpd_dbus_sssd on
+           systemctl restart sssd
 
 I have created HTTP/ service for the machine and got its keytab:
 
-| ``       echo Secret123 | kinit admin``
-| ``       ipa service-add HTTP/$(hostname)``
-| ``       IPA_SERVER=$(awk '/^server =/ {print $3}' /etc/ipa/default.conf)``
-| ``       ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)``
-| ``       chown apache /etc/http.keytab``
-| ``       chmod 600 /etc/http.keytab``
+::
+
+           echo Secret123 | kinit admin
+           ipa service-add HTTP/$(hostname)
+           IPA_SERVER=$(awk '/^server =/ {print $3}' /etc/ipa/default.conf)
+           ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)
+           chown apache /etc/http.keytab
+           chmod 600 /etc/http.keytab
 
 On the IPA server, I've run
 
-| ``       [root@ipa ~]# kadmin.local``
-| ``       Authenticating as principal admin/admin@EXAMPLE.COM with password.``
-| ``       kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com``
-| ``       Principal "HTTP/client.example.com@EXAMPLE.COM" modified.``
-| ``       kadmin.local:  quit``
+::
+
+           [root@ipa ~]# kadmin.local
+           Authenticating as principal admin/admin@EXAMPLE.COM with password.
+           kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com
+           Principal "HTTP/client.example.com@EXAMPLE.COM" modified.
+           kadmin.local:  quit
 
 I have created directory for the delegated credentials:
 
-| ``       mkdir /var/run/httpd/gssapi_deleg``
-| ``       chown apache /var/run/httpd/gssapi_deleg``
+::
+
+           mkdir /var/run/httpd/gssapi_deleg
+           chown apache /var/run/httpd/gssapi_deleg
 
 I have created user and associated client certificate (the test
 certificate alpha from mod_nss's default /etc/httpd/alias) with it:
 
-| ``       ipa user-add --first Robert --last Chase --random bob``
-| ``       ipa user-add-cert --certificate="$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v '.---' )" bob``
+::
+
+           ipa user-add --first Robert --last Chase --random bob
+           ipa user-add-cert --certificate="$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v '.---' )" bob
 
 I had to change bob's password or I was getting CLIENT KEY EXPIRED later
 during gss_acquire_cred_impersonate_name:
@@ -149,8 +159,10 @@ uncommented LoadModule in
 
 and run
 
-| ``       echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so > /etc/httpd/conf.modules.d/09-gssapi.conf``
-| ``       systemctl restart httpd``
+::
+
+           echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so > /etc/httpd/conf.modules.d/09-gssapi.conf
+           systemctl restart httpd
 
 I've now run
 

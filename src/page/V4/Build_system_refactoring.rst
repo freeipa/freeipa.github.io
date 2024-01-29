@@ -261,9 +261,11 @@ Developer
 -  First round - build & install RPMs once to get all the depedencies
    and scriptlets ran:
 
-| ``$ rm Makefile  # if Makefile exists, remove it``
-| ``$ ./makerpms.sh  # this runs configure with paths appropriate for subsequent installation``
-| ``$ dnf install dist/rpms/*.rpm``
+::
+
+    $ rm Makefile  # if Makefile exists, remove it
+    $ ./makerpms.sh  # this runs configure with paths appropriate for subsequent installation
+    $ dnf install dist/rpms/*.rpm
 
 -  Subsequent rapid development:
 
@@ -280,9 +282,11 @@ The install target supports variable ``DESTDIR`` which specifies where
 to copy the files. This can be easily used together with SSHfs which
 mounts complete root filesystem from a VM to developer's machine:
 
-| ``$ mkdir /tmp/vm``
-| ``$ sshfs -o transform_symlinks root@``\ ``:/ /tmp/vm``
-| ``$ make install DESTDIR=/tmp/vm``
+::
+
+    $ mkdir /tmp/vm
+    $ sshfs -o transform_symlinks root@``\ ``:/ /tmp/vm
+    $ make install DESTDIR=/tmp/vm
 
 This snippet will synchronize all files from developer's machine onto a
 VM. Just keep in mind that it will not bump version in RPM database and
@@ -301,16 +305,20 @@ As an optimization for lower-bandwidth/high-latency links you can use
 ``rsync`` instead of ``sshfs``. Is is just additional step after
 ``make install``:
 
-| ``$ mkdir /tmp/vm``
-| ``$ make install DESTDIR=/tmp/vm``
-| ``$ rsync -rlK /tmp/vm/ root@``\ ``:/``
+::
+
+    $ mkdir /tmp/vm
+    $ make install DESTDIR=/tmp/vm
+    $ rsync -rlK /tmp/vm/ root@``\ ``:/
 
 Tester
 ----------------------------------------------------------------------------------------------
 
-| ``$ autoreconf -i``
-| ``$ ./configure``
-| ``$ make rpms``
+::
+
+    $ autoreconf -i
+    $ ./configure
+    $ make rpms
 
 Or alternatively:
 
@@ -323,18 +331,22 @@ will produce RPMs suitable for further FreeIPA testing.
 Release engineer
 ----------------------------------------------------------------------------------------------
 
-| ``$ autoreconf -i``
-| ``$ ./configure``
-| ``$ make dist``
+::
+
+    $ autoreconf -i
+    $ ./configure
+    $ make dist
 
 will produce version.tar.gz suitable for further packaging
 
 Packager
 ----------------------------------------------------------------------------------------------
 
-| ``$ autoreconf -i``
-| ``$ ./configure``
-| ``$ make install DESTDIR=``
+::
+
+    $ autoreconf -i
+    $ ./configure
+    $ make install DESTDIR=
 
 will install FreeIPA into correct paths in build root so it is very easy
 to take all installed files and just package them.
@@ -344,9 +356,11 @@ to take all installed files and just package them.
 Packager - client only build
 ----------------------------------------------------------------------------------------------
 
-| ``$ autoreconf -i``
-| ``$ ./configure --disable-server --without-ipatests``
-| ``$ make install DESTDIR=``
+::
+
+    $ autoreconf -i
+    $ ./configure --disable-server --without-ipatests
+    $ make install DESTDIR=
 
 will install FreeIPA into correct paths in build root so it is very easy
 to take all installed files and just package them.

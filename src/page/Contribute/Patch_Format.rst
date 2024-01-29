@@ -22,8 +22,10 @@ This is produced in two steps:
 
 1. in a git repository with your changes create a *commit*:
 
-| ``git add .``
-| ``git commit``
+::
+
+    git add .
+    git commit
 
 Appropriate commit message should be provided, e.g.:
 

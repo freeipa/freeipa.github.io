@@ -42,24 +42,30 @@ On Active Directory side, the following objects should exist:
 
 -  A test user with posix attributes defined
 
-| `` UID: 10042``
-| `` Home directory: /home/testuser``
-| `` Shell: /bin/sh``
-| `` Full name: Test User``
-| `` Primary group: Test Group``
-| `` Logon: testuser``
-| `` Password: Secret123``
+::
+
+     UID: 10042
+     Home directory: /home/testuser
+     Shell: /bin/sh
+     Full name: Test User
+     Primary group: Test Group
+     Logon: testuser
+     Password: Secret123
 
 -  A test user without posix attributes defined
 
-| `` Full name: Nonposix User``
-| `` Logon: nonposixuser``
-| `` Password: Secret123``
+::
+
+     Full name: Nonposix User
+     Logon: nonposixuser
+     Password: Secret123
 
 -  A test user with posix attributes which is disabled
 
-| `` Password: Secret123``
-| `` Logon: disabledaduser``
+::
+
+     Password: Secret123
+     Logon: disabledaduser
 
 
 

@@ -312,17 +312,21 @@ the file web.csr in the current directory.
 
 **admin**
 
-| ``ipa host-add client.example.com --password=secret123``
-| ``ipa service-add HTTP/client.example.com``
-| ``ipa service-add-host --hosts=client.example.com HTTP/client.example.com``
-| ``ipa rolegroup-add-member --hosts=client.example.com certadmin``
+::
+
+    ipa host-add client.example.com --password=secret123
+    ipa service-add HTTP/client.example.com
+    ipa service-add-host --hosts=client.example.com HTTP/client.example.com
+    ipa rolegroup-add-member --hosts=client.example.com certadmin
 
 **client**
 
-| ``ipa-client-install``
-| ``ipa-join -w secret123``
-| ``kinit -kt /etc/krb5.keytab host/client.example.com``
-| ``ipa -d cert-request ``\ ```file://web.csr`` <file://web.csr>`__\ `` --principal=HTTP/client.example.com``
+::
+
+    ipa-client-install
+    ipa-join -w secret123
+    kinit -kt /etc/krb5.keytab host/client.example.com
+    ipa -d cert-request ``\ ```file://web.csr`` <file://web.csr>`__\ `` --principal=HTTP/client.example.com
 
 
 
@@ -355,10 +359,12 @@ store the certificate, then we can issue the cert.
 
 Some of this work needs to be done as an admin:
 
-| ``% kinit admin``
-| ``% ipa host-add vpn.remote.com``
-| ``% ipa service-add vpn/vpn.remote.com``
-| ``% ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com``
+::
+
+    % kinit admin
+    % ipa host-add vpn.remote.com
+    % ipa service-add vpn/vpn.remote.com
+    % ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com
 
 We've created the remote host and a service principal for it, then gave
 permission for the host ipa.example.com to request a certificate on

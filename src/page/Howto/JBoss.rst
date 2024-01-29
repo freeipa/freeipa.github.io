@@ -93,8 +93,10 @@ command
 will create the service and we can then retrieve the keytab on the JBoss
 server:
 
-| ``$ kinit admin``
-| ``$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab``
+::
+
+    $ kinit admin
+    $ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab
 
 
 
@@ -211,8 +213,10 @@ We then create application in **standalone/deployments/kerberos.war**:
 We then touch file ``standalone/deployments/kerberos.war`` and start the
 server, we should see message like
 
-| ``Register web context: /kerberos``
-| ``Deployed "kerberos.war" (runtime-name : "kerberos.war")``
+::
+
+    Register web context: /kerberos
+    Deployed "kerberos.war" (runtime-name : "kerberos.war")
 
 We then obtain a ticket:
 
@@ -220,7 +224,9 @@ We then obtain a ticket:
 
 and we will run curl with Negotiate authentication enabled:
 
-| ``$ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` <http://$(hostname):8080/kerberos/>`__
-| ``OK``
+::
+
+    $ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` <http://$(hostname):8080/kerberos/>`__
+    OK
 
 We should see the ``OK`` (the content of the index.html file) printed.

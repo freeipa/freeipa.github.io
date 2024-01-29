@@ -187,8 +187,10 @@ Update the Apache NSS database:
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+::
+
+    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
+    # certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
 
 Update the shared system database:
 
@@ -196,8 +198,10 @@ Update the shared system database:
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+::
+
+    # cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt
+    # cp /root/ipa.crt /etc/ipa/ca.crt
 
 Restart the world
 
@@ -247,8 +251,10 @@ Update the Apache NSS database:
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+::
+
+    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
+    # certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
 
 Update the shared system database:
 
@@ -256,8 +262,10 @@ Update the shared system database:
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+::
+
+    # cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt
+    # cp /root/ipa.crt /etc/ipa/ca.crt
 
 Restart the world
 
@@ -280,8 +288,10 @@ Update the Apache NSS database:
 
 Update the LDAP server instances:
 
-| ``# certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
-| ``# certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt``
+::
+
+    # certutil -A -d /etc/dirsrv/slapd-REALM -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
+    # certutil -A -d /etc/dirsrv/slapd-PKI-IPA -n 'EXAMPLE.COM IPA CA' -t CT,C,C -a -i /root/ipa.crt
 
 Update the shared system database:
 
@@ -289,8 +299,10 @@ Update the shared system database:
 
 Update the CA in the filesystem:
 
-| ``# cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt``
-| ``# cp /root/ipa.crt /etc/ipa/ca.crt``
+::
+
+    # cat /root/ipa.crt /root/external-ca.pem >/usr/share/ipa/html/ca.crt
+    # cp /root/ipa.crt /etc/ipa/ca.crt
 
 Restart the world
 

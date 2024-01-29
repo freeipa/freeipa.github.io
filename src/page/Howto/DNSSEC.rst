@@ -26,25 +26,27 @@ Following command will install DNSSEC key master role to a replica. This
 command can be run on FreeIPA server which is already configured as
 FreeIPA DNS server:
 
-| ``# ipa-dns-install --dnssec-master``
-| ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-| ``==============================================================================``
-| ``This program will setup DNS for the FreeIPA Server.``
-| ``This includes:``
-| ``  * Configure DNS (bind)``
-| ``  * Configure SoftHSM (required by DNSSEC)``
-| ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-| ``  * Configure ipa-ods-exporter (required by DNSSEC key master)``
-| ``  * Configure OpenDNSSEC (required by DNSSEC key master)``
-| ``  * Generate DNSSEC master key (required by DNSSEC key master)``
-| ``NOTE: DNSSEC zone signing is not enabled by default``
-| ``DNSSEC support is experimental!``
-| ``Plan carefully, current version doesn't allow you to move DNSSEC``
-| ``key master to different server and master cannot be uninstalled``
-| ``To accept the default shown in brackets, press the Enter key.``
+::
+
+    # ipa-dns-install --dnssec-master
+    The log file for this installation can be found in /var/log/ipaserver-install.log
+    ==============================================================================
+    This program will setup DNS for the FreeIPA Server.
+    This includes:
+      * Configure DNS (bind)
+      * Configure SoftHSM (required by DNSSEC)
+      * Configure ipa-dnskeysyncd (required by DNSSEC)
+      * Configure ipa-ods-exporter (required by DNSSEC key master)
+      * Configure OpenDNSSEC (required by DNSSEC key master)
+      * Generate DNSSEC master key (required by DNSSEC key master)
+    NOTE: DNSSEC zone signing is not enabled by default
+    DNSSEC support is experimental!
+    Plan carefully, current version doesn't allow you to move DNSSEC
+    key master to different server and master cannot be uninstalled
+    To accept the default shown in brackets, press the Enter key.
 | **``Do``\ ````\ ``you``\ ````\ ``want``\ ````\ ``to``\ ````\ ``setup``\ ````\ ``this``\ ````\ ``IPA``\ ````\ ``server``\ ````\ ``as``\ ````\ ``DNSSEC``\ ````\ ``key``\ ````\ ``master?``\ ````\ ``[no]:``\ ````\ ``yes``**
-| ``Existing BIND configuration detected, overwrite? [no]: yes``
-| ``...``
+    Existing BIND configuration detected, overwrite? [no]: yes
+    ...
 
 Please verify the file *kasp.xml* (*/etc/opendnssec/kasp.xml*) if it
 satisfies your DNSSEC configuration requirements.
@@ -89,8 +91,10 @@ Add a zone to be signed
 
 or
 
-| ``ipa dnszone-add example.test.``
-| ``ipa dnszone-mod --dnssec=true``
+::
+
+    ipa dnszone-add example.test.
+    ipa dnszone-mod --dnssec=true
 
 
 
@@ -101,17 +105,19 @@ Verify using *dig* utility if answer contains RRSIG record. This may
 take a few minutes until proper key are distributed to all replicas in
 topology.
 
-| ``$ dig @server.ipa.test. +dnssec example.test. SOA``
-| ``;; Got answer:``
-| ``;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41379``
-| ``;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 3, ADDITIONAL: 2``
-| ``;; OPT PSEUDOSECTION:``
-| ``; EDNS: version: 0, flags: do; udp: 4096``
-| ``;; QUESTION SECTION:``
-| ``;example.test.         IN  SOA``
-| ``;; ANSWER SECTION:``
-| ``example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600``
-| ``example.test.      86400   IN  ``\ **``RRSIG``**\ ``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...``
+::
+
+    $ dig @server.ipa.test. +dnssec example.test. SOA
+    ;; Got answer:
+    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41379
+    ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 3, ADDITIONAL: 2
+    ;; OPT PSEUDOSECTION:
+    ; EDNS: version: 0, flags: do; udp: 4096
+    ;; QUESTION SECTION:
+    ;example.test.         IN  SOA
+    ;; ANSWER SECTION:
+    example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600
+    example.test.      86400   IN  ``\ **``RRSIG``**\ ``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...
 
 
 
@@ -164,9 +170,11 @@ Get the DS record
 The DS record of the zone, has to be uploaded to parent zone, otherwise
 chain of trust can not be completed.
 
-| ``$ dig example.test. DNSKEY > dnskey.txt``
-| ``$ dnssec-dsfromkey -f dnskey.txt -2 example.test``
-| ``example.test. IN DS ``\ **``60466``**\ `` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956``
+::
+
+    $ dig example.test. DNSKEY > dnskey.txt
+    $ dnssec-dsfromkey -f dnskey.txt -2 example.test
+    example.test. IN DS ``\ **``60466``**\ `` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956
 
 Output of the *dnssec-dsfromkey* is the DS record for zone
 *example.test.*, which has to be uploaded to parent zone, e.g. *test.*.
@@ -273,20 +281,24 @@ point to the chain of trust from root zone to all other zones.
 
 Get the KSK key of your root zone:
 
-| ``$ dig @localhost  . DNSKEY``
-| ``...``
-| ``;; QUESTION SECTION:``
-| ``;.             IN  DNSKEY``
-| ``;; ANSWER SECTION:``
-| ``.          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...``
+::
+
+    $ dig @localhost  . DNSKEY
+    ...
+    ;; QUESTION SECTION:
+    ;.             IN  DNSKEY
+    ;; ANSWER SECTION:
+    .          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...
 | **``.``\ ````\ ``86400``\ ````\ ``IN``\ ````\ ``DNSKEY``\ ````\ ``257``\ ````\ ``3``\ ````\ ``8``\ ````\ ``AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT``\ ````\ ``JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X``\ ````\ ``AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD``\ ````\ ``qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P``\ ````\ ``a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l``\ ````\ ``Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt``\ ````\ ``Fcs8Xgl7E1s=``**
-| ``...``
+    ...
 
 Put your root zone KSK (denoted by flag value **257**) into
 *trusted-key.key* file on all DNSSEC clients:
 
-| ``$ cat /etc/trusted-key.key``
-| ``.          86400   IN  DNSKEY  257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s=``
+::
+
+    $ cat /etc/trusted-key.key
+    .          86400   IN  DNSKEY  257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s=
 
 
 

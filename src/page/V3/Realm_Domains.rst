@@ -40,12 +40,14 @@ Update LDAP schema to add the **``Realm``\ ````\ ``Domains``**
 container. The default value for **``associatedDomain``** attribute will
 be the DNS domain of the IPA server:
 
-| ``dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX``
-| ``default:objectClass: domainRelatedObject``
-| ``default:objectClass: nsContainer``
-| ``default:objectClass: top``
-| ``default:cn: Realm Domains``
-| ``default:associatedDomain: $DOMAIN``
+::
+
+    dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX
+    default:objectClass: domainRelatedObject
+    default:objectClass: nsContainer
+    default:objectClass: top
+    default:cn: Realm Domains
+    default:associatedDomain: $DOMAIN
 
 Add two new IPA commands:
 
@@ -154,12 +156,14 @@ following contents:
 
 ``# Add the Realm Domains container``
 
-| ``dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX``
-| ``default:objectClass: domainRelatedObject``
-| ``default:objectClass: nsContainer``
-| ``default:objectClass: top``
-| ``default:cn: Realm Domains``
-| ``default:associatedDomain: $DOMAIN``
+::
+
+    dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX
+    default:objectClass: domainRelatedObject
+    default:objectClass: nsContainer
+    default:objectClass: top
+    default:cn: Realm Domains
+    default:associatedDomain: $DOMAIN
 
 and referencing this file in ``install/updates/Makefile.am``.
 

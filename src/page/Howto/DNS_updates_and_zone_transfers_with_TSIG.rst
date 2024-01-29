@@ -19,25 +19,31 @@ TSIG key configuration
 Generate a new TSIG key
 ----------------------------------------------------------------------------------------------
 
-| ``$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname``
-| ``Kkeyname.+165+03160``
+::
+
+    $ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname
+    Kkeyname.+165+03160
 
 
 
 Copy and paste key from key file to named.conf
 ----------------------------------------------------------------------------------------------
 
-| ``$ cat Kkeyname.+165+0316.private``
-| ``Private-key-format: v1.3``
-| ``Algorithm: 165 (HMAC_SHA512)``
-| ``Key: keyvalue``
-| ``Bits: AAA=``
+::
 
-| ``$ vim /etc/named.conf``
-| ``key "keyname" {``
-| ``       algorithm hmac-sha512;``
-| ``       secret "keyvalue";``
-| ``};``
+    $ cat Kkeyname.+165+0316.private
+    Private-key-format: v1.3
+    Algorithm: 165 (HMAC_SHA512)
+    Key: keyvalue
+    Bits: AAA=
+
+::
+
+    $ vim /etc/named.conf
+    key "keyname" {
+           algorithm hmac-sha512;
+           secret "keyvalue";
+    };
 
 You have to repeat this copy&paste step for every FreeIPA server.
 
@@ -90,14 +96,16 @@ IP addresses. You have to modify LDAP directly.
 
 Run this on one of FreeIPA servers:
 
-| ``$ kinit admin``
-| ``$ ldapmodify -Y GSSAPI << EOF``
-| ``dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example``
-| ``changetype: modify``
-| ``replace: idnsAllowTransfer``
-| ``idnsAllowTransfer: key keyname;``
-| ``-``
-| ``EOF``
+::
+
+    $ kinit admin
+    $ ldapmodify -Y GSSAPI << EOF
+    dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example
+    changetype: modify
+    replace: idnsAllowTransfer
+    idnsAllowTransfer: key keyname;
+    -
+    EOF
 
 Don't forget to replace zone name in ``idnsname`` component of DN and
 realm name in ``dc=ipa,dc=example`` components.

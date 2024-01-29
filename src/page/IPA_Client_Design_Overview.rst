@@ -1132,40 +1132,42 @@ The following tree gives a high level overview of the LDB organizational
 structure. This is an example only and subject to change as we work more
 on the different aspects of the system:
 
-| ``  cn=config``
-| ``       cn=daemons``
-| ``          cn=InfoPipe``
-| ``               ... data related to InfoPipe configuration ``
-| ``               This hive is populated at the install time with the default values.``
-| ``              This area is controlled by InfoPipe.``
-| ``  ``
-| ``       cn=services``
-| ``            ... list of services the Service Controller needs to control.``
-| ``            This hive is populated at the install time with the list of services currently installed.``
-| ``  ``
-| ``       ...``
-| ``  cn=local``
-| ``       ... Local accounts information. See the discussion about the authoritative source of this information earlier on this page.``
-| ``  ``
-| ``  cn=remote``
-| ``       cn=IPA``
-| ``             cn=``
-| ``                  cn=accounts``
-| ``                       cn=users``
-| ``                       cn=groups``
-| ``                       ... And other information taken from IPA in the same format``
-| ``                  cn=policies``
-| ``                       ... Area where centrally downloaded policies for other applications (like applications leveraging Policy Kit) are stored.``
-| ``                  cn=client``
-| ``                       ... different communication timeouts, default ports, cache lifetime, default server name,  ``
-| ``                       default failover, paths to machine credentials in FS, configuration about what server side entry defines the layout of the data on the server ``
-| ``                       (this is needed to be able to change server DIT without updating client) etc. ``
-| ``                       This hive is populated at the install time with the default values.``
-| ``                       There will be a policy downloadable from IPA to overwrite the values ``
-| ``                  cn=audit``
-| ``                        ... policies that control audit.``
-| ``                        This hive is populated at the install time with the default values.``
-| ``                        There will be a policy downloadable from IPA to overwrite the values ``
+::
+
+      cn=config
+           cn=daemons
+              cn=InfoPipe
+                   ... data related to InfoPipe configuration
+                   This hive is populated at the install time with the default values.
+                  This area is controlled by InfoPipe.
+    
+           cn=services
+                ... list of services the Service Controller needs to control.
+                This hive is populated at the install time with the list of services currently installed.
+    
+           ...
+      cn=local
+           ... Local accounts information. See the discussion about the authoritative source of this information earlier on this page.
+    
+      cn=remote
+           cn=IPA
+                 cn=
+                      cn=accounts
+                           cn=users
+                           cn=groups
+                           ... And other information taken from IPA in the same format
+                      cn=policies
+                           ... Area where centrally downloaded policies for other applications (like applications leveraging Policy Kit) are stored.
+                      cn=client
+                           ... different communication timeouts, default ports, cache lifetime, default server name,
+                           default failover, paths to machine credentials in FS, configuration about what server side entry defines the layout of the data on the server
+                           (this is needed to be able to change server DIT without updating client) etc.
+                           This hive is populated at the install time with the default values.
+                           There will be a policy downloadable from IPA to overwrite the values
+                      cn=audit
+                            ... policies that control audit.
+                            This hive is populated at the install time with the default values.
+                            There will be a policy downloadable from IPA to overwrite the values
 
 In future the schema might be extended to have cn=AD, cn=SQL or other
 sources of remote information on the same level as cn=IPA. v2 only

@@ -67,7 +67,7 @@ using following command:
    . . .
     Allow query: any;
     Allow transfer: none;
-   | `` ``\ **``Allow``\ ````\ ``in-line``\ ````\ ``DNSSEC``\ ````\ ``signing:``\ ````\ ``TRUE``**
+    Allow  in-line  DNSSEC  signing:  TRUE
 
 or
 

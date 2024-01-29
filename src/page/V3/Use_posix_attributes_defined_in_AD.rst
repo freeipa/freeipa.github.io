@@ -110,10 +110,10 @@ Information on the can be obtained conducting the following ldapsearch:
    objectCategory: CN=msSFU-30-Domain-Info,CN=Schema,CN=Configuration,DC=idm,DC=com
    dSCorePropagationData: 16010101000000.0Z
    msSFU30MasterServerName: tbad
-   | **``msSFU30OrderNumber: 10000``
+   msSFU30OrderNumber: 10000
    msSFU30Domains: idm
-   | **``msSFU30MaxGidNumber: 10001``
-   | **``msSFU30MaxUidNumber: 10002``
+   msSFU30MaxGidNumber: 10001
+   msSFU30MaxUidNumber: 10002
 
 
 

@@ -1025,14 +1025,14 @@ Servers LDAP structure
     objectclass: nsContainer
     objectclass: ipaSupportedDomainLevelConfig
     objectclass: ipaReplTopoManagedService
-| **``objectclass:``\ ````\ ``ipaLocationMember``**
+    objectclass: ipaLocationMember 
     cn: ipa-server.example.com
     ipaMaxDomainLevel: 1
     ipaMinDomainLevel: 0
     ipaReplTopoManagedSuffix: o=ipaca
     ipaReplTopoManagedSuffix: $SUFFIX
-| **``ipaLocation:``\ ````\ ``idnsName=prague,cn=locations,cn=etc,$SUFFIX``**
-| **``ipaLocationWeight:``\ ````\ ``100``**
+    ipaLocation: idnsName=prague,cn=locations,cn=etc,$SUFFIX 
+    ipaLocationWeight: 100 
 
 
 

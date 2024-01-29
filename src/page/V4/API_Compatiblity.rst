@@ -484,7 +484,7 @@ up-to-date API schema after server upgrade), use the
 
    $ ipa -v ``\ **``-e``\ ````\ ``force_schema_check=1``**\ `` ping
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
-   | **``ipa:``\ ````\ ``INFO:``\ ````\ ``Forwarding``\ ````\ ``'schema'``\ ````\ ``to``\ ````\ ``json``\ ````\ ``server``\ ````\ ``'https://ipa.example.com/ipa/session/json'``**
+       ipa: INFO: Forwarding 'schema' to json server 'https://ipa.example.com/ipa/session/json' 
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
    ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'
    -------------------------------------------------------------------

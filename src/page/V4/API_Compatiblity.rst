@@ -131,7 +131,7 @@ Backward compatibility with old servers
 ----------------------------------------------------------------------------------------------
 
 The interface definitions for old API versions are bundled in
-``ipaclient.remote_plugins.compat.``\ *``major``*\ ``_``\ *``minor``*
+``ipaclient.remote_plugins.compat.major``*\ ``_minor``* 
 Python packages. They look like normal command and object plugin
 definitions, except they contain no code, only parameter definitions.
 

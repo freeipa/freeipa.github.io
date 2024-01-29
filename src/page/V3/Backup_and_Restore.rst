@@ -726,7 +726,7 @@ General test outline
 -  Do a LDAP search for ``uid=admin,cn=users,cn=accounts,$SUFFIX``. Note
    the result.
 -  Verify that the commands ``ipa user-show admin``, ``id admin``,
-   ``ipa cert-find``, ``host``\ *``$HOSTNAME``*\ ``localhost``,
+    ``ipa cert-find``, ``host$HOSTNAME``*\ ``localhost``, 
    ``kinit admin`` work. This checks basic functionality of IPA client,
    PAM, CA, DNS and Kerberos. Note the output of these commands
 -  (Do backup & restore)
@@ -745,7 +745,7 @@ The "Do backup & restore" steps are:
 
 -  ``ipa-backup -v``
 -  Uninstall server
--  ``ipa-restore``\ *``$BACKUP_PATH``*
+- ``ipa-restore$BACKUP_PATH``* 
 
 
 
@@ -759,7 +759,7 @@ The "Do backup & restore" steps are:
 -  Remove users ``dirsrv`` and ``pkiuser``
 -  Add system user ``ipatest_user1`` (to claim the UID of a removed
    user)
--  ``ipa-restore``\ *``$BACKUP_PATH``*
+- ``ipa-restore$BACKUP_PATH``* 
 
 At the end of the test, remove user ``ipatest_user1``
 
@@ -774,7 +774,7 @@ The "Do backup & restore" steps are:
 -  Uninstall server
 -  Turn SELinux booleans ``httpd_can_network_connect`` and
    ``httpd_manage_ipa`` off
--  ``ipa-restore``\ *``$BACKUP_PATH``*
+- ``ipa-restore$BACKUP_PATH``* 
 
 After restoring, check that the above booleans are on.
 

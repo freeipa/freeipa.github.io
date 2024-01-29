@@ -89,10 +89,10 @@ work. However in non-standard DNS setup or missing zone delegations,
 cases the exported file must be amended by following options (at the
 beginning of the file):
 
--  ``server``\ *``servername``*\ ``[``\ *``por``*\ ``t]`` where
+- ``serverservername``*\ ``[por``*\ ``t]`` where 
    *servername* is an authoritative DNS server where records should be
    sent
--  ``zone``\ *``zonename``* where *zonename* is zone where FreeIPA
+- ``zonezonename``* where *zonename* is zone where FreeIPA 
    records should be placed
 
 Example:

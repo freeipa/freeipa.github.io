@@ -79,7 +79,7 @@ Multivalued --memberof
 ----------------------------------------------------------------------------------------------
 
 Currently the ``--memberof`` option of ``permission-mod`` sets the
-targetfilter to ``(memberof=``\ *``groupname``*\ ``)``.
+targetfilter to ``(memberof=groupname``*\ ``)``. 
 
 The option will become multi-valued, and it will no longer conflict with
 the ``--filter`` option.
@@ -100,7 +100,7 @@ corresponding memberof output items.
 
 Currently the ``--type`` option sets the ACI location to the appropriate
 container DN, and the target to a wildcard DN:
-*``uid_attr``*\ ``=*,``\ *``container_dn``*.
+*``uid_attr``*\ ``=*,container_dn``*. 
 
 Instead of setting the target, the option will now set the target filter
 to ``(objectclass=...)`` (or possibly, multiple such filters).

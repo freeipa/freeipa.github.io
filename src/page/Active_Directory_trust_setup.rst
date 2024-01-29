@@ -106,7 +106,7 @@ server is ``10.16.78.61``, the command:
 
 ::
 
-     ``C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address``* 
+     C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address
 
 should look like this:
 
@@ -142,7 +142,7 @@ Configure host name
 -------------------
 ::
 
-    ``# hostnamectl set-hostname ipa_hostname``* 
+    # hostnamectl set-hostname ipa_hostname
 
 
 
@@ -348,14 +348,14 @@ On AD DC, add conditional forwarder for IPA domain:
 
 ::
 
-     ``C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address``* 
+     C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address
 
 On IPA server, add conditional forwarder for AD domain. The command in
 IPA version 3 and 4 are different.
 
 -  IPA v3.x:
 
-``# ipa dnszone-add ad_domain --name-server=ad_hostname.ad_domain --admin-email='hostmaster@ad_domain' --force --forwarder=ad_ip_address --forward-policy=only --ip-address=ad_ip_address``* 
+# ipa dnszone-add ad_domain --name-server=ad_hostname.ad_domain --admin-email='hostmaster@ad_domain' --force --forwarder=ad_ip_address --forward-policy=only --ip-address=ad_ip_address
 
 -  IPA v4.x:
 
@@ -392,12 +392,12 @@ To do this, first explicitly allow the transfer of the zone on IPA
 server:
 ::
 
-     ``# ipa dnszone-mod ipa_domain --allow-transfer=ad_ip_address``* 
+     # ipa dnszone-mod ipa_domain --allow-transfer=ad_ip_address
 
 And second, add the DNS zone for the IPA domain on the AD DC:
 ::
 
-     ``C:\> dnscmd 127 0.0.1 /ZoneAdd ipa_domain /Secondary ipa_ip_address``* 
+     C:\> dnscmd 127 0.0.1 /ZoneAdd ipa_domain /Secondary ipa_ip_address
 
 
 

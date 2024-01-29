@@ -412,8 +412,8 @@ On AD DC, add an A record and a NS record for the IPA domain:
 
 ::
 
-   | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address``*
-   | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*
+   C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address
+   C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain
 
 
 
@@ -699,7 +699,7 @@ following Apache configuration is needed:
       KrbMethodNegotiate on
       KrbMethodK5Passwd on
       KrbServiceName HTTP
-   | ``   KrbAuthRealms ``\ *``IPA_DOMAIN``*
+      KrbAuthRealms ``\ *``IPA_DOMAIN
       Krb5Keytab /etc/httpd/conf/ipa.keytab
       KrbSaveCredentials off
       Require valid-user

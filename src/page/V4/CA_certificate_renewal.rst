@@ -69,7 +69,7 @@ CA certificates will be stored in entries under
 
 ::
 
-   | ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
+   dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix
    objectClass: ipaCertificate
    objectClass: pkiCA
    objectClass: ipaKeyPolicy
@@ -77,11 +77,11 @@ CA certificates will be stored in entries under
    ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM
    ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1
    ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22
-   | ``ipaPublicKey: ``\ *``DER-encoded public key``*
+   ipaPublicKey: ``\ *``DER-encoded public key
    ipaConfigString: ipaCA
    ipaConfigString: compatCA
-   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
-   | ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
+   cACertificate;binary:: ``\ *``DER-encoded certificate 1
+   cACertificate;binary:: ``\ *``DER-encoded certificate 2
    ipaKeyTrust: trusted
    ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1
    ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2

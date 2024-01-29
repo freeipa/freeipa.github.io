@@ -369,8 +369,8 @@ guest image in virtual machine.
 -  [3.8] Need to provide a way for customers to define scripts to be run
    when certain actions are performed.
 
-| **This work is core and planned.**
-| **3.6 is deferred (if not dropped)**
+This work is core and planned. 
+3.6 is deferred (if not dropped) 
 
 4. Kerberos
 -----------
@@ -439,7 +439,7 @@ guest image in virtual machine.
 -  [5.5] It should be possible to store Certificates and key material in
    either flat files or an NSS database
 
-| **Planned. Accomplished mostly by the CS team.**
+Planned. Accomplished mostly by the CS team. 
 | **No plans to support CRL checking by the client components that
   connect to the server using SSL (XML-RPC, audit). We are considering
   mechanism to dirstibute cert needed for this using DS and LDAP

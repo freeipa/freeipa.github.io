@@ -105,8 +105,8 @@ check it by running the following command as root:
 **--with-ldap** --with-passprompt=[sudo] password for %p:
 --with-tty-tickets
 
-| **``ldap.conf``\ ````\ ``path:``\ ````\ ``/etc/ldap.conf``**
-| **``ldap.secret``\ ````\ ``path:``\ ````\ ``/etc/ldap.secret``**
+ldap.conf path: /etc/ldap.conf 
+ldap.secret path: /etc/ldap.secret 
 
 
 

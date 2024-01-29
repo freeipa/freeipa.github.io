@@ -89,8 +89,8 @@ Modifications can be performed in several ways:
 -  To replace the list of realm domains with a new list (or a single
    value):
 
-| **``realmdomains-mod``\ ````\ ``--domain=ourdomain.com``**
-| **``realmdomains-mod``\ ````\ ``--domain={ourdomain.com,domain2.com,domain3.com}``**
+realmdomains-mod --domain=ourdomain.com 
+realmdomains-mod --domain={ourdomain.com,domain2.com,domain3.com} 
 
 -  To add a domain to the list:
 

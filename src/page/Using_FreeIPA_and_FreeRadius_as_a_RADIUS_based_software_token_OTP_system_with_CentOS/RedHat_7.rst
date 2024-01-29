@@ -448,7 +448,7 @@ start it:
 ::
 
     Listening on proxy address * port 35327
-| **``Ready``\ ````\ ``to``\ ````\ ``process``\ ````\ ``requests``**
+    Ready to process requests 
     ^C
     [root@ipa ~]# systemctl enable radiusd
     ln -s '/usr/lib/systemd/system/radiusd.service' '/etc/systemd/system/multi-user.target.wants/radiusd.service'

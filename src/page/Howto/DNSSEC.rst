@@ -44,7 +44,7 @@ FreeIPA DNS server:
     Plan carefully, current version doesn't allow you to move DNSSEC
     key master to different server and master cannot be uninstalled
     To accept the default shown in brackets, press the Enter key.
-| **``Do``\ ````\ ``you``\ ````\ ``want``\ ````\ ``to``\ ````\ ``setup``\ ````\ ``this``\ ````\ ``IPA``\ ````\ ``server``\ ````\ ``as``\ ````\ ``DNSSEC``\ ````\ ``key``\ ````\ ``master?``\ ````\ ``[no]:``\ ````\ ``yes``**
+    Do you want to setup this IPA server as DNSSEC key master? [no]: yes 
     Existing BIND configuration detected, overwrite? [no]: yes
     ...
 
@@ -289,7 +289,7 @@ Get the KSK key of your root zone:
     ;.             IN  DNSKEY
     ;; ANSWER SECTION:
     .          86400   IN  DNSKEY  256 3 8 AwEAAdsQWj6AM8dVdvgRPw87DaSWRa2w7oknABSepVwhDlOLpxicOS+n ...
-| **``.``\ ````\ ``86400``\ ````\ ``IN``\ ````\ ``DNSKEY``\ ````\ ``257``\ ````\ ``3``\ ````\ ``8``\ ````\ ``AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT``\ ````\ ``JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X``\ ````\ ``AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD``\ ````\ ``qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P``\ ````\ ``a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l``\ ````\ ``Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt``\ ````\ ``Fcs8Xgl7E1s=``**
+    . 86400 IN DNSKEY 257 3 8 AwEAAdsNYeNTZMVgvWYAEIv+w0PujAmWtcSF15rvsPP25X2lFkgIg+QT JLqHzaughLdjduMUCGJwLfG7O4IUIIhqApwLAbQ+GYfrRSaETPPc9z/X AGtqiOn/EYj3BcO95wJPcubXxOukHrXcZ/Pt153EkMHyBGTHcsYDA1rD qwN5S+IY4PxlhilSth0e427bSJx18huQogR/O0iu6hkKNoFUAflG697P a88FJMwL0l6BSJR3WCi/lT0HuX4c4nNKpolaJX3dJoZphGiCsFRmZ67l Vswrk88vkVKeD4JLZAq5wJd78IFO8Jd0gSwQY5Q0LxnArcl2yn1d2uSt Fcs8Xgl7E1s= 
     ...
 
 Put your root zone KSK (denoted by flag value **257**) into

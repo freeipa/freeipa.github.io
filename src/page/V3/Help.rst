@@ -54,7 +54,7 @@ Design
 
 -  When a command has the same name as a topic (for example, ``ping``),
     ``ipa helpping``* gives the topic help, and 
-    ``ipaping``*\ ``--help`` gives the command help. 
+     ``ipaping--help`` gives the command help. 
 
 -  The output of ``ipa help help`` (and ``ipa help --help``) makes it
    clear that ``ipa help`` accepts both topics and commands.

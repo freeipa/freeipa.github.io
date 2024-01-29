@@ -106,7 +106,7 @@ server is ``10.16.78.61``, the command:
 
 ::
 
-    ``C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain``*\ `` /Forwarder ipa_ip_address``* 
+     ``C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address``* 
 
 should look like this:
 
@@ -149,7 +149,7 @@ Configure host name
 Install IPA server
 ------------------
 
-``# ipa-server-install -a mypassword1 -p mypassword2 --domain=ipa_domain``*\ `` --realm=IPA_DOMAIN``*\ `` --setup-dns --no-forwarders -U`` 
+``# ipa-server-install -a mypassword1 -p mypassword2 --domain=ipa_domain --realm=IPA_DOMAIN --setup-dns --no-forwarders -U`` 
 
 
 
@@ -182,7 +182,7 @@ above commands fail, restart the ``sssd`` service
 Configure IPA server for cross-forest trusts
 --------------------------------------------
 
-``# ipa-adtrust-install --netbios-name=ipa_netbios``*\ `` -a mypassword1`` 
+``# ipa-adtrust-install --netbios-name=ipa_netbios -a mypassword1`` 
 
 When planning access of AD users to IPA clients, make sure to run
 ipa-adtrust-install on every IPA master these IPA clients will be
@@ -308,7 +308,7 @@ properly, here is a sample configuration.
     -A INPUT -p icmp -j ACCEPT
     -A INPUT -i lo -j ACCEPT
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
-     # -A INPUT -s ad_ip_address``*\ `` -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT 
+      # -A INPUT -s ad_ip_address -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT 
     -A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT
     -A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT
     -A INPUT -p udp -j REJECT
@@ -348,18 +348,18 @@ On AD DC, add conditional forwarder for IPA domain:
 
 ::
 
-    ``C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain``*\ `` /Forwarder ipa_ip_address``* 
+     ``C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address``* 
 
 On IPA server, add conditional forwarder for AD domain. The command in
 IPA version 3 and 4 are different.
 
 -  IPA v3.x:
 
-``# ipa dnszone-add ad_domain``*\ `` --name-server=ad_hostname.ad_domain``*\ `` --admin-email='hostmaster@ad_domain``*\ ``' --force --forwarder=ad_ip_address``*\ `` --forward-policy=only --ip-address=ad_ip_address``* 
+``# ipa dnszone-add ad_domain --name-server=ad_hostname.ad_domain --admin-email='hostmaster@ad_domain' --force --forwarder=ad_ip_address --forward-policy=only --ip-address=ad_ip_address``* 
 
 -  IPA v4.x:
 
-``# ipa dnsforwardzone-add ad_domain``*\ `` --forwarder=ad_ip_address``*\ `` --forward-policy=only`` 
+``# ipa dnsforwardzone-add ad_domain --forwarder=ad_ip_address --forward-policy=only`` 
 
 
 
@@ -374,15 +374,15 @@ On IPA server, add an A record and a NS record for the AD domain:
 
 ::
 
-     # ipa dnsrecord-add ipa_domain``*\ `` ad_hostname``*\ ``.ad_netbios``*\ `` --a-ip-address=ad_ip_address``* 
-     # ipa dnsrecord-add ipa_domain``*\ `` ad_netbios``*\ `` --ns-hostname=ad_hostname``*\ ``.ad_netbios``* 
+      # ipa dnsrecord-add ipa_domain ad_hostname.ad_netbios --a-ip-address=ad_ip_address``* 
+      # ipa dnsrecord-add ipa_domain ad_netbios --ns-hostname=ad_hostname.ad_netbios``* 
 
 On AD DC, there two options.
 
 The first one is to configure a global forwarder to forward DNS queries
 to the IPA domain:
 
-``C:\> dnscmd 127.0.0.1 /ResetForwarders ipa_ip_address``*\ `` /Slave`` 
+``C:\> dnscmd 127.0.0.1 /ResetForwarders ipa_ip_address /Slave`` 
 
 The second option is to configure a DNS zone for master-slave
 replication. The data for this zone will then be periodically copied
@@ -392,12 +392,12 @@ To do this, first explicitly allow the transfer of the zone on IPA
 server:
 ::
 
-    ``# ipa dnszone-mod ipa_domain``*\ `` --allow-transfer=ad_ip_address``* 
+     ``# ipa dnszone-mod ipa_domain --allow-transfer=ad_ip_address``* 
 
 And second, add the DNS zone for the IPA domain on the AD DC:
 ::
 
-    ``C:\> dnscmd 127 0.0.1 /ZoneAdd ipa_domain``*\ `` /Secondary ipa_ip_address``* 
+     ``C:\> dnscmd 127 0.0.1 /ZoneAdd ipa_domain /Secondary ipa_ip_address``* 
 
 
 
@@ -412,8 +412,8 @@ On AD DC, add an A record and a NS record for the IPA domain:
 
 ::
 
-    C:\> dnscmd 127.0.0.1 /RecordAdd ad_domain``*\ `` ipa_hostname``*\ ``.ipa_domain``*\ `` A ipa_ip_address 
-    C:\> dnscmd 127.0.0.1 /RecordAdd ad_domain``*\ `` ipa_domain``*\ `` NS ipa_hostname``*\ ``.ipa_domain 
+     C:\> dnscmd 127.0.0.1 /RecordAdd ad_domain ipa_hostname.ipa_domain A ipa_ip_address 
+     C:\> dnscmd 127.0.0.1 /RecordAdd ad_domain ipa_domain NS ipa_hostname.ipa_domain 
 
 
 
@@ -455,7 +455,7 @@ Add trust with AD domain
 When AD administrator credentials are available
 ----------------------------------------------------------------------------------------------
 
-``# ipa trust-add --type=ad ad_domain``*\ `` --admin Administrator --password`` 
+``# ipa trust-add --type=ad ad_domain --admin Administrator --password`` 
 
 Enter the Administrator's password when prompted. If everything was set
 up correctly, a trust with AD domain will be established.
@@ -558,9 +558,9 @@ to see AD users:
 ::
 
     [realms]
-    IPA_DOMAIN``*\ `` = {
+     IPA_DOMAIN = { 
     ....
-       auth_to_local = RULE:[1:$1@$0](^.*@AD_DOMAIN``*\ ``$)s/@AD_DOMAIN``*\ ``/@ad_domain``*\ ``/ 
+        auth_to_local = RULE:[1:$1@$0](^.*@AD_DOMAIN$)s/@AD_DOMAIN/@ad_domain/ 
       auth_to_local = DEFAULT
     }
 
@@ -595,18 +595,18 @@ Create external and POSIX groups for trusted domain users
 
 Create external group in IPA for trusted domain admins:
 
-``# ipa group-add --desc='ad_domain``*\ `` admins external map' ad_admins_external --external`` 
+``# ipa group-add --desc='ad_domain admins external map' ad_admins_external --external`` 
 
 Create POSIX group for external ``ad_admins_external`` group:
 
-``# ipa group-add --desc='ad_domain``*\ `` admins' ad_admins`` 
+``# ipa group-add --desc='ad_domain admins' ad_admins`` 
 
 
 
 Add trusted domain users to the external group
 ----------------------------------------------------------------------------------------------
 
-``# ipa group-add-member ad_admins_external --external 'ad_netbios``*\ ``\Domain Admins'`` 
+``# ipa group-add-member ad_admins_external --external 'ad_netbios\Domain Admins'`` 
 
 When asked for member user and member group, just leave it blank and hit
 Enter.
@@ -655,13 +655,13 @@ To create a Samba share on IPA server:
 
     # net conf setparm 'share' 'comment' 'Trust test share'
     # net conf setparm 'share' 'read only' 'no'
-     # net conf setparm 'share' 'valid users' 'ad_admins_sid``*\ ``' 
-     # net conf setparm 'share' 'path' '/path/to/share``*\ ``' 
+      # net conf setparm 'share' 'valid users' 'ad_admins_sid' 
+      # net conf setparm 'share' 'path' '/path/to/share' 
 
 **NOTE**: To obtain the SID (Security Identifier) of the AD admins
 group, run:
 
-``# wbinfo -n 'ad_netbios``*\ ``\Domain Admins'`` 
+``# wbinfo -n 'ad_netbios\Domain Admins'`` 
 
 It is a string that looks like this:
 S-1-5-21-16904141-148189700-2149043814-512. ``wbinfo`` executable is

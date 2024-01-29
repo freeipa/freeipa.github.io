@@ -630,7 +630,7 @@ keytab on a client machine for the SSH service. The client machine is
       that it will work with Kerberos. You can use the **--force** flag
       to force the creation of a principal should this prove necessary.
 
-   -  The **ipa-getkeytab** command is part of the **``ipa-client``**
+   -  The **ipa-getkeytab** command is part of the ``ipa-client``\ 
       package, which is only available for clients running Red Hat
       Enterprise Linux 4 or 5, Fedora 7, 8, or 9. For other clients, you
       need to use this procedure on the server and manually copy the

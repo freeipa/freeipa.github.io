@@ -29,10 +29,10 @@ IPv6 sockets for listening because IPv4 and IPv6 share the same port
 range locally. FreeIPA uses Samba as part of its Active Directory
 integration and Samba **requires enabled IPv6 stack** on the machine.
 
-Adding **``ipv6.disable=1``** to the kernel command line disables the
+Adding ``ipv6.disable=1``\  to the kernel command line disables the
 whole IPv6 stack
 
-Adding **``ipv6.disable_ipv6=1``** will keep the IPv6 stack functional
+Adding ``ipv6.disable_ipv6=1``\  will keep the IPv6 stack functional
 but will not assign IPv6 addresses to any of your network devices. This
 is recommended approach for cases when you don't use IPv6 networking.
 

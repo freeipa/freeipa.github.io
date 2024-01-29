@@ -485,13 +485,13 @@ either supplied interactively:
 
 ::
 
-   ``$ ansible-playbook -i inventory/hosts ``\ **``--ask-vault-pass``**\ `` install.yml``
+   ``$ ansible-playbook -i inventory/hosts --ask-vault-pass``**\ `` install.yml``
 
 or provided in a file:
 
 ::
 
-   ``$ ansible-playbook -in inventory/hosts ``\ **``--vault-password-file``\ ````\ ``~/.vault_pass.txt``**\ `` install.yml``
+   ``$ ansible-playbook -in inventory/hosts --vault-password-file``\ ````\ ``~/.vault_pass.txt``**\ `` install.yml``
 
 
 
@@ -514,7 +514,7 @@ configure IPA with the OTP password just obtained.
         ipahost:
           state: present
           principal: "{{ ipaserver_principal }}"
-          ``\ **``keytab:``**\ `` "{{ ipaserver_keytab }}"
+          keytab:``**\ `` "{{ ipaserver_keytab }}"
           fqdn: "{{ ansible_fqdn }}"
           random: True
         register: ipahost_output
@@ -524,7 +524,7 @@ configure IPA with the OTP password just obtained.
           state: present
           domain: "{{ ipaclient_domain }}"
           realm: "{{ ipaclient_realm }}"
-          ``\ **``otp:``**\ `` "{{ ipahost_output.host.randompassword }}"
+          otp:``**\ `` "{{ ipahost_output.host.randompassword }}"
           extra_args: "{{ ipaclient_extraargs }}"
 
 Call the playbook
@@ -540,7 +540,7 @@ password instead of the admin keytab:
         ipahost:
           state: present
           principal: "{{ ipaserver_principal }}"
-          ``\ **``password:``**\ `` "{{ ipaserver_password }}"
+          password:``**\ `` "{{ ipaserver_password }}"
           fqdn: "{{ ansible_fqdn }}"
           random: True
         register: ipahost_output

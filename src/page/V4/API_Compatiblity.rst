@@ -232,10 +232,10 @@ against old server:
 ::
 
     client$ rpm -q freeipa-client
-    freeipa-client-``\ **``4.4.1``**\ ``-1.fc25.x86_64
+    freeipa-client-4.4.1``**\ ``-1.fc25.x86_64
     client$ ipa ping
     ------------------------------------------
-    IPA server version ``\ **``3.0.0``**\ ``. API version 2.49
+    IPA server version 3.0.0``**\ ``. API version 2.49
     ------------------------------------------
 
 On clients without this feature, this would fail:
@@ -243,7 +243,7 @@ On clients without this feature, this would fail:
 ::
 
     client$ rpm -q freeipa-client
-    freeipa-client-``\ **``4.3.2``**\ ``-2.fc24.x86_64
+    freeipa-client-4.3.2``**\ ``-2.fc24.x86_64
     client$ ipa ping
     ipa: ERROR: 2.164 client incompatible with 2.49 server at 'https://ipa.example.com/ipa/xml'
 
@@ -264,7 +264,7 @@ default:
 
    client$ ipa -v  ping
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
-   ipa: INFO: Forwarding '``\ **``ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
+   ipa: INFO: Forwarding 'ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
    ------------------------------------------
    IPA server version 4.4.1. API version 2.212
    ------------------------------------------
@@ -275,7 +275,7 @@ It is possible to explicitly request a specific command version instead:
 
    client$ ipa -v  ping/1
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
-   ipa: INFO: Forwarding '``\ **``ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
+   ipa: INFO: Forwarding 'ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
    ------------------------------------------
    IPA server version 4.4.1. API version 2.212
    ------------------------------------------
@@ -286,8 +286,8 @@ Requesting an unknown version of a command will result in an error:
 
    client$ ipa -v  ping/2
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
-   ipa: INFO: Forwarding '``\ **``ping/2``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
-   ipa: ERROR: unknown command '``\ **``ping/2``**\ ``'
+   ipa: INFO: Forwarding 'ping/2``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
+   ipa: ERROR: unknown command 'ping/2``**\ ``'
 
 
 
@@ -482,7 +482,7 @@ up-to-date API schema after server upgrade), use the
 
 ::
 
-   $ ipa -v ``\ **``-e``\ ````\ ``force_schema_check=1``**\ `` ping
+   $ ipa -v -e``\ ````\ ``force_schema_check=1``**\ `` ping
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
        ipa: INFO: Forwarding 'schema' to json server 'https://ipa.example.com/ipa/session/json' 
    ipa: INFO: trying https://ipa.example.com/ipa/session/json

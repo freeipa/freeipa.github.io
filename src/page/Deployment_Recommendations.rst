@@ -61,7 +61,7 @@ FreeIPA domain can be placed in **any** DNS domain which does not
 directly overlap with any domain in Active Directory forest. It could
 be, for example, ``ipa.example.com``, if this DNS zone is not occupied
 by any other AD domain in the same forest. It could be
-``ipa.ad.example.com`` too, it could be ``example``\ **``.net``** as
+``ipa.ad.example.com`` too, it could be ``example.net``** as
 well -- as long as there are no overlaps on the same DNS zone level.
 
 The trust between two Active Directory forests is always established as
@@ -104,9 +104,9 @@ please follow these rules:
 -  The realm name should be upper-case (``EXAMPLE.COM``) version of
    primary DNS domain name (``example.com``).
 -  FreeIPA clients from multiple distinct DNS domains
-   (``example``\ **``.com``**, ``example``\ **``.net``**,
-   ``example``\ **``.org``**) can be joined to single Kerberos realm
-   (``EXAMPLE``\ **``.COM``**)
+   (``example.com``**, ``example.net``**,
+   ``example.org``**) can be joined to single Kerberos realm
+   (``EXAMPLE.COM``**)
 -  One FreeIPA installation always represents single Kerberos realm.
 
 

@@ -129,7 +129,7 @@ workflows
 
 ::
 
-   ``The main workflow allows  moves: ``\ *``stage``*\ `` ``\ **``-->``**\ `` ``\ *``active``*\ `` ``\ **``<-->``**\ `` ``\ *``delete``*
+   ``The main workflow allows  moves: ``\ *``stage``*\ `` -->``**\ `` ``\ *``active``*\ `` <-->``**\ `` ``\ *``delete``*
 
 -  stage -> active: The appropriate set of approvals are granted and a
    new comer is now fully operational in the organisation

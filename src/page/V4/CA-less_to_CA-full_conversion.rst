@@ -49,19 +49,19 @@ following has to be done:
 -  set ``enable_ra=True``, ``ra_plugin=dogtag`` and
    ``dogtag_version=10`` in ``/etc/ipa/default.conf``,
 -  put the new IPA CA certificate chain into the
-   ``/etc/dirsrv/slapd-``\ **``REALM``** NSS database,
+   ``/etc/dirsrv/slapd-REALM``** NSS database,
 -  put the old CA-less CA certificate into the
    ``/var/lib/pki/pki-tomcat/alias`` NSS database,
 -  restart DS, httpd and Dogtag.
 
 IPA assumes the following nicknames (and subject names) of CA-related
 certificates in the ``/etc/httpd/alias`` and
-``/etc/dirsrv/slapd-``\ **``REALM``** NSS databases:
+``/etc/dirsrv/slapd-REALM``** NSS databases:
 
 -  **``REALM``**\ ``IPA CA``
-   (``CN=Certificate Authority,``\ **``SUBJECT_BASE``**),
--  ``ipaCert`` (``CN=IPA RA,``\ **``SUBJECT_BASE``**),
--  ``Signing-Cert`` (``CN=Object Signing Cert,``\ **``SUBJECT_BASE``**).
+   (``CN=Certificate Authority,SUBJECT_BASE``**),
+-  ``ipaCert`` (``CN=IPA RA,SUBJECT_BASE``**),
+-  ``Signing-Cert`` (``CN=Object Signing Cert,SUBJECT_BASE``**).
 
 If any matching certificate is present prior to installing the CA,
 ``ipa-ca-install`` will refuse to continue.

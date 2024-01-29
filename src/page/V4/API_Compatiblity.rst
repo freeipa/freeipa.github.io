@@ -151,19 +151,21 @@ is used.
 
 In order to add new versions of a command, use the following pattern:
 
-| ``class MyCommandBase(Command):``
-| ``    # put param definitions common to both versions here``
-| ``    ...``
-| ``@register()``
-| ``class my_command(MyCommandBase):``
-| ``    # this is the current and main version of the command``
-| ``    version = '2'``
-| ``    ...``
-| ``@register()``
-| ``class my_command_1(MyCommandBase):``
-| ``    # this is the old compatibility version 1``
-| ``    name = 'my_command'``
-| ``    ...``
+::
+
+    class MyCommandBase(Command):
+        # put param definitions common to both versions here
+        ...
+    @register()
+    class my_command(MyCommandBase):
+        # this is the current and main version of the command
+        version = '2'
+        ...
+    @register()
+    class my_command_1(MyCommandBase):
+        # this is the old compatibility version 1
+        name = 'my_command'
+        ...
 
 
 
@@ -227,19 +229,23 @@ Backward compatibility with old servers
 The ``ipa`` command line tool will now work on new clients enrolled
 against old server:
 
-| ``client$ rpm -q freeipa-client``
-| ``freeipa-client-``\ **``4.4.1``**\ ``-1.fc25.x86_64``
-| ``client$ ipa ping``
-| ``------------------------------------------``
-| ``IPA server version ``\ **``3.0.0``**\ ``. API version 2.49``
-| ``------------------------------------------``
+::
+
+    client$ rpm -q freeipa-client
+    freeipa-client-``\ **``4.4.1``**\ ``-1.fc25.x86_64
+    client$ ipa ping
+    ------------------------------------------
+    IPA server version ``\ **``3.0.0``**\ ``. API version 2.49
+    ------------------------------------------
 
 On clients without this feature, this would fail:
 
-| ``client$ rpm -q freeipa-client``
-| ``freeipa-client-``\ **``4.3.2``**\ ``-2.fc24.x86_64``
-| ``client$ ipa ping``
-| ``ipa: ERROR: 2.164 client incompatible with 2.49 server at 'https://ipa.example.com/ipa/xml'``
+::
+
+    client$ rpm -q freeipa-client
+    freeipa-client-``\ **``4.3.2``**\ ``-2.fc24.x86_64
+    client$ ipa ping
+    ipa: ERROR: 2.164 client incompatible with 2.49 server at 'https://ipa.example.com/ipa/xml'
 
 
 
@@ -461,12 +467,14 @@ Caching
 API schema is cached on the client for an hour. During this interval,
 the client will not try to contact the server about the schema:
 
-| ``$ ipa -v ping``
-| ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-| ``ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'``
-| ``-------------------------------------------------------------------``
-| ``IPA server version 4.4.1. API version 2.212``
-| ``-------------------------------------------------------------------``
+::
+
+    $ ipa -v ping
+    ipa: INFO: trying https://ipa.example.com/ipa/session/json
+    ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'
+    -------------------------------------------------------------------
+    IPA server version 4.4.1. API version 2.212
+    -------------------------------------------------------------------
 
 To refresh the cache (e.g. if you want the client to immediately use an
 up-to-date API schema after server upgrade), use the

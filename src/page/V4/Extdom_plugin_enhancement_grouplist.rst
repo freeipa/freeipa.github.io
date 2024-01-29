@@ -108,11 +108,13 @@ The current request looks like this:
 
 Basically only a new request type must be added, e.g.
 
-| `` *    requestType ENUMERATED {``
-| `` *        simple (1),``
-| `` *        full (2)``
-| `` *        full_with_groups (3)``
-| `` *    },``
+::
+
+     *    requestType ENUMERATED {
+     *        simple (1),
+     *        full (2)
+     *        full_with_groups (3)
+     *    },
 
 But as mentioned before the LDAP_UNWILLING_TO_PERFORM error code is only
 send if there are issues with the inputType. The requestType is
@@ -201,16 +203,18 @@ is needed which returns OutputData
 
 as
 
-| ``PosixUser ::= SEQUENCE {``
-| ``   domain_name OCTET STRING,``
-| ``   user_name OCTET STRING,``
-| ``   uid INTEGER``
-| ``   gid INTEGER``
-| ``   gecos OCTET STRING,``
-| ``   home_directory OCTET STRING,``
-| ``   shell OCTET STRING,``
-| ``   grouplist GroupNameList``
-| ``}``
+::
+
+    PosixUser ::= SEQUENCE {
+       domain_name OCTET STRING,
+       user_name OCTET STRING,
+       uid INTEGER
+       gid INTEGER
+       gecos OCTET STRING,
+       home_directory OCTET STRING,
+       shell OCTET STRING,
+       grouplist GroupNameList
+    }
 
 ``GroupNameList ::= SEQUENCE OF groupname OCTET STRING``
 

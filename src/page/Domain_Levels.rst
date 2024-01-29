@@ -36,10 +36,12 @@ Increase domain level
 
 To increase domain level, please use the following command:
 
-| ``$ ipa ``\ **``domainlevel-set``**\ `` 1``
-| ``-----------------------``
-| ``Current domain level: 1``
-| ``-----------------------``
+::
+
+    $ ipa ``\ **``domainlevel-set``**\ `` 1
+    -----------------------
+    Current domain level: 1
+    -----------------------
 
 
 

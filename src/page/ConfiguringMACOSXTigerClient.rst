@@ -9,18 +9,24 @@ IPA Client Configuration
 setup
 -----
 
-| `` Follow this guide. I found the step-by-step description to be very useful.``
-| `` ``\ ```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx`` <http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx>`__
+::
 
-| `` Specifically for Kerberos Configuration , follow this. No changes.``
-| ``  ``\ ```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx`` <http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx>`__
-| `` ``
-| `` Specifically for LDAP Client Configuration, follow this.``
-| `` There are some changes, which are described below.``
-| ``  ``\ ```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx`` <http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx>`__
+     Follow this guide. I found the step-by-step description to be very useful.
+     ``\ ```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx`` <http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/default.aspx>`__
 
-| ``  PrimaryGroupID - use gidNumber attribute from LDAP``
-| ``  UniqueID - use uidNumber attribute from LDAP``
+::
+
+     Specifically for Kerberos Configuration , follow this. No changes.
+      ``\ ```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx`` <http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/kerberosauthentication.aspx>`__
+    
+     Specifically for LDAP Client Configuration, follow this.
+     There are some changes, which are described below.
+      ``\ ```http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx`` <http://clc.its.psu.edu/Labs/Mac/Resources/authdoc/ldapauthorization.aspx>`__
+
+::
+
+      PrimaryGroupID - use gidNumber attribute from LDAP
+      UniqueID - use uidNumber attribute from LDAP
 
 NTP
 ---
@@ -33,14 +39,18 @@ kinit
 
 -  Attempt to get a kerberos ticket.
 
-| ``   kinit admin``
-| ``   klist ( to verify )``
+::
+
+       kinit admin
+       klist ( to verify )
 
 ssh
 ---
 
-| `` if you have a valid kerberos ticket, ssh would proceed with GSSAPI``
-| `` auth without asking for a password.``
+::
+
+     if you have a valid kerberos ticket, ssh would proceed with GSSAPI
+     auth without asking for a password.
 
 -  ssh admin@ipaserver.example.com
 

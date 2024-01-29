@@ -99,15 +99,17 @@ It will also list the replicas which will be no longer connected to each
 other, use this information to add missing segments before finally
 deleting the replica
 
-| ``checking connectivity in topology suffix 'ipaca'``
-| ``WARNING: Removal of 'vm-110.abc.idm.lab.eng.brq.redhat.com' will lead to disconnected topology in suffix 'ipaca'``
-| ``Changes will not be replicated to all servers and data will become inconsistent.``
-| ``You need to add segments to prevent disconnection of the topology.``
-| ``Errors in topology after removal:``
-| ``Topology does not allow server vm-072.abc.idm.lab.eng.brq.redhat.com to replicate with servers:``
-| ``   vm-192.abc.idm.lab.eng.brq.redhat.com``
-| ``Topology does not allow server vm-192.abc.idm.lab.eng.brq.redhat.com to replicate with servers:``
-| ``   vm-072.abc.idm.lab.eng.brq.redhat.com``
+::
+
+    checking connectivity in topology suffix 'ipaca'
+    WARNING: Removal of 'vm-110.abc.idm.lab.eng.brq.redhat.com' will lead to disconnected topology in suffix 'ipaca'
+    Changes will not be replicated to all servers and data will become inconsistent.
+    You need to add segments to prevent disconnection of the topology.
+    Errors in topology after removal:
+    Topology does not allow server vm-072.abc.idm.lab.eng.brq.redhat.com to replicate with servers:
+       vm-192.abc.idm.lab.eng.brq.redhat.com
+    Topology does not allow server vm-192.abc.idm.lab.eng.brq.redhat.com to replicate with servers:
+       vm-072.abc.idm.lab.eng.brq.redhat.com
 
 ``NOTE: the removal of an internal node can be enforced by adding --force to the command, but it should never be done``
 

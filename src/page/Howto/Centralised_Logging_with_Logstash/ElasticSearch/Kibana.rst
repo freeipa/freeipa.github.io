@@ -89,18 +89,20 @@ The best way I have so far of doing this is to add another file in the
 /etc/rsyslog.d directory which configures rsyslog to look at external
 log files. /etc/rsyslog.d/dirsrv.conf contains the following:
 
-| ``module(load="imfile" PollingInterval="2")``
-| ``input(type="imfile"``
-| ``      File="/var/log/dirsrv/slapd-EXAMPLE-COM/access"``
-| ``      Tag="dirsrv"``
-| ``      StateFile="statedirsrv"``
-| ``      Facility="local0")``
-| ``input(type="imfile"``
-| ``      File="/var/log/dirsrv/slapd-EXAMPLE-COM/errors"``
-| ``      Tag="dirsrv"``
-| ``      StateFile="statedirsrverr"``
-| ``      Severity="error"``
-| ``      Facility="local0")``
+::
+
+    module(load="imfile" PollingInterval="2")
+    input(type="imfile"
+          File="/var/log/dirsrv/slapd-EXAMPLE-COM/access"
+          Tag="dirsrv"
+          StateFile="statedirsrv"
+          Facility="local0")
+    input(type="imfile"
+          File="/var/log/dirsrv/slapd-EXAMPLE-COM/errors"
+          Tag="dirsrv"
+          StateFile="statedirsrverr"
+          Severity="error"
+          Facility="local0")
 
 This uses the imfile module in rsyslog to monitor changes in the dirsrv
 access and errors log files. The log files are polled every 2 seconds
@@ -117,63 +119,65 @@ Logstash 1.4.2 is installed via RPM and configured to accept log data.
 Create file /etc/logstash/conf.d/syslog.conf with the following
 contents:
 
-| ``input {``
-| ``  syslog {``
-| ``    type => syslog``
-| ``    port => 5544``
-| ``  }``
-| ``  tcp {``
-| ``    type => syslogjson``
-| ``    port => 5500``
-| ``    codec => "json"``
-| ``  }``
-| ``}``
-| ``filter {``
-| ``  # This replaces the host field (UDP source) with the host that generated the message (sysloghost)``
-| ``  if [sysloghost] {``
-| ``    mutate {``
-| ``      replace => [ "host", "%{sysloghost}" ]``
-| ``      remove_field => "sysloghost" # prune the field after successfully replacing "host"``
-| ``    }``
-| ``  }``
-| ``  if [type] == "syslog" {``
-| ``    grok {``
-| ``      patterns_dir => "/opt/logstash/patterns"``
-| ``      match => { "message" => "%{FWGROK}" }``
-| ``      match => { "message" => "%{AUDITAVC}" }``
-| ``    }``
-| ``  }``
-| ``  if [type] == "syslogjson" {``
-| ``    grok {``
-| ``      patterns_dir => "/opt/logstash/patterns"``
-| ``      match => { "message" => "%{FWGROK}" }``
-| ``      match => { "message" => "%{AUDITAVC}" }``
-| ``      match => { "message" => "%{COMMONAPACHELOG}" }``
-| ``      tag_on_failure => []``
-| ``    }``
-| ``  }``
-| ``  # This filter populates the @timestamp field with the timestamp that's in the actual message``
-| ``  # dirsrv logs are currently pulled in every 2 minutes, so @timestamp is wrong``
-| ``  if [syslogtag] == "dirsrv" {``
-| ``    mutate {``
-| ``      remove_field => [ 'rawmsg' ]``
-| ``    }``
-| ``    grok {``
-| ``      match => [ "message", "%{HTTPDATE:log_timestamp}" ]``
-| ``    }``
-| ``    date {``
-| ``      match => [ "log_timestamp", "dd/MMM/YYY:HH:mm:ss Z"]``
-| ``      locale => "en"``
-| ``      remove_field => [ "log_timestamp" ]``
-| ``    }``
-| ``  }``
-| ``}``
-| ``output {``
-| ``  elasticsearch {``
-| ``    protocol => node``
-| ``    node_name => "Indexer01"``
-| ``  }``
-| ``}``
+::
+
+    input {
+      syslog {
+        type => syslog
+        port => 5544
+      }
+      tcp {
+        type => syslogjson
+        port => 5500
+        codec => "json"
+      }
+    }
+    filter {
+      # This replaces the host field (UDP source) with the host that generated the message (sysloghost)
+      if [sysloghost] {
+        mutate {
+          replace => [ "host", "%{sysloghost}" ]
+          remove_field => "sysloghost" # prune the field after successfully replacing "host"
+        }
+      }
+      if [type] == "syslog" {
+        grok {
+          patterns_dir => "/opt/logstash/patterns"
+          match => { "message" => "%{FWGROK}" }
+          match => { "message" => "%{AUDITAVC}" }
+        }
+      }
+      if [type] == "syslogjson" {
+        grok {
+          patterns_dir => "/opt/logstash/patterns"
+          match => { "message" => "%{FWGROK}" }
+          match => { "message" => "%{AUDITAVC}" }
+          match => { "message" => "%{COMMONAPACHELOG}" }
+          tag_on_failure => []
+        }
+      }
+      # This filter populates the @timestamp field with the timestamp that's in the actual message
+      # dirsrv logs are currently pulled in every 2 minutes, so @timestamp is wrong
+      if [syslogtag] == "dirsrv" {
+        mutate {
+          remove_field => [ 'rawmsg' ]
+        }
+        grok {
+          match => [ "message", "%{HTTPDATE:log_timestamp}" ]
+        }
+        date {
+          match => [ "log_timestamp", "dd/MMM/YYY:HH:mm:ss Z"]
+          locale => "en"
+          remove_field => [ "log_timestamp" ]
+        }
+      }
+    }
+    output {
+      elasticsearch {
+        protocol => node
+        node_name => "Indexer01"
+      }
+    }
 
 This instructs Logstash to listen on port 5544 for basic log data, and
 also on port 5500 for JSON formatted data. The FWGROK and AUDITAVC lines

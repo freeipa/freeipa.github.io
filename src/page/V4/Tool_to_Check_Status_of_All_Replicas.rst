@@ -61,19 +61,21 @@ of client passphrase. This extension will be implement later.
 Example agent's configuration
 -----------------------------
 
-| ``   /etc/snmp/snmpd.conf``
-| ``   ### Added by IPA Installer ###``
-| ``   proc krb5kdc``
-| ``   proc kadmind``
-| ``   proc named``
-| ``   proc memcached``
-| ``   proc httpd``
-| ``   proc java``
-| ``   proc ntpd``
-| ``   proc ns-slapd``
-| ``   ``
-| ``   createUser  myuser SHA authpassphrase AES privpassphrase``
-| ``   rouser -s usm myuser authpriv .1.3.6.1.4.1.2021.2``
+::
+
+       /etc/snmp/snmpd.conf
+       ### Added by IPA Installer ###
+       proc krb5kdc
+       proc kadmind
+       proc named
+       proc memcached
+       proc httpd
+       proc java
+       proc ntpd
+       proc ns-slapd
+    
+       createUser  myuser SHA authpassphrase AES privpassphrase
+       rouser -s usm myuser authpriv .1.3.6.1.4.1.2021.2
 
 proc option checks number of running processes "name".
 

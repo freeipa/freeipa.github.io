@@ -74,20 +74,22 @@ Anatomy of a tracked certificate
 
 A typical OpenSSL certificate looks like this:
 
-| ``Request ID '20120912211542':``
-| ``       status: MONITORING``
-| ``       stuck: no``
-| ``       key pair storage: type=FILE,location='/etc/ssl/private.key'``
-| ``       certificate: type=FILE,location='/etc/ssl/server.crt'``
-| ``       CA: IPA``
-| ``       issuer: CN=Certificate Authority,O=EXAMPLE.COM``
-| ``       subject: CN=edsel.example.com,O=EXAMPLE.COM``
-| ``       expires: 2014-09-13 21:15:44 UTC``
-| ``       eku: id-kp-serverAuth,id-kp-clientAuth``
-| ``       pre-save command: ``
-| ``       post-save command: ``
-| ``       track: yes``
-| ``       auto-renew: yes``
+::
+
+    Request ID '20120912211542':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=FILE,location='/etc/ssl/private.key'
+           certificate: type=FILE,location='/etc/ssl/server.crt'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=EXAMPLE.COM
+           subject: CN=edsel.example.com,O=EXAMPLE.COM
+           expires: 2014-09-13 21:15:44 UTC
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command:
+           track: yes
+           auto-renew: yes
 
 You'll need the Request ID when running other certmonger commands. This
 will be a number if an ID is not provided when the request is originally

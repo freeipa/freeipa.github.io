@@ -207,8 +207,10 @@ Restart the world:
 
 Return to the present time.
 
-| ``# /sbin/service ntpd start``
-| ``# date (confirm it is now)``
+::
+
+    # /sbin/service ntpd start
+    # date (confirm it is now)
 
 To make sure that communication with the CA is working run:
 
@@ -220,8 +222,10 @@ Notes
 I tested this on a RHEL 6.4 system that I installed ipa-server-2.2.0 and
 krb5-server-1.9. I did this by:
 
-| ``# date 111110262011``
-| ``# ipa-server-install -N ...``
+::
+
+    # date 111110262011
+    # ipa-server-install -N ...
 
 I confirmed that things were working, then I brought time to today:
 

@@ -77,8 +77,10 @@ Since the number of entitlements is linked to the number of hosts users
 will want to be able to find those hosts that aren't being used. A
 simple LDAP query can be used to determine this:
 
-| ``$ ldapsearch -x -b 'cn=computers,cn=accounts,dc=example,dc=com' \``
-| ``"(&(krbLastSuccessfulAuth < 201004110000Z)(krbPrincipalName=*))" fqdn``
+::
+
+    $ ldapsearch -x -b 'cn=computers,cn=accounts,dc=example,dc=com' \
+    "(&(krbLastSuccessfulAuth < 201004110000Z)(krbPrincipalName=*))" fqdn
 
 This looks for all hosts that have a principal and haven't logged in
 since April 11, 2010.

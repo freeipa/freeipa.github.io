@@ -46,14 +46,16 @@ Unfortunately, there are several issues connected with this page:
 
 See the underlying LDAP object for this resource record:
 
-| `` dn: idnsname=foo,idnsname=example.com,cn=dns,$SUFFIX``
-| `` idnsname: foo``
-| `` arecord: 10.0.0.1``
-| `` arecord: 10.0.0.2``
-| `` arecord: 10.0.0.3``
-| `` aaaarecord: fc00::1``
-| `` objectclass: top``
-| `` objectclass: idnsrecord``
+::
+
+     dn: idnsname=foo,idnsname=example.com,cn=dns,$SUFFIX
+     idnsname: foo
+     arecord: 10.0.0.1
+     arecord: 10.0.0.2
+     arecord: 10.0.0.3
+     aaaarecord: fc00::1
+     objectclass: top
+     objectclass: idnsrecord
 
 This LDAP object structure should be reflected in the DNS UI in 2.1
 better.

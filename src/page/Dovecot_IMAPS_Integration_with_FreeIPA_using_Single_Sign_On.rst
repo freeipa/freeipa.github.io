@@ -12,11 +12,13 @@ single sign on to user mailboxes with IMAP/S.
 
 Details of this example are as follows
 
-| ``   Domain name: example.com``
-| ``   IPA Server: ds01.example.com``
-| ``   Dovecot Server: mail01.example.com``
-| ``   IPA Client: workstation01.example.com``
-| ``   IPA User: user1 and user2``
+::
+
+       Domain name: example.com
+       IPA Server: ds01.example.com
+       Dovecot Server: mail01.example.com
+       IPA Client: workstation01.example.com
+       IPA User: user1 and user2
 
 **Please Note: This guide describes using SSL combined with Dovecot to
 deliver IMAPS support. This guide is not designed to cover how to create
@@ -59,8 +61,10 @@ Add system to IPA Domain (ensure DNS is working correctly otherwise this step wi
 Install Dovecot and set service to start on boot
 ------------------------------------------------
 
-| ``# yum install dovecot``
-| ``# chkconfig dovecot on``
+::
+
+    # yum install dovecot
+    # chkconfig dovecot on
 
 
 
@@ -83,27 +87,33 @@ Edit /etc/dovecot/conf.d/10-auth.conf to configure kerberos authentication
 Enter the below lines at the end of the file
 /etc/dovecot/conf.d/10-auth.conf
 
-| ``userdb {``
-| ``  driver = static``
-| ``  args = uid=dovecot gid=dovecot home=/var/spool/mail/%u``
-| ``}``
+::
+
+    userdb {
+      driver = static
+      args = uid=dovecot gid=dovecot home=/var/spool/mail/%u
+    }
 
 Next, find the below lines (these will be in various locations inside
 the file)
 
-| ``auth_mechanisms = plain``
-| ``#auth_gssapi_hostname =``
-| ``#auth_krb5_keytab =``
-| ``#auth_realms =``
-| ``#auth_default_realm =``
+::
+
+    auth_mechanisms = plain
+    #auth_gssapi_hostname =
+    #auth_krb5_keytab =
+    #auth_realms =
+    #auth_default_realm =
 
 and replace with
 
-| ``auth_mechanisms = gssapi``
-| ``auth_gssapi_hostname = mail01.example.com``
-| ``auth_krb5_keytab = /etc/dovecot/krb5.keytab``
-| ``auth_realms = example.com``
-| ``auth_default_realm = example.com``
+::
+
+    auth_mechanisms = gssapi
+    auth_gssapi_hostname = mail01.example.com
+    auth_krb5_keytab = /etc/dovecot/krb5.keytab
+    auth_realms = example.com
+    auth_default_realm = example.com
 
 
 
@@ -156,10 +166,12 @@ Create a new directory to be used as your mail store for the server.
 Also remember to change the group membership to allow your "mailusers"
 to be able to write to the folder.
 
-| ``mkdir /mail``
-| ``chmod 770 /mail``
-| ``chgrp mailusers /mail``
-| ``chcon -t user_home_t /mail``
+::
+
+    mkdir /mail
+    chmod 770 /mail
+    chgrp mailusers /mail
+    chcon -t user_home_t /mail
 
 Note: If you wish to use file system quotas or add high availability to
 your solution, having this folder on a shared file system would be very
@@ -185,22 +197,28 @@ Generate a kerberos keytab for Dovecot IMAP access
 
 On the IPA server run:
 
-| ``# kinit admin``
-| ``Password for admin@EXAMPLE.COM:``
-| ``# ipa service-add imap/mail01.example.com``
+::
+
+    # kinit admin
+    Password for admin@EXAMPLE.COM:
+    # ipa service-add imap/mail01.example.com
 
 If successful, you will see the below output
 
-| ``----------------------------------------------------``
-| ``Added service "imap/mail01.example.com@EXAMPLE.COM"``
-| ``----------------------------------------------------``
-| ``  Principal: imap/mail01.example.com@EXAMPLE.COM``
-| ``  Managed by: mail01.example.com``
+::
+
+    ----------------------------------------------------
+    Added service "imap/mail01.example.com@EXAMPLE.COM"
+    ----------------------------------------------------
+      Principal: imap/mail01.example.com@EXAMPLE.COM
+      Managed by: mail01.example.com
 
 On the Dovecot server run:
 
-| ``# kinit admin``
-| ``# ipa-getkeytab -s ds01.example.com -p imap/mail01.example.com -k /etc/dovecot/krb5.keytab``
+::
+
+    # kinit admin
+    # ipa-getkeytab -s ds01.example.com -p imap/mail01.example.com -k /etc/dovecot/krb5.keytab
 
 if successful, you will see the below output:
 
@@ -211,17 +229,21 @@ if successful, you will see the below output:
 Change the permissions of the keytab to allow Dovecot to read the file (Note, this should be kept secure, so only grant enough privileges as absolutely necessary.)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-| ``# chown root:dovecot /etc/dovecot/krb5.keytab``
-| ``# chmod 640 /etc/dovecot/krb5.keytab``
+::
+
+    # chown root:dovecot /etc/dovecot/krb5.keytab
+    # chmod 640 /etc/dovecot/krb5.keytab
 
 
 
 Restart Dovecot
 ---------------
 
-| ``# service dovecot restart``
-| ``Stopping Dovecot IMAP: ................                           [  OK  ]``
-| ``Starting Dovecot IMAP: .                                          [  OK  ]``
+::
+
+    # service dovecot restart
+    Stopping Dovecot IMAP: ................                           [  OK  ]
+    Starting Dovecot IMAP: .                                          [  OK  ]
 
 
 
@@ -257,8 +279,10 @@ Configure Thunderbird to connect to IMAP Server
 Verify your authentication on the Dovecot server
 ------------------------------------------------
 
-| ``# tail /var/log/maillog``
-| ``Feb 10 13:31:22 mail01 dovecot: imap-login: Login: user=<user1@example.com>, method=GSSAPI, rip=192.168.122.51, lip=192.168.122.63, mpid=1835, TLS``
+::
+
+    # tail /var/log/maillog
+    Feb 10 13:31:22 mail01 dovecot: imap-login: Login: user=<user1@example.com>, method=GSSAPI, rip=192.168.122.51, lip=192.168.122.63, mpid=1835, TLS
 
 If everything has worked successfully, you will see in your logs that
 your user has connected using the method GSSAPI and has validated their

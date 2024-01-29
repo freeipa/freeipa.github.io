@@ -234,8 +234,10 @@ kinit
 
 ``Get a Kerberos ticket for an IPA user``
 
-| `` kinit ipauser ( provide password when prompted for )``
-| `` klist ( to verify )``
+::
+
+     kinit ipauser ( provide password when prompted for )
+     klist ( to verify )
 
 getent
 ------
@@ -262,8 +264,10 @@ ssh
 
 ``Goto the Solaris machine, get a Kerberos ticket and ssh to the IPA server.``
 
-| ``kinit ipauser@EXAMPLE.COM``
-| ``ssh ipauser@ipaserver.example.com``
+::
+
+    kinit ipauser@EXAMPLE.COM
+    ssh ipauser@ipaserver.example.com
 
 
 

@@ -10,12 +10,14 @@ Introduction
 
 Our network looks like this:
 
-| ``Subnet:         192.0.2.0/24``
-| ``Domain:         example.com``
-| ``Kerberos realm: EXAMPLE.COM``
-| ``IPA server:     ipaserver.example.com``
-| ``DNS server:     dns.example.com``
-| ``Client:         client.example.com``
+::
+
+    Subnet:         192.0.2.0/24
+    Domain:         example.com
+    Kerberos realm: EXAMPLE.COM
+    IPA server:     ipaserver.example.com
+    DNS server:     dns.example.com
+    Client:         client.example.com
 
 
 
@@ -39,20 +41,24 @@ for authenticating dynamic updates:
 -  For BIND `version >=
    9.8.0 <https://lists.isc.org/pipermail/bind-announce/2011-March/000691.html>`__:
 
-| ``options {``
-| ``   ...``
-| ``   tkey-gssapi-keytab  "DNS/dns.example.com";``
-| ``   ...``
-| ``};``
+::
+
+    options {
+       ...
+       tkey-gssapi-keytab  "DNS/dns.example.com";
+       ...
+    };
 
 -  For BIND version < 9.8.0:
 
-| ``options {``
-| ``   ...``
-| ``   tkey-gssapi-credential  "DNS/dns.example.com";``
-| ``   tkey-domain             "dns.example.com";``
-| ``   ...``
-| ``};``
+::
+
+    options {
+       ...
+       tkey-gssapi-credential  "DNS/dns.example.com";
+       tkey-domain             "dns.example.com";
+       ...
+    };
 
 Environment variable ``KRB5_KTNAME`` has to contain path to keytab file.
 On RHEL and Fedora systems it is possible to add line
@@ -77,9 +83,11 @@ and Fedora systems.
 
 Now we can start named and set it up to always start when booting:
 
-| ``# service named start``
-| ``Starting named:                                            [  OK  ]``
-| ``# chkconfig named on``
+::
+
+    # service named start
+    Starting named:                                            [  OK  ]
+    # chkconfig named on
 
 
 
@@ -95,35 +103,41 @@ allowed to update own A record. Update requests have to be signed by
 Kerberos principal ``host/``\ *``machine.fqdn``*\ ``@EXAMPLE.COM``.
 (Naturally, name *machine.fqdn* has to belong to the zone example.com.)
 
-| ``zone "example.com" {``
-| ``   update-policy {``
-| ``       grant EXAMPLE.COM krb5-self * A;``
-| ``   };``
-| ``   ...``
-| ``};``
+::
+
+    zone "example.com" {
+       update-policy {
+           grant EXAMPLE.COM krb5-self * A;
+       };
+       ...
+    };
 
 **Example:** Allow Kerberos principal
 ``SERVICE/ipaserver.example.com@EXAMPLE.COM`` to do any updates in whole
 zone. Note the escaping trick, symbol "/" was replaced with "\047".
 
-| ``zone "example.com" {``
-| ``   update-policy {``
-| ``       grant SERVICE\047ipaserver.example.com@EXAMPLE.COM wildcard * ANY;``
-| ``   };``
-| ``   ...``
-| ``};``
+::
+
+    zone "example.com" {
+       update-policy {
+           grant SERVICE\047ipaserver.example.com@EXAMPLE.COM wildcard * ANY;
+       };
+       ...
+    };
 
 **Example:** Machine is allowed to update own PTR record in reverse
 zone. Update is allowed only if it came over TCP connection and source
 IP address matches updated name (in reverse tree).
 
-| ``zone "2.0.192.in-addr.arpa" IN {``
-| ``   ...``
-| ``   update-policy {``
-| ``       grant * tcp-self * PTR;``
-| ``   };``
-| ``   ...``
-| ``};``
+::
+
+    zone "2.0.192.in-addr.arpa" IN {
+       ...
+       update-policy {
+           grant * tcp-self * PTR;
+       };
+       ...
+    };
 
 
 
@@ -165,13 +179,15 @@ Examples
 
 -  File ``a_update``:
 
-| ``server dns.example.com``
-| ``zone example.com.``
-| ``prereq yxrrset client.example.com.                            IN      A``
-| ``update delete client.example.com.                             IN      A``
-| ``send``
-| ``update add client.example.com.                86400           IN      A       192.0.2.120``
-| ``send``
+::
+
+    server dns.example.com
+    zone example.com.
+    prereq yxrrset client.example.com.                            IN      A
+    update delete client.example.com.                             IN      A
+    send
+    update add client.example.com.                86400           IN      A       192.0.2.120
+    send
 
 If we will now want to update our A record, we will execute ``nsupdate``
 like this:
@@ -180,13 +196,15 @@ like this:
 
 -  File ``ptr_update``:
 
-| ``server dns.example.com``
-| ``zone 2.0.192.in-addr.arpa.``
-| ``prereq yxrrset 120.2.0.192.in-addr.arpa.                    IN      PTR``
-| ``update delete 120.2.0.192.in-addr.arpa.                     IN      PTR``
-| ``send``
-| ``update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.``
-| ``send``
+::
+
+    server dns.example.com
+    zone 2.0.192.in-addr.arpa.
+    prereq yxrrset 120.2.0.192.in-addr.arpa.                    IN      PTR
+    update delete 120.2.0.192.in-addr.arpa.                     IN      PTR
+    send
+    update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.
+    send
 
 If we want to update our PTR record we'll use ``ptr_update`` file as an
 argument and add ``-v`` option to force update over TCP. Sometimes
@@ -205,10 +223,12 @@ flags, for example:
 
 You can also add ``debug`` command to separate line:
 
-| ``debug``
-| ``zone 2.0.192.in-addr.arpa.``
-| ``update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.``
-| ``send``
+::
+
+    debug
+    zone 2.0.192.in-addr.arpa.
+    update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.
+    send
 
 If you have problems with Kerberos, you can try to use the -l flag in
 order to communicate with local DNS server and get GSS-API major and

@@ -109,10 +109,12 @@ Serial number
 The file ``/var/lib/ipa/ca_serialno`` contains the CA's serial numbers
 in INI format:
 
-| ``   [selfsign]``
-| ``   nextreplica = 500000``
-| ``   replicainterval = 500000``
-| ``   lastvalue = 1005``
+::
+
+       [selfsign]
+       nextreplica = 500000
+       replicainterval = 500000
+       lastvalue = 1005
 
 Of these values, only ``lastvalue`` is used (replication of selfsign CAs
 was never implemented). It is recommended to note the number, store it
@@ -139,18 +141,20 @@ Create a noise file (see above), and create a CA cert by:
 
 Give the following answers:
 
-| ``   Create key usage extension:``
-| ``       0 - Digital Signature``
-| ``       1 - Non-repudiation``
-| ``       5 - Cert signing key``
-| ``       Is this a critical extension [y/N]? y``
-| ``   Create basic constraint extension``
-| ``       Is this a CA certificate [y/N]?  y``
-| ``   Enter the path length constraint, enter to skip [<0 for unlimited path]``
-| ``       0``
-| ``       Is this a critical extension [y/N]? y``
-| ``   Extensions:``
-| ``       5 6 7 9 n (SSL, S/MIME, Object signing CA)``
+::
+
+       Create key usage extension:
+           0 - Digital Signature
+           1 - Non-repudiation
+           5 - Cert signing key
+           Is this a critical extension [y/N]? y
+       Create basic constraint extension
+           Is this a CA certificate [y/N]?  y
+       Enter the path length constraint, enter to skip [<0 for unlimited path]
+           0
+           Is this a critical extension [y/N]? y
+       Extensions:
+           5 6 7 9 n (SSL, S/MIME, Object signing CA)
 
 Export the CA cert:
 
@@ -177,8 +181,10 @@ Issuing a certificate
 
 First generate a certificate request (see above). Then run:
 
-| ``   NEXT_SERIAL=$(($NEXT_SERIAL + 1))  # (be sure to also store the number on disk!)``
-| ``   /usr/bin/certutil -d /etc/httpd/alias -C -c "CN=$REALM Certificate Authority" -i $CERTREQ_FILENAME -o $CERT_FILENAME -m $NEXT_SERIAL -v 120 -f /etc/httpd/alias/pwdfile.txt -1 -5 -a``
+::
+
+       NEXT_SERIAL=$(($NEXT_SERIAL + 1))  # (be sure to also store the number on disk!)
+       /usr/bin/certutil -d /etc/httpd/alias -C -c "CN=$REALM Certificate Authority" -i $CERTREQ_FILENAME -o $CERT_FILENAME -m $NEXT_SERIAL -v 120 -f /etc/httpd/alias/pwdfile.txt -1 -5 -a
 
 Example values:
 
@@ -190,47 +196,53 @@ Example values:
 For a server certificate (e.g. for a new replica), give the following
 answers:
 
-| ``   Create key usage extension:``
-| ``       2 - Key encipherment``
-| ``       9 - done``
-| ``       n - not critical``
-| ``   Create netscape cert type extension:``
-| ``       1 - SSL Server``
-| ``       9 - done``
-| ``       n - not critical``
+::
+
+       Create key usage extension:
+           2 - Key encipherment
+           9 - done
+           n - not critical
+       Create netscape cert type extension:
+           1 - SSL Server
+           9 - done
+           n - not critical
 
 For an object signing certificate, give the following answers:
 
-| ``   Create key usage extension:``
-| ``       0 - Digital Signature``
-| ``       5 - Cert signing key``
-| ``       9 - done``
-| ``       n - not critical``
-| ``   Create netscape cert type extension:``
-| ``       3 - Object Signing``
-| ``       9 - done``
-| ``       n - not critical``
+::
+
+       Create key usage extension:
+           0 - Digital Signature
+           5 - Cert signing key
+           9 - done
+           n - not critical
+       Create netscape cert type extension:
+           3 - Object Signing
+           9 - done
+           n - not critical
 
 For a service certificate (ipa service-add, ipa cert-request, ipa
 host-add), add the ``-6`` option. The IPA commands also validate the
 certificate, and with Dogtag, the old host/service certis revoked. These
 steps are left entirely to the user. Answer:
 
-| ``   Create key usage extension:``
-| ``       0 - Digital Signature``
-| ``       1 - Cert signing key``
-| ``       2 - Key encipherment``
-| ``       3 - Data encipherment``
-| ``       9 - done``
-| ``       n - not critical``
-| ``   Create netscape cert type extension:``
-| ``       0 - Server Auth``
-| ``       9 - done``
-| ``       n - not critical``
-| ``   Create extended key usage extension:``
-| ``       1 - SSL Server``
-| ``       9 - done``
-| ``       n - not critical``
+::
+
+       Create key usage extension:
+           0 - Digital Signature
+           1 - Cert signing key
+           2 - Key encipherment
+           3 - Data encipherment
+           9 - done
+           n - not critical
+       Create netscape cert type extension:
+           0 - Server Auth
+           9 - done
+           n - not critical
+       Create extended key usage extension:
+           1 - SSL Server
+           9 - done
+           n - not critical
 
 This will put a PEM-encoded certificate in $CERT_FILENAME.
 
@@ -274,8 +286,10 @@ contents of /etc/httpd/alias/pwdfile.txt as the password.
 Tracking a certificate with certmonger
 --------------------------------------
 
-| ``   systemctl enable certmonger.service``
-| ``   systemctl start certmonger.service``
+::
+
+       systemctl enable certmonger.service
+       systemctl start certmonger.service
 
 ``   /usr/bin/ipa-getcert start-tracking -d /etc/httpd/alias -n $CERT_NICKNAME -p /etc/httpd/alias/pwdfile.txt``
 

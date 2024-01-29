@@ -35,12 +35,14 @@ capability can get an extra key in the response dictionary, "messages",
 which contains a list of warnings and other messages. Each message will
 be a dict with the following keys:
 
-| `` {``
-| ``   'type': 'warning',``
-| ``   'name': 'BadIdea',``
-| ``   'message': "What you're doing is a bad idea",``
-| ``   'code': 12345,``
-| `` }``
+::
+
+     {
+       'type': 'warning',
+       'name': 'BadIdea',
+       'message': "What you're doing is a bad idea",
+       'code': 12345,
+     }
 
 The "type" will be "debug", "info", "warning", or "error". Numeric codes
 for messages will be in the range 10000-10999, so that they don't clash
@@ -70,12 +72,14 @@ severity for their type. Debug messages will not be shown unless
 --verbose is given. Example (from
 `#2563 <https://fedorahosted.org/freeipa/ticket/2563>`__):
 
-| `` # ipa dnsrecord-add --ttl=555 localnet r1 --txt-rec=TEST``
-| `` ipa: WARNING: It's not possible to have two records with same name and different TTL values.``
-| ``   Record name: r1``
-| ``   Time to live: 555``
-| ``   A record: 1.2.3.4``
-| ``   TXT record: TEST``
+::
+
+     # ipa dnsrecord-add --ttl=555 localnet r1 --txt-rec=TEST
+     ipa: WARNING: It's not possible to have two records with same name and different TTL values.
+       Record name: r1
+       Time to live: 555
+       A record: 1.2.3.4
+       TXT record: TEST
 
 The Web UI will display warnings and above in a modal message box. In
 the future, another notification mechanism may be added.
@@ -110,8 +114,10 @@ adding a message to the result:
 
 will be equivalent to:
 
-| ``   if client_has_capability(version, 'messages'):``
-| ``       result.setdefault('messages', []).append(BadIdeaWarning())``
+::
+
+       if client_has_capability(version, 'messages'):
+           result.setdefault('messages', []).append(BadIdeaWarning())
 
 
 

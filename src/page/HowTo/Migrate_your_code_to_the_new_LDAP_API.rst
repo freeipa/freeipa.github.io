@@ -13,35 +13,41 @@ instead of ``(dn, entry_attrs)`` tuples.
 
 Adding an entry:
 
-| ``# Before``
-| ``entry_attrs = dict(...)``
-| ``ldap.add_entry(DN(...), entry_attrs)``
-| ``# After``
-| ``entry_attrs = dict(...)``
-| ``entry = ldap.make_entry(DN(...), entry_attrs)``
-| ``ldap.add_entry(entry)``
+::
+
+    # Before
+    entry_attrs = dict(...)
+    ldap.add_entry(DN(...), entry_attrs)
+    # After
+    entry_attrs = dict(...)
+    entry = ldap.make_entry(DN(...), entry_attrs)
+    ldap.add_entry(entry)
 
 Modifying an entry:
 
-| ``# Before``
-| ``dn, entry_attrs = ldap.get_entry(...)``
-| ``entry_attrs[...] = ...``
-| ``ldap.update_entry(dn, entry_attrs)``
-| ``# After``
-| ``entry = ldap.get_entry(...)``
-| ``entry[...] = ...``
-| ``ldap.update_entry(entry)``
+::
+
+    # Before
+    dn, entry_attrs = ldap.get_entry(...)
+    entry_attrs[...] = ...
+    ldap.update_entry(dn, entry_attrs)
+    # After
+    entry = ldap.get_entry(...)
+    entry[...] = ...
+    ldap.update_entry(entry)
 
 Searching entries:
 
-| ``# Before``
-| ``result, truncated = ldap.find_entries(...)``
-| ``for dn, entry_attrs in result:``
-| ``    print dn``
-| ``# After``
-| ``result, truncated = ldap.find_entries(...)``
-| ``for entry in result:``
-| ``    print entry.dn``
+::
+
+    # Before
+    result, truncated = ldap.find_entries(...)
+    for dn, entry_attrs in result:
+        print dn
+    # After
+    result, truncated = ldap.find_entries(...)
+    for entry in result:
+        print entry.dn
 
 Details
 -------

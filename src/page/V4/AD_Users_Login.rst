@@ -76,11 +76,13 @@ How to Use
 -  Create ID User Override on FreeIPA server, where the id override user
    name is Ad_user@domain.ad.example.com
 
-| ``$ ipa idoverrideuser-add "Default Trust View" Ad_user@domain.ad.example.com``
-| ``-----------------------------------------------------------------------------``
-| ``Added User ID override "Ad_user@domain.ad.example.com"``
-| ``-----------------------------------------------------------------------------``
-| ``Anchor to override: ad_user@domain.ad.example.com``
+::
+
+    $ ipa idoverrideuser-add "Default Trust View" Ad_user@domain.ad.example.com
+    -----------------------------------------------------------------------------
+    Added User ID override "Ad_user@domain.ad.example.com"
+    -----------------------------------------------------------------------------
+    Anchor to override: ad_user@domain.ad.example.com
 
 -  Log in to FreeIPA WebUI using ad_username@ad.domain and password for
    AD user.

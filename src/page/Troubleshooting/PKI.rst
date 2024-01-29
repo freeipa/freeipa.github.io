@@ -100,8 +100,10 @@ After removing the unnecessary certificates from the file, for IPA <
 
 Now add it to your cert database:
 
-| ``# certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt``
-| ``# service httpd restart``
+::
+
+    # certutil -A -n ipaCert -d /etc/httpd/alias -t u,u,u -a -i /tmp/ra.crt
+    # service httpd restart
 
 If the certificate is valid and the ou=People entry is ok then check the
 `PKI <PKI>`__ logs ``/var/log/pki`` or ``/var/log/pki-ca``.

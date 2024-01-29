@@ -144,10 +144,12 @@ Committing (doesn’t apply for the temp commit)
 #. All commits must include Pagure link
 #. Include separate temp commit (see below)
 
-| ``(lowercase) ipatests : short summary within 80 chars (no dot)``
-| ``This is the particular reason for a change and or addition of a new test. Be as specific as possible. Use imperative language (fix bug, not fixed bug nor fixes bug) and present time.``
-| ``Fixes (or Related): Pagure ticket link``
-| ``Signed off by: (use –signoff and -S when committing)``
+::
+
+    (lowercase) ipatests : short summary within 80 chars (no dot)
+    This is the particular reason for a change and or addition of a new test. Be as specific as possible. Use imperative language (fix bug, not fixed bug nor fixes bug) and present time.
+    Fixes (or Related): Pagure ticket link
+    Signed off by: (use –signoff and -S when committing)
 
 Note: “Fixes” is used when providing a fix for the raised issue.
 “Related” is used when providing a test for the fix.

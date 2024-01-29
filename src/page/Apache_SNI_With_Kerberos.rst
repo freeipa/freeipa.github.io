@@ -118,8 +118,10 @@ changed to make them readable by apache.
 Following this edit /etc/httpd/conf.d/ssl.conf to make sure the
 following entries read as so:
 
-| `` SSLCertificateFile /etc/httpd/certs/default.crt``
-| `` SSLCertificateKeyFile /etc/httpd/certs/default.key``
+::
+
+     SSLCertificateFile /etc/httpd/certs/default.crt
+     SSLCertificateKeyFile /etc/httpd/certs/default.key
 
 If you require client validation link or copy /etc/ipa/ca.crt to
 /etc/httpd/certs and include:
@@ -158,16 +160,20 @@ A DNS record should already be in place for this (or just use the
 
 To do this via the ipa-admin tools do as follows (or just use the GUI):
 
-| `` ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1``
-| `` ipa host-add dummyhost.example.com --desc="Dummy Host" --location="``\ ``"``
-| `` ipa host-add-managedby dummyhost.example.com --hosts="``\ ``"``
-| `` ``
+::
+
+     ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1
+     ipa host-add dummyhost.example.com --desc="Dummy Host" --location="``\ ``"
+     ipa host-add-managedby dummyhost.example.com --hosts="``\ ``"
+    
 
 Now that the dummy host is in place (no enrollment, keytabs or
 certificates needed for this bit) the service can be added.
 
-| `` ipa service-add HTTP/dummyhost.example.com``
-| `` ipa service-add-host HTTP/dummyhost.example.com --hosts="``\ ``"``
+::
+
+     ipa service-add HTTP/dummyhost.example.com
+     ipa service-add-host HTTP/dummyhost.example.com --hosts="``\ ``"
 
 The IPA topology is then ready to add this as a virtual host on the web
 server.
@@ -264,8 +270,10 @@ server:
 
 Create a directory to store keytabs for authenticating against IPA:
 
-| `` mkdir /etc/httpd/keytabs``
-| `` semanage fcontext -a -t httpd_keytab_t '/etc/httpd/keytabs/(.*)?'``
+::
+
+     mkdir /etc/httpd/keytabs
+     semanage fcontext -a -t httpd_keytab_t '/etc/httpd/keytabs/(.*)?'
 
 Note that with the selinux context the directory should maintain the
 httpd_config_t type (default for anything in /etc/httpd/) but only the
@@ -326,8 +334,10 @@ To require login for all pages in a virtual host add:
 For a non-default keytab (eg the dummyhost above) add/amend as
 appropriate:
 
-| `` KrbServiceName HTTP/dummyhost.example.com``
-| `` Krb5KeyTab /etc/httpd/keytabs/dummyhost``
+::
+
+     KrbServiceName HTTP/dummyhost.example.com
+     Krb5KeyTab /etc/httpd/keytabs/dummyhost
 
 The REMOTE_USER environment variable will be set to username@ by
 default. For some systems it's preferable to just have the shorter

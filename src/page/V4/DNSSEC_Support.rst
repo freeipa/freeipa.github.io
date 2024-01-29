@@ -85,15 +85,19 @@ following way:
 
 -  enable validation:
 
-| ``options {``
-| ``    dnssec-validation yes;``
-| ``}``
+::
+
+    options {
+        dnssec-validation yes;
+    }
 
 -  disable validation:
 
-| ``options {``
-| ``    dnssec-validation no;``
-| ``}``
+::
+
+    options {
+        dnssec-validation no;
+    }
 
 
 
@@ -288,12 +292,16 @@ environment variable **SOFTHSM2_CONF**.
 SoftHSM database is initialized during installation (or upgrade) with
 following command:
 
-| ``$ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=``\ `` --so-pin=``
+::
+
+    $ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=``\ `` --so-pin=
 
 and values are stored in files:
 
-| ``/var/lib/ipa/dnssec/softhsm_pin``
-| ``/etc/ipa/dnssec/softhsm_pin_so``
+::
+
+    /var/lib/ipa/dnssec/softhsm_pin
+    /etc/ipa/dnssec/softhsm_pin_so
 
 SoftHSM tokens are stored in directory:
 
@@ -332,16 +340,18 @@ DNSSEC related files has to be accessible for several daemons, under
 **ods** (openddnssec) and **named** user. Following list shows required
 file modes, owner and group per directory/file:
 
-| ``drwxr-x---.  ods named    /var/lib/ipa/dnssec``
-| ``-rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin``
-| ``drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens``
-| ``drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*``
-| ``-rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/``\ ``/*``
-| ``-rw-rw----.  root ods     /etc/opendnssec/*``
-| ``-rw-rw----.  ods ods      /var/opendnssec/kasp.db``
-| ``drwxrwx---.  ods ods      /var/opendnssec/signconf``
-| ``drwxrwx---.  ods ods      /var/opendnssec/signed``
-| ``drwxrwx---.  ods ods      /var/opendnssec/tmp``
+::
+
+    drwxr-x---.  ods named    /var/lib/ipa/dnssec
+    -rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin
+    drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens
+    drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*
+    -rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/``\ ``/*
+    -rw-rw----.  root ods     /etc/opendnssec/*
+    -rw-rw----.  ods ods      /var/opendnssec/kasp.db
+    drwxrwx---.  ods ods      /var/opendnssec/signconf
+    drwxrwx---.  ods ods      /var/opendnssec/signed
+    drwxrwx---.  ods ods      /var/opendnssec/tmp
 
 **Note:** Tokens created during installation (upgrade) has root:root
 owner group. Is required to modify all files and subdirs in token's

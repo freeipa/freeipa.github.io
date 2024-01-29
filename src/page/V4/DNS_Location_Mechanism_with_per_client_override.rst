@@ -458,17 +458,21 @@ CPU time spent on signing by factor of ~ 2.3. Tested on zone with 10000
 names using ``dnssec-signzone`` from BIND
 ``bind-9.10.3-7.P2.fc23.x86_64`` with 2048 bit ZSK, 3072 KSK:
 
-| ``$ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.``
-| ``$ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.``
-| ``$ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db``
-| ``user   0m56.584s``
-| ``$ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db``
-| ``user   0m24.881s``
+::
+
+    $ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.
+    $ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.
+    $ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db
+    user   0m56.584s
+    $ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db
+    user   0m24.881s
 
 Zone file sizes:
 
-| ``23150974  dname.db.signed``
-| ``10097345  nodname.db.signed``
+::
+
+    23150974  dname.db.signed
+    10097345  nodname.db.signed
 
 Example
 ----------------------------------------------------------------------------------------------

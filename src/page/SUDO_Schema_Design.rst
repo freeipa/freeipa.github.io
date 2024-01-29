@@ -93,49 +93,51 @@ attributes to point to users or groups.
 
 Here is the standard SUDO schema for reference in OpenLDAP format.
 
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.1``
-| ``   NAME 'sudoUser'``
-| ``   DESC 'User(s) who may  run sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SUBSTR caseExactIA5SubstringsMatch``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.2``
-| ``   NAME 'sudoHost'``
-| ``   DESC 'Host(s) who may run sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SUBSTR caseExactIA5SubstringsMatch``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.3``
-| ``   NAME 'sudoCommand'``
-| ``   DESC 'Command(s) to be executed by sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.4``
-| ``   NAME 'sudoRunAs'``
-| ``   DESC 'User(s) impersonated by sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.5``
-| ``   NAME 'sudoOption'``
-| ``   DESC 'Options(s) followed by sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.6``
-| ``   NAME 'sudoRunAsUser'``
-| ``   DESC 'User(s) impersonated by sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``attributetype ( 1.3.6.1.4.1.15953.9.1.7``
-| ``   NAME 'sudoRunAsGroup'``
-| ``   DESC 'Group(s) impersonated by sudo'``
-| ``   EQUALITY caseExactIA5Match``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )``
-| ``objectclass ( 1.3.6.1.4.1.15953.9.2.1 NAME 'sudoRole' SUP top STRUCTURAL``
-| ``   DESC 'Sudoer Entries'``
-| ``   MUST ( cn )``
-| ``   MAY ( sudoUser $ sudoHost $ sudoCommand $ sudoRunAs $ sudoRunAsUser $``
-| ``         sudoRunAsGroup $ sudoOption $ description )``
-| ``   )``
+::
+
+    attributetype ( 1.3.6.1.4.1.15953.9.1.1
+       NAME 'sudoUser'
+       DESC 'User(s) who may  run sudo'
+       EQUALITY caseExactIA5Match
+       SUBSTR caseExactIA5SubstringsMatch
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    attributetype ( 1.3.6.1.4.1.15953.9.1.2
+       NAME 'sudoHost'
+       DESC 'Host(s) who may run sudo'
+       EQUALITY caseExactIA5Match
+       SUBSTR caseExactIA5SubstringsMatch
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    attributetype ( 1.3.6.1.4.1.15953.9.1.3
+       NAME 'sudoCommand'
+       DESC 'Command(s) to be executed by sudo'
+       EQUALITY caseExactIA5Match
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    attributetype ( 1.3.6.1.4.1.15953.9.1.4
+       NAME 'sudoRunAs'
+       DESC 'User(s) impersonated by sudo'
+       EQUALITY caseExactIA5Match
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    attributetype ( 1.3.6.1.4.1.15953.9.1.5
+       NAME 'sudoOption'
+       DESC 'Options(s) followed by sudo'
+       EQUALITY caseExactIA5Match
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    attributetype ( 1.3.6.1.4.1.15953.9.1.6
+       NAME 'sudoRunAsUser'
+       DESC 'User(s) impersonated by sudo'
+       EQUALITY caseExactIA5Match
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    attributetype ( 1.3.6.1.4.1.15953.9.1.7
+       NAME 'sudoRunAsGroup'
+       DESC 'Group(s) impersonated by sudo'
+       EQUALITY caseExactIA5Match
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+    objectclass ( 1.3.6.1.4.1.15953.9.2.1 NAME 'sudoRole' SUP top STRUCTURAL
+       DESC 'Sudoer Entries'
+       MUST ( cn )
+       MAY ( sudoUser $ sudoHost $ sudoCommand $ sudoRunAs $ sudoRunAsUser $
+             sudoRunAsGroup $ sudoOption $ description )
+       )
 
 Let us look at each of the attributes and its use more closely.
 
@@ -165,14 +167,16 @@ Let us look at each of the attributes and its use more closely.
    like "adm", "oracle", "apache" etc. To allow handling such accounts
    we will introduce a new attribute:
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.7.TBD``
-| ``                 NAME 'externalUser' ``
-| ``                 DESC 'Multivalue string attribute that allows storing user names.' ``
-| ``                 EQUALITY caseIgnoreMatch ``
-| ``                 ORDERING caseIgnoreMatch ``
-| ``                 SUBSTR caseIgnoreSubstringsMatch ``
-| ``                 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 ``
-| ``                 X-ORIGIN 'IPA v2' )``
+::
+
+    attributeTypes: (2.16.840.1.113730.3.8.7.TBD
+                     NAME 'externalUser'
+                     DESC 'Multivalue string attribute that allows storing user names.'
+                     EQUALITY caseIgnoreMatch
+                     ORDERING caseIgnoreMatch
+                     SUBSTR caseIgnoreSubstringsMatch
+                     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+                     X-ORIGIN 'IPA v2' )
 
    For the sake of simplicity we will support only accounts specified by
    name and not by uid.
@@ -218,10 +222,12 @@ Let us look at each of the attributes and its use more closely.
    The values it will hold may look like IPv4 or IPv6 addresses or
    expressed using the CIDR notation for example:
 
-| ``128.138.243.0``
-| ``128.138.204.0/24``
-| ``128.138.242.0``
-| ``ffff:ffff:ffff:ffff::``
+::
+
+    128.138.243.0
+    128.138.204.0/24
+    128.138.242.0
+    ffff:ffff:ffff:ffff::
 
    Instead of defining a new attribute we can also consider existing
    attribute **ipNetmaskNumber** but this attribute is defines as single
@@ -811,42 +817,46 @@ Examples
 
 Default rule
 
-| `` dn: ipaUniqueID=d4453480-cc53-11dd-ad8b-0800200c9a66,cn=SUDOers...``
-| `` objectclass: top``
-| `` objectclass: ipaAssociation``
-| `` objectclass: ipaSudoRule``
-| `` ipaUniqueID: d4453480-cc53-11dd-ad8b-0800200c9a66``
-| `` cn: defaults``
-| `` ipaSudoOpt: env_keep+=SSH_AUTH_SOCK``
-| `` ipaSudoOpt: ...``
-| `` ipaSudoOpt: ...``
-| `` compatVisible: true``
+::
+
+     dn: ipaUniqueID=d4453480-cc53-11dd-ad8b-0800200c9a66,cn=SUDOers...
+     objectclass: top
+     objectclass: ipaAssociation
+     objectclass: ipaSudoRule
+     ipaUniqueID: d4453480-cc53-11dd-ad8b-0800200c9a66
+     cn: defaults
+     ipaSudoOpt: env_keep+=SSH_AUTH_SOCK
+     ipaSudoOpt: ...
+     ipaSudoOpt: ...
+     compatVisible: true
 
 A rule that denies specified users on the given machines to run su
 command as a local root on centrally managed "superuser" account.
 
-| `` dn: ipaUniqueID=d4453480-cc53-11dd-ad8b-0800200c9a66,cn=SUDOers...``
-| `` objectclass: top``
-| `` objectclass: ipaAssociation``
-| `` objectclass: ipaSudoRule``
-| `` ipaUniqueID: d4453480-cc53-11dd-ad8b-0800200c9a66``
-| `` cn: defaults for virtual lab``
-| `` compatVisible: true``
-| `` memberHost: cn=VirtGuests,cn=hostgroups,cn=accounts,...``
-| `` memberHost: fqdn=myhost.lab.com,cn=computers,cn=accounts,...``
-| `` externalHost: lobby.workstation.external.com  ``
-| `` hostMask: 128.138.204.0/24``
-| `` memberUser: cn=sss,cn=users,cn=accounts,...``
-| `` memberUser: cn=dpal,cn=users,cn=accounts,...``
-| `` memberUser: cn=Engineering,cn=groups,cn=accounts,...``
-| `` memberDenyCmd: f4453480-cc53-11dd-ad8b-0abc200c9a67,cn=SUDOcmd...``
-| `` ipaSudoRunAsExtUser: root``
-| `` ipaSudoRunAs: cn=superuser,cn=users,cn=accounts,...``
-| `` dn: ipaUniqueID=f4453480-cc53-11dd-ad8b-0abc200c9a67,cn=SUDOcmd...``
-| `` objectclass: top``
-| `` objectclass: ipaSudoCmd``
-| `` ipaUniqueID: f4453480-cc53-11dd-ad8b-0abc200c9a67``
-| `` sudoCmd: /bin/su``
+::
+
+     dn: ipaUniqueID=d4453480-cc53-11dd-ad8b-0800200c9a66,cn=SUDOers...
+     objectclass: top
+     objectclass: ipaAssociation
+     objectclass: ipaSudoRule
+     ipaUniqueID: d4453480-cc53-11dd-ad8b-0800200c9a66
+     cn: defaults for virtual lab
+     compatVisible: true
+     memberHost: cn=VirtGuests,cn=hostgroups,cn=accounts,...
+     memberHost: fqdn=myhost.lab.com,cn=computers,cn=accounts,...
+     externalHost: lobby.workstation.external.com
+     hostMask: 128.138.204.0/24
+     memberUser: cn=sss,cn=users,cn=accounts,...
+     memberUser: cn=dpal,cn=users,cn=accounts,...
+     memberUser: cn=Engineering,cn=groups,cn=accounts,...
+     memberDenyCmd: f4453480-cc53-11dd-ad8b-0abc200c9a67,cn=SUDOcmd...
+     ipaSudoRunAsExtUser: root
+     ipaSudoRunAs: cn=superuser,cn=users,cn=accounts,...
+     dn: ipaUniqueID=f4453480-cc53-11dd-ad8b-0abc200c9a67,cn=SUDOcmd...
+     objectclass: top
+     objectclass: ipaSudoCmd
+     ipaUniqueID: f4453480-cc53-11dd-ad8b-0abc200c9a67
+     sudoCmd: /bin/su
 
 
 

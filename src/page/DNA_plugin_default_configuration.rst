@@ -80,10 +80,12 @@ server is called first.example.com We assume our RNG choose 123
 would be: 515899392-517996543 and for groups would be:
 517996544-520093695
 
-| ``123 is 01111011 binary 8bit, and 0001111011 binary (10bit)``
-| ``if we append 22 bit set to 0 we get 0x1EC00000 hex``
-| ``the uidNumber range is 0x1EC00000-0x1EEFFFFF in hex``
-| ``the gidNumber range is 0x1EE00000-0x1EFFFFFF in hex``
+::
+
+    123 is 01111011 binary 8bit, and 0001111011 binary (10bit)
+    if we append 22 bit set to 0 we get 0x1EC00000 hex
+    the uidNumber range is 0x1EC00000-0x1EEFFFFF in hex
+    the gidNumber range is 0x1EE00000-0x1EFFFFFF in hex
 
 
 

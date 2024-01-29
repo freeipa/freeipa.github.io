@@ -58,8 +58,10 @@ stored in LDAP into a more user-friendly form and most of the time, some
 less relevant attributes are hidden by default. Since this behaviour
 isn't always desirable, all such commands accept the following options:
 
-| ``--all     display all attributes``
-| ``--raw     display attributes as they are stored in LDAP``
+::
+
+    --all     display all attributes
+    --raw     display attributes as they are stored in LDAP
 
 --all makes the command retrieve all attributes and display them, this
 doesn't apply to explicitly hidden attributes.
@@ -172,8 +174,10 @@ There are 2 ways of creating them; the simple way:
 
 and the hard(er) way:
 
-| `` ipa automountmap-add LOCATION_NAME MAP_NAME``
-| `` ipa automountkey-add LOCATION_NAME auto.master MOUNT_POINT --info=MAP_NAME``
+::
+
+     ipa automountmap-add LOCATION_NAME MAP_NAME
+     ipa automountkey-add LOCATION_NAME auto.master MOUNT_POINT --info=MAP_NAME
 
 MOUNT_POINT is the mount point such as "/mnt".
 
@@ -256,13 +260,15 @@ to
 
 In file /etc/sysconfig/autofs add the following lines at its end:
 
-| ``LDAP_URI="``\ ```ldap://$SERVER_HOSTNAME`` <ldap://$SERVER_HOSTNAME>`__\ ``"``
-| ``SEARCH_BASE="cn=$AUTOMOUNT_LOCATION,cn=automount,$LDAP_BASE_DN"``
-| ``MAP_OBJECT_CLASS="automountMap"``
-| ``ENTRY_OBJECT_CLASS="automount"``
-| ``MAP_ATTRIBUTE="automountMapName"``
-| ``ENTRY_ATTRIBUTE="automountKey"``
-| ``VALUE_ATTRIBUTE="automountInformation"``
+::
+
+    LDAP_URI="``\ ```ldap://$SERVER_HOSTNAME`` <ldap://$SERVER_HOSTNAME>`__\ ``"
+    SEARCH_BASE="cn=$AUTOMOUNT_LOCATION,cn=automount,$LDAP_BASE_DN"
+    MAP_OBJECT_CLASS="automountMap"
+    ENTRY_OBJECT_CLASS="automount"
+    MAP_ATTRIBUTE="automountMapName"
+    ENTRY_ATTRIBUTE="automountKey"
+    VALUE_ATTRIBUTE="automountInformation"
 
 If unsure about what to put into the SEARCH_BASE line, issue this
 command to retrieve the correct DN:
@@ -428,10 +434,12 @@ There are 4 components to an HBAC:
 A simple example: Allow the user admin to ssh into the host tiger from
 the host lion.
 
-| ``$ ipa hbac-add --type=allow --service=sshd tiger_sshd``
-| ``$ ipa hbac-add-host tiger_sshd --hosts=tiger.example.com``
-| ``$ ipa hbac-add-sourcehost tiger_sshd --hosts=lion.example.com``
-| ``$ ipa hbac-add-user --users=admin tiger_sshd``
+::
+
+    $ ipa hbac-add --type=allow --service=sshd tiger_sshd
+    $ ipa hbac-add-host tiger_sshd --hosts=tiger.example.com
+    $ ipa hbac-add-sourcehost tiger_sshd --hosts=lion.example.com
+    $ ipa hbac-add-user --users=admin tiger_sshd
 
 There is no access time associated with this rule so it is is always
 available.

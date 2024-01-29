@@ -36,19 +36,21 @@ is done via GUI to see records that have to be updated manually.
 
 The list of records can look for example like this:
 
-| ``[user@ipa ~]$ ipa dns-update-system-records --dry-run``
-| `` IPA DNS records:``
-| ``   _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-| ``   _kerberos.example.com. 86400 IN TXT "EXAMPLE.COM"``
-| ``   _kpasswd._tcp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``
-| ``   _kpasswd._udp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.``
-| ``   _ldap._tcp.example.com. 86400 IN SRV 0 100 389 ipa.example.com.``
-| ``   _ntp._udp.example.com. 86400 IN SRV 0 100 123 ipa.example.com.``
-| ``   ipa-ca.example.com. 86400 IN A 192.0.2.36``
-| ``   ipa-ca.example.com. 86400 IN AAAA 2001:db8:0:224e:21a:4aff:fe23:1523``
+::
+
+    [user@ipa ~]$ ipa dns-update-system-records --dry-run
+     IPA DNS records:
+       _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+       _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+       _kerberos._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+       _kerberos._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+       _kerberos.example.com. 86400 IN TXT "EXAMPLE.COM"
+       _kpasswd._tcp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.
+       _kpasswd._udp.example.com. 86400 IN SRV 0 100 464 ipa.example.com.
+       _ldap._tcp.example.com. 86400 IN SRV 0 100 389 ipa.example.com.
+       _ntp._udp.example.com. 86400 IN SRV 0 100 123 ipa.example.com.
+       ipa-ca.example.com. 86400 IN A 192.0.2.36
+       ipa-ca.example.com. 86400 IN AAAA 2001:db8:0:224e:21a:4aff:fe23:1523
 
 
 
@@ -159,8 +161,10 @@ Examples of server configuration:
 
 Run *nsupdate* with option ``-g``
 
-| ``[user@ipa ~]$ kinit principal-allowed-to-update-records@REALM``
-| ``[user@ipa ~]$ nsupdate -g ipa-records.nsupdate``
+::
+
+    [user@ipa ~]$ kinit principal-allowed-to-update-records@REALM
+    [user@ipa ~]$ nsupdate -g ipa-records.nsupdate
 
 
 

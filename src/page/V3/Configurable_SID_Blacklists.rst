@@ -55,16 +55,18 @@ Schema updates
 The feature will introduce 2 new *attributeTypes* which will be added to
 *MAY* list of *ipaNTTrustedDomain* object class:
 
-| ``attributetypes: ( 2.16.840.1.113730.3.8.11.38 NAME 'ipaNTSIDBlacklistIncoming'``
-| `` DESC 'Extra SIDs filtered out from incoming MS-PAC'``
-| `` EQUALITY caseIgnoreIA5Match``
-| `` SUBSTR caseIgnoreIA5SubstringsMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )``
-| ``attributetypes: ( 2.16.840.1.113730.3.8.11.39 NAME 'ipaNTSIDBlacklistOutgoing'``
-| `` DESC 'Extra SIDs filtered out from outgoing MS-PAC'``
-| `` EQUALITY caseIgnoreIA5Match``
-| `` SUBSTR caseIgnoreIA5SubstringsMatch``
-| `` SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )``
+::
+
+    attributetypes: ( 2.16.840.1.113730.3.8.11.38 NAME 'ipaNTSIDBlacklistIncoming'
+     DESC 'Extra SIDs filtered out from incoming MS-PAC'
+     EQUALITY caseIgnoreIA5Match
+     SUBSTR caseIgnoreIA5SubstringsMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )
+    attributetypes: ( 2.16.840.1.113730.3.8.11.39 NAME 'ipaNTSIDBlacklistOutgoing'
+     DESC 'Extra SIDs filtered out from outgoing MS-PAC'
+     EQUALITY caseIgnoreIA5Match
+     SUBSTR caseIgnoreIA5SubstringsMatch
+     SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v3' )
 
 
 

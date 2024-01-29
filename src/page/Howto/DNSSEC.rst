@@ -353,7 +353,7 @@ To disable current DNSSEC master, please reinstall IPA DNS with
    Do you want to disable current DNSSEC key master? [no]:  yes
    Existing BIND configuration detected, overwrite? [no]:  yes
     
-   ...
+     ...
 
 
 

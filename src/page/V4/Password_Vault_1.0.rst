@@ -765,7 +765,7 @@ The following command can be used to display vault configuration:
 
    $ ipa vaultconfig-show
      Transport Certificate: -----BEGIN CERTIFICATE-----
-   ...
+     ...
    -----END CERTIFICATE-----
 
 

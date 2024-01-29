@@ -372,7 +372,7 @@ How to Test
    Server: ipasrv1.example.com
    Role status: enabled
     
-   ...
+     ...
 
 -  search for all servers which are not AD trust controller
 

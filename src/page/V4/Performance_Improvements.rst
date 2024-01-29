@@ -112,10 +112,10 @@ connection open and the BIND:
    [11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress
    [11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI
    [11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"
-   .... 
-   .... 
+   ....
+   ....
    <MOD(s) to add the users into the related groups>
-   .... 
+   ....
 
 
 
@@ -328,7 +328,7 @@ took 40-60% of time of user-add command without groups.
      1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)
      1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)
     32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
-   ...
+    ...
 
 This performance issue will be resolved by fixing
 `#5787 <https://fedorahosted.org/freeipa/ticket/5787>`__.
@@ -457,7 +457,7 @@ for an extra search operation.
     6310241 function calls (6200125 primitive calls) in 16.453 seconds
        Ordered by: cumulative time
        ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-    ....
+       ....
             1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
          6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
             1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)
@@ -507,7 +507,7 @@ performance.
     6310241 function calls (6200125 primitive calls) in 16.453 seconds
        Ordered by: cumulative time
        ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-    ....
+       ....
             1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
          6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
             1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)
@@ -518,7 +518,7 @@ performance.
         10006    6.114    0.001    6.114    0.001 {built-in method result4}
          2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)
             1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
-    ....
+            ....
 
 Getting and processing password attributes took approximately **32%** of
 time.
@@ -1946,7 +1946,7 @@ Related ticket(s):
        Ordered by: cumulative time
     
        ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-     ....
+       ....
             1    0.103    0.103  227.348  227.348 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
     73967/73966    3.240    0.000  186.341    0.003 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
        247887    1.882    0.000  131.877    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
@@ -1961,7 +1961,7 @@ Related ticket(s):
        173919    1.286    0.000   23.806    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
        283906    0.407    0.000   16.624    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1265(endswith)
        283906    0.996    0.000   16.077    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1280(_tailmatch)
-     ....
+       ....
 
 As is show in output of profiler, the most time consuming operations are
 **convert_attribute_members**, **get_indirect_members**,
@@ -2020,14 +2020,14 @@ seconds
          2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
          2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
         50397    0.342    0.000   93.376    0.002 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
-    ....
+        ....
         44123    0.874    0.000    4.029    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:56(dn2str)
          2000    0.321    0.000    3.892    0.002 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(convert_attribute_members)
          2000    0.039    0.000    3.204    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)
        469301    1.701    0.000    2.919    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:20(escape_dn_chars)
-     ....
+       ....
          2161    0.012    0.000    0.233    0.000 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn)
-     ....
+         ....
 
 For case when
 

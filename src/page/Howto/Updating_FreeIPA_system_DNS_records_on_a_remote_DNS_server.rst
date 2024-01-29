@@ -64,7 +64,7 @@ Option ``--out FILE`` will store DNS data in *nsupdate* format in file
 
    [user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate
      IPA DNS records:
-      ...
+     ...
    [user@ipa ~]$ cat ipa-records.nsupdate 
    ; IPA DNS records
    update delete _kerberos-master._tcp.example.com. SRV

@@ -189,7 +189,7 @@ into a parent zone *test.* which is managed by IPA:
 
 ::
 
-   ``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  --ds-rec="60466820A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956"``**
+   ``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  --ds-rec="60466820A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956"``
 
 DS record has to be added to the same name as NS record (delegation)
 **in the parent zone**.
@@ -217,7 +217,7 @@ above:
 
 ::
 
-   ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key ds-seen --zone example.test --keytag 60466``**
+   ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key ds-seen --zone example.test --keytag 60466``
 
 *ds-seen* command will allow the KSK to proceed to the next state:
 

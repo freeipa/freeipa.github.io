@@ -34,8 +34,8 @@ Using the web UI
 | Enter the LDAP provider name of choice.
 Server URI:``\ ```ldaps://fqdn`` <ldaps://fqdn>`__\ ``of FreeIPA server
 | *Make sure the fqdn is resolvable from Isilon!*
-| ``Base Distinguished Name:``\ *``enteryourBaseDN``*
-| ``Bind to:``\ *``entertheDNcreatedabove``*
+Base Distinguished Name:``\ *``enteryourBaseDN
+Bind to:``\ *``entertheDNcreatedabove
 | Then enter the password for the DN and Isilon OneFS should be
   connected to FreeIPA via LDAP.
 

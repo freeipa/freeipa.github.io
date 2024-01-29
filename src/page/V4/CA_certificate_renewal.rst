@@ -65,7 +65,7 @@ Shared certificate store
 ----------------------------------------------------------------------------------------------
 
 CA certificates will be stored in entries under
-``cn=certificates,cn=ipa,cn=etc,suffix``*: 
+``cn=certificates,cn=ipa,cn=etc,suffix``:
 
 ::
 
@@ -309,11 +309,11 @@ updates ``cn=ca_renewal,cn=ipa,cn=etc,suffix`` so that the new
 CA certificate can be picked up by certmonger and resubmits the
 certmonger request. In the post-save command of the certmonger request,
 the renewed CA certificate is added to
-``cn=certificates,cn=ipa,cn=etc,suffix``*. 
+``cn=certificates,cn=ipa,cn=etc,suffix``.
 
 When installing new CA certificate manually, ``ipa-cacert-manage`` adds
 the certificate directly to
-``cn=certificates,cn=ipa,cn=etc,suffix``*. 
+``cn=certificates,cn=ipa,cn=etc,suffix``.
 
 When a CA certificate is renewed, its previous version is not removed to
 allow rollover.
@@ -340,7 +340,7 @@ Upgrade
 -------
 
 Old clients will look for IPA CA certificate in
-``cn=CAcert,cn=ipa,cn=etc,suffix``*. A copy of the most recent 
+``cn=CAcert,cn=ipa,cn=etc,suffix``. A copy of the most recent
 IPA CA certificate needs to be maintained in this entry for
 compatibility with old clients.
 

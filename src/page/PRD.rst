@@ -439,11 +439,12 @@ This work is core and planned.
 -  [5.5] It should be possible to store Certificates and key material in
    either flat files or an NSS database
 
-Planned. Accomplished mostly by the CS team. 
-| **No plans to support CRL checking by the client components that
-  connect to the server using SSL (XML-RPC, audit). We are considering
-  mechanism to dirstibute cert needed for this using DS and LDAP
-  lookup.**
+Planned. Accomplished mostly by the CS team.
+
+No plans to support CRL checking by the client components that
+connect to the server using SSL (XML-RPC, audit). We are considering
+mechanism to dirstibute cert needed for this using DS and LDAP
+lookup.
 
 6. Policy
 ---------

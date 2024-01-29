@@ -404,11 +404,11 @@ HIGHLY RECOMMENDED: If-else statements should have the following form:
 
 ::
 
-      if (condition``*\ ``) { 
+       if (condition) { 
          /* do some work */
      }
 
-      if (condition``*\ ``) { 
+       if (condition) { 
          /* do some work */
      } else {
          /* do some other work */
@@ -485,11 +485,11 @@ similar form:
 
 ::
 
-      for (initialization;condition;update``*\ ``) { 
+       for (initialization;condition;update) { 
          /* iterate here */
      }
 
-      while (condition``*\ ``) { 
+       while (condition) { 
          /* do some work */
      }
 

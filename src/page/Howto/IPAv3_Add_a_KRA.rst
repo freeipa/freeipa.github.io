@@ -42,7 +42,7 @@ Install required packages
 Install IPA server
 ------------------
 
-``# ipa-server-install -a mypassword1 -p mypassword2 --domain=ipa_domain``*\ `` --realm=IPA_DOMAIN``*\ `` --setup-dns --no-forwarders -U`` 
+``# ipa-server-install -a mypassword1 -p mypassword2 --domain=ipa_domain --realm=IPA_DOMAIN --setup-dns --no-forwarders -U`` 
 
 **NOTE**: This configures IPA with its own DNS server. This is not an
 absolute requirement.

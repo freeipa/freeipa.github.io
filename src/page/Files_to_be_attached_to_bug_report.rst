@@ -326,7 +326,7 @@ Prologue:
 
 ::
 
-     set debug=true``*\ `` in /etc/ipa/default.conf``* 
+      set debug=true in /etc/ipa/default.conf``* 
     apachectl graceful
 
 Run broken command:
@@ -348,7 +348,7 @@ Epilogue:
 
 ::
 
-     remove debug=true``*\ `` from /etc/ipa/default.conf``* 
+      remove debug=true from /etc/ipa/default.conf``* 
     apachectl graceful
 
 
@@ -367,7 +367,7 @@ Prologue:
 
 ::
 
-     change LogLevel``*\ `` to info``*\ `` in /etc/httpd/conf.d/nss.conf``* 
+      change LogLevel to info in /etc/httpd/conf.d/nss.conf``* 
     apachectl graceful
 
 Try to log in again.
@@ -385,7 +385,7 @@ Epilogue:
 
 ::
 
-     set back LogLevel``*\ `` to warn``*\ `` in /etc/httpd/conf.d/nss.conf``* 
+      set back LogLevel to warn in /etc/httpd/conf.d/nss.conf``* 
     apachectl graceful
 
 

@@ -155,16 +155,16 @@ Currently, the algorithm for PAM stack configuration is the following:
 
 ::
 
-   | ````
-   | ``authconfig --nisdomain=<domain>``
-   | ``if (sssd) then ``
-   | ``   authconfig --enablesssd --enablesssdauth``
-   | ``else ``
-   | ``   authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
-   | ``done``
-   | ``if (mkhomedir) then``
-   | ``   authconfig --enablemkhomedir``
-   | ``done``
+   
+   authconfig --nisdomain=<domain>
+   if (sssd) then 
+      authconfig --enablesssd --enablesssdauth
+   else 
+      authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart
+   done
+   if (mkhomedir) then
+      authconfig --enablemkhomedir
+   done
 
 
 

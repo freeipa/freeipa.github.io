@@ -41,9 +41,9 @@ A PAM Service group is defined as:
 
 ::
 
-   | ``objectClasses: (2.16.840.1.113730.3.8.4.XX NAME 'ipaHBACServiceGroup' ``
-   | ``DESC 'IPA HBAC service group object class' SUP nestedGroup STRUCTURAL``
-   | ``X-ORIGIN 'IPA v2' )``
+   objectClasses: (2.16.840.1.113730.3.8.4.XX NAME 'ipaHBACServiceGroup' 
+   DESC 'IPA HBAC service group object class' SUP nestedGroup STRUCTURAL
+   X-ORIGIN 'IPA v2' )
 
 A sample group entry looks like:
 

@@ -103,19 +103,19 @@ connection open and the BIND:
 
    ``Details:``
 
-   | ``[11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
-   | ``...``
-   | ``[11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI``
-   | ``[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
-   | ``[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"``
-   | ``.... ``
-   | ``.... ``
-   | ``<MOD(s) to add the users into the related groups>``
-   | ``.... ``
+   [11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy
+   ...
+   [11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000
+   [11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"
+   .... 
+   .... 
+   <MOD(s) to add the users into the related groups>
+   .... 
 
 
 
@@ -320,15 +320,15 @@ took 40-60% of time of user-add command without groups.
    ``Profiler output:``
 
    | ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
-   | ``Ordered by: cumulative time``
-   | `` ``
-   | ``ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-   | ``...``
-   | ``206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
-   | ``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
-   | ``  1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
-   | `` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-   | ``...``
+   Ordered by: cumulative time
+    
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   ...
+   206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)
+     1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)
+     1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)
+    32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+   ...
 
 This performance issue will be resolved by fixing
 `#5787 <https://fedorahosted.org/freeipa/ticket/5787>`__.
@@ -1081,12 +1081,12 @@ The CLI that will do the provisioning of a given ldif file will:
 
 ::
 
-   | ``(objectClass=inetorgperson)``
-   | ``(objectClass=ipausergroup)``
-   | ``(objectClass=ipahost)``
-   | ``(objectClass=ipahostgroup)``
-   | ``(objectClass=ipasudorule)``
-   | ``(objectClass=ipahbacrule)``
+   (objectClass=inetorgperson)
+   (objectClass=ipausergroup)
+   (objectClass=ipahost)
+   (objectClass=ipahostgroup)
+   (objectClass=ipasudorule)
+   (objectClass=ipahbacrule)
 
 -  Compute and set the appropriate `db cache
    <http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning>`__
@@ -1094,40 +1094,40 @@ The CLI that will do the provisioning of a given ldif file will:
 
 ::
 
-   | ``dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-dbcachesize``
-   | ``nsslapd-dbcachesize: ``
-   | ``-``
-   | ``replace: nsslapd-db-locks``
-   | ``nsslapd-db-locks: ``
+   dn: cn=config,cn=ldbm database,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-dbcachesize
+   nsslapd-dbcachesize: 
+   -
+   replace: nsslapd-db-locks
+   nsslapd-db-locks: 
 
 -  Compute and set the appropriate *domain* `entry cache <http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning>`__ size
 
 ::
 
-   | ``dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-cachememsize``
-   | ``nsslapd-cachememsize: ``
+   dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-cachememsize
+   nsslapd-cachememsize: 
 
 -  Disable memberof
 
 ::
 
-   | ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-pluginEnabled``
-   | ``nsslapd-pluginEnabled: off``
+   dn: cn=MemberOf Plugin,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-pluginEnabled
+   nsslapd-pluginEnabled: off
 
 -  Disable Schema Compat
 
 ::
 
-   | ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-pluginEnabled``
-   | ``nsslapd-pluginEnabled: off``
+   dn: cn=Schema Compatibility,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-pluginEnabled
+   nsslapd-pluginEnabled: off
 
 -  stop ipa (that will stop DS)
 -  **start DS**
@@ -1570,41 +1570,41 @@ The add of **one** host group triggers the following operations:
 
    ``Details:``
 
-   | ``ADD hostgroup with 42 members (nested)``
-   | ``   718 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``       4 membership search (2 identical)``
-   | ``       5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')``
-   | ``       for each member (42): total = 84srch``
-   | ``               2 search of the member entry (identical BUG)``
-   | ``    ``
-   | ``       for each member (42): total = 84``
-   | ``               1 search of 'member' ``
-   | ``               1 search of 'fqdn'``
-   | ``       10 search to find groups owning hostgroup (4 identical )``
-   | ``       for each member (42): total = 252srch [405->1125]``
-   | ``           /* related to the MOD 'memberof' of the member */``
-   | ``           1 search to find the member "member memberUser memberHost"``
-   | ``           1 search to find groups owning member``
-   | ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-   | ``           2 search member during MOD (identical BUG ?)``
-   | ``       for each member (42): total = 252srch [1125->1760]``
-   | ``           /* related to the second "BUGGY" MOD 'memberof' of the member */``
-   | ``           1 search to find the member "member memberUser memberHost"``
-   | ``           1 search to find groups owning member``
-   | ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-   | ``           2 search member during MOD (identical BUG ?)``
-   | ``    87 MOD``
-   | ``       for each host in hostgroup [418]``
-   | ``           update 'memberof' for hostgroup and alt networkgroup``
-   | ``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
-   | ``           update 'memberof' for hostgroup and alt networkgroup``
-   | ``       update hostgroup for 'mepmanageentry'``
-   | ``        ``
-   | ``    90 ADD``
-   | ``      add hostgroup``
-   | ``      add alt networkgroup``
-   | ``      88 RetroCL add due to MODs``
+   ADD hostgroup with 42 members (nested)
+      718 SRCH
+          1 search (uniqueness ipaUniqueID)
+          4 membership search (2 identical)
+          5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')
+          for each member (42): total = 84srch
+                  2 search of the member entry (identical BUG)
+       
+          for each member (42): total = 84
+                  1 search of 'member' 
+                  1 search of 'fqdn'
+          10 search to find groups owning hostgroup (4 identical )
+          for each member (42): total = 252srch [405->1125]
+              /* related to the MOD 'memberof' of the member */
+              1 search to find the member "member memberUser memberHost"
+              1 search to find groups owning member
+              2 search to find groups owning hostgroup (identical BUG + same search for each member)
+              2 search member during MOD (identical BUG ?)
+          for each member (42): total = 252srch [1125->1760]
+              /* related to the second "BUGGY" MOD 'memberof' of the member */
+              1 search to find the member "member memberUser memberHost"
+              1 search to find groups owning member
+              2 search to find groups owning hostgroup (identical BUG + same search for each member)
+              2 search member during MOD (identical BUG ?)
+       87 MOD
+          for each host in hostgroup [418]
+              update 'memberof' for hostgroup and alt networkgroup
+          for each host in hostgroup (Yes this is done twice ! BUG) [1122]
+              update 'memberof' for hostgroup and alt networkgroup
+          update hostgroup for 'mepmanageentry'
+           
+       90 ADD
+         add hostgroup
+         add alt networkgroup
+         88 RetroCL add due to MODs
 
 
 
@@ -1618,39 +1618,39 @@ internal operations 47 ADDs, 45 MODs and 918 SRCH
 
    ``Details:``
 
-   | ``ADD sudorules 25 users/20 hosts``
-   | ``   918 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``           /* Follow comes slapi-nis 'cn=sudoers,cn=Schema Compatibility' */``
-   | ``               for each memberHost (20): 40``
-   | ``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-   | ``                   ``
-   | ``               for each memberuser (25): 25``
-   | ``                   1 search 'cn'``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-   | ``               for each memberUser (25): 25 ``
-   | ``                   1 search 'uid'``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host (ipaNisNetgroup)``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host (objectclass=ipaHost)``
-   | ``               for each memberUser (25): 50``
-   | ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-   | ``               for each memberUser (25):  25``
-   | ``                   1 search user (objectclass=ipaNisNetgroup)``
-   | ``       10 searchs to find if add sudorules belong to a group``
-   | ``       For each memberUser (25):``
-   | ``           /* search all groups it can belong to */``
-   | ``           10 search based on member 'memberof'``
-   | ``   45 MOD``
-   | ``       for each users:``
-   | ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
-   | ``       for each host:``
-   | ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
-   | ``   47 ADD``
-   | ``       add sudorule``
-   | ``       RetroCL add sudorule + 45 updates of memberof (MODs)``
+   ADD sudorules 25 users/20 hosts
+      918 SRCH
+          1 search (uniqueness ipaUniqueID)
+              /* Follow comes slapi-nis 'cn=sudoers,cn=Schema Compatibility' */
+                  for each memberHost (20): 40
+                      2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))
+                      
+                  for each memberuser (25): 25
+                      1 search 'cn'
+                  for each memberHost (20): 20
+                      1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))
+                  for each memberUser (25): 25 
+                      1 search 'uid'
+                  for each memberHost (20): 20
+                      1 search host (ipaNisNetgroup)
+                  for each memberHost (20): 20
+                      1 search host (objectclass=ipaHost)
+                  for each memberUser (25): 50
+                      2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))
+                  for each memberUser (25):  25
+                      1 search user (objectclass=ipaNisNetgroup)
+          10 searchs to find if add sudorules belong to a group
+          For each memberUser (25):
+              /* search all groups it can belong to */
+              10 search based on member 'memberof'
+      45 MOD
+          for each users:
+              update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value
+          for each host:
+              update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value
+      47 ADD
+          add sudorule
+          RetroCL add sudorule + 45 updates of memberof (MODs)
 
 
 
@@ -1799,37 +1799,37 @@ internal operations: 2 ADD, 0 MOD, 243 SRCH
 
    ``Details:``
 
-   | ``ADD sudorules 25 users/20 hosts``
-   | ``   243 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``               for each memberHost (20): 40``
-   | ``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-   | ``                   ``
-   | ``               for each memberuser (25): 25``
-   | ``                   1 search 'cn'``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host 'cn' ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-   | ``               for each memberUser (25): 25 ``
-   | ``                   1 search 'uid'((objectclass=posixAccount))``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host 'cn' ((objectclass=ipaNisNetgroup))``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host 'fqdn' (objectclass=ipaHost)``
-   | ``               for each memberUser (25): 50``
-   | ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-   | ``               for each memberUser (25):  25``
-   | ``                   1 search user (objectclass=ipaNisNetgroup)``
-   | ``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
-   | `` ``
-   | ``       For each memberUser (25):``
-   | ``           /* search all groups it can belong to */``
-   | ``           10 search based on member 'memberof'``
-   | `` ``
-   | ``   0 MOD``
-   | `` ``
-   | ``   2 ADD``
-   | ``       add sudorule``
-   | ``       RetroCL add sudorule``
+   ADD sudorules 25 users/20 hosts
+      243 SRCH
+          1 search (uniqueness ipaUniqueID)
+                  for each memberHost (20): 40
+                      2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))
+                      
+                  for each memberuser (25): 25
+                      1 search 'cn'
+                  for each memberHost (20): 20
+                      1 search host 'cn' ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))
+                  for each memberUser (25): 25 
+                      1 search 'uid'((objectclass=posixAccount))
+                  for each memberHost (20): 20
+                      1 search host 'cn' ((objectclass=ipaNisNetgroup))
+                  for each memberHost (20): 20
+                      1 search host 'fqdn' (objectclass=ipaHost)
+                  for each memberUser (25): 50
+                      2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))
+                  for each memberUser (25):  25
+                      1 search user (objectclass=ipaNisNetgroup)
+          10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)
+    
+          For each memberUser (25):
+              /* search all groups it can belong to */
+              10 search based on member 'memberof'
+    
+      0 MOD
+    
+      2 ADD
+          add sudorule
+          RetroCL add sudorule
 
 
 
@@ -1843,28 +1843,28 @@ internal operations 2ADD, 0 MOD, 13 SRCH
 
    ``Details:``
 
-   | ``ADD hbacrule 25 users/20 hosts``
-   | ``   13 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
-   | ``       1 unindexed search in sudorules if one of them owns the added hbacrule``
-   | `` ``
-   | ``           (&(&(objectclass=ipaSudoRule)``
-   | ``               (!(compatVisible=FALSE))``
-   | ``               (!(ipaEnabledFlag=FALSE)))``
-   | ``             (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
-   | ``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
-   | ``           )``
-   | `` ``
-   | ``   0 MOD``
-   | `` ``
-   | ``   2 ADD``
-   | ``       add hbacrule``
-   | ``       RetroCL add hbacrule``
+   ADD hbacrule 25 users/20 hosts
+      13 SRCH
+          1 search (uniqueness ipaUniqueID)
+          10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)
+          1 unindexed search in sudorules if one of them owns the added hbacrule
+    
+              (&(&(objectclass=ipaSudoRule)
+                  (!(compatVisible=FALSE))
+                  (!(ipaEnabledFlag=FALSE)))
+                (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  
+                  (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))
+              )
+    
+      0 MOD
+    
+      2 ADD
+          add hbacrule
+          RetroCL add hbacrule
 
 
 

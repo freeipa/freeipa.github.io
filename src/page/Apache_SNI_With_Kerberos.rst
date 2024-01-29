@@ -194,8 +194,8 @@ addition to the standard 80):
 
 ::
 
-     | `` NameVirtualHost *:80``
-     | `` NameVirtualHost *:443``
+      NameVirtualHost *:80
+      NameVirtualHost *:443
 
 Optionally add a redirect from non-SSL to SSL if you want it as a
 requirement:

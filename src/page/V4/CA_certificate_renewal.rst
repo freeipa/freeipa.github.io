@@ -70,23 +70,23 @@ CA certificates will be stored in entries under
 ::
 
    | ``dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*
-   | ``objectClass: ipaCertificate``
-   | ``objectClass: pkiCA``
-   | ``objectClass: ipaKeyPolicy``
-   | ``cn: cn=EXAMPLE.COM IPA CA``
-   | ``ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM``
-   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1``
-   | ``ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22``
+   objectClass: ipaCertificate
+   objectClass: pkiCA
+   objectClass: ipaKeyPolicy
+   cn: cn=EXAMPLE.COM IPA CA
+   ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM
+   ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1
+   ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22
    | ``ipaPublicKey: ``\ *``DER-encoded public key``*
-   | ``ipaConfigString: ipaCA``
-   | ``ipaConfigString: compatCA``
+   ipaConfigString: ipaCA
+   ipaConfigString: compatCA
    | ``cACertificate;binary:: ``\ *``DER-encoded certificate 1``*
    | ``cACertificate;binary:: ``\ *``DER-encoded certificate 2``*
-   | ``ipaKeyTrust: trusted``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3``
-   | ``ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4``
+   ipaKeyTrust: trusted
+   ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1
+   ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2
+   ipaKeyExtUsage: 1.3.6.1.5.5.7.3.3
+   ipaKeyExtUsage: 1.3.6.1.5.5.7.3.4
 
 Each entry represents a set of certificates using a single subject name
 and public key and contains trust policy for the set of certificates

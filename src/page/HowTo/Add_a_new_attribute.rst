@@ -56,31 +56,31 @@ default). Update these lists as appropriate.
 
 ::
 
-    | ``   diff --git a/ipalib/plugins/host.py b/ipalib/plugins/host.py``
-    | ``   index c79b9e212feec640a34ac0905d46adacee54060f..e615259174722af645bdad72802d8fca9783f6d3 100644``
-    | ``   --- a/ipalib/plugins/host.py``
-    | ``   +++ b/ipalib/plugins/host.py``
-    | ``   @@ -230,6 +230,7 @@ class host(LDAPObject):``
-    | ``            'fqdn', 'description', 'l', 'nshostlocation', 'krbprincipalname',``
-    | ``            'nshardwareplatform', 'nsosversion', 'usercertificate', 'memberof',``
-    | ``            'managedby', 'memberindirect', 'memberofindirect', 'macaddress',``
-    | ``   +        'userclass'``
-    | ``        ]``
-    | ``        uuid_attribute = 'ipauniqueid'``
-    | ``        attribute_members = {``
-    | ``   @@ -323,6 +324,12 @@ class host(LDAPObject):``
-    | ``                csv=True,``
-    | ``                flags=['no_search'],``
-    | ``            ),``
-    | ``   +        Str('userclass*',``
-    | ``   +            cli_name='class',``
-    | ``   +            label=_('Class'),``
-    | ``   +            doc=_('Host category (semantics placed on this attribute are for '``
-    | ``   +                  'local interpretation)'),``
-    | ``   +        ),``
-    | ``        ) + ticket_flags_params``
-    | ``   ``
-    | ``        def get_dn(self, *keys, **options):``
+       diff --git a/ipalib/plugins/host.py b/ipalib/plugins/host.py
+       index c79b9e212feec640a34ac0905d46adacee54060f..e615259174722af645bdad72802d8fca9783f6d3 100644
+       --- a/ipalib/plugins/host.py
+       +++ b/ipalib/plugins/host.py
+       @@ -230,6 +230,7 @@ class host(LDAPObject):
+                'fqdn', 'description', 'l', 'nshostlocation', 'krbprincipalname',
+                'nshardwareplatform', 'nsosversion', 'usercertificate', 'memberof',
+                'managedby', 'memberindirect', 'memberofindirect', 'macaddress',
+       +        'userclass'
+            ]
+            uuid_attribute = 'ipauniqueid'
+            attribute_members = {
+       @@ -323,6 +324,12 @@ class host(LDAPObject):
+                    csv=True,
+                    flags=['no_search'],
+                ),
+       +        Str('userclass*',
+       +            cli_name='class',
+       +            label=_('Class'),
+       +            doc=_('Host category (semantics placed on this attribute are for '
+       +                  'local interpretation)'),
+       +        ),
+            ) + ticket_flags_params
+       
+            def get_dn(self, *keys, **options):
 
 Since the API was changed, run the ``make-api`` script located at the
 root of te source tree. This will re-generate API.txt, our safeguard

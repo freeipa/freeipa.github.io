@@ -352,10 +352,10 @@ authentication:
 
 ::
 
-   | ``   kinit -n``
-   | ``   klist``
-   | ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)``
-   | ``   kinit -T $ARMOR_CCACHE principal@REALM ``
+      kinit -n
+      klist
+      ARMOR_CCACHE=$(klist|grep cache:|cut -d' ' -f3-)
+      kinit -T $ARMOR_CCACHE principal@REALM 
 
 **-T** option of kinit allows to specify existing credentials cache with
 a valid TGT to create a FAST channel between the Kerberos client and the

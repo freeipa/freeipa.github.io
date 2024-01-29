@@ -44,9 +44,9 @@ Ensure that the server is up to date:
 ::
 
    | ``[root@ipa ~
-   | ``...``
-   | ``[root@ipa ~]# yum update``
-   | ``...``
+   ...
+   [root@ipa ~]# yum update
+   ...
 
 
 

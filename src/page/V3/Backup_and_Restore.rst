@@ -166,9 +166,9 @@ scripted process would include this:
 
 ::
 
-   | ``# ipactl stop``
-   | ``# tar --xattrs --selinux -czf /path/to/backup ``
-   | ``# ipactl start``
+   # ipactl stop
+   # tar --xattrs --selinux -czf /path/to/backup 
+   # ipactl start
 
 Note that this a simplified view and doesn't include the metadata we
 will package as well.

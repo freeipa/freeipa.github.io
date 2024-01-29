@@ -65,11 +65,11 @@ disconnect topology.
 ::
 
    | ``[root@berlin ~
-   | ``[root@prague1 ~]# ipa-replica-install --setup-dns``
-   | ``[root@prague2 ~]# ipa-replica-install --setup-dns``
-   | ``[root@paris1 ~]# ipa-replica-install --setup-dns``
-   | ``[root@paris2 ~]# ipa-replica-install``
-   | ``[root@paris3 ~]# ipa-replica-install --setup-dns``
+   [root@prague1 ~]# ipa-replica-install --setup-dns
+   [root@prague2 ~]# ipa-replica-install --setup-dns
+   [root@paris1 ~]# ipa-replica-install --setup-dns
+   [root@paris2 ~]# ipa-replica-install
+   [root@paris3 ~]# ipa-replica-install --setup-dns
 
 
 

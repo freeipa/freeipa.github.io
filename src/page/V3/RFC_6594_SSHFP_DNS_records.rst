@@ -30,34 +30,34 @@ Automatic generation of SSHFP DNS records on IPA client install:
 
 ::
 
-    | ``# ipa-client-install``
-    | ``Discovery was successful!``
-    | ``Hostname: host1.example.com``
-    | ``Realm: EXAMPLE.COM``
-    | ``DNS Domain: example.com``
-    | ``IPA Server: ipa.example.com``
-    | ``BaseDN: dc=example,dc=com``
-    | ``Continue to configure the system with these values? [no]: yes``
-    | ``User authorized to enroll computers: admin``
-    | ``Synchronizing time with KDC...``
-    | ``Password for admin@EXAMPLE.COM: ``
-    | ``Enrolled in IPA realm EXAMPLE.COM``
-    | ``Created /etc/ipa/default.conf``
-    | ``New SSSD config will be created``
-    | ``Configured /etc/sssd/sssd.conf``
-    | ``Configured /etc/krb5.conf for IPA realm EXAMPLE.COM``
+    # ipa-client-install
+    Discovery was successful!
+    Hostname: host1.example.com
+    Realm: EXAMPLE.COM
+    DNS Domain: example.com
+    IPA Server: ipa.example.com
+    BaseDN: dc=example,dc=com
+    Continue to configure the system with these values? [no]: yes
+    User authorized to enroll computers: admin
+    Synchronizing time with KDC...
+    Password for admin@EXAMPLE.COM: 
+    Enrolled in IPA realm EXAMPLE.COM
+    Created /etc/ipa/default.conf
+    New SSSD config will be created
+    Configured /etc/sssd/sssd.conf
+    Configured /etc/krb5.conf for IPA realm EXAMPLE.COM
     | ``trying ``\ ```https://ipa.example.com/ipa/xml`` <https://ipa.example.com/ipa/xml>`__
-    | ``Hostname (host1.example.com) not found in DNS``
-    | ``DNS server record set to: host1.example.com -> 192.168.1.1``
-    | ``Adding SSH public key from /etc/ssh/ssh_host_rsa_key.pub``
-    | ``Adding SSH public key from /etc/ssh/ssh_host_dsa_key.pub``
-    | ``Forwarding 'host_mod' to server u'``\ ```https://ipa.example.com/ipa/xml`` <https://ipa.example.com/ipa/xml>`__\ ``'``
-    | ``SSSD enabled``
-    | ``Configured /etc/openldap/ldap.conf``
-    | ``NTP enabled``
-    | ``Configured /etc/ssh/ssh_config``
-    | ``Configured /etc/ssh/sshd_config``
-    | ``Client configuration complete.``
+    Hostname (host1.example.com) not found in DNS
+    DNS server record set to: host1.example.com -> 192.168.1.1
+    Adding SSH public key from /etc/ssh/ssh_host_rsa_key.pub
+    Adding SSH public key from /etc/ssh/ssh_host_dsa_key.pub
+    Forwarding 'host_mod' to server u'``\ ```https://ipa.example.com/ipa/xml`` <https://ipa.example.com/ipa/xml>`__\ ``'
+    SSSD enabled
+    Configured /etc/openldap/ldap.conf
+    NTP enabled
+    Configured /etc/ssh/ssh_config
+    Configured /etc/ssh/sshd_config
+    Client configuration complete.
 
 ::
 

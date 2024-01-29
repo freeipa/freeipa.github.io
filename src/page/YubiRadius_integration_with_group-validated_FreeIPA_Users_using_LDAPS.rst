@@ -91,14 +91,14 @@ have used "redhat123"
 
 ::
 
-   | ``dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com``
-   | ``changetype: add``
-   | ``objectclass: account``
-   | ``objectclass: simplesecurityobject``
-   | ``uid: yubiradius``
-   | ``userPassword: redhat123``
-   | ``passwordExpirationTime: 20380119031407Z``
-   | ``nsIdleTimeout: 0 ``
+   dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com
+   changetype: add
+   objectclass: account
+   objectclass: simplesecurityobject
+   uid: yubiradius
+   userPassword: redhat123
+   passwordExpirationTime: 20380119031407Z
+   nsIdleTimeout: 0 
 
 Now, import yubiradius.ldif into FreeIPA. You will need to enter your
 Directory Manager password, as you are making additions to LDAP.

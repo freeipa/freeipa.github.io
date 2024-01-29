@@ -287,10 +287,10 @@ will delete specified forward zone(s)
 
 ::
 
-   | ``dnsforwardzone-del zone.test. ``
-   | ``----------------------------``
-   | ``Deleted forward DNS zone "zone.test."``
-   | ``----------------------------``
+   dnsforwardzone-del zone.test. 
+   ----------------------------
+   Deleted forward DNS zone "zone.test."
+   ----------------------------
 
 
 
@@ -302,10 +302,10 @@ default.
 
 ::
 
-   | ``dnsforwardzone-enable zone.test. ``
-   | ``----------------------------``
-   | ``Enabled forward DNS zone "zone.test."``
-   | ``----------------------------``
+   dnsforwardzone-enable zone.test. 
+   ----------------------------
+   Enabled forward DNS zone "zone.test."
+   ----------------------------
 
 
 
@@ -316,10 +316,10 @@ will disable specified forward zone(s)
 
 ::
 
-   | ``dnsforwardzone-disable zone.test. ``
-   | ``----------------------------``
-   | ``Disabled forward DNS zone "zone.test."``
-   | ``----------------------------``
+   dnsforwardzone-disable zone.test. 
+   ----------------------------
+   Disabled forward DNS zone "zone.test."
+   ----------------------------
 
 
 

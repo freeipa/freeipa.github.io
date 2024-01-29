@@ -123,17 +123,17 @@ Example composed config template:
 
 ::
 
-   | ``[ req ]``
-   | ``prompt = no``
-   | ``encrypt_key = no``
-   | ````
-   | ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
-   | ``CN={{subject.username}}{% endsection %}``
-   | ````
-   | ``req_extensions = exts``
-   | ````
-   | ``[ exts ]``
-   | ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
+   [ req ]
+   prompt = no
+   encrypt_key = no
+   
+   distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}
+   CN={{subject.username}}{% endsection %}
+   
+   req_extensions = exts
+   
+   [ exts ]
+   subjectAltName=@{% section %}email={{subject.email}}{% endsection %}
 
 
 

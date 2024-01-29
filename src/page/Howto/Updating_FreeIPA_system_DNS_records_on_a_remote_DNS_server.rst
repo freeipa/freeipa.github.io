@@ -92,7 +92,7 @@ beginning of the file):
 - ``serverservername[port]`` where 
    *servername* is an authoritative DNS server where records should be
    sent
-- ``zonezonename``* where *zonename* is zone where FreeIPA 
+- ``zonezonename`` where *zonename* is zone where FreeIPA 
    records should be placed
 
 Example:

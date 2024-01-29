@@ -374,8 +374,8 @@ On IPA server, add an A record and a NS record for the AD domain:
 
 ::
 
-      # ipa dnsrecord-add ipa_domain ad_hostname.ad_netbios --a-ip-address=ad_ip_address``* 
-      # ipa dnsrecord-add ipa_domain ad_netbios --ns-hostname=ad_hostname.ad_netbios``* 
+      # ipa dnsrecord-add ipa_domain ad_hostname.ad_netbios --a-ip-address=ad_ip_address`` 
+      # ipa dnsrecord-add ipa_domain ad_netbios --ns-hostname=ad_hostname.ad_netbios`` 
 
 On AD DC, there two options.
 
@@ -429,16 +429,16 @@ On AD DC:
 
     C:\> nslookup
     > set type=srv
-     > _ldap._tcp.ad_domain``* 
-     > _ldap._tcp.ipa_domain``* 
+     > _ldap._tcp.ad_domain`` 
+     > _ldap._tcp.ipa_domain`` 
     > quit
 
 On IPA server:
 
 ::
 
-     # dig SRV _ldap._tcp.ipa_domain``* 
-     # dig SRV _ldap._tcp.ad_domain``* 
+     # dig SRV _ldap._tcp.ipa_domain`` 
+     # dig SRV _ldap._tcp.ad_domain`` 
 
 
 

@@ -146,8 +146,8 @@ ZSK
    $ dig +rrcomments example.test. DNSKEY
    ...
    ;; ANSWER SECTION:
-   example.test.      86400   IN  DNSKEY``\ ````\ ``257 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466
-   example.test.      86400   IN  DNSKEY``\ ````\ ``256 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144
+   example.test.      86400   IN  DNSKEY257 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466
+   example.test.      86400   IN  DNSKEY256 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144
 
 On **DNSSEC key master** all currently used keys can be shown using
 following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
@@ -189,7 +189,7 @@ into a parent zone *test.* which is managed by IPA:
 
 ::
 
-   ``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  --ds-rec="60466``\ ````\ ``8``\ ````\ ``2``\ ````\ ``0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956"``**
+   ``$ ipa dnsrecords-add test. example.test. --ns-rec=ns.example.test.  --ds-rec="60466820A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956"``**
 
 DS record has to be added to the same name as NS record (delegation)
 **in the parent zone**.

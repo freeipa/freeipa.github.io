@@ -158,8 +158,8 @@ typically have the same priority (0) and weight (100):
    ``;; QUESTION SECTION:``
    ``;_ldap._tcp.example.com. IN SRV``
    ``;; ANSWER SECTION:``
-   ``_ldap._tcp.example.com. SRV 0``\ ````\ ``100 389 ipa-brno.example.com.``
-   ``_ldap._tcp.example.com. SRV 0``\ ````\ ``100 389 ipa-london.example.com.``
+   ``_ldap._tcp.example.com. SRV 0100 389 ipa-brno.example.com.``
+   ``_ldap._tcp.example.com. SRV 0100 389 ipa-london.example.com.``
 
 
 

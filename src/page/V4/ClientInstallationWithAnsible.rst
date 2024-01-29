@@ -491,7 +491,7 @@ or provided in a file:
 
 ::
 
-   ``$ ansible-playbook -in inventory/hosts --vault-password-file``\ ````\ ``~/.vault_pass.txt install.yml``
+   ``$ ansible-playbook -in inventory/hosts --vault-password-file~/.vault_pass.txt install.yml``
 
 
 

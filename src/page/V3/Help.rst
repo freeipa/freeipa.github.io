@@ -46,8 +46,8 @@ Design
 ``   ipa: ERROR: command not specified``
 
 - Executing ``ipaTOPIC`` (again a usage violation) outputs the 
-    topic help (``ipa helpTOPIC`` output) to stderr, along with 
-   an "unknown command" error.
+  topic help (``ipa helpTOPIC`` output) to stderr, along with
+  an "unknown command" error.
 
 -  ``ipa help COMMAND`` is equivalent to ``ipa COMMAND --help``, except
    when there is a topic with the same name.

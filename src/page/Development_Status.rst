@@ -158,7 +158,7 @@ We initially began development of the new v2 components outside of our
 main repository. These have since been re-integrated for the server and
 the new client code will remain separate.
 
-To checkout the code, use the ``git clonerepository_url``*. 
+To checkout the code, use the ``git clonerepository_url``.
 Please note that these repositories changing rapidly and may not always
 be buildable.
 

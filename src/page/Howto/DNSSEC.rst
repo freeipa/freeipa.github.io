@@ -117,7 +117,7 @@ topology.
     ;example.test.         IN  SOA
     ;; ANSWER SECTION:
     example.test.      86400   IN  SOA    server.ipa.test. hostmaster.example.test. 1426005184 3600 900 1209600 3600
-    example.test.      86400   IN  RRSIG``**\ ``  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...
+    example.test.      86400   IN  RRSIG  SOA 8 2 86400 20150409163304 20150310153304 30144 example.test. 8Q1g1wXlJ0647pTF7rhGsZDrkxzq8QGdcviraEEityhS9/2lvMz6tem6 ...
 
 
 
@@ -146,8 +146,8 @@ ZSK
    $ dig +rrcomments example.test. DNSKEY
    ...
    ;; ANSWER SECTION:
-   example.test.      86400   IN  DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466
-   example.test.      86400   IN  DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144
+   example.test.      86400   IN  DNSKEY``\ ````\ ``257 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466
+   example.test.      86400   IN  DNSKEY``\ ````\ ``256 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144
 
 On **DNSSEC key master** all currently used keys can be shown using
 following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
@@ -174,7 +174,7 @@ chain of trust can not be completed.
 
     $ dig example.test. DNSKEY > dnskey.txt
     $ dnssec-dsfromkey -f dnskey.txt -2 example.test
-    example.test. IN DS 60466``**\ `` 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956
+    example.test. IN DS 60466 8 2 0A758A8B28B7D1A9467D3E91E9699C0ECA381E18AFFCF7C4EB7955E24ED87956
 
 Output of the *dnssec-dsfromkey* is the DS record for zone
 *example.test.*, which has to be uploaded to parent zone, e.g. *test.*.
@@ -208,7 +208,7 @@ Verify that DS record is available from the parent zone:
 ::
 
    $ dig +rrcomments example.test DS 
-   example.test       86400   IN  DS  60466``**\ `` 8 2 0A758A8B ...
+   example.test       86400   IN  DS  60466 8 2 0A758A8B ...
 
 After successfull DS record upload to the parent zone, the following
 command has to be executed on DNSSEC key master server to enable key

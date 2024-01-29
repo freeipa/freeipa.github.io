@@ -58,7 +58,7 @@ IPA assumes the following nicknames (and subject names) of CA-related
 certificates in the ``/etc/httpd/alias`` and
 ``/etc/dirsrv/slapd-REALM``** NSS databases:
 
--  **``REALM``**\ ``IPA CA``
+-  **``REALMIPA CA``
    (``CN=Certificate Authority,SUBJECT_BASE``**),
 -  ``ipaCert`` (``CN=IPA RA,SUBJECT_BASE``**),
 -  ``Signing-Cert`` (``CN=Object Signing Cert,SUBJECT_BASE``**).

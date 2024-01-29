@@ -103,9 +103,9 @@ connection open and the BIND:
 
    ``Details:``
 
-   [11/Jan/2016:14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy
+   [11/Jan/2016:14:35:24 +0100] conn=86 fd=107 slot=107 connection from xxx to yyy
    ...
-   [11/Jan/2016:14:35:27``**\ `` +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:27 +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI
    [11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000
    [11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress
    [11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI
@@ -326,7 +326,7 @@ took 40-60% of time of user-add command without groups.
    ...
    206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)
      1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)
-     1    0.000    0.000    0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)
+     1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)
     32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
    ...
 
@@ -454,7 +454,7 @@ for an extra search operation.
 
 ::
 
-    6310241 function calls (6200125 primitive calls) in 16.453``**\ `` seconds
+    6310241 function calls (6200125 primitive calls) in 16.453 seconds
        Ordered by: cumulative time
        ncalls  tottime  percall  cumtime  percall filename:lineno(function)
     ....
@@ -468,7 +468,7 @@ for an extra search operation.
         10006    6.114    0.001    6.114    0.001 {built-in method result4}
          2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)
             1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
-         2000    0.043    0.000    3.787``**\ ``    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post``**\ ``)
+         2000    0.043    0.000    3.787    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)
         10004    0.095    0.000    3.147    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
     .....
 
@@ -504,7 +504,7 @@ performance.
 
 ::
 
-    6310241 function calls (6200125 primitive calls) in 16.453``**\ `` seconds
+    6310241 function calls (6200125 primitive calls) in 16.453 seconds
        Ordered by: cumulative time
        ncalls  tottime  percall  cumtime  percall filename:lineno(function)
     ....
@@ -516,7 +516,7 @@ performance.
         10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
         10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
         10006    6.114    0.001    6.114    0.001 {built-in method result4}
-         2000    0.053    0.000    5.341``**\ ``    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes``**\ ``)
+         2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)
             1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
     ....
 
@@ -1941,7 +1941,7 @@ Related ticket(s):
 
 ::
 
-    76640658 function calls (75069144 primitive calls) in 227.351``**\ `` seconds
+    76640658 function calls (75069144 primitive calls) in 227.351 seconds
     
        Ordered by: cumulative time
     
@@ -1953,10 +1953,10 @@ Related ticket(s):
        173920    0.392    0.000  127.617    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
        173920    0.953    0.000  127.225    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
        173920  123.784    0.001  123.784    0.001 {built-in method result4}
-         2000    2.283    0.001  111.509``**\ ``    0.056 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:637(convert_attribute_members``**\ ``)
-         2000    0.014    0.000  104.078``**\ ``    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members``**\ ``)
+         2000    2.283    0.001  111.509    0.056 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:637(convert_attribute_members)
+         2000    0.014    0.000  104.078    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
          2000    0.249    0.000  104.064    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
-        77961    0.571    0.000   85.341``**\ ``    0.001 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn``**\ ``)
+        77961    0.571    0.000   85.341    0.001 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn)
         67965    0.323    0.000   79.816    0.001 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1415(get_entry)
        173919    1.286    0.000   23.806    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
        283906    0.407    0.000   16.624    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1265(endswith)
@@ -2008,7 +2008,7 @@ seconds
 
 ::
 
-     16803443 function calls (16602409 primitive calls) in 113.474``**\ `` seconds
+     16803443 function calls (16602409 primitive calls) in 113.474 seconds
 
 ::
 
@@ -2022,16 +2022,16 @@ seconds
         50397    0.342    0.000   93.376    0.002 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
     ....
         44123    0.874    0.000    4.029    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:56(dn2str)
-         2000    0.321    0.000    3.892``**\ ``    0.002 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(convert_attribute_members``**\ ``)
+         2000    0.321    0.000    3.892    0.002 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(convert_attribute_members)
          2000    0.039    0.000    3.204    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)
        469301    1.701    0.000    2.919    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:20(escape_dn_chars)
      ....
-         2161    0.012    0.000    0.233``**\ ``    0.000 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn``**\ ``)
+         2161    0.012    0.000    0.233    0.000 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn)
      ....
 
 For case when
 
-``number of groups/sudorules/hostgroups/hbacrules/roles <<``**\ `` number of users/host``
+``number of groups/sudorules/hostgroups/hbacrules/roles << number of users/host``
 
 the cache is very effective. In other way cache can cause small slowdown
 but it should not be very noticeable.

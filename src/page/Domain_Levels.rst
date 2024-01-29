@@ -24,7 +24,7 @@ command:
 
 ::
 
-    | ``$ ipa ``\ **``domainlevel-get``**
+    $ ipa  domainlevel-get
     -----------------------
     Current domain level: 0
     -----------------------

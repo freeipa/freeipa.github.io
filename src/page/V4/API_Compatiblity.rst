@@ -262,7 +262,7 @@ default:
 
 ::
 
-   | ``client$ ipa -v ``\ **``ping``**
+   client$ ipa -v  ping
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
    ipa: INFO: Forwarding '``\ **``ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
    ------------------------------------------
@@ -273,7 +273,7 @@ It is possible to explicitly request a specific command version instead:
 
 ::
 
-   | ``client$ ipa -v ``\ **``ping/1``**
+   client$ ipa -v  ping/1
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
    ipa: INFO: Forwarding '``\ **``ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
    ------------------------------------------
@@ -284,7 +284,7 @@ Requesting an unknown version of a command will result in an error:
 
 ::
 
-   | ``client$ ipa -v ``\ **``ping/2``**
+   client$ ipa -v  ping/2
    ipa: INFO: trying https://ipa.example.com/ipa/session/json
    ipa: INFO: Forwarding '``\ **``ping/2``**\ ``' to server 'https://ipa.example.com/ipa/session/json'
    ipa: ERROR: unknown command '``\ **``ping/2``**\ ``'

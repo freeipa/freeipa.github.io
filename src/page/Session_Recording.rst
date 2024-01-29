@@ -455,8 +455,8 @@ etc. All of them searchable and correlated in the same UI.
      |               | <------------- |----------------------------|
      | ElasticSearch | I/O and audit  | Search I/O and audit       |
      |               | -------------> | Playback I/O and audit     |
-   | :literal:`  `--___________--'                | Rewind to time and matches \|`
-   | :literal:`                                   `----------------------------'`
+   `  `--___________--'                | Rewind to time and matches \|`
+   `                                   `----------------------------'`
 
 
 

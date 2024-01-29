@@ -53,7 +53,7 @@ So, to sum up, step above turns this:
    uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
    $ pkexec id
    ==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
-   | :literal:`Authentication is needed to run `/usr/bin/id' as the super user`
+   `Authentication is needed to run `/usr/bin/id' as the super user`
    Authenticating as: root
    Password: 
    ==== AUTHENTICATION COMPLETE ===
@@ -67,7 +67,7 @@ or this:
    uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
    $ pkexec id
    ==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
-   | :literal:`Authentication is needed to run `/usr/bin/id' as the super user`
+   `Authentication is needed to run `/usr/bin/id' as the super user`
    Authenticating as: SysAdmin (sysadmin)
    Password: 
    ==== AUTHENTICATION COMPLETE ===

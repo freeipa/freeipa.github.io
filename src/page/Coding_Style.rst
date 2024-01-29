@@ -485,7 +485,7 @@ similar form:
 
 ::
 
-     for (``\ *``initialization;``\ ````\ ``condition;``\ ````\ ``update``*\ ``) {
+     for (``\ *``initialization;condition;update``*\ ``) {
          /* iterate here */
      }
 

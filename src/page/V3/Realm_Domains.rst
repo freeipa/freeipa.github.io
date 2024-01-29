@@ -13,7 +13,7 @@ Related tickets:
 
 We want to allow administrators to maintain a list of domains associated
 with IPA Kerberos realm. This list will be stored in LDAP, under
-**``cn=Realm``\ ````\ ``Domains,cn=ipa,cn=etc,$SUFFIX``**.
+**``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``**.
 
 We need to expose an interface to display and modify this list via IPA
 commands:
@@ -36,7 +36,7 @@ Use Cases
 Design
 ======
 
-Update LDAP schema to add the **``Realm``\ ````\ ``Domains``**
+Update LDAP schema to add the **``RealmDomains``**
 container. The default value for **``associatedDomain``** attribute will
 be the DNS domain of the IPA server:
 
@@ -76,7 +76,7 @@ realmdomains-show
 
 **``realmdomains-show``** will display the current list of realm
 domains, stored in
-**``cn=Realm``\ ````\ ``Domains,cn=ipa,cn=etc,$SUFFIX``**.
+**``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``**.
 
 
 
@@ -94,11 +94,11 @@ realmdomains-mod --domain={ourdomain.com,domain2.com,domain3.com}
 
 -  To add a domain to the list:
 
-**``realmdomains-mod``\ ````\ ``--add-domain=newdomain.com``**
+**``realmdomains-mod--add-domain=newdomain.com``**
 
 -  To delete a domain from the list:
 
-**``realmdomains-mod``\ ````\ ``--del-domain=olddomain.com``**
+**``realmdomains-mod--del-domain=olddomain.com``**
 
 It will be possible to use either the ``--domain`` option, or a
 combination of ``--add-domain`` and ``--del-domain``.
@@ -149,7 +149,7 @@ N/A
 Updates and Upgrades
 ====================
 
-Container **``cn=Realm``\ ````\ ``Domains,cn=ipa,cn=etc,$SUFFIX``**
+Container **``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``**
 needs to be created in LDAP. This will be achieved by adding a new
 update file **``install/updates/40-realm_domains.update``**, with the
 following contents:

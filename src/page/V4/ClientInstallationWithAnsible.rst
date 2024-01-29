@@ -468,15 +468,15 @@ be used by the playbook:
    [...]
      hosts: ipaclients
      become: true
-   | ``  ``\ **``vars_files:``**
-   | ``  ``\ **``-``\ ````\ ``playbook_sensitive_data.yml``**
+      vars_files:
+      -  playbook_sensitive_data.yml
      - name: Configure IPA client
        ipaclient:
          state: present
          domain: "{{ ipaclient_domain }}"
          realm: "{{ ipaclient_realm }}"
          principal: "{{ ipaclient_principal }}"
-   | ``      ``\ **``password:``\ ````\ ``"{{``\ ````\ ``ipaclient_password``\ ````\ ``}}"``**
+          password:  "{{  ipaclient_password  }}"
          extra_args: "{{ipaclient_extraargs }}"
    [...]
 

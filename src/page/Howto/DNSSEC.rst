@@ -160,7 +160,7 @@ following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
    Keys:
    Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:
    example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144
-   | ``example.test    ``\ **``KSK``**\ ``      ``\ **``ready``**\ ``   ``\ **``waiting``\ ````\ ``for``\ ````\ ``ds-seen``\ ````\ ``(active)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
+   example.test     KSK        ready     waiting  for  ds-seen  (active)    2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                    60466
 
 
 
@@ -228,7 +228,7 @@ above:
    Keys:
    Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:
    example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144
-   | ``example.test    ``\ **``KSK``**\ ``       ``\ **``ready``**\ ``   ``\ **``2016-03-09``\ ````\ ``11:34:38``\ ````\ ``(retire)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
+   example.test     KSK         ready     2016-03-09  11:34:38  (retire)    2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                    60466
 
 
 
@@ -350,8 +350,8 @@ To disable current DNSSEC master, please reinstall IPA DNS with
    master server
    NOTE: DNSSEC zone signing is not enabled by default
    To accept the default shown in brackets, press the Enter key.
-   | ``Do you want to disable current DNSSEC key master? [no]: ``\ **``yes``**
-   | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
+   Do you want to disable current DNSSEC key master? [no]:  yes
+   Existing BIND configuration detected, overwrite? [no]:  yes
     
    ...
 
@@ -394,8 +394,8 @@ work.
    DNSSEC support is experimental!
    Plan carefully, replacing DNSSEC key master is not recommended
    To accept the default shown in brackets, press the Enter key.
-   | ``Do you want to setup this IPA server as DNSSEC key master? [no]: ``\ **``yes``**
-   | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
+   Do you want to setup this IPA server as DNSSEC key master? [no]:  yes
+   Existing BIND configuration detected, overwrite? [no]:  yes
    ...
    
 

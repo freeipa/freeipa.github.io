@@ -319,7 +319,7 @@ took 40-60% of time of user-add command without groups.
 
    ``Profiler output:``
 
-   | ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
+   170386 function calls (170213 primitive calls) in  0.680  seconds
    Ordered by: cumulative time
     
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)

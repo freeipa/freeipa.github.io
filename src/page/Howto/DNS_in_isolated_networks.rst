@@ -47,13 +47,13 @@ Add NS delegation for all child zones on server.
 
     $ ipa dnszone-find --pkey-only
       Zone name: .
-    | ``  Zone name: ``\ **``2.0.192.in-addr.arpa.``**
-    | ``  Zone name: ``\ **``example.com.``**
+      Zone name:  2.0.192.in-addr.arpa.
+      Zone name:  example.com.
     ----------------------------
     Number of entries returned 3
     ----------------------------
     $ ipa dnsforwardzone-find --pkey-only
-    | ``  Zone name: ``\ **``fwzone.test.``**
+      Zone name:  fwzone.test.
     ----------------------------
     Number of entries returned 1
     ----------------------------

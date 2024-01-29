@@ -58,7 +58,7 @@ All required steps are:
 -  verify DNSSEC chain of trust
    (``drill -TD example.com. -k /etc/trusted-key.key``)
 
-More information can be found here: `Howto/DNSSEC <Howto/DNSSEC>`__.
+More information can be found here: `Howto/DNSSEC <DNSSEC>`__.
 
 Troubleshooting: `DNSSEC signing does not
 work <Troubleshooting#DNSSEC_signing_does_not_work>`__.

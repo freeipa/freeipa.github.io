@@ -42,8 +42,8 @@ Users and groups can be migrated using the ``migrate-ds`` command, just
 like with any other LDAP based identity management server. You just need
 to make sure that FreeIPA Kerberos related attributes are not migrated
 as they need to be generated again by the new FreeIPA server and it's
-new `Kerberos <Kerberos>`__ settings or keys. The command doesn't
-migrate user private groups. Following command is suggested:
+new `Kerberos <https://www.freeipa.org/page/Kerberos>`__ settings or keys.
+The command doesn't migrate user private groups. Following command is suggested:
 
 ::
 
@@ -77,8 +77,7 @@ General procedure
    upgrade procedure goes wrong in any way, other FreeIPA server can
    keep the functionality until the upgrade process is successfully
    finished. If there is just one FreeIPA server, consider `preparing a
-   new
-   replica <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/Setting_up_IPA_Replicas.html>`__
+   new replica <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/app.replica>`__
    used for the upgrade.
 #. When ready, simply upgrade the underlying operating system and
    FreeIPA packages on chosen replica. After the upgrade, it may be
@@ -100,11 +99,11 @@ General procedure
       ``$ ipa user-find``
 
    -  Web UI works
-   -  `DNS <DNS>`__ service (if provided by the server) works
+   -  `DNS <https://www.freeipa.org/page/DNS>`__ service (if provided by the server) works
 
       ``$ host $(hostname)``
 
-   -  `CA <PKI>`__ services (if appropriate) works
+   -  `CA <https://www.freeipa.org/page/PKI>`__ services (if appropriate) works
 
       ``$ ipa cert-find``
       ``$ ipa cert-request $(CSR_FILENAME)``
@@ -130,13 +129,13 @@ applied:
    system (``ipa-replica-install``). It should have all the services as
    the original server had, i.e.
 
-   -  if original server had `CA <PKI>`__ installed (it probably did),
+   -  if original server had `CA <https://www.freeipa.org/page/PKI>`__ installed (it probably did),
       add ``--setup-ca`` option to ``ipa-replica-install``
-   -  Note that the FreeIPA master `CA <PKI>`__ server (this is by
+   -  Note that the FreeIPA master `CA <https://www.freeipa.org/page/PKI>`__ server (this is by
       default the first installed FreeIPA server) is being migrated, you
       need to `promote the new CA replica to the FreeIPA master CA
-      server <Howto/Promote_CA_to_Renewal_and_CRL_Master>`__
-   -  if original server had `DNS <DNS>`__ installed , also add
+      server <https://www.freeipa.org/page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`__
+   -  if original server had `DNS <https://www.freeipa.org/page/DNS>`__ installed , also add
       ``--setup-dns`` option to ``ipa-replica-install``
 
       The new server should now have all the capability of the migrated
@@ -157,19 +156,19 @@ applied:
       ``$ ipa user-find``
 
    -  Web UI works
-   -  `DNS <DNS>`__ service (if provided by the server) works
+   -  `DNS <https://www.freeipa.org/page/DNS>`__ service (if provided by the server) works
 
       ``$ host $(hostname)``
 
-   -  `CA <PKI>`__ services (if appropriate) works
+   -  `CA <https://www.freeipa.org/page/PKI>`__ services (if appropriate) works
 
       ``$ ipa cert-find``
       ``$ ipa cert-request $(CSR_FILENAME)``
 
-#. If the FreeIPA server is configured to provide `DNS <DNS>`__ service,
+#. If the FreeIPA server is configured to provide `DNS <https://www.freeipa.org/page/DNS>`__ service,
    FreeIPA domain SRV records should be already updated and FreeIPA
    clients will also use the migrated FreeIPA server for their function.
-   When other `DNS <DNS>`__ service is used, SRV records need to be
+   When other `DNS <https://www.freeipa.org/page/DNS>`__ service is used, SRV records need to be
    either updated manually, if used. If clients are using fixed list of
    servers, administrator would need to update these lists in
    ``/etc/sssd/sssd.conf`` and ``/etc/krb5.conf`` and other
@@ -204,7 +203,7 @@ applied:
          ``ipa-replica-manage del old.ipa.server.fqdn``
 
       This procedure will also remove these servers from FreeIPA
-      `DNS <DNS>`__ SRV records, if used.
+      `DNS <https://www.freeipa.org/page/DNS>`__ SRV records, if used.
 
 #. Old FreeIPA servers can be now uninstalled with
    ``ipa-server-install --uninstall``
@@ -217,5 +216,4 @@ Migrating Identity Management in RHEL/CentOS
 If you are using FreeIPA/Identity Management in RHEL or CentOS, please
 refer to downstream guide for migration process:
 
--  `Migrating the IdM Server to Red Hat Enterprise Linux
-   7 <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/upgrading.html#migrating-ipa-proc>`__
+-  `Migrating the IdM Server to Red Hat Enterprise Linux 8 <https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/migrating_to_identity_management_on_rhel_8/migrate-7-to-8_migrating>`__

@@ -490,18 +490,18 @@ Public replica key is also stored in LDAP database:
 
 ::
 
-   | ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
-   | ``objectclass: ipk11Object``
-   | ``objectclass: ipk11PublicKey``
-   | ``objectclass: ipaPublicKeyObject``
-   | ``objectclass: top``
-   | ``ipk11UniqueId: ``
-   | ``ipk11Label: ``
-   | ``ipaPublicKey: <public key in SubjectPublicKeyInfo (RFC 5280) form>``
-   | ``ipk11Id': ``\ ``,``
-   | ``ipk11Wrap: true``
-   | ``ipk11Verify: false``
-   | ``ipk11VerifyRecover: false``
+   dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com
+   objectclass: ipk11Object
+   objectclass: ipk11PublicKey
+   objectclass: ipaPublicKeyObject
+   objectclass: top
+   ipk11UniqueId: 
+   ipk11Label: 
+   ipaPublicKey: <public key in SubjectPublicKeyInfo (RFC 5280) form>
+   ipk11Id': ``\ ``,
+   ipk11Wrap: true
+   ipk11Verify: false
+   ipk11VerifyRecover: false
 
 
 

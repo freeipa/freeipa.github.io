@@ -71,11 +71,11 @@ also add the host service for our client.
 
 ::
 
-   | ``# kinit admin``
-   | ``Password for admin@EXAMPLE.COM: ``
-   | ``# ipa-addservice DNS/dns.example.com``
-   | ``# ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab``
-   | ``Keytab successfully retrieved and stored in: /etc/named.keytab``
+   # kinit admin
+   Password for admin@EXAMPLE.COM: 
+   # ipa-addservice DNS/dns.example.com
+   # ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab
+   Keytab successfully retrieved and stored in: /etc/named.keytab
 
 Note: Set appropriate file permissions for file ``/etc/named.keytab``.
 This file is usually owned by user ``named`` with mode ``400`` on RHEL
@@ -151,11 +151,11 @@ other reasons.)
 
 ::
 
-   | ``# kinit admin``
-   | ``Password for admin@EXAMPLE.COM: ``
-   | ``# ipa-addservice host/client.example.com``
-   | ``# ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab``
-   | ``# kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM``
+   # kinit admin
+   Password for admin@EXAMPLE.COM: 
+   # ipa-addservice host/client.example.com
+   # ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab
+   # kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM
    
 Notice that we aren't required to type any password during ``kinit``.
 All actions from now will be done under account

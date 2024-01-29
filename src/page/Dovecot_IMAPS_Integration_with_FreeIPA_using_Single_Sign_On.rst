@@ -125,16 +125,16 @@ mailbox
 
 ::
 
-   | ``[root@ds01~]# ipa group-add``
-   | `` Group name: mailusers``
-   | `` Description: Mail User Group``
-   | `` --------------------``
-   | `` Added group "mailusers"``
-   | `` --------------------``
-   | `` Group name: mailusers``
-   | `` Description: Mail User Group``
-   | `` GID: 1427200003``
-   | ``[root@ds01 ~]# ``
+   [root@ds01~]# ipa group-add
+    Group name: mailusers
+    Description: Mail User Group
+    --------------------
+    Added group "mailusers"
+    --------------------
+    Group name: mailusers
+    Description: Mail User Group
+    GID: 1427200003
+   [root@ds01 ~]# 
 
 
 
@@ -145,17 +145,17 @@ Add your users to the new group
 
 ::
 
-   | ``[root@ds01 ~]# ipa group-add-member mailusers``
-   | ``[member user]: user1``
-   | ``[member group]: ``
-   | ``  Group name: mailusers``
-   | ``  Description: Mail User Group``
-   | ``  GID: 1427200003``
-   | ``  Member users: user1``
-   | ``-------------------------``
-   | ``Number of members added 1``
-   | ``-------------------------``
-   | ``[root@ds01 ~]# ``
+   [root@ds01 ~]# ipa group-add-member mailusers
+   [member user]: user1
+   [member group]: 
+     Group name: mailusers
+     Description: Mail User Group
+     GID: 1427200003
+     Member users: user1
+   -------------------------
+   Number of members added 1
+   -------------------------
+   [root@ds01 ~]# 
 
 
 

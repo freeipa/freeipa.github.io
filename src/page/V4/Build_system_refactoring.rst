@@ -270,7 +270,7 @@ Developer
 -  Subsequent rapid development:
 
 | 
-| ``$ make install``
+$ make install
 
 ``make install`` will quickly rebuild files as needed and install new
 files onto development system, so the new build can be tested

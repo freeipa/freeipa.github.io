@@ -454,31 +454,31 @@ Then encrypt this file using ansible-vault command:
 
 ::
 
-   | ``$ ansible-vault encrypt playbook_sensitive_data.yml``
-   | ``New Vault password: ``
-   | ``Confirm New Vault password: ``
-   | ``Encryption successful``
-   | ``$``
+   $ ansible-vault encrypt playbook_sensitive_data.yml
+   New Vault password: 
+   Confirm New Vault password: 
+   Encryption successful
+   $
 
 At this point, the file is encrypted and the variables it contains can
 be used by the playbook:
 
 ::
 
-   | ``[...]``
-   | ``  hosts: ipaclients``
-   | ``  become: true``
+   [...]
+     hosts: ipaclients
+     become: true
    | ``  ``\ **``vars_files:``**
    | ``  ``\ **``-``\ ````\ ``playbook_sensitive_data.yml``**
-   | ``  - name: Configure IPA client``
-   | ``    ipaclient:``
-   | ``      state: present``
-   | ``      domain: "{{ ipaclient_domain }}"``
-   | ``      realm: "{{ ipaclient_realm }}"``
-   | ``      principal: "{{ ipaclient_principal }}"``
+     - name: Configure IPA client
+       ipaclient:
+         state: present
+         domain: "{{ ipaclient_domain }}"
+         realm: "{{ ipaclient_realm }}"
+         principal: "{{ ipaclient_principal }}"
    | ``      ``\ **``password:``\ ````\ ``"{{``\ ````\ ``ipaclient_password``\ ````\ ``}}"``**
-   | ``      extra_args: "{{ipaclient_extraargs }}"``
-   | ``[...]``
+         extra_args: "{{ipaclient_extraargs }}"
+   [...]
 
 When the playbook is called, the password used to protect the file is
 either supplied interactively:

@@ -155,8 +155,8 @@ Once this command has completed, you can install the new bundle using:
 
 ::
 
-   | ``# ipa-server-certinstall -w --http_pin=some_secret_password newcert.pk12 ``
-   | ``# ipa-server-certinstall -d --dirsrv_pin=some_secret_password newcert.pk12``
+   # ipa-server-certinstall -w --http_pin=some_secret_password newcert.pk12 
+   # ipa-server-certinstall -d --dirsrv_pin=some_secret_password newcert.pk12
 
 Then restart your daemons:
 

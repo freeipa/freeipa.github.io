@@ -207,9 +207,9 @@ certificate for Nginx to use a specific fully qualified hostname on a
 host without it, use following sequence:
 ::
 
-   | ``# cd /etc/nginx/ssl``
-   | ``# fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); ``
-   | ``# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
+   # cd /etc/nginx/ssl
+   # fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); 
+   # ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn
 
 The CA has the final say on what the subject will be in the certificate
 it issues.

@@ -61,12 +61,12 @@ using following command:
 
 ::
 
-   | ``$ ipa dnszone-add example.test. --dnssec=true``
-   | ``  Zone name: example.test.``
-   | ``  Active zone: TRUE``
-   | ``. . .``
-   | `` Allow query: any;``
-   | `` Allow transfer: none;``
+   $ ipa dnszone-add example.test. --dnssec=true
+     Zone name: example.test.
+     Active zone: TRUE
+   . . .
+    Allow query: any;
+    Allow transfer: none;
    | `` ``\ **``Allow``\ ````\ ``in-line``\ ````\ ``DNSSEC``\ ````\ ``signing:``\ ````\ ``TRUE``**
 
 or
@@ -143,11 +143,11 @@ ZSK
 
 ::
 
-   | ``$ dig +rrcomments example.test. DNSKEY``
-   | ``...``
-   | ``;; ANSWER SECTION:``
-   | ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466``
-   | ``example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144``
+   $ dig +rrcomments example.test. DNSKEY
+   ...
+   ;; ANSWER SECTION:
+   example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``257``**\ `` 3 8 AwEAAbxszl5h9Mag1AG2uTsBCoR7oIgfTm3bU8H10bcaNiUrkqpPUXq+ ... ; KSK; alg = RSASHA256; key id = 60466
+   example.test.      86400   IN  ``\ **``DNSKEY``\ ````\ ``256``**\ `` 3 8 AwEAAfxpqvJhHDzNwH9Lhm0H9qyzxRSG8Kpt2AGpg6J6RqHtBtZrYB1J ... ; ZSK; alg = RSASHA256; key id = 30144
 
 On **DNSSEC key master** all currently used keys can be shown using
 following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
@@ -155,11 +155,11 @@ following command (replace ``ods-enforcer`` by ``ods-ksmutil`` on RHEL
 
 ::
 
-   | ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
-   | ``SQLite database set to: /var/opendnssec/kasp.db``
-   | ``Keys:``
-   | ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
-   | ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+   $ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose
+   SQLite database set to: /var/opendnssec/kasp.db
+   Keys:
+   Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:
+   example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144
    | ``example.test    ``\ **``KSK``**\ ``      ``\ **``ready``**\ ``   ``\ **``waiting``\ ````\ ``for``\ ````\ ``ds-seen``\ ````\ ``(active)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
 
 
@@ -207,8 +207,8 @@ Confirm DS record upload
 Verify that DS record is available from the parent zone:
 ::
 
-   | ``$ dig +rrcomments example.test DS ``
-   | ``example.test       86400   IN  DS  ``\ **``60466``**\ `` 8 2 0A758A8B ...``
+   $ dig +rrcomments example.test DS 
+   example.test       86400   IN  DS  ``\ **``60466``**\ `` 8 2 0A758A8B ...
 
 After successfull DS record upload to the parent zone, the following
 command has to be executed on DNSSEC key master server to enable key
@@ -223,11 +223,11 @@ above:
 
 ::
 
-   | ``$ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose``
-   | ``SQLite database set to: /var/opendnssec/kasp.db``
-   | ``Keys:``
-   | ``Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:``
-   | ``example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144``
+   $ sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-enforcer key list --verbose
+   SQLite database set to: /var/opendnssec/kasp.db
+   Keys:
+   Zone:           Keytype:  State:  Date of next transition (to):  Size:   Algorithm: CKA_ID:                           Repository:               Keytag:
+   example.test    ZSK       active  2015-06-08 12:33:00 (retire)   2048    8          069ee3ece56beee7129ea18494331b35  SoftHSM                   30144
    | ``example.test    ``\ **``KSK``**\ ``       ``\ **``ready``**\ ``   ``\ **``2016-03-09``\ ````\ ``11:34:38``\ ````\ ``(retire)``**\ ``   2048    8          7d44dc987ef258ce0b88c81550d4e319  SoftHSM                   ``\ **``60466``**
 
 
@@ -243,9 +243,9 @@ For example this can be done via ``drill`` utility:
 
 ::
 
-   | ``drill -TD example.test. -k /etc/trusted-key.key``
-   | ``drill -TD example.test. SOA -k /etc/trusted-key.key``
-   | ``drill -TD host.example.test. A -k /etc/trusted-key.key``
+   drill -TD example.test. -k /etc/trusted-key.key
+   drill -TD example.test. SOA -k /etc/trusted-key.key
+   drill -TD host.example.test. A -k /etc/trusted-key.key
 
 All keys/records should be marked as [T] trusted.
 
@@ -335,25 +335,25 @@ To disable current DNSSEC master, please reinstall IPA DNS with
 
 ::
 
-   | ``# ipa-dns-install --disable-dnssec-master``
-   | ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-   | ``==============================================================================``
-   | ``This program will setup DNS for the FreeIPA Server.``
-   | ``This includes:``
-   | ``  * Configure DNS (bind)``
-   | ``  * Configure SoftHSM (required by DNSSEC)``
-   | ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-   | ``  * Unconfigure ipa-ods-exporter``
-   | ``  * Unconfigure OpenDNSSEC``
-   | ``No new zones will be signed without DNSSEC key master IPA server.``
-   | ``Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key ``
-   | ``master server``
-   | ``NOTE: DNSSEC zone signing is not enabled by default``
-   | ``To accept the default shown in brackets, press the Enter key.``
+   # ipa-dns-install --disable-dnssec-master
+   The log file for this installation can be found in /var/log/ipaserver-install.log
+   ==============================================================================
+   This program will setup DNS for the FreeIPA Server.
+   This includes:
+     * Configure DNS (bind)
+     * Configure SoftHSM (required by DNSSEC)
+     * Configure ipa-dnskeysyncd (required by DNSSEC)
+     * Unconfigure ipa-ods-exporter
+     * Unconfigure OpenDNSSEC
+   No new zones will be signed without DNSSEC key master IPA server.
+   Please copy file from /var/lib/ipa/ipa-kasp.db.backup after uninstallation. This file is needed on new DNSSEC key 
+   master server
+   NOTE: DNSSEC zone signing is not enabled by default
+   To accept the default shown in brackets, press the Enter key.
    | ``Do you want to disable current DNSSEC key master? [no]: ``\ **``yes``**
    | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
-   | `` ``
-   | ``...``
+    
+   ...
 
 
 
@@ -379,24 +379,24 @@ work.
 
 ::
 
-   | ``# ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup``
-   | ``The log file for this installation can be found in /var/log/ipaserver-install.log``
-   | ``==============================================================================``
-   | ``This program will setup DNS for the FreeIPA Server.``
-   | ``This includes:``
-   | ``  * Configure DNS (bind)``
-   | ``  * Configure SoftHSM (required by DNSSEC)``
-   | ``  * Configure ipa-dnskeysyncd (required by DNSSEC)``
-   | ``  * Configure ipa-ods-exporter (required by DNSSEC key master)``
-   | ``  * Configure OpenDNSSEC (required by DNSSEC key master)``
-   | ``  * Generate DNSSEC master key (required by DNSSEC key master)``
-   | ``NOTE: DNSSEC zone signing is not enabled by default``
-   | ``DNSSEC support is experimental!``
-   | ``Plan carefully, replacing DNSSEC key master is not recommended``
-   | ``To accept the default shown in brackets, press the Enter key.``
+   # ipa-dns-install --dnssec-master --kasp-db=/safe/place/ipa-kasp.db.backup
+   The log file for this installation can be found in /var/log/ipaserver-install.log
+   ==============================================================================
+   This program will setup DNS for the FreeIPA Server.
+   This includes:
+     * Configure DNS (bind)
+     * Configure SoftHSM (required by DNSSEC)
+     * Configure ipa-dnskeysyncd (required by DNSSEC)
+     * Configure ipa-ods-exporter (required by DNSSEC key master)
+     * Configure OpenDNSSEC (required by DNSSEC key master)
+     * Generate DNSSEC master key (required by DNSSEC key master)
+   NOTE: DNSSEC zone signing is not enabled by default
+   DNSSEC support is experimental!
+   Plan carefully, replacing DNSSEC key master is not recommended
+   To accept the default shown in brackets, press the Enter key.
    | ``Do you want to setup this IPA server as DNSSEC key master? [no]: ``\ **``yes``**
    | ``Existing BIND configuration detected, overwrite? [no]: ``\ **``yes``**
-   | ``...``
+   ...
    
 
 

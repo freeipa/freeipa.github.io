@@ -339,10 +339,10 @@ Provide logs from the server:
 
 ::
 
-    | ``date -R``
-    | ``/var/log/httpd/error_log``
-    | ``/var/log/dirsrv/slapd-*/access``
-    | ``/var/log/dirsrv/slapd-*/errors``
+    date -R
+    /var/log/httpd/error_log
+    /var/log/dirsrv/slapd-*/access
+    /var/log/dirsrv/slapd-*/errors
 
 Epilogue:
 

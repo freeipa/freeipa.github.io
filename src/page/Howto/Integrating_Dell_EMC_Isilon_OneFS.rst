@@ -32,7 +32,7 @@ Using the web UI
 | Access --> Authentication Providers --> LDAP
 | + Add an LDAP provider
 | Enter the LDAP provider name of choice.
-| ``Server URI:``\ ```ldaps://fqdn`` <ldaps://fqdn>`__\ ``of FreeIPA server``
+Server URI:``\ ```ldaps://fqdn`` <ldaps://fqdn>`__\ ``of FreeIPA server
 | *Make sure the fqdn is resolvable from Isilon!*
 | ``Base Distinguished Name:``\ *``enter``\ ````\ ``your``\ ````\ ``BaseDN``*
 | ``Bind to:``\ *``enter``\ ````\ ``the``\ ````\ ``DN``\ ````\ ``created``\ ````\ ``above``*
@@ -48,12 +48,12 @@ Using the command-line
   configuration: ``isi auth status``
 | Create a new LDAP provider using the command (replace BaseDN, DN,
   DNpassword as necessary):
-| ``isi auth ldap create test-ldap \``
-| ``--base-dn="BaseDN" \``
-| ``--bind-dn="DN" \``
-| ``--bind-password="DNpassword" \``
-| ``--server-uris="``\ ```ldaps://`` <ldaps://>`__\ ``" \``
-| ``--groupnet=``
+isi auth ldap create test-ldap \
+--base-dn="BaseDN" \
+--bind-dn="DN" \
+--bind-password="DNpassword" \
+--server-uris="``\ ```ldaps://`` <ldaps://>`__\ ``" \
+--groupnet=
 
 
 

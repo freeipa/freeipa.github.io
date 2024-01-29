@@ -40,10 +40,10 @@ The actual allowed usages were:
 
 ::
 
-   | ``   ipa-server-certinstall -h``
-   | ``   ipa-server-certinstall -d --dirsrv_pin ``\ `` ``
-   | ``   ipa-server-certinstall -w --http_pin ``\ `` ``
-   | ``   ipa-server-certinstall -d --dirsrv_pin ``\ `` -w --http_pin ``\ `` ``
+      ipa-server-certinstall -h
+      ipa-server-certinstall -d --dirsrv_pin ``\ `` 
+      ipa-server-certinstall -w --http_pin ``\ `` 
+      ipa-server-certinstall -d --dirsrv_pin ``\ `` -w --http_pin ``\ `` 
 
 This change:
 

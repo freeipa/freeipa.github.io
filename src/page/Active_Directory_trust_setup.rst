@@ -693,16 +693,16 @@ following Apache configuration is needed:
 
 ::
 
-   | ``<Location "/mywebapp">``
-   | ``   AuthType Kerberos``
-   | ``   AuthName "IPA Kerberos authentication"``
-   | ``   KrbMethodNegotiate on``
-   | ``   KrbMethodK5Passwd on``
-   | ``   KrbServiceName HTTP``
+   <Location "/mywebapp">
+      AuthType Kerberos
+      AuthName "IPA Kerberos authentication"
+      KrbMethodNegotiate on
+      KrbMethodK5Passwd on
+      KrbServiceName HTTP
    | ``   KrbAuthRealms ``\ *``IPA_DOMAIN``*
-   | ``   Krb5Keytab /etc/httpd/conf/ipa.keytab``
-   | ``   KrbSaveCredentials off``
-   | ``   Require valid-user``
+      Krb5Keytab /etc/httpd/conf/ipa.keytab
+      KrbSaveCredentials off
+      Require valid-user
 
 Make sure you replace *IPA_DOMAIN* in the above configuration with your
 actual IPA domain (in caps) and to restart the apache service:

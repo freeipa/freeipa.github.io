@@ -39,10 +39,10 @@ Extension of the ipaReplicationTopologyConfig entry:
 
 ::
 
-   | ``cn=``\ ``,cn=topology,``
-   | ``objectclass: ipaReplicationTopologyConfig``
-   | ``ipaReplTopoConfigRoot: < dn >``
-   | ``ipaReplTopoMonitorRequest: ``
+   cn=``\ ``,cn=topology,
+   objectclass: ipaReplicationTopologyConfig
+   ipaReplTopoConfigRoot: < dn >
+   ipaReplTopoMonitorRequest: 
 
 The request ID is used to map the monitoring responses to a request, to
 trigger a new request a ldap replace operation for this attribute is

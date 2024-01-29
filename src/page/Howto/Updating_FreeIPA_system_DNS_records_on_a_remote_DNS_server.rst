@@ -62,19 +62,19 @@ Option ``--out FILE`` will store DNS data in *nsupdate* format in file
 
 ::
 
-   | ``[user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate``
-   | ``  IPA DNS records:``
-   | ``   ...``
-   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
-   | ``; IPA DNS records``
-   | ``update delete _kerberos-master._tcp.example.com. SRV``
-   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-   | ``update delete _kerberos-master._udp.example.com. SRV``
-   | ``update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-   | ``.....``
-   | ``update delete ipa-ca.example.com. AAAA``
-   | ``update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523``
-   | ``send``
+   [user@ipa ~]$ ipa dns-update-system-records --dry-run --out ipa-records.nsupdate
+     IPA DNS records:
+      ...
+   [user@ipa ~]$ cat ipa-records.nsupdate 
+   ; IPA DNS records
+   update delete _kerberos-master._tcp.example.com. SRV
+   update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+   update delete _kerberos-master._udp.example.com. SRV
+   update add _kerberos-master._udp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+   .....
+   update delete ipa-ca.example.com. AAAA
+   update add ipa-ca.example.com. 86400 IN AAAA 2001:db8::0:224e:21a:4aff:fe23:1523
+   send
 
 
 
@@ -99,13 +99,13 @@ Example:
 
 ::
 
-   | ``[user@ipa ~]$ cat ipa-records.nsupdate ``
-   | ``zone example.com.``
-   | ``server 192.0.2.222``
-   | ``; IPA DNS records``
-   | ``update delete _kerberos-master._tcp.example.com. SRV``
-   | ``update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.``
-   | ``...``
+   [user@ipa ~]$ cat ipa-records.nsupdate 
+   zone example.com.
+   server 192.0.2.222
+   ; IPA DNS records
+   update delete _kerberos-master._tcp.example.com. SRV
+   update add _kerberos-master._tcp.example.com. 86400 IN SRV 0 100 88 ipa.example.com.
+   ...
 
 For more details please see *man nsupdate*.
 

@@ -469,37 +469,37 @@ for the host itself.
 
 ::
 
-   | ``   ./ipa request-certificate [--ca=``\ ``] [--request_type=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``      'pkcs10' is a default request type supported by default CA plugin``
-   | ``       ``\ ``           certificate request``
-   | ``   returning               error_code, error_message, issued_certificate``
-   | ``  ``
-   | ``   ./ipa revoke-certificate [--ca=``\ ``] [--reason=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``     certificate serial number of the certificate to be revoked``
-   | ``       ``\ `` certificate revocation reason``
-   | ``   returning               error_code, error_message``
-   | ``  ``
-   | ``   ./ipa take-certificate-off-hold [--ca=``\ ``]  ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``     certificate serial number of the certificate to be taken off hold``
-   | ``   returning               error_code, error_message``
-   | ``  ``
-   | ``   ./ipa check_request_status [--ca=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``        is request id of the request to be verified``
-   | ``   returning               error_code, error_message, certificate_serial_number``
-   | ``  ``
-   | ``   ./ipa get-certificate [--ca=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``     certificate serial number (of previously generated certificate) to be retrieved``
-   | ``   returning               error_code, error_message, issued_certificate``
+      ./ipa request-certificate [--ca=``\ ``] [--request_type=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``      'pkcs10' is a default request type supported by default CA plugin
+          ``\ ``           certificate request
+      returning               error_code, error_message, issued_certificate
+     
+      ./ipa revoke-certificate [--ca=``\ ``] [--reason=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``     certificate serial number of the certificate to be revoked
+          ``\ `` certificate revocation reason
+      returning               error_code, error_message
+     
+      ./ipa take-certificate-off-hold [--ca=``\ ``]  
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``     certificate serial number of the certificate to be taken off hold
+      returning               error_code, error_message
+     
+      ./ipa check_request_status [--ca=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``        is request id of the request to be verified
+      returning               error_code, error_message, certificate_serial_number
+     
+      ./ipa get-certificate [--ca=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``     certificate serial number (of previously generated certificate) to be retrieved
+      returning               error_code, error_message, issued_certificate
 
 
 

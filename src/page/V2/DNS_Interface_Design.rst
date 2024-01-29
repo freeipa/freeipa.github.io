@@ -149,19 +149,19 @@ A full example of a modification using the new API:
 An example of new interactive mode:
 ::
 
-   | ``ipa dnsrecord-mod example.com @``
-   | ``No option to modify specific record provided.``
-   | ``Current DNS record contents:``
-   | ``MX record: 0 server1.example.com., 2 server2.example.com.``
-   | ``NS record: ns.example.com.``
-   | ``Modify MX record '0 server1.example.com.'? Yes/No (default No): ``
-   | ``Modify MX record '2 server2.example.com.'? Yes/No (default No): y``
-   | ``MX Preference [2]: 3``
-   | ``MX Exchanger [server2.example.com.]: ``
-   | ``Modify NS record 'ns.example.com.'? Yes/No (default No): ``
-   | ``  Record name: example.com``
-   | ``  MX record: 0 server1.example.com., 3 server2.example.com.``
-   | ``  NS record: ns.example.com.``
+   ipa dnsrecord-mod example.com @
+   No option to modify specific record provided.
+   Current DNS record contents:
+   MX record: 0 server1.example.com., 2 server2.example.com.
+   NS record: ns.example.com.
+   Modify MX record '0 server1.example.com.'? Yes/No (default No): 
+   Modify MX record '2 server2.example.com.'? Yes/No (default No): y
+   MX Preference [2]: 3
+   MX Exchanger [server2.example.com.]: 
+   Modify NS record 'ns.example.com.'? Yes/No (default No): 
+     Record name: example.com
+     MX record: 0 server1.example.com., 3 server2.example.com.
+     NS record: ns.example.com.
 
 
 

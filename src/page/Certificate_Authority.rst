@@ -375,6 +375,6 @@ On ipa.example com:
 
 ::
 
-   | ``% kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
-   | ``% ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
+   % kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM
+   % ipa cert-request --principal=vpn/vpn.remote.com vpn.csr 
    | ``% ipa service-show vpn/vpn.remote.com``

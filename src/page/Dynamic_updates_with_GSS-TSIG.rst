@@ -100,7 +100,7 @@ according to your requirements.
 
 **Example:** All machines belonging to Kerberos realm EXAMPLE.COM are
 allowed to update own A record. Update requests have to be signed by
-Kerberos principal ``host/``\ *``machine.fqdn``*\ ``@EXAMPLE.COM``.
+Kerberos principal ``host/machine.fqdn``*\ ``@EXAMPLE.COM``. 
 (Naturally, name *machine.fqdn* has to belong to the zone example.com.)
 
 ::

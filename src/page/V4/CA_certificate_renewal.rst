@@ -65,11 +65,11 @@ Shared certificate store
 ----------------------------------------------------------------------------------------------
 
 CA certificates will be stored in entries under
-``cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*:
+``cn=certificates,cn=ipa,cn=etc,suffix``*: 
 
 ::
 
-   dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,``\ *``suffix
+    dn: cn=EXAMPLE.COM IPA CA,cn=certificates,cn=ipa,cn=etc,suffix 
    objectClass: ipaCertificate
    objectClass: pkiCA
    objectClass: ipaKeyPolicy
@@ -77,11 +77,11 @@ CA certificates will be stored in entries under
    ipaCertSubject: CN=Certificate Authority,O=EXAMPLE.COM
    ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;1
    ipaCertIssuerSerial: CN=Certificate Authority,O=EXAMPLE.COM;22
-   ipaPublicKey: ``\ *``DER-encoded public key
+    ipaPublicKey: DER-encoded public key 
    ipaConfigString: ipaCA
    ipaConfigString: compatCA
-   cACertificate;binary:: ``\ *``DER-encoded certificate 1
-   cACertificate;binary:: ``\ *``DER-encoded certificate 2
+    cACertificate;binary:: DER-encoded certificate 1 
+    cACertificate;binary:: DER-encoded certificate 2 
    ipaKeyTrust: trusted
    ipaKeyExtUsage: 1.3.6.1.5.5.7.3.1
    ipaKeyExtUsage: 1.3.6.1.5.5.7.3.2
@@ -124,7 +124,7 @@ The attributes are:
    -  ``compatCA``
 
       When a new certificate is added to the set, update
-      ``cn=CAcert,cn=ipa,cn=etc,``\ *``suffix``* with it.
+       ``cn=CAcert,cn=ipa,cn=etc,suffix``* with it. 
 
 -  ``cACertificate``
 
@@ -241,7 +241,7 @@ CA certificate management utility
 There will be new utility to manage CA certificates,
 ``ipa-cacert-manage``. It will have several subcommands:
 
--  ``renew``\ *``options``*
+- ``renewoptions``* 
 
    This command will be available only for CA-ful installs and will be
    used to renew the IPA CA certificate. The certificate can be renewed
@@ -262,26 +262,26 @@ There will be new utility to manage CA certificates,
       Renew the CA certificate as signed by an external CA, step 1:
       Export CSR to ``/var/lib/ipa/ca.csr``.
 
-   -  ``--external-cert-file``\ *``file``*
+    - ``--external-cert-filefile``* 
 
       Renew the CA certificate as signed by an external CA, step 2:
       Install the new CA certificate.
 
-   -  ``--password``\ *``password``*
+    - ``--passwordpassword``* 
 
       Directory manager password. Required for external CA renewal step
       2.
 
--  ``install``\ *``options``*\  \ *``file``*
+- ``installoptions``*\ \ *``file``* 
 
    Install CA certificate from a PEM file.
    The available options are:
 
-   -  ``-n``\ *``nickname``*, ``--nickname``\ *``nickname``*
+    - ``-nnickname``*, ``--nicknamenickname``* 
 
       Nickname for the certificate.
 
-   -  ``-t``\ *``flags``*, ``--trust-flags``\ *``flags``*
+    - ``-tflags``*, ``--trust-flagsflags``* 
 
       Trust flags for the certificate in NSS / certutil format.
 
@@ -305,15 +305,15 @@ certificate. If the CA certificate is self-signed, the request is
 submitted directly to Dogtag. If the CA certificate is signed by an
 external CA, ``ipa-cacert-manage`` exports the CSR created by certmonger
 to ``/var/lib/ipa/ca.csr`` in the first step. In the seconds step, it
-updates ``cn=ca_renewal,cn=ipa,cn=etc,``\ *``suffix``* so that the new
+updates ``cn=ca_renewal,cn=ipa,cn=etc,suffix``* so that the new 
 CA certificate can be picked up by certmonger and resubmits the
 certmonger request. In the post-save command of the certmonger request,
 the renewed CA certificate is added to
-``cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*.
+``cn=certificates,cn=ipa,cn=etc,suffix``*. 
 
 When installing new CA certificate manually, ``ipa-cacert-manage`` adds
 the certificate directly to
-``cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*.
+``cn=certificates,cn=ipa,cn=etc,suffix``*. 
 
 When a CA certificate is renewed, its previous version is not removed to
 allow rollover.
@@ -340,14 +340,14 @@ Upgrade
 -------
 
 Old clients will look for IPA CA certificate in
-``cn=CAcert,cn=ipa,cn=etc,``\ *``suffix``*. A copy of the most recent
+``cn=CAcert,cn=ipa,cn=etc,suffix``*. A copy of the most recent 
 IPA CA certificate needs to be maintained in this entry for
 compatibility with old clients.
 
 Old servers do not have
-``cn=certificates,cn=ipa,cn=etc,``\ *``suffix``*. Client installer has
+``cn=certificates,cn=ipa,cn=etc,suffix``*. Client installer has 
 to look for CA certificates both in this entry and in
-``cn=CAcert,cn=ipa,cn=etc,``\ *``suffix``* for compatibility with old
+``cn=CAcert,cn=ipa,cn=etc,suffix``* for compatibility with old 
 servers.
 
 

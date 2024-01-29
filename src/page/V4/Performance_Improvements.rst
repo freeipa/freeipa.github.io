@@ -1147,12 +1147,12 @@ The CLI that will do the provisioning of a given ldif file will:
 
 ::
 
-    fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=inetorgperson)" -P LDAP
-    fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipausergroup)" -P LDAP
-    fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipahost)" -P LDAP
-    fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipahostgroup)" -P LDAP
-    fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipasudorule)" -P LDAP
-    fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipahbacrule)" -P LDAP
+     fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id``*\ `` -b "suffix``*\ ``" -f "(objectClass=inetorgperson)" -P LDAP 
+     fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id``*\ `` -b "suffix``*\ ``" -f "(objectClass=ipausergroup)" -P LDAP 
+     fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id``*\ `` -b "suffix``*\ ``" -f "(objectClass=ipahost)" -P LDAP 
+     fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id``*\ `` -b "suffix``*\ ``" -f "(objectClass=ipahostgroup)" -P LDAP 
+     fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id``*\ `` -b "suffix``*\ ``" -f "(objectClass=ipasudorule)" -P LDAP 
+     fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id``*\ `` -b "suffix``*\ ``" -f "(objectClass=ipahbacrule)" -P LDAP 
 
 -  Enable Schema Compat
 

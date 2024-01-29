@@ -13,13 +13,13 @@ Related tickets:
 
 We want to allow administrators to maintain a list of domains associated
 with IPA Kerberos realm. This list will be stored in LDAP, under
-**``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``**.
+``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``\ .
 
 We need to expose an interface to display and modify this list via IPA
 commands:
 
--  **``realmdomains-show``**
--  **``realmdomains-mod``**
+-  ``realmdomains-show``\ 
+-  ``realmdomains-mod``\ 
 
 
 
@@ -36,8 +36,8 @@ Use Cases
 Design
 ======
 
-Update LDAP schema to add the **``RealmDomains``**
-container. The default value for **``associatedDomain``** attribute will
+Update LDAP schema to add the ``RealmDomains``\ 
+container. The default value for ``associatedDomain``\  attribute will
 be the DNS domain of the IPA server:
 
 ::
@@ -51,9 +51,9 @@ be the DNS domain of the IPA server:
 
 Add two new IPA commands:
 
--  **``realmdomains-show``**, to display the current list of realm
+-  ``realmdomains-show``\ , to display the current list of realm
    domains
--  **``realmdomains-mod``**, to modify the list
+-  ``realmdomains-mod``\ , to modify the list
 
 
 
@@ -74,16 +74,16 @@ CLI
 realmdomains-show
 ^^^^^^^^^^^^^^^^^
 
-**``realmdomains-show``** will display the current list of realm
+``realmdomains-show``\  will display the current list of realm
 domains, stored in
-**``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``**.
+``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``\ .
 
 
 
 realmdomains-mod
 ^^^^^^^^^^^^^^^^
 
-**``realmdomains-mod``** will modify the list of realm domains.
+``realmdomains-mod``\  will modify the list of realm domains.
 Modifications can be performed in several ways:
 
 -  To replace the list of realm domains with a new list (or a single
@@ -94,11 +94,11 @@ realmdomains-mod --domain={ourdomain.com,domain2.com,domain3.com}
 
 -  To add a domain to the list:
 
-**``realmdomains-mod--add-domain=newdomain.com``**
+``realmdomains-mod--add-domain=newdomain.com``\ 
 
 -  To delete a domain from the list:
 
-**``realmdomains-mod--del-domain=olddomain.com``**
+``realmdomains-mod--del-domain=olddomain.com``\ 
 
 It will be possible to use either the ``--domain`` option, or a
 combination of ``--add-domain`` and ``--del-domain``.
@@ -119,10 +119,10 @@ Questions
 dnszone-\*
 ^^^^^^^^^^
 
--  Should **``dnszone-del``** delete **``associatedDomain``** when whole
+-  Should ``dnszone-del``\  delete ``associatedDomain``\  when whole
    DNS zone is being deleted?
--  Should **``dnszone-add``** offer an option to create
-   **``associatedDomain``** attribute for the new zone?
+-  Should ``dnszone-add``\  offer an option to create
+   ``associatedDomain``\  attribute for the new zone?
 
 `pspacek <User:Pspacek>`__ 03:26, 7 February 2013 (EST)
 
@@ -149,9 +149,9 @@ N/A
 Updates and Upgrades
 ====================
 
-Container **``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``**
+Container ``cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX``\ 
 needs to be created in LDAP. This will be achieved by adding a new
-update file **``install/updates/40-realm_domains.update``**, with the
+update file ``install/updates/40-realm_domains.update``\ , with the
 following contents:
 
 ``# Add the Realm Domains container``

@@ -22,7 +22,7 @@ Servers:
     IPA Server = ds01.example.com
     Zimbra Server = zimbra03.example.com
 
-**``IMPORTANT``**
+``IMPORTANT``\ 
 
 Please note, that by adding FreeIPA as the external authentication
 backend, the username "admin" will clash as both IPA and Zimbra use an

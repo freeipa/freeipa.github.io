@@ -158,9 +158,9 @@ Assign the certificate to FreeIPA user
 
 user-add-cert command expects only the base64 encoded blob:
 
-| :literal:`- `tail -n +2` omits the -----BEGIN CERTIFICATE---- line`
-| :literal:`- `head -n -1` omits the -----END CERTIFICATE---- line`
-| :literal:`- `tr -d '\n\r'` joins all lines into one`
+`- `tail -n +2` omits the -----BEGIN CERTIFICATE---- line`
+`- `head -n -1` omits the -----END CERTIFICATE---- line`
+`- `tr -d '\n\r'` joins all lines into one`
 
 ::
 

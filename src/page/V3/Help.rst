@@ -45,15 +45,15 @@ Design
 
 ``   ipa: ERROR: command not specified``
 
-- Executing ``ipaTOPIC``* (again a usage violation) outputs the 
-    topic help (``ipa helpTOPIC``* output) to stderr, along with 
+- Executing ``ipaTOPIC`` (again a usage violation) outputs the 
+    topic help (``ipa helpTOPIC`` output) to stderr, along with 
    an "unknown command" error.
 
 -  ``ipa help COMMAND`` is equivalent to ``ipa COMMAND --help``, except
    when there is a topic with the same name.
 
 -  When a command has the same name as a topic (for example, ``ping``),
-    ``ipa helpping``* gives the topic help, and 
+    ``ipa helpping`` gives the topic help, and 
      ``ipaping--help`` gives the command help. 
 
 -  The output of ``ipa help help`` (and ``ipa help --help``) makes it

@@ -726,9 +726,9 @@ General test outline
 -  Do a LDAP search for ``uid=admin,cn=users,cn=accounts,$SUFFIX``. Note
    the result.
 -  Verify that the commands ``ipa user-show admin``, ``id admin``,
-   ``ipa cert-find``, ``host``\ *``$HOSTNAME``*\ ``localhost``,
-   ``kinit admin`` work. This checks basic functionality of IPA client,
-   PAM, CA, DNS and Kerberos. Note the output of these commands
+   ``ipa cert-find``, ``host$HOSTNAMElocalhost``, ``kinit admin`` work.
+   This checks basic functionality of IPA client, PAM, CA, DNS and Kerberos.
+   Note the output of these commands
 -  (Do backup & restore)
 -  Do a LDAP search on admin again; check that all attributes except
    ``krbLastSuccessfulAuth`` match

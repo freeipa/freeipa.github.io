@@ -35,7 +35,7 @@ Building from the git
 
 First, clone our git tree of your project:
 
-``$ git clone ``\ `https://pagure.io/freeipa.git <https://pagure.io/freeipa.git>``
+``$ git clone https://pagure.io/freeipa.git``
 
 Next, we will install all packages needed to build FreeIPA as they do
 not have to be installed on your system. You can install them easily by

@@ -260,7 +260,7 @@ Create signed root zone
 ----------------------------------------------------------------------------------------------
 
 How to create the root zone is explained in article `DNS in isolated
-networks <Howto/DNS_in_isolated_networks>`__. Please note that update of
+networks <DNS_in_isolated_networks>`__. Please note that update of
 root hints will be required on all recursive clients as noted in the
 linked article.
 

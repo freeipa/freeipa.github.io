@@ -99,7 +99,6 @@ DNSSEC
 
 Details how to use DNSSEC in isolated networks are described in article
 `DNSSEC in isolated
-networks <Howto/DNSSEC#DNSSEC_in_isolated_networks>`__.
+networks <DNSSEC#DNSSEC_in_isolated_networks>`__.
 
-`Category:How to <Category:How_to>`__ `Category:Draft
-documentation <Category:Draft_documentation>`__
+`Category:How to <https://www.freeipa.org/page/HowTos>`__ `Category:Draft documentation <Category:Draft_documentation>`__

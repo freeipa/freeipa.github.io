@@ -158,7 +158,7 @@ DNSSEC signing does not work
 ============================
 
 Related information how to use DNSSEC with FreeIPA can be found in
-`DNSSEC howto <Howto/DNSSEC>`__.
+`DNSSEC howto <DNSSEC>`__.
 
 
 

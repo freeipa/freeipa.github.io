@@ -81,11 +81,13 @@ Regarding the duration (10s) of a *user-add* CLI with 50K users the
 
 ``Details:``
 
-| ``kerberos authentication: 30%``
-| ``ldap add:                28%  (sum 58%)``
-| ``update group membership: 15%  (sum 73%)``
-| ``ldap bind:               10%  (sum 83%)``
-| ``user membership lookup:   8%  (sum 91%)``
+::
+
+    kerberos authentication: 30%
+    ldap add:                28%  (sum 58%)
+    update group membership: 15%  (sum 73%)
+    ldap bind:               10%  (sum 83%)
+    user membership lookup:   8%  (sum 91%)
 
 authenticate
 ''''''''''''
@@ -101,19 +103,19 @@ connection open and the BIND:
 
    ``Details:``
 
-   | ``[11/Jan/2016:``\ **``14:35:24``**\ `` +0100] conn=86 fd=107 slot=107 connection from xxx to yyy``
-   | ``...``
-   | ``[11/Jan/2016:``\ **``14:35:27``**\ `` +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI``
-   | ``[11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000``
-   | ``[11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI``
-   | ``[11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"``
-   | ``.... ``
-   | ``.... ``
-   | ``<MOD(s) to add the users into the related groups>``
-   | ``.... ``
+   [11/Jan/2016:14:35:24 +0100] conn=86 fd=107 slot=107 connection from xxx to yyy
+   ...
+   [11/Jan/2016:14:35:27 +0100] conn=86 op=0 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:27 +0100] conn=4 op=376 RESULT err=0 tag=101 nentries=1 etime=0.004000
+   [11/Jan/2016:14:35:27 +0100] conn=86 op=0 RESULT err=14 tag=97 nentries=0 etime=0.015000, SASL bind in progress
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=1 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=1 RESULT err=14 tag=97 nentries=0 etime=0.006000, SASL bind in progress
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=2 BIND dn="" method=sasl version=3 mech=GSSAPI
+   [11/Jan/2016:14:35:28 +0100] conn=86 op=2 RESULT err=0 tag=97 nentries=0 etime=0.002000 dn="uid=admin,cn=users,cn=accounts,``\ ``"
+   ....
+   ....
+   <MOD(s) to add the users into the related groups>
+   ....
 
 
 
@@ -126,20 +128,22 @@ them are quite expensive:
 
 ``Details:``
 
-| ``[11/Jan/2016:14:35:24 +0100] conn=4 op=367 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=krbtgt/``\ ``@``\ ``)(krbPrincipalName=krbtgt/``\ ``@``\ ``)))"``
-| ``[11/Jan/2016:14:35:24 +0100] conn=4 op=367 RESULT err=0 tag=101 nentries=1 etime=0.648000``
-| ``...``
-| ``[11/Jan/2016:14:35:24 +0100] conn=4 op=369 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=ldap/``\ ``.``\ ``@``\ ``)(krbPrincipalName=ldap/``\ ``.``\ ``@``\ ``)))"``
-| ``[11/Jan/2016:14:35:25 +0100] conn=4 op=369 RESULT err=0 tag=101 nentries=1 etime=0.646000``
-| ``...``
-| ``[11/Jan/2016:14:35:25 +0100] conn=4 op=371 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=HTTP/``\ ``.``\ ``@``\ ``))"``
-| ``[11/Jan/2016:14:35:26 +0100] conn=4 op=371 RESULT err=0 tag=101 nentries=1 etime=0.530000``
-| ``...``
-| ``[11/Jan/2016:14:35:26 +0100] conn=4 op=373 SRCH base="``\ ``" scope=2 filter="(&(objectClass=ipaKrb5DelegationACL)(memberPrincipal=HTTP/``\ ``.``\ ``@``\ ``))"``
-| ``[11/Jan/2016:14:35:26 +0100] conn=4 op=373 RESULT err=0 tag=101 nentries=1 etime=0.424000``
-| ``...``
-| ``[11/Jan/2016:14:35:26 +0100] conn=4 op=374 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=admin@``\ ``))"``
-| ``[11/Jan/2016:14:35:27 +0100] conn=4 op=374 RESULT err=0 tag=101 nentries=1 etime=0.551000``
+::
+
+    [11/Jan/2016:14:35:24 +0100] conn=4 op=367 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=krbtgt/``\ ``@``\ ``)(krbPrincipalName=krbtgt/``\ ``@``\ ``)))"
+    [11/Jan/2016:14:35:24 +0100] conn=4 op=367 RESULT err=0 tag=101 nentries=1 etime=0.648000
+    ...
+    [11/Jan/2016:14:35:24 +0100] conn=4 op=369 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal)(objectClass=ipakrbprincipal))(|(ipaKrbPrincipalAlias=ldap/``\ ``.``\ ``@``\ ``)(krbPrincipalName=ldap/``\ ``.``\ ``@``\ ``)))"
+    [11/Jan/2016:14:35:25 +0100] conn=4 op=369 RESULT err=0 tag=101 nentries=1 etime=0.646000
+    ...
+    [11/Jan/2016:14:35:25 +0100] conn=4 op=371 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=HTTP/``\ ``.``\ ``@``\ ``))"
+    [11/Jan/2016:14:35:26 +0100] conn=4 op=371 RESULT err=0 tag=101 nentries=1 etime=0.530000
+    ...
+    [11/Jan/2016:14:35:26 +0100] conn=4 op=373 SRCH base="``\ ``" scope=2 filter="(&(objectClass=ipaKrb5DelegationACL)(memberPrincipal=HTTP/``\ ``.``\ ``@``\ ``))"
+    [11/Jan/2016:14:35:26 +0100] conn=4 op=373 RESULT err=0 tag=101 nentries=1 etime=0.424000
+    ...
+    [11/Jan/2016:14:35:26 +0100] conn=4 op=374 SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=krbprincipalaux)(objectClass=krbprincipal))(krbPrincipalName=admin@``\ ``))"
+    [11/Jan/2016:14:35:27 +0100] conn=4 op=374 RESULT err=0 tag=101 nentries=1 etime=0.551000
 
 The SRCH requests are costly because of the base search, each of them
 triggers an internal lookup in the schema compat plugin map. The more
@@ -210,8 +214,10 @@ only one lookup of ipaconfig is done.
 
 The request that is expensive is :
 
-| ``[05/Apr/2016:13:57:33 +0200] conn=75540 op=17 SRCH base="``\ ``" scope=2 filter="(|(member=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberUser=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberHost=uid=tb51420,cn=users,cn=accounts,``\ ``))" attrs=""``
-| ``[05/Apr/2016:13:57:33 +0200] conn=75540 op=17 RESULT err=0 tag=101 nentries=0 etime=0.275000``
+::
+
+    [05/Apr/2016:13:57:33 +0200] conn=75540 op=17 SRCH base="``\ ``" scope=2 filter="(|(member=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberUser=uid=tb51420,cn=users,cn=accounts,``\ ``)(memberHost=uid=tb51420,cn=users,cn=accounts,``\ ``))" attrs=""
+    [05/Apr/2016:13:57:33 +0200] conn=75540 op=17 RESULT err=0 tag=101 nentries=0 etime=0.275000
 
 
 
@@ -220,8 +226,10 @@ Add user
 
 The add of the user account is looking like
 
-| ``[05/Apr/2016:13:57:31 +0200] conn=75540 op=13 ADD dn="uid=tb51420,cn=users,cn=accounts,``\ ``"``
-| ``[05/Apr/2016:13:57:33 +0200] conn=75540 op=13 RESULT err=0 tag=105 nentries=0 etime=1.850000``
+::
+
+    [05/Apr/2016:13:57:31 +0200] conn=75540 op=13 ADD dn="uid=tb51420,cn=users,cn=accounts,``\ ``"
+    [05/Apr/2016:13:57:33 +0200] conn=75540 op=13 RESULT err=0 tag=105 nentries=0 etime=1.850000
 
 The ldap ADD accounts for nearly 20% of the total CLI. But
 `90% <https://fedorahosted.org/freeipa/ticket/5448#comment:6>`__ of the
@@ -232,14 +240,16 @@ itself.
 
 ``Details:``
 
-| ``2 identical internal search done by 'DNA'``
-| ``SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=posixAccount)(objectClass=posixGroup)(objectClass=ipaIDobject))(|(uidNumber=1677038171)(gidNumber=1677038171)))" attrs="dn"``
-| ``3 searches done by 'uniqueness'``
-| ``SRCH base="``\ ``" scope=2 filter="(&(objectClass=posixAccount)(|(uid=tb38189)))" attrs="dn"``
-| ``SRCH base="``\ ``" scope=2 filter="(|(ipaUniqueID=8549a6d6-a969-11e5-bfb1-001a4a231292))" attrs="dn"``
-| ``SRCH base="``\ ``" scope=2 filter="(|(krbPrincipalName=tb38189@``\ ``))" attrs="dn"``
-| ``1 search done by 'schema compat'. note this one dumps ipausers group``
-| ``SRCH base="cn=groups,cn=accounts,``\ ``" scope=1 filter="(member=uid=tb38189,cn=users,cn=accounts,``\ ``)" attrs=ALL``
+::
+
+    2 identical internal search done by 'DNA'
+    SRCH base="``\ ``" scope=2 filter="(&(|(objectClass=posixAccount)(objectClass=posixGroup)(objectClass=ipaIDobject))(|(uidNumber=1677038171)(gidNumber=1677038171)))" attrs="dn"
+    3 searches done by 'uniqueness'
+    SRCH base="``\ ``" scope=2 filter="(&(objectClass=posixAccount)(|(uid=tb38189)))" attrs="dn"
+    SRCH base="``\ ``" scope=2 filter="(|(ipaUniqueID=8549a6d6-a969-11e5-bfb1-001a4a231292))" attrs="dn"
+    SRCH base="``\ ``" scope=2 filter="(|(krbPrincipalName=tb38189@``\ ``))" attrs="dn"
+    1 search done by 'schema compat'. note this one dumps ipausers group
+    SRCH base="cn=groups,cn=accounts,``\ ``" scope=1 filter="(member=uid=tb38189,cn=users,cn=accounts,``\ ``)" attrs=ALL
 
 There are two options to reduce the impact of those internal searches:
 
@@ -307,18 +317,18 @@ took 40-60% of time of user-add command without groups.
 
 ::
 
-   ``Profiler output:``
+   ``Profiler output:``
 
-   | ``170386 function calls (170213 primitive calls) in ``\ **``0.680``\ ````\ ``seconds``**
-   | ``Ordered by: cumulative time``
-   | `` ``
-   | ``ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-   | ``...``
-   | ``206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)``
-   | ``  1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)``
-   | ``  1    0.000    0.000    ``\ **``0.470``**\ ``    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)``
-   | `` 32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-   | ``...``
+   170386 function calls (170213 primitive calls) in  0.680  seconds
+   Ordered by: cumulative time
+    
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   ...
+   206    0.000    0.000    0.470    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:731(_get_schema)
+     1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:113(get_schema)
+     1    0.000    0.000    0.470    0.470 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:140(_retrieve_schema_from_server)
+    32    0.000    0.000    0.364    0.011 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+    ...
 
 This performance issue will be resolved by fixing
 `#5787 <https://fedorahosted.org/freeipa/ticket/5787>`__.
@@ -381,11 +391,13 @@ completed <https://git.fedorahosted.org/cgit/slapi-nis.git/diff/src/back-sch.c?i
 Actually the subject of the commit does not reflect those changes in
 that file, where the perf improvement are
 
-| ``+  if (slapi_op_internal(pb) || (slapi_is_ldapi_conn(pb) && isroot)) {``
-| ``+      /* The plugin should not engage in internal searches of other``
-| ``+       * plugins or ldapi+cn=DM */``
-| ``+      return 0;``
-| ``+  }``
+::
+
+    +  if (slapi_op_internal(pb) || (slapi_is_ldapi_conn(pb) && isroot)) {
+    +      /* The plugin should not engage in internal searches of other
+    +       * plugins or ldapi+cn=DM */
+    +      return 0;
+    +  }
 
 Those improvements are available since **Release 0.55**
 
@@ -438,25 +450,27 @@ Related ticket(s):
 *ipasshpubkey* can be fetched together with user entry, there is no need
 for an extra search operation.
 
-``User-find with 2000 entries with sshpubkey``
+``User-find with 2000 entries with sshpubkey``
 
-| ``6310241 function calls (6200125 primitive calls) in ``\ **``16.453``**\ `` seconds``
-| ``   Ordered by: cumulative time``
-| ``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-| ``....``
-| ``        1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``
-| ``     6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)``
-| ``        1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)``
-| ``        1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)``
-| ``    16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-| ``    10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)``
-| ``    10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)``
-| ``    10006    6.114    0.001    6.114    0.001 {built-in method result4}``
-| ``     2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)``
-| ``        1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)``
-| ``     2000    0.043    0.000    ``\ **``3.787``**\ ``    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(``\ **``convert_sshpubkey_post``**\ ``)``
-| ``    10004    0.095    0.000    3.147    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)``
-| ``.....``
+::
+
+    6310241 function calls (6200125 primitive calls) in 16.453 seconds
+       Ordered by: cumulative time
+       ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       ....
+            1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+         6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+            1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)
+            1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)
+        16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+        10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
+        10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
+        10006    6.114    0.001    6.114    0.001 {built-in method result4}
+         2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)
+            1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
+         2000    0.043    0.000    3.787    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)
+        10004    0.095    0.000    3.147    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
+    .....
 
 As profiling output shows approximately **23%** of time was spent on
 processing *ipasshpubkey* attribute because for each user it was
@@ -464,8 +478,10 @@ downloaded separately
 
 ldap access log contains
 
-| ``[15/Apr/2016:12:59:11 +0200] conn=30 op=5624 SRCH base="uid=user1871,cn=users,cn=accounts,dc=example,dc=com" scope=0 filter="(objectClass=*)" attrs="ipaSshPubKey"``
-| ``[15/Apr/2016:12:59:11 +0200] conn=30 op=5624 RESULT err=0 tag=101 nentries=1 etime=0``
+::
+
+    [15/Apr/2016:12:59:11 +0200] conn=30 op=5624 SRCH base="uid=user1871,cn=users,cn=accounts,dc=example,dc=com" scope=0 filter="(objectClass=*)" attrs="ipaSshPubKey"
+    [15/Apr/2016:12:59:11 +0200] conn=30 op=5624 RESULT err=0 tag=101 nentries=1 etime=0
 
 for each user (2000 times for this case)
 
@@ -484,31 +500,35 @@ Related ticket(s):
 These attribute should be removed from user-find command to get better
 performance.
 
-``user-find with 2000 users:``
+``user-find with 2000 users:``
 
-| ``6310241 function calls (6200125 primitive calls) in ``\ **``16.453``**\ `` seconds``
-| ``   Ordered by: cumulative time``
-| ``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-| ``....``
-| ``        1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``
-| ``     6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)``
-| ``        1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)``
-| ``        1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)``
-| ``    16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-| ``    10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)``
-| ``    10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)``
-| ``    10006    6.114    0.001    6.114    0.001 {built-in method result4}``
-| ``     2000    0.053    0.000    ``\ **``5.341``**\ ``    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(``\ **``get_password_attributes``**\ ``)``
-| ``        1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)``
-| ``....``
+::
+
+    6310241 function calls (6200125 primitive calls) in 16.453 seconds
+       Ordered by: cumulative time
+       ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       ....
+            1    0.027    0.027   16.449   16.449 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+         6002    0.256    0.000   12.501    0.002 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+            1    0.008    0.008    9.519    9.519 /usr/lib/python2.7/site-packages/ipalib/plugins/user.py:801(post_callback)
+            1    0.041    0.041    9.392    9.392 /usr/lib/python2.7/site-packages/ipalib/plugins/baseuser.py:618(post_common_callback)
+        16009    0.120    0.000    6.697    0.000 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+        10006    0.024    0.000    6.348    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
+        10006    0.057    0.000    6.324    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
+        10006    6.114    0.001    6.114    0.001 {built-in method result4}
+         2000    0.053    0.000    5.341    0.003 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:733(get_password_attributes)
+            1    0.000    0.000    4.283    4.283 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:1145(wrapped)
+            ....
 
 Getting and processing password attributes took approximately **32%** of
 time.
 
 The ldap access log contains
 
-| ``[15/Apr/2016:12:59:12 +0200] conn=30 op=5764 SRCH base="uid=user1918,cn=users,cn=accounts,dc=example,dc=com" scope=0 filter="(krbPrincipalKey=*)" attrs="krbPrincipalKey"``
-| ``[15/Apr/2016:12:59:12 +0200] conn=30 op=5764 RESULT err=0 tag=101 nentries=0 etime=0``
+::
+
+    [15/Apr/2016:12:59:12 +0200] conn=30 op=5764 SRCH base="uid=user1918,cn=users,cn=accounts,dc=example,dc=com" scope=0 filter="(krbPrincipalKey=*)" attrs="krbPrincipalKey"
+    [15/Apr/2016:12:59:12 +0200] conn=30 op=5764 RESULT err=0 tag=101 nentries=0 etime=0
 
 for each user (2000 times for this case)
 
@@ -525,8 +545,10 @@ user-find does not process members (groups, roles, sudorules, hbacrules,
 
 However with option --all
 
-| ``$ ipa user-find --all``
-| ``ipa: ERROR: cannot connect to '``\ ```https://ipa.example.com/ipa/json`` <https://ipa.example.com/ipa/json>`__\ ``': Gateway Timeout``
+::
+
+    $ ipa user-find --all
+    ipa: ERROR: cannot connect to '``\ ```https://ipa.example.com/ipa/json`` <https://ipa.example.com/ipa/json>`__\ ``': Gateway Timeout
 
 This testcase contains 2000 users with 110 direct and indirect
 memberships.
@@ -554,7 +576,7 @@ user-find. From user find it requires only list of primary keys.
 
 user-find --pkey-only with 2000 users
 
-``708478 function calls (694369 primitive calls) in 1.889 seconds``
+``708478 function calls (694369 primitive calls) in 1.889 seconds``
 
 
 
@@ -614,8 +636,10 @@ See
 processing members
 ^^^^^^^^^^^^^^^^^^
 
-| ``$ ipa host-find``
-| ``ipa: ERROR: cannot connect to '``\ ```https://ipa.example.com/ipa/json`` <https://ipa.example.com/ipa/json>`__\ ``': Gateway Timeout``
+::
+
+    $ ipa host-find
+    ipa: ERROR: cannot connect to '``\ ```https://ipa.example.com/ipa/json`` <https://ipa.example.com/ipa/json>`__\ ``': Gateway Timeout
 
 This testcase contains 2000 hostss with 110 direct and indirect
 memberships.
@@ -820,13 +844,15 @@ database locks
 During tests it appears that the default number of database locks was
 too low. This can be monitored with
 
-| ``ldapsearch -LLL -o ldif-wrap=no -D "cn=directory manager" -w Secret123 -b "cn=database,cn=monitor,cn=ldbm database,cn=plugins,cn=config" nsslapd-db-configured-locks nsslapd-db-current-locks nsslapd-db-max-locks``
-| ``dn: cn=database,cn=monitor,cn=ldbm database,cn=plugins,cn=config``
-| ``nsslapd-db-configured-locks: 100000``
-| ``nsslapd-db-current-locks: 8980``
-| ``nsslapd-db-max-locks: 42675``
+::
 
-``One rule of thumb, for large provisioning, is to set database lock to the half of number of provisioned users and hosts.``
+    ldapsearch -LLL -o ldif-wrap=no -D "cn=directory manager" -w Secret123 -b "cn=database,cn=monitor,cn=ldbm database,cn=plugins,cn=config" nsslapd-db-configured-locks nsslapd-db-current-locks nsslapd-db-max-locks
+    dn: cn=database,cn=monitor,cn=ldbm database,cn=plugins,cn=config
+    nsslapd-db-configured-locks: 100000
+    nsslapd-db-current-locks: 8980
+    nsslapd-db-max-locks: 42675
+
+``One rule of thumb, for large provisioning, is to set database lock to the half of number of provisioned users and hosts.``
 
 
 
@@ -1000,13 +1026,15 @@ a requirement**, it is ok to keep **RetroCL enabled**.
 The ticket `48812 <https://fedorahosted.org/389/ticket/48812>`__ does
 not provide a measurable performance gain:
 
-| ``DBcache: 100Mb``
-| ``Entrycache: 110Mb``
-| ``DNcache: 60Mb``
-| ``Memberof:     disabled``
-| ``slapi-nis:     disabled``
-| ``RetroCL:     enabled``
-| ``Content:     enabled``
+::
+
+    DBcache: 100Mb
+    Entrycache: 110Mb
+    DNcache: 60Mb
+    Memberof:     disabled
+    slapi-nis:     disabled
+    RetroCL:     enabled
+    Content:     enabled
 
 =============================================================== ========
 DS Version                                                      Duration
@@ -1053,12 +1081,12 @@ The CLI that will do the provisioning of a given ldif file will:
 
 ::
 
-   | ``(objectClass=inetorgperson)``
-   | ``(objectClass=ipausergroup)``
-   | ``(objectClass=ipahost)``
-   | ``(objectClass=ipahostgroup)``
-   | ``(objectClass=ipasudorule)``
-   | ``(objectClass=ipahbacrule)``
+   (objectClass=inetorgperson)
+   (objectClass=ipausergroup)
+   (objectClass=ipahost)
+   (objectClass=ipahostgroup)
+   (objectClass=ipasudorule)
+   (objectClass=ipahbacrule)
 
 -  Compute and set the appropriate `db cache
    <http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning>`__
@@ -1066,68 +1094,74 @@ The CLI that will do the provisioning of a given ldif file will:
 
 ::
 
-   | ``dn: cn=config,cn=ldbm database,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-dbcachesize``
-   | ``nsslapd-dbcachesize: ``
-   | ``-``
-   | ``replace: nsslapd-db-locks``
-   | ``nsslapd-db-locks: ``
+   dn: cn=config,cn=ldbm database,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-dbcachesize
+   nsslapd-dbcachesize: 
+   -
+   replace: nsslapd-db-locks
+   nsslapd-db-locks: 
 
 -  Compute and set the appropriate *domain* `entry cache <http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning>`__ size
 
 ::
 
-   | ``dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-cachememsize``
-   | ``nsslapd-cachememsize: ``
+   dn: cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-cachememsize
+   nsslapd-cachememsize: 
 
 -  Disable memberof
 
 ::
 
-   | ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-pluginEnabled``
-   | ``nsslapd-pluginEnabled: off``
+   dn: cn=MemberOf Plugin,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-pluginEnabled
+   nsslapd-pluginEnabled: off
 
 -  Disable Schema Compat
 
 ::
 
-   | ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
-   | ``changetype: modify``
-   | ``replace: nsslapd-pluginEnabled``
-   | ``nsslapd-pluginEnabled: off``
+   dn: cn=Schema Compatibility,cn=plugins,cn=config
+   changetype: modify
+   replace: nsslapd-pluginEnabled
+   nsslapd-pluginEnabled: off
 
 -  stop ipa (that will stop DS)
 -  **start DS**
 -  ldapadd -D "xxx" -y -f
 -  Enable memberof
 
-| ``dn: cn=MemberOf Plugin,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-pluginEnabled``
-| ``nsslapd-pluginEnabled: on``
+::
+
+    dn: cn=MemberOf Plugin,cn=plugins,cn=config
+    changetype: modify
+    replace: nsslapd-pluginEnabled
+    nsslapd-pluginEnabled: on
 
 -  **restart DS**
 -  Run fixup (and monitor completion) for each of the following filters
    (if it existed entries in the ldif file matching the filter).
 
-| ``fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=inetorgperson)" -P LDAP``
-| ``fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipausergroup)" -P LDAP``
-| ``fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipahost)" -P LDAP``
-| ``fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipahostgroup)" -P LDAP``
-| ``fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipasudorule)" -P LDAP``
-| ``fixup-memberof.pl  -D "cn=directory manager" -j ``\ `` -Z ``\ *``server-id``*\ `` -b "``\ *``suffix``*\ ``" -f "(objectClass=ipahbacrule)" -P LDAP``
+::
+
+      fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id -b "suffix" -f "(objectClass=inetorgperson)" -P LDAP 
+      fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id -b "suffix" -f "(objectClass=ipausergroup)" -P LDAP 
+      fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id -b "suffix" -f "(objectClass=ipahost)" -P LDAP 
+      fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id -b "suffix" -f "(objectClass=ipahostgroup)" -P LDAP 
+      fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id -b "suffix" -f "(objectClass=ipasudorule)" -P LDAP 
+      fixup-memberof.pl -D "cn=directory manager" -j ``\ `` -Z server-id -b "suffix" -f "(objectClass=ipahbacrule)" -P LDAP 
 
 -  Enable Schema Compat
 
-| ``dn: cn=Schema Compatibility,cn=plugins,cn=config``
-| ``changetype: modify``
-| ``replace: nsslapd-pluginEnabled``
-| ``nsslapd-pluginEnabled: on``
+::
+
+    dn: cn=Schema Compatibility,cn=plugins,cn=config
+    changetype: modify
+    replace: nsslapd-pluginEnabled
+    nsslapd-pluginEnabled: on
 
 -  **stop DS**
 -  **start ipa**
@@ -1207,20 +1241,24 @@ entries. For example if we provision
 *user/usergroup/host/hostgroup/sudorules/hbacrules* the following set of
 filters will fixup all the them
 
-| ``(objectClass=inetorgperson)``
-| ``(objectClass=ipausergroup)``
-| ``(objectClass=ipahost)``
-| ``(objectClass=ipahostgroup)``
-| ``(objectClass=ipasudorule)``
-| ``(objectClass=ipahbacrule)``
+::
+
+    (objectClass=inetorgperson)
+    (objectClass=ipausergroup)
+    (objectClass=ipahost)
+    (objectClass=ipahostgroup)
+    (objectClass=ipasudorule)
+    (objectClass=ipahbacrule)
 
 A second difficulty is to have filters that do not overlap. Else we will
 fixup several times the same entries. For example adding
 *usergroup/hostgroup* the following set of filters overlaps because
 *hostgroup* also match the first filter.
 
-| ``(objectClass=groupofnames)``
-| ``(objectClass=ipahostgroup)``
+::
+
+    (objectClass=groupofnames)
+    (objectClass=ipahostgroup)
 
 A third difficulty is if provisioning is adding entries (e.g. user) in a
 server where it already exists others users. In that case the filter
@@ -1371,27 +1409,29 @@ internals): 6 ADDs, 4 MODs, 22SRCHs
 
 ``Details:``
 
-| ``ADD a user``
-| ``   22 SRCHs``
-| ``       5 for uniqueness (ipaUniqueID, krbPrincipalName, uid, uidNumber, gidNumber)``
-| ``       3 for DNA config update (2 identicals (*))``
-| ``       2 for DNA shared config (2 identicals (*))``
-| ``       4 for group membership of the added user  (2 identicals (*))``
-| ``       4 for group membership of the added private group  (2 identicals (*))``
-| ``       2 for group membership``
-| ``       2 for updating the added user with its private group``
-| ``    4 MODs``
-| ``       1 for DNA config``
-| ``       1 for DNA shared config``
-| ``       2 for updating the added user with its private group/entryusn (curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)``
-| ``    6 ADD``
-| ``       user ADD``
-| ``       private group ADD``
-| ``       retroCL log of ADD user ``
-| ``       retroCL log of MOD of DNA share config``
-| ``       retroCL log of ADD private group``
-| ``       retroCL log of MOD user (adding its private group)``
-| ``(*) Searches are identicals``
+::
+
+    ADD a user
+       22 SRCHs
+           5 for uniqueness (ipaUniqueID, krbPrincipalName, uid, uidNumber, gidNumber)
+           3 for DNA config update (2 identicals (*))
+           2 for DNA shared config (2 identicals (*))
+           4 for group membership of the added user  (2 identicals (*))
+           4 for group membership of the added private group  (2 identicals (*))
+           2 for group membership
+           2 for updating the added user with its private group
+        4 MODs
+           1 for DNA config
+           1 for DNA shared config
+           2 for updating the added user with its private group/entryusn (curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)
+        6 ADD
+           user ADD
+           private group ADD
+           retroCL log of ADD user
+           retroCL log of MOD of DNA share config
+           retroCL log of ADD private group
+           retroCL log of MOD user (adding its private group)
+    (*) Searches are identicals
 
 
 
@@ -1405,21 +1445,23 @@ The add of **one** user group triggers the following operations:
 
 ``Details:``
 
-| ``ADD an empty usergroup``
-| ``   15 SRCHs``
-| ``       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)``
-| ``       3 for DNA config update (3 identicals (*))``
-| ``       2 for DNA shared config (2 identicals (*))``
-| ``       1 for ?? (lookup objectclass=ipantdomainattrs)``
-| ``       2 for group members (2 identicals (*))``
-| ``       4 for group membership of the added user group  (2 identicals (*))``
-| ``    2 MODs``
-| ``       1 for DNA config``
-| ``       1 for DNA shared config``
-| ``    3 ADD``
-| ``       user group``
-| ``       retroCL log of ADD user ``
-| ``       retroCL log of MOD of DNA share config``
+::
+
+    ADD an empty usergroup
+       15 SRCHs
+           3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)
+           3 for DNA config update (3 identicals (*))
+           2 for DNA shared config (2 identicals (*))
+           1 for ?? (lookup objectclass=ipantdomainattrs)
+           2 for group members (2 identicals (*))
+           4 for group membership of the added user group  (2 identicals (*))
+        2 MODs
+           1 for DNA config
+           1 for DNA shared config
+        3 ADD
+           user group
+           retroCL log of ADD user
+           retroCL log of MOD of DNA share config
 
 -  If the group contains 102 members (100+2nested) (1 direct, 105ADD,
    104 MOD, 1342 SRCH)
@@ -1428,42 +1470,44 @@ The add of **one** user group triggers the following operations:
 
 ADD usergroup with 100 user member and 2 nested groups
 
-| ``   1342 SRCHs``
-| ``       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)``
-| ``       3 for DNA config update (3 identicals (*))``
-| ``       2 for DNA shared config (2 identicals (*))``
-| ``       1 for ?? (lookup objectclass=ipantdomainattrs)``
-| ``       1 for group members``
-| ``       202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)``
-| ``       101 = searchs for members of each direct member [435]``
-| ``         2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)``
-| ``         1 = searchs for members of each indirect member``
-| ``       102 = search for 'uid' of each direct/indirect members [643]``
-| ``       1 for group members [847]``
-| ``       202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)``
-| ``       101 = searchs for members of each direct member [1254] (slapi-nis ?)``
-| ``         2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)``
-| ``         1 = searchs for members of each indirect member``
-| ``       ``
-| ``       1 for group members [1459]``
-| ``       103 = search for members direct/indirect of the group 'ipaexternalmember' (slapi-nis ?)``
-| ``       4 search for group memberships [1665]``
-| ``       for each member (total srch = 510 (102*5), 102 ADD, 102 MOD)``
-| ``           1 search "member memberUser memberHost"``
-| ``           1 search group owner of the member``
-| ``           1 search group owner of the usergroup (done at each iteration)``
-| ``           1 MOD + 1 ADD (see MOD/ADD)``
-| ``           2 search of the member (2 identical)``
-| ``   104 MODs``
-| ``       1 for DNA config``
-| ``       1 for DNA shared config``
-| ``       for each member (102)``
-| ``           MOD users to add 'memberof'``
-| ``       ``
-| ``   105 ADDs``
-| ``       user group``
-| ``       for each member (102)``
-| ``               RetroCL log for above MODs (MOD member to add 'memberof')``
+::
+
+       1342 SRCHs
+           3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)
+           3 for DNA config update (3 identicals (*))
+           2 for DNA shared config (2 identicals (*))
+           1 for ?? (lookup objectclass=ipantdomainattrs)
+           1 for group members
+           202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)
+           101 = searchs for members of each direct member [435]
+             2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)
+             1 = searchs for members of each indirect member
+           102 = search for 'uid' of each direct/indirect members [643]
+           1 for group members [847]
+           202 = 2 identical searchs per direct members  (retrieve all attribute including member that are lookup below)
+           101 = searchs for members of each direct member [1254] (slapi-nis ?)
+             2 = 2 indentical search per indirect members (retrieve all attribute including member that are lookup below)
+             1 = searchs for members of each indirect member
+    
+           1 for group members [1459]
+           103 = search for members direct/indirect of the group 'ipaexternalmember' (slapi-nis ?)
+           4 search for group memberships [1665]
+           for each member (total srch = 510 (102*5), 102 ADD, 102 MOD)
+               1 search "member memberUser memberHost"
+               1 search group owner of the member
+               1 search group owner of the usergroup (done at each iteration)
+               1 MOD + 1 ADD (see MOD/ADD)
+               2 search of the member (2 identical)
+       104 MODs
+           1 for DNA config
+           1 for DNA shared config
+           for each member (102)
+               MOD users to add 'memberof'
+    
+       105 ADDs
+           user group
+           for each member (102)
+                   RetroCL log for above MODs (MOD member to add 'memberof')
 
 
 
@@ -1474,14 +1518,16 @@ The add of **one** host triggers : 2 ADD, 7 SRCHs
 
 ``Details:``
 
-| ``ADD a host``
-| ``   7 SRCH``
-| ``       2 search (uniqueness ipaUniqueID, krbPrincipalName)``
-| ``       4 membership search (2 identical)``
-| ``       1 search for group from 'ipantdomainattrs'``
-| ``   2 ADD``
-| ``       add host``
-| ``       RetroCL add``
+::
+
+    ADD a host
+       7 SRCH
+           2 search (uniqueness ipaUniqueID, krbPrincipalName)
+           4 membership search (2 identical)
+           1 search for group from 'ipantdomainattrs'
+       2 ADD
+           add host
+           RetroCL add
 
 
 
@@ -1495,24 +1541,26 @@ The add of **one** host group triggers the following operations:
 
 ``Details:``
 
-| ``ADD empty hostgroup``
-| ``   32 SEARCHES``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``       4 membership search (2 identical)``
-| ``       5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')``
-| ``       6 searches of added hostgroup (2 for ALL, 1 for 'memberuser', 1 for 'memberhost, 1 for 'fqdn', 1 for "member memberUser  memberHost")``
-| ``       8 searches to find groups owning alt networkgroup``
-| ``       2 searches to find groups owning hostgroup``
-| ``       4 search of add hostgroup (4 identical) related to MODs``
-| ``       1 search for group from 'ipantdomainattrs'``
-| ``           ``
-| ``   3 MOD``
-| ``       1 update hostgroup to 'memberof' alt networkgroup (memberof plugin)``
-| ``       1 update hostgroup to 'mepManagedEntry' alt networkgroup (mep plugin) ((curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)``
-| ``   5 ADD``
-| ``       add hostgroup``
-| ``       add hostgroup alt networkgroup (slapi-nis)``
-| ``       3 retroCL``
+::
+
+    ADD empty hostgroup
+       32 SEARCHES
+           1 search (uniqueness ipaUniqueID)
+           4 membership search (2 identical)
+           5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')
+           6 searches of added hostgroup (2 for ALL, 1 for 'memberuser', 1 for 'memberhost, 1 for 'fqdn', 1 for "member memberUser  memberHost")
+           8 searches to find groups owning alt networkgroup
+           2 searches to find groups owning hostgroup
+           4 search of add hostgroup (4 identical) related to MODs
+           1 search for group from 'ipantdomainattrs'
+    
+       3 MOD
+           1 update hostgroup to 'memberof' alt networkgroup (memberof plugin)
+           1 update hostgroup to 'mepManagedEntry' alt networkgroup (mep plugin) ((curiously the first update fails with LDAP_TYPE_OR_VALUE_EXISTS)
+       5 ADD
+           add hostgroup
+           add hostgroup alt networkgroup (slapi-nis)
+           3 retroCL
 
 -  If the hostgroup contains 42 members (40 direct, 2 nested) (1 direct,
    895 internals): 90 ADDs, 88 MODs, 718 SRCHs
@@ -1522,41 +1570,41 @@ The add of **one** host group triggers the following operations:
 
    ``Details:``
 
-   | ``ADD hostgroup with 42 members (nested)``
-   | ``   718 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``       4 membership search (2 identical)``
-   | ``       5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')``
-   | ``       for each member (42): total = 84srch``
-   | ``               2 search of the member entry (identical BUG)``
-   | ``    ``
-   | ``       for each member (42): total = 84``
-   | ``               1 search of 'member' ``
-   | ``               1 search of 'fqdn'``
-   | ``       10 search to find groups owning hostgroup (4 identical )``
-   | ``       for each member (42): total = 252srch [405->1125]``
-   | ``           /* related to the MOD 'memberof' of the member */``
-   | ``           1 search to find the member "member memberUser memberHost"``
-   | ``           1 search to find groups owning member``
-   | ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-   | ``           2 search member during MOD (identical BUG ?)``
-   | ``       for each member (42): total = 252srch [1125->1760]``
-   | ``           /* related to the second "BUGGY" MOD 'memberof' of the member */``
-   | ``           1 search to find the member "member memberUser memberHost"``
-   | ``           1 search to find groups owning member``
-   | ``           2 search to find groups owning hostgroup (identical BUG + same search for each member)``
-   | ``           2 search member during MOD (identical BUG ?)``
-   | ``    87 MOD``
-   | ``       for each host in hostgroup [418]``
-   | ``           update 'memberof' for hostgroup and alt networkgroup``
-   | ``       for each host in hostgroup (Yes this is done twice ! BUG) [1122]``
-   | ``           update 'memberof' for hostgroup and alt networkgroup``
-   | ``       update hostgroup for 'mepmanageentry'``
-   | ``        ``
-   | ``    90 ADD``
-   | ``      add hostgroup``
-   | ``      add alt networkgroup``
-   | ``      88 RetroCL add due to MODs``
+   ADD hostgroup with 42 members (nested)
+      718 SRCH
+          1 search (uniqueness ipaUniqueID)
+          4 membership search (2 identical)
+          5 search of the alt networkgroup (3 for 'member', 1 for 'memberuser', 1 for 'memberhost')
+          for each member (42): total = 84srch
+                  2 search of the member entry (identical BUG)
+       
+          for each member (42): total = 84
+                  1 search of 'member' 
+                  1 search of 'fqdn'
+          10 search to find groups owning hostgroup (4 identical )
+          for each member (42): total = 252srch [405->1125]
+              /* related to the MOD 'memberof' of the member */
+              1 search to find the member "member memberUser memberHost"
+              1 search to find groups owning member
+              2 search to find groups owning hostgroup (identical BUG + same search for each member)
+              2 search member during MOD (identical BUG ?)
+          for each member (42): total = 252srch [1125->1760]
+              /* related to the second "BUGGY" MOD 'memberof' of the member */
+              1 search to find the member "member memberUser memberHost"
+              1 search to find groups owning member
+              2 search to find groups owning hostgroup (identical BUG + same search for each member)
+              2 search member during MOD (identical BUG ?)
+       87 MOD
+          for each host in hostgroup [418]
+              update 'memberof' for hostgroup and alt networkgroup
+          for each host in hostgroup (Yes this is done twice ! BUG) [1122]
+              update 'memberof' for hostgroup and alt networkgroup
+          update hostgroup for 'mepmanageentry'
+           
+       90 ADD
+         add hostgroup
+         add alt networkgroup
+         88 RetroCL add due to MODs
 
 
 
@@ -1570,39 +1618,39 @@ internal operations 47 ADDs, 45 MODs and 918 SRCH
 
    ``Details:``
 
-   | ``ADD sudorules 25 users/20 hosts``
-   | ``   918 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``           /* Follow comes slapi-nis 'cn=sudoers,cn=Schema Compatibility' */``
-   | ``               for each memberHost (20): 40``
-   | ``                   2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-   | ``                   ``
-   | ``               for each memberuser (25): 25``
-   | ``                   1 search 'cn'``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-   | ``               for each memberUser (25): 25 ``
-   | ``                   1 search 'uid'``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host (ipaNisNetgroup)``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host (objectclass=ipaHost)``
-   | ``               for each memberUser (25): 50``
-   | ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-   | ``               for each memberUser (25):  25``
-   | ``                   1 search user (objectclass=ipaNisNetgroup)``
-   | ``       10 searchs to find if add sudorules belong to a group``
-   | ``       For each memberUser (25):``
-   | ``           /* search all groups it can belong to */``
-   | ``           10 search based on member 'memberof'``
-   | ``   45 MOD``
-   | ``       for each users:``
-   | ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
-   | ``       for each host:``
-   | ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value``
-   | ``   47 ADD``
-   | ``       add sudorule``
-   | ``       RetroCL add sudorule + 45 updates of memberof (MODs)``
+   ADD sudorules 25 users/20 hosts
+      918 SRCH
+          1 search (uniqueness ipaUniqueID)
+              /* Follow comes slapi-nis 'cn=sudoers,cn=Schema Compatibility' */
+                  for each memberHost (20): 40
+                      2 search host (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))
+                      
+                  for each memberuser (25): 25
+                      1 search 'cn'
+                  for each memberHost (20): 20
+                      1 search host ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))
+                  for each memberUser (25): 25 
+                      1 search 'uid'
+                  for each memberHost (20): 20
+                      1 search host (ipaNisNetgroup)
+                  for each memberHost (20): 20
+                      1 search host (objectclass=ipaHost)
+                  for each memberUser (25): 50
+                      2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))
+                  for each memberUser (25):  25
+                      1 search user (objectclass=ipaNisNetgroup)
+          10 searchs to find if add sudorules belong to a group
+          For each memberUser (25):
+              /* search all groups it can belong to */
+              10 search based on member 'memberof'
+      45 MOD
+          for each users:
+              update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value
+          for each host:
+              update memberof attribute to add the 'ipaUniqueID=xxx,cn=sudorules,cn=sudo,``\ ``' value
+      47 ADD
+          add sudorule
+          RetroCL add sudorule + 45 updates of memberof (MODs)
 
 
 
@@ -1614,21 +1662,23 @@ internal operations 47 ADDs, 45 MODs and 1313 SRCH
 
 ``Details:``
 
-| ``ADD hbacrule 25 users/20 hosts``
-| ``   1313 SRCH``
-| ``       For each memberUser 25: ``
-| ``           search the groups it belongs to (17)``
-| ``       For each memberHost 20: ``
-| ``           search the groups it belongs to (40)``
-| `` ``
-| ``   45 MOD``
-| ``       for each users:``
-| ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``\ ``' value``
-| ``       for each host:``
-| ``           update memberof attribute to add the 'ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``\ ``' value``
-| ``   47 ADD``
-| ``       add hbacrule``
-| ``       RetroCL add hbacrule + 45 updates of memberof (MODs)``
+::
+
+    ADD hbacrule 25 users/20 hosts
+       1313 SRCH
+           For each memberUser 25:
+               search the groups it belongs to (17)
+           For each memberHost 20:
+               search the groups it belongs to (40)
+    
+       45 MOD
+           for each users:
+               update memberof attribute to add the 'ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``\ ``' value
+           for each host:
+               update memberof attribute to add the 'ipaUniqueID=xxx,cn=hbacrules,cn=hbac,``\ ``' value
+       47 ADD
+           add hbacrule
+           RetroCL add hbacrule + 45 updates of memberof (MODs)
 
 
 
@@ -1658,27 +1708,29 @@ The add of **one** user group triggers the following operations:
 
 ``Details:``
 
-| ``   813 SRCHs``
-| ``       3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)``
-| ``       3 for DNA config update (3 identicals (*))``
-| ``       2 for DNA shared config (2 identicals (*))``
-| ``       1 for ?? (lookup objectclass=ipantdomainattrs)``
-| ``       A) for each group members (102): (total 204)``
-| ``           2 identical base search of the member all_attr (BUG)``
-| ``       B) for each group members (102): (total 102)``
-| ``           base search of the member 'member' (BUG it could reuse the A)``
-| ``       C) for each group members (102): (total 102)``
-| ``           base search of the member 'uid' (BUG it could reuse the A)``
-| ``       D) identical to A (total 102)``
-| ``       E) identical to B (total 102)``
-| ``       F) for each group members (102): (total 102)``
-| ``           base search of the member 'ipaexternalmember' (BUG it could reuse the A)``
-| ``   2 MODs                                                                                                                          ``
-| ``       1 for DNA config``
-| ``       1 for DNA shared config``
-| ``   3 ADDs``
-| ``       user group``
-| ``       RetroCL for user_group and MOD DNA``
+::
+
+       813 SRCHs
+           3 for uniqueness (ipaUniqueID, uidNumber, gidNumber)
+           3 for DNA config update (3 identicals (*))
+           2 for DNA shared config (2 identicals (*))
+           1 for ?? (lookup objectclass=ipantdomainattrs)
+           A) for each group members (102): (total 204)
+               2 identical base search of the member all_attr (BUG)
+           B) for each group members (102): (total 102)
+               base search of the member 'member' (BUG it could reuse the A)
+           C) for each group members (102): (total 102)
+               base search of the member 'uid' (BUG it could reuse the A)
+           D) identical to A (total 102)
+           E) identical to B (total 102)
+           F) for each group members (102): (total 102)
+               base search of the member 'ipaexternalmember' (BUG it could reuse the A)
+       2 MODs
+           1 for DNA config
+           1 for DNA shared config
+       3 ADDs
+           user group
+           RetroCL for user_group and MOD DNA
 
 
 
@@ -1710,27 +1762,29 @@ SRCHs**.
 
 ``Details:``
 
-| ``ADD hostgroup with 42 members (nested)``
-| ``   201 SRCH``
-| ``       1 search (uniqueness ipaUniqueID)``
-| ``       4 membership search on netgroup``
-| ``       4 membership search on groups``
-| ``       5 search on add hostgroup (2 ALL, 1 'member', 1 'fqdn', 1 'memberHost' , 1 'member')``
-| ``       for each member (42): total = 84srch``
-| ``               2 search of the member entry (identical BUG)``
-| ``    ``
-| ``       for each member (42): total = 84``
-| ``               1 search of 'member' ``
-| ``               1 search of 'fqdn'``
-| ``       9 searches to find groups (ng, users, groups, computers, hostgoups) owning the added hostgroup``
-| ``                                                                                                                                   ``
-| ``    2 MOD``
-| ``       2 update hostgroup to 'mepManagedEntry' alt networkgroup (mep plugin) (the first MOD fails with LDAP_TYPE_OR_VALUE_EXISTS)``
-| ``       ``
-| ``    5 ADD``
-| ``      add hostgroup``
-| ``      add alt networkgroup``
-| ``       RetroCL add due to MODs``
+::
+
+    ADD hostgroup with 42 members (nested)
+       201 SRCH
+           1 search (uniqueness ipaUniqueID)
+           4 membership search on netgroup
+           4 membership search on groups
+           5 search on add hostgroup (2 ALL, 1 'member', 1 'fqdn', 1 'memberHost' , 1 'member')
+           for each member (42): total = 84srch
+                   2 search of the member entry (identical BUG)
+    
+           for each member (42): total = 84
+                   1 search of 'member'
+                   1 search of 'fqdn'
+           9 searches to find groups (ng, users, groups, computers, hostgoups) owning the added hostgroup
+    
+        2 MOD
+           2 update hostgroup to 'mepManagedEntry' alt networkgroup (mep plugin) (the first MOD fails with LDAP_TYPE_OR_VALUE_EXISTS)
+    
+        5 ADD
+          add hostgroup
+          add alt networkgroup
+           RetroCL add due to MODs
 
 
 
@@ -1745,37 +1799,37 @@ internal operations: 2 ADD, 0 MOD, 243 SRCH
 
    ``Details:``
 
-   | ``ADD sudorules 25 users/20 hosts``
-   | ``   243 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``               for each memberHost (20): 40``
-   | ``                   2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))``
-   | ``                   ``
-   | ``               for each memberuser (25): 25``
-   | ``                   1 search 'cn'``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host 'cn' ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))``
-   | ``               for each memberUser (25): 25 ``
-   | ``                   1 search 'uid'((objectclass=posixAccount))``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host 'cn' ((objectclass=ipaNisNetgroup))``
-   | ``               for each memberHost (20): 20``
-   | ``                   1 search host 'fqdn' (objectclass=ipaHost)``
-   | ``               for each memberUser (25): 50``
-   | ``                   2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))``
-   | ``               for each memberUser (25):  25``
-   | ``                   1 search user (objectclass=ipaNisNetgroup)``
-   | ``       10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)``
-   | `` ``
-   | ``       For each memberUser (25):``
-   | ``           /* search all groups it can belong to */``
-   | ``           10 search based on member 'memberof'``
-   | `` ``
-   | ``   0 MOD``
-   | `` ``
-   | ``   2 ADD``
-   | ``       add sudorule``
-   | ``       RetroCL add sudorule``
+   ADD sudorules 25 users/20 hosts
+      243 SRCH
+          1 search (uniqueness ipaUniqueID)
+                  for each memberHost (20): 40
+                      2 search host all_attrs (2 identical BUG - objectclass=ipaHostGroup)(!(objectclass=mepOriginEntry))
+                      
+                  for each memberuser (25): 25
+                      1 search 'cn'
+                  for each memberHost (20): 20
+                      1 search host 'cn' ((objectclass=ipaHostGroup)(objectclass=mepOriginEntry))
+                  for each memberUser (25): 25 
+                      1 search 'uid'((objectclass=posixAccount))
+                  for each memberHost (20): 20
+                      1 search host 'cn' ((objectclass=ipaNisNetgroup))
+                  for each memberHost (20): 20
+                      1 search host 'fqdn' (objectclass=ipaHost)
+                  for each memberUser (25): 50
+                      2 search host (2 identical BUG - (objectclass=ipaUserGroup)(!(objectclass=posixGroup))
+                  for each memberUser (25):  25
+                      1 search user (objectclass=ipaNisNetgroup)
+          10 searchs to find if added sudorules belong to a group (user/ng/hostgroups/grous/computers)
+    
+          For each memberUser (25):
+              /* search all groups it can belong to */
+              10 search based on member 'memberof'
+    
+      0 MOD
+    
+      2 ADD
+          add sudorule
+          RetroCL add sudorule
 
 
 
@@ -1789,28 +1843,28 @@ internal operations 2ADD, 0 MOD, 13 SRCH
 
    ``Details:``
 
-   | ``ADD hbacrule 25 users/20 hosts``
-   | ``   13 SRCH``
-   | ``       1 search (uniqueness ipaUniqueID)``
-   | ``       10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)``
-   | ``       1 unindexed search in sudorules if one of them owns the added hbacrule``
-   | `` ``
-   | ``           (&(&(objectclass=ipaSudoRule)``
-   | ``               (!(compatVisible=FALSE))``
-   | ``               (!(ipaEnabledFlag=FALSE)))``
-   | ``             (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  ``
-   | ``               (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)``
-   | ``               (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))``
-   | ``           )``
-   | `` ``
-   | ``   0 MOD``
-   | `` ``
-   | ``   2 ADD``
-   | ``       add hbacrule``
-   | ``       RetroCL add hbacrule``
+   ADD hbacrule 25 users/20 hosts
+      13 SRCH
+          1 search (uniqueness ipaUniqueID)
+          10 searchs to find if added hbacrules belong to a group (user/ng/hostgroups/grous/computers)
+          1 unindexed search in sudorules if one of them owns the added hbacrule
+    
+              (&(&(objectclass=ipaSudoRule)
+                  (!(compatVisible=FALSE))
+                  (!(ipaEnabledFlag=FALSE)))
+                (|(memberUser=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (memberHost=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (ipaSudoRunAsGroup=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (memberAllowCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)                                  
+                  (ipaSudoRunAs=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``)
+                  (memberDenyCmd=ipauniqueid=22f91e42-0d34-11e6-9927-001a4a2314dc,cn=hbac,``\ ``))
+              )
+    
+      0 MOD
+    
+      2 ADD
+          add hbacrule
+          RetroCL add hbacrule
 
 
 
@@ -1883,29 +1937,31 @@ members and indirect members processing
 Related ticket(s):
 `#4995 <https://fedorahosted.org/freeipa/ticket/4995>`__
 
-``host-find (2000 hosts):``
+``host-find (2000 hosts):``
 
-| ``76640658 function calls (75069144 primitive calls) in ``\ **``227.351``**\ `` seconds``
-| `` ``
-| ``   Ordered by: cumulative time``
-| `` ``
-| ``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-| `` ....``
-| ``        1    0.103    0.103  227.348  227.348 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``
-| ``73967/73966    3.240    0.000  186.341    0.003 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)``
-| ``   247887    1.882    0.000  131.877    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-| ``   173920    0.392    0.000  127.617    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)``
-| ``   173920    0.953    0.000  127.225    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)``
-| ``   173920  123.784    0.001  123.784    0.001 {built-in method result4}``
-| ``     2000    2.283    0.001  ``\ **``111.509``**\ ``    0.056 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:637(``\ **``convert_attribute_members``**\ ``)``
-| ``     2000    0.014    0.000  ``\ **``104.078``**\ ``    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(``\ **``get_indirect_members``**\ ``)``
-| ``     2000    0.249    0.000  104.064    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)``
-| ``    77961    0.571    0.000   ``\ **``85.341``**\ ``    0.001 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(``\ **``get_primary_key_from_dn``**\ ``)``
-| ``    67965    0.323    0.000   79.816    0.001 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1415(get_entry)``
-| ``   173919    1.286    0.000   23.806    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)``
-| ``   283906    0.407    0.000   16.624    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1265(endswith)``
-| ``   283906    0.996    0.000   16.077    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1280(_tailmatch)``
-| `` ....``
+::
+
+    76640658 function calls (75069144 primitive calls) in 227.351 seconds
+    
+       Ordered by: cumulative time
+    
+       ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       ....
+            1    0.103    0.103  227.348  227.348 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+    73967/73966    3.240    0.000  186.341    0.003 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+       247887    1.882    0.000  131.877    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+       173920    0.392    0.000  127.617    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:472(result3)
+       173920    0.953    0.000  127.225    0.001 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:480(result4)
+       173920  123.784    0.001  123.784    0.001 {built-in method result4}
+         2000    2.283    0.001  111.509    0.056 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:637(convert_attribute_members)
+         2000    0.014    0.000  104.078    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
+         2000    0.249    0.000  104.064    0.052 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
+        77961    0.571    0.000   85.341    0.001 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn)
+        67965    0.323    0.000   79.816    0.001 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1415(get_entry)
+       173919    1.286    0.000   23.806    0.000 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:895(_convert_result)
+       283906    0.407    0.000   16.624    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1265(endswith)
+       283906    0.996    0.000   16.077    0.000 /usr/lib/python2.7/site-packages/ipapython/dn.py:1280(_tailmatch)
+       ....
 
 As is show in output of profiler, the most time consuming operations are
 **convert_attribute_members**, **get_indirect_members**,
@@ -1950,28 +2006,32 @@ Test with cache only for **convert_attribute_members** method reduces
 total time of operation from 227.351 (111.509) to 113.474 (3.892)
 seconds
 
-| `` 16803443 function calls (16602409 primitive calls) in ``\ **``113.474``**\ `` seconds``
+::
 
-| ``   Ordered by: cumulative time``
-| `` ``
-| ``   ncalls  tottime  percall  cumtime  percall filename:lineno(function)``
-| ``        1    0.031    0.031  113.471  113.471 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)``
-| ``8137/8136    0.512    0.000  103.554    0.013 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)``
-| ``     2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)``
-| ``     2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)``
-| ``    50397    0.342    0.000   93.376    0.002 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)``
-| ``....``
-| ``    44123    0.874    0.000    4.029    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:56(dn2str)``
-| ``     2000    0.321    0.000    ``\ **``3.892``**\ ``    0.002 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(``\ **``convert_attribute_members``**\ ``)``
-| ``     2000    0.039    0.000    3.204    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)``
-| ``   469301    1.701    0.000    2.919    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:20(escape_dn_chars)``
-| `` ....``
-| ``     2161    0.012    0.000    ``\ **``0.233``**\ ``    0.000 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(``\ **``get_primary_key_from_dn``**\ ``)``
-| `` ....``
+     16803443 function calls (16602409 primitive calls) in 113.474 seconds
+
+::
+
+       Ordered by: cumulative time
+    
+       ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+            1    0.031    0.031  113.471  113.471 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2015(execute)
+    8137/8136    0.512    0.000  103.554    0.013 /usr/lib/python2.7/site-packages/ipapython/ipaldap.py:1272(find_entries)
+         2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
+         2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
+        50397    0.342    0.000   93.376    0.002 /usr/lib64/python2.7/site-packages/ldap/ldapobject.py:87(_ldap_call)
+        ....
+        44123    0.874    0.000    4.029    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:56(dn2str)
+         2000    0.321    0.000    3.892    0.002 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:2120(convert_attribute_members)
+         2000    0.039    0.000    3.204    0.002 /usr/lib/python2.7/site-packages/ipalib/util.py:293(convert_sshpubkey_post)
+       469301    1.701    0.000    2.919    0.000 /usr/lib64/python2.7/site-packages/ldap/dn.py:20(escape_dn_chars)
+       ....
+         2161    0.012    0.000    0.233    0.000 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:598(get_primary_key_from_dn)
+         ....
 
 For case when
 
-``number of groups/sudorules/hostgroups/hbacrules/roles ``\ **``<<``**\ `` number of users/host``
+``number of groups/sudorules/hostgroups/hbacrules/roles << number of users/host``
 
 the cache is very effective. In other way cache can cause small slowdown
 but it should not be very noticeable.
@@ -1983,8 +2043,10 @@ for having outdated copy of ldap data.
 
 Now the most time consumig operation is getting indirect members:
 
-| ``     2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)``
-| ``     2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)``
+::
+
+         2000    0.013    0.000   98.526    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:672(get_indirect_members)
+         2000    0.254    0.000   98.513    0.049 /usr/lib/python2.7/site-packages/ipalib/plugins/baseldap.py:706(get_memberofindirect)
 
 For indirect members, each entry currently requires 2 LDAP searches.
 Implemented search are very effective, but results are not usable for

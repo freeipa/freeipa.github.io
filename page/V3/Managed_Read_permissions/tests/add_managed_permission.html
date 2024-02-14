@@ -282,30 +282,30 @@ document.write(`
   <section id="add-managed-permission">
 <h1>add_managed_permission<a class="headerlink" href="#add-managed-permission" title="Link to this heading">#</a></h1>
 <p>First, create a managed permission entry as follows:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: testperm</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermBindRuleType: permission</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr: cn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr: l</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr: o</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermLocation: cn=users,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermRight: write</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: SYSTEM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: V2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaPermissionType: MANAGED</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: groupofnames</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermission</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ipapermissionv2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+cn: testperm
+ipaPermBindRuleType: permission
+ipaPermDefaultAttr: cn
+ipaPermDefaultAttr: l
+ipaPermDefaultAttr: o
+ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+ipaPermRight: write
+ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+ipaPermissionType: SYSTEM
+ipaPermissionType: V2
+ipaPermissionType: MANAGED
+objectClass: groupofnames
+objectClass: ipapermission
+objectClass: ipapermissionv2
+objectClass: top
+</pre></div>
 </div>
 <p>This corresponds to
 <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">permission-add</span> <span class="pre">permission1</span> <span class="pre">--type=user</span> <span class="pre">permissions=write</span></code>, with
 added <code class="docutils literal notranslate"><span class="pre">ipaPermissionType</span></code> of <code class="docutils literal notranslate"><span class="pre">MANAGED</span></code>, and <code class="docutils literal notranslate"><span class="pre">ipaPermDefaultAttr</span></code>
 of <code class="docutils literal notranslate"><span class="pre">cn</span></code>, <code class="docutils literal notranslate"><span class="pre">l</span></code>, and <code class="docutils literal notranslate"><span class="pre">o</span></code>.</p>
 <p>Also create the corresponding ACI at <code class="docutils literal notranslate"><span class="pre">cn=users,cn=accounts,$SUFFIX</span></code>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">(targetattr = &quot;cn || l || o&quot;)(target = &quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=</span></code> &lt;<a class="reference external" href="ldap:///uid=">ldap:///uid=</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">*,cn=users,cn=accounts,$SUFFIX&quot;)(version 3.0;acl &quot;permission:testperm&quot;;allow (write) groupdn = &quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code> &lt;<a class="reference external" href="ldap:///cn=testperm,cn=permissions,cn=pbac,$SUFFIX">ldap:///cn=testperm,cn=permissions,cn=pbac,$SUFFIX</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">(targetattr</span> <span class="pre">=</span> <span class="pre">&quot;cn</span> <span class="pre">||</span> <span class="pre">l</span> <span class="pre">||</span> <span class="pre">o&quot;)(target</span> <span class="pre">=</span> <span class="pre">&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=</span></code> &lt;<a class="reference external" href="ldap:///uid=">ldap:///uid=</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">*,cn=users,cn=accounts,$SUFFIX&quot;)(version</span> <span class="pre">3.0;acl</span> <span class="pre">&quot;permission:testperm&quot;;allow</span> <span class="pre">(write)</span> <span class="pre">groupdn</span> <span class="pre">=</span> <span class="pre">&quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///cn=testperm,cn=permissions,cn=pbac,$SUFFIX</span></code> &lt;<a class="reference external" href="ldap:///cn=testperm,cn=permissions,cn=pbac,$SUFFIX">ldap:///cn=testperm,cn=permissions,cn=pbac,$SUFFIX</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></p>
 <p>The first two tests check that this preparation was successful.</p>
 </section>
 

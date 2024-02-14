@@ -131,7 +131,7 @@ Backward compatibility with old servers
 ----------------------------------------------------------------------------------------------
 
 The interface definitions for old API versions are bundled in
-``ipaclient.remote_plugins.compat.``\ *``major``*\ ``_``\ *``minor``*
+ipaclient.remote_plugins.compat.major_minor
 Python packages. They look like normal command and object plugin
 definitions, except they contain no code, only parameter definitions.
 
@@ -151,19 +151,21 @@ is used.
 
 In order to add new versions of a command, use the following pattern:
 
-| ``class MyCommandBase(Command):``
-| ``    # put param definitions common to both versions here``
-| ``    ...``
-| ``@register()``
-| ``class my_command(MyCommandBase):``
-| ``    # this is the current and main version of the command``
-| ``    version = '2'``
-| ``    ...``
-| ``@register()``
-| ``class my_command_1(MyCommandBase):``
-| ``    # this is the old compatibility version 1``
-| ``    name = 'my_command'``
-| ``    ...``
+::
+
+    class MyCommandBase(Command):
+        # put param definitions common to both versions here
+        ...
+    @register()
+    class my_command(MyCommandBase):
+        # this is the current and main version of the command
+        version = '2'
+        ...
+    @register()
+    class my_command_1(MyCommandBase):
+        # this is the old compatibility version 1
+        name = 'my_command'
+        ...
 
 
 
@@ -227,19 +229,23 @@ Backward compatibility with old servers
 The ``ipa`` command line tool will now work on new clients enrolled
 against old server:
 
-| ``client$ rpm -q freeipa-client``
-| ``freeipa-client-``\ **``4.4.1``**\ ``-1.fc25.x86_64``
-| ``client$ ipa ping``
-| ``------------------------------------------``
-| ``IPA server version ``\ **``3.0.0``**\ ``. API version 2.49``
-| ``------------------------------------------``
+::
+
+    client$ rpm -q freeipa-client
+    freeipa-client-4.4.1-1.fc25.x86_64
+    client$ ipa ping
+    ------------------------------------------
+    IPA server version 3.0.0. API version 2.49
+    ------------------------------------------
 
 On clients without this feature, this would fail:
 
-| ``client$ rpm -q freeipa-client``
-| ``freeipa-client-``\ **``4.3.2``**\ ``-2.fc24.x86_64``
-| ``client$ ipa ping``
-| ``ipa: ERROR: 2.164 client incompatible with 2.49 server at 'https://ipa.example.com/ipa/xml'``
+::
+
+    client$ rpm -q freeipa-client
+    freeipa-client-4.3.2-2.fc24.x86_64
+    client$ ipa ping
+    ipa: ERROR: 2.164 client incompatible with 2.49 server at 'https://ipa.example.com/ipa/xml'
 
 
 
@@ -256,32 +262,32 @@ default:
 
 ::
 
-   | ``client$ ipa -v ``\ **``ping``**
-   | ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-   | ``ipa: INFO: Forwarding '``\ **``ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'``
-   | ``------------------------------------------``
-   | ``IPA server version 4.4.1. API version 2.212``
-   | ``------------------------------------------``
+   client$ ipa -v  ping
+   ipa: INFO: trying https://ipa.example.com/ipa/session/json
+   ipa: INFO: Forwarding 'ping/1' to server 'https://ipa.example.com/ipa/session/json'
+   ------------------------------------------
+   IPA server version 4.4.1. API version 2.212
+   ------------------------------------------
 
 It is possible to explicitly request a specific command version instead:
 
 ::
 
-   | ``client$ ipa -v ``\ **``ping/1``**
-   | ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-   | ``ipa: INFO: Forwarding '``\ **``ping/1``**\ ``' to server 'https://ipa.example.com/ipa/session/json'``
-   | ``------------------------------------------``
-   | ``IPA server version 4.4.1. API version 2.212``
-   | ``------------------------------------------``
+   client$ ipa -v  ping/1
+   ipa: INFO: trying https://ipa.example.com/ipa/session/json
+   ipa: INFO: Forwarding 'ping/1' to server 'https://ipa.example.com/ipa/session/json'
+   ------------------------------------------
+   IPA server version 4.4.1. API version 2.212
+   ------------------------------------------
 
 Requesting an unknown version of a command will result in an error:
 
 ::
 
-   | ``client$ ipa -v ``\ **``ping/2``**
-   | ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-   | ``ipa: INFO: Forwarding '``\ **``ping/2``**\ ``' to server 'https://ipa.example.com/ipa/session/json'``
-   | ``ipa: ERROR: unknown command '``\ **``ping/2``**\ ``'``
+   client$ ipa -v  ping/2
+   ipa: INFO: trying https://ipa.example.com/ipa/session/json
+   ipa: INFO: Forwarding 'ping/2' to server 'https://ipa.example.com/ipa/session/json'
+   ipa: ERROR: unknown command 'ping/2'
 
 
 
@@ -296,162 +302,162 @@ commands:
 
 ::
 
-   | ``client$ ipa command-show hostgroup-add``
-   | ``  Name: hostgroup_add``
-   | ``  Version: 1``
-   | ``  Full name: hostgroup_add/1``
-   | ``  Documentation: Add a new hostgroup.``
-   | ``  Help topic: hostgroup/1``
-   | ``  Method of: hostgroup/1``
-   | ``  Method name: add``
-   | ``client$ ipa param-find hostgroup-add``
-   | ``  Name: cn``
-   | ``  Documentation: Name of host-group``
-   | ``  Type: str``
-   | ``  CLI name: hostgroup_name``
-   | ``  Label: Host-group``
-   | ``  Convert on server: True``
-   | ``  Name: description``
-   | ``  Documentation: A description of this host-group``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  CLI name: desc``
-   | ``  Label: Description``
-   | ``  Name: setattr``
-   | ``  Documentation: Set an attribute to a name/value pair. Format is attr=value.``
-   | ``For multi-valued attributes, the command replaces the values already present.``
-   | ``  Exclude from: webui``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Multi-value: True``
-   | ``  CLI name: setattr``
-   | ``  Name: addattr``
-   | ``  Documentation: Add an attribute/value pair. Format is attr=value. The attribute``
-   | ``must be part of the schema.``
-   | ``  Exclude from: webui``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Multi-value: True``
-   | ``  CLI name: addattr``
-   | ``  Name: all``
-   | ``  Documentation: Retrieve and print all attributes from the server. Affects command output.``
-   | ``  Exclude from: webui``
-   | ``  Type: bool``
-   | ``  CLI name: all``
-   | ``  Default: False``
-   | ``  Positional argument: False``
-   | ``  Name: raw``
-   | ``  Documentation: Print entries as stored on the server. Only affects output format.``
-   | ``  Exclude from: webui``
-   | ``  Type: bool``
-   | ``  CLI name: raw``
-   | ``  Default: False``
-   | ``  Positional argument: False``
-   | ``  Name: no_members``
-   | ``  Documentation: Suppress processing of membership attributes.``
-   | ``  Exclude from: webui``
-   | ``  Type: bool``
-   | ``  Default: False``
-   | ``  Positional argument: False``
-   | ``----------------------------``
-   | ``Number of entries returned 7``
-   | ``----------------------------``
-   | ``client$ ipa class-show hostgroup``
-   | ``  Name: hostgroup``
-   | ``  Version: 1``
-   | ``  Full name: hostgroup/1``
-   | ``client$ ipa param-find hostgroup``
-   | ``  Name: cn``
-   | ``  Documentation: Name of host-group``
-   | ``  Type: str``
-   | ``  Label: Host-group``
-   | ``  Name: description``
-   | ``  Documentation: A description of this host-group``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Description``
-   | ``  Name: member_host``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Member hosts``
-   | ``  Name: member_hostgroup``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Member host-groups``
-   | ``  Name: memberof_hostgroup``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Member of host-groups``
-   | ``  Name: memberof_netgroup``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Member of netgroups``
-   | ``  Name: memberof_sudorule``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Member of Sudo rule``
-   | ``  Name: memberof_hbacrule``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Member of HBAC rule``
-   | ``  Name: memberindirect_host``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Indirect Member hosts``
-   | ``  Name: memberindirect_hostgroup``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Indirect Member host-groups``
-   | ``  Name: memberofindirect_hostgroup``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Indirect Member of host-group``
-   | ``  Name: memberofindirect_sudorule``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Indirect Member of Sudo rule``
-   | ``  Name: memberofindirect_hbacrule``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Label: Indirect Member of HBAC rule``
-   | ``-----------------------------``
-   | ``Number of entries returned 13``
-   | ``-----------------------------``
-   | ``client$ ipa output-find hostgroup-add``
-   | ``  Name: summary``
-   | ``  Documentation: User-friendly description of action performed``
-   | ``  Type: str``
-   | ``  Required: False``
-   | ``  Name: result``
-   | ``  Type: dict``
-   | ``  Name: value``
-   | ``  Documentation: The primary_key value of the entry, e.g. 'jdoe' for a user``
-   | ``  Type: str``
-   | ``----------------------------``
-   | ``Number of entries returned 3``
-   | ``----------------------------``
-   | ``client$ ipa topic-show hostgroup``
-   | ``  Name: hostgroup``
-   | ``  Version: 1``
-   | ``  Full name: hostgroup/1``
-   | ``  Documentation: Groups of hosts.``
-   | ``Manage groups of hosts. This is useful for applying access control to a``
-   | ``number of hosts by using Host-based Access Control.``
-   | ``EXAMPLES:``
-   | `` Add a new host group:``
-   | ``   ipa hostgroup-add --desc="Baltimore hosts" baltimore``
-   | `` Add another new host group:``
-   | ``   ipa hostgroup-add --desc="Maryland hosts" maryland``
-   | `` Add members to the hostgroup (using Bash brace expansion):``
-   | ``   ipa hostgroup-add-member --hosts={box1,box2,box3} baltimore``
-   | `` Add a hostgroup as a member of another hostgroup:``
-   | ``   ipa hostgroup-add-member --hostgroups=baltimore maryland``
-   | `` Remove a host from the hostgroup:``
-   | ``   ipa hostgroup-remove-member --hosts=box2 baltimore``
-   | `` Display a host group:``
-   | ``   ipa hostgroup-show baltimore``
-   | `` Delete a hostgroup:``
-   | ``   ipa hostgroup-del baltimore``
+   client$ ipa command-show hostgroup-add
+     Name: hostgroup_add
+     Version: 1
+     Full name: hostgroup_add/1
+     Documentation: Add a new hostgroup.
+     Help topic: hostgroup/1
+     Method of: hostgroup/1
+     Method name: add
+   client$ ipa param-find hostgroup-add
+     Name: cn
+     Documentation: Name of host-group
+     Type: str
+     CLI name: hostgroup_name
+     Label: Host-group
+     Convert on server: True
+     Name: description
+     Documentation: A description of this host-group
+     Type: str
+     Required: False
+     CLI name: desc
+     Label: Description
+     Name: setattr
+     Documentation: Set an attribute to a name/value pair. Format is attr=value.
+   For multi-valued attributes, the command replaces the values already present.
+     Exclude from: webui
+     Type: str
+     Required: False
+     Multi-value: True
+     CLI name: setattr
+     Name: addattr
+     Documentation: Add an attribute/value pair. Format is attr=value. The attribute
+   must be part of the schema.
+     Exclude from: webui
+     Type: str
+     Required: False
+     Multi-value: True
+     CLI name: addattr
+     Name: all
+     Documentation: Retrieve and print all attributes from the server. Affects command output.
+     Exclude from: webui
+     Type: bool
+     CLI name: all
+     Default: False
+     Positional argument: False
+     Name: raw
+     Documentation: Print entries as stored on the server. Only affects output format.
+     Exclude from: webui
+     Type: bool
+     CLI name: raw
+     Default: False
+     Positional argument: False
+     Name: no_members
+     Documentation: Suppress processing of membership attributes.
+     Exclude from: webui
+     Type: bool
+     Default: False
+     Positional argument: False
+   ----------------------------
+   Number of entries returned 7
+   ----------------------------
+   client$ ipa class-show hostgroup
+     Name: hostgroup
+     Version: 1
+     Full name: hostgroup/1
+   client$ ipa param-find hostgroup
+     Name: cn
+     Documentation: Name of host-group
+     Type: str
+     Label: Host-group
+     Name: description
+     Documentation: A description of this host-group
+     Type: str
+     Required: False
+     Label: Description
+     Name: member_host
+     Type: str
+     Required: False
+     Label: Member hosts
+     Name: member_hostgroup
+     Type: str
+     Required: False
+     Label: Member host-groups
+     Name: memberof_hostgroup
+     Type: str
+     Required: False
+     Label: Member of host-groups
+     Name: memberof_netgroup
+     Type: str
+     Required: False
+     Label: Member of netgroups
+     Name: memberof_sudorule
+     Type: str
+     Required: False
+     Label: Member of Sudo rule
+     Name: memberof_hbacrule
+     Type: str
+     Required: False
+     Label: Member of HBAC rule
+     Name: memberindirect_host
+     Type: str
+     Required: False
+     Label: Indirect Member hosts
+     Name: memberindirect_hostgroup
+     Type: str
+     Required: False
+     Label: Indirect Member host-groups
+     Name: memberofindirect_hostgroup
+     Type: str
+     Required: False
+     Label: Indirect Member of host-group
+     Name: memberofindirect_sudorule
+     Type: str
+     Required: False
+     Label: Indirect Member of Sudo rule
+     Name: memberofindirect_hbacrule
+     Type: str
+     Required: False
+     Label: Indirect Member of HBAC rule
+   -----------------------------
+   Number of entries returned 13
+   -----------------------------
+   client$ ipa output-find hostgroup-add
+     Name: summary
+     Documentation: User-friendly description of action performed
+     Type: str
+     Required: False
+     Name: result
+     Type: dict
+     Name: value
+     Documentation: The primary_key value of the entry, e.g. 'jdoe' for a user
+     Type: str
+   ----------------------------
+   Number of entries returned 3
+   ----------------------------
+   client$ ipa topic-show hostgroup
+     Name: hostgroup
+     Version: 1
+     Full name: hostgroup/1
+     Documentation: Groups of hosts.
+   Manage groups of hosts. This is useful for applying access control to a
+   number of hosts by using Host-based Access Control.
+   EXAMPLES:
+    Add a new host group:
+      ipa hostgroup-add --desc="Baltimore hosts" baltimore
+    Add another new host group:
+      ipa hostgroup-add --desc="Maryland hosts" maryland
+    Add members to the hostgroup (using Bash brace expansion):
+      ipa hostgroup-add-member --hosts={box1,box2,box3} baltimore
+    Add a hostgroup as a member of another hostgroup:
+      ipa hostgroup-add-member --hostgroups=baltimore maryland
+    Remove a host from the hostgroup:
+      ipa hostgroup-remove-member --hosts=box2 baltimore
+    Display a host group:
+      ipa hostgroup-show baltimore
+    Delete a hostgroup:
+      ipa hostgroup-del baltimore
 
 
 
@@ -461,12 +467,14 @@ Caching
 API schema is cached on the client for an hour. During this interval,
 the client will not try to contact the server about the schema:
 
-| ``$ ipa -v ping``
-| ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-| ``ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'``
-| ``-------------------------------------------------------------------``
-| ``IPA server version 4.4.1. API version 2.212``
-| ``-------------------------------------------------------------------``
+::
+
+    $ ipa -v ping
+    ipa: INFO: trying https://ipa.example.com/ipa/session/json
+    ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'
+    -------------------------------------------------------------------
+    IPA server version 4.4.1. API version 2.212
+    -------------------------------------------------------------------
 
 To refresh the cache (e.g. if you want the client to immediately use an
 up-to-date API schema after server upgrade), use the
@@ -474,14 +482,14 @@ up-to-date API schema after server upgrade), use the
 
 ::
 
-   | ``$ ipa -v ``\ **``-e``\ ````\ ``force_schema_check=1``**\ `` ping``
-   | ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-   | **``ipa:``\ ````\ ``INFO:``\ ````\ ``Forwarding``\ ````\ ``'schema'``\ ````\ ``to``\ ````\ ``json``\ ````\ ``server``\ ````\ ``'https://ipa.example.com/ipa/session/json'``**
-   | ``ipa: INFO: trying https://ipa.example.com/ipa/session/json``
-   | ``ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'``
-   | ``-------------------------------------------------------------------``
-   | ``IPA server version 4.4.1. API version 2.212``
-   | ``-------------------------------------------------------------------``
+   $ ipa -v -eforce_schema_check=1 ping
+   ipa: INFO: trying https://ipa.example.com/ipa/session/json
+       ipa: INFO: Forwarding 'schema' to json server 'https://ipa.example.com/ipa/session/json' 
+   ipa: INFO: trying https://ipa.example.com/ipa/session/json
+   ipa: INFO: Forwarding 'ping/1' to json server 'https://ipa.example.com/ipa/session/json'
+   -------------------------------------------------------------------
+   IPA server version 4.4.1. API version 2.212
+   -------------------------------------------------------------------
 
 
 

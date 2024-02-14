@@ -362,19 +362,19 @@ package).</p>
 <ul class="simple">
 <li><p>configure NIS. the commands below is used</p></li>
 </ul>
-<p>`` authconfig –nisdomain=``</p>
+<p>`` authconfig –nisdomain=``</p>
 <ul class="simple">
 <li><p>with sssd (default).</p></li>
 </ul>
 <p>To enable SSSD for user information and authentication:</p>
-<p>`` authconfig –enablesssd –enablesssdauth``</p>
+<p>`` authconfig –enablesssd –enablesssdauth``</p>
 <p>To enable kerberos authentication:</p>
-<p>`` authconfig –enablekrb5 –nostart``</p>
+<p>`` authconfig –enablekrb5 –nostart``</p>
 <ul class="simple">
 <li><p>no_sssd (deprecated).</p></li>
 </ul>
 <p>To enable LDAP for user information:</p>
-<p>`` authconfig –enableldap –enableforcelegacy``</p>
+<p>`` authconfig –enableldap –enableforcelegacy``</p>
 <p>The following ipa-client-install options have an impact on
 authentication configuration:</p>
 <ul class="simple">
@@ -395,10 +395,10 @@ configure the authentication mechanisms.</p>
 <h2>Backup/restore<a class="headerlink" href="#backup-restore" title="Link to this heading">#</a></h2>
 <p>The commands ipa-backup and ipa-restore both need to save/restore the
 current configuration. ipa-backup is calling:</p>
-<p>`` authconfig –savebackup ``</p>
+<p>`` authconfig –savebackup ``</p>
 <p>and saves the content of the backup directory in the backup file.
 ipa-restore is calling</p>
-<p>`` authconfig –restorebackup ``</p>
+<p>`` authconfig –restorebackup ``</p>
 <p>to restore the saved configuration.</p>
 </section>
 <section id="ipa-advise-plugins">
@@ -451,16 +451,15 @@ any more for new client installations on fedora-based distributions.</p></li>
 <section id="new-client-installation">
 <h2>New client installation<a class="headerlink" href="#new-client-installation" title="Link to this heading">#</a></h2>
 <p>Currently, the algorithm for PAM stack configuration is the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ````
-| ``authconfig --nisdomain=&lt;domain&gt;``
-| ``if (sssd) then ``
-| ``   authconfig --enablesssd --enablesssdauth``
-| ``else ``
-| ``   authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
-| ``done``
-| ``if (mkhomedir) then``
-| ``   authconfig --enablemkhomedir``
-| ``done``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">authconfig</span> <span class="o">--</span><span class="n">nisdomain</span><span class="o">=&lt;</span><span class="n">domain</span><span class="o">&gt;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">sssd</span><span class="p">)</span> <span class="n">then</span>
+   <span class="n">authconfig</span> <span class="o">--</span><span class="n">enablesssd</span> <span class="o">--</span><span class="n">enablesssdauth</span>
+<span class="k">else</span>
+   <span class="n">authconfig</span> <span class="o">--</span><span class="n">enableldap</span> <span class="o">--</span><span class="n">enableforcelegacy</span> <span class="o">--</span><span class="n">enablekrb5</span> <span class="o">--</span><span class="n">nostart</span>
+<span class="n">done</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">mkhomedir</span><span class="p">)</span> <span class="n">then</span>
+   <span class="n">authconfig</span> <span class="o">--</span><span class="n">enablemkhomedir</span>
+<span class="n">done</span>
 </pre></div>
 </div>
 <section id="no-sssd-and-noac-options">
@@ -502,10 +501,10 @@ as before client install. In order to do this, the client installation
 will store the profile used pre-installation in the system store
 (/var/lib/ipa-client/sysrestore/sysrestore.state) with the following
 format:</p>
-<div class="line-block">
-<div class="line">`` [authselect]``</div>
-<div class="line">`` profile=``</div>
-<div class="line">`` features_list=``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">authselect</span><span class="p">]</span>
+<span class="n">profile</span><span class="o">=</span>
+<span class="n">features_list</span><span class="o">=</span>
+</pre></div>
 </div>
 <p>Profile and features_list will be used to revert to the previous state
 during uninstallation.</p>
@@ -526,9 +525,9 @@ the client-part of the installation is).</p>
 <h3>Backup<a class="headerlink" href="#backup" title="Link to this heading">#</a></h3>
 <p>The authselect tool offers the “current” command to retrieve the current
 configuration (profile and enabled features). For instance:</p>
-<div class="line-block">
-<div class="line">`` $ authselect current –raw``</div>
-<div class="line">`` sssd with-mkhomedir``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ authselect current --raw
+sssd with-mkhomedir
+</pre></div>
 </div>
 <p>The ipa-backup command needs to use this command to save the current
 configuration inside a new file in the backup directory.</p>
@@ -539,7 +538,7 @@ configuration inside a new file in the backup directory.</p>
 does not touch the authentication configuration.</p>
 <p>The ipa-restore command needs to read the saved configuration from the
 backup directory and re-apply the same configuration using</p>
-<p>`` $ authselect select <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` ``\</span> <span class="pre">`` --force</span></code></p>
+<p>`` $ authselect select <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span> <span class="pre">``\</span> <span class="pre">``</span> <span class="pre">--force</span></code></p>
 <p>Note: if the backup was done on a server *before* the migration to
 authselect, the ipa-restore will detect that restore is trying to
 restore data from a different release and prompt for user confirmation
@@ -552,9 +551,9 @@ with a warning. Unattended restore will fail.</p>
 <h3>config-client-for-smart-card-auth plugin<a class="headerlink" href="#config-client-for-smart-card-auth-plugin" title="Link to this heading">#</a></h3>
 <p>This plugin configures a FreeIPA client for smart card authentication.
 Instead of calling</p>
-<p>`` authconfig –enablesssd –enablesssdauth –enablesmartcard ‘ ‘–smartcardmodule=sssd –smartcardaction=1 –updateall``</p>
+<p>`` authconfig –enablesssd –enablesssdauth –enablesmartcard ‘ ‘–smartcardmodule=sssd –smartcardaction=1 –updateall``</p>
 <p>the plugin must use</p>
-<p>`` authselect enable-feature with-smartcard``</p>
+<p>`` authselect enable-feature with-smartcard``</p>
 </section>
 <section id="config-fedora-authconfig-plugin">
 <h3>config-fedora-authconfig plugin<a class="headerlink" href="#config-fedora-authconfig-plugin" title="Link to this heading">#</a></h3>
@@ -598,19 +597,19 @@ the sssd profile without the option.</p></li>
 (/var/lib/ipa-client/sysrestore/sysrestore.state). The system store
 may contain</p></li>
 </ul>
-<div class="line-block">
-<div class="line">`` [authconfig]``</div>
-<div class="line">`` mkhomedir=…``</div>
-<div class="line">`` ldap=…``</div>
-<div class="line">`` krb5=…``</div>
-<div class="line">`` sssd=…``</div>
-<div class="line">`` sssdauth=…``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">authconfig</span><span class="p">]</span>
+<span class="n">mkhomedir</span><span class="o">=...</span>
+<span class="n">ldap</span><span class="o">=...</span>
+<span class="n">krb5</span><span class="o">=...</span>
+<span class="n">sssd</span><span class="o">=...</span>
+<span class="n">sssdauth</span><span class="o">=...</span>
+</pre></div>
 </div>
 <p>and this would have to be replaced with</p>
-<div class="line-block">
-<div class="line">`` [authselect]``</div>
-<div class="line">`` profile=sssd``</div>
-<div class="line">`` mkhomedir=…``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">authselect</span><span class="p">]</span>
+<span class="n">profile</span><span class="o">=</span><span class="n">sssd</span>
+<span class="n">mkhomedir</span><span class="o">=...</span>
+</pre></div>
 </div>
 </section>
 </section>
@@ -624,9 +623,9 @@ refused on fedora-based distributions).</p>
 /etc/authselect created during the authselect package installation,
 containing /etc/authselect/authselect.conf file storing the current
 profile and features:</p>
-<div class="line-block">
-<div class="line">`` $ cat /etc/authselect/authselect.conf ``</div>
-<div class="line">`` sssd``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat /etc/authselect/authselect.conf
+sssd
+</pre></div>
 </div>
 </section>
 <section id="testing">

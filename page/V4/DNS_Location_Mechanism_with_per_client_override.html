@@ -447,11 +447,11 @@ Assuming that all DNS servers responsible for given zone are returning a
 static set of records, there is no way how to prioritize a server
 ‘nearest’ to the client at the moment. Consequently, all FreeIPA servers
 typically have the same priority (0) and weight (100):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-``;; ANSWER SECTION:``
-``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.example.com. IN SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.example.com. SRV 0100 389 ipa-brno.example.com.``
+``_ldap._tcp.example.com. SRV 0100 389 ipa-london.example.com.``
 </pre></div>
 </div>
 </section>
@@ -710,18 +710,18 @@ all the data as usual.</p>
 CPU time spent on signing by factor of ~ 2.3. Tested on zone with 10000
 names using <code class="docutils literal notranslate"><span class="pre">dnssec-signzone</span></code> from BIND
 <code class="docutils literal notranslate"><span class="pre">bind-9.10.3-7.P2.fc23.x86_64</span></code> with 2048 bit ZSK, 3072 KSK:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">user   0m56.584s</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">user   0m24.881s</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.
+$ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.
+$ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db
+user   0m56.584s
+$ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db
+user   0m24.881s
+</pre></div>
 </div>
 <p>Zone file sizes:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">23150974  dname.db.signed</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">10097345  nodname.db.signed</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">23150974</span>  <span class="n">dname</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">signed</span>
+<span class="mi">10097345</span>  <span class="n">nodname</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">signed</span>
+</pre></div>
 </div>
 </section>
 </section>
@@ -730,33 +730,33 @@ names using <code class="docutils literal notranslate"><span class="pre">dnssec-
 <p>Version 1 of this proposal introduces separate sets of SRV records for
 each location.</p>
 <p>Location <code class="docutils literal notranslate"><span class="pre">cz</span></code> will have one set of SRV records:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.cz._locations.example.com. IN  SRV``
-``;; ANSWER SECTION:``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.cz._locations.example.com. IN  SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.cz._locations.example.com. SRV 0100 389 ipa-brno.example.com.``
+``_ldap._tcp.cz._locations.example.com. SRV 3100 389 ipa-london.example.com.``
 </pre></div>
 </div>
 <p>Location <code class="docutils literal notranslate"><span class="pre">uk</span></code> will have different set of SRV records (possibly with
 different priorities, weights, or even servers):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.uk._locations.example.com. IN  SRV``
-``;; ANSWER SECTION:``
-``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.``
-``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.uk._locations.example.com. IN  SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.uk._locations.example.com. SRV 050 389 ipa-brno.example.com.``
+``_ldap._tcp.uk._locations.example.com. SRV 0200 389 ipa-london.example.com.``
 </pre></div>
 </div>
 <p>Clients are querying SRV records under client’s FQDN prefixed with label
 <code class="docutils literal notranslate"><span class="pre">_location</span></code> name. This record contains redirection to a location into
 which the client is assigned. (From client’s perspective is does not
 matter how the DNS server generated the redirection.)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
-``;; ANSWER SECTION:``
-**``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
-``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
-``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp._location.client2.example.com. IN SRV``
+``;; ANSWER SECTION:``
+**``_location.client2.example.com. DNAME cz._locations.example.com.``
+``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
+``_ldap._tcp.cz._locations.example.com. SRV 3100 389 ipa-london.example.com.``
+``_ldap._tcp.cz._locations.example.com. SRV 0100 389 ipa-brno.example.com.``
 </pre></div>
 </div>
 <p>Following diagram summarizes proposed behavior (version 1):

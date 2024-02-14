@@ -119,19 +119,21 @@ Older clients configure certmonger to obtain the host certificate, which
 will fail, with the following line appearing periodically in the system
 log:
 
-``   Server failed request, will retry: 905 (RPC failed at server.  unknown command 'cert_request').``
+``   Server failed request, will retry: 905 (RPC failed at server.  unknown command 'cert_request').``
 
 The errors can be stopped by issuing:
 
-| ``   # getcert list  # to find out the certmonger request ID``
-| ``   # getcert stop-tracking ``
+::
+
+       # getcert list  # to find out the certmonger request ID
+       # getcert stop-tracking
 
 If needed, machine certificates may be obtained from the external CA and
 added to the server with:
 
 ::
 
-   ``   ipa host-mod ``\ `` --certificate ``
+   ``   ipa host-mod ``\ `` --certificate ``
 
 
 
@@ -163,24 +165,30 @@ Use the handy ``file`` command.
 
 PEM files show up as such:
 
-| ``   $ file /etc/ipa/ca.crt``
-| ``   /etc/ipa/ca.crt: PEM certificate``
+::
+
+       $ file /etc/ipa/ca.crt
+       /etc/ipa/ca.crt: PEM certificate
 
 PKCS#12 files show up as just "data":
 
-| ``   $ file dirsrv.p12``
-| ``   dirsrv.p12: data``
+::
+
+       $ file dirsrv.p12
+       dirsrv.p12: data
 
 To check a PKCS#12 file, you need to know the password:
 
-| ``   $ pk12util -l dirsrv.p12``
-| ``   Enter password for PKCS12 file:``
-| ``   Certificate(has private key):``
-| ``       <...>``
-| ``   Certificate:``
-| ``       <...>``
-| ``   Key(shrouded):``
-| ``       <...>``
+::
+
+       $ pk12util -l dirsrv.p12
+       Enter password for PKCS12 file:
+       Certificate(has private key):
+           <...>
+       Certificate:
+           <...>
+       Key(shrouded):
+           <...>
 
 
 
@@ -192,29 +200,31 @@ For PKCS#12 files, use ``pk12util -l`` (see previous section).
 For PEM files, simply open the file in a pager or text editor and count
 the number of blocks. A certificate will look like this:
 
-| ``   $ cat /etc/ipa/ca.crt``
-| ``   -----BEGIN CERTIFICATE-----``
-| ``   MIIDuzCCAqOgAwIBAgIBATANBgkqhkiG9w0BAQsFADBFMSMwIQYDVQQKExpJRE0u``
-| ``   TEFCLkVORy5CUlEuUkVESEFULkNPTTEeMBwGA1UEAxMVQ2VydGlmaWNhdGUgQXV0``
-| ``   aG9yaXR5MB4XDTEzMDMyMDE3MDQxNFoXDTMzMDMyMDE3MDQxNFowRTEjMCEGA1UE``
-| ``   ChMaSURNLkxBQi5FTkcuQlJRLlJFREhBVC5DT00xHjAcBgNVBAMTFUNlcnRpZmlj``
-| ``   YXRlIEF1dGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZi``
-| ``   pF9Dz5O1rVTRnwIdttHl0sKpHeRqzi/S7bnAFh3Jb2UxzFmHTpgQFKqq72mYatpL``
-| ``   O0BPc47IGh9gwGZNLcEaNCf7zYCbqBJso8RV6SxbHSEdo+JuSYhMxVasKQcojqeY``
-| ``   /wx11A4NSQAco6mBZz255llZqMQcJVMW4T8aioUd19Yh35CM9vr6l6dgUnvA9fAF``
-| ``   TOl144yfF8AjvF1hIAePjLyl+Y/xxh1U2j5hF4z7ZeUGHKVZR9pQ62kbM7TgAR6Y``
-| ``   YLGpis44JPfgRVkDGEkc7Vzpct1D4Iz7/oGMV+0kbJbz+9DSIHWY10QTtf9mNQNn``
-| ``   xKGa3wCf5u8ctfmms8cCAwEAAaOBtTCBsjAfBgNVHSMEGDAWgBQCHF1DVeHg3kUG``
-| ``   VRm/j0f9eji6nzAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBxjAdBgNV``
-| ``   HQ4EFgQUAhxdQ1Xh4N5FBlUZv49H/Xo4up8wTwYIKwYBBQUHAQEEQzBBMD8GCCsG``
-| ``   AQUFBzABhjNodHRwOi8vdm0tMDg0LmlkbS5sYWIuZW5nLmJycS5yZWRoYXQuY29t``
-| ``   OjgwL2NhL29jc3AwDQYJKoZIhvcNAQELBQADggEBAB3+or2Q/aPO4ZMBE4Q6xCMV``
-| ``   09ESAXXT/0DLakAt28ljy1wWKVR3d54TxZJ4DEcYgbxDa1A87DZW8sn+LM4Uwap9``
-| ``   DUyHA0mhBjROe6NXgJQl9aZ7IeE1ht+pw/n+JR2sg3ccYHvQjRcEZj2OPQuavyPn``
-| ``   hwokDc3FVarlsQcrtfePG3e8TQXAnpSxV+KAMBEp4yib5nrkNZZoU+nqMI0ftXrk``
-| ``   rP5q0SaEBEjC4+AoYje4Bv3+8RKT1kwBMkTL8eRRuWZmKvOy9sCnnFfU4HMMkPTK``
-| ``   NJg9Gt8a/xU6GK239M1keCKct87VqWN1unXaD51bgotK1UJWj1q8H262mSYzfRg=``
-| ``   -----END CERTIFICATE-----``
+::
+
+       $ cat /etc/ipa/ca.crt
+       -----BEGIN CERTIFICATE-----
+       MIIDuzCCAqOgAwIBAgIBATANBgkqhkiG9w0BAQsFADBFMSMwIQYDVQQKExpJRE0u
+       TEFCLkVORy5CUlEuUkVESEFULkNPTTEeMBwGA1UEAxMVQ2VydGlmaWNhdGUgQXV0
+       aG9yaXR5MB4XDTEzMDMyMDE3MDQxNFoXDTMzMDMyMDE3MDQxNFowRTEjMCEGA1UE
+       ChMaSURNLkxBQi5FTkcuQlJRLlJFREhBVC5DT00xHjAcBgNVBAMTFUNlcnRpZmlj
+       YXRlIEF1dGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZi
+       pF9Dz5O1rVTRnwIdttHl0sKpHeRqzi/S7bnAFh3Jb2UxzFmHTpgQFKqq72mYatpL
+       O0BPc47IGh9gwGZNLcEaNCf7zYCbqBJso8RV6SxbHSEdo+JuSYhMxVasKQcojqeY
+       /wx11A4NSQAco6mBZz255llZqMQcJVMW4T8aioUd19Yh35CM9vr6l6dgUnvA9fAF
+       TOl144yfF8AjvF1hIAePjLyl+Y/xxh1U2j5hF4z7ZeUGHKVZR9pQ62kbM7TgAR6Y
+       YLGpis44JPfgRVkDGEkc7Vzpct1D4Iz7/oGMV+0kbJbz+9DSIHWY10QTtf9mNQNn
+       xKGa3wCf5u8ctfmms8cCAwEAAaOBtTCBsjAfBgNVHSMEGDAWgBQCHF1DVeHg3kUG
+       VRm/j0f9eji6nzAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBxjAdBgNV
+       HQ4EFgQUAhxdQ1Xh4N5FBlUZv49H/Xo4up8wTwYIKwYBBQUHAQEEQzBBMD8GCCsG
+       AQUFBzABhjNodHRwOi8vdm0tMDg0LmlkbS5sYWIuZW5nLmJycS5yZWRoYXQuY29t
+       OjgwL2NhL29jc3AwDQYJKoZIhvcNAQELBQADggEBAB3+or2Q/aPO4ZMBE4Q6xCMV
+       09ESAXXT/0DLakAt28ljy1wWKVR3d54TxZJ4DEcYgbxDa1A87DZW8sn+LM4Uwap9
+       DUyHA0mhBjROe6NXgJQl9aZ7IeE1ht+pw/n+JR2sg3ccYHvQjRcEZj2OPQuavyPn
+       hwokDc3FVarlsQcrtfePG3e8TQXAnpSxV+KAMBEp4yib5nrkNZZoU+nqMI0ftXrk
+       rP5q0SaEBEjC4+AoYje4Bv3+8RKT1kwBMkTL8eRRuWZmKvOy9sCnnFfU4HMMkPTK
+       NJg9Gt8a/xU6GK239M1keCKct87VqWN1unXaD51bgotK1UJWj1q8H262mSYzfRg=
+       -----END CERTIFICATE-----
 
 
 
@@ -253,7 +263,7 @@ itself.
 
 Create a temporary NSS database using:
 
-``   certutil -N -d /path/to/nssdb``
+``   certutil -N -d /path/to/nssdb``
 
 Remember to set appropriate permissions if you're working with sensitive
 data.
@@ -261,48 +271,48 @@ data.
 To list nicknames and trust flags in of the certs in the database,
 enter:
 
-``   certutil -L -d /path/to/nssdb/``
+``   certutil -L -d /path/to/nssdb/``
 
 To import a PKCS#12 file to a database:
 
-``   pk12util -i /path/to/pkcs12file.p12 -d /path/to/nssdb``
+``   pk12util -i /path/to/pkcs12file.p12 -d /path/to/nssdb``
 
 To export a PKCS#12 file from a database (this will export the
 certificate chain and private key(s), if available):
 
-``   pk12util -o /path/to/pkcs12file.p12 -d /path/to/nssdb -n ``
+``   pk12util -o /path/to/pkcs12file.p12 -d /path/to/nssdb -n ``
 
 To import a PEM file:
 
 ::
 
-   ``   certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i ``
+   ``   certutil -A -d /path/to/nssdb -n ``\ `` -a -t ``\ `` -i ``
 
 For an explicitly trusted (root) CA, use "CT,C,C" for flags. Otherwise
 use ",,"
 
 To export a PEM file (to stdout):
 
-``   certutil -L -d /path/to/nssdb -n ``\ `` -a``
+``   certutil -L -d /path/to/nssdb -n ``\ `` -a``
 
 Note that PEM is referred to as "ASCII" in certutil documentation.
 
 To create a self-signed root CA certificate and private key:
 
-``   certutil -S -d /path/to/nssdb -s "CN=$(hostname)" -m $RANDOM -n RootCA -t CT,C,C -x``
+``   certutil -S -d /path/to/nssdb -s "CN=$(hostname)" -m $RANDOM -n RootCA -t CT,C,C -x``
 
 You should substitute a unique serial number for $RANDOM.
 
 To generate a Certificate Signing Request for a server:
 
-``   certutil -R -d /path/to/nssdb -s "CN=$(hostname)" -1 -a -o request.csr``
+``   certutil -R -d /path/to/nssdb -s "CN=$(hostname)" -1 -a -o request.csr``
 
 Select Digital Signature, Non-Repudiation and Key Encipherment for the
 extension.
 
 To sign the CSR, and get a PEM file with the cert:
 
-``   certutil -C -d /path/to/nssdb -m $RANDOM -a -i request.csr -c RootCA``
+``   certutil -C -d /path/to/nssdb -m $RANDOM -a -i request.csr -c RootCA``
 
 Again, substitute a unique serial number for $RANDOM.
 

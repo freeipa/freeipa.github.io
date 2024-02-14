@@ -166,9 +166,9 @@ scripted process would include this:
 
 ::
 
-   | ``# ipactl stop``
-   | ``# tar --xattrs --selinux -czf /path/to/backup ``
-   | ``# ipactl start``
+   # ipactl stop
+   # tar --xattrs --selinux -czf /path/to/backup 
+   # ipactl start
 
 Note that this a simplified view and doesn't include the metadata we
 will package as well.
@@ -178,10 +178,12 @@ will package as well.
 Full System Restore Process
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-| ``# ipactl stop``
-| ``# cd / && tar -xzf /path/to/backup``
-| ``# ipactl start``
-| ``# service sssd restart``
+::
+
+    # ipactl stop
+    # cd / && tar -xzf /path/to/backup
+    # ipactl start
+    # service sssd restart
 
 Note that this a simplified view and doesn't include the metadata we
 will package as well.
@@ -321,7 +323,7 @@ applied to the restored master but similarly any changes restored will
 not be sent out to the other masters. After the restoration the other
 masters will need to be reinitialized from the restored master:
 
-``# ipa-replica-manage re-initialize --from=``
+``# ipa-replica-manage re-initialize --from=``
 
 Replication
 ----------------------------------------------------------------------------------------------
@@ -539,26 +541,30 @@ CLI
 
 There will be two basic, standalone commands:
 
-| ``ipa-backup OPTIONS``
-| ``   --data    Back up just the data. Default is full system backup.``
-| ``   --gpg     Encrypt the backup``
-| ``   --gpg-keyring ``\ ``   The gpg key name to be used (or full path)``
-| ``   --logs    Include logs in backup``
-| ``   --online Perform the LDAP backups online, for data only.``
+::
+
+    ipa-backup OPTIONS
+       --data    Back up just the data. Default is full system backup.
+       --gpg     Encrypt the backup
+       --gpg-keyring ``\ ``   The gpg key name to be used (or full path)
+       --logs    Include logs in backup
+       --online Perform the LDAP backups online, for data only.
 
 We will only encrypt the payload. The header will be in the clear.
 
-| ``ipa-restore OPTIONS /path/to/backup``
-| ``   --data             If the backup is a full backup, restore only the data``
-| ``   --extract        Extract the backup files, do not restore (including the LDIF)``
-| ``   --gpg-keyring ``\ ``    The key name to be used by gpg``
-| ``   --data             Restore only the data``
-| ``   --online          Perform the LDAP restores online, for data only.``
-| ``   --instance=INSTANCE   The 389-ds instance to restore (defaults to all found)``
-| ``   --backend=BACKEND     The backend to restore within the instance or``
-| ``                                              instances``
-| ``   --no-logs         Do not restore log files from the backup``
-| ``   -U, --unattended      Unattended restoration never prompts the user``
+::
+
+    ipa-restore OPTIONS /path/to/backup
+       --data             If the backup is a full backup, restore only the data
+       --extract        Extract the backup files, do not restore (including the LDIF)
+       --gpg-keyring ``\ ``    The key name to be used by gpg
+       --data             Restore only the data
+       --online          Perform the LDAP restores online, for data only.
+       --instance=INSTANCE   The 389-ds instance to restore (defaults to all found)
+       --backend=BACKEND     The backend to restore within the instance or
+                                                  instances
+       --no-logs         Do not restore log files from the backup
+       -U, --unattended      Unattended restoration never prompts the user
 
 ipa-restore will detect if the backup file provide contains only the
 data, but if provided a full backup it should be able to restore just
@@ -566,14 +572,16 @@ the data component.
 
 There are also common options:
 
-| ``   --version             show program's version number and exit``
-| ``   -h, --help            show this help message and exit``
-| ``   -p PASSWORD, --password=PASSWORD``
-| ``                       Directory Manager password``
-| ``   -v, --verbose       print debugging information``
-| ``   -d, --debug         alias for --verbose (deprecated)``
-| ``   -q, --quiet         output only errors``
-| ``   --log-file=FILE     log to the given file``
+::
+
+       --version             show program's version number and exit
+       -h, --help            show this help message and exit
+       -p PASSWORD, --password=PASSWORD
+                           Directory Manager password
+       -v, --verbose       print debugging information
+       -d, --debug         alias for --verbose (deprecated)
+       -q, --quiet         output only errors
+       --log-file=FILE     log to the given file
 
 
 
@@ -692,7 +700,7 @@ can run:
 This will create the key ``backup`` and can be passed to ipa-backup
 using:
 
-``# ipa-backup --gpg --gpg-keyring=/root/backup ...``
+``# ipa-backup --gpg --gpg-keyring=/root/backup ...``
 
 Troubleshooting
 ---------------
@@ -718,9 +726,9 @@ General test outline
 -  Do a LDAP search for ``uid=admin,cn=users,cn=accounts,$SUFFIX``. Note
    the result.
 -  Verify that the commands ``ipa user-show admin``, ``id admin``,
-   ``ipa cert-find``, ``host``\ *``$HOSTNAME``*\ ``localhost``,
-   ``kinit admin`` work. This checks basic functionality of IPA client,
-   PAM, CA, DNS and Kerberos. Note the output of these commands
+   ``ipa cert-find``, ``host$HOSTNAMElocalhost``, ``kinit admin`` work.
+   This checks basic functionality of IPA client, PAM, CA, DNS and Kerberos.
+   Note the output of these commands
 -  (Do backup & restore)
 -  Do a LDAP search on admin again; check that all attributes except
    ``krbLastSuccessfulAuth`` match
@@ -737,7 +745,7 @@ The "Do backup & restore" steps are:
 
 -  ``ipa-backup -v``
 -  Uninstall server
--  ``ipa-restore``\ *``$BACKUP_PATH``*
+- ``ipa-restore$BACKUP_PATH`` 
 
 
 
@@ -751,7 +759,7 @@ The "Do backup & restore" steps are:
 -  Remove users ``dirsrv`` and ``pkiuser``
 -  Add system user ``ipatest_user1`` (to claim the UID of a removed
    user)
--  ``ipa-restore``\ *``$BACKUP_PATH``*
+- ``ipa-restore$BACKUP_PATH`` 
 
 At the end of the test, remove user ``ipatest_user1``
 
@@ -766,7 +774,7 @@ The "Do backup & restore" steps are:
 -  Uninstall server
 -  Turn SELinux booleans ``httpd_can_network_connect`` and
    ``httpd_manage_ipa`` off
--  ``ipa-restore``\ *``$BACKUP_PATH``*
+- ``ipa-restore$BACKUP_PATH`` 
 
 After restoring, check that the above booleans are on.
 

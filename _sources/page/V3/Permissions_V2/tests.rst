@@ -15,139 +15,153 @@ clean IPA installation, or possibly after other similar tests.
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm2,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm2``
-| ``ipaPermAllowedAttr: cn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
-| ``owner: cn=test``
-| ``owner: cn=test2``
+::
+
+    dn: cn=testperm2,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm2
+    ipaPermAllowedAttr: cn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
+    owner: cn=test
+    owner: cn=test2
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: read``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
-| ``owner: cn=other-test``
-| ``owner: cn=other-test2``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: read
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
+    owner: cn=other-test
+    owner: cn=other-test2
 
 Note: the permission entry cn=testperm,cn=permissions,cn=pbac,$SUFFIX
 will not be present
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm1_rn,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm1_rn``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: all``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
-| ``owner: cn=other-test``
-| ``owner: cn=other-test2``
+::
+
+    dn: cn=testperm1_rn,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm1_rn
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: all
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
+    owner: cn=other-test
+    owner: cn=other-test2
 
 Note: the permission entry
 cn=testperm1_rn,cn=permissions,cn=pbac,$SUFFIX will not be present
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: Testperm_RN``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
-| ``owner: cn=other-test``
-| ``owner: cn=other-test2``
+::
+
+    dn: cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX
+    cn: Testperm_RN
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
+    owner: cn=other-test
+    owner: cn=other-test2
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: Testperm_RN``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
-| ``owner: cn=other-test``
-| ``owner: cn=other-test2``
+::
+
+    dn: cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX
+    cn: Testperm_RN
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    member: cn=testpriv1,cn=privileges,cn=pbac,$SUFFIX
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
+    owner: cn=other-test
+    owner: cn=other-test2
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm2,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm2``
-| ``ipaPermAllowedAttr: cn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
-| ``owner: cn=test``
-| ``owner: cn=test2``
+::
+
+    dn: cn=testperm2,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm2
+    ipaPermAllowedAttr: cn
+    ipaPermBindRuleType: permission
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
+    owner: cn=test
+    owner: cn=test2
 
 Note: the permission entry cn=Testperm_RN,cn=permissions,cn=pbac,$SUFFIX
 will not be present
@@ -157,115 +171,129 @@ will not be present
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=editors,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=editors,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry cn=testperm,cn=permissions,cn=pbac,$SUFFIX
 will not be present
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermRight: write
+    ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm3,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm3``
-| ``ipaPermAllowedAttr: cn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm3,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm3
+    ipaPermAllowedAttr: cn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm3,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm3``
-| ``ipaPermAllowedAttr: cn``
-| ``ipaPermAllowedAttr: uid``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm3,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm3
+    ipaPermAllowedAttr: cn
+    ipaPermAllowedAttr: uid
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 
 
 Cleanup
 
-| ``ipa permission_del testperm --force``
-| ``ipa permission_del testperm2 --force``
-| ``ipa permission_del testperm3 --force``
-| ``ipa permission_del testperm1_rn --force``
-| ``ipa permission_del Testperm_RN --force``
-| ``ipa privilege_del testpriv1``
+::
+
+    ipa permission_del testperm --force
+    ipa permission_del testperm2 --force
+    ipa permission_del testperm3 --force
+    ipa permission_del testperm1_rn --force
+    ipa permission_del Testperm_RN --force
+    ipa privilege_del testpriv1
 
 
 
@@ -281,105 +309,117 @@ clean IPA installation, or possibly after other similar tests.
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=admin,cn=users,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 
 
 Cleanup
 
-``ipa permission_del testperm --force``
+``ipa permission_del testperm --force``
 
 
 
@@ -395,122 +435,136 @@ clean IPA installation, or possibly after other similar tests.
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: cn=*,cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=groups,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: cn=*,cn=groups,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=groups,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 
 
 Cleanup
 
-``ipa permission_del testperm --force``
+``ipa permission_del testperm --force``
 
 
 
@@ -526,87 +580,97 @@ clean IPA installation, or possibly after other similar tests.
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=users,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: uid=*,cn=users,cn=accounts,$SUFFIX
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermRight: write``
-| ``ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermRight: write
+    ipaPermTargetFilter: (memberOf=cn=admins,cn=groups,cn=accounts,$SUFFIX)
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermRight: write``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermRight: write
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: cn=*,cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=groups,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: cn=*,cn=groups,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 Note: the permission entry will look like this:
 
-| ``dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX``
-| ``cn: testperm``
-| ``ipaPermAllowedAttr: sn``
-| ``ipaPermBindRuleType: permission``
-| ``ipaPermLocation: cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermRight: write``
-| ``ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX``
-| ``ipaPermissionType: SYSTEM``
-| ``ipaPermissionType: V2``
-| ``objectClass: groupofnames``
-| ``objectClass: ipapermission``
-| ``objectClass: ipapermissionv2``
-| ``objectClass: top``
+::
+
+    dn: cn=testperm,cn=permissions,cn=pbac,$SUFFIX
+    cn: testperm
+    ipaPermAllowedAttr: sn
+    ipaPermBindRuleType: permission
+    ipaPermLocation: cn=groups,cn=accounts,$SUFFIX
+    ipaPermRight: write
+    ipaPermTarget: cn=editors,cn=groups,cn=accounts,$SUFFIX
+    ipaPermissionType: SYSTEM
+    ipaPermissionType: V2
+    objectClass: groupofnames
+    objectClass: ipapermission
+    objectClass: ipapermissionv2
+    objectClass: top
 
 
 
 Cleanup
 
-``ipa permission_del testperm --force``
+``ipa permission_del testperm --force``
 
 
 
@@ -624,4 +688,4 @@ clean IPA installation, or possibly after other similar tests.
 
 Cleanup
 
-``ipa permission_del testperm --force``
+``ipa permission_del testperm --force``

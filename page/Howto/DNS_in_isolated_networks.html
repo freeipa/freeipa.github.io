@@ -311,32 +311,32 @@ inside the isolated network.</p>
 <h2>Example how to create root zone<a class="headerlink" href="#example-how-to-create-root-zone" title="Link to this heading">#</a></h2>
 <p>IPA DNS server: <em>ipa.example.com.</em></p>
 <p>Add root zone (.):</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-add .</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnszone-add</span> <span class="pre">.</span></code></p>
 <p>Without proper delegation of zone where nameserver is located, BIND will
 show following error and will not load the root zone.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># journalctl -b -u named[-pkcs11]</span></code></div>
-<div class="line">``  zone ./IN: NS ‘ipa.example.com’ has no address records (A or AAAA)``</div>
-<div class="line">``  zone ./IN: not loaded due to errors.``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># journalctl -b -u named[-pkcs11]</span>
+  <span class="n">zone</span> <span class="o">./</span><span class="n">IN</span><span class="p">:</span> <span class="n">NS</span> <span class="s1">&#39;ipa.example.com&#39;</span> <span class="n">has</span> <span class="n">no</span> <span class="n">address</span> <span class="n">records</span> <span class="p">(</span><span class="n">A</span> <span class="ow">or</span> <span class="n">AAAA</span><span class="p">)</span>
+  <span class="n">zone</span> <span class="o">./</span><span class="n">IN</span><span class="p">:</span> <span class="ow">not</span> <span class="n">loaded</span> <span class="n">due</span> <span class="n">to</span> <span class="n">errors</span><span class="o">.</span>
+</pre></div>
 </div>
 <p><strong>Note:</strong> IPA adds all DNS capable IPA replicas as default NS records to
 zone apex.</p>
 <p>Add NS delegation for all child zones on server.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ ipa dnszone-find --pkey-only``
-| ``  Zone name: .``
-| ``  Zone name: ``\ **``2.0.192.in-addr.arpa.``**
-| ``  Zone name: ``\ **``example.com.``**
-| ``----------------------------``
-| ``Number of entries returned 3``
-| ``----------------------------``
-| ``$ ipa dnsforwardzone-find --pkey-only``
-| ``  Zone name: ``\ **``fwzone.test.``**
-| ``----------------------------``
-| ``Number of entries returned 1``
-| ``----------------------------``
-| ``$ ipa dnsrecord-add . ``\ **``2.0.192.in-addr.arpa.``**\ `` --ns-rec=ipa.example.com.``
-| ``$ ipa dnsrecord-add . ``\ **``example.com.``**\ `` --ns-rec=ipa.example.com.``
-| ``$ ipa dnsrecord-add . ``\ **``fwzone.test.``**\ `` --ns-rec=ipa.example.com.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa dnszone-find --pkey-only
+  Zone name: .
+  Zone name:  2.0.192.in-addr.arpa.
+  Zone name:  example.com.
+----------------------------
+Number of entries returned 3
+----------------------------
+$ ipa dnsforwardzone-find --pkey-only
+  Zone name:  fwzone.test.
+----------------------------
+Number of entries returned 1
+----------------------------
+$ ipa dnsrecord-add . 2.0.192.in-addr.arpa. --ns-rec=ipa.example.com.
+$ ipa dnsrecord-add . example.com. --ns-rec=ipa.example.com.
+$ ipa dnsrecord-add . fwzone.test. --ns-rec=ipa.example.com.
 </pre></div>
 </div>
 </section>
@@ -349,18 +349,18 @@ change IP addresses of your root servers.</p>
 your private root servers. Root hints file usually has the same format
 as zone file, so output from dig command can be used directly.</p>
 <p>For BIND 9:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ dig &#64;192.0.2.1 . NS &gt; /var/named/named.ca</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;192.0.2.1</span> <span class="pre">.</span> <span class="pre">NS</span> <span class="pre">&gt;</span> <span class="pre">/var/named/named.ca</span></code></p>
 <p>For Unbound:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig &#64;192.0.2.1 . NS &gt; /var/unbound/hints.ca</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># add option &quot;roothints: /var/unbound/hints.ca&quot; to &quot;server&quot; section</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># in /etc/unbound/unbound.conf</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dig @192.0.2.1 . NS &gt; /var/unbound/hints.ca
+# add option &quot;roothints: /var/unbound/hints.ca&quot; to &quot;server&quot; section
+# in /etc/unbound/unbound.conf
+</pre></div>
 </div>
 <p>For Unbound utilities (drill etc.):</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig &#64;192.0.2.1 . NS &gt; /tmp/hints.ca</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># use -r option for every call of the command</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ drill -r /tmp/hints.ca</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dig @192.0.2.1 . NS &gt; /tmp/hints.ca
+# use -r option for every call of the command
+$ drill -r /tmp/hints.ca
+</pre></div>
 </div>
 </section>
 <section id="dnssec">

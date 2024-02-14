@@ -1,7 +1,7 @@
 Owncloud_Authentication_against_FreeIPA
 =======================================
 
-`` ``
+`` ``
 
 **HOWTO: Owncloud Authentication against FreeIPA**
 
@@ -13,8 +13,10 @@ and demo1 ipa server.
 
 For the purpose of this document, the following information is given
 
-| `` Server: ipa.demo1.freeipa.org``
-| `` base dn: dc=demo1,dc=freeipa,dc=org``
+::
+
+     Server: ipa.demo1.freeipa.org
+     base dn: dc=demo1,dc=freeipa,dc=org
 
 Prerequisite:
 -------------
@@ -35,11 +37,13 @@ Owncloud Authentication
 -  Go to Admin page (right corner)
 -  **Server**
 
-| `` Server: ``\ ```ldap://ipa.demo1.freeipa.org`` <ldap://ipa.demo1.freeipa.org>`__
-| `` Port: 389``
-| `` User DN: uid=admin,cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org``
-| `` Password: Secret123``
-| `` Base DN: dc=demo1,dc=freeipa,dc=org``
+::
+
+     Server: ``\ ```ldap://ipa.demo1.freeipa.org`` <ldap://ipa.demo1.freeipa.org>`__
+     Port: 389
+     User DN: uid=admin,cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org
+     Password: Secret123
+     Base DN: dc=demo1,dc=freeipa,dc=org
 
 .. figure:: Own_ldap_server.png
    :alt: Own_ldap_server.png
@@ -48,7 +52,7 @@ Owncloud Authentication
 
 -  **User Filter**
 
-`` Edit raw filter instead: (objectclass=*)``
+`` Edit raw filter instead: (objectclass=*)``
 
 .. figure:: Own_ldap_user_filter.png
    :alt: Own_ldap_user_filter.png
@@ -57,8 +61,10 @@ Owncloud Authentication
 
 -  **Login Filter**
 
-| `` LDAP Username: checked``
-| `` Edit raw filter instead: (&(objectclass=*)(uid=%uid))``
+::
+
+     LDAP Username: checked
+     Edit raw filter instead: (&(objectclass=*)(uid=%uid))
 
 .. figure:: Own_ldap_login_filter.png
    :alt: Own_ldap_login_filter.png
@@ -68,7 +74,7 @@ Owncloud Authentication
 -  **Group filter** (it depends on which user group you want allow to
    access owncloud)
 
-`` Edit raw filter instead: (\|(cn=ipausers))``
+`` Edit raw filter instead: (\|(cn=ipausers))``
 
 .. figure:: Own_ldap_group_filter.png
    :alt: Own_ldap_group_filter.png
@@ -79,7 +85,7 @@ Owncloud Authentication
 
    -  Connection Settings
 
-`` Configuration Active: checked``
+`` Configuration Active: checked``
 
 .. figure:: Own_ldap_adv_conn_set.png
    :alt: Own_ldap_adv_conn_set.png
@@ -90,12 +96,14 @@ Owncloud Authentication
 
    -  Directory Settings
 
-| `` User Display Name Field: displayname``
-| `` Base User Tree: cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org``
-| `` Group Display Name Field: cn``
-| `` Base Group Tree: cn=groups,cn=accounts,dc=demo1,dc=freeipa,dc=org``
-| `` Group-Member association: uniqueMember``
-| `` Paging chunksize: 500``
+::
+
+     User Display Name Field: displayname
+     Base User Tree: cn=users,cn=accounts,dc=demo1,dc=freeipa,dc=org
+     Group Display Name Field: cn
+     Base Group Tree: cn=groups,cn=accounts,dc=demo1,dc=freeipa,dc=org
+     Group-Member association: uniqueMember
+     Paging chunksize: 500
 
 .. figure:: Own_ldap_adv_dir_set.png
    :alt: Own_ldap_adv_dir_set.png
@@ -106,8 +114,10 @@ Owncloud Authentication
 
    -  Special Attributes
 
-| `` Email Field: mail``
-| `` User Home Folder Naming Rule: cn``
+::
+
+     Email Field: mail
+     User Home Folder Naming Rule: cn
 
 .. figure:: Own_ldap_adv_spec_att.png
    :alt: Own_ldap_adv_spec_att.png
@@ -116,7 +126,7 @@ Owncloud Authentication
 
 -  **Expert**
 
-`` nothing``
+`` nothing``
 
 .. figure:: Own_ldap_expert.png
    :alt: Own_ldap_expert.png

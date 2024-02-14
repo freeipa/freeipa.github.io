@@ -348,46 +348,46 @@ limitations.</p>
 </section>
 <section id="configure-freeipa">
 <h2>Configure FreeIPA<a class="headerlink" href="#configure-freeipa" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``1. Create the host principal in the web interface``
-| ``2. Create IPA users to correspond to Windows users``
-| ``3. Reset the user&#39;s IPA password to a known password using the web interface or CLI,``
-| ``   the user will be prompted to change at first log in.``
-| ``4. On the IPA server run``
-| `` ipa-getkeytab -s [kdc DNS name]``
-| ``               -p host/[machine-name]``
-| ``               -e  arcfour-hmac``
-| ``               -k krb5.keytab.[machine-name]``
-| ``               -P``
-| `` At the prompt enter a random MACHINE_PASSWORD``
-| `` (you will enter this later on the windows machine too).``
-| `` ``\ **``Note:``\ ````\ ``you``\ ````\ ``can``\ ````\ ``change``\ ````\ ``the``\ ````\ ``-e``\ ````\ ``argument``\ ````\ ``to``\ ````\ ``include``\ ````\ ``also``**
-| `` ``\ **``AES``\ ````\ ``enctypes``\ ````\ ``from``\ ````\ ``FreeIPA``\ ````\ ``2.1.4``\ ````\ ``and``\ ````\ ``higher.``**\ `` (FreeIPA ticket ``\ ```2038`` &lt;https://fedorahosted.org/freeipa/ticket/2038&gt;`__\ ``)``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Create the host principal in the web interface
+2. Create IPA users to correspond to Windows users
+3. Reset the user&#39;s IPA password to a known password using the web interface or CLI,
+   the user will be prompted to change at first log in.
+4. On the IPA server run
+ ipa-getkeytab -s [kdc DNS name]
+               -p host/[machine-name]
+               -e  arcfour-hmac
+               -k krb5.keytab.[machine-name]
+               -P
+ At the prompt enter a random MACHINE_PASSWORD
+ (you will enter this later on the windows machine too).
+ Note:  you  can  change  the  -e  argument  to  include  also
+ AESenctypesfromFreeIPA2.1.4andhigher. (FreeIPA ticket ``\ ```2038`` &lt;https://fedorahosted.org/freeipa/ticket/2038&gt;`__\ ``)
 
-| `` ``\ **``Note:``\ ````\ ``Windows``\ ````\ ``machines``\ ````\ ``names``\ ````\ ``cannot``\ ````\ ``exceed``\ ````\ ``15``\ ````\ ``characters``**
-| ``  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list``
+ Note:  Windows  machines  names  cannot  exceed  15  characters
+  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list
 </pre></div>
 </div>
 </section>
 <section id="configure-windows-ksetup">
 <h2>Configure Windows (ksetup)<a class="headerlink" href="#configure-windows-ksetup" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``1. ksetup /setdomain [REALM NAME]``
-| ``2. ksetup /addkdc [REALM NAME] [kdc DNS name]``
-| ``3. ksetup /addkpasswd [REALM NAME] [kdc DNS name]``
-| ``4. ksetup /setcomputerpassword [MACHINE_PASSWORD] (the one used above)``
-| ``5. ksetup /mapuser * *``
-| ``6. Run gpedit.msc, open the key called:``
-| `` &quot;Network Security: Configure encryption types allowed for Kerberos”``
-| `` under:``
-| ``   Computer Configuration``
-| ``     Windows Settings``
-| ``       Security Settings``
-| ``         Local Policies``
-| ``           Security Options``
-| `` and deselect everything except RC4_HMAC_MD5``
-| ``7. *** REBOOT ***``
-| ``8. Add local user accounts for all users that need to be able to log in.``
-| ``9. Log in as [user]@[REALM] with the initial password, you will be prompted``
-| ``to change the password then logged in.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">setdomain</span> <span class="p">[</span><span class="n">REALM</span> <span class="n">NAME</span><span class="p">]</span>
+<span class="mf">2.</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">addkdc</span> <span class="p">[</span><span class="n">REALM</span> <span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="n">kdc</span> <span class="n">DNS</span> <span class="n">name</span><span class="p">]</span>
+<span class="mf">3.</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">addkpasswd</span> <span class="p">[</span><span class="n">REALM</span> <span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="n">kdc</span> <span class="n">DNS</span> <span class="n">name</span><span class="p">]</span>
+<span class="mf">4.</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">setcomputerpassword</span> <span class="p">[</span><span class="n">MACHINE_PASSWORD</span><span class="p">]</span> <span class="p">(</span><span class="n">the</span> <span class="n">one</span> <span class="n">used</span> <span class="n">above</span><span class="p">)</span>
+<span class="mf">5.</span> <span class="n">ksetup</span> <span class="o">/</span><span class="n">mapuser</span> <span class="o">*</span> <span class="o">*</span>
+<span class="mf">6.</span> <span class="n">Run</span> <span class="n">gpedit</span><span class="o">.</span><span class="n">msc</span><span class="p">,</span> <span class="nb">open</span> <span class="n">the</span> <span class="n">key</span> <span class="n">called</span><span class="p">:</span>
+ <span class="s2">&quot;Network Security: Configure encryption types allowed for Kerberos”</span>
+ <span class="n">under</span><span class="p">:</span>
+   <span class="n">Computer</span> <span class="n">Configuration</span>
+     <span class="n">Windows</span> <span class="n">Settings</span>
+       <span class="n">Security</span> <span class="n">Settings</span>
+         <span class="n">Local</span> <span class="n">Policies</span>
+           <span class="n">Security</span> <span class="n">Options</span>
+ <span class="ow">and</span> <span class="n">deselect</span> <span class="n">everything</span> <span class="k">except</span> <span class="n">RC4_HMAC_MD5</span>
+<span class="mf">7.</span> <span class="o">***</span> <span class="n">REBOOT</span> <span class="o">***</span>
+<span class="mf">8.</span> <span class="n">Add</span> <span class="n">local</span> <span class="n">user</span> <span class="n">accounts</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">users</span> <span class="n">that</span> <span class="n">need</span> <span class="n">to</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">log</span> <span class="ow">in</span><span class="o">.</span>
+<span class="mf">9.</span> <span class="n">Log</span> <span class="ow">in</span> <span class="k">as</span> <span class="p">[</span><span class="n">user</span><span class="p">]</span><span class="o">@</span><span class="p">[</span><span class="n">REALM</span><span class="p">]</span> <span class="k">with</span> <span class="n">the</span> <span class="n">initial</span> <span class="n">password</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">be</span> <span class="n">prompted</span>
+<span class="n">to</span> <span class="n">change</span> <span class="n">the</span> <span class="n">password</span> <span class="n">then</span> <span class="n">logged</span> <span class="ow">in</span><span class="o">.</span>
 </pre></div>
 </div>
 <p><strong>Note: Configuring encryption types is not needed from FreeIPA 2.1.4

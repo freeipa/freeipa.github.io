@@ -86,11 +86,13 @@ Renewal must occur before the ticket expires. Potentially this can be
 defined on per users bases and stored, per principal, in LDAP using this
 objectclass.
 
-| ``  objectClasses: ( 2.16.840.1.113719.1.301.6.16.1 ``
-| ``  NAME 'krbTicketPolicyAux' ``
-| ``  AUXILIARY ``
-| ``  MAY ( krbTicketFlags $ krbMaxTicketLife $ krbMaxRenewableAge ) ``
-| ``  X-ORIGIN 'user defined' ) ``
+::
+
+      objectClasses: ( 2.16.840.1.113719.1.301.6.16.1
+      NAME 'krbTicketPolicyAux'
+      AUXILIARY
+      MAY ( krbTicketFlags $ krbMaxTicketLife $ krbMaxRenewableAge )
+      X-ORIGIN 'user defined' )
 
 | Currently in IPA v2 there is no UI to add this information, but it can
   be manipulated using LDAP operations.
@@ -121,11 +123,11 @@ objectclass.
       usually wise to renew a ticket when half the time of validity is
       passed:
 
-``     (now > releasetime + (expiretime - releasetime)/2)``
+``     (now > releasetime + (expiretime - releasetime)/2)``
 
 or:
 
-``     (now > expiretime - configured_amount_of_time)``
+``     (now > expiretime - configured_amount_of_time)``
 
 The exact method can be configured by a specific policy.
 
@@ -308,7 +310,7 @@ override (extend) the ticket policies on per user basis up to 7 days and
 renewable ticket with 7 days lifetime and 14 days renewable life time.
 This is equivalent to:
 
-`` kinit -r 14d -l 7d ``
+`` kinit -r 14d -l 7d ``
 
 These two values will be defined in the IPA client policy and will be
 centrally changeable if ever customer would want to alter values in

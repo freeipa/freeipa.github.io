@@ -513,42 +513,41 @@ the command line to recreate the session.</p></li>
 </section>
 <section id="control-and-data-flow">
 <h2>Control and Data Flow<a class="headerlink" href="#control-and-data-flow" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ````
-| ``           Servers            Network               Clients``
-| ``     _____________________               _______________________________``
-| ``    |  _________________  |             |  ___________________          |``
-| ``    | |                 | |             | |                   |         |``
-| ``    | |     FreeIPA     |====(control)===&gt;|       SSSD        |         |``
-| ``    | |_________________| |             | |___________________|         |``
-| ``    |         /\          |             |     ||          /\            |``
-| ``    |         ||          |             |     ||          ||            |``
-| ``    |      (control)      |             |  (control)   (control)        |``
-| ``    |   ......||.......   |             |     ||  ........||.........   |``
-| ``    |  : Administrator :  |             |     || :   Administrator   :  |``
-| ``    |   &#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;   |             |     ||  &#39;&#39;&#39;||&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;||&#39;&#39;&#39;   |``
-| ``    |                     |             |     ||  (control)  (control)  |``
-| ``    |   ...............   |             |     ||     ||         ||      |``
-| ``    |  :    Auditor    :  |             |  ___\/_____\/__   ____\/____  |``
-| ``    |   &#39;&#39;/\&#39;&#39;&#39;&#39;&#39;&#39;&#39;/\&#39;&#39;   |             | |              | |          | |``
-| ``    |     ||       ||     |             | |   Tlog-rec   | |  Auditd  | |``
-| ``    |   (data)   (data)   |             | |______________| |__________| |``
-| ``    |  ___||__   __||___  |             |        ||             ||      |``
-| ``    | |       | |       | |             |        ||          ___\/____  |``
-| ``    | | Tlog- | | WebUI | |             |        ||         |         | |``
-| ``    | | play  | | (TBD) | |             |        ||         | Aushape | |``
-| ``    | |_______| |_______| |             |        ||         |_________| |``
-| ``    |     /\       /\     |             |        ||             ||      |``
-| ``    |     ||       ||     |             |      (data)         (data)    |``
-| ``    |   (data)   (data)   |             |        ||             ||      |``
-| ``    |  ___||_______||___  |             |     ___\/_____________\/___   |``
-| ``    | |                 | |             |    |                       |  |``
-| ``    | |                 | |             |    |        Rsyslog        |  |``
-| ``    | |                 | |             |    | - - - - - - - - - - - |  |``
-| ``    | |  Elasticsearch  |&lt;====(data)=========|        Fluentd        |  |``
-| ``    | |                 | |             |    | - - - - - - - - - - - |  |``
-| ``    | |                 | |             |    |        Logstash       |  |``
-| ``    | |_________________| |             |    |_______________________|  |``
-| ``    |_____________________|             |_______________________________|``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>       <span class="n">Servers</span>            <span class="n">Network</span>               <span class="n">Clients</span>
+ <span class="n">_____________________</span>               <span class="n">_______________________________</span>
+<span class="o">|</span>  <span class="n">_________________</span>  <span class="o">|</span>             <span class="o">|</span>  <span class="n">___________________</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>                 <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span> <span class="o">|</span>                   <span class="o">|</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>     <span class="n">FreeIPA</span>     <span class="o">|====</span><span class="p">(</span><span class="n">control</span><span class="p">)</span><span class="o">===&gt;|</span>       <span class="n">SSSD</span>        <span class="o">|</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span><span class="n">_________________</span><span class="o">|</span> <span class="o">|</span>             <span class="o">|</span> <span class="o">|</span><span class="n">___________________</span><span class="o">|</span>         <span class="o">|</span>
+<span class="o">|</span>         <span class="o">/</span>\          <span class="o">|</span>             <span class="o">|</span>     <span class="o">||</span>          <span class="o">/</span>\            <span class="o">|</span>
+<span class="o">|</span>         <span class="o">||</span>          <span class="o">|</span>             <span class="o">|</span>     <span class="o">||</span>          <span class="o">||</span>            <span class="o">|</span>
+<span class="o">|</span>      <span class="p">(</span><span class="n">control</span><span class="p">)</span>      <span class="o">|</span>             <span class="o">|</span>  <span class="p">(</span><span class="n">control</span><span class="p">)</span>   <span class="p">(</span><span class="n">control</span><span class="p">)</span>        <span class="o">|</span>
+<span class="o">|</span>   <span class="o">......||.......</span>   <span class="o">|</span>             <span class="o">|</span>     <span class="o">||</span>  <span class="o">........||.........</span>   <span class="o">|</span>
+<span class="o">|</span>  <span class="p">:</span> <span class="n">Administrator</span> <span class="p">:</span>  <span class="o">|</span>             <span class="o">|</span>     <span class="o">||</span> <span class="p">:</span>   <span class="n">Administrator</span>   <span class="p">:</span>  <span class="o">|</span>
+<span class="o">|</span>   <span class="s1">&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;   |             |     ||  &#39;&#39;&#39;</span><span class="o">||</span><span class="s1">&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;||&#39;&#39;&#39;</span>   <span class="o">|</span>
+<span class="o">|</span>                     <span class="o">|</span>             <span class="o">|</span>     <span class="o">||</span>  <span class="p">(</span><span class="n">control</span><span class="p">)</span>  <span class="p">(</span><span class="n">control</span><span class="p">)</span>  <span class="o">|</span>
+<span class="o">|</span>   <span class="o">...............</span>   <span class="o">|</span>             <span class="o">|</span>     <span class="o">||</span>     <span class="o">||</span>         <span class="o">||</span>      <span class="o">|</span>
+<span class="o">|</span>  <span class="p">:</span>    <span class="n">Auditor</span>    <span class="p">:</span>  <span class="o">|</span>             <span class="o">|</span>  <span class="n">___</span>\<span class="o">/</span><span class="n">_____</span>\<span class="o">/</span><span class="n">__</span>   <span class="n">____</span>\<span class="o">/</span><span class="n">____</span>  <span class="o">|</span>
+<span class="o">|</span>   <span class="s1">&#39;&#39;</span><span class="o">/</span>\<span class="s1">&#39;&#39;&#39;&#39;&#39;&#39;&#39;/</span><span class="se">\&#39;</span><span class="s1">&#39;</span>   <span class="o">|</span>             <span class="o">|</span> <span class="o">|</span>              <span class="o">|</span> <span class="o">|</span>          <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span>     <span class="o">||</span>       <span class="o">||</span>     <span class="o">|</span>             <span class="o">|</span> <span class="o">|</span>   <span class="n">Tlog</span><span class="o">-</span><span class="n">rec</span>   <span class="o">|</span> <span class="o">|</span>  <span class="n">Auditd</span>  <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="p">(</span><span class="n">data</span><span class="p">)</span>   <span class="p">(</span><span class="n">data</span><span class="p">)</span>   <span class="o">|</span>             <span class="o">|</span> <span class="o">|</span><span class="n">______________</span><span class="o">|</span> <span class="o">|</span><span class="n">__________</span><span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="n">___</span><span class="o">||</span><span class="n">__</span>   <span class="n">__</span><span class="o">||</span><span class="n">___</span>  <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>             <span class="o">||</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>       <span class="o">|</span> <span class="o">|</span>       <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>          <span class="n">___</span>\<span class="o">/</span><span class="n">____</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span> <span class="n">Tlog</span><span class="o">-</span> <span class="o">|</span> <span class="o">|</span> <span class="n">WebUI</span> <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>         <span class="o">|</span>         <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span> <span class="n">play</span>  <span class="o">|</span> <span class="o">|</span> <span class="p">(</span><span class="n">TBD</span><span class="p">)</span> <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>         <span class="o">|</span> <span class="n">Aushape</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span><span class="n">_______</span><span class="o">|</span> <span class="o">|</span><span class="n">_______</span><span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>         <span class="o">|</span><span class="n">_________</span><span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span>     <span class="o">/</span>\       <span class="o">/</span>\     <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>             <span class="o">||</span>      <span class="o">|</span>
+<span class="o">|</span>     <span class="o">||</span>       <span class="o">||</span>     <span class="o">|</span>             <span class="o">|</span>      <span class="p">(</span><span class="n">data</span><span class="p">)</span>         <span class="p">(</span><span class="n">data</span><span class="p">)</span>    <span class="o">|</span>
+<span class="o">|</span>   <span class="p">(</span><span class="n">data</span><span class="p">)</span>   <span class="p">(</span><span class="n">data</span><span class="p">)</span>   <span class="o">|</span>             <span class="o">|</span>        <span class="o">||</span>             <span class="o">||</span>      <span class="o">|</span>
+<span class="o">|</span>  <span class="n">___</span><span class="o">||</span><span class="n">_______</span><span class="o">||</span><span class="n">___</span>  <span class="o">|</span>             <span class="o">|</span>     <span class="n">___</span>\<span class="o">/</span><span class="n">_____________</span>\<span class="o">/</span><span class="n">___</span>   <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>                 <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>    <span class="o">|</span>                       <span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>                 <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>    <span class="o">|</span>        <span class="n">Rsyslog</span>        <span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>                 <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>    <span class="o">|</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>  <span class="n">Elasticsearch</span>  <span class="o">|&lt;====</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">=========|</span>        <span class="n">Fluentd</span>        <span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>                 <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>    <span class="o">|</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span>                 <span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>    <span class="o">|</span>        <span class="n">Logstash</span>       <span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="o">|</span><span class="n">_________________</span><span class="o">|</span> <span class="o">|</span>             <span class="o">|</span>    <span class="o">|</span><span class="n">_______________________</span><span class="o">|</span>  <span class="o">|</span>
+<span class="o">|</span><span class="n">_____________________</span><span class="o">|</span>             <span class="o">|</span><span class="n">_______________________________</span><span class="o">|</span>
 </pre></div>
 </div>
 <p>The control flow differs by case.</p>
@@ -649,16 +648,15 @@ properties. There is also an API for this in libaudit.</p>
 can be logged directly from PAM modules (e.g. pam_sss) using audit
 facilities and will go to audit.log or journal. A few PAM modules log
 there already. This is done via libaudit as well.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ````
-| ``     Kernel                   Userspace``
-| ``    ____________``
-| ``    __________  |                                 | auditd   &lt;== audit.rules``
-| ``              | | Rules and            | Rules    | auditctl &lt;== command line``
-| ``     Audit    | | messages             |&lt;=API=====| SSSD?``
-| ``              |&lt;===netlink==| libaudit |``
-| ``    subsystem | |                      | Messages | auditctl &lt;== command line``
-| ``    __________| |                      |&lt;=API=====| Aplications``
-| ``    ____________|                                 | PAM modules (pam_sss?)``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> Kernel                   Userspace
+____________
+__________  |                                 | auditd   &lt;== audit.rules
+          | | Rules and            | Rules    | auditctl &lt;== command line
+ Audit    | | messages             |&lt;=API=====| SSSD?
+          |&lt;===netlink==| libaudit |
+subsystem | |                      | Messages | auditctl &lt;== command line
+__________| |                      |&lt;=API=====| Aplications
+____________|                                 | PAM modules (pam_sss?)
 </pre></div>
 </div>
 <p>There’s one caveat regarding automatic configuration, though (citing
@@ -682,16 +680,15 @@ and then to disable the IPA-based run-time audit rule generation.)</p>
 <h2>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h2>
 <p>We need to convert audit data to JSON before storing it in
 ElasticSearch.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ````
-| ``     Kernel                   Userspace``
-| ``    ____________``
-| ``    __________  |``
-| ``              | |           | auditd  =&gt; | audit.log``
-| ``     Audit    | | Messages  |            | audispd =&gt; | plugin1``
-| ``              |====netlink=&gt;|                         | plugin2``
-| ``    subsystem | |           |                         | pluginN``
-| ``    __________| |           |                         | aushape``
-| ``    ____________|           | systemd =&gt; journal``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">Kernel</span>                   <span class="n">Userspace</span>
+<span class="n">____________</span>
+<span class="n">__________</span>  <span class="o">|</span>
+          <span class="o">|</span> <span class="o">|</span>           <span class="o">|</span> <span class="n">auditd</span>  <span class="o">=&gt;</span> <span class="o">|</span> <span class="n">audit</span><span class="o">.</span><span class="n">log</span>
+ <span class="n">Audit</span>    <span class="o">|</span> <span class="o">|</span> <span class="n">Messages</span>  <span class="o">|</span>            <span class="o">|</span> <span class="n">audispd</span> <span class="o">=&gt;</span> <span class="o">|</span> <span class="n">plugin1</span>
+          <span class="o">|====</span><span class="n">netlink</span><span class="o">=&gt;|</span>                         <span class="o">|</span> <span class="n">plugin2</span>
+<span class="n">subsystem</span> <span class="o">|</span> <span class="o">|</span>           <span class="o">|</span>                         <span class="o">|</span> <span class="n">pluginN</span>
+<span class="n">__________</span><span class="o">|</span> <span class="o">|</span>           <span class="o">|</span>                         <span class="o">|</span> <span class="n">aushape</span>
+<span class="n">____________</span><span class="o">|</span>           <span class="o">|</span> <span class="n">systemd</span> <span class="o">=&gt;</span> <span class="n">journal</span>
 </pre></div>
 </div>
 <p>A new tool called “Aushape” is being developed to support live
@@ -721,14 +718,13 @@ the terminal session (à la <a class="reference external" href="https://showterm
 <a class="reference external" href="https://asciinema.org/">https://asciinema.org/</a>). The session terminal I/O will need to be
 augmented by audit records, such as files accessed, processes executed,
 etc. All of them searchable and correlated in the same UI.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ````
-| ``   __-----------__                 ,----------------------------.``
-| ``  |--___________--|   Queries      |          Browser           |``
-| ``  |               | &lt;------------- |----------------------------|``
-| ``  | ElasticSearch | I/O and audit  | Search I/O and audit       |``
-| ``  |               | -------------&gt; | Playback I/O and audit     |``
-| :literal:`  `--___________--&#39;                | Rewind to time and matches \|`
-| :literal:`                                   `----------------------------&#39;`
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   __-----------__                 ,----------------------------.
+  |--___________--|   Queries      |          Browser           |
+  |               | &lt;------------- |----------------------------|
+  | ElasticSearch | I/O and audit  | Search I/O and audit       |
+  |               | -------------&gt; | Playback I/O and audit     |
+`  `--___________--&#39;                | Rewind to time and matches \|`
+`                                   `----------------------------&#39;`
 </pre></div>
 </div>
 </section>

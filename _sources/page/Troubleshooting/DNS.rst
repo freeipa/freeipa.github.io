@@ -86,7 +86,7 @@ Forward zone does not work
 
 At first please try following command:
 
-``dig @forwarder forwarding.zone.name. SOA``
+``dig @forwarder forwarding.zone.name. SOA``
 
 If command above returns *NXDOMAIN* or *SERVFAIL*, please check your
 forwarder.
@@ -129,10 +129,12 @@ subzone) <http://www.zytrax.com/books/dns/ch9/delegate.html>`__).
 
 Example:
 
-| ``$ORIGIN ipa.freeipa.org.``
-| ``others ``\ **``NS``**\ `` ns.others.ipa.freeipa.org.``
-| ``ns.others ``\ **``A``**\ `` 192.0.2.1``
-| ``ns.others ``\ **``AAAA``**\ `` 2001:db8::1``
+::
+
+    $ORIGIN ipa.freeipa.org.
+    others NS ns.others.ipa.freeipa.org.
+    ns.others A 192.0.2.1
+    ns.others AAAA 2001:db8::1
 
 Without zone delegation all queries are processed by master zone and
 NXDOMAIN is returned (`Forward zones design
@@ -145,7 +147,7 @@ Forward policy set to *none*
 
 Please check your forward policy:
 
-``ipa dnsforwardzone-show ipa.freeipa.org.``
+``ipa dnsforwardzone-show ipa.freeipa.org.``
 
 If forward policy is set to **none**, forwarding is disabled. Please set
 **first** or **only** as *forward-policy* to allow forwarding.

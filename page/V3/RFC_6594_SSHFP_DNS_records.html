@@ -322,69 +322,69 @@ SHA-256 fingerprints for RSA, DSS and ECDSA host keys.</p>
 <section id="use-cases">
 <h1>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h1>
 <p>Automatic generation of SSHFP DNS records on IPA client install:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# ipa-client-install``
-| ``Discovery was successful!``
-| ``Hostname: host1.example.com``
-| ``Realm: EXAMPLE.COM``
-| ``DNS Domain: example.com``
-| ``IPA Server: ipa.example.com``
-| ``BaseDN: dc=example,dc=com``
-| ``Continue to configure the system with these values? [no]: yes``
-| ``User authorized to enroll computers: admin``
-| ``Synchronizing time with KDC...``
-| ``Password for admin@EXAMPLE.COM: ``
-| ``Enrolled in IPA realm EXAMPLE.COM``
-| ``Created /etc/ipa/default.conf``
-| ``New SSSD config will be created``
-| ``Configured /etc/sssd/sssd.conf``
-| ``Configured /etc/krb5.conf for IPA realm EXAMPLE.COM``
-| ``trying ``\ ```https://ipa.example.com/ipa/xml`` &lt;https://ipa.example.com/ipa/xml&gt;`__
-| ``Hostname (host1.example.com) not found in DNS``
-| ``DNS server record set to: host1.example.com -&gt; 192.168.1.1``
-| ``Adding SSH public key from /etc/ssh/ssh_host_rsa_key.pub``
-| ``Adding SSH public key from /etc/ssh/ssh_host_dsa_key.pub``
-| ``Forwarding &#39;host_mod&#39; to server u&#39;``\ ```https://ipa.example.com/ipa/xml`` &lt;https://ipa.example.com/ipa/xml&gt;`__\ ``&#39;``
-| ``SSSD enabled``
-| ``Configured /etc/openldap/ldap.conf``
-| ``NTP enabled``
-| ``Configured /etc/ssh/ssh_config``
-| ``Configured /etc/ssh/sshd_config``
-| ``Client configuration complete.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># ipa-client-install
+Discovery was successful!
+Hostname: host1.example.com
+Realm: EXAMPLE.COM
+DNS Domain: example.com
+IPA Server: ipa.example.com
+BaseDN: dc=example,dc=com
+Continue to configure the system with these values? [no]: yes
+User authorized to enroll computers: admin
+Synchronizing time with KDC...
+Password for admin@EXAMPLE.COM:
+Enrolled in IPA realm EXAMPLE.COM
+Created /etc/ipa/default.conf
+New SSSD config will be created
+Configured /etc/sssd/sssd.conf
+Configured /etc/krb5.conf for IPA realm EXAMPLE.COM
+| ``trying ``\ ```https://ipa.example.com/ipa/xml`` &lt;https://ipa.example.com/ipa/xml&gt;`__
+Hostname (host1.example.com) not found in DNS
+DNS server record set to: host1.example.com -&gt; 192.168.1.1
+Adding SSH public key from /etc/ssh/ssh_host_rsa_key.pub
+Adding SSH public key from /etc/ssh/ssh_host_dsa_key.pub
+Forwarding &#39;host_mod&#39; to server u&#39;``\ ```https://ipa.example.com/ipa/xml`` &lt;https://ipa.example.com/ipa/xml&gt;`__\ ``&#39;
+SSSD enabled
+Configured /etc/openldap/ldap.conf
+NTP enabled
+Configured /etc/ssh/ssh_config
+Configured /etc/ssh/sshd_config
+Client configuration complete.
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig host1.example.com SSHFP +short</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2 2 0E04A7E09D037934492108ED5590612416BE736AD1BCAEAE1EA4148E 80C956E2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2 1 F2A1353FF919AD785B6BD42B588F6236D1F67459</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1 2 3E475EEAF17975C36EE1413DDD659275FDD19C97C2C74A3651BA12F7 52E12A18</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1 1 A308B1B02A8B43CB5192E26FA50280F752BB3A14</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dig host1.example.com SSHFP +short
+2 2 0E04A7E09D037934492108ED5590612416BE736AD1BCAEAE1EA4148E 80C956E2
+2 1 F2A1353FF919AD785B6BD42B588F6236D1F67459
+1 2 3E475EEAF17975C36EE1413DDD659275FDD19C97C2C74A3651BA12F7 52E12A18
+1 1 A308B1B02A8B43CB5192E26FA50280F752BB3A14
+</pre></div>
 </div>
 <p>Automatic generation of SSHFP DNS records when modifying a host:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa host-mod host2.example.com --updatedns --sshpubkey='ssh-rsa ``\</span> <span class="pre">``' --sshpubkey='ssh-dss ``\</span> <span class="pre">``' --sshpubkey='ecdsa-sha2-nistp256 ``\</span> <span class="pre">``'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Modified host &quot;host2.example.com&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------------------------------</span></code></div>
-<div class="line">``  Host name: host2.example.com``</div>
-<div class="line">``  Principal name: <a class="reference external" href="mailto:host/host2&#46;example&#46;com&#37;&#52;&#48;EXAMPLE">host/host2<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE</a>.COM``</div>
-<div class="line">``  MAC address: 00:11:22:33:44:55``</div>
-<div class="line">``  SSH public key: ecdsa-sha2-nistp256 <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``,</span></code></div>
-<div class="line">``                  ssh-dss <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``,</span></code></div>
-<div class="line">``                  ssh-rsa ``</div>
-<div class="line">``  Keytab: True``</div>
-<div class="line">``  Managed by: host2.example.com``</div>
-<div class="line">``  SSH public key fingerprint: 6C:9F:07:51:63:36:32:8B:ED:CF:8C:4C:5F:F2:BF:AE (ecdsa-sha2-nistp256),``</div>
-<div class="line">``                              07:5D:0D:55:64:62:A3:FE:02:AE:FC:CD:F6:ED:E1:D9 (ssh-dss),``</div>
-<div class="line">``                              8C:C3:27:A8:40:9F:80:01:61:99:D2:25:55:A3:52:30 (ssh-rsa)``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa host-mod host2.example.com --updatedns --sshpubkey=&#39;ssh-rsa ``\ ``&#39; --sshpubkey=&#39;ssh-dss ``\ ``&#39; --sshpubkey=&#39;ecdsa-sha2-nistp256 ``\ ``&#39;
+---------------------------------------------
+Modified host &quot;host2.example.com&quot;
+---------------------------------------------
+  Host name: host2.example.com
+  Principal name: host/host2.example.com@EXAMPLE.COM
+  MAC address: 00:11:22:33:44:55
+  SSH public key: ecdsa-sha2-nistp256 ``\ ``,
+                  ssh-dss ``\ ``,
+                  ssh-rsa
+  Keytab: True
+  Managed by: host2.example.com
+  SSH public key fingerprint: 6C:9F:07:51:63:36:32:8B:ED:CF:8C:4C:5F:F2:BF:AE (ecdsa-sha2-nistp256),
+                              07:5D:0D:55:64:62:A3:FE:02:AE:FC:CD:F6:ED:E1:D9 (ssh-dss),
+                              8C:C3:27:A8:40:9F:80:01:61:99:D2:25:55:A3:52:30 (ssh-rsa)
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dig host2.example.com SSHFP +short</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2 2 43FFD792089442F08892CA753059FD8B7FA939E990CE4687A3D1FB75 E0B8F6DE</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">2 1 4C2C50EDEAE6BC6107A37EAE7A05694C15CFEC53</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">3 1 B1D733A262E29B44A4D8A9FAF4B3B9E78302D1DB</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1 2 E5382308CFD60DE4F0ACF3BCB0366314EECFC71030A28AAF75280041 5FDF81A8</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">3 2 545055E921E94128AF6BFE68E6E2804333628F7808B8EAE10E297B11 3270862F</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">1 1 DA7A6687AE4B2C242E12A67DACDC67D26E374AD5</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dig host2.example.com SSHFP +short
+2 2 43FFD792089442F08892CA753059FD8B7FA939E990CE4687A3D1FB75 E0B8F6DE
+2 1 4C2C50EDEAE6BC6107A37EAE7A05694C15CFEC53
+3 1 B1D733A262E29B44A4D8A9FAF4B3B9E78302D1DB
+1 2 E5382308CFD60DE4F0ACF3BCB0366314EECFC71030A28AAF75280041 5FDF81A8
+3 2 545055E921E94128AF6BFE68E6E2804333628F7808B8EAE10E297B11 3270862F
+1 1 DA7A6687AE4B2C242E12A67DACDC67D26E374AD5
+</pre></div>
 </div>
 </section>
 <section id="design">

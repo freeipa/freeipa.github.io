@@ -28,11 +28,11 @@ To use services from IPA server, the machine needs to be IPA-enrolled.
 To do that, package ``ipa-client`` on RHEL and ``freeipa-client`` on
 Fedora and its dependencies need to be installed:
 
-``# yum install -y ipa-client``
+``# yum install -y ipa-client``
 
 Then the IPA-related systems will be configured using:
 
-``# ipa-client-install``
+``# ipa-client-install``
 
 In the following examples, we will assume that the realm used is
 EXAMPLE.NET, the IPA server is ipa.example.com and the JBoss server runs
@@ -46,12 +46,12 @@ Starting standalone JBoss
 The standalone JBoss server can be started using script provided in the
 .zip distribution:
 
-``$ ./bin/standalone.sh &``
+``$ ./bin/standalone.sh &``
 
 Then we can access the web service which by default listens on port
 8080:
 
-``$ curl ``\ ```http://localhost:8080/`` <http://localhost:8080/>`__
+``$ curl ``\ ```http://localhost:8080/`` <http://localhost:8080/>`__
 
 Since many IPA services rely on correct fully qualified domain name of
 the web server, we will make JBoss listen not just on the loopback
@@ -75,7 +75,7 @@ interface:
 After restarting the ``./bin/standalone.sh``, access on public interface
 should work:
 
-``$ curl ``\ ```http://$(hostname):8080/`` <http://$(hostname):8080/>`__
+``$ curl ``\ ```http://$(hostname):8080/`` <http://$(hostname):8080/>`__
 
 We can stop the JBoss server now.
 
@@ -88,13 +88,15 @@ To be able to configure Kerberos authentication against our JBoss
 server, we need a service principal and a keytab. On the IPA server,
 command
 
-``$ ipa service-add HTTP/www.example.com``
+``$ ipa service-add HTTP/www.example.com``
 
 will create the service and we can then retrieve the keytab on the JBoss
 server:
 
-| ``$ kinit admin``
-| ``$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab``
+::
+
+    $ kinit admin
+    $ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab
 
 
 
@@ -211,16 +213,20 @@ We then create application in **standalone/deployments/kerberos.war**:
 We then touch file ``standalone/deployments/kerberos.war`` and start the
 server, we should see message like
 
-| ``Register web context: /kerberos``
-| ``Deployed "kerberos.war" (runtime-name : "kerberos.war")``
+::
+
+    Register web context: /kerberos
+    Deployed "kerberos.war" (runtime-name : "kerberos.war")
 
 We then obtain a ticket:
 
-``$ kinit admin@EXAMPLE.NET``
+``$ kinit admin@EXAMPLE.NET``
 
 and we will run curl with Negotiate authentication enabled:
 
-| ``$ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` <http://$(hostname):8080/kerberos/>`__
-| ``OK``
+::
+
+    $ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` <http://$(hostname):8080/kerberos/>`__
+    OK
 
 We should see the ``OK`` (the content of the index.html file) printed.

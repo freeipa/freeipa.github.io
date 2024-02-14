@@ -27,14 +27,16 @@ IPA DNS server: *ipa.example.com.*
 
 Add root zone (.):
 
-``$ ipa dnszone-add .``
+``$ ipa dnszone-add .``
 
 Without proper delegation of zone where nameserver is located, BIND will
 show following error and will not load the root zone.
 
-| ``# journalctl -b -u named[-pkcs11]``
-| ``  zone ./IN: NS 'ipa.example.com' has no address records (A or AAAA)``
-| ``  zone ./IN: not loaded due to errors.``
+::
+
+    # journalctl -b -u named[-pkcs11]
+      zone ./IN: NS 'ipa.example.com' has no address records (A or AAAA)
+      zone ./IN: not loaded due to errors.
 
 **Note:** IPA adds all DNS capable IPA replicas as default NS records to
 zone apex.
@@ -43,21 +45,21 @@ Add NS delegation for all child zones on server.
 
 ::
 
-    | ``$ ipa dnszone-find --pkey-only``
-    | ``  Zone name: .``
-    | ``  Zone name: ``\ **``2.0.192.in-addr.arpa.``**
-    | ``  Zone name: ``\ **``example.com.``**
-    | ``----------------------------``
-    | ``Number of entries returned 3``
-    | ``----------------------------``
-    | ``$ ipa dnsforwardzone-find --pkey-only``
-    | ``  Zone name: ``\ **``fwzone.test.``**
-    | ``----------------------------``
-    | ``Number of entries returned 1``
-    | ``----------------------------``
-    | ``$ ipa dnsrecord-add . ``\ **``2.0.192.in-addr.arpa.``**\ `` --ns-rec=ipa.example.com.``
-    | ``$ ipa dnsrecord-add . ``\ **``example.com.``**\ `` --ns-rec=ipa.example.com.``
-    | ``$ ipa dnsrecord-add . ``\ **``fwzone.test.``**\ `` --ns-rec=ipa.example.com.``
+    $ ipa dnszone-find --pkey-only
+      Zone name: .
+      Zone name:  2.0.192.in-addr.arpa.
+      Zone name:  example.com.
+    ----------------------------
+    Number of entries returned 3
+    ----------------------------
+    $ ipa dnsforwardzone-find --pkey-only
+      Zone name:  fwzone.test.
+    ----------------------------
+    Number of entries returned 1
+    ----------------------------
+    $ ipa dnsrecord-add . 2.0.192.in-addr.arpa. --ns-rec=ipa.example.com.
+    $ ipa dnsrecord-add . example.com. --ns-rec=ipa.example.com.
+    $ ipa dnsrecord-add . fwzone.test. --ns-rec=ipa.example.com.
 
 
 
@@ -74,19 +76,23 @@ as zone file, so output from dig command can be used directly.
 
 For BIND 9:
 
-``$ dig @192.0.2.1 . NS > /var/named/named.ca``
+``$ dig @192.0.2.1 . NS > /var/named/named.ca``
 
 For Unbound:
 
-| ``$ dig @192.0.2.1 . NS > /var/unbound/hints.ca``
-| ``# add option "roothints: /var/unbound/hints.ca" to "server" section``
-| ``# in /etc/unbound/unbound.conf``
+::
+
+    $ dig @192.0.2.1 . NS > /var/unbound/hints.ca
+    # add option "roothints: /var/unbound/hints.ca" to "server" section
+    # in /etc/unbound/unbound.conf
 
 For Unbound utilities (drill etc.):
 
-| ``$ dig @192.0.2.1 . NS > /tmp/hints.ca``
-| ``# use -r option for every call of the command``
-| ``$ drill -r /tmp/hints.ca``
+::
+
+    $ dig @192.0.2.1 . NS > /tmp/hints.ca
+    # use -r option for every call of the command
+    $ drill -r /tmp/hints.ca
 
 DNSSEC
 ------

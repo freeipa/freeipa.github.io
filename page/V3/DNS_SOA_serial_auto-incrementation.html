@@ -460,9 +460,9 @@ option <code class="docutils literal notranslate"><span class="pre">serial_autoi
 <p>WebUI doesn’t manage this option.</p>
 <p>CLI</p>
 <p>New option for <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code>:</p>
-<div class="line-block">
-<div class="line">``   –no-serial-autoincrement``</div>
-<div class="line">``                       Do not enable SOA serial autoincrement``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">serial</span><span class="o">-</span><span class="n">autoincrement</span>
+                    <span class="n">Do</span> <span class="ow">not</span> <span class="n">enable</span> <span class="n">SOA</span> <span class="n">serial</span> <span class="n">autoincrement</span>
+</pre></div>
 </div>
 <p>This feature is enabled by default. Persistent search is required for
 SOA serial auto-increment feature, so <code class="docutils literal notranslate"><span class="pre">--no-persistent-search</span></code> can’t
@@ -515,28 +515,28 @@ so <code class="docutils literal notranslate"><span class="pre">psearch</span></
 <code class="docutils literal notranslate"><span class="pre">idnsSOAserial</span></code> attribute in record’s parent zone.</p>
 <section id="basic-idea">
 <h2>Basic idea<a class="headerlink" href="#basic-idea" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if objectClass is idnsZone</span></code></div>
-<div class="line">``    increment idnsSOAserial in the same object``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else if objectClass is idnsRecord</span></code></div>
-<div class="line">``    increment idnsSOAserial in object’s immediate parent``</div>
-<div class="line">``    e.g. change in idnsName=test, idnsName=example.com, cn=dns will increment idnsSOAserial in object idnsName=example.com, cn=dns``</div>
-<div class="line">``    if parent’s objectClass is not idnsZone``</div>
-<div class="line">``         log an error (This should never happen :-))``</div>
-<div class="line">`` else``</div>
-<div class="line">``    do nothing``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">objectClass</span> <span class="ow">is</span> <span class="n">idnsZone</span>
+    <span class="n">increment</span> <span class="n">idnsSOAserial</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="nb">object</span>
+<span class="k">else</span> <span class="k">if</span> <span class="n">objectClass</span> <span class="ow">is</span> <span class="n">idnsRecord</span>
+    <span class="n">increment</span> <span class="n">idnsSOAserial</span> <span class="ow">in</span> <span class="nb">object</span><span class="s1">&#39;s immediate parent</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">idnsName</span><span class="o">=</span><span class="n">test</span><span class="p">,</span> <span class="n">idnsName</span><span class="o">=</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">,</span> <span class="n">cn</span><span class="o">=</span><span class="n">dns</span> <span class="n">will</span> <span class="n">increment</span> <span class="n">idnsSOAserial</span> <span class="ow">in</span> <span class="nb">object</span> <span class="n">idnsName</span><span class="o">=</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">,</span> <span class="n">cn</span><span class="o">=</span><span class="n">dns</span>
+    <span class="k">if</span> <span class="n">parent</span><span class="s1">&#39;s objectClass is not idnsZone</span>
+         <span class="n">log</span> <span class="n">an</span> <span class="n">error</span> <span class="p">(</span><span class="n">This</span> <span class="n">should</span> <span class="n">never</span> <span class="n">happen</span> <span class="p">:</span><span class="o">-</span><span class="p">))</span>
+ <span class="k">else</span>
+    <span class="n">do</span> <span class="n">nothing</span>
+</pre></div>
 </div>
 </section>
 <section id="soa-serial-incrementation-algorithm">
 <h2>SOA serial incrementation algorithm<a class="headerlink" href="#soa-serial-incrementation-algorithm" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">OLDSerial = actual idnsSOAserial value</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">timestamp = actual UNIX timestamp</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if (OLDSerial &lt; timestamp)</span></code></div>
-<div class="line">``    newSerial = timestamp``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
-<div class="line">``   newSerial = OLDSerial + 1``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Write newSerial value to particular idnsSOAserial attribute</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OLDSerial</span> <span class="o">=</span> <span class="n">actual</span> <span class="n">idnsSOAserial</span> <span class="n">value</span>
+<span class="n">timestamp</span> <span class="o">=</span> <span class="n">actual</span> <span class="n">UNIX</span> <span class="n">timestamp</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">OLDSerial</span> <span class="o">&lt;</span> <span class="n">timestamp</span><span class="p">)</span>
+    <span class="n">newSerial</span> <span class="o">=</span> <span class="n">timestamp</span>
+<span class="k">else</span>
+   <span class="n">newSerial</span> <span class="o">=</span> <span class="n">OLDSerial</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">Write</span> <span class="n">newSerial</span> <span class="n">value</span> <span class="n">to</span> <span class="n">particular</span> <span class="n">idnsSOAserial</span> <span class="n">attribute</span>
+</pre></div>
 </div>
 </section>
 <section id="interaction-with-bind-serial-update-mechanism">
@@ -575,28 +575,28 @@ test2.example.com. are not equal).</p>
 </section>
 <section id="variant-with-delayed-serial-write">
 <h2>Variant with delayed serial write<a class="headerlink" href="#variant-with-delayed-serial-write" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">When updating zone serial:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if (old serial value &lt; time())</span></code></div>
-<div class="line">``   cancel scheduled serial write (if exists)``</div>
-<div class="line">``   write zone serial = time()``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
-<div class="line">``   schedule serial bump after 1 second``</div>
-<div class="line">``   (do nothing if bump is scheduled already)``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">When</span> <span class="n">updating</span> <span class="n">zone</span> <span class="n">serial</span><span class="p">:</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">old</span> <span class="n">serial</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">())</span>
+   <span class="n">cancel</span> <span class="n">scheduled</span> <span class="n">serial</span> <span class="n">write</span> <span class="p">(</span><span class="k">if</span> <span class="n">exists</span><span class="p">)</span>
+   <span class="n">write</span> <span class="n">zone</span> <span class="n">serial</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="k">else</span>
+   <span class="n">schedule</span> <span class="n">serial</span> <span class="n">bump</span> <span class="n">after</span> <span class="mi">1</span> <span class="n">second</span>
+   <span class="p">(</span><span class="n">do</span> <span class="n">nothing</span> <span class="k">if</span> <span class="n">bump</span> <span class="ow">is</span> <span class="n">scheduled</span> <span class="n">already</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">When starting Directory Server:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bump each serial by one.</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">When</span> <span class="n">starting</span> <span class="n">Directory</span> <span class="n">Server</span><span class="p">:</span>
+<span class="n">Bump</span> <span class="n">each</span> <span class="n">serial</span> <span class="n">by</span> <span class="n">one</span><span class="o">.</span>
+</pre></div>
 </div>
 </section>
 <section id="variant-with-modified-search-operation">
 <h2>Variant with modified search operation<a class="headerlink" href="#variant-with-modified-search-operation" title="Link to this heading">#</a></h2>
 <p>Modify search operation for zone serial to return:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">if (serial value == time())</span></code></div>
-<div class="line">``   return (serial value - 1)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">else</span></code></div>
-<div class="line">``   return (serial value)``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">serial</span> <span class="n">value</span> <span class="o">==</span> <span class="n">time</span><span class="p">())</span>
+   <span class="k">return</span> <span class="p">(</span><span class="n">serial</span> <span class="n">value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span>
+   <span class="k">return</span> <span class="p">(</span><span class="n">serial</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Scenario</span><span class="p">:</span>
 <span class="mf">1.000</span> <span class="p">:</span> <span class="n">new_serial</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>

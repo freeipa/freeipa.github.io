@@ -322,7 +322,7 @@ CA_UNREACHABLE state, like:</p>
 <section id="process">
 <h2>Process<a class="headerlink" href="#process" title="Link to this heading">#</a></h2>
 <p>The first thing you need to do is update certmonger to at least 0.58-1:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># yum update certmonger</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">update</span> <span class="pre">certmonger</span></code></p>
 <p>This provides the dogtag-ipa-renew-agent CA that can directly renew the
 dogtag CA subsystem certificates. You only need to do this on those
 masters with a CA (so it won’t hurt if you upgrade it in other places
@@ -330,7 +330,7 @@ too but it won’t help with this problem either).</p>
 <p>In order for this to work you are going to need to go back in time to
 when the certificates are all still valid. First we need to stop the NTP
 service:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service ntpd stop</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">/sbin/service</span> <span class="pre">ntpd</span> <span class="pre">stop</span></code></p>
 <p>To find out when the certificates were still valid, run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># for nickname in &quot;auditSigningCert cert-pki-ca&quot; &quot;ocspSigningCert cert-pki-ca&quot; &quot;subsystemCert cert-pki-ca&quot; &quot;Server-Cert cert-pki-ca&quot;
   do
@@ -342,7 +342,7 @@ service:</p>
 <p>This tells us when to set time back to. I recommend setting time back at
 least 24 hours before expiration.</p>
 <p>Next, you need to determine the PIN for the CA NSS database:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># grep internal= /var/lib/pki-ca/conf/password.conf</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">grep</span> <span class="pre">internal=</span> <span class="pre">/var/lib/pki-ca/conf/password.conf</span></code></p>
 <p>Now we need to tell certmonger about all the CA certificates it needs to
 renew</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for nickname in &quot;auditSigningCert cert-pki-ca&quot; &quot;ocspSigningCert cert-pki-ca&quot; &quot;subsystemCert cert-pki-ca&quot; &quot;Server-Cert cert-pki-ca&quot;</span>
@@ -353,15 +353,15 @@ renew</p>
 </div>
 <p>We also need to renew the agent certificate that IPA uses to
 authenticate:</p>
-<p>`` # /usr/bin/getcert start-tracking -d /etc/httpd/alias -n ipaCert -c dogtag-ipa-renew-agent -p /etc/httpd/alias/pwdfile.txt``</p>
+<p>`` # /usr/bin/getcert start-tracking -d /etc/httpd/alias -n ipaCert -c dogtag-ipa-renew-agent -p /etc/httpd/alias/pwdfile.txt``</p>
 <p>Use “getcert list” to confirm that these 5 certs are now being tracked
 and note the Request IDs. You should be tracking a total of 8
 certificates now.</p>
 <p>Now it’s time to go back in time to when the certificates are valid,
 something like:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># date 102910262013</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">date</span> <span class="pre">102910262013</span></code></p>
 <p>Let’s force renewal on all of the certificates:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># for line in `getcert list | grep Request | cut -d &quot;'&quot; -f2</span></code>; do getcert resubmit -i $line; done`</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">for</span> <span class="pre">line</span> <span class="pre">in</span> <span class="pre">`getcert</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">Request</span> <span class="pre">|</span> <span class="pre">cut</span> <span class="pre">-d</span> <span class="pre">&quot;'&quot;</span> <span class="pre">-f2</span></code>; do getcert resubmit -i $line; done`</p>
 <p>This will renew the CA subsystem certificates but the server
 certificates for Apache and 389-ds will have failed. We need to do a
 little more work to get those renewed, and to get the CA fully
@@ -372,15 +372,15 @@ peer rejected your certificate as expired.</p>
 <p>Let’s continue getting the CA up and running. The audit subsystem
 certificate is recreated with the wrong trust permissions. To fix this
 run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# certutil -M -n &quot;auditSigningCert cert-pki-ca&quot; -d /var/lib/pki-ca/alias -t u,u,Pu ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# certutil -M -n &quot;auditSigningCert cert-pki-ca&quot; -d /var/lib/pki-ca/alias -t u,u,Pu ``
 </pre></div>
 </div>
 <p>The dogtag configuration file has a base64-encoded copy of most of these
 certificates in it. You’ll need to update those by hand.</p>
 <p>To get this run:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># for nickname in &quot;auditSigningCert cert-pki-ca&quot; &quot;ocspSigningCert cert-pki-ca&quot; &quot;subsystemCert cert-pki-ca&quot; &quot;Server-Cert cert-pki-ca&quot;; do certutil -L -d /var/lib/pki-ca/alias -n &quot;${nickname}&quot; -a &gt; /tmp/&quot;${nickname}&quot;; done</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">for</span> <span class="pre">nickname</span> <span class="pre">in</span> <span class="pre">&quot;auditSigningCert</span> <span class="pre">cert-pki-ca&quot;</span> <span class="pre">&quot;ocspSigningCert</span> <span class="pre">cert-pki-ca&quot;</span> <span class="pre">&quot;subsystemCert</span> <span class="pre">cert-pki-ca&quot;</span> <span class="pre">&quot;Server-Cert</span> <span class="pre">cert-pki-ca&quot;;</span> <span class="pre">do</span> <span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-d</span> <span class="pre">/var/lib/pki-ca/alias</span> <span class="pre">-n</span> <span class="pre">&quot;${nickname}&quot;</span> <span class="pre">-a</span> <span class="pre">&gt;</span> <span class="pre">/tmp/&quot;${nickname}&quot;;</span> <span class="pre">done</span></code></p>
 <p>Stop the CA service:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service pki-cad stop</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">/sbin/service</span> <span class="pre">pki-cad</span> <span class="pre">stop</span></code></p>
 <p>Then edit /etc/pki-ca/CS.cfg and find the cert entry for each one and
 replace the blobs. The option names are like ca.audit_signing.cert,
 ca.ocsp_signing.cert, etc. It should be fairly straightforward. There
@@ -397,19 +397,19 @@ are 4 certs you need to replace.</p>
 <p>Backing up this file in advance would be a good idea.</p>
 <p>Now you can try to restart the CA to see what happens. It should come up
 fine:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service pki-cad start</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">/sbin/service</span> <span class="pre">pki-cad</span> <span class="pre">start</span></code></p>
 <p>For ipaCert, stored in /etc/httpd/alias you have another job to do. This
 certificate is used to authenticate with the CA. You’ll need to use
 ldapmodify to fix things up.</p>
 <p>Start by looking at the new value for ipaCert. You need to do two
 things:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias -n ipaCert | grep -i serial</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-n</span> <span class="pre">ipaCert</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">-i</span> <span class="pre">serial</span></code></p>
 <p>Next you need the base64-encoded value of the cert like before:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d /etc/httpd/alias -n ipaCert -a</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-n</span> <span class="pre">ipaCert</span> <span class="pre">-a</span></code></p>
 <p>Again you’ll need to drop the header/footer and combine this into a
 single line.</p>
 <p>Next see what is already there with:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ldapsearch -x -h localhost -p 7389 -D 'cn=directory manager' -W -b uid=ipara,ou=People,o=ipaca</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ldapsearch</span> <span class="pre">-x</span> <span class="pre">-h</span> <span class="pre">localhost</span> <span class="pre">-p</span> <span class="pre">7389</span> <span class="pre">-D</span> <span class="pre">'cn=directory</span> <span class="pre">manager'</span> <span class="pre">-W</span> <span class="pre">-b</span> <span class="pre">uid=ipara,ou=People,o=ipaca</span></code></p>
 <p>You need to replace the serial number in the description attribute with
 the new one. The serial number is the 2nd number. The format of the
 description line is:</p>
@@ -428,33 +428,33 @@ description line is:</p>
 </pre></div>
 </div>
 <p>Now restart the Apache service</p>
-<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service httpd restart</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">/sbin/service</span> <span class="pre">httpd</span> <span class="pre">restart</span></code></p>
 <p>Next we need to renew the two 389-ds and the Apache server certificates.</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa-getcert list</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-getcert</span> <span class="pre">list</span></code></p>
 <p>For each of the three Request IDs run something like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# ipa-getcert resubmit -i ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# ipa-getcert resubmit -i ``
 </pre></div>
 </div>
 <p>Restart the world:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># /sbin/service ipa restart</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">/sbin/service</span> <span class="pre">ipa</span> <span class="pre">restart</span></code></p>
 <p>Return to the present time.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># /sbin/service ntpd start</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># date (confirm it is now)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /sbin/service ntpd start</span>
+<span class="c1"># date (confirm it is now)</span>
+</pre></div>
 </div>
 <p>To make sure that communication with the CA is working run:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa cert-show 1</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">cert-show</span> <span class="pre">1</span></code></p>
 </section>
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">#</a></h2>
 <p>I tested this on a RHEL 6.4 system that I installed ipa-server-2.2.0 and
 krb5-server-1.9. I did this by:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># date 111110262011</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-server-install -N ...</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># date 111110262011</span>
+<span class="c1"># ipa-server-install -N ...</span>
+</pre></div>
 </div>
 <p>I confirmed that things were working, then I brought time to today:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# rdate -s ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# rdate -s ``
 </pre></div>
 </div>
 <p>So I basically simulated an installation 2 years in the past and see

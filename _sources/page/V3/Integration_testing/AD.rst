@@ -22,7 +22,7 @@ Active Directory Posix support
 Active Directory used for this Integration test should have support for
 POSIX attributes installed, as described in:
 
-``       ``\ ```http://technet.microsoft.com/en-us/library/cc731178.aspx`` <http://technet.microsoft.com/en-us/library/cc731178.aspx>`__
+``       ``\ ```http://technet.microsoft.com/en-us/library/cc731178.aspx`` <http://technet.microsoft.com/en-us/library/cc731178.aspx>`__
 
 For explicit steps how to setup support for POSIX attributes on the
 Active Directory, please refer to the steps described in the
@@ -38,28 +38,34 @@ On Active Directory side, the following objects should exist:
 
 -  A user group
 
-`` Test Group (testgroup), with GID 10047.``
+`` Test Group (testgroup), with GID 10047.``
 
 -  A test user with posix attributes defined
 
-| `` UID: 10042``
-| `` Home directory: /home/testuser``
-| `` Shell: /bin/sh``
-| `` Full name: Test User``
-| `` Primary group: Test Group``
-| `` Logon: testuser``
-| `` Password: Secret123``
+::
+
+     UID: 10042
+     Home directory: /home/testuser
+     Shell: /bin/sh
+     Full name: Test User
+     Primary group: Test Group
+     Logon: testuser
+     Password: Secret123
 
 -  A test user without posix attributes defined
 
-| `` Full name: Nonposix User``
-| `` Logon: nonposixuser``
-| `` Password: Secret123``
+::
+
+     Full name: Nonposix User
+     Logon: nonposixuser
+     Password: Secret123
 
 -  A test user with posix attributes which is disabled
 
-| `` Password: Secret123``
-| `` Logon: disabledaduser``
+::
+
+     Password: Secret123
+     Logon: disabledaduser
 
 
 

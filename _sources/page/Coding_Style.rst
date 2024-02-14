@@ -105,23 +105,23 @@ MUST: Use only C style comments /\* \*/ not C++. MUST: When commenting
 use the following styles:
 ::
 
-  | ``   /*``
-  | ``    * VERY important single-line comments look like this.``
-  | ``    */``
+     /*
+      * VERY important single-line comments look like this.
+      */
 
-  ``   /* Most single-line comments look like this. */``
+  ``   /* Most single-line comments look like this. */``
 
-  | ``   /*``
-  | ``    * Multi-line comments look like this. Make them real sentences. Fill``
-  | ``    * them so they look like real paragraphs.``
-  | ``    */``
+     /*
+      * Multi-line comments look like this. Make them real sentences. Fill
+      * them so they look like real paragraphs.
+      */
 
 Avoid:
 
 ::
 
-  | ``   /* Multiline comments``
-  | ``      that look like this */``
+     /* Multiline comments
+        that look like this */
 
 HIGHLY RECOMMENDED: Avoid useless comments that do not add value to the
 code.
@@ -142,26 +142,26 @@ pairing #endif:
 
 ::
 
-  | ``  #ifndef _HEADER_H_``
-  | ``  #define _HEADER_H_``
-  | ``  ``
-  | ``  /* something here */``
-  | ``  ``
-  | ``  #endif /* !_HEADER_H_ */``
+    #ifndef _HEADER_H_
+    #define _HEADER_H_
+    
+    /* something here */
+    
+    #endif /* !_HEADER_H_ */
 
 or:
 
 ::
 
-  | ``  #ifdef HAVE_PTHREADS``
-  | ``  ``
-  | ``  /* some code here */``
-  | ``  ``
-  | ``  #else /* !HAVE_PTHREADS */``
-  | ``  ``
-  | ``  /* some other code here */``
-  | ``  ``
-  | ``  #endif /* HAVE_PTHREADS */``
+    #ifdef HAVE_PTHREADS
+    
+    /* some code here */
+    
+    #else /* !HAVE_PTHREADS */
+    
+    /* some other code here */
+    
+    #endif /* HAVE_PTHREADS */
 
 
 
@@ -186,18 +186,18 @@ also applies to macros that span multiple lines:
 
 ::
 
-  | ``  #define MY_MACRO(a, b) do {   \``
-  | ``               foo((a) + (b));  \``
-  | ``               bar(a);          \``
-  | ``  } while (0)``
+    #define MY_MACRO(a, b) do {   \
+                 foo((a) + (b));  \
+                 bar(a);          \
+    } while (0)
 
 Notice that arguments should be in parentheses if there's a risk. Also
 notice that a is referenced two times, and hence the macro is dangerous.
 Wrapping the body in do { } while (0) makes it safe to use it like this:
 
 ::
-  | ``  if (expr)``
-  | ``      MY_MACRO(x, y);``
+    if (expr)
+        MY_MACRO(x, y);
 
 Notice the semicolon is used after the invocation, not in the macro definition.
 Otherwise, if a macro is safe (for example a simple wrapping function), then the case can be lower-case.
@@ -219,14 +219,14 @@ RECOMMENDED: One declaration per line is preferred.
 
 ::
 
-  | ``   int foo;``
-  | ``   int bar;``
+     int foo;
+     int bar;
 
 instead of
 
 ::
 
-  ``  int foo, bar;``
+  ``  int foo, bar;``
 
 HIGHLY RECOMMENDED: Initialize at declaration time when possible.
 
@@ -235,15 +235,15 @@ functions) when declaring variables like:
 
 ::
 
-  ``  int foobar = get_foobar(baz);``
+  ``  int foobar = get_foobar(baz);``
 
 but split it in:
 ::
 
-  | ``  int foobar;``
-  | ``  ``
-  | ``  foobar = get_foobar(baz);``
-  | ``  ...``
+    int foobar;
+    
+    foobar = get_foobar(baz);
+    ...
 
 HIGHLY RECOMMENDED: Always declare all variables at the top of the
 function, normally try to avoid declaring local variables in internal
@@ -347,8 +347,8 @@ example:
 
 ::
 
-  | ``  OK:  int foo(int bar, int baz);``
-  | ``  NOT OK: bad ( arg1 , arg2 );``
+    OK:  int foo(int bar, int baz);
+    NOT OK: bad ( arg1 , arg2 );
 
 
 
@@ -362,8 +362,8 @@ them between the pure-input and the pure-output ones.
 
 ::
 
-  | ``  OK: foo(int in1, void *in2, char **ou1);``
-  | ``  NOT OK: voo(char **ou1, int in1);``
+    OK: foo(int in1, void *in2, char **ou1);
+    NOT OK: voo(char **ou1, int in1);
 
 
 
@@ -404,78 +404,78 @@ HIGHLY RECOMMENDED: If-else statements should have the following form:
 
 ::
 
-  | ``   if (``\ *``condition``*\ ``) {``
-  | ``       /* do some work */``
-  | ``   }``
+       if (condition) { 
+         /* do some work */
+     }
 
-  | ``   if (``\ *``condition``*\ ``) {``
-  | ``       /* do some work */``
-  | ``   } else {``
-  | ``       /* do some other work */``
-  | ``   }``
+       if (condition) { 
+         /* do some work */
+     } else {
+         /* do some other work */
+     }
 
 HIGHLY RECOMMENDED: Balance the braces in the if and else in an if-else
 statement if either has only one line:
 
 ::
 
-  | ``   if (condition) {``
-  | ``       /*``
-  | ``        * stuff that takes up more than one``
-  | ``        * line``
-  | ``        */``
-  | ``   } else {``
-  | ``       /* stuff that only uses one line */``
-  | ``   }``
+     if (condition) {
+         /*
+          * stuff that takes up more than one
+          * line
+          */
+     } else {
+         /* stuff that only uses one line */
+     }
 
 HIGHLY RECOMMENDED: The corollary is also true; don't use braces if
 there's only one line for both:
 
 ::
 
-  | ``   if (foo)``
-  | ``       bar();``
-  | ``   else``
-  | ``       baz();``
+     if (foo)
+         bar();
+     else
+         baz();
 
 Allowed approach is to use braces if there is only one line:
 
 ::
 
-  | ``   if (foo) {``
-  | ``       bar();``
-  | ``   } else {``
-  | ``       baz();``
-  | ``   }``
+     if (foo) {
+         bar();
+     } else {
+         baz();
+     }
 
 HIGHLY RECOMMENDED: Avoid last-return-in-else problem. Code should look
 like this:
 
 ::
 
-  | ``   int foo(int bar)``
-  | ``   {``
-  | ``       if (something) {``
-  | ``           /* stuff done here */``
-  | ``           return 1;            ``
-  | ``       }``
-  | ``   ``
-  | ``       return 0;``
-  | ``   }``
+     int foo(int bar)
+     {
+         if (something) {
+             /* stuff done here */
+             return 1;            
+         }
+     
+         return 0;
+     }
 
 **NOT** like this:
 
 ::
 
-  | ``   int foo(int bar)``
-  | ``   {``
-  | ``       if (something) {``
-  | ``           /* stuff done here */``
-  | ``           return 1;            ``
-  | ``       } else {``
-  | ``           return 0;``
-  | ``       }``
-  | ``   }``
+     int foo(int bar)
+     {
+         if (something) {
+             /* stuff done here */
+             return 1;            
+         } else {
+             return 0;
+         }
+     }
 
 Loops
 ----------------------------------------------------------------------------------------------
@@ -485,13 +485,13 @@ similar form:
 
 ::
 
-  | ``   for (``\ *``initialization;``\ ````\ ``condition;``\ ````\ ``update``*\ ``) {``
-  | ``       /* iterate here */``
-  | ``   }``
+       for (initialization;condition;update) { 
+         /* iterate here */
+     }
 
-  | ``   while (``\ *``condition``*\ ``) {``
-  | ``       /* do some work */``
-  | ``   }``
+       while (condition) { 
+         /* do some work */
+     }
 
 Switch
 ^^^^^^
@@ -500,19 +500,19 @@ HIGHLY RECOMMENDED: Use the following style for the switch statements
 
 ::
 
-  | ``  switch (var) {``
-  | ``  case 0:``
-  | ``      break;``
-  | ``  case 1:``
-  | ``      printf("meh.\n");``
-  | ``      /* FALLTHROUGH */``
-  | ``  case 2:``
-  | ``      printf("2\n");``
-  | ``      break;``
-  | ``  default:``
-  | ``      /* Always have default */``
-  | ``      break;``
-  | ``  }``
+    switch (var) {
+    case 0:
+        break;
+    case 1:
+        printf("meh.\n");
+        /* FALLTHROUGH */
+    case 2:
+        printf("2\n");
+        break;
+    default:
+        /* Always have default */
+        break;
+    }
 
 Strings
 -------
@@ -540,11 +540,11 @@ indexed specifiers.
 
 Here is an example of incorrect usage with positional specifiers:
 
-`` printf(_("item %s has %s value"), name, value);``
+`` printf(_("item %s has %s value"), name, value);``
 
 Here is the correct usage using indexed specifiers:
 
-`` printf(_("item %1$s has %2$s value"), name, value);``
+`` printf(_("item %1$s has %2$s value"), name, value);``
 
 See man 3 printf as well as section 15.3.1 "C Format Strings" in the GNU
 gettext manual for more details.

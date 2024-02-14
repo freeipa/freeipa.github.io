@@ -321,14 +321,14 @@ to be generated. RIDs are generated from the object IDs (UID for users,
 GID for groups). Their generation from the IDs is completely
 deterministic, and in the simple terms it’s just a shift of the
 interval:</p>
-<div class="line-block">
-<div class="line">``   ID       |   RID``</div>
-<div class="line">``   10000   -&gt;    0``</div>
-<div class="line">``   10001   -&gt;    1``</div>
-<div class="line">``   10002   -&gt;    2``</div>
-<div class="line">``   10003   -&gt;    3``</div>
-<div class="line">``   10004   -&gt;    4``</div>
-<div class="line">``   ….``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>       <span class="o">|</span>   <span class="n">RID</span>
+<span class="mi">10000</span>   <span class="o">-&gt;</span>    <span class="mi">0</span>
+<span class="mi">10001</span>   <span class="o">-&gt;</span>    <span class="mi">1</span>
+<span class="mi">10002</span>   <span class="o">-&gt;</span>    <span class="mi">2</span>
+<span class="mi">10003</span>   <span class="o">-&gt;</span>    <span class="mi">3</span>
+<span class="mi">10004</span>   <span class="o">-&gt;</span>    <span class="mi">4</span>
+<span class="o">....</span>
+</pre></div>
 </div>
 <p>However, the UID and GID spaces in UNIX are independent. It’s completely
 okay to have an user with UID 10002 and a group with GID 10002.
@@ -336,13 +336,13 @@ Following the example above, we would end up with RID 2 for both these
 objects. To avoid that, we define secondary RID range for local ranges.
 This new interval serves as a backup interval where we shift the object
 if corresponding RID in the primary range is already taken:</p>
-<div class="line-block">
-<div class="line">``     UID    |    GID      |     RID``</div>
-<div class="line">``   10000                 -&gt;      0``</div>
-<div class="line">``   10001                 -&gt;      1``</div>
-<div class="line">``                10001    -&gt;      10001``</div>
-<div class="line">``                10002    -&gt;      2``</div>
-<div class="line">``   10003                 -&gt;      3``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">UID</span>    <span class="o">|</span>    <span class="n">GID</span>      <span class="o">|</span>     <span class="n">RID</span>
+<span class="mi">10000</span>                 <span class="o">-&gt;</span>      <span class="mi">0</span>
+<span class="mi">10001</span>                 <span class="o">-&gt;</span>      <span class="mi">1</span>
+             <span class="mi">10001</span>    <span class="o">-&gt;</span>      <span class="mi">10001</span>
+             <span class="mi">10002</span>    <span class="o">-&gt;</span>      <span class="mi">2</span>
+<span class="mi">10003</span>                 <span class="o">-&gt;</span>      <span class="mi">3</span>
+</pre></div>
 </div>
 <p>(secondary RID range starts at 10000 in this example)</p>
 <p>Please note that objects created by IPA by default have non-conflicting
@@ -379,8 +379,8 @@ the forest which does not have an specific idrange set.</p></li>
 </ul>
 </li>
 </ul>
-<p>``   Q: So why would anyone set up a new ID range of ipa-ad-trust-posix type for subdomain? Is it the case that user/group entries from subdomain are not replicated to the forest root?``</p>
-<p>``   A: E.g. if the POSIX IDs are not managed centrally for the whole forest, but domain admins do it on a per domain basis, seperate ipa-ad-trust-posix ranges with disjunct base idrange would help to avoid collisions. This happens by assigining each domain range a specific reserved ID range space, which is non-overlapping with any other ID range space, thus if any two objects from two different domains collide on UID/GID, only one of them can be resolved in IPA since only one of them would be in ID range space of its own particular domain.``</p>
+<p>``   Q: So why would anyone set up a new ID range of ipa-ad-trust-posix type for subdomain? Is it the case that user/group entries from subdomain are not replicated to the forest root?``</p>
+<p>``   A: E.g. if the POSIX IDs are not managed centrally for the whole forest, but domain admins do it on a per domain basis, seperate ipa-ad-trust-posix ranges with disjunct base idrange would help to avoid collisions. This happens by assigining each domain range a specific reserved ID range space, which is non-overlapping with any other ID range space, thus if any two objects from two different domains collide on UID/GID, only one of them can be resolved in IPA since only one of them would be in ID range space of its own particular domain.``</p>
 </section>
 <section id="ranges-from-the-same-domain">
 <h3>Ranges from the same domain<a class="headerlink" href="#ranges-from-the-same-domain" title="Link to this heading">#</a></h3>

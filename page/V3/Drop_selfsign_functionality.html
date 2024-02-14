@@ -385,7 +385,7 @@ Dogtag backend.</p>
 <h2>Noise file<a class="headerlink" href="#noise-file" title="Link to this heading">#</a></h2>
 <p>A noise file is generally put at <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/noise.txt</span></code>. Fill it
 with random data whenever you need it:</p>
-<p>``   head -c12 /dev/random | sha1sum | cut -d’ ‘ -f1 &gt; /etc/httpd/alias/noise.txt``</p>
+<p>``   head -c12 /dev/random | sha1sum | cut -d’ ‘ -f1 &gt; /etc/httpd/alias/noise.txt``</p>
 <p>Be sure to remove the file after it’s used.</p>
 </section>
 <section id="nss-database-password">
@@ -396,11 +396,11 @@ with random data whenever you need it:</p>
 <h2>Serial number<a class="headerlink" href="#serial-number" title="Link to this heading">#</a></h2>
 <p>The file <code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/ca_serialno</span></code> contains the CA’s serial numbers
 in INI format:</p>
-<div class="line-block">
-<div class="line">``   [selfsign]``</div>
-<div class="line">``   nextreplica = 500000``</div>
-<div class="line">``   replicainterval = 500000``</div>
-<div class="line">``   lastvalue = 1005``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">selfsign</span><span class="p">]</span>
+<span class="n">nextreplica</span> <span class="o">=</span> <span class="mi">500000</span>
+<span class="n">replicainterval</span> <span class="o">=</span> <span class="mi">500000</span>
+<span class="n">lastvalue</span> <span class="o">=</span> <span class="mi">1005</span>
+</pre></div>
 </div>
 <p>Of these values, only <code class="docutils literal notranslate"><span class="pre">lastvalue</span></code> is used (replication of selfsign CAs
 was never implemented). It is recommended to note the number, store it
@@ -414,31 +414,31 @@ number. To ensure this, increment the <code class="docutils literal notranslate"
 these files are not removed by the upgrade.</p>
 <p>Store a password in <code class="docutils literal notranslate"><span class="pre">/etc/httpd/alias/pwdfile.txt</span></code>.</p>
 <p>Then run:</p>
-<p>``   /usr/bin/certutil -d /etc/httpd/alias -N -f /etc/httpd/alias/pwdfile.txt``</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -N -f /etc/httpd/alias/pwdfile.txt``</p>
 <p>Create a noise file (see above), and create a CA cert by:</p>
-<p>``   /usr/bin/certutil -d /etc/httpd/alias -S -n “$REALM IPA CA” -s “CN=$REALM Certificate Authority” -x -t CT,,C -1 -2 -5 -m $NEXT_SERIAL -v 120 -z $NOISE_FILE -f /etc/httpd/alias/pwdfile.txt``</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -S -n “$REALM IPA CA” -s “CN=$REALM Certificate Authority” -x -t CT,,C -1 -2 -5 -m $NEXT_SERIAL -v 120 -z $NOISE_FILE -f /etc/httpd/alias/pwdfile.txt``</p>
 <p>Give the following answers:</p>
-<div class="line-block">
-<div class="line">``   Create key usage extension:``</div>
-<div class="line">``       0 - Digital Signature``</div>
-<div class="line">``       1 - Non-repudiation``</div>
-<div class="line">``       5 - Cert signing key``</div>
-<div class="line">``       Is this a critical extension [y/N]? y``</div>
-<div class="line">``   Create basic constraint extension``</div>
-<div class="line">``       Is this a CA certificate [y/N]?  y``</div>
-<div class="line">``   Enter the path length constraint, enter to skip [&lt;0 for unlimited path]``</div>
-<div class="line">``       0``</div>
-<div class="line">``       Is this a critical extension [y/N]? y``</div>
-<div class="line">``   Extensions:``</div>
-<div class="line">``       5 6 7 9 n (SSL, S/MIME, Object signing CA)``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Create key usage extension:
+    0 - Digital Signature
+    1 - Non-repudiation
+    5 - Cert signing key
+    Is this a critical extension [y/N]? y
+Create basic constraint extension
+    Is this a CA certificate [y/N]?  y
+Enter the path length constraint, enter to skip [&lt;0 for unlimited path]
+    0
+    Is this a critical extension [y/N]? y
+Extensions:
+    5 6 7 9 n (SSL, S/MIME, Object signing CA)
+</pre></div>
 </div>
 <p>Export the CA cert:</p>
-<p>``   /usr/bin/pk12util -d /etc/httpd/alias -o /etc/httpd/alias/cacert.p12 -n “$REALM IPA CA” -w /etc/httpd/alias/pwdfile.txt -k /etc/httpd/alias/pwdfile.txt``</p>
+<p>``   /usr/bin/pk12util -d /etc/httpd/alias -o /etc/httpd/alias/cacert.p12 -n “$REALM IPA CA” -w /etc/httpd/alias/pwdfile.txt -k /etc/httpd/alias/pwdfile.txt``</p>
 </section>
 <section id="generating-a-certificate-request">
 <h2>Generating a certificate request<a class="headerlink" href="#generating-a-certificate-request" title="Link to this heading">#</a></h2>
 <p>Create a noise file (see above).</p>
-<p>``   /usr/bin/certutil -d /etc/httpd/alias -R -s CN=$HOSTNAME,O=IPA -o $CERTREQ_FILENAME -k rsa -g 2048 -z /etc/httpd/alias/noise.txt -f /etc/httpd/alias/pwdfile.txt -a``</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -R -s CN=$HOSTNAME,O=IPA -o $CERTREQ_FILENAME -k rsa -g 2048 -z /etc/httpd/alias/noise.txt -f /etc/httpd/alias/pwdfile.txt -a``</p>
 <p>Example values:</p>
 <ul class="simple">
 <li><p>HOSTNAME=ipaserver.ipadomain.example.com</p></li>
@@ -448,9 +448,9 @@ these files are not removed by the upgrade.</p>
 <section id="issuing-a-certificate">
 <h2>Issuing a certificate<a class="headerlink" href="#issuing-a-certificate" title="Link to this heading">#</a></h2>
 <p>First generate a certificate request (see above). Then run:</p>
-<div class="line-block">
-<div class="line">``   NEXT_SERIAL=$(($NEXT_SERIAL + 1))  # (be sure to also store the number on disk!)``</div>
-<div class="line">``   /usr/bin/certutil -d /etc/httpd/alias -C -c “CN=$REALM Certificate Authority” -i $CERTREQ_FILENAME -o $CERT_FILENAME -m $NEXT_SERIAL -v 120 -f /etc/httpd/alias/pwdfile.txt -1 -5 -a``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>NEXT_SERIAL=$(($NEXT_SERIAL + 1))  # (be sure to also store the number on disk!)
+/usr/bin/certutil -d /etc/httpd/alias -C -c &quot;CN=$REALM Certificate Authority&quot; -i $CERTREQ_FILENAME -o $CERT_FILENAME -m $NEXT_SERIAL -v 120 -f /etc/httpd/alias/pwdfile.txt -1 -5 -a
+</pre></div>
 </div>
 <p>Example values:</p>
 <ul class="simple">
@@ -461,48 +461,48 @@ these files are not removed by the upgrade.</p>
 </ul>
 <p>For a server certificate (e.g. for a new replica), give the following
 answers:</p>
-<div class="line-block">
-<div class="line">``   Create key usage extension:``</div>
-<div class="line">``       2 - Key encipherment``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
-<div class="line">``   Create netscape cert type extension:``</div>
-<div class="line">``       1 - SSL Server``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Create</span> <span class="n">key</span> <span class="n">usage</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">2</span> <span class="o">-</span> <span class="n">Key</span> <span class="n">encipherment</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+<span class="n">Create</span> <span class="n">netscape</span> <span class="n">cert</span> <span class="nb">type</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">1</span> <span class="o">-</span> <span class="n">SSL</span> <span class="n">Server</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+</pre></div>
 </div>
 <p>For an object signing certificate, give the following answers:</p>
-<div class="line-block">
-<div class="line">``   Create key usage extension:``</div>
-<div class="line">``       0 - Digital Signature``</div>
-<div class="line">``       5 - Cert signing key``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
-<div class="line">``   Create netscape cert type extension:``</div>
-<div class="line">``       3 - Object Signing``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Create</span> <span class="n">key</span> <span class="n">usage</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">0</span> <span class="o">-</span> <span class="n">Digital</span> <span class="n">Signature</span>
+    <span class="mi">5</span> <span class="o">-</span> <span class="n">Cert</span> <span class="n">signing</span> <span class="n">key</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+<span class="n">Create</span> <span class="n">netscape</span> <span class="n">cert</span> <span class="nb">type</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">3</span> <span class="o">-</span> <span class="n">Object</span> <span class="n">Signing</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+</pre></div>
 </div>
 <p>For a service certificate (ipa service-add, ipa cert-request, ipa
 host-add), add the <code class="docutils literal notranslate"><span class="pre">-6</span></code> option. The IPA commands also validate the
 certificate, and with Dogtag, the old host/service certis revoked. These
 steps are left entirely to the user. Answer:</p>
-<div class="line-block">
-<div class="line">``   Create key usage extension:``</div>
-<div class="line">``       0 - Digital Signature``</div>
-<div class="line">``       1 - Cert signing key``</div>
-<div class="line">``       2 - Key encipherment``</div>
-<div class="line">``       3 - Data encipherment``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
-<div class="line">``   Create netscape cert type extension:``</div>
-<div class="line">``       0 - Server Auth``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
-<div class="line">``   Create extended key usage extension:``</div>
-<div class="line">``       1 - SSL Server``</div>
-<div class="line">``       9 - done``</div>
-<div class="line">``       n - not critical``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Create</span> <span class="n">key</span> <span class="n">usage</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">0</span> <span class="o">-</span> <span class="n">Digital</span> <span class="n">Signature</span>
+    <span class="mi">1</span> <span class="o">-</span> <span class="n">Cert</span> <span class="n">signing</span> <span class="n">key</span>
+    <span class="mi">2</span> <span class="o">-</span> <span class="n">Key</span> <span class="n">encipherment</span>
+    <span class="mi">3</span> <span class="o">-</span> <span class="n">Data</span> <span class="n">encipherment</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+<span class="n">Create</span> <span class="n">netscape</span> <span class="n">cert</span> <span class="nb">type</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">0</span> <span class="o">-</span> <span class="n">Server</span> <span class="n">Auth</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+<span class="n">Create</span> <span class="n">extended</span> <span class="n">key</span> <span class="n">usage</span> <span class="n">extension</span><span class="p">:</span>
+    <span class="mi">1</span> <span class="o">-</span> <span class="n">SSL</span> <span class="n">Server</span>
+    <span class="mi">9</span> <span class="o">-</span> <span class="n">done</span>
+    <span class="n">n</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">critical</span>
+</pre></div>
 </div>
 <p>This will put a PEM-encoded certificate in $CERT_FILENAME.</p>
 <p>You may want to import the certificate into the DB, and track it; see
@@ -512,7 +512,7 @@ below.</p>
 <h2>Importing issued certificate into the database<a class="headerlink" href="#importing-issued-certificate-into-the-database" title="Link to this heading">#</a></h2>
 <p>If you have a PEM certificate, open it in an editor, remove the start
 and end markers, and save it in a new file. This will be a</p>
-<p>``   /usr/bin/certutil -d /etc/httpd/alias -A -i $CERT_DER_FILENAME -n $CERT_NICKNAME -a -t ,,``</p>
+<p>``   /usr/bin/certutil -d /etc/httpd/alias -A -i $CERT_DER_FILENAME -n $CERT_NICKNAME -a -t ,,``</p>
 <p>Example values:</p>
 <ul class="simple">
 <li><p>CERT_DER_FILENAME=/tmp/service.der</p></li>
@@ -522,7 +522,7 @@ and end markers, and save it in a new file. This will be a</p>
 <section id="exporting-server-cert-into-pkcs-12">
 <h2>Exporting server cert into PKCS#12<a class="headerlink" href="#exporting-server-cert-into-pkcs-12" title="Link to this heading">#</a></h2>
 <p>Run:</p>
-<p>``   /usr/bin/pk12util -o $CERT_PKCS_FILENAME -n $CERT_NICKNAME -d /etc/httpd/alias -k /etc/httpd/alias/pwdfile.txt -w /etc/httpd/alias/pwdfile.txt``</p>
+<p>``   /usr/bin/pk12util -o $CERT_PKCS_FILENAME -n $CERT_NICKNAME -d /etc/httpd/alias -k /etc/httpd/alias/pwdfile.txt -w /etc/httpd/alias/pwdfile.txt``</p>
 <p>Example values:</p>
 <ul class="simple">
 <li><p>CERT_PKCS_FILENAME=/tmp/service.p12</p></li>
@@ -533,11 +533,11 @@ contents of /etc/httpd/alias/pwdfile.txt as the password.</p>
 </section>
 <section id="tracking-a-certificate-with-certmonger">
 <h2>Tracking a certificate with certmonger<a class="headerlink" href="#tracking-a-certificate-with-certmonger" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line">``   systemctl enable certmonger.service``</div>
-<div class="line">``   systemctl start certmonger.service``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">certmonger</span><span class="o">.</span><span class="n">service</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">certmonger</span><span class="o">.</span><span class="n">service</span>
+</pre></div>
 </div>
-<p>``   /usr/bin/ipa-getcert start-tracking -d /etc/httpd/alias -n $CERT_NICKNAME -p /etc/httpd/alias/pwdfile.txt``</p>
+<p>``   /usr/bin/ipa-getcert start-tracking -d /etc/httpd/alias -n $CERT_NICKNAME -p /etc/httpd/alias/pwdfile.txt``</p>
 </section>
 </section>
 <section id="implementation">

@@ -317,43 +317,43 @@ working smoothly (even with virtio for the icing on the cake).</p>
 Yubico’s provided documentation here if you wish.</p>
 <p>Now, before we begin, the details for the purpose of this article are as
 follows.</p>
-<p><code class="docutils literal notranslate"><span class="pre">IPA server: ds01.example.com (10.0.1.11)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">YubiRadius VA: yubiradius01.example.com (10.0.1.31)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">Group to be used for validation: &quot;yubikey&quot;</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">YubiRadius LDAP Bind Account: &quot;yubiradius&quot;</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">Example Users: euser1, euser2, euser3, euser4, euser5</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">IPA</span> <span class="pre">server:</span> <span class="pre">ds01.example.com</span> <span class="pre">(10.0.1.11)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">YubiRadius</span> <span class="pre">VA:</span> <span class="pre">yubiradius01.example.com</span> <span class="pre">(10.0.1.31)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">Group</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">validation:</span> <span class="pre">&quot;yubikey&quot;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">YubiRadius</span> <span class="pre">LDAP</span> <span class="pre">Bind</span> <span class="pre">Account:</span> <span class="pre">&quot;yubiradius&quot;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">Example</span> <span class="pre">Users:</span> <span class="pre">euser1,</span> <span class="pre">euser2,</span> <span class="pre">euser3,</span> <span class="pre">euser4,</span> <span class="pre">euser5</span></code></p>
 <section id="step-1-create-our-group-to-be-used-for-user-validation">
 <h2>Step 1. Create our Group to be used for user validation<a class="headerlink" href="#step-1-create-our-group-to-be-used-for-user-validation" title="Link to this heading">#</a></h2>
 <p>On your FreeIPA server, run the following:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]# ipa group-add</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Group name: yubikey</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Description: YubiKey validation group</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Added group &quot;yubikey&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">---------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Group name: yubikey</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Description: YubiKey validation group</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">GID: 1870200005</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]#</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa group-add</span>
+<span class="n">Group</span> <span class="n">name</span><span class="p">:</span> <span class="n">yubikey</span>
+<span class="n">Description</span><span class="p">:</span> <span class="n">YubiKey</span> <span class="n">validation</span> <span class="n">group</span>
+<span class="o">---------------------</span>
+<span class="n">Added</span> <span class="n">group</span> <span class="s2">&quot;yubikey&quot;</span>
+<span class="o">---------------------</span>
+<span class="n">Group</span> <span class="n">name</span><span class="p">:</span> <span class="n">yubikey</span>
+<span class="n">Description</span><span class="p">:</span> <span class="n">YubiKey</span> <span class="n">validation</span> <span class="n">group</span>
+<span class="n">GID</span><span class="p">:</span> <span class="mi">1870200005</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1">#</span>
+</pre></div>
 </div>
 </section>
 <section id="step-2-add-users-to-your-new-group">
 <h2>Step 2. Add users to your new group.<a class="headerlink" href="#step-2-add-users-to-your-new-group" title="Link to this heading">#</a></h2>
 <p>As I have already created my users, I will add them to the group I have
 just created.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]# ipa group-add-member yubikey</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[member user]: euser1,euser2,euser3,euser4,euser5</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[member group]:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Group name: yubikey</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Description: YubiKey validation group</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">GID: 1870200005</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Member users: euser1, euser2, euser3, euser4, euser5</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Number of members added 5</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-------------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]#</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa group-add-member yubikey</span>
+<span class="p">[</span><span class="n">member</span> <span class="n">user</span><span class="p">]:</span> <span class="n">euser1</span><span class="p">,</span><span class="n">euser2</span><span class="p">,</span><span class="n">euser3</span><span class="p">,</span><span class="n">euser4</span><span class="p">,</span><span class="n">euser5</span>
+<span class="p">[</span><span class="n">member</span> <span class="n">group</span><span class="p">]:</span>
+<span class="n">Group</span> <span class="n">name</span><span class="p">:</span> <span class="n">yubikey</span>
+<span class="n">Description</span><span class="p">:</span> <span class="n">YubiKey</span> <span class="n">validation</span> <span class="n">group</span>
+<span class="n">GID</span><span class="p">:</span> <span class="mi">1870200005</span>
+<span class="n">Member</span> <span class="n">users</span><span class="p">:</span> <span class="n">euser1</span><span class="p">,</span> <span class="n">euser2</span><span class="p">,</span> <span class="n">euser3</span><span class="p">,</span> <span class="n">euser4</span><span class="p">,</span> <span class="n">euser5</span>
+<span class="o">-------------------------</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">members</span> <span class="n">added</span> <span class="mi">5</span>
+<span class="o">-------------------------</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1">#</span>
+</pre></div>
 </div>
 </section>
 <section id="step-3-create-an-ldap-bind-account">
@@ -361,35 +361,35 @@ just created.</p>
 <p>Create a text file called “yubiradius.ldif” with the following content.</p>
 <p>Be sure to change the password to something secure. In this example I
 have used “redhat123”</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| ``changetype: add``
-| ``objectclass: account``
-| ``objectclass: simplesecurityobject``
-| ``uid: yubiradius``
-| ``userPassword: redhat123``
-| ``passwordExpirationTime: 20380119031407Z``
-| ``nsIdleTimeout: 0 ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">yubiradius</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">sysaccounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<span class="n">changetype</span><span class="p">:</span> <span class="n">add</span>
+<span class="n">objectclass</span><span class="p">:</span> <span class="n">account</span>
+<span class="n">objectclass</span><span class="p">:</span> <span class="n">simplesecurityobject</span>
+<span class="n">uid</span><span class="p">:</span> <span class="n">yubiradius</span>
+<span class="n">userPassword</span><span class="p">:</span> <span class="n">redhat123</span>
+<span class="n">passwordExpirationTime</span><span class="p">:</span> <span class="mi">20380119031407</span><span class="n">Z</span>
+<span class="n">nsIdleTimeout</span><span class="p">:</span> <span class="mi">0</span>
 </pre></div>
 </div>
 <p>Now, import yubiradius.ldif into FreeIPA. You will need to enter your
 Directory Manager password, as you are making additions to LDAP.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]# ldapmodify -h ds01.example.com -p 389 -x -D &quot;cn=Directory  Manager&quot; -W -f yubiradius.ldif</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Enter LDAP Password:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">adding new entry &quot;uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ldapmodify -h ds01.example.com -p 389 -x -D &quot;cn=Directory  Manager&quot; -W -f yubiradius.ldif</span>
+<span class="n">Enter</span> <span class="n">LDAP</span> <span class="n">Password</span><span class="p">:</span>
+<span class="n">adding</span> <span class="n">new</span> <span class="n">entry</span> <span class="s2">&quot;uid=yubiradius,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;</span>
+</pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]#</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01</span> <span class="pre">~]#</span></code></p>
 </section>
 <section id="step-4-add-your-yubiradius-server-s-hostname-to-our-dns-environment-if-you-are-using-ipa-to-manage-your-dns-do-the-following">
 <h2>Step 4. Add your YubiRadius server’s hostname to our DNS environment. If you are using IPA to manage your DNS, do the following.<a class="headerlink" href="#step-4-add-your-yubiradius-server-s-hostname-to-our-dns-environment-if-you-are-using-ipa-to-manage-your-dns-do-the-following" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]# ipa dnsrecord-add example.com yubiradius01 --a-rec 10.0.1.31</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Record name: yubiradius01</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">A record: 10.0.1.31</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]# ipa dnsrecord-add 1.0.10.in-addr.arpa. 31 --ptr-rec   yubiradius01.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Record name: 31</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">PTR record: yubiradius01.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[root&#64;ds01 ~]#</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa dnsrecord-add example.com yubiradius01 --a-rec 10.0.1.31</span>
+<span class="n">Record</span> <span class="n">name</span><span class="p">:</span> <span class="n">yubiradius01</span>
+<span class="n">A</span> <span class="n">record</span><span class="p">:</span> <span class="mf">10.0.1.31</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1"># ipa dnsrecord-add 1.0.10.in-addr.arpa. 31 --ptr-rec   yubiradius01.example.com.</span>
+<span class="n">Record</span> <span class="n">name</span><span class="p">:</span> <span class="mi">31</span>
+<span class="n">PTR</span> <span class="n">record</span><span class="p">:</span> <span class="n">yubiradius01</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="p">[</span><span class="n">root</span><span class="nd">@ds01</span> <span class="o">~</span><span class="p">]</span><span class="c1">#</span>
+</pre></div>
 </div>
 </section>
 <section id="step-5-start-to-configure-your-yubiradius-through-the-webmin-management-page">

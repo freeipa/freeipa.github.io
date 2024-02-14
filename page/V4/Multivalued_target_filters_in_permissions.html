@@ -323,34 +323,34 @@ the CLI), will show/update filters that are not implied by <code class="docutils
 <h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
 <p>It is now possible to use multiple –filter and –memberof options,
 possibly in combination with -type:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa permission-add foo --type user --filter '(sn=Smith)' --filter '(givenname=John)' --memberof editors --right read</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Added permission &quot;foo&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">----------------------</span></code></div>
-<div class="line">``  Permission name: foo``</div>
-<div class="line">``  Granted rights: read``</div>
-<div class="line">``  Bind rule type: permission``</div>
-<div class="line">``  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</div>
-<div class="line">``  Extra target filter: (givenname=John), (sn=Smith)``</div>
-<div class="line">``  Member of group: editors``</div>
-<div class="line">``  Type: user``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa permission-add foo --type user --filter &#39;(sn=Smith)&#39; --filter &#39;(givenname=John)&#39; --memberof editors --right read
+----------------------
+Added permission &quot;foo&quot;
+----------------------
+  Permission name: foo
+  Granted rights: read
+  Bind rule type: permission
+  Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+  Extra target filter: (givenname=John), (sn=Smith)
+  Member of group: editors
+  Type: user
+</pre></div>
 </div>
 <p>The –type and –memberof options create filters that can be viewed with
 the –all option:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa permission-show foo --all</span></code></div>
-<div class="line">`` dn: cn=foo,cn=permissions,cn=pbac,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</div>
-<div class="line">`` Permission name: foo``</div>
-<div class="line">`` Granted rights: read``</div>
-<div class="line">`` Bind rule type: permission``</div>
-<div class="line">`` Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``</div>
-<div class="line">`` Extra target filter: (givenname=John), (sn=Smith)``</div>
-<div class="line">`` Raw target filter: (sn=Smith), (givenname=John), (memberOf=cn=editors,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com), (objectclass=posixaccount)``</div>
-<div class="line">`` Member of group: editors``</div>
-<div class="line">`` Type: user``</div>
-<div class="line">`` ipapermissiontype: V2, SYSTEM``</div>
-<div class="line">`` objectclass: ipapermission, top, groupofnames, ipapermissionv2``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa permission-show foo --all
+ dn: cn=foo,cn=permissions,cn=pbac,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+ Permission name: foo
+ Granted rights: read
+ Bind rule type: permission
+ Subtree: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com
+ Extra target filter: (givenname=John), (sn=Smith)
+ Raw target filter: (sn=Smith), (givenname=John), (memberOf=cn=editors,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com), (objectclass=posixaccount)
+ Member of group: editors
+ Type: user
+ ipapermissiontype: V2, SYSTEM
+ objectclass: ipapermission, top, groupofnames, ipapermissionv2
+</pre></div>
 </div>
 </section>
 <section id="design">
@@ -366,7 +366,7 @@ create the ACI.</p>
 <section id="multivalued-memberof">
 <h2>Multivalued –memberof<a class="headerlink" href="#multivalued-memberof" title="Link to this heading">#</a></h2>
 <p>Currently the <code class="docutils literal notranslate"><span class="pre">--memberof</span></code> option of <code class="docutils literal notranslate"><span class="pre">permission-mod</span></code> sets the
-targetfilter to <code class="docutils literal notranslate"><span class="pre">(memberof=</span></code><em>``groupname``</em><code class="docutils literal notranslate"><span class="pre">)</span></code>.</p>
+targetfilter to <code class="docutils literal notranslate"><span class="pre">(memberof=groupname)</span></code>.</p>
 <p>The option will become multi-valued, and it will no longer conflict with
 the <code class="docutils literal notranslate"><span class="pre">--filter</span></code> option.</p>
 <p>When <code class="docutils literal notranslate"><span class="pre">--memberof</span></code> is specified, the <code class="docutils literal notranslate"><span class="pre">permission-mod</span></code> command will
@@ -381,7 +381,7 @@ corresponding memberof output items.</p>
 <p>=== –type sets (objectclass=…) targetfilter ===</p>
 <p>Currently the <code class="docutils literal notranslate"><span class="pre">--type</span></code> option sets the ACI location to the appropriate
 container DN, and the target to a wildcard DN:
-<em>``uid_attr``</em><code class="docutils literal notranslate"><span class="pre">=*,</span></code><em>``container_dn``</em>.</p>
+<em>``uid_attr=</em>,container_dn``*.</p>
 <p>Instead of setting the target, the option will now set the target filter
 to <code class="docutils literal notranslate"><span class="pre">(objectclass=...)</span></code> (or possibly, multiple such filters).</p>
 <p>Similarly to <code class="docutils literal notranslate"><span class="pre">--memberof</span></code>, <code class="docutils literal notranslate"><span class="pre">permission-mod</span></code>’s <code class="docutils literal notranslate"><span class="pre">--type</span></code> will any

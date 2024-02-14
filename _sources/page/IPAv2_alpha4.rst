@@ -111,10 +111,12 @@ that the IPA self-signed CA has issued. The file format has changed and
 is not backward compatible. You'll see a message like this if you forget
 to do this:
 
-| ``Unexpected error - see ipaserver-install.log for details:``
-| `` File contains no section headers.``
-| ``file: /var/lib/ipa/ca_serialno, line: 1``
-| ``'1003'``
+::
+
+    Unexpected error - see ipaserver-install.log for details:
+     File contains no section headers.
+    file: /var/lib/ipa/ca_serialno, line: 1
+    '1003'
 
 To correct this remove the file, run ``ipa-server-install --uninstall``
 then run ``ipa-server-install`` again to configure the services.

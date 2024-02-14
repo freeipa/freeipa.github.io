@@ -74,20 +74,22 @@ Anatomy of a tracked certificate
 
 A typical OpenSSL certificate looks like this:
 
-| ``Request ID '20120912211542':``
-| ``       status: MONITORING``
-| ``       stuck: no``
-| ``       key pair storage: type=FILE,location='/etc/ssl/private.key'``
-| ``       certificate: type=FILE,location='/etc/ssl/server.crt'``
-| ``       CA: IPA``
-| ``       issuer: CN=Certificate Authority,O=EXAMPLE.COM``
-| ``       subject: CN=edsel.example.com,O=EXAMPLE.COM``
-| ``       expires: 2014-09-13 21:15:44 UTC``
-| ``       eku: id-kp-serverAuth,id-kp-clientAuth``
-| ``       pre-save command: ``
-| ``       post-save command: ``
-| ``       track: yes``
-| ``       auto-renew: yes``
+::
+
+    Request ID '20120912211542':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=FILE,location='/etc/ssl/private.key'
+           certificate: type=FILE,location='/etc/ssl/server.crt'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=EXAMPLE.COM
+           subject: CN=edsel.example.com,O=EXAMPLE.COM
+           expires: 2014-09-13 21:15:44 UTC
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command:
+           track: yes
+           auto-renew: yes
 
 You'll need the Request ID when running other certmonger commands. This
 will be a number if an ID is not provided when the request is originally
@@ -122,18 +124,18 @@ a service when a certificate is renewed.
 All tracked certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-``# getcert list``
+``# getcert list``
 
 
 
 All IPA-issued certificate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``# ipa-getcert list``
+``# ipa-getcert list``
 
 This is the equivalent of:
 
-`` # getcert list -c IPA``
+`` # getcert list -c IPA``
 
 The difference is that ipa-getcert sets the value of the CA (-c). It's
 just a shortcut.
@@ -162,13 +164,13 @@ OpenSSL
 ^^^^^^^
 ::
 
-   ``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
+   ``#  ipa-getcert request -f /path/to/server.crt -k /path/to/private.key -K ``
 
 NSS
 ^^^
 ::
 
-   ``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
+   ``# ipa-getcert request -d /path/to/database -n 'Test' -K ``
 
 
 
@@ -178,7 +180,7 @@ Manually renew a certificate
 If you want to manually renew a certificate prior to its expiration
 date, run:
 
-``# ipa-getcert resubmit -i REQUEST_ID``
+``# ipa-getcert resubmit -i REQUEST_ID``
 
 
 
@@ -188,7 +190,7 @@ Stop tracking a certificate
 To tell certmonger to forget about a certificate and stop tracking it
 run:
 
-``# ipa-getcert stop-tracking -i REQUEST_ID``
+``# ipa-getcert stop-tracking -i REQUEST_ID``
 
 This does **not** touch the certificate or keys, it merely tells
 certmonger to not track it for for rewnewals.
@@ -205,9 +207,9 @@ certificate for Nginx to use a specific fully qualified hostname on a
 host without it, use following sequence:
 ::
 
-   | ``# cd /etc/nginx/ssl``
-   | ``# fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); ``
-   | ``# ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn``
+   # cd /etc/nginx/ssl
+   # fqdn=$(hostname -f); REALM=(hostname -d|tr '[:lower:]' '[:upper:]'); 
+   # ipa-getcert request -f $fqdn.crt -k $fqdn.key -r -K HTTP/$fqdn@$REALM -N $fqdn
 
 The CA has the final say on what the subject will be in the certificate
 it issues.

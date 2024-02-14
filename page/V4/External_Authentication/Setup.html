@@ -335,14 +335,14 @@ FreeIPA server:</p>
 and store it in the <code class="docutils literal notranslate"><span class="pre">/etc/yum.repos.d/</span></code> directory. For example, for
 Red Hat Enterprise Linux 7.3:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># cd /etc/yum.repos.d/</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># curl -O ``\</span> <span class="pre">```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo</span></code> &lt;<a class="reference external" href="https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo">https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo</a>&gt;`__</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cd /etc/yum.repos.d/</span>
+<span class="c1"># curl -O ``\ ```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo`` &lt;https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo&gt;`__</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>To install the plug-in:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># yum install -y ipa-experimental-x509-auth-plugin</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">ipa-experimental-x509-auth-plugin</span></code></p>
 <blockquote>
 <div><p>After the package is installed in the
 <code class="docutils literal notranslate"><span class="pre">/usr/share/ipa/ui/js/plugins/</span></code> FreeIPA plug-in directory, <code class="docutils literal notranslate"><span class="pre">yum</span></code>
@@ -353,7 +353,7 @@ configures the System Security Services Daemon (SSSD).</p>
 <li><p>Set the <code class="docutils literal notranslate"><span class="pre">OK-AS-DELEGATE</span></code> flag to the web server’s Kerberos service
 principal:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa service-mod --ok-to-auth-as-delegate=True HTTP/$(hostname)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">service-mod</span> <span class="pre">--ok-to-auth-as-delegate=True</span> <span class="pre">HTTP/$(hostname)</span></code></p>
 <blockquote>
 <div><p>This Kerberos flag enables the service to forward Kerberos tickets.
 Use this flag only with security-reviewed and trusted services.</p>
@@ -382,29 +382,28 @@ Certificates</a>.</p>
 <li><p>Verify that the certificate is displayed in the output of the
 <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">user-show</span></code> command:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa user-show demo</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Certificate: MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG.....</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="c1"># ipa user-show demo</span>
+ <span class="o">...</span>
+ <span class="n">Certificate</span><span class="p">:</span> <span class="n">MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG</span><span class="o">.....</span>
+
+<span class="n">Alternatively</span><span class="p">,</span> <span class="n">verify</span> <span class="n">that</span> <span class="n">the</span> <span class="n">certificate</span> <span class="ow">is</span> <span class="n">shown</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">user</span><span class="s1">&#39;s</span>
+<span class="n">account</span> <span class="n">details</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">web</span> <span class="n">UI</span><span class="o">.</span>
+</pre></div>
 </div>
-<blockquote>
-<div><p>Alternatively, verify that the certificate is shown in the user’s
-account details in the web UI.</p>
-</div></blockquote>
 <ul class="simple">
 <li><p>To download the certificate for the <code class="docutils literal notranslate"><span class="pre">demo</span></code> user to the
 <code class="docutils literal notranslate"><span class="pre">~/demo_cert.pem</span></code> file, run:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># echo '-----BEGIN CERTIFICATE-----' &gt; ~/demo_cert.pem</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa user-show demo | grep Certificate:\  | cut -d ' ' -f 4 | fold -64 &gt;&gt; ~/demo_cert.pem</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># echo '-----END CERTIFICATE-----' &gt;&gt; ~/demo_cert.pem</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># echo &#39;-----BEGIN CERTIFICATE-----&#39; &gt; ~/demo_cert.pem</span>
+<span class="c1"># ipa user-show demo | grep Certificate:\  | cut -d &#39; &#39; -f 4 | fold -64 &gt;&gt; ~/demo_cert.pem</span>
+<span class="c1"># echo &#39;-----END CERTIFICATE-----&#39; &gt;&gt; ~/demo_cert.pem</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Convert the certificate and private key to a PKCS #12-formated
 <code class="docutils literal notranslate"><span class="pre">~/demo_cert.pfx</span></code> file:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># openssl pkcs12 -export -out ~/demo_cert.pfx -inkey ~/demo.key -in ~/demo_cert.pem</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">openssl</span> <span class="pre">pkcs12</span> <span class="pre">-export</span> <span class="pre">-out</span> <span class="pre">~/demo_cert.pfx</span> <span class="pre">-inkey</span> <span class="pre">~/demo.key</span> <span class="pre">-in</span> <span class="pre">~/demo_cert.pem</span></code></p>
 <blockquote>
 <div><p>PKCS #12-formatted files are password protected and store private and
 public keys. Additionally, it can optionally include intermediate and
@@ -428,17 +427,17 @@ certificate issued by an external CA:</p>
 <ul class="simple">
 <li><p>Create a new user account:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa user-add demo --first=Demo --last=Demo</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">user-add</span> <span class="pre">demo</span> <span class="pre">--first=Demo</span> <span class="pre">--last=Demo</span></code></p>
 <ul class="simple">
 <li><p>Assign the certificate from the <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code> NSS database to the
 FreeIPA <code class="docutils literal notranslate"><span class="pre">demo</span></code> user account:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa user-add-cert --certificate=&quot;$( certutil -L -d ~/nssdb/ -a -n alpha | grep -v '.---' )&quot; demo</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">user-add-cert</span> <span class="pre">--certificate=&quot;$(</span> <span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-d</span> <span class="pre">~/nssdb/</span> <span class="pre">-a</span> <span class="pre">-n</span> <span class="pre">alpha</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">-v</span> <span class="pre">'.---'</span> <span class="pre">)&quot;</span> <span class="pre">demo</span></code></p>
 <ul class="simple">
 <li><p>Export the certificate in PKCS #12 format from the <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code> NSS
 database:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># pk12util -o demo_cert.pfx -n alpha -d ~/nssdb/</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">pk12util</span> <span class="pre">-o</span> <span class="pre">demo_cert.pfx</span> <span class="pre">-n</span> <span class="pre">alpha</span> <span class="pre">-d</span> <span class="pre">~/nssdb/</span></code></p>
 <ul class="simple">
 <li><p>To verify external signed certificates, the Apache web server must
 use the CA certificate:</p></li>
@@ -447,14 +446,14 @@ use the CA certificate:</p></li>
 <dt class="field-odd">* To export the CA certificate from the <code class="docutils literal notranslate"><span class="pre">~/nssdb/</span></code> NSS database<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre"># certutil -L -d ~/nssdb/ -a -n cacert &gt; ca_cert.pem</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-L</span> <span class="pre">-d</span> <span class="pre">~/nssdb/</span> <span class="pre">-a</span> <span class="pre">-n</span> <span class="pre">cacert</span> <span class="pre">&gt;</span> <span class="pre">ca_cert.pem</span></code></p>
 <p>:* Import the CA certificate to the Apache web server’s certificate
 store:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># certutil -A -n ext_authCA -t CT,C,C  -d /etc/httpd/alias/ -a -i ca_cert.pem</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-n</span> <span class="pre">ext_authCA</span> <span class="pre">-t</span> <span class="pre">CT,C,C</span>&#160; <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">ca_cert.pem</span></code></p>
 <ul class="simple">
 <li><p>Restart the web server service:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># systemctl restart httpd</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">httpd</span></code></p>
 <ul class="simple">
 <li><p>Import the <code class="docutils literal notranslate"><span class="pre">~/demo_cert.pfx</span></code> file to your web browsers certificate
 store. For details, see your web browser’s documentation.</p></li>
@@ -466,7 +465,7 @@ store. For details, see your web browser’s documentation.</p></li>
 <h2>Verifying the Web UI Log-in Using the Command Line<a class="headerlink" href="#verifying-the-web-ui-log-in-using-the-command-line" title="Link to this heading">#</a></h2>
 <p>To verify the authentication to the web UI with certificates using the
 command line, run:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># curl --cert demo_cert.pem --key demo.key ``\</span> <span class="pre">```https://ipaserver/ipa/session/login_x509</span></code> &lt;<a class="reference external" href="https://ipaserver/ipa/session/login_x509">https://ipaserver/ipa/session/login_x509</a>&gt;`__`` -siv``</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">curl</span> <span class="pre">--cert</span> <span class="pre">demo_cert.pem</span> <span class="pre">--key</span> <span class="pre">demo.key</span> <span class="pre">``\</span> <span class="pre">```https://ipaserver/ipa/session/login_x509</span></code> &lt;<a class="reference external" href="https://ipaserver/ipa/session/login_x509">https://ipaserver/ipa/session/login_x509</a>&gt;`__`` -siv``</p>
 </section>
 <hr class="docutils" />
 <section id="developer-notes">

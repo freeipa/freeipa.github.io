@@ -32,12 +32,12 @@ IPA/SSSD Configuration
 
 SSSD does not need any special configuration however if:
 
-`` ipa-getcert list``
+`` ipa-getcert list``
 
 shows any errors such as CA_UNREACHABLE when there are multiple replicas
 in the topology it is worth checking
 
-`` /etc/ipa/default.conf``
+`` /etc/ipa/default.conf``
 
 to see which server is being used for certificate requests. Ensure that
 the server is accepting requests against the IPA topology and kerberos
@@ -61,7 +61,7 @@ Default SSL apache config
 Before carrying out configuration of the web server on a system with
 ipa-admintools:
 
-`` ipa service-add HTTP/``
+`` ipa service-add HTTP/``
 
 This adds the service to IPA for the purposes of adding an SSL
 certificate to it and then later on for a keytab to the kerberos
@@ -69,7 +69,7 @@ principal.
 
 As usual the only requirements to install an SSL capable web server are:
 
-`` yum install httpd mod_ssl``
+`` yum install httpd mod_ssl``
 
 which will provide for a self signed standard HTTPS server with content
 served from /var/www/html.
@@ -81,7 +81,7 @@ as /etc/httpd/certs.
 Certmonger needs to be allowed to write to this area - although it runs
 as root selinux will restrict it:
 
-`` semanage fcontext -a -t cert_t '/etc/httpd/certs(/.*)?' && restorecon -v /etc/httpd/certs``
+`` semanage fcontext -a -t cert_t '/etc/httpd/certs(/.*)?' && restorecon -v /etc/httpd/certs``
 
 The apache process is able to read directories of type cert_t to obtain
 its certificates and certmonger can then write to this safely.
@@ -89,11 +89,11 @@ its certificates and certmonger can then write to this safely.
 A certificate/key pair can then be requested through certmonger on the
 web server for the default instance via:
 
-:literal:` ipa-getcert request -r -f /etc/httpd/certs/default.crt -k /etc/httpd/certs/default.key -N CN=`uname -n` -D `uname -n` -K HTTP/`uname -n\``
+:literal:` ipa-getcert request -r -f /etc/httpd/certs/default.crt -k /etc/httpd/certs/default.key -N CN=`uname -n` -D `uname -n` -K HTTP/`uname -n\``
 
 To check the status of the request use:
 
-`` ipa-getcert list``
+`` ipa-getcert list``
 
 If all is well there should be output similar to:
 
@@ -118,13 +118,15 @@ changed to make them readable by apache.
 Following this edit /etc/httpd/conf.d/ssl.conf to make sure the
 following entries read as so:
 
-| `` SSLCertificateFile /etc/httpd/certs/default.crt``
-| `` SSLCertificateKeyFile /etc/httpd/certs/default.key``
+::
+
+     SSLCertificateFile /etc/httpd/certs/default.crt
+     SSLCertificateKeyFile /etc/httpd/certs/default.key
 
 If you require client validation link or copy /etc/ipa/ca.crt to
 /etc/httpd/certs and include:
 
-`` SSLCACertificateFile /etc/httpd/certs/ca.crt``
+`` SSLCACertificateFile /etc/httpd/certs/ca.crt``
 
 At the time of writing there is no GUI for client certificates in IPA so
 any further configuration down that avenue is left as an exercise to the
@@ -158,23 +160,27 @@ A DNS record should already be in place for this (or just use the
 
 To do this via the ipa-admin tools do as follows (or just use the GUI):
 
-| `` ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1``
-| `` ipa host-add dummyhost.example.com --desc="Dummy Host" --location="``\ ``"``
-| `` ipa host-add-managedby dummyhost.example.com --hosts="``\ ``"``
-| `` ``
+::
+
+     ipa dnsrecord-add example.com dummyhost --a-rec=10.180.80.1
+     ipa host-add dummyhost.example.com --desc="Dummy Host" --location="``\ ``"
+     ipa host-add-managedby dummyhost.example.com --hosts="``\ ``"
+    
 
 Now that the dummy host is in place (no enrollment, keytabs or
 certificates needed for this bit) the service can be added.
 
-| `` ipa service-add HTTP/dummyhost.example.com``
-| `` ipa service-add-host HTTP/dummyhost.example.com --hosts="``\ ``"``
+::
+
+     ipa service-add HTTP/dummyhost.example.com
+     ipa service-add-host HTTP/dummyhost.example.com --hosts="``\ ``"
 
 The IPA topology is then ready to add this as a virtual host on the web
 server.
 
 Back on the web server itself the new certificate can now be requested:
 
-`` ipa-getcert request -r -f /etc/httpd/certs/dummyhost.crt -k /etc/httpd/certs/dummyhost.key -N CN=dummyhost.example.com -D dummyhost.example.com -K HTTP/dummyhost.example.com``
+`` ipa-getcert request -r -f /etc/httpd/certs/dummyhost.crt -k /etc/httpd/certs/dummyhost.key -N CN=dummyhost.example.com -D dummyhost.example.com -K HTTP/dummyhost.example.com``
 
 Checking the /etc/httpd/certs directory should show the new
 certificate/key pair and as before these should be made readable to
@@ -188,8 +194,8 @@ addition to the standard 80):
 
 ::
 
-     | `` NameVirtualHost *:80``
-     | `` NameVirtualHost *:443``
+      NameVirtualHost *:80
+      NameVirtualHost *:443
 
 Optionally add a redirect from non-SSL to SSL if you want it as a
 requirement:
@@ -235,7 +241,7 @@ to alter the behaviour as described in the Apache documentation.
 Restart the httpd service and check the logs - if all is working the
 following should appear in error_log:
 
-`` [Mon Jun 18 13:25:44 2012] [warn] Init: Name-based SSL virtual hosts only work for clients with TLS server name indication support (RFC 4366)``
+`` [Mon Jun 18 13:25:44 2012] [warn] Init: Name-based SSL virtual hosts only work for clients with TLS server name indication support (RFC 4366)``
 
 At this point https://dummyhost.example.com should then work to show the
 virtual host as defined and the certificate chain should be
@@ -260,12 +266,14 @@ this will be basic authentication (ie insecure) without SSL in place.
 Add the appropriate module for kerberos authentication on the web
 server:
 
-`` yum install mod_auth_kerb``
+`` yum install mod_auth_kerb``
 
 Create a directory to store keytabs for authenticating against IPA:
 
-| `` mkdir /etc/httpd/keytabs``
-| `` semanage fcontext -a -t httpd_keytab_t '/etc/httpd/keytabs/(.*)?'``
+::
+
+     mkdir /etc/httpd/keytabs
+     semanage fcontext -a -t httpd_keytab_t '/etc/httpd/keytabs/(.*)?'
 
 Note that with the selinux context the directory should maintain the
 httpd_config_t type (default for anything in /etc/httpd/) but only the
@@ -276,13 +284,13 @@ obtained via:
 
 ::
 
-     `` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
+     `` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
 
 To get a site specific keytab use:
 
 ::
 
-     `` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
+     `` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
 
 Although segregation of keytabs isn't necessarily required (all hosts
 could use the default keytab in principle) separation allows for fine
@@ -326,14 +334,16 @@ To require login for all pages in a virtual host add:
 For a non-default keytab (eg the dummyhost above) add/amend as
 appropriate:
 
-| `` KrbServiceName HTTP/dummyhost.example.com``
-| `` Krb5KeyTab /etc/httpd/keytabs/dummyhost``
+::
+
+     KrbServiceName HTTP/dummyhost.example.com
+     Krb5KeyTab /etc/httpd/keytabs/dummyhost
 
 The REMOTE_USER environment variable will be set to username@ by
 default. For some systems it's preferable to just have the shorter
 'username'. This behaviour is obtainable by adding:
 
-`` KrbLocalUserMapping On``
+`` KrbLocalUserMapping On``
 
 If it is desirable to disable the basic authentication fallback and
 restrict the system to kerberos tokens only change KrbMethodK5Passwd to

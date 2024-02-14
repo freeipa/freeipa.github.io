@@ -362,11 +362,11 @@ updated (ipa.example.com)</p></li>
 <li><p>$TIME - an integer representation of current time</p></li>
 </ul>
 <p>Example:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=IPA,ou=profile,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:defaultServerList: $FQDN</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:defaultSearchBase: $SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginpath: /usr/lib$LIBARCH/dirsrv/plugins/schemacompat-plugin.so</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=IPA,ou=profile,$SUFFIX
+default:defaultServerList: $FQDN
+default:defaultSearchBase: $SUFFIX
+default:nsslapd-pluginpath: /usr/lib$LIBARCH/dirsrv/plugins/schemacompat-plugin.so
+</pre></div>
 </div>
 <p>The values are quoted, comma-separated fields. Quotes are only required
 if the value contains a comma.</p>
@@ -380,19 +380,19 @@ if the value contains a comma.</p>
 </ul>
 <section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=memberof,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default: objectClass:top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default: objectClass:nsIndex</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default: cn:memberof</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default: nsSystemIndex:false</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default: nsIndexType:eq</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># Oops, nsIndexType was wrong, fix it</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">only: nsIndexType: sub</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># Ack, should be eq too</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add: nsIndexType: sub, eq</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># Nope, was right the first time, no more sub</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">remove: nsIndexType: sub</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">memberof</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">index</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">userRoot</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">ldbm</span> <span class="n">database</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="n">default</span><span class="p">:</span> <span class="n">objectClass</span><span class="p">:</span><span class="n">top</span>
+<span class="n">default</span><span class="p">:</span> <span class="n">objectClass</span><span class="p">:</span><span class="n">nsIndex</span>
+<span class="n">default</span><span class="p">:</span> <span class="n">cn</span><span class="p">:</span><span class="n">memberof</span>
+<span class="n">default</span><span class="p">:</span> <span class="n">nsSystemIndex</span><span class="p">:</span><span class="n">false</span>
+<span class="n">default</span><span class="p">:</span> <span class="n">nsIndexType</span><span class="p">:</span><span class="n">eq</span>
+<span class="c1"># Oops, nsIndexType was wrong, fix it</span>
+<span class="n">only</span><span class="p">:</span> <span class="n">nsIndexType</span><span class="p">:</span> <span class="n">sub</span>
+<span class="c1"># Ack, should be eq too</span>
+<span class="n">add</span><span class="p">:</span> <span class="n">nsIndexType</span><span class="p">:</span> <span class="n">sub</span><span class="p">,</span> <span class="n">eq</span>
+<span class="c1"># Nope, was right the first time, no more sub</span>
+<span class="n">remove</span><span class="p">:</span> <span class="n">nsIndexType</span><span class="p">:</span> <span class="n">sub</span>
+</pre></div>
 </div>
 <p>A few rules:</p>
 <ol class="arabic simple">
@@ -435,21 +435,21 @@ attribute. It wants memberUid.</p>
 package we can generate memberUid value from the memberOf entries.</p>
 <p>In order to load this into a running IPA server we will provide the
 plugin configuration as an update:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Schema Compatibility, cn=plugins, cn=config</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectclass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectclass: nsSlapdPlugin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectclass: extensibleObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:cn: Schema Compatibility</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginpath: /usr/lib/dirsrv/plugins/schemacompat-plugin.so</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-plugininitfunc: schema_compat_plugin_init</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-plugintype: object</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginenabled: on</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginid: schema-compat-plugin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginversion: 0.8</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-pluginvendor: redhat.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:nsslapd-plugindescription: Schema Compatibility Plugin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[ snip ]</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Schema</span> <span class="n">Compatibility</span><span class="p">,</span> <span class="n">cn</span><span class="o">=</span><span class="n">plugins</span><span class="p">,</span> <span class="n">cn</span><span class="o">=</span><span class="n">config</span>
+<span class="n">default</span><span class="p">:</span><span class="n">objectclass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">default</span><span class="p">:</span><span class="n">objectclass</span><span class="p">:</span> <span class="n">nsSlapdPlugin</span>
+<span class="n">default</span><span class="p">:</span><span class="n">objectclass</span><span class="p">:</span> <span class="n">extensibleObject</span>
+<span class="n">default</span><span class="p">:</span><span class="n">cn</span><span class="p">:</span> <span class="n">Schema</span> <span class="n">Compatibility</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginpath</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">dirsrv</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">schemacompat</span><span class="o">-</span><span class="n">plugin</span><span class="o">.</span><span class="n">so</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">plugininitfunc</span><span class="p">:</span> <span class="n">schema_compat_plugin_init</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">plugintype</span><span class="p">:</span> <span class="nb">object</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginenabled</span><span class="p">:</span> <span class="n">on</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginid</span><span class="p">:</span> <span class="n">schema</span><span class="o">-</span><span class="n">compat</span><span class="o">-</span><span class="n">plugin</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginversion</span><span class="p">:</span> <span class="mf">0.8</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">pluginvendor</span><span class="p">:</span> <span class="n">redhat</span><span class="o">.</span><span class="n">com</span>
+<span class="n">default</span><span class="p">:</span><span class="n">nsslapd</span><span class="o">-</span><span class="n">plugindescription</span><span class="p">:</span> <span class="n">Schema</span> <span class="n">Compatibility</span> <span class="n">Plugin</span>
+<span class="p">[</span> <span class="n">snip</span> <span class="p">]</span>
+</pre></div>
 </div>
 <p>This will add the entry to a running IPA server if it doesn’t already
 exist. The library itself will have been added by the RPM installer.</p>

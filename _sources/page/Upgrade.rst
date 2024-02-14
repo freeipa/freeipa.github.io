@@ -39,7 +39,7 @@ server does not need to be shut down in advance.
 
 To upgrade an existing FreeIPA installation:
 
-``# yum update freeipa-server``
+``# yum update freeipa-server``
 
 Conditions
 ^^^^^^^^^^
@@ -66,7 +66,7 @@ requests!
 
 To upgrade an existing FreeIPA installation:
 
-``# yum update freeipa-server``
+``# yum update freeipa-server``
 
 
 
@@ -93,12 +93,14 @@ process, upgrade scripts need to be run manually after the first boot:
 FreeIPA 4.2.0 or newer
 ^^^^^^^^^^^^^^^^^^^^^^
 
-``# ipa-server-upgrade``
+``# ipa-server-upgrade``
 
 
 
 FreeIPA 4.1.x or older
 ^^^^^^^^^^^^^^^^^^^^^^
 
-| ``# ipa-ldap-updater --upgrade``
-| ``# ipa-upgradeconfig``
+::
+
+    # ipa-ldap-updater --upgrade
+    # ipa-upgradeconfig

@@ -358,12 +358,12 @@ the installation</p></li>
 <h2>Detailed instructions<a class="headerlink" href="#detailed-instructions" title="Link to this heading">#</a></h2>
 <p>Run <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code> with whatever arguments are appropriate for
 your environment and include the <code class="docutils literal notranslate"><span class="pre">--external_ca</span></code> flag:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install --external-ca</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-server-install</span> <span class="pre">--external-ca</span></code></p>
 <p>This will generate a CSR in <code class="docutils literal notranslate"><span class="pre">/root/ipa.csr</span></code>. This is the file you need
 to provide to your CA for signing. You will also need to obtain a PEM
 copy of your CA trust chain.</p>
 <p>Once you have both of these you can continue the installer:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install --external_cert_file=/root/ipa.crt --external_ca_file=/root/existing_ca.crt</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-server-install</span> <span class="pre">--external_cert_file=/root/ipa.crt</span> <span class="pre">--external_ca_file=/root/existing_ca.crt</span></code></p>
 <p>The server caches the answers the first time you run the installer so
 you don’t need to answer the questions again the second time. This cache
 is removed when the installer is run again.</p>
@@ -552,18 +552,18 @@ and a client machine that is attempting to request a certificate for
 itself. This assumes that the CSR has already been generated and is in
 the file web.csr in the current directory.</p>
 <p><strong>admin</strong></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa host-add client.example.com --password=secret123</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa service-add HTTP/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa service-add-host --hosts=client.example.com HTTP/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa rolegroup-add-member --hosts=client.example.com certadmin</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span> <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">password</span><span class="o">=</span><span class="n">secret123</span>
+<span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">host</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">ipa</span> <span class="n">rolegroup</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">member</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">certadmin</span>
+</pre></div>
 </div>
 <p><strong>client</strong></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-join -w secret123</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">kinit -kt /etc/krb5.keytab host/client.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa -d cert-request ``\</span> <span class="pre">```file://web.csr</span></code> &lt;<a class="reference external" href="file://web.csr">file://web.csr</a>&gt;`__`` –principal=HTTP/client.example.com``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-client-install
+ipa-join -w secret123
+kinit -kt /etc/krb5.keytab host/client.example.com
+ipa -d cert-request ``\ ```file://web.csr`` &lt;file://web.csr&gt;`__\ `` --principal=HTTP/client.example.com
+</pre></div>
 </div>
 <section id="what-this-does">
 <h3>What this does<a class="headerlink" href="#what-this-does" title="Link to this heading">#</a></h3>
@@ -590,20 +590,20 @@ up a VPN tunnel to a remote host, perhaps at another company. To do this
 we need to create an entry for that remote host, a service principal to
 store the certificate, then we can issue the cert.</p>
 <p>Some of this work needs to be done as an admin:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">% kinit admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa host-add vpn.remote.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa service-add vpn/vpn.remote.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">% ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">kinit</span> <span class="n">admin</span>
+<span class="o">%</span> <span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span> <span class="n">vpn</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">com</span>
+<span class="o">%</span> <span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span> <span class="n">vpn</span><span class="o">/</span><span class="n">vpn</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">com</span>
+<span class="o">%</span> <span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">host</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">vpn</span><span class="o">/</span><span class="n">vpn</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
 </div>
 <p>We’ve created the remote host and a service principal for it, then gave
 permission for the host ipa.example.com to request a certificate on
 behalf of vpn.remote.com. This assumes that the certificate request for
 vpn.remote.com is in the file <strong>vpn.csr</strong>.</p>
 <p>On ipa.example com:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``% kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
-| ``% ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
-| ``% ipa service-show vpn/vpn.remote.com``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>% kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM
+% ipa cert-request --principal=vpn/vpn.remote.com vpn.csr
+| ``% ipa service-show vpn/vpn.remote.com``
 </pre></div>
 </div>
 </section>

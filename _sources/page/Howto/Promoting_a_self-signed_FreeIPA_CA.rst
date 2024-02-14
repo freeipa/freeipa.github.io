@@ -27,33 +27,47 @@ Procedure to install and promote a new self-signed replica
 
 1. Install a replica
 
-| ``# ipa-replica-install``
+::
+
+    # ipa-replica-install
 
 2. Copy CA serial number setting from master to replica:
 
-| ``# scp /var/lib/ipa/ca_serialno root@REPLICA:/var/lib/ipa/``
+::
+
+    # scp /var/lib/ipa/ca_serialno root@REPLICA:/var/lib/ipa/
 
 3. On replica, set correct owner and permissions:
 
-| ``# chown root:apache /var/lib/ipa/ca_serialno``
-| ``# chmod 550 /var/lib/ipa/ca_serialno``
+::
+
+    # chown root:apache /var/lib/ipa/ca_serialno
+    # chmod 550 /var/lib/ipa/ca_serialno
 
 4. Restore SELinux context on serial file:
 
-| ``# restorecon  var/lib/ipa/ca_serialno``
+::
+
+    # restorecon  var/lib/ipa/ca_serialno
 
 5. Copy master CA certificate and pwdfile.txt to replica:
 
-| ``# scp /etc/httpd/alias/cacert.p12 /etc/httpd/alias/pwdfile.txt root@REPLICA:~/``
+::
+
+    # scp /etc/httpd/alias/cacert.p12 /etc/httpd/alias/pwdfile.txt root@REPLICA:~/
 
 6. On replica, import the CA certificate:
 
-| ``# pk12util -i ~/cacert.p12 -w ~/pwdfile.txt -d /etc/httpd/alias/ -k /etc/httpd/alias/pwdfile.txt``
+::
+
+    # pk12util -i ~/cacert.p12 -w ~/pwdfile.txt -d /etc/httpd/alias/ -k /etc/httpd/alias/pwdfile.txt
 
 7. The list of certificates in NSS database (including the one imported)
 can be listed with:
 
-| ``# certutil -L -d /etc/httpd/alias/``
+::
+
+    # certutil -L -d /etc/httpd/alias/
 
 However, since *pk12util* import util is not capable of setting a
 correct certificate nickname, the imported certificate will have a
@@ -65,24 +79,26 @@ certificate (replace *$REALM* with your realm):
 
 a) Export the certificate
 
-``# certutil -d /etc/httpd/alias/ -L -n 'CN=$REALM Certificate Authority' -a > ~/cacert.crt``
+``# certutil -d /etc/httpd/alias/ -L -n 'CN=$REALM Certificate Authority' -a > ~/cacert.crt``
 
 b) Delete the old certificate (NSS database /etc/httpd/alias/ should be
 backed up before this step):
 
-``# certutil -d /etc/httpd/alias/ -D -n 'CN=$REALM Certificate Authority'``
+``# certutil -d /etc/httpd/alias/ -D -n 'CN=$REALM Certificate Authority'``
 
 c) Import the certificate with correct nickname:
 
-| ``# certutil -A -n "$REALM IPA CA" -d /etc/httpd/alias/ -f /etc/httpd/alias/pwdfile.txt \``
-| ``  -i /root/cacert.crt -a -t CTu,u,Cu``
+::
+
+    # certutil -A -n "$REALM IPA CA" -d /etc/httpd/alias/ -f /etc/httpd/alias/pwdfile.txt \
+      -i /root/cacert.crt -a -t CTu,u,Cu
 
 8. Enable certificate operations on IPA replica:
 
-``# echo "enable_ra=True" >> /etc/ipa/default.conf``
+``# echo "enable_ra=True" >> /etc/ipa/default.conf``
 
 9. Reload replica web server to pick up new configuration:
 
-``# service httpd reload``
+``# service httpd reload``
 
 `Category:How to <Category:How_to>`__

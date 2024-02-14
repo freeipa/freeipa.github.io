@@ -614,11 +614,11 @@ ticket.</p>
 <p>How to upgrade that certificate to a full-featured PKINIT KDC
 certificate depends on what is your CA.</p>
 <p>A new tool, ipa-pkinit-manage, exists in FreeIPA 4.5.</p>
-<p><code class="docutils literal notranslate"><span class="pre">ipa-pkinit-manage status</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-pkinit-manage</span> <span class="pre">status</span></code></p>
 <p>will tell you current status. “Enabled” means you have properly working
 PKINIT infrastructure on this system. “Disabled” means you only have
 self-signed PKINIT.</p>
-<p><code class="docutils literal notranslate"><span class="pre">ipa-pkinit-manage enable</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-pkinit-manage</span> <span class="pre">enable</span></code></p>
 <p>will try to request PKINIT KDC certificate from IdM CA. You should make
 sure that all IdM CAs are at the same level (FreeIPA 4.5+) before
 running this command.</p>
@@ -643,15 +643,15 @@ CA, no additional configuration on the client side is needed.</p>
 <p>[STRIKEOUT:To use Anonymous PKINIT, make sure ipa pkinit-anonymous
 enable is run (default if installed with PKINIT enabled).]</p>
 <p>Then any client can use</p>
-<p>``   kinit -n``</p>
+<p>``   kinit -n``</p>
 <p>to request an anonymous Kerberos ticket.</p>
 <p>The ticket granting ticket (TGT) obtained as result of the <strong>kinit -n</strong>
 request can only be used to create a FAST channel for second factor
 authentication:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``   kinit -n``
-| ``   klist``
-| ``   ARMOR_CCACHE=$(klist|grep cache:|cut -d&#39; &#39; -f3-)``
-| ``   kinit -T $ARMOR_CCACHE principal@REALM ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kinit -n
+klist
+ARMOR_CCACHE=$(klist|grep cache:|cut -d&#39; &#39; -f3-)
+kinit -T $ARMOR_CCACHE principal@REALM
 </pre></div>
 </div>
 <p><strong>-T</strong> option of kinit allows to specify existing credentials cache with
@@ -660,25 +660,25 @@ KDC when requesting the initial ticket for the specified
 <strong>principal&#64;REALM</strong>. This allows to safely pass details of the
 multi-factor pre-authentication exchange to the KDC.</p>
 <p>To query whether the master supports client PKINIT via <code class="docutils literal notranslate"><span class="pre">config-show</span></code>:</p>
-<div class="line-block">
-<div class="line">``  $ ipa config-show``</div>
-<div class="line">``  Maximum username length: 32``</div>
-<div class="line">``  Home directory base: /home``</div>
-<div class="line">``  Default shell: /bin/sh``</div>
-<div class="line">``  Default users group: ipausers``</div>
-<div class="line">``  …``</div>
-<div class="line">``  IPA masters supporting PKINIT: master1.ipa.test``</div>
-<div class="line">``  …``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa config-show
+Maximum username length: 32
+Home directory base: /home
+Default shell: /bin/sh
+Default users group: ipausers
+...
+IPA masters supporting PKINIT: master1.ipa.test
+...
+</pre></div>
 </div>
 <p>To obtain the same information via <code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">pkinit-status</span></code>:</p>
-<div class="line-block">
-<div class="line">``  $ ipa pkinit-status``</div>
-<div class="line">``  Server name: master1.ipa.test``</div>
-<div class="line">``  PKINIT status: enabled``</div>
-<div class="line">``  …``</div>
-<div class="line">``  Server name: replica1.ipa.test``</div>
-<div class="line">``  PKINIT status: disabled``</div>
-<div class="line">``  …``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa pkinit-status
+Server name: master1.ipa.test
+PKINIT status: enabled
+...
+Server name: replica1.ipa.test
+PKINIT status: disabled
+...
+</pre></div>
 </div>
 </section>
 </section>

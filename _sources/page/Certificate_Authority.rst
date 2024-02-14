@@ -62,7 +62,7 @@ Detailed instructions
 Run ``ipa-server-install`` with whatever arguments are appropriate for
 your environment and include the ``--external_ca`` flag:
 
-``# ipa-server-install --external-ca``
+``# ipa-server-install --external-ca``
 
 This will generate a CSR in ``/root/ipa.csr``. This is the file you need
 to provide to your CA for signing. You will also need to obtain a PEM
@@ -70,7 +70,7 @@ copy of your CA trust chain.
 
 Once you have both of these you can continue the installer:
 
-``# ipa-server-install --external_cert_file=/root/ipa.crt --external_ca_file=/root/existing_ca.crt``
+``# ipa-server-install --external_cert_file=/root/ipa.crt --external_ca_file=/root/existing_ca.crt``
 
 The server caches the answers the first time you run the installer so
 you don't need to answer the questions again the second time. This cache
@@ -312,17 +312,21 @@ the file web.csr in the current directory.
 
 **admin**
 
-| ``ipa host-add client.example.com --password=secret123``
-| ``ipa service-add HTTP/client.example.com``
-| ``ipa service-add-host --hosts=client.example.com HTTP/client.example.com``
-| ``ipa rolegroup-add-member --hosts=client.example.com certadmin``
+::
+
+    ipa host-add client.example.com --password=secret123
+    ipa service-add HTTP/client.example.com
+    ipa service-add-host --hosts=client.example.com HTTP/client.example.com
+    ipa rolegroup-add-member --hosts=client.example.com certadmin
 
 **client**
 
-| ``ipa-client-install``
-| ``ipa-join -w secret123``
-| ``kinit -kt /etc/krb5.keytab host/client.example.com``
-| ``ipa -d cert-request ``\ ```file://web.csr`` <file://web.csr>`__\ `` --principal=HTTP/client.example.com``
+::
+
+    ipa-client-install
+    ipa-join -w secret123
+    kinit -kt /etc/krb5.keytab host/client.example.com
+    ipa -d cert-request ``\ ```file://web.csr`` <file://web.csr>`__\ `` --principal=HTTP/client.example.com
 
 
 
@@ -355,10 +359,12 @@ store the certificate, then we can issue the cert.
 
 Some of this work needs to be done as an admin:
 
-| ``% kinit admin``
-| ``% ipa host-add vpn.remote.com``
-| ``% ipa service-add vpn/vpn.remote.com``
-| ``% ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com``
+::
+
+    % kinit admin
+    % ipa host-add vpn.remote.com
+    % ipa service-add vpn/vpn.remote.com
+    % ipa service-add-host --hosts=ipa.example.com vpn/vpn.remote.com
 
 We've created the remote host and a service principal for it, then gave
 permission for the host ipa.example.com to request a certificate on
@@ -369,6 +375,6 @@ On ipa.example com:
 
 ::
 
-   | ``% kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM``
-   | ``% ipa cert-request --principal=vpn/vpn.remote.com vpn.csr ``
-   | ``% ipa service-show vpn/vpn.remote.com``
+   % kinit -kt /etc/krb5.keytab host/ipa.example.com@EXAMPLE.COM
+   % ipa cert-request --principal=vpn/vpn.remote.com vpn.csr 
+   | ``% ipa service-show vpn/vpn.remote.com``

@@ -145,13 +145,15 @@ Implementation
 Proposed schema
 ----------------------------------------------------------------------------------------------
 
-| `` attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME 'ipaAnchorUUID' DESC 'Unique Anchor Identifier' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')``
-| `` attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME 'ipaOriginalUid' DESC 'Original UID of overriden user' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.29 NAME 'ipaIDView' SUP nsContainer STRUCTURAL MAY ( description ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.30 NAME 'ipaOverrideAnchor' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) MAY ( description ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.31 NAME 'ipaUserOverride' DESC 'Override for User Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.32 NAME 'ipaGroupOverride' DESC 'Override for Group Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( gidNumber $ cn ) X-ORIGIN 'IPA v4' )``
-| `` objectClasses: (2.16.840.1.113730.3.8.12.34 NAME 'ipaOverrideTarget' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) X-ORIGIN 'IPA v4' )``
+::
+
+     attributeTypes: (2.16.840.1.113730.3.8.11.62 NAME 'ipaAnchorUUID' DESC 'Unique Anchor Identifier' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')
+     attributeTypes: (2.16.840.1.113730.3.8.11.63 NAME 'ipaOriginalUid' DESC 'Original UID of overriden user' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v4')
+     objectClasses: (2.16.840.1.113730.3.8.12.29 NAME 'ipaIDView' SUP nsContainer STRUCTURAL MAY ( description ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.30 NAME 'ipaOverrideAnchor' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) MAY ( description ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.31 NAME 'ipaUserOverride' DESC 'Override for User Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( uid $ uidNumber $ gidNumber $ homeDirectory $ loginShell $ gecos $ ipaOriginalUid ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.32 NAME 'ipaGroupOverride' DESC 'Override for Group Attributes' SUP ipaOverrideAnchor STRUCTURAL MAY ( gidNumber $ cn ) X-ORIGIN 'IPA v4' )
+     objectClasses: (2.16.840.1.113730.3.8.12.34 NAME 'ipaOverrideTarget' SUP top STRUCTURAL MUST ( ipaAnchorUUID ) X-ORIGIN 'IPA v4' )
 
 Container
 ----------------------------------------------------------------------------------------------
@@ -679,11 +681,13 @@ Use Case: Migration from the Sync to the Trust solution
 
 To migrate from winsync to trusts you will need to take following steps:
 
-| `` 1. Create a trust with the synced domain``
-| `` 2. For all users that have been synced, you need to:``
-| ``   a. create a ID override in "Default Trust View" for the synced user to preserve IPA generated UID and GID``
-| ``   b. delete the sync agreement``
-| ``   c. delete the synced user``
+::
+
+     1. Create a trust with the synced domain
+     2. For all users that have been synced, you need to:
+       a. create a ID override in "Default Trust View" for the synced user to preserve IPA generated UID and GID
+       b. delete the sync agreement
+       c. delete the synced user
 
 `Category:FreeIPA V4 Test Plan <Category:FreeIPA_V4_Test_Plan>`__
 `Category:FreeIPA Test Plan <Category:FreeIPA_Test_Plan>`__

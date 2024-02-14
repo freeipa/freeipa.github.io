@@ -390,9 +390,9 @@ Security Extensions
 (DNSSEC)</a>.
 Before you start signing you DNS zones you have to install DNSSEC key
 master role to an existing FreeIPA DNS server using command:</p>
-<p><code class="docutils literal notranslate"><span class="pre">ipa-dns-install --dnssec-master</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-dns-install</span> <span class="pre">--dnssec-master</span></code></p>
 <p>It allows you to enable DNSSEC for particular DNS zone using command:</p>
-<p><code class="docutils literal notranslate"><span class="pre">ipa dnszone-mod ``\</span> <span class="pre">*``zone.name.example.``*\</span> <span class="pre">`` --dnssec=true</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">zone.name.example.</span> <span class="pre">--dnssec=true</span></code></p>
 <p>This command will generate new zone keys, distribute keys to all FreeIPA
 DNS servers and configure all servers to independently sign the zone.
 Please keep in mind that it can take few minutes before all servers sign
@@ -409,13 +409,13 @@ published otherwise <a class="reference external" href="http://en.wikipedia.org/
 will not be rotated. This confirmation has to be done on FreeIPA
 server with key master role using following command:</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` sudo -u ods SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf ods-ksmutil key ds-seen --zone ``\ *``zone.name.example.``*\ `` --keytag ``\ *``12345``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">u</span> <span class="n">ods</span> <span class="n">SOFTHSM2_CONF</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">dnssec</span><span class="o">/</span><span class="n">softhsm2</span><span class="o">.</span><span class="n">conf</span> <span class="n">ods</span><span class="o">-</span><span class="n">ksmutil</span> <span class="n">key</span> <span class="n">ds</span><span class="o">-</span><span class="n">seen</span> <span class="o">--</span><span class="n">zone</span> <span class="n">zone</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">example</span><span class="o">.</span> <span class="o">--</span><span class="n">keytag</span> <span class="mi">12345</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p><em>Keytag</em> can be obtained from dig output:</p></li>
 </ul>
-<p>`` dig +dnssec <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">*``zone.name.example.``*\</span> <span class="pre">`` DSKEY</span></code></p>
+<p>`` dig +dnssec zone.name.example. DSKEY``</p>
 <ul class="simple">
 <li><p>User is not notified about automated key rotation. This does not
 lower stability of the system because of <code class="docutils literal notranslate"><span class="pre">ds-seen</span></code> logic mentioned
@@ -459,9 +459,9 @@ server does not need to be shut down in advance.</p>
 <p>Please note that if you are doing the upgrade in special environment
 (e.g. FedUp) which does not allow running the LDAP server during upgrade
 process, upgrade scripts need to be run manually after the first boot:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-ldap-updater --upgrade</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa-upgradeconfig</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-ldap-updater --upgrade</span>
+<span class="c1"># ipa-upgradeconfig</span>
+</pre></div>
 </div>
 <p>Also note that the performance improvements require an extended set of
 indexes to be configured. RPM update for an IPA server with a excessive

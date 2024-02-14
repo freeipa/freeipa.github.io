@@ -303,13 +303,13 @@ FreeIPA.</p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>Our network looks like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Subnet:         192.0.2.0/24</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Domain:         example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Kerberos realm: EXAMPLE.COM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">IPA server:     ipaserver.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DNS server:     dns.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Client:         client.example.com</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Subnet</span><span class="p">:</span>         <span class="mf">192.0.2.0</span><span class="o">/</span><span class="mi">24</span>
+<span class="n">Domain</span><span class="p">:</span>         <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Kerberos</span> <span class="n">realm</span><span class="p">:</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">IPA</span> <span class="n">server</span><span class="p">:</span>     <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">DNS</span> <span class="n">server</span><span class="p">:</span>     <span class="n">dns</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Client</span><span class="p">:</span>         <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
 </div>
 </section>
 <section id="configuring-the-name-server">
@@ -327,23 +327,23 @@ for authenticating dynamic updates:</p>
 <li><p>For BIND <a class="reference external" href="https://lists.isc.org/pipermail/bind-announce/2011-March/000691.html">version &gt;=
 9.8.0</a>:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
-<div class="line">``   …``</div>
-<div class="line">``   tkey-gssapi-keytab  “DNS/dns.example.com”;``</div>
-<div class="line">``   …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="p">{</span>
+<span class="o">...</span>
+   <span class="n">tkey</span><span class="o">-</span><span class="n">gssapi</span><span class="o">-</span><span class="n">keytab</span>  <span class="s2">&quot;DNS/dns.example.com&quot;</span><span class="p">;</span>
+   <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>For BIND version &lt; 9.8.0:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
-<div class="line">``   …``</div>
-<div class="line">``   tkey-gssapi-credential  “DNS/dns.example.com”;``</div>
-<div class="line">``   tkey-domain             “dns.example.com”;``</div>
-<div class="line">``   …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="p">{</span>
+<span class="o">...</span>
+   <span class="n">tkey</span><span class="o">-</span><span class="n">gssapi</span><span class="o">-</span><span class="n">credential</span>  <span class="s2">&quot;DNS/dns.example.com&quot;</span><span class="p">;</span>
+   <span class="n">tkey</span><span class="o">-</span><span class="n">domain</span>             <span class="s2">&quot;dns.example.com&quot;</span><span class="p">;</span>
+   <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
 </div>
 <p>Environment variable <code class="docutils literal notranslate"><span class="pre">KRB5_KTNAME</span></code> has to contain path to keytab file.
 On RHEL and Fedora systems it is possible to add line
@@ -352,21 +352,21 @@ is not done, BIND older than 9.8.0 will not start and will exit with
 very misleading error messages.</p>
 <p>Next we must add the DNS service principal and acquire the keytab. We’ll
 also add the host service for our client.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# kinit admin``
-| ``Password for admin@EXAMPLE.COM: ``
-| ``# ipa-addservice DNS/dns.example.com``
-| ``# ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab``
-| ``Keytab successfully retrieved and stored in: /etc/named.keytab``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
+<span class="n">Password</span> <span class="k">for</span> <span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="p">:</span>
+<span class="c1"># ipa-addservice DNS/dns.example.com</span>
+<span class="c1"># ipa-getkeytab -s ipaserver.example.com -p DNS/dns.example.com -k /etc/named.keytab</span>
+<span class="n">Keytab</span> <span class="n">successfully</span> <span class="n">retrieved</span> <span class="ow">and</span> <span class="n">stored</span> <span class="ow">in</span><span class="p">:</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">named</span><span class="o">.</span><span class="n">keytab</span>
 </pre></div>
 </div>
 <p>Note: Set appropriate file permissions for file <code class="docutils literal notranslate"><span class="pre">/etc/named.keytab</span></code>.
 This file is usually owned by user <code class="docutils literal notranslate"><span class="pre">named</span></code> with mode <code class="docutils literal notranslate"><span class="pre">400</span></code> on RHEL
 and Fedora systems.</p>
 <p>Now we can start named and set it up to always start when booting:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># service named start</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Starting named:                                            [  OK  ]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># chkconfig named on</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service named start</span>
+<span class="n">Starting</span> <span class="n">named</span><span class="p">:</span>                                            <span class="p">[</span>  <span class="n">OK</span>  <span class="p">]</span>
+<span class="c1"># chkconfig named on</span>
+</pre></div>
 </div>
 </section>
 <section id="dynamic-update-policy">
@@ -376,38 +376,38 @@ policies</a>
 according to your requirements.</p>
 <p><strong>Example:</strong> All machines belonging to Kerberos realm EXAMPLE.COM are
 allowed to update own A record. Update requests have to be signed by
-Kerberos principal <code class="docutils literal notranslate"><span class="pre">host/</span></code><em>``machine.fqdn``</em><code class="docutils literal notranslate"><span class="pre">&#64;EXAMPLE.COM</span></code>.
+Kerberos principal <code class="docutils literal notranslate"><span class="pre">host/machine.fqdn&#64;EXAMPLE.COM</span></code>.
 (Naturally, name <em>machine.fqdn</em> has to belong to the zone example.com.)</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;example.com&quot; {</span></code></div>
-<div class="line">``   update-policy {``</div>
-<div class="line">``       grant EXAMPLE.COM krb5-self * A;``</div>
-<div class="line">``   };``</div>
-<div class="line">``   …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span> <span class="s2">&quot;example.com&quot;</span> <span class="p">{</span>
+   <span class="n">update</span><span class="o">-</span><span class="n">policy</span> <span class="p">{</span>
+       <span class="n">grant</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="n">krb5</span><span class="o">-</span><span class="bp">self</span> <span class="o">*</span> <span class="n">A</span><span class="p">;</span>
+   <span class="p">};</span>
+   <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
 </div>
 <p><strong>Example:</strong> Allow Kerberos principal
 <code class="docutils literal notranslate"><span class="pre">SERVICE/ipaserver.example.com&#64;EXAMPLE.COM</span></code> to do any updates in whole
 zone. Note the escaping trick, symbol “/” was replaced with “047”.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;example.com&quot; {</span></code></div>
-<div class="line">``   update-policy {``</div>
-<div class="line">``       grant <a class="reference external" href="mailto:SERVICE047ipaserver&#46;example&#46;com&#37;&#52;&#48;EXAMPLE&#46;COM">SERVICE047ipaserver<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> wildcard * ANY;``</div>
-<div class="line">``   };``</div>
-<div class="line">``   …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span> <span class="s2">&quot;example.com&quot;</span> <span class="p">{</span>
+   <span class="n">update</span><span class="o">-</span><span class="n">policy</span> <span class="p">{</span>
+       <span class="n">grant</span> <span class="n">SERVICE</span>\<span class="mi">047</span><span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="n">wildcard</span> <span class="o">*</span> <span class="n">ANY</span><span class="p">;</span>
+   <span class="p">};</span>
+   <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
 </div>
 <p><strong>Example:</strong> Machine is allowed to update own PTR record in reverse
 zone. Update is allowed only if it came over TCP connection and source
 IP address matches updated name (in reverse tree).</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone &quot;2.0.192.in-addr.arpa&quot; IN {</span></code></div>
-<div class="line">``   …``</div>
-<div class="line">``   update-policy {``</div>
-<div class="line">``       grant * tcp-self * PTR;``</div>
-<div class="line">``   };``</div>
-<div class="line">``   …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span> <span class="s2">&quot;2.0.192.in-addr.arpa&quot;</span> <span class="n">IN</span> <span class="p">{</span>
+<span class="o">...</span>
+   <span class="n">update</span><span class="o">-</span><span class="n">policy</span> <span class="p">{</span>
+       <span class="n">grant</span> <span class="o">*</span> <span class="n">tcp</span><span class="o">-</span><span class="bp">self</span> <span class="o">*</span> <span class="n">PTR</span><span class="p">;</span>
+   <span class="p">};</span>
+   <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
 </div>
 </section>
 <section id="configuring-the-client">
@@ -416,11 +416,11 @@ IP address matches updated name (in reverse tree).</p>
 kinit. (This step is not required if the client was enrolled by
 <code class="docutils literal notranslate"><span class="pre">ipa-client-install</span></code> script or host keytab is already in place for
 other reasons.)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``# kinit admin``
-| ``Password for admin@EXAMPLE.COM: ``
-| ``# ipa-addservice host/client.example.com``
-| ``# ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab``
-| ``# kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit admin</span>
+<span class="n">Password</span> <span class="k">for</span> <span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span><span class="p">:</span>
+<span class="c1"># ipa-addservice host/client.example.com</span>
+<span class="c1"># ipa-getkeytab -s ipaserver.example.com -p host/ipaserver.example.com -k /etc/named.keytab</span>
+<span class="c1"># kinit -k -t /etc/named.keytab host/client.example.com@EXAMPLE.COM</span>
 </pre></div>
 </div>
 <p>Notice that we aren’t required to type any password during <code class="docutils literal notranslate"><span class="pre">kinit</span></code>.
@@ -442,47 +442,47 @@ correct zone if no <code class="docutils literal notranslate"><span class="pre">
 <ul class="simple">
 <li><p>File <code class="docutils literal notranslate"><span class="pre">a_update</span></code>:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">server dns.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">prereq yxrrset client.example.com.                            IN      A</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">update delete client.example.com.                             IN      A</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">update add client.example.com.                86400           IN      A       192.0.2.120</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">server</span> <span class="n">dns</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">zone</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">prereq</span> <span class="n">yxrrset</span> <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>                            <span class="n">IN</span>      <span class="n">A</span>
+<span class="n">update</span> <span class="n">delete</span> <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>                             <span class="n">IN</span>      <span class="n">A</span>
+<span class="n">send</span>
+<span class="n">update</span> <span class="n">add</span> <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>                <span class="mi">86400</span>           <span class="n">IN</span>      <span class="n">A</span>       <span class="mf">192.0.2.120</span>
+<span class="n">send</span>
+</pre></div>
 </div>
 <p>If we will now want to update our A record, we will execute <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>
 like this:</p>
-<p><code class="docutils literal notranslate"><span class="pre">nsupdate -g a_update</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">nsupdate</span> <span class="pre">-g</span> <span class="pre">a_update</span></code></p>
 <ul class="simple">
 <li><p>File <code class="docutils literal notranslate"><span class="pre">ptr_update</span></code>:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">server dns.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone 2.0.192.in-addr.arpa.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">prereq yxrrset 120.2.0.192.in-addr.arpa.                    IN      PTR</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">update delete 120.2.0.192.in-addr.arpa.                     IN      PTR</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">server</span> <span class="n">dns</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">zone</span> <span class="mf">2.0.192</span><span class="o">.</span><span class="ow">in</span><span class="o">-</span><span class="n">addr</span><span class="o">.</span><span class="n">arpa</span><span class="o">.</span>
+<span class="n">prereq</span> <span class="n">yxrrset</span> <span class="mf">120.2.0.192</span><span class="o">.</span><span class="ow">in</span><span class="o">-</span><span class="n">addr</span><span class="o">.</span><span class="n">arpa</span><span class="o">.</span>                    <span class="n">IN</span>      <span class="n">PTR</span>
+<span class="n">update</span> <span class="n">delete</span> <span class="mf">120.2.0.192</span><span class="o">.</span><span class="ow">in</span><span class="o">-</span><span class="n">addr</span><span class="o">.</span><span class="n">arpa</span><span class="o">.</span>                     <span class="n">IN</span>      <span class="n">PTR</span>
+<span class="n">send</span>
+<span class="n">update</span> <span class="n">add</span> <span class="mf">120.2.0.192</span><span class="o">.</span><span class="ow">in</span><span class="o">-</span><span class="n">addr</span><span class="o">.</span><span class="n">arpa</span><span class="o">.</span>        <span class="mi">86400</span>           <span class="n">IN</span>      <span class="n">PTR</span>     <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">send</span>
+</pre></div>
 </div>
 <p>If we want to update our PTR record we’ll use <code class="docutils literal notranslate"><span class="pre">ptr_update</span></code> file as an
 argument and add <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to force update over TCP. Sometimes
 <code class="docutils literal notranslate"><span class="pre">-g</span></code> option enforces TCP usage, but the Kerberos authentication is not
 necessary in this case (because of <code class="docutils literal notranslate"><span class="pre">tcp-self</span></code> option).</p>
-<p><code class="docutils literal notranslate"><span class="pre">nsupdate -v ptr_update</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">nsupdate</span> <span class="pre">-v</span> <span class="pre">ptr_update</span></code></p>
 </section>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
 <p>If you have troubles with <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>, try some additional debugging
 flags, for example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">nsupdate -d -D 99 a_update</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">nsupdate</span> <span class="pre">-d</span> <span class="pre">-D</span> <span class="pre">99</span> <span class="pre">a_update</span></code></p>
 <p>You can also add <code class="docutils literal notranslate"><span class="pre">debug</span></code> command to separate line:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">debug</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">zone 2.0.192.in-addr.arpa.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">update add 120.2.0.192.in-addr.arpa.        86400           IN      PTR     client.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">send</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">debug</span>
+<span class="n">zone</span> <span class="mf">2.0.192</span><span class="o">.</span><span class="ow">in</span><span class="o">-</span><span class="n">addr</span><span class="o">.</span><span class="n">arpa</span><span class="o">.</span>
+<span class="n">update</span> <span class="n">add</span> <span class="mf">120.2.0.192</span><span class="o">.</span><span class="ow">in</span><span class="o">-</span><span class="n">addr</span><span class="o">.</span><span class="n">arpa</span><span class="o">.</span>        <span class="mi">86400</span>           <span class="n">IN</span>      <span class="n">PTR</span>     <span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">send</span>
+</pre></div>
 </div>
 <p>If you have problems with Kerberos, you can try to use the -l flag in
 order to communicate with local DNS server and get GSS-API major and

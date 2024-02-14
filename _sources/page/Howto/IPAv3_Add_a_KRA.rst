@@ -28,21 +28,21 @@ Install and configure IPA server
 Make sure all packages are up to date
 -------------------------------------
 
-``# yum update -y``
+``# yum update -y``
 
 
 
 Install required packages
 -------------------------
 
-``# yum install -y freeipa-server bind bind-dyndb-ldap pki-kra``
+``# yum install -y freeipa-server bind bind-dyndb-ldap pki-kra``
 
 
 
 Install IPA server
 ------------------
 
-``# ipa-server-install -a mypassword1 -p mypassword2 --domain=``\ *``ipa_domain``*\ `` --realm=``\ *``IPA_DOMAIN``*\ `` --setup-dns --no-forwarders -U``
+``# ipa-server-install -a mypassword1 -p mypassword2 --domain=ipa_domain --realm=IPA_DOMAIN --setup-dns --no-forwarders -U`` 
 
 **NOTE**: This configures IPA with its own DNS server. This is not an
 absolute requirement.
@@ -153,21 +153,21 @@ Replace /etc/httpd/conf.d/ipa-pki-proxy.conf with this:
 Restart httpd
 -------------
 
-``# systemctl restart httpd.service``
+``# systemctl restart httpd.service``
 
 
 
 Add the KRA
 -----------
 
-``# pkispawn -s KRA -f /path/to/kra.cfg``
+``# pkispawn -s KRA -f /path/to/kra.cfg``
 
 
 
 Restart Tomcat
 ==============
 
-``# systemctl restart pki-tomcatd@pki-tomcat.service``
+``# systemctl restart pki-tomcatd@pki-tomcat.service``
 
 
 
@@ -184,8 +184,10 @@ KRA work is in /root/ca-agent.p12. Copy this to your client machine, or
 to a location on the server that is readable by the user you want to run
 Firefox. Fix permissions as needed.
 
-| ``# cp /root/ca-agent.p12 /home/someuser``
-| ``# chown someuser /home/someuser/ca-agent.p12``
+::
+
+    # cp /root/ca-agent.p12 /home/someuser
+    # chown someuser /home/someuser/ca-agent.p12
 
 
 

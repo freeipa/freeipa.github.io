@@ -318,9 +318,9 @@ rpm-based installation is used, some paths might be different.</p>
 <p>To use services from IPA server, the machine needs to be IPA-enrolled.
 To do that, package <code class="docutils literal notranslate"><span class="pre">ipa-client</span></code> on RHEL and <code class="docutils literal notranslate"><span class="pre">freeipa-client</span></code> on
 Fedora and its dependencies need to be installed:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># yum install -y ipa-client</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">ipa-client</span></code></p>
 <p>Then the IPA-related systems will be configured using:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa-client-install</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-client-install</span></code></p>
 <p>In the following examples, we will assume that the realm used is
 EXAMPLE.NET, the IPA server is ipa.example.com and the JBoss server runs
 on www.example.com.</p>
@@ -329,10 +329,10 @@ on www.example.com.</p>
 <h2>Starting standalone JBoss<a class="headerlink" href="#starting-standalone-jboss" title="Link to this heading">#</a></h2>
 <p>The standalone JBoss server can be started using script provided in the
 .zip distribution:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ ./bin/standalone.sh &amp;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./bin/standalone.sh</span> <span class="pre">&amp;</span></code></p>
 <p>Then we can access the web service which by default listens on port
 8080:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ curl ``\</span> <span class="pre">```http://localhost:8080/</span></code> &lt;<a class="reference external" href="http://localhost:8080/">http://localhost:8080/</a>&gt;`__</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">curl</span> <span class="pre">``\</span> <span class="pre">```http://localhost:8080/</span></code> &lt;<a class="reference external" href="http://localhost:8080/">http://localhost:8080/</a>&gt;`__</p>
 <p>Since many IPA services rely on correct fully qualified domain name of
 the web server, we will make JBoss listen not just on the loopback
 interface:</p>
@@ -352,7 +352,7 @@ interface:</p>
 </div>
 <p>After restarting the <code class="docutils literal notranslate"><span class="pre">./bin/standalone.sh</span></code>, access on public interface
 should work:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ curl ``\</span> <span class="pre">```http://$(hostname):8080/</span></code> &lt;<a class="reference external" href="http://$(hostname):8080/">http://$(hostname):8080/</a>&gt;`__</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">curl</span> <span class="pre">``\</span> <span class="pre">```http://$(hostname):8080/</span></code> &lt;<a class="reference external" href="http://$(hostname):8080/">http://$(hostname):8080/</a>&gt;`__</p>
 <p>We can stop the JBoss server now.</p>
 </section>
 <section id="service-principal">
@@ -360,12 +360,12 @@ should work:</p>
 <p>To be able to configure Kerberos authentication against our JBoss
 server, we need a service principal and a keytab. On the IPA server,
 command</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ ipa service-add HTTP/www.example.com</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">HTTP/www.example.com</span></code></p>
 <p>will create the service and we can then retrieve the keytab on the JBoss
 server:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+$ ipa-getkeytab -s ipa.example.com -p HTTP/www.example.com -k /path/to/keytab
+</pre></div>
 </div>
 </section>
 <section id="configure-jboss-to-use-spnego-authentication">
@@ -465,16 +465,16 @@ kinit to.</p>
 </div>
 <p>We then touch file <code class="docutils literal notranslate"><span class="pre">standalone/deployments/kerberos.war</span></code> and start the
 server, we should see message like</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Register web context: /kerberos</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Deployed &quot;kerberos.war&quot; (runtime-name : &quot;kerberos.war&quot;)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Register</span> <span class="n">web</span> <span class="n">context</span><span class="p">:</span> <span class="o">/</span><span class="n">kerberos</span>
+<span class="n">Deployed</span> <span class="s2">&quot;kerberos.war&quot;</span> <span class="p">(</span><span class="n">runtime</span><span class="o">-</span><span class="n">name</span> <span class="p">:</span> <span class="s2">&quot;kerberos.war&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>We then obtain a ticket:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ kinit admin&#64;EXAMPLE.NET</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kinit</span> <span class="pre">admin&#64;EXAMPLE.NET</span></code></p>
 <p>and we will run curl with Negotiate authentication enabled:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ curl --negotiate -u : ``\</span> <span class="pre">```http://$(hostname):8080/kerberos/</span></code> &lt;<a class="reference external" href="http://$(hostname):8080/kerberos/">http://$(hostname):8080/kerberos/</a>&gt;`__</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">OK</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl --negotiate -u : ``\ ```http://$(hostname):8080/kerberos/`` &lt;http://$(hostname):8080/kerberos/&gt;`__
+OK
+</pre></div>
 </div>
 <p>We should see the <code class="docutils literal notranslate"><span class="pre">OK</span></code> (the content of the index.html file) printed.</p>
 </section>

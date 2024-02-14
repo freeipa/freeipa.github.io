@@ -286,46 +286,46 @@ document.write(`
 seperate system account binddn.</p>
 <p>In order to do this you first need to create a foreman-binddn.update
 file like this:</p>
-<div class="line-block">
-<div class="line">`` dn: uid=foreman,cn=sysaccounts,cn=etc,$SUFFIX``</div>
-<div class="line">`` default:objectclass:account``</div>
-<div class="line">`` default:objectclass:simplesecurityobject``</div>
-<div class="line">`` default:uid:foreman``</div>
-<div class="line">`` only:userPassword:averysecurepassword``</div>
-<div class="line">`` only:passwordExpirationTime:20380119031407Z``</div>
-<div class="line">`` only:nsIdleTimeout:0``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: uid=foreman,cn=sysaccounts,cn=etc,$SUFFIX
+default:objectclass:account
+default:objectclass:simplesecurityobject
+default:uid:foreman
+only:userPassword:averysecurepassword
+only:passwordExpirationTime:20380119031407Z
+only:nsIdleTimeout:0
+</pre></div>
 </div>
 <p>and then you import it into the FreeIPA (as root) like this:</p>
-<p>`` ipa-ldap-updater foreman-binddn.update``</p>
+<p>`` ipa-ldap-updater foreman-binddn.update``</p>
 <p>You can check if the new user is present running:</p>
-<p>`` ldapsearch -D “cn=Directory Manager” -x uid=foreman -W``</p>
+<p>`` ldapsearch -D “cn=Directory Manager” -x uid=foreman -W``</p>
 <p>Optional you can also add a group in freeIPA where you put all Foreman
 admins inside:</p>
-<p>`` ipa group-add –desc=”Foreman Admins” foreman_admins``</p>
+<p>`` ipa group-add –desc=”Foreman Admins” foreman_admins``</p>
 <p>This one is used below as the optional LDAP filter.</p>
 <p>On the Foreman you supply the following information: LDAP Server</p>
-<div class="line-block">
-<div class="line">`` Server: ``</div>
-<div class="line">`` port: 389``</div>
-<div class="line">`` Server type: FreeIPA``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Server</span><span class="p">:</span>
+<span class="n">port</span><span class="p">:</span> <span class="mi">389</span>
+<span class="n">Server</span> <span class="nb">type</span><span class="p">:</span> <span class="n">FreeIPA</span>
+</pre></div>
 </div>
 <p>Account</p>
-<div class="line-block">
-<div class="line">`` Account Username: uid=foreman,cn=sysaccounts,cn=etc,dc=ipa,dc=example``</div>
-<div class="line">`` Account Password: averysecurepassword``</div>
-<div class="line">`` Base DN: cn=users,cn=accounts,dc=ipa,dc=example``</div>
-<div class="line">`` Groups Base DN: cn=groups,cn=accounts,dc=ipa,dc=example``</div>
-<div class="line">`` LDAP filter: (memberOf=cn=foreman_admins,cn=groups,cn=accounts,dc=ipa,dc=example)``</div>
-<div class="line">`` Check both boxes of: ``</div>
-<div class="line">`` Automatically create accounts in Foreman``</div>
-<div class="line">`` Usergroup sync``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Account</span> <span class="n">Username</span><span class="p">:</span> <span class="n">uid</span><span class="o">=</span><span class="n">foreman</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">sysaccounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">etc</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span>
+<span class="n">Account</span> <span class="n">Password</span><span class="p">:</span> <span class="n">averysecurepassword</span>
+<span class="n">Base</span> <span class="n">DN</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span>
+<span class="n">Groups</span> <span class="n">Base</span> <span class="n">DN</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span>
+<span class="n">LDAP</span> <span class="nb">filter</span><span class="p">:</span> <span class="p">(</span><span class="n">memberOf</span><span class="o">=</span><span class="n">cn</span><span class="o">=</span><span class="n">foreman_admins</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">ipa</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">)</span>
+<span class="n">Check</span> <span class="n">both</span> <span class="n">boxes</span> <span class="n">of</span><span class="p">:</span>
+<span class="n">Automatically</span> <span class="n">create</span> <span class="n">accounts</span> <span class="ow">in</span> <span class="n">Foreman</span>
+<span class="n">Usergroup</span> <span class="n">sync</span>
+</pre></div>
 </div>
 <p>Atrribute mappings</p>
-<div class="line-block">
-<div class="line">`` Login name attribue: uid``</div>
-<div class="line">`` First name attribute: givenName``</div>
-<div class="line">`` Surname attribute: sn``</div>
-<div class="line">`` Email address attribute: mail``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Login</span> <span class="n">name</span> <span class="n">attribue</span><span class="p">:</span> <span class="n">uid</span>
+<span class="n">First</span> <span class="n">name</span> <span class="n">attribute</span><span class="p">:</span> <span class="n">givenName</span>
+<span class="n">Surname</span> <span class="n">attribute</span><span class="p">:</span> <span class="n">sn</span>
+<span class="n">Email</span> <span class="n">address</span> <span class="n">attribute</span><span class="p">:</span> <span class="n">mail</span>
+</pre></div>
 </div>
 </section>
 

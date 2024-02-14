@@ -334,41 +334,41 @@ WebUI</a>.</p>
 </pre></div>
 </div>
 <p>and run</p>
-<div class="line-block">
-<div class="line">``       setsebool -P httpd_dbus_sssd on``</div>
-<div class="line">``       systemctl restart sssd``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setsebool</span> <span class="o">-</span><span class="n">P</span> <span class="n">httpd_dbus_sssd</span> <span class="n">on</span>
+<span class="n">systemctl</span> <span class="n">restart</span> <span class="n">sssd</span>
+</pre></div>
 </div>
 <p>I have created HTTP/ service for the machine and got its keytab:</p>
-<div class="line-block">
-<div class="line">``       echo Secret123 | kinit admin``</div>
-<div class="line">``       ipa service-add HTTP/$(hostname)``</div>
-<div class="line">``       IPA_SERVER=$(awk ‘/^server =/ {print $3}’ /etc/ipa/default.conf)``</div>
-<div class="line">``       ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)``</div>
-<div class="line">``       chown apache /etc/http.keytab``</div>
-<div class="line">``       chmod 600 /etc/http.keytab``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>echo Secret123 | kinit admin
+ipa service-add HTTP/$(hostname)
+IPA_SERVER=$(awk &#39;/^server =/ {print $3}&#39; /etc/ipa/default.conf)
+ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)
+chown apache /etc/http.keytab
+chmod 600 /etc/http.keytab
+</pre></div>
 </div>
 <p>On the IPA server, I’ve run</p>
-<div class="line-block">
-<div class="line">``       [<a class="reference external" href="mailto:root&#37;&#52;&#48;ipa">root<span>&#64;</span>ipa</a> ~]# kadmin.local``</div>
-<div class="line">``       Authenticating as principal <a class="reference external" href="mailto:admin/admin&#37;&#52;&#48;EXAMPLE&#46;COM">admin/admin<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a> with password.``</div>
-<div class="line">``       kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com``</div>
-<div class="line">``       Principal “<a class="reference external" href="mailto:HTTP/client&#46;example&#46;com&#37;&#52;&#48;EXAMPLE&#46;COM">HTTP/client<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>EXAMPLE<span>&#46;</span>COM</a>” modified.``</div>
-<div class="line">``       kadmin.local:  quit``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@ipa</span> <span class="o">~</span><span class="p">]</span><span class="c1"># kadmin.local</span>
+<span class="n">Authenticating</span> <span class="k">as</span> <span class="n">principal</span> <span class="n">admin</span><span class="o">/</span><span class="n">admin</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span> <span class="k">with</span> <span class="n">password</span><span class="o">.</span>
+<span class="n">kadmin</span><span class="o">.</span><span class="n">local</span><span class="p">:</span>  <span class="n">modprinc</span> <span class="o">+</span><span class="n">ok_to_auth_as_delegate</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Principal</span> <span class="s2">&quot;HTTP/client.example.com@EXAMPLE.COM&quot;</span> <span class="n">modified</span><span class="o">.</span>
+<span class="n">kadmin</span><span class="o">.</span><span class="n">local</span><span class="p">:</span>  <span class="n">quit</span>
+</pre></div>
 </div>
 <p>I have created directory for the delegated credentials:</p>
-<div class="line-block">
-<div class="line">``       mkdir /var/run/httpd/gssapi_deleg``</div>
-<div class="line">``       chown apache /var/run/httpd/gssapi_deleg``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">gssapi_deleg</span>
+<span class="n">chown</span> <span class="n">apache</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">gssapi_deleg</span>
+</pre></div>
 </div>
 <p>I have created user and associated client certificate (the test
 certificate alpha from mod_nss’s default /etc/httpd/alias) with it:</p>
-<div class="line-block">
-<div class="line">``       ipa user-add –first Robert –last Chase –random bob``</div>
-<div class="line">``       ipa user-add-cert –certificate=”$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v ‘.—’ )” bob``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="n">add</span> <span class="o">--</span><span class="n">first</span> <span class="n">Robert</span> <span class="o">--</span><span class="n">last</span> <span class="n">Chase</span> <span class="o">--</span><span class="n">random</span> <span class="n">bob</span>
+<span class="n">ipa</span> <span class="n">user</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">cert</span> <span class="o">--</span><span class="n">certificate</span><span class="o">=</span><span class="s2">&quot;$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v &#39;.---&#39; )&quot;</span> <span class="n">bob</span>
+</pre></div>
 </div>
 <p>I had to change bob’s password or I was getting CLIENT KEY EXPIRED later
 during gss_acquire_cred_impersonate_name:</p>
-<p>``       kpasswd bob``</p>
+<p>``       kpasswd bob``</p>
 <p>I have created test content:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat &gt; /var/www/cgi-bin/set.cgi &lt;&lt;EOF</span>
 <span class="c1">#!/bin/bash</span>
@@ -382,7 +382,7 @@ during gss_acquire_cred_impersonate_name:</p>
 </pre></div>
 </div>
 <p>Started Apache and tested I can talk to it via HTTPS:</p>
-<p>``       SSL_DIR=/etc/httpd/alias curl -v -Lsi <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://$(hostname):8443/cgi-bin/set.cgi</span></code> &lt;<a class="reference external" href="https://$(hostname):8443/cgi-bin/set.cgi">https://$(hostname):8443/cgi-bin/set.cgi</a>&gt;`__</p>
+<p>``       SSL_DIR=/etc/httpd/alias curl -v -Lsi <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://$(hostname):8443/cgi-bin/set.cgi</span></code> &lt;<a class="reference external" href="https://$(hostname):8443/cgi-bin/set.cgi">https://$(hostname):8443/cgi-bin/set.cgi</a>&gt;`__</p>
 <p>I’ve configured the modules:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nss</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">orig</span>     <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">22</span> <span class="mi">16</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mf">00.000000000</span> <span class="o">-</span><span class="mi">0400</span>
 <span class="o">+++</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nss</span><span class="o">.</span><span class="n">conf</span>  <span class="mi">2016</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span> <span class="mi">07</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mf">00.591724042</span> <span class="o">-</span><span class="mi">0400</span>
@@ -422,14 +422,14 @@ during gss_acquire_cred_impersonate_name:</p>
 </pre></div>
 </div>
 <p>uncommented LoadModule in</p>
-<p>``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``</p>
+<p>``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``</p>
 <p>and run</p>
-<div class="line-block">
-<div class="line">``       echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so &gt; /etc/httpd/conf.modules.d/09-gssapi.conf``</div>
-<div class="line">``       systemctl restart httpd``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">LoadModule</span> <span class="n">auth_gssapi_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_auth_gssapi</span><span class="o">.</span><span class="n">so</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="mi">09</span><span class="o">-</span><span class="n">gssapi</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">systemctl</span> <span class="n">restart</span> <span class="n">httpd</span>
+</pre></div>
 </div>
 <p>I’ve now run</p>
-<p>``       SSL_DIR=/etc/httpd/alias curl -Lsi –cert alpha <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://$(hostname):8443/cgi-bin/set.cgi</span></code> &lt;<a class="reference external" href="https://$(hostname):8443/cgi-bin/set.cgi">https://$(hostname):8443/cgi-bin/set.cgi</a>&gt;`__</p>
+<p>``       SSL_DIR=/etc/httpd/alias curl -Lsi –cert alpha <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://$(hostname):8443/cgi-bin/set.cgi</span></code> &lt;<a class="reference external" href="https://$(hostname):8443/cgi-bin/set.cgi">https://$(hostname):8443/cgi-bin/set.cgi</a>&gt;`__</p>
 <p>and in the log I saw</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">==&gt;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">error_log</span> <span class="o">&lt;==</span>
 <span class="p">[</span><span class="n">Thu</span> <span class="n">Jun</span> <span class="mi">16</span> <span class="mi">08</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mf">28.070370</span> <span class="mi">2016</span><span class="p">]</span> <span class="p">[:</span><span class="n">notice</span><span class="p">]</span> <span class="p">[</span><span class="n">pid</span> <span class="mi">18961</span><span class="p">]</span> <span class="n">lookup_user_by_certificate</span> <span class="n">found</span> <span class="p">[</span><span class="n">bob</span><span class="p">]</span>
@@ -452,12 +452,12 @@ during gss_acquire_cred_impersonate_name:</p>
 <h2>mod_lookup_identity<a class="headerlink" href="#mod-lookup-identity" title="Link to this heading">#</a></h2>
 <p>The correct functionality depends on the order in which mod_nss and
 mod_lookup_identity are loaded. By default, on RHEL 7.2, mod_nss uses</p>
-<p>``       /etc/httpd/conf.modules.d/10-nss.conf``</p>
+<p>``       /etc/httpd/conf.modules.d/10-nss.conf``</p>
 <p>and mod_lookup_identity uses</p>
-<p>``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``</p>
+<p>``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``</p>
 <p>(55-lookup_identity.conf has the LoadModule commented out), so that
 order works. But it would be good to add mod_nss to</p>
-<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749</span></code> &lt;<a class="github reference external" href="https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749">adelton/mod_lookup_identity</a>&gt;`__</p>
+<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749</span></code> &lt;<a class="github reference external" href="https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749">adelton/mod_lookup_identity</a>&gt;`__</p>
 <p>to force mod_lookup_identity to be run after mod_nss.</p>
 <p>New release mod_lookup_identity-0.9.7 was done to address this issue.</p>
 </section>
@@ -467,11 +467,11 @@ order works. But it would be good to add mod_nss to</p>
 r-&gt;user and REMOTE_USER are set back to the SSL_CLIENT_CERT value in the
 fixup phase, even if we’ve set it to bob and mod_auth_gssapi found bob
 there. It’s because the r-&gt;user is set both at</p>
-<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627</span></code> &lt;<a class="reference external" href="https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627">https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627</a>&gt;`__</p>
+<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627</span></code> &lt;<a class="reference external" href="https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627">https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627</a>&gt;`__</p>
 <p>where we find it, but also in</p>
-<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962</span></code> &lt;<a class="reference external" href="https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962">https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962</a>&gt;`__</p>
+<p>``       <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962</span></code> &lt;<a class="reference external" href="https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962">https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962</a>&gt;`__</p>
 <p>That second operation should likely be only run when</p>
-<p>``       (dc-&gt;nOptions &amp; SSL_OPT_FAKEBASICAUTH)``</p>
+<p>``       (dc-&gt;nOptions &amp; SSL_OPT_FAKEBASICAUTH)``</p>
 <p>When I patch mod_nss that way, the curl will show</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">==&gt;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">error_log</span> <span class="o">&lt;==</span>
 <span class="p">[</span><span class="n">Thu</span> <span class="n">Jun</span> <span class="mi">16</span> <span class="mi">08</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mf">41.175368</span> <span class="mi">2016</span><span class="p">]</span> <span class="p">[:</span><span class="n">notice</span><span class="p">]</span> <span class="p">[</span><span class="n">pid</span> <span class="mi">22993</span><span class="p">]</span> <span class="n">lookup_user_by_certificate</span> <span class="n">found</span> <span class="p">[</span><span class="n">bob</span><span class="p">]</span>

@@ -87,7 +87,7 @@ resembled in the image below
    :alt: Ipa_3.3_with_centos_7_and_vsphere.png
 
 
-Click on _Test Connection_ button to verify parameters are correct.
+Click on ``Test Connection`` button to verify parameters are correct.
 
 The _vadmin_ is a normal IPA user I created only for bind with no ESX permissions at all (it is only part of the default ipausers IPA group)
 

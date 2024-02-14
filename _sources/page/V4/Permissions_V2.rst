@@ -77,15 +77,17 @@ result in removing any old ACI and adding a new one.
 The new schema (including schema from other related designs) is as
 follows:
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.42 NAME 'ipaPermDefaultAttr' DESC 'IPA permission default attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.43 NAME 'ipaPermIncludedAttr' DESC 'IPA permission explicitly included attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.44 NAME 'ipaPermExcludedAttr' DESC 'IPA permission explicitly excluded attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.45 NAME 'ipaPermBindRuleType' DESC 'IPA permission bind rule type' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.46 NAME 'ipaPermLocation' DESC 'Location of IPA permission ACI' EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.47 NAME 'ipaPermRight' DESC 'IPA permission rights' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.48 NAME 'ipaPermTargetFilter' DESC 'IPA permission target filter' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )``
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.49 NAME 'ipaPermTarget' DESC 'IPA permission target' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )``
-| ``objectClasses: (2.16.840.1.113730.3.8.12.21 NAME 'ipaPermissionV2' DESC 'IPA Permission objectclass, version 2' SUP ipaPermission AUXILIARY MUST ( ipaPermissionType $ ipaPermBindRuleType $ ipaPermRight $ ipaPermLocation ) MAY ( ipaPermDefaultAttr $ ipaPermIncludedAttr $ ipaPermExcludedAttr $ ipaPermTargetFilter $ ipaPermTarget ) X-ORIGIN 'IPA v3' )``
+::
+
+    attributeTypes: (2.16.840.1.113730.3.8.11.42 NAME 'ipaPermDefaultAttr' DESC 'IPA permission default attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.43 NAME 'ipaPermIncludedAttr' DESC 'IPA permission explicitly included attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.44 NAME 'ipaPermExcludedAttr' DESC 'IPA permission explicitly excluded attribute' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.45 NAME 'ipaPermBindRuleType' DESC 'IPA permission bind rule type' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.46 NAME 'ipaPermLocation' DESC 'Location of IPA permission ACI' EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.47 NAME 'ipaPermRight' DESC 'IPA permission rights' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.48 NAME 'ipaPermTargetFilter' DESC 'IPA permission target filter' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )
+    attributeTypes: (2.16.840.1.113730.3.8.11.49 NAME 'ipaPermTarget' DESC 'IPA permission target' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v3' )
+    objectClasses: (2.16.840.1.113730.3.8.12.21 NAME 'ipaPermissionV2' DESC 'IPA Permission objectclass, version 2' SUP ipaPermission AUXILIARY MUST ( ipaPermissionType $ ipaPermBindRuleType $ ipaPermRight $ ipaPermLocation ) MAY ( ipaPermDefaultAttr $ ipaPermIncludedAttr $ ipaPermExcludedAttr $ ipaPermTargetFilter $ ipaPermTarget ) X-ORIGIN 'IPA v3' )
 
 (Note: ipaPermIncludedAttr was known as ipaPermAllowedAttr in the first
 versions of this document, and in the patches that implement it. It has
@@ -94,8 +96,10 @@ permissions <V3/Managed_Read_permissions>`__.)
 
 -  ipaPermIncludedAttr lists the attributes of the ACI; for example:
 
-| ``   ipaPermIncludedAttr: cn``
-| ``   ipaPermIncludedAttr: sn``
+::
+
+       ipaPermIncludedAttr: cn
+       ipaPermIncludedAttr: sn
 
 -  the other ipaPerm*Attr are for Managed permissions, will be explained
    in `V3/Managed Read permissions <V3/Managed_Read_permissions>`__
@@ -103,26 +107,28 @@ permissions <V3/Managed_Read_permissions>`__.)
    `V3/Anonymous and Any
    permissions <V3/Anonymous_and_Any_permissions>`__; default:
 
-``   ipaPermBindRuleType: permission``
+``   ipaPermBindRuleType: permission``
 
 -  ipaPermLocation is the location of the ACI in the tree.
 
-``   ipaPermLocation: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
+``   ipaPermLocation: cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
 
 -  ipaPermRight is the right(s) the permission grants; for example:
 
-| ``   ipaPermRight: add``
-| ``   ipaPermRight: write``
+::
+
+       ipaPermRight: add
+       ipaPermRight: write
 
 -  ipaPermTargetFilter is the target filter part of the ACI, for
    example:
 
-``   ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com)``
+``   ipaPermTargetFilter: (memberOf=cn=ipausers,cn=groups,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com)``
 
 -  ipaPermTarget is the target part of the ACI, as a DN with possible
    wildcards; for example:
 
-``   ipaPermTarget: uid=*,cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
+``   ipaPermTarget: uid=*,cn=users,cn=accounts,dc=idm,dc=lab,dc=eng,dc=brq,dc=redhat,dc=com``
 
 
 
@@ -150,16 +156,18 @@ exclusive; if the second is present it acts as the first one. The second
 option will only be available when called with a lower API version than
 the one where V2 permissions are introduced.
 
-| ``  API name            CLI name``
-| ``  -------------------------------``
-| ``/ ipapermright        permissions``
-| ``\ permissions         (no_cli)``
-| ``/ ipapermincludedattr  attrs``
-| ``\ attrs               (no_cli)``
-| ``/ ipapermtargetfilter filter``
-| ``\ filter              (no_cli)``
-| ``/ ipapermlocation     subtree``
-| ``\ subtree             (no_cli)``
+::
+
+      API name            CLI name
+      -------------------------------
+    / ipapermright        permissions
+    \ permissions         (no_cli)
+    / ipapermincludedattr  attrs
+    \ attrs               (no_cli)
+    / ipapermtargetfilter filter
+    \ filter              (no_cli)
+    / ipapermlocation     subtree
+    \ subtree             (no_cli)
 
 A new no-cli option will be added: ``ipapermtarget``.
 

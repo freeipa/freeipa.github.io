@@ -300,10 +300,10 @@ document.write(`
 <p>In IPA 4.3 the replication topology is controlled by the topology
 plugin. Connections between replicas can only be created or removed by
 the</p>
-<p>ipa topologysegment-[add|del]</p>
+<p>ipa topologysegment-[add|del]</p>
 <p>commands.</p>
 <p>When a replica is removed by running</p>
-<p>ipa-replica-manage del</p>
+<p>ipa-replica-manage del</p>
 <p>the removal of replication segments and corresponding replication
 agreements is automatically handled by the topology plugin.</p>
 <p>But to be able to propagate these changes throughout the topology all
@@ -343,10 +343,10 @@ connections to handle</p>
 <section id="removing-a-leaf-replica">
 <h2>Removing a “leaf” replica<a class="headerlink" href="#removing-a-leaf-replica" title="Link to this heading">#</a></h2>
 <p>Assuming the following replication topology:</p>
-<p><code class="docutils literal notranslate"><span class="pre">A &lt;--&gt; B &lt;--&gt; C &lt;--&gt; D</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&lt;--&gt;</span> <span class="pre">B</span> <span class="pre">&lt;--&gt;</span> <span class="pre">C</span> <span class="pre">&lt;--&gt;</span> <span class="pre">D</span></code></p>
 <p>then the replicas at the endpoints of the replication chain, A or D, can
 safely be removed by:</p>
-<p><code class="docutils literal notranslate"><span class="pre">ipa-replica-manage del A</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-replica-manage</span> <span class="pre">del</span> <span class="pre">A</span></code></p>
 <p>The command removes the master entry for A and this will trigger that
 the topoloy plugin removes the segment connecting A and B an will remove
 the replication agreements A–&gt;B and B–&gt;A</p>
@@ -355,24 +355,24 @@ the replication agreements A–&gt;B and B–&gt;A</p>
 <h2>Removing an “internal” replica<a class="headerlink" href="#removing-an-internal-replica" title="Link to this heading">#</a></h2>
 <p>Assume that in the above topology the internal node C should be removed.</p>
 <p>If the command</p>
-<p>ipa-replica-manage del C</p>
+<p>ipa-replica-manage del C</p>
 <p>is executed, the command will detect that the removal of C disconnects
 the topology and rejects the command.</p>
 <p>It will also list the replicas which will be no longer connected to each
 other, use this information to add missing segments before finally
 deleting the replica</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">checking connectivity in topology suffix 'ipaca'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">WARNING: Removal of 'vm-110.abc.idm.lab.eng.brq.redhat.com' will lead to disconnected topology in suffix 'ipaca'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Changes will not be replicated to all servers and data will become inconsistent.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">You need to add segments to prevent disconnection of the topology.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Errors in topology after removal:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Topology does not allow server vm-072.abc.idm.lab.eng.brq.redhat.com to replicate with servers:</span></code></div>
-<div class="line">``   vm-192.abc.idm.lab.eng.brq.redhat.com``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Topology does not allow server vm-192.abc.idm.lab.eng.brq.redhat.com to replicate with servers:</span></code></div>
-<div class="line">``   vm-072.abc.idm.lab.eng.brq.redhat.com``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">checking</span> <span class="n">connectivity</span> <span class="ow">in</span> <span class="n">topology</span> <span class="n">suffix</span> <span class="s1">&#39;ipaca&#39;</span>
+<span class="n">WARNING</span><span class="p">:</span> <span class="n">Removal</span> <span class="n">of</span> <span class="s1">&#39;vm-110.abc.idm.lab.eng.brq.redhat.com&#39;</span> <span class="n">will</span> <span class="n">lead</span> <span class="n">to</span> <span class="n">disconnected</span> <span class="n">topology</span> <span class="ow">in</span> <span class="n">suffix</span> <span class="s1">&#39;ipaca&#39;</span>
+<span class="n">Changes</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">replicated</span> <span class="n">to</span> <span class="nb">all</span> <span class="n">servers</span> <span class="ow">and</span> <span class="n">data</span> <span class="n">will</span> <span class="n">become</span> <span class="n">inconsistent</span><span class="o">.</span>
+<span class="n">You</span> <span class="n">need</span> <span class="n">to</span> <span class="n">add</span> <span class="n">segments</span> <span class="n">to</span> <span class="n">prevent</span> <span class="n">disconnection</span> <span class="n">of</span> <span class="n">the</span> <span class="n">topology</span><span class="o">.</span>
+<span class="n">Errors</span> <span class="ow">in</span> <span class="n">topology</span> <span class="n">after</span> <span class="n">removal</span><span class="p">:</span>
+<span class="n">Topology</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">allow</span> <span class="n">server</span> <span class="n">vm</span><span class="o">-</span><span class="mf">072.</span><span class="n">abc</span><span class="o">.</span><span class="n">idm</span><span class="o">.</span><span class="n">lab</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">brq</span><span class="o">.</span><span class="n">redhat</span><span class="o">.</span><span class="n">com</span> <span class="n">to</span> <span class="n">replicate</span> <span class="k">with</span> <span class="n">servers</span><span class="p">:</span>
+   <span class="n">vm</span><span class="o">-</span><span class="mf">192.</span><span class="n">abc</span><span class="o">.</span><span class="n">idm</span><span class="o">.</span><span class="n">lab</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">brq</span><span class="o">.</span><span class="n">redhat</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Topology</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">allow</span> <span class="n">server</span> <span class="n">vm</span><span class="o">-</span><span class="mf">192.</span><span class="n">abc</span><span class="o">.</span><span class="n">idm</span><span class="o">.</span><span class="n">lab</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">brq</span><span class="o">.</span><span class="n">redhat</span><span class="o">.</span><span class="n">com</span> <span class="n">to</span> <span class="n">replicate</span> <span class="k">with</span> <span class="n">servers</span><span class="p">:</span>
+   <span class="n">vm</span><span class="o">-</span><span class="mf">072.</span><span class="n">abc</span><span class="o">.</span><span class="n">idm</span><span class="o">.</span><span class="n">lab</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">brq</span><span class="o">.</span><span class="n">redhat</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">NOTE: the removal of an internal node can be enforced by adding --force to the command, but it should never be done</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">NOTE:</span> <span class="pre">the</span> <span class="pre">removal</span> <span class="pre">of</span> <span class="pre">an</span> <span class="pre">internal</span> <span class="pre">node</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">enforced</span> <span class="pre">by</span> <span class="pre">adding</span> <span class="pre">--force</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">command,</span> <span class="pre">but</span> <span class="pre">it</span> <span class="pre">should</span> <span class="pre">never</span> <span class="pre">be</span> <span class="pre">done</span></code></p>
 <p>There are two cases</p>
 <ol class="loweralpha simple">
 <li><p>node C is working and properly handling replication traffic</p></li>
@@ -397,7 +397,7 @@ in between there could be race conditions where the late replication of
 the removal could give unexpeted results.</p>
 <p>As a conclusion, in both cases the topology should be extended first to
 keep the topology connected, by running</p>
-<p><code class="docutils literal notranslate"><span class="pre">ipa topologysegment-add --leftnode=A --rightnode=D</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">topologysegment-add</span> <span class="pre">--leftnode=A</span> <span class="pre">--rightnode=D</span></code></p>
 <p>This ensures that the toplogy is fully connected again and keeps
 connected after C is removed</p>
 </section>

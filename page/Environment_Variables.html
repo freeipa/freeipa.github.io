@@ -369,15 +369,15 @@ mod_unique_id</p></td>
 <li><p>REMOTE_USER=username</p></li>
 </ul>
 <p>The configuration may look something like:</p>
-<div class="line-block">
-<div class="line">`` AuthType Basic``</div>
-<div class="line">`` AuthName “Restricted Files”``</div>
-<div class="line">`` AuthBasicProvider file``</div>
-<div class="line">`` AuthUserFile /etc/httpd/conf/passwords``</div>
-<div class="line">`` Require valid-user``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AuthType</span> <span class="n">Basic</span>
+<span class="n">AuthName</span> <span class="s2">&quot;Restricted Files&quot;</span>
+<span class="n">AuthBasicProvider</span> <span class="n">file</span>
+<span class="n">AuthUserFile</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">passwords</span>
+<span class="n">Require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
+</pre></div>
 </div>
 <p>The user database would be created with this:</p>
-<p><code class="docutils literal notranslate"><span class="pre">htpasswd -c /etc/httpd/conf/passwords testuser</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">htpasswd</span> <span class="pre">-c</span> <span class="pre">/etc/httpd/conf/passwords</span> <span class="pre">testuser</span></code></p>
 </section>
 <section id="kerberos-authentication">
 <h2>Kerberos Authentication<a class="headerlink" href="#kerberos-authentication" title="Link to this heading">#</a></h2>
@@ -390,21 +390,21 @@ mod_unique_id</p></td>
 includes KrbSaveCredentials on, then KRB5CCNAME will be set pointing to
 the user’s keytab.</p>
 <p>The configuration may look something like</p>
-<div class="line-block">
-<div class="line">`` AuthType GSSAPI``</div>
-<div class="line">`` AuthName “Kerberos Login”``</div>
-<div class="line">`` GssapiCredStore keytab:/etc/http.keytab``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AuthType</span> <span class="n">GSSAPI</span>
+<span class="n">AuthName</span> <span class="s2">&quot;Kerberos Login&quot;</span>
+<span class="n">GssapiCredStore</span> <span class="n">keytab</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span>
+</pre></div>
 </div>
 <p>for mod_auth_gssapi or for mod_auth_kerb:</p>
-<div class="line-block">
-<div class="line">`` AuthType Kerberos``</div>
-<div class="line">`` AuthName “Kerberos Login”``</div>
-<div class="line">`` KrbMethodNegotiate on``</div>
-<div class="line">`` KrbMethodK5Passwd off``</div>
-<div class="line">`` KrbServiceName HTTP``</div>
-<div class="line">`` KrbAuthRealms EXAMPLE.COM``</div>
-<div class="line">`` Krb5KeyTab /etc/httpd/conf/ipa.keytab``</div>
-<div class="line">`` KrbSaveCredentials on``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AuthType</span> <span class="n">Kerberos</span>
+<span class="n">AuthName</span> <span class="s2">&quot;Kerberos Login&quot;</span>
+<span class="n">KrbMethodNegotiate</span> <span class="n">on</span>
+<span class="n">KrbMethodK5Passwd</span> <span class="n">off</span>
+<span class="n">KrbServiceName</span> <span class="n">HTTP</span>
+<span class="n">KrbAuthRealms</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">Krb5KeyTab</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">keytab</span>
+<span class="n">KrbSaveCredentials</span> <span class="n">on</span>
+</pre></div>
 </div>
 </section>
 <section id="x-509-authentication">
@@ -424,10 +424,10 @@ in SSLOptions or NSSOptions.</p>
 <p>There may be some slight differences in the variables available in
 mod_ssl and mod_nss. For example, SSL_TLS_SNI is not available in
 mod_nss.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;Directory &quot;/var/www/secure&quot;&gt;</span></code></div>
-<div class="line">``    NSSOptions +StdEnvVars``</div>
-<div class="line">``    NSSVerifyClient Require``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Directory</span> <span class="s2">&quot;/var/www/secure&quot;</span><span class="o">&gt;</span>
+    <span class="n">NSSOptions</span> <span class="o">+</span><span class="n">StdEnvVars</span>
+    <span class="n">NSSVerifyClient</span> <span class="n">Require</span>
+</pre></div>
 </div>
 <p>The mod_ssl configuration is similar. Replace NSS with SSL.</p>
 <p>The variables are named the same between mod_ssl and mod_nss though the
@@ -563,12 +563,12 @@ supplied with ClientHello)</p></td>
 <p>Apache provides the module mod_authnz_ldap to perform authentication and
 authorization over LDAP.</p>
 <p>A simple configuration looks like:</p>
-<div class="line-block">
-<div class="line">``   AuthType Basic``</div>
-<div class="line">``   AuthName “LDAP Protected”``</div>
-<div class="line">``   AuthBasicProvider ldap``</div>
-<div class="line">``   AuthLDAPURL <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```ldap://127.0.0.1/dc=example,dc=com?uid?one</span></code> &lt;<a class="reference external" href="ldap://127.0.0.1/dc=example,dc=com?uid">ldap://127.0.0.1/dc=example,dc=com?uid</a>?one&gt;`__</div>
-<div class="line">``   Require valid-user``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AuthType Basic
+AuthName &quot;LDAP Protected&quot;
+AuthBasicProvider ldap
+AuthLDAPURL ``\ ```ldap://127.0.0.1/dc=example,dc=com?uid?one`` &lt;ldap://127.0.0.1/dc=example,dc=com?uid?one&gt;`__
+Require valid-user
+</pre></div>
 </div>
 <p>Authorization can be done by specifying the allowed users, groups,
 attribute with in an entry or even a filter.</p>

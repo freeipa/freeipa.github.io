@@ -333,31 +333,33 @@ How to Use
 
 Example of inventory file:
 
-| ``$ cat inventory/hosts``
-| ``[ipaclients]``
-| ``ipaclient1.example.com``
-| ``ipaclient2.example.com``
-| ``[ipaservers]``
-| ``ipaserver.example.com``
-| ``[ipaclients:vars]``
-| ``ipaclient_domain=example.com``
-| ``ipaclient_realm=EXAMPLE.COM``
-| ``ipaclient_extraargs=[ '--kinit-attempts=3', '--mkhomedir']``
-| ``# To enroll the IPAclient, the module needs either a host keytab from a previous enrollment,``
-| ``# or a principal + password, or a One-Time Password``
-| ``# If you wish to use principal + password, you need to provide ipaclient_principal and ipaclient_password:``
-| ``ipaclient_principal=admin``
-| ``ipaclient_password=MySecretPassword123``
-| ``# If you wish to use a host keytab from a previous enrollment, you need to provide ipaclient_keytab:``
-| ``#ipaclient_keytab=``
-| ``# If you wish to use a One-Time Password, you need to select an auth method to IPA server``
-| ``# (either using password or keytab) and need to provide``
-| ``# - for password auth: ipaserver_principal and ipaserver_password:``
-| ``#ipaserver_principal=``
-| ``#ipaserver_password=``
-| ``# - for keytab auth: ipaserver_principal and ipaserver_keytab:``
-| ``#ipaserver_principal=``
-| ``#ipaserver_keytab=``
+::
+
+    $ cat inventory/hosts
+    [ipaclients]
+    ipaclient1.example.com
+    ipaclient2.example.com
+    [ipaservers]
+    ipaserver.example.com
+    [ipaclients:vars]
+    ipaclient_domain=example.com
+    ipaclient_realm=EXAMPLE.COM
+    ipaclient_extraargs=[ '--kinit-attempts=3', '--mkhomedir']
+    # To enroll the IPAclient, the module needs either a host keytab from a previous enrollment,
+    # or a principal + password, or a One-Time Password
+    # If you wish to use principal + password, you need to provide ipaclient_principal and ipaclient_password:
+    ipaclient_principal=admin
+    ipaclient_password=MySecretPassword123
+    # If you wish to use a host keytab from a previous enrollment, you need to provide ipaclient_keytab:
+    #ipaclient_keytab=
+    # If you wish to use a One-Time Password, you need to select an auth method to IPA server
+    # (either using password or keytab) and need to provide
+    # - for password auth: ipaserver_principal and ipaserver_password:
+    #ipaserver_principal=
+    #ipaserver_password=
+    # - for keytab auth: ipaserver_principal and ipaserver_keytab:
+    #ipaserver_principal=
+    #ipaserver_keytab=
 
 
 
@@ -366,19 +368,21 @@ Using the Ansible ipaclient module to unconfigure IPA
 
 Create a playbook calling the ipaclient module, with state=absent
 
-| ``$ cat uninstall.yml``
-| ``---``
-| ``- name: Playbook to unconfigure IPA clients``
-| ``  hosts: ipaclients``
-| ``  become: true``
-| ``  tasks:``
-| ``  - name: Unconfigure IPA client``
-| ``    ipaclient:``
-| ``      state: absent``
+::
+
+    $ cat uninstall.yml
+    ---
+    - name: Playbook to unconfigure IPA clients
+      hosts: ipaclients
+      become: true
+      tasks:
+      - name: Unconfigure IPA client
+        ipaclient:
+          state: absent
 
 Call the playbook
 
-``$ ansible-playbook -i inventory/hosts uninstall.yml``
+``$ ansible-playbook -i inventory/hosts uninstall.yml``
 
 
 
@@ -387,18 +391,20 @@ Using the Ansible role ipaclient to unconfigure IPA
 
 Create a playbook calling the ipaclient role, with state=absent
 
-| ``$ cat uninstall.yml``
-| ``---``
-| ``- name: Playbook to unconfigure IPA clients``
-| ``  hosts: ipaclients``
-| ``  become: true``
-| ``  roles:``
-| ``  - role: ipaclient``
-| ``    state: absent``
+::
+
+    $ cat uninstall.yml
+    ---
+    - name: Playbook to unconfigure IPA clients
+      hosts: ipaclients
+      become: true
+      roles:
+      - role: ipaclient
+        state: absent
 
 Call the playbook
 
-``$ ansible-playbook -i inventory/hosts uninstall.yml``
+``$ ansible-playbook -i inventory/hosts uninstall.yml``
 
 
 
@@ -408,80 +414,84 @@ Use the ipaclient module to configure IPA client by providing username and passw
 Create a playbook calling the ipaclient module, with state=present. The
 module takes principal and password as arguments.
 
-| ``$ cat install.yml``
-| ``---``
-| ``- name: Playbook to configure IPA clients with username/password``
-| ``  hosts: ipaclients``
-| ``  become: true``
-| ``  tasks:``
-| ``  - name: Install IPA client package``
-| ``    package:``
-| ``      name: ipa-client``
-| ``      state: present``
-| ``  - name: Configure IPA client``
-| ``    ipaclient:``
-| ``      state: present``
-| ``      domain: "{{ ipaclient_domain }}"``
-| ``      realm: "{{ ipaclient_realm }}"``
-| ``      principal: "{{ ipaclient_principal }}"``
-| ``      password: "{{ ipaclient_password }}"``
-| ``      extra_args: "{{ipaclient_extraargs }}"``
+::
+
+    $ cat install.yml
+    ---
+    - name: Playbook to configure IPA clients with username/password
+      hosts: ipaclients
+      become: true
+      tasks:
+      - name: Install IPA client package
+        package:
+          name: ipa-client
+          state: present
+      - name: Configure IPA client
+        ipaclient:
+          state: present
+          domain: "{{ ipaclient_domain }}"
+          realm: "{{ ipaclient_realm }}"
+          principal: "{{ ipaclient_principal }}"
+          password: "{{ ipaclient_password }}"
+          extra_args: "{{ipaclient_extraargs }}"
 
 Call the playbook
 
-``$ ansible-playbook -i inventory/hosts install.yml``
+``$ ansible-playbook -i inventory/hosts install.yml``
 
 Note: Ansible provides a feature named `Ansible
 Vault <http://docs.ansible.com/ansible/latest/playbooks_vault.html>`__
 to avoid writing clear-text sensible data in playbooks. The sysadmin can
 create a file containing the password:
 
-| ``$ cat playbook_sensitive_data.yml``
-| ``---``
-| ``ipaclient_password: MySecretPassword123``
+::
+
+    $ cat playbook_sensitive_data.yml
+    ---
+    ipaclient_password: MySecretPassword123
 
 Then encrypt this file using ansible-vault command:
 
 ::
 
-   | ``$ ansible-vault encrypt playbook_sensitive_data.yml``
-   | ``New Vault password: ``
-   | ``Confirm New Vault password: ``
-   | ``Encryption successful``
-   | ``$``
+   $ ansible-vault encrypt playbook_sensitive_data.yml
+   New Vault password: 
+   Confirm New Vault password: 
+   Encryption successful
+   $
 
 At this point, the file is encrypted and the variables it contains can
 be used by the playbook:
 
 ::
 
-   | ``[...]``
-   | ``  hosts: ipaclients``
-   | ``  become: true``
-   | ``  ``\ **``vars_files:``**
-   | ``  ``\ **``-``\ ````\ ``playbook_sensitive_data.yml``**
-   | ``  - name: Configure IPA client``
-   | ``    ipaclient:``
-   | ``      state: present``
-   | ``      domain: "{{ ipaclient_domain }}"``
-   | ``      realm: "{{ ipaclient_realm }}"``
-   | ``      principal: "{{ ipaclient_principal }}"``
-   | ``      ``\ **``password:``\ ````\ ``"{{``\ ````\ ``ipaclient_password``\ ````\ ``}}"``**
-   | ``      extra_args: "{{ipaclient_extraargs }}"``
-   | ``[...]``
+   [...]
+     hosts: ipaclients
+     become: true
+      vars_files:
+      -  playbook_sensitive_data.yml
+     - name: Configure IPA client
+       ipaclient:
+         state: present
+         domain: "{{ ipaclient_domain }}"
+         realm: "{{ ipaclient_realm }}"
+         principal: "{{ ipaclient_principal }}"
+          password:  "{{  ipaclient_password  }}"
+         extra_args: "{{ipaclient_extraargs }}"
+   [...]
 
 When the playbook is called, the password used to protect the file is
 either supplied interactively:
 
 ::
 
-   ``$ ansible-playbook -i inventory/hosts ``\ **``--ask-vault-pass``**\ `` install.yml``
+   ``$ ansible-playbook -i inventory/hosts --ask-vault-pass install.yml``
 
 or provided in a file:
 
 ::
 
-   ``$ ansible-playbook -in inventory/hosts ``\ **``--vault-password-file``\ ````\ ``~/.vault_pass.txt``**\ `` install.yml``
+   ``$ ansible-playbook -in inventory/hosts --vault-password-file~/.vault_pass.txt install.yml``
 
 
 
@@ -492,45 +502,49 @@ Create a playbook calling ipahost module in order to create an OTP
 password for the managed node, then calling ipaclient module to
 configure IPA with the OTP password just obtained.
 
-| ``$ cat install_otp.yml``
-| ``---``
-| ``- name: Playbook to configure IPA clients with an OTP password``
-| ``  hosts: ipaclients``
-| ``  become: true``
-| ``  tasks:``
-| ``  - name: For OTP client registration, add client and get OTP``
-| ``    ipahost:``
-| ``      state: present``
-| ``      principal: "{{ ipaserver_principal }}"``
-| ``      ``\ **``keytab:``**\ `` "{{ ipaserver_keytab }}"``
-| ``      fqdn: "{{ ansible_fqdn }}"``
-| ``      random: True``
-| ``    register: ipahost_output``
-| ``    delegate_to: "{{ groups.ipaservers[0] }}"``
-| ``  - name: Configure ipaclient``
-| ``    ipaclient:``
-| ``      state: present``
-| ``      domain: "{{ ipaclient_domain }}"``
-| ``      realm: "{{ ipaclient_realm }}"``
-| ``      ``\ **``otp:``**\ `` "{{ ipahost_output.host.randompassword }}"``
-| ``      extra_args: "{{ ipaclient_extraargs }}"``
+::
+
+    $ cat install_otp.yml
+    ---
+    - name: Playbook to configure IPA clients with an OTP password
+      hosts: ipaclients
+      become: true
+      tasks:
+      - name: For OTP client registration, add client and get OTP
+        ipahost:
+          state: present
+          principal: "{{ ipaserver_principal }}"
+          keytab: "{{ ipaserver_keytab }}"
+          fqdn: "{{ ansible_fqdn }}"
+          random: True
+        register: ipahost_output
+        delegate_to: "{{ groups.ipaservers[0] }}"
+      - name: Configure ipaclient
+        ipaclient:
+          state: present
+          domain: "{{ ipaclient_domain }}"
+          realm: "{{ ipaclient_realm }}"
+          otp: "{{ ipahost_output.host.randompassword }}"
+          extra_args: "{{ ipaclient_extraargs }}"
 
 Call the playbook
 
-``$ ansible-playbook -i inventory/hosts install_otp.yml``
+``$ ansible-playbook -i inventory/hosts install_otp.yml``
 
 Note: the ipahost module can also be called with a principal and
 password instead of the admin keytab:
 
-| ``  - name: For OTP client registration, add client and get OTP``
-| ``    ipahost:``
-| ``      state: present``
-| ``      principal: "{{ ipaserver_principal }}"``
-| ``      ``\ **``password:``**\ `` "{{ ipaserver_password }}"``
-| ``      fqdn: "{{ ansible_fqdn }}"``
-| ``      random: True``
-| ``    register: ipahost_output``
-| ``    delegate_to: "{{ groups.ipaservers[0] }}"``
+::
+
+      - name: For OTP client registration, add client and get OTP
+        ipahost:
+          state: present
+          principal: "{{ ipaserver_principal }}"
+          password: "{{ ipaserver_password }}"
+          fqdn: "{{ ansible_fqdn }}"
+          random: True
+        register: ipahost_output
+        delegate_to: "{{ groups.ipaservers[0] }}"
 
 
 
@@ -539,18 +553,20 @@ Use the ipaclient role to configure IPA client
 
 Create a playbook calling ipaclient role.
 
-| ``$ cat install_with_role.yml``
-| ``---``
-| ``- name: Playbook to install IPA clients``
-| ``  hosts: ipaclients``
-| ``  become: true``
-| ``  roles:``
-| ``  - role: ipaclient``
-| ``    state: present``
+::
+
+    $ cat install_with_role.yml
+    ---
+    - name: Playbook to install IPA clients
+      hosts: ipaclients
+      become: true
+      roles:
+      - role: ipaclient
+        state: present
 
 Call the playbook
 
-``$ ansible-playbook -i inventory/hosts install_with_role.yml``
+``$ ansible-playbook -i inventory/hosts install_with_role.yml``
 
 The role is written to handle the various cases based on the content of
 the inventory:

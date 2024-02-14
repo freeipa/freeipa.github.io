@@ -50,7 +50,7 @@ URIs server by Dogtag CA configured by FreeIPA:
                      URI:https://server1.example.com/ipa/crl/MasterCRL.bin
                    CRL Issuer:
                      DirName: O = ipaca, CN = Certificate Authority
-           ...
+                     ...
 
 One OCSP/CRL URI points to the original CA issuing the certificate and
 one points to a general URL (managed by FreeIPA) pointing to any other

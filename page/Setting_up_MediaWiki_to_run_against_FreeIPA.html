@@ -313,9 +313,9 @@ only.</p>
 <p>MediaWiki was installed and configured with default settings(it’s
 located in /var/www/wiki) and its
 configuration(/etc/httpd/conf.d/mediawiki.conf) looks like this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Alias /wiki/skins /usr/share/mediawiki/skins</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Alias /wiki       /var/www/wiki</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Alias</span> <span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">skins</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">mediawiki</span><span class="o">/</span><span class="n">skins</span>
+<span class="n">Alias</span> <span class="o">/</span><span class="n">wiki</span>       <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">wiki</span>
+</pre></div>
 </div>
 <p><strong>Secure access to MediaWiki by Kerberos</strong></p>
 <hr class="docutils" />
@@ -327,31 +327,31 @@ commands without any need to logging into server.</p>
 <ul class="simple">
 <li><p>Get kerberos ticket for admin user:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">kinit admin</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">kinit</span> <span class="pre">admin</span></code></p>
 <ul class="simple">
 <li><p>Create service for MediaWiki:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ipa service-add HTTP/client-0.example.com</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">service-add</span> <span class="pre">HTTP/client-0.example.com</span></code></p>
 <ul class="simple">
 <li><p>Get keytab for service and make the keytab readable by Apache(httpd):</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ipa-getkeytab -s master.example.com -p HTTP/client-0.example.com -k /etc/httpd/conf/http.keytab</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">chown apache /etc/httpd/conf/http.keytab</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa-getkeytab</span> <span class="pre">-s</span> <span class="pre">master.example.com</span> <span class="pre">-p</span> <span class="pre">HTTP/client-0.example.com</span> <span class="pre">-k</span> <span class="pre">/etc/httpd/conf/http.keytab</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">chown</span> <span class="pre">apache</span> <span class="pre">/etc/httpd/conf/http.keytab</span></code></p>
 <ul class="simple">
 <li><p>Allow access to MediaWiki only to those who has valid kerberos
 ticket. Add these lines into mediawiki.conf:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;Location &quot;/wiki&quot;&gt;</span></code></div>
-<div class="line">``  AuthType Kerberos``</div>
-<div class="line">``  AuthName “Kerberos Login”``</div>
-<div class="line">``  KrbMethodNegotiate on``</div>
-<div class="line">``  KrbMethodK5Passwd off``</div>
-<div class="line">``  KrbServiceName HTTP``</div>
-<div class="line">``  KrbAuthRealms EXAMPLE.COM``</div>
-<div class="line">``  Krb5KeyTab /etc/httpd/conf/http.keytab``</div>
-<div class="line">``  KrbSaveCredentials off``</div>
-<div class="line">``  Require valid-user``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Location</span> <span class="s2">&quot;/wiki&quot;</span><span class="o">&gt;</span>
+  <span class="n">AuthType</span> <span class="n">Kerberos</span>
+  <span class="n">AuthName</span> <span class="s2">&quot;Kerberos Login&quot;</span>
+  <span class="n">KrbMethodNegotiate</span> <span class="n">on</span>
+  <span class="n">KrbMethodK5Passwd</span> <span class="n">off</span>
+  <span class="n">KrbServiceName</span> <span class="n">HTTP</span>
+  <span class="n">KrbAuthRealms</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+  <span class="n">Krb5KeyTab</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">http</span><span class="o">.</span><span class="n">keytab</span>
+  <span class="n">KrbSaveCredentials</span> <span class="n">off</span>
+  <span class="n">Require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
+</pre></div>
 </div>
 <section id="automatic-login-of-users-into-mediawiki">
 <h2>Automatic login of users into MediaWiki<a class="headerlink" href="#automatic-login-of-users-into-mediawiki" title="Link to this heading">#</a></h2>
@@ -363,25 +363,25 @@ in every user with valid kerberos ticket. The extension is called
 <li><p>Extract the archive into directory /var/www/wiki/extensions</p></li>
 <li><p>Edit /var/www/wiki/LocalSettings.php by adding these lines:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">require_once('extensions/Auth_remoteuser/Auth_remoteuser.php');</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuth = new Auth_remoteuser();</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>require_once(&#39;extensions/Auth_remoteuser/Auth_remoteuser.php&#39;);
+$wgAuth = new Auth_remoteuser();
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Additionally you can add also these lines:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserAuthz = true; /* Your own authorization test */</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserName = $_SERVER[&quot;AUTHENTICATE_CN&quot;]; /* User's name */</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserMail = $_SERVER[&quot;AUTHENTICATE_MAIL&quot;]; /* User's Mail */</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserNotify = false; /* Do not send mail notifications */</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserDomain = &quot;EXAMPLE.COM&quot;; /* Remove EXAMPLE.COM\ from the beginning or &#64;EXAMPLE.COM at the end of a IWA username */</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">/* User's mail domain to append to the user name to make their email address */</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgAuthRemoteuserMailDomain = &quot;example.com&quot;;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">// Don't let anonymous people do things...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgGroupPermissions['*']['createaccount']   = false;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgGroupPermissions['*']['read']            = false;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$wgGroupPermissions['*']['edit']            = false;</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$wgAuthRemoteuserAuthz = true; /* Your own authorization test */
+$wgAuthRemoteuserName = $_SERVER[&quot;AUTHENTICATE_CN&quot;]; /* User&#39;s name */
+$wgAuthRemoteuserMail = $_SERVER[&quot;AUTHENTICATE_MAIL&quot;]; /* User&#39;s Mail */
+$wgAuthRemoteuserNotify = false; /* Do not send mail notifications */
+$wgAuthRemoteuserDomain = &quot;EXAMPLE.COM&quot;; /* Remove EXAMPLE.COM\ from the beginning or @EXAMPLE.COM at the end of a IWA username */
+/* User&#39;s mail domain to append to the user name to make their email address */
+$wgAuthRemoteuserMailDomain = &quot;example.com&quot;;
+// Don&#39;t let anonymous people do things...
+$wgGroupPermissions[&#39;*&#39;][&#39;createaccount&#39;]   = false;
+$wgGroupPermissions[&#39;*&#39;][&#39;read&#39;]            = false;
+$wgGroupPermissions[&#39;*&#39;][&#39;edit&#39;]            = false;
+</pre></div>
 </div>
 <p>Instructions for installing Auth_remoteuser extension were taken from
 <a class="reference external" href="http://www.mediawiki.org/wiki/Extension:AutomaticREMOTE_USER">www.mediawiki.org</a>.</p>
@@ -394,56 +394,56 @@ running CA(Dogtag).</p>
 <li><p>First of all we must generate new NSS database(by default stored in
 /etc/httpd/alias):</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">certutil -N -d /etc/httpd/alias</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">certutil</span> <span class="pre">-N</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span></code></p>
 <ul class="simple">
 <li><p>Save the database password into a file and make it accessible by
 Apache(httpd):</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">echo &quot;internal:mypassword&quot; &gt; /etc/httpd/alias/passwd.txt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">chown apache /etc/httpd/alias/passwd.txt</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">chmod 600 /etc/httpd/alias/passwd.txt</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">&quot;internal:mypassword&quot;</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">alias</span><span class="o">/</span><span class="n">passwd</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">chown</span> <span class="n">apache</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">alias</span><span class="o">/</span><span class="n">passwd</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">chmod</span> <span class="mi">600</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">alias</span><span class="o">/</span><span class="n">passwd</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Create a certificate request</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">certutil -R -s &quot;CN=client-0.example.com, O=EXAMPLE.COM&quot; -d /etc/httpd/alias -a &gt; mediawiki.csr</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">certutil</span> <span class="pre">-R</span> <span class="pre">-s</span> <span class="pre">&quot;CN=client-0.example.com,</span> <span class="pre">O=EXAMPLE.COM&quot;</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias</span> <span class="pre">-a</span> <span class="pre">&gt;</span> <span class="pre">mediawiki.csr</span></code></p>
 <ul class="simple">
 <li><p>Request the certificate from CA and remember its number</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ipa cert-request --principal=HTTP/client-0.example.com mediawiki.csr</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-request</span> <span class="pre">--principal=HTTP/client-0.example.com</span> <span class="pre">mediawiki.csr</span></code></p>
 <ul class="simple">
 <li><p>Save the certificate into a file</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ipa cert-show #number --out=wikicert.crt</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">cert-show</span> <span class="pre">#number</span> <span class="pre">--out=wikicert.crt</span></code></p>
 <ul class="simple">
 <li><p>Add the certificate to <em>client-0</em> NSS database under the name
 “Https-cert”</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">certutil -A -d /etc/httpd/alias/ -n &quot;Https-cert&quot; -a -i wikicert.crt -t &quot;,,&quot;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">certutil</span> <span class="pre">-A</span> <span class="pre">-d</span> <span class="pre">/etc/httpd/alias/</span> <span class="pre">-n</span> <span class="pre">&quot;Https-cert&quot;</span> <span class="pre">-a</span> <span class="pre">-i</span> <span class="pre">wikicert.crt</span> <span class="pre">-t</span> <span class="pre">&quot;,,&quot;</span></code></p>
 <ul class="simple">
 <li><p>Edit NSS configuration file, usually stored in
 /etc/httpd/conf.d/nss.conf. Some/all of these settings could already
 be there, so check for duplicity.</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Listen 443</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;VirtualHost _default_:443&gt;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSRenegotiation on</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSRequireSafeNegotiation on</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSEnforceValidCerts off</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSNickName &quot;Https-cert&quot;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">NSSPassPhraseDialog &quot;</span></code><code class="docutils literal notranslate"><span class="pre">`file:/etc/httpd/alias/passwd.txt</span></code> &lt;<a class="reference external" href="file:/etc/httpd/alias/passwd.txt">file:/etc/httpd/alias/passwd.txt</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Listen</span> <span class="mi">443</span>
+<span class="o">&lt;</span><span class="n">VirtualHost</span> <span class="n">_default_</span><span class="p">:</span><span class="mi">443</span><span class="o">&gt;</span>
+<span class="n">NSSRenegotiation</span> <span class="n">on</span>
+<span class="n">NSSRequireSafeNegotiation</span> <span class="n">on</span>
+<span class="n">NSSEnforceValidCerts</span> <span class="n">off</span>
+<span class="n">NSSNickName</span> <span class="s2">&quot;Https-cert&quot;</span>
+<span class="n">NSSPassPhraseDialog</span> <span class="s2">&quot;``\ ```file:/etc/httpd/alias/passwd.txt`` &lt;file:/etc/httpd/alias/passwd.txt&gt;`__\ ``&quot;</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Add rewrite rules to activate SSL. Following lines must be added into
 MediaWiki configuration file (/etc/httpd/conf.d/mediawiki.conf):</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteEngine on</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteCond %{SERVER_PORT}  !^443$</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteCond %{REQUEST_URI}  ^/wiki/</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">RewriteRule ^/(.*) https://client-0.example.com/$1 [L,R]</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>RewriteEngine on
+RewriteCond %{SERVER_PORT}  !^443$
+RewriteCond %{REQUEST_URI}  ^/wiki/
+RewriteRule ^/(.*) https://client-0.example.com/$1 [L,R]
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Restart httpd service</p></li>

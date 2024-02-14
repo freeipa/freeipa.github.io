@@ -323,13 +323,12 @@ Solaris operating systems as an IPA client.</p>
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
 <p>Download and install nss-ldap packages from here.</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Solaris 8 packages: ``\</span> <span class="pre">```http://freeipa.org/downloads/solaris/nss_ldap/8/</span></code> &lt;<a class="reference external" href="http://freeipa.org/downloads/solaris/nss_ldap/8/">http://freeipa.org/downloads/solaris/nss_ldap/8/</a>&gt;`__`` ``</div>
-<div class="line">`` Solaris 9 packages: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://freeipa.org/downloads/solaris/nss_ldap/9/</span></code> &lt;<a class="reference external" href="http://freeipa.org/downloads/solaris/nss_ldap/9/">http://freeipa.org/downloads/solaris/nss_ldap/9/</a>&gt;`__`` ``</div>
-<div class="line">`` Solaris 10 packages: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://freeipa.org/downloads/solaris/nss_ldap/10/</span></code> &lt;<a class="reference external" href="http://freeipa.org/downloads/solaris/nss_ldap/10/">http://freeipa.org/downloads/solaris/nss_ldap/10/</a>&gt;`__`` ``</div>
-<div class="line">`` ``</div>
-<div class="line">`` For example, pkgadd -d RHATnss-ldap-253-12.i386.pkg``</div>
-</div>
+<div><dl>
+<dt>Solaris 8 packages: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://freeipa.org/downloads/solaris/nss_ldap/8/</span></code> &lt;<a class="reference external" href="http://freeipa.org/downloads/solaris/nss_ldap/8/">http://freeipa.org/downloads/solaris/nss_ldap/8/</a>&gt;`__``</dt><dd><p>Solaris 9 packages: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://freeipa.org/downloads/solaris/nss_ldap/9/</span></code> &lt;<a class="reference external" href="http://freeipa.org/downloads/solaris/nss_ldap/9/">http://freeipa.org/downloads/solaris/nss_ldap/9/</a>&gt;`__``
+Solaris 10 packages: <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```http://freeipa.org/downloads/solaris/nss_ldap/10/</span></code> &lt;<a class="reference external" href="http://freeipa.org/downloads/solaris/nss_ldap/10/">http://freeipa.org/downloads/solaris/nss_ldap/10/</a>&gt;`__``</p>
+<p>For example, pkgadd -d RHATnss-ldap-253-12.i386.pkg</p>
+</dd>
+</dl>
 </div></blockquote>
 </section>
 <section id="configuration">
@@ -341,22 +340,22 @@ Solaris operating systems as an IPA client.</p>
 <h2>PAM/LDAP/KRB5 configuration<a class="headerlink" href="#pam-ldap-krb5-configuration" title="Link to this heading">#</a></h2>
 <p>/etc/hosts should contain the fully-qualified name of the IPA Solaris
 client</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``10.14.1.48      ipasolaris.example.com       ipasolaris loghost ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">10.14.1.48</span>      <span class="n">ipasolaris</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>       <span class="n">ipasolaris</span> <span class="n">loghost</span>
 </pre></div>
 </div>
 <hr class="docutils" />
 <p>/etc/resolv.conf should be configured to point to the correct DNS server
 that can resolve at least the IPA Solaris client and the ipa server
 names.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``search example.com ``
-| `` nameserver bindserver.example.com ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">search</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+ <span class="n">nameserver</span> <span class="n">bindserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
 </pre></div>
 </div>
 <hr class="docutils" />
 <p>/etc/nsswitch.conf should be configured to do password and group look up
 via LDAP</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``passwd:     files ldap[NOTFOUND=return] ``
-| `` group:      files ldap[NOTFOUND=return] ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">passwd</span><span class="p">:</span>     <span class="n">files</span> <span class="n">ldap</span><span class="p">[</span><span class="n">NOTFOUND</span><span class="o">=</span><span class="k">return</span><span class="p">]</span>
+ <span class="n">group</span><span class="p">:</span>      <span class="n">files</span> <span class="n">ldap</span><span class="p">[</span><span class="n">NOTFOUND</span><span class="o">=</span><span class="k">return</span><span class="p">]</span>
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -364,30 +363,30 @@ via LDAP</p>
 first.</p>
 <p>These lines show how to do pam kerberos authentication for console
 login.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``login   auth requisite          pam_authtok_get.so.1 ``
-| `` login   auth sufficient         pam_krb5.so.1 ``
-| `` login   auth required           pam_dhkeys.so.1 ``
-| `` login   auth required           pam_unix_cred.so.1 ``
-| `` login   auth required           pam_unix_auth.so.1 use_first_pass ``
-| `` login   auth required           pam_dial_auth.so.1 ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login</span>   <span class="n">auth</span> <span class="n">requisite</span>          <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">sufficient</span>         <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_unix_cred</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">use_first_pass</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_dial_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
 </pre></div>
 </div>
 <hr class="docutils" />
 <p>/etc/ldap.conf should be configured as shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``ldap_version 3 ``
-| `` base dc=example,dc=com ``
-| `` nss_base_passwd dc=example,dc=com?sub ``
-| `` nss_base_group dc=example,dc=com?sub ``
-| `` nss_schema rfc2307bis ``
-| `` nss_map_objectclass shadowAccount posixAccount ``
-| `` nss_map_attribute uniqueMember member ``
-| `` nss_initgroups_ignoreusers root,dirsrv ``
-| `` nss_reconnect_maxsleeptime 8 ``
-| `` nss_reconnect_sleeptime 1 ``
-| `` bind_timelimit 5 ``
-| `` timelimit 15 ``
-| `` nss_srv_domain example.com ``
-| `` uri ``\ ```ldap://ipaserver.example.com`` &lt;ldap://ipaserver.example.com&gt;`__\ `` ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ldap_version 3
+ base dc=example,dc=com
+ nss_base_passwd dc=example,dc=com?sub
+ nss_base_group dc=example,dc=com?sub
+ nss_schema rfc2307bis
+ nss_map_objectclass shadowAccount posixAccount
+ nss_map_attribute uniqueMember member
+ nss_initgroups_ignoreusers root,dirsrv
+ nss_reconnect_maxsleeptime 8
+ nss_reconnect_sleeptime 1
+ bind_timelimit 5
+ timelimit 15
+ nss_srv_domain example.com
+ uri ``\ ```ldap://ipaserver.example.com`` &lt;ldap://ipaserver.example.com&gt;`__\ ``
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -421,8 +420,8 @@ to get kerberos tickets..</p>
 <p>/etc/krb5/krb5.keytab - On the IPA server, add a service principal for
 the Solaris client machine and generate a keytab file. Place this keytab
 on the Solaris machine as /etc/krb5/krb5.keytab</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| `` # ipa-addservice host/solarisipaclient.example.com ``
-| ``  # ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa-addservice host/solarisipaclient.example.com</span>
+ <span class="c1"># ipa-getkeytab -s ipaserver.example.com -p host/solarisipaclient.example.com -k /tmp/krb5.keytab -e des-cbc-crc</span>
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -474,12 +473,12 @@ shares using your Kerberos credentials.</p>
 <h2>Configuring Solaris 9 as an IPA Client<a class="headerlink" href="#configuring-solaris-9-as-an-ipa-client" title="Link to this heading">#</a></h2>
 <p>Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``login   auth requisite          pam_authtok_get.so.1 ``
-| `` login   auth  sufficient        pam_krb5.so.1 use_first_pass ``
-| `` login   auth  sufficient        pam_unix.so.1 use_first_pass ``
-| `` login   auth required           pam_dhkeys.so.1 ``
-| `` login   auth required           pam_unix_auth.so.1 ``
-| `` login   auth required           pam_dial_auth.so.1 ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login</span>   <span class="n">auth</span> <span class="n">requisite</span>          <span class="n">pam_authtok_get</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span>  <span class="n">sufficient</span>        <span class="n">pam_krb5</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">use_first_pass</span>
+ <span class="n">login</span>   <span class="n">auth</span>  <span class="n">sufficient</span>        <span class="n">pam_unix</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span> <span class="n">use_first_pass</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_dhkeys</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_unix_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
+ <span class="n">login</span>   <span class="n">auth</span> <span class="n">required</span>           <span class="n">pam_dial_auth</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span>
 </pre></div>
 </div>
 </section>
@@ -487,9 +486,9 @@ change is in /etc/pam.conf file</p>
 <h2>Configuring Solaris 8 as an IPA Client<a class="headerlink" href="#configuring-solaris-8-as-an-ipa-client" title="Link to this heading">#</a></h2>
 <p>Follow Solaris 10 configuration instructions above. Only noticeable
 change is in /etc/pam.conf file</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``login   auth  sufficient        /usr/lib/security/pam_krb5.so ``
-| `` login   auth required   /usr/lib/security/pam_unix.so use_first_pass ``
-| `` login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1 ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>login   auth  sufficient        /usr/lib/security/pam_krb5.so
+ login   auth required   /usr/lib/security/pam_unix.so use_first_pass
+ login   auth required   /usr/lib/security/$ISA/pam_dial_auth.so.1
 </pre></div>
 </div>
 </section>
@@ -500,34 +499,34 @@ change is in /etc/pam.conf file</p>
 following tests should work.</p>
 <section id="kinit">
 <h2>kinit<a class="headerlink" href="#kinit" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">Get a Kerberos ticket for an IPA user</span></code></p>
-<div class="line-block">
-<div class="line">`` kinit ipauser ( provide password when prompted for )``</div>
-<div class="line">`` klist ( to verify )``</div>
+<p><code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">a</span> <span class="pre">Kerberos</span> <span class="pre">ticket</span> <span class="pre">for</span> <span class="pre">an</span> <span class="pre">IPA</span> <span class="pre">user</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">ipauser</span> <span class="p">(</span> <span class="n">provide</span> <span class="n">password</span> <span class="n">when</span> <span class="n">prompted</span> <span class="k">for</span> <span class="p">)</span>
+<span class="n">klist</span> <span class="p">(</span> <span class="n">to</span> <span class="n">verify</span> <span class="p">)</span>
+</pre></div>
 </div>
 </section>
 <section id="getent">
 <h2>getent<a class="headerlink" href="#getent" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``Perform the following commands to make sure that getent in Solaris``
-| ``works with IPA.``
-| ``getent passwd admin``
-| ``getent group ipausers``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Perform</span> <span class="n">the</span> <span class="n">following</span> <span class="n">commands</span> <span class="n">to</span> <span class="n">make</span> <span class="n">sure</span> <span class="n">that</span> <span class="n">getent</span> <span class="ow">in</span> <span class="n">Solaris</span>
+<span class="n">works</span> <span class="k">with</span> <span class="n">IPA</span><span class="o">.</span>
+<span class="n">getent</span> <span class="n">passwd</span> <span class="n">admin</span>
+<span class="n">getent</span> <span class="n">group</span> <span class="n">ipausers</span>
 </pre></div>
 </div>
 </section>
 <section id="console-login">
 <h2>console login<a class="headerlink" href="#console-login" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``At the console of the solaris machine, provide an IPA user name``
-| ``and their Kerberos password to login. ``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">At</span> <span class="n">the</span> <span class="n">console</span> <span class="n">of</span> <span class="n">the</span> <span class="n">solaris</span> <span class="n">machine</span><span class="p">,</span> <span class="n">provide</span> <span class="n">an</span> <span class="n">IPA</span> <span class="n">user</span> <span class="n">name</span>
+<span class="ow">and</span> <span class="n">their</span> <span class="n">Kerberos</span> <span class="n">password</span> <span class="n">to</span> <span class="n">login</span><span class="o">.</span>
 </pre></div>
 </div>
 </section>
 <section id="ssh">
 <h2>ssh<a class="headerlink" href="#ssh" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">Goto the Solaris machine, get a Kerberos ticket and ssh to the IPA server.</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">kinit ipauser&#64;EXAMPLE.COM</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ssh ipauser&#64;ipaserver.example.com</span></code></div>
+<p><code class="docutils literal notranslate"><span class="pre">Goto</span> <span class="pre">the</span> <span class="pre">Solaris</span> <span class="pre">machine,</span> <span class="pre">get</span> <span class="pre">a</span> <span class="pre">Kerberos</span> <span class="pre">ticket</span> <span class="pre">and</span> <span class="pre">ssh</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">IPA</span> <span class="pre">server.</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kinit</span> <span class="n">ipauser</span><span class="nd">@EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">ssh</span> <span class="n">ipauser</span><span class="nd">@ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
 </div>
 </section>
 <section id="nfs-v4">

@@ -489,11 +489,11 @@ Assuming that all DNS servers responsible for given zone are returning a
 static set of records, there is no way how to prioritize a server
 ‘nearest’ to the client at the moment. Consequenty, all FreeIPA servers
 typically have the same priority (0) and weight (100):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
-``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-``;; ANSWER SECTION:``
-``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``;; QUESTION SECTION:``
+``;_ldap._tcp.example.com. IN SRV``
+``;; ANSWER SECTION:``
+``_ldap._tcp.example.com. SRV 0100 389 ipa-brno.example.com.``
+``_ldap._tcp.example.com. SRV 0100 389 ipa-london.example.com.``
 </pre></div>
 </div>
 </section>
@@ -643,29 +643,29 @@ output so it is easy
 to see which servers
 advertise this
 location.</p>
-<p>ption: IPA location</p>
-<p>dvertised by serve
-rs: server1.example</p>
-<p>er: server1.example``</p>
-<p>lative weight: 33 %``</p>
-<p>S server, CA server``</p>
-<p>er: server2.example``</p>
-<p>lative weight: 67 %``</p>
-<p>s: CA server, NTP ser
-ver, AD trust agent,
-AD trust controller``</p>
+<p>ption: IPA location</p>
+<p>dvertised by serve
+rs: server1.example</p>
+<p>er: server1.example``</p>
+<p>lative weight: 33 %``</p>
+<p>S server, CA server``</p>
+<p>er: server2.example``</p>
+<p>lative weight: 67 %``</p>
+<p>s: CA server, NTP ser
+ver, AD trust agent,
+AD trust controller``</p>
 </td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Example:</span></code>
 descri</p>
 <p><code class="docutils literal notranslate"><span class="pre">Servers:</span></code>
-``  serv</p>
-<p>``  weight 100``
-``  re</p>
-<p>``  Roles: DN</p>
-<p>``  serv</p>
-<p>``  weight: 200``
-``  re</p>
-<p>``  Role</p>
+``  serv</p>
+<p>``  weight 100``
+``  re</p>
+<p>``  Roles: DN</p>
+<p>``  serv</p>
+<p>``  weight: 200``
+``  re</p>
+<p>``  Role</p>
 </td>
 </tr>
 <tr class="row-odd"><td><table class="table">
@@ -833,7 +833,7 @@ occluded/invisible to clients (see <a class="reference external" href="https://t
 <p>This effectively means that hand-made records in the IPA DNS domain will
 become invisible. E.g. following record will disappear when DNS
 locations are configured and enabled on IPA domain <code class="docutils literal notranslate"><span class="pre">ipa.example</span></code>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">_userservice._udp.ipa.example.  SRV record: 0 100 123 own-server.somewhere.example</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">_userservice._udp.ipa.example.</span>&#160; <span class="pre">SRV</span> <span class="pre">record:</span> <span class="pre">0</span> <span class="pre">100</span> <span class="pre">123</span> <span class="pre">own-server.somewhere.example</span></code></p>
 <p>This behavior is in fact necessary for seamless upgrade of replicas
 which do not understand the new template LDAP entries in DNS tree. Old
 replicas will ignore the template entries and use original sub-tree (and
@@ -908,14 +908,14 @@ locations.</p></li>
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
 <p>Clients will query name <code class="docutils literal notranslate"><span class="pre">_ldap._tcp.example.com.</span></code> as usual but this
 name will be redirected to location-specific sub-tree:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;; QUESTION SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;_ldap._tcp.example.com. IN SRV</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;; ANSWER SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_tcp.example.com. DNAME _tcp.cz._locations.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;;</span> <span class="n">QUESTION</span> <span class="n">SECTION</span><span class="p">:</span>
+<span class="p">;</span><span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">IN</span> <span class="n">SRV</span>
+<span class="p">;;</span> <span class="n">ANSWER</span> <span class="n">SECTION</span><span class="p">:</span>
+<span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">DNAME</span> <span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">CNAME</span> <span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="n">ipa</span><span class="o">-</span><span class="n">brno</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">SRV</span> <span class="mi">3</span> <span class="mi">100</span> <span class="mi">389</span> <span class="n">ipa</span><span class="o">-</span><span class="n">london</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+</pre></div>
 </div>
 <figure class="align-default" id="id5">
 <img alt="ExampleLocationsV2.svg" src="../../_images/ExampleLocationsV2.svg" /><figcaption>
@@ -1038,13 +1038,13 @@ will be added to:</p>
 <p>The template will generate CNAME redirection from original name to the
 location-specific name (which can be different on each DNS server).
 Example:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;; QUESTION SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;_ldap._tcp.example.com. IN SRV</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">;; ANSWER SECTION:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.example.com. CNAME _ldap._tcp.cz._locations.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.cz._locations.example.com. SRV 0 100 389 ipa-brno.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.cz._locations.example.com. SRV 3 100 389 ipa-london.example.com.</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;;</span> <span class="n">QUESTION</span> <span class="n">SECTION</span><span class="p">:</span>
+<span class="p">;</span><span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">IN</span> <span class="n">SRV</span>
+<span class="p">;;</span> <span class="n">ANSWER</span> <span class="n">SECTION</span><span class="p">:</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">CNAME</span> <span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="n">ipa</span><span class="o">-</span><span class="n">brno</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">_locations</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="n">SRV</span> <span class="mi">3</span> <span class="mi">100</span> <span class="mi">389</span> <span class="n">ipa</span><span class="o">-</span><span class="n">london</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+</pre></div>
 </div>
 <p>Servers which are not assigned to a location (or are too old to
 understand the template) will ignore the template and use the original
@@ -1100,7 +1100,7 @@ subdomains in <code class="docutils literal notranslate"><span class="pre">_udp<
 visible as usual because IPA will not add template object class to them.
 E.g. following record will stay as is when DNS locations are configured
 and enabled on IPA domain <code class="docutils literal notranslate"><span class="pre">ipa.example</span></code>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">_userservice._udp.ipa.example.  SRV record: 0 100 123 own-server.somewhere.example.</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">_userservice._udp.ipa.example.</span>&#160; <span class="pre">SRV</span> <span class="pre">record:</span> <span class="pre">0</span> <span class="pre">100</span> <span class="pre">123</span> <span class="pre">own-server.somewhere.example.</span></code></p>
 <p>This allows the user to use hand-made records as long as they do not
 reside under the same DNS name which is managed by IPA. All hand-made
 records under IPA-managed names (e.g. <code class="docutils literal notranslate"><span class="pre">_kerberos._udp.$SUFFIX</span></code>) will
@@ -1452,46 +1452,46 @@ location.</p>
 <p>Following example will instruct bind-dyndb-ldap to generate
 <code class="docutils literal notranslate"><span class="pre">CNAMERecord</span></code> attribute with value constructed from prefix <code class="docutils literal notranslate"><span class="pre">_udp.</span></code>,
 user-defined variable <code class="docutils literal notranslate"><span class="pre">ipalocation</span></code>, and suffix <code class="docutils literal notranslate"><span class="pre">._locations</span></code>.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: idnsName=_ldap._tcp,idnsname=example.com.,cn=dns,dc=example,dc=com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: idnsTemplateObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: idnsRecord</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsName: _ldap._tcp</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">srvrecord: 0 100 389 ipa.example.com.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">idnsName</span><span class="o">=</span><span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="p">,</span><span class="n">idnsname</span><span class="o">=</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">dns</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">idnsTemplateObject</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">idnsRecord</span>
+<span class="n">idnsName</span><span class="p">:</span> <span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span>
+<span class="n">srvrecord</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+<span class="n">idnsTemplateAttribute</span><span class="p">;</span><span class="n">cnamerecord</span><span class="p">:</span> <span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span>\<span class="p">{</span><span class="n">substitutionvariable_ipalocation</span>\<span class="p">}</span><span class="o">.</span><span class="n">_locations</span>
+</pre></div>
 </div>
 </section>
 </section>
 <section id="records-generated-for-ipa-services">
 <h2>Records generated for IPA services<a class="headerlink" href="#records-generated-for-ipa-services" title="Link to this heading">#</a></h2>
 <p><strong>One in IPA domain:</strong></p>
-<p><code class="docutils literal notranslate"><span class="pre">_kerberos TXT {IPA_REALM}</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">_kerberos</span> <span class="pre">TXT</span> <span class="pre">{IPA_REALM}</span></code></p>
 <p><strong>For each IPA master:</strong></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp SRV 0 100 389 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos._tcp SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos._udp SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos-master._tcp SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos-master._udp SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kpasswd._tcp SRV 0 100 464 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kpasswd._udp SRV 0 100 464 {hostname}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">.</span><span class="n">_tcp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">.</span><span class="n">_udp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">-</span><span class="n">master</span><span class="o">.</span><span class="n">_tcp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">-</span><span class="n">master</span><span class="o">.</span><span class="n">_udp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kpasswd</span><span class="o">.</span><span class="n">_tcp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">464</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kpasswd</span><span class="o">.</span><span class="n">_udp</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">464</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+</pre></div>
 </div>
 <p><strong>For each IPA CA server:</strong></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-ca A {ipv4 address of server}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa-ca AAAA {ipv6 address of server}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span><span class="o">-</span><span class="n">ca</span> <span class="n">A</span> <span class="p">{</span><span class="n">ipv4</span> <span class="n">address</span> <span class="n">of</span> <span class="n">server</span><span class="p">}</span>
+<span class="n">ipa</span><span class="o">-</span><span class="n">ca</span> <span class="n">AAAA</span> <span class="p">{</span><span class="n">ipv6</span> <span class="n">address</span> <span class="n">of</span> <span class="n">server</span><span class="p">}</span>
+</pre></div>
 </div>
 <p><strong>For each IPA NTP server:</strong></p>
-<p><code class="docutils literal notranslate"><span class="pre">_ntp._udp SRV 0 100 123 {hostname}</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">_ntp._udp</span> <span class="pre">SRV</span> <span class="pre">0</span> <span class="pre">100</span> <span class="pre">123</span> <span class="pre">{hostname}</span></code></p>
 <p><strong>For each ADTrust controller</strong>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.Default-First-Site-Name._sites.dc._msdcs SRV  0 100 389 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_ldap._tcp.dc._msdcs SRV 0 100 389 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos._tcp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos._udp.Default-First-Site-Name._sites.dc._msdcs SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos._tcp.dc._msdcs SRV 0 100 88 {hostname}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">_kerberos._udp.dc._msdcs SRV 0 100 88 {hostname}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">Default</span><span class="o">-</span><span class="n">First</span><span class="o">-</span><span class="n">Site</span><span class="o">-</span><span class="n">Name</span><span class="o">.</span><span class="n">_sites</span><span class="o">.</span><span class="n">dc</span><span class="o">.</span><span class="n">_msdcs</span> <span class="n">SRV</span>  <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_ldap</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">dc</span><span class="o">.</span><span class="n">_msdcs</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">389</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">Default</span><span class="o">-</span><span class="n">First</span><span class="o">-</span><span class="n">Site</span><span class="o">-</span><span class="n">Name</span><span class="o">.</span><span class="n">_sites</span><span class="o">.</span><span class="n">dc</span><span class="o">.</span><span class="n">_msdcs</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">.</span><span class="n">_udp</span><span class="o">.</span><span class="n">Default</span><span class="o">-</span><span class="n">First</span><span class="o">-</span><span class="n">Site</span><span class="o">-</span><span class="n">Name</span><span class="o">.</span><span class="n">_sites</span><span class="o">.</span><span class="n">dc</span><span class="o">.</span><span class="n">_msdcs</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">.</span><span class="n">_tcp</span><span class="o">.</span><span class="n">dc</span><span class="o">.</span><span class="n">_msdcs</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+<span class="n">_kerberos</span><span class="o">.</span><span class="n">_udp</span><span class="o">.</span><span class="n">dc</span><span class="o">.</span><span class="n">_msdcs</span> <span class="n">SRV</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">88</span> <span class="p">{</span><span class="n">hostname</span><span class="p">}</span>
+</pre></div>
 </div>
 </section>
 <section id="location-data-generation">
@@ -1518,47 +1518,47 @@ generator</a>,
 <a class="reference external" href="https://fedorahosted.org/bind-dyndb-ldap/wiki/Design/PerServerConfigInLDAP">Per server config in
 LDAP</a>),
 all located in DNS subtree</p>
-<p><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.5.31 NAME 'idnsServerId' DESC 'DNS server identifier' EQUALITY caseIgnoreMatch SINGLE-VALUE SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.5.30 NAME 'idnsSubstitutionVariable' DESC 'User defined variable for DNS plugin' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">objectClasses: ( 2.16.840.1.113730.3.8.6.6 NAME 'idnsServerConfigObject' DESC 'DNS server configuration options' STRUCTURAL MUST ( idnsServerId ) MAY ( idnsSubstitutionVariable $ idnsSOAmName $ idnsForwarders $ idnsForwardPolicy ) X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.5.29 NAME 'idnsTemplateAttribute' DESC 'Template attribute for dynamic attribute generation' EQUALITY caseIgnoreIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">objectClasses: ( 2.16.840.1.113730.3.8.6.5 NAME 'idnsTemplateObject' DESC 'Template object for dynamic DNS attribute generation' AUXILIARY MUST ( idnsTemplateAttribute ) X-ORIGIN 'IPA v4.4' )</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.5.31</span> <span class="pre">NAME</span> <span class="pre">'idnsServerId'</span> <span class="pre">DESC</span> <span class="pre">'DNS</span> <span class="pre">server</span> <span class="pre">identifier'</span> <span class="pre">EQUALITY</span> <span class="pre">caseIgnoreMatch</span> <span class="pre">SINGLE-VALUE</span> <span class="pre">SYNTAX</span> <span class="pre">1.3.6.1.4.1.1466.115.121.1.15</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.5.30</span> <span class="pre">NAME</span> <span class="pre">'idnsSubstitutionVariable'</span> <span class="pre">DESC</span> <span class="pre">'User</span> <span class="pre">defined</span> <span class="pre">variable</span> <span class="pre">for</span> <span class="pre">DNS</span> <span class="pre">plugin'</span> <span class="pre">EQUALITY</span> <span class="pre">caseIgnoreIA5Match</span> <span class="pre">SYNTAX</span> <span class="pre">1.3.6.1.4.1.1466.115.121.1.26</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">objectClasses:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.6.6</span> <span class="pre">NAME</span> <span class="pre">'idnsServerConfigObject'</span> <span class="pre">DESC</span> <span class="pre">'DNS</span> <span class="pre">server</span> <span class="pre">configuration</span> <span class="pre">options'</span> <span class="pre">STRUCTURAL</span> <span class="pre">MUST</span> <span class="pre">(</span> <span class="pre">idnsServerId</span> <span class="pre">)</span> <span class="pre">MAY</span> <span class="pre">(</span> <span class="pre">idnsSubstitutionVariable</span> <span class="pre">$</span> <span class="pre">idnsSOAmName</span> <span class="pre">$</span> <span class="pre">idnsForwarders</span> <span class="pre">$</span> <span class="pre">idnsForwardPolicy</span> <span class="pre">)</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.5.29</span> <span class="pre">NAME</span> <span class="pre">'idnsTemplateAttribute'</span> <span class="pre">DESC</span> <span class="pre">'Template</span> <span class="pre">attribute</span> <span class="pre">for</span> <span class="pre">dynamic</span> <span class="pre">attribute</span> <span class="pre">generation'</span> <span class="pre">EQUALITY</span> <span class="pre">caseIgnoreIA5Match</span> <span class="pre">SYNTAX</span> <span class="pre">1.3.6.1.4.1.1466.115.121.1.26</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">objectClasses:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.6.5</span> <span class="pre">NAME</span> <span class="pre">'idnsTemplateObject'</span> <span class="pre">DESC</span> <span class="pre">'Template</span> <span class="pre">object</span> <span class="pre">for</span> <span class="pre">dynamic</span> <span class="pre">DNS</span> <span class="pre">attribute</span> <span class="pre">generation'</span> <span class="pre">AUXILIARY</span> <span class="pre">MUST</span> <span class="pre">(</span> <span class="pre">idnsTemplateAttribute</span> <span class="pre">)</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
 <p>IPA locations part, in cn=etc subtree:</p>
-<p><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.5.32 NAME 'ipaLocation' DESC 'Reference to IPA location' EQUALITY distinguishedNameMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 SINGLE-VALUE X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">attributeTypes: ( 2.16.840.1.113730.3.8.5.33 NAME 'ipaLocationWeight' DESC 'Weight for the server in IPA location' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">objectClasses: (  2.16.840.1.113730.3.8.6.7 NAME 'ipaLocationObject' DESC 'Object for storing IPA server location' STRUCTURAL MUST ( idnsName ) MAY ( description ) X-ORIGIN 'IPA v4.4' )</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">objectClasses: (  2.16.840.1.113730.3.8.6.8 NAME 'ipaLocationMember' DESC 'Member object of IPA location' AUXILIARY MAY ( ipaLocation $ ipaLocationWeight ) X-ORIGIN 'IPA v4.4' )</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.5.32</span> <span class="pre">NAME</span> <span class="pre">'ipaLocation'</span> <span class="pre">DESC</span> <span class="pre">'Reference</span> <span class="pre">to</span> <span class="pre">IPA</span> <span class="pre">location'</span> <span class="pre">EQUALITY</span> <span class="pre">distinguishedNameMatch</span> <span class="pre">SYNTAX</span> <span class="pre">1.3.6.1.4.1.1466.115.121.1.12</span> <span class="pre">SINGLE-VALUE</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">attributeTypes:</span> <span class="pre">(</span> <span class="pre">2.16.840.1.113730.3.8.5.33</span> <span class="pre">NAME</span> <span class="pre">'ipaLocationWeight'</span> <span class="pre">DESC</span> <span class="pre">'Weight</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">server</span> <span class="pre">in</span> <span class="pre">IPA</span> <span class="pre">location'</span> <span class="pre">EQUALITY</span> <span class="pre">integerMatch</span> <span class="pre">SYNTAX</span> <span class="pre">1.3.6.1.4.1.1466.115.121.1.27</span> <span class="pre">SINGLE-VALUE</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">objectClasses:</span> <span class="pre">(</span>&#160; <span class="pre">2.16.840.1.113730.3.8.6.7</span> <span class="pre">NAME</span> <span class="pre">'ipaLocationObject'</span> <span class="pre">DESC</span> <span class="pre">'Object</span> <span class="pre">for</span> <span class="pre">storing</span> <span class="pre">IPA</span> <span class="pre">server</span> <span class="pre">location'</span> <span class="pre">STRUCTURAL</span> <span class="pre">MUST</span> <span class="pre">(</span> <span class="pre">idnsName</span> <span class="pre">)</span> <span class="pre">MAY</span> <span class="pre">(</span> <span class="pre">description</span> <span class="pre">)</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">objectClasses:</span> <span class="pre">(</span>&#160; <span class="pre">2.16.840.1.113730.3.8.6.8</span> <span class="pre">NAME</span> <span class="pre">'ipaLocationMember'</span> <span class="pre">DESC</span> <span class="pre">'Member</span> <span class="pre">object</span> <span class="pre">of</span> <span class="pre">IPA</span> <span class="pre">location'</span> <span class="pre">AUXILIARY</span> <span class="pre">MAY</span> <span class="pre">(</span> <span class="pre">ipaLocation</span> <span class="pre">$</span> <span class="pre">ipaLocationWeight</span> <span class="pre">)</span> <span class="pre">X-ORIGIN</span> <span class="pre">'IPA</span> <span class="pre">v4.4'</span> <span class="pre">)</span></code></p>
 </section>
 <section id="locations-ldap-structure">
 <h3>Locations LDAP structure<a class="headerlink" href="#locations-ldap-structure" title="Link to this heading">#</a></h3>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DN: cn=locations, cn=etc, $SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectlcass: nsContainer</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: locations</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>DN: cn=locations, cn=etc, $SUFFIX
+objectlcass: nsContainer
+cn: locations
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DN: idnsName=prague, cn=locations, cn=etc, $SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaLocationObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsName: prague</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">description: Servers in Prague area</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>DN: idnsName=prague, cn=locations, cn=etc, $SUFFIX
+objectclass: ipaLocationObject
+idnsName: prague
+description: Servers in Prague area
+</pre></div>
 </div>
 </section>
 <section id="servers-ldap-structure">
 <h3>Servers LDAP structure<a class="headerlink" href="#servers-ldap-structure" title="Link to this heading">#</a></h3>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">DN: cn=ipa-server.example.com,cn=masters,cn=ipa,cn=etc, $SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: nsContainer</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaSupportedDomainLevelConfig</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectclass: ipaReplTopoManagedService</span></code></div>
-<div class="line"><strong>``objectclass:````````ipaLocationMember``</strong></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: ipa-server.example.com</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaMaxDomainLevel: 1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaMinDomainLevel: 0</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaReplTopoManagedSuffix: o=ipaca</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipaReplTopoManagedSuffix: $SUFFIX</span></code></div>
-<div class="line"><strong>``ipaLocation:````````idnsName=prague,cn=locations,cn=etc,$SUFFIX``</strong></div>
-<div class="line"><strong>``ipaLocationWeight:````````100``</strong></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>DN: cn=ipa-server.example.com,cn=masters,cn=ipa,cn=etc, $SUFFIX
+objectclass: top
+objectclass: nsContainer
+objectclass: ipaSupportedDomainLevelConfig
+objectclass: ipaReplTopoManagedService
+objectclass: ipaLocationMember
+cn: ipa-server.example.com
+ipaMaxDomainLevel: 1
+ipaMinDomainLevel: 0
+ipaReplTopoManagedSuffix: o=ipaca
+ipaReplTopoManagedSuffix: $SUFFIX
+ipaLocation: idnsName=prague,cn=locations,cn=etc,$SUFFIX
+ipaLocationWeight: 100
+</pre></div>
 </div>
 </section>
 </section>
@@ -1641,25 +1641,25 @@ locations or not.</p></li>
 <li><p>Install at least two IPA DNS servers</p></li>
 <li><p>Create at least two locations:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa location-add loc1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ipa location-add loc2</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">location</span><span class="o">-</span><span class="n">add</span> <span class="n">loc1</span>
+<span class="n">ipa</span> <span class="n">location</span><span class="o">-</span><span class="n">add</span> <span class="n">loc2</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Assign one or more FreeIPA servers to each location</p></li>
 <li><p>Assign first FreeIPA DNS server to one location (must have non-empty
 set of servers)</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ipa server-mod server1.example --location=loc1</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">server1.example</span> <span class="pre">--location=loc1</span></code></p>
 <ul class="simple">
 <li><p>Assign second FreeIPA DNS server to second location (must have
 non-empty set of servers)</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ipa server-mod server2.example --location=loc2</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">server-mod</span> <span class="pre">server2.example</span> <span class="pre">--location=loc2</span></code></p>
 <ul class="simple">
 <li><p>Query SRV records from the first FreeIPA DNS server:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">$ dig &#64;$FIRST_IPA_DNS_SERVER _kerberos._udp.$PRIMARYDNSDOMAIN SRV</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">&#64;$FIRST_IPA_DNS_SERVER</span> <span class="pre">_kerberos._udp.$PRIMARYDNSDOMAIN</span> <span class="pre">SRV</span></code></p>
 <p>The answer must contain FreeIPA server assigned to first location with
 higher priority (smaller number) and the second server must have lower
 priority (higher number).</p>

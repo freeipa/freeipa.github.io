@@ -372,17 +372,17 @@ purposes</a>.</div>
 IPv6 sockets for listening because IPv4 and IPv6 share the same port
 range locally. FreeIPA uses Samba as part of its Active Directory
 integration and Samba <strong>requires enabled IPv6 stack</strong> on the machine.</p>
-<p>Adding <strong>``ipv6.disable=1``</strong> to the kernel command line disables the
+<p>Adding <code class="docutils literal notranslate"><span class="pre">ipv6.disable=1</span></code> to the kernel command line disables the
 whole IPv6 stack</p>
-<p>Adding <strong>``ipv6.disable_ipv6=1``</strong> will keep the IPv6 stack functional
+<p>Adding <code class="docutils literal notranslate"><span class="pre">ipv6.disable_ipv6=1</span></code> will keep the IPv6 stack functional
 but will not assign IPv6 addresses to any of your network devices. This
 is recommended approach for cases when you don’t use IPv6 networking.</p>
 <p>Creating and adding to for example /etc/sysctl.d/ipv6.conf will avoid
 assigning IPv6 addresses to a specific network interface</p>
-<div class="line-block">
-<div class="line">`` # Disable IPv6``</div>
-<div class="line">`` net.ipv6.conf.all.disable_ipv6 = 1``</div>
-<div class="line">`` net.ipv6.conf.``<code class="docutils literal notranslate"><span class="pre">.disable_ipv6 = 1</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Disable IPv6
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.``\ ``.disable_ipv6 = 1
+</pre></div>
 </div>
 <p>where <em>interface0</em> is your specialized interface.</p>
 <p><strong>Note that all we are requiring is that IPv6 stack is enabled at the
@@ -435,11 +435,11 @@ requirement for any Active Directory cross-forest trust.</p>
 <p><strong>NOTE</strong>: italicized text should be replaced with real values. E.g. if
 IPA domain is <code class="docutils literal notranslate"><span class="pre">ipadomain.example.com</span></code>, and the IP address of IPA
 server is <code class="docutils literal notranslate"><span class="pre">10.16.78.61</span></code>, the command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``C:\&gt; dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">dnscmd</span> <span class="mf">127.0.0.1</span> <span class="o">/</span><span class="n">ZoneAdd</span> <span class="n">ipa_domain</span> <span class="o">/</span><span class="n">Forwarder</span> <span class="n">ipa_ip_address</span>
 </pre></div>
 </div>
 <p>should look like this:</p>
-<p><code class="docutils literal notranslate"><span class="pre">C:\&gt; dnscmd 127.0.0.1 /ZoneAdd ipadomain.example.com /Forwarder 10.16.78.61</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">C:\&gt;</span> <span class="pre">dnscmd</span> <span class="pre">127.0.0.1</span> <span class="pre">/ZoneAdd</span> <span class="pre">ipadomain.example.com</span> <span class="pre">/Forwarder</span> <span class="pre">10.16.78.61</span></code></p>
 <p><strong>NOTE</strong>: NetBIOS name is the leading component of the domain name. E.g.
 if the domain name is <code class="docutils literal notranslate"><span class="pre">ipadomain.example.com</span></code>, the NetBIOS name is
 <code class="docutils literal notranslate"><span class="pre">IPADOMAIN</span></code>. NetBIOS namespace is flat, there should be no conflicts
@@ -451,34 +451,34 @@ server must be different.</p>
 <h1>Install and configure IPA server<a class="headerlink" href="#install-and-configure-ipa-server" title="Link to this heading">#</a></h1>
 <section id="make-sure-all-packages-are-up-to-date">
 <h2>Make sure all packages are up to date<a class="headerlink" href="#make-sure-all-packages-are-up-to-date" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># yum update -y</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">update</span> <span class="pre">-y</span></code></p>
 </section>
 <section id="install-required-packages">
 <h2>Install required packages<a class="headerlink" href="#install-required-packages" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># yum install -y &quot;*ipa-server&quot; &quot;*ipa-server-trust-ad&quot; bind bind-dyndb-ldap</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">&quot;*ipa-server&quot;</span> <span class="pre">&quot;*ipa-server-trust-ad&quot;</span> <span class="pre">bind</span> <span class="pre">bind-dyndb-ldap</span></code></p>
 </section>
 <section id="configure-host-name">
 <h2>Configure host name<a class="headerlink" href="#configure-host-name" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# hostnamectl set-hostname ``\ *``ipa_hostname``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># hostnamectl set-hostname ipa_hostname</span>
 </pre></div>
 </div>
 </section>
 <section id="install-ipa-server">
 <h2>Install IPA server<a class="headerlink" href="#install-ipa-server" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa-server-install -a mypassword1 -p mypassword2 --domain=</span></code><em>``ipa_domain``</em>`` –realm=``<em>``IPA_DOMAIN``</em>`` –setup-dns –no-forwarders -U``</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-server-install</span> <span class="pre">-a</span> <span class="pre">mypassword1</span> <span class="pre">-p</span> <span class="pre">mypassword2</span> <span class="pre">--domain=ipa_domain</span> <span class="pre">--realm=IPA_DOMAIN</span> <span class="pre">--setup-dns</span> <span class="pre">--no-forwarders</span> <span class="pre">-U</span></code></p>
 </section>
 <section id="login-as-admin">
 <h2>Login as admin<a class="headerlink" href="#login-as-admin" title="Link to this heading">#</a></h2>
 <p>To obtain a ticket-granting ticket, run the follwing command:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># kinit admin</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">kinit</span> <span class="pre">admin</span></code></p>
 <p>The password is your admin user’s password (from <code class="docutils literal notranslate"><span class="pre">-a</span></code> option in the
 <code class="docutils literal notranslate"><span class="pre">ipa-server-install</span></code> comand).</p>
 </section>
 <section id="make-sure-ipa-users-are-available-to-the-system-services">
 <h2>Make sure IPA users are available to the system services<a class="headerlink" href="#make-sure-ipa-users-are-available-to-the-system-services" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># id admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># getent passwd admin</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># id admin</span>
+<span class="c1"># getent passwd admin</span>
+</pre></div>
 </div>
 <p>Both above commands should return information about the admin user. If
 above commands fail, restart the <code class="docutils literal notranslate"><span class="pre">sssd</span></code> service
@@ -486,7 +486,7 @@ above commands fail, restart the <code class="docutils literal notranslate"><spa
 </section>
 <section id="configure-ipa-server-for-cross-forest-trusts">
 <h2>Configure IPA server for cross-forest trusts<a class="headerlink" href="#configure-ipa-server-for-cross-forest-trusts" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa-adtrust-install --netbios-name=</span></code><em>``ipa_netbios``</em>`` -a mypassword1``</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa-adtrust-install</span> <span class="pre">--netbios-name=ipa_netbios</span> <span class="pre">-a</span> <span class="pre">mypassword1</span></code></p>
 <p>When planning access of AD users to IPA clients, make sure to run
 ipa-adtrust-install on every IPA master these IPA clients will be
 connecting to.</p>
@@ -511,9 +511,9 @@ match.</p>
 <section id="on-ipa-server">
 <h2>On IPA server<a class="headerlink" href="#on-ipa-server" title="Link to this heading">#</a></h2>
 <p>IPA uses the following ports to communicate with its services:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">TCP ports: 80, 88, 443, 389, 636, 88, 464, 53, 135, 138, 139, 445, 1024-1300</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">UDP ports: 88, 464, 53, 123, 138, 139, 389, 445</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TCP</span> <span class="n">ports</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">443</span><span class="p">,</span> <span class="mi">389</span><span class="p">,</span> <span class="mi">636</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">464</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">135</span><span class="p">,</span> <span class="mi">138</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="mi">445</span><span class="p">,</span> <span class="mi">1024</span><span class="o">-</span><span class="mi">1300</span>
+<span class="n">UDP</span> <span class="n">ports</span><span class="p">:</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">464</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="mi">138</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="mi">389</span><span class="p">,</span> <span class="mi">445</span>
+</pre></div>
 </div>
 <p>These ports must be open and available; they cannot be in use by another
 service or blocked by a firewall. Especially ports 88/udp, 88/tcp,
@@ -548,44 +548,44 @@ specific hosts. For this reason, we recommend disabling <code class="docutils li
 enabling <code class="docutils literal notranslate"><span class="pre">iptables</span></code> and using the sample configuration listed in
 section <a class="reference external" href="#iptables">#iptables</a>.</p>
 <p>To disable <code class="docutils literal notranslate"><span class="pre">firewalld</span></code>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># chkconfig firewalld off</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># service firewalld stop</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># chkconfig firewalld off</span>
+<span class="c1"># service firewalld stop</span>
+</pre></div>
 </div>
 <p>To enable <code class="docutils literal notranslate"><span class="pre">iptables</span></code>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yum install -y iptables-services</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># chkconfig iptables on</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yum install -y iptables-services</span>
+<span class="c1"># chkconfig iptables on</span>
+</pre></div>
 </div>
 <p>Make sure <code class="docutils literal notranslate"><span class="pre">iptables</span></code> configuration file is located at
 <code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/iptables</span></code> and contains the desired configuration, and
 then (re)start the <code class="docutils literal notranslate"><span class="pre">iptables</span></code> service:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># service iptables restart</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">iptables</span> <span class="pre">restart</span></code></p>
 </section>
 <section id="iptables">
 <h3>iptables<a class="headerlink" href="#iptables" title="Link to this heading">#</a></h3>
 <p>Make sure that <code class="docutils literal notranslate"><span class="pre">iptables</span></code> is configured to start whenever the system
 is booted:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># chkconfig iptables on</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">chkconfig</span> <span class="pre">iptables</span> <span class="pre">on</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">iptables</span></code> configuration file is <code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/iptables</span></code>. Taking
 into account the rules that must be applied in order for IPA to work
 properly, here is a sample configuration.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">*filter</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">:INPUT ACCEPT [0:0]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">:FORWARD ACCEPT [0:0]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">:OUTPUT ACCEPT [0:0]</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p icmp -j ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -i lo -j ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># -A INPUT -s ``\</span> <span class="pre">*``ad_ip_address``*\</span> <span class="pre">`` -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p udp -j REJECT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A INPUT -p tcp -j REJECT</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-A FORWARD -j REJECT --reject-with icmp-host-prohibited</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">COMMIT</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span><span class="nb">filter</span>
+<span class="p">:</span><span class="n">INPUT</span> <span class="n">ACCEPT</span> <span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">:</span><span class="n">FORWARD</span> <span class="n">ACCEPT</span> <span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">:</span><span class="n">OUTPUT</span> <span class="n">ACCEPT</span> <span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">m</span> <span class="n">state</span> <span class="o">--</span><span class="n">state</span> <span class="n">ESTABLISHED</span><span class="p">,</span><span class="n">RELATED</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">icmp</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">i</span> <span class="n">lo</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">m</span> <span class="n">state</span> <span class="o">--</span><span class="n">state</span> <span class="n">NEW</span> <span class="o">-</span><span class="n">m</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">--</span><span class="n">dport</span> <span class="mi">22</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+  <span class="c1"># -A INPUT -s ad_ip_address -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">m</span> <span class="n">multiport</span> <span class="o">--</span><span class="n">dports</span> <span class="mi">80</span><span class="p">,</span><span class="mi">88</span><span class="p">,</span><span class="mi">443</span><span class="p">,</span><span class="mi">389</span><span class="p">,</span><span class="mi">636</span><span class="p">,</span><span class="mi">88</span><span class="p">,</span><span class="mi">464</span><span class="p">,</span><span class="mi">53</span><span class="p">,</span><span class="mi">138</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">445</span> <span class="o">-</span><span class="n">m</span> <span class="n">state</span> <span class="o">--</span><span class="n">state</span> <span class="n">NEW</span><span class="p">,</span><span class="n">ESTABLISHED</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">udp</span> <span class="o">-</span><span class="n">m</span> <span class="n">multiport</span> <span class="o">--</span><span class="n">dports</span> <span class="mi">88</span><span class="p">,</span><span class="mi">464</span><span class="p">,</span><span class="mi">53</span><span class="p">,</span><span class="mi">123</span><span class="p">,</span><span class="mi">138</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">389</span><span class="p">,</span><span class="mi">445</span> <span class="o">-</span><span class="n">m</span> <span class="n">state</span> <span class="o">--</span><span class="n">state</span> <span class="n">NEW</span><span class="p">,</span><span class="n">ESTABLISHED</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">udp</span> <span class="o">-</span><span class="n">j</span> <span class="n">REJECT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">j</span> <span class="n">REJECT</span>
+<span class="o">-</span><span class="n">A</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">j</span> <span class="n">REJECT</span> <span class="o">--</span><span class="n">reject</span><span class="o">-</span><span class="k">with</span> <span class="n">icmp</span><span class="o">-</span><span class="n">host</span><span class="o">-</span><span class="n">prohibited</span>
+<span class="n">COMMIT</span>
+</pre></div>
 </div>
 <p>Please note that the line containing “ad_ip_address” is not needed
 anymore (see comments above). If you still want to use it please make
@@ -593,7 +593,7 @@ sure you replace <em>ad_ip_address</em> in the above configuration, with the IP
 address of AD DC.</p>
 <p>Any changes to the <code class="docutils literal notranslate"><span class="pre">iptables</span></code> configuration file will require a
 restart of the <code class="docutils literal notranslate"><span class="pre">iptables</span></code> service:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># service iptables restart</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">iptables</span> <span class="pre">restart</span></code></p>
 </section>
 </section>
 <section id="dns-configuration">
@@ -608,7 +608,7 @@ zone forwarders can be created:</p>
 <section id="conditional-dns-forwarders">
 <h2>Conditional DNS forwarders<a class="headerlink" href="#conditional-dns-forwarders" title="Link to this heading">#</a></h2>
 <p>On AD DC, add conditional forwarder for IPA domain:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``C:\&gt; dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">dnscmd</span> <span class="mf">127.0.0.1</span> <span class="o">/</span><span class="n">ZoneAdd</span> <span class="n">ipa_domain</span> <span class="o">/</span><span class="n">Forwarder</span> <span class="n">ipa_ip_address</span>
 </pre></div>
 </div>
 <p>On IPA server, add conditional forwarder for AD domain. The command in
@@ -616,11 +616,11 @@ IPA version 3 and 4 are different.</p>
 <ul class="simple">
 <li><p>IPA v3.x:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa dnszone-add ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` --name-server=</span></code><em>``ad_hostname.ad_domain``</em>`` –admin-email=’hostmaster&#64;``<em>``ad_domain``</em><code class="docutils literal notranslate"><span class="pre">' --force --forwarder=</span></code><em>``ad_ip_address``</em>`` –forward-policy=only –ip-address=``<em>``ad_ip_address``</em></p>
+<p># ipa dnszone-add ad_domain –name-server=ad_hostname.ad_domain <a class="reference external" href="mailto:--admin-email='hostmaster&#37;&#52;&#48;ad_domain">–admin-email=’hostmaster<span>&#64;</span>ad_domain</a>’ –force –forwarder=ad_ip_address –forward-policy=only –ip-address=ad_ip_address</p>
 <ul class="simple">
 <li><p>IPA v4.x:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa dnsforwardzone-add ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` --forwarder=</span></code><em>``ad_ip_address``</em>`` –forward-policy=only``</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">dnsforwardzone-add</span> <span class="pre">ad_domain</span> <span class="pre">--forwarder=ad_ip_address</span> <span class="pre">--forward-policy=only</span></code></p>
 </section>
 <section id="if-ad-is-subdomain-of-ipa">
 <h2>If AD is subdomain of IPA<a class="headerlink" href="#if-ad-is-subdomain-of-ipa" title="Link to this heading">#</a></h2>
@@ -628,24 +628,24 @@ IPA version 3 and 4 are different.</p>
 <code class="docutils literal notranslate"><span class="pre">addomain.ipadomain.example.com</span></code> and IPA domain is
 <code class="docutils literal notranslate"><span class="pre">ipadomain.example.com</span></code>), configure DNS as follows.</p>
 <p>On IPA server, add an A record and a NS record for the AD domain:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa dnsrecord-add ``\</span> <span class="pre">*``ipa_domain``*\</span> <span class="pre">`` ``\</span> <span class="pre">*``ad_hostname``*\</span> <span class="pre">``.</span></code><em>``ad_netbios``</em>`` –a-ip-address=``<em>``ad_ip_address``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># ipa dnsrecord-add ``\</span> <span class="pre">*``ipa_domain``*\</span> <span class="pre">`` ``\</span> <span class="pre">*``ad_netbios``*\</span> <span class="pre">`` --ns-hostname=</span></code><em>``ad_hostname``</em><code class="docutils literal notranslate"><span class="pre">.</span></code><em>``ad_netbios``</em></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa dnsrecord-add ipa_domain ad_hostname.ad_netbios --a-ip-address=ad_ip_address``</span>
+<span class="c1"># ipa dnsrecord-add ipa_domain ad_netbios --ns-hostname=ad_hostname.ad_netbios``</span>
+</pre></div>
 </div>
 <p>On AD DC, there two options.</p>
 <p>The first one is to configure a global forwarder to forward DNS queries
 to the IPA domain:</p>
-<p><code class="docutils literal notranslate"><span class="pre">C:\&gt; dnscmd 127.0.0.1 /ResetForwarders ``\</span> <span class="pre">*``ipa_ip_address``*\</span> <span class="pre">`` /Slave</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">C:\&gt;</span> <span class="pre">dnscmd</span> <span class="pre">127.0.0.1</span> <span class="pre">/ResetForwarders</span> <span class="pre">ipa_ip_address</span> <span class="pre">/Slave</span></code></p>
 <p>The second option is to configure a DNS zone for master-slave
 replication. The data for this zone will then be periodically copied
 from master (IPA server) to slave (AD server).</p>
 <p>To do this, first explicitly allow the transfer of the zone on IPA
 server:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``# ipa dnszone-mod ``\ *``ipa_domain``*\ `` --allow-transfer=``\ *``ad_ip_address``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ipa dnszone-mod ipa_domain --allow-transfer=ad_ip_address</span>
 </pre></div>
 </div>
 <p>And second, add the DNS zone for the IPA domain on the AD DC:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``C:\&gt; dnscmd 127 0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Secondary ``\ *``ipa_ip_address``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">dnscmd</span> <span class="mi">127</span> <span class="mf">0.0.1</span> <span class="o">/</span><span class="n">ZoneAdd</span> <span class="n">ipa_domain</span> <span class="o">/</span><span class="n">Secondary</span> <span class="n">ipa_ip_address</span>
 </pre></div>
 </div>
 </section>
@@ -655,8 +655,8 @@ server:</p>
 ipadomain.addomain.example.com and AD domain is
 addomain.example.com), configure DNS as follows.</p>
 <p>On AD DC, add an A record and a NS record for the IPA domain:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``C:\&gt; dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address``*
-| ``C:\&gt; dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">dnscmd</span> <span class="mf">127.0.0.1</span> <span class="o">/</span><span class="n">RecordAdd</span> <span class="n">ad_domain</span> <span class="n">ipa_hostname</span><span class="o">.</span><span class="n">ipa_domain</span> <span class="n">A</span> <span class="n">ipa_ip_address</span>
+<span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">dnscmd</span> <span class="mf">127.0.0.1</span> <span class="o">/</span><span class="n">RecordAdd</span> <span class="n">ad_domain</span> <span class="n">ipa_domain</span> <span class="n">NS</span> <span class="n">ipa_hostname</span><span class="o">.</span><span class="n">ipa_domain</span>
 </pre></div>
 </div>
 </section>
@@ -665,17 +665,17 @@ addomain.example.com), configure DNS as follows.</p>
 <p>To make sure both AD and IPA servers can see each other, check if SRV
 records are being properly resolved.</p>
 <p>On AD DC:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">C:\&gt; nslookup</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; set type=srv</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; _ldap._tcp.</span></code><em>``ad_domain``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; _ldap._tcp.</span></code><em>``ipa_domain``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt; quit</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>C:\&gt; nslookup
+&gt; set type=srv
+ &gt; _ldap._tcp.ad_domain``
+ &gt; _ldap._tcp.ipa_domain``
+&gt; quit
+</pre></div>
 </div>
 <p>On IPA server:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># dig SRV _ldap._tcp.</span></code><em>``ipa_domain``</em></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># dig SRV _ldap._tcp.</span></code><em>``ad_domain``</em></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># dig SRV _ldap._tcp.ipa_domain``</span>
+<span class="c1"># dig SRV _ldap._tcp.ad_domain``</span>
+</pre></div>
 </div>
 </section>
 </section>
@@ -686,7 +686,7 @@ records are being properly resolved.</p>
 </section>
 <section id="when-ad-administrator-credentials-are-available">
 <h2>When AD administrator credentials are available<a class="headerlink" href="#when-ad-administrator-credentials-are-available" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa trust-add --type=ad ``\</span> <span class="pre">*``ad_domain``*\</span> <span class="pre">`` --admin Administrator --password</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">trust-add</span> <span class="pre">--type=ad</span> <span class="pre">ad_domain</span> <span class="pre">--admin</span> <span class="pre">Administrator</span> <span class="pre">--password</span></code></p>
 <p>Enter the Administrator’s password when prompted. If everything was set
 up correctly, a trust with AD domain will be established.</p>
 <p>The user account used when creating a trust (the argument to the
@@ -714,7 +714,7 @@ to tell the AD server that the IPA server can handle AES encryption</p></li>
 </section>
 <section id="when-ad-administrator-credentials-aren-t-available">
 <h2>When AD administrator credentials aren’t available<a class="headerlink" href="#when-ad-administrator-credentials-aren-t-available" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa trust-add --type=ad &quot;ad_domain&quot; --trust-secret</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">trust-add</span> <span class="pre">--type=ad</span> <span class="pre">&quot;ad_domain&quot;</span> <span class="pre">--trust-secret</span></code></p>
 <p>Enter the trust shared secret when prompted. At this point IPA will
 create two-way forest trust on IPA side. Second leg of the trust need to
 be created manually and validated on AD side. Following GIF sequence
@@ -728,12 +728,12 @@ shows how trust with shared secret is created:</p>
 <p>Once trust leg on AD side is established, one needs to retrieve the list
 of trusted forest domains from AD side. This is done using following
 command:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa trust-fetch-domains &quot;ad_domain&quot;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">trust-fetch-domains</span> <span class="pre">&quot;ad_domain&quot;</span></code></p>
 <p>With this command running successfuly, IPA will get information about
 trusted domains and will create all needed identity ranges for them.</p>
 <p>Use “trustdomain-find” to see list of the trusted domains from a trusted
 forest:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa trustdomain-find &quot;ad_domain&quot;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">trustdomain-find</span> <span class="pre">&quot;ad_domain&quot;</span></code></p>
 </section>
 <section id="edit-etc-krb5-conf">
 <h2>Edit /etc/krb5.conf<a class="headerlink" href="#edit-etc-krb5-conf" title="Link to this heading">#</a></h2>
@@ -766,18 +766,18 @@ to some existing POSIX account.</p>
 IPA server is needed, to allow Kerberos authentication.</p>
 <p>Add these two lines to <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> on every machine that is going
 to see AD users:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">[realms]</span></code></div>
-<div class="line"><em>``IPA_DOMAIN``</em>`` = {``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">....</span></code></div>
-<div class="line">``  auth_to_local = RULE:[1:$1&#64;$0](^.*&#64;``<em>``AD_DOMAIN``</em><code class="docutils literal notranslate"><span class="pre">$)s/&#64;</span></code><em>``AD_DOMAIN``</em><code class="docutils literal notranslate"><span class="pre">/&#64;</span></code><em>``ad_domain``</em><code class="docutils literal notranslate"><span class="pre">/</span></code></div>
-<div class="line">``  auth_to_local = DEFAULT``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[realms]
+ IPA_DOMAIN = {
+ ....
+    auth_to_local = RULE:[1:$1@$0](^.*@AD_DOMAIN$)s/@AD_DOMAIN/@ad_domain/
+  auth_to_local = DEFAULT
+}
+</pre></div>
 </div>
 <p>Restart KDC and sssd</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># service krb5kdc restart</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># service sssd restart</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># service krb5kdc restart</span>
+<span class="c1"># service sssd restart</span>
+</pre></div>
 </div>
 </section>
 <section id="allow-access-for-users-from-ad-domain-to-protected-resources">
@@ -798,13 +798,13 @@ group</p></li>
 <section id="create-external-and-posix-groups-for-trusted-domain-users">
 <h2>Create external and POSIX groups for trusted domain users<a class="headerlink" href="#create-external-and-posix-groups-for-trusted-domain-users" title="Link to this heading">#</a></h2>
 <p>Create external group in IPA for trusted domain admins:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add --desc=</span></code><em>``’ad_domain``</em>`` admins external map’ ad_admins_external –external``</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">group-add</span> <span class="pre">--desc='ad_domain</span> <span class="pre">admins</span> <span class="pre">external</span> <span class="pre">map'</span> <span class="pre">ad_admins_external</span> <span class="pre">--external</span></code></p>
 <p>Create POSIX group for external <code class="docutils literal notranslate"><span class="pre">ad_admins_external</span></code> group:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add --desc=</span></code><em>``’ad_domain``</em>`` admins’ ad_admins``</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">group-add</span> <span class="pre">--desc='ad_domain</span> <span class="pre">admins'</span> <span class="pre">ad_admins</span></code></p>
 </section>
 <section id="add-trusted-domain-users-to-the-external-group">
 <h2>Add trusted domain users to the external group<a class="headerlink" href="#add-trusted-domain-users-to-the-external-group" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add-member ad_admins_external --external '</span></code><em>``ad_netbios``</em><code class="docutils literal notranslate"><span class="pre">\Domain Admins'</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">group-add-member</span> <span class="pre">ad_admins_external</span> <span class="pre">--external</span> <span class="pre">'ad_netbios\Domain</span> <span class="pre">Admins'</span></code></p>
 <p>When asked for member user and member group, just leave it blank and hit
 Enter.</p>
 <p><strong>NOTE</strong>: Since arguments in above command contain backslashes,
@@ -815,7 +815,7 @@ to escape any specials characters with a backslash ().</p>
 <h2>Add external group to POSIX group<a class="headerlink" href="#add-external-group-to-posix-group" title="Link to this heading">#</a></h2>
 <p>Allow members of <code class="docutils literal notranslate"><span class="pre">ad_admins_external</span></code> group to be associated with
 <code class="docutils literal notranslate"><span class="pre">ad_admins</span></code> POSIX group:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># ipa group-add-member ad_admins --groups ad_admins_external</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">ipa</span> <span class="pre">group-add-member</span> <span class="pre">ad_admins</span> <span class="pre">--groups</span> <span class="pre">ad_admins_external</span></code></p>
 </section>
 </section>
 <section id="test-cross-forest-trust">
@@ -834,15 +834,15 @@ administrator&#64;<em>ad_domain</em>.</p>
 <section id="using-samba-shares">
 <h2>Using Samba shares<a class="headerlink" href="#using-samba-shares" title="Link to this heading">#</a></h2>
 <p>To create a Samba share on IPA server:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'comment' 'Trust test share'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'read only' 'no'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'valid users' '</span></code><em>``ad_admins_sid``</em><code class="docutils literal notranslate"><span class="pre">'</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># net conf setparm 'share' 'path' '</span></code><em>``/path/to/share``</em><code class="docutils literal notranslate"><span class="pre">'</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># net conf setparm &#39;share&#39; &#39;comment&#39; &#39;Trust test share&#39;</span>
+<span class="c1"># net conf setparm &#39;share&#39; &#39;read only&#39; &#39;no&#39;</span>
+  <span class="c1"># net conf setparm &#39;share&#39; &#39;valid users&#39; &#39;ad_admins_sid&#39;</span>
+  <span class="c1"># net conf setparm &#39;share&#39; &#39;path&#39; &#39;/path/to/share&#39;</span>
+</pre></div>
 </div>
 <p><strong>NOTE</strong>: To obtain the SID (Security Identifier) of the AD admins
 group, run:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># wbinfo -n ``\</span> <span class="pre">*</span></code>’ad_netbios``*<code class="docutils literal notranslate"><span class="pre">\Domain Admins'</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">wbinfo</span> <span class="pre">-n</span> <span class="pre">'ad_netbios\Domain</span> <span class="pre">Admins'</span></code></p>
 <p>It is a string that looks like this:
 S-1-5-21-16904141-148189700-2149043814-512. <code class="docutils literal notranslate"><span class="pre">wbinfo</span></code> executable is
 contained in <code class="docutils literal notranslate"><span class="pre">samba-winbind-clients</span></code> package which is optional to
@@ -865,21 +865,21 @@ of testing Kerberos authentication,
 can be used.</p>
 <p>To add Kerberos authentication to an existing web application, the
 following Apache configuration is needed:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``&lt;Location &quot;/mywebapp&quot;&gt;``
-| ``   AuthType Kerberos``
-| ``   AuthName &quot;IPA Kerberos authentication&quot;``
-| ``   KrbMethodNegotiate on``
-| ``   KrbMethodK5Passwd on``
-| ``   KrbServiceName HTTP``
-| ``   KrbAuthRealms ``\ *``IPA_DOMAIN``*
-| ``   Krb5Keytab /etc/httpd/conf/ipa.keytab``
-| ``   KrbSaveCredentials off``
-| ``   Require valid-user``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Location</span> <span class="s2">&quot;/mywebapp&quot;</span><span class="o">&gt;</span>
+   <span class="n">AuthType</span> <span class="n">Kerberos</span>
+   <span class="n">AuthName</span> <span class="s2">&quot;IPA Kerberos authentication&quot;</span>
+   <span class="n">KrbMethodNegotiate</span> <span class="n">on</span>
+   <span class="n">KrbMethodK5Passwd</span> <span class="n">on</span>
+   <span class="n">KrbServiceName</span> <span class="n">HTTP</span>
+    <span class="n">KrbAuthRealms</span> <span class="n">IPA_DOMAIN</span>
+   <span class="n">Krb5Keytab</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">ipa</span><span class="o">.</span><span class="n">keytab</span>
+   <span class="n">KrbSaveCredentials</span> <span class="n">off</span>
+   <span class="n">Require</span> <span class="n">valid</span><span class="o">-</span><span class="n">user</span>
 </pre></div>
 </div>
 <p>Make sure you replace <em>IPA_DOMAIN</em> in the above configuration with your
 actual IPA domain (in caps) and to restart the apache service:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># service httpd restart</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">service</span> <span class="pre">httpd</span> <span class="pre">restart</span></code></p>
 </section>
 </section>
 <section id="debugging-trust">
@@ -895,36 +895,36 @@ above</a>.</p></li>
 138/139/445 TCP and UDP ports, 389 UDP port.</p></li>
 <li><p>Stop smb and winbind services on IdM server</p></li>
 </ul>
-<p>``   systemctl stop smb winbind``</p>
+<p>``   systemctl stop smb winbind``</p>
 <ul class="simple">
 <li><p>Set log level to increased debug so that packets smbd/winbindd
 receive get printed fully in the logs:</p></li>
 </ul>
-<p>``    net conf setparm global ‘log level’ 100``</p>
+<p>``    net conf setparm global ‘log level’ 100``</p>
 <ul class="simple">
 <li><p>Set log level to increased debug so that communication done by IPA
 when establishing trust is printed fully in the logs. Change
 /usr/share/ipa/smb.conf.empty:</p></li>
 </ul>
-<div class="line-block">
-<div class="line">``    [global]``</div>
-<div class="line">``    log level = 100``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
+<span class="n">log</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>Remove old /var/log/samba/log.*</p></li>
 <li><p>Start smb and winbind services</p></li>
 </ul>
-<p>``   systemctl start smb winbind``</p>
+<p>``   systemctl start smb winbind``</p>
 <ul class="simple">
 <li><p>Re-add trust</p></li>
 </ul>
-<p>``    ipa trust-add <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">`` ...</span></code></p>
+<p>``    ipa trust-add <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``</span> <span class="pre">...</span></code></p>
 <ul class="simple">
 <li><p>If trust-add command was used with shared secret instead of explicit
 AD administrator credentials, after validation was performed from AD
 side, run</p></li>
 </ul>
-<p>``    ipa trust-fetch-domains ``</p>
+<p>``    ipa trust-fetch-domains ``</p>
 <ul class="simple">
 <li><p>Package following logs and attach them to a bug or send directly to a
 member of FreeIPA development team who requested the logs. Please do
@@ -933,9 +933,9 @@ large and would contain information specific to your AD deployment
 that general public shouldn’t have access to. The logs we are
 interested in are following:</p></li>
 </ul>
-<div class="line-block">
-<div class="line">``    /var/log/httpd/error_log``</div>
-<div class="line">``    /var/log/samba/log.*``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">error_log</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">samba</span><span class="o">/</span><span class="n">log</span><span class="o">.*</span>
+</pre></div>
 </div>
 </section>
 <section id="failures-due-to-exhausted-dna-range-on-replica">

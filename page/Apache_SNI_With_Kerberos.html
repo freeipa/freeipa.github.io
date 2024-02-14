@@ -318,10 +318,10 @@ workplace.</p>
 <section id="ipa-sssd-configuration">
 <h2>IPA/SSSD Configuration<a class="headerlink" href="#ipa-sssd-configuration" title="Link to this heading">#</a></h2>
 <p>SSSD does not need any special configuration however if:</p>
-<p>`` ipa-getcert list``</p>
+<p>`` ipa-getcert list``</p>
 <p>shows any errors such as CA_UNREACHABLE when there are multiple replicas
 in the topology it is worth checking</p>
-<p>`` /etc/ipa/default.conf``</p>
+<p>`` /etc/ipa/default.conf``</p>
 <p>to see which server is being used for certificate requests. Ensure that
 the server is accepting requests against the IPA topology and kerberos
 tickets are being generated before continuing.</p>
@@ -337,12 +337,12 @@ default targeted type in RHEL6.</p>
 <h2>Default SSL apache config<a class="headerlink" href="#default-ssl-apache-config" title="Link to this heading">#</a></h2>
 <p>Before carrying out configuration of the web server on a system with
 ipa-admintools:</p>
-<p>`` ipa service-add HTTP/``</p>
+<p>`` ipa service-add HTTP/``</p>
 <p>This adds the service to IPA for the purposes of adding an SSL
 certificate to it and then later on for a keytab to the kerberos
 principal.</p>
 <p>As usual the only requirements to install an SSL capable web server are:</p>
-<p>`` yum install httpd mod_ssl``</p>
+<p>`` yum install httpd mod_ssl``</p>
 <p>which will provide for a self signed standard HTTPS server with content
 served from /var/www/html.</p>
 <p>Certmonger and Apache will need a common area to read and/or write
@@ -350,14 +350,14 @@ certificates as such I’d recommend creating a directory for these such
 as /etc/httpd/certs.</p>
 <p>Certmonger needs to be allowed to write to this area - although it runs
 as root selinux will restrict it:</p>
-<p>`` semanage fcontext -a -t cert_t ‘/etc/httpd/certs(/.*)?’ &amp;&amp; restorecon -v /etc/httpd/certs``</p>
+<p>`` semanage fcontext -a -t cert_t ‘/etc/httpd/certs(/.*)?’ &amp;&amp; restorecon -v /etc/httpd/certs``</p>
 <p>The apache process is able to read directories of type cert_t to obtain
 its certificates and certmonger can then write to this safely.</p>
 <p>A certificate/key pair can then be requested through certmonger on the
 web server for the default instance via:</p>
-<p>:literal:` ipa-getcert request -r -f /etc/httpd/certs/default.crt -k /etc/httpd/certs/default.key -N CN=`uname -n` -D <cite>uname -n</cite> -K HTTP/<cite>uname -n`</cite></p>
+<p>:literal:` ipa-getcert request -r -f /etc/httpd/certs/default.crt -k /etc/httpd/certs/default.key -N CN=`uname -n` -D <cite>uname -n</cite> -K HTTP/<cite>uname -n`</cite></p>
 <p>To check the status of the request use:</p>
-<p>`` ipa-getcert list``</p>
+<p>`` ipa-getcert list``</p>
 <p>If all is well there should be output similar to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="n">ID</span> <span class="s1">&#39;20120618111406&#39;</span><span class="p">:</span>
     <span class="n">status</span><span class="p">:</span> <span class="n">MONITORING</span>
@@ -377,13 +377,13 @@ web server for the default instance via:</p>
 changed to make them readable by apache.</p>
 <p>Following this edit /etc/httpd/conf.d/ssl.conf to make sure the
 following entries read as so:</p>
-<div class="line-block">
-<div class="line">`` SSLCertificateFile /etc/httpd/certs/default.crt``</div>
-<div class="line">`` SSLCertificateKeyFile /etc/httpd/certs/default.key``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SSLCertificateFile</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">certs</span><span class="o">/</span><span class="n">default</span><span class="o">.</span><span class="n">crt</span>
+<span class="n">SSLCertificateKeyFile</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">certs</span><span class="o">/</span><span class="n">default</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
 </div>
 <p>If you require client validation link or copy /etc/ipa/ca.crt to
 /etc/httpd/certs and include:</p>
-<p>`` SSLCACertificateFile /etc/httpd/certs/ca.crt``</p>
+<p>`` SSLCACertificateFile /etc/httpd/certs/ca.crt``</p>
 <p>At the time of writing there is no GUI for client certificates in IPA so
 any further configuration down that avenue is left as an exercise to the
 reader.</p>
@@ -407,22 +407,21 @@ put the location as the fully qualified domain name of the actual host.
 A DNS record should already be in place for this (or just use the
 –force option when adding the host).</p>
 <p>To do this via the ipa-admin tools do as follows (or just use the GUI):</p>
-<div class="line-block">
-<div class="line">`` ipa dnsrecord-add example.com dummyhost –a-rec=10.180.80.1``</div>
-<div class="line">`` ipa host-add dummyhost.example.com –desc=”Dummy Host” –location=”<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
-<div class="line">`` ipa host-add-managedby dummyhost.example.com –hosts=”<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
-<div class="line">`` ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">dnsrecord</span><span class="o">-</span><span class="n">add</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">dummyhost</span> <span class="o">--</span><span class="n">a</span><span class="o">-</span><span class="n">rec</span><span class="o">=</span><span class="mf">10.180.80.1</span>
+<span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span> <span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Dummy Host&quot;</span> <span class="o">--</span><span class="n">location</span><span class="o">=</span><span class="s2">&quot;``\ ``&quot;</span>
+<span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">managedby</span> <span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="s2">&quot;``\ ``&quot;</span>
+</pre></div>
 </div>
 <p>Now that the dummy host is in place (no enrollment, keytabs or
 certificates needed for this bit) the service can be added.</p>
-<div class="line-block">
-<div class="line">`` ipa service-add HTTP/dummyhost.example.com``</div>
-<div class="line">`` ipa service-add-host HTTP/dummyhost.example.com –hosts=”<code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">``&quot;</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">ipa</span> <span class="n">service</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">host</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="s2">&quot;``\ ``&quot;</span>
+</pre></div>
 </div>
 <p>The IPA topology is then ready to add this as a virtual host on the web
 server.</p>
 <p>Back on the web server itself the new certificate can now be requested:</p>
-<p>`` ipa-getcert request -r -f /etc/httpd/certs/dummyhost.crt -k /etc/httpd/certs/dummyhost.key -N CN=dummyhost.example.com -D dummyhost.example.com -K HTTP/dummyhost.example.com``</p>
+<p>`` ipa-getcert request -r -f /etc/httpd/certs/dummyhost.crt -k /etc/httpd/certs/dummyhost.key -N CN=dummyhost.example.com -D dummyhost.example.com -K HTTP/dummyhost.example.com``</p>
 <p>Checking the /etc/httpd/certs directory should show the new
 certificate/key pair and as before these should be made readable to
 apache.</p>
@@ -430,8 +429,8 @@ apache.</p>
 itself can be configured for it.</p>
 <p>Configure Apache to use name based virtual hosts on port 443 (in
 addition to the standard 80):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| `` NameVirtualHost *:80``
-| `` NameVirtualHost *:443``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NameVirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">80</span>
+<span class="n">NameVirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">443</span>
 </pre></div>
 </div>
 <p>Optionally add a redirect from non-SSL to SSL if you want it as a
@@ -470,7 +469,7 @@ requesting a site from a name based virtual host system.</p>
 to alter the behaviour as described in the Apache documentation.</p>
 <p>Restart the httpd service and check the logs - if all is working the
 following should appear in error_log:</p>
-<p>`` [Mon Jun 18 13:25:44 2012] [warn] Init: Name-based SSL virtual hosts only work for clients with TLS server name indication support (RFC 4366)``</p>
+<p>`` [Mon Jun 18 13:25:44 2012] [warn] Init: Name-based SSL virtual hosts only work for clients with TLS server name indication support (RFC 4366)``</p>
 <p>At this point <a class="reference external" href="https://dummyhost.example.com">https://dummyhost.example.com</a> should then work to show the
 virtual host as defined and the certificate chain should be
 IPA-&gt;dummyhost when checked. If the IPA root certificate is trusted by
@@ -488,22 +487,22 @@ without SSL but be aware that if fallback is enabled in mod_auth_kerb
 this will be basic authentication (ie insecure) without SSL in place.</p>
 <p>Add the appropriate module for kerberos authentication on the web
 server:</p>
-<p>`` yum install mod_auth_kerb``</p>
+<p>`` yum install mod_auth_kerb``</p>
 <p>Create a directory to store keytabs for authenticating against IPA:</p>
-<div class="line-block">
-<div class="line">`` mkdir /etc/httpd/keytabs``</div>
-<div class="line">`` semanage fcontext -a -t httpd_keytab_t ‘/etc/httpd/keytabs/(.*)?’``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">keytabs</span>
+<span class="n">semanage</span> <span class="n">fcontext</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">t</span> <span class="n">httpd_keytab_t</span> <span class="s1">&#39;/etc/httpd/keytabs/(.*)?&#39;</span>
+</pre></div>
 </div>
 <p>Note that with the selinux context the directory should maintain the
 httpd_config_t type (default for anything in /etc/httpd/) but only the
 contents has the httpd_keytabs_t type.</p>
 <p>The default keytab for the host (for any ‘default’ site requests) can be
 obtained via:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ :literal:` -p HTTP/`uname -n` -k /etc/httpd/keytabs/default`
 </pre></div>
 </div>
 <p>To get a site specific keytab use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`` ipa-getkeytab -s ``\ `` -p HTTP/dummyhost.example.com -k /etc/httpd/keytabs/dummyhost``
 </pre></div>
 </div>
 <p>Although segregation of keytabs isn’t necessarily required (all hosts
@@ -542,14 +541,14 @@ present:</p>
 </div>
 <p>For a non-default keytab (eg the dummyhost above) add/amend as
 appropriate:</p>
-<div class="line-block">
-<div class="line">`` KrbServiceName HTTP/dummyhost.example.com``</div>
-<div class="line">`` Krb5KeyTab /etc/httpd/keytabs/dummyhost``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KrbServiceName</span> <span class="n">HTTP</span><span class="o">/</span><span class="n">dummyhost</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Krb5KeyTab</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">httpd</span><span class="o">/</span><span class="n">keytabs</span><span class="o">/</span><span class="n">dummyhost</span>
+</pre></div>
 </div>
 <p>The REMOTE_USER environment variable will be set to username&#64; by
 default. For some systems it’s preferable to just have the shorter
 ‘username’. This behaviour is obtainable by adding:</p>
-<p>`` KrbLocalUserMapping On``</p>
+<p>`` KrbLocalUserMapping On``</p>
 <p>If it is desirable to disable the basic authentication fallback and
 restrict the system to kerberos tokens only change KrbMethodK5Passwd to
 off and leave KrbMethodNegotiate on.</p>

@@ -306,9 +306,9 @@ document.write(`
 <p>When activating a <em>stage</em> user, we need to copy (if they exists) the
 credential from the <em>stage</em> entry to the <em>active</em> entry. Helpdesk is
 granted the access to do that:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=stage users,cn=accounts,cn=provisioning,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add:aci: '(targetattr=&quot;userPassword || krbPrincipalKey&quot;)(version 3.0; acl &quot;Search existence of password and kerberos keys&quot;; allow(read, search) userdn = &quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</span></code> &lt;<a class="reference external" href="ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX">ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)'</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=stage users,cn=accounts,cn=provisioning,$SUFFIX
+add:aci: &#39;(targetattr=&quot;userPassword || krbPrincipalKey&quot;)(version 3.0; acl &quot;Search existence of password and kerberos keys&quot;; allow(read, search) userdn = &quot;``\ ```ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX`` &lt;ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX&gt;`__\ ``&quot;;)&#39;
+</pre></div>
 </div>
 <p>TODO: need the same aci for ‘stage user administrator ‘ TODO: clarify if
 <em>admin</em> is helpdesk or support engineer</p>
@@ -318,9 +318,9 @@ granted the access to do that:</p>
 <p>When the option <em>–preserve</em> moves the entry from the <em>Active</em> container
 to the <em>Delete</em> container, we need to remove the credential. This
 requires the following aci for the <em>helpdesk</em>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=deleted users,cn=accounts,cn=provisioning,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">add:aci: '(targetattr=&quot;userPassword || krbPrincipalKey&quot;)(version 3.0; acl &quot;Admins allowed to reset password and kerberos keys&quot;; allow(read, search, write) userdn = &quot;</span></code><code class="docutils literal notranslate"><span class="pre">`ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</span></code> &lt;<a class="reference external" href="ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX">ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX</a>&gt;`__<code class="docutils literal notranslate"><span class="pre">&quot;;)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=deleted users,cn=accounts,cn=provisioning,$SUFFIX
+add:aci: &#39;(targetattr=&quot;userPassword || krbPrincipalKey&quot;)(version 3.0; acl &quot;Admins allowed to reset password and kerberos keys&quot;; allow(read, search, write) userdn = &quot;``\ ```ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX`` &lt;ldap:///uid=admin,cn=users,cn=accounts,$SUFFIX&gt;`__\ ``&quot;;)
+</pre></div>
 </div>
 <p>TODO: clarify if <em>admin</em> is helpdesk or support engineer</p>
 </section>
@@ -329,22 +329,22 @@ requires the following aci for the <em>helpdesk</em>:</p>
 <p>In order to prevent authentication with <em>Delete</em> and <em>Stage</em> users, the
 following pointer cos is implemented at the <em>provisioning/accounts</em>
 level:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=provisioning account lock,cn=accounts,cn=provisioning,SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: cosSuperDefinition</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: cosPointerDefinition</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: ldapSubEntry</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">costemplatedn: cn=Inactivation cos template,cn=staged users,cn=provisioning,SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cosAttribute: nsaccountlock operational</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: provisioning account lock</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=provisioning account lock cos template,cn=accounts,cn=provisioning,SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: extensibleObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">objectClass: cosTemplate</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cosPriority: 1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">cn: provisioning account lock cos template</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">nsAccountLock: true</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span> <span class="n">account</span> <span class="n">lock</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">cosSuperDefinition</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">cosPointerDefinition</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">ldapSubEntry</span>
+<span class="n">costemplatedn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">Inactivation</span> <span class="n">cos</span> <span class="n">template</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">staged</span> <span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">cosAttribute</span><span class="p">:</span> <span class="n">nsaccountlock</span> <span class="n">operational</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">provisioning</span> <span class="n">account</span> <span class="n">lock</span>
+<span class="n">dn</span><span class="p">:</span> <span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span> <span class="n">account</span> <span class="n">lock</span> <span class="n">cos</span> <span class="n">template</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">provisioning</span><span class="p">,</span><span class="n">SUFFIX</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">top</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">extensibleObject</span>
+<span class="n">objectClass</span><span class="p">:</span> <span class="n">cosTemplate</span>
+<span class="n">cosPriority</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">cn</span><span class="p">:</span> <span class="n">provisioning</span> <span class="n">account</span> <span class="n">lock</span> <span class="n">cos</span> <span class="n">template</span>
+<span class="n">nsAccountLock</span><span class="p">:</span> <span class="n">true</span>
+</pre></div>
 </div>
 </section>
 </section>

@@ -144,11 +144,11 @@ returncode means that ipa-healthcheck failed in a non-recoverable way.
 
 To run it manually simply execute:
 
-``# ipa-healthcheck``
+``# ipa-healthcheck``
 
 A specific check can be executed as well:
 
-``# ipa-healthcheck --source certificate --check expiration``
+``# ipa-healthcheck --source certificate --check expiration``
 
 Output will be a list of sources and checks executed along with the
 status.
@@ -295,11 +295,11 @@ Examples of sources and checks:
 Plugins will execute one or more discrete tests. Each test should be as
 atomic as possible. It is better to report:
 
-``File /path/to/foo has incorrect permissions, 0644 and should be 0600``
+``File /path/to/foo has incorrect permissions, 0644 and should be 0600``
 
 Rather than
 
-``Files a, b, c, d have incorrect permissions``
+``Files a, b, c, d have incorrect permissions``
 
 Plugins will return an error class containing the name/value pairs of
 errors and the severity as an iterator.
@@ -317,8 +317,10 @@ The basic execution will look like:
 
 for source in sources:
 
-| ``   for check in sources.check():``
-| ``       check()``
+::
+
+       for check in sources.check():
+           check()
 
 The analysis (deduplicating, writing to LDAP, etc) can be either done
 per-source or once globally. It would be fewer LDAP searches to do
@@ -448,8 +450,10 @@ The ipa-healthcheck tool will store its configuration in
 /etc/ipa/healthcheck.conf. It will be an ini-style config file using the
 same config routines as IPA. The format is
 
-| ``[global]``
-| ``plugin_timeout=300``
+::
+
+    [global]
+    plugin_timeout=300
 
 In general it would be best to store configuration in LDAP. For the
 purposes of timeout LDAP may not be reachable so needs local
@@ -512,7 +516,7 @@ ipa-healthcheck --source execute only a specific set of test
 \               --output-file=FILENAME
 =============== ============================================
 
-``$ ipa-healthcheck``
+``$ ipa-healthcheck``
 
 The ipa-healthcheck command return code indicates whether it was able to
 run successfully, not if it encountered any issues with the IPA
@@ -525,19 +529,21 @@ to stdout. --output-file can be used to write the JSON output to a file.
 
 The output format by default is JSON and will look like:
 
-| `` {``
-| ``   "source": "filesystemspace",``
-| ``   "check": "FileSystemSpaceCheck",``
-| ``   "severity": 0,``
-| ``   "uuid": "7bc5e1f1-a67f-4fe4-8eb2-ffba890aa1a7",``
-| ``   "when": "20190620171103Z",``
-| ``   "duration": null,``
-| ``   "kw": {``
-| ``     "msg": "/tmp: free space within limits: 1971 MiB >= 512 MiB",``
-| ``     "store": "/tmp",``
-| ``     "free_space": 1971,``
-| ``     "threshold": 512``
-| ``   }``
+::
+
+     {
+       "source": "filesystemspace",
+       "check": "FileSystemSpaceCheck",
+       "severity": 0,
+       "uuid": "7bc5e1f1-a67f-4fe4-8eb2-ffba890aa1a7",
+       "when": "20190620171103Z",
+       "duration": null,
+       "kw": {
+         "msg": "/tmp: free space within limits: 1971 MiB >= 512 MiB",
+         "store": "/tmp",
+         "free_space": 1971,
+         "threshold": 512
+       }
 
 
 

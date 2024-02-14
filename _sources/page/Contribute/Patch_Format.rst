@@ -16,14 +16,16 @@ Patch format
 
 All patches should be in a format to apply cleanly with
 
-``git am``
+``git am``
 
 This is produced in two steps:
 
 1. in a git repository with your changes create a *commit*:
 
-| ``git add .``
-| ``git commit``
+::
+
+    git add .
+    git commit
 
 Appropriate commit message should be provided, e.g.:
 
@@ -46,7 +48,7 @@ the commit should be the URL to that ticket.
 
 2. create the patch using the command
 
-``git format-patch -M -C --patience --full-index -1``
+``git format-patch -M -C --patience --full-index -1``
 
 Naming
 ------

@@ -128,11 +128,11 @@ typically have the same priority (0) and weight (100):
 
 ::
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.``\ **``example.com.``**\ `` IN SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.example.com. IN SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.example.com. SRV 0100 389 ipa-brno.example.com.``
+   ``_ldap._tcp.example.com. SRV 0100 389 ipa-london.example.com.``
 
 
 
@@ -458,17 +458,21 @@ CPU time spent on signing by factor of ~ 2.3. Tested on zone with 10000
 names using ``dnssec-signzone`` from BIND
 ``bind-9.10.3-7.P2.fc23.x86_64`` with 2048 bit ZSK, 3072 KSK:
 
-| ``$ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.``
-| ``$ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.``
-| ``$ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db``
-| ``user   0m56.584s``
-| ``$ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db``
-| ``user   0m24.881s``
+::
+
+    $ dnssec-keygen -a RSASHA256 -3 -b 3072 -f KSK -r /dev/urandom test.
+    $ dnssec-keygen -a RSASHA256 -3 -b 2048 -r /dev/urandom test.
+    $ time dnssec-signzone -3 0123456789 -S -K . -o test. dname.db
+    user   0m56.584s
+    $ time dnssec-signzone -3 0123456789 -S -K . -o test. nodname.db
+    user   0m24.881s
 
 Zone file sizes:
 
-| ``23150974  dname.db.signed``
-| ``10097345  nodname.db.signed``
+::
+
+    23150974  dname.db.signed
+    10097345  nodname.db.signed
 
 Example
 ----------------------------------------------------------------------------------------------
@@ -480,21 +484,21 @@ Location ``cz`` will have one set of SRV records:
 
 ::
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.cz._locations.example.com. IN  SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.cz._locations.example.com. IN  SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.cz._locations.example.com. SRV 0100 389 ipa-brno.example.com.``
+   ``_ldap._tcp.cz._locations.example.com. SRV 3100 389 ipa-london.example.com.``
 
 Location ``uk`` will have different set of SRV records (possibly with
 different priorities, weights, or even servers):
 ::
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.uk._locations.example.com. IN  SRV``
-   ``;; ANSWER SECTION:``
-   ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``50``**\ `` 389 ipa-brno.example.com.``
-   ``_ldap._tcp.uk._locations.example.com. SRV ``\ **``0``\ ````\ ``200``**\ `` 389 ipa-london.example.com.``
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp.uk._locations.example.com. IN  SRV``
+   ``;; ANSWER SECTION:``
+   ``_ldap._tcp.uk._locations.example.com. SRV 050 389 ipa-brno.example.com.``
+   ``_ldap._tcp.uk._locations.example.com. SRV 0200 389 ipa-london.example.com.``
 
 Clients are querying SRV records under client's FQDN prefixed with label
 ``_location`` name. This record contains redirection to a location into
@@ -503,13 +507,13 @@ matter how the DNS server generated the redirection.)
 
 ::
 
-   ``;; QUESTION SECTION:``
-   ``;_ldap._tcp.``\ **``_location.client2.example.com.``**\ `` IN SRV``
-   ``;; ANSWER SECTION:``
-   **``_location.client2``**\ ``.example.com. DNAME ``\ **``cz._locations``**\ ``.example.com.``
-   ``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``3``\ ````\ ``100``**\ `` 389 ipa-london.example.com.``
-   ``_ldap._tcp.cz._locations.example.com. SRV ``\ **``0``\ ````\ ``100``**\ `` 389 ipa-brno.example.com.``
+   ``;; QUESTION SECTION:``
+   ``;_ldap._tcp._location.client2.example.com. IN SRV``
+   ``;; ANSWER SECTION:``
+   **``_location.client2.example.com. DNAME cz._locations.example.com.``
+   ``_ldap._tcp._location.client2.example.com. CNAME _ldap._tcp.cz._locations.example.com.``
+   ``_ldap._tcp.cz._locations.example.com. SRV 3100 389 ipa-london.example.com.``
+   ``_ldap._tcp.cz._locations.example.com. SRV 0100 389 ipa-brno.example.com.``
 
 Following diagram summarizes proposed behavior (version 1):
 |ExampleLocationsV1.svg|

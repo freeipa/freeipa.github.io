@@ -28,22 +28,26 @@ one.
 Both scripts were tested on Fedora 15 x86_64 and RHEL 6.1 x86_64
 systems. These packages are required:
 
-| ``libvirt-0.8.8-7``
-| ``qemu-0.14.0-8``
-| ``qemu-system-0.14.0-8``
-| ``qemu-kvm-0.14.0-8``
-| ``qemu-img-0.14.0-8``
-| ``python-virtinst-0.500.6-2``
-| ``openssh-clients-5.6p1-34``
+::
+
+    libvirt-0.8.8-7
+    qemu-0.14.0-8
+    qemu-system-0.14.0-8
+    qemu-kvm-0.14.0-8
+    qemu-img-0.14.0-8
+    python-virtinst-0.500.6-2
+    openssh-clients-5.6p1-34
 
 (Optionally you can install virt-manager and/or virt-viewer)
 
 Hardware (this configuration allowed us to run smoothly all three VMs as
 well as use system):
 
-| ``10GB of disk free space``
-| ``4 GB RAM``
-| ``CPU dual-core with virtualization support``
+::
+
+    10GB of disk free space
+    4 GB RAM
+    CPU dual-core with virtualization support
 
 One virtual machine is supposed to use one CPU and 1GB RAM. Disk images
 has growing size with maximum size set to 10GB.
@@ -56,7 +60,7 @@ Both scripts with all necessary files are located in git repository
 `here <https://github.com/ohamada/demo>`__. You can download them
 through web interface or using git:
 
-``git clone https://github.com/ohamada/demo.git``
+``git clone https://github.com/ohamada/demo.git``
 
 **Easiest way to try out**
 
@@ -66,8 +70,10 @@ Now we'll show the easiest way to try out FreeIPA:
 
 -  Get the scripts and extract them into a directory.
 
-| ``git clone https://github.com/ohamada/demo.git``
-| ``cd demo``
+::
+
+    git clone https://github.com/ohamada/demo.git
+    cd demo
 
 -  You must be root to run the scripts:
 
@@ -83,11 +89,11 @@ Now we'll show the easiest way to try out FreeIPA:
 
 ::
 
-   ``./ipa-base-prepare.sh --createbase --repo $selected_repository ``
+   ``./ipa-base-prepare.sh --createbase --repo $selected_repository ``
 
 -  Prepare installation image:
 
-``./ipa-base-prepare.sh --installipa``
+``./ipa-base-prepare.sh --installipa``
 
 -  Create virtual machines and prepare whole environment (disk images
    will be saved in /var/lib/libvirt/images)
@@ -143,7 +149,7 @@ Usage:
 -  Create base image, use existing ssh key and other than default
    repository
 
-``./ipa-base-prepare.sh --createbase --repo http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/ --sshkey /home/user/.ssh/key_rsa``
+``./ipa-base-prepare.sh --createbase --repo http://dl.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/ --sshkey /home/user/.ssh/key_rsa``
 
 **ipa-demo**
 
@@ -171,4 +177,4 @@ Usage:
    virtual machines (one server and four clients) whose disk images are
    stored in 'images' subdirectory
 
-``./ipa-demo.sh --base /mnt/storage/ipa-ready-image.qcow2 --sshkey /home/user/.ssh/key_rsa --imgdir images --clients 4``
+``./ipa-demo.sh --base /mnt/storage/ipa-ready-image.qcow2 --sshkey /home/user/.ssh/key_rsa --imgdir images --clients 4``

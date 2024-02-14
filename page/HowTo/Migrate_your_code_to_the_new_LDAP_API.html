@@ -300,43 +300,43 @@ raised in FreeIPA 4.0. The old API will be completely removed in FreeIPA
 <p>The new API uses custom dictionary-like objects to represent entries
 instead of <code class="docutils literal notranslate"><span class="pre">(dn,</span> <span class="pre">entry_attrs)</span></code> tuples.</p>
 <p>Adding an entry:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># Before</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">entry_attrs = dict(...)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.add_entry(DN(...), entry_attrs)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># After</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">entry_attrs = dict(...)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">entry = ldap.make_entry(DN(...), entry_attrs)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.add_entry(entry)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before</span>
+<span class="n">entry_attrs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">ldap</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DN</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">entry_attrs</span><span class="p">)</span>
+<span class="c1"># After</span>
+<span class="n">entry_attrs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">entry</span> <span class="o">=</span> <span class="n">ldap</span><span class="o">.</span><span class="n">make_entry</span><span class="p">(</span><span class="n">DN</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">entry_attrs</span><span class="p">)</span>
+<span class="n">ldap</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>Modifying an entry:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># Before</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn, entry_attrs = ldap.get_entry(...)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">entry_attrs[...] = ...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.update_entry(dn, entry_attrs)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># After</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">entry = ldap.get_entry(...)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">entry[...] = ...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">ldap.update_entry(entry)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before</span>
+<span class="n">dn</span><span class="p">,</span> <span class="n">entry_attrs</span> <span class="o">=</span> <span class="n">ldap</span><span class="o">.</span><span class="n">get_entry</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">entry_attrs</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">ldap</span><span class="o">.</span><span class="n">update_entry</span><span class="p">(</span><span class="n">dn</span><span class="p">,</span> <span class="n">entry_attrs</span><span class="p">)</span>
+<span class="c1"># After</span>
+<span class="n">entry</span> <span class="o">=</span> <span class="n">ldap</span><span class="o">.</span><span class="n">get_entry</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">entry</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">ldap</span><span class="o">.</span><span class="n">update_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>Searching entries:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># Before</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">result, truncated = ldap.find_entries(...)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">for dn, entry_attrs in result:</span></code></div>
-<div class="line">``    print dn``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># After</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">result, truncated = ldap.find_entries(...)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">for entry in result:</span></code></div>
-<div class="line">``    print entry.dn``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">truncated</span> <span class="o">=</span> <span class="n">ldap</span><span class="o">.</span><span class="n">find_entries</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">dn</span><span class="p">,</span> <span class="n">entry_attrs</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">dn</span>
+<span class="c1"># After</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">truncated</span> <span class="o">=</span> <span class="n">ldap</span><span class="o">.</span><span class="n">find_entries</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">entry</span><span class="o">.</span><span class="n">dn</span>
+</pre></div>
 </div>
 <section id="details">
 <h2>Details<a class="headerlink" href="#details" title="Link to this heading">#</a></h2>
 <p>In FreeIPA 3.3 and below, iteration over an entry yields dn and the
 entry itself. This preserves backwards compatibility with the
 python-ldap style:</p>
-<p><code class="docutils literal notranslate"><span class="pre">dn, entry_attrs = ldap.get_entry(...)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">dn,</span> <span class="pre">entry_attrs</span> <span class="pre">=</span> <span class="pre">ldap.get_entry(...)</span></code></p>
 <p>In FreeIPA 4.0, iterating over an entry will raise an exception, so this
 use can be detected and fixed.</p>
 <p>In FreeIPA 4.1, entries complete the move to a dict-like interface.

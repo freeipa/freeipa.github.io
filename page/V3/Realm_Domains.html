@@ -320,12 +320,12 @@ document.write(`
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3407">#3407</a></p>
 <p>We want to allow administrators to maintain a list of domains associated
 with IPA Kerberos realm. This list will be stored in LDAP, under
-<strong>``cn=Realm````````Domains,cn=ipa,cn=etc,$SUFFIX``</strong>.</p>
+<code class="docutils literal notranslate"><span class="pre">cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX</span></code>.</p>
 <p>We need to expose an interface to display and modify this list via IPA
 commands:</p>
 <ul class="simple">
-<li><p><strong>``realmdomains-show``</strong></p></li>
-<li><p><strong>``realmdomains-mod``</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">realmdomains-show</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">realmdomains-mod</span></code></p></li>
 </ul>
 </section>
 <section id="use-cases">
@@ -341,22 +341,21 @@ realm if this is not a reverse domain and not a pure forwarder</p></li>
 </section>
 <section id="design">
 <h1>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h1>
-<p>Update LDAP schema to add the <strong>``Realm````````Domains``</strong>
-container. The default value for <strong>``associatedDomain``</strong> attribute will
+<p>Update LDAP schema to add the <code class="docutils literal notranslate"><span class="pre">RealmDomains</span></code>container. The default value for <code class="docutils literal notranslate"><span class="pre">associatedDomain</span></code> attribute will
 be the DNS domain of the IPA server:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectClass: domainRelatedObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectClass: nsContainer</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:cn: Realm Domains</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:associatedDomain: $DOMAIN</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX
+default:objectClass: domainRelatedObject
+default:objectClass: nsContainer
+default:objectClass: top
+default:cn: Realm Domains
+default:associatedDomain: $DOMAIN
+</pre></div>
 </div>
 <p>Add two new IPA commands:</p>
 <ul class="simple">
-<li><p><strong>``realmdomains-show``</strong>, to display the current list of realm
+<li><p><code class="docutils literal notranslate"><span class="pre">realmdomains-show</span></code>, to display the current list of realm
 domains</p></li>
-<li><p><strong>``realmdomains-mod``</strong>, to modify the list</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">realmdomains-mod</span></code>, to modify the list</p></li>
 </ul>
 </section>
 <section id="feature-managment">
@@ -369,30 +368,28 @@ new domain, remove an existing domain. The new page will be added under
 <p>CLI</p>
 <section id="realmdomains-show">
 <h2>realmdomains-show<a class="headerlink" href="#realmdomains-show" title="Link to this heading">#</a></h2>
-<p><strong>``realmdomains-show``</strong> will display the current list of realm
+<p><code class="docutils literal notranslate"><span class="pre">realmdomains-show</span></code> will display the current list of realm
 domains, stored in
-<strong>``cn=Realm````````Domains,cn=ipa,cn=etc,$SUFFIX``</strong>.</p>
+<code class="docutils literal notranslate"><span class="pre">cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX</span></code>.</p>
 </section>
 <section id="realmdomains-mod">
 <h2>realmdomains-mod<a class="headerlink" href="#realmdomains-mod" title="Link to this heading">#</a></h2>
-<p><strong>``realmdomains-mod``</strong> will modify the list of realm domains.
+<p><code class="docutils literal notranslate"><span class="pre">realmdomains-mod</span></code> will modify the list of realm domains.
 Modifications can be performed in several ways:</p>
 <ul class="simple">
 <li><p>To replace the list of realm domains with a new list (or a single
 value):</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><strong>``realmdomains-mod````````–domain=ourdomain.com``</strong></div>
-<div class="line"><strong>``realmdomains-mod````````–domain={ourdomain.com,domain2.com,domain3.com}``</strong></div>
-</div>
+<p>realmdomains-mod –domain=ourdomain.com
+realmdomains-mod –domain={ourdomain.com,domain2.com,domain3.com}</p>
 <ul class="simple">
 <li><p>To add a domain to the list:</p></li>
 </ul>
-<p><strong>``realmdomains-mod````````–add-domain=newdomain.com``</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">realmdomains-mod--add-domain=newdomain.com</span></code></p>
 <ul class="simple">
 <li><p>To delete a domain from the list:</p></li>
 </ul>
-<p><strong>``realmdomains-mod````````–del-domain=olddomain.com``</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">realmdomains-mod--del-domain=olddomain.com</span></code></p>
 <p>It will be possible to use either the <code class="docutils literal notranslate"><span class="pre">--domain</span></code> option, or a
 combination of <code class="docutils literal notranslate"><span class="pre">--add-domain</span></code> and <code class="docutils literal notranslate"><span class="pre">--del-domain</span></code>.</p>
 <p>The following checks will be performed:</p>
@@ -410,10 +407,10 @@ to skip this check)</p></li>
 <section id="dnszone">
 <h2>dnszone-*<a class="headerlink" href="#dnszone" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Should <strong>``dnszone-del``</strong> delete <strong>``associatedDomain``</strong> when whole
+<li><p>Should <code class="docutils literal notranslate"><span class="pre">dnszone-del</span></code> delete <code class="docutils literal notranslate"><span class="pre">associatedDomain</span></code> when whole
 DNS zone is being deleted?</p></li>
-<li><p>Should <strong>``dnszone-add``</strong> offer an option to create
-<strong>``associatedDomain``</strong> attribute for the new zone?</p></li>
+<li><p>Should <code class="docutils literal notranslate"><span class="pre">dnszone-add</span></code> offer an option to create
+<code class="docutils literal notranslate"><span class="pre">associatedDomain</span></code> attribute for the new zone?</p></li>
 </ul>
 <p><a class="reference external" href="User:Pspacek">pspacek</a> 03:26, 7 February 2013 (EST)</p>
 <p>Update regarding DNS integration: DNS &lt;-&gt; realmdomains integration has
@@ -432,18 +429,17 @@ page</a>.</p>
 </section>
 <section id="updates-and-upgrades">
 <h1>Updates and Upgrades<a class="headerlink" href="#updates-and-upgrades" title="Link to this heading">#</a></h1>
-<p>Container <strong>``cn=Realm````````Domains,cn=ipa,cn=etc,$SUFFIX``</strong>
-needs to be created in LDAP. This will be achieved by adding a new
-update file <strong>``install/updates/40-realm_domains.update``</strong>, with the
+<p>Container <code class="docutils literal notranslate"><span class="pre">cn=RealmDomains,cn=ipa,cn=etc,$SUFFIX</span></code>needs to be created in LDAP. This will be achieved by adding a new
+update file <code class="docutils literal notranslate"><span class="pre">install/updates/40-realm_domains.update</span></code>, with the
 following contents:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># Add the Realm Domains container</span></code></p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectClass: domainRelatedObject</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectClass: nsContainer</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:objectClass: top</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:cn: Realm Domains</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">default:associatedDomain: $DOMAIN</span></code></div>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Add</span> <span class="pre">the</span> <span class="pre">Realm</span> <span class="pre">Domains</span> <span class="pre">container</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: cn=Realm Domains,cn=ipa,cn=etc,$SUFFIX
+default:objectClass: domainRelatedObject
+default:objectClass: nsContainer
+default:objectClass: top
+default:cn: Realm Domains
+default:associatedDomain: $DOMAIN
+</pre></div>
 </div>
 <p>and referencing this file in <code class="docutils literal notranslate"><span class="pre">install/updates/Makefile.am</span></code>.</p>
 <p>A reference to this container will also be added to the

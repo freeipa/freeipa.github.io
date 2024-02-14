@@ -395,18 +395,18 @@ following way:</p>
 <ul class="simple">
 <li><p>enable validation:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
-<div class="line">``    dnssec-validation yes;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="p">{</span>
+    <span class="n">dnssec</span><span class="o">-</span><span class="n">validation</span> <span class="n">yes</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>disable validation:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">options {</span></code></div>
-<div class="line">``    dnssec-validation no;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="p">{</span>
+    <span class="n">dnssec</span><span class="o">-</span><span class="n">validation</span> <span class="n">no</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </section>
 <section id="adding-forwarders">
@@ -591,16 +591,16 @@ and uses local HSM to sign the DNS data.</p></li>
 <p>Each replica creates own local SoftHSM storage. IPA uses own
 configuration of SoftHSM. To access right database you need to configure
 environment variable <strong>SOFTHSM2_CONF</strong>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ export SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">export</span> <span class="pre">SOFTHSM2_CONF=/etc/ipa/dnssec/softhsm2.conf</span></code></p>
 <p>SoftHSM database is initialized during installation (or upgrade) with
 following command:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=</span></code>`` –so-pin=``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ softhsm2-util --init-token --slot=0 --label=ipaDNSSEC --pin=``\ `` --so-pin=
+</pre></div>
 </div>
 <p>and values are stored in files:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/dnssec/softhsm_pin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">/etc/ipa/dnssec/softhsm_pin_so</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">dnssec</span><span class="o">/</span><span class="n">softhsm_pin</span>
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ipa</span><span class="o">/</span><span class="n">dnssec</span><span class="o">/</span><span class="n">softhsm_pin_so</span>
+</pre></div>
 </div>
 <p>SoftHSM tokens are stored in directory:</p>
 <p><code class="docutils literal notranslate"><span class="pre">/var/lib/ipa/dnssec/tokens</span></code></p>
@@ -633,17 +633,17 @@ following command:</p>
 <p>DNSSEC related files has to be accessible for several daemons, under
 <strong>ods</strong> (openddnssec) and <strong>named</strong> user. Following list shows required
 file modes, owner and group per directory/file:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxr-x---.  ods named    /var/lib/ipa/dnssec</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/</span></code><code class="docutils literal notranslate"><span class="pre">/*</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-rw-rw----.  root ods     /etc/opendnssec/*</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-rw-rw----.  ods ods      /var/opendnssec/kasp.db</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrwx---.  ods ods      /var/opendnssec/signconf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrwx---.  ods ods      /var/opendnssec/signed</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">drwxrwx---.  ods ods      /var/opendnssec/tmp</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>drwxr-x---.  ods named    /var/lib/ipa/dnssec
+-rwxrwx---.  ods named    /var/lib/ipa/dnssec/softhsm_pin
+drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens
+drwxrws---.  ods named    /var/lib/ipa/dnssec/tokens/*
+-rwxrwx---.  ods named    /var/lib/ipa/dnssec/tokens/``\ ``/*
+-rw-rw----.  root ods     /etc/opendnssec/*
+-rw-rw----.  ods ods      /var/opendnssec/kasp.db
+drwxrwx---.  ods ods      /var/opendnssec/signconf
+drwxrwx---.  ods ods      /var/opendnssec/signed
+drwxrwx---.  ods ods      /var/opendnssec/tmp
+</pre></div>
 </div>
 <p><strong>Note:</strong> Tokens created during installation (upgrade) has root:root
 owner group. Is required to modify all files and subdirs in token’s
@@ -884,18 +884,18 @@ public key), this value is unique per a key pair</p></li>
 </li>
 </ul>
 <p>Public replica key is also stored in LDAP database:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com``
-| ``objectclass: ipk11Object``
-| ``objectclass: ipk11PublicKey``
-| ``objectclass: ipaPublicKeyObject``
-| ``objectclass: top``
-| ``ipk11UniqueId: ``
-| ``ipk11Label: ``
-| ``ipaPublicKey: &lt;public key in SubjectPublicKeyInfo (RFC 5280) form&gt;``
-| ``ipk11Id&#39;: ``\ ``,``
-| ``ipk11Wrap: true``
-| ``ipk11Verify: false``
-| ``ipk11VerifyRecover: false``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dn: ipk11UniqueId=``\ ``,cn=keys,cn=sec,cn=dns,dc=example,dc=com
+objectclass: ipk11Object
+objectclass: ipk11PublicKey
+objectclass: ipaPublicKeyObject
+objectclass: top
+ipk11UniqueId:
+ipk11Label:
+ipaPublicKey: &lt;public key in SubjectPublicKeyInfo (RFC 5280) form&gt;
+ipk11Id&#39;: ``\ ``,
+ipk11Wrap: true
+ipk11Verify: false
+ipk11VerifyRecover: false
 </pre></div>
 </div>
 <section id="disabling-old-replica-keys">

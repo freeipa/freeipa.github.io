@@ -411,8 +411,10 @@ running. You can test your installation as follows:
 If you receive output similar to the following, ensure that DNS is
 configured correctly:
 
-| ``Could not initialize GSSAPI: Unspecified GSS failure.``
-| ``Minor code may provide more information/Server not found in Kerberos database.``
+::
+
+    Could not initialize GSSAPI: Unspecified GSS failure.
+    Minor code may provide more information/Server not found in Kerberos database.
 
 
 

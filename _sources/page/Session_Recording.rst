@@ -203,42 +203,42 @@ Control and Data Flow
 ---------------------
 ::
 
-   | ````
-   | ``           Servers            Network               Clients``
-   | ``     _____________________               _______________________________``
-   | ``    |  _________________  |             |  ___________________          |``
-   | ``    | |                 | |             | |                   |         |``
-   | ``    | |     FreeIPA     |====(control)===>|       SSSD        |         |``
-   | ``    | |_________________| |             | |___________________|         |``
-   | ``    |         /\          |             |     ||          /\            |``
-   | ``    |         ||          |             |     ||          ||            |``
-   | ``    |      (control)      |             |  (control)   (control)        |``
-   | ``    |   ......||.......   |             |     ||  ........||.........   |``
-   | ``    |  : Administrator :  |             |     || :   Administrator   :  |``
-   | ``    |   '''''''''''''''   |             |     ||  '''||'''''''''||'''   |``
-   | ``    |                     |             |     ||  (control)  (control)  |``
-   | ``    |   ...............   |             |     ||     ||         ||      |``
-   | ``    |  :    Auditor    :  |             |  ___\/_____\/__   ____\/____  |``
-   | ``    |   ''/\'''''''/\''   |             | |              | |          | |``
-   | ``    |     ||       ||     |             | |   Tlog-rec   | |  Auditd  | |``
-   | ``    |   (data)   (data)   |             | |______________| |__________| |``
-   | ``    |  ___||__   __||___  |             |        ||             ||      |``
-   | ``    | |       | |       | |             |        ||          ___\/____  |``
-   | ``    | | Tlog- | | WebUI | |             |        ||         |         | |``
-   | ``    | | play  | | (TBD) | |             |        ||         | Aushape | |``
-   | ``    | |_______| |_______| |             |        ||         |_________| |``
-   | ``    |     /\       /\     |             |        ||             ||      |``
-   | ``    |     ||       ||     |             |      (data)         (data)    |``
-   | ``    |   (data)   (data)   |             |        ||             ||      |``
-   | ``    |  ___||_______||___  |             |     ___\/_____________\/___   |``
-   | ``    | |                 | |             |    |                       |  |``
-   | ``    | |                 | |             |    |        Rsyslog        |  |``
-   | ``    | |                 | |             |    | - - - - - - - - - - - |  |``
-   | ``    | |  Elasticsearch  |<====(data)=========|        Fluentd        |  |``
-   | ``    | |                 | |             |    | - - - - - - - - - - - |  |``
-   | ``    | |                 | |             |    |        Logstash       |  |``
-   | ``    | |_________________| |             |    |_______________________|  |``
-   | ``    |_____________________|             |_______________________________|``
+   
+              Servers            Network               Clients
+        _____________________               _______________________________
+       |  _________________  |             |  ___________________          |
+       | |                 | |             | |                   |         |
+       | |     FreeIPA     |====(control)===>|       SSSD        |         |
+       | |_________________| |             | |___________________|         |
+       |         /\          |             |     ||          /\            |
+       |         ||          |             |     ||          ||            |
+       |      (control)      |             |  (control)   (control)        |
+       |   ......||.......   |             |     ||  ........||.........   |
+       |  : Administrator :  |             |     || :   Administrator   :  |
+       |   '''''''''''''''   |             |     ||  '''||'''''''''||'''   |
+       |                     |             |     ||  (control)  (control)  |
+       |   ...............   |             |     ||     ||         ||      |
+       |  :    Auditor    :  |             |  ___\/_____\/__   ____\/____  |
+       |   ''/\'''''''/\''   |             | |              | |          | |
+       |     ||       ||     |             | |   Tlog-rec   | |  Auditd  | |
+       |   (data)   (data)   |             | |______________| |__________| |
+       |  ___||__   __||___  |             |        ||             ||      |
+       | |       | |       | |             |        ||          ___\/____  |
+       | | Tlog- | | WebUI | |             |        ||         |         | |
+       | | play  | | (TBD) | |             |        ||         | Aushape | |
+       | |_______| |_______| |             |        ||         |_________| |
+       |     /\       /\     |             |        ||             ||      |
+       |     ||       ||     |             |      (data)         (data)    |
+       |   (data)   (data)   |             |        ||             ||      |
+       |  ___||_______||___  |             |     ___\/_____________\/___   |
+       | |                 | |             |    |                       |  |
+       | |                 | |             |    |        Rsyslog        |  |
+       | |                 | |             |    | - - - - - - - - - - - |  |
+       | |  Elasticsearch  |<====(data)=========|        Fluentd        |  |
+       | |                 | |             |    | - - - - - - - - - - - |  |
+       | |                 | |             |    |        Logstash       |  |
+       | |_________________| |             |    |_______________________|  |
+       |_____________________|             |_______________________________|
 
 The control flow differs by case.
 
@@ -369,16 +369,16 @@ facilities and will go to audit.log or journal. A few PAM modules log
 there already. This is done via libaudit as well.
 ::
 
-   | ````
-   | ``     Kernel                   Userspace``
-   | ``    ____________``
-   | ``    __________  |                                 | auditd   <== audit.rules``
-   | ``              | | Rules and            | Rules    | auditctl <== command line``
-   | ``     Audit    | | messages             |<=API=====| SSSD?``
-   | ``              |<===netlink==| libaudit |``
-   | ``    subsystem | |                      | Messages | auditctl <== command line``
-   | ``    __________| |                      |<=API=====| Aplications``
-   | ``    ____________|                                 | PAM modules (pam_sss?)``
+   
+        Kernel                   Userspace
+       ____________
+       __________  |                                 | auditd   <== audit.rules
+                 | | Rules and            | Rules    | auditctl <== command line
+        Audit    | | messages             |<=API=====| SSSD?
+                 |<===netlink==| libaudit |
+       subsystem | |                      | Messages | auditctl <== command line
+       __________| |                      |<=API=====| Aplications
+       ____________|                                 | PAM modules (pam_sss?)
 
 There's one caveat regarding automatic configuration, though (citing
 Miloslav Trmač):
@@ -405,16 +405,16 @@ We need to convert audit data to JSON before storing it in
 ElasticSearch.
 ::
 
-   | ````
-   | ``     Kernel                   Userspace``
-   | ``    ____________``
-   | ``    __________  |``
-   | ``              | |           | auditd  => | audit.log``
-   | ``     Audit    | | Messages  |            | audispd => | plugin1``
-   | ``              |====netlink=>|                         | plugin2``
-   | ``    subsystem | |           |                         | pluginN``
-   | ``    __________| |           |                         | aushape``
-   | ``    ____________|           | systemd => journal``
+   
+        Kernel                   Userspace
+       ____________
+       __________  |
+                 | |           | auditd  => | audit.log
+        Audit    | | Messages  |            | audispd => | plugin1
+                 |====netlink=>|                         | plugin2
+       subsystem | |           |                         | pluginN
+       __________| |           |                         | aushape
+       ____________|           | systemd => journal
 
 A new tool called "Aushape" is being developed to support live
 conversion of audit events to JSON, while running as an audispd plugin.
@@ -449,14 +449,14 @@ augmented by audit records, such as files accessed, processes executed,
 etc. All of them searchable and correlated in the same UI.
 ::
 
-   | ````
-   | ``   __-----------__                 ,----------------------------.``
-   | ``  |--___________--|   Queries      |          Browser           |``
-   | ``  |               | <------------- |----------------------------|``
-   | ``  | ElasticSearch | I/O and audit  | Search I/O and audit       |``
-   | ``  |               | -------------> | Playback I/O and audit     |``
-   | :literal:`  `--___________--'                | Rewind to time and matches \|`
-   | :literal:`                                   `----------------------------'`
+   
+      __-----------__                 ,----------------------------.
+     |--___________--|   Queries      |          Browser           |
+     |               | <------------- |----------------------------|
+     | ElasticSearch | I/O and audit  | Search I/O and audit       |
+     |               | -------------> | Playback I/O and audit     |
+   `  `--___________--'                | Rewind to time and matches \|`
+   `                                   `----------------------------'`
 
 
 

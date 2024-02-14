@@ -302,10 +302,10 @@ solution is provided, see <a class="reference external" href="https://fedorahost
 <li><p>create file called 40-freeipa.rules in /etc/polkit-1/rules.d/ with
 contents:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">polkit.addAdminRule(function(action, subject) {</span></code></div>
-<div class="line">``    return [“unix-group:admins”, “unix-group:wheel”];``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">});</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">polkit</span><span class="o">.</span><span class="n">addAdminRule</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">subject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;unix-group:admins&quot;</span><span class="p">,</span> <span class="s2">&quot;unix-group:wheel&quot;</span><span class="p">];</span>
+<span class="p">});</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li><p>(optional) make sure that file has at least 644 permissions (I’m
@@ -314,13 +314,13 @@ work)</p></li>
 <li><p>(alternate approach would be) to use password-less access, fill the
 same file with this contents instead:</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">polkit.addRule(function(action, subject) {</span></code></div>
-<div class="line">``    if (action.id == “org.freedesktop.policykit.exec” &amp;&amp;``</div>
-<div class="line">``        subject.isInGroup(“admins”)) {``</div>
-<div class="line">``        return polkit.Result.YES;``</div>
-<div class="line">``    }``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">});</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">polkit</span><span class="o">.</span><span class="n">addRule</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">subject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">action</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s2">&quot;org.freedesktop.policykit.exec&quot;</span> <span class="o">&amp;&amp;</span>
+        <span class="n">subject</span><span class="o">.</span><span class="n">isInGroup</span><span class="p">(</span><span class="s2">&quot;admins&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">polkit</span><span class="o">.</span><span class="n">Result</span><span class="o">.</span><span class="n">YES</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
 </div>
 <p>where ‘wheel’ is default local ‘administrative’ group on RHEL-based
 systems (‘adm’ on Debian-based systems, I think) and admins is default
@@ -331,45 +331,45 @@ administrative account in case something with FreeIPA goes wrong), it
 will be asking for that user(s) password instead, not involving root
 user at all.</p>
 <p>So, to sum up, step above turns this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ id``
-| ``uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
-| ``$ pkexec id``
-| ``==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===``
-| :literal:`Authentication is needed to run `/usr/bin/id&#39; as the super user`
-| ``Authenticating as: root``
-| ``Password: ``
-| ``==== AUTHENTICATION COMPLETE ===``
-| ``uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ id
+uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+$ pkexec id
+==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
+`Authentication is needed to run `/usr/bin/id&#39; as the super user`
+Authenticating as: root
+Password:
+==== AUTHENTICATION COMPLETE ===
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 </pre></div>
 </div>
 <p>or this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>| ``$ id``
-| ``uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
-| ``$ pkexec id``
-| ``==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===``
-| :literal:`Authentication is needed to run `/usr/bin/id&#39; as the super user`
-| ``Authenticating as: SysAdmin (sysadmin)``
-| ``Password: ``
-| ``==== AUTHENTICATION COMPLETE ===``
-| ``uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ id
+uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+$ pkexec id
+==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
+`Authentication is needed to run `/usr/bin/id&#39; as the super user`
+Authenticating as: SysAdmin (sysadmin)
+Password:
+==== AUTHENTICATION COMPLETE ===
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 </pre></div>
 </div>
 <p>into this:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ id</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ pkexec id</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Authentication is needed to run `/usr/bin/id' as the super user</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Multiple identities can be used for authentication:</span></code></div>
-<div class="line">`` 1. SysAdmin (sysadmin)  ``</div>
-<div class="line">`` 2. Administrator (admin)``</div>
-<div class="line">`` 3. IPA User (ipauser)``</div>
-<div class="line">`` …``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Choose identity to authenticate as (1-X): 3</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Password:</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">==== AUTHENTICATION COMPLETE ===</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ id
+uid=1293400001(ipauser) gid=1293400001(ipauser) groups=1293400001(ipauser),1293400000(admins) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+$ pkexec id
+==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
+Authentication is needed to run `/usr/bin/id&#39; as the super user`
+Multiple identities can be used for authentication:
+ 1. SysAdmin (sysadmin)
+ 2. Administrator (admin)
+ 3. IPA User (ipauser)
+ ...
+Choose identity to authenticate as (1-X): 3
+Password:
+==== AUTHENTICATION COMPLETE ===
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+</pre></div>
 </div>
 <p>It works also for graphical user interfaces (GNOME Shell in my case),
 etc. Only when it comes to that GNOME Shell, user is shown as ‘Standard’
@@ -382,14 +382,14 @@ host, you will have to add a HBAC Service named <strong>polkit-1</strong>, if th
 does not already exist, and create an appropriate HBAC rule for users
 accessing hosts with the above rule definition via the polkit-1 service.</p>
 <p>Symptoms requiring this HBAC Rule include when running;</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ pkexec id</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pkexec</span> <span class="pre">id</span></code></p>
 <p>resulting in log messages such as;</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ journalctl -xe</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">polkit-agent-helper[3130]: pam_sss(polkit-1:account): Access denied for user ``\</span> <span class="pre">``: 6 (Permission denied)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">...</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">gnome-shell.desktop[2372]: polkit-agent-helper-1: pam_acct_mgmt failed: Permission denied</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ journalctl -xe
+...
+polkit-agent-helper[3130]: pam_sss(polkit-1:account): Access denied for user ``\ ``: 6 (Permission denied)
+...
+gnome-shell.desktop[2372]: polkit-agent-helper-1: pam_acct_mgmt failed: Permission denied
+</pre></div>
 </div>
 </section>
 </section>

@@ -66,7 +66,7 @@ Second part, adding kerberos to NFS4: NFS + KRB5
    NexentaStor machine. This is required as the NFS service and the CIFS
    service share the same krb5.keytab file.
 
-``# ipa-getkeytab -s ipa-server -p nexentastorserver.fqdn -k /path/to/nexentastor/krb5.keytab``
+``# ipa-getkeytab -s ipa-server -p nexentastorserver.fqdn -k /path/to/nexentastor/krb5.keytab``
 
 -  scp the modified krb5.keytab file back into the NexentaStor server at
    /etc/krb5/krb5.keytab.
@@ -112,7 +112,7 @@ work.
 
 -  Switch back to the NMC, and edit the nfs defaults file:
 
-``# NMC: $ setup network service nfs-server edit-settings``
+``# NMC: $ setup network service nfs-server edit-settings``
 
 -  Uncomment and modify:
 
@@ -122,7 +122,7 @@ work.
 
 -  Restart the NFS service.
 
-``# NMC $ setup network service nfs-server restart``
+``# NMC $ setup network service nfs-server restart``
 
 That's it. Your NexentaStor server will now look up LDAP/IPA users and
 groups first, and then generate UID/GID's for any other users/groups

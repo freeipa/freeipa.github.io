@@ -195,7 +195,7 @@ supply the appropriate attribute list for the backend.
        const char *attrs[]) {
 
        for (cur = schema->attributes; cur; cur = cur->next) {
-           ...
+       ...
        }
    }
 

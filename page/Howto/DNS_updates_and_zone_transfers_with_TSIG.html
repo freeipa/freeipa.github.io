@@ -314,26 +314,26 @@ configured to use TSIG for dynamic updates and zone transfers.</p>
 </section>
 <section id="generate-a-new-tsig-key">
 <h2>Generate a new TSIG key<a class="headerlink" href="#generate-a-new-tsig-key" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Kkeyname.+165+03160</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST keyname
+Kkeyname.+165+03160
+</pre></div>
 </div>
 </section>
 <section id="copy-and-paste-key-from-key-file-to-named-conf">
 <h2>Copy and paste key from key file to named.conf<a class="headerlink" href="#copy-and-paste-key-from-key-file-to-named-conf" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ cat Kkeyname.+165+0316.private</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Private-key-format: v1.3</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Algorithm: 165 (HMAC_SHA512)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Key: keyvalue</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bits: AAA=</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat Kkeyname.+165+0316.private
+Private-key-format: v1.3
+Algorithm: 165 (HMAC_SHA512)
+Key: keyvalue
+Bits: AAA=
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ vim /etc/named.conf</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">key &quot;keyname&quot; {</span></code></div>
-<div class="line">``       algorithm hmac-sha512;``</div>
-<div class="line">``       secret “keyvalue”;``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">};</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vim /etc/named.conf
+key &quot;keyname&quot; {
+       algorithm hmac-sha512;
+       secret &quot;keyvalue&quot;;
+};
+</pre></div>
 </div>
 <p>You have to repeat this copy&amp;paste step for every FreeIPA server.</p>
 </section>
@@ -345,20 +345,20 @@ configured to use TSIG for dynamic updates and zone transfers.</p>
 <p>Normal rules for <a class="reference external" href="http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#dynamic_update_policies">BIND dynamic update policies
 apply</a>.
 Just use name of the key you defined in named.conf:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.com. --update-policy=&quot;grant keyname name example.com A;&quot;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">example.com.</span> <span class="pre">--update-policy=&quot;grant</span> <span class="pre">keyname</span> <span class="pre">name</span> <span class="pre">example.com</span> <span class="pre">A;&quot;</span></code></p>
 <p>One of FreeIPA specifics is that dynamic updates can be completely
 disabled by switch even if update policy is non-empty. Make sure that
 DNS dynamic updates are enabled for your zone:</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ ipa dnszone-mod example.com. --dynamic-update=1</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ipa</span> <span class="pre">dnszone-mod</span> <span class="pre">example.com.</span> <span class="pre">--dynamic-update=1</span></code></p>
 </section>
 <section id="client">
 <h2>Client<a class="headerlink" href="#client" title="Link to this heading">#</a></h2>
 <p>For <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code> from <code class="docutils literal notranslate"><span class="pre">bind-utils</span></code> package you have to either use
 option <code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:keyvalue</span></code> or <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfilename</span></code> option.
 E.g.</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ nsupdate -y hmac-sha512:keyname:keyvalue</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">nsupdate</span> <span class="pre">-y</span> <span class="pre">hmac-sha512:keyname:keyvalue</span></code></p>
 <p>or</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ nsupdate -k Kkeyname.+165+0316.private</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">nsupdate</span> <span class="pre">-k</span> <span class="pre">Kkeyname.+165+0316.private</span></code></p>
 </section>
 <section id="zone-transfers">
 <h2>Zone transfers<a class="headerlink" href="#zone-transfers" title="Link to this heading">#</a></h2>
@@ -369,15 +369,15 @@ E.g.</p>
 policy directly because it expects that allow-transfer consists only of
 IP addresses. You have to modify LDAP directly.</p>
 <p>Run this on one of FreeIPA servers:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ kinit admin</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">$ ldapmodify -Y GSSAPI &lt;&lt; EOF</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">changetype: modify</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">replace: idnsAllowTransfer</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">idnsAllowTransfer: key keyname;</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">-</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">EOF</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ kinit admin
+$ ldapmodify -Y GSSAPI &lt;&lt; EOF
+dn: idnsname=example.com.,cn=dns,dc=ipa,dc=example
+changetype: modify
+replace: idnsAllowTransfer
+idnsAllowTransfer: key keyname;
+-
+EOF
+</pre></div>
 </div>
 <p>Don’t forget to replace zone name in <code class="docutils literal notranslate"><span class="pre">idnsname</span></code> component of DN and
 realm name in <code class="docutils literal notranslate"><span class="pre">dc=ipa,dc=example</span></code> components.</p>
@@ -387,9 +387,9 @@ realm name in <code class="docutils literal notranslate"><span class="pre">dc=ip
 <p>The syntax for <code class="docutils literal notranslate"><span class="pre">dig</span></code> from <code class="docutils literal notranslate"><span class="pre">bind-utils</span></code> package is the same as for
 <code class="docutils literal notranslate"><span class="pre">nsupdate</span></code>. You have to either use option
 <code class="docutils literal notranslate"><span class="pre">-y</span> <span class="pre">algorithm:keyname:keyvalue</span></code> or <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">keyfilename</span></code> option. E.g.</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ dig -y hmac-sha512:keyname:keyvalue</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">-y</span> <span class="pre">hmac-sha512:keyname:keyvalue</span></code></p>
 <p>or</p>
-<p><code class="docutils literal notranslate"><span class="pre">$ dig -k Kkeyname.+165+0316.private</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">dig</span> <span class="pre">-k</span> <span class="pre">Kkeyname.+165+0316.private</span></code></p>
 </section>
 </section>
 

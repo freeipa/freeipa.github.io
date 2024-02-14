@@ -77,15 +77,19 @@ One for each combination of operation and entity:
 
 CLI
 
-| `` ipa host-allow-retrieve-keytab HOSTNAME --users=STR --groups=STR --hosts=STR --hostgroups=STR``
-| `` ipa host-disallow-retrieve-keytab HOSTNAME --users=STR --groups=STR --hosts=STR --hostgroups=STR``
-| `` ipa host-allow-create-keytab HOSTNAME --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
-| `` ipa host-disallow-create-keytab HOSTNAME --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
+::
 
-| `` ipa service-allow-retrieve-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
-| `` ipa service-disallow-retrieve-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
-| `` ipa service-allow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
-| `` ipa service-disallow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR``
+     ipa host-allow-retrieve-keytab HOSTNAME --users=STR --groups=STR --hosts=STR --hostgroups=STR
+     ipa host-disallow-retrieve-keytab HOSTNAME --users=STR --groups=STR --hosts=STR --hostgroups=STR
+     ipa host-allow-create-keytab HOSTNAME --users=STR --groups=STR --hosts=STR  --hostgroups=STR
+     ipa host-disallow-create-keytab HOSTNAME --users=STR --groups=STR --hosts=STR  --hostgroups=STR
+
+::
+
+     ipa service-allow-retrieve-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR
+     ipa service-disallow-retrieve-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR
+     ipa service-allow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR
+     ipa service-disallow-create-keytab PRINCIPAL --users=STR --groups=STR --hosts=STR  --hostgroups=STR
 
 
 

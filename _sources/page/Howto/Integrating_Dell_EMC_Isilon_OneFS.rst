@@ -32,28 +32,25 @@ Using the web UI
 | Access --> Authentication Providers --> LDAP
 | + Add an LDAP provider
 | Enter the LDAP provider name of choice.
-| ``Server URI:``\ ```ldaps://fqdn`` <ldaps://fqdn>`__\ ``of FreeIPA server``
+| Server URI: ``ldaps://fqdn``\  or ``ldaps://fqdn``\  of FreeIPA server
 | *Make sure the fqdn is resolvable from Isilon!*
-| ``Base Distinguished Name:``\ *``enter``\ ````\ ``your``\ ````\ ``BaseDN``*
-| ``Bind to:``\ *``enter``\ ````\ ``the``\ ````\ ``DN``\ ````\ ``created``\ ````\ ``above``*
-| Then enter the password for the DN and Isilon OneFS should be
-  connected to FreeIPA via LDAP.
+| Base Distinguished Name:enteryourBaseDN
+| Bind to:entertheDNcreatedabove
+| Then enter the password for the DN and Isilon OneFS should be connected to FreeIPA via LDAP.
 
 
 
 Using the command-line
 ----------------------------------------------------------------------------------------------
 
-| Get the status of authentication providers before beginning the
-  configuration: ``isi auth status``
-| Create a new LDAP provider using the command (replace BaseDN, DN,
-  DNpassword as necessary):
-| ``isi auth ldap create test-ldap \``
-| ``--base-dn="BaseDN" \``
-| ``--bind-dn="DN" \``
-| ``--bind-password="DNpassword" \``
-| ``--server-uris="``\ ```ldaps://`` <ldaps://>`__\ ``" \``
-| ``--groupnet=``
+| Get the status of authentication providers before beginning the configuration: ``isi auth status``
+| Create a new LDAP provider using the command (replace BaseDN, DN, DNpassword as necessary):
+| isi auth ldap create test-ldap \
+|   --base-dn="BaseDN" \
+|   --bind-dn="DN" \
+|   --bind-password="DNpassword" \
+|   --server-uris="ldaps:// <ldaps://>" \
+|   --groupnet=
 
 
 

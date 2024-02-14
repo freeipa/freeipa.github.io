@@ -67,13 +67,17 @@ CLI
 ``ipa automember-rebuild`` can be used to rebuild membership for all
 objects of certain type:
 
-| ``   $ ipa automember-rebuild --type=group``
-| ``   $ ipa automember-rebuild --type=hostgroup``
+::
+
+       $ ipa automember-rebuild --type=group
+       $ ipa automember-rebuild --type=hostgroup
 
 It can also be used to rebuild membership for the specified entries:
 
-| ``   $ ipa automember-rebuild --hosts=HOSTNAME1 --hosts=HOSTNAME2``
-| ``   $ ipa automember-rebuild --users=LOGIN1 --users=LOGIN2``
+::
+
+       $ ipa automember-rebuild --hosts=HOSTNAME1 --hosts=HOSTNAME2
+       $ ipa automember-rebuild --users=LOGIN1 --users=LOGIN2
 
 
 
@@ -95,44 +99,50 @@ How to Test
 
 Add a hostgroup:
 
-``   $ ipa hostgroup-add --desc="Web Servers" webservers``
+``   $ ipa hostgroup-add --desc="Web Servers" webservers``
 
 Add a host:
 
-``   $ ipa host-add web1.example.com --force``
+``   $ ipa host-add web1.example.com --force``
 
 Add an automember rule:
 
-| ``   $ ipa automember-add --type=hostgroup webservers``
-| ``   $ ipa automember-add-condition --key=fqdn --type=hostgroup --inclusive-regex=^web[1-9]+\.example\.com webservers``
+::
+
+       $ ipa automember-add --type=hostgroup webservers
+       $ ipa automember-add-condition --key=fqdn --type=hostgroup --inclusive-regex=^web[1-9]+\.example\.com webservers
 
 The automember feature is now working for newly added entries. If we add
 a new host, it will be automatically placed in the appropriate
 hostgroup:
 
-| ``   $ ipa host-add web2.example.com --force``
-| ``   $ ipa hostgroup-show webservers``
-| ``     Host-group: webservers``
-| ``     Description: Web Servers``
-| ``     Member hosts: web2.example.com``
+::
+
+       $ ipa host-add web2.example.com --force
+       $ ipa hostgroup-show webservers
+         Host-group: webservers
+         Description: Web Servers
+         Member hosts: web2.example.com
 
 However, the old host entry for ``web1.example.com`` is still not a
 member or the ``webservers`` hostgroup. By introducting the new
 ``automember-rebuild`` commands, we make it possible:
 
-``   $ ipa automember-rebuild --type=hostgroup``
+``   $ ipa automember-rebuild --type=hostgroup``
 
 or
 
-``   $ ipa automember-rebuild --hosts=web1.example.com``
+``   $ ipa automember-rebuild --hosts=web1.example.com``
 
 will run the ``automember rebuild membership`` task and consequently
 place the host in the appropriate hostgroup:
 
-| ``   $ ipa hostgroup-show webservers``
-| ``     Host-group: webservers``
-| ``     Description: Web Servers``
-| ``     Member hosts: web2.example.com, web1.example.com``
+::
+
+       $ ipa hostgroup-show webservers
+         Host-group: webservers
+         Description: Web Servers
+         Member hosts: web2.example.com, web1.example.com
 
 The same mechanism applies for users and groups.
 

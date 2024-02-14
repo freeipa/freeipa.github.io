@@ -419,21 +419,21 @@ EXAMPLE.COM, when FreeIPA client has host name ipa-client.example.com,
 following configuration would be written if <em>ipa-client-install –domain
 ipa.example.com</em> was used to configure the FreeIPA client (abbreviated):</p>
 <p>/etc/krb5.conf</p>
-<div class="line-block">
-<div class="line">``   [libdefaults]``</div>
-<div class="line">``   dns_lookup_realm = true``</div>
-<div class="line">``   dns_lookup_kdc = true``</div>
-<div class="line">``   ``</div>
-<div class="line">``   [realms]``</div>
-<div class="line">``   IPA.EXAMPLE.COM = {``</div>
-<div class="line">``       pkinit_anchors = <code class="docutils literal notranslate"><span class="pre">\</span> <span class="pre">```FILE:/etc/ipa/ca.crt</span></code> &lt;<a class="reference external" href="FILE:/etc/ipa/ca.crt">FILE:/etc/ipa/ca.crt</a>&gt;`__</div>
-<div class="line">``   }``</div>
-<div class="line">``   ``</div>
-<div class="line">``   [domain_realm]``</div>
-<div class="line">``   .ipa.example.com = IPA.EXAMPLE.COM``</div>
-<div class="line">``   ipa.example.com = IPA.EXAMPLE.COM``</div>
-<div class="line">``   .example.com = IPA.EXAMPLE.COM``</div>
-<div class="line">``   example.com = IPA.EXAMPLE.COM``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[libdefaults]
+dns_lookup_realm = true
+dns_lookup_kdc = true
+
+[realms]
+IPA.EXAMPLE.COM = {
+    pkinit_anchors = ``\ ```FILE:/etc/ipa/ca.crt`` &lt;FILE:/etc/ipa/ca.crt&gt;`__
+}
+
+[domain_realm]
+.ipa.example.com = IPA.EXAMPLE.COM
+ipa.example.com = IPA.EXAMPLE.COM
+.example.com = IPA.EXAMPLE.COM
+example.com = IPA.EXAMPLE.COM
+</pre></div>
 </div>
 <p>As can be seen above, look up for any service principal on the hosts in
 DNS zone <em>example.com</em> will be forced to belong to realm
@@ -442,12 +442,12 @@ communicate with services enrolled into Active Directory because all
 Kerberos requests for <em>EXAMPLE.COM</em> realm would be instead sent to the
 KDC of <em>IPA.EXAMPLE.COM</em>.</p>
 <p>It is, however, possible to change</p>
-<div class="line-block">
-<div class="line">``   .example.com = IPA.EXAMPLE.COM``</div>
-<div class="line">``   example.com = IPA.EXAMPLE.COM``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">IPA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">IPA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
 </div>
 <p>to explicit configuration for the FreeIPA hostname:</p>
-<p>``   ipa-client.example.com = IPA.EXAMPLE.COM``</p>
+<p>``   ipa-client.example.com = IPA.EXAMPLE.COM``</p>
 <p>and leave out any other explicit mapping for <em>.example.com</em> to have it
 discovered via DNS SRV record lookups.</p>
 <p>Note that the setup above will not allow machines from realm
@@ -545,9 +545,9 @@ communicate with FreeIPA masters.</p>
 –domain=ipa.example.com</em> so that auto-detection of Active Directory
 domain via SRV records in DNS domain <em>example.com</em> will not be done.</p>
 <p>Kerberos configuration in <em>/etc/krb5.conf</em> should be modified to add:</p>
-<div class="line-block">
-<div class="line">``   [domain_realm]``</div>
-<div class="line">``     ipa-client.example.com = IPA.EXAMPLE.COM``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
+  <span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">IPA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
 </div>
 <p>This configuration change will ensure that the host itself is associated
 with FreeIPA realm on this machine.</p>
@@ -565,12 +565,12 @@ Directory-enrolled Windows resources one needs to remove Kerberos
 domain-realm mapping that forces <em>.example.com</em> to be associated with
 <em>IPA.EXAMPLE.COM</em> realm:</p>
 <p>/etc/krb5.conf</p>
-<div class="line-block">
-<div class="line">``   [domain_realm]``</div>
-<div class="line">``   .ipa.example.com = IPA.EXAMPLE.COM``</div>
-<div class="line">``   ipa.example.com = IPA.EXAMPLE.COM``</div>
-<div class="line">``   .example.com = EXAMPLE.COM``</div>
-<div class="line">``   example.com = EXAMPLE.COM``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">domain_realm</span><span class="p">]</span>
+<span class="o">.</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">IPA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">IPA</span><span class="o">.</span><span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+<span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
+</pre></div>
 </div>
 <p>Once <em>.example.com</em> is associated with <em>EXAMPLE.COM</em> realm, actual
 Kerberos credentials obtained on the FreeIPA client as part of the
@@ -589,15 +589,14 @@ FreeIPA realm.</p>
 <p>This means there is already a host object for <em>ipa-client.example.com</em>
 in FreeIPA and Certmonger can already request for the certificate in its
 name:</p>
-<div class="line-block">
-<div class="line">``   ipa-getcert request -r ``</div>
-<div class="line">``      -f /etc/httpd/alias/server.crt ``</div>
-<div class="line">``      -k /etc/httpd/alias/server.key ``</div>
-<div class="line">:literal:`      -N CN=`hostname –fqdn` \`</div>
-<div class="line">:literal:`      -D <cite>hostname –fqdn</cite> \`</div>
-<div class="line">``      -K <a class="reference external" href="mailto:host/ipa-client&#46;example&#46;com&#37;&#52;&#48;IPA&#46;EXAMPLE&#46;COM">host/ipa-client<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>IPA<span>&#46;</span>EXAMPLE<span>&#46;</span>COM</a> ``</div>
-<div class="line">``      -U id-kp-serverAuth``</div>
-<div class="line">``   ``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-getcert request -r \
+   -f /etc/httpd/alias/server.crt \
+   -k /etc/httpd/alias/server.key \
+   -N CN=`hostname --fqdn` \\`
+   -D `hostname --fqdn` \\`
+   -K host/ipa-client.example.com@IPA.EXAMPLE.COM \
+   -U id-kp-serverAuth
+</pre></div>
 </div>
 <p>This example allows to request an SSL certificate from FreeIPA CA to
 store it in <em>server.crt</em> (public key) and <em>server.key</em> (private key)
@@ -621,9 +620,9 @@ keytab. When Kerberos client would connect to a Kerberos application
 server, such server typically does strict check on what Kerberos
 principal was used to target it (so-called, ‘acceptor check’). This can
 be relaxed:</p>
-<div class="line-block">
-<div class="line">``   [libdefaults]``</div>
-<div class="line">``    ignore_acceptor_hostname = true``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">libdefaults</span><span class="p">]</span>
+ <span class="n">ignore_acceptor_hostname</span> <span class="o">=</span> <span class="n">true</span>
+</pre></div>
 </div>
 <p>For OpenSSH server there is a specific option <em>GSSAPIStrictAcceptorCheck
 no</em> to achieve the same.</p>
@@ -637,24 +636,24 @@ be in the certificate.</p>
 FreeIPA database. This means one would need to create host object for
 <em>ipa-client.example.com</em> in FreeIPA and make sure the real FreeIPA
 machine’s host object is able to manage this host:</p>
-<div class="line-block">
-<div class="line">``   ipa host-add ipa-client.example.com –force``</div>
-<div class="line">``   ipa host-add-managedby ipa-client.example.com –hosts=ipa-client.ipa.example.com``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span> <span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">force</span>
+<span class="n">ipa</span> <span class="n">host</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">managedby</span> <span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">--</span><span class="n">hosts</span><span class="o">=</span><span class="n">ipa</span><span class="o">-</span><span class="n">client</span><span class="o">.</span><span class="n">ipa</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
 </div>
 <p>We have to use <em>–force</em> option here because <em>ipa-client.example.com</em> is
 a CNAME, not an A/AAAA DNS record as required by FreeIPA.</p>
 <p>With this setup <em>ipa-client.ipa.example.com</em> would be able to request an
 SSL certificate with dNSName extension record for
 <em>ipa-client.example.com</em>.</p>
-<div class="line-block">
-<div class="line">``  ipa-getcert request -r ``</div>
-<div class="line">``      -f /etc/httpd/alias/server.crt ``</div>
-<div class="line">``      -k /etc/httpd/alias/server.key ``</div>
-<div class="line">:literal:`      -N CN=`hostname –fqdn` \`</div>
-<div class="line">:literal:`      -D <cite>hostname –fqdn</cite> \`</div>
-<div class="line">``      -D ipa-client.example.com ``</div>
-<div class="line">``      -K <a class="reference external" href="mailto:host/ipa-client&#46;ipa&#46;example&#46;com&#37;&#52;&#48;IPA&#46;EXAMPLE&#46;COM">host/ipa-client<span>&#46;</span>ipa<span>&#46;</span>example<span>&#46;</span>com<span>&#64;</span>IPA<span>&#46;</span>EXAMPLE<span>&#46;</span>COM</a> ``</div>
-<div class="line">``      -U id-kp-serverAuth``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ipa-getcert request -r \
+    -f /etc/httpd/alias/server.crt \
+    -k /etc/httpd/alias/server.key \
+    -N CN=`hostname --fqdn` \\`
+    -D `hostname --fqdn` \\`
+    -D ipa-client.example.com \
+    -K host/ipa-client.ipa.example.com@IPA.EXAMPLE.COM \
+    -U id-kp-serverAuth
+</pre></div>
 </div>
 </section>
 </section>

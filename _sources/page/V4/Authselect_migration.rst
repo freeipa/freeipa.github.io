@@ -47,23 +47,23 @@ Currently authconfig is triggered during client install to:
 
 -  configure NIS. the commands below is used
 
-`` authconfig --nisdomain=``
+`` authconfig --nisdomain=``
 
 -  with sssd (default).
 
 To enable SSSD for user information and authentication:
 
-`` authconfig --enablesssd --enablesssdauth``
+`` authconfig --enablesssd --enablesssdauth``
 
 To enable kerberos authentication:
 
-`` authconfig --enablekrb5 --nostart``
+`` authconfig --enablekrb5 --nostart``
 
 -  no_sssd (deprecated).
 
 To enable LDAP for user information:
 
-`` authconfig --enableldap --enableforcelegacy``
+`` authconfig --enableldap --enableforcelegacy``
 
 The following ipa-client-install options have an impact on
 authentication configuration:
@@ -87,12 +87,12 @@ Backup/restore
 The commands ipa-backup and ipa-restore both need to save/restore the
 current configuration. ipa-backup is calling:
 
-`` authconfig --savebackup ``
+`` authconfig --savebackup ``
 
 and saves the content of the backup directory in the backup file.
 ipa-restore is calling
 
-`` authconfig --restorebackup ``
+`` authconfig --restorebackup ``
 
 to restore the saved configuration.
 
@@ -155,16 +155,16 @@ Currently, the algorithm for PAM stack configuration is the following:
 
 ::
 
-   | ````
-   | ``authconfig --nisdomain=<domain>``
-   | ``if (sssd) then ``
-   | ``   authconfig --enablesssd --enablesssdauth``
-   | ``else ``
-   | ``   authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart``
-   | ``done``
-   | ``if (mkhomedir) then``
-   | ``   authconfig --enablemkhomedir``
-   | ``done``
+   
+   authconfig --nisdomain=<domain>
+   if (sssd) then 
+      authconfig --enablesssd --enablesssdauth
+   else 
+      authconfig --enableldap --enableforcelegacy --enablekrb5 --nostart
+   done
+   if (mkhomedir) then
+      authconfig --enablemkhomedir
+   done
 
 
 
@@ -220,9 +220,11 @@ will store the profile used pre-installation in the system store
 (/var/lib/ipa-client/sysrestore/sysrestore.state) with the following
 format:
 
-| `` [authselect]``
-| `` profile=``
-| `` features_list=``
+::
+
+     [authselect]
+     profile=
+     features_list=
 
 Profile and features_list will be used to revert to the previous state
 during uninstallation.
@@ -252,8 +254,10 @@ Backup
 The authselect tool offers the "current" command to retrieve the current
 configuration (profile and enabled features). For instance:
 
-| `` $ authselect current --raw``
-| `` sssd with-mkhomedir``
+::
+
+     $ authselect current --raw
+     sssd with-mkhomedir
 
 The ipa-backup command needs to use this command to save the current
 configuration inside a new file in the backup directory.
@@ -267,7 +271,7 @@ does not touch the authentication configuration.
 The ipa-restore command needs to read the saved configuration from the
 backup directory and re-apply the same configuration using
 
-`` $ authselect select ``\ `` ``\ `` --force``
+`` $ authselect select ``\ `` ``\ `` --force``
 
 Note: if the backup was done on a server \*before\* the migration to
 authselect, the ipa-restore will detect that restore is trying to
@@ -287,11 +291,11 @@ config-client-for-smart-card-auth plugin
 This plugin configures a FreeIPA client for smart card authentication.
 Instead of calling
 
-`` authconfig --enablesssd --enablesssdauth --enablesmartcard ' '--smartcardmodule=sssd --smartcardaction=1 --updateall``
+`` authconfig --enablesssd --enablesssdauth --enablesmartcard ' '--smartcardmodule=sssd --smartcardaction=1 --updateall``
 
 the plugin must use
 
-`` authselect enable-feature with-smartcard``
+`` authselect enable-feature with-smartcard``
 
 
 
@@ -348,18 +352,22 @@ profile. It needs to take care of the following points:
    (/var/lib/ipa-client/sysrestore/sysrestore.state). The system store
    may contain
 
-| `` [authconfig]``
-| `` mkhomedir=...``
-| `` ldap=...``
-| `` krb5=...``
-| `` sssd=...``
-| `` sssdauth=...``
+::
+
+     [authconfig]
+     mkhomedir=...
+     ldap=...
+     krb5=...
+     sssd=...
+     sssdauth=...
 
 and this would have to be replaced with
 
-| `` [authselect]``
-| `` profile=sssd``
-| `` mkhomedir=...``
+::
+
+     [authselect]
+     profile=sssd
+     mkhomedir=...
 
 
 
@@ -376,8 +384,10 @@ A careful user may notice the presence of a new directory
 containing /etc/authselect/authselect.conf file storing the current
 profile and features:
 
-| `` $ cat /etc/authselect/authselect.conf ``
-| `` sssd``
+::
+
+     $ cat /etc/authselect/authselect.conf
+     sssd
 
 Testing
 -------

@@ -72,8 +72,8 @@ The format of the SUBNET and SUBNET6 RR is as follows.
 
 ::
 
-   ``   ``\ `` SUBNET  TTL CLASS ``
-   ``   ``\ `` SUBNET6 TTL CLASS ``
+   ``   ``\ `` SUBNET  TTL CLASS ``
+   ``   ``\ `` SUBNET6 TTL CLASS ``
 
 The components are explained below.
 
@@ -129,19 +129,21 @@ contains the ldap server ldap.example.net. The two other locations are
 both Satellite locations and contain an ldap proxy server and a fallback
 to the main location.
 
-| ``   $TTL 1d``
-| ``   $ORIGIN example.com.``
-| ``   ``
-| ``   _network        SUBNET IN 192.168.1.0 24 boston._locations``
-| ``   _network        SUBNET IN 192.168.2.0 24 boston._locations``
-| ``   _network        SUBNET IN 192.168.3.0 24 newyork._locations``
-| ``   _network        SUBNET IN 192.168.4.0 24 thehague._locations``
-| ``   ``
-| ``   _ldap._tcp.boston._locations        SRV IN 10 10 389 ldap.example.net.``
-| ``   _ldap._tcp.newyork._locations       SRV IN 10 10 389 proxy-ny.examle.net.``
-| ``   _ldap._tcp.newyork._locations       SRV IN 20 10 389 ldap.example.net.``
-| ``   _ldap._tcp.thehague._locations      SRV IN 10 10 389 proxy-hag.example.net.``
-| ``   _ldap._tcp.thehague._locations      SRV IN 20 10 389 ldap.example.net.``
+::
+
+       $TTL 1d
+       $ORIGIN example.com.
+    
+       _network        SUBNET IN 192.168.1.0 24 boston._locations
+       _network        SUBNET IN 192.168.2.0 24 boston._locations
+       _network        SUBNET IN 192.168.3.0 24 newyork._locations
+       _network        SUBNET IN 192.168.4.0 24 thehague._locations
+    
+       _ldap._tcp.boston._locations        SRV IN 10 10 389 ldap.example.net.
+       _ldap._tcp.newyork._locations       SRV IN 10 10 389 proxy-ny.examle.net.
+       _ldap._tcp.newyork._locations       SRV IN 20 10 389 ldap.example.net.
+       _ldap._tcp.thehague._locations      SRV IN 10 10 389 proxy-hag.example.net.
+       _ldap._tcp.thehague._locations      SRV IN 20 10 389 ldap.example.net.
 
 A SUBNET aware client SHOULD use the following procedure to determine
 its location on the network. The location SHOULD be used as input into a
@@ -224,7 +226,7 @@ location tree can be pointed to this using a "pointer" SUBNET record.
 The example below illustates a domain "corp.example.com" that uses the
 network tree and location databsea of the domain "example.com".
 
-``   _network.corp.example.com.   SUBNET IN 0.0.0.0 0 _network.example.net.``
+``   _network.corp.example.com.   SUBNET IN 0.0.0.0 0 _network.example.net.``
 
 This requires one DNS record to be published in each DNS zone in the
 network which in our view is a manageable overhead.

@@ -99,15 +99,17 @@ Replica Installation fails with Invalid Credentials
 
 -  Installation of the replica fails with:
 
-| ``  [27/40]: setting up initial replication``
-| ``Starting replication, please wait until this has completed.``
-| ``Update in progress, 15 seconds elapsed``
-| ```1`` <ldap://master.example.com:389>`__\ `` reports: Update failed! Status: [49  - LDAP error: Invalid credentials]``
-| ``  [error] RuntimeError: Failed to start replication``
-| ``Your system may be partly configured.``
-| ``Run /usr/sbin/ipa-server-install --uninstall to clean up.``
-| ``ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    Failed to start replication``
-| ``ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    The ipa-replica-install command failed. See /var/log/ipareplica-install.log for more information``
+::
+
+      [27/40]: setting up initial replication
+    Starting replication, please wait until this has completed.
+    Update in progress, 15 seconds elapsed
+    `1`` <ldap://master.example.com:389>`__\ `` reports: Update failed! Status: [49  - LDAP error: Invalid credentials]
+      [error] RuntimeError: Failed to start replication
+    Your system may be partly configured.
+    Run /usr/sbin/ipa-server-install --uninstall to clean up.
+    ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    Failed to start replication
+    ipa.ipapython.install.cli.install_tool(CompatServerReplicaInstall): ERROR    The ipa-replica-install command failed. See /var/log/ipareplica-install.log for more information
 
 This can happen when the ipa-replica-install command is called with
 --no-ntp and the clocks of the master and the replica are not in sync.
@@ -159,7 +161,7 @@ When client cannot update the DNS record in FreeIPA managed DNS zone:
 -  Make sure that the respective FreeIPA DNS zone has *Dynamic Updates*
    option enabled:
 
-``$ ipa dnszone-mod zone.name.example. --dynamic-update=TRUE``
+``$ ipa dnszone-mod zone.name.example. --dynamic-update=TRUE``
 
 -  Make sure that the FreeIPA server with DNS service has port 53 opened
    for **both UDP and TCP** (`related user
@@ -172,10 +174,12 @@ Installation breaks on Joining realm
 
 ipa-client-install may fail with the following error:
 
-| `` Joining realm failed: Failed to add key to the keytab``
-| `` child exited with 11``
-| `` ``
-| `` Installation failed. Rolling back changes.``
+::
+
+     Joining realm failed: Failed to add key to the keytab
+     child exited with 11
+    
+     Installation failed. Rolling back changes.
 
 This failure may be caused by an empty /etc/krb5.keytab. In this case,
 simply delete the file and restart the installation.

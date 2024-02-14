@@ -49,41 +49,51 @@ I've configured SSSD:
 
 and run
 
-| ``       setsebool -P httpd_dbus_sssd on``
-| ``       systemctl restart sssd``
+::
+
+           setsebool -P httpd_dbus_sssd on
+           systemctl restart sssd
 
 I have created HTTP/ service for the machine and got its keytab:
 
-| ``       echo Secret123 | kinit admin``
-| ``       ipa service-add HTTP/$(hostname)``
-| ``       IPA_SERVER=$(awk '/^server =/ {print $3}' /etc/ipa/default.conf)``
-| ``       ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)``
-| ``       chown apache /etc/http.keytab``
-| ``       chmod 600 /etc/http.keytab``
+::
+
+           echo Secret123 | kinit admin
+           ipa service-add HTTP/$(hostname)
+           IPA_SERVER=$(awk '/^server =/ {print $3}' /etc/ipa/default.conf)
+           ipa-getkeytab -s $IPA_SERVER -k /etc/http.keytab -p HTTP/$(hostname)
+           chown apache /etc/http.keytab
+           chmod 600 /etc/http.keytab
 
 On the IPA server, I've run
 
-| ``       [root@ipa ~]# kadmin.local``
-| ``       Authenticating as principal admin/admin@EXAMPLE.COM with password.``
-| ``       kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com``
-| ``       Principal "HTTP/client.example.com@EXAMPLE.COM" modified.``
-| ``       kadmin.local:  quit``
+::
+
+           [root@ipa ~]# kadmin.local
+           Authenticating as principal admin/admin@EXAMPLE.COM with password.
+           kadmin.local:  modprinc +ok_to_auth_as_delegate HTTP/client.example.com
+           Principal "HTTP/client.example.com@EXAMPLE.COM" modified.
+           kadmin.local:  quit
 
 I have created directory for the delegated credentials:
 
-| ``       mkdir /var/run/httpd/gssapi_deleg``
-| ``       chown apache /var/run/httpd/gssapi_deleg``
+::
+
+           mkdir /var/run/httpd/gssapi_deleg
+           chown apache /var/run/httpd/gssapi_deleg
 
 I have created user and associated client certificate (the test
 certificate alpha from mod_nss's default /etc/httpd/alias) with it:
 
-| ``       ipa user-add --first Robert --last Chase --random bob``
-| ``       ipa user-add-cert --certificate="$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v '.---' )" bob``
+::
+
+           ipa user-add --first Robert --last Chase --random bob
+           ipa user-add-cert --certificate="$( certutil -L -d /etc/httpd/alias -a -n alpha | grep -v '.---' )" bob
 
 I had to change bob's password or I was getting CLIENT KEY EXPIRED later
 during gss_acquire_cred_impersonate_name:
 
-``       kpasswd bob``
+``       kpasswd bob``
 
 I have created test content:
 
@@ -101,7 +111,7 @@ I have created test content:
 
 Started Apache and tested I can talk to it via HTTPS:
 
-``       SSL_DIR=/etc/httpd/alias curl -v -Lsi ``\ ```https://$(hostname):8443/cgi-bin/set.cgi`` <https://$(hostname):8443/cgi-bin/set.cgi>`__
+``       SSL_DIR=/etc/httpd/alias curl -v -Lsi ``\ ```https://$(hostname):8443/cgi-bin/set.cgi`` <https://$(hostname):8443/cgi-bin/set.cgi>`__
 
 I've configured the modules:
 
@@ -145,16 +155,18 @@ I've configured the modules:
 
 uncommented LoadModule in
 
-``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``
+``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``
 
 and run
 
-| ``       echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so > /etc/httpd/conf.modules.d/09-gssapi.conf``
-| ``       systemctl restart httpd``
+::
+
+           echo LoadModule auth_gssapi_module modules/mod_auth_gssapi.so > /etc/httpd/conf.modules.d/09-gssapi.conf
+           systemctl restart httpd
 
 I've now run
 
-``       SSL_DIR=/etc/httpd/alias curl -Lsi --cert alpha ``\ ```https://$(hostname):8443/cgi-bin/set.cgi`` <https://$(hostname):8443/cgi-bin/set.cgi>`__
+``       SSL_DIR=/etc/httpd/alias curl -Lsi --cert alpha ``\ ```https://$(hostname):8443/cgi-bin/set.cgi`` <https://$(hostname):8443/cgi-bin/set.cgi>`__
 
 and in the log I saw
 
@@ -182,16 +194,16 @@ mod_lookup_identity
 The correct functionality depends on the order in which mod_nss and
 mod_lookup_identity are loaded. By default, on RHEL 7.2, mod_nss uses
 
-``       /etc/httpd/conf.modules.d/10-nss.conf``
+``       /etc/httpd/conf.modules.d/10-nss.conf``
 
 and mod_lookup_identity uses
 
-``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``
+``       /etc/httpd/conf.modules.d/55-lookup_identity.conf``
 
 (55-lookup_identity.conf has the LoadModule commented out), so that
 order works. But it would be good to add mod_nss to
 
-``       ``\ ```https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749`` <https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749>`__
+``       ``\ ```https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749`` <https://github.com/adelton/mod_lookup_identity/blob/master/mod_lookup_identity.c#L749>`__
 
 to force mod_lookup_identity to be run after mod_nss.
 
@@ -205,15 +217,15 @@ r->user and REMOTE_USER are set back to the SSL_CLIENT_CERT value in the
 fixup phase, even if we've set it to bob and mod_auth_gssapi found bob
 there. It's because the r->user is set both at
 
-``       ``\ ```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627`` <https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627>`__
+``       ``\ ```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627`` <https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n627>`__
 
 where we find it, but also in
 
-``       ``\ ```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962`` <https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962>`__
+``       ``\ ```https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962`` <https://git.fedorahosted.org/cgit/mod_nss.git/tree/nss_engine_kernel.c#n962>`__
 
 That second operation should likely be only run when
 
-``       (dc->nOptions & SSL_OPT_FAKEBASICAUTH)``
+``       (dc->nOptions & SSL_OPT_FAKEBASICAUTH)``
 
 When I patch mod_nss that way, the curl will show
 

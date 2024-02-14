@@ -12,24 +12,28 @@ Storage
 IPA will store one new type of entry and two new pieces of
 configuration.
 
-| ``attributeTypes: (2.16.840.1.113730.3.8.11.10``
-| ``  NAME 'ipaSELinuxUser'``
-| ``  DESC 'An SELinux user'``
-| ``  EQUALITY caseIgnoreMatch``
-| ``  ORDERING caseIgnoreOrderingMatch``
-| ``  SUBSTR caseIgnoreSubstringsMatch``
-| ``  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``  SINGLE-VALUE``
-| ``  X-ORIGIN 'IPA v3'``
-| ``)``
+::
 
-| ``objectClasses: (2.16.840.1.113730.3.8.12.5``
-| ``  NAME 'ipaSELinuxUserMap'``
-| ``  SUP ipaAssociation STRUCTURAL``
-| ``  MUST SELinuxUser``
-| ``  MAY ( accessTime $ seeAlso )``
-| ``  X-ORIGIN 'IPA v3'``
-| ``)``
+    attributeTypes: (2.16.840.1.113730.3.8.11.10
+      NAME 'ipaSELinuxUser'
+      DESC 'An SELinux user'
+      EQUALITY caseIgnoreMatch
+      ORDERING caseIgnoreOrderingMatch
+      SUBSTR caseIgnoreSubstringsMatch
+      SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+      SINGLE-VALUE
+      X-ORIGIN 'IPA v3'
+    )
+
+::
+
+    objectClasses: (2.16.840.1.113730.3.8.12.5
+      NAME 'ipaSELinuxUserMap'
+      SUP ipaAssociation STRUCTURAL
+      MUST SELinuxUser
+      MAY ( accessTime $ seeAlso )
+      X-ORIGIN 'IPA v3'
+    )
 
 -  SELinuxUser is the SELinux user this rule maps to.
 -  accessTime is a FutureFeature.
@@ -40,41 +44,47 @@ We will store these rules in cn=selinux,$SUFFIX
 
 Some examples:
 
-| ``dn: ipauniqueid=d4d97a3a-1167-11e1-9dea-0050562c8d82,cn=selinux,dc=example,dc=com``
-| ``cn: Staff on rawhide``
-| ``ipaenabledflag: TRUE``
-| ``memberhost: fqdn=rawhide.example.com,cn=computers,cn=accounts,dc=example,dc=com``
-| ``memberuser: uid=joe.user,cn=users,cn=accounts,dc=example,dc=com``
-| ``accessruletype: allow``
-| ``ipaselinuxuser: staff_u:s0-s0:c0.c1023``
-| ``ipauniqueid: d4d97a3a-1167-11e1-9dea-0050562c8d82``
-| ``objectclass: ipaassociation``
-| ``objectclass: ipaselinuxusermap``
+::
 
-| ``dn: ipauniqueid=d4d97a3a-1167-11e1-9dea-0050562c8d82,cn=selinux,dc=example,dc=com``
-| ``cn: User using hbac``
-| ``ipaenabledflag: TRUE``
-| ``seeAlso: ipauniqueid=79a60542-1168-11e1-851d-0050562c8d82,cn=hbac,dc=example,dc=com``
-| ``ipaselinuxuser: user_u:s0-s0:c0.c1023``
-| ``ipauniqueid: d4d97a3a-1167-11e1-9dea-0050562c8d82``
-| ``objectclass: ipaassociation``
-| ``objectclass: ipaselinuxusermap``
+    dn: ipauniqueid=d4d97a3a-1167-11e1-9dea-0050562c8d82,cn=selinux,dc=example,dc=com
+    cn: Staff on rawhide
+    ipaenabledflag: TRUE
+    memberhost: fqdn=rawhide.example.com,cn=computers,cn=accounts,dc=example,dc=com
+    memberuser: uid=joe.user,cn=users,cn=accounts,dc=example,dc=com
+    accessruletype: allow
+    ipaselinuxuser: staff_u:s0-s0:c0.c1023
+    ipauniqueid: d4d97a3a-1167-11e1-9dea-0050562c8d82
+    objectclass: ipaassociation
+    objectclass: ipaselinuxusermap
+
+::
+
+    dn: ipauniqueid=d4d97a3a-1167-11e1-9dea-0050562c8d82,cn=selinux,dc=example,dc=com
+    cn: User using hbac
+    ipaenabledflag: TRUE
+    seeAlso: ipauniqueid=79a60542-1168-11e1-851d-0050562c8d82,cn=hbac,dc=example,dc=com
+    ipaselinuxuser: user_u:s0-s0:c0.c1023
+    ipauniqueid: d4d97a3a-1167-11e1-9dea-0050562c8d82
+    objectclass: ipaassociation
+    objectclass: ipaselinuxusermap
 
 The other two values will be stored in cn=ipaConfig.
 
 The first value is the order list of SELinux users we can map to in
 ascending order of priority. This list will use $ as a separator.
 
-| ``attributeTypes: ( 2.16.840.1.113730.3.8.3.27``
-| ``  NAME 'ipaSELinuxUserMapOrder'``
-| ``  DESC 'Available SELinux user context ordering'``
-| ``  EQUALITY caseIgnoreMatch``
-| ``  ORDERING caseIgnoreMatch``
-| ``  SUBSTR caseIgnoreSubstringsMatch``
-| ``  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``  SINGLE-VALUE``
-| ``  X-ORIGIN 'IPA v3'``
-| ``)``
+::
+
+    attributeTypes: ( 2.16.840.1.113730.3.8.3.27
+      NAME 'ipaSELinuxUserMapOrder'
+      DESC 'Available SELinux user context ordering'
+      EQUALITY caseIgnoreMatch
+      ORDERING caseIgnoreMatch
+      SUBSTR caseIgnoreSubstringsMatch
+      SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+      SINGLE-VALUE
+      X-ORIGIN 'IPA v3'
+    )
 
 This table will look like:
 
@@ -82,16 +92,18 @@ This table will look like:
 
 The second value is the default SELinux user, e.g. guest_u:s0
 
-| ``attributeTypes: ( 2.16.840.1.113730.3.8.3.26``
-| ``  NAME 'ipaSELinuxUserMapDefault'``
-| ``  DESC 'Default SELinux user'``
-| ``  EQUALITY caseIgnoreMatch``
-| ``  ORDERING caseIgnoreMatch``
-| ``  SUBSTR caseIgnoreSubstringsMatch``
-| ``  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``  SINGLE-VALUE``
-| ``  X-ORIGIN 'IPA v3'``
-| ``)``
+::
+
+    attributeTypes: ( 2.16.840.1.113730.3.8.3.26
+      NAME 'ipaSELinuxUserMapDefault'
+      DESC 'Default SELinux user'
+      EQUALITY caseIgnoreMatch
+      ORDERING caseIgnoreMatch
+      SUBSTR caseIgnoreSubstringsMatch
+      SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+      SINGLE-VALUE
+      X-ORIGIN 'IPA v3'
+    )
 
 An HBAC rule pointed to by an SELinux mapping may not be removed until
 the mapping rule is removed. The HBAC rule does not store a pointer,
@@ -141,11 +153,13 @@ range of categories), or any number of these separated by commas.
 
 For example, the following are valid:
 
-| ``user_u:s0``
-| ``user_u:s0-s1``
-| ``user_u:s0-s15:c0.c1023``
-| ``user_u:s0-s1:c0,c2,c15.c26``
-| ``user_u:s0-s0:c0.c1023``
+::
+
+    user_u:s0
+    user_u:s0-s1
+    user_u:s0-s15:c0.c1023
+    user_u:s0-s1:c0,c2,c15.c26
+    user_u:s0-s0:c0.c1023
 
 See `SELinux
 documentation <http://docs.fedoraproject.org/en-US/Fedora/21/html/SELinux_Users_and_Administrators_Guide/index.html>`__
@@ -248,8 +262,10 @@ We have a hostgroup, ``webservers``, which contains the hosts
 Example 1
 ^^^^^^^^^
 
-| ``(client.example.com, *, staff_u)``
-| ``(*, joe.user, guest_u)``
+::
+
+    (client.example.com, *, staff_u)
+    (*, joe.user, guest_u)
 
 If ``joe.user`` logs in from client.example.com he will get ``staff_u``
 because hosts are evaluated first.
@@ -261,8 +277,10 @@ If joe.user logs in from any other host he gets ``guest_u``
 Example 2
 ^^^^^^^^^
 
-| ``(webservers, joe.user, staff_u)``
-| ``(webservers, admins, unconfined_u)``
+::
+
+    (webservers, joe.user, staff_u)
+    (webservers, admins, unconfined_u)
 
 If ``joe.user`` logs in from web2.example.com he will get ``staff_u``.
 

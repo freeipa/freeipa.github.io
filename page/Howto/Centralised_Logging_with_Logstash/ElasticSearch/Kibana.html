@@ -313,7 +313,7 @@ the ES cluster.</p>
 <h2>Base Log Sending<a class="headerlink" href="#base-log-sending" title="Link to this heading">#</a></h2>
 <p>The basic rsyslog configuration is modified by adding the file
 /etc/rsyslog.d/logstash.conf</p>
-<p><code class="docutils literal notranslate"><span class="pre">*.* &#64;logserver.example.com:5544</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">*.*</span> <span class="pre">&#64;logserver.example.com:5544</span></code></p>
 <p>This will get rsyslog sending everything it receives to logserver via
 UDP on port 5544.</p>
 </section>
@@ -368,19 +368,19 @@ what I need when reviewing the logs through the Kibana UI.</p>
 <p>The best way I have so far of doing this is to add another file in the
 /etc/rsyslog.d directory which configures rsyslog to look at external
 log files. /etc/rsyslog.d/dirsrv.conf contains the following:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">module(load=&quot;imfile&quot; PollingInterval=&quot;2&quot;)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">input(type=&quot;imfile&quot;</span></code></div>
-<div class="line">``      File=”/var/log/dirsrv/slapd-EXAMPLE-COM/access”``</div>
-<div class="line">``      Tag=”dirsrv”``</div>
-<div class="line">``      StateFile=”statedirsrv”``</div>
-<div class="line">``      Facility=”local0”)``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">input(type=&quot;imfile&quot;</span></code></div>
-<div class="line">``      File=”/var/log/dirsrv/slapd-EXAMPLE-COM/errors”``</div>
-<div class="line">``      Tag=”dirsrv”``</div>
-<div class="line">``      StateFile=”statedirsrverr”``</div>
-<div class="line">``      Severity=”error”``</div>
-<div class="line">``      Facility=”local0”)``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span><span class="p">(</span><span class="n">load</span><span class="o">=</span><span class="s2">&quot;imfile&quot;</span> <span class="n">PollingInterval</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">)</span>
+<span class="nb">input</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;imfile&quot;</span>
+      <span class="n">File</span><span class="o">=</span><span class="s2">&quot;/var/log/dirsrv/slapd-EXAMPLE-COM/access&quot;</span>
+      <span class="n">Tag</span><span class="o">=</span><span class="s2">&quot;dirsrv&quot;</span>
+      <span class="n">StateFile</span><span class="o">=</span><span class="s2">&quot;statedirsrv&quot;</span>
+      <span class="n">Facility</span><span class="o">=</span><span class="s2">&quot;local0&quot;</span><span class="p">)</span>
+<span class="nb">input</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;imfile&quot;</span>
+      <span class="n">File</span><span class="o">=</span><span class="s2">&quot;/var/log/dirsrv/slapd-EXAMPLE-COM/errors&quot;</span>
+      <span class="n">Tag</span><span class="o">=</span><span class="s2">&quot;dirsrv&quot;</span>
+      <span class="n">StateFile</span><span class="o">=</span><span class="s2">&quot;statedirsrverr&quot;</span>
+      <span class="n">Severity</span><span class="o">=</span><span class="s2">&quot;error&quot;</span>
+      <span class="n">Facility</span><span class="o">=</span><span class="s2">&quot;local0&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>This uses the imfile module in rsyslog to monitor changes in the dirsrv
 access and errors log files. The log files are polled every 2 seconds
@@ -393,64 +393,64 @@ server(s) via the logstash.conf file above.</p>
 <p>Logstash 1.4.2 is installed via RPM and configured to accept log data.
 Create file /etc/logstash/conf.d/syslog.conf with the following
 contents:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">input {</span></code></div>
-<div class="line">``  syslog {``</div>
-<div class="line">``    type =&gt; syslog``</div>
-<div class="line">``    port =&gt; 5544``</div>
-<div class="line">``  }``</div>
-<div class="line">``  tcp {``</div>
-<div class="line">``    type =&gt; syslogjson``</div>
-<div class="line">``    port =&gt; 5500``</div>
-<div class="line">``    codec =&gt; “json”``</div>
-<div class="line">``  }``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">filter {</span></code></div>
-<div class="line">``  # This replaces the host field (UDP source) with the host that generated the message (sysloghost)``</div>
-<div class="line">``  if [sysloghost] {``</div>
-<div class="line">``    mutate {``</div>
-<div class="line">``      replace =&gt; [ “host”, “%{sysloghost}” ]``</div>
-<div class="line">``      remove_field =&gt; “sysloghost” # prune the field after successfully replacing “host”``</div>
-<div class="line">``    }``</div>
-<div class="line">``  }``</div>
-<div class="line">``  if [type] == “syslog” {``</div>
-<div class="line">``    grok {``</div>
-<div class="line">``      patterns_dir =&gt; “/opt/logstash/patterns”``</div>
-<div class="line">``      match =&gt; { “message” =&gt; “%{FWGROK}” }``</div>
-<div class="line">``      match =&gt; { “message” =&gt; “%{AUDITAVC}” }``</div>
-<div class="line">``    }``</div>
-<div class="line">``  }``</div>
-<div class="line">``  if [type] == “syslogjson” {``</div>
-<div class="line">``    grok {``</div>
-<div class="line">``      patterns_dir =&gt; “/opt/logstash/patterns”``</div>
-<div class="line">``      match =&gt; { “message” =&gt; “%{FWGROK}” }``</div>
-<div class="line">``      match =&gt; { “message” =&gt; “%{AUDITAVC}” }``</div>
-<div class="line">``      match =&gt; { “message” =&gt; “%{COMMONAPACHELOG}” }``</div>
-<div class="line">``      tag_on_failure =&gt; []``</div>
-<div class="line">``    }``</div>
-<div class="line">``  }``</div>
-<div class="line">``  # This filter populates the &#64;timestamp field with the timestamp that’s in the actual message``</div>
-<div class="line">``  # dirsrv logs are currently pulled in every 2 minutes, so &#64;timestamp is wrong``</div>
-<div class="line">``  if [syslogtag] == “dirsrv” {``</div>
-<div class="line">``    mutate {``</div>
-<div class="line">``      remove_field =&gt; [ ‘rawmsg’ ]``</div>
-<div class="line">``    }``</div>
-<div class="line">``    grok {``</div>
-<div class="line">``      match =&gt; [ “message”, “%{HTTPDATE:log_timestamp}” ]``</div>
-<div class="line">``    }``</div>
-<div class="line">``    date {``</div>
-<div class="line">``      match =&gt; [ “log_timestamp”, “dd/MMM/YYY:HH:mm:ss Z”]``</div>
-<div class="line">``      locale =&gt; “en”``</div>
-<div class="line">``      remove_field =&gt; [ “log_timestamp” ]``</div>
-<div class="line">``    }``</div>
-<div class="line">``  }``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">output {</span></code></div>
-<div class="line">``  elasticsearch {``</div>
-<div class="line">``    protocol =&gt; node``</div>
-<div class="line">``    node_name =&gt; “Indexer01”``</div>
-<div class="line">``  }``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="p">{</span>
+  <span class="n">syslog</span> <span class="p">{</span>
+    <span class="nb">type</span> <span class="o">=&gt;</span> <span class="n">syslog</span>
+    <span class="n">port</span> <span class="o">=&gt;</span> <span class="mi">5544</span>
+  <span class="p">}</span>
+  <span class="n">tcp</span> <span class="p">{</span>
+    <span class="nb">type</span> <span class="o">=&gt;</span> <span class="n">syslogjson</span>
+    <span class="n">port</span> <span class="o">=&gt;</span> <span class="mi">5500</span>
+    <span class="n">codec</span> <span class="o">=&gt;</span> <span class="s2">&quot;json&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nb">filter</span> <span class="p">{</span>
+  <span class="c1"># This replaces the host field (UDP source) with the host that generated the message (sysloghost)</span>
+  <span class="k">if</span> <span class="p">[</span><span class="n">sysloghost</span><span class="p">]</span> <span class="p">{</span>
+    <span class="n">mutate</span> <span class="p">{</span>
+      <span class="n">replace</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s2">&quot;host&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">{sysloghost}</span><span class="s2">&quot;</span> <span class="p">]</span>
+      <span class="n">remove_field</span> <span class="o">=&gt;</span> <span class="s2">&quot;sysloghost&quot;</span> <span class="c1"># prune the field after successfully replacing &quot;host&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;syslog&quot;</span> <span class="p">{</span>
+    <span class="n">grok</span> <span class="p">{</span>
+      <span class="n">patterns_dir</span> <span class="o">=&gt;</span> <span class="s2">&quot;/opt/logstash/patterns&quot;</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;%</span><span class="si">{FWGROK}</span><span class="s2">&quot;</span> <span class="p">}</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;%</span><span class="si">{AUDITAVC}</span><span class="s2">&quot;</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;syslogjson&quot;</span> <span class="p">{</span>
+    <span class="n">grok</span> <span class="p">{</span>
+      <span class="n">patterns_dir</span> <span class="o">=&gt;</span> <span class="s2">&quot;/opt/logstash/patterns&quot;</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;%</span><span class="si">{FWGROK}</span><span class="s2">&quot;</span> <span class="p">}</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;%</span><span class="si">{AUDITAVC}</span><span class="s2">&quot;</span> <span class="p">}</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;%</span><span class="si">{COMMONAPACHELOG}</span><span class="s2">&quot;</span> <span class="p">}</span>
+      <span class="n">tag_on_failure</span> <span class="o">=&gt;</span> <span class="p">[]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1"># This filter populates the @timestamp field with the timestamp that&#39;s in the actual message</span>
+  <span class="c1"># dirsrv logs are currently pulled in every 2 minutes, so @timestamp is wrong</span>
+  <span class="k">if</span> <span class="p">[</span><span class="n">syslogtag</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dirsrv&quot;</span> <span class="p">{</span>
+    <span class="n">mutate</span> <span class="p">{</span>
+      <span class="n">remove_field</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;rawmsg&#39;</span> <span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">grok</span> <span class="p">{</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;%{HTTPDATE:log_timestamp}&quot;</span> <span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">date</span> <span class="p">{</span>
+      <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s2">&quot;log_timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;dd/MMM/YYY:HH:mm:ss Z&quot;</span><span class="p">]</span>
+      <span class="n">locale</span> <span class="o">=&gt;</span> <span class="s2">&quot;en&quot;</span>
+      <span class="n">remove_field</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s2">&quot;log_timestamp&quot;</span> <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">output</span> <span class="p">{</span>
+  <span class="n">elasticsearch</span> <span class="p">{</span>
+    <span class="n">protocol</span> <span class="o">=&gt;</span> <span class="n">node</span>
+    <span class="n">node_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Indexer01&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 <p>This instructs Logstash to listen on port 5544 for basic log data, and
 also on port 5500 for JSON formatted data. The FWGROK and AUDITAVC lines

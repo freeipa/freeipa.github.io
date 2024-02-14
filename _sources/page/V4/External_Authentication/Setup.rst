@@ -47,12 +47,14 @@ FreeIPA server:
    and store it in the ``/etc/yum.repos.d/`` directory. For example, for
    Red Hat Enterprise Linux 7.3:
 
-| ``# cd /etc/yum.repos.d/``
-| ``# curl -O ``\ ```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo`` <https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo>`__
+::
+
+    # cd /etc/yum.repos.d/
+    # curl -O ``\ ```https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo`` <https://copr.fedorainfracloud.org/coprs/g/freeipa/ipa-experimental-x509-auth-plugin/repo/epel-7/group_freeipa-ipa-experimental-x509-auth-plugin-epel-7.repo>`__
 
 -  To install the plug-in:
 
-``# yum install -y ipa-experimental-x509-auth-plugin``
+``# yum install -y ipa-experimental-x509-auth-plugin``
 
    After the package is installed in the
    ``/usr/share/ipa/ui/js/plugins/`` FreeIPA plug-in directory, ``yum``
@@ -62,7 +64,7 @@ FreeIPA server:
 -  Set the ``OK-AS-DELEGATE`` flag to the web server's Kerberos service
    principal:
 
-``# ipa service-mod --ok-to-auth-as-delegate=True HTTP/$(hostname)``
+``# ipa service-mod --ok-to-auth-as-delegate=True HTTP/$(hostname)``
 
    This Kerberos flag enables the service to forward Kerberos tickets.
    Use this flag only with security-reviewed and trusted services.
@@ -98,9 +100,11 @@ certificate issued by the FreeIPA certificate authority (CA):
 -  Verify that the certificate is displayed in the output of the
    ``ipa user-show`` command:
 
-| ``# ipa user-show demo``
-| ``...``
-| ``Certificate: MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG.....``
+::
+
+    # ipa user-show demo
+    ...
+    Certificate: MIIDjjCCAnagAwIBAgIBGTANBgkqhkiG.....
 
    Alternatively, verify that the certificate is shown in the user's
    account details in the web UI.
@@ -108,14 +112,16 @@ certificate issued by the FreeIPA certificate authority (CA):
 -  To download the certificate for the ``demo`` user to the
    ``~/demo_cert.pem`` file, run:
 
-| ``# echo '-----BEGIN CERTIFICATE-----' > ~/demo_cert.pem``
-| ``# ipa user-show demo | grep Certificate:\  | cut -d ' ' -f 4 | fold -64 >> ~/demo_cert.pem``
-| ``# echo '-----END CERTIFICATE-----' >> ~/demo_cert.pem``
+::
+
+    # echo '-----BEGIN CERTIFICATE-----' > ~/demo_cert.pem
+    # ipa user-show demo | grep Certificate:\  | cut -d ' ' -f 4 | fold -64 >> ~/demo_cert.pem
+    # echo '-----END CERTIFICATE-----' >> ~/demo_cert.pem
 
 -  Convert the certificate and private key to a PKCS #12-formated
    ``~/demo_cert.pfx`` file:
 
-``# openssl pkcs12 -export -out ~/demo_cert.pfx -inkey ~/demo.key -in ~/demo_cert.pem``
+``# openssl pkcs12 -export -out ~/demo_cert.pfx -inkey ~/demo.key -in ~/demo_cert.pem``
 
    PKCS #12-formatted files are password protected and store private and
    public keys. Additionally, it can optionally include intermediate and
@@ -143,33 +149,33 @@ certificate issued by an external CA:
 
 -  Create a new user account:
 
-``# ipa user-add demo --first=Demo --last=Demo``
+``# ipa user-add demo --first=Demo --last=Demo``
 
 -  Assign the certificate from the ``~/nssdb/`` NSS database to the
    FreeIPA ``demo`` user account:
 
-``# ipa user-add-cert --certificate="$( certutil -L -d ~/nssdb/ -a -n alpha | grep -v '.---' )" demo``
+``# ipa user-add-cert --certificate="$( certutil -L -d ~/nssdb/ -a -n alpha | grep -v '.---' )" demo``
 
 -  Export the certificate in PKCS #12 format from the ``~/nssdb/`` NSS
    database:
 
-``# pk12util -o demo_cert.pfx -n alpha -d ~/nssdb/``
+``# pk12util -o demo_cert.pfx -n alpha -d ~/nssdb/``
 
 -  To verify external signed certificates, the Apache web server must
    use the CA certificate:
 
 :\* To export the CA certificate from the ``~/nssdb/`` NSS database:
 
-``# certutil -L -d ~/nssdb/ -a -n cacert > ca_cert.pem``
+``# certutil -L -d ~/nssdb/ -a -n cacert > ca_cert.pem``
 
 :\* Import the CA certificate to the Apache web server's certificate
 store:
 
-``# certutil -A -n ext_authCA -t CT,C,C  -d /etc/httpd/alias/ -a -i ca_cert.pem``
+``# certutil -A -n ext_authCA -t CT,C,C  -d /etc/httpd/alias/ -a -i ca_cert.pem``
 
 -  Restart the web server service:
 
-``# systemctl restart httpd``
+``# systemctl restart httpd``
 
 -  Import the ``~/demo_cert.pfx`` file to your web browsers certificate
    store. For details, see your web browser's documentation.
@@ -186,7 +192,7 @@ Verifying the Web UI Log-in Using the Command Line
 To verify the authentication to the web UI with certificates using the
 command line, run:
 
-``# curl --cert demo_cert.pem --key demo.key ``\ ```https://ipaserver/ipa/session/login_x509`` <https://ipaserver/ipa/session/login_x509>`__\ `` -siv``
+``# curl --cert demo_cert.pem --key demo.key ``\ ```https://ipaserver/ipa/session/login_x509`` <https://ipaserver/ipa/session/login_x509>`__\ `` -siv``
 
 --------------
 

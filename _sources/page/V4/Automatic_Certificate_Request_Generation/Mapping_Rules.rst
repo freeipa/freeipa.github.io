@@ -110,28 +110,30 @@ Example
 
 Example data rules:
 
-| ``email={{subject.email}}``
-| ``O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}``
+::
+
+    email={{subject.email}}
+    O={{config.ipacertificatesubjectbase}}\nCN={{subject.username}}
 
 Example syntax rule:
 
-``subjectAltName=@{% section %}{{datarules|join('\n')}}{% endsection %}``
+``subjectAltName=@{% section %}{{datarules|join('\n')}}{% endsection %}``
 
 Example composed config template:
 
 ::
 
-   | ``[ req ]``
-   | ``prompt = no``
-   | ``encrypt_key = no``
-   | ````
-   | ``distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}``
-   | ``CN={{subject.username}}{% endsection %}``
-   | ````
-   | ``req_extensions = exts``
-   | ````
-   | ``[ exts ]``
-   | ``subjectAltName=@{% section %}email={{subject.email}}{% endsection %}``
+   [ req ]
+   prompt = no
+   encrypt_key = no
+   
+   distinguished_name = {% section %}O={{config.ipacertificatesubjectbase}}
+   CN={{subject.username}}{% endsection %}
+   
+   req_extensions = exts
+   
+   [ exts ]
+   subjectAltName=@{% section %}email={{subject.email}}{% endsection %}
 
 
 

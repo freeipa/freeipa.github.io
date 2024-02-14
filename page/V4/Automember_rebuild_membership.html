@@ -352,14 +352,14 @@ This makes it possible to rebuild automembership for a single host.</p></li>
 <p>CLI</p>
 <p><code class="docutils literal notranslate"><span class="pre">ipa</span> <span class="pre">automember-rebuild</span></code> can be used to rebuild membership for all
 objects of certain type:</p>
-<div class="line-block">
-<div class="line">``   $ ipa automember-rebuild –type=group``</div>
-<div class="line">``   $ ipa automember-rebuild –type=hostgroup``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa automember-rebuild --type=group
+$ ipa automember-rebuild --type=hostgroup
+</pre></div>
 </div>
 <p>It can also be used to rebuild membership for the specified entries:</p>
-<div class="line-block">
-<div class="line">``   $ ipa automember-rebuild –hosts=HOSTNAME1 –hosts=HOSTNAME2``</div>
-<div class="line">``   $ ipa automember-rebuild –users=LOGIN1 –users=LOGIN2``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa automember-rebuild --hosts=HOSTNAME1 --hosts=HOSTNAME2
+$ ipa automember-rebuild --users=LOGIN1 --users=LOGIN2
+</pre></div>
 </div>
 </section>
 <section id="updates-and-upgrades">
@@ -376,37 +376,37 @@ permissions listed below</p></li>
 <section id="how-to-test">
 <h2>How to Test<a class="headerlink" href="#how-to-test" title="Link to this heading">#</a></h2>
 <p>Add a hostgroup:</p>
-<p>``   $ ipa hostgroup-add –desc=”Web Servers” webservers``</p>
+<p>``   $ ipa hostgroup-add –desc=”Web Servers” webservers``</p>
 <p>Add a host:</p>
-<p>``   $ ipa host-add web1.example.com –force``</p>
+<p>``   $ ipa host-add web1.example.com –force``</p>
 <p>Add an automember rule:</p>
-<div class="line-block">
-<div class="line">``   $ ipa automember-add –type=hostgroup webservers``</div>
-<div class="line">``   $ ipa automember-add-condition –key=fqdn –type=hostgroup –inclusive-regex=^web[1-9]+.example.com webservers``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa automember-add --type=hostgroup webservers
+$ ipa automember-add-condition --key=fqdn --type=hostgroup --inclusive-regex=^web[1-9]+\.example\.com webservers
+</pre></div>
 </div>
 <p>The automember feature is now working for newly added entries. If we add
 a new host, it will be automatically placed in the appropriate
 hostgroup:</p>
-<div class="line-block">
-<div class="line">``   $ ipa host-add web2.example.com –force``</div>
-<div class="line">``   $ ipa hostgroup-show webservers``</div>
-<div class="line">``     Host-group: webservers``</div>
-<div class="line">``     Description: Web Servers``</div>
-<div class="line">``     Member hosts: web2.example.com``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa host-add web2.example.com --force
+$ ipa hostgroup-show webservers
+  Host-group: webservers
+  Description: Web Servers
+  Member hosts: web2.example.com
+</pre></div>
 </div>
 <p>However, the old host entry for <code class="docutils literal notranslate"><span class="pre">web1.example.com</span></code> is still not a
 member or the <code class="docutils literal notranslate"><span class="pre">webservers</span></code> hostgroup. By introducting the new
 <code class="docutils literal notranslate"><span class="pre">automember-rebuild</span></code> commands, we make it possible:</p>
-<p>``   $ ipa automember-rebuild –type=hostgroup``</p>
+<p>``   $ ipa automember-rebuild –type=hostgroup``</p>
 <p>or</p>
-<p>``   $ ipa automember-rebuild –hosts=web1.example.com``</p>
+<p>``   $ ipa automember-rebuild –hosts=web1.example.com``</p>
 <p>will run the <code class="docutils literal notranslate"><span class="pre">automember</span> <span class="pre">rebuild</span> <span class="pre">membership</span></code> task and consequently
 place the host in the appropriate hostgroup:</p>
-<div class="line-block">
-<div class="line">``   $ ipa hostgroup-show webservers``</div>
-<div class="line">``     Host-group: webservers``</div>
-<div class="line">``     Description: Web Servers``</div>
-<div class="line">``     Member hosts: web2.example.com, web1.example.com``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa hostgroup-show webservers
+  Host-group: webservers
+  Description: Web Servers
+  Member hosts: web2.example.com, web1.example.com
+</pre></div>
 </div>
 <p>The same mechanism applies for users and groups.</p>
 </section>

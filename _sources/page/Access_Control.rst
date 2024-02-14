@@ -335,7 +335,7 @@ Alternatively we can grant access based on the value of an attribute in
 a record that isn't part of the DN using ``targetfilter`` to set the
 target based on the value of an attribute:
 
-``(targetfilter = "(|(ou=accounting)(ou=engineering))")``
+``(targetfilter = "(|(ou=accounting)(ou=engineering))")``
 
 
 
@@ -514,9 +514,11 @@ Currently all ACIs are put into cn=accounts,dc=example,dc=com and can
 grant the ability to write a fixed set of attributes from one group of
 users to another.
 
-| ``aci: (targetattr="title")(targetfilter="(memberOf=cn=bar,cn=groups,cn=accounts``
-| ``,dc=example,dc=com)")(version 3.0;acl "foobar";allow (write) groupdn="``\ ```ldap://`` <ldap://>`__
-| ``/cn=foo,cn=groups,cn=accounts,dc=example,dc=com";)``
+::
+
+    aci: (targetattr="title")(targetfilter="(memberOf=cn=bar,cn=groups,cn=accounts
+    ,dc=example,dc=com)")(version 3.0;acl "foobar";allow (write) groupdn="``\ ```ldap://`` <ldap://>`__
+    /cn=foo,cn=groups,cn=accounts,dc=example,dc=com";)
 
 
 

@@ -313,7 +313,7 @@ document.write(`
 <h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h1>
 <p>Ticket <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/3352">3352</a>:</p>
 <p>We support CSV in some arguments so one can do things like this:</p>
-<p>``   ipa permission-add some-perm –permissions=read,write –attrs=sn,cn``</p>
+<p>``   ipa permission-add some-perm –permissions=read,write –attrs=sn,cn``</p>
 <p>This introduces great difficulty when trying to include a value with an
 embedded space in it. Trying to escape the space in a way that we can
 parse and make bash happy can be very difficult.</p>
@@ -321,9 +321,9 @@ parse and make bash happy can be very difficult.</p>
 point where the benefits of it are outweighed by the problems.</p>
 <p>There are several ways to workaround lack of CSV:</p>
 <p>Provide an agugment multiple times on the command-line:</p>
-<p>``   ipa permission-add some-perm –permissions=read –permissions=write –attrs=sn –attrs=cn``</p>
+<p>``   ipa permission-add some-perm –permissions=read –permissions=write –attrs=sn –attrs=cn``</p>
 <p>Let bash do the expansion for you:</p>
-<p>``   ipa permission-add some-perm –permissions={read,write} –attrs={sn,cn}``</p>
+<p>``   ipa permission-add some-perm –permissions={read,write} –attrs={sn,cn}``</p>
 <p>For convenience, a warning and instructions will be provided if it
 appears the user is using the old syntax.</p>
 </section>
@@ -339,25 +339,25 @@ affected arguments.</p>
 <p>This feature depends on JSON-RPC, see Implementation below.</p>
 <p>If an invalid formerly-CSV argument is passed to CLI, and it contains a
 comma, a message will be shown that explains this change:</p>
-<div class="line-block">
-<div class="line">``   $ ipa permission-add some-perm –permissions=read,write –attrs=sn,cn``</div>
-<div class="line">``   ipa: WARNING: Comma-separated value lists are no longer supported.``</div>
-<div class="line">``       Instead of:``</div>
-<div class="line">``         –permissions=abc,xyz``</div>
-<div class="line">``       use:``</div>
-<div class="line">``         –permissions=abc –permissions=xyz``</div>
-<div class="line">``       or (in Bash):``</div>
-<div class="line">``         –permissions={abc,xyz}``</div>
-<div class="line">``   ipa: ERROR: invalid ‘permissions’: “read,write” is not a valid permission``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa permission-add some-perm --permissions=read,write --attrs=sn,cn
+ipa: WARNING: Comma-separated value lists are no longer supported.
+    Instead of:
+      --permissions=abc,xyz
+    use:
+      --permissions=abc --permissions=xyz
+    or (in Bash):
+      --permissions={abc,xyz}
+ipa: ERROR: invalid &#39;permissions&#39;: &quot;read,write&quot; is not a valid permission
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line">``   $ ipa permission-add some-perm –permissions={read,write} –attrs={sn,cn}``</div>
-<div class="line">``   —————————-``</div>
-<div class="line">``   Added permission “some-perm”``</div>
-<div class="line">``   —————————-``</div>
-<div class="line">``     Permission name: some-perm``</div>
-<div class="line">``     Permissions: read, write``</div>
-<div class="line">``     Attributes: sn, cn``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ipa permission-add some-perm --permissions={read,write} --attrs={sn,cn}
+----------------------------
+Added permission &quot;some-perm&quot;
+----------------------------
+  Permission name: some-perm
+  Permissions: read, write
+  Attributes: sn, cn
+</pre></div>
 </div>
 <p>As the change only affects the IPA client, this warning will appear only
 there, not in the Web UI or in the API.</p>
@@ -411,339 +411,339 @@ stay the same.</p>
 </section>
 <section id="affected-arguments">
 <h1>Affected Arguments<a class="headerlink" href="#affected-arguments" title="Link to this heading">#</a></h1>
-<div class="line-block">
-<div class="line">``   automember_add_condition: automemberexclusiveregex``</div>
-<div class="line">``   automember_add_condition: automemberinclusiveregex``</div>
-<div class="line">``   automember_remove_condition: automemberexclusiveregex``</div>
-<div class="line">``   automember_remove_condition: automemberinclusiveregex``</div>
-<div class="line">``   config_mod: ipaconfigstring``</div>
-<div class="line">``   config_mod: ipagroupobjectclasses``</div>
-<div class="line">``   config_mod: ipakrbauthzdata``</div>
-<div class="line">``   config_mod: ipauserobjectclasses``</div>
-<div class="line">``   dnsconfig_mod: idnsforwarders``</div>
-<div class="line">``   dnsrecord_add: a6record``</div>
-<div class="line">``   dnsrecord_add: aaaarecord``</div>
-<div class="line">``   dnsrecord_add: afsdbrecord``</div>
-<div class="line">``   dnsrecord_add: aplrecord``</div>
-<div class="line">``   dnsrecord_add: arecord``</div>
-<div class="line">``   dnsrecord_add: certrecord``</div>
-<div class="line">``   dnsrecord_add: cnamerecord``</div>
-<div class="line">``   dnsrecord_add: dhcidrecord``</div>
-<div class="line">``   dnsrecord_add: dlvrecord``</div>
-<div class="line">``   dnsrecord_add: dnamerecord``</div>
-<div class="line">``   dnsrecord_add: dnskeyrecord``</div>
-<div class="line">``   dnsrecord_add: dsrecord``</div>
-<div class="line">``   dnsrecord_add: hiprecord``</div>
-<div class="line">``   dnsrecord_add: ipseckeyrecord``</div>
-<div class="line">``   dnsrecord_add: keyrecord``</div>
-<div class="line">``   dnsrecord_add: kxrecord``</div>
-<div class="line">``   dnsrecord_add: locrecord``</div>
-<div class="line">``   dnsrecord_add: mxrecord``</div>
-<div class="line">``   dnsrecord_add: naptrrecord``</div>
-<div class="line">``   dnsrecord_add: nsec3paramrecord``</div>
-<div class="line">``   dnsrecord_add: nsec3record``</div>
-<div class="line">``   dnsrecord_add: nsec_part_types``</div>
-<div class="line">``   dnsrecord_add: nsecrecord``</div>
-<div class="line">``   dnsrecord_add: nsrecord``</div>
-<div class="line">``   dnsrecord_add: ptrrecord``</div>
-<div class="line">``   dnsrecord_add: rprecord``</div>
-<div class="line">``   dnsrecord_add: rrsigrecord``</div>
-<div class="line">``   dnsrecord_add: sigrecord``</div>
-<div class="line">``   dnsrecord_add: spfrecord``</div>
-<div class="line">``   dnsrecord_add: srvrecord``</div>
-<div class="line">``   dnsrecord_add: sshfprecord``</div>
-<div class="line">``   dnsrecord_add: tarecord``</div>
-<div class="line">``   dnsrecord_add: tkeyrecord``</div>
-<div class="line">``   dnsrecord_add: tsigrecord``</div>
-<div class="line">``   dnsrecord_add: txtrecord``</div>
-<div class="line">``   dnsrecord_del: a6record``</div>
-<div class="line">``   dnsrecord_del: aaaarecord``</div>
-<div class="line">``   dnsrecord_del: afsdbrecord``</div>
-<div class="line">``   dnsrecord_del: aplrecord``</div>
-<div class="line">``   dnsrecord_del: arecord``</div>
-<div class="line">``   dnsrecord_del: certrecord``</div>
-<div class="line">``   dnsrecord_del: cnamerecord``</div>
-<div class="line">``   dnsrecord_del: dhcidrecord``</div>
-<div class="line">``   dnsrecord_del: dlvrecord``</div>
-<div class="line">``   dnsrecord_del: dnamerecord``</div>
-<div class="line">``   dnsrecord_del: dnskeyrecord``</div>
-<div class="line">``   dnsrecord_del: dsrecord``</div>
-<div class="line">``   dnsrecord_del: hiprecord``</div>
-<div class="line">``   dnsrecord_del: ipseckeyrecord``</div>
-<div class="line">``   dnsrecord_del: keyrecord``</div>
-<div class="line">``   dnsrecord_del: kxrecord``</div>
-<div class="line">``   dnsrecord_del: locrecord``</div>
-<div class="line">``   dnsrecord_del: mxrecord``</div>
-<div class="line">``   dnsrecord_del: naptrrecord``</div>
-<div class="line">``   dnsrecord_del: nsec3paramrecord``</div>
-<div class="line">``   dnsrecord_del: nsec3record``</div>
-<div class="line">``   dnsrecord_del: nsecrecord``</div>
-<div class="line">``   dnsrecord_del: nsrecord``</div>
-<div class="line">``   dnsrecord_del: ptrrecord``</div>
-<div class="line">``   dnsrecord_del: rprecord``</div>
-<div class="line">``   dnsrecord_del: rrsigrecord``</div>
-<div class="line">``   dnsrecord_del: sigrecord``</div>
-<div class="line">``   dnsrecord_del: spfrecord``</div>
-<div class="line">``   dnsrecord_del: srvrecord``</div>
-<div class="line">``   dnsrecord_del: sshfprecord``</div>
-<div class="line">``   dnsrecord_del: tarecord``</div>
-<div class="line">``   dnsrecord_del: tkeyrecord``</div>
-<div class="line">``   dnsrecord_del: tsigrecord``</div>
-<div class="line">``   dnsrecord_del: txtrecord``</div>
-<div class="line">``   dnsrecord_find: a6record``</div>
-<div class="line">``   dnsrecord_find: aaaarecord``</div>
-<div class="line">``   dnsrecord_find: afsdbrecord``</div>
-<div class="line">``   dnsrecord_find: aplrecord``</div>
-<div class="line">``   dnsrecord_find: arecord``</div>
-<div class="line">``   dnsrecord_find: certrecord``</div>
-<div class="line">``   dnsrecord_find: cnamerecord``</div>
-<div class="line">``   dnsrecord_find: dhcidrecord``</div>
-<div class="line">``   dnsrecord_find: dlvrecord``</div>
-<div class="line">``   dnsrecord_find: dnamerecord``</div>
-<div class="line">``   dnsrecord_find: dnskeyrecord``</div>
-<div class="line">``   dnsrecord_find: dsrecord``</div>
-<div class="line">``   dnsrecord_find: hiprecord``</div>
-<div class="line">``   dnsrecord_find: ipseckeyrecord``</div>
-<div class="line">``   dnsrecord_find: keyrecord``</div>
-<div class="line">``   dnsrecord_find: kxrecord``</div>
-<div class="line">``   dnsrecord_find: locrecord``</div>
-<div class="line">``   dnsrecord_find: mxrecord``</div>
-<div class="line">``   dnsrecord_find: naptrrecord``</div>
-<div class="line">``   dnsrecord_find: nsec3paramrecord``</div>
-<div class="line">``   dnsrecord_find: nsec3record``</div>
-<div class="line">``   dnsrecord_find: nsecrecord``</div>
-<div class="line">``   dnsrecord_find: nsrecord``</div>
-<div class="line">``   dnsrecord_find: ptrrecord``</div>
-<div class="line">``   dnsrecord_find: rprecord``</div>
-<div class="line">``   dnsrecord_find: rrsigrecord``</div>
-<div class="line">``   dnsrecord_find: sigrecord``</div>
-<div class="line">``   dnsrecord_find: spfrecord``</div>
-<div class="line">``   dnsrecord_find: srvrecord``</div>
-<div class="line">``   dnsrecord_find: sshfprecord``</div>
-<div class="line">``   dnsrecord_find: tarecord``</div>
-<div class="line">``   dnsrecord_find: tkeyrecord``</div>
-<div class="line">``   dnsrecord_find: tsigrecord``</div>
-<div class="line">``   dnsrecord_find: txtrecord``</div>
-<div class="line">``   dnsrecord_mod: a6record``</div>
-<div class="line">``   dnsrecord_mod: aaaarecord``</div>
-<div class="line">``   dnsrecord_mod: afsdbrecord``</div>
-<div class="line">``   dnsrecord_mod: aplrecord``</div>
-<div class="line">``   dnsrecord_mod: arecord``</div>
-<div class="line">``   dnsrecord_mod: certrecord``</div>
-<div class="line">``   dnsrecord_mod: cnamerecord``</div>
-<div class="line">``   dnsrecord_mod: dhcidrecord``</div>
-<div class="line">``   dnsrecord_mod: dlvrecord``</div>
-<div class="line">``   dnsrecord_mod: dnamerecord``</div>
-<div class="line">``   dnsrecord_mod: dnskeyrecord``</div>
-<div class="line">``   dnsrecord_mod: dsrecord``</div>
-<div class="line">``   dnsrecord_mod: hiprecord``</div>
-<div class="line">``   dnsrecord_mod: ipseckeyrecord``</div>
-<div class="line">``   dnsrecord_mod: keyrecord``</div>
-<div class="line">``   dnsrecord_mod: kxrecord``</div>
-<div class="line">``   dnsrecord_mod: locrecord``</div>
-<div class="line">``   dnsrecord_mod: mxrecord``</div>
-<div class="line">``   dnsrecord_mod: naptrrecord``</div>
-<div class="line">``   dnsrecord_mod: nsec3paramrecord``</div>
-<div class="line">``   dnsrecord_mod: nsec3record``</div>
-<div class="line">``   dnsrecord_mod: nsec_part_types``</div>
-<div class="line">``   dnsrecord_mod: nsecrecord``</div>
-<div class="line">``   dnsrecord_mod: nsrecord``</div>
-<div class="line">``   dnsrecord_mod: ptrrecord``</div>
-<div class="line">``   dnsrecord_mod: rprecord``</div>
-<div class="line">``   dnsrecord_mod: rrsigrecord``</div>
-<div class="line">``   dnsrecord_mod: sigrecord``</div>
-<div class="line">``   dnsrecord_mod: spfrecord``</div>
-<div class="line">``   dnsrecord_mod: srvrecord``</div>
-<div class="line">``   dnsrecord_mod: sshfprecord``</div>
-<div class="line">``   dnsrecord_mod: tarecord``</div>
-<div class="line">``   dnsrecord_mod: tkeyrecord``</div>
-<div class="line">``   dnsrecord_mod: tsigrecord``</div>
-<div class="line">``   dnsrecord_mod: txtrecord``</div>
-<div class="line">``   dnszone_add: idnsforwarders``</div>
-<div class="line">``   dnszone_find: idnsforwarders``</div>
-<div class="line">``   dnszone_mod: idnsforwarders``</div>
-<div class="line">``   group_add_member: group``</div>
-<div class="line">``   group_add_member: ipaexternalmember``</div>
-<div class="line">``   group_add_member: user``</div>
-<div class="line">``   group_find: group``</div>
-<div class="line">``   group_find: in_group``</div>
-<div class="line">``   group_find: in_hbacrule``</div>
-<div class="line">``   group_find: in_netgroup``</div>
-<div class="line">``   group_find: in_role``</div>
-<div class="line">``   group_find: in_sudorule``</div>
-<div class="line">``   group_find: no_group``</div>
-<div class="line">``   group_find: no_user``</div>
-<div class="line">``   group_find: not_in_group``</div>
-<div class="line">``   group_find: not_in_hbacrule``</div>
-<div class="line">``   group_find: not_in_netgroup``</div>
-<div class="line">``   group_find: not_in_role``</div>
-<div class="line">``   group_find: not_in_sudorule``</div>
-<div class="line">``   group_find: user``</div>
-<div class="line">``   group_remove_member: group``</div>
-<div class="line">``   group_remove_member: ipaexternalmember``</div>
-<div class="line">``   group_remove_member: user``</div>
-<div class="line">``   hbacrule_add_host: host``</div>
-<div class="line">``   hbacrule_add_host: hostgroup``</div>
-<div class="line">``   hbacrule_add_service: hbacsvc``</div>
-<div class="line">``   hbacrule_add_service: hbacsvcgroup``</div>
-<div class="line">``   hbacrule_add_sourcehost: host``</div>
-<div class="line">``   hbacrule_add_sourcehost: hostgroup``</div>
-<div class="line">``   hbacrule_add_user: group``</div>
-<div class="line">``   hbacrule_add_user: user``</div>
-<div class="line">``   hbacrule_remove_host: host``</div>
-<div class="line">``   hbacrule_remove_host: hostgroup``</div>
-<div class="line">``   hbacrule_remove_service: hbacsvc``</div>
-<div class="line">``   hbacrule_remove_service: hbacsvcgroup``</div>
-<div class="line">``   hbacrule_remove_sourcehost: host``</div>
-<div class="line">``   hbacrule_remove_sourcehost: hostgroup``</div>
-<div class="line">``   hbacrule_remove_user: group``</div>
-<div class="line">``   hbacrule_remove_user: user``</div>
-<div class="line">``   hbacsvcgroup_add_member: hbacsvc``</div>
-<div class="line">``   hbacsvcgroup_remove_member: hbacsvc``</div>
-<div class="line">``   hbactest: rules``</div>
-<div class="line">``   host_add: ipasshpubkey``</div>
-<div class="line">``   host_add: macaddress``</div>
-<div class="line">``   host_add_managedby: host``</div>
-<div class="line">``   host_find: enroll_by_user``</div>
-<div class="line">``   host_find: in_hbacrule``</div>
-<div class="line">``   host_find: in_hostgroup``</div>
-<div class="line">``   host_find: in_netgroup``</div>
-<div class="line">``   host_find: in_role``</div>
-<div class="line">``   host_find: in_sudorule``</div>
-<div class="line">``   host_find: macaddress``</div>
-<div class="line">``   host_find: man_by_host``</div>
-<div class="line">``   host_find: man_host``</div>
-<div class="line">``   host_find: not_enroll_by_user``</div>
-<div class="line">``   host_find: not_in_hbacrule``</div>
-<div class="line">``   host_find: not_in_hostgroup``</div>
-<div class="line">``   host_find: not_in_netgroup``</div>
-<div class="line">``   host_find: not_in_role``</div>
-<div class="line">``   host_find: not_in_sudorule``</div>
-<div class="line">``   host_find: not_man_by_host``</div>
-<div class="line">``   host_find: not_man_host``</div>
-<div class="line">``   host_mod: ipasshpubkey``</div>
-<div class="line">``   host_mod: macaddress``</div>
-<div class="line">``   host_remove_managedby: host``</div>
-<div class="line">``   hostgroup_add_member: host``</div>
-<div class="line">``   hostgroup_add_member: hostgroup``</div>
-<div class="line">``   hostgroup_find: host``</div>
-<div class="line">``   hostgroup_find: hostgroup``</div>
-<div class="line">``   hostgroup_find: in_hbacrule``</div>
-<div class="line">``   hostgroup_find: in_hostgroup``</div>
-<div class="line">``   hostgroup_find: in_netgroup``</div>
-<div class="line">``   hostgroup_find: in_sudorule``</div>
-<div class="line">``   hostgroup_find: no_host``</div>
-<div class="line">``   hostgroup_find: no_hostgroup``</div>
-<div class="line">``   hostgroup_find: not_in_hbacrule``</div>
-<div class="line">``   hostgroup_find: not_in_hostgroup``</div>
-<div class="line">``   hostgroup_find: not_in_netgroup``</div>
-<div class="line">``   hostgroup_find: not_in_sudorule``</div>
-<div class="line">``   hostgroup_remove_member: host``</div>
-<div class="line">``   hostgroup_remove_member: hostgroup``</div>
-<div class="line">``   migrate_ds: exclude_groups``</div>
-<div class="line">``   migrate_ds: exclude_users``</div>
-<div class="line">``   migrate_ds: groupignoreattribute``</div>
-<div class="line">``   migrate_ds: groupignoreobjectclass``</div>
-<div class="line">``   migrate_ds: groupobjectclass``</div>
-<div class="line">``   migrate_ds: userignoreattribute``</div>
-<div class="line">``   migrate_ds: userignoreobjectclass``</div>
-<div class="line">``   migrate_ds: userobjectclass``</div>
-<div class="line">``   netgroup_add_member: group``</div>
-<div class="line">``   netgroup_add_member: host``</div>
-<div class="line">``   netgroup_add_member: hostgroup``</div>
-<div class="line">``   netgroup_add_member: netgroup``</div>
-<div class="line">``   netgroup_add_member: user``</div>
-<div class="line">``   netgroup_find: group``</div>
-<div class="line">``   netgroup_find: host``</div>
-<div class="line">``   netgroup_find: hostgroup``</div>
-<div class="line">``   netgroup_find: in_netgroup``</div>
-<div class="line">``   netgroup_find: netgroup``</div>
-<div class="line">``   netgroup_find: no_group``</div>
-<div class="line">``   netgroup_find: no_host``</div>
-<div class="line">``   netgroup_find: no_hostgroup``</div>
-<div class="line">``   netgroup_find: no_netgroup``</div>
-<div class="line">``   netgroup_find: no_user``</div>
-<div class="line">``   netgroup_find: not_in_netgroup``</div>
-<div class="line">``   netgroup_find: user``</div>
-<div class="line">``   netgroup_remove_member: group``</div>
-<div class="line">``   netgroup_remove_member: host``</div>
-<div class="line">``   netgroup_remove_member: hostgroup``</div>
-<div class="line">``   netgroup_remove_member: netgroup``</div>
-<div class="line">``   netgroup_remove_member: user``</div>
-<div class="line">``   permission_add: attrs``</div>
-<div class="line">``   permission_add: permissions``</div>
-<div class="line">``   permission_add_member: privilege``</div>
-<div class="line">``   permission_find: attrs``</div>
-<div class="line">``   permission_find: permissions``</div>
-<div class="line">``   permission_mod: attrs``</div>
-<div class="line">``   permission_mod: permissions``</div>
-<div class="line">``   permission_remove_member: privilege``</div>
-<div class="line">``   privilege_add_member: role``</div>
-<div class="line">``   privilege_add_permission: permission``</div>
-<div class="line">``   privilege_remove_member: role``</div>
-<div class="line">``   privilege_remove_permission: permission``</div>
-<div class="line">``   role_add_member: group``</div>
-<div class="line">``   role_add_member: host``</div>
-<div class="line">``   role_add_member: hostgroup``</div>
-<div class="line">``   role_add_member: user``</div>
-<div class="line">``   role_add_privilege: privilege``</div>
-<div class="line">``   role_remove_member: group``</div>
-<div class="line">``   role_remove_member: host``</div>
-<div class="line">``   role_remove_member: hostgroup``</div>
-<div class="line">``   role_remove_member: user``</div>
-<div class="line">``   role_remove_privilege: privilege``</div>
-<div class="line">``   selinuxusermap_add_host: host``</div>
-<div class="line">``   selinuxusermap_add_host: hostgroup``</div>
-<div class="line">``   selinuxusermap_add_user: group``</div>
-<div class="line">``   selinuxusermap_add_user: user``</div>
-<div class="line">``   selinuxusermap_remove_host: host``</div>
-<div class="line">``   selinuxusermap_remove_host: hostgroup``</div>
-<div class="line">``   selinuxusermap_remove_user: group``</div>
-<div class="line">``   selinuxusermap_remove_user: user``</div>
-<div class="line">``   service_add_host: host``</div>
-<div class="line">``   service_find: man_by_host``</div>
-<div class="line">``   service_find: not_man_by_host``</div>
-<div class="line">``   service_remove_host: host``</div>
-<div class="line">``   sudocmdgroup_add_member: sudocmd``</div>
-<div class="line">``   sudocmdgroup_remove_member: sudocmd``</div>
-<div class="line">``   sudorule_add_allow_command: sudocmd``</div>
-<div class="line">``   sudorule_add_allow_command: sudocmdgroup``</div>
-<div class="line">``   sudorule_add_deny_command: sudocmd``</div>
-<div class="line">``   sudorule_add_deny_command: sudocmdgroup``</div>
-<div class="line">``   sudorule_add_host: host``</div>
-<div class="line">``   sudorule_add_host: hostgroup``</div>
-<div class="line">``   sudorule_add_runasgroup: group``</div>
-<div class="line">``   sudorule_add_runasuser: group``</div>
-<div class="line">``   sudorule_add_runasuser: user``</div>
-<div class="line">``   sudorule_add_user: group``</div>
-<div class="line">``   sudorule_add_user: user``</div>
-<div class="line">``   sudorule_remove_allow_command: sudocmd``</div>
-<div class="line">``   sudorule_remove_allow_command: sudocmdgroup``</div>
-<div class="line">``   sudorule_remove_deny_command: sudocmd``</div>
-<div class="line">``   sudorule_remove_deny_command: sudocmdgroup``</div>
-<div class="line">``   sudorule_remove_host: host``</div>
-<div class="line">``   sudorule_remove_host: hostgroup``</div>
-<div class="line">``   sudorule_remove_runasgroup: group``</div>
-<div class="line">``   sudorule_remove_runasuser: group``</div>
-<div class="line">``   sudorule_remove_runasuser: user``</div>
-<div class="line">``   sudorule_remove_user: group``</div>
-<div class="line">``   sudorule_remove_user: user``</div>
-<div class="line">``   trust_find: ipantsidblacklistincoming``</div>
-<div class="line">``   trust_find: ipantsidblacklistoutgoing``</div>
-<div class="line">``   trust_mod: ipantsidblacklistincoming``</div>
-<div class="line">``   trust_mod: ipantsidblacklistoutgoing``</div>
-<div class="line">``   user_add: ipasshpubkey``</div>
-<div class="line">``   user_find: in_group``</div>
-<div class="line">``   user_find: in_hbacrule``</div>
-<div class="line">``   user_find: in_netgroup``</div>
-<div class="line">``   user_find: in_role``</div>
-<div class="line">``   user_find: in_sudorule``</div>
-<div class="line">``   user_find: not_in_group``</div>
-<div class="line">``   user_find: not_in_hbacrule``</div>
-<div class="line">``   user_find: not_in_netgroup``</div>
-<div class="line">``   user_find: not_in_role``</div>
-<div class="line">``   user_find: not_in_sudorule``</div>
-<div class="line">``   user_mod: ipasshpubkey``</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">automember_add_condition</span><span class="p">:</span> <span class="n">automemberexclusiveregex</span>
+<span class="n">automember_add_condition</span><span class="p">:</span> <span class="n">automemberinclusiveregex</span>
+<span class="n">automember_remove_condition</span><span class="p">:</span> <span class="n">automemberexclusiveregex</span>
+<span class="n">automember_remove_condition</span><span class="p">:</span> <span class="n">automemberinclusiveregex</span>
+<span class="n">config_mod</span><span class="p">:</span> <span class="n">ipaconfigstring</span>
+<span class="n">config_mod</span><span class="p">:</span> <span class="n">ipagroupobjectclasses</span>
+<span class="n">config_mod</span><span class="p">:</span> <span class="n">ipakrbauthzdata</span>
+<span class="n">config_mod</span><span class="p">:</span> <span class="n">ipauserobjectclasses</span>
+<span class="n">dnsconfig_mod</span><span class="p">:</span> <span class="n">idnsforwarders</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">a6record</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">aaaarecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">afsdbrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">aplrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">arecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">certrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">cnamerecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">dhcidrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">dlvrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">dnamerecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">dnskeyrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">dsrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">hiprecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">ipseckeyrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">keyrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">kxrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">locrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">mxrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">naptrrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">nsec3paramrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">nsec3record</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">nsec_part_types</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">nsecrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">nsrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">ptrrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">rprecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">rrsigrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">sigrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">spfrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">srvrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">sshfprecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">tarecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">tkeyrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">tsigrecord</span>
+<span class="n">dnsrecord_add</span><span class="p">:</span> <span class="n">txtrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">a6record</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">aaaarecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">afsdbrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">aplrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">arecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">certrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">cnamerecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">dhcidrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">dlvrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">dnamerecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">dnskeyrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">dsrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">hiprecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">ipseckeyrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">keyrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">kxrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">locrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">mxrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">naptrrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">nsec3paramrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">nsec3record</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">nsecrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">nsrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">ptrrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">rprecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">rrsigrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">sigrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">spfrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">srvrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">sshfprecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">tarecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">tkeyrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">tsigrecord</span>
+<span class="n">dnsrecord_del</span><span class="p">:</span> <span class="n">txtrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">a6record</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">aaaarecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">afsdbrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">aplrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">arecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">certrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">cnamerecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">dhcidrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">dlvrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">dnamerecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">dnskeyrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">dsrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">hiprecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">ipseckeyrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">keyrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">kxrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">locrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">mxrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">naptrrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">nsec3paramrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">nsec3record</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">nsecrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">nsrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">ptrrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">rprecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">rrsigrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">sigrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">spfrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">srvrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">sshfprecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">tarecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">tkeyrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">tsigrecord</span>
+<span class="n">dnsrecord_find</span><span class="p">:</span> <span class="n">txtrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">a6record</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">aaaarecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">afsdbrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">aplrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">arecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">certrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">cnamerecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">dhcidrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">dlvrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">dnamerecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">dnskeyrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">dsrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">hiprecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">ipseckeyrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">keyrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">kxrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">locrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">mxrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">naptrrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">nsec3paramrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">nsec3record</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">nsec_part_types</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">nsecrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">nsrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">ptrrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">rprecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">rrsigrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">sigrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">spfrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">srvrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">sshfprecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">tarecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">tkeyrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">tsigrecord</span>
+<span class="n">dnsrecord_mod</span><span class="p">:</span> <span class="n">txtrecord</span>
+<span class="n">dnszone_add</span><span class="p">:</span> <span class="n">idnsforwarders</span>
+<span class="n">dnszone_find</span><span class="p">:</span> <span class="n">idnsforwarders</span>
+<span class="n">dnszone_mod</span><span class="p">:</span> <span class="n">idnsforwarders</span>
+<span class="n">group_add_member</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">group_add_member</span><span class="p">:</span> <span class="n">ipaexternalmember</span>
+<span class="n">group_add_member</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">in_group</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">in_hbacrule</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">in_netgroup</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">in_role</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">in_sudorule</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">no_group</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">no_user</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">not_in_group</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">not_in_hbacrule</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">not_in_netgroup</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">not_in_role</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">not_in_sudorule</span>
+<span class="n">group_find</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">group_remove_member</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">group_remove_member</span><span class="p">:</span> <span class="n">ipaexternalmember</span>
+<span class="n">group_remove_member</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">hbacrule_add_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hbacrule_add_host</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">hbacrule_add_service</span><span class="p">:</span> <span class="n">hbacsvc</span>
+<span class="n">hbacrule_add_service</span><span class="p">:</span> <span class="n">hbacsvcgroup</span>
+<span class="n">hbacrule_add_sourcehost</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hbacrule_add_sourcehost</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">hbacrule_add_user</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">hbacrule_add_user</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">hbacrule_remove_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hbacrule_remove_host</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">hbacrule_remove_service</span><span class="p">:</span> <span class="n">hbacsvc</span>
+<span class="n">hbacrule_remove_service</span><span class="p">:</span> <span class="n">hbacsvcgroup</span>
+<span class="n">hbacrule_remove_sourcehost</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hbacrule_remove_sourcehost</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">hbacrule_remove_user</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">hbacrule_remove_user</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">hbacsvcgroup_add_member</span><span class="p">:</span> <span class="n">hbacsvc</span>
+<span class="n">hbacsvcgroup_remove_member</span><span class="p">:</span> <span class="n">hbacsvc</span>
+<span class="n">hbactest</span><span class="p">:</span> <span class="n">rules</span>
+<span class="n">host_add</span><span class="p">:</span> <span class="n">ipasshpubkey</span>
+<span class="n">host_add</span><span class="p">:</span> <span class="n">macaddress</span>
+<span class="n">host_add_managedby</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">enroll_by_user</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">in_hbacrule</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">in_hostgroup</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">in_netgroup</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">in_role</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">in_sudorule</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">macaddress</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">man_by_host</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">man_host</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_enroll_by_user</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_in_hbacrule</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_in_hostgroup</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_in_netgroup</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_in_role</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_in_sudorule</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_man_by_host</span>
+<span class="n">host_find</span><span class="p">:</span> <span class="n">not_man_host</span>
+<span class="n">host_mod</span><span class="p">:</span> <span class="n">ipasshpubkey</span>
+<span class="n">host_mod</span><span class="p">:</span> <span class="n">macaddress</span>
+<span class="n">host_remove_managedby</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hostgroup_add_member</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hostgroup_add_member</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">in_hbacrule</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">in_hostgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">in_netgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">in_sudorule</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">no_host</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">no_hostgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">not_in_hbacrule</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">not_in_hostgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">not_in_netgroup</span>
+<span class="n">hostgroup_find</span><span class="p">:</span> <span class="n">not_in_sudorule</span>
+<span class="n">hostgroup_remove_member</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">hostgroup_remove_member</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">exclude_groups</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">exclude_users</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">groupignoreattribute</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">groupignoreobjectclass</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">groupobjectclass</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">userignoreattribute</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">userignoreobjectclass</span>
+<span class="n">migrate_ds</span><span class="p">:</span> <span class="n">userobjectclass</span>
+<span class="n">netgroup_add_member</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">netgroup_add_member</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">netgroup_add_member</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">netgroup_add_member</span><span class="p">:</span> <span class="n">netgroup</span>
+<span class="n">netgroup_add_member</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">in_netgroup</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">netgroup</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">no_group</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">no_host</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">no_hostgroup</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">no_netgroup</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">no_user</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">not_in_netgroup</span>
+<span class="n">netgroup_find</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">netgroup_remove_member</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">netgroup_remove_member</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">netgroup_remove_member</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">netgroup_remove_member</span><span class="p">:</span> <span class="n">netgroup</span>
+<span class="n">netgroup_remove_member</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">permission_add</span><span class="p">:</span> <span class="n">attrs</span>
+<span class="n">permission_add</span><span class="p">:</span> <span class="n">permissions</span>
+<span class="n">permission_add_member</span><span class="p">:</span> <span class="n">privilege</span>
+<span class="n">permission_find</span><span class="p">:</span> <span class="n">attrs</span>
+<span class="n">permission_find</span><span class="p">:</span> <span class="n">permissions</span>
+<span class="n">permission_mod</span><span class="p">:</span> <span class="n">attrs</span>
+<span class="n">permission_mod</span><span class="p">:</span> <span class="n">permissions</span>
+<span class="n">permission_remove_member</span><span class="p">:</span> <span class="n">privilege</span>
+<span class="n">privilege_add_member</span><span class="p">:</span> <span class="n">role</span>
+<span class="n">privilege_add_permission</span><span class="p">:</span> <span class="n">permission</span>
+<span class="n">privilege_remove_member</span><span class="p">:</span> <span class="n">role</span>
+<span class="n">privilege_remove_permission</span><span class="p">:</span> <span class="n">permission</span>
+<span class="n">role_add_member</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">role_add_member</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">role_add_member</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">role_add_member</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">role_add_privilege</span><span class="p">:</span> <span class="n">privilege</span>
+<span class="n">role_remove_member</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">role_remove_member</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">role_remove_member</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">role_remove_member</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">role_remove_privilege</span><span class="p">:</span> <span class="n">privilege</span>
+<span class="n">selinuxusermap_add_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">selinuxusermap_add_host</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">selinuxusermap_add_user</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">selinuxusermap_add_user</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">selinuxusermap_remove_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">selinuxusermap_remove_host</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">selinuxusermap_remove_user</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">selinuxusermap_remove_user</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">service_add_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">service_find</span><span class="p">:</span> <span class="n">man_by_host</span>
+<span class="n">service_find</span><span class="p">:</span> <span class="n">not_man_by_host</span>
+<span class="n">service_remove_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">sudocmdgroup_add_member</span><span class="p">:</span> <span class="n">sudocmd</span>
+<span class="n">sudocmdgroup_remove_member</span><span class="p">:</span> <span class="n">sudocmd</span>
+<span class="n">sudorule_add_allow_command</span><span class="p">:</span> <span class="n">sudocmd</span>
+<span class="n">sudorule_add_allow_command</span><span class="p">:</span> <span class="n">sudocmdgroup</span>
+<span class="n">sudorule_add_deny_command</span><span class="p">:</span> <span class="n">sudocmd</span>
+<span class="n">sudorule_add_deny_command</span><span class="p">:</span> <span class="n">sudocmdgroup</span>
+<span class="n">sudorule_add_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">sudorule_add_host</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">sudorule_add_runasgroup</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">sudorule_add_runasuser</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">sudorule_add_runasuser</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">sudorule_add_user</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">sudorule_add_user</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">sudorule_remove_allow_command</span><span class="p">:</span> <span class="n">sudocmd</span>
+<span class="n">sudorule_remove_allow_command</span><span class="p">:</span> <span class="n">sudocmdgroup</span>
+<span class="n">sudorule_remove_deny_command</span><span class="p">:</span> <span class="n">sudocmd</span>
+<span class="n">sudorule_remove_deny_command</span><span class="p">:</span> <span class="n">sudocmdgroup</span>
+<span class="n">sudorule_remove_host</span><span class="p">:</span> <span class="n">host</span>
+<span class="n">sudorule_remove_host</span><span class="p">:</span> <span class="n">hostgroup</span>
+<span class="n">sudorule_remove_runasgroup</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">sudorule_remove_runasuser</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">sudorule_remove_runasuser</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">sudorule_remove_user</span><span class="p">:</span> <span class="n">group</span>
+<span class="n">sudorule_remove_user</span><span class="p">:</span> <span class="n">user</span>
+<span class="n">trust_find</span><span class="p">:</span> <span class="n">ipantsidblacklistincoming</span>
+<span class="n">trust_find</span><span class="p">:</span> <span class="n">ipantsidblacklistoutgoing</span>
+<span class="n">trust_mod</span><span class="p">:</span> <span class="n">ipantsidblacklistincoming</span>
+<span class="n">trust_mod</span><span class="p">:</span> <span class="n">ipantsidblacklistoutgoing</span>
+<span class="n">user_add</span><span class="p">:</span> <span class="n">ipasshpubkey</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">in_group</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">in_hbacrule</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">in_netgroup</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">in_role</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">in_sudorule</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">not_in_group</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">not_in_hbacrule</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">not_in_netgroup</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">not_in_role</span>
+<span class="n">user_find</span><span class="p">:</span> <span class="n">not_in_sudorule</span>
+<span class="n">user_mod</span><span class="p">:</span> <span class="n">ipasshpubkey</span>
+</pre></div>
 </div>
 </section>
 <section id="rfe-author">

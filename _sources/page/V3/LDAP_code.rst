@@ -50,10 +50,12 @@ ldap2.LDAPEntry (which is currently just a "dn, data" namedtuple).
 
 These objects will behave like a dict of lists:
 
-| `` entry[attrname] = [value]``
-| `` attrname in entry``
-| `` del entry[attrname]``
-| :literal:` entry.keys(), .values(), .items()  # but NOT `for key in entry`, see below`
+::
+
+     entry[attrname] = [value]
+     attrname in entry
+     del entry[attrname]
+     entry.keys(), .values(), .items()  # but NOT `for key in entry`, see below`
 
 The keys are case-insensitive but case-preserving.
 
@@ -88,7 +90,7 @@ Backwards compatibility, porting
 For compatibility with existing plugins, the LDAPEntry object will
 unpack to a tuple:
 
-`` dn, entry_attrs = entry``
+`` dn, entry_attrs = entry``
 
 (the entry_attrs can be entry itself, so we keep the object's validation
 powers.)

@@ -93,11 +93,13 @@ If FreeIPA is configured with DNS, you can use following command:
 
 alternatively you can define it manually in named.conf:
 
-| `` zone "ad.domain" IN {``
-| ``   type forward;``
-| ``   forwarders { ip-address.of-one-or-more.ad.domain_controllers; };``
-| ``   forward only;``
-| `` };``
+::
+
+     zone "ad.domain" IN {
+       type forward;
+       forwarders { ip-address.of-one-or-more.ad.domain_controllers; };
+       forward only;
+     };
 
 As result, the FreeIPA DNS server will send all DNS request for the
 domain ad.domain to the specified forwarders.
@@ -150,7 +152,7 @@ domain controller needs to know the DNS servers of all other domains.
 One way to create a common forwarder is to run dnsmasq on a separate
 server/VM like
 
-`` dnsmasq --no-dhcp-interface=eth0,eth1 --server=/ipa.domain/10.16.10.10 - -server=/ad.domain/192.168.10.10``
+`` dnsmasq --no-dhcp-interface=eth0,eth1 --server=/ipa.domain/10.16.10.10 - -server=/ad.domain/192.168.10.10``
 
 DHCP is not needed so all interfaces on the server should be listed in
 '--no-dhcp-interface'. If you want to monitor the DNS traffic you can
@@ -223,13 +225,15 @@ with multiple IPA servers and many users and groups, is is not run
 automatically during the update or while running ipa-adtrust-install. To
 start the task the following LDIF file
 
-| `` dn: cn=sidgen,cn=ipa-sidgen-task,cn=tasks,cn=config``
-| `` changetype: add``
-| `` objectClass: top``
-| `` objectClass: extensibleObject``
-| `` cn: sidgen``
-| `` nsslapd-basedn: dc=YOUR,dc=BASEDN ``
-| `` delay: 0``
+::
+
+     dn: cn=sidgen,cn=ipa-sidgen-task,cn=tasks,cn=config
+     changetype: add
+     objectClass: top
+     objectClass: extensibleObject
+     cn: sidgen
+     nsslapd-basedn: dc=YOUR,dc=BASEDN
+     delay: 0
 
 must be loaded with
 
@@ -360,8 +364,10 @@ If all users from a trusted domain should be allowed to access the
 client the .k5login approach will not scale. Here the following line can
 be added to the section for the local realm in /etc/krb5.conf
 
-| ``  auth_to_local = RULE:[1:$1@$0](^.*@TRUSTED.DOMAIN$)s/@TRUSTED.DOMAIN/@trusted.domain/``
-| ``  auth_to_local = DEFAULT``
+::
+
+      auth_to_local = RULE:[1:$1@$0](^.*@TRUSTED.DOMAIN$)s/@TRUSTED.DOMAIN/@trusted.domain/
+      auth_to_local = DEFAULT
 
 See 'info krb5-admin "Configuration Files" "krb5.conf" "realms
 (krb5.conf)"' for more details and examples for auth_to_local.

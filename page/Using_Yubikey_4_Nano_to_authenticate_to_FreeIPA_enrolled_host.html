@@ -340,28 +340,28 @@ on Yubikey 4 Nano.</p></li>
 <h1>Prepare yubikey<a class="headerlink" href="#prepare-yubikey" title="Link to this heading">#</a></h1>
 <section id="install-packages">
 <h2>Install packages<a class="headerlink" href="#install-packages" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># dnf install -y ykpers yubico-piv-tool pcsc-lite opensc</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">ykpers</span> <span class="pre">yubico-piv-tool</span> <span class="pre">pcsc-lite</span> <span class="pre">opensc</span></code></p>
 </section>
 <section id="start-pcscd">
 <h2>Start pcscd<a class="headerlink" href="#start-pcscd" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># systemctl start systemctl start pcscd</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">pcscd</span></code></p>
 </section>
 <section id="verify-readers">
 <h2>Verify readers<a class="headerlink" href="#verify-readers" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># opensc-tool --list-readers</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Detected readers (pcsc)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Nr.  Card  Features  Name</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">0    Yes             Yubico Yubikey 4 OTP+U2F+CCID 00 00</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># opensc-tool --list-readers</span>
+<span class="n">Detected</span> <span class="n">readers</span> <span class="p">(</span><span class="n">pcsc</span><span class="p">)</span>
+<span class="n">Nr</span><span class="o">.</span>  <span class="n">Card</span>  <span class="n">Features</span>  <span class="n">Name</span>
+<span class="mi">0</span>    <span class="n">Yes</span>             <span class="n">Yubico</span> <span class="n">Yubikey</span> <span class="mi">4</span> <span class="n">OTP</span><span class="o">+</span><span class="n">U2F</span><span class="o">+</span><span class="n">CCID</span> <span class="mi">00</span> <span class="mi">00</span>
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a status -v</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">trying to connect to reader 'Yubico Yubikey 4 OTP+U2F+CCID 00 00'.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Action 'status' does not need authentication.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Now processing for action 'status'.</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">CHUID:  No data available</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">CCC:    No data available</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">PIN tries left: 3</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yubico-piv-tool -a status -v</span>
+<span class="n">trying</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">reader</span> <span class="s1">&#39;Yubico Yubikey 4 OTP+U2F+CCID 00 00&#39;</span><span class="o">.</span>
+<span class="n">Action</span> <span class="s1">&#39;status&#39;</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">need</span> <span class="n">authentication</span><span class="o">.</span>
+<span class="n">Now</span> <span class="n">processing</span> <span class="k">for</span> <span class="n">action</span> <span class="s1">&#39;status&#39;</span><span class="o">.</span>
+<span class="n">CHUID</span><span class="p">:</span>  <span class="n">No</span> <span class="n">data</span> <span class="n">available</span>
+<span class="n">CCC</span><span class="p">:</span>    <span class="n">No</span> <span class="n">data</span> <span class="n">available</span>
+<span class="n">PIN</span> <span class="n">tries</span> <span class="n">left</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
 </div>
 </section>
 <section id="reset-yubikey-optional">
@@ -372,30 +372,30 @@ on Yubikey 4 Nano.</p></li>
 <h2>First we need to get the Yubikey blocked<a class="headerlink" href="#first-we-need-to-get-the-yubikey-blocked" title="Link to this heading">#</a></h2>
 <p>Blocking the yubikey is straighforward. First enter wrong PIN tree times
 then enter wrong PUK tree times.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a verify -P 000000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a verify -P 000000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a verify -P 000000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yubico-piv-tool -a verify -P 000000</span>
+<span class="c1"># yubico-piv-tool -a verify -P 000000</span>
+<span class="c1"># yubico-piv-tool -a verify -P 000000</span>
+<span class="c1"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span>
+<span class="c1"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span>
+<span class="c1"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span>
+</pre></div>
 </div>
 </section>
 <section id="now-we-can-reset-it">
 <h2>Now we can reset it<a class="headerlink" href="#now-we-can-reset-it" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a reset</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">-a</span> <span class="pre">reset</span></code></p>
 </section>
 <section id="set-new-management-key-pin-and-puk">
 <h2>Set new Management Key, PIN and PUK<a class="headerlink" href="#set-new-management-key-pin-and-puk" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># KEY=$(hexdump -v -e '/1 &quot;%x&quot;' /dev/urandom | head -c 48)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># PIN=$(hexdump -v -e '/1 &quot;%u&quot;' /dev/urandom | head -c 6)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># PUK=$(hexdump -v -e '/1 &quot;%u&quot;' /dev/urandom | head -c 8)</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># KEY=$(hexdump -v -e &#39;/1 &quot;%x&quot;&#39; /dev/urandom | head -c 48)</span>
+<span class="c1"># PIN=$(hexdump -v -e &#39;/1 &quot;%u&quot;&#39; /dev/urandom | head -c 6)</span>
+<span class="c1"># PUK=$(hexdump -v -e &#39;/1 &quot;%u&quot;&#39; /dev/urandom | head -c 8)</span>
+</pre></div>
 </div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a set-mgm-key -n $KEY</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a change-pin -P 123456 -N $PIN</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a change-puk -P 12345678 -N $PUK</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yubico-piv-tool -a set-mgm-key -n $KEY</span>
+<span class="c1"># yubico-piv-tool -a change-pin -P 123456 -N $PIN</span>
+<span class="c1"># yubico-piv-tool -a change-puk -P 12345678 -N $PUK</span>
+</pre></div>
 </div>
 </section>
 <section id="create-certificate">
@@ -403,94 +403,92 @@ then enter wrong PUK tree times.</p>
 </section>
 <section id="generate-private-key">
 <h2>Generate Private Key<a class="headerlink" href="#generate-private-key" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool --key=$KEY -a generate -s 9a -A RSA2048 -o pub.pem</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">--key=$KEY</span> <span class="pre">-a</span> <span class="pre">generate</span> <span class="pre">-s</span> <span class="pre">9a</span> <span class="pre">-A</span> <span class="pre">RSA2048</span> <span class="pre">-o</span> <span class="pre">pub.pem</span></code></p>
 </section>
 <section id="generate-certificate-signing-request">
 <h2>Generate Certificate Signing Request<a class="headerlink" href="#generate-certificate-signing-request" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool -a verify -a request -s 9a -P $PIN -S '/CN=test/O=EXAMPLE.ORG/' -i pub.pem -o req.pem</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">-a</span> <span class="pre">verify</span> <span class="pre">-a</span> <span class="pre">request</span> <span class="pre">-s</span> <span class="pre">9a</span> <span class="pre">-P</span> <span class="pre">$PIN</span> <span class="pre">-S</span> <span class="pre">'/CN=test/O=EXAMPLE.ORG/'</span> <span class="pre">-i</span> <span class="pre">pub.pem</span> <span class="pre">-o</span> <span class="pre">req.pem</span></code></p>
 </section>
 <section id="sign-certificate-signing-request">
 <h2>Sign Certificate Signing Request<a class="headerlink" href="#sign-certificate-signing-request" title="Link to this heading">#</a></h2>
 <p>In production environment the CSR is sent to Security Administrator (or
 similar role) and he will provide the certificate. But for testing it’s
 OK to generate self-sign CA certificate and use it to sign the request.</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># head -c 40 /dev/urandom &gt; noise</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># base64 /dev/urandom | head -c 20 &gt; pwfile</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># mkdir /tmp/nssdb</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -d /tmp/nssdb/ -f pwfile -N</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># echo -e &quot;y\n\ny\n&quot; | certutil -d /tmp/nssdb/ -f pwfile -S -x -n ca -t T,, -m 1 -s &quot;CN=Smart Card CA,O=EXAMPLE.ORG&quot; -z noise -2</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># certutil -d /tmp/nssdb/ -f pwfile -C -c ca -m $RANDOM -a -i req.pem -o cert.pem --keyUsage digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># head -c 40 /dev/urandom &gt; noise</span>
+<span class="c1"># base64 /dev/urandom | head -c 20 &gt; pwfile</span>
+<span class="c1"># mkdir /tmp/nssdb</span>
+<span class="c1"># certutil -d /tmp/nssdb/ -f pwfile -N</span>
+<span class="c1"># echo -e &quot;y\n\ny\n&quot; | certutil -d /tmp/nssdb/ -f pwfile -S -x -n ca -t T,, -m 1 -s &quot;CN=Smart Card CA,O=EXAMPLE.ORG&quot; -z noise -2</span>
+<span class="c1"># certutil -d /tmp/nssdb/ -f pwfile -C -c ca -m $RANDOM -a -i req.pem -o cert.pem --keyUsage digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment</span>
+</pre></div>
 </div>
 <p>The CA certificate (will be needed later) can be exported to file:</p>
-<p><code class="docutils literal notranslate"><span class="pre"># certutil -d /tmp/nssdb/ -f pwfile -L -n ca -a -o ca.pem</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-d</span> <span class="pre">/tmp/nssdb/</span> <span class="pre">-f</span> <span class="pre">pwfile</span> <span class="pre">-L</span> <span class="pre">-n</span> <span class="pre">ca</span> <span class="pre">-a</span> <span class="pre">-o</span> <span class="pre">ca.pem</span></code></p>
 </section>
 <section id="import-the-certificate-into-yubikey">
 <h2>Import the certificate into Yubikey<a class="headerlink" href="#import-the-certificate-into-yubikey" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># yubico-piv-tool --key=$KEY -a import-certificate -i cert.pem -s 9a</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">--key=$KEY</span> <span class="pre">-a</span> <span class="pre">import-certificate</span> <span class="pre">-i</span> <span class="pre">cert.pem</span> <span class="pre">-s</span> <span class="pre">9a</span></code></p>
 </section>
 </section>
 <section id="assign-the-certificate-to-freeipa-user">
 <h1>Assign the certificate to FreeIPA user<a class="headerlink" href="#assign-the-certificate-to-freeipa-user" title="Link to this heading">#</a></h1>
 <p>user-add-cert command expects only the base64 encoded blob:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">- `tail -n +2</span></code> omits the —–BEGIN CERTIFICATE—- line`</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">- `head -n -1</span></code> omits the —–END CERTIFICATE—- line`</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">- `tr -d 'nr'</span></code> joins all lines into one`</div>
-</div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># kinit test</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># cat cert.pem | tail -n +2 | head -n -1 | tr -d '\n\r' | ipa user-add-cert test</span></code></div>
+<p><cite>- `tail -n +2</cite> omits the —–BEGIN CERTIFICATE—- line`
+<cite>- `head -n -1</cite> omits the —–END CERTIFICATE—- line`
+<cite>- `tr -d ‘nr’</cite> joins all lines into one`</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit test</span>
+<span class="c1"># cat cert.pem | tail -n +2 | head -n -1 | tr -d &#39;\n\r&#39; | ipa user-add-cert test</span>
+</pre></div>
 </div>
 </section>
 <section id="enable-support-on-freeipa-client">
 <h1>Enable support on FreeIPA client<a class="headerlink" href="#enable-support-on-freeipa-client" title="Link to this heading">#</a></h1>
 <section id="id1">
 <h2>Install packages<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># dnf install -y opensc python{2,3}-sssdconfig</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">opensc</span> <span class="pre">python{2,3}-sssdconfig</span></code></p>
 </section>
 <section id="add-smart-card-to-etc-pki-nssdb">
 <h2>Add Smart Card to /etc/pki/nssdb<a class="headerlink" href="#add-smart-card-to-etc-pki-nssdb" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># modutil -dbdir /etc/pki/nssdb -add &quot;OpenSC&quot; -libfile opensc-pkcs11.so</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">modutil</span> <span class="pre">-dbdir</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-add</span> <span class="pre">&quot;OpenSC&quot;</span> <span class="pre">-libfile</span> <span class="pre">opensc-pkcs11.so</span></code></p>
 </section>
 <section id="start-and-enable-pc-smart-card-daemon">
 <h2>Start and enable PC Smart Card Daemon<a class="headerlink" href="#start-and-enable-pc-smart-card-daemon" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># systemctl start pcscd.service pcscd.socket</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># systemctl enable pcscd.service pcscd.socket</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl start pcscd.service pcscd.socket</span>
+<span class="c1"># systemctl enable pcscd.service pcscd.socket</span>
+</pre></div>
 </div>
 </section>
 <section id="enable-authentication-using-certificates-in-sssd">
 <h2>Enable authentication using certificates in SSSD<a class="headerlink" href="#enable-authentication-using-certificates-in-sssd" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># python &lt;&lt; EOF</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from SSSDConfig import SSSDConfig</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c = SSSDConfig()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c.import_config()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c.set('pam', 'pam_cert_auth', 'True')</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c.write()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">EOF</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># python &lt;&lt; EOF</span>
+<span class="kn">from</span> <span class="nn">SSSDConfig</span> <span class="kn">import</span> <span class="n">SSSDConfig</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SSSDConfig</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">import_config</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;pam&#39;</span><span class="p">,</span> <span class="s1">&#39;pam_cert_auth&#39;</span><span class="p">,</span> <span class="s1">&#39;True&#39;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+<span class="n">EOF</span>
+</pre></div>
 </div>
 </section>
 <section id="disable-ocsp-if-oscp-unreachable">
 <h2>Disable OCSP (if oscp unreachable)<a class="headerlink" href="#disable-ocsp-if-oscp-unreachable" title="Link to this heading">#</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre"># python &lt;&lt; EOF</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">from SSSDConfig import SSSDConfig</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c = SSSDConfig()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c.import_config()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c.set('sssd', 'certificate_verification', 'no_ocsp')</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">c.write()</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">EOF</span></code></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># python &lt;&lt; EOF</span>
+<span class="kn">from</span> <span class="nn">SSSDConfig</span> <span class="kn">import</span> <span class="n">SSSDConfig</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SSSDConfig</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">import_config</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;sssd&#39;</span><span class="p">,</span> <span class="s1">&#39;certificate_verification&#39;</span><span class="p">,</span> <span class="s1">&#39;no_ocsp&#39;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+<span class="n">EOF</span>
+</pre></div>
 </div>
 </section>
 <section id="import-ca-certificates-for-smart-cards">
 <h2>Import CA certificates for Smart Cards<a class="headerlink" href="#import-ca-certificates-for-smart-cards" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># certutil -d /etc/pki/nssdb -A -i ca.pem -n &quot;Smart Card CA ($RANDOM)&quot; -t T,,</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-A</span> <span class="pre">-i</span> <span class="pre">ca.pem</span> <span class="pre">-n</span> <span class="pre">&quot;Smart</span> <span class="pre">Card</span> <span class="pre">CA</span> <span class="pre">($RANDOM)&quot;</span> <span class="pre">-t</span> <span class="pre">T,,</span></code></p>
 </section>
 <section id="restart-sssd">
 <h2>Restart SSSD<a class="headerlink" href="#restart-sssd" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre"># systemctl restart sssd.service</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">sssd.service</span></code></p>
 </section>
 </section>
 

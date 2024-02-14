@@ -29,19 +29,21 @@ IPv6 sockets for listening because IPv4 and IPv6 share the same port
 range locally. FreeIPA uses Samba as part of its Active Directory
 integration and Samba **requires enabled IPv6 stack** on the machine.
 
-Adding **``ipv6.disable=1``** to the kernel command line disables the
+Adding ``ipv6.disable=1``\  to the kernel command line disables the
 whole IPv6 stack
 
-Adding **``ipv6.disable_ipv6=1``** will keep the IPv6 stack functional
+Adding ``ipv6.disable_ipv6=1``\  will keep the IPv6 stack functional
 but will not assign IPv6 addresses to any of your network devices. This
 is recommended approach for cases when you don't use IPv6 networking.
 
 Creating and adding to for example /etc/sysctl.d/ipv6.conf will avoid
 assigning IPv6 addresses to a specific network interface
 
-| `` # Disable IPv6``
-| `` net.ipv6.conf.all.disable_ipv6 = 1``
-| `` net.ipv6.conf.``\ ``.disable_ipv6 = 1``
+::
+
+     # Disable IPv6
+     net.ipv6.conf.all.disable_ipv6 = 1
+     net.ipv6.conf.``\ ``.disable_ipv6 = 1
 
 where *interface0* is your specialized interface.
 
@@ -104,11 +106,11 @@ server is ``10.16.78.61``, the command:
 
 ::
 
-   ``C:\> dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
+     C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address
 
 should look like this:
 
-``C:\> dnscmd 127.0.0.1 /ZoneAdd ipadomain.example.com /Forwarder 10.16.78.61``
+``C:\> dnscmd 127.0.0.1 /ZoneAdd ipadomain.example.com /Forwarder 10.16.78.61``
 
 **NOTE**: NetBIOS name is the leading component of the domain name. E.g.
 if the domain name is ``ipadomain.example.com``, the NetBIOS name is
@@ -125,14 +127,14 @@ Install and configure IPA server
 Make sure all packages are up to date
 -------------------------------------
 
-``# yum update -y``
+``# yum update -y``
 
 
 
 Install required packages
 -------------------------
 
-``# yum install -y "*ipa-server" "*ipa-server-trust-ad" bind bind-dyndb-ldap``
+``# yum install -y "*ipa-server" "*ipa-server-trust-ad" bind bind-dyndb-ldap``
 
 
 
@@ -140,14 +142,14 @@ Configure host name
 -------------------
 ::
 
-   ``# hostnamectl set-hostname ``\ *``ipa_hostname``*
+    # hostnamectl set-hostname ipa_hostname
 
 
 
 Install IPA server
 ------------------
 
-``# ipa-server-install -a mypassword1 -p mypassword2 --domain=``\ *``ipa_domain``*\ `` --realm=``\ *``IPA_DOMAIN``*\ `` --setup-dns --no-forwarders -U``
+``# ipa-server-install -a mypassword1 -p mypassword2 --domain=ipa_domain --realm=IPA_DOMAIN --setup-dns --no-forwarders -U`` 
 
 
 
@@ -156,7 +158,7 @@ Login as admin
 
 To obtain a ticket-granting ticket, run the follwing command:
 
-``# kinit admin``
+``# kinit admin``
 
 The password is your admin user's password (from ``-a`` option in the
 ``ipa-server-install`` comand).
@@ -166,8 +168,10 @@ The password is your admin user's password (from ``-a`` option in the
 Make sure IPA users are available to the system services
 --------------------------------------------------------
 
-| ``# id admin``
-| ``# getent passwd admin``
+::
+
+    # id admin
+    # getent passwd admin
 
 Both above commands should return information about the admin user. If
 above commands fail, restart the ``sssd`` service
@@ -178,7 +182,7 @@ above commands fail, restart the ``sssd`` service
 Configure IPA server for cross-forest trusts
 --------------------------------------------
 
-``# ipa-adtrust-install --netbios-name=``\ *``ipa_netbios``*\ `` -a mypassword1``
+``# ipa-adtrust-install --netbios-name=ipa_netbios -a mypassword1`` 
 
 When planning access of AD users to IPA clients, make sure to run
 ipa-adtrust-install on every IPA master these IPA clients will be
@@ -219,8 +223,10 @@ On IPA server
 
 IPA uses the following ports to communicate with its services:
 
-| ``TCP ports: 80, 88, 443, 389, 636, 88, 464, 53, 135, 138, 139, 445, 1024-1300``
-| ``UDP ports: 88, 464, 53, 123, 138, 139, 389, 445``
+::
+
+    TCP ports: 80, 88, 443, 389, 636, 88, 464, 53, 135, 138, 139, 445, 1024-1300
+    UDP ports: 88, 464, 53, 123, 138, 139, 389, 445
 
 These ports must be open and available; they cannot be in use by another
 service or blocked by a firewall. Especially ports 88/udp, 88/tcp,
@@ -262,19 +268,23 @@ section `#iptables <#iptables>`__.
 
 To disable ``firewalld``:
 
-| ``# chkconfig firewalld off``
-| ``# service firewalld stop``
+::
+
+    # chkconfig firewalld off
+    # service firewalld stop
 
 To enable ``iptables``:
 
-| ``# yum install -y iptables-services``
-| ``# chkconfig iptables on``
+::
+
+    # yum install -y iptables-services
+    # chkconfig iptables on
 
 Make sure ``iptables`` configuration file is located at
 ``/etc/sysconfig/iptables`` and contains the desired configuration, and
 then (re)start the ``iptables`` service:
 
-``# service iptables restart``
+``# service iptables restart``
 
 iptables
 ^^^^^^^^
@@ -282,27 +292,29 @@ iptables
 Make sure that ``iptables`` is configured to start whenever the system
 is booted:
 
-``# chkconfig iptables on``
+``# chkconfig iptables on``
 
 ``iptables`` configuration file is ``/etc/sysconfig/iptables``. Taking
 into account the rules that must be applied in order for IPA to work
 properly, here is a sample configuration.
 
-| ``*filter``
-| ``:INPUT ACCEPT [0:0]``
-| ``:FORWARD ACCEPT [0:0]``
-| ``:OUTPUT ACCEPT [0:0]``
-| ``-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT``
-| ``-A INPUT -p icmp -j ACCEPT``
-| ``-A INPUT -i lo -j ACCEPT``
-| ``-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT``
-| ``# -A INPUT -s ``\ *``ad_ip_address``*\ `` -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT``
-| ``-A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT``
-| ``-A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT``
-| ``-A INPUT -p udp -j REJECT``
-| ``-A INPUT -p tcp -j REJECT``
-| ``-A FORWARD -j REJECT --reject-with icmp-host-prohibited``
-| ``COMMIT``
+::
+
+    *filter
+    :INPUT ACCEPT [0:0]
+    :FORWARD ACCEPT [0:0]
+    :OUTPUT ACCEPT [0:0]
+    -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+    -A INPUT -p icmp -j ACCEPT
+    -A INPUT -i lo -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+      # -A INPUT -s ad_ip_address -p tcp -m multiport --dports 389,636 -m state --state NEW,ESTABLISHED -j REJECT 
+    -A INPUT -p tcp -m multiport --dports 80,88,443,389,636,88,464,53,138,139,445 -m state --state NEW,ESTABLISHED -j ACCEPT
+    -A INPUT -p udp -m multiport --dports 88,464,53,123,138,139,389,445 -m state --state NEW,ESTABLISHED -j ACCEPT
+    -A INPUT -p udp -j REJECT
+    -A INPUT -p tcp -j REJECT
+    -A FORWARD -j REJECT --reject-with icmp-host-prohibited
+    COMMIT
 
 Please note that the line containing "ad_ip_address" is not needed
 anymore (see comments above). If you still want to use it please make
@@ -312,7 +324,7 @@ address of AD DC.
 Any changes to the ``iptables`` configuration file will require a
 restart of the ``iptables`` service:
 
-``# service iptables restart``
+``# service iptables restart``
 
 
 
@@ -336,18 +348,18 @@ On AD DC, add conditional forwarder for IPA domain:
 
 ::
 
-   ``C:\> dnscmd 127.0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Forwarder ``\ *``ipa_ip_address``*
+     C:\> dnscmd 127.0.0.1 /ZoneAdd ipa_domain /Forwarder ipa_ip_address
 
 On IPA server, add conditional forwarder for AD domain. The command in
 IPA version 3 and 4 are different.
 
 -  IPA v3.x:
 
-``# ipa dnszone-add ``\ *``ad_domain``*\ `` --name-server=``\ *``ad_hostname.ad_domain``*\ `` --admin-email='hostmaster@``\ *``ad_domain``*\ ``' --force --forwarder=``\ *``ad_ip_address``*\ `` --forward-policy=only --ip-address=``\ *``ad_ip_address``*
+# ipa dnszone-add ad_domain --name-server=ad_hostname.ad_domain --admin-email='hostmaster@ad_domain' --force --forwarder=ad_ip_address --forward-policy=only --ip-address=ad_ip_address
 
 -  IPA v4.x:
 
-``# ipa dnsforwardzone-add ``\ *``ad_domain``*\ `` --forwarder=``\ *``ad_ip_address``*\ `` --forward-policy=only``
+``# ipa dnsforwardzone-add ad_domain --forwarder=ad_ip_address --forward-policy=only`` 
 
 
 
@@ -360,15 +372,17 @@ If the AD domain is a subdomain of the IPA domain (e.g. AD domain is
 
 On IPA server, add an A record and a NS record for the AD domain:
 
-| ``# ipa dnsrecord-add ``\ *``ipa_domain``*\ `` ``\ *``ad_hostname``*\ ``.``\ *``ad_netbios``*\ `` --a-ip-address=``\ *``ad_ip_address``*
-| ``# ipa dnsrecord-add ``\ *``ipa_domain``*\ `` ``\ *``ad_netbios``*\ `` --ns-hostname=``\ *``ad_hostname``*\ ``.``\ *``ad_netbios``*
+::
+
+      # ipa dnsrecord-add ipa_domain ad_hostname.ad_netbios --a-ip-address=ad_ip_address`` 
+      # ipa dnsrecord-add ipa_domain ad_netbios --ns-hostname=ad_hostname.ad_netbios`` 
 
 On AD DC, there two options.
 
 The first one is to configure a global forwarder to forward DNS queries
 to the IPA domain:
 
-``C:\> dnscmd 127.0.0.1 /ResetForwarders ``\ *``ipa_ip_address``*\ `` /Slave``
+``C:\> dnscmd 127.0.0.1 /ResetForwarders ipa_ip_address /Slave`` 
 
 The second option is to configure a DNS zone for master-slave
 replication. The data for this zone will then be periodically copied
@@ -378,12 +392,12 @@ To do this, first explicitly allow the transfer of the zone on IPA
 server:
 ::
 
-   ``# ipa dnszone-mod ``\ *``ipa_domain``*\ `` --allow-transfer=``\ *``ad_ip_address``*
+     # ipa dnszone-mod ipa_domain --allow-transfer=ad_ip_address
 
 And second, add the DNS zone for the IPA domain on the AD DC:
 ::
 
-   ``C:\> dnscmd 127 0.0.1 /ZoneAdd ``\ *``ipa_domain``*\ `` /Secondary ``\ *``ipa_ip_address``*
+     C:\> dnscmd 127 0.0.1 /ZoneAdd ipa_domain /Secondary ipa_ip_address
 
 
 
@@ -398,8 +412,8 @@ On AD DC, add an A record and a NS record for the IPA domain:
 
 ::
 
-   | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*\ `` A ``\ *``ipa_ip_address``*
-   | ``C:\> dnscmd 127.0.0.1 /RecordAdd ``\ *``ad_domain``*\ `` ``\ *``ipa_domain``*\ `` NS ``\ *``ipa_hostname``*\ ``.``\ *``ipa_domain``*
+     C:\> dnscmd 127.0.0.1 /RecordAdd ad_domain ipa_hostname.ipa_domain A ipa_ip_address 
+     C:\> dnscmd 127.0.0.1 /RecordAdd ad_domain ipa_domain NS ipa_hostname.ipa_domain 
 
 
 
@@ -411,16 +425,20 @@ records are being properly resolved.
 
 On AD DC:
 
-| ``C:\> nslookup``
-| ``> set type=srv``
-| ``> _ldap._tcp.``\ *``ad_domain``*
-| ``> _ldap._tcp.``\ *``ipa_domain``*
-| ``> quit``
+::
+
+    C:\> nslookup
+    > set type=srv
+     > _ldap._tcp.ad_domain`` 
+     > _ldap._tcp.ipa_domain`` 
+    > quit
 
 On IPA server:
 
-| ``# dig SRV _ldap._tcp.``\ *``ipa_domain``*
-| ``# dig SRV _ldap._tcp.``\ *``ad_domain``*
+::
+
+     # dig SRV _ldap._tcp.ipa_domain`` 
+     # dig SRV _ldap._tcp.ad_domain`` 
 
 
 
@@ -437,7 +455,7 @@ Add trust with AD domain
 When AD administrator credentials are available
 ----------------------------------------------------------------------------------------------
 
-``# ipa trust-add --type=ad ``\ *``ad_domain``*\ `` --admin Administrator --password``
+``# ipa trust-add --type=ad ad_domain --admin Administrator --password`` 
 
 Enter the Administrator's password when prompted. If everything was set
 up correctly, a trust with AD domain will be established.
@@ -472,7 +490,7 @@ server:
 When AD administrator credentials aren't available
 ----------------------------------------------------------------------------------------------
 
-``# ipa trust-add --type=ad "ad_domain" --trust-secret``
+``# ipa trust-add --type=ad "ad_domain" --trust-secret``
 
 Enter the trust shared secret when prompted. At this point IPA will
 create two-way forest trust on IPA side. Second leg of the trust need to
@@ -488,7 +506,7 @@ Once trust leg on AD side is established, one needs to retrieve the list
 of trusted forest domains from AD side. This is done using following
 command:
 
-``# ipa trust-fetch-domains "ad_domain"``
+``# ipa trust-fetch-domains "ad_domain"``
 
 With this command running successfuly, IPA will get information about
 trusted domains and will create all needed identity ranges for them.
@@ -496,7 +514,7 @@ trusted domains and will create all needed identity ranges for them.
 Use "trustdomain-find" to see list of the trusted domains from a trusted
 forest:
 
-``# ipa trustdomain-find "ad_domain"``
+``# ipa trustdomain-find "ad_domain"``
 
 
 
@@ -537,17 +555,21 @@ IPA server is needed, to allow Kerberos authentication.
 Add these two lines to ``/etc/krb5.conf`` on every machine that is going
 to see AD users:
 
-| ``[realms]``
-| *``IPA_DOMAIN``*\ `` = {``
-| ``....``
-| ``  auth_to_local = RULE:[1:$1@$0](^.*@``\ *``AD_DOMAIN``*\ ``$)s/@``\ *``AD_DOMAIN``*\ ``/@``\ *``ad_domain``*\ ``/``
-| ``  auth_to_local = DEFAULT``
-| ``}``
+::
+
+    [realms]
+     IPA_DOMAIN = { 
+     ....
+        auth_to_local = RULE:[1:$1@$0](^.*@AD_DOMAIN$)s/@AD_DOMAIN/@ad_domain/ 
+      auth_to_local = DEFAULT
+    }
 
 Restart KDC and sssd
 
-| ``# service krb5kdc restart``
-| ``# service sssd restart``
+::
+
+    # service krb5kdc restart
+    # service sssd restart
 
 
 
@@ -573,18 +595,18 @@ Create external and POSIX groups for trusted domain users
 
 Create external group in IPA for trusted domain admins:
 
-``# ipa group-add --desc=``\ *``'ad_domain``*\ `` admins external map' ad_admins_external --external``
+``# ipa group-add --desc='ad_domain admins external map' ad_admins_external --external`` 
 
 Create POSIX group for external ``ad_admins_external`` group:
 
-``# ipa group-add --desc=``\ *``'ad_domain``*\ `` admins' ad_admins``
+``# ipa group-add --desc='ad_domain admins' ad_admins`` 
 
 
 
 Add trusted domain users to the external group
 ----------------------------------------------------------------------------------------------
 
-``# ipa group-add-member ad_admins_external --external '``\ *``ad_netbios``*\ ``\Domain Admins'``
+``# ipa group-add-member ad_admins_external --external 'ad_netbios\Domain Admins'`` 
 
 When asked for member user and member group, just leave it blank and hit
 Enter.
@@ -601,7 +623,7 @@ Add external group to POSIX group
 Allow members of ``ad_admins_external`` group to be associated with
 ``ad_admins`` POSIX group:
 
-``# ipa group-add-member ad_admins --groups ad_admins_external``
+``# ipa group-add-member ad_admins --groups ad_admins_external``
 
 
 
@@ -629,15 +651,17 @@ Using Samba shares
 
 To create a Samba share on IPA server:
 
-| ``# net conf setparm 'share' 'comment' 'Trust test share'``
-| ``# net conf setparm 'share' 'read only' 'no'``
-| ``# net conf setparm 'share' 'valid users' '``\ *``ad_admins_sid``*\ ``'``
-| ``# net conf setparm 'share' 'path' '``\ *``/path/to/share``*\ ``'``
+::
+
+    # net conf setparm 'share' 'comment' 'Trust test share'
+    # net conf setparm 'share' 'read only' 'no'
+      # net conf setparm 'share' 'valid users' 'ad_admins_sid' 
+      # net conf setparm 'share' 'path' '/path/to/share' 
 
 **NOTE**: To obtain the SID (Security Identifier) of the AD admins
 group, run:
 
-``# wbinfo -n ``\ *``'ad_netbios``*\ ``\Domain Admins'``
+``# wbinfo -n 'ad_netbios\Domain Admins'`` 
 
 It is a string that looks like this:
 S-1-5-21-16904141-148189700-2149043814-512. ``wbinfo`` executable is
@@ -669,21 +693,21 @@ following Apache configuration is needed:
 
 ::
 
-   | ``<Location "/mywebapp">``
-   | ``   AuthType Kerberos``
-   | ``   AuthName "IPA Kerberos authentication"``
-   | ``   KrbMethodNegotiate on``
-   | ``   KrbMethodK5Passwd on``
-   | ``   KrbServiceName HTTP``
-   | ``   KrbAuthRealms ``\ *``IPA_DOMAIN``*
-   | ``   Krb5Keytab /etc/httpd/conf/ipa.keytab``
-   | ``   KrbSaveCredentials off``
-   | ``   Require valid-user``
+   <Location "/mywebapp">
+      AuthType Kerberos
+      AuthName "IPA Kerberos authentication"
+      KrbMethodNegotiate on
+      KrbMethodK5Passwd on
+      KrbServiceName HTTP
+       KrbAuthRealms IPA_DOMAIN 
+      Krb5Keytab /etc/httpd/conf/ipa.keytab
+      KrbSaveCredentials off
+      Require valid-user
 
 Make sure you replace *IPA_DOMAIN* in the above configuration with your
 actual IPA domain (in caps) and to restart the apache service:
 
-``# service httpd restart``
+``# service httpd restart``
 
 
 
@@ -704,34 +728,36 @@ What you can do is following (assumes Fedora 20+ or RHEL 7+):
    138/139/445 TCP and UDP ports, 389 UDP port.
 -  Stop smb and winbind services on IdM server
 
-``   systemctl stop smb winbind``
+``   systemctl stop smb winbind``
 
 -  Set log level to increased debug so that packets smbd/winbindd
    receive get printed fully in the logs:
 
-``    net conf setparm global 'log level' 100``
+``    net conf setparm global 'log level' 100``
 
 -  Set log level to increased debug so that communication done by IPA
    when establishing trust is printed fully in the logs. Change
    /usr/share/ipa/smb.conf.empty:
 
-| ``    [global]``
-| ``    log level = 100``
+::
+
+        [global]
+        log level = 100
 
 -  Remove old /var/log/samba/log.\*
 -  Start smb and winbind services
 
-``   systemctl start smb winbind``
+``   systemctl start smb winbind``
 
 -  Re-add trust
 
-``    ipa trust-add ``\ `` ...``
+``    ipa trust-add ``\ `` ...``
 
 -  If trust-add command was used with shared secret instead of explicit
    AD administrator credentials, after validation was performed from AD
    side, run
 
-``    ipa trust-fetch-domains ``
+``    ipa trust-fetch-domains ``
 
 -  Package following logs and attach them to a bug or send directly to a
    member of FreeIPA development team who requested the logs. Please do
@@ -740,8 +766,10 @@ What you can do is following (assumes Fedora 20+ or RHEL 7+):
    that general public shouldn't have access to. The logs we are
    interested in are following:
 
-| ``    /var/log/httpd/error_log``
-| ``    /var/log/samba/log.*``
+::
+
+        /var/log/httpd/error_log
+        /var/log/samba/log.*
 
 
 

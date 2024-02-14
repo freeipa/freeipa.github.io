@@ -469,37 +469,37 @@ for the host itself.
 
 ::
 
-   | ``   ./ipa request-certificate [--ca=``\ ``] [--request_type=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``      'pkcs10' is a default request type supported by default CA plugin``
-   | ``       ``\ ``           certificate request``
-   | ``   returning               error_code, error_message, issued_certificate``
-   | ``  ``
-   | ``   ./ipa revoke-certificate [--ca=``\ ``] [--reason=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``     certificate serial number of the certificate to be revoked``
-   | ``       ``\ `` certificate revocation reason``
-   | ``   returning               error_code, error_message``
-   | ``  ``
-   | ``   ./ipa take-certificate-off-hold [--ca=``\ ``]  ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``     certificate serial number of the certificate to be taken off hold``
-   | ``   returning               error_code, error_message``
-   | ``  ``
-   | ``   ./ipa check_request_status [--ca=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``        is request id of the request to be verified``
-   | ``   returning               error_code, error_message, certificate_serial_number``
-   | ``  ``
-   | ``   ./ipa get-certificate [--ca=``\ ``] ``
-   | ``   where``
-   | ``       ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA``
-   | ``       ``\ ``     certificate serial number (of previously generated certificate) to be retrieved``
-   | ``   returning               error_code, error_message, issued_certificate``
+      ./ipa request-certificate [--ca=``\ ``] [--request_type=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``      'pkcs10' is a default request type supported by default CA plugin
+          ``\ ``           certificate request
+      returning               error_code, error_message, issued_certificate
+     
+      ./ipa revoke-certificate [--ca=``\ ``] [--reason=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``     certificate serial number of the certificate to be revoked
+          ``\ `` certificate revocation reason
+      returning               error_code, error_message
+     
+      ./ipa take-certificate-off-hold [--ca=``\ ``]  
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``     certificate serial number of the certificate to be taken off hold
+      returning               error_code, error_message
+     
+      ./ipa check_request_status [--ca=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``        is request id of the request to be verified
+      returning               error_code, error_message, certificate_serial_number
+     
+      ./ipa get-certificate [--ca=``\ ``] 
+      where
+          ``\ ``    'ipa-ca' is default backend plugin accessing IPA's internal CA
+          ``\ ``     certificate serial number (of previously generated certificate) to be retrieved
+      returning               error_code, error_message, issued_certificate
 
 
 
@@ -521,25 +521,27 @@ These are preliminary interfaces. They might need to be extended to
 reflect other parameters. For example we would need to add the name of
 the service a certificate is requested for.
 
-| ``       def request_certificate(self, certificate_request=None, request_type="pkcs10"):``
-| ``           # . . .``
-| ``           return (error_code, error_message, issued_certificate)``
-| ``  ``
-| ``       def revoke_certificate(self, serial_number=None, revocation_reason=0):``
-| ``           # . . .``
-| ``           return (error_code, error_message)``
-| ``  ``
-| ``       def take_certificate_off_hold(self, serial_number=None):``
-| ``           # . . .``
-| ``           return (error_code, error_message)``
-| ``  ``
-| ``       def check_request_status(self, request_id=None):``
-| ``           # . . .``
-| ``           return (error_code, error_message, certificate_serial_number)``
-| ``  ``
-| ``       def get_certificate(self, serial_number=None):``
-| ``           # . . .``
-| ``           return (error_code, error_message, issued_certificate)``
+::
+
+           def request_certificate(self, certificate_request=None, request_type="pkcs10"):
+               # . . .
+               return (error_code, error_message, issued_certificate)
+    
+           def revoke_certificate(self, serial_number=None, revocation_reason=0):
+               # . . .
+               return (error_code, error_message)
+    
+           def take_certificate_off_hold(self, serial_number=None):
+               # . . .
+               return (error_code, error_message)
+    
+           def check_request_status(self, request_id=None):
+               # . . .
+               return (error_code, error_message, certificate_serial_number)
+    
+           def get_certificate(self, serial_number=None):
+               # . . .
+               return (error_code, error_message, issued_certificate)
 
 
 
@@ -560,25 +562,29 @@ attributes tracked by the referential integrity plugin. The "member" and
 "owner" attributes are already listed in the referential integrity
 attribute.
 
-| ``attribute ( 2.16.840.1.113730.3.8.3.TBD``
-| ``   NAME 'hostCApolicy' ``
-| ``   DESC 'Policy on how to treat host requests for cert operations.' ``
-| ``   EQUALITY caseIgnoreMatch ``
-| ``   ORDERING caseIgnoreMatch ``
-| ``   SUBSTR caseIgnoreSubstringsMatch ``
-| ``   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15``
-| ``   SINGLE-VALUE``
-| ``   X-ORIGIN 'IPA v2')``
+::
+
+    attribute ( 2.16.840.1.113730.3.8.3.TBD
+       NAME 'hostCApolicy'
+       DESC 'Policy on how to treat host requests for cert operations.'
+       EQUALITY caseIgnoreMatch
+       ORDERING caseIgnoreMatch
+       SUBSTR caseIgnoreSubstringsMatch
+       SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+       SINGLE-VALUE
+       X-ORIGIN 'IPA v2')
 
 If not present "Never" should be assumed.
 
 Object class will look like this:
 
-| `` objectclass ( 2.16.840.1.113730.3.8.4.TBD``
-| ``   NAME 'ipaCAaccess' ``
-| ``   STRUCTURAL ``
-| ``   MAY (member $ hostCApolicy) ``
-| ``   X-ORIGIN 'IPA v2' )``
+::
+
+     objectclass ( 2.16.840.1.113730.3.8.4.TBD
+       NAME 'ipaCAaccess'
+       STRUCTURAL
+       MAY (member $ hostCApolicy)
+       X-ORIGIN 'IPA v2' )
 
 
 
@@ -598,13 +604,15 @@ installation.
 
 This account will look like this:
 
-| `` # CAadmin, sysaccounts, etc, example.com``
-| `` dn: uid=CAadmin,cn=sysaccounts,cn=etc,dc=example,dc=com``
-| `` objectClass: account``
-| `` objectClass: simplesecurityobject``
-| `` objectClass: top``
-| `` uid: CAadmin``
-| `` userPassword: ...``
+::
+
+     # CAadmin, sysaccounts, etc, example.com
+     dn: uid=CAadmin,cn=sysaccounts,cn=etc,dc=example,dc=com
+     objectClass: account
+     objectClass: simplesecurityobject
+     objectClass: top
+     uid: CAadmin
+     userPassword: ...
 
 The account like this is currently used by KDC to connect to the DS.
 Similar approach should be taken by the CA. CA will use this account to

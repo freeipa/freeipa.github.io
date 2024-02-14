@@ -64,12 +64,12 @@ disconnect topology.
 
 ::
 
-   | ``[root@berlin ~
-   | ``[root@prague1 ~]# ipa-replica-install --setup-dns``
-   | ``[root@prague2 ~]# ipa-replica-install --setup-dns``
-   | ``[root@paris1 ~]# ipa-replica-install --setup-dns``
-   | ``[root@paris2 ~]# ipa-replica-install``
-   | ``[root@paris3 ~]# ipa-replica-install --setup-dns``
+   | ``[root@berlin ~
+   [root@prague1 ~]# ipa-replica-install --setup-dns
+   [root@prague2 ~]# ipa-replica-install --setup-dns
+   [root@paris1 ~]# ipa-replica-install --setup-dns
+   [root@paris2 ~]# ipa-replica-install
+   [root@paris3 ~]# ipa-replica-install --setup-dns
 
 
 
@@ -78,8 +78,10 @@ Adding locations
 
 Use **location-add** command to create a new location.
 
-| ``[root@berlin ~]# ipa location-add czechrep --description="Czech republic clients"``
-| ``[root@berlin ~]# ipa location-add france --description="France clients"``
+::
+
+    [root@berlin ~]# ipa location-add czechrep --description="Czech republic clients"
+    [root@berlin ~]# ipa location-add france --description="France clients"
 
 
 
@@ -89,11 +91,13 @@ Adding servers to locations
 Use **server-mod** command to add server into location. Server can be
 member of only one location.
 
-| ``[root@berlin ~]# ipa server-mod prague1.example.com --location=czechrep``
-| ``[root@berlin ~]# ipa server-mod prague2.example.com --location=czechrep``
-| ``[root@berlin ~]# ipa server-mod paris1.example.com --location=france``
-| ``[root@berlin ~]# ipa server-mod paris2.example.com --location=france``
-| ``[root@berlin ~]# ipa server-mod paris3.example.com --location=france``
+::
+
+    [root@berlin ~]# ipa server-mod prague1.example.com --location=czechrep
+    [root@berlin ~]# ipa server-mod prague2.example.com --location=czechrep
+    [root@berlin ~]# ipa server-mod paris1.example.com --location=france
+    [root@berlin ~]# ipa server-mod paris2.example.com --location=france
+    [root@berlin ~]# ipa server-mod paris3.example.com --location=france
 
 
 
@@ -113,7 +117,7 @@ IPA system SRV records, please use **server-mod**. For further
 information about weight please see `RFC 2783 page
 3 <https://tools.ietf.org/html/rfc2782#page-3>`__.
 
-``[root@berlin ~]# ipa server-mod paris2.example.com --service-weight=2000``
+``[root@berlin ~]# ipa server-mod paris2.example.com --service-weight=2000``
 
 
 
@@ -128,7 +132,7 @@ topology.
 
 To change default TTL use **dnszone-mod** command.
 
-``[root@berlin ~]# ipa dnszone-mod example.com. --default-ttl=3600``
+``[root@berlin ~]# ipa dnszone-mod example.com. --default-ttl=3600``
 
 
 
@@ -145,16 +149,18 @@ Please note that all nameservers configured on client should be in the
 same location. A configuration with nameservers from various location
 will work, but it may result into inefficient resolving.
 
-| ``[root@client-prague ~] # cat /etc/resolv.conf``
-| ``nameserver 10.10.0.1``
-| ``nameserver 10.10.0.2``
-| ``[root@client-paris ~]# cat /etc/resolv.conf``
-| ``nameserver 10.50.0.1``
-| ``nameserver 10.50.0.3``
-| ``[root@client-berlin ~]# cat /etc/resolv.conf``
-| ``nameserver 10.30.0.1``
-| ``[root@client-oslo ~]# cat /etc/resolv.conf``
-| ``nameserver 10.30.0.1``
+::
+
+    [root@client-prague ~] # cat /etc/resolv.conf
+    nameserver 10.10.0.1
+    nameserver 10.10.0.2
+    [root@client-paris ~]# cat /etc/resolv.conf
+    nameserver 10.50.0.1
+    nameserver 10.50.0.3
+    [root@client-berlin ~]# cat /etc/resolv.conf
+    nameserver 10.30.0.1
+    [root@client-oslo ~]# cat /etc/resolv.conf
+    nameserver 10.30.0.1
 
 If resolvers are properly set, you can install clients by using
 **ipa-client-install**.
@@ -166,35 +172,41 @@ We can use **dig** to verify returned DNS records
 
 Server/client without locations
 
-| ``[root@berlin ~]# dig +short _ldap._tcp.example.com SRV``
-| ``0 100 389 berlin.example.com.``
-| ``0 100 389 prague1.example.com.``
-| ``0 100 389 prague2.example.com.``
-| ``0 100 389 paris1.example.com.``
-| ``0 2000 389 paris2.example.com.``
-| ``0 100 389 paris3.example.com.``
+::
+
+    [root@berlin ~]# dig +short _ldap._tcp.example.com SRV
+    0 100 389 berlin.example.com.
+    0 100 389 prague1.example.com.
+    0 100 389 prague2.example.com.
+    0 100 389 paris1.example.com.
+    0 2000 389 paris2.example.com.
+    0 100 389 paris3.example.com.
 
 Server/client inside *czechrep* location
 
-| ``[root@client-prague ~]# dig +short _ldap._tcp.example.com SRV``
-| ``_ldap._tcp.czechrep._locations.example.com.    # CNAME alias _ldap._tcp --> _ldap._tcp.czechrep._locations``
-| ``50 100 389 berlin.example.com.    # server with lower priority (50), outside of location``
-| ``0 100 389 prague1.example.com.    # server inside location``
-| ``0 100 389 prague2.example.com.``
-| ``50 100 389 paris1.example.com.``
-| ``50 2000 389 paris2.example.com.``
-| ``50 100 389 paris3.example.com.``
+::
+
+    [root@client-prague ~]# dig +short _ldap._tcp.example.com SRV
+    _ldap._tcp.czechrep._locations.example.com.    # CNAME alias _ldap._tcp --> _ldap._tcp.czechrep._locations
+    50 100 389 berlin.example.com.    # server with lower priority (50), outside of location
+    0 100 389 prague1.example.com.    # server inside location
+    0 100 389 prague2.example.com.
+    50 100 389 paris1.example.com.
+    50 2000 389 paris2.example.com.
+    50 100 389 paris3.example.com.
 
 Server/client inside *france* location
 
-| ``[root@client-paris ~]# dig +short _ldap._tcp.example.com SRV``
-| ``_ldap._tcp.france._locations.example.com.    # CNAME alias _ldap._tcp --> _ldap._tcp.france._locations``
-| ``50 100 389 berlin.example.com.    # server with lower priority (50), outside of location``
-| ``50 100 389 prague1.example.com.``
-| ``50 100 389 prague2.example.com.``
-| ``0 100 389 paris1.example.com.    # server inside location``
-| ``0 2000 389 paris2.example.com.``
-| ``0 100 389 paris3.example.com.``
+::
+
+    [root@client-paris ~]# dig +short _ldap._tcp.example.com SRV
+    _ldap._tcp.france._locations.example.com.    # CNAME alias _ldap._tcp --> _ldap._tcp.france._locations
+    50 100 389 berlin.example.com.    # server with lower priority (50), outside of location
+    50 100 389 prague1.example.com.
+    50 100 389 prague2.example.com.
+    0 100 389 paris1.example.com.    # server inside location
+    0 2000 389 paris2.example.com.
+    0 100 389 paris3.example.com.
 
 
 
@@ -228,15 +240,17 @@ produced by the IPA server.
 
 -  On a IPA server, run command:
 
-``[root@berlin ~]# ipa dns-update-system-records --dry-run``
+``[root@berlin ~]# ipa dns-update-system-records --dry-run``
 
 It will produce a lot of DNS records. We are interested in records
 listed in section **IPA location records**:
 
-| `` IPA location records:``
-| ``   _kerberos-master._tcp.czechrep._locations.example.com. ...``
-| ``   _kerberos-master._udp.france._locations.example.com. ...``
-| ``...``
+::
+
+     IPA location records:
+       _kerberos-master._tcp.czechrep._locations.example.com. ...
+       _kerberos-master._udp.france._locations.example.com. ...
+       ...
 
 Each IPA location has own set of records. Records specific to given
 location contain ``._locations`` in their name.
@@ -245,8 +259,10 @@ location contain ``._locations`` in their name.
    ``ipa dns-update-system-records --dry-run``'s output and transform
    them to form suitable for general purpose DNS server. E.g.:
 
-| ``LOCATION=czechrep``
-| ``[root@berlin ~]# ipa dns-update-system-records --dry-run | grep $LOCATION._locations | sed "s/\.$LOCATION\._locations//"``
+::
+
+    LOCATION=czechrep
+    [root@berlin ~]# ipa dns-update-system-records --dry-run | grep $LOCATION._locations | sed "s/\.$LOCATION\._locations//"
 
 This way, you will obtain list of records for each location. Each list
 contains records with the same names (the left side) but different data

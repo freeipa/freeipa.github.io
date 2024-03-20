@@ -49,7 +49,7 @@ html_theme = "sphinx_book_theme"
 # html_theme_path = ["themes"]
 
 html_sidebars = {
-    "**": ["custom_nav.html"]
+    "**": ["logo.html", "search-button-field.html", "custom_nav.html"]
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

@@ -571,7 +571,6 @@ and enable and configure its **ifp** subsystem:
     [sssd]
    -services = nss, pam, ssh
    +services = nss, pam, ssh, ifp
-    config_file_version = 2
 
     domains = example.com
    @@ -28,3 +30,7 @@

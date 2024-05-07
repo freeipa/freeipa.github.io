@@ -193,7 +193,6 @@ The next part to configure is sssd, in **/etc/sssd/sssd.conf**:
    # in [sssd] section, append EXAMPLE.COM to domains
    [sssd]
    services = nss, pam, ssh, ifp
-   config_file_version = 2
    domains = company.net, EXAMPLE.COM
    # add new section [domain/EXAMPLE.COM]
    [domain/EXAMPLE.COM]

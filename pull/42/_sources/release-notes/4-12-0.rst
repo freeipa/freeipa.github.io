@@ -3,7 +3,7 @@ FreeIPA 4.12.0
 
 .. raw:: mediawiki
 
-   {{ReleaseDate|2024-05-14}}
+   {{ReleaseDate|2024-05-15}}
 
 The FreeIPA team would like to announce FreeIPA 4.12.0 release!
 
@@ -20,9 +20,25 @@ Highlights in 4.12.0
 
 -  3656: [RFE] FreeIPA-to-FreeIPA migration
 
+      FreeIPA 4.12 adds a new specialized tool to migrate IPA-specific
+      data between FreeIPA deployments. This allows to migrate between
+      development/staging and production environments, as well as create
+      new environment based on old setup. More information about
+      supported features and semantics can be found at
+      https://freeipa.readthedocs.io/en/latest/designs/ipa_to_ipa_migration.html
+
 --------------
 
 -  5169: [RFE] Enforce OTP for a subset of scenarios
+
+      When IPA user has an OTP token authentication enabled, it is now
+      possible to enforce LDAP authentication to fail without providing
+      OTP token. This is already the case for Kerberos authentication
+      since 2014; however, some administrators like to enforce it for
+      LDAP-backed applications. The fact that OTP was used for
+      authentication will be recorded in LDAP server logs as MFA note,
+      according to the design described at
+      https://www.port389.org/docs/389ds/design/mfa-operation-note-design.html
 
 --------------
 
@@ -57,6 +73,66 @@ Highlights in 4.12.0
 
       Allow to create user accounts with external IdP reference
       pre-defined.
+
+--------------
+
+-  9477: Document ID mapping in FreeIPA
+
+      A general description of how identity mapping is handled in
+      FreeIPA is available at
+      https://freeipa.readthedocs.io/en/latest/designs/id-mapping.html
+
+--------------
+
+-  9501: Support for OpenCloudOS/TencentOS ipaplatform
+
+      FreeIPA now recognizes OpenCloudOS and TencentOS platforms.
+
+--------------
+
+-  9542: Fix replica connection check for use with AD administrator
+
+      Privilege checks in IPA API now support ID overrides, allowing
+      trusted Active Directory users to perform various operations like
+      enrolling a replica.
+
+--------------
+
+-  9551: filter out subdomains from realmdomains list when submitting to
+   a trusted AD DCs
+
+      When trust to Active Directory is established, trust topology
+      communicated to the trusted Active Directory domain controllers
+      may have contained conflicting information. This information is
+      now refreshed and conflicts are removed as a part of the process
+      to establish trust.
+
+--------------
+
+-  9558: ipa idrange-add should display a warning that 389ds restart is
+   required
+
+      When new local ID range is added, \`ipa idrange-add\` now displays
+      a warning asking for restart of LDAP server to allow SID
+      generation plugin to pick up the changes.
+
+--------------
+
+-  9562: ipa ca-show NAME --certificate-out=file creates empty file when
+   NAME does not exist
+
+      When saving a CA certificate as part of \`ipa ca/cert-show NAME\`
+      commands, an empty file was created when CA was not found by that
+      name. Empty file is not created anymore, making easier an
+      automated certificate issuance.
+
+--------------
+
+-  9586: Spec file: depend on nfs-utils or nfsv4-client-utils
+
+      FreeIPA now allows to use either nfs-utils or nfsv4-client-utils,
+      allowing for more lightweight NFSv4 client setups on Fedora and
+      RHEL 9.
 
 --------------
 

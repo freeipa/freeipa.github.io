@@ -3,7 +3,7 @@ FreeIPA 4.12.0
 
 .. raw:: mediawiki
 
-   {{ReleaseDate|2024-05-15}}
+   {{ReleaseDate|2024-05-21}}
 
 The FreeIPA team would like to announce FreeIPA 4.12.0 release!
 
@@ -39,6 +39,15 @@ Highlights in 4.12.0
       authentication will be recorded in LDAP server logs as MFA note,
       according to the design described at
       https://www.port389.org/docs/389ds/design/mfa-operation-note-design.html
+
+--------------
+
+-  9273: [RFE] Support IPA CA installation on an HSM
+
+      FreeIPA CA can now be deployed with a hardware security module as
+      a CA storage device. Supported use case details can be found in
+      HSM design document:
+      https://freeipa.readthedocs.io/en/ipa-4-10/designs/hsm.html
 
 --------------
 
@@ -87,6 +96,17 @@ Highlights in 4.12.0
 -  9501: Support for OpenCloudOS/TencentOS ipaplatform
 
       FreeIPA now recognizes OpenCloudOS and TencentOS platforms.
+
+--------------
+
+-  9536: Client configuration of ssh: Replace sss_ssh_knownhostsproxy
+   with sss_ssh_knownhosts
+
+      Deprecated sss_ssh_knownhostsproxy in favor of sss_ssh_knownhosts.
+      With this update, if /usr/bin/sss_ssh_knownhosts is present, it
+      will be used instead of /usr/bin/sss_ssh_knownhostsproxy. We
+      implemented a mechanism to apply this change when upgrading from
+      older versions, and downgrading from newer versions.
 
 --------------
 
@@ -154,7 +174,7 @@ Bug fixes
 FreeIPA 4.12.0 is a stabilization release for the features delivered as
 a part of 4.12 version series.
 
-There are more than 80 bug-fixes since FreeIPA 4.11.1 release. Details
+There are more than 90 bug-fixes since FreeIPA 4.11.1 release. Details
 of the bug-fixes can be seen in the list of resolved tickets below.
 
 Upgrading
@@ -181,11 +201,16 @@ Resolved tickets
    [RFE] FreeIPA-to-FreeIPA migration
 -  `#5169 <https://pagure.io/freeipa/issue/5169>`__ [RFE] Enforce OTP
    for a subset of scenarios
+-  `#7677 <https://pagure.io/freeipa/issue/7677>`__ HSM: ipa ca-add
+   fails with error in ipa-pki-retrieve-key
 -  `#9191 <https://pagure.io/freeipa/issue/9191>`__ ipa vault-add is
    failing with ipa in RHEL9: ERROR: an internal error has occurred in
    FIPS mode
 -  `#9272 <https://pagure.io/freeipa/issue/9272>`__ Install CA
    certificates only for PKINIT or TLS client auth
+-  `#9273 <https://pagure.io/freeipa/issue/9273>`__
+   (`rhbz#1405935 <https://bugzilla.redhat.com/show_bug.cgi?id=1405935>`__)
+   [RFE] Support IPA CA installation on an HSM
 -  `#9289 <https://pagure.io/freeipa/issue/9289>`__
    (`rhbz#2149344 <https://bugzilla.redhat.com/show_bug.cgi?id=2149344>`__)
    Configure server affinity during replica installation
@@ -196,6 +221,9 @@ Resolved tickets
    parameter in pwpolicy cannot be removed with empty string.
 -  `#9345 <https://pagure.io/freeipa/issue/9345>`__ Convert PKI API to
    use JSON instead of XML
+-  `#9353 <https://pagure.io/freeipa/issue/9353>`__ certmonger helper
+   renew_ca_cert does not set the P trust flag on the KRA audit
+   certificate during renewal
 -  `#9354 <https://pagure.io/freeipa/issue/9354>`__ Implement
    resource-based constrained delegation
 -  `#9379 <https://pagure.io/freeipa/issue/9379>`__ Test failure in
@@ -334,6 +362,8 @@ Resolved tickets
    wait_for_replication method is broken
 -  `#9535 <https://pagure.io/freeipa/issue/9535>`__ ipa-kdb: Cannot
    determine if PAC generator is available
+-  `#9536 <https://pagure.io/freeipa/issue/9536>`__ Client configuration
+   of ssh: Replace sss_ssh_knownhostsproxy with sss_ssh_knownhosts
 -  `#9541 <https://pagure.io/freeipa/issue/9541>`__
    (`rhbz#2265129 <https://bugzilla.redhat.com/show_bug.cgi?id=2265129>`__)
    specially crafted HTTP requests potentially lead to DoS or data
@@ -374,6 +404,10 @@ Resolved tickets
    bash_completions_dir for rhel builds
 -  `#9586 <https://pagure.io/freeipa/issue/9586>`__ Spec file: depend on
    nfs-utils or nfsv4-client-utils
+-  `#9591 <https://pagure.io/freeipa/issue/9591>`__ ipa-replica-manage
+   clean-dangling-ruv is failing to handle invalid RUVs
+-  `#9593 <https://pagure.io/freeipa/issue/9593>`__ ipa-kra-install
+   tries to validate the HSM config even when no HSM is set up
 
 .. _detailed_changelog_since_4.11.1:
 
@@ -683,11 +717,17 @@ Florence Blanc-Renaud (31)
    `commit <https://pagure.io/freeipa/c/0654fb3737febf3d9836cdd2a98352c34c447a6f>`__
    `#9433 <https://pagure.io/freeipa/issue/9433>`__
 
-.. _francisco_trivino_4:
+.. _francisco_trivino_6:
 
-Francisco Trivino (4)
+Francisco Trivino (6)
 ~~~~~~~~~~~~~~~~~~~~~
 
+-  Spec file: add support for sss_ssh_knownhosts
+   `commit <https://pagure.io/freeipa/c/b34525c76e9f8182950bbbdd6fa3ae62f5301064>`__
+   `#9536 <https://pagure.io/freeipa/issue/9536>`__
+-  ipa-client-install: add support for sss_ssh_knownhosts
+   `commit <https://pagure.io/freeipa/c/7d54a6daaf0ef91d608d67b3c70e2d566868be05>`__
+   `#9536 <https://pagure.io/freeipa/issue/9536>`__
 -  kra: set RSA-OAEP as default wrapping algo when FIPS is enabled
    `commit <https://pagure.io/freeipa/c/305fcc25b4dd0aea4f87a0508c5f47c7634cfb82>`__
    `#9191 <https://pagure.io/freeipa/issue/9191>`__
@@ -733,11 +773,14 @@ Masahiro Matsuya (1)
    `commit <https://pagure.io/freeipa/c/c740cb84ba1e5cab871ae4f197a04d87f40c5b9e>`__
    `#9504 <https://pagure.io/freeipa/issue/9504>`__
 
-.. _mark_reynolds_15:
+.. _mark_reynolds_16:
 
-Mark Reynolds (15)
+Mark Reynolds (16)
 ~~~~~~~~~~~~~~~~~~
 
+-  Issue 9591 - Allow get_ruv() to handle incomplete RUV elements
+   `commit <https://pagure.io/freeipa/c/544652aae43506ef974fc7331ce8612884a7d01e>`__
+   `#9591 <https://pagure.io/freeipa/issue/9591>`__
 -  Issue 9579 - Remove bash_completions_dir for RHEL
    `commit <https://pagure.io/freeipa/c/cce8dc4da87a934644712158b97242960a8d138e>`__
    `#9579 <https://pagure.io/freeipa/issue/9579>`__
@@ -784,11 +827,17 @@ Mark Reynolds (15)
    `commit <https://pagure.io/freeipa/c/5c8614157d5546033528f92700f5abfebd4e5838>`__
    `#3656 <https://pagure.io/freeipa/issue/3656>`__
 
-.. _mohammad_rizwan_2:
+.. _mohammad_rizwan_4:
 
-Mohammad Rizwan (2)
+Mohammad Rizwan (4)
 ~~~~~~~~~~~~~~~~~~~
 
+-  ipatests: test software HSM installation with server & replica
+   `commit <https://pagure.io/freeipa/c/1ec875c6fe677357d4dfb50090dc18ae902328a1>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  ipatests: test software HSM installation with server & replica
+   `commit <https://pagure.io/freeipa/c/36dbc6b0258f3e21a3fe6c72cd55bf0c141c0946>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
 -  ipatests: restart ipa services after moving date
    `commit <https://pagure.io/freeipa/c/496e3ace8537cc86d4faae30204105e3c1863cfd>`__
    `#9379 <https://pagure.io/freeipa/issue/9379>`__
@@ -874,11 +923,100 @@ Rafael Fontenelle (2)
 -  Translated using Weblate (Portuguese (Brazil))
    `commit <https://pagure.io/freeipa/c/d6aaa626a6fb88b1658fa6c934a8adb5ffb95a0d>`__
 
-.. _rob_crittenden_31:
+.. _rob_crittenden_62:
 
-Rob Crittenden (31)
+Rob Crittenden (62)
 ~~~~~~~~~~~~~~~~~~~
 
+-  Don't try to validate the HSM arguments on a non-HSM installation
+   `commit <https://pagure.io/freeipa/c/f225b3df17a4c01e62f659fe70fc5427bab1f387>`__
+   `#9593 <https://pagure.io/freeipa/issue/9593>`__
+-  docs: Add a section on SELinux modules to the HSM design
+   `commit <https://pagure.io/freeipa/c/6af8577d58c4b2bed04ec0bd02042ba7122ab518>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Add SELinux module checking to hsm_validator
+   `commit <https://pagure.io/freeipa/c/c861ce5a1634b43b04c3d38d49d5b3e4e599b7d7>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Call hsm_validator on KRA installs and validate the HSM password
+   `commit <https://pagure.io/freeipa/c/6b6c1879c5174869128ae28048673995242b18c1>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Include the HSM tests in the nightlies
+   `commit <https://pagure.io/freeipa/c/879a937dddf17478378d9e855317ee199ac645c9>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Require certmonger 0.79.17+ for required HSM changes
+   `commit <https://pagure.io/freeipa/c/bcd8d2d90a41eb94422ad5fad730bd0570108f91>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  After an HSM replica install ensure all certs are visible
+   `commit <https://pagure.io/freeipa/c/ea0bf4020ce0b1e32572e128e9323c5af60ec93d>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  KRA: force OAEP for some HSM-based installations
+   `commit <https://pagure.io/freeipa/c/b9ec2fb0a91034934b48d419c2d0eaa2c36faef1>`__
+   `#9191 <https://pagure.io/freeipa/issue/9191>`__
+-  Prompt for token password if not provided in replica/ipa-ca-install
+   `commit <https://pagure.io/freeipa/c/31fda79a0e3f34dcf71a9e2687faa958ecb91ab8>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  dogtag-ipa-ca-renew-agent-submit: expect certs to be on HSMs
+   `commit <https://pagure.io/freeipa/c/c6f2d0212bf9aa2ed816779540d69233fe7110a5>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  tests: Fix failing test test_testconfig.py with missing token
+   variables
+   `commit <https://pagure.io/freeipa/c/b63103c88a57b1320ce2e38f7483ef37692feebd>`__
+-  Add SELinux subpackage for Thales Luna HSM support
+   `commit <https://pagure.io/freeipa/c/f8798b3e16d9f51a3ae355a2270f7346754301dc>`__
+-  Add SELinux subpackage for nCipher nfast HSM support
+   `commit <https://pagure.io/freeipa/c/87ecca0f180fb0cd7ffefb1d9c1b200683a2e38a>`__
+-  Remove caSigningCert from list of certs to renew
+   `commit <https://pagure.io/freeipa/c/c6dd21f04e9f14b0c1e5c064e87b3266ff02f60f>`__
+-  Validate the HSM token library path and name during installation
+   `commit <https://pagure.io/freeipa/c/31d66bac64501efd54afe2041b9d00da66ac0ae3>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  After installing a KRA, copy the updated token to other machines
+   `commit <https://pagure.io/freeipa/c/6b894f28b5ac07fff3863cc4fec6b9a2383b615e>`__
+-  tests: helper to copy files from one host to another
+   `commit <https://pagure.io/freeipa/c/06a8791b9beec5a95a5072e9a02a4379ac46770d>`__
+-  renew_ca_cert: set peer trust on the KRA audit certificate
+   `commit <https://pagure.io/freeipa/c/b89aa919778a048fbb54f0a3426423d23f6c38df>`__
+   `#9353 <https://pagure.io/freeipa/issue/9353>`__
+-  renew_ca_cert: skip removing non-CA certs, fix nickname
+   `commit <https://pagure.io/freeipa/c/0708f603e2d632db77a95d135e28242c6d1a7ee7>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  If HSM is configured add the token name to config-show output
+   `commit <https://pagure.io/freeipa/c/d0c489e28228f4ce5f92c2dfc2c7b9e86c7fcb36>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Add token support to the renew_ca_cert certmonger helper
+   `commit <https://pagure.io/freeipa/c/93622005ba0f14e68010a84b07cc050cfdc4bedc>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Update SELinux policy to allow certmonger to PKI config files
+   `commit <https://pagure.io/freeipa/c/7ad3b489f6272e5b041d410f8098f454b584209e>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Add attribute ipacahsmconfiguration to the "Read CAs" ACI
+   `commit <https://pagure.io/freeipa/c/a99091adc0bf8dd745ef3f5980a5bc66294e8c06>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Add HSM configuration options to installer scripts
+   `commit <https://pagure.io/freeipa/c/82c0b19acce147b3f82183b561883c7ca9137403>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Add LDAP attribute ipaCaHSMConfiguration to store HSM state
+   `commit <https://pagure.io/freeipa/c/d9efa728c5c93e232eaf03b432b0699804189012>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  doc: Add token-password-file to HSM design, set new OID
+   `commit <https://pagure.io/freeipa/c/f658a264f9cbdb190aa4ff6ab21903da0a7e84c8>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Don't move KRA keys when key backup is disabled
+   `commit <https://pagure.io/freeipa/c/e3234708ac356065641ce1ea4d6460c7fd50c815>`__
+   `#7677 <https://pagure.io/freeipa/issue/7677>`__,
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Only generate kracert.p12 when not installing with HSM
+   `commit <https://pagure.io/freeipa/c/73d52a613518ca1e2d2303b660f9dc439987f90f>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Add token support to installer certificate handling
+   `commit <https://pagure.io/freeipa/c/34f28f06db291c7408fbeb7276dcdaae5f0ef18a>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Don't generate a cafile on HSM instalations
+   `commit <https://pagure.io/freeipa/c/e6078c639c332e0079fa0cbff3fa54882d79b3bd>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
+-  Support the certmonger nss-user option
+   `commit <https://pagure.io/freeipa/c/cba3094c9af5ceac66dd2c11839acbab80c6e9d3>`__
+   `#9273 <https://pagure.io/freeipa/issue/9273>`__
 -  ipa-crlgen-manage: manage the cert status task execution time
    `commit <https://pagure.io/freeipa/c/f78d25fc972813f500c4ccfcf0faa2c6aa0d48b2>`__
    `#9569 <https://pagure.io/freeipa/issue/9569>`__

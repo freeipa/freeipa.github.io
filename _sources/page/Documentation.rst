@@ -30,6 +30,8 @@ Use Red Hat Enteprise Linux documentation:
 
 -  **FreeIPA 3.3.x and 4.x**:
 
+   - RHEL 8: `Identity Management documentation <https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8#Identity%20Management>`__
+   - RHEL 9: `Identity Management documentation <https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9#Identity%20Management>`__
    -  `Linux Domain Identity, Authentication and Policy Guide for RHEL
       7 <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/index.html>`__
       (`report
@@ -42,19 +44,11 @@ Use Red Hat Enteprise Linux documentation:
       7 <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System-Level_Authentication_Guide/index.html>`__
       (`report
       bug <https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%207&component=doc-System_Level_Authentication_Guide>`__)
-   -  RHEL 8 / FreeIPA 4.7+: `Documentation for planning Identity
-      Management and setting up access
-      control <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/planning_identity_management/>`__
-   -  RHEL 8 / FreeIPA 4.7+: `Getting started using Identity
-      Management <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/installing_identity_management/index>`__
-   -  RHEL 8 / FreeIPA 4.7+: `Configuring, managing and maintaining
-      Identity Management in Red Hat Enterprise Linux
-      8 <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_identity_management/index>`__
 
 Upstream user guide `is not maintained <Upstream_User_Guide>`__ anymore
 as all effort is put into the Red Hat Enteprise Linux documentation.
-Bugs found in the documentation can be reported in `Red Hat
-bugzilla <https://bugzilla.redhat.com/enter_bug.cgi?alias=&assigned_to=apetrova%40redhat.com&attach_text=&blocked=&bug_file_loc=http%3A%2F%2F&bug_severity=unspecified&bug_status=NEW&cf_build_id=&cf_category=---&cf_clone_of=&cf_cloudforms_team=---&cf_crm=&cf_cust_facing=---&cf_devel_whiteboard=&cf_docs_score=&cf_documentation_action=---&cf_environment=&cf_internal_whiteboard=&cf_mount_type=---&cf_ovirt_team=---&cf_pm_score=&cf_regression_status=---&cf_story_points=---&cf_type=Bug&comment=Description%20of%20problem%3A%0D%0A%0D%0A%0D%0AVersion-Release%20number%20of%20selected%20component%20%28if%20applicable%29%3A%0D%0A%0D%0A%0D%0AHow%20reproducible%3A%0D%0A%0D%0A%0D%0ASteps%20to%20Reproduce%3A%0D%0A1.%0D%0A2.%0D%0A3.%0D%0A%0D%0AActual%20results%3A%0D%0A%0D%0A%0D%0AExpected%20results%3A%0D%0A%0D%0A%0D%0AAdditional%20info%3A%0D%0A&component=doc-Linux_Domain_Identity_Management_Guide&contenttypeentry=&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&data=&deadline=&defined_cf_layered_products=&defined_cf_partner=&defined_groups=1&defined_rh_sub_component=0&dependson=&description=&docs_contact=&estimated_time=&external_bug_id_1=&external_id_1=0&flag_type-10=X&flag_type-11=X&flag_type-15=X&flag_type-155=X&flag_type-16=X&flag_type-24=X&flag_type-312=X&flag_type-415=X&flag_type-742=X&flag_type-9=X&flag_type-932=X&flag_type-990=X&flag_type-991=X&form_name=enter_bug&keywords=&op_sys=Unspecified&priority=unspecified&product=Red%20Hat%20Enterprise%20Linux%207&qa_contact=nsoman%40redhat.com&rep_platform=Unspecified&requestee_type-155=&requestee_type-16=&rh_sub_component=&short_desc=&status_whiteboard=&target_milestone=rc&target_release=---&version=7.3>`__
+Bugs found in the documentation can be reported in `Red Hat Issues tracker 
+<https://issues.redhat.com/secure/CreateIssue!default.jspa>`__ by choosing RHELDOCS project and Documentation component.
 
 
 

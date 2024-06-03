@@ -48,7 +48,7 @@ Use Red Hat Enteprise Linux documentation:
 Upstream user guide `is not maintained <Upstream_User_Guide>`__ anymore
 as all effort is put into the Red Hat Enteprise Linux documentation.
 Bugs found in the documentation can be reported in `Red Hat Issues tracker 
-<https://issues.redhat.com/secure/CreateIssue!default.jspa> by choosing RHELDOCS project and Documentation component`__
+<https://issues.redhat.com/secure/CreateIssue!default.jspa>`__ by choosing RHELDOCS project and Documentation component.
 
 
 

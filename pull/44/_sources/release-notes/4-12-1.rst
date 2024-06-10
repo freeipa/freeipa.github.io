@@ -23,13 +23,16 @@ condition for granting the "forwardable" flag on S4U2Self tickets.
 Fixing this mistake required adding a special case for the
 check_allowed_to_delegate() function: if the target service argument is
 NULL, then it means the KDC is probing for general constrained
-delegation rules, not actually checking a specific S4U2Proxy request. In
-FreeIPA 4.11.0, the behavior of ipadb_match_acl() was modified to match
+delegation rules, not actually checking a specific S4U2Proxy request.
+
+In FreeIPA 4.11.0, the behavior of ipadb_match_acl() was modified to match
 the changes from upstream MIT Kerberos 1.20. However, a mistake resulted
 in this mechanism to apply in cases where the target service argument is
 set AND where it is unset. This results in S4U2Proxy requests to be
 accepted regardless of the fact there is a matching service delegation
-rule or not. This vulnerability does not affect default FreeIPA
+rule or not.
+
+This vulnerability does not affect default FreeIPA
 deployments because the services which have delegation rules defined are
 on IPA servers themselves. Services having RBCD (resource-based
 constrained delegation) rules are not affected by this vulnerability
@@ -41,17 +44,21 @@ A Kerberos TGS-REQ is encrypted using the client’s session key. This key
 is different for each new session, which protects it from brute force
 attacks. However, the ticket it contains is encrypted using the target
 principal key directly. For user principals, this key is a hash of a
-public per-principal randomly-generated salt and the user’s password. If
-a principal is compromised it means the attacker would be able to
+public per-principal randomly-generated salt and the user’s password. 
+
+If a principal is compromised it means the attacker would be able to
 retrieve tickets encrypted to any principal, all of them being encrypted
 by their own key directly. By taking these tickets and salts offline,
 the attacker could run brute force attacks to find character strings
 able to decrypt tickets when combined to the target principal salt (i.e.
-find the principal’s password). Such attacks primarily affect user
-principals, not service principals because their keys are usually
+find the principal’s password).
+
+Such attacks primarily affect user principals, not service principals because their keys are usually
 generated randomly. But weak user passwords are particularly vulnerable
 to such attacks, especially if they are referenced in password
-dictionaries. To mitigate this vulnerability, ticket requests to user
+dictionaries.
+
+To mitigate this vulnerability, ticket requests to user
 principals are now disallowed in FreeIPA realms by default. This will
 keep attackers from obtaining data encrypted with the user key directly.
 

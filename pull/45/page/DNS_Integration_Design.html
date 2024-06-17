@@ -1,0 +1,781 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DNS_Integration_Design &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/DNS_Integration_Design';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="https://raw.githubusercontent.com/freeipa/freeipa.github.io/main/src/_static/freeipa-logo-small.png" class="logo__image" alt="Logo image" />
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/page/Documentation.html">Documentation</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/page/Troubleshooting.html">Troubleshooting</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/DNS_Integration_Design.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DNS_Integration_Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-updates-with-gss-tsig">Dynamic updates with GSS-TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-in-dnspython">Support in dnspython</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-dns-records-in-ldap">Storing DNS records in LDAP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-driver">LDAP driver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-links">Useful links</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dns-integration-design">
+<h1>DNS_Integration_Design<a class="headerlink" href="#dns-integration-design" title="Link to this heading">#</a></h1>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>The section <a class="reference external" href="V2BPRD#1._Machine_Identity_and_Authentication">Machine
+Identity</a> in the
+<a class="reference external" href="V2BPRD">IPAv2 PRD</a> requires us to be able allow a machine to
+dynamically update its DNS record. This is pretty easy, but in order to
+do it in a secure manner, we have to ensure that a machine can only
+manipulate it’s own record. For this, we have to establish the machines
+identity via kerberos. It is possible to use kerberos to authenticate
+the machine with DNS server using
+<a class="reference external" href="http://en.wikipedia.org/wiki/GSS-TSIG">GSS-TSIG</a> (RFC 3645). With
+the authenticity established, we will only allow the machine to edit
+it’s own DNS record. The changes will then be stored in LDAP.</p>
+</section>
+<section id="dynamic-updates-with-gss-tsig">
+<h2>Dynamic updates with GSS-TSIG<a class="headerlink" href="#dynamic-updates-with-gss-tsig" title="Link to this heading">#</a></h2>
+<p>GSS-TSIG (Generic Security Service Algorithm for Secret Key Transaction)
+is an authentication protocol for DNS, which is the extension to TSIG
+Protocol. The GSS-TSIG is a framework of GSS-API to provide
+authentication, integrity and confidentiality. It is defined in RFC
+3645.</p>
+</section>
+<section id="support-in-dnspython">
+<h2>Support in dnspython<a class="headerlink" href="#support-in-dnspython" title="Link to this heading">#</a></h2>
+<p>The <a class="reference external" href="http://www.dnspython.org/">dnspython</a> library doesn’t have
+support for GSS-TSIG. As a workaround, we could just make a simple
+wrapper for the nsupdate utility, but in the long-term, we should make a
+patch and work with upstream community on its adoption.</p>
+</section>
+<section id="storing-dns-records-in-ldap">
+<h2>Storing DNS records in LDAP<a class="headerlink" href="#storing-dns-records-in-ldap" title="Link to this heading">#</a></h2>
+<p>Problem with BIND and LDAP is that there is currently no way of both
+reading and writing. There are two database interfaces, SDB and DLZ. SDB
+reads the data when BIND starts and holds them in cache. DLZ will look
+into the database with each query it gets. There are numerous drivers
+for each of these, LDAP included. Our choice is DLZ. The current LDAP
+driver for DLZ does not suit our need, mostly because of the schema it
+uses. We will need to write our own driver after we implement the
+write-back support for DLZ. We will design our own schema, inspired by
+the one SDB uses. Currently, all DLZ drivers are statically linked with
+BIND. We will patch BIND in such a way that these drivers can be loaded
+dynamically. This will allow us better control of schema we use and we
+will ship the driver ourselves.</p>
+</section>
+<section id="ldap-driver">
+<h2>LDAP driver<a class="headerlink" href="#ldap-driver" title="Link to this heading">#</a></h2>
+<p>Here are some notes and things we should keep in mind when writing the
+driver.</p>
+<ul class="simple">
+<li><p>LDAP driver should make as little ldap queries as possible, ldapi://
+would be very handy.</p></li>
+<li><p>The Serial information from the SOA record needs to be automatically
+generated whenever a record in the zone is changed. This would only
+be important for admins that run slaves for caching. Date would
+probably be best to use as a value. LDAP driver could update this
+with each change, but this might be slow, since we need to do
+additional query. Other way of solving this would be to have a DS
+plugin.</p></li>
+<li><p>Every host is represented by one object, which can contain multiple
+DNS records. However, we should be prepared for multiple objects so
+that we allow different TTLs. It’s not really important to also
+support writing such records, just to be able to handle them.</p></li>
+<li><p>The LDAP driver should update the PTR record (if the zone exists and
+updates to the zone hosting the PTR are allowed). When A DNS Update
+is received first an update of the A(AAAA/A6) Record is performed. If
+that is successful, then a search for PTRRecord= is performed. If the
+record is found and the IP address matches the record name, no
+further action is performed. If the IP address does not match and is
+of the same type as the update being performed (A/A6/AAAA) then it is
+deleted. Then a search for the provided IP address is performed to
+find a record, if is it found and it does not match it is updated.
+Finally if a PTR record is not found, a new one is created. WARNING:
+automatic PTR address removal might not be possible. Depending on how
+BIND is built internally we may not be able to know if a client is
+sending multiple IP addresses (multihomed system) so removing “older”
+PTR records may simply cause us to remove a PTR record we just set.</p></li>
+<li><p>Careful with private IPv4 address. We need to explore if the driver
+has information about the ip address of the client that sent an
+update. In this case then we would never set the PTR record based on
+the sent ip address but only based on the ip address of the dns
+packet. This way there is no risk for client in a remote network
+using the VPN to try to update the wrong IP address (stupid private
+IP address spaces can cause problems). For IPV6 there is no such
+problem, so for A6/AAAA records we use the client provided
+information.</p></li>
+</ul>
+</section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h2>
+<p>This schema is based on the <a class="reference external" href="http://www.venaas.no/ldap/bind-sdb/dnszone-schema.txt">SDB
+Schema</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>attributetype ( 1.3.6.1.4.1.2428.20.0.0
+   NAME &#39;dNSTTL&#39;
+   DESC &#39;An integer denoting time to live&#39;
+   EQUALITY integerMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+)
+attributetype ( 1.3.6.1.4.1.2428.20.0.1
+   NAME &#39;dNSClass&#39;
+   DESC &#39;The class of a resource record&#39;
+   EQUALITY caseIgnoreIA5Match
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.0.2
+   NAME &#39;zoneName&#39;
+   DESC &#39;The name of a zone, i.e. the name of the highest node in the zone&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.0.3
+   NAME &#39;relativeDomainName&#39;
+   DESC &#39;The starting labels of a domain name&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.12
+   NAME &#39;pTRRecord&#39;
+   DESC &#39;domain name pointer, RFC 1035&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.13
+   NAME &#39;hInfoRecord&#39;
+   DESC &#39;host information, RFC 1035&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.14
+   NAME &#39;mInfoRecord&#39;
+   DESC &#39;mailbox or mail list information, RFC 1035&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.16
+   NAME &#39;tXTRecord&#39;
+   DESC &#39;text string, RFC 1035&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.18
+   NAME &#39;aFSDBRecord&#39;
+   DESC &#39;for AFS Data Base location, RFC 1183&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.24
+   NAME &#39;SigRecord&#39;
+   DESC &#39;Signature, RFC 2535&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.25
+   NAME &#39;KeyRecord&#39;
+   DESC &#39;Key, RFC 2535&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.28
+   NAME &#39;aAAARecord&#39;
+   DESC &#39;IPv6 address, RFC 1886&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.29
+   NAME &#39;LocRecord&#39;
+   DESC &#39;Location, RFC 1876&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.30
+   NAME &#39;nXTRecord&#39;
+   DESC &#39;non-existant, RFC 2535&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.33
+   NAME &#39;sRVRecord&#39;
+   DESC &#39;service location, RFC 2782&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.35
+   NAME &#39;nAPTRRecord&#39;
+   DESC &#39;Naming Authority Pointer, RFC 2915&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.36
+   NAME &#39;kXRecord&#39;
+   DESC &#39;Key Exchange Delegation, RFC 2230&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.37
+   NAME &#39;certRecord&#39;
+   DESC &#39;certificate, RFC 2538&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.38
+   NAME &#39;a6Record&#39;
+   DESC &#39;A6 Record Type, RFC 2874&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.39
+   NAME &#39;dNameRecord&#39;
+   DESC &#39;Non-Terminal DNS Name Redirection, RFC 2672&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.43
+   NAME &#39;dSRecord&#39;
+   DESC &#39;Delegation Signer, RFC 3658&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.44
+   NAME &#39;sSHFPRecord&#39;
+   DESC &#39;SSH Key Fingerprint, draft-ietf-secsh-dns-05.txt&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.46
+   NAME &#39;rRSIGRecord&#39;
+   DESC &#39;RRSIG, RFC 3755&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 1.3.6.1.4.1.2428.20.1.47
+   NAME &#39;nSECRecord&#39;
+   DESC &#39;NSEC, RFC 3755&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+)
+attributetype ( 2.16.840.1.113730.3.8.3.0
+   NAME &#39;idnsName&#39;
+   DESC &#39;DNS FQDN&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.1
+   NAME &#39;idnsAllowDynUpdate&#39;
+   DESC &#39;permit dynamic updates on this zone&#39;
+   EQUALITY booleanMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.2
+   NAME &#39;idnsZoneActive&#39;
+   DESC &#39;define if the zone is considered in use&#39;
+   EQUALITY booleanMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.3
+   NAME &#39;idnsSOAmName&#39;
+   DESC &#39;SOA Name&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.4
+   NAME &#39;idnsSOArName&#39;
+   DESC &#39;SOA root Name&#39;
+   EQUALITY caseIgnoreIA5Match
+   SUBSTR caseIgnoreIA5SubstringsMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.5
+   NAME &#39;idnsSOAserial&#39;
+   DESC &#39;SOA serial number&#39;
+   EQUALITY numericStringMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.36
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.6
+   NAME &#39;idnsSOArefresh&#39;
+   DESC &#39;SOA refresh value&#39;
+   EQUALITY numericStringMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.36
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.7
+   NAME &#39;idnsSOAretry&#39;
+   DESC &#39;SOA retry value&#39;
+   EQUALITY numericStringMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.36
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.8
+   NAME &#39;idnsSOAexpire&#39;
+   DESC &#39;SOA expire value&#39;
+   EQUALITY numericStringMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.36
+   SINGLE-VALUE
+)
+attributetype ( 2.16.840.1.113730.3.8.3.9
+   NAME &#39;idnsSOAminimum&#39;
+   DESC &#39;SOA minimum value&#39;
+   EQUALITY numericStringMatch
+   SYNTAX 1.3.6.1.4.1.1466.115.121.1.36
+   SINGLE-VALUE
+)
+objectclass ( 2.16.840.1.113730.3.8.4.0
+   NAME &#39;idnsRecord&#39;
+   DESC &#39;dns Record, usually a host&#39;
+   SUP top
+   STRUCTURAL
+   MUST idnsName
+   MAY ( cn $ idnsAllowDynUpdate $ DNSTTL $ DNSClass $ ARecord $
+       AAAARecord $ A6Record $ NSRecord $ CNAMERecord $ PTRRecord $
+       SRVRecord $ TXTRecord $ MXRecord $ MDRecord $ HINFORecord $
+       MINFORecord $ AFSDBRecord $ SIGRecord $ KEYRecord $ LOCRecord $
+       NXTRecord $ NAPTRRecord $ KXRecord $ CERTRecord $ DNAMERecord $
+       DSRecord $ SSHFPRecord $ RRSIGRecord $ NSECRecord
+   )
+)
+objectclass ( 2.16.840.1.113730.3.8.4.1
+   NAME &#39;idnsZone&#39;
+   DESC &#39;Zone class&#39;
+   SUP idnsRecord
+   STRUCTURAL
+   MUST ( idnsName $ idnsZoneActive $ idnsSOAmName $ idnsSOArName $
+       idnsSOAserial $ idnsSOArefresh $ idnsSOAretry $ idnsSOAexpire $
+       idnsSOAminimum
+   )
+)
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="FreeIPAv2:Dynamic_updates_with_GSS-TSIG">Dynamic updates with
+GSS-TSIG</a></p></li>
+</ul>
+</section>
+<section id="useful-links">
+<h2>Useful links<a class="headerlink" href="#useful-links" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>RFC 3645 GSS-TSIG Generic Security Service Algorithm for Secret Key
+Transaction Authentication for DNS (GSS-TSIG)</p></li>
+<li><p><a class="reference external" href="http://directory.fedoraproject.org/wiki/Howto:BIND">http://directory.fedoraproject.org/wiki/Howto:BIND</a> Some tips on how
+to integrate BIND with Fedora DS</p></li>
+<li><p><a class="reference external" href="http://www.blue-giraffe.com/zone2ldap/">http://www.blue-giraffe.com/zone2ldap/</a> zone2ldap utility, writes DNS
+records from flat files to LDAP</p></li>
+<li><p><a class="reference external" href="http://projects.alkaloid.net/e107_plugins/content/content.php?content.5">http://projects.alkaloid.net/e107_plugins/content/content.php?content.5</a>
+ldap2dns utility, converts DNS records from LDAP to flat files</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-updates-with-gss-tsig">Dynamic updates with GSS-TSIG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-in-dnspython">Support in dnspython</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-dns-records-in-ldap">Storing DNS records in LDAP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap-driver">LDAP driver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-links">Useful links</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

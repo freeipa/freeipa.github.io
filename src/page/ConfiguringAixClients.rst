@@ -7,26 +7,367 @@ Guide <FreeIPAv1:Client_Configuration_Guide>`__
 Introduction
 ============
 
-This document describes the procedures required to configure AIX 5.3 as
-an IPA client, hints for later AIX versions are also included.
+This document describes the procedures required to configure AIX 7.3 as
+an IPA client, hints for earlier AIX versions are also included.
 
 Prerequisites
 -------------
 
 Before you begin the configuration phase, you need to ensure that the
-following software is installed and up to date on your system. This can
-be installed from your AIX media:
+following software is installed and up to date on your system. 
 
--  v5.3 OS
--  v5.3 Updates
--  krb5 client packages
--  openssh
--  wget
--  bash
--  ldap.client (idsldap)
--  openssl
--  modcrypt.base (for gssd)
++--------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| Component                                        | Where to find                                                                                                                       |
++==================================================+=====================================================================================================================================+
+| AIX 7.3                                          | `IBM Entitled Systems Support site <https://www.ibm.com/servers/eserver/ess/index.wss>`__                                           |
++--------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| IBM Network Authentication Service (Kerbreros 5) | AIX Expansion Pack DVD or `AIX Web Pack site <https://www.ibm.com/resources/mrs/assets?source=aixbp>`__                             |
++--------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| IBM Security Verify Directory                    | AIX media or `AIX Web Pack site <https://www.ibm.com/resources/mrs/assets?source=aixbp>`__                                          |
++--------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| GSKit                                            | AIX Expansion Pack DVD or `AIX Web Pack site <https://www.ibm.com/resources/mrs/assets?source=aixbp>`__                             |
++--------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| sudo_ids RPM package                             | `AIX Toolbox for Open source applications <https://www.ibm.com/support/pages/aix-toolbox-open-source-software-downloads-alpha#S>`__ |
++--------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
 
+You must also obtain several parameters from your FreeIPA installation before proceeding further.
+
+* FreeIPA server names and their IP addresses
+* FreeIPA DNS domain
+* FreeIPA Kerberos realm
+* FreeIPA LDAP base DN
+* HBAC rule ID for access to your AIX server (:command:`ipa hbacrule-show <name> --all | grep dn:`)
+
+Your AIX server must be registered in FreeIPA as a host and you must have Kerberos keytab generated for the host.
+
+We use the following values as example:
+
+::
+
+    IPA server = ipaserver.example.com, 10.0.0.1
+    IPA DNS domain = example.com
+    IPA Kerberos realm = EXAMPLE.COM
+    IPA LDAP base DN = dc=example,dc=com
+    HBAC rule ID = ipaUniqueID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com
+    AIX server = aix73.example.com, 10.0.0.73
+    AIX Kerberos principal = host/aix73.example.com@EXAMPLE.COM
+
+
+Installing prerequisites on AIX 7.3
+===================================
+
+Installing GSKit
+----------------
+
+Install both 32- and 64-bit packages for GSKit8. If there are any updates for GSKit, install the latest updates.
+
+Installing Kerberos
+-------------------
+
+You need only client packages - :samp:`krb5.client.rte` fileset.
+
+Installing LDAP packages
+------------------------
+
+Mount AIX DVD image to your AIX server and accept Security Verify Directory license. In the example below the image is mounted under /mnt.
+
+::
+
+    /mnt/license/idsLicense
+
+Press 1 to accept the license.
+
+Install the following filesets and their dependencies:
+
++------------------------------------+
++ Fileset                            +
++====================================+
+| idsldap.clt64bit100.rte            |
++------------------------------------+
+| idsldap.clt32bit100.rte            |
++------------------------------------+
+| idsldap.clt_max_crypto32bit100.rte |
++------------------------------------+
+| idsldap.clt_max_crypto64bit100.rte |
++------------------------------------+
+
+After the installation create symlinks for the LDAP libraries and commands:
+
+::
+
+    /opt/IBM/ldap/V10.0/bin/idslink -i -l 64 -s base -f
+    /opt/IBM/ldap/V10.0/bin/idslink -i -l 32 -s base -f
+
+
+It is strongly recommended to install the latest fixpacks and updates for IBM Security Verify Directory.
+
+
+Installing sudo
+---------------
+
+If you still don't have DNF on your AIX, install first DNF using `dnf_aixtoolbox.sh <https://public.dhe.ibm.com/aix/freeSoftware/aixtoolbox/ezinstall/ppc/dnf_aixtoolbox.sh>`__.
+
+Use :command:sudo_ids package instead of :command:`sudo` because it seamlessly works with IBM LDAP libraries. If you already installed :command:`sudo` package, remove it first.
+
+::
+
+    /opt/freeware/bin/dnf -y install sudo_ids
+
+
+Configuring AIX 7.3 as IPA client
+=================================
+
+DNS
+---
+
+Check that you correctly configured your DNS in /etc/resolv.conf:
+
+::
+
+    options rotate,timeout:10
+    domain example.com
+    search example.com
+    nameserver 10.0.0.1
+
+
+You can also add your IPA server into /etc/hosts:
+
+::
+
+    10.0.0.1 ipaserver.example.com ipaserver
+
+
+NIS
+---
+
+Set up NIS domain name. You need it if you work with sudo and netgroups or user groups on IPA side:
+
+::
+
+    chypdom -B example.com
+
+
+OpenSSL
+-------
+
+Download IPA server certificate and create a hash link to it:
+
+::
+
+    $ curl -o /var/ssl/certs/ipa.crt https://ipaserver.example.com/ipa/config/ca.crt
+    $ openssl x509 -in /var/ssl/certs/ipa.crt -noout -hash
+    01234567
+    $ ln -s /var/ssl/certs/ipa.crt /var/ssl/certs/01234567.0
+
+
+GSKit
+-----
+
+Creat a new certificate database and add IPA server certificate into it. Note the password of your certificate database. You will need it later during LDAP client configuration.
+
+::
+
+    $ gsk8capicmd_64 -keydb -create -db /etc/security/ldap/key.kdb -pw MYPASSWORD -type cms -stashed
+    $ gsk8capicmd_64 -cert -add -file /var/ssl/certs/ipa.crt -label ipa -db /etc/security/ldap/key.kdb -stashed
+
+
+LDAP mapping files
+------------------
+
+Create /etc/security/ldap/ipagroup.map:
+
+::
+
+    keyobjectclass  SEC_CHAR    posixgroup      s   na  yes
+    groupname       SEC_CHAR    cn              s   na  yes
+    id              SEC_INT     gidnumber       s   na  yes
+    users           SEC_LIST    member          m   na  yes
+
+
+Create /etc/security/ldap/ipauser.map:
+
+::
+
+    keyobjectclass  SEC_CHAR    posixaccount        s   na      yes
+    username        SEC_CHAR    uid                 s   na      yes
+    id              SEC_INT     uidnumber           s   na      yes 
+    pgrp            SEC_CHAR    gidnumber           s   na      yes
+    home            SEC_CHAR    homedirectory       s   na      yes
+    shell           SEC_CHAR    loginshell          s   na      yes
+    gecos           SEC_CHAR    gecos               s   na      yes
+    spassword       SEC_CHAR    userpassword        s   na      yes
+    lastupdate      SEC_INT     nonexistingattr     s   days    yes
+    account_locked  SEC_BOOL    nsaccountlock       s   na      yes
+    auth_name       SEC_CHAR    krbprincipalname    s   na      yes
+
+
+LDAP client configuration
+-------------------------
+
+Create /etc/security/ldap/ldap.cfg:
+
+::
+
+    ldapservers:ipaserver.example.com
+    authtype:ldap_auth
+    useSSL:yes
+    verifyCertificate:yes
+    ldapsslkeyf:/etc/security/ldap/key.kdb
+    ldapsslkeypwd:MYPASSWORD
+    userattrmappath:/etc/security/ldap/ipauser.map
+    groupattrmappath:/etc/security/ldap/ipagroup.map
+    useKRB5:yes
+    krbcmddir:/usr/krb5/bin/
+    krbkeypath:/etc/krb5/krb5.keytab
+    krbprincipal:host/aix73.example.com@EXAMPLE.COM
+    defaultentrylocation:local
+    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(memberOf=ipaUniqeID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com)
+    groupbasedn:cn=groups,cn=accounts,dc=example,dc=com
+    netgroupbasedn:cn=ng,cn=compat,dc=example,dc=com
+    userclasses:posixaccount
+    groupclasses:posixgroup
+    searchmode:OS
+    enableutf8_xlation:no
+    serverschematype:rfc2307
+    memberfulldn:yes
+    resolveUserFromDN:yes
+
+
+Home directories
+----------------
+
+Unless you use NFS or something else to host your users' home directories, enable automatic creation of home directories:
+
+::
+
+    chsec -f /etc/security/login.cfg -s usw -a mkhomeatlogin=true
+
+
+Domainless groups
+-----------------
+
+To enable LDAP users to be included into local AIX groups, enable domainless groups setting:
+
+::
+
+    chsec -f /etc/secvars.cfg -s groups -a domainlessgroups=true
+
+
+Kerberos configuration
+----------------------
+
+Copy your AIX server's keytab into /etc/krb5/krb5.keytab and create /etc/krb5/krb5.conf:
+
+::
+
+    [libdefaults]
+        default_realm = EXAMPLE.COM
+        default_keytab_name = FILE:/etc/krb5/krb5.keytab
+        permitted_enctypes = aes256-cts-hmac-sha384-192 aes128-cts-hmac-sha256-128 aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96
+        dns_lookup_realm = false
+        dns_lookup_kdc = false
+        rdns = false
+        forwardable = true
+        renewable = true
+        canonicalize = true
+
+    [realms]
+        EXAMPLE.COM = {
+            kdc = ipaserver.example.com:88
+            admin_server = ipaserver.example.com:749
+            kpasswd_server = ipaserver.example.com:464
+            default_domain = example.com
+        }
+
+    [domain_realm]
+        .example.com = EXAMPLE.COM
+        ipaserver.example.com = EXAMPLE.COM
+
+    [logging]
+        default = FILE:/var/krb5/log/krb5lib.log
+
+
+sudo configuration
+------------------
+
+Create /etc/irs.conf to enable searching through netgroups:
+
+::
+
+    netgroup nis_ldap
+
+
+Create /etc/sudo-ldap.conf:
+
+::
+
+    uri ldaps://ipaserver.example.com
+    ssl start_tls
+    tls_key /etc/security/ldap/key.kdb
+    tls_keypw MYPASSWORD
+    use_sasl yes
+    sasl_auth_id host/aix73.example.com@EXAMPLE.COM
+    krb5_ccname /etc/security/ldap/krb5cc_secldapclntd
+    sudoers_base ou=sudoers,dc=example,dc=com
+    netgroup_base cn=ng,cn=compat,dc=example,dc=com
+    netgroup_query yes
+
+
+Authentication methods
+----------------------
+
+Add the following lines into /usr/lib/security/methods.cfg to enable LDAP and Kerberos on AIX:
+
+::
+
+    LDAP:
+        program = /usr/lib/security/LDAP
+        program_64 = /usr/lib/security/LDAP64
+
+    KRB5:
+        program = /usr/lib/security/KRB5
+        program_64 = /usr/lib/security/KRB5_64
+        options = authonly
+
+    KRB5LDAP:
+        options = db=LDAP,auth=KRB5
+
+
+Existing user migration
+-----------------------
+
+Set attributes registry and SYSTEM for local users, especially for system users like root:
+
+::
+
+    chsec -f /etc/security/user -s root -a registry=files -a SYSTEM=compat
+
+
+Enable user authentication through IPA server
+---------------------------------------------
+
+By default all users which are not defined in /etc/passwd must be sought in LDAP and authenticated using Kerberos:
+
+::
+
+    chsec -f /etc/security/user -s default -a registry=KRB5LDAP -a SYSTEM=KRB5LDAP
+
+
+Start LDAP client
+-----------------
+
+Start LDAP client:
+
+::
+
+    start-secldapclntd
+
+
+Add the start of LDAP client into boot process:
+
+::
+
+    mkitab -i rctpip "ldapclntd:23456789:wait:/usr/sbin/start-secldapclntd 2>&1"
 
 
 Configuring the IPA Client on AIX 5.3
@@ -38,9 +379,9 @@ replace these with the hostnames that apply to your deployment.
 
 ::
 
-           REALM = EXAMPLE.COM
-           IPA server = ipaserver.example.com
-           IPA client = ipaclient.example.com
+    REALM = EXAMPLE.COM
+    IPA server = ipaserver.example.com
+    IPA client = ipaclient.example.com
 
 
 
@@ -49,21 +390,27 @@ Configuring Kerberos and LDAP
 
 1. Configure the krb5 client settings as follows:
 
-``   # mkkrb5clnt -r EXAMPLE.COM -d example.com -c ipaserver.example.com -s ipaserver.example.com``
+::
+
+    # mkkrb5clnt -r EXAMPLE.COM -d example.com -c ipaserver.example.com -s ipaserver.example.com
 
 2. Get a Kerberos ticket.
 
-``       # kinit  admin``
+::
+
+    # kinit  admin
 
 3. Configure the LDAP client settings as follows:
 
-``       # mksecldap -c -h ipaserver.example.com -d cn=accounts,dc=example,dc=com -a uid=nss,cn=sysaccounts,cn=etc,dc=example,dc=com -p secret``
+::
+
+    # mksecldap -c -h ipaserver.example.com -d cn=accounts,dc=example,dc=com -a uid=nss,cn=sysaccounts,cn=etc,dc=example,dc=com -p secret
 
 4. Add custom settings for the LDAP client.
 
 Under /etc/security/ldap create 2 new map files:
 
-   ::
+::
 
       #IPAuser.map file
       keyobjectclass  SEC_CHAR        posixaccount            s
@@ -80,18 +427,18 @@ Under /etc/security/ldap create 2 new map files:
 
 ..
 
-   ::
+::
 
       #IPAgroup.map file
       groupname       SEC_CHAR    cn                    s
       id              SEC_INT     gidNumber             s
       users           SEC_LIST    member                m
 
-| Change the /etc/security/ldap/ldap.cfg file and set the relevant
-  options as follow.
-| In this example the RELAM name is EXAMPLE.COM and the basedn is
-  dc=example,dc=com
-| Change all basedns values to conform to your installation realm name.
+..
+
+    | Change the /etc/security/ldap/ldap.cfg file and set the relevant options as follow.
+    | In this example the REALM name is EXAMPLE.COM and the basedn is dc=example,dc=com
+    | Change all basedns values to conform to your installation realm name.
 
 ::
 
@@ -105,17 +452,21 @@ Under /etc/security/ldap create 2 new map files:
 
 5. Start the ldap client daemon.
 
-``       # start-secldapclntd``
+::
+
+    # start-secldapclntd
 
 6. Test the LDAP client connection to the IPA server.
 
-``       # lsldap -a passwd``
+::
+
+    # lsldap -a passwd
 
 7. Configure the system login to use Krberos and LDAP
 
 Add the following sections to the file /usr/lib/security/methods.cfg
 
-   ::
+::
 
       KRB5A:
               program = /usr/lib/security/KRB5A
@@ -125,26 +476,29 @@ Add the following sections to the file /usr/lib/security/methods.cfg
       KRB5ALDAP:
               options = auth=KRB5A,db=LDAP
 
+
 For AIX 6.1 the line
 
-   ::
+::
 
               options = authonly
 
 should be changed into
 
-   ::
+::
 
               options = authonly,kadmind=no
 
-| Edit the file /etc/security/user
-| In the default section change the options 'SYSTEM' and 'registry' to
-  look like this:
+..
+
+    | Edit the file /etc/security/user
+    | In the default section change the options 'SYSTEM' and 'registry' to look like this:
 
 ::
 
            SYSTEM = "KRB5ALDAP"
            regisrty = LDAP
+
 
 Please note: due to these changes to /etc/security/user LDAP is
 configured, leading to local users with no individual entry not beeing

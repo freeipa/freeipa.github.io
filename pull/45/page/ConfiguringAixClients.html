@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ConfiguringAixClients &#8212; FreeIPA  documentation</title>
+    <title>Configuring AIX clients &#8212; FreeIPA  documentation</title>
   
   
   
@@ -279,7 +279,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ConfiguringAixClients</h1>
+    <h1>Configuring AIX clients</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -289,7 +289,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">ConfiguringAixClients</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring AIX clients</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 </ul>
@@ -316,6 +316,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#existing-user-migration">Existing user migration</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-user-authentication-through-ipa-server">Enable user authentication through IPA server</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-ldap-client">Start LDAP client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-ipa-client-on-aix-5-3">Configuring the IPA Client on AIX 5.3</a><ul class="visible nav section-nav flex-column">
@@ -338,15 +339,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="configuringaixclients">
-<h1>ConfiguringAixClients<a class="headerlink" href="#configuringaixclients" title="Link to this heading">#</a></h1>
-<p>Back to <a class="reference external" href="FreeIPAv1:Client_Configuration_Guide">FreeIPAv1:Client Configuration
-Guide</a></p>
+  <section id="configuring-aix-clients">
+<h1>Configuring AIX clients<a class="headerlink" href="#configuring-aix-clients" title="Link to this heading">#</a></h1>
 </section>
 <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
 <p>This document describes the procedures required to configure AIX 7.3 as
-an IPA client, hints for earlier AIX versions are also included.</p>
+an IPA client, hints for earlier AIX versions are also included below.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
 <p>Before you begin the configuration phase, you need to ensure that the
@@ -382,7 +381,7 @@ following software is installed and up to date on your system.</p>
 <li><p>FreeIPA DNS domain</p></li>
 <li><p>FreeIPA Kerberos realm</p></li>
 <li><p>FreeIPA LDAP base DN</p></li>
-<li><p>HBAC rule ID for access to your AIX server (<strong class="command">ipa hbacrule-show &lt;name&gt; --all | grep dn:</strong>)</p></li>
+<li><p><abbr title="Host-based access control">HBAC</abbr> rule ID for access to your AIX server (<strong class="command">ipa hbacrule-show &lt;name&gt; --all | grep dn:</strong>), in case you use <a class="reference external" href="https://www.freeipa.org/page/Howto/HBAC_and_allow_all">Host-based access control</a> in your enviornment.</p></li>
 </ul>
 <p>Your AIX server must be registered in FreeIPA as a host and you must have Kerberos keytab generated for the host.</p>
 <p>We use the following values as example:</p>
@@ -409,11 +408,11 @@ following software is installed and up to date on your system.</p>
 </section>
 <section id="installing-ldap-packages">
 <h2>Installing LDAP packages<a class="headerlink" href="#installing-ldap-packages" title="Link to this heading">#</a></h2>
-<p>Mount AIX DVD image to your AIX server and accept Security Verify Directory license. In the example below the image is mounted under /mnt.</p>
+<p>Mount AIX DVD image to your AIX server and accept Security Verify Directory license. In the example below the image is mounted under <code class="file docutils literal notranslate"><span class="pre">/mnt</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">license</span><span class="o">/</span><span class="n">idsLicense</span>
 </pre></div>
 </div>
-<p>Press 1 to accept the license.</p>
+<p>Press <kbd class="kbd docutils literal notranslate">1</kbd> to accept the license.</p>
 <p>Install the following filesets and their dependencies:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -443,8 +442,13 @@ following software is installed and up to date on your system.</p>
 <section id="installing-sudo">
 <h2>Installing sudo<a class="headerlink" href="#installing-sudo" title="Link to this heading">#</a></h2>
 <p>If you still don’t have DNF on your AIX, install first DNF using <a class="reference external" href="https://public.dhe.ibm.com/aix/freeSoftware/aixtoolbox/ezinstall/ppc/dnf_aixtoolbox.sh">dnf_aixtoolbox.sh</a>.</p>
-<p>Use :command:sudo_ids package instead of <strong class="command">sudo</strong> because it seamlessly works with IBM LDAP libraries. If you already installed <strong class="command">sudo</strong> package, remove it first.</p>
+<p>Use <strong class="command">sudo_ids</strong> package instead of <strong class="command">sudo</strong> because it seamlessly works with IBM LDAP libraries. If you already installed <strong class="command">sudo</strong> package, remove it first.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">freeware</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">dnf</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">sudo_ids</span>
+</pre></div>
+</div>
+<p>If during the installation you get an error like <code class="code docutils literal notranslate"><span class="pre">Nothing</span> <span class="pre">provides</span> <span class="pre">libibmldap.a</span></code>, recreate virtual RPM package definitions first and then install <strong class="command">sudo_ids</strong>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">updtvpkg</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">freeware</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">dnf</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">sudo_ids</span>
 </pre></div>
 </div>
 </section>
@@ -453,14 +457,14 @@ following software is installed and up to date on your system.</p>
 <h1>Configuring AIX 7.3 as IPA client<a class="headerlink" href="#configuring-aix-7-3-as-ipa-client" title="Link to this heading">#</a></h1>
 <section id="dns">
 <h2>DNS<a class="headerlink" href="#dns" title="Link to this heading">#</a></h2>
-<p>Check that you correctly configured your DNS in /etc/resolv.conf:</p>
+<p>Check that you correctly configured your DNS in <code class="file docutils literal notranslate"><span class="pre">/etc/resolv.conf</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="n">rotate</span><span class="p">,</span><span class="n">timeout</span><span class="p">:</span><span class="mi">10</span>
 <span class="n">domain</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
 <span class="n">search</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
 <span class="n">nameserver</span> <span class="mf">10.0.0.1</span>
 </pre></div>
 </div>
-<p>You can also add your IPA server into /etc/hosts:</p>
+<p>You can also add your IPA server into <code class="file docutils literal notranslate"><span class="pre">/etc/hosts</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">10.0.0.1</span> <span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="n">ipaserver</span>
 </pre></div>
 </div>
@@ -484,7 +488,7 @@ $ ln -s /var/ssl/certs/ipa.crt /var/ssl/certs/01234567.0
 </section>
 <section id="gskit">
 <h2>GSKit<a class="headerlink" href="#gskit" title="Link to this heading">#</a></h2>
-<p>Creat a new certificate database and add IPA server certificate into it. Note the password of your certificate database. You will need it later during LDAP client configuration.</p>
+<p>Create a new certificate store and add IPA server certificate into it. Note the password of your certificate store. You will need it later during LDAP client configuration.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gsk8capicmd_64 -keydb -create -db /etc/security/ldap/key.kdb -pw MYPASSWORD -type cms -stashed
 $ gsk8capicmd_64 -cert -add -file /var/ssl/certs/ipa.crt -label ipa -db /etc/security/ldap/key.kdb -stashed
 </pre></div>
@@ -492,14 +496,15 @@ $ gsk8capicmd_64 -cert -add -file /var/ssl/certs/ipa.crt -label ipa -db /etc/sec
 </section>
 <section id="ldap-mapping-files">
 <h2>LDAP mapping files<a class="headerlink" href="#ldap-mapping-files" title="Link to this heading">#</a></h2>
-<p>Create /etc/security/ldap/ipagroup.map:</p>
+<p>These files define how to map LDAP information to AIX internal attributes.</p>
+<p>Create <code class="file docutils literal notranslate"><span class="pre">/etc/security/ldap/ipagroup.map</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">keyobjectclass</span>  <span class="n">SEC_CHAR</span>    <span class="n">posixgroup</span>      <span class="n">s</span>   <span class="n">na</span>  <span class="n">yes</span>
 <span class="n">groupname</span>       <span class="n">SEC_CHAR</span>    <span class="n">cn</span>              <span class="n">s</span>   <span class="n">na</span>  <span class="n">yes</span>
 <span class="nb">id</span>              <span class="n">SEC_INT</span>     <span class="n">gidnumber</span>       <span class="n">s</span>   <span class="n">na</span>  <span class="n">yes</span>
 <span class="n">users</span>           <span class="n">SEC_LIST</span>    <span class="n">member</span>          <span class="n">m</span>   <span class="n">na</span>  <span class="n">yes</span>
 </pre></div>
 </div>
-<p>Create /etc/security/ldap/ipauser.map:</p>
+<p>Create <code class="file docutils literal notranslate"><span class="pre">/etc/security/ldap/ipauser.map</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">keyobjectclass</span>  <span class="n">SEC_CHAR</span>    <span class="n">posixaccount</span>        <span class="n">s</span>   <span class="n">na</span>      <span class="n">yes</span>
 <span class="n">username</span>        <span class="n">SEC_CHAR</span>    <span class="n">uid</span>                 <span class="n">s</span>   <span class="n">na</span>      <span class="n">yes</span>
 <span class="nb">id</span>              <span class="n">SEC_INT</span>     <span class="n">uidnumber</span>           <span class="n">s</span>   <span class="n">na</span>      <span class="n">yes</span>
@@ -516,7 +521,7 @@ $ gsk8capicmd_64 -cert -add -file /var/ssl/certs/ipa.crt -label ipa -db /etc/sec
 </section>
 <section id="ldap-client-configuration">
 <h2>LDAP client configuration<a class="headerlink" href="#ldap-client-configuration" title="Link to this heading">#</a></h2>
-<p>Create /etc/security/ldap/ldap.cfg:</p>
+<p>Create <code class="file docutils literal notranslate"><span class="pre">/etc/security/ldap/ldap.cfg</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ldapservers:ipaserver.example.com
 authtype:ldap_auth
 useSSL:yes
@@ -542,6 +547,12 @@ memberfulldn:yes
 resolveUserFromDN:yes
 </pre></div>
 </div>
+<p>If you don’t use <abbr title="Host-based access control">HBAC</abbr>, your <cite>userbasedn</cite> parameter may be specified without any additional filters, like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">userbasedn</span><span class="p">:</span><span class="n">cn</span><span class="o">=</span><span class="n">users</span><span class="p">,</span><span class="n">cn</span><span class="o">=</span><span class="n">accounts</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">example</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>You need <cite>netgroupbasedn</cite> parameter only if you use sudo with netgroups. If you don’t use sudo with netgroups, you can drop the parameter.</p>
+<p>The password to the GSKit certificate store (<cite>ldapsslkeypwd</cite>) can be encrypted using <strong class="command">secldapclntd -e</strong> command. But the option is not documented.</p>
 </section>
 <section id="home-directories">
 <h2>Home directories<a class="headerlink" href="#home-directories" title="Link to this heading">#</a></h2>
@@ -559,7 +570,7 @@ resolveUserFromDN:yes
 </section>
 <section id="kerberos-configuration">
 <h2>Kerberos configuration<a class="headerlink" href="#kerberos-configuration" title="Link to this heading">#</a></h2>
-<p>Copy your AIX server’s keytab into /etc/krb5/krb5.keytab and create /etc/krb5/krb5.conf:</p>
+<p>Copy your AIX server’s keytab into <code class="file docutils literal notranslate"><span class="pre">/etc/krb5/krb5.keytab</span></code> and create <code class="file docutils literal notranslate"><span class="pre">/etc/krb5/krb5.conf</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">libdefaults</span><span class="p">]</span>
     <span class="n">default_realm</span> <span class="o">=</span> <span class="n">EXAMPLE</span><span class="o">.</span><span class="n">COM</span>
     <span class="n">default_keytab_name</span> <span class="o">=</span> <span class="n">FILE</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">krb5</span><span class="o">/</span><span class="n">krb5</span><span class="o">.</span><span class="n">keytab</span>
@@ -590,11 +601,11 @@ resolveUserFromDN:yes
 </section>
 <section id="sudo-configuration">
 <h2>sudo configuration<a class="headerlink" href="#sudo-configuration" title="Link to this heading">#</a></h2>
-<p>Create /etc/irs.conf to enable searching through netgroups:</p>
+<p>Create <code class="file docutils literal notranslate"><span class="pre">/etc/irs.conf</span></code> to enable searching through netgroups if you use netgroups:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">netgroup</span> <span class="n">nis_ldap</span>
 </pre></div>
 </div>
-<p>Create /etc/sudo-ldap.conf:</p>
+<p>Create <code class="file docutils literal notranslate"><span class="pre">/etc/sudo-ldap.conf</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uri</span> <span class="n">ldaps</span><span class="p">:</span><span class="o">//</span><span class="n">ipaserver</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
 <span class="n">ssl</span> <span class="n">start_tls</span>
 <span class="n">tls_key</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">ldap</span><span class="o">/</span><span class="n">key</span><span class="o">.</span><span class="n">kdb</span>
@@ -607,10 +618,13 @@ resolveUserFromDN:yes
 <span class="n">netgroup_query</span> <span class="n">yes</span>
 </pre></div>
 </div>
+<p>The file with Kerberos credentials cache is automatically created and updated by AIX LDAP client.</p>
+<p>The password for GSKit certificate store (<cite>tls_keypw</cite>) must be in clear text.</p>
+<p>If you don’t use netgroups, you can remove the last two lines of the configuration file (<cite>netgroup_base</cite> and <cite>netgroup_query</cite>).</p>
 </section>
 <section id="authentication-methods">
 <h2>Authentication methods<a class="headerlink" href="#authentication-methods" title="Link to this heading">#</a></h2>
-<p>Add the following lines into /usr/lib/security/methods.cfg to enable LDAP and Kerberos on AIX:</p>
+<p>Add the following lines into <code class="file docutils literal notranslate"><span class="pre">/usr/lib/security/methods.cfg</span></code> to enable LDAP and Kerberos on AIX:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP</span><span class="p">:</span>
     <span class="n">program</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">LDAP</span>
     <span class="n">program_64</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">LDAP64</span>
@@ -627,14 +641,18 @@ resolveUserFromDN:yes
 </section>
 <section id="existing-user-migration">
 <h2>Existing user migration<a class="headerlink" href="#existing-user-migration" title="Link to this heading">#</a></h2>
-<p>Set attributes registry and SYSTEM for local users, especially for system users like root:</p>
+<p>Set attributes <cite>registry</cite> and <cite>SYSTEM</cite> for local users, especially for system users like root, using <strong class="command">chsec</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chsec</span> <span class="o">-</span><span class="n">f</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">user</span> <span class="o">-</span><span class="n">s</span> <span class="n">root</span> <span class="o">-</span><span class="n">a</span> <span class="n">registry</span><span class="o">=</span><span class="n">files</span> <span class="o">-</span><span class="n">a</span> <span class="n">SYSTEM</span><span class="o">=</span><span class="n">compat</span>
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Don’t use <strong class="command">chuser</strong> or <strong class="command">smitty</strong> to set the attributes in this case!</p>
 </div>
 </section>
 <section id="enable-user-authentication-through-ipa-server">
 <h2>Enable user authentication through IPA server<a class="headerlink" href="#enable-user-authentication-through-ipa-server" title="Link to this heading">#</a></h2>
-<p>By default all users which are not defined in /etc/passwd must be sought in LDAP and authenticated using Kerberos:</p>
+<p>By default all users which are not defined in <code class="file docutils literal notranslate"><span class="pre">/etc/passwd</span></code> must be sought in LDAP and authenticated using Kerberos:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chsec</span> <span class="o">-</span><span class="n">f</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">security</span><span class="o">/</span><span class="n">user</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span> <span class="o">-</span><span class="n">a</span> <span class="n">registry</span><span class="o">=</span><span class="n">KRB5LDAP</span> <span class="o">-</span><span class="n">a</span> <span class="n">SYSTEM</span><span class="o">=</span><span class="n">KRB5LDAP</span>
 </pre></div>
 </div>
@@ -649,6 +667,12 @@ resolveUserFromDN:yes
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkitab</span> <span class="o">-</span><span class="n">i</span> <span class="n">rctpip</span> <span class="s2">&quot;ldapclntd:23456789:wait:/usr/sbin/start-secldapclntd 2&gt;&amp;1&quot;</span>
 </pre></div>
 </div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<p>Use <strong class="command">ls-secldapclntd</strong> to check if LDAP client is working and connected to the IPA server.</p>
+<p>Use <strong class="command">lsldap</strong> to check which objects can be found in LDAP using the configuration.</p>
+<p>To check Kerberos authentication, use <strong class="command">/usr/krb5/bin/kinit</strong>. Check that you use <strong class="command">kinit</strong> from <strong class="command">/usr/krb5/bin</strong>, because sometimes Java’s <strong class="command">kinit</strong> has precedence in <cite>PATH</cite> environment variable. Java’s <strong class="command">kinit</strong> will not work.</p>
 </section>
 </section>
 <section id="configuring-the-ipa-client-on-aix-5-3">
@@ -1039,7 +1063,7 @@ helpful.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">ConfiguringAixClients</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring AIX clients</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 </ul>
@@ -1066,6 +1090,7 @@ helpful.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#existing-user-migration">Existing user migration</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-user-authentication-through-ipa-server">Enable user authentication through IPA server</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-ldap-client">Start LDAP client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-ipa-client-on-aix-5-3">Configuring the IPA Client on AIX 5.3</a><ul class="visible nav section-nav flex-column">

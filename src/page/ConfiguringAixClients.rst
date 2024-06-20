@@ -1,14 +1,11 @@
-ConfiguringAixClients
-=====================
-
-Back to `FreeIPAv1:Client Configuration
-Guide <FreeIPAv1:Client_Configuration_Guide>`__
+Configuring AIX clients
+=======================
 
 Introduction
 ============
 
 This document describes the procedures required to configure AIX 7.3 as
-an IPA client, hints for earlier AIX versions are also included.
+an IPA client, hints for earlier AIX versions are also included below.
 
 Prerequisites
 -------------
@@ -36,7 +33,7 @@ You must also obtain several parameters from your FreeIPA installation before pr
 * FreeIPA DNS domain
 * FreeIPA Kerberos realm
 * FreeIPA LDAP base DN
-* HBAC rule ID for access to your AIX server (:command:`ipa hbacrule-show <name> --all | grep dn:`)
+* :abbr:`HBAC (Host-based access control)` rule ID for access to your AIX server (:command:`ipa hbacrule-show <name> --all | grep dn:`), in case you use `Host-based access control <https://www.freeipa.org/page/Howto/HBAC_and_allow_all>`__ in your enviornment.
 
 Your AIX server must be registered in FreeIPA as a host and you must have Kerberos keytab generated for the host.
 
@@ -69,13 +66,13 @@ You need only client packages - :samp:`krb5.client.rte` fileset.
 Installing LDAP packages
 ------------------------
 
-Mount AIX DVD image to your AIX server and accept Security Verify Directory license. In the example below the image is mounted under /mnt.
+Mount AIX DVD image to your AIX server and accept Security Verify Directory license. In the example below the image is mounted under :file:`/mnt`.
 
 ::
 
     /mnt/license/idsLicense
 
-Press 1 to accept the license.
+Press :kbd:`1` to accept the license.
 
 Install the following filesets and their dependencies:
 
@@ -107,10 +104,18 @@ Installing sudo
 
 If you still don't have DNF on your AIX, install first DNF using `dnf_aixtoolbox.sh <https://public.dhe.ibm.com/aix/freeSoftware/aixtoolbox/ezinstall/ppc/dnf_aixtoolbox.sh>`__.
 
-Use :command:sudo_ids package instead of :command:`sudo` because it seamlessly works with IBM LDAP libraries. If you already installed :command:`sudo` package, remove it first.
+Use :command:`sudo_ids` package instead of :command:`sudo` because it seamlessly works with IBM LDAP libraries. If you already installed :command:`sudo` package, remove it first.
 
 ::
 
+    /opt/freeware/bin/dnf -y install sudo_ids
+
+
+If during the installation you get an error like :code:`Nothing provides libibmldap.a`, recreate virtual RPM package definitions first and then install :command:`sudo_ids`.
+
+::
+
+    updtvpkg
     /opt/freeware/bin/dnf -y install sudo_ids
 
 
@@ -120,7 +125,7 @@ Configuring AIX 7.3 as IPA client
 DNS
 ---
 
-Check that you correctly configured your DNS in /etc/resolv.conf:
+Check that you correctly configured your DNS in :file:`/etc/resolv.conf`:
 
 ::
 
@@ -130,7 +135,7 @@ Check that you correctly configured your DNS in /etc/resolv.conf:
     nameserver 10.0.0.1
 
 
-You can also add your IPA server into /etc/hosts:
+You can also add your IPA server into :file:`/etc/hosts`:
 
 ::
 
@@ -163,7 +168,7 @@ Download IPA server certificate and create a hash link to it:
 GSKit
 -----
 
-Creat a new certificate database and add IPA server certificate into it. Note the password of your certificate database. You will need it later during LDAP client configuration.
+Create a new certificate store and add IPA server certificate into it. Note the password of your certificate store. You will need it later during LDAP client configuration.
 
 ::
 
@@ -174,7 +179,9 @@ Creat a new certificate database and add IPA server certificate into it. Note th
 LDAP mapping files
 ------------------
 
-Create /etc/security/ldap/ipagroup.map:
+These files define how to map LDAP information to AIX internal attributes.
+
+Create :file:`/etc/security/ldap/ipagroup.map`:
 
 ::
 
@@ -184,7 +191,7 @@ Create /etc/security/ldap/ipagroup.map:
     users           SEC_LIST    member          m   na  yes
 
 
-Create /etc/security/ldap/ipauser.map:
+Create :file:`/etc/security/ldap/ipauser.map`:
 
 ::
 
@@ -204,7 +211,7 @@ Create /etc/security/ldap/ipauser.map:
 LDAP client configuration
 -------------------------
 
-Create /etc/security/ldap/ldap.cfg:
+Create :file:`/etc/security/ldap/ldap.cfg`:
 
 ::
 
@@ -233,6 +240,18 @@ Create /etc/security/ldap/ldap.cfg:
     resolveUserFromDN:yes
 
 
+If you don't use :abbr:`HBAC (Host-based access control)`, your `userbasedn` parameter may be specified without any additional filters, like:
+
+::
+
+    userbasedn:cn=users,cn=accounts,dc=example,dc=com
+
+
+You need `netgroupbasedn` parameter only if you use sudo with netgroups. If you don't use sudo with netgroups, you can drop the parameter.
+
+The password to the GSKit certificate store (`ldapsslkeypwd`) can be encrypted using :command:`secldapclntd -e` command. But the option is not documented.
+
+
 Home directories
 ----------------
 
@@ -256,7 +275,7 @@ To enable LDAP users to be included into local AIX groups, enable domainless gro
 Kerberos configuration
 ----------------------
 
-Copy your AIX server's keytab into /etc/krb5/krb5.keytab and create /etc/krb5/krb5.conf:
+Copy your AIX server's keytab into :file:`/etc/krb5/krb5.keytab` and create :file:`/etc/krb5/krb5.conf`:
 
 ::
 
@@ -290,14 +309,14 @@ Copy your AIX server's keytab into /etc/krb5/krb5.keytab and create /etc/krb5/kr
 sudo configuration
 ------------------
 
-Create /etc/irs.conf to enable searching through netgroups:
+Create :file:`/etc/irs.conf` to enable searching through netgroups if you use netgroups:
 
 ::
 
     netgroup nis_ldap
 
 
-Create /etc/sudo-ldap.conf:
+Create :file:`/etc/sudo-ldap.conf`:
 
 ::
 
@@ -313,10 +332,17 @@ Create /etc/sudo-ldap.conf:
     netgroup_query yes
 
 
+The file with Kerberos credentials cache is automatically created and updated by AIX LDAP client.
+
+The password for GSKit certificate store (`tls_keypw`) must be in clear text.
+
+If you don't use netgroups, you can remove the last two lines of the configuration file (`netgroup_base` and `netgroup_query`).
+
+
 Authentication methods
 ----------------------
 
-Add the following lines into /usr/lib/security/methods.cfg to enable LDAP and Kerberos on AIX:
+Add the following lines into :file:`/usr/lib/security/methods.cfg` to enable LDAP and Kerberos on AIX:
 
 ::
 
@@ -336,17 +362,22 @@ Add the following lines into /usr/lib/security/methods.cfg to enable LDAP and Ke
 Existing user migration
 -----------------------
 
-Set attributes registry and SYSTEM for local users, especially for system users like root:
+Set attributes `registry` and `SYSTEM` for local users, especially for system users like root, using :command:`chsec`:
 
 ::
 
     chsec -f /etc/security/user -s root -a registry=files -a SYSTEM=compat
 
 
+.. warning::
+
+    Don't use :command:`chuser` or :command:`smitty` to set the attributes in this case!
+
+
 Enable user authentication through IPA server
 ---------------------------------------------
 
-By default all users which are not defined in /etc/passwd must be sought in LDAP and authenticated using Kerberos:
+By default all users which are not defined in :file:`/etc/passwd` must be sought in LDAP and authenticated using Kerberos:
 
 ::
 
@@ -368,6 +399,16 @@ Add the start of LDAP client into boot process:
 ::
 
     mkitab -i rctpip "ldapclntd:23456789:wait:/usr/sbin/start-secldapclntd 2>&1"
+
+
+Troubleshooting
+---------------
+
+Use :command:`ls-secldapclntd` to check if LDAP client is working and connected to the IPA server.
+
+Use :command:`lsldap` to check which objects can be found in LDAP using the configuration.
+
+To check Kerberos authentication, use :command:`/usr/krb5/bin/kinit`. Check that you use :command:`kinit` from :command:`/usr/krb5/bin`, because sometimes Java's :command:`kinit` has precedence in `PATH` environment variable. Java's :command:`kinit` will not work.
 
 
 Configuring the IPA Client on AIX 5.3

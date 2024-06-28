@@ -103,6 +103,7 @@ UNIX
    configuration <https://forums.freebsd.org/threads/freebsd-freeipa-via-sssd.46526/>`__
 -  `FreeBSD custom binary package
    repository <https://blog-ftweedal.rhcloud.com/2014/10/configuring-freebsd-as-a-freeipa-client/>`__
+-  `Configuring IBM AIX Clients <ConfiguringAixClients>`__
 -  `Configuring Unix Clients (Solaris / HP-UX /
    AIX) <ConfiguringUnixClients>`__
 -  `Using FreeIPA for User Authentication on Mac OS X

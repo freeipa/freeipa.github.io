@@ -52,18 +52,13 @@ Releases
 .. toctree::
    :titlesonly:
 
+   /release-notes/4-12-2.rst
    /release-notes/4-12-1.rst
    /release-notes/4-11-2.rst
    /release-notes/4-12-0.rst
    /release-notes/4-11-1.rst
    /release-notes/4-10-3.rst
    /release-notes/4-9-14.rst
-   /release-notes/4-6-10.rst
-   /release-notes/4-9-13.rst
-   /release-notes/4-11-0.rst
-   /release-notes/4-11-0-beta.rst
-   /release-notes/4-10-2.rst
-   /release-notes/4-9-12.rst
 
 Getting involved
 ----------------

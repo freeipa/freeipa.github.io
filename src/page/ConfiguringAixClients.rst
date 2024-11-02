@@ -271,7 +271,7 @@ And add the following to `/etc/pam.cfg`:
     userbasedn:cn=users,cn=accounts,dc=example,dc=com??(&(!(nsaccountlocked=TRUE))(memberOf=ipaUniqeID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com))
     (...)
 
-If you don't want to use HBAC, or prevent locked users from logging in, your `userbasedn` parameter may be specified without any additional filters, like:
+Or... **if you don't want to use HBAC, or prevent locked users from logging in**, your `userbasedn` parameter may be specified without any additional filters, like:
 
 ::
 

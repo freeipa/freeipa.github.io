@@ -211,7 +211,7 @@ Create :file:`/etc/security/ldap/ipauser.map`:
 LDAP client configuration
 -------------------------
 
-Create :file:`/etc/security/ldap/ldap.cfg`:
+Create :file:`/etc/security/ldap/ldap.cfg`, **note that you don't want to allow locked users**:
 
 ::
 
@@ -228,7 +228,7 @@ Create :file:`/etc/security/ldap/ldap.cfg`:
     krbkeypath:/etc/krb5/krb5.keytab
     krbprincipal:host/aix73.example.com@EXAMPLE.COM
     defaultentrylocation:local
-    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(memberOf=ipaUniqeID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com)
+    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(!(nsaccountlocked=TRUE))
     groupbasedn:cn=groups,cn=accounts,dc=example,dc=com
     netgroupbasedn:cn=ng,cn=compat,dc=example,dc=com
     userclasses:posixaccount
@@ -240,16 +240,42 @@ Create :file:`/etc/security/ldap/ldap.cfg`:
     resolveUserFromDN:yes
 
 
-If you don't use :abbr:`HBAC (Host-based access control)`, your `userbasedn` parameter may be specified without any additional filters, like:
+You need `netgroupbasedn` parameter only if you use sudo with netgroups. If you don't use sudo with netgroups, you can drop the parameter.
+
+The password to the GSKit certificate store (`ldapsslkeypwd`) can be encrypted using :command:`secldapclntd -e` command. But the option is not documented.
+
+HBAC (Host-based access control)
+--------------------------------
+
+You can have **true** :abbr:`HBAC (Host-based access control)` using `pam_ipahbac <https://github.com/rseabra/pam_ipahbac/>`, after installation you place a `/etc/ipahbac.conf` file with the pam module's configuration:
+
+::
+
+    -u YourSysAccount
+    -b dc=your,dc=domain
+    -P /etc/ldap.secret
+    -l ldaps://ldap1/,ldaps://ldap2/..
+
+And add the following to `/etc/pam.cfg`:
+
+::
+
+    sshd account    required     pam_ipahbac.so /etc/ipahbac.conf
+
+
+**Alternatively**, if you don't mind using a limited version of HBAC support, you can change your *userbasedn* field in **ldap.cfg** to check the user properties for being a member of a particular HBAC rule:
+
+::
+
+    (...)
+    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(&(!(nsaccountlocked=TRUE))(memberOf=ipaUniqeID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com))
+    (...)
+
+If you don't want to use HBAC, or prevent locked users from logging in, your `userbasedn` parameter may be specified without any additional filters, like:
 
 ::
 
     userbasedn:cn=users,cn=accounts,dc=example,dc=com
-
-
-You need `netgroupbasedn` parameter only if you use sudo with netgroups. If you don't use sudo with netgroups, you can drop the parameter.
-
-The password to the GSKit certificate store (`ldapsslkeypwd`) can be encrypted using :command:`secldapclntd -e` command. But the option is not documented.
 
 
 Home directories

@@ -228,7 +228,7 @@ Create :file:`/etc/security/ldap/ldap.cfg`, **note that you don't want to allow 
     krbkeypath:/etc/krb5/krb5.keytab
     krbprincipal:host/aix73.example.com@EXAMPLE.COM
     defaultentrylocation:local
-    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(!(nsaccountlocked=TRUE))
+    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(!(nsaccountlock=TRUE))
     groupbasedn:cn=groups,cn=accounts,dc=example,dc=com
     netgroupbasedn:cn=ng,cn=compat,dc=example,dc=com
     userclasses:posixaccount
@@ -276,7 +276,7 @@ And add the following to :file:`/etc/pam.cfg`:
 ::
 
     (...)
-    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(&(!(nsaccountlocked=TRUE))(memberOf=ipaUniqeID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com))
+    userbasedn:cn=users,cn=accounts,dc=example,dc=com??(&(!(nsaccountlock=TRUE))(memberOf=ipaUniqeID=12345678-1234-1234-1234567890ab,cn=hbac,dc=example,dc=com))
     (...)
 
 Or... **if you don't want to use HBAC, or prevent locked users from logging in**, your `userbasedn` parameter may be specified without any additional filters, like:

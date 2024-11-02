@@ -247,16 +247,18 @@ The password to the GSKit certificate store (`ldapsslkeypwd`) can be encrypted u
 HBAC (Host-based access control)
 --------------------------------
 
-You can have **true** :abbr:`HBAC (Host-based access control)` using `pam_ipahbac <https://github.com/rseabra/pam_ipahbac/>`, after installation you place a `/etc/ipahbac.conf` file with the pam module's configuration:
+You can have **true** :abbr:`HBAC (Host-based access control)` using `pam_ipahbac <https://github.com/rseabra/pam_ipahbac/>`__.
+
+After installation, place a :file:`/etc/ipahbac.conf` file with the pam module's configuration:
 
 ::
 
-    -u YourSysAccount
-    -b dc=your,dc=domain
+    -u uid=aix.bind.account,cn=users,cn=accounts,dc=example,dc=com
+    -b dc=example,dc=com
     -P /etc/ldap.secret
-    -l ldaps://ldap1/,ldaps://ldap2/..
+    -l ldaps://ipaserver1.example.com/,ldaps://ipaserver2.example.com/
 
-And add the following to `/etc/pam.cfg`:
+And add the following to :file:`/etc/pam.cfg`:
 
 ::
 

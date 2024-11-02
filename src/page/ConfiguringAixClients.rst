@@ -253,16 +253,22 @@ After installation, place a :file:`/etc/ipahbac.conf` file with the pam module's
 
 ::
 
-    -u uid=aix.bind.account,cn=users,cn=accounts,dc=example,dc=com
+    -k /etc/security/ldap/ldap.kdb
+    -U bind.aix.user
     -b dc=example,dc=com
     -P /etc/ldap.secret
-    -l ldaps://ipaserver1.example.com/,ldaps://ipaserver2.example.com/
+    -l ipaserver1.example.com,ipaserver2.example.com
+    -D example.com
 
 And add the following to :file:`/etc/pam.cfg`:
 
 ::
 
-    sshd account    required     pam_ipahbac.so /etc/ipahbac.conf
+    (...)
+    sshd    account    requisite       pam_ipahbac.so /etc/ipahbac.conf
+    (...)
+    ipahbac_test    account    requisite     pam_ipahbac.so /etc/ipahbac.conf
+
 
 
 **Alternatively**, if you don't mind using a limited version of HBAC support, you can change your *userbasedn* field in **ldap.cfg** to check the user properties for being a member of a particular HBAC rule:

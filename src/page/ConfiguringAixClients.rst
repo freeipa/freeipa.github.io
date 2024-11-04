@@ -468,15 +468,6 @@ Under /etc/security/ldap create 2 new map files:
 
 ..
 
-::
-
-      #IPAgroup.map file
-      groupname       SEC_CHAR    cn                    s
-      id              SEC_INT     gidNumber             s
-      users           SEC_LIST    member                m
-
-..
-
     | Change the /etc/security/ldap/ldap.cfg file and set the relevant options as follow.
     | In this example the REALM name is EXAMPLE.COM and the basedn is dc=example,dc=com
     | Change all basedns values to conform to your installation realm name.
@@ -484,12 +475,10 @@ Under /etc/security/ldap create 2 new map files:
 ::
 
    userbasedn:cn=users,cn=accounts,dc=example,dc=com
-   groupbasedn:cn=groups,cn=accounts,dc=example,dc=com
+   groupbasedn:cn=groups,cn=compat,dc=example,dc=com
 
    userattrmappath:/etc/security/ldap/IPAuser.map
-   groupattrmappath:/etc/security/ldap/IPAgroup.map
-
-   userclasses:posixaccount
+   groupattrmappath:/etc/security/ldap/2307group.map
 
 5. Start the ldap client daemon.
 

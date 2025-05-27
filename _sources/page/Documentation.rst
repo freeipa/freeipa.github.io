@@ -253,6 +253,20 @@ SSSD client presentations
 Public Presentations
 ====================
 
+Red Hat Summit 2025 lighting talks
+----------------------------------
+
+These talks were part of the Community Theater at the exhibition floor of the Red Hat Summit 2025. They ran for 20 minutes each, including discussion, and weren't recorded.
+
+`FreeIPA lightning talks at the Summit <https://events.experiences.redhat.com/widget/redhat/sum25/SessionCatalog2025?search=%22FreeIPA%22>`__
+
+Below are the local copies of the slides:
+
+- `Deployment migration <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__deployment_migration.pdf>`__
+- `Integration with Keycloak <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__integration_with_Keycloak.pdf>`__
+- `Trust between IdM deployments <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__trust_between_IdM_deployments.pdf>`__
+- `ansible-freeipa dynamic inventory <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__dynamic_inventory_in_ansible-freeipa.pdf>`__
+
 Here you can find presentations or other materials which FreeIPA team
 presented on various public conferences.
 

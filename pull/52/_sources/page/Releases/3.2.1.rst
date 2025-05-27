@@ -1,0 +1,210 @@
+The FreeIPA team is proud to announce FreeIPA v3.2.1.
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. The new
+version has also been built for Fedora 19 and is on its way to
+updates-testing.
+
+**Important**: please see section *Upgrading* before upgrading the
+packages, a manual procedure is needed for FreeIPA servers with CA
+originally installed with FreeIPA version prior to 3.1.
+
+
+
+Highlights in 3.2.1
+-------------------
+
+
+
+New features for 3.2.1
+----------------------------------------------------------------------------------------------
+
+-  dnszone-add command now interactively prompts user when it needs IP
+   address of a name server instead of failing in the server phase
+-  Improved debugging level of DNS dynamic update in ipa-client-install
+   (see ipaclient-install.log)
+-  Support multiple local domain ID ranges with RID base set
+
+
+
+Bug fixes
+----------------------------------------------------------------------------------------------
+
+-  Directory Server CLDAP responder now returns a result in all cases to
+   avoid timeouts or freezes with Windows DC or other tools probing this
+   interface.
+-  User passwords may contain non-ASCII characters again
+-  Missing Web UI HBAC Test tab is returned back in the UI menu
+-  Manual Web UI configuration page for other browsers (e.g. Internet
+   Explorer 10) is fixed
+-  Removal of ID range of an active trust is no longer allowed
+-  ... and many others stabilization fixes, see Detailed changelog for
+   full details
+
+Upgrading
+---------
+
+
+
+FreeIPA servers with CA installed prior to version 3.1
+----------------------------------------------------------------------------------------------
+
+`Manual upgrade procedure <Howto/Dogtag9ToDogtag10Migration>`__ is
+required for FreeIPA servers installed with version prior to
+`3.1 <IPAv3_310>`__.
+
+
+
+Other FreeIPA servers and clients
+----------------------------------------------------------------------------------------------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Due to changes related to OCSP/CRL URI fix [1], ipa-ca.DOMAIN DNS name
+is automatically converted from a set of CNAMEs to a set of A/AAAA
+records pointing to FreeIPA servers with CA configured.
+
+FreeIPA servers installed with the --selfsign option will be converted
+to CA-less. See the section above titled "Dropped --selfsign option".
+
+Please note, that the referential integrity extension requires an
+extended set of indexes to be configured. RPM update for an IPA server
+with a excessive number of hosts, SUDO or HBAC entries may require
+several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 and later versions is supported. Upgrading from
+previous versions is not supported and has not been tested.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list (http://www.redhat.com/mailman/listinfo/freeipa-users) or
+#freeipa channel on Freenode.
+
+References
+----------
+
+[1] http://freeipa.org/page/V3/Single_OCSP_and_CRL_in_certs
+
+
+
+Detailed Changelog since 3.2.0
+------------------------------
+
+
+
+Alexander Bokovoy (1):
+----------------------------------------------------------------------------------------------
+
+-  Fix cldap parser to work with a single equality filter (NtVer=...)
+
+
+
+Ana Krivokapic (3):
+----------------------------------------------------------------------------------------------
+
+-  Prompt for nameserver IP address in dnszone-add
+-  Do not display success message on failure in web UI
+-  Prevent error when running IPA commands with su/sudo
+
+
+
+Diane Trout (1):
+----------------------------------------------------------------------------------------------
+
+-  Fix log format not a string literal.
+
+
+
+Martin Kosek (4):
+----------------------------------------------------------------------------------------------
+
+-  Set KRB5CCNAME so that dirsrv can work with newer krb5-server
+-  Avoid exporting KRB5_KTNAME in dirsrv env
+-  Remove redundant u'' character
+-  Become 3.2.1
+
+
+
+Nathaniel McCallum (6):
+----------------------------------------------------------------------------------------------
+
+-  Add ipaUserAuthType and ipaUserAuthTypeClass
+-  Add IPA OTP schema and ACLs
+-  ipa-kdb: Add OTP support
+-  Add the krb5/FreeIPA RADIUS companion daemon
+-  Remove unnecessary prefixes from ipa-pwd-extop files
+-  Add OTP support to ipa-pwd-extop
+
+
+
+Petr Spacek (1):
+----------------------------------------------------------------------------------------------
+
+-  ipa-client-install: Add 'debug' and 'show' statements to nsupdate
+   commands
+
+
+
+Petr Viktorin (1):
+----------------------------------------------------------------------------------------------
+
+-  Remove leading zero from IPA_NUM_VERSION
+
+
+
+Petr Vobornik (7):
+----------------------------------------------------------------------------------------------
+
+-  Fix: HBAC Test tab is missing
+-  Move spec modifications from facet factories to pre_ops
+-  Unite and move facet pre_ops to related modules
+-  Web UI: move ./_base/metadata_provider.js to ./metadata.js
+-  Regression fix: missing control buttons in nested search facets
+-  Make ssbrowser.html work in IE 10
+-  Fix regression: missing facet tab group labels
+
+
+
+Simo Sorce (2):
+----------------------------------------------------------------------------------------------
+
+-  CLDAP: Fix domain handling in netlogon requests
+-  CLDAP: Return empty reply on non-fatal errors
+
+
+
+Sumit Bose (1):
+----------------------------------------------------------------------------------------------
+
+-  Fix format string typo
+
+
+
+Tomas Babej (9):
+----------------------------------------------------------------------------------------------
+
+-  Remove redundancy from hbactest help text
+-  Support multiple local domain ranges with RID base set
+-  Do not allow removal of ID range of an active trust
+-  Use private ccache in ipa install tools
+-  Remove redundant check for env.interactive
+-  Add prompt_param method to avoid code duplication
+-  Incorporate interactive prompts in idrange-add
+-  Do not check userPassword with 7-bit plugin
+-  Manage ipa-otpd.socket by IPA

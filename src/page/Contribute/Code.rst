@@ -10,6 +10,16 @@ whole new feature! The steps below should help get you started.
 If you need to learn more about FreeIPA itself, visit the `main
 page <Main_Page>`__.
 
+The Modern WebUI is a separate project that is stored in a submodule of
+the FreeIPA repository. It is available at
+`freeipa-webui <https://github.com/freeipa/freeipa-webui>`__ and
+installed in the directory ``install/freeipa-webui``. You can see the 
+issues for Modern WebUI at 
+`freeipa-webui issues <https://github.com/freeipa/freeipa-webui/issues>`__.
+
+Most of the development for Modern WebUI is similar to the development of
+FreeIPA, for more specifics, please refer to the links above.
+
 
 
 Find something to start with
@@ -70,11 +80,11 @@ Get the source
 --------------
 
 The source `repository <https://www.freeipa.org/page/Repository>`__ for FreeIPA is stored
-in git. Retrieve it with:
+in git. Retrieve it and its submodules with:
 
 ::
 
-    git clone https://pagure.io/freeipa.git
+    git clone --recurse-submodules https://pagure.io/freeipa.git
 
 The code can also be browsed online
 `here <https://pagure.io/freeipa/commits>`__

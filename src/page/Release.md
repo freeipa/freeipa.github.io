@@ -207,7 +207,7 @@ Building the sources
 If doing a pre release pull a fresh tree to do the builds into a separate directory:
 
 ```
-$ git clone [https://pagure.io/freeipa.git](https://pagure.io/freeipa.git) freeipa-x-y-z
+$ git clone --recurse-submodules [https://pagure.io/freeipa.git](https://pagure.io/freeipa.git) freeipa-x-y-z
 $ cd freeipa-x-y-z
 ```
 
@@ -216,6 +216,17 @@ Make absolutely sure I have the right code by switching to the tag:
 ```
 $ git checkout release-x-y-z
 ```
+
+This should also checkout the correct version of Modern WebUI.
+
+You can check that the correct version of Modern WebUI is checked out by
+running:
+
+```
+$ git status
+```
+
+There should be no modifications.
 
 ### Create tarball
 

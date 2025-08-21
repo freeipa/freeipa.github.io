@@ -33,9 +33,18 @@ VERSION.m4 file before you execute the build.
 Building from the git
 ---------------------
 
-First, clone our git tree of your project:
+FreeIPA git repository is using another project as a git submodule to store
+the source code for its new webui. The submodule is available at
+`freeipa-webui <https://github.com/freeipa/freeipa-webui>`__ and
+installed in the directory ``install/freeipa-webui``.
 
-``$ git clone https://pagure.io/freeipa.git``
+In order to get more familiar with git submodule concepts, you can read
+`git submodules <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`__.
+
+You can clone the FreeIPA repository and its submodules using the following
+command:
+
+``$ git clone --recurse-submodules https://pagure.io/freeipa.git``
 
 Next, we will install all packages needed to build FreeIPA as they do
 not have to be installed on your system. You can install them easily by

@@ -22,12 +22,13 @@ on
 and on `Docker
 hub <https://hub.docker.com/r/freeipa/freeipa-server/>`__.
 
-{{ admon/note \| \| Running FreeIPA servers containerized adds a bit of
-complexity compared to traditional deployments on hosts. If things seem
-to fail, try the same setup outside of containers first, to figure out
-if the issue is with FreeIPA in general or whether it is related to the
-containerization. We would like to `hear <Contribute#Communication>`__
-your feedback or ideas for improvement! }}
+.. note:: 
+   Running FreeIPA servers containerized adds a bit of
+   complexity compared to traditional deployments on hosts. If things seem
+   to fail, try the same setup outside of containers first, to figure out
+   if the issue is with FreeIPA in general or whether it is related to the
+   containerization. We would like to `hear <Contribute#Communication>`__
+   your feedback or ideas for improvement!
 
 
 
@@ -75,7 +76,7 @@ should enroll the host to the containerized FreeIPA server.
 Building the FreeIPA server container image
 -------------------------------------------
 
-{{#ev:youtube|ZV8-tXoTev0}}
+`Video <https://youtu.be/ZV8-tXoTev0>`__
 
 
 

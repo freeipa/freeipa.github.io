@@ -52,9 +52,9 @@ mechanism follows simple procedure:
 #. Backup migrated user/group
 #. Delete user/group original entry
 
-{{ admon/note \| Automated Migration \| Automated migration tool is
-planned for next releases in ticket
-`#4524 <https://fedorahosted.org/freeipa/ticket/4524>`__ }}
+.. note:: 
+   Automated migration tool is planned for next releases in ticket
+   `#4524 <https://fedorahosted.org/freeipa/ticket/4524>`__
 
 
 

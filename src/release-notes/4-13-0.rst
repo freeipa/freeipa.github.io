@@ -1,0 +1,1964 @@
+FreeIPA 4.13.0
+==============
+
+.. raw:: mediawiki
+
+   {{ReleaseDate|2025-09-10}}
+
+The FreeIPA team would like to announce FreeIPA 4.13.0 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+.. _highlights_in_4.13.0:
+
+Highlights in 4.13.0
+--------------------
+
+-  Introducing the Modern WebUI (Beta)
+
+      This FreeIPA release includes the first beta version of the new
+      modern WebUI.
+   
+      This interface has been rebuilt to provide a more intuitive
+      design, improved workflows, and a responsive layout.
+   
+      As a beta, this UI is not feature-complete and
+      may contain bugs. Current WebUI is still available for those who
+      prefer the classical view and can be used alongside the new
+      beta interface.
+   
+      A link to access the new modern Web UI is added to the login
+      page of the current web interface.
+   
+      Feedback is essential for stabilizing this new interface. The modern
+      WebUI is developed in its own repository:
+      https://github.com/freeipa/freeipa-webui.
+      Please report all UI-specific issues or suggestions directly to that
+      project's issue tracker: https://github.com/freeipa/freeipa-webui/issues.
+
+--------------
+
+-  9605: Add support for DoT/DoH for Zero-Trust
+
+      You can now encrypt all DNS queries and responses between DNS clients and IdM DNS servers.
+
+      Administrators can enable DoT during the installation by using the `--dns-over-tls` option. 
+
+      The following options were added to installation utilities for IdM servers, replicas, clients, and the integrated DNS service:
+
+      * `--dot-forwarder` to specify an upstream DoT-enabled DNS server.
+      * `--dns-over-tls-key` and `--dns-over-tls-cert` to configure DoT certificates.
+      * `--dns-policy` to set a DNS security policy to either allow fallback to unencrypted DNS or enforce strict DoT usage.
+      
+      More details are available at: https://freeipa.readthedocs.io/en/ipa-4-12/designs/edns.html
+
+--------------
+
+- 9842 Add support for LDAP system accounts
+
+      FreeIPA now introduces support for LDAP-based system accounts through a dedicated sysaccount plugin. 
+      Administrators can fully manage these accounts using a complete set of CLI commands: 
+      add, delete, modify, find, show, enable, and disable, making automation and service integration
+      more consistent and reliable.
+
+      We've also enhanced role handling and passsync management across the platform.
+      Roles and baseldap plugins now support system account membership, allowing system accounts
+      to be assigned permissions just like users or hosts.
+
+--------------
+
+-  9612 [RFE]: add a tool to quickly detect and fix issues with IPA ID ranges
+
+      With this update, FreeIPA provides the `ipa-idrange-fix` tool. You can use `ipa-idrange-fix` tool to 
+      analyze existing IdM ID ranges, identify users and groups outside these ranges, and propose 
+      to create new `ipa-local` ranges to include them.
+
+      For more information, see the `ipa-idrange-fix(1)` man page. 
+
+--------------
+
+-  9652: IPA requires unique CA certificate subject names
+
+      IPA actively prevented duplicate subjects. This requirement was relaxed with the following limitations: 
+      1) the certificates cannot be added with different trust flags
+      2) the nickname of the CAs must be the same
+      3) an Authority Key Identifier extension should be included in any CA otherwise the chain of trust will not behave as expected
+
+--------------
+
+-  9661 Change the default CA serial number algorithm to random serial numbers
+
+      With this update, automated removal of expired certificates is now enabled by default in FreeIPA on new replicas. 
+      A prerequisite for this is the generation of random serial numbers for certificates using RSNv3, which is now also enabled by default.
+
+      As a result, certificates are now created with random serial numbers and are removed automatically when expired, 
+      after a default retention period of 30 days after expiry. 
+
+--------------
+
+-  9780: [RFE] ipa-client-automount should have an option to include
+   domain of the machine.
+
+--------------
+
+-  9363: Set compat tree and NIS configuration disabled by default 
+   when deploying FreeIPA.
+
+--------------
+
+-  9757 Support full 32-bit ID range space
+
+--------------
+
+- 9744 [RFE] Allow ipa tool to force running on specific server
+
+      The ipa tool now supports the --force-server option. When this
+      option is specified, for instance like in "ipa --force-server
+      user-find", the CLI connects to the specified server instead of
+      using the server configured in /etc/ipa/ca.crt or the server found
+      in DNS SRV records. If the server does not reply, there is no
+      fallback mechanism.
+
+--------------
+
+- 9835 RFE: Add support for libpwquality credit counting
+
+--------------
+
+- 9852 Add support for Samba 4.23
+
+--------------
+
+- Automated FAST Armor
+
+--------------
+
+Enhancements
+~~~~~~~~~~~~
+
+-  `#9674 <https://pagure.io/freeipa/issue/9674>`__ Handle PKI 11.6.0
+   uninstallation
+
+--------------
+
+-  `#9675 <https://pagure.io/freeipa/issue/9675>`__ Support GSSAPI in
+   Cockpit on IPA servers
+
+--------------
+
+-  `#9757 <https://pagure.io/freeipa/issue/9757>`__ Support full 32-bit
+   ID range space
+
+--------------
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.13.0 is a stabilization release for the features delivered as
+a part of 4.13 version series.
+
+There are more than 170 bug-fixes since FreeIPA 4.12.5 release. Details
+of the bug-fixes can be seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on
+`Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on libera.chat.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+-  `#8924 <https://pagure.io/freeipa/issue/8924>`__ ipa-client-install
+   fails to install on Ubuntu 20.04 LTS due to incorrect cert name
+-  `#9002 <https://pagure.io/freeipa/issue/9002>`__ Nightly failure in
+   test_fips.py::TestInstallFIPS::test_basic::setup
+-  `#9135 <https://pagure.io/freeipa/issue/9135>`__ Nightly test failure
+   (f37+): reverse zone not created
+-  `#9202 <https://pagure.io/freeipa/issue/9202>`__ Generated QR codes
+   not being read by Android authentication apps
+-  `#9363 <https://pagure.io/freeipa/issue/9363>`__ Set compat tree and
+   NIS configuration disabled by default when deploying FreeIPA
+-  `#9365 <https://pagure.io/freeipa/issue/9365>`__ Covscan issues:
+   usage of free() instead of krb5_free_enctypes()
+-  `#9367 <https://pagure.io/freeipa/issue/9367>`__ Covscan issues:
+   Resource Leak
+-  `#9370 <https://pagure.io/freeipa/issue/9370>`__ kdb: support storing
+   and retrieving multiple master keys
+-  `#9387 <https://pagure.io/freeipa/issue/9387>`__ FreeIPA OTP Allows
+   Users with Expired Tokens to Authenticate
+-  `#9450 <https://pagure.io/freeipa/issue/9450>`__ Find and replace del
+   os.environ['foo'] with os.environ.pop('foo', None)
+-  `#9468 <https://pagure.io/freeipa/issue/9468>`__ Covscan issues in
+   ipa-4.11
+-  `#9471 <https://pagure.io/freeipa/issue/9471>`__ Pre-authentication
+   with trusted domain object over IPA to IPA trust fails due to wrong
+   canonical name choice
+-  `#9488 <https://pagure.io/freeipa/issue/9488>`__ Nightly test failure
+   in test_trust.py::TestTrust::test_server_option_with_unreachable_ad
+-  `#9571 <https://pagure.io/freeipa/issue/9571>`__ Pytest 8
+   compatibility
+-  `#9577 <https://pagure.io/freeipa/issue/9577>`__ Replica installation
+   fails in FIPS mode in fedora 39+
+-  `#9584 <https://pagure.io/freeipa/issue/9584>`__ Race condition in
+   ipa-backup
+-  `#9603 <https://pagure.io/freeipa/issue/9603>`__ ipa-server-install:
+   token_password_file read in kra.install_check after calling
+   hsm_validator in ca.install_check
+-  `#9605 <https://pagure.io/freeipa/issue/9605>`__ Add support for
+   DoT/DoH for Zero-Trust
+-  `#9606 <https://pagure.io/freeipa/issue/9606>`__ Nightly test failure
+   (f40+) in
+   test_cert.py::TestCAShowErrorHandling::test_ca_show_error_handling
+-  `#9607 <https://pagure.io/freeipa/issue/9607>`__ Nightly test failure
+   (f40+) in test_commands.py::TestIPACommand::test_ssh_key_connection
+-  `#9609 <https://pagure.io/freeipa/issue/9609>`__ ipa-otptoken-import
+   fails to import encrypted file
+-  `#9610 <https://pagure.io/freeipa/issue/9610>`__ ipa-client rpm post
+   script creates always ssh_config.orig even if nothing needs to be
+   changed
+-  `#9611 <https://pagure.io/freeipa/issue/9611>`__ kdc.crt certificate
+   not getting automatically renewed by certmonger in IPA Hidden replica
+-  `#9612 <https://pagure.io/freeipa/issue/9612>`__ RFE: add a tool to
+   quickly detect and fix issues with IPA ID ranges
+-  `#9613 <https://pagure.io/freeipa/issue/9613>`__ After backup/restore
+   of dnssec master, zones are not signed
+-  `#9615 <https://pagure.io/freeipa/issue/9615>`__ Nightly test failure
+   (f40+) in test_sssd.py::TestNestedMembers::test_nested_group_members
+-  `#9616 <https://pagure.io/freeipa/issue/9616>`__ Nightly test failure
+   in test_backup_and_restore_TestReplicaInstallAfterRestore
+-  `#9617 <https://pagure.io/freeipa/issue/9617>`__ The ipa-advise,
+   ipa-backup, and ipa-restore manuals incorrectly show the --v option.
+-  `#9618 <https://pagure.io/freeipa/issue/9618>`__ Allow IPA SIDgen
+   task to continue if it finds an entity that SID can't be assigned to
+-  `#9619 <https://pagure.io/freeipa/issue/9619>`__ ipa-migrate starttls
+   does not work
+-  `#9620 <https://pagure.io/freeipa/issue/9620>`__ ipa-migrate remove
+   -V option
+-  `#9621 <https://pagure.io/freeipa/issue/9621>`__ ipa-migrate should
+   not update mapped attributes in managed entries
+-  `#9624 <https://pagure.io/freeipa/issue/9624>`__ A missing cccache
+   prevents Kerberos SSO
+-  `#9625 <https://pagure.io/freeipa/issue/9625>`__ Executing the -d
+   option results in an error.
+-  `#9626 <https://pagure.io/freeipa/issue/9626>`__
+   ipa-replica/server-install with softhsm needs to check
+   permission/ownership of /var/lib/softhsm/tokens to avoid install
+   failure.
+-  `#9629 <https://pagure.io/freeipa/issue/9629>`__ Syntax error
+   uninstalling the selinux-luna subpackage
+-  `#9632 <https://pagure.io/freeipa/issue/9632>`__ Unconditionally add
+   MS-PAC to global config
+-  `#9633 <https://pagure.io/freeipa/issue/9633>`__ Remove RC4 and 3DES
+   default encryption types on update
+-  `#9635 <https://pagure.io/freeipa/issue/9635>`__ Ignore time skew
+   during CA replica installation
+-  `#9636 <https://pagure.io/freeipa/issue/9636>`__ misleading warning
+   for missing ipa-selinux-nfast package on luna hsm
+-  `#9637 <https://pagure.io/freeipa/issue/9637>`__ adtrustinstance only
+   prints issues in check_inst() and does not log them
+-  `#9640 <https://pagure.io/freeipa/issue/9640>`__ ipa-migrate - fix
+   migration issues with entries using ipaUniqueId in the RDN
+-  `#9641 <https://pagure.io/freeipa/issue/9641>`__ support for python
+   cryptography 43.0.0
+-  `#9642 <https://pagure.io/freeipa/issue/9642>`__ ipa-migrate -
+   properly handle invalid certificates
+-  `#9643 <https://pagure.io/freeipa/issue/9643>`__ freeipa fails to
+   build with nodejs22 on f39 and f40
+-  `#9644 <https://pagure.io/freeipa/issue/9644>`__ Fedora 40 pylint
+   issues with PY2/PY3 compatibility
+-  `#9645 <https://pagure.io/freeipa/issue/9645>`__ support for python
+   module netaddr 1.3.0
+-  `#9648 <https://pagure.io/freeipa/issue/9648>`__ Nightly test
+   failures in test_hsm_TestHSMNegative
+-  `#9649 <https://pagure.io/freeipa/issue/9649>`__ Also enable SSSD's
+   ssh service when enabling sss_ssh_knownhosts
+-  `#9652 <https://pagure.io/freeipa/issue/9652>`__ IPA requires unique
+   CA certificate subject names
+-  `#9654 <https://pagure.io/freeipa/issue/9654>`__ Update SELinux
+   policy to mark IPA log files as ipa_log_t file context
+-  `#9655 <https://pagure.io/freeipa/issue/9655>`__
+   upstream-adtrust-install: SSSD offline causing test-adtrust-install
+   failure
+-  `#9656 <https://pagure.io/freeipa/issue/9656>`__ Nightly test failure
+   in
+   test_ipa_idrange_fix.py::TestIpaIdrangeFix::test_idrange_no_rid_bases_reversed
+-  `#9657 <https://pagure.io/freeipa/issue/9657>`__ Prepare ipatests
+   environment to test multidomain ipa server
+-  `#9658 <https://pagure.io/freeipa/issue/9658>`__ Nightly test failure
+   in test_ipa_ipa_migration.py
+-  `#9661 <https://pagure.io/freeipa/issue/9661>`__ Change the default
+   CA serial number algorithm to random serial numbers
+-  `#9665 <https://pagure.io/freeipa/issue/9665>`__ Sentences truncated
+   in man pages
+-  `#9666 <https://pagure.io/freeipa/issue/9666>`__ Nightly test failure
+   (f42) in test_adtrust_install
+-  `#9667 <https://pagure.io/freeipa/issue/9667>`__ Nightly test failure
+   (f42) in test_trust
+-  `#9668 <https://pagure.io/freeipa/issue/9668>`__ Nightly test failure
+   (@pki/master) in
+   test_ipahealthcheck.py::TestIpaHealthCheck::test_source_pki_server_clones_connectivity_and_data
+-  `#9673 <https://pagure.io/freeipa/issue/9673>`__ Uninstall ACME
+   separately during PKI uninstallation
+-  `#9674 <https://pagure.io/freeipa/issue/9674>`__ Handle PKI 11.6.0
+   uninstallation
+-  `#9675 <https://pagure.io/freeipa/issue/9675>`__ Support GSSAPI in
+   Cockpit on IPA servers
+-  `#9676 <https://pagure.io/freeipa/issue/9676>`__ move away from
+   setuptools and pkg_resources
+-  `#9680 <https://pagure.io/freeipa/issue/9680>`__ config-mod accepting
+   invalid e-mail addresses for "Default e-mail domain"
+-  `#9681 <https://pagure.io/freeipa/issue/9681>`__ Man page for
+   ipa-migrate refers to non-existing option --hostname
+-  `#9682 <https://pagure.io/freeipa/issue/9682>`__ ipa-migrate in stage
+   mode fails with TypeError: 'NoneType' object is not iterable
+-  `#9686 <https://pagure.io/freeipa/issue/9686>`__ ipa-migrate should
+   also migrate DNS forward zones
+-  `#9687 <https://pagure.io/freeipa/issue/9687>`__ 'Organization'
+   should not be required for Okta provider type
+-  `#9689 <https://pagure.io/freeipa/issue/9689>`__ vault-add fails in
+   FIPS mode
+-  `#9691 <https://pagure.io/freeipa/issue/9691>`__ pki.client:
+   /usr/libexec/ipa/ipa-pki-wait-running:61: The subsystem in
+   PKIConnection.\__init\_\_() has been deprecated
+   (https://github.com/dogtagpki/pki/wiki/PKI-10.8-Python-Changes)
+-  `#9692 <https://pagure.io/freeipa/issue/9692>`__ ipa-kra-install
+   fails - Unable to add KRA connector for URL KRA connector already
+   exists
+-  `#9696 <https://pagure.io/freeipa/issue/9696>`__ Support OpenSSL
+   provider API
+-  `#9697 <https://pagure.io/freeipa/issue/9697>`__ IPA-to-IPA migration
+   tests should install destination server with --allow-zone-overlap
+-  `#9698 <https://pagure.io/freeipa/issue/9698>`__ Static code analysis
+   defects
+-  `#9699 <https://pagure.io/freeipa/issue/9699>`__ EnforceLDAPOTP
+   ldap-bind with sysaccount no longer possible
+-  `#9702 <https://pagure.io/freeipa/issue/9702>`__ ipa trust-add fails
+   in FIPS mode with an internal error has occurred
+-  `#9705 <https://pagure.io/freeipa/issue/9705>`__ In FIPS mode + HSM,
+   renewal of auditSigningCert cert-pki-kra prevents PKI restart
+-  `#9706 <https://pagure.io/freeipa/issue/9706>`__ Nightly test failure
+   in test_acme.py::TestACMEPrune::test_enable_pruning
+-  `#9707 <https://pagure.io/freeipa/issue/9707>`__ Nightly test failure
+   in test_webui/test_cert.py
+-  `#9708 <https://pagure.io/freeipa/issue/9708>`__ add support for
+   python cryptography 44.0.0
+-  `#9709 <https://pagure.io/freeipa/issue/9709>`__ All user groups are
+   not being included during HSM token validation
+-  `#9711 <https://pagure.io/freeipa/issue/9711>`__ Regression: LDAP
+   bind is allowed without OTP in 4.12
+-  `#9712 <https://pagure.io/freeipa/issue/9712>`__ [ipa-4-9]
+   ipa-server-upgrade fails after established trust with ad
+-  `#9715 <https://pagure.io/freeipa/issue/9715>`__ [testday] Fix typo
+   in ipa-migrate log file i.e 'Privledges' to 'Privileges'
+-  `#9720 <https://pagure.io/freeipa/issue/9720>`__ Workshop Vagrant
+   OOMs During Setup
+-  `#9721 <https://pagure.io/freeipa/issue/9721>`__ Nightly test failure
+   in test_webui/test_host.py::test_host::test_search
+-  `#9723 <https://pagure.io/freeipa/issue/9723>`__ Nightly test failure
+   after pkg uninstall/install
+-  `#9724 <https://pagure.io/freeipa/issue/9724>`__ Nightly test failure
+   (rawhide) in
+   test_integration/test_acme.py::TestACME::test_certbot_dns
+-  `#9725 <https://pagure.io/freeipa/issue/9725>`__ A slow HSM can cause
+   IPA server installation to fail setting up certificate tracking
+-  `#9730 <https://pagure.io/freeipa/issue/9730>`__ [tests]
+   test_ipahealthcheck_ds_configcheck fails against 389-ds-base 2.5.3
+-  `#9734 <https://pagure.io/freeipa/issue/9734>`__ crash in ipa-otpd
+   with --client-secret-stdin use
+-  `#9735 <https://pagure.io/freeipa/issue/9735>`__ Installing IPA with
+   KRA creates invalid ca_admin.cert format
+-  `#9737 <https://pagure.io/freeipa/issue/9737>`__ ipa-migrate should
+   skip tombstone entries
+-  `#9738 <https://pagure.io/freeipa/issue/9738>`__ During server
+   installation don't use the PKI API directly to issue certificates
+-  `#9739 <https://pagure.io/freeipa/issue/9739>`__ Remove migration
+   support from mod_nss
+-  `#9740 <https://pagure.io/freeipa/issue/9740>`__ Suppress meaningless
+   errors when uninstalling the PKI ACME service
+-  `#9741 <https://pagure.io/freeipa/issue/9741>`__ Add message to end
+   of server install that service restart is happening
+-  `#9742 <https://pagure.io/freeipa/issue/9742>`__ Log then a user
+   attempts to authenticate using LDAP but is locked out due to policy
+-  `#9743 <https://pagure.io/freeipa/issue/9743>`__ The pki-tomcatd
+   service can time out starting with a slow HSM
+-  `#9748 <https://pagure.io/freeipa/issue/9748>`__ Server installation:
+   dot-forwarder not added as a forwarder
+-  `#9750 <https://pagure.io/freeipa/issue/9750>`__ Remove
+   fips-mode-setup
+-  `#9751 <https://pagure.io/freeipa/issue/9751>`__ Nightly test failure
+   (rawhide) in
+   test_trust.py::TestTrust::test_server_option_with_unreachable_ad
+-  `#9752 <https://pagure.io/freeipa/issue/9752>`__ ipatests: use "sos
+   report" instead of "sosreport" command
+-  `#9753 <https://pagure.io/freeipa/issue/9753>`__ Allow customizing
+   'nobody' group per platform
+-  `#9754 <https://pagure.io/freeipa/issue/9754>`__ ipa vault-del
+   triggers a deprecation warning
+-  `#9756 <https://pagure.io/freeipa/issue/9756>`__ ipa dnsrecord-\*
+   --raw --structured throws internal error
+-  `#9757 <https://pagure.io/freeipa/issue/9757>`__ Support full 32-bit
+   ID range space
+-  `#9758 <https://pagure.io/freeipa/issue/9758>`__ Search size limit
+   tooltip has Search time limit tooltip text
+-  `#9760 <https://pagure.io/freeipa/issue/9760>`__ ipa-cert-fix
+   proceeds with the externally signed CA signing cert being expired
+-  `#9762 <https://pagure.io/freeipa/issue/9762>`__ The test
+   test_ca_show_error_handling should wait for replication
+-  `#9764 <https://pagure.io/freeipa/issue/9764>`__ Protect \*all\* IPA
+   service principals
+-  `#9765 <https://pagure.io/freeipa/issue/9765>`__ Regression in ipa
+   trust-add
+-  `#9768 <https://pagure.io/freeipa/issue/9768>`__ Disable --raw and
+   --structured tests are skipped
+-  `#9769 <https://pagure.io/freeipa/issue/9769>`__ Test failure on f42
+   in test_integration/test_idp.py::TestIDPKeycloak::test_auth_sudo_idp
+-  `#9771 <https://pagure.io/freeipa/issue/9771>`__ Fix deprecation
+   warning in ipa-replica-manage
+-  `#9772 <https://pagure.io/freeipa/issue/9772>`__ ipa-sidgen:
+   important memory leak
+-  `#9776 <https://pagure.io/freeipa/issue/9776>`__ ipa-migrate does not
+   handle replication state data
+-  `#9777 <https://pagure.io/freeipa/issue/9777>`__ kdb:
+   ipadb_get_connection() succeeds but returns null LDAP context
+-  `#9779 <https://pagure.io/freeipa/issue/9779>`__ When creating an ID
+   range, should require a RID
+-  `#9780 <https://pagure.io/freeipa/issue/9780>`__ [RFE]
+   ipa-client-automount should have an option to include domain of the
+   machine.
+-  `#9781 <https://pagure.io/freeipa/issue/9781>`__ Give warning when
+   adding user with UID out of any ID range
+-  `#9782 <https://pagure.io/freeipa/issue/9782>`__ selinux avc when
+   installing dns server in selinux enforcing mode
+-  `#9784 <https://pagure.io/freeipa/issue/9784>`__ ipa-migrate
+   --migrate-dns fails to update the DNS record
+-  `#9787 <https://pagure.io/freeipa/issue/9787>`__ Rawhide: test
+   failure when installing a replica in CA less mode
+-  `#9788 <https://pagure.io/freeipa/issue/9788>`__ ipatests: Fix
+   test_integration/test_uninstallation.py::TestUninstallCleanup::test_clean_uninstall
+-  `#9790 <https://pagure.io/freeipa/issue/9790>`__ ipatests:
+   test_manual_renewal_master_transfer should wait for replication
+-  `#9791 <https://pagure.io/freeipa/issue/9791>`__
+   test_ipa_healthcheck_fips_enabled xfail annotation is incorrect
+-  `#9794 <https://pagure.io/freeipa/issue/9794>`__ Unable to modify IPA
+   config; --ipaconfigstring="" causes internal error
+-  `#9799 <https://pagure.io/freeipa/issue/9799>`__ edns is not
+   available for older fedora
+-  `#9801 <https://pagure.io/freeipa/issue/9801>`__ Nightly failure in
+   test_integration/test_ipa_idrange_fix.py::TestIpaIdrangeFix::test_idrange_no_rid_bases
+   and test_idrange_no_rid_bases_reversed
+-  `#9804 <https://pagure.io/freeipa/issue/9804>`__ Description for
+   --dot-forwarder in man pages for ipa-server-install and
+   ipa-dns-install inconsistent
+-  `#9805 <https://pagure.io/freeipa/issue/9805>`__ client: DNSSEC
+   validation turned on for unbound by default
+-  `#9806 <https://pagure.io/freeipa/issue/9806>`__ ipa-client-install:
+   nsupdate issues when dns_over_tls is enabled
+-  `#9808 <https://pagure.io/freeipa/issue/9808>`__ Replica: Request
+   cert for DoT fails after setting up bind
+-  `#9809 <https://pagure.io/freeipa/issue/9809>`__ ipa-idrange-fix
+   should check if the server is configured
+-  `#9810 <https://pagure.io/freeipa/issue/9810>`__ Nightly test failure
+   in test_integration/test_fips.py - sed couldn't open temporary file
+-  `#9811 <https://pagure.io/freeipa/issue/9811>`__ Incorrect use of
+   GitHub and GitLab trademarks
+-  `#9812 <https://pagure.io/freeipa/issue/9812>`__ Test failure in
+   test_adtrust_install_with_non_ipa_user
+-  `#9813 <https://pagure.io/freeipa/issue/9813>`__ When using
+   --dns-over-tls in read-only container, ipa-server-install fails due
+   to /etc/resolv.conf operation
+-  `#9814 <https://pagure.io/freeipa/issue/9814>`__ eDNS: Conflict
+   between dnsconfd and IPA installer
+-  `#9824 <https://pagure.io/freeipa/issue/9824>`__ Error when sizing
+   output for a terminal
+-  `#9826 <https://pagure.io/freeipa/issue/9826>`__ With
+   rpm-5.99.91-1.fc43.x86_64, dnf installation of
+   freeipa-server-trust-ad-4.12.2-14.fc43.x86_64 now fails
+-  `#9831 <https://pagure.io/freeipa/issue/9831>`__ hsm validation fails
+   on systems with private tmp
+-  `#9836 <https://pagure.io/freeipa/issue/9836>`__ Fails to build on
+   fedora42+ with nodejs24
+-  `#9838 <https://pagure.io/freeipa/issue/9838>`__ Nightly test failure
+   (rawhide) in
+   test_edns.py::TestDNSOverTLS::test_install_dnsovertls_master
+-  `#9843 <https://pagure.io/freeipa/issue/9843>`__ Bump samba version
+   for rawhide
+-  `#9848 <https://pagure.io/freeipa/issue/9848>`__ Test failure in
+   test_certmonger_ipa_responder_jsonrpc
+-  `#9849 <https://pagure.io/freeipa/issue/9849>`__ Random test failure
+   in test_otp
+-  `#9850 <https://pagure.io/freeipa/issue/9850>`__ Test failure in
+   test_xmlrpc/test_automember_plugin.py/TestAutomemberFindOrphans
+-  `#5614 <https://pagure.io/freeipa/issue/5614>`__
+   (`rhbz#1310834 <https://bugzilla.redhat.com/show_bug.cgi?id=1310834>`__)
+   [tracker] mod_auth_gssapi additional NTLM auth request from Chrome
+-  `#5913 <https://pagure.io/freeipa/issue/5913>`__ Use augeas for
+   configuring krb5
+-  `#2496 <https://pagure.io/freeipa/issue/2496>`__
+   (`rhbz#797333 <https://bugzilla.redhat.com/show_bug.cgi?id=797333>`__)
+   krbpasswordexpiration field in LDAP can not have value >=
+   20380119031408Z
+-  `#9744 <https://pagure.io/freeipa/issue/9744>`__ [RFE] Allow ipa tool
+   to force running on specific server
+-  `#9763 <https://pagure.io/freeipa/issue/9763>`__ KRA install failure
+   if /root/.dogtag/pki-tomcat/ca_admin.cert is expired
+-  `#9785 <https://pagure.io/freeipa/issue/9785>`__ IPA fails to sign
+   zone in FIPS mode
+-  `#9833 <https://pagure.io/freeipa/issue/9833>`__ Nightly test failure
+   (f43+) in test_idp.py::TestIDPKeycloak::test_auth_keycloak_idp
+-  `#9835 <https://pagure.io/freeipa/issue/9835>`__ RFE: Add support for
+   libpwquality credit counting
+-  `#9842 <https://pagure.io/freeipa/issue/9842>`__ Add ability to
+   configure external password reset agents with ipa_pwd_extop
+-  `#9845 <https://pagure.io/freeipa/issue/9845>`__ ipatests: Port
+   downstream ipa-trust-functional test suite.
+-  `#9852 <https://pagure.io/freeipa/issue/9852>`__ Nightly tests
+   failure (rawhide): ipactl restart fails to restart winbindd
+-  `#9854 <https://pagure.io/freeipa/issue/9854>`__ Erroneous
+   case-sensitivity in offline DSE lookup
+-  `#9857 <https://pagure.io/freeipa/issue/9857>`__ Nightly failure in
+   test_commands.py::TestIPACommand::test_cacert_manage
+-  `#9858 <https://pagure.io/freeipa/issue/9858>`__
+   TestIPAMigratewithBackupRestore fails in IdM CI environment
+-  `#9859 <https://pagure.io/freeipa/issue/9859>`__ Encrypted DNS:
+   disable dnsconfd prior to configuring Unbound
+-  `#9862 <https://pagure.io/freeipa/issue/9862>`__ Update breaks
+   krb5.conf if modified
+-  `#9865 <https://pagure.io/freeipa/issue/9865>`__ Support storing LWCA
+   private keys on an HSM
+-  `#9866 <https://pagure.io/freeipa/issue/9866>`__ [BUG]
+   ATTR_NAME_BY_OID is missing OID 2.5.4.97, organizationIdentifier
+-  `#9867 <https://pagure.io/freeipa/issue/9867>`__ IPA Modrdn plugin
+   performs duplicate replication changes
+-  `#9870 <https://pagure.io/freeipa/issue/9870>`__ backup-restore does
+   not restore /etc/krb5.conf.d/freeipa-realm
+-  `#9871 <https://pagure.io/freeipa/issue/9871>`__
+   test_http_kdc_proxy.py::TestHttpKdcProxy failure during its setup
+-  `#9874 <https://pagure.io/freeipa/issue/9874>`__ Nightly test failure
+   in
+   test_sudo.py::TestSudo_Functional::test_007_sudorule_offline_caching_option_command
+-  `#9875 <https://pagure.io/freeipa/issue/9875>`__ The permission with
+   'System: Modify System Accounts' fails to modify the description.
+-  `#9878 <https://pagure.io/freeipa/issue/9878>`__ ipa-server-install
+   fails in FIPS mode
+-  `#9879 <https://pagure.io/freeipa/issue/9879>`__ ipa-pkinit-manage
+   enable fails on replica without CA instance
+-  `#9881 <https://pagure.io/freeipa/issue/9881>`__ Test failure in
+   test_ipahealthcheck.py::TestIpaHealthCheck::test_ipahealthcheck_dogtag_ca_connectivity_check
+-  `#9885 <https://pagure.io/freeipa/issue/9885>`__ Minor typo in
+   ipa_idrange_fix.py
+-  `#9888 <https://pagure.io/freeipa/issue/9888>`__ Nightly test failure
+   in
+   test_integration/test_ipa_cert_fix.py::TestIpaCertFix::test_expired_CA_cert::teardown
+
+.. _detailed_changelog_since_4.12.4:
+
+Detailed changelog since 4.12.4
+-------------------------------
+
+.. _alexander_bokovoy_41:
+
+Alexander Bokovoy (60)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  sysaccounts: extend permissions to include description and account
+   lock
+   `commit <https://pagure.io/freeipa/c/ec22295fede3f1c71b6111e4d36a7386080cf39e>`__
+   `#9875 <https://pagure.io/freeipa/issue/9875>`__
+-  sysaccount: make sure nsaccountlock is always present
+   `commit <https://pagure.io/freeipa/c/f2fc104f067221f7621537a2daa40c13239522e3>`__
+   `#9842 <https://pagure.io/freeipa/issue/9842>`__
+-  freeipa.spec: use proper package name when installing Web UI license
+   `commit <https://pagure.io/freeipa/c/d4c3b150fb4494313ef4b0e3324cc9e48efa87a2>`__
+-  sysaccounts: add integration test
+   `commit <https://pagure.io/freeipa/c/8c7427a2bae5f88e1ef3aa1fd267b7dddbe09605>`__
+   `#9842 <https://pagure.io/freeipa/issue/9842>`__
+-  Add system accounts (sysaccounts)
+   `commit <https://pagure.io/freeipa/c/24e4fd5c0c346b316845e3eea2ff437222fe0823>`__
+   `#9842 <https://pagure.io/freeipa/issue/9842>`__
+-  ipa-pwd-extop: add SysAcctManagersDNs support
+   `commit <https://pagure.io/freeipa/c/f17fba0adc91f9ecacfdb4cd975dc20ce051b80f>`__
+   `#9842 <https://pagure.io/freeipa/issue/9842>`__
+-  Require krb5.conf.d because we install snippets there
+   `commit <https://pagure.io/freeipa/c/7a6391f245257e53ec1d648e2186c9ece069e901>`__
+-  krb5.conf templates: move IPA domain configuration into a separate
+   snippet
+   `commit <https://pagure.io/freeipa/c/890474ae3c48eec1aca180fc1db0613e67572a85>`__
+-  krb5.conf templates: remove Kerberos 4 support
+   `commit <https://pagure.io/freeipa/c/166dbfb630440819eb17c6d7a268a5b5e736908b>`__
+-  API: correct ordering for password policy credits
+   `commit <https://pagure.io/freeipa/c/0e272e33ac2d76dad18b23b4059c649b3dad825e>`__
+-  makeapi: enforce en_US.UTF-8 locale when sorting API files
+   `commit <https://pagure.io/freeipa/c/205563ccb120b32093c0fa38de163f23a28ccfc2>`__
+-  doc/api: regenerate notes
+   `commit <https://pagure.io/freeipa/c/3bb87c2684484e5e793502dff7f140f5a8ed2d38>`__
+-  ipasam: remove definitions which included from ndr_drsblobs.h
+   `commit <https://pagure.io/freeipa/c/2b2cd1eade1d03296727cb88a08cc919003f5e0f>`__
+-  GetEntryFromLDIF: handle DNs case-insensitive
+   `commit <https://pagure.io/freeipa/c/2f3c035e2b8a8ac70b98264d17e84201578f2871>`__
+   `#9854 <https://pagure.io/freeipa/issue/9854>`__
+-  ipasam: define prototypes
+   `commit <https://pagure.io/freeipa/c/516ad5a82147ccd1cbec1fdddfb36b2d0a90fb40>`__
+-  ipasam: address signedness warnings
+   `commit <https://pagure.io/freeipa/c/3c3a094500f2e89fe759e5580d2d96b08857cf1c>`__
+-  ipasam: simplify error handling in fill_pdb_trusted_domain
+   `commit <https://pagure.io/freeipa/c/6594c9d5e3fa89cde013c55d94d64caff70c1731>`__
+   `#9852 <https://pagure.io/freeipa/issue/9852>`__
+-  dcerpc: Support Samba 4.23
+   `commit <https://pagure.io/freeipa/c/ae8e850708b118b3da9c9ebc2d5cf8b085d845df>`__
+   `#9852 <https://pagure.io/freeipa/issue/9852>`__
+-  dcerpc: make sure forest trust info structure version is 1
+   `commit <https://pagure.io/freeipa/c/96c3d2d1ad6c947678a15928de258f462c3ea4ed>`__
+   `#9852 <https://pagure.io/freeipa/issue/9852>`__
+-  kdb: prevent double crash in RBCD ACL free
+   `commit <https://pagure.io/freeipa/c/a53b2a374da3683ae303896996737b98d0f57b1d>`__
+   `#9367 <https://pagure.io/freeipa/issue/9367>`__
+-  freeipa.spec.in: protect scriptlets in environment where dbus or
+   systemd do not run
+   `commit <https://pagure.io/freeipa/c/eada98e48d4307b2b85d33c14c59b4be73127e0c>`__
+   `#9826 <https://pagure.io/freeipa/issue/9826>`__
+-  test_schema: do not fool pytest with a non-test class name
+   `commit <https://pagure.io/freeipa/c/e7095dce69d6f811b7420148f3c017869d10d70c>`__
+-  Azure CI: do not run test_ipaserver/test_migratepw
+   `commit <https://pagure.io/freeipa/c/df319b973847b82d4d3447f4b8233a24eda0608d>`__
+-  Make IPAAbstractVersion available to all platforms
+   `commit <https://pagure.io/freeipa/c/8934728d460bf822556d86e190c240ba489d8e25>`__
+-  test_console: rework matching to adjust to Python 3.13
+   `commit <https://pagure.io/freeipa/c/1493aec49ffbc0c7a82ec349f33b472f8cc14442>`__
+-  pylint: do not use return at the end of flow
+   `commit <https://pagure.io/freeipa/c/94a0552cc603c2cf7b551ae07b999707ed870523>`__
+-  fix used-before-assignment errors where pylint cannot infer logic
+   `commit <https://pagure.io/freeipa/c/ef6ead4c5d29b0a437a6677069a06748d1dd9bd0>`__
+-  Move wheel constraints to F41+
+   `commit <https://pagure.io/freeipa/c/ec990a5e8b1d802d2de60df3a68fb0086440c911>`__
+-  freeipa.spec.in: do not recommend encrypted DNS on pre-F42 systems
+   `commit <https://pagure.io/freeipa/c/d7b454e1593ad65d8addc8389325bfa095f9138d>`__
+-  freeipa.spec.in: update BIND-related dependencies
+   `commit <https://pagure.io/freeipa/c/c9f7cf11241ed83409439c737442ac22fc355eed>`__
+   `#9696 <https://pagure.io/freeipa/issue/9696>`__
+-  ipa-dnskeysyncd: use systemd-tmpfiles to handle tokens
+   `commit <https://pagure.io/freeipa/c/b9579fe08c83593b01b8f1781250617a5aef5975>`__
+   `#9696 <https://pagure.io/freeipa/issue/9696>`__
+-  DNS: detect when OpenSSL engine should be removed on upgrade
+   `commit <https://pagure.io/freeipa/c/d1e22146d2a4463ed09e63d2f78d618c1b9e7137>`__
+   `#9696 <https://pagure.io/freeipa/issue/9696>`__
+-  Use OpenSSL provider with BIND for Fedora 42+ and RHEL10+
+   `commit <https://pagure.io/freeipa/c/1311df2e0e7343632e25f2d0adfbbbd79adfda51>`__
+   `#9696 <https://pagure.io/freeipa/issue/9696>`__
+-  Revert "add sourcery.ai github action"
+   `commit <https://pagure.io/freeipa/c/f9eb1154d089383bb2c6beb4dcb60908d7b81680>`__
+-  add sourcery.ai github action
+   `commit <https://pagure.io/freeipa/c/e3f991948a439bd6d84f22263c98a13f9b47d2a0>`__
+-  ipatests: add a test to use full 32-bit ID range space
+   `commit <https://pagure.io/freeipa/c/5a398d270f5987a9c1ac54d8d7107bae724f6757>`__
+   `#9757 <https://pagure.io/freeipa/issue/9757>`__
+-  baseuser: allow uidNumber and gidNumber of 32-bit range
+   `commit <https://pagure.io/freeipa/c/99decb113145c39206a71676f8f589ce675af79d>`__
+   `#9757 <https://pagure.io/freeipa/issue/9757>`__
+-  update_dna_shared_config: do not fail when config is not found
+   `commit <https://pagure.io/freeipa/c/cdafe1d3e4bc297f93d94fdcf3a3b3bd4ef4d2c8>`__
+   `#9757 <https://pagure.io/freeipa/issue/9757>`__
+-  config-mod: allow disabling subordinate ID integration
+   `commit <https://pagure.io/freeipa/c/cc763d78cc9d4f3fb858b9c5771cf9f6b5317990>`__
+   `#9757 <https://pagure.io/freeipa/issue/9757>`__
+-  Reintroduce test_idp to gating tests
+   `commit <https://pagure.io/freeipa/c/92ca7c63322f2a8f496cd6b2faf322e7cbc9b4cf>`__
+   `#9734 <https://pagure.io/freeipa/issue/9734>`__
+-  Migrate Keycloak tests to JDK 21 and Keycloak 26
+   `commit <https://pagure.io/freeipa/c/4e43dd7cd30042588a2264fca98b6e6b9d4d25bb>`__
+-  ipa-otpd: do not pass OIDC client secret if there is none to pass
+   `commit <https://pagure.io/freeipa/c/f12c4ed600e9b35c930d386b37e36064fbf83968>`__
+   `#9734 <https://pagure.io/freeipa/issue/9734>`__
+-  ipa tools: remove sensitive material from the commandline
+   `commit <https://pagure.io/freeipa/c/0591de367f6999df955f30a4b42ff98df45f9487>`__
+-  Unify use of option parsers
+   `commit <https://pagure.io/freeipa/c/ba720b921d9813e0ed1f9a6010ee195bd77e59f1>`__
+-  ipa-pwd-extop: clarify OTP use over LDAP binds
+   `commit <https://pagure.io/freeipa/c/60f9bd043075ad9efce4cd908b23781b81065ca4>`__
+   `#9699 <https://pagure.io/freeipa/issue/9699>`__,
+   `#9711 <https://pagure.io/freeipa/issue/9711>`__
+-  ipalib/x509: support PyCA 44.0
+   `commit <https://pagure.io/freeipa/c/a47475f3794533b207cd763b407a0f414c33b459>`__
+   `#9708 <https://pagure.io/freeipa/issue/9708>`__
+-  Revert "readthedocs: install crypto 43.0.0"
+   `commit <https://pagure.io/freeipa/c/8a8b8a76acb1290bc62cceec9d153e28e88f73b3>`__
+-  ipaserver/dcerpc: support Samba 4.21
+   `commit <https://pagure.io/freeipa/c/aa81bd25f1442b408f4788d7082b42c3536b39bd>`__
+   `#9702 <https://pagure.io/freeipa/issue/9702>`__
+-  vault: handle pyca InternalError exception for PKCS#1 v1.5 padding
+   `commit <https://pagure.io/freeipa/c/c100b1a294f399e23ee6b0c9a68d4d26d50f2d5f>`__
+   `#9689 <https://pagure.io/freeipa/issue/9689>`__
+-  web ui: Add explicit white border for QR code widget
+   `commit <https://pagure.io/freeipa/c/67441226125da127c01a12397a1940cc635d911f>`__
+   `#9202 <https://pagure.io/freeipa/issue/9202>`__
+-  Extend nightly tests with Cockpit test
+   `commit <https://pagure.io/freeipa/c/c4f3d9034ddfcddcb13e75d1c149d38da34dea08>`__
+   `#9675 <https://pagure.io/freeipa/issue/9675>`__
+-  Minimal test for Cockpit integration on IPA master
+   `commit <https://pagure.io/freeipa/c/4519c2fde183d8b8c4f49da37fed68a41a220d72>`__
+   `#9675 <https://pagure.io/freeipa/issue/9675>`__
+-  selinux: allow Cockpit to use HTTP keytab on IPA servers
+   `commit <https://pagure.io/freeipa/c/c775de3c2bf05b447bfd17646306f62406ffc6dc>`__
+   `#9675 <https://pagure.io/freeipa/issue/9675>`__
+-  selinux: add all IPA log files to ipa_log_t file context
+   `commit <https://pagure.io/freeipa/c/2959c989942a96ef93bffd5b308c36d3fec5542f>`__
+   `#9654 <https://pagure.io/freeipa/issue/9654>`__
+-  Remove NIS server support
+   `commit <https://pagure.io/freeipa/c/e98a80827bcc42dc16b516355077fed844220107>`__
+   `#9363 <https://pagure.io/freeipa/issue/9363>`__
+-  Get rid of unicode and long helpers in ipa-otptoken-import
+   `commit <https://pagure.io/freeipa/c/af316dd6f99c4ffad82e0c8002356c77197bdeff>`__
+   `#9641 <https://pagure.io/freeipa/issue/9641>`__
+-  ipalib/constants.py: factor out TripleDES use
+   `commit <https://pagure.io/freeipa/c/cb008bc9dc3bfff966f480a329b17544c4614f49>`__
+   `#9641 <https://pagure.io/freeipa/issue/9641>`__
+-  ipalib/x509.py: get rid of unicode helper
+   `commit <https://pagure.io/freeipa/c/fc5728804b720207a60d68f4b92ccced8de00325>`__
+   `#9644 <https://pagure.io/freeipa/issue/9644>`__
+-  ipalib/x509.py: support Cryptography 43
+   `commit <https://pagure.io/freeipa/c/3b9ac93f5bc0481998468992adc39a7edc60692e>`__
+   `#9641 <https://pagure.io/freeipa/issue/9641>`__
+
+.. _anuja_more_5:
+
+Anuja More (7)
+~~~~~~~~~~~~~~
+
+-  ipatests: Refactor and port trust functional SUDO tests.
+   `commit <https://pagure.io/freeipa/c/f395e162e1da4d58482b0520fcfc4068f5792f17>`__
+   `#9845 <https://pagure.io/freeipa/issue/9845>`__
+-  Revert "Temp commit"
+   `commit <https://pagure.io/freeipa/c/b38b681480f6e9f19ec2d7be0e86a97d4f772c19>`__
+-  ipatests: Refactor and port trust functional HBAC tests.
+   `commit <https://pagure.io/freeipa/c/14d7a5b3b6a4eae8df838e737ed23515b017dec3>`__
+   `#9845 <https://pagure.io/freeipa/issue/9845>`__
+-  ipatests: Add comprehensive tests for ipa-client-automount --domain
+   option
+   `commit <https://pagure.io/freeipa/c/76727f970c1c810b5cfd182734a4db260bb192bd>`__
+   `#9780 <https://pagure.io/freeipa/issue/9780>`__
+-  ipatests: Remove xfail from test_installation::test_number_of_zones
+   `commit <https://pagure.io/freeipa/c/d8017371d3752a42c53577264aab0184756c804a>`__
+   `#9135 <https://pagure.io/freeipa/issue/9135>`__
+-  ipatests: Update ipatests to test topology with multiple domain.
+   `commit <https://pagure.io/freeipa/c/817d8849b4c9ad14dc068882244bc5046c0afed5>`__
+   `#9657 <https://pagure.io/freeipa/issue/9657>`__
+-  Added template for ad_master_1replica_1client
+   `commit <https://pagure.io/freeipa/c/b5f40a304c6d1732dc980ac1f4eae1bdc98ca709>`__
+
+.. _andi_chandler_2:
+
+Andi Chandler (3)
+~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (English (United Kingdom))
+   `commit <https://pagure.io/freeipa/c/cc986fd89df5f567c354ce71e0b1d7500baf1f47>`__
+-  Translated using Weblate (English (United Kingdom))
+   `commit <https://pagure.io/freeipa/c/538e5c12158712d3288251c80e5f171394018409>`__
+-  Translated using Weblate (English (United Kingdom))
+   `commit <https://pagure.io/freeipa/c/6ce87f096f2991844808608b5f844aae5d85557f>`__
+
+.. _antonio_torres_10:
+
+Antonio Torres (11)
+~~~~~~~~~~~~~~~~~~~
+
+-  eDNS: disable dnsconfd before configuring Unbound
+   `commit <https://pagure.io/freeipa/c/68cc47a3e430fd4717aa60934677898afb95a961>`__
+   `#9859 <https://pagure.io/freeipa/issue/9859>`__
+-  dns: disable all previous Unbound configuration before deploying ours
+   `commit <https://pagure.io/freeipa/c/e6445b88ab56c664376c3cafce9b69a602be6624>`__
+   `#9814 <https://pagure.io/freeipa/issue/9814>`__
+-  dns: only overwrite resolv.conf during eDNS setup when needed
+   `commit <https://pagure.io/freeipa/c/76b3a342d523be8574d6b8a6c0c75849418a9ea6>`__
+   `#9813 <https://pagure.io/freeipa/issue/9813>`__
+-  Fix inconsistency in manpage for DoT forwarder option
+   `commit <https://pagure.io/freeipa/c/34ed47f820b2c44ee9981367d5ea5c9e3427460c>`__
+   `#9804 <https://pagure.io/freeipa/issue/9804>`__
+-  dns: don't populate forwarders with DoT forwarders
+   `commit <https://pagure.io/freeipa/c/f1c30c5f6b587cb6ad31c0c5563ead05e8d55c51>`__
+   `#9748 <https://pagure.io/freeipa/issue/9748>`__
+-  dns: only disable unbound when DoT is enabled
+   `commit <https://pagure.io/freeipa/c/91353b10748f1153540c6f5447a80864dee59d7f>`__
+-  spec: add unbound requirement and template file
+   `commit <https://pagure.io/freeipa/c/432390086309b831f969c9f5892cb0a3ff2cad7e>`__
+-  PRCI: add definitions for DNS over TLS tests
+   `commit <https://pagure.io/freeipa/c/4d0aacaa05eacff9cb95c830a256de9381f7c56b>`__
+-  ipatests: add tests for DNS over TLS
+   `commit <https://pagure.io/freeipa/c/62c6c09689ad4e6f793a278c1a5637b1e7e60c3b>`__
+-  Add DNS over TLS support
+   `commit <https://pagure.io/freeipa/c/3de127433c5552c1f9f82c6bb73f2a32caa03e9b>`__
+-  Bump to IPA 4.13
+   `commit <https://pagure.io/freeipa/c/3f3ac4f148650ad27d65e2648e3b89eb756e6b6c>`__
+
+.. _arif_budiman_2:
+
+Arif Budiman (2)
+~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Indonesian)
+   `commit <https://pagure.io/freeipa/c/136ab8ca308c6675f10c1ba24eaa2121ea99eb4a>`__
+-  Translated using Weblate (Indonesian)
+   `commit <https://pagure.io/freeipa/c/872189e235cf2e04e84acd81597ed33e96baf180>`__
+
+.. _aleksandr_sharov_4:
+
+Aleksandr Sharov (6)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Correctly recognize OID 2.5.4.97, organizationIdentifier as a
+   subject/issuer DN of the CA certificate
+   `commit <https://pagure.io/freeipa/c/e0b9ad0ae00ea478b6603fb56c9b369afd957d34>`__
+   `#9866 <https://pagure.io/freeipa/issue/9866>`__
+-  Allow ipa tool to force specific server
+   `commit <https://pagure.io/freeipa/c/d9a2a6abcdaa66f4e2053c6cbf303c959d8be4f4>`__
+   `#9744 <https://pagure.io/freeipa/issue/9744>`__
+-  Test fix for the update
+   `commit <https://pagure.io/freeipa/c/23bfcdd4e22013552e8d95ed5d150c580201bdc9>`__
+   `#9760 <https://pagure.io/freeipa/issue/9760>`__
+-  Add a check into ipa-cert-fix tool to avoid updating certs if CA is
+   close to being expired.
+   `commit <https://pagure.io/freeipa/c/ac6eee670d8a753e66ba69a65eff55447fff2822>`__
+   `#9760 <https://pagure.io/freeipa/issue/9760>`__
+-  Add PR-CI definitions
+   `commit <https://pagure.io/freeipa/c/90297c4c1a2b9b8e09275550f055bdf9d02942a6>`__
+   `#9612 <https://pagure.io/freeipa/issue/9612>`__
+-  Add ipa-idrange-fix
+   `commit <https://pagure.io/freeipa/c/01d90b4a53c6810499bfdb6495559e52b9f9001f>`__
+   `#9612 <https://pagure.io/freeipa/issue/9612>`__
+
+.. _carla_martinez_1:
+
+Carla Martinez (2)
+~~~~~~~~~~~~~~~~~~
+
+-  Modern WebUI version v0.1.7
+   `commit <https://pagure.io/freeipa/c/c03fe90186c47645093f65854c0a922af7fba5d5>`__
+-  Fix: 'Organization' field in Okta not required
+   `commit <https://pagure.io/freeipa/c/13281e785a74b01fda5368a645477f3a7ed3675f>`__
+   `#9687 <https://pagure.io/freeipa/issue/9687>`__
+
+.. _david_hanina_8:
+
+David Hanina (11)
+~~~~~~~~~~~~~~~~
+
+-  Fix webui submodule copr build
+   `commit <https://pagure.io/freeipa/c/a66df6d7b4cf0c8b466d18f44ab613379e222b99>`__
+-  Add info about modern webui
+   `commit <https://pagure.io/freeipa/c/563f20e2a4dd63e6abdec1da65a2c0f95a49d33e>`__
+-  Add modern webui build
+   `commit <https://pagure.io/freeipa/c/9b7fc311d3fa83ff146d83f665ab6aee846e0a4a>`__
+-  Fix terminal height for Rawhide
+   `commit <https://pagure.io/freeipa/c/4484ad72905d12741b2dd0f29484480fa0566587>`__
+   `#9824 <https://pagure.io/freeipa/issue/9824>`__
+-  Warn when UID is out of local ID ranges
+   `commit <https://pagure.io/freeipa/c/b36c163fe8c225e12737d0e25092bb1a7fc9fd5c>`__
+   `#9781 <https://pagure.io/freeipa/issue/9781>`__
+-  Require baserid and secondarybaserid
+   `commit <https://pagure.io/freeipa/c/247adf43133222745c78d53624ca921e43e42f7b>`__
+   `#9779 <https://pagure.io/freeipa/issue/9779>`__
+-  Correct dnsrecord\_\* tests for --raw --structured
+   `commit <https://pagure.io/freeipa/c/ea374e83460a35cfca1caed7357fe1b70ffd7fab>`__
+   `#9768 <https://pagure.io/freeipa/issue/9768>`__
+-  Disallow removal of dogtag and ipa-dnskeysyncd services on IPA
+   servers
+   `commit <https://pagure.io/freeipa/c/14196891138e2f88b57d23120a4471496a3cccb6>`__
+   `#9764 <https://pagure.io/freeipa/issue/9764>`__
+-  Disable --raw and --structured together
+   `commit <https://pagure.io/freeipa/c/b917b320a856bcedd313721e85c962a885095dfd>`__
+   `#9756 <https://pagure.io/freeipa/issue/9756>`__
+-  Skip for unpatched freeipa-healthcheck
+   `commit <https://pagure.io/freeipa/c/90d70b5dd019f4f0d81b4c3a2096c4b64a736849>`__
+-  Replace fips-mode-setup
+   `commit <https://pagure.io/freeipa/c/3c50bc23897abb74a414ed1d6986023674dd8ac2>`__
+   `#9750 <https://pagure.io/freeipa/issue/9750>`__
+
+.. _erik_belko_2:
+
+Erik Belko (2)
+~~~~~~~~~~~~~~
+
+-  man: fix formatting and syntax issues
+   `commit <https://pagure.io/freeipa/c/a542a9185a127ac0202ac0c0b0bc255d11aaf355>`__
+-  ipatests: Update ipa-adtrust-install test
+   `commit <https://pagure.io/freeipa/c/d87dc8296039ef093198e0cb4d648d52ba953ed2>`__
+   `#9655 <https://pagure.io/freeipa/issue/9655>`__
+
+.. _emilio_herrera_1:
+
+Emilio Herrera (1)
+~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Spanish)
+   `commit <https://pagure.io/freeipa/c/d018361c6feb4e7b5376b3b6bb964864cb52e477>`__
+
+.. _finn_krein_schuch_1:
+
+Finn Krein-Schuch (1)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Use mod_auth_gssapi option GssapiNegotiateOnce
+   `commit <https://pagure.io/freeipa/c/2dcc943e6bb9915494dcca3fecb35956943e1709>`__
+   `#5614 <https://pagure.io/freeipa/issue/5614>`__
+
+.. _florence_blanc_renaud_84:
+
+Florence Blanc-Renaud (112)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipatests: fix teardown of TestIpaCertFix
+   `commit <https://pagure.io/freeipa/c/443aff6a0ae4bc35ceb7a4adc06c9b7bb2704743>`__
+   `#9888 <https://pagure.io/freeipa/issue/9888>`__
+-  test_ipahealthcheck_dogtag_ca_connectivity_check: update expected msg
+   `commit <https://pagure.io/freeipa/c/9b9c71475b6a8d009335738108050c86213b0251>`__
+   `#9881 <https://pagure.io/freeipa/issue/9881>`__
+-  temp_commit: revert to the version pre 0b521f7
+   `commit <https://pagure.io/freeipa/c/bcbc88dc4a77d159ffcfa8ca4d2d98ef90f089d6>`__
+-  ipatests: mark test_dnssec as xfail in fips mode
+   `commit <https://pagure.io/freeipa/c/ca5510a08dd5e8bdad617589a3acf1aee427373a>`__
+   `#9785 <https://pagure.io/freeipa/issue/9785>`__
+-  FIPS mode: openssl pkcs12 command needs -nomacver option
+   `commit <https://pagure.io/freeipa/c/3e6b5b954b355df3f4f0859961f1a5ae151d72f5>`__
+   `#9878 <https://pagure.io/freeipa/issue/9878>`__
+-  test_sudo: do not clean the cache for offline cache tests
+   `commit <https://pagure.io/freeipa/c/d3909d8601e0bdb6c78dcdf2507e7bf71f656e8f>`__
+   `#9874 <https://pagure.io/freeipa/issue/9874>`__
+-  test_idp: use more recent keycloak server
+   `commit <https://pagure.io/freeipa/c/54f9e0f3e69dde43082889afe101d01edfe93fdd>`__
+   `#9833 <https://pagure.io/freeipa/issue/9833>`__
+-  PRCI: switch testing from f41 and f42 to f42 and f43
+   `commit <https://pagure.io/freeipa/c/ec308a0358f109bd9acb1cdb189a4019fb7c53f1>`__
+-  Backup-restore: backup krb5.conf.d snippet files
+   `commit <https://pagure.io/freeipa/c/bd8288476fa0be98458cb18a92e1ffb9811e568e>`__
+   `#9870 <https://pagure.io/freeipa/issue/9870>`__
+-  TestHttpKdcProxy: use the snippet file for krb5 config
+   `commit <https://pagure.io/freeipa/c/0ff5d6a388912bc0a3645de4a57b5ab228652ff4>`__
+   `#9871 <https://pagure.io/freeipa/issue/9871>`__
+-  Localization: remove zh_Hant file
+   `commit <https://pagure.io/freeipa/c/1550fedee1131c5432f4b1bba5625f472d8a7599>`__
+-  Modern webui: refresh to the tip of main branch
+   `commit <https://pagure.io/freeipa/c/ce1e44b8dc6f9b84619fe1ec375c8f4f023704b3>`__
+-  Azure: fix WebUI tests
+   `commit <https://pagure.io/freeipa/c/1652e70f2cabce4a582edf5a9ea2646737994393>`__
+-  Azure: fix the configuration issue
+   `commit <https://pagure.io/freeipa/c/3c5160bba46041ee4cbf984be11dacf08592d5d1>`__
+-  Azure CI: Use F43
+   `commit <https://pagure.io/freeipa/c/a4ff2fcc183752593e82c3e608de14a84cbbf3e9>`__
+-  ipatests: mark test_scale_add_subca as xfail
+   `commit <https://pagure.io/freeipa/c/a0a8cbf7fa457daefdf51c720e05be5a0dda2211>`__
+-  Integration test: fix teardown of test_expiration_date_post_2038
+   `commit <https://pagure.io/freeipa/c/c7f07d451c8fdbf1da98bb6f36296608c975c98a>`__
+-  test_cert: adapt the expect error message to PKI 11.7.0-5
+   `commit <https://pagure.io/freeipa/c/78b432567744e147dae22a05fff7b90188ad4b31>`__
+-  Revert "Tests xmlrpc: mark xfail tests requesting cert with subca"
+   `commit <https://pagure.io/freeipa/c/7f8841cd8bf4002fe25b2a1f76fcd348b5752649>`__
+-  PRCI tests: update vagrant image with latest PKI / certmonger package
+   `commit <https://pagure.io/freeipa/c/dd8b7214b49001cf2814b4f0e13ca46bf9bbe402>`__
+-  ipatests: fix TestIpaClientAutomountDiscovery
+   `commit <https://pagure.io/freeipa/c/db4ff377924381a19ae39582fdd734d2af7431c6>`__
+-  Spec file: bump version for 389-ds
+   `commit <https://pagure.io/freeipa/c/1c8003ca5e3bbcd375dae77105c691f0c315ef2f>`__
+-  Tests xmlrpc: mark xfail tests requesting cert with subca
+   `commit <https://pagure.io/freeipa/c/db188b9ad8dd361ccf3046cf4492499d1bdf9c74>`__
+-  ipatests: extend test for unique krbcanonicalname
+   `commit <https://pagure.io/freeipa/c/96a5e706d16724b805d31478eb3f6e9ed2882309>`__
+-  ipatests: fix TestIPAMigratewithBackupRestore setup
+   `commit <https://pagure.io/freeipa/c/0b796ce7623d420786e3968697ab8569ed97ae3c>`__
+   `#9858 <https://pagure.io/freeipa/issue/9858>`__
+-  ipatests: add xfail for TestKRAinstallAfterCertRenew
+   `commit <https://pagure.io/freeipa/c/92f992a6ec5806676d086c889bc6eca923237a79>`__
+   `#9763 <https://pagure.io/freeipa/issue/9763>`__
+-  ipatests: exclude TomcatFileCheck when RSN are enabled
+   `commit <https://pagure.io/freeipa/c/0d0a558b79f45dc162b2b60eba0bc305db594673>`__
+-  ipatests: update the Let's Encrypt cert chain
+   `commit <https://pagure.io/freeipa/c/b73d8f18a65a7615e1052aae8c53d58ca67de8fa>`__
+   `#9857 <https://pagure.io/freeipa/issue/9857>`__
+-  azure webui tests: force chromium version
+   `commit <https://pagure.io/freeipa/c/70518cec0d3149e85a1f9dfda49ece36d665affa>`__
+-  ipatests: fix test_otp
+   `commit <https://pagure.io/freeipa/c/b0e4cdbf9dcaf8d46002f7b89a714b561ab97e03>`__
+   `#9849 <https://pagure.io/freeipa/issue/9849>`__
+-  xmlrpc test: fix test_find_orphan_automember_rules
+   `commit <https://pagure.io/freeipa/c/ca29a5a43e1d66f6e25a59009592e58c0f59c393>`__
+   `#9850 <https://pagure.io/freeipa/issue/9850>`__
+-  ipatests: remove xfail for PKI 11.7
+   `commit <https://pagure.io/freeipa/c/81aadac8c0cae29a322b4e9df99eb275db36d692>`__
+   `#9606 <https://pagure.io/freeipa/issue/9606>`__
+-  ipatests: fix test_certmonger_ipa_responder_jsonrpc
+   `commit <https://pagure.io/freeipa/c/40b24b24c77d54750cda2a090c063f55d961b716>`__
+   `#9848 <https://pagure.io/freeipa/issue/9848>`__
+-  DNS over TLS: use system trust store
+   `commit <https://pagure.io/freeipa/c/c0994948b55da24eb946550bade3a33efe8801e6>`__
+   `#9838 <https://pagure.io/freeipa/issue/9838>`__
+-  Spec file: bump samba version to 4.23.0 in f43 and above
+   `commit <https://pagure.io/freeipa/c/6069147e3bea92059849e0a8c1948a0f1c3c8425>`__
+   `#9843 <https://pagure.io/freeipa/issue/9843>`__
+-  Spec file: use nodejs22 on fedora 41+
+   `commit <https://pagure.io/freeipa/c/52024ed7f394ac5eefebff60b53a2cd938ed7628>`__
+   `#9836 <https://pagure.io/freeipa/issue/9836>`__
+-  ipatests: fix test_adtrust_install_with_non_ipa_user
+   `commit <https://pagure.io/freeipa/c/2eaba8497a5095b23dac39b759dbf632fa422529>`__
+   `#9812 <https://pagure.io/freeipa/issue/9812>`__
+-  ipa-idrange-fix: check that IPA server is installed
+   `commit <https://pagure.io/freeipa/c/5323b7701386eb524eb51a9ce62ce151c13b9d58>`__
+   `#9809 <https://pagure.io/freeipa/issue/9809>`__
+-  ipatests: fix invalid range creation in test_ipa_idrange_fix.py
+   `commit <https://pagure.io/freeipa/c/3e15108f456768d5ca4cf2ffbbfe090c57d0f988>`__
+   `#9801 <https://pagure.io/freeipa/issue/9801>`__
+-  ipatests: fix xfail annotation for test_ipa_healthcheck_fips_enabled
+   `commit <https://pagure.io/freeipa/c/982569fcb3d23d6e6578e5efbaafb99c32542a8d>`__
+   `#9791 <https://pagure.io/freeipa/issue/9791>`__
+-  ipatests: skip encrypted dns tests on fedora 41
+   `commit <https://pagure.io/freeipa/c/78abf1ffa1316585e658baf309d0ea0699858260>`__
+   `#9799 <https://pagure.io/freeipa/issue/9799>`__
+-  ipa config-mod: fix internalerror when setting an empty
+   ipaconfigstring
+   `commit <https://pagure.io/freeipa/c/e4a3d46e89a49e18fa437723370988b165ded4b5>`__
+   `#9794 <https://pagure.io/freeipa/issue/9794>`__
+-  ipatests: test_manual_renewal_master_transfer must wait for
+   replication
+   `commit <https://pagure.io/freeipa/c/089e813bf4a981be1e6660c8db9bec6c1a67a777>`__
+   `#9790 <https://pagure.io/freeipa/issue/9790>`__
+-  azure pipeline: disable InstallDNSSECFirst
+   `commit <https://pagure.io/freeipa/c/6329c3703a3d878fa4cf7a9646746d4ee19fabe6>`__
+-  ipatests: add extensions to server certificates for CAless mode
+   `commit <https://pagure.io/freeipa/c/d1abdca13f26cf3c50c7898eb7d034c7dfc6d392>`__
+   `#9787 <https://pagure.io/freeipa/issue/9787>`__
+-  dns install: fix selinux avc relabelto
+   `commit <https://pagure.io/freeipa/c/c2aae876f04c127b7b2eb6dad8677a3ae8ceefb8>`__
+   `#9782 <https://pagure.io/freeipa/issue/9782>`__
+-  PRCI tests: update vagrant image with latest bind package
+   `commit <https://pagure.io/freeipa/c/e3425d0649d10b72e8e5d521296165932967419d>`__
+-  Azure CI: use podman instead of docker through emulation
+   `commit <https://pagure.io/freeipa/c/bdfcf8c28199345dfe5c956ed99f80c9e18c2270>`__
+-  azure pipeline: skip step disabling conflicting apparmor profile
+   `commit <https://pagure.io/freeipa/c/b08fe8017ea2e8ca21cdd687e73c7c9974f98308>`__
+-  azure pipeline: replace ubuntu-20.04 with 24.04
+   `commit <https://pagure.io/freeipa/c/26c80e8476b288ae3775716d52ff32b0958422fb>`__
+-  ipatests: fix test_idp
+   `commit <https://pagure.io/freeipa/c/e964b7de94e1616558ca5c2471667c10ab2db5ec>`__
+   `#9769 <https://pagure.io/freeipa/issue/9769>`__
+-  PRCI: switch testing from f40 and f41 to f41 and f42
+   `commit <https://pagure.io/freeipa/c/f5084adb6dde67fa7eb8dc58cc3dfa5a0a9bdaa3>`__
+-  PRCI definitions: update vagrant box version for rawhide
+   `commit <https://pagure.io/freeipa/c/940a0bc8c8c310b6f5d89ea62c64dcde508a5c41>`__
+-  ipatests: update fedora41 vagrant box to 0.0.2
+   `commit <https://pagure.io/freeipa/c/5a63a50d041ccd59a546aa728347b605b44373b5>`__
+-  gating tests: add
+   test_ipahealthcheck.py::TestIpaHealthCheckWithADtrust
+   `commit <https://pagure.io/freeipa/c/ed8b4bc3631ae00a9ee687797767fbdb9d02f7ea>`__
+-  idrange: use minvalue=0 for baserid and secondarybaserid
+   `commit <https://pagure.io/freeipa/c/140c3b54771fbc636286a70354e7bcd180bb9709>`__
+   `#9765 <https://pagure.io/freeipa/issue/9765>`__
+-  ipatest: make test_cert more robust to replication delays
+   `commit <https://pagure.io/freeipa/c/a6060fe5e781fb87bce380763e4417380be365f3>`__
+   `#9762 <https://pagure.io/freeipa/issue/9762>`__
+-  Leapp upgrade: skip systemctl calls
+   `commit <https://pagure.io/freeipa/c/1a7a11c196da4660286a8c499bc9381ca3deab05>`__
+-  ipatests: adapt error code and message for samba 4.22
+   `commit <https://pagure.io/freeipa/c/cd3b7b9bd506c48714f171490735ecf564ad6b69>`__
+   `#9751 <https://pagure.io/freeipa/issue/9751>`__
+-  WebUI: fix the tooltip for Search Size limit
+   `commit <https://pagure.io/freeipa/c/69ca3e477b2390f1f19ac14452bdca2a55fcea56>`__
+   `#9758 <https://pagure.io/freeipa/issue/9758>`__
+-  vault: remove PKIConnection deprecation warning
+   `commit <https://pagure.io/freeipa/c/cbe863bf15ed3c0091256f86e9da3fe382b658f1>`__
+   `#9754 <https://pagure.io/freeipa/issue/9754>`__
+-  ipatests: use "sos report" instead of "sosreport" command
+   `commit <https://pagure.io/freeipa/c/d2b5a9b93c3cf95b14dde888605f404edabd3fe9>`__
+   `#9752 <https://pagure.io/freeipa/issue/9752>`__
+-  ipatests: simulate FIPS mode and install replica
+   `commit <https://pagure.io/freeipa/c/50e8c4a1273dc5ba9dace14df8743821127b37fd>`__
+   `#9002 <https://pagure.io/freeipa/issue/9002>`__
+-  ipatests: on rhel10 do not install firefox
+   `commit <https://pagure.io/freeipa/c/d9bf35dcc0367b522ba986cc4f0e37a6ffc9c8cc>`__
+-  ipatests: restart dirsrv after time jumps
+   `commit <https://pagure.io/freeipa/c/6f475294e0868b0b7bf6143260c9b30e00e25efd>`__
+-  ipatests: skip test_ipahealthcheck_ds_configcheck for recent versions
+   `commit <https://pagure.io/freeipa/c/1d93e48644960231d72b2c75f7f847a31a62f84f>`__
+   `#9730 <https://pagure.io/freeipa/issue/9730>`__
+-  Nightly tests: add test_ipahelthcheck to 389ds pipeline
+   `commit <https://pagure.io/freeipa/c/3863043fd1a0cccd964daedc3d12928c236d8b4b>`__
+-  ipatests: force the version for uninstall/reinstall
+   `commit <https://pagure.io/freeipa/c/6e26b060871cf7763cca0fd798119b658f4f93df>`__
+   `#9723 <https://pagure.io/freeipa/issue/9723>`__
+-  Fix pylint issue in ipatests/i18n.py
+   `commit <https://pagure.io/freeipa/c/31338fea70aae3fdfa0c6117d7652816d03a6f74>`__
+-  ipatests: certbot removed the --manual-public-ip-logging-ok parameter
+   `commit <https://pagure.io/freeipa/c/e13be8a7c535a9d2131ccd1f58bf7e564dc02e7e>`__
+   `#9724 <https://pagure.io/freeipa/issue/9724>`__
+-  Temp commit: move to fedora 41
+   `commit <https://pagure.io/freeipa/c/4146d77d2547160df2df31665dc201a7d3118173>`__
+-  Cert renewal: update the trust flags for audit cert
+   `commit <https://pagure.io/freeipa/c/7ec0cb4ced0fe5118077a4804a70b928b2a9f442>`__
+   `#9705 <https://pagure.io/freeipa/issue/9705>`__
+-  Dogtag instance: add method to create temp password file
+   `commit <https://pagure.io/freeipa/c/1e5eb442adb9b6630b95eaf118e65f110d2087ac>`__
+   `#9705 <https://pagure.io/freeipa/issue/9705>`__
+-  KRA cert renewal: update ca.connector.KRA.transportCert
+   `commit <https://pagure.io/freeipa/c/10c3464e55eaafff728042bc878938c380c4f9d5>`__
+   `#9692 <https://pagure.io/freeipa/issue/9692>`__
+-  Installation test: KRA on replica after cert renewal
+   `commit <https://pagure.io/freeipa/c/76dfadd95fe23fde4af19249191c285dede4120e>`__
+   `#9692 <https://pagure.io/freeipa/issue/9692>`__
+-  Fix copr build
+   `commit <https://pagure.io/freeipa/c/b9d7137d8aed514c48e9bf3e55b450860276a29b>`__
+-  readthedocs: install crypto 43.0.0
+   `commit <https://pagure.io/freeipa/c/b20c3fb60558b538ef13e0e0fe89ae361d529553>`__
+-  webuitests: adapt to Random Serial Numbers
+   `commit <https://pagure.io/freeipa/c/c8befc9f46b43aec748ede33236ca4f77b2356c6>`__
+   `#9707 <https://pagure.io/freeipa/issue/9707>`__
+-  ipatests: pruning is enabled by default with LMDB
+   `commit <https://pagure.io/freeipa/c/fd222273a544f9e8c7a1749ff797880db7edbf25>`__
+   `#9706 <https://pagure.io/freeipa/issue/9706>`__
+-  ipatests: install master with allow-zone-overlap
+   `commit <https://pagure.io/freeipa/c/411b29db8f2bf9b8390dd021cf464d5cac013e3b>`__
+   `#9697 <https://pagure.io/freeipa/issue/9697>`__
+-  Nightly test def: fix topology for test_IPAMigrateADTrust
+   `commit <https://pagure.io/freeipa/c/2f1ca6db12897c2c89bd64f7353268f45b8468a0>`__
+-  Tests: migrate to f40/f41
+   `commit <https://pagure.io/freeipa/c/1a47d3a9066ecad4466f8fd4d919b035f1c13f27>`__
+-  ipa-migrate man page: fix typos and errors
+   `commit <https://pagure.io/freeipa/c/35fc1470cd0295d8b387e034b7b30f6088eb49b8>`__
+   `#9681 <https://pagure.io/freeipa/issue/9681>`__
+-  test_ipahealthcheck: skip connectivity_and_data check
+   `commit <https://pagure.io/freeipa/c/929dc568808f12917a738b51def45c31fb351ddc>`__
+   `#9668 <https://pagure.io/freeipa/issue/9668>`__
+-  Nightly test definition: use master_1repl topology for idrange_fix
+   `commit <https://pagure.io/freeipa/c/df8cdb06f3d5b7ce0b7a91586cdd1f1951c229ab>`__
+-  test_adtrust_install: add --use-krb5-ccache to smbclient command
+   `commit <https://pagure.io/freeipa/c/c33e92d8954dd1578c89693e10d59d2bd4f31940>`__
+   `#9666 <https://pagure.io/freeipa/issue/9666>`__
+-  ipatests: provide a ccache to rpcclient deletetrustdom
+   `commit <https://pagure.io/freeipa/c/3203afcc11487730aceb222a54cbdbaaaf371d15>`__
+   `#9667 <https://pagure.io/freeipa/issue/9667>`__
+-  azure pipeline: use latest version of DownloadPipelineArtifact task
+   `commit <https://pagure.io/freeipa/c/97718f688c73265c0240fbe6380cf0476e873395>`__
+-  UnsafeIPAddress: pass flag=0 to IPNetwork
+   `commit <https://pagure.io/freeipa/c/a4a0a142058a45ab2bf614c14c1b037b674cccc9>`__
+   `#9645 <https://pagure.io/freeipa/issue/9645>`__
+-  azure tests: move to fedora 40
+   `commit <https://pagure.io/freeipa/c/19651f8ecc1aba69f96817e676e1dd953bc640ec>`__
+-  Custodia: in fips mode add -nomac or -nomacver to openssl pkcs12
+   `commit <https://pagure.io/freeipa/c/ce673216639f4516367952609191e87b1b05e0fa>`__
+   `#9577 <https://pagure.io/freeipa/issue/9577>`__
+-  ipatests: Add missing comma in test_idrange_no_rid_bases_reversed
+   `commit <https://pagure.io/freeipa/c/b9fc303e61e0b073649810a768d8ad5062d81426>`__
+   `#9656 <https://pagure.io/freeipa/issue/9656>`__
+-  HSM: fix the module name
+   `commit <https://pagure.io/freeipa/c/995c4f3597ccd754c5c329eb190691947808faca>`__
+   `#9636 <https://pagure.io/freeipa/issue/9636>`__
+-  trust-add: handle unavailable domain
+   `commit <https://pagure.io/freeipa/c/88123ad2b32fbdd6206028215e4a58575a37dd9e>`__
+   `#9488 <https://pagure.io/freeipa/issue/9488>`__
+-  ipatests: skip HSM test if pki < 11.5.9
+   `commit <https://pagure.io/freeipa/c/bbc232e4898673f3cab9f6b12fac0f04292326c6>`__
+   `#9648 <https://pagure.io/freeipa/issue/9648>`__
+-  ipatests: increase the timeout for test_hsm.py::TestHSMInstall
+   `commit <https://pagure.io/freeipa/c/bfefe5313f31760072f4a4b06ac493ee124e646f>`__
+-  Replica CA installation: ignore time skew during initial replication
+   `commit <https://pagure.io/freeipa/c/3b21e191a9ff43bb293bc075a4a26b07375485cc>`__
+   `#9635 <https://pagure.io/freeipa/issue/9635>`__
+-  spec file: do not use nodejs-22 on f39 and f40
+   `commit <https://pagure.io/freeipa/c/acb87a8b220ad2fd9f61b98e7eadce48051f0803>`__
+   `#9643 <https://pagure.io/freeipa/issue/9643>`__
+-  ipatests: remove xfail for test_ipa_migrate_stage_mode
+   `commit <https://pagure.io/freeipa/c/cf3a46cc00b237d3845481ee1a4737a92aa94636>`__
+   `#9621 <https://pagure.io/freeipa/issue/9621>`__
+-  ipatests: remove xfail for test_ipa_migrate_version_option
+   `commit <https://pagure.io/freeipa/c/5cfc4b404e27d20b786aac8b22e320c510862c52>`__
+   `#9620 <https://pagure.io/freeipa/issue/9620>`__
+-  test_replica_install_after_restore: kinit after restore
+   `commit <https://pagure.io/freeipa/c/0be8d040a7e385c17c8ff98fdee805ccab142ca4>`__
+   `#9613 <https://pagure.io/freeipa/issue/9613>`__
+-  Uninstall: stop sssd-kcm before removing KCM ccaches database
+   `commit <https://pagure.io/freeipa/c/88a392cf840a0ca8eae527863e925ca0b4167513>`__
+   `#9616 <https://pagure.io/freeipa/issue/9616>`__
+-  ipa-ods-enforcer: stop must also stop the socket
+   `commit <https://pagure.io/freeipa/c/9110050517b6f1059a29ad578963f0f53c58dbd3>`__
+   `#9613 <https://pagure.io/freeipa/issue/9613>`__
+-  ipatests: fix / permissions for test_nested_group_members
+   `commit <https://pagure.io/freeipa/c/58003600089f1262971c392ca43a9d0767e57c8c>`__
+   `#9615 <https://pagure.io/freeipa/issue/9615>`__
+-  ipatests: fix / permissions to allow ssh with private key
+   `commit <https://pagure.io/freeipa/c/7513575c441ea6d625963f67917ad4879144bc11>`__
+   `#9607 <https://pagure.io/freeipa/issue/9607>`__
+-  ipatests: mark test_ca_show_error_handling as xfail
+   `commit <https://pagure.io/freeipa/c/1a83d833e9f252208e9922f061a25d2bd0d0ebc0>`__
+   `#9606 <https://pagure.io/freeipa/issue/9606>`__
+-  Gating and nightly tests: move to f39/f40
+   `commit <https://pagure.io/freeipa/c/fd93a3b81686f9d8a5cb926541401232049ccb19>`__
+-  ipatests: add test for PKINIT renewal on hidden replica
+   `commit <https://pagure.io/freeipa/c/70cd9dd161af558b08c3a76403641e8c8995fffc>`__
+   `#9611 <https://pagure.io/freeipa/issue/9611>`__
+-  PKINIT certificate: fix renewal on hidden replica
+   `commit <https://pagure.io/freeipa/c/20df6090765f63a280c8cd5d50a997efdf2d46d3>`__
+   `#9611 <https://pagure.io/freeipa/issue/9611>`__
+-  ipatests: add test for ticket 9610
+   `commit <https://pagure.io/freeipa/c/78e96707091e42e0b3e96cf04ac15ff3a93cca5b>`__
+   `#9610 <https://pagure.io/freeipa/issue/9610>`__
+-  spec file: do not create /etc/ssh/ssh_config.orig if unchanged
+   `commit <https://pagure.io/freeipa/c/8075512338836c82132ee51cb931611d84c9841d>`__
+   `#9610 <https://pagure.io/freeipa/issue/9610>`__
+-  ipa-otptoken-import: open the key file in binary mode
+   `commit <https://pagure.io/freeipa/c/3249b1247f148f648d8b9696e9e80a8237b4d14c>`__
+   `#9609 <https://pagure.io/freeipa/issue/9609>`__
+
+.. _frederik_himpe_2:
+
+Frederik Himpe (2)
+~~~~~~~~~~~~~~~~~~
+
+-  Make path of Samba lock directory configurable and use /run/samba on
+   Debian
+   `commit <https://pagure.io/freeipa/c/c7b6f4d00ef380a2835c00ec00ef69d3b928ea3b>`__
+-  Make name of nobody group configurable and use nogroup on Debian
+   `commit <https://pagure.io/freeipa/c/1937189e605f4301a25c1f0b4a78b300a4fd76e3>`__
+   `#9753 <https://pagure.io/freeipa/issue/9753>`__
+
+.. _fco._javier_f._serrador_2:
+
+Fco. Javier F. Serrador (2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Spanish)
+   `commit <https://pagure.io/freeipa/c/e6be53c1e618c93c5f618428f9705d257fbc8e6c>`__
+-  Translated using Weblate (Spanish)
+   `commit <https://pagure.io/freeipa/c/a7abe5a7946a044fab22bbd3b5b4bd095c4aa15f>`__
+
+
+.. _francisco_trivino_3:
+
+Francisco Trivino (2)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  doc/designs: add encrypted DNS design documents
+   `commit <https://pagure.io/freeipa/c/79c704fb9d8deef822b341b0beab412f9031793d>`__
+   `#9605 <https://pagure.io/freeipa/issue/9605>`__
+-  ipatests: increase delays for WebUI host test
+   `commit <https://pagure.io/freeipa/c/3cd3d175c17a3f581184d52ea0d25368afef075a>`__
+   `#9721 <https://pagure.io/freeipa/issue/9721>`__
+
+.. _fraser_tweedale_1:
+
+Fraser Tweedale (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  Refactor installer cert issuance to use pki python lib
+   `commit <https://pagure.io/freeipa/c/8aea0fd90018c5f55c9b2ed1a6ef055205752789>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+
+.. _dmytro_markevych_1:
+
+Dmytro Markevych (1)
+~~~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Ukrainian)
+   `commit <https://pagure.io/freeipa/c/286b7caf73316818e4bae3699180246f92b81fc1>`__
+
+.. _ian_brown_1:
+
+Ian Brown (1)
+~~~~~~~~~~~~~
+
+-  Replace instances of del os.environ with os.environ.pop
+   `commit <https://pagure.io/freeipa/c/f3ec6ae8d000add0d2af648645d22191012541a4>`__
+   `#9450 <https://pagure.io/freeipa/issue/9450>`__
+
+.. _julien_rische_9:
+
+Julien Rische (11)
+~~~~~~~~~~~~~~~~~
+
+-  ipatests: fix kdcproxy tests against AD
+   `commit <https://pagure.io/freeipa/c/0aced739267530318eb6b0a977f8bbca85c8ec46>`__
+-  ipa-kdb: enforce PAC presence on TGT for TGS-REQ
+   `commit <https://pagure.io/freeipa/c/bf76899127ef39982f67894b23f6124ab50ce585>`__
+-  Add test for master key upgrade
+   `commit <https://pagure.io/freeipa/c/fb36633e69e76eabcdd32195a1d3ad08604ab199>`__
+-  Use ipaplatform tasks for krb5 enctypes
+   `commit <https://pagure.io/freeipa/c/fb12d9e14eafeaf036951e98e0d291db892afe2d>`__
+-  ipa-kdb: support storing multiple KVNO for the same principal
+   `commit <https://pagure.io/freeipa/c/43b1fd77f10cf2752a44b4b5c219660872e5b1de>`__
+   `#9370 <https://pagure.io/freeipa/issue/9370>`__
+-  kdb: keep ipadb_get_connection() from succeeding with null LDAP
+   context
+   `commit <https://pagure.io/freeipa/c/56261bbba4355c33a002df98566b290ef9681c0c>`__
+   `#9777 <https://pagure.io/freeipa/issue/9777>`__
+-  ipa-sidgen: fix memory leak in ipa_sidgen_add_post_op
+   `commit <https://pagure.io/freeipa/c/9b938b511c6c9e58ca0cd86888d61cfde99c41d3>`__
+   `#9772 <https://pagure.io/freeipa/issue/9772>`__
+-  Remove RC4 and 3DES default encryption types on update
+   `commit <https://pagure.io/freeipa/c/1c566104d661679f9babfac12afc9e44a28d5246>`__
+   `#9633 <https://pagure.io/freeipa/issue/9633>`__
+-  Unconditionally add MS-PAC to global config on update
+   `commit <https://pagure.io/freeipa/c/0c79ecb163dac9b7a07c2ab48982eb4823cfde0d>`__
+   `#9632 <https://pagure.io/freeipa/issue/9632>`__
+-  kdb: apply combinatorial logic for ticket flags
+   `commit <https://pagure.io/freeipa/c/dfd4492efd47d45bcac4ee1d32d21cae91142df8>`__
+-  kdb: fix vulnerability in GCD rules handling
+   `commit <https://pagure.io/freeipa/c/3b58080f67eb940023d612aabd30533f1dc9387f>`__
+
+.. _jonathan_steffan_1:
+
+Jonathan Steffan (1)
+~~~~~~~~~~~~~~~~~~~~
+
+-  workshop: Increase RAM for VMs to Avoid OOM
+   `commit <https://pagure.io/freeipa/c/ab82b3d8cfb049c4b7f571c7d99770629b69b349>`__
+   `#9720 <https://pagure.io/freeipa/issue/9720>`__
+
+.. _léane_grasser_1:
+
+Léane GRASSER (1)
+~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (French)
+   `commit <https://pagure.io/freeipa/c/326b0a247e1221fe4e1aad3c57a99cf20a68466e>`__
+
+.. _takahashi_masatsuna_1:
+
+TAKAHASHI Masatsuna (1)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipa-advise ipa-backup ipa-restore: Fix --v option of the manual.
+   `commit <https://pagure.io/freeipa/c/224c4517c5ca18bba52fd066c7acc19c55bd7f0a>`__
+   `#9617 <https://pagure.io/freeipa/issue/9617>`__
+
+.. _shunsuke_matsumoto_1:
+
+Shunsuke matsumoto (1)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  The -d option of the ipa-advise command was able to used.
+   `commit <https://pagure.io/freeipa/c/09aecbc775adbb460218c806578358cfca619843>`__
+   `#9625 <https://pagure.io/freeipa/issue/9625>`__
+
+.. _miro_hrončok_1:
+
+Miro Hrončok (1)
+~~~~~~~~~~~~~~~~
+
+-  Stop using deprecated pkg_resources
+   `commit <https://pagure.io/freeipa/c/ac791f7372d32d25c75eb61f949f1db38fe2f0d6>`__
+   `#9676 <https://pagure.io/freeipa/issue/9676>`__
+
+.. _michal_polovka_1:
+
+Michal Polovka (1)
+~~~~~~~~~~~~~~~~~~
+
+-  ipatests: test_fips: Remove obsolete patch
+   `commit <https://pagure.io/freeipa/c/e8378a0d779be56cea08d0e57ede2b69cb17c5f1>`__
+   `#9810 <https://pagure.io/freeipa/issue/9810>`__
+
+.. _mark_reynolds_14:
+
+Mark Reynolds (14)
+~~~~~~~~~~~~~~~~~~
+
+-  ipa-migrate - only remove repl state attribute options
+   `commit <https://pagure.io/freeipa/c/878b800e879c460038ab0d3f6aff96a89a22961e>`__
+   `#9784 <https://pagure.io/freeipa/issue/9784>`__
+-  ipa-migrate - improve suffix replacement
+   `commit <https://pagure.io/freeipa/c/6cdabdacc950e4c334eb4a3e1666b19178072e36>`__
+   `#9776 <https://pagure.io/freeipa/issue/9776>`__
+-  ipa-migrate - do not process AD entgries in staging mode
+   `commit <https://pagure.io/freeipa/c/1fb3e7fedce745cc1f175d86ca3e9ed6145edad3>`__
+   `#9776 <https://pagure.io/freeipa/issue/9776>`__
+-  ipa-migrate - remove replication state information
+   `commit <https://pagure.io/freeipa/c/4e06a4179e3a1c5732add61a31ea2404844feda3>`__
+   `#9776 <https://pagure.io/freeipa/issue/9776>`__
+-  ipa-migrate - do not migrate tombstone entries, ignore
+   MidairCollisions, and krbpwdpolicyreference
+   `commit <https://pagure.io/freeipa/c/4b7235c8b307264d56ac3a3bcdbe85966aad8d8e>`__
+   `#9737 <https://pagure.io/freeipa/issue/9737>`__
+-  ipa-migrate should migrate dns forward zones
+   `commit <https://pagure.io/freeipa/c/0abfb20c34ade85d5c10a358a73ba33626b2f1ef>`__
+   `#9686 <https://pagure.io/freeipa/issue/9686>`__
+-  ipa-migrate - dryrun write updates crashes when removing values
+   `commit <https://pagure.io/freeipa/c/1f5954260859b8b891065c023316bd326f2a7680>`__
+   `#9682 <https://pagure.io/freeipa/issue/9682>`__
+-  Do not let user with an expired OTP token to log in if only OTP is
+   allowed
+   `commit <https://pagure.io/freeipa/c/9ab6601c3103cee1341fb3674a62180ebc482789>`__
+   `#9387 <https://pagure.io/freeipa/issue/9387>`__
+-  ipa-migrate - fix alternate entry search filter
+   `commit <https://pagure.io/freeipa/c/b98b4a886ee0a75c7cf2c1650e4a0c8a699ac808>`__
+   `#9658 <https://pagure.io/freeipa/issue/9658>`__
+-  ipa-migrate - fix migration issues with entries using ipaUniqueId in
+   the RDN
+   `commit <https://pagure.io/freeipa/c/7808fc8398b54a9008872c3d5cb13ccde4ec10bc>`__
+   `#9640 <https://pagure.io/freeipa/issue/9640>`__
+-  ipa-migrate - properly handle invalid certificates
+   `commit <https://pagure.io/freeipa/c/4d075fdd2aa55730dd54bb46eb3477c06eea626e>`__
+   `#9642 <https://pagure.io/freeipa/issue/9642>`__
+-  Issue 9621 - ipa-migrate - should not update mapped attributes in
+   managed entries
+   `commit <https://pagure.io/freeipa/c/8d2bf9068ca8f81debdca8cb710602055e1f630c>`__
+   `#9621 <https://pagure.io/freeipa/issue/9621>`__
+-  ipa-migrate - starttls does not work
+   `commit <https://pagure.io/freeipa/c/31645c414d639f17f7f391fc7a8888c9d5809f3f>`__
+   `#9619 <https://pagure.io/freeipa/issue/9619>`__
+-  ipa-migrate - remove -V option
+   `commit <https://pagure.io/freeipa/c/024d41ebeaa875d500050aad39220d68eb70a709>`__
+   `#9620 <https://pagure.io/freeipa/issue/9620>`__
+
+.. _madhuri_upadhye_1:
+
+Madhuri Upadhye (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  ipatests: 2FA test cases
+   `commit <https://pagure.io/freeipa/c/163bf3550b761e78294b693dd880022988c8a232>`__
+
+.. _mohammad_rizwan_3:
+
+Mohammad Rizwan (3)
+~~~~~~~~~~~~~~~~~~~
+
+-  ipatests: refactor password file handling in TestHSMInstall
+   `commit <https://pagure.io/freeipa/c/a2d498e0cb131c70811868f59596ba3fd85cadd1>`__
+-  ipatests: Verify that SIDgen task continue even if it fails to assign
+   sid
+   `commit <https://pagure.io/freeipa/c/dd1bcd178b388e086dc02541b1b960b2788ce2de>`__
+   `#9618 <https://pagure.io/freeipa/issue/9618>`__
+-  ipatests: tests related to --token-password-file
+   `commit <https://pagure.io/freeipa/c/a11c843adcd5947ef124fc418bfb3e0ac0750ae4>`__
+   `#9603 <https://pagure.io/freeipa/issue/9603>`__
+
+.. _n_m_1:
+
+N M (1)
+~~~~~~~
+
+-  Translated using Weblate (Spanish)
+   `commit <https://pagure.io/freeipa/c/708ef88a95d0ceadc9c621a4c2231dbd13b96bad>`__
+
+.. _weblate_translation_memory_1:
+
+Weblate Translation Memory (2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Georgian)
+   `commit <https://pagure.io/freeipa/c/ebc7c54120c2a0d730da5769baad186d9d29f077>`__
+-  Translated using Weblate (Finnish)
+   `commit <https://pagure.io/freeipa/c/3a5ce9cb2af362d97d598f2198cbc20c4c32710b>`__
+
+.. _weblate_1:
+
+Weblate (2)
+~~~~~~~~~~~
+
+-  Update translation files
+   `commit <https://pagure.io/freeipa/c/b2eddfa517c1b8225cff1c402d5eba9b55cd0258>`__
+-  Update translation files
+   `commit <https://pagure.io/freeipa/c/d4604698599309a744e83a2e929bf516e6b6619c>`__
+
+.. _oğuz_ersen_1:
+
+Oğuz Ersen (1)
+~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Turkish)
+   `commit <https://pagure.io/freeipa/c/e82dd41d080627b2d03871115cbf1a8e7d2b4295>`__
+
+.. _piotr_drąg_1:
+
+Piotr Drąg (1)
+~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Polish)
+   `commit <https://pagure.io/freeipa/c/f248ad4ada9a5884b9b166b784d13d28bc9d174f>`__
+
+.. _pejman_rezaei_1:
+
+Pejman Rezaei (1)
+~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Persian)
+   `commit <https://pagure.io/freeipa/c/d0ea5b5aab1fb705ab8ef6b2eb8985ddd096361f>`__
+
+.. _pranav_thube_1:
+
+PRANAV THUBE (4)
+~~~~~~~~~~~~~~~~
+
+-  ipatests: Add new test cases with extended automount plugin
+   attributes
+   `commit <https://pagure.io/freeipa/c/9441ebfced3b78c4c8622d11a1942679760f3995>`__
+-  Port bash sudo tests.
+   `commit <https://pagure.io/freeipa/c/3894ad88cb0041f6bf7eb61a5328bb688143cde4>`__
+-  Extended eDNS testsuite with Relaxed policy testcases. 1. Relaxed
+   policy without certs and including --no-dnssec-validation 2. Relaxed
+   policy with external CA and including --no-dnssec-validation
+   `commit <https://pagure.io/freeipa/c/89fb6ad49a4a1a32bf37adac960d87117e562fc1>`__
+-  ipatests: Ignore /run/log/journal in test_uninstallation.py
+   `commit <https://pagure.io/freeipa/c/397a85cd29eaf30dfa6c41e8277f1d7e38c21aef>`__
+   `#9788 <https://pagure.io/freeipa/issue/9788>`__
+
+.. _rafael_fontenelle_1:
+
+Rafael Fontenelle (1)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Spanish)
+   `commit <https://pagure.io/freeipa/c/222bf7662622d566a2c293d6baad2cd21e15be63>`__
+
+.. _rob_crittenden_49:
+
+Rob Crittenden (73)
+~~~~~~~~~~~~~~~~~~~
+
+-  Don't assume the server has a CA service when issuing certificates
+   `commit <https://pagure.io/freeipa/c/ffb8fe35414bd6d24f56be841e44364b14efad31>`__
+   `#9879 <https://pagure.io/freeipa/issue/9879>`__
+-  Revert "Temp commit"
+   `commit <https://pagure.io/freeipa/c/b7c66bf23b214e12161b70f235999f792d0f202d>`__
+-  PR-CI: Run test_installation_TestInstallKeySizes in the nightlies
+   `commit <https://pagure.io/freeipa/c/0b521f7d19cb1682b67287a7c9f754f5b92b8868>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Move some functions to installutils to be more independent
+   `commit <https://pagure.io/freeipa/c/d424dc6dd2b23b485f15c7159090fda391ad78fc>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Detect the highest API version the remote server supports
+   `commit <https://pagure.io/freeipa/c/d322bbfb3fd745733ae3ecf245f099f1c3ede9a7>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Refine restricting CA profiles to known subjects
+   `commit <https://pagure.io/freeipa/c/f74ff2136488be7fae4c3f99c5f25e0ccd18a3b8>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Sort when comparing tuples in the xmlrpc tests
+   `commit <https://pagure.io/freeipa/c/56620f400adb183ebd9c37ee69876bc108913f30>`__
+-  Set minimum version of certmonger and PKI for PKI-API
+   `commit <https://pagure.io/freeipa/c/372468511d18e8b609d7724670713373f01defa1>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Reduce the log level before calling PKI functions
+   `commit <https://pagure.io/freeipa/c/1729aa4e66fbd2ec38e51a90699f1d481cb55995>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Retrieve all cert profiles from the CA with --all
+   `commit <https://pagure.io/freeipa/c/1c107542cf1113079c5562b490c2520663153f0f>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Configure renewals to use the IPA JSON API
+   `commit <https://pagure.io/freeipa/c/e8425bd88dfe10e0cb4901ac93b87a3110247097>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Use PKIClient instead of deprecated PKIConnection
+   `commit <https://pagure.io/freeipa/c/7a33bccabd11875d5da16680c1f4213c2c12af13>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Remove the RestClient class
+   `commit <https://pagure.io/freeipa/c/f5fc5e0fdf87c7b8e23e0289f0b6d810d9335aad>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Use the APIClient instead of direct REST calls for ACME
+   `commit <https://pagure.io/freeipa/c/191aec5a5278368a4af1836178442f08dfc791b2>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Replace REST with PKI python API for cert and LWCA
+   `commit <https://pagure.io/freeipa/c/43f0284080b9ed51d929ce41bc3bc2e891ffecb5>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Add config option for RSA key size for HTTP, DS, PKINIT, RA certs
+   `commit <https://pagure.io/freeipa/c/5d55b4efb24f042142b4c25e72b7c5f6ed1fe305>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Use the pki tool to bootstrap certificates during installation
+   `commit <https://pagure.io/freeipa/c/cdc8054453cb83c9b7fa9628c86f4566a91815f8>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Temp commit
+   `commit <https://pagure.io/freeipa/c/b94848ccff807951bacfa42886ec91342094e85e>`__
+-  Include the HSM token name when creating LWCAs
+   `commit <https://pagure.io/freeipa/c/3b5caf9dbd31117a88421c639c325f58bee5c93c>`__
+   `#9865 <https://pagure.io/freeipa/issue/9865>`__
+-  Use Augeas when updating dbmodules in krb5.conf
+   `commit <https://pagure.io/freeipa/c/9605ea9a0b1f190f931e0b491b8ccb9146fa409d>`__
+   `#5913 <https://pagure.io/freeipa/issue/5913>`__,
+   `#9862 <https://pagure.io/freeipa/issue/9862>`__
+-  Add support for libpwpolicy credit to password policy
+   `commit <https://pagure.io/freeipa/c/892fea881a6ceef80affd6d6a3fb9b5afafa969b>`__
+   `#9835 <https://pagure.io/freeipa/issue/9835>`__
+-  Enforce uniqueness across krbprincipalname and krbcanonicalname
+   `commit <https://pagure.io/freeipa/c/b866ec296b1425d9dba8ab27de78c8519ae24428>`__
+-  Catch decoding errors in CertificateSigningRequest parameters
+   `commit <https://pagure.io/freeipa/c/cc459c8c66349a5fecb2e1060f1fd7b98634bc7e>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Don't let lack of subca in PKI prevent LDAP deletion
+   `commit <https://pagure.io/freeipa/c/46b7c16be13c755ccbf87ab4252fe511f68dfd3a>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Test that password expiration date past 2038 works
+   `commit <https://pagure.io/freeipa/c/f2a8f5cc9f6ff8f1d6af59f3a384fda3ca8aa93a>`__
+   `#2496 <https://pagure.io/freeipa/issue/2496>`__
+-  Test that certificates beyond 2038 can be parsed
+   `commit <https://pagure.io/freeipa/c/9f49a8daa6d5a2af247efb81e6cddbf9a777a17f>`__
+   `#2496 <https://pagure.io/freeipa/issue/2496>`__
+-  Add token options to immutables for pki override
+   `commit <https://pagure.io/freeipa/c/6346ca71d7e4ebbd5737a91372849f2c00b3d293>`__
+-  Set krbCanonicalName=admin@REALM on the admin user
+   `commit <https://pagure.io/freeipa/c/6b9400c135ed16b10057b350cc9ce42aa0e862d4>`__
+-  Fix some issues identified by a static analyzer
+   `commit <https://pagure.io/freeipa/c/111e0f04bbcffc6b9fcd3c9e15aa56963b6ea42a>`__
+   `#9365 <https://pagure.io/freeipa/issue/9365>`__,
+   `#9468 <https://pagure.io/freeipa/issue/9468>`__
+-  Add --domain option to ipa-client-automount for DNS discovery
+   `commit <https://pagure.io/freeipa/c/a58479b0b9d8003b9dd77ef05732edffdd34a7e4>`__
+   `#9780 <https://pagure.io/freeipa/issue/9780>`__
+-  Test: dnf5 handles updating itself differently than dnf4
+   `commit <https://pagure.io/freeipa/c/b7c17c70a18382aa156327618f5c961eb16fc595>`__
+-  Make the Azure template work with both dnf4 and dnf5
+   `commit <https://pagure.io/freeipa/c/d271fc1938e0fe12e1f1a450c67fa850de290279>`__
+-  Azure CI: Use F42
+   `commit <https://pagure.io/freeipa/c/7e254aee3dd2ba0018346821fc79bf2e3ff7ec83>`__
+-  Address deprecation warning in ipa-replica-manage
+   `commit <https://pagure.io/freeipa/c/9743fb96f26bd1c216ba81d3689b2718fb081f3a>`__
+   `#9771 <https://pagure.io/freeipa/issue/9771>`__
+-  Don't require certificates to have unique ipaCertSubject
+   `commit <https://pagure.io/freeipa/c/f91b677ada376034b25d50e78475237c5976770e>`__
+   `#9652 <https://pagure.io/freeipa/issue/9652>`__
+-  Drop python 2 support in ipaserver/install/ca.py
+   `commit <https://pagure.io/freeipa/c/6d7f51c115e255873f09fc73d5246b2745016a76>`__
+-  Drop python 2 support in installutils.py
+   `commit <https://pagure.io/freeipa/c/4a9c1dde579bb048e3d90cfafa93dfd8eef359c2>`__
+-  Drop python v2 in ipaserver/install/certs.py for lint errors
+   `commit <https://pagure.io/freeipa/c/56be7b460e7fc070847e589435c951dfba84c13d>`__
+   `#9738 <https://pagure.io/freeipa/issue/9738>`__
+-  Log failed auth attempts over LDAP when a user is locked
+   `commit <https://pagure.io/freeipa/c/dfcc25525ac8f2be4a5ecd8b7bcac8f282b9c4cd>`__
+   `#9742 <https://pagure.io/freeipa/issue/9742>`__
+-  Remove the migration of the RA cert from mod_nss to mod_ssl
+   `commit <https://pagure.io/freeipa/c/42a94e9998804de7470eaf943b03297b06110f75>`__
+   `#9739 <https://pagure.io/freeipa/issue/9739>`__
+-  Remove migration from mod_nss to mod_ssl
+   `commit <https://pagure.io/freeipa/c/2085b61cf66d55fe34a66c80af3cefd199624c65>`__
+   `#9739 <https://pagure.io/freeipa/issue/9739>`__
+-  Fix some memory errors identified by a static analyzer
+   `commit <https://pagure.io/freeipa/c/0dee69d771025f9e2780a592f3a3b82bb75032be>`__
+   `#9698 <https://pagure.io/freeipa/issue/9698>`__
+-  Use new(er) PKI connection API in ipa-pki-wait-running
+   `commit <https://pagure.io/freeipa/c/8fda2e0dc7c9a029ef365fb0b954dbe88e6931c5>`__
+   `#9691 <https://pagure.io/freeipa/issue/9691>`__
+-  Validate the default e-mail domain in the config plugin
+   `commit <https://pagure.io/freeipa/c/018b3d3dc6d26ec50f73aaea675ecfb8813aaea1>`__
+   `#9680 <https://pagure.io/freeipa/issue/9680>`__
+-  Align startup_timeout with the systemd default and document it
+   `commit <https://pagure.io/freeipa/c/4952dff42df78ed57ac397dd8026c191ae3c9453>`__
+   `#9743 <https://pagure.io/freeipa/issue/9743>`__
+-  Configure the pki-tomcatd service systemd timeout
+   `commit <https://pagure.io/freeipa/c/11b4ef749c709738454f7fd72083b430808b93dd>`__
+   `#9743 <https://pagure.io/freeipa/issue/9743>`__
+-  Suppress spurious failure messages when uninstalling ACME
+   `commit <https://pagure.io/freeipa/c/18c4a2f9e32728765af3044b2c88fec033c43921>`__
+   `#9740 <https://pagure.io/freeipa/issue/9740>`__
+-  Add a message where the ipa service restarted at end of install
+   `commit <https://pagure.io/freeipa/c/ac931764341a4832ec0245a7bb01ca53cd777cd0>`__
+   `#9741 <https://pagure.io/freeipa/issue/9741>`__
+-  Write out the PKI admin certificate as a PEM file
+   `commit <https://pagure.io/freeipa/c/66335486954137aa998d5e2ba939e67a5d82f464>`__
+   `#9735 <https://pagure.io/freeipa/issue/9735>`__
+-  Apply certmonger_timeout to start_tracking and request_cert
+   `commit <https://pagure.io/freeipa/c/c5300a312775676ce64a3aac3cde2d83ae5f2fde>`__
+   `#9725 <https://pagure.io/freeipa/issue/9725>`__
+-  Add 30-second timeout for certmonger request/start tracking
+   `commit <https://pagure.io/freeipa/c/4776a8babdd25b8fa1afa7e826fd8d153b90f31e>`__
+   `#9725 <https://pagure.io/freeipa/issue/9725>`__
+-  Pass all pkiuser groups as suplementary when validating an HSM
+   `commit <https://pagure.io/freeipa/c/efadc564eb4ff52375d2c80580f4bc82d5cb11df>`__
+   `#9709 <https://pagure.io/freeipa/issue/9709>`__
+-  Allow looking up constants.Group by gid in addition to name
+   `commit <https://pagure.io/freeipa/c/65ed1aa1ff093de5dc49c5e7e2ee7cf0f71b225a>`__
+   `#9709 <https://pagure.io/freeipa/issue/9709>`__
+-  Don't drop certificates in cert-find if the LWCA was removed
+   `commit <https://pagure.io/freeipa/c/0eafb03110b6ae4c80680e5c451661e1cf41db77>`__
+   `#9661 <https://pagure.io/freeipa/issue/9661>`__
+-  Enable pruning when Random Serial Numbers are enabled
+   `commit <https://pagure.io/freeipa/c/6f304bac61eadbacf4f176421c6927b92b74685e>`__
+   `#9661 <https://pagure.io/freeipa/issue/9661>`__
+-  Set required version of 389-ds for VLV fix on F40/41
+   `commit <https://pagure.io/freeipa/c/2cd2b8fe43036a97f1051c5aa76fd5ed28e7ed6c>`__
+-  Add RSN-by-default test to nightly builds
+   `commit <https://pagure.io/freeipa/c/9248e2df86c3a12c277bd783cd8c9ca7e9603286>`__
+   `#9661 <https://pagure.io/freeipa/issue/9661>`__
+-  ipatests: Test that when lmdb is available, enable RSN
+   `commit <https://pagure.io/freeipa/c/ed70380cbb97a355a4d84ca61fd27120cda902b9>`__
+   `#9661 <https://pagure.io/freeipa/issue/9661>`__
+-  Change default to RSN when 389-ds uses the mdb backend
+   `commit <https://pagure.io/freeipa/c/3777d2b06299454766ab70ee479a829d5f6b7fc0>`__
+   `#9661 <https://pagure.io/freeipa/issue/9661>`__
+-  Small fixup to determine which ACME uninstaller to use
+   `commit <https://pagure.io/freeipa/c/48479d40b24ac532453ff49d4eb9003c73b9b403>`__
+   `#9673 <https://pagure.io/freeipa/issue/9673>`__,
+   `#9674 <https://pagure.io/freeipa/issue/9674>`__
+-  Don't rely on removing the CA to uninstall the ACME depoyment
+   `commit <https://pagure.io/freeipa/c/273f68b77b75845cc7194187405d8c8c8203b834>`__
+   `#9673 <https://pagure.io/freeipa/issue/9673>`__,
+   `#9674 <https://pagure.io/freeipa/issue/9674>`__
+-  Fix some resource leaks identified by a static analyzer
+   `commit <https://pagure.io/freeipa/c/15de71ae61b0f97689bc8cf38256446f3e7922c1>`__
+   `#9367 <https://pagure.io/freeipa/issue/9367>`__
+-  Ignore TripleDES python-cryptography import warnings
+   `commit <https://pagure.io/freeipa/c/2aa49424ff46a1e388514e8f91dca3b6b7b8b6fe>`__
+   `#9641 <https://pagure.io/freeipa/issue/9641>`__
+-  Correct usage of public_key_algorithm_oid in ipalib/x509
+   `commit <https://pagure.io/freeipa/c/1ef3396647bd0049cbee2dcbe91cd3c536dccc78>`__
+   `#9641 <https://pagure.io/freeipa/issue/9641>`__
+-  Force a logout in KerberosSession if a login is needed
+   `commit <https://pagure.io/freeipa/c/64937571fdf3534b89d8db9ccb8b5ac1abfb5a6d>`__
+   `#9624 <https://pagure.io/freeipa/issue/9624>`__
+-  Log errors reported by adtrustinstance.check_inst() using logger
+   `commit <https://pagure.io/freeipa/c/1dc84ba7ebf1bb3b2734a9ea0dd1a4ba6660c93b>`__
+   `#9637 <https://pagure.io/freeipa/issue/9637>`__
+-  ipatests: Fix usage of token_password_file
+   `commit <https://pagure.io/freeipa/c/fd5ce0caf5741aaba1f15296f2b077043a290883>`__
+   `#9603 <https://pagure.io/freeipa/issue/9603>`__
+-  Run HSM validation as pkiuser to verify token permissions
+   `commit <https://pagure.io/freeipa/c/202de166c6057cdfd9bd024069c8e9e6a87c34d0>`__
+   `#9626 <https://pagure.io/freeipa/issue/9626>`__
+-  Fix a copy/paste issue when detecting the HSM SELinux subpackage
+   `commit <https://pagure.io/freeipa/c/c40ce0e1ff01cbecf2d83377f48c0ace55fd1ed9>`__
+   `#9636 <https://pagure.io/freeipa/issue/9636>`__
+-  Include token password options in ipa-kra-install man page
+   `commit <https://pagure.io/freeipa/c/8d5461bea785c43a14725a2fb8f5f705758c54ed>`__
+   `#9603 <https://pagure.io/freeipa/issue/9603>`__
+-  Re-organize HSM validation to be more consistent/less duplication
+   `commit <https://pagure.io/freeipa/c/23de845987c0776f77d8b8caeabf51f312bca5a6>`__
+   `#9603 <https://pagure.io/freeipa/issue/9603>`__
+-  Fix syntax error in the selinux-luna %postun script
+   `commit <https://pagure.io/freeipa/c/d0f15a6d01a592c9f8ecc9a904691fab80ba284b>`__
+   `#9629 <https://pagure.io/freeipa/issue/9629>`__
+-  Use a unique task name for each backend in ipa-backup
+   `commit <https://pagure.io/freeipa/c/65bea69358b07fdd54d4f890a3752548200dd5bd>`__
+   `#9584 <https://pagure.io/freeipa/issue/9584>`__
+
+.. _ricky_tigg_3:
+
+Ricky Tigg (3)
+~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Finnish)
+   `commit <https://pagure.io/freeipa/c/83d22c5e451e46081c23481af321d9b078c11ae9>`__
+-  Translated using Weblate (Finnish)
+   `commit <https://pagure.io/freeipa/c/ba2985013f0a81e2cebb8eb9bb02f54c367191f0>`__
+-  Translated using Weblate (Finnish)
+   `commit <https://pagure.io/freeipa/c/05a6e52d4de4f3445c8b7dc46c6ea386391b876c>`__
+
+.. _rafael_guterres_jeffman_1:
+
+Rafael Guterres Jeffman (2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipa-idrange-fix: Fix typo when ID under 1000 is present.
+   `commit <https://pagure.io/freeipa/c/c98d1b819e1fc3f4a63a2e61823b69be996e95ed>`__
+   `#9885 <https://pagure.io/freeipa/issue/9885>`__
+-  Use correct capitalization for GitHub and GitLab
+   `commit <https://pagure.io/freeipa/c/9d7689f95913bff472661b5f9e4ad11c07cd405d>`__
+   `#9811 <https://pagure.io/freeipa/issue/9811>`__
+
+.. _sam_morris_2:
+
+Sam Morris (2)
+~~~~~~~~~~~~~~
+
+-  Fix ipa-client-install failure when a trusted CA's distinguished name
+   contains slash characters
+   `commit <https://pagure.io/freeipa/c/64809910912237ff40a18eeda9ed1c9e2e21dfaa>`__
+   `#8924 <https://pagure.io/freeipa/issue/8924>`__
+-  Fix a couple of instances of the "no-break control character" being
+   used inadvertently
+   `commit <https://pagure.io/freeipa/c/2df2066a4ea5113187039371adc25fcd1d4ab7b5>`__
+   `#9665 <https://pagure.io/freeipa/issue/9665>`__
+
+.. _sumit_bose_1:
+
+Sumit Bose (1)
+~~~~~~~~~~~~~~
+
+-  ipa-otpd: use oidc_child's --client-secret-stdin option
+   `commit <https://pagure.io/freeipa/c/bd844036dd7931ffca9acf4884f17c177625d770>`__
+
+.. _김인수_2:
+
+김인수 (2)
+~~~~~~~~~~
+
+-  Translated using Weblate (Korean)
+   `commit <https://pagure.io/freeipa/c/4ccde2ed99a544765bc97254de39eb3e16810c9a>`__
+-  Translated using Weblate (Korean)
+   `commit <https://pagure.io/freeipa/c/68cdca3d94e951855d41398ea730a0d92029215b>`__
+
+.. _stanislav_levin_4:
+
+Stanislav Levin (4)
+~~~~~~~~~~~~~~~~~~~
+
+-  install: make use of shared temp directory for hsm validation
+   `commit <https://pagure.io/freeipa/c/7e436ff6fe3c78f605cd63e98bd560cfefb5a293>`__
+   `#9831 <https://pagure.io/freeipa/issue/9831>`__
+-  adtrust: add missing ipaAllowedOperations objectclass
+   `commit <https://pagure.io/freeipa/c/e184864a3025a6ccd522556fffa4014e6ae7bbc1>`__
+   `#9471 <https://pagure.io/freeipa/issue/9471>`__,
+   `#9712 <https://pagure.io/freeipa/issue/9712>`__
+-  pyca: adapt import paths for TripleDES cipher
+   `commit <https://pagure.io/freeipa/c/bc31c2700c3779cfad688eb098042060bf09df3c>`__
+   `#9708 <https://pagure.io/freeipa/issue/9708>`__
+-  ipatests: make TestDuplicates teardowns order agnostic
+   `commit <https://pagure.io/freeipa/c/18d550a3367710618675b87f0157685165bfe444>`__
+   `#9571 <https://pagure.io/freeipa/issue/9571>`__
+
+.. _sumedh_sidhaye_2:
+
+Sumedh Sidhaye (2)
+~~~~~~~~~~~~~~~~~~
+
+-  Temp commit
+   `commit <https://pagure.io/freeipa/c/a5132136cd4f0b4ba900784be40a7eccc8debcad>`__
+-  Validate message to check if not a trust agent/controller Previously
+   the check would return an empty SUCCESS message.
+   `commit <https://pagure.io/freeipa/c/e9a644feb065d9729514cd84407071a758029ac5>`__
+
+
+.. _sudhir_menon_23:
+
+Sudhir Menon (22)
+~~~~~~~~~~~~~~~~~
+
+-  ipatests: Nightly definitions for TestIPAMigratewithBackupRestore
+   `commit <https://pagure.io/freeipa/c/15d5093f6d0856fcd6ad76e03ad78bedfecad972>`__
+-  ipatests: Tests for ipa-migrate tool with ldif file
+   `commit <https://pagure.io/freeipa/c/82fa9f1e887d6b3a83fb4f1edc0a520d7dcfbc2d>`__
+   `#9776 <https://pagure.io/freeipa/issue/9776>`__
+-  ipatests: prci nightly definitions for 32BitIdranges
+   `commit <https://pagure.io/freeipa/c/43033b0c01234564a826b60f0a00943b92a5ef06>`__
+-  ipatests: Tests for 32BitIdranges.
+   `commit <https://pagure.io/freeipa/c/49ae3f15806bb3c160a31898d35078d592b9c5d3>`__
+-  Added TestIPAHealthcheckWithCALess to nightly yaml file.
+   `commit <https://pagure.io/freeipa/c/30e707c4b48ca9c49e07e78114bcbe1ea7922de3>`__
+-  ipatests: ipahealthcheck warns for user provided certificates about
+   to expire
+   `commit <https://pagure.io/freeipa/c/cca17c67f9e23351ec02b06f723e4980e67025c0>`__
+-  ipatests: Tests for krbLastSuccessfulAuth warning
+   `commit <https://pagure.io/freeipa/c/669d8af5dd8dd040317e12c9760d3c69dc5982e1>`__
+-  ipatests: Test to check dot forwarders are added to unbound.
+   `commit <https://pagure.io/freeipa/c/d2bd254c88ac6dbf8ad2219f5eedf74a2386197d>`__
+-  ipatests: Fix for ipa-healthcheck test in FIPS Mode
+   `commit <https://pagure.io/freeipa/c/6ddf7e94c73fb28c3fa5f4402886c1fdc7b27bd6>`__
+-  ipatests: Tests to check data in journal log
+   `commit <https://pagure.io/freeipa/c/08450eefe6ef671a11dcc9572cdcec20819c2dd8>`__
+-  Fix the typo in ipa_migrate_constants.
+   `commit <https://pagure.io/freeipa/c/1a9ee0d85b1d8b05dcb88e965a003fff466ffdd0>`__
+   `#9715 <https://pagure.io/freeipa/issue/9715>`__
+-  ipatests: Updated nightly definitions for ipa-ipa-migration
+   `commit <https://pagure.io/freeipa/c/e8ed1d70f7080700726b66c67181574972bcfcb7>`__
+-  ipatests: Tests for ipa-migrate tool
+   `commit <https://pagure.io/freeipa/c/07f33365d8868bf9c62fe1617f97b6073419a14b>`__
+-  ipatests: Test for ipa hbac rule duplication
+   `commit <https://pagure.io/freeipa/c/e1f96ffc2070ba7036c1108c6621450ab8f3f1f5>`__
+   `#9640 <https://pagure.io/freeipa/issue/9640>`__
+-  ipatests: Activate ssh in sssd.conf
+   `commit <https://pagure.io/freeipa/c/c37f4d09e2c97ee90a0acebf2c3bc30fed4e85ad>`__
+   `#9649 <https://pagure.io/freeipa/issue/9649>`__
+-  ipatests: Fixes for ipa-idrange-fix testsuite
+   `commit <https://pagure.io/freeipa/c/26af2164a464f4df544d6850eb1ba21b14df45a6>`__
+-  ipatests: Check Default PAC type is added to config
+   `commit <https://pagure.io/freeipa/c/b07f1d970b2ca4877daa6232acd6786bcebeb5a7>`__
+   `#9632 <https://pagure.io/freeipa/issue/9632>`__
+-  ipatests: Test to check that the configured value for
+   "nsslapd-ignore-time-skew" remains on even after a "force-sync" is
+   done
+   `commit <https://pagure.io/freeipa/c/b56d434953b93a0cecd2ee57194862e36b2ae3b2>`__
+   `#9635 <https://pagure.io/freeipa/issue/9635>`__
+-  ipatests: Replace 'usermod -r' command with 'gpasswd -d' in
+   test_hsm.py
+   `commit <https://pagure.io/freeipa/c/58c1fdd41681c15f39b59bbb5e39b2e1cf245c6c>`__
+   `#9626 <https://pagure.io/freeipa/issue/9626>`__
+-  ipatests: ipa-migrate tool with -Z option (CACERTFILE)
+   `commit <https://pagure.io/freeipa/c/e8189933c72ee0b312a91ec5d63179e6e75661a5>`__
+-  Added new testsuite(ipa_ipa_migration) in prci definitions
+   `commit <https://pagure.io/freeipa/c/565339803cf357aa8f2a04f849d04217efec5b97>`__
+-  ipatests: Tests for ipa-ipa migration tool
+   `commit <https://pagure.io/freeipa/c/5fe7cf50a98b7d37f24a900d506249611b9fd241>`__
+
+.. _temuri_doghonadze_3:
+
+Temuri Doghonadze (5)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Georgian)
+   `commit <https://pagure.io/freeipa/c/458f32ac8a7caf8e9c773be9e56a9d9a4586f9a8>`__
+-  Translated using Weblate (Georgian)
+   `commit <https://pagure.io/freeipa/c/2ecfce6f3692b44af489f2e17240ca703b0e2a20>`__
+-  Translated using Weblate (Georgian)
+   `commit <https://pagure.io/freeipa/c/8bc64a26f6fe1302c000dcf1677a89b2bd7826ea>`__
+-  Translated using Weblate (Georgian)
+   `commit <https://pagure.io/freeipa/c/7ab7c808accc957b7bfb0669a81da9f778bb08f2>`__
+-  Translated using Weblate (Georgian)
+   `commit <https://pagure.io/freeipa/c/deb37ef26e442d82cd646f4e76f81a9a6fa9ca58>`__
+
+.. _thomas_woerner_5:
+
+Thomas Woerner (5)
+~~~~~~~~~~~~~~~~~~
+
+-  Replica: Request cert for DoT before setting up bind
+   `commit <https://pagure.io/freeipa/c/47626a950f343c3ae7c49bc99f4c25d976c0bdb6>`__
+   `#9808 <https://pagure.io/freeipa/issue/9808>`__
+-  ipaserver/install/dns.py: Allow to Turn off DNSSEC validation for
+   unbound
+   `commit <https://pagure.io/freeipa/c/0bc089681c77c7c65412ca8f02b724ff9088e0f7>`__
+   `#9805 <https://pagure.io/freeipa/issue/9805>`__
+-  ipa-client-install: New --no-dnssec-validation option
+   `commit <https://pagure.io/freeipa/c/4b877c7ccd68a829b3d05aa3b5de01df5730a4dd>`__
+   `#9805 <https://pagure.io/freeipa/issue/9805>`__
+-  ipa-client-install: Fix nsupdate issues when dns_over_tls is enabled
+   `commit <https://pagure.io/freeipa/c/974a507ee0105fc05e455df6e5316e0e84f3f181>`__
+   `#9806 <https://pagure.io/freeipa/issue/9806>`__
+-  ipa_sidgen: Allow sidgen_task to continue after finding issues
+   `commit <https://pagure.io/freeipa/c/faa0aa5de1b4618bc0f1fcee98f136983e21e735>`__
+   `#9618 <https://pagure.io/freeipa/issue/9618>`__
+
+.. _vectinx_1:
+
+vectinx (1)
+~~~~~~~~~~~
+
+-  slapi-plugins: Add replication checking to the Modrdn plugin
+   `commit <https://pagure.io/freeipa/c/a4a218b4ebe490a1d55132e5a19202ca675d393a>`__
+   `#9867 <https://pagure.io/freeipa/issue/9867>`__
+
+.. _vasily_parfenov_1:
+
+Vasily Parfenov (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  man: fix incorrect groff syntax in man pages
+   `commit <https://pagure.io/freeipa/c/071e5fe3764feba11edb664b718ad0e614b2ea66>`__
+
+.. _wouter_schoot_1:
+
+Wouter Schoot (1)
+~~~~~~~~~~~~~~~~~
+
+-  Update 11-kerberos-ticket-policy.rst
+   `commit <https://pagure.io/freeipa/c/3ade90de022b8b1d6519f0dd020a9e3c05b06e62>`__
+
+.. _yaakov_selkowitz_1:
+
+Yaakov Selkowitz (1)
+~~~~~~~~~~~~~~~~~~~~
+
+-  spec: Use nodejs22 on RHEL 10 and ELN
+   `commit <https://pagure.io/freeipa/c/d9c200aac6aa384b465194de0a4a6eb4faed8afc>`__
+
+.. _yuri_chornoivan_1:
+
+Yuri Chornoivan (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  Translated using Weblate (Ukrainian)
+   `commit <https://pagure.io/freeipa/c/30fee9cbb77fb32f18910b09fd3dffbd6694e5cf>`__

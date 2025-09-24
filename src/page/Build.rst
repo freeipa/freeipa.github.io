@@ -38,6 +38,15 @@ the source code for its new webui. The submodule is available at
 `freeipa-webui <https://github.com/freeipa/freeipa-webui>`__ and
 installed in the directory ``install/freeipa-webui``.
 
+To ensure the specfile is up to date with webui dependencies, it's usually
+good idea to run the following command from the install/webui directory:
+
+::
+
+    $ ./fix-spec.sh -i
+
+::
+
 In order to get more familiar with git submodule concepts, you can read
 `git submodules <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`__.
 

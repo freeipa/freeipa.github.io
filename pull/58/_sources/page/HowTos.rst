@@ -10,8 +10,8 @@ Working with FreeIPA
    password <Howto/Change_Directory_Manager_Password>`__
 -  `Creating
    permissions <https://vda.li/en/posts/2016/08/30/Creating-permissions-in-FreeIPA/>`__
--  [https://fy.blackhats.net.au/blog/html/2015/07/06/FreeIPA:_Giving_permissions_to_service_accounts..html
-   Giving permissions to service accounts]
+-  `Giving permissions to service 
+   accounts <https://fy.blackhats.net.au/blog/html/2015/07/06/FreeIPA:_Giving_permissions_to_service_accounts.html/>`__
 -  `DNS classless IN-ADDR.ARPA
    delegation <Howto/DNS_classless_IN-ADDR.ARPA_delegation>`__ - How to
    delegate reverse zone for e.g. 192.0.2.0/26 and not only /24

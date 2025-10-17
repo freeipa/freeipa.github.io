@@ -65,7 +65,7 @@ Configure FreeIPA
    4. On the IPA server run
     ipa-getkeytab -s [kdc DNS name]
                   -p host/[machine-name]
-                  -e  arcfour-hmac
+                  -e  aes256-cts-hmac-sha1-96,aes128-cts-hmac-sha1-96,aes256-cts-hmac-sha384-192
                   -k krb5.keytab.[machine-name]
                   -P
     At the prompt enter a random MACHINE_PASSWORD
@@ -105,6 +105,11 @@ Configure Windows (ksetup)
 **Note: Configuring encryption types is not needed from FreeIPA 2.1.4
 and higher.** (FreeIPA ticket
 `2038 <https://fedorahosted.org/freeipa/ticket/2038>`__)
+
+Note: To enable users to login without entering the full realm name (eg use ``ksharp`` instead of ``ksharp@IPA.EXAMPLE.COM``) set the default logon domain 
+to the Kerberos realm name.
+To set the default logon domain with Group Policy, see 
+`KB: 2908796 <https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/change-default-logon-domain-name>`_. 
 
 --------------
 

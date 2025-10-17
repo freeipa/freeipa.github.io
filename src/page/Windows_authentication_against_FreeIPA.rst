@@ -111,6 +111,12 @@ to the Kerberos realm name.
 To set the default logon domain with Group Policy, see 
 `KB: 2908796 <https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/change-default-logon-domain-name>`_. 
 
+Note: It may not be required to add local user accounts. 
+On logon, Windows will use information from privilege attributes certificate (PAC) in the Kerberos ticket to get full name and profile path to create a profile. However these profiles will not be listed under local accounts, 
+only under ``HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList`` registry key, but account functionality is the same.
+More information on Kerberos PAC under `Identity Mapping - Security Identifiers <https://freeipa.readthedocs.io/en/latest/designs/id-mapping.html#security-identifiers>`_  and 
+the `MS-PAC <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-pac/166d8064-c863-41e1-9c23-edaaa5f36962>`_ and `MS-KILE <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/2a32282e-dd48-4ad9-a542-609804b02cc9>`_ specifications.
+
 --------------
 
 The FreeIPA team thanks 'Jimmy' for providing this information on the

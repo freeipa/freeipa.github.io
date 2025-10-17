@@ -1,0 +1,97 @@
+FreeIPA 4.12.3
+==============
+
+.. raw:: mediawiki
+
+   {{ReleaseDate|2025-01-15}}
+
+The FreeIPA team would like to announce FreeIPA 4.12.3 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+.. _highlights_in_4.12.3:
+
+Highlights in 4.12.3
+--------------------
+
+-  CVE-2024-11029
+
+When FreeIPA command line tools that run on IPA servers accept passwords
+on the command line, their details could be logged into systemd journal
+if the tools are using IPA API via '/proc/pid/commandline' content.
+
+systemd journald daemon collects these details along with any call that
+writes data to the systemd journal. The journal content is not
+accessible outside of administrators by default but could be exposed by
+forwarding the journal to external centralized log collectors.
+
+In most cases the centralized logging protocols like rsyslog do not
+forward \_CMDLINE property and thus do not see the command line
+directly. However, if administrators create backup copies of the systemd
+journal files, the binary data will contain all journal properties.
+
+In order to prevent unwanted exposure of passwords in command lines,
+FreeIPA tools now replace the passwords specified on the command line
+with a marker 'XXXXXX'.
+
+Enhancements
+~~~~~~~~~~~~
+
+.. _known_issues:
+
+Known Issues
+~~~~~~~~~~~~
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.12.3 is a security fix release.
+
+Details of the bug-fixes can be seen in the list of resolved tickets
+below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on
+`Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on libera.chat.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+.. _detailed_changelog_since_4.12.2:
+
+Detailed changelog since 4.12.2
+-------------------------------
+
+.. _alexander_bokovoy_2:
+
+Alexander Bokovoy (2)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  ipa tools: remove sensitive material from the commandline
+   `commit <https://pagure.io/freeipa/c/3b38efe75865d0696829b4f26572575a8e74ddce>`__
+-  Unify use of option parsers
+   `commit <https://pagure.io/freeipa/c/cf84a22228460957f578ac102f02516febe13f92>`__
+
+.. _sumit_bose_1:
+
+Sumit Bose (1)
+~~~~~~~~~~~~~~
+
+-  ipa-otpd: use oidc_child's --client-secret-stdin option
+   `commit <https://pagure.io/freeipa/c/7a5a10b6bf2e3eafd4b69362ffaece39791be2a8>`__

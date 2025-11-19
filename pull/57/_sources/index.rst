@@ -53,13 +53,13 @@ Releases
    :titlesonly:
 
    /release-notes/4-13-0.rst
+   /release-notes/4-12-5.rst
    /release-notes/4-12-4.rst
    /release-notes/4-12-3.rst
    /release-notes/4-12-2.rst
    /release-notes/4-12-1.rst
    /release-notes/4-11-2.rst
    /release-notes/4-12-0.rst
-   /release-notes/4-11-1.rst
 
 Getting involved
 ----------------

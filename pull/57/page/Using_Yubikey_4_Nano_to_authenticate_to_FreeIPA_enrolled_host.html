@@ -1,0 +1,619 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host &#8212; FreeIPA  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'page/Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><a class="navbar-brand logo" href="/">
+    <img src="https://raw.githubusercontent.com/freeipa/freeipa.github.io/main/src/_static/freeipa-logo-small.png" class="logo__image" alt="Logo image" />
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><div class="sidebar-primary-item">
+    <nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="bd-toc-item navbar-nav active">
+            <ul class="nav bd-sidenav">
+                <li class="toctree-l1"><a class="reference internal" href="/About.html">About</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Contribute.html">Contribute</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/page/Documentation.html">Documentation</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/page/Troubleshooting.html">Troubleshooting</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="/Downloads.html">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/page/Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-yubikey">Prepare yubikey</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-packages">Install packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-pcscd">Start pcscd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-readers">Verify readers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-yubikey-optional">Reset Yubikey (optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-we-need-to-get-the-yubikey-blocked">First we need to get the Yubikey blocked</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#now-we-can-reset-it">Now we can reset it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-new-management-key-pin-and-puk">Set new Management Key, PIN and PUK</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-certificate">Create certificate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-private-key">Generate Private Key</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-certificate-signing-request">Generate Certificate Signing Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sign-certificate-signing-request">Sign Certificate Signing Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-certificate-into-yubikey">Import the certificate into Yubikey</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#assign-the-certificate-to-freeipa-user">Assign the certificate to FreeIPA user</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-support-on-freeipa-client">Enable support on FreeIPA client</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Install packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-smart-card-to-etc-pki-nssdb">Add Smart Card to /etc/pki/nssdb</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-and-enable-pc-smart-card-daemon">Start and enable PC Smart Card Daemon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-authentication-using-certificates-in-sssd">Enable authentication using certificates in SSSD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-ocsp-if-oscp-unreachable">Disable OCSP (if oscp unreachable)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-ca-certificates-for-smart-cards">Import CA certificates for Smart Cards</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restart-sssd">Restart SSSD</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="using-yubikey-4-nano-to-authenticate-to-freeipa-enrolled-host">
+<h1>Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host<a class="headerlink" href="#using-yubikey-4-nano-to-authenticate-to-freeipa-enrolled-host" title="Link to this heading">#</a></h1>
+<p>Goal of this page is to show how to:</p>
+<ul class="simple">
+<li><p>issue certificate and store it on Yubikey 4 Nano,</p></li>
+<li><p>add the certificate to FreeIPA User,</p></li>
+<li><p>configure FreeIPA client to authenticate user with certificate stored
+on Yubikey 4 Nano.</p></li>
+</ul>
+<section id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://blog-ftweedal.rhcloud.com/2016/08/smart-card-login-with-yubikey-neo/">https://blog-ftweedal.rhcloud.com/2016/08/smart-card-login-with-yubikey-neo/</a></p></li>
+<li><p><a class="reference external" href="https://developers.yubico.com/yubico-piv-tool/YubiKey_PIV_introduction.html">https://developers.yubico.com/yubico-piv-tool/YubiKey_PIV_introduction.html</a></p></li>
+</ul>
+</section>
+</section>
+<section id="prepare-yubikey">
+<h1>Prepare yubikey<a class="headerlink" href="#prepare-yubikey" title="Link to this heading">#</a></h1>
+<section id="install-packages">
+<h2>Install packages<a class="headerlink" href="#install-packages" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">ykpers</span> <span class="pre">yubico-piv-tool</span> <span class="pre">pcsc-lite</span> <span class="pre">opensc</span></code></p>
+</section>
+<section id="start-pcscd">
+<h2>Start pcscd<a class="headerlink" href="#start-pcscd" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">pcscd</span></code></p>
+</section>
+<section id="verify-readers">
+<h2>Verify readers<a class="headerlink" href="#verify-readers" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># opensc-tool --list-readers</span>
+<span class="n">Detected</span> <span class="n">readers</span> <span class="p">(</span><span class="n">pcsc</span><span class="p">)</span>
+<span class="n">Nr</span><span class="o">.</span>  <span class="n">Card</span>  <span class="n">Features</span>  <span class="n">Name</span>
+<span class="mi">0</span>    <span class="n">Yes</span>             <span class="n">Yubico</span> <span class="n">Yubikey</span> <span class="mi">4</span> <span class="n">OTP</span><span class="o">+</span><span class="n">U2F</span><span class="o">+</span><span class="n">CCID</span> <span class="mi">00</span> <span class="mi">00</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yubico-piv-tool -a status -v</span>
+<span class="n">trying</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">reader</span> <span class="s1">&#39;Yubico Yubikey 4 OTP+U2F+CCID 00 00&#39;</span><span class="o">.</span>
+<span class="n">Action</span> <span class="s1">&#39;status&#39;</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">need</span> <span class="n">authentication</span><span class="o">.</span>
+<span class="n">Now</span> <span class="n">processing</span> <span class="k">for</span> <span class="n">action</span> <span class="s1">&#39;status&#39;</span><span class="o">.</span>
+<span class="n">CHUID</span><span class="p">:</span>  <span class="n">No</span> <span class="n">data</span> <span class="n">available</span>
+<span class="n">CCC</span><span class="p">:</span>    <span class="n">No</span> <span class="n">data</span> <span class="n">available</span>
+<span class="n">PIN</span> <span class="n">tries</span> <span class="n">left</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</section>
+<section id="reset-yubikey-optional">
+<h2>Reset Yubikey (optional)<a class="headerlink" href="#reset-yubikey-optional" title="Link to this heading">#</a></h2>
+<p>Useful if you’ve lost PIN/PUK.</p>
+</section>
+<section id="first-we-need-to-get-the-yubikey-blocked">
+<h2>First we need to get the Yubikey blocked<a class="headerlink" href="#first-we-need-to-get-the-yubikey-blocked" title="Link to this heading">#</a></h2>
+<p>Blocking the yubikey is straighforward. First enter wrong PIN tree times
+then enter wrong PUK tree times.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yubico-piv-tool -a verify -P 000000</span>
+<span class="c1"># yubico-piv-tool -a verify -P 000000</span>
+<span class="c1"># yubico-piv-tool -a verify -P 000000</span>
+<span class="c1"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span>
+<span class="c1"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span>
+<span class="c1"># yubico-piv-tool -a unblock-pin -P 000000 -N 000000</span>
+</pre></div>
+</div>
+</section>
+<section id="now-we-can-reset-it">
+<h2>Now we can reset it<a class="headerlink" href="#now-we-can-reset-it" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">-a</span> <span class="pre">reset</span></code></p>
+</section>
+<section id="set-new-management-key-pin-and-puk">
+<h2>Set new Management Key, PIN and PUK<a class="headerlink" href="#set-new-management-key-pin-and-puk" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># KEY=$(hexdump -v -e &#39;/1 &quot;%x&quot;&#39; /dev/urandom | head -c 48)</span>
+<span class="c1"># PIN=$(hexdump -v -e &#39;/1 &quot;%u&quot;&#39; /dev/urandom | head -c 6)</span>
+<span class="c1"># PUK=$(hexdump -v -e &#39;/1 &quot;%u&quot;&#39; /dev/urandom | head -c 8)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># yubico-piv-tool -a set-mgm-key -n $KEY</span>
+<span class="c1"># yubico-piv-tool -a change-pin -P 123456 -N $PIN</span>
+<span class="c1"># yubico-piv-tool -a change-puk -P 12345678 -N $PUK</span>
+</pre></div>
+</div>
+</section>
+<section id="create-certificate">
+<h2>Create certificate<a class="headerlink" href="#create-certificate" title="Link to this heading">#</a></h2>
+</section>
+<section id="generate-private-key">
+<h2>Generate Private Key<a class="headerlink" href="#generate-private-key" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">--key=$KEY</span> <span class="pre">-a</span> <span class="pre">generate</span> <span class="pre">-s</span> <span class="pre">9a</span> <span class="pre">-A</span> <span class="pre">RSA2048</span> <span class="pre">-o</span> <span class="pre">pub.pem</span></code></p>
+</section>
+<section id="generate-certificate-signing-request">
+<h2>Generate Certificate Signing Request<a class="headerlink" href="#generate-certificate-signing-request" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">-a</span> <span class="pre">verify</span> <span class="pre">-a</span> <span class="pre">request</span> <span class="pre">-s</span> <span class="pre">9a</span> <span class="pre">-P</span> <span class="pre">$PIN</span> <span class="pre">-S</span> <span class="pre">'/CN=test/O=EXAMPLE.ORG/'</span> <span class="pre">-i</span> <span class="pre">pub.pem</span> <span class="pre">-o</span> <span class="pre">req.pem</span></code></p>
+</section>
+<section id="sign-certificate-signing-request">
+<h2>Sign Certificate Signing Request<a class="headerlink" href="#sign-certificate-signing-request" title="Link to this heading">#</a></h2>
+<p>In production environment the CSR is sent to Security Administrator (or
+similar role) and he will provide the certificate. But for testing it’s
+OK to generate self-sign CA certificate and use it to sign the request.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># head -c 40 /dev/urandom &gt; noise</span>
+<span class="c1"># base64 /dev/urandom | head -c 20 &gt; pwfile</span>
+<span class="c1"># mkdir /tmp/nssdb</span>
+<span class="c1"># certutil -d /tmp/nssdb/ -f pwfile -N</span>
+<span class="c1"># echo -e &quot;y\n\ny\n&quot; | certutil -d /tmp/nssdb/ -f pwfile -S -x -n ca -t T,, -m 1 -s &quot;CN=Smart Card CA,O=EXAMPLE.ORG&quot; -z noise -2</span>
+<span class="c1"># certutil -d /tmp/nssdb/ -f pwfile -C -c ca -m $RANDOM -a -i req.pem -o cert.pem --keyUsage digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment</span>
+</pre></div>
+</div>
+<p>The CA certificate (will be needed later) can be exported to file:</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-d</span> <span class="pre">/tmp/nssdb/</span> <span class="pre">-f</span> <span class="pre">pwfile</span> <span class="pre">-L</span> <span class="pre">-n</span> <span class="pre">ca</span> <span class="pre">-a</span> <span class="pre">-o</span> <span class="pre">ca.pem</span></code></p>
+</section>
+<section id="import-the-certificate-into-yubikey">
+<h2>Import the certificate into Yubikey<a class="headerlink" href="#import-the-certificate-into-yubikey" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">yubico-piv-tool</span> <span class="pre">--key=$KEY</span> <span class="pre">-a</span> <span class="pre">import-certificate</span> <span class="pre">-i</span> <span class="pre">cert.pem</span> <span class="pre">-s</span> <span class="pre">9a</span></code></p>
+</section>
+</section>
+<section id="assign-the-certificate-to-freeipa-user">
+<h1>Assign the certificate to FreeIPA user<a class="headerlink" href="#assign-the-certificate-to-freeipa-user" title="Link to this heading">#</a></h1>
+<p>user-add-cert command expects only the base64 encoded blob:</p>
+<p><cite>- `tail -n +2</cite> omits the —–BEGIN CERTIFICATE—- line`
+<cite>- `head -n -1</cite> omits the —–END CERTIFICATE—- line`
+<cite>- `tr -d ‘nr’</cite> joins all lines into one`</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kinit test</span>
+<span class="c1"># cat cert.pem | tail -n +2 | head -n -1 | tr -d &#39;\n\r&#39; | ipa user-add-cert test</span>
+</pre></div>
+</div>
+</section>
+<section id="enable-support-on-freeipa-client">
+<h1>Enable support on FreeIPA client<a class="headerlink" href="#enable-support-on-freeipa-client" title="Link to this heading">#</a></h1>
+<section id="id1">
+<h2>Install packages<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">-y</span> <span class="pre">opensc</span> <span class="pre">python{2,3}-sssdconfig</span></code></p>
+</section>
+<section id="add-smart-card-to-etc-pki-nssdb">
+<h2>Add Smart Card to /etc/pki/nssdb<a class="headerlink" href="#add-smart-card-to-etc-pki-nssdb" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">modutil</span> <span class="pre">-dbdir</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-add</span> <span class="pre">&quot;OpenSC&quot;</span> <span class="pre">-libfile</span> <span class="pre">opensc-pkcs11.so</span></code></p>
+</section>
+<section id="start-and-enable-pc-smart-card-daemon">
+<h2>Start and enable PC Smart Card Daemon<a class="headerlink" href="#start-and-enable-pc-smart-card-daemon" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># systemctl start pcscd.service pcscd.socket</span>
+<span class="c1"># systemctl enable pcscd.service pcscd.socket</span>
+</pre></div>
+</div>
+</section>
+<section id="enable-authentication-using-certificates-in-sssd">
+<h2>Enable authentication using certificates in SSSD<a class="headerlink" href="#enable-authentication-using-certificates-in-sssd" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># python &lt;&lt; EOF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SSSDConfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSSDConfig</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SSSDConfig</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">import_config</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;pam&#39;</span><span class="p">,</span> <span class="s1">&#39;pam_cert_auth&#39;</span><span class="p">,</span> <span class="s1">&#39;True&#39;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+<span class="n">EOF</span>
+</pre></div>
+</div>
+</section>
+<section id="disable-ocsp-if-oscp-unreachable">
+<h2>Disable OCSP (if oscp unreachable)<a class="headerlink" href="#disable-ocsp-if-oscp-unreachable" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># python &lt;&lt; EOF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SSSDConfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSSDConfig</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SSSDConfig</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">import_config</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;sssd&#39;</span><span class="p">,</span> <span class="s1">&#39;certificate_verification&#39;</span><span class="p">,</span> <span class="s1">&#39;no_ocsp&#39;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+<span class="n">EOF</span>
+</pre></div>
+</div>
+</section>
+<section id="import-ca-certificates-for-smart-cards">
+<h2>Import CA certificates for Smart Cards<a class="headerlink" href="#import-ca-certificates-for-smart-cards" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">certutil</span> <span class="pre">-d</span> <span class="pre">/etc/pki/nssdb</span> <span class="pre">-A</span> <span class="pre">-i</span> <span class="pre">ca.pem</span> <span class="pre">-n</span> <span class="pre">&quot;Smart</span> <span class="pre">Card</span> <span class="pre">CA</span> <span class="pre">($RANDOM)&quot;</span> <span class="pre">-t</span> <span class="pre">T,,</span></code></p>
+</section>
+<section id="restart-sssd">
+<h2>Restart SSSD<a class="headerlink" href="#restart-sssd" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">sssd.service</span></code></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using_Yubikey_4_Nano_to_authenticate_to_FreeIPA_enrolled_host</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-yubikey">Prepare yubikey</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-packages">Install packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-pcscd">Start pcscd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-readers">Verify readers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-yubikey-optional">Reset Yubikey (optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-we-need-to-get-the-yubikey-blocked">First we need to get the Yubikey blocked</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#now-we-can-reset-it">Now we can reset it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-new-management-key-pin-and-puk">Set new Management Key, PIN and PUK</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-certificate">Create certificate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-private-key">Generate Private Key</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-certificate-signing-request">Generate Certificate Signing Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sign-certificate-signing-request">Sign Certificate Signing Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-certificate-into-yubikey">Import the certificate into Yubikey</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#assign-the-certificate-to-freeipa-user">Assign the certificate to FreeIPA user</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-support-on-freeipa-client">Enable support on FreeIPA client</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Install packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-smart-card-to-etc-pki-nssdb">Add Smart Card to /etc/pki/nssdb</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-and-enable-pc-smart-card-daemon">Start and enable PC Smart Card Daemon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-authentication-using-certificates-in-sssd">Enable authentication using certificates in SSSD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-ocsp-if-oscp-unreachable">Disable OCSP (if oscp unreachable)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-ca-certificates-for-smart-cards">Import CA certificates for Smart Cards</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restart-sssd">Restart SSSD</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By FreeIPA Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, FreeIPA Team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

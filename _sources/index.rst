@@ -52,6 +52,7 @@ Releases
 .. toctree::
    :titlesonly:
 
+   /release-notes/4-13-1.rst
    /release-notes/4-13-0.rst
    /release-notes/4-12-5.rst
    /release-notes/4-12-4.rst

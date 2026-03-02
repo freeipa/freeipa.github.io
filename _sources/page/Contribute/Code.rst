@@ -89,6 +89,12 @@ in git. Retrieve it and its submodules with:
 The code can also be browsed online
 `here <https://pagure.io/freeipa/commits>`__
 
+Note: to avoid pushing by mistake to pagure.io, you can replace the (push) url
+with the following command:
+
+::
+
+   git remote set-url --push origin "You shall not push"
 
 
 Change the code
@@ -262,6 +268,7 @@ present in the source tree (.git-commit-template):
   Fixes: https://pagure.io/freeipa/issue/XXXX
   or
   Related: https://pagure.io/freeipa/issue/XXXX
+  Signed-off-by: Full Name <email@yourmail.com>
 
 
 -  *component: Subject* is a single-line summary
@@ -277,6 +284,7 @@ present in the source tree (.git-commit-template):
 -  *Fixes:* means that the commit fixes the referenced issue(s).
 -  *Related:* means that the commit is related to the issue(s) in some
    way, but does not resolve it/them.
+-  *Signed-off-by:* contains your email, will be credited in the Contributors and Release Notes
 
 When a pull request is created, please update Pagure ticket with link to
 the pull request (in the ticket, click on "Edit Metadata" and update the

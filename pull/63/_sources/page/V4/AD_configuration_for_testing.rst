@@ -25,7 +25,7 @@ On Active Directory side, objects in following description should exist.
 The authoritative definitions for PR CI are in `freeipa-pr-ci
 <https://github.com/freeipa/freeipa-pr-ci/tree/master/ansible/roles/windows/ipa-ad-data/tasks>`__
 (``ad-root.yml`` for the forest root domain, ``ad-child.yml`` for the
-child subdomain).
+child subdomain, ``ad-tree.yml`` for the tree root domain).
 
 
 
@@ -321,28 +321,31 @@ On child (subdomain) AD
 On tree root AD
 ----------------------------------------------------------------------------------------------
 
+Objects below match `ad-tree.yml
+<https://github.com/freeipa/freeipa-pr-ci/blob/master/ansible/roles/windows/ipa-ad-data/tasks/ad-tree.yml>`__.
+
 -  A user group
 
 ::
 
-     name: treetestgroup
-     scope: global
-     attributes:
-       gidNumber: 10247
+    name: treetestgroup
+    scope: global
+    attributes:
+      gidNumber: 10247
 
 -  A test user with posix attributes defined
 
 ::
 
-     name: treetestuser
-     first name: TreeTest
-     last name: User
-     password: Secret123456
-     password never expires: yes
-     primary group: treetestgroup
-     attributes:
-       uidNumber: 10242
-       gidNumber: 10247
-       loginShell: /bin/sh
-       homeDirectory: /home/treetestuser
-       gecos: TreeTest User
+    name: treetestuser
+    primary group: treetestgroup
+    first name: TreeTest
+    last name: User
+    password: Secret123456
+    password never expires: yes
+    attributes:
+      uidNumber: 10242
+      gidNumber: 10247
+      loginShell: /bin/sh
+      homeDirectory: /home/treetestuser
+      gecos: TreeTest User

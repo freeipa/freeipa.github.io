@@ -546,7 +546,7 @@ To implement this change we need to:
    request for the HTTP service certificate to include the alias, then
    renew the cert.
 
-This change was implemented in https://pagure.io/freeipa/issue/8186.
+This change was implemented in https://codeberg.org/freeipa/freeipa/issues/8186.
 
 Scalability
 -----------

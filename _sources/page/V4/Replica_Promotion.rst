@@ -553,7 +553,7 @@ Handlers (reading and writing keys)
 
 In the original implementation the ``ipa-custodia`` server and Custodia
 client code ran as root and was not properly confined by SELinux (see
-`Ticket 6888 <https://pagure.io/freeipa/issue/6888>`__). As of FreeIPA
+`Ticket 6888 <https://codeberg.org/freeipa/freeipa/issues/6888>`__). As of FreeIPA
 4.8.0, server and client key database handlers are run as separate
 processes, as a non-root user where possible, and the ``DAC_OVERRIDE``
 capability is no longer required for either the main process or the
@@ -584,7 +584,7 @@ handler processes.
 The optional **{alg-oid}** parameter for Lightweight CA signing keys
 requests the specified encryption algorithm be used. This was
 implemented as part of `Ticket 8020 - Support AES in Lightweight CA key
-replication <https://pagure.io/freeipa/issue/8020>`__. This "parameters
+replication <https://codeberg.org/freeipa/freeipa/issues/8020>`__. This "parameters
 as additional path components" facility is available to all handlers,
 but only ``ca_wrapped`` uses it (as of September 2019).
 

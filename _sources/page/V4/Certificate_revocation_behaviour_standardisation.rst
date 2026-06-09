@@ -17,7 +17,7 @@ always known which certificate should be revoked. Revocation list growth
 was also a concern.
 
 This change in behaviour continues to confuse users and developers. For
-example, https://pagure.io/freeipa/issue/7482 was filed, suggesting the
+example, https://codeberg.org/freeipa/freeipa/issues/7482 was filed, suggesting the
 lack of revocation of the old certificate upon renewal was a regression.
 A patch and `pull
 request <https://github.com/freeipa/freeipa/pull/1915#issuecomment-388295460>`__

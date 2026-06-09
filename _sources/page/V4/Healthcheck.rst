@@ -101,7 +101,7 @@ Related Tickets
 ----------------------------------------------------------------------------------------------
 
 -  `#1749 Need way to remove dangling managed
-   groups <https://pagure.io/freeipa/issue/1749>`__
+   groups <https://codeberg.org/freeipa/freeipa/issues/1749>`__
 
 Important note: v1 healthcheck will only identify issues, not provide a
 mechanism to remediate them.

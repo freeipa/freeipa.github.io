@@ -17,7 +17,7 @@ generation on the new CRL generation master). This manual procedure is
 error-prone and can leave the topology in a bad state.
 
 This feature proposes to provide a tool in order to automate these
-manual steps. See issue `5803 <https://pagure.io/freeipa/issue/5803>`__.
+manual steps. See issue `5803 <https://codeberg.org/freeipa/freeipa/issues/5803>`__.
 
 Design
 ======

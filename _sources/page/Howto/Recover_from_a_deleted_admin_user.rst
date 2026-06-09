@@ -11,10 +11,10 @@ provided an alternate user was member of the admins group.
 
 The deletion of the admin user caused multiple issues (for instance
 breaking the upgrade as seen in 
-`ticket 9500 <https://pagure.io/freeipa/issue/9500>`__).
+`ticket 9500 <https://codeberg.org/freeipa/freeipa/issues/9500>`__).
 
 A mechanism preventing this deletion has been implemented with the fix for
-`ticket 8878 <https://pagure.io/freeipa/issue/8878>`__. The fix is available
+`ticket 8878 <https://codeberg.org/freeipa/freeipa/issues/8878>`__. The fix is available
 in versions 4.9.13+ and 4.11.0+, but if your deployment has lost its admin
 user, you need to recreate a new admin user following the procedure detailed
 below.

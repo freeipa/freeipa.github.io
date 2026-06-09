@@ -12,8 +12,8 @@ Feedback is expected to be sent either to:
 
 -  `freeipa-users mailing
    list <https://lists.fedorahosted.org/archives/list/freeipa-users@lists.fedorahosted.org/>`__
--  or by filing an issue to `FreeIPA Pagure ticketing
-   system <https://pagure.io/freeipa/new_issue>`__ or `Red Hat
+-  or by filing an issue to `FreeIPA Codeberg ticketing
+   system <https://codeberg.org/freeipa/freeipa>`__ or `Red Hat
    Bugzilla <https://bugzilla.redhat.com/enter_bug.cgi?bug_status=NEW&component=freeipa&form_name=enter_bug&product=Fedora>`__.
 
 Before we dive into particular scenarios we offer you presentation about

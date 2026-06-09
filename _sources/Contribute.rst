@@ -21,7 +21,7 @@ Security Bugs and Flaws
 Tracking
 ^^^^^^^^
 
--  We use `Pagure <https://pagure.io/freeipa/issues>`__ for the upstream
+-  We use `Codeberg <https://codeberg.org/freeipa/freeipa>`__ for the upstream
    development, so all RFEs or bug reports should go primarily there.
 -  Bugs against released Fedora versions can be logged using the
    following `Bugzilla
@@ -76,8 +76,8 @@ free to ask!
 How To Start
 ~~~~~~~~~~~~
 
-The FreeIPA project uses the `Pagure ticketing
-system <https://pagure.io/freeipa/>`__ to keep track of work being done.
+The FreeIPA project uses the `Codeberg ticketing
+system <https://codeberg.org/freeipa/freeipa>`__ to keep track of work being done.
 If you want to contribute check out if there are interesting tickets in
 the pipeline (or file your own).
 

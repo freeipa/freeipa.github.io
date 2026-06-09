@@ -14,8 +14,7 @@ FreeIPA project has 1 active repository:
 -  **Main code repository**: FreeIPA project code and tests
 
    -  Link:
-      ```https://pagure.io/freeipa.git`` <https://pagure.io/freeipa.git>`__
-   -  `Code browser <https://pagure.io/freeipa/commits/master>`__
+      ```https://codeberg.org/freeipa/freeipa.git`` <https://codeberg.org/freeipa/freeipa.git>`__
    -  `Contribution howto <Contribute/Code>`__
 
 
@@ -33,7 +32,7 @@ Write access
 ============
 
 Write access is allowed only to a limited list of upstream core
-developers (`member list <https://pagure.io/group/freeipa>`__) who are
+developers (`member list <https://codeberg.org/org/freeipa/members>`__) who are
 contributing to the project success, keep the code base clean and
 functional. The list is kept short to make sure that all committers know
 what should be pushed, when, to which branch(es) and with appropriate

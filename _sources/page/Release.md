@@ -207,7 +207,7 @@ Building the sources
 If doing a pre release pull a fresh tree to do the builds into a separate directory:
 
 ```
-$ git clone --recurse-submodules [https://pagure.io/freeipa.git](https://pagure.io/freeipa.git) freeipa-x-y-z
+$ git clone --recurse-submodules [https://codeberg.org/freeipa/freeipa.git](https://codeberg.org/freeipa/freeipa.git) freeipa-x-y-z
 $ cd freeipa-x-y-z
 ```
 
@@ -263,7 +263,7 @@ $ gpg2 --default-key <IPA MASTER KEYID> --armor --detach-sign freeipa-x.y.z.tar.
 $ gpg2 --verify freeipa-x.y.z.tar.gz.asc
 ```
 
-Upload tarball and signature to pagure.io: [https://pagure.io/freeipa/releases](https://pagure.io/freeipa/releases)
+Upload tarball and signature to Codeberg: [https://codeberg.org/freeipa/freeipa/releases](https://codeberg.org/freeipa/freeipa/releases)
 
 If you signing key is not in the [Verify Release Signature](/web/20221001164305/https://freeipa.org/page/Verify_Release_Signature "Verify Release Signature") guide, append it to the list and gpg verify command.
 
@@ -383,13 +383,3 @@ When doing a major release, consider following extra steps:
 *   [Roadmap](/web/20221001164305/https://freeipa.org/page/Roadmap "Roadmap") - consider updating information about planned or new releases
 *   [Documentation](/web/20221001164305/https://freeipa.org/page/Documentation "Documentation") - update links and version numbers
 *   [Build](/web/20221001164305/https://freeipa.org/page/Build "Build") - update COPR repositories if new ones are introduced or old abandoned
-
-Tickets administravia
----------------------
-
-FixMe: is this being done for 4.9.x?
-
-*   [Create a milestone](https://fedorahosted.org/freeipa/milestone?action=new) for next FreeIPA version in form FreeIPA x.y.z.
-*   Create a new milestone in [Pagure project settings](https://pagure.io/freeipa/settings) (if doesn't exist).
-*   Move all [opened tickets](https://pagure.io/freeipa/roadmap?status=Open&milestone=FreeIPA+4.5.1&all_stones=True&no_stones=) from the released version milestone to the new milestone. (Following script can be used, use [move-milestone.py --help](https://raw.githubusercontent.com/freeipa/freeipa-tools/master/release/move-milestone.py) to see usage)
-*   Close the old milestone in the [Roadmap](https://fedorahosted.org/freeipa/roadmap).

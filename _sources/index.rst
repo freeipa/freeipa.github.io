@@ -34,9 +34,9 @@ Main features
    (Fedora), `389 Directory
    Server <http://directory.fedoraproject.org/>`__, `MIT
    Kerberos <http://k5wiki.kerberos.org/wiki/Main_Page>`__, NTP,
-   `DNS <https://pagure.io/bind-dyndb-ldap>`__, `Dogtag certificate
+   `DNS <https://codeberg.org/freeipa/bind-dyndb-ldap>`__, `Dogtag certificate
    system <http://pki.fedoraproject.org>`__,
-   `SSSD <https://pagure.io/SSSD/sssd>`__ and others.
+   `SSSD <https://sssd.io/>`__ and others.
 -  Built on top of well known Open Source components and standard
    protocols
 -  Strong focus on ease of management and automation of installation and

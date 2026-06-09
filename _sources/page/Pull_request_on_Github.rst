@@ -10,7 +10,7 @@ repository (cloned from fedorahosted)
 
 ::
 
-    $ git clone --recurse-submodules https://pagure.io/freeipa.git
+    $ git clone --recurse-submodules https://codeberg.org/freeipa/freeipa.git
     $ cd freeipa/
     $ git remote add myfork git@github.com:/freeipa.git
 
@@ -61,4 +61,4 @@ enough, but it is also possible to develop Modern WebUI separately using:
 The other processes are similar.
 
 Do note, that all of the development for Modern WebUI is done on
-`GitHub <https://github.com/freeipa/freeipa-webui>`__, not on Pagure.
+`GitHub <https://github.com/freeipa/freeipa-webui>`__, not on Codeberg.

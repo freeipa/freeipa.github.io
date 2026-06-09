@@ -46,9 +46,9 @@ Sources
 ~~~~~~~
 
 If you want to `build <https://www.freeipa.org/page/Build>`__ FreeIPA
-yourself, you can check the sources stored on the project Pagure:
+yourself, you can check the sources stored on the project Codeberg:
 
--  `Latest Released Sources <https://releases.pagure.org/freeipa/>`__
+-  `Latest Released Sources <https://codeberg.org/freeipa/freeipa/releases>`__
 -  `Steps on verifying the
    release <https://www.freeipa.org/page/Verify_Release_Signature>`__
 

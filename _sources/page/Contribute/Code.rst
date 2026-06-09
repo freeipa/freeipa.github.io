@@ -4,7 +4,7 @@ Code
 This article should serve both as a reference article for already
 seasoned FreeIPA developers, but also as a guide for new people who
 would like to contribute. You can fix an open bug described in chosen
-`Pagure ticket <https://pagure.io/freeipa/issues>`__ or implement a
+`Codeberg ticket <https://codeberg.org/freeipa/freeipa>`__ or implement a
 whole new feature! The steps below should help get you started.
 
 If you need to learn more about FreeIPA itself, visit the `main
@@ -27,8 +27,8 @@ Find something to start with
 
 If you want to start with something (relatively) easy please take a look
 at `list of "easyfix"
-tickets <https://pagure.io/freeipa/issues?status=Open&tags=easyfix>`__
-in our Pagure. It is always better to start with something simple :-)
+tickets <https://codeberg.org/freeipa/freeipa>`__
+in our Codeberg. It is always better to start with something simple :-)
 
 Do not hesitate to `contact us <Contribute#Communication>`__ with any
 question or idea!
@@ -84,12 +84,12 @@ in git. Retrieve it and its submodules with:
 
 ::
 
-    git clone --recurse-submodules https://pagure.io/freeipa.git
+    git clone --recurse-submodules https://codeberg.org/freeipa/freeipa.git
 
 The code can also be browsed online
-`here <https://pagure.io/freeipa/commits>`__
+`here <https://codeberg.org/freeipa/freeipa>`__
 
-Note: to avoid pushing by mistake to pagure.io, you can replace the (push) url
+Note: to avoid pushing by mistake to Codeberg, you can replace the (push) url
 with the following command:
 
 ::
@@ -136,15 +136,15 @@ Then, you just need to run:
 
 
 
-Update Pagure ticket
+Update Codeberg ticket
 ----------------------------------------------------------------------------------------------
 
-We use Pagure for work coordination. Please be so kind and assign the
+We use Codeberg for work coordination. Please be so kind and assign the
 ticket you are working on to yourself. It is just a few clicks and it
 prevents people from working on the same thing at the same time without
 knowing about each other.
 
--  `Find a ticket <https://pagure.io/freeipa/issues>`__ related to your
+-  `Find a ticket <https://codeberg.org/freeipa/freeipa>`__ related to your
    work.
 
    -  Maybe the ticket does not exist. If you consider the code change
@@ -155,10 +155,7 @@ knowing about each other.
       different approaches etc.
 
 -  In the particular ticket, assign the ticket to yourself by clicking
-   on the "Take" button (note: you must be logged in
-   `pagure.io <https://pagure.io/login/?next=https://pagure.io/freeipa/>`__,
-   see `Login to pagure or create your
-   account <https://docs.pagure.org/pagure/usage/first_steps.html#login-to-pagure-or-create-your-account>`__)
+   on the "Assign to me" option.
 
 
 
@@ -265,9 +262,9 @@ present in the source tree (.git-commit-template):
 
   Explanation
 
-  Fixes: https://pagure.io/freeipa/issue/XXXX
+  Fixes: https://codeberg.org/freeipa/freeipa/issues//XXXX
   or
-  Related: https://pagure.io/freeipa/issue/XXXX
+  Related: https://codeberg.org/freeipa/freeipa/issues/XXXX
   Signed-off-by: Full Name <email@yourmail.com>
 
 
@@ -286,7 +283,7 @@ present in the source tree (.git-commit-template):
    way, but does not resolve it/them.
 -  *Signed-off-by:* contains your email, will be credited in the Contributors and Release Notes
 
-When a pull request is created, please update Pagure ticket with link to
+When a pull request is created, please update Codeberg ticket with link to
 the pull request (in the ticket, click on "Edit Metadata" and update the
 field "on_review" with the link to your PR, for instance
 https://github.com/freeipa/freeipa/pull/1234).
@@ -355,7 +352,7 @@ to keep track of the process.
 When the reviewer pass a feedback, patch should be then updated to clear
 all concerns and thus be ready to be merged. See `Pull request on
 Github <https://www.freeipa.org/page/Pull_request_on_Github>`__ for advice how to update a pull
-request. No changes in Pagure are needed when a reviewer rejects the
+request. No changes in Codeberg are needed when a reviewer rejects the
 patch or submitter sends a new version of the patch.
 
 

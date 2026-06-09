@@ -16,10 +16,7 @@ Requests for upstream
 ---------------------
 
 A primary and authoritative source of enhancement/bug tickets is our
-upstream `Pagure page <https://pagure.io/freeipa/>`__. It contains the
-planned fixes for both current development and maintenance branch (see
-`FreeIPA roadmap <https://pagure.io/freeipa/roadmap>`__ for more
-details).
+upstream `Codeberg page <https://codeberg.org/freeipa/freeipa>`__.
 
 
 

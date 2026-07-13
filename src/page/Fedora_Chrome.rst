@@ -94,8 +94,8 @@ Run Chromium with Kerberos:
 ::
 
    % chromium-browser\
-    --auth-server-whitelist="*.example.com"\
-    --auth-negotiate-delegate-whitelist="*.example.com"
+    --auth-server-allowlist="*.example.com"\
+    --auth-negotiate-delegate-allowlist="*.example.com"
 
 
 
@@ -107,16 +107,16 @@ Run Chrome with Kerberos:
 ::
 
    % google-chrome\
-    --auth-server-whitelist="*.example.com"\
-    --auth-negotiate-delegate-whitelist="*.example.com"
+    --auth-server-allowlist="*.example.com"\
+    --auth-negotiate-delegate-allowlist="*.example.com"
 
 If the aforementioned approach doesn't work, you can override an
 AuthScheme policy [4, 7]:
 
 ::
 
-   { "AuthServerWhitelist": "*.example.com",
-   "AuthNegotiateDelegateWhitelist": "*.example.com" }
+   { "AuthServerAllowlist": "*.example.com",
+   "AuthNegotiateDelegateAllowlist": "*.example.com" }
 
 
 

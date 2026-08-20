@@ -265,11 +265,30 @@ $ gpg2 --verify freeipa-x.y.z.tar.gz.asc
 
 Upload tarball and signature to Codeberg: [https://codeberg.org/freeipa/freeipa/releases](https://codeberg.org/freeipa/freeipa/releases)
 
+Click on the "New release" button, introduce the same tag you created before in the "Tag name" field, and link to the release notes page in the release description.
+Upload tarball and signature, and mark the "Hide automatically generated archives" option. Then click on "Publish release".
+
 If you signing key is not in the [Verify Release Signature](/web/20221001164305/https://freeipa.org/page/Verify_Release_Signature "Verify Release Signature") guide, append it to the list and gpg verify command.
 
 ### Re-enable git snapshot versioning
 
 After you have created and signed the tarball, you must change _IPA\_VERSION\_IS\_GIT\_SNAPSHOT_ in VERSION.m4 back to **yes**.
+
+### Notify freeipa-users
+
+We use the freeipa-users@lists.fedorahosted.org mailing list to notify about new upstream releases. Send an email there with the following template:
+
+``
+Subject: FreeIPA X.Y.Z
+
+The FreeIPA team would like to announce the FreeIPA X.Y.Z release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds for
+Fedora distributions will be available from the official repository soon.
+
+Full release notes are available at:
+<link to release notes>
+```
 
 Updating the COPR repository
 ----------------------------

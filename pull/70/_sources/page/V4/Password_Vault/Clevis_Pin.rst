@@ -1,4 +1,0 @@
-Clevis_Pin
-==========
-
-todo

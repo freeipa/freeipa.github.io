@@ -64,3 +64,10 @@ outlined above.
 
 -  `pwm <https://github.com/pwm-project/pwm>`__ - Open Source Password
    Self Service for LDAP directories
+-  `mokey <https://github.com/neverlless/mokey>`__ - Self-service account
+   management portal built specifically for FreeIPA (Go, uses the FreeIPA
+   JSON API and Kerberos, no schema changes): password resets, TOTP token
+   enrollment, SSH public key management, optional account signup with
+   email verification, and an OIDC login/consent bridge for Ory Hydra.
+   Actively maintained continuation of
+   `ubccr/mokey <https://github.com/ubccr/mokey>`__.

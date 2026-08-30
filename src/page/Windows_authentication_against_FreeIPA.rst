@@ -1,8 +1,3 @@
-Windows_authentication_against_FreeIPA
-======================================
-
-
-
 Windows authentication against FreeIPA
 ======================================
 
@@ -70,16 +65,16 @@ Configure FreeIPA
    4. On the IPA server run
     ipa-getkeytab -s [kdc DNS name]
                   -p host/[machine-name]
-                  -e  arcfour-hmac
+                  -e  aes256-cts-hmac-sha1-96,aes128-cts-hmac-sha1-96,aes256-cts-hmac-sha384-192
                   -k krb5.keytab.[machine-name]
                   -P
     At the prompt enter a random MACHINE_PASSWORD
     (you will enter this later on the windows machine too).
-    Note:  you  can  change  the  -e  argument  to  include  also
-    AESenctypesfromFreeIPA2.1.4andhigher. (FreeIPA ticket ``\ ```2038`` <https://fedorahosted.org/freeipa/ticket/2038>`__\ ``)
+Note:  you  can  change  the  -e  argument  to  include  also
+AES enctypes from FreeIPA2.1.4 and higher. (FreeIPA ticket `2038 <https://fedorahosted.org/freeipa/ticket/2038>`_)
 
-    Note:  Windows  machines  names  cannot  exceed  15  characters
-     -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list
+Note:  Windows  machines  names  cannot  exceed  15  characters
+-- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list
 
 
 
@@ -110,6 +105,17 @@ Configure Windows (ksetup)
 **Note: Configuring encryption types is not needed from FreeIPA 2.1.4
 and higher.** (FreeIPA ticket
 `2038 <https://fedorahosted.org/freeipa/ticket/2038>`__)
+
+Note: To enable users to login without entering the full realm name (eg use ``ksharp`` instead of ``ksharp@IPA.EXAMPLE.COM``) set the default logon domain 
+to the Kerberos realm name.
+To set the default logon domain with Group Policy, see 
+`KB: 2908796 <https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/change-default-logon-domain-name>`_. 
+
+Note: It may not be required to add local user accounts. 
+On logon, Windows will use information from privilege attributes certificate (PAC) in the Kerberos ticket to get full name and profile path to create a profile. However these profiles will not be listed under local accounts, 
+only under ``HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList`` registry key, but account functionality is the same.
+More information on Kerberos PAC under `Identity Mapping - Security Identifiers <https://freeipa.readthedocs.io/en/latest/designs/id-mapping.html#security-identifiers>`_  and 
+the `MS-PAC <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-pac/166d8064-c863-41e1-9c23-edaaa5f36962>`_ and `MS-KILE <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/2a32282e-dd48-4ad9-a542-609804b02cc9>`_ specifications.
 
 --------------
 

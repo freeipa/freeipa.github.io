@@ -52,6 +52,7 @@ Releases
 .. toctree::
    :titlesonly:
 
+   /release-notes/4-13-4.rst
    /release-notes/4-13-3.rst
    /release-notes/4-13-2.rst
    /release-notes/4-13-1.rst
@@ -61,7 +62,6 @@ Releases
    /release-notes/4-12-3.rst
    /release-notes/4-12-2.rst
    /release-notes/4-12-1.rst
-   /release-notes/4-11-2.rst
 
 Getting involved
 ----------------

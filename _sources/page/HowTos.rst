@@ -81,6 +81,11 @@ Interoperability with other systems
    updates <Howto/ISC_DHCPd_and_Dynamic_DNS_update>`__
 -  `Integration with Apache Synscope Identity Management
    system <http://blog.tirasa.net/unlock-full-freeipa-features.html>`__
+-  `google2ipa <https://github.com/neverlless/google2ipa>`__ - Sync
+   Google Workspace users and groups into FreeIPA: provisioning with
+   one-time passwords, Google group to IPA group mapping, and offboarding
+   (lock, then delayed preserve-delete). Uses the FreeIPA JSON API with a
+   least-privilege role, no schema changes.
 -  `Tunelling Kerberos over HTTP on a firewalled
    network <https://www.dragonsreach.it/2014/10/24/kerberos-over-http-on-a-firewalled-network/>`__
 -  `PolicyKit integration <Howto/FreeIPA_PolicyKit>`__

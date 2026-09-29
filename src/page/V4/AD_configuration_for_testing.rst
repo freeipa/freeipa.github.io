@@ -216,6 +216,44 @@ On forest root AD
       unixHomeDirectory: /home/expiredaduser
       gecos: Expired AD User
 
+-  A test user with CannotChangePassword (cannot change their own
+   password)
+
+::
+
+    name: cannotchangepwduser
+    first name: CannotChangePwd
+    last name: User
+    password: Secret123
+    password never expires: yes
+    user cannot change password: yes
+    attributes:
+      uidNumber: 10061
+      gidNumber: 10047
+      loginShell: /bin/sh
+      homeDirectory: /home/cannotchangepwduser
+      unixHomeDirectory: /home/cannotchangepwduser
+      gecos: Cannot Change Password User
+
+-  A test user with ChangePasswordAtLogon (must change password at next
+   logon)
+
+::
+
+    name: changepwdatlogonuser
+    first name: ChangePwdAtLogon
+    last name: User
+    password: Secret123
+    password never expires: no
+    user must change password at next logon: yes
+    attributes:
+      uidNumber: 10062
+      gidNumber: 10047
+      loginShell: /bin/sh
+      homeDirectory: /home/changepwdatlogonuser
+      unixHomeDirectory: /home/changepwdatlogonuser
+      gecos: Change Password At Logon User
+
 
 
 On child (subdomain) AD
@@ -315,6 +353,44 @@ On child (subdomain) AD
       homeDirectory: /home/subexpiredaduser
       unixHomeDirectory: /home/subexpiredaduser
       gecos: Expired AD User
+
+-  A test user with CannotChangePassword (cannot change their own
+   password)
+
+::
+
+    name: subcantchgpwduser
+    first name: SubCannotChangePwd
+    last name: User
+    password: Secret123
+    password never expires: yes
+    user cannot change password: yes
+    attributes:
+      uidNumber: 10150
+      gidNumber: 10147
+      loginShell: /bin/sh
+      homeDirectory: /home/subcantchgpwduser
+      unixHomeDirectory: /home/subcantchgpwduser
+      gecos: Sub Cannot Change Password User
+
+-  A test user with ChangePasswordAtLogon (must change password at next
+   logon)
+
+::
+
+    name: submustchgpwduser
+    first name: SubChangePwdAtLogon
+    last name: User
+    password: Secret123
+    password never expires: no
+    user must change password at next logon: yes
+    attributes:
+      uidNumber: 10151
+      gidNumber: 10147
+      loginShell: /bin/sh
+      homeDirectory: /home/submustchgpwduser
+      unixHomeDirectory: /home/submustchgpwduser
+      gecos: Sub Change Password At Logon User
 
 
 

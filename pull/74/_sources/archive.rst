@@ -1,0 +1,67 @@
+:orphan:
+
+Archive
+=======
+
+.. toctree::
+    :glob:
+
+    page/Contribute/*
+    page/Releases/*
+    page/Goals/*
+    page/Howto/*
+    page/Howto/Centralised_Logging_with_Logstash/ElasticSearch/*
+    page/Howto/Integrating_a_Samba_File_Server_With_IPA/*
+    page/HowTo/*
+    page/HowTo/Setup_FreeIPA_Services_for_MacOS_X_10.12/*
+    page/HowTos/*
+    page/HowTos/Using_FreeIPA_and_FreeRadius_as_a_RADIUS_based_software_token_OTP_system_with_CentOS/*
+    page/OpenShift_Enterprise_on_top_of_a_trust_between_IPA/*
+    page/Pspacek/*
+    page/Quaid/*
+    page/SSSD/*
+    page/Troubleshooting/*
+    page/Using_3rd_part_certificates_for_HTTP/*
+    page/Using_FreeIPA_and_FreeRadius_as_a_RADIUS_based_software_token_OTP_system_with_CentOS/*
+    page/V2/*
+    page/V2/Second_Round_Of_UI_design/*
+    page/V3/*
+    page/V3/Anonymous_and_All_permissions/*
+    page/V3/CA-less_install/*
+    page/V3/Integration_testing/*
+    page/V3/Managed_Read_permissions/*
+    page/V3/Managed_Read_permissions/tests/*
+    page/V3/Multivalued_target_filters_in_permissions/*
+    page/V3/Permissions_V2/*
+    page/V3/User_Life-Cycle_Management/*
+    page/V4/*
+    page/V4/60_Replicas/*
+    page/V4/Authentication_Indicators/*
+    page/V4/Automatic_Certificate_Request_Generation/*
+    page/V4/Certificate_Profiles/*
+    page/V4/Certs_in_ID_overrides/*
+    page/V4/DNS_Location_Mechanism/*
+    page/V4/DNS_Location_Mechanism_with_per_client_override/*
+    page/V4/DNS:_Automatic_Zone_NS/*
+    page/V4/External_Authentication/*
+    page/V4/External_trust_to_AD/*
+    page/V4/Kerberos_principal_aliases/*
+    page/V4/Manage_replication_topology/*
+    page/V4/Manage_replication_topology_4_4/*
+    page/V4/ntpd_deprecation/*
+    page/V4/One-way_trust/*
+    page/V4/OTP/*
+    page/V4/Password_Vault/*
+    page/V4/Performance_Improvements/*
+    page/V4/PKCS11_in_LDAP/*
+    page/V4/Replica_Promotion/*
+    page/V4/RFC_2818_certificate_compliance/*
+    page/V4/Server_Roles/*
+    page/V4/Server_Upgrade_Refactoring/*
+    page/V4/Sub-CAs/*
+    page/V4/Support_of_UPN_for_trusted_domains/*
+    page/V4/Thin_Client/*
+    page/V4/User_Life-Cycle_Management/*
+    page/V4_Designs/*
+    page/Web_App_Authentication/*
+    page/*

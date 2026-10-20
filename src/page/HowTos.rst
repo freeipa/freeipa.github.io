@@ -241,6 +241,10 @@ Certificates
 
 -  `Client certificate authentication with
    LDAP <Howto/Client_Certificate_Authentication_with_LDAP>`__
+-  `Using FreeIPA CA as an ACME provider for
+   cert-manager <https://www.hamzahkhan.com/using-freeipa-ca-as-an-acme-provider-for-cert-manager>`__:
+   Issue Kubernetes certificates from the IPA ACME service, with DNS-01
+   challenges answered through IPA DNS dynamic updates (RFC 2136)
 
 Authentication
 ----------------------------------------------------------------------------------------------

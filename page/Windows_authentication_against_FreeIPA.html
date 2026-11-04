@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Windows_authentication_against_FreeIPA &#8212; FreeIPA  documentation</title>
+    <title>Windows authentication against FreeIPA &#8212; FreeIPA  documentation</title>
   
   
   
@@ -323,7 +323,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Windows_authentication_against_FreeIPA</h1>
+    <h1>Windows authentication against FreeIPA</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -333,15 +333,10 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Windows_authentication_against_FreeIPA</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Windows authentication against FreeIPA</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#freeipa-is-not-an-active-directory-server">FreeIPA is not an Active Directory server</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-freeipa">Configure FreeIPA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-windows-ksetup">Configure Windows (ksetup)</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -353,10 +348,7 @@
                 <article class="bd-article">
                   
   <section id="windows-authentication-against-freeipa">
-<h1>Windows_authentication_against_FreeIPA<a class="headerlink" href="#windows-authentication-against-freeipa" title="Link to this heading">#</a></h1>
-</section>
-<section id="id1">
-<h1>Windows authentication against FreeIPA<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<h1>Windows authentication against FreeIPA<a class="headerlink" href="#windows-authentication-against-freeipa" title="Link to this heading">#</a></h1>
 <p>This article describes direct integration between FreeIPA and Windows
 machine, i.e. <strong>without involving Active Directory</strong> server. This
 article <strong>does not</strong> apply to configurations where <a class="reference external" href="Trust">trust between AD and
@@ -404,25 +396,24 @@ limitations.</p>
 </section>
 <section id="configure-freeipa">
 <h2>Configure FreeIPA<a class="headerlink" href="#configure-freeipa" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Create the host principal in the web interface
-2. Create IPA users to correspond to Windows users
-3. Reset the user's IPA password to a known password using the web interface or CLI,
-   the user will be prompted to change at first log in.
-4. On the IPA server run
- ipa-getkeytab -s [kdc DNS name]
-               -p host/[machine-name]
-               -e  arcfour-hmac
-               -k krb5.keytab.[machine-name]
-               -P
- At the prompt enter a random MACHINE_PASSWORD
- (you will enter this later on the windows machine too).
- Note:  you  can  change  the  -e  argument  to  include  also
- AESenctypesfromFreeIPA2.1.4andhigher. (FreeIPA ticket ``\ ```2038`` &lt;https://fedorahosted.org/freeipa/ticket/2038&gt;`__\ ``)
-
- Note:  Windows  machines  names  cannot  exceed  15  characters
-  -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Create</span> <span class="n">the</span> <span class="n">host</span> <span class="n">principal</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">web</span> <span class="n">interface</span>
+<span class="mf">2.</span> <span class="n">Create</span> <span class="n">IPA</span> <span class="n">users</span> <span class="n">to</span> <span class="n">correspond</span> <span class="n">to</span> <span class="n">Windows</span> <span class="n">users</span>
+<span class="mf">3.</span> <span class="n">Reset</span> <span class="n">the</span> <span class="n">user</span><span class="s1">'s IPA password to a known password using the web interface or CLI,</span>
+   <span class="n">the</span> <span class="n">user</span> <span class="n">will</span> <span class="n">be</span> <span class="n">prompted</span> <span class="n">to</span> <span class="n">change</span> <span class="n">at</span> <span class="n">first</span> <span class="n">log</span> <span class="ow">in</span><span class="o">.</span>
+<span class="mf">4.</span> <span class="n">On</span> <span class="n">the</span> <span class="n">IPA</span> <span class="n">server</span> <span class="n">run</span>
+ <span class="n">ipa</span><span class="o">-</span><span class="n">getkeytab</span> <span class="o">-</span><span class="n">s</span> <span class="p">[</span><span class="n">kdc</span> <span class="n">DNS</span> <span class="n">name</span><span class="p">]</span>
+               <span class="o">-</span><span class="n">p</span> <span class="n">host</span><span class="o">/</span><span class="p">[</span><span class="n">machine</span><span class="o">-</span><span class="n">name</span><span class="p">]</span>
+               <span class="o">-</span><span class="n">e</span>  <span class="n">aes256</span><span class="o">-</span><span class="n">cts</span><span class="o">-</span><span class="n">hmac</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="mi">96</span><span class="p">,</span><span class="n">aes128</span><span class="o">-</span><span class="n">cts</span><span class="o">-</span><span class="n">hmac</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="mi">96</span><span class="p">,</span><span class="n">aes256</span><span class="o">-</span><span class="n">cts</span><span class="o">-</span><span class="n">hmac</span><span class="o">-</span><span class="n">sha384</span><span class="o">-</span><span class="mi">192</span>
+               <span class="o">-</span><span class="n">k</span> <span class="n">krb5</span><span class="o">.</span><span class="n">keytab</span><span class="o">.</span><span class="p">[</span><span class="n">machine</span><span class="o">-</span><span class="n">name</span><span class="p">]</span>
+               <span class="o">-</span><span class="n">P</span>
+ <span class="n">At</span> <span class="n">the</span> <span class="n">prompt</span> <span class="n">enter</span> <span class="n">a</span> <span class="n">random</span> <span class="n">MACHINE_PASSWORD</span>
+ <span class="p">(</span><span class="n">you</span> <span class="n">will</span> <span class="n">enter</span> <span class="n">this</span> <span class="n">later</span> <span class="n">on</span> <span class="n">the</span> <span class="n">windows</span> <span class="n">machine</span> <span class="n">too</span><span class="p">)</span><span class="o">.</span>
 </pre></div>
 </div>
+<p>Note:  you  can  change  the  -e  argument  to  include  also
+AES enctypes from FreeIPA2.1.4 and higher. (FreeIPA ticket <a class="reference external" href="https://codeberg.org/freeipa/freeipa/issues/2038">2038</a>)</p>
+<p>Note:  Windows  machines  names  cannot  exceed  15  characters
+– pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list</p>
 </section>
 <section id="configure-windows-ksetup">
 <h2>Configure Windows (ksetup)<a class="headerlink" href="#configure-windows-ksetup" title="Link to this heading">#</a></h2>
@@ -449,6 +440,15 @@ limitations.</p>
 <p><strong>Note: Configuring encryption types is not needed from FreeIPA 2.1.4
 and higher.</strong> (FreeIPA ticket
 <a class="reference external" href="https://fedorahosted.org/freeipa/ticket/2038">2038</a>)</p>
+<p>Note: To enable users to login without entering the full realm name (eg use <code class="docutils literal notranslate"><span class="pre">ksharp</span></code> instead of <code class="docutils literal notranslate"><span class="pre">ksharp&#64;IPA.EXAMPLE.COM</span></code>) set the default logon domain
+to the Kerberos realm name.
+To set the default logon domain with Group Policy, see
+<a class="reference external" href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/change-default-logon-domain-name">KB: 2908796</a>.</p>
+<p>Note: It may not be required to add local user accounts.
+On logon, Windows will use information from privilege attributes certificate (PAC) in the Kerberos ticket to get full name and profile path to create a profile. However these profiles will not be listed under local accounts,
+only under <code class="docutils literal notranslate"><span class="pre">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows</span> <span class="pre">NT\CurrentVersion\ProfileList</span></code> registry key, but account functionality is the same.
+More information on Kerberos PAC under <a class="reference external" href="https://freeipa.readthedocs.io/en/latest/designs/id-mapping.html#security-identifiers">Identity Mapping - Security Identifiers</a>  and
+the <a class="reference external" href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-pac/166d8064-c863-41e1-9c23-edaaa5f36962">MS-PAC</a> and <a class="reference external" href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/2a32282e-dd48-4ad9-a542-609804b02cc9">MS-KILE</a> specifications.</p>
 <hr class="docutils" />
 <p>The FreeIPA team thanks ‘Jimmy’ for providing this information on the
 <a class="reference external" href="https://www.redhat.com/archives/freeipa-users/2011-November/msg00156.html">freeipa-users</a>
@@ -486,15 +486,10 @@ amendments were made.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Windows_authentication_against_FreeIPA</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Windows authentication against FreeIPA</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#freeipa-is-not-an-active-directory-server">FreeIPA is not an Active Directory server</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-freeipa">Configure FreeIPA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-windows-ksetup">Configure Windows (ksetup)</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>

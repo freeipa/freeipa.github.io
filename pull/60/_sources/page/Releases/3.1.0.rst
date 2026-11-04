@@ -1,0 +1,208 @@
+The FreeIPA team is proud to announce version FreeIPA v3.1.0.
+
+It can be downloaded from http://www.freeipa.org/page/Downloads.
+
+A build will be submitted to updates-testing for Fedora 18 soon.
+
+
+
+Highlights in 3.1.0
+-------------------
+
+-  A single 389-ds instance is used both for IPA identity data and for
+   the dogtag CA server on new installs.
+-  Support for Windows 2012 Server Trusts.
+-  Verify that the IPA certificates are not tracked by certmonger after
+   server uninstallation.
+-  Enable 389-ds transactions.
+-  If chronyd is running on a server disable it and replace it with ntpd
+   by default.
+-  Add new OCSP and CRL URIs to the IPA certificate profile for a new
+   CNAME entry, ipa-ca.example.com.
+-  Fix potential security error in cookie handling in ipa client tool,
+   CVE-2012-5631.
+
+Upgrading
+---------
+
+An IPA server can be upgraded simply by installing updated rpms. The
+server does not need to be shut down in advance.
+
+Please note, that the referential integrity extension requires an
+extended set of indexes to be configured. RPM update for an IPA server
+with a excessive number of hosts, SUDO or HBAC entries may require
+several minutes to finish.
+
+If you have multiple servers you may upgrade them one at a time. It is
+expected that all servers will be upgraded in a relatively short period
+(days or weeks not months). They should be able to co-exist peacefully
+but new features will not be available on old servers and enrolling a
+new client against an old server will result in the SSH keys not being
+uploaded.
+
+Downgrading a server once upgraded is not supported.
+
+Upgrading from 2.2.0 is supported. Upgrading from previous versions is
+not supported and has not been tested.
+
+Upgrading from a previous version will not consolidate the 389-ds
+instances. Only new installations get a unified 389-ds backend. Upgraded
+servers will retain both instances.
+
+An enrolled client does not need the new packages installed unless you
+want to re-enroll it. SSH keys for already installed clients are not
+uploaded, you will have to re-enroll the client or manually upload the
+keys.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-devel
+mailing list: http://www.redhat.com/mailman/listinfo/freeipa-devel
+
+
+
+Detailed Changelog since 3.0.1
+------------------------------
+
+Ade Lee (1):
+
+-  Changes to use a single database for dogtag and IPA
+
+Alexander Bokovoy (8):
+
+-  ipa-kdb: Support Windows 2012 Server
+-  Remove bogus check for smbpasswd
+-  Warn about DNA plugin configuration when working with local ID ranges
+-  Resolve external members from trusted domain via Global Catalog
+-  Clarify trust-add help regarding multiple runs against the same
+   domain
+-  ipasam: better Kerberos error handling in ipasam
+-  trusts: replace use of python-crypto by m2crypto
+-  Propagate kinit errors with trust account
+
+Endi Sukma Dewata (1):
+
+-  Configuring CA with ConfigParser.
+
+Jakub Hrozek (5):
+
+-  ipa-client-automount: Add the autofs service if it doesn't exist yet
+-  Make enabling the autofs service more robust
+-  ipachangeconf: allow specifying non-default delimeter for options
+-  Specify includedir in krb5.conf on new installs
+-  Add the includedir to krb5.conf on upgrades
+
+Jan Cholasta (1):
+
+-  Reword description of the --passsync option of ipa-replica-manage.
+
+John Dennis (2):
+
+-  log dogtag errors
+-  Compliant client side session cookie behavior
+
+Lubomir Rintel (1):
+
+-  Drop unused readline import
+
+Martin Kosek (18):
+
+-  Update SELinux policy for dogtag10
+-  Bump 389-ds-base minimum in our spec file
+-  Add OCSP and CRL URIs to certificates
+-  Stop and disable conflicting time&date services
+-  Create reverse zone in unattended mode
+-  Add fallback for httpd restarts on sysV platforms
+-  Report ipa-upgradeconfig errors during RPM upgrade
+-  Avoid uninstalling dependencies during package lifetime
+-  Remove servertrls and clientctrls options from rename_s
+-  Use common encoding in modlist generation
+-  Process relative nameserver DNS record correctly
+-  Do not require resolvable nameserver in DNS install
+-  Disable global forwarding per-zone
+-  Prepare spec file for Fedora 18
+-  Filter suffix in replication management tools
+-  Change network configuration file
+-  Improve ipa-replica-prepare error message
+-  Fix sshd feature check
+
+Nikolai Kondrashov (1):
+
+-  Add uninstall command hints to ipa-\*-instal
+
+Petr Viktorin (12):
+
+-  Fix schema replication from old masters
+-  Use correct Dogtag configuration in get_pin and get_ca_certchain
+-  Update certmap.conf on IPA upgrades
+-  Properly stop tracking certificates on uninstall
+-  Provide 'protocol' argument to IPAdmin
+-  Make ipa-csreplica-manage work with both merged and non-merged DBs
+-  Use DN objects for Dogtag configuration
+-  ipautil.run: Log the command line before running the command
+-  ipa-replica-install: Use configured IPA DNS servers in
+   forward/reverse resolution check
+-  Make sure the CA is running when starting services
+-  Provide explicit user name for Dogtag installation scripts
+-  Add Lubomir Rintel to Contributors.txt
+
+Petr Vobornik (7):
+
+-  Simpler instructions to generate certificate
+-  Fixed incorrect link to browser config after session expiration
+-  Web UI: disable global forwarding per zone
+-  WebUI: Change of default value of type of new group back to POSIX
+-  Editable sshkey, mac address field after upgrade
+-  Better licensing information of 3rd party code
+-  Better error message for login of users from other realms
+
+Rob Crittenden (16):
+
+-  Enable transactions by default, make password and modrdn TXN-aware
+-  Become IPA 3.1.0
+-  Password change in a transaction, ensure passwords are truly expired
+-  Don't configure a reverse zone if not desired in interactive
+   installer.
+-  Fix requesting certificates that contain subject altnames.
+-  Improve error messages in ipa-replica-manage.
+-  Close connection after each request, avoid NSS shutdown problem.
+-  The SECURE_NFS value needs to be lower-case yes on SysV systems.
+-  After unininstall see if certmonger is still tracking any of our
+   certs.
+-  Wait for the directory server to come up when updating the agent
+   certificate.
+-  Set MLS/MCS for user_u context to what will be on remote systems.
+-  Handle the case where there are no replicas with list-ruv
+-  Honor the kdb options disabling KDC writes in ipa_lockout plugin
+-  Only update the list of running services in the installer or ipactl.
+-  Set min for selinux-policy to 3.11.1-60
+-  Reorder XML-RPC initialization in ipa-join to avoid segfault.
+
+Simo Sorce (7):
+
+-  Add support for using AES for cross-realm TGTs
+-  Preserve original service_name in services
+-  Save service name on service startup
+-  Get list of service from LDAP only at startup
+-  Revert "Save service name on service startup"
+-  Save service name on service startup/shutdown
+-  MS-PAC: Special case NFS services
+
+Sumit Bose (7):
+
+-  Fix various issues found by Coverity
+-  extdom: handle INP_POSIX_UID and INP_POSIX_GID requests
+-  Restart httpd if ipa-server-trust-ad is installed or updated
+-  ipa-adtrust-install: allow to reset te NetBIOS domain name
+-  Lookup the user SID in external group as well
+-  Restart sssd after authconfig update
+-  Do not recommend how to configure DNS in error message
+
+Tomas Babej (5):
+
+-  Forbid overlapping primary and secondary rid ranges
+-  Refactoring of default.conf man page
+-  Make service naming in ipa-server-install consistent
+-  IPA Server check in ipa-replica-manage
+-  Add detection for users from trusted/invalid realms

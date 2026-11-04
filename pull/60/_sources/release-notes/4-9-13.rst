@@ -1,0 +1,431 @@
+FreeIPA 4.9.13
+==============
+
+.. raw:: mediawiki
+
+   {{ReleaseDate|2023-11-20}}
+
+The FreeIPA team would like to announce FreeIPA 4.9.13 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+.. _highlights_in_4.9.13:
+
+Highlights in 4.9.13
+--------------------
+
+-  9289: Configure server affinity during replica installation
+
+      Replica installation process now happens against a chosen server,
+      not only for Kerberos authentication but also for all IPA API and
+      CA requests. This helps to avoid incomplete replicated details
+      when adding a new replica to a complex topology.
+
+--------------
+
+-  9331: Better handling of the command line and web UI cert search
+   and/or list features
+
+      cert-find performance was improved dramatically when a large
+      number of certificates are returned by changing the method IPA
+      uses internally to parse results from the CA.
+
+--------------
+
+-  9378: [RFE] Descriptive error message in ipa user-add
+
+      The commands \`ipa user-add\` or \`ipa group-add\` validate the
+      format of the user/group name and display an error message. In
+      this release, the message is expanded for better clarity.
+
+--------------
+
+-  9402: OTP authentication failure on s390x
+
+      Correct endianness issue that affected 2FA tokens use case for IPA
+      server running on a mainframe (S390x architecture).
+
+--------------
+
+-  9422: Interrupt request processing in ipadb_fill_info3() if
+   connection to 389ds is lost
+
+      Adjust error handling in MS-PAC processing code under high load.
+      The fix should address krb5kdc crashes in a situation when a
+      connection to LDAP server is severed.
+
+--------------
+
+-  9427: RHEL 8.8 & 9.2 fails to create AD trust with STIG applied
+
+      Make sure SSSD enables nss and pam services in all circumstances,
+      even when existing SSSD configuration is present during
+      deployment. In environments hardened with a STIG profile this
+      fixes support for a trust to Active Directory .
+
+--------------
+
+-  9433: ipa user-mod --idp-user-id fails with: attribute "ipaIdpSub"
+   not allowed
+
+      Allow to create user accounts with external IdP reference
+      pre-defined.
+
+--------------
+
+-  9448: FreeIPA 4.9 KDB rejects FreeIPA 4.10 KDB-issued evidence ticket
+   in S4U processing
+
+      Downstream only: coordinate fixes to MIT Kerberos 1.18 and FreeIPA
+      4.9 to allow interoperability with MIT Kerberos 1.20 or later
+      which removed AD-SIGNTICKET support. MS-PAC information is
+      required for S4U Kerberos extension to operate but older MIT
+      Kerberos version expect AD-SIGNTICKET buffer as well. With this
+      change tickets issued by FreeIPA using AD-SIGNTICKET-free code are
+      accepted by older FreeIPA KDCs for S4U extensions as long as they
+      contain MS-PAC buffers.
+
+--------------
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.9.13 is a stabilization release for the features delivered as
+a part of 4.9 version series.
+
+There are more than 30 bug-fixes since FreeIPA 4.9.12 release. Details
+of the bug-fixes can be seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on
+`Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on libera.chat.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+-  `#8878 <https://pagure.io/freeipa/issue/8878>`__
+   (`rhbz#1821181 <https://bugzilla.redhat.com/show_bug.cgi?id=1821181>`__,
+   `rhbz#2229712 <https://bugzilla.redhat.com/show_bug.cgi?id=2229712>`__)
+   Prevent deletion of 'admin' account with web UI
+-  `#8941 <https://pagure.io/freeipa/issue/8941>`__ Usage of
+   \`/usr/bin/env\` in Python scripts
+-  `#8990 <https://pagure.io/freeipa/issue/8990>`__ ipa group-mod should
+   fail properly with --posix and --external options
+-  `#9003 <https://pagure.io/freeipa/issue/9003>`__ ipa-server-install
+   not validating hostname != domain
+-  `#9086 <https://pagure.io/freeipa/issue/9086>`__ Have
+   ipa-client-install additionally disable the unscd service if using
+   SSSD
+-  `#9124 <https://pagure.io/freeipa/issue/9124>`__ Nightly test failure
+   in test_smb.py::TestSMB::test_smb_service_s4u2self
+-  `#9267 <https://pagure.io/freeipa/issue/9267>`__
+   (`rhbz#2188567 <https://bugzilla.redhat.com/show_bug.cgi?id=2188567>`__)
+   Unconditionally adding 'includedir
+   /var/lib/sss/pubconf/krb5.include.d' to /etc/krb5.conf break Java's
+   ability to parse krb5.conf
+-  `#9289 <https://pagure.io/freeipa/issue/9289>`__
+   (`rhbz#2149344 <https://bugzilla.redhat.com/show_bug.cgi?id=2149344>`__)
+   Configure server affinity during replica installation
+-  `#9297 <https://pagure.io/freeipa/issue/9297>`__ Minimum length
+   parameter in pwpolicy cannot be removed with empty string.
+-  `#9317 <https://pagure.io/freeipa/issue/9317>`__ Distinguish between
+   different location meaning
+-  `#9331 <https://pagure.io/freeipa/issue/9331>`__
+   (`rhbz#2164349 <https://bugzilla.redhat.com/show_bug.cgi?id=2164349>`__)
+   Better handling of the command line and web UI cert search and/or
+   list features
+-  `#9378 <https://pagure.io/freeipa/issue/9378>`__
+   (`rhbz#2150217 <https://bugzilla.redhat.com/show_bug.cgi?id=2150217>`__)
+   [RFE] Descriptive error message in ipa user-add
+-  `#9379 <https://pagure.io/freeipa/issue/9379>`__ Test failure in
+   test_ipa_cert_fix.py::TestCertFixReplica::test_renew_expired_cert_replica
+-  `#9381 <https://pagure.io/freeipa/issue/9381>`__
+   (`rhbz#2215336 <https://bugzilla.redhat.com/show_bug.cgi?id=2215336>`__)
+   Race condition in ipa-server-upgrade where pki-tomcat needs dirsrv
+   while it's stopped
+-  `#9383 <https://pagure.io/freeipa/issue/9383>`__ Random nightly test
+   failure in test_acme.py::TestACMEPrune::test_prune_cert_manual
+-  `#9385 <https://pagure.io/freeipa/issue/9385>`__
+   (`rhbz#2216549 <https://bugzilla.redhat.com/show_bug.cgi?id=2216549>`__)
+   Upgrade to 4.9.10-6.0.1 fails: attributes are managed by topology
+   plugin
+-  `#9389 <https://pagure.io/freeipa/issue/9389>`__ Nightly test failure
+   in test_webui_service
+-  `#9395 <https://pagure.io/freeipa/issue/9395>`__ Search for user by
+   krbPrincipalExpiration not returning results
+-  `#9396 <https://pagure.io/freeipa/issue/9396>`__ Renaming user or
+   group with --setattr does not check supported formats
+-  `#9397 <https://pagure.io/freeipa/issue/9397>`__
+   automountlocation-tofiles is not working after removing indirect
+   automount map.
+-  `#9402 <https://pagure.io/freeipa/issue/9402>`__
+   (`rhbz#2216872 <https://bugzilla.redhat.com/show_bug.cgi?id=2216872>`__)
+   OTP authentication failure on s390x
+-  `#9403 <https://pagure.io/freeipa/issue/9403>`__
+   (`rhbz#2209636 <https://bugzilla.redhat.com/show_bug.cgi?id=2209636>`__)
+   libipa_otp_lasttoken plugin memory leak
+-  `#9415 <https://pagure.io/freeipa/issue/9415>`__ Nightly test failure
+   in
+   test_integration/test_installation.py::TestInstallMaster::test_ipactl_scenario_check
+-  `#9416 <https://pagure.io/freeipa/issue/9416>`__
+   (`rhbz#2224570 <https://bugzilla.redhat.com/show_bug.cgi?id=2224570>`__)
+   Better error description when managing a user with '--idp'
+-  `#9418 <https://pagure.io/freeipa/issue/9418>`__ Typo in "Subordinate
+   ID Selfservice User" role
+-  `#9422 <https://pagure.io/freeipa/issue/9422>`__
+   (`rhbz#2214638 <https://bugzilla.redhat.com/show_bug.cgi?id=2214638>`__,
+   `rhbz#2227831 <https://bugzilla.redhat.com/show_bug.cgi?id=2227831>`__,
+   `rhbz#2227832 <https://bugzilla.redhat.com/show_bug.cgi?id=2227832>`__)
+   Interrupt request processing in ipadb_fill_info3() if connection to
+   389ds is lost
+-  `#9427 <https://pagure.io/freeipa/issue/9427>`__
+   (`rhbz#2216532 <https://bugzilla.redhat.com/show_bug.cgi?id=2216532>`__)
+   RHEL 8.8 & 9.2 fails to create AD trust with STIG applied
+-  `#9431 <https://pagure.io/freeipa/issue/9431>`__ Covscan issues:
+   deadcode and Use after free
+-  `#9433 <https://pagure.io/freeipa/issue/9433>`__
+   (`rhbz#2234480 <https://bugzilla.redhat.com/show_bug.cgi?id=2234480>`__)
+   ipa user-mod --idp-user-id fails with: attribute "ipaIdpSub" not
+   allowed
+-  `#9446 <https://pagure.io/freeipa/issue/9446>`__
+   (`rhbz#2149344 <https://bugzilla.redhat.com/show_bug.cgi?id=2149344>`__)
+   Nightly test failure for replica installation with --setup-ca
+-  `#9448 <https://pagure.io/freeipa/issue/9448>`__ FreeIPA 4.9 KDB
+   rejects FreeIPA 4.10 KDB-issued evidence ticket in S4U processing
+-  `#9449 <https://pagure.io/freeipa/issue/9449>`__ Squished FreeIPA
+   favicon
+
+.. _detailed_changelog_since_4.9.12:
+
+Detailed changelog since 4.9.12
+-------------------------------
+
+.. _alexander_bokovoy_4:
+
+Alexander Bokovoy (4)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Azure CI: increase memory for forced reenrollment test
+   `commit <https://pagure.io/freeipa/c/1635cba588d4c29ae78d3c706ee01488ad653dad>`__
+-  Increase memory usage for Azure CI upgrade test
+   `commit <https://pagure.io/freeipa/c/274ecc1be6c5a4c447874256acd0345ceca9b174>`__
+-  support more DateTime attributes in LDAP searches in IPA API
+   `commit <https://pagure.io/freeipa/c/3498ac88e71a6367294761510c937d225dec1140>`__
+   `#9395 <https://pagure.io/freeipa/issue/9395>`__
+-  ipalib/x509.py: Add signature_algorithm_parameters
+   `commit <https://pagure.io/freeipa/c/6a109d91a9256e2d0257d62fb5b555c163642de6>`__
+
+.. _alexandra_nikandrova_1:
+
+Alexandra Nikandrova (1)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  doc: typo in basic_usage.md
+   `commit <https://pagure.io/freeipa/c/7f080c0cad3327d2bbcc8c0aaddad134580d7c4c>`__
+
+.. _anuja_more_1:
+
+Anuja More (1)
+~~~~~~~~~~~~~~
+
+-  ipatests: Check that SSSD_PUBCONF_KRB5_INCLUDE_D_DIR is not included
+   in krb5.conf
+   `commit <https://pagure.io/freeipa/c/1b51fa4cb07380d1102891233e85a7940f804c72>`__
+   `#9267 <https://pagure.io/freeipa/issue/9267>`__
+
+.. _antonio_torres_1:
+
+Antonio Torres (1)
+~~~~~~~~~~~~~~~~~~
+
+-  Back to git snapshots
+   `commit <https://pagure.io/freeipa/c/d01378865add0705a3efad2e0cf268f36a6f3c25>`__
+
+.. _erik_belko_1:
+
+Erik Belko (1)
+~~~~~~~~~~~~~~
+
+-  test: add tests for descriptive error message in ipa user-add
+   `commit <https://pagure.io/freeipa/c/4d55ee3033641c772c2a8cc8625f7b133ab8416b>`__
+   `#9378 <https://pagure.io/freeipa/issue/9378>`__
+
+.. _florence_blanc_renaud_19:
+
+Florence Blanc-Renaud (19)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  ipatests: fix test_ipactl_scenario_check
+   `commit <https://pagure.io/freeipa/c/9b41de8f4bf8689d7aa9c46cec6371a333958846>`__
+   `#9415 <https://pagure.io/freeipa/issue/9415>`__
+-  Covscan issues: Use after free
+   `commit <https://pagure.io/freeipa/c/6d0c1a2f3e692d355c858551709985c5dbb50731>`__
+   `#9431 <https://pagure.io/freeipa/issue/9431>`__
+-  idp: add the ipaidpuser objectclass when needed
+   `commit <https://pagure.io/freeipa/c/7e5740f534893487f5a61907ebd6e3677f0beecc>`__
+   `#9433 <https://pagure.io/freeipa/issue/9433>`__
+-  Installer: activate nss and pam services in sssd.conf
+   `commit <https://pagure.io/freeipa/c/f38eefd9f7e54470de7c707782114b17aac8762a>`__
+   `#9427 <https://pagure.io/freeipa/issue/9427>`__
+-  ipatests: fix test_topology
+   `commit <https://pagure.io/freeipa/c/fdaad3a45f5674876fd3f6cc7ad1e916ebfc7080>`__
+-  ipatests: update expected webui msg for admin deletion
+   `commit <https://pagure.io/freeipa/c/7d62d84bdd3c2acd2f4bf70bb5fabf14c72e8ee7>`__
+   `#8878 <https://pagure.io/freeipa/issue/8878>`__
+-  xmlrpc tests: add a test for user plugin with non-existing idp
+   `commit <https://pagure.io/freeipa/c/dbcbe9a39c99008c6858bab53e2807b7bf01ba65>`__
+   `#9416 <https://pagure.io/freeipa/issue/9416>`__
+-  User plugin: improve error related to non existing idp
+   `commit <https://pagure.io/freeipa/c/99aa03413421cf2839e89e10ca279ec19233dd01>`__
+   `#9416 <https://pagure.io/freeipa/issue/9416>`__
+-  OTP: fix data type to avoid endianness issue
+   `commit <https://pagure.io/freeipa/c/a7e167154b889f75463ccc9cd91a75c1afb22da9>`__
+   `#9402 <https://pagure.io/freeipa/issue/9402>`__
+-  Integration tests: add a test to ipa-server-upgrade
+   `commit <https://pagure.io/freeipa/c/93d97b59600c15e5028ee39b0e98450544165158>`__
+   `#9385 <https://pagure.io/freeipa/issue/9385>`__
+-  Upgrade: fix replica agreement
+   `commit <https://pagure.io/freeipa/c/d29b47512a39ada02fb371521994576cd9815a6c>`__
+   `#9385 <https://pagure.io/freeipa/issue/9385>`__
+-  Integration test: add a test for upgrade and PKI drop-in file
+   `commit <https://pagure.io/freeipa/c/356ec5cbfe0876686239f938bdf54892dc30571e>`__
+   `#9381 <https://pagure.io/freeipa/issue/9381>`__
+-  Upgrade: add PKI drop-in file if missing
+   `commit <https://pagure.io/freeipa/c/86c1426b2d376a390e87b074d3e10d85fa124abf>`__
+   `#9381 <https://pagure.io/freeipa/issue/9381>`__
+-  xmlrpc tests: add test renaming user or group with setattr
+   `commit <https://pagure.io/freeipa/c/a5a4800cbe3e45907f39f78a3da3ded504712982>`__
+   `#9396 <https://pagure.io/freeipa/issue/9396>`__
+-  User and groups: rename with --setattr must check format
+   `commit <https://pagure.io/freeipa/c/ba30addb05d47c36e2857c76ae2aff42d6f3fbb3>`__
+   `#9396 <https://pagure.io/freeipa/issue/9396>`__
+-  webuitests: close notification which hides Add button
+   `commit <https://pagure.io/freeipa/c/f599e2d67bad5945e4dcf99fdd584f01f1e20d1e>`__
+   `#9389 <https://pagure.io/freeipa/issue/9389>`__
+-  ipatest: remove xfail from test_smb
+   `commit <https://pagure.io/freeipa/c/998bafee86a870ad1ea4d6bccf12f0fae64c398c>`__
+   `#9124 <https://pagure.io/freeipa/issue/9124>`__
+-  ACME tests: fix issue_and_expire_acme_cert method
+   `commit <https://pagure.io/freeipa/c/7a94acca6a9efb546f1cf59f63fcb89f98944ea5>`__
+   `#9383 <https://pagure.io/freeipa/issue/9383>`__
+-  user or group name: explain the supported format
+   `commit <https://pagure.io/freeipa/c/f42a106e84c1fd609350da2540289ce945a7ecbd>`__
+
+.. _francisco_trivino_1:
+
+Francisco Trivino (1)
+~~~~~~~~~~~~~~~~~~~~~
+
+-  Workshop: fix broken Sphinx cross-references.
+   `commit <https://pagure.io/freeipa/c/4709063e2975bc2754783ee3e51f04df94538d41>`__
+
+.. _julien_rische_2:
+
+Julien Rische (2)
+~~~~~~~~~~~~~~~~~
+
+-  ipa-kdb: Make AD-SIGNEDPATH optional with krb5 DAL 8 and older
+   `commit <https://pagure.io/freeipa/c/d394afc1210a21378c018d0ff93d400a57324289>`__
+   `#9448 <https://pagure.io/freeipa/issue/9448>`__
+-  ipa-kdb: fix error handling of is_master_host()
+   `commit <https://pagure.io/freeipa/c/b5793c854035a122ed4c66f917cc427e5024e46a>`__
+   `#9422 <https://pagure.io/freeipa/issue/9422>`__
+
+.. _mohammad_rizwan_2:
+
+Mohammad Rizwan (2)
+~~~~~~~~~~~~~~~~~~~
+
+-  ipatests: restart ipa services after moving date
+   `commit <https://pagure.io/freeipa/c/4fc28edbe6c9fee1e16d4057f4d83b7910264fdd>`__
+   `#9379 <https://pagure.io/freeipa/issue/9379>`__
+-  ipatests: enable firewall rule for http service on acme client
+   `commit <https://pagure.io/freeipa/c/f68468718c1e01df4a9180e17d7e24d961850e19>`__
+
+.. _rob_crittenden_14:
+
+Rob Crittenden (14)
+~~~~~~~~~~~~~~~~~~~
+
+-  Allow password policy minlength to be removed like other values
+   `commit <https://pagure.io/freeipa/c/d0348612f96e320594f3b9b167ff5aef890a93e1>`__
+   `#9297 <https://pagure.io/freeipa/issue/9297>`__
+-  Don't assume KRB5CCNAME is in the environment in replica install
+   `commit <https://pagure.io/freeipa/c/0cf6292f9c5d0cb31d57439e234a4e8640edc64f>`__
+   `#9446 <https://pagure.io/freeipa/issue/9446>`__
+-  Configure affinity during server installation
+   `commit <https://pagure.io/freeipa/c/3af7747364d184c8ef5bad8ea1654b12c529727b>`__
+   `#9289 <https://pagure.io/freeipa/issue/9289>`__
+-  Remove all references to deleted indirect map from parent map
+   `commit <https://pagure.io/freeipa/c/2c402c46c2652b54adec5e8554ca7dfa00f2d37b>`__
+   `#9397 <https://pagure.io/freeipa/issue/9397>`__
+-  Prevent the admin user from being deleted
+   `commit <https://pagure.io/freeipa/c/f215d3f45396fa29bdd69f56096b50842df14908>`__
+   `#8878 <https://pagure.io/freeipa/issue/8878>`__
+-  Fix memory leak in the OTP last token plugin
+   `commit <https://pagure.io/freeipa/c/9438ce9207445e4ad4a9c7bdf0c9e569cabac571>`__
+   `#9403 <https://pagure.io/freeipa/issue/9403>`__
+-  Differentiate location meaning between host and server
+   `commit <https://pagure.io/freeipa/c/af9c89e789e30e12aaeed1d607c2647861ecb3cc>`__
+   `#9317 <https://pagure.io/freeipa/issue/9317>`__
+-  Use the python-cryptography parser directly in cert-find
+   `commit <https://pagure.io/freeipa/c/d00fd3398c32beb2c3e72f4878c87f9d2c0e833d>`__
+   `#9331 <https://pagure.io/freeipa/issue/9331>`__
+-  Revert "cert_find: fix call with --all"
+   `commit <https://pagure.io/freeipa/c/3b1dbcdba2994bf57908f530913998e9ab888e4c>`__
+   `#9331 <https://pagure.io/freeipa/issue/9331>`__
+-  Revert "Use the OpenSSL certificate parser in cert-find"
+   `commit <https://pagure.io/freeipa/c/9fe30f21c987bdccf80ef5f6d645fdc59b393bdb>`__
+   `#9331 <https://pagure.io/freeipa/issue/9331>`__
+-  Don't allow the FQDN to match the domain on server installs
+   `commit <https://pagure.io/freeipa/c/00e8ccda83bffbb571a127d7a8a194496b9a53bd>`__
+   `#9003 <https://pagure.io/freeipa/issue/9003>`__
+-  Don't allow a group to be converted to POSIX and external
+   `commit <https://pagure.io/freeipa/c/fa321b2cca07dc2bd27ab6fa868e05ddf69637df>`__
+   `#8990 <https://pagure.io/freeipa/issue/8990>`__
+-  Replace usage of #!/usr/bin/env python3 with #!/usr/bin/python3
+   `commit <https://pagure.io/freeipa/c/e6f4478b87e441d9e9ad6fdc358f942981996c5a>`__
+   `#8941 <https://pagure.io/freeipa/issue/8941>`__
+-  Mention in ipa-client-install that nscd is disabled
+   `commit <https://pagure.io/freeipa/c/e859b82677f13149de708006ab4f39b1b45ff66c>`__
+   `#9086 <https://pagure.io/freeipa/issue/9086>`__
+
+.. _rafael_guterres_jeffman_1:
+
+Rafael Guterres Jeffman (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Fix typo in "Subordinate ID Selfservice User" role
+   `commit <https://pagure.io/freeipa/c/22db4497512a0fb62920648a732348ee9e8473fd>`__
+   `#9418 <https://pagure.io/freeipa/issue/9418>`__
+
+.. _sudhir_menon_1:
+
+Sudhir Menon (1)
+~~~~~~~~~~~~~~~~
+
+-  ipatests: Skip the test failing due to FIPS policy
+   `commit <https://pagure.io/freeipa/c/21e4cb2e72dabc54f1ad92b6288433da4088ca4d>`__
+
+.. _viktor_ashirov_1:
+
+Viktor Ashirov (1)
+~~~~~~~~~~~~~~~~~~
+
+-  WebUI: update favicon.ico
+   `commit <https://pagure.io/freeipa/c/af4fb52bf140c69fb3d52d662aee48d37059721b>`__
+   `#9449 <https://pagure.io/freeipa/issue/9449>`__

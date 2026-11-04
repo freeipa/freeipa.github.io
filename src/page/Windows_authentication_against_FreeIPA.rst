@@ -71,7 +71,7 @@ Configure FreeIPA
     At the prompt enter a random MACHINE_PASSWORD
     (you will enter this later on the windows machine too).
 Note:  you  can  change  the  -e  argument  to  include  also
-AES enctypes from FreeIPA2.1.4 and higher. (FreeIPA ticket `2038 <https://fedorahosted.org/freeipa/ticket/2038>`_)
+AES enctypes from FreeIPA2.1.4 and higher. (FreeIPA ticket `2038 <https://codeberg.org/freeipa/freeipa/issues/2038>`_)
 
 Note:  Windows  machines  names  cannot  exceed  15  characters
 -- pointed out by Han Boetes on 2013-01-03 on freeipa-users mailing list

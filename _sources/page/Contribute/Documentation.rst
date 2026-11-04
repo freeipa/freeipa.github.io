@@ -10,10 +10,11 @@ community wiki.
 Updating wiki
 -------------
 
-This project site is running on famous mediawiki engine, so updating it
-is very easy. You just need to log in with your `Fedora project
-account <https://admin.fedoraproject.org/accounts/>`__ and start
-contributing!
+This site is built from the
+`freeipa.github.io <https://github.com/freeipa/freeipa.github.io>`__
+repository. Documentation is written in reStructuredText (or MyST
+Markdown) and rendered with Sphinx. See the repository README for how to
+build the site locally and open a pull request with your changes.
 
 
 
@@ -22,8 +23,8 @@ What to do
 
 You can update or extend current articles referenced from
 `Documentation <Documentation>`__ or add new content you would like to
-share with the FreeIPA world. You can also check `FreeIPA
-Trac <https://fedorahosted.org/freeipa/query?status=assigned&status=new&status=reopened&component=Wiki&order=priority&group=milestone&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&col=component>`__
+share with the FreeIPA world. You can also check
+`Codeberg <https://codeberg.org/freeipa/freeipa>`__
 for the list of known bugs or missing enhancements to this wiki and help
 us!
 
@@ -33,9 +34,9 @@ Contributing downstream guides
 ------------------------------
 
 FreeIPA project is documented in several downstream `User
-Guides <Documentation#User_Guides>`__ which contain enterprise level
+Guides <https://www.freeipa.org/page/Documentation.html#user-guides>`__ which contain enterprise level
 documentation. Downstream guide maintainers are happy for any
 contribution, from proposed content to even just a bug report.
 
 -  Direct links for bug reporting can be found next to links to
-   `downstream guides <Documentation#User_Guides>`__.
+   `downstream guides <https://www.freeipa.org/page/Documentation.html#user-guides>`__.

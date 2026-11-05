@@ -84,6 +84,11 @@ the pipeline (or file your own).
 Development
 ~~~~~~~~~~~
 
+Build and Run
+^^^^^^^^^^^^^
+
+See the dedicated `FreeIPA Build Guide <https://www.freeipa.org/page/Build>`__
+
 Contribute code
 ^^^^^^^^^^^^^^^
 

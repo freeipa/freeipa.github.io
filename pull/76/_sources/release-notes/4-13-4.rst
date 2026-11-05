@@ -1,0 +1,247 @@
+FreeIPA 4.13.4
+==============
+
+.. raw:: mediawiki
+
+   {{ReleaseDate|2026-07-09}}
+
+The FreeIPA team would like to announce FreeIPA 4.13.4 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+.. _highlights_in_4.13.4:
+
+Highlights in 4.13.4
+--------------------
+
+.. _security_issues:
+
+Security issues
+~~~~~~~~~~~~~~~
+
+CVE-2026-79678: idp-add eval() reachable before authorization check allows environment disclosure and denial of service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A flaw was found in FreeIPA's idp-add command. `ipapython.ipautil.template_str()`
+evaluates any `eval(...)` token found in a post-substitution string using
+Python's `eval()`. `ipaserver/plugins/idp.py` passes the caller-supplied
+`--organization` and `--base-url` values (`ipaidporg`/`ipaidpbaseurl`), which
+have no input validation, into this function via provider templates (okta,
+keycloak, microsoft). The LDAPCreate command framework runs this evaluation
+inside `pre_callback`, before the LDAP access control check that restricts
+idp-add to the 'External IdP server Administrators' privilege is ever
+evaluated. As a result, any authenticated IPA principal, regardless of
+privilege level, can trigger this evaluation.
+
+Callbacks such as `pre_callback` run by the IPA API LDAP framework
+automatically. The fix is to apply permissions and ACIs checks to the
+authenticated IPA principal before any callbacks are executed.
+
+This report prompted us to look at the overall access control checks in IPA API
+LDAP framework use. To fix similar issues in the framework overall, on top of
+LDAP access controls, we added an access control check to all IPA API
+operations. These checks take both ACL sources into account:
+
+   - managed permissions defined in IPA plugins
+   - implicit LDAP ACIs defined in LDAP
+
+Managed permissions are associated with each LDAP object in IPA API and
+represent IPA API permissions and the privileges they can bear. Privileges
+associated with managed permissions are visible to administrators and
+membership can be added to grant permissions to administrators. The privileges
+converted into LDAP ACIs at runtime and updated every time new FreeIPA code is
+deployed.
+
+CVE-2026-76578: FreeIPA: unauthenticated LDAP client can obtain administrator credentials via the self-managed-token ACI
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Due to a bug in 389-ds directory server's implementation of access controls, an
+unauthenticated LDAP client (anonymous bind or SASL ANONYMOUS) can create a
+self-managed OTP token entry with empty ipaTokenOwner/managedBy attributes,
+which satisfy 389 Directory Server's SELFDN ACI evaluator against the anonymous
+bind's own empty DN (see companion 389-ds flaw for that underlying defect).
+FreeIPA's self-managed-token ACI (install/share/default-aci.ldif) does not
+restrict which other attributes may be added, allowing the client to inject an
+arbitrary attacker-chosen Kerberos principal that does not yet exist in the
+LDAP database. Mitigations introduced for CVE-2026-13097 fix does not allow
+overtaking existing accounts.
+
+The attack may be used as a stepping stone to take over administrative privileges.
+Additional access controls hardening was applied to prevent follow up
+activities to elevate state of acquired credentials to administrative ones.
+
+In order to address this vulnerability, FreeIPA and 389-ds teams had to review
+existing access controls implementation in both projects. On FreeIPA side the
+team chose to tighten up permissions guarding self-management access: the bare
+`userdn = "ldap:///self"` bind rule was replaced with `(userdn = "ldap:///self"
+and userdn = "ldap:///all")` bind rule. The latter ensures that any user DN in
+an active LDAP bind matching the `ldap:///self` is also an authenticated one
+(e.g. `ldap:///all`). In anonymous LDAP binds the userdn is an empty string
+that cannot match `ldap:///all`
+
+
+--------------
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.13.4 is a stabilization release for the features delivered as a
+part of 4.13 version series.
+
+There are multiple bug-fixes since FreeIPA 4.13.3 release. Details
+of the bug-fixes can be seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on
+`Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on libera.chat.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+- `#9968 <https://codeberg.org/freeipa/freeipa/issues/9968>`__
+- `#7415 <https://codeberg.org/freeipa/freeipa/issues/7415>`__
+- `#10036 <https://codeberg.org/freeipa/freeipa/issues/10036>`__
+- `#10029 <https://codeberg.org/freeipa/freeipa/issues/10029>`__
+
+.. _detailed_changelog_since_4.13.3:
+
+Detailed changelog since 4.13.3
+-------------------------------
+
+.. _alexander_bokovoy_35:
+
+Alexander Bokovoy (35)
+~~~~~~~~~~~~~~~~~~~~~~
+
+-  vault: fix linting issues
+   `commit <https://codeberg.org/freeipa/freeipa/commit/238925fe9b59716a9c620b5dc20f020b1e9a6536>`__
+-  vault: document why vaultconfig_show is intentionally ungated
+   `commit <https://codeberg.org/freeipa/freeipa/commit/768d0c3259aef5c01915bd7181a2a339b32be2b4>`__
+-  cert: authorize certificate retrieval before reaching the RA agent
+   `commit <https://codeberg.org/freeipa/freeipa/commit/d5367d4686f11049bfee0183c58965b309ec5dcf>`__
+-  ca, certprofile: require CA Administrator before RA-agent changes
+   `commit <https://codeberg.org/freeipa/freeipa/commit/fc71e10a7a00c4bc1c0abbf37fcfdf76c813eb53>`__
+-  certmap: require privilege before matching certificates via SSSD
+   `commit <https://codeberg.org/freeipa/freeipa/commit/6d772ead2251d6e3ca5e85c1ead616e0f476fbba>`__
+-  trust: require Replication Administrators before refreshing trust topology
+   `commit <https://codeberg.org/freeipa/freeipa/commit/bceafef832fa9ce1ded8d95a36402f26c3de3b2c>`__
+-  baseldap: fall back to effective rights when enforcing managed permissions
+   `commit <https://codeberg.org/freeipa/freeipa/commit/ce355d693f17c9c7d2be20c8dff53a2b9f79c542>`__
+-  admins: grant admins group all default privileges
+   `commit <https://codeberg.org/freeipa/freeipa/commit/83d38aa10a93da6e5ae0e0494a7a78b3989546f5>`__
+-  trust_add: require Replication Administrators privilege
+   `commit <https://codeberg.org/freeipa/freeipa/commit/b22551964f4ed37f94f3c95ecd81bc3179a03082>`__
+-  baseldap: force permission checks in LDAP-oriented operations
+   `commit <https://codeberg.org/freeipa/freeipa/commit/e3b28ed37306929b3ae62445a5f2a8b556a0bbf7>`__
+-  tests: xmlrpc: cover the permission authentication checks
+   `commit <https://codeberg.org/freeipa/freeipa/commit/50f433fd7b02ec9429ebdd26844b40a5a5c6a812>`__
+-  tests: xmlrpc: expect the hardened self-service ACIs
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f354558d5eb7dec9371e6ff2f27d7d1dce0742e2>`__
+-  tests: ipalib: cover parsing of absolute denies and compound bind rules
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f3fea752d7908e8d1a774be8ae5eb120aaf32a67>`__
+-  aci: regenerate ACI.txt for the permission changes
+   `commit <https://codeberg.org/freeipa/freeipa/commit/512e4cd567f881952425d0abb083be19d0a8be44>`__
+-  install: register the new 21-* ACI update scripts
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f7e9ebf2ca2d193775402ce6a0605e8f49d1cde8>`__
+-  aci: convert the self-service ACIs to the hardened bind rule on upgrade
+   `commit <https://codeberg.org/freeipa/freeipa/commit/ba43edf3b20358d7258b46b490b0468f8e5857d0>`__
+-  aci: use the hardened self-service bind rule in the upgrade ACIs
+   `commit <https://codeberg.org/freeipa/freeipa/commit/05451264dfe3020ce030824feb0db14e23f655ee>`__
+-  aci: deny anonymous SID reads in the upgrade update
+   `commit <https://codeberg.org/freeipa/freeipa/commit/0a95069c72773307dc8d2426a4b9cd6ee91b2dd3>`__
+-  aci: deny all anonymous modifications in the upgrade update
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f1fdf30bf0d2997b35d9bc4c705925ec38a7e5e9>`__
+-  aci: key the anonymous denies on the empty DN; harden the self-service rules
+   `commit <https://codeberg.org/freeipa/freeipa/commit/16e47c4e4a416638d3f158d672df533a354039eb>`__
+-  aci: generate the hardened self-service bind rule
+   `commit <https://codeberg.org/freeipa/freeipa/commit/4ecb621f7facaa26471694a63047386525f02edf>`__
+-  aci: parse absolute denies and compound bind rules
+   `commit <https://codeberg.org/freeipa/freeipa/commit/6463840cc7c8f4eeaf1b40a2450f6969cf96e5c0>`__
+-  otp: constrain the self-managed-token ADD to OTP object classes
+   `commit <https://codeberg.org/freeipa/freeipa/commit/e1fed4022da62244f61f76d35a1ef51378633335>`__
+-  trusts: scope Samba ipaNTHash ACI to cn=accounts
+   `commit <https://codeberg.org/freeipa/freeipa/commit/b32e75378ae6f8ea3b5019a53483ae438d94fcbf>`__
+-  host: exclude ipaservers from delegated host-write permissions
+   `commit <https://codeberg.org/freeipa/freeipa/commit/cb324a1e5379a940afe407f0cb107e61d83b3e6f>`__
+-  group: read the SID only when authenticated; exclude protected groups from delegated writes
+   `commit <https://codeberg.org/freeipa/freeipa/commit/9668a5763fa51814573359a52a8dc0bbd5e8326b>`__
+-  stageuser: exclude privileged accounts from delegated credential writes
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f7ae09c9bad5a0c9d700a1b6b2e679fccc56d6a1>`__
+-  user: read the SID only when authenticated; exclude privileged accounts from delegated writes
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f3a57ad3ebc6ad5bbf5c3b04cf8918d81995ca75>`__
+-  permission: require an authenticated bind for modification permissions
+   `commit <https://codeberg.org/freeipa/freeipa/commit/d37c906b97220d9155fbef51e0d9274b444bac64>`__
+-  ipa-pwd-extop: fail closed if password metadata cannot be written
+   `commit <https://codeberg.org/freeipa/freeipa/commit/76a37fddd31dc03cb67294970c86cffcb45461b4>`__
+-  certprofile: reject import of profiles that can execute programs
+   `commit <https://codeberg.org/freeipa/freeipa/commit/08ecce06c5105fc971b7eafd6e7494b687777c39>`__
+-  kdb: enforce CNAME comparison against ipaOriginalUid in ID overrides
+   `commit <https://codeberg.org/freeipa/freeipa/commit/d3420d81715ebab925784853251ae5b767544b28>`__
+   `#10041 <https://codeberg.org/freeipa/freeipa/issues/10041>`__
+-  Principal: implicitly convert to Principal for comparison
+   `commit <https://codeberg.org/freeipa/freeipa/commit/ce8bfcbf9894014360a1f152cbf19a8a4ae51588>`__
+-  ipatests: Fix expectations in test_i18n_messages_valid
+   `commit <https://codeberg.org/freeipa/freeipa/commit/c573bf1b128bb74d367aad80874d13e8fb8c03cc>`__
+-  doc: update API change for principal from Str to Principal
+   `commit <https://codeberg.org/freeipa/freeipa/commit/c2d9fb5efeee1277d373bed5b109edf0af80cc0a>`__
+
+.. _david_hanina_1:
+
+David Hanina (1)
+~~~~~~~~~~~~~~~~
+
+-  Spec file: bump samba version to 4.23.11 for Fedora < 44
+   `commit <https://codeberg.org/freeipa/freeipa/commit/3ea200cd819852e3d14fe0c4b117bbcb0cb2f80f>`__
+
+.. _erik_belko_1:
+
+Erik Belko (1)
+~~~~~~~~~~~~~~
+
+-  ipatests: Add ipa-getcert start-tracking tests
+   `commit <https://codeberg.org/freeipa/freeipa/commit/64a1e8cec221db278295bdb3b38d5c8511df2553>`__
+   `#9968 <https://codeberg.org/freeipa/freeipa/issues/9968>`__
+
+.. _rafael_guterres_jeffman_1:
+
+Rafael Guterres Jeffman (1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Back to git snapshots
+   `commit <https://codeberg.org/freeipa/freeipa/commit/e401e9a6c1573236ad7560fbb6df50595329dfb1>`__
+
+.. _stanislav_levin_1:
+
+Stanislav Levin (1)
+~~~~~~~~~~~~~~~~~~~
+
+-  installer: check all the required PKI ports
+   `commit <https://codeberg.org/freeipa/freeipa/commit/f5bcf5bbe9b140039c4c242a17a6a8b34513431a>`__
+   `#7415 <https://codeberg.org/freeipa/freeipa/issues/7415>`__
+   `#10036 <https://codeberg.org/freeipa/freeipa/issues/10036>`__
+
+.. _sudhir_menon_1:
+
+Sudhir Menon (1)
+~~~~~~~~~~~~~~~~
+
+-  ipatests: Fixes for ds-migration testsuite.
+   `commit <https://codeberg.org/freeipa/freeipa/commit/85f78f90ea35aae25eb4e0e9d0e0464db18ddf4b>`__
+   `#10029 <https://codeberg.org/freeipa/freeipa/issues/10029>`__
+

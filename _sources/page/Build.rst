@@ -45,8 +45,6 @@ good idea to run the following command from the install/webui directory:
 
     $ ./fix-spec.sh -i
 
-::
-
 In order to get more familiar with git submodule concepts, you can read
 `git submodules <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`__.
 
@@ -70,8 +68,8 @@ or with dnf (and builddep plugin from ``dnf-plugins-core``:
 ::
 
     $ sudo dnf install rpm-build
-    $ sudo dnf builddep -b -D "with_wheels 1" -D "with_lint 1" --spec \
-    freeipa.spec.in --best --allowerasing --setopt=install_weak_deps=False
+    $ sudo dnf builddep -D "with_wheels 1" -D "with_lint 1" --spec \
+        freeipa.spec.in --best --allowerasing --setopt=install_weak_deps=False
 
 A dose of ``--enablerepo=updates-testing`` may at times be needed.
 
@@ -83,24 +81,6 @@ are:
 
 -  master branch:
    `@freeipa/freeipa-master <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-master/>`__
--  ipa-4-6 branch for Fedora 26 and Fedora 27:
-   `@freeipa/freeipa-4-6 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-6/>`__
--  ipa-4-5 branch for Fedora 25 and Fedora 26:
-   `@freeipa/freeipa-4-5 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-5/>`__
--  ipa-4-4 branch for Fedora 24:
-   `@freeipa/freeipa-4-4 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-4/>`__
--  ipa-4-3 branch:
-   `@freeipa/freeipa-4-3 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-3/>`__
-   (*abandoned*)
--  ipa-4-2 branch:
-   `mkosek/freeipa-4.2 <https://copr.fedoraproject.org/coprs/mkosek/freeipa-4.2/>`__
-   (*abandoned*)
--  ipa-4-1 branch:
-   `mkosek/freeipa-4.1 <https://copr.fedoraproject.org/coprs/mkosek/freeipa-4.1/>`__
-   (*abandoned*)
--  ipa-4-1 branch for Fedora 20 and CentOS:
-   `mkosek/freeipa <https://copr.fedoraproject.org/coprs/mkosek/freeipa/>`__
-   (*abandoned*)
 
 To use the repo run (requires **dnf-plugins-core** package installed):
 

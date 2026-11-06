@@ -83,18 +83,6 @@ are:
 
 -  master branch:
    `@freeipa/freeipa-master <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-master/>`__
--  ipa-4-6 branch for Fedora 26 and Fedora 27:
-   `@freeipa/freeipa-4-6 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-6/>`__
--  ipa-4-5 branch for Fedora 25 and Fedora 26:
-   `@freeipa/freeipa-4-5 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-5/>`__
--  ipa-4-4 branch for Fedora 24:
-   `@freeipa/freeipa-4-4 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-4/>`__
--  ipa-4-3 branch:
-   `@freeipa/freeipa-4-3 <https://copr.fedorainfracloud.org/coprs/g/freeipa/freeipa-4-3/>`__
-   (*abandoned*)
--  ipa-4-2 branch:
-   `mkosek/freeipa-4.2 <https://copr.fedoraproject.org/coprs/mkosek/freeipa-4.2/>`__
-   (*abandoned*)
 
 To use the repo run (requires **dnf-plugins-core** package installed):
 

@@ -1,4 +1,0 @@
-Disclaimerpage
-==============
-
-FreeIPA:Legal

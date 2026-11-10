@@ -1,0 +1,118 @@
+FreeIPA 4.13.5
+==============
+
+.. raw:: mediawiki
+
+   {{ReleaseDate|2026-11-10}}
+
+The FreeIPA team would like to announce FreeIPA 4.13.5 release!
+
+It can be downloaded from http://www.freeipa.org/page/Downloads. Builds
+for Fedora distributions will be available from the official repository
+soon.
+
+.. _highlights_in_4.13.5:
+
+Highlights in 4.13.5
+--------------------
+
+-----------------------------------------------
+CVE-2026-53683: Client-side open redirect in reset_password.html
+
+`reset_password.html` page parses query string parameters and uses url as a
+redirection target (window.location = url) after password reset, optionally
+delayed by delay. No validation or allowlisting is performed on url, enabling
+an attacker to redirect users to an arbitrary external site after completion of
+the workflow.
+
+An attacker must entice a victim to use the crafted reset URL (not hard, as the
+URL domain appears legitimate). No attacker authentication is required. The
+redirect can be used for phishing and user-trust abuse (appearing to originate
+from IdM), and can assist chaining with other social engineering or browser
+attacks by moving users from a trusted IdM origin to an attacker-controlled
+site at a sensitive moment. Ultimately, the attacker can get a user to visit a
+malicious URL while appearing legitimate.
+
+-----------------------------------------------
+CVE-2026-86593: Unauthenticated DoS in session endpoints (login_password, change_password, sync_token) via Unbounded Request Body Read
+
+The public session endpoints `login_password`, `change_password`, and
+`sync_token` do not limit unauthenticated attacker from causing additional load
+on WSGI processes and may lead to denial of service situations. Because that
+worker pool is shared by the whole `/ipa` WSGI application, exhausting it
+denies all IPA HTTP functionality, including the GSSAPI/Kerberos-authenticated
+paths (WebUI, admin RPC), not only other unauthenticated requests.
+
+This is a distinct instance of the same root-cause class already fixed for
+`i18n_messages` (CVE-2026-73198) and `/ipa/migration/migration.py`
+(CVE-2026-73197); the fix for CVE-2026-73198 was scoped only to a single
+caller and left this defect present in the three session endpoints.
+
+------------------------------------------------
+
+
+Enhancements
+~~~~~~~~~~~~
+
+.. _known_issues:
+
+Known Issues
+~~~~~~~~~~~~
+
+.. _bug_fixes:
+
+Bug fixes
+~~~~~~~~~
+
+FreeIPA 4.13.5 is a stabilization release for the features delivered as
+a part of 4.13 version series.
+Details of the bug-fixes can be seen in the list of resolved tickets below.
+
+Upgrading
+---------
+
+Upgrade instructions are available on
+`Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+
+Feedback
+--------
+
+Please provide comments, bugs and other feedback via the freeipa-users
+mailing list
+(https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/)
+or #freeipa channel on libera.chat.
+
+.. _resolved_tickets:
+
+Resolved tickets
+----------------
+
+.. _detailed_changelog_since_4.13.4:
+
+Detailed changelog since 4.13.4
+-------------------------------
+
+.. _antonio_torres_1:
+
+Antonio Torres (1)
+~~~~~~~~~~~~~~~~~~
+
+- Become IPA 4.13.5
+  `commit <https://pagure.io/freeipa/c/a68e88a755d1f5f0c7d589ac8baa6434d533ab9e>`__
+
+.. _carla_martinez_1:
+
+Carla Martinez (1)
+~~~~~~~~~~~~~~~~~~
+
+- CVE-2026-86593: Limit request body size on unauthenticated session
+  endpoints
+  `commit <https://pagure.io/freeipa/c/8a09d5be8c57d726b56c9575d7dfcbfe7d44025d>`__
+
+.. _david_hanina_1:
+
+David Hanina (1)
+~~~~~~~~~~~~~~~~
+
+- webui: remove redirect from password reset page
+  `commit <https://pagure.io/freeipa/c/d0eecb85be597d1c90bd4c8e6157672ebffb5cc2>`__

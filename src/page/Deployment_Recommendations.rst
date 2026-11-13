@@ -248,11 +248,11 @@ Creating and adding following lines to for example
 /etc/sysctl.d/ipv6.conf will avoid assigning IPv6 addresses to a
 specific network interface:
 
-::
+.. code-block:: ini
 
      net.ipv6.conf.all.disable_ipv6 = 1
      # Disabling "all" does not apply to interfaces that are already "up" when sysctl settings are applied.
-     net.ipv6.conf.``\ ``.disable_ipv6 = 1
+     net.ipv6.conf.interface0.disable_ipv6 = 1
      # Interface lo must have IPv6 enabled
      net.ipv6.conf.lo.disable_ipv6 = 0
 

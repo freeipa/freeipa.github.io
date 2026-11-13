@@ -67,7 +67,7 @@ installations, e.g. ``ipa.test``.
 The rule about ``/etc/hosts`` is that the fully-qualified name **must**
 come first. It should look like:
 
-::
+.. code-block:: text
 
    10.0.0.1       server.ipa.test server
 
@@ -111,7 +111,7 @@ has deprecated old service names **freeipa-ldap** and **freeipa-ldaps**
 in favor of a new one **freeipa-4**. Below we show the commands using
 older names:
 
-::
+.. code-block:: console
 
    # firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps
    # firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --permanent
@@ -157,7 +157,7 @@ created.
 
 To authenticate as the *admin*, just run:
 
-::
+.. code-block:: console
 
    $ kinit admin
    Password for admin@IPA.TEST:
@@ -177,7 +177,7 @@ above to perform different administrative tasks. The first task that we
 will do is add a user via command line. To do that we will first inspect
 the command line interface by reading man pages of the ``ipa`` command:
 
-::
+.. code-block:: console
 
    $ man ipa
 
@@ -205,9 +205,9 @@ authenticate.
 
 To create a user run
 
-::
+.. code-block:: console
 
-   ipa user-add
+   $ ipa user-add
 
 command with or without additional parameters. If you omit any of the
 required parameters or all of them the interface will prompt you for the
@@ -215,9 +215,9 @@ information.
 
 After adding user add a password for him:
 
-::
+.. code-block:: console
 
-   ipa passwd <user>
+   $ ipa passwd <user>
 
 This will create a password, but it will be a temporary one. The one
 that you need to change on the first authentication. This is done on
@@ -227,9 +227,9 @@ change the password on the first login.
 
 You can now authenticate as the new user with
 
-::
+.. code-block:: console
 
-   kinit <user>
+   $ kinit <user>
 
 command. This will prompt you for a password and the immediately request
 a password change.
@@ -242,9 +242,9 @@ Web User Interface
 Next step is to try the web UI. Make sure that your administrative
 ticket is valid by running
 
-::
+.. code-block:: console
 
-   kinit admin
+   $ kinit admin
 
 command. Run firefox in the same command window. It will start an
 instance of the firefox. In the address bar type the name of the FreeIPA

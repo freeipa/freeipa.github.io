@@ -27,10 +27,10 @@ deployment guide to get more details about the ports required for IPA.
 
 1. Installation of the IPA Server.
 
-.. code-block:: shell
+.. code-block:: console
 
-  yum install ipa-*
-  yum install bind bind-chroot
+  # yum install ipa-*
+  # yum install bind bind-chroot
 
 The IPA server may show a conflict with mod_ssl package. IPA uses
 mod_nss in apache. You can remove the mod_ssl for the time being.
@@ -172,10 +172,10 @@ first time synchronization will take some time (64 sec approx)
 
 To verify
 
-.. code-block:: shell
+.. code-block:: console
 
-  ntpstat
-  ntpq -p
+  $ ntpstat
+  $ ntpq -p
 
 5. Make sure that all the required services are enabled in your run
 level and reboot the IPA server (krb5kdc, ntp, named, httpd, dirserv

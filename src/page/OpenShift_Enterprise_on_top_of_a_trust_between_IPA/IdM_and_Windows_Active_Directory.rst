@@ -160,7 +160,7 @@ user@ADDOMAIN.EXAMPLE.COM.
 
 Restart OpenShift Broker and Console:
 
-.. code:: bash
+.. code:: console
 
    $ service openshift-broker restart
    $ service openshift-console restart

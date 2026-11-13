@@ -74,9 +74,9 @@ distribution doesn't have it packaged, download it at
 
 Run:
 
-.. code:: bash
+.. code:: console
 
-   java -jar selenium-server-standalone.jar
+   $ java -jar selenium-server-standalone.jar
 
 Firefox
 ----------------------------------------------------------------------------------------------
@@ -124,16 +124,16 @@ xvbf.
 
 Installation on Fedora:
 
-.. code:: bash
+.. code:: console
 
-   yum install xorg-x11-server-Xvfb
+   # yum install xorg-x11-server-Xvfb
 
 Run:
 
-.. code:: bash
+.. code:: console
 
-   export DISPLAY=:99
-   /usr/bin/Xvfb $DISPLAY -ac -noreset -screen 0 1400x1200x8 > /dev/null &
+   $ export DISPLAY=:99
+   $ /usr/bin/Xvfb $DISPLAY -ac -noreset -screen 0 1400x1200x8 > /dev/null &
 
 
 
@@ -160,9 +160,9 @@ tests are skipped when the library is not installed.
 
 Installation on Fedora:
 
-.. code:: bash
+.. code:: console
 
-   pip install selenium
+   $ pip install selenium
 
 \`pip\` is required instead of \`dnf install python-selenium\` until
 Fedora has more recent version(3+) of python-selenium.
@@ -188,9 +188,9 @@ is not installed.
 
 Install yaml on Fedora:
 
-.. code:: bash
+.. code:: console
 
-   dnf install PyYAML
+   # dnf install PyYAML
 
 Example of configuration file:
 
@@ -302,21 +302,21 @@ In tree
 
 -  All Web UI tests:
 
-.. code:: bash
+.. code:: console
 
-   ./make-test --logging-level=INFO ipatests/test_webui/
+   $ ./make-test --logging-level=INFO ipatests/test_webui/
 
 -  Particular module:
 
-.. code:: bash
+.. code:: console
 
-   ./make-test --logging-level=INFO ipatests/test_webui/test_module.py
+   $ ./make-test --logging-level=INFO ipatests/test_webui/test_module.py
 
 -  Particular test:
 
-.. code:: bash
+.. code:: console
 
-   ./make-test --logging-level=INFO ipatests/test_webui/test_module.py::class_name::method_name
+   $ ./make-test --logging-level=INFO ipatests/test_webui/test_module.py::class_name::method_name
 
 
 
@@ -325,21 +325,21 @@ Test package
 
 -  All Web UI tests:
 
-.. code:: bash
+.. code:: console
 
-   ipa-run-tests --logging-level=INFO test_webui
+   $ ipa-run-tests --logging-level=INFO test_webui
 
 -  Particular module:
 
-.. code:: bash
+.. code:: console
 
-   ipa-run-tests --logging-level=INFO test_webui/test_module.py
+   $ ipa-run-tests --logging-level=INFO test_webui/test_module.py
 
 -  Particular test:
 
-.. code:: bash
+.. code:: console
 
-   ipa-run-tests --logging-level=INFO test_webui/test_module.py::class_name::method_name
+   $ ipa-run-tests --logging-level=INFO test_webui/test_module.py::class_name::method_name
 
 
 

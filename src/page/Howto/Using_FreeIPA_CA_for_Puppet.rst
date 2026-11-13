@@ -28,11 +28,11 @@ Initial Setup
 #. On the IPA Server, or if one of the clients has
    ``freeipa-admintools`` installed:
 
-   .. code:: bash
+   .. code:: console
 
-      # create the puppet master service
+      $ # create the puppet master service
       $ ipa service-add puppetmaster/puppetmaster.example.com
-      # create the puppet agent service
+      $ # create the puppet agent service
       $ ipa service-add puppet/puppet.example.com
 
 
@@ -44,56 +44,56 @@ On the machine for the Puppet Master:
 
 #. Installation:
 
-   .. code:: bash
+   .. code:: console
 
-      # install latest puppet-server
-      # (yum install puppet-server is a couple minor versions behind)
-      # version 3.2 fixes a CA bug that isn't in the yum repo
+      $ # install latest puppet-server
+      $ # (yum install puppet-server is a couple minor versions behind)
+      $ # version 3.2 fixes a CA bug that isn't in the yum repo
       $ rpm -ivh http://yum.puppetlabs.com/fedora/f19/products/i386/puppetlabs-release-19-2.noarch.rpm
       $ yum install -y http://yum.puppetlabs.com/fedora/f19/products/x86_64/puppet-server-3.2.4-1.fc19.noarch.rpm
-      # stop the puppetmaster service since we'll be using apache
+      $ # stop the puppetmaster service since we'll be using apache
       $ service puppetmaster stop
-      # install additional requirements
+      $ # install additional requirements
       $ yum install -y mod_nss mod_passenger
 
 #. Setting up the certificates:
 
-   .. code:: bash
+   .. code:: console
 
-      # now grab the certs for the master
-      $ ipa-getcert request -K puppetmaster/puppetmaster.example.com 
-                             -d /etc/httpd/alias 
-                             -n puppetmaster/puppetmaster.example.com
-      # identify where to put the public, private, and CA pem files for host:
+      $ # now grab the certs for the master
+      $ ipa-getcert request -K puppetmaster/puppetmaster.example.com \
+      >     -d /etc/httpd/alias \
+      >     -n puppetmaster/puppetmaster.example.com
+      $ # identify where to put the public, private, and CA pem files for host:
       $ puppet master --configprint hostcert
       /var/lib/puppet/ssl/certs/puppetmaster.example.com.pem
       $ puppet master --configprint hostprivkey
       /var/lib/puppet/ssl/private_keys/puppetmaster.example.com.pem
       $ puppet master --configprint localcacert
-      /var/lib/puppet/ssl/certs/ca.pem            
-      # you may need to create the above directories      
-      # grab the public key for host and place it in the appropriate directory
-      $ certutil -L -d /etc/pki/nssdb 
-                 -a -n "IPA Machine Certificate - puppetmaster.example.com" > 
-                 /var/lib/puppet/ssl/certs/puppetmaster.example.com.pem
-      # if there's an error about the directory, set SELinux to permissive for the
-      # certutil commands, then you can return it to enforce.
-      # grab the private key for host and place it in the appropriate directory
-      # if/when prompted for a password, this is the same admin password that you used to setup IPA
+      /var/lib/puppet/ssl/certs/ca.pem
+      $ # you may need to create the above directories
+      $ # grab the public key for host and place it in the appropriate directory
+      $ certutil -L -d /etc/pki/nssdb \
+      >     -a -n "IPA Machine Certificate - puppetmaster.example.com" > \
+      >     /var/lib/puppet/ssl/certs/puppetmaster.example.com.pem
+      $ # if there's an error about the directory, set SELinux to permissive for the
+      $ # certutil commands, then you can return it to enforce.
+      $ # grab the private key for host and place it in the appropriate directory
+      $ # if/when prompted for a password, this is the same admin password that you used to setup IPA
       $ certutil -K -d /etc/pki/nssdb -a
-      $ pk12util -o keys.p12 
-                 -n "IPA Machine Certificate - puppetmaster.example.com"
-                 -d /etc/pki/nssdb
-      $ openssl pkcs12 -in keys.p12 
-                         -out /var/lib/puppet/ssl/private_keys/puppetmaster.example.com.pem 
-                         -nodes
-      # export IPA's CA in the localcacert directory
-      $ certutil -L -d /etc/pki/nssdb 
-                 -a -n "IPA CA" > /var/lib/puppet/ssl/certs/ca.pem
+      $ pk12util -o keys.p12 \
+      >     -n "IPA Machine Certificate - puppetmaster.example.com" \
+      >     -d /etc/pki/nssdb
+      $ openssl pkcs12 -in keys.p12 \
+      >     -out /var/lib/puppet/ssl/private_keys/puppetmaster.example.com.pem \
+      >     -nodes
+      $ # export IPA's CA in the localcacert directory
+      $ certutil -L -d /etc/pki/nssdb \
+      >     -a -n "IPA CA" > /var/lib/puppet/ssl/certs/ca.pem
 
 #. Setup rack/passenger
 
-   .. code:: bash
+   .. code:: console
 
       $ mkdir -p /var/www/puppet/public
       $ cp /usr/share/puppet/ext/rack/files/config.ru /var/www/puppet
@@ -161,7 +161,7 @@ On the machine for the Puppet Master:
 
 #. Open up ports for puppet and restart Apache:
 
-   .. code:: bash
+   .. code:: console
 
       $ firewall-cmd --add-port=8140/tcp
       $ service httpd restart
@@ -175,22 +175,22 @@ On the Puppet Agent:
 
 #. Installation:
 
-   .. code:: bash
+   .. code:: console
 
-      # install latest puppet (agent)
-      # (yum install puppet-server is a couple minor versions behind)
-      # version 3.2 fixes a CA bug that isn't in the yum repo
+      $ # install latest puppet (agent)
+      $ # (yum install puppet-server is a couple minor versions behind)
+      $ # version 3.2 fixes a CA bug that isn't in the yum repo
       $ rpm -ivh http://yum.puppetlabs.com/fedora/f19/products/i386/puppetlabs-release-19-2.noarch.rpm
       $ yum install -y http://yum.puppetlabs.com/fedora/f19/products/x86_64/puppet-3.2.4-1.fc19.noarch.rpm
 
 #. Setup certificates for the agent
 
-   .. code:: bash
+   .. code:: console
 
-      $ ipa-getcert request -K puppet/puppet.example.com
-                             -D puppet.example.com
-                             -k /var/lib/puppet/ssl/private_keys/puppet.example.com.pem
-                             -f /var/lib/puppet/ssl/certs/puppet.example.com.pem
+      $ ipa-getcert request -K puppet/puppet.example.com \
+      >     -D puppet.example.com \
+      >     -k /var/lib/puppet/ssl/private_keys/puppet.example.com.pem \
+      >     -f /var/lib/puppet/ssl/certs/puppet.example.com.pem
 
 #. Setup the agent configuration in ``/etc/puppet/puppet.conf``, by
    editing/adding the ``[agent]`` & ``[main]`` block:
@@ -210,11 +210,11 @@ On the Puppet Agent:
 
 #. Test the entire setup in puppet agent:
 
-   .. code:: bash
+   .. code:: console
 
-      # open up port for Puppet
+      $ # open up port for Puppet
       $ firewall-cmd --add-port=8140/tcp
-      # test to see if the setup works
+      $ # test to see if the setup works
       $ puppet agent --test
-      # you'll probably get a catalog error if you have no catalogs
-      # setup with your puppet master
+      $ # you'll probably get a catalog error if you have no catalogs
+      $ # setup with your puppet master

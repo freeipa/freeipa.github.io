@@ -7,7 +7,7 @@ requires a couple of steps
 A typical dhcpd.conf with working DDNS - **without FreeIPA** will have a
 section looking something like the following
 
-.. code:: bash
+.. code:: text
 
    # this file includes definition of DDNS_UPDATE key
    include "/etc/dhcp/ddns.key";
@@ -27,7 +27,7 @@ section looking something like the following
 The corresponding part of named.conf will look like this (not complete
 file, this is after the options section):
 
-.. code:: bash
+.. code:: text
 
    # note that this file is identical to /etc/dhcp/ddns.key
    # not experimented with pointing to same file which

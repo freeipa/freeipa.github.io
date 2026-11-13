@@ -92,8 +92,7 @@ following changes:
 -  Creation of a special principal to assist in Anonymous PKINIT initial
    authentication
 
-Since the `External
-Authentication <https://www.freeipa.org/page/V4/External_Authentication>`__
+Since the :doc:`External Authentication </page/V4/External_Authentication>`
 workflow now isolates FreeIPA framework from all Kerberos keys/ccaches
 care must be taken to ensure that the password logins to the master
 (e.g. via WebUI) are able to leverage some FAST armoring mechanisms to

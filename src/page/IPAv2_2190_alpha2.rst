@@ -4,7 +4,7 @@ IPAv2_2190_alpha2
 \__NOTOC_\_ The FreeIPA team is proud to announce version 2.1.90 alpha
 2. This will eventually become FreeIPA v2.2.0.
 
-It can be downloaded from http://www.freeipa.org/Downloads or from our
+It can be downloaded from :doc:`/Downloads` or from our
 development repo (http://freeipa.org/downloads/freeipa-devel.repo).
 Fedora 15, 16 and 17 builds are available.
 

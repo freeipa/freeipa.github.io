@@ -435,7 +435,7 @@ Completed changes:
 Test Plan
 =========
 
-http://www.freeipa.org/page/V4/Password_Vault/Test_Plan
+:doc:`/page/V4/Password_Vault/Test_Plan`
 
 References
 ==========

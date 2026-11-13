@@ -1,4 +1,4 @@
-Quick_Start_Guide
+Quick Start Guide
 =================
 
 
@@ -25,6 +25,12 @@ then easily decommissioned after the test.
 Before FreeIPA can be installed, make sure that FreeIPA prerequisites
 are fulfilled, namely a static hostname or sane DNS resolution.
 
+.. note::
+
+   Package names and installation requirements depend on the distribution and
+   release. Check the :ref:`distribution documentation <documentation-users>`
+   for your platform before following the commands below.
+
 RAM
 ----------------------------------------------------------------------------------------------
 
@@ -39,7 +45,7 @@ Static Hostname
 Kerberos authentication relies on a static hostname, if the hostname
 changes, Kerberos authentication may break. Thus, the testing machine
 should not use dynamically configured hostname from DHCP, but rather a
-static one configured in ``/etc/hostname``
+static one configured in :file:`/etc/hostname`.
 
 
 
@@ -67,7 +73,7 @@ installations, e.g. ``ipa.test``.
 The rule about ``/etc/hosts`` is that the fully-qualified name **must**
 come first. It should look like:
 
-::
+.. code-block:: text
 
    10.0.0.1       server.ipa.test server
 
@@ -82,14 +88,13 @@ to install. There are two options:
 -  **Standard FreeIPA version distributed with the OS**: this is the
    safest option, contains a tested FreeIPA version. It may just not
    contain the latest bits.
--  **Bleeding Edge repo**: `daily build
-   repository <Downloads#Bleeding_Edge>`__ from our git containing the
+-  **Bleeding Edge repo**: :doc:`daily build repository </Downloads>` from our git containing the
    latest bits. Great for testing the upcoming features. Just note, this
    version is not tested and there may be dragons!
 -  **Public Demo**: the quickest way to get the look and feel of FreeIPA
-   is to look at it's `public demo <Demo>`__!
+   is to look at its :doc:`public demo </page/Demo>`!
 -  **Docker container**: quick and easy way to test the FreeIPA server
-   in an isolated `Docker container <Docker>`__ without need to create
+   in an isolated :doc:`Docker container </page/Docker>` without need to create
    virtual machines.
 
 
@@ -111,7 +116,7 @@ has deprecated old service names **freeipa-ldap** and **freeipa-ldaps**
 in favor of a new one **freeipa-4**. Below we show the commands using
 older names:
 
-::
+.. code-block:: console
 
    # firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps
    # firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --permanent
@@ -126,20 +131,26 @@ FreeIPA!
 
 #. **Install FreeIPA server.** From a root terminal, run:
 
-      ``# dnf install freeipa-server``
+      .. code-block:: console
+
+         # dnf install freeipa-server
+
       Note that the installed package just contains all the bits that
       FreeIPA uses, it does not configure the actual server.
       If you want to include the DNS server also install the
       freeipa-server-dns package.
-      ``# dnf install freeipa-server-dns``
+
+      .. code-block:: console
+
+         # dnf install freeipa-server-dns
 
 #. **Configure a FreeIPA server.**
 
       The command can take command arguments or can be run in the
       interactive mode. You can get more details with
-      ``man ipa-server-install``. To start the interactive installation,
-      run:
-      ``# ipa-server-install``
+      :command:`man ipa-server-install`. To start the interactive installation,
+      run :command:`ipa-server-install` as a superuser.
+
       The command will at first gather all required information and then
       configure all required services.
 
@@ -157,15 +168,15 @@ created.
 
 To authenticate as the *admin*, just run:
 
-::
+.. code-block:: console
 
    $ kinit admin
    Password for admin@IPA.TEST:
 
 You will be prompted for the password. Use the password that you
 specified during the configuration step for the admin user. As a result
-of this operation you acquire Kerberos ticket (`more
-info <KerberosService>`__).
+of this operation you acquire a Kerberos ticket for your :term:`principal`
+(see :doc:`/page/Kerberos`).
 
 
 
@@ -177,7 +188,7 @@ above to perform different administrative tasks. The first task that we
 will do is add a user via command line. To do that we will first inspect
 the command line interface by reading man pages of the ``ipa`` command:
 
-::
+.. code-block:: console
 
    $ man ipa
 
@@ -205,9 +216,9 @@ authenticate.
 
 To create a user run
 
-::
+.. code-block:: console
 
-   ipa user-add
+   $ ipa user-add
 
 command with or without additional parameters. If you omit any of the
 required parameters or all of them the interface will prompt you for the
@@ -215,9 +226,9 @@ information.
 
 After adding user add a password for him:
 
-::
+.. code-block:: console
 
-   ipa passwd <user>
+   $ ipa passwd <user>
 
 This will create a password, but it will be a temporary one. The one
 that you need to change on the first authentication. This is done on
@@ -227,9 +238,9 @@ change the password on the first login.
 
 You can now authenticate as the new user with
 
-::
+.. code-block:: console
 
-   kinit <user>
+   $ kinit <user>
 
 command. This will prompt you for a password and the immediately request
 a password change.
@@ -242,9 +253,9 @@ Web User Interface
 Next step is to try the web UI. Make sure that your administrative
 ticket is valid by running
 
-::
+.. code-block:: console
 
-   kinit admin
+   $ kinit admin
 
 command. Run firefox in the same command window. It will start an
 instance of the firefox. In the address bar type the name of the FreeIPA

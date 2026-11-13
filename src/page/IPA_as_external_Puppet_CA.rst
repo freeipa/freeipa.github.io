@@ -18,7 +18,7 @@ Internal Puppet CA must be disabled, if external CA is configured.
 External CA must provide its own system for issuing and distributing
 certificates as internal Puppet public key infrastructure is disabled.
 
-`IPA <http://www.freeipa.org/page/Main_Page>`__ with its clients and
+:doc:`IPA </index>` with its clients and
 `certmonger <certmonger>`__ can provide issuance and distribution of
 certificates for Puppet.
 

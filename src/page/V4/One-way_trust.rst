@@ -321,4 +321,4 @@ SSSD will use ipa-getkeytab to obtain the keytabs if keytab is missing.
 Test Plan
 ---------
 
-http://www.freeipa.org/page/V4/One-way_trust/Test_Plan
+:doc:`/page/V4/One-way_trust/Test_Plan`

@@ -7,8 +7,7 @@ Overview
 This page describes test scenarios and test cases of DNS Location
 Mechanism. It focuses on general scenarios like default setting and
 simple custom settings. You can find more details about this feature in
-`Design
-document <http://www.freeipa.org/page/V4/DNS_Location_Mechanism>`__
+:doc:`Design document </page/V4/DNS_Location_Mechanism>`
 
 
 

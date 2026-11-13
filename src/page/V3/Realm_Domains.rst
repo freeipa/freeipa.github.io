@@ -127,8 +127,7 @@ dnszone-\*
 `pspacek <User:Pspacek>`__ 03:26, 7 February 2013 (EST)
 
 Update regarding DNS integration: DNS <-> realmdomains integration has
-been implemented. Details are covered in `this design
-page <http://www.freeipa.org/page/V3/DNS_realmdomains_integration>`__.
+been implemented. Details are covered in :doc:`this design page </page/V3/DNS_realmdomains_integration>`.
 
 `akrivoka <User:Akrivoka>`__ 05:05, 7 May 2013 (EDT)
 

@@ -125,7 +125,7 @@ handle backward compatibility more easily, a new object called
 the old *ipaHBACRule* object with the addition of a *memberTimeRule*
 attribute. The creation of *ipaHBACRulev2* should be helpful for
 additional changes to the HBAC rule LDAP object in near future (e.g.
-http://www.freeipa.org/page/V4/URI-based_HBAC). It will also cause that
+:doc:`/page/V4/URI-based_HBAC`). It will also cause that
 the **older clients won't list these new objects** as HBAC rules which
 means these rules automatically don't apply for these older clients.
 

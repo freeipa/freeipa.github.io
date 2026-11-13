@@ -1,4 +1,4 @@
-Active_Directory_trust_setup
+Active Directory trust setup
 ============================
 
 Description
@@ -14,12 +14,12 @@ Prerequisites
 -  Windows Server 2008 R2 or later with configured AD DC and DNS
    installed locally on the DC
 
-| 
-| If you need to install and configure AD DC for testing purposes, you
-  can follow article `Setting up Active Directory domain for testing
-  purposes <Setting_up_Active_Directory_domain_for_testing_purposes>`__.
+If you need to install and configure AD DC for testing purposes, you
+can follow :doc:`Setting up Active Directory domain for testing purposes </page/Setting_up_Active_Directory_domain_for_testing_purposes>`.
 
 
+
+.. _ad-trust-ipv6:
 
 IPv6 stack usage
 ----------------
@@ -39,11 +39,11 @@ is recommended approach for cases when you don't use IPv6 networking.
 Creating and adding to for example /etc/sysctl.d/ipv6.conf will avoid
 assigning IPv6 addresses to a specific network interface
 
-::
+.. code-block:: ini
 
      # Disable IPv6
      net.ipv6.conf.all.disable_ipv6 = 1
-     net.ipv6.conf.``\ ``.disable_ipv6 = 1
+     net.ipv6.conf.interface0.disable_ipv6 = 1
 
 where *interface0* is your specialized interface.
 
@@ -97,12 +97,17 @@ Assumptions
 -  AD admins group SID: *ad_admins_sid* (e.g.
    S-1-5-21-16904141-148189700-2149043814-512)
 
-**NOTE**: AD domain and IPA domain must be different, this is very basic
-requirement for any Active Directory cross-forest trust.
+.. important::
 
-**NOTE**: italicized text should be replaced with real values. E.g. if
-IPA domain is ``ipadomain.example.com``, and the IP address of IPA
-server is ``10.16.78.61``, the command:
+   AD domain and IPA domain must be different. This is a basic requirement
+   for any Active Directory cross-forest trust.
+
+.. note::
+
+   Replace italicized placeholders with values from your deployment.
+
+For example, if the IPA domain is ``ipadomain.example.com``, and the IP
+address of the IPA server is ``10.16.78.61``, the command:
 
 ::
 
@@ -178,6 +183,8 @@ above commands fail, restart the ``sssd`` service
 (``service sssd restart``), and try them again.
 
 
+
+.. _local-active-directory-trust-setup-configure-ipa-server-for-cross-forest-trusts:
 
 Configure IPA server for cross-forest trusts
 --------------------------------------------
@@ -331,8 +338,10 @@ restart of the ``iptables`` service:
 DNS configuration
 -----------------
 
-**NOTE**: Any changes to ``/etc/resolv.conf`` file will require a
-restart of ``krb5kdc``, ``sssd`` and ``httpd`` services.
+.. note::
+
+   Any changes to :file:`/etc/resolv.conf` will require a restart of
+   ``krb5kdc``, ``sssd`` and ``httpd`` services.
 
 Both AD and IPA domains need to be visible to each other. In normal DNS
 configuration, no changes are required. When the testing DNS domains are
@@ -632,6 +641,8 @@ Test cross-forest trust
 
 
 
+.. _local-active-directory-trust-setup-using-ssh:
+
 Using SSH
 ---------
 
@@ -722,8 +733,7 @@ General debugging guidelines
 What you can do is following (assumes Fedora 20+ or RHEL 7+):
 
 -  Check that IPv6 module is not disabled on the Linux side as Samba and
-   CLDAP module in IPA require it. See `instructions
-   above <Active_Directory_trust_setup#IPv6_stack_usage>`__.
+   CLDAP module in IPA require it. See :ref:`ad-trust-ipv6`.
 -  Check firewall rules: AD DCs should be able to contact IdM smbd over
    138/139/445 TCP and UDP ports, 389 UDP port.
 -  Stop smb and winbind services on IdM server
@@ -838,6 +848,6 @@ You may search for ``dnaRemainingValues`` attribute in
    # numResponses: 2
    # numEntries: 1
 
-If this is the case, then follow `this guide <V3/Recover_DNA_Ranges>`__
+If this is the case, then follow :doc:`this guide </page/V3/Recover_DNA_Ranges>`
 to re-create POSIX ranges on the replica. Then try to re-establish
 trust; it should complete successfuly now.

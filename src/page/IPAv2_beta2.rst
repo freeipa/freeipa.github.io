@@ -9,8 +9,7 @@ Overview of FreeIPA v2 Beta 2
 -----------------------------
 
 The FreeIPA project team is pleased to announce the availability of the
-`Beta 2 release of freeIPA 2.0
-server <http://www.freeipa.org/page/Downloads>`__.
+:doc:`Beta 2 release of freeIPA 2.0 server </Downloads>`.
 
 -  Binaries are available for F-14.
 -  With the release of this Beta, freeIPA moves into the Release

@@ -11,6 +11,8 @@ should be sanitized or transported over a secure channel.
 
 
 
+.. _local-files-to-be-attached-to-bug-report-ipa-server-install:
+
 ipa-server-install
 ----------------------------------------------------------------------------------------------
 
@@ -41,6 +43,8 @@ Directory server failed
 
 
 
+.. _local-files-to-be-attached-to-bug-report-dogtag-ca-failed:
+
 Dogtag CA failed
 ^^^^^^^^^^^^^^^^
 
@@ -54,6 +58,8 @@ Dogtag CA failed
     /var/log/pki/pki-ca-spawn.``\ ``.log
 
 
+
+.. _local-files-to-be-attached-to-bug-report-dogtag-kra-failed:
 
 Dogtag KRA failed
 ^^^^^^^^^^^^^^^^^
@@ -108,6 +114,8 @@ Custodia failed
 
 
 
+.. _local-files-to-be-attached-to-bug-report-dns-part-failed:
+
 DNS part failed
 ^^^^^^^^^^^^^^^
 
@@ -120,6 +128,8 @@ DNS part failed
     journalctl -u ipa-dnskeysyncd
 
 
+
+.. _local-files-to-be-attached-to-bug-report-ad-trust-installation-failed:
 
 AD Trust installation failed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -176,9 +186,7 @@ Generic failure
     /var/log/ipareplica-install.log
     ausearch -m AVC > avc.log
 
-In case of failure of any specific component follow `list of services
-from installation
-section <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#ipa-server-install>`__
+In case of failure of any specific component follow :ref:`list of services from installation section <local-files-to-be-attached-to-bug-report-ipa-server-install>`
 and provide those logs too.
 
 
@@ -202,8 +210,7 @@ From both *master* and *replica*
 ipa-dns-install
 ----------------------------------------------------------------------------------------------
 
-See `ipa-server-install DNS
-part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#DNS_part_failed>`__
+See :ref:`ipa-server-install DNS part <local-files-to-be-attached-to-bug-report-dns-part-failed>`
 
 
 
@@ -215,8 +222,7 @@ ipa-ca-install
     date -R
     /var/log/ipareplica-ca-install.log
 
-And see `ipa-server-install CA
-part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Dogtag_CA_failed>`__.
+And see :ref:`ipa-server-install CA part <local-files-to-be-attached-to-bug-report-dogtag-ca-failed>`.
 
 
 
@@ -228,16 +234,14 @@ ipa-kra-install
     date -R
     /var/log/ipaserver-kra-install.log
 
-And see `ipa-server-install KRA
-part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Dogtag_KRA_failed>`__.
+And see :ref:`ipa-server-install KRA part <local-files-to-be-attached-to-bug-report-dogtag-kra-failed>`.
 
 
 
 ipa-adtrust-install
 ----------------------------------------------------------------------------------------------
 
-See `ipa-server-install AD Trust
-part <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#AD_Trust_installation_failed>`__.
+See :ref:`ipa-server-install AD Trust part <local-files-to-be-attached-to-bug-report-ad-trust-installation-failed>`.
 
 
 
@@ -289,9 +293,7 @@ Upgrade failed
     ausearch -m AVC > avc.log
     /var/log/dirsrv/slapd-*/errors
 
-In case of upgrade failure of any specific components follow `list of
-services from installation
-section <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#ipa-server-install>`__
+In case of upgrade failure of any specific components follow :ref:`list of services from installation section <local-files-to-be-attached-to-bug-report-ipa-server-install>`
 and provide those logs too.
 
 
@@ -315,6 +317,8 @@ From the server:
     /var/log/krb5kdc.log
 
 
+
+.. _local-files-to-be-attached-to-bug-report-internal-server-error:
 
 Internal server error
 ----------------------------------------------------------------------------------------------
@@ -407,6 +411,5 @@ Usually seen as 50x HTTP error in WebUI.
 Internal server error
 ----------------------------------------------------------------------------------------------
 
-Please follow `FreeIPA CLI failed: Internal server
-error <https://www.freeipa.org/page/Files_to_be_attached_to_bug_report#Internal_server_error>`__
+Please follow :ref:`FreeIPA CLI failed: Internal server error <local-files-to-be-attached-to-bug-report-internal-server-error>`
 and execute action in WebUI instead of running an *ipa* .

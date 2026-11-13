@@ -1,8 +1,7 @@
 Namespace_separation
 ====================
 
-The `Web App
-Authentication <http://www.freeipa.org/page/Web_App_Authentication>`__
+The :doc:`Web App Authentication </page/Web_App_Authentication>`
 using sssd can be used with great benefits in environments where the
 users on the operating system level and users in the web applications
 come from the same identity providers. Ideally the providers are then
@@ -112,8 +111,7 @@ It is important to choose different realm than the one used by the
 primary identity provider to maintain proper namespace separation.
 
 In the example above, we have used the ``--no_hbac_allow`` option.
-Alternatively you might want to `disable the default allow_all HBAC
-rule <http://www.freeipa.org/page/Howto/HBAC_and_allow_all>`__. Since
+Alternatively you might want to :doc:`disable the default allow_all HBAC rule </page/Howto/HBAC_and_allow_all>`. Since
 the testing users we will create in our second FreeIPA server will be
 seen by sssd on our web server, incorrectly configured access control
 can grant ssh access using these testing users.

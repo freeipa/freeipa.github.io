@@ -196,8 +196,7 @@ Create Sync User Account
 References
 ==========
 
--  `IPA - Install and
-   Deploy <http://www.freeipa.org/page/InstallAndDeploy>`__
+-  :doc:`IPA - Install and Deploy </page/InstallAndDeploy>`
 -  `RHE IPA - Installation and Deployment
    Guide <http://www.redhat.com/docs/en-US/Red_Hat_Enterprise_IPA/1.0/html/Installation_Deployment_Guide/index.html>`__
 -  `How to use access

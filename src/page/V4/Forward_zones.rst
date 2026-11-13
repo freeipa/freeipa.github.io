@@ -84,6 +84,8 @@ manual <http://ftp.isc.org/isc/bind9/cur/9.9/doc/arm/Bv9ARM.ch06.html#id2583443>
 
 
 
+.. _local-v4-forward-zones-avoid-an-ineffective-forward-zone:
+
 Avoid an ineffective forward zone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

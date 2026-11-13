@@ -4,7 +4,7 @@ Upstream_User_Guide
 Currently, FreeIPA project does not actively maintain any upstream guide
 in a form of a book. The upstream authoritative source of information is
 the this wiki site. Please see
-`Documentation <Documentation#User_Documentation>`__ page for the list
+:ref:`documentation-users` for the list
 of the most recent user documentation and links to books written by
 others.
 
@@ -53,6 +53,8 @@ which the RHEL one is the most complete. Guide was orphaned, as
 on fedora-docs list.
 
 
+
+.. _deprecated-upstream-guides:
 
 Deprecated Upstream Guides
 --------------------------

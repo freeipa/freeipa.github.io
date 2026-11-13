@@ -261,6 +261,8 @@ any arbitrary list of values may be provided.
 
 
 
+.. _local-environment-variables-proposed-additional-variables:
+
 Proposed Additional Variables
 -----------------------------
 

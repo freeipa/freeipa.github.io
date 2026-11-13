@@ -27,7 +27,7 @@ FreeIPA versions:
 Releases in Container
 ~~~~~~~~~~~~~~~~~~~~~
 
-As described in `Docker <https://www.freeipa.org/page/Docker>`__ page,
+As described in :doc:`Docker </page/Docker>`,
 the team also maintains PoC container release of FreeIPA:
 
 -  `FreeIPA Server on Docker
@@ -45,23 +45,22 @@ build of FreeIPA, in a nightly repo:
 Sources
 ~~~~~~~
 
-If you want to `build <https://www.freeipa.org/page/Build>`__ FreeIPA
+If you want to :doc:`build </page/Build>` FreeIPA
 yourself, you can check the sources stored on the project Codeberg:
 
 -  `Latest Released Sources <https://codeberg.org/freeipa/freeipa/releases>`__
--  `Steps on verifying the
-   release <https://www.freeipa.org/page/Verify_Release_Signature>`__
+-  :doc:`Steps on verifying the release </page/Verify_Release_Signature>`
 
 Upgrading FreeIPA
 -----------------
 
 Upgrade instructions are available on
-`Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+:doc:`Upgrade </page/Upgrade>` page.
 
 Installing and Using FreeIPA
 ----------------------------
 
-See `Documentation <https://www.freeipa.org/page/Documentation>`__ or
-`Quick Start Guide <https://www.freeipa.org/page/Quick_Start_Guide>`__
+See :doc:`Documentation </page/Documentation>` or
+:doc:`Quick Start Guide </page/Quick_Start_Guide>`
 for further information about what you can do with your new and shiny
 FreeIPA server!

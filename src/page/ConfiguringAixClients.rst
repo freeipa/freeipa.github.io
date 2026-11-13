@@ -33,7 +33,7 @@ You must also obtain several parameters from your FreeIPA installation before pr
 * FreeIPA DNS domain
 * FreeIPA Kerberos realm
 * FreeIPA LDAP base DN
-* :abbr:`HBAC (Host-based access control)` rule ID for access to your AIX server (:command:`ipa hbacrule-show <name> --all | grep dn:`), in case you use `Host-based access control <https://www.freeipa.org/page/Howto/HBAC_and_allow_all>`__ in your enviornment.
+* :abbr:`HBAC (Host-based access control)` rule ID for access to your AIX server (:command:`ipa hbacrule-show <name> --all | grep dn:`), in case you use :doc:`Host-based access control </page/Howto/HBAC_and_allow_all>` in your enviornment.
 
 Your AIX server must be registered in FreeIPA as a host and you must have Kerberos keytab generated for the host.
 

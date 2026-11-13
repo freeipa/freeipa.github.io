@@ -4,26 +4,26 @@ FreeIPA - Identity, Policy, Audit
 Identity
 --------
 
-Manage Linux users and `client hosts <https://www.freeipa.org/page/Client>`__ in your realm from `one
-central location <https://www.freeipa.org/page/Directory_Server>`__ with CLI, `Web UI <https://www.freeipa.org/page/Web_UI>`__ or
-RPC access. Enable `Single Sign On <https://www.freeipa.org/page/Kerberos>`__ authentication for all
+Manage Linux users and :doc:`client hosts </page/Client>` in your :term:`realm` from
+:doc:`one central location </page/Directory_Server>` with CLI, :doc:`Web UI </page/Web_UI>` or
+RPC access. Enable :doc:`Single Sign On </page/Kerberos>` authentication for all
 your systems, services and applications.
 
 Policy
 ------
 
-Define `Kerberos <https://www.freeipa.org/page/Kerberos>`__ authentication and authorization policies
-for your identities. Control services like `DNS <https://www.freeipa.org/page/DNS>`__, SUDO, SELinux
+Define :doc:`Kerberos </page/Kerberos>` authentication and authorization policies
+for your identities. Control services like :doc:`DNS </page/DNS>`, SUDO, SELinux
 or autofs.
 
 Trusts
 ------
 
-Create mutual `trust <https://www.freeipa.org/page/Trusts>`__ with other Identity Management systems
-like `Microsoft Active Directory <https://www.freeipa.org/page/Active_Directory_trust_setup>`__.
+Create mutual :doc:`trust </page/Trusts>` with other Identity Management systems
+like :doc:`Microsoft Active Directory </page/Active_Directory_trust_setup>`.
 
-`About FreeIPA <https://www.freeipa.org/page/About>`__ •\ `Roadmap <https://www.freeipa.org/page/Roadmap>`__ • `FreeIPA
-Leaflet <https://www.freeipa.org/page/Leaflet>`__ • `FreeIPA public demo <https://www.freeipa.org/page/Demo>`__ •
+:doc:`About FreeIPA </About>` • :doc:`Roadmap </page/Roadmap>` •
+:doc:`FreeIPA Leaflet </page/Leaflet>` • :doc:`FreeIPA public demo </page/Demo>` •
 `Blogs/RSS <http://planet.freeipa.org>`__
 
 
@@ -49,19 +49,18 @@ Main features
 Releases
 --------
 
-.. toctree::
-   :titlesonly:
+- :doc:`/release-notes/4-13-5`
+- :doc:`/release-notes/4-13-4`
+- :doc:`/release-notes/4-13-3`
+- :doc:`/release-notes/4-13-2`
+- :doc:`/release-notes/4-13-1`
+- :doc:`/release-notes/4-13-0`
+- :doc:`/release-notes/4-12-5`
+- :doc:`/release-notes/4-12-4`
+- :doc:`/release-notes/4-12-3`
+- :doc:`/release-notes/4-12-2`
 
-   /release-notes/4-13-5.rst
-   /release-notes/4-13-4.rst
-   /release-notes/4-13-3.rst
-   /release-notes/4-13-2.rst
-   /release-notes/4-13-1.rst
-   /release-notes/4-13-0.rst
-   /release-notes/4-12-5.rst
-   /release-notes/4-12-4.rst
-   /release-notes/4-12-3.rst
-   /release-notes/4-12-2.rst
+See :doc:`/release-notes/index` for all release announcements.
 
 Getting involved
 ----------------
@@ -70,35 +69,39 @@ Whether you'd like to contribute to discussion, to code, or simply test
 it out, FreeIPA needs your help!
 
 -  To contribute to the development of FreeIPA go to
-   `Contribute <https://www.freeipa.org/page/Contribute>`__ and subscribe to
+   :doc:`Contribute </Contribute>` and subscribe to
    `freeipa-devel <https://lists.fedoraproject.org/archives/list/freeipa-devel@lists.fedorahosted.org/>`__
 -  To share deployment experience with FreeIPA and ask "how to"
    questions subscribe to
    `freeipa-users <https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/>`__
--  To file a bug, RFE or to see where you can help, please see
-   https://www.freeipa.org/page/Contribute#Reporting_bugs_or_Features
--  For security-related communication, please use
-   https://www.freeipa.org/page/Contribute#Security_Bugs_and_Flaws
+-  To file a bug, RFE or to see where you can help, please see :doc:`/Contribute`.
+-  For security-related communication, please use the security contact in
+   :doc:`/Contribute`.
 -  Contributions are always welcome!
 
-`Learn more <https://www.freeipa.org/page/Contribute>`__
+:doc:`Learn more </Contribute>`
 
 Public Demo
 -----------
 
 People eager to try the looks and feel of the most recent FreeIPA, can
-visit our `public FreeIPA instance <https://www.freeipa.org/page/Demo>`__! It is great for
+visit our :doc:`public FreeIPA instance </page/Demo>`! It is great for
 
 -  Testing changes in the most recent CLI/Web UI/API
--  Testing `client <https://www.freeipa.org/page/Client>`__ enrollment
--  Testing `web applications <https://www.freeipa.org/page/Web_App_Authentication>`__ with
-   `LDAP <https://www.freeipa.org/page/Directory_Server>`__ / `Kerberos <https://www.freeipa.org/page/Kerberos>`__ authentication
+-  Testing :doc:`client </page/Client>` enrollment
+-  Testing :doc:`web applications </page/Web_App_Authentication>` with
+   :doc:`LDAP </page/Directory_Server>` / :doc:`Kerberos </page/Kerberos>` authentication
 
-Read more on the page `Demo <https://www.freeipa.org/page/Demo>`__.
+Read more on the page :doc:`Demo </page/Demo>`.
 
 .. toctree::
    :hidden:
+   :maxdepth: 2
 
-   About.md
-   Contribute.md
-   Downloads.md
+   /About
+   /page/Documentation
+   /page/Troubleshooting
+   /glossary
+   /Downloads
+   /Contribute
+   /release-notes/index

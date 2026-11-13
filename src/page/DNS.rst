@@ -27,7 +27,7 @@ Assumptions
    admins.
 
 
-Goals `Category:Goals`_.
+Goals
 ----------------------------------------------------------------------------------------------
 
 -  Provide an integrated DNS server which can be used to ease FreeIPA
@@ -44,6 +44,8 @@ Goals `Category:Goals`_.
    of scope.
 
 
+
+.. _dns-integration-benefits:
 
 Benefits of integrated DNS
 --------------------------
@@ -168,7 +170,7 @@ can be consulted for help.
 Most common problems are caused by mis-configuration. Please see
 `bind-dyndb-ldap documentation
 page <https://fedorahosted.org/bind-dyndb-ldap/#Documentationandsupport>`__
-and `FreeIPA troubleshooting DNS page <Troubleshooting#DNS_Issues>`__.
+and :doc:`FreeIPA troubleshooting DNS page </page/Troubleshooting/DNS>`.
 
 
 
@@ -188,5 +190,3 @@ Additional Documentation
 
    -  `Maintainability analysis affecting the design
       goals <https://fedorahosted.org/bind-dyndb-ldap/wiki/Maintainability>`__
-
-:ref:`Category:Goals <Category:Goals>`__

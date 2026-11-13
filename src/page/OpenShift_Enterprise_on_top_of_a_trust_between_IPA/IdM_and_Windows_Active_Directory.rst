@@ -81,7 +81,7 @@ Setup Trust between IPA Server and Windows AD Server
 ----------------------------------------------------
 
 Follow
-`these <http://www.freeipa.org/page/Active_Directory_trust_setup#Configure_IPA_server_for_cross-realm_trusts>`__
+:ref:`these <local-active-directory-trust-setup-configure-ipa-server-for-cross-forest-trusts>`
 instructions (starting specifically on "Configure IPA server for
 cross-realm trusts").
 
@@ -90,7 +90,7 @@ environment on a Windows machine. This
 `git <http://msysgit.github.io>`__ installation comes with both git and
 MinGW, labeled as “Git Bash”. If you install this, then you may use this
 shell to test
-`ssh <http://www.freeipa.org/page/Active_Directory_trust_setup#Using_SSH>`__
+:ref:`ssh <local-active-directory-trust-setup-using-ssh>`
 instead of using PuTTY.
 
 
@@ -160,7 +160,7 @@ user@ADDOMAIN.EXAMPLE.COM.
 
 Restart OpenShift Broker and Console:
 
-.. code:: bash
+.. code:: console
 
    $ service openshift-broker restart
    $ service openshift-console restart
@@ -250,7 +250,7 @@ SSH
 ^^^
 
 Follow
-`these <http://www.freeipa.org/page/Active_Directory_trust_setup#Using_SSH>`__
+:ref:`these <local-active-directory-trust-setup-using-ssh>`
 instructions with PuTTY to test SSH from Windows to the Node. If ssh'ing
 into the Node machine does not work, but does work for IPA server, then
 revisit the ``/etc/krb5.conf`` configuration `above <#krbconf>`__.

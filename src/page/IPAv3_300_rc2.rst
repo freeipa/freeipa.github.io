@@ -3,14 +3,14 @@ IPAv3_300_rc2
 
 The FreeIPA team is proud to announce version FreeIPA v3.0.0 rc 2.
 
-It can be downloaded from http://www.freeipa.org/page/Downloads.
+It can be downloaded from :doc:`/Downloads`.
 
 Builds are not yet available but we plan builds for Fedora 18 and
 rawhide. The tarball is available on the Downloads page.
 
 For additional information see the AD Trust design page
-http://freeipa.org/page/IPAv3_AD_trust and the AD Trust testing page
-http://freeipa.org/page/IPAv3_testing_AD_trust.
+:doc:`/page/IPAv3_AD_trust` and the AD Trust testing page
+:doc:`/page/IPAv3_testing_AD_trust`.
 
 
 

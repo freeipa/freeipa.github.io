@@ -364,9 +364,7 @@ various services.
 
 We have the host wikiapp.example.com IPA-enrolled but in the default
 setup, the IPA server has just one generic **allow_all** HBAC rule. You
-need to `disable that rule and replace it with more granular
-configuration, creating for example PAM service wikiapp for our
-application <http://www.freeipa.org/page/Howto/HBAC_and_allow_all>`__.
+need to :doc:`disable that rule and replace it with more granular configuration, creating for example PAM service wikiapp for our application </page/Howto/HBAC_and_allow_all>`.
 You should see
 
 ::
@@ -683,7 +681,7 @@ typically storing the attributes in their internal user databases when
 populating the record for the externally authenticated users. Typical
 list of attributes that the applications might be interested in is
 proposed at
-http://www.freeipa.org/page/Environment_Variables#Proposed_Additional_Variables.
+:ref:`local-environment-variables-proposed-additional-variables`.
 
 
 

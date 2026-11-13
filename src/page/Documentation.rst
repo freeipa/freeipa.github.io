@@ -3,21 +3,26 @@ Documentation
 
 
 
+.. _documentation-users:
+
 User Documentation
-==================
+------------------
 
--  `Quick Start Guide <Quick_Start_Guide>`__
--  `Deployment Recommendations <Deployment_Recommendations>`__
--  `Troubleshooting Guide <Troubleshooting>`__: how to debug the most
-   common problems, how to report bugs
--  `HOW TOs <HowTos>`__: working with FreeIPA, interoperability with
-   other systems, 3rd party Applications Integration
--  `Frequently Asked Questions <Frequently_Asked_Questions>`__
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+
+   Quick Start Guide </page/Quick_Start_Guide>
+   Deployment Recommendations </page/Deployment_Recommendations>
+   How-tos </page/HowTos>
+   Frequently Asked Questions </page/Frequently_Asked_Questions>
 
 
+
+.. _local-documentation-user-guides:
 
 User Guides
------------
+~~~~~~~~~~~
 
 Use Red Hat Enteprise Linux documentation:
 
@@ -45,7 +50,7 @@ Use Red Hat Enteprise Linux documentation:
       (`report
       bug <https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%207&component=doc-System_Level_Authentication_Guide>`__)
 
-Upstream user guide `is not maintained <Upstream_User_Guide>`__ anymore
+Upstream user guide :doc:`is not maintained </page/Upstream_User_Guide>` anymore
 as all effort is put into the Red Hat Enteprise Linux documentation.
 Bugs found in the documentation can be reported in `Red Hat Issues tracker 
 <https://issues.redhat.com/secure/CreateIssue!default.jspa>`__ by choosing RHELDOCS project and Documentation component.
@@ -53,129 +58,149 @@ Bugs found in the documentation can be reported in `Red Hat Issues tracker
 
 
 By Component
-------------
+~~~~~~~~~~~~
 
 Learn about FreeIPA by reading information about the particular
 components that compose the entire solution.
 
--  `Directory Server <Directory_Server>`__
--  `Kerberos <Kerberos>`__
--  `PKI <PKI>`__
--  `DNS <DNS>`__
--  `Certmonger <Certmonger>`__
--  `NTP Server <NTP_Server>`__
--  `Web UI <Web_UI>`__
--  `Trusts <Trusts>`__
--  `Client <Client>`__
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+
+   Directory Server </page/Directory_Server>
+   Kerberos </page/Kerberos>
+   PKI </page/PKI>
+   DNS </page/DNS>
+   Certmonger </page/Certmonger>
+   NTP Server </page/NTP_Server>
+   Web UI </page/Web_UI>
+   Trusts </page/Trusts>
+   Client </page/Client>
 
 
 
 Additional Resources
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 -  `FreeIPA Planet <http://planet.freeipa.org>`__: blog/RSS aggregator
 
 
 
 Old Resources
--------------
+~~~~~~~~~~~~~
 
--  `FreeIPA 1.2.1 and FreeIPA 2.0.0 deprecated user
-   guides <Upstream_User_Guide#Deprecated_Upstream_Guides>`__
--  `Old FreeIPA v1.2.1 Documentation
-   Page <FreeIPAv1:v1_Documentation>`__
+-  :ref:`FreeIPA 1.2.1 and FreeIPA 2.0.0 deprecated user guides <deprecated-upstream-guides>`
+-  :doc:`Old FreeIPA v1.2.1 Documentation Page </page/V1_Documentation>`
 
 
 
 Developer Documentation
-=======================
+-----------------------
 
 
 
 Design goals and core decisions
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  `Active Directory integration <Goals/AD_Integration>`__
--  `Scalability <Goals/Scalability>`__
--  `ACIs <Goals/ACIs>`__
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+
+   Active Directory integration </page/Goals/AD_Integration>
+   Scalability </page/Goals/Scalability>
+   ACIs </page/Goals/ACIs>
 
 
 
 Feature Designs
----------------
+~~~~~~~~~~~~~~~
 
 This section contains designs that have actually been implemented in
 FreeIPA:
 
--  `Version 4 Designs <V4_Designs>`__, `Version 4 Minor
-   Enhancements <V4_Minor_Enhancements>`__
--  `Version 3 Designs <V3_Designs>`__, `Version 3 Minor
-   Enhancements <V3_Minor_Enhancements>`__
--  `Version 2 Designs <V2_Designs>`__
--  `Version 1 Designs <V1_Designs>`__
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+
+   Version 4 Designs </page/V4_Designs>
+   Version 4 Minor Enhancements </page/V4_Minor_Enhancements>
+   Version 3 Designs </page/V3_Designs>
+   Version 3 Minor Enhancements </page/V3_Minor_Enhancements>
+   Version 2 Designs </page/V2_Designs>
+   Version 1 Designs </page/V1_Designs>
 
 
 
 Feature Proposals
------------------
+~~~~~~~~~~~~~~~~~
 
 This section contains new or historical proposal that have not yet been
 approved/implemented or that have been superseded or abandoned.
 
--  `Version 4 Proposals <V4_Proposals>`__
--  `Version 3 Proposals <V3_Proposals>`__
--  `Version 2 Proposals <V2_Proposals>`__
--  `Version 1 Proposals <V1_Proposals>`__
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+
+   Version 4 Proposals </page/V4_Proposals>
+   Version 3 Proposals </page/V3_Proposals>
+   Version 2 Proposals </page/V2_Proposals>
+   Version 1 Proposals </page/V1_Proposals>
 
 
+
+.. _local-documentation-developer-resources:
 
 Additional Resources
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 -  `Tour of FreeIPA 389-ds
    plugins <http://talks.vda.li/talks/2017/freeIPA/tour-of-ipa-389-ds-plugins/>`__
 -  `Extending FreeIPA
    Guide <http://abbra.fedorapeople.org/guide.html>`__
--  `How to add a new attribute to IPA <HowTo/Add_a_new_attribute>`__
--  `How to migrate your code to the new LDAP
-   API <HowTo/Migrate_your_code_to_the_new_LDAP_API>`__
--  `v2 PRD <V2BPRD>`__: draft requirements for FreeIPA v2
--  `FreeIPA v2 Development Progress <IPAv2_development_status>`__:
-   Portal to v2 design pages and current code repositories.
+-  :doc:`How to add a new attribute to IPA </page/HowTo/Add_a_new_attribute>`
+-  :doc:`How to migrate your code to the new LDAP API </page/HowTo/Migrate_your_code_to_the_new_LDAP_API>`
+-  :doc:`v2 PRD </page/V2PRD>`: draft requirements for FreeIPA v2
+-  :doc:`FreeIPA v2 development documentation </page/V2_development>`:
+   Historical development information.
 -  `Federated Authentication Utilizing Apache &
    SSSD <https://jdennis.fedorapeople.org/doc/sssd_configuration.pdf>`__
 
 
 
 Tester Documentation
-====================
+--------------------
 
 
 
 Test Plans
-----------
+~~~~~~~~~~
 
 This section contains test plans that have been designed for FreeIPA:
 
--  `Version 4 Test Plans <V4_Test_Plans>`__
+.. toctree::
+   :maxdepth: 1
+   :titlesonly:
+
+   Version 4 Test Plans </page/V4_Test_Plans>
+   Release process </page/Release>
 
 
 
 FreeIPA Training Series
-=======================
+-----------------------
 
 
 
 FreeIPA 4.5
------------
+~~~~~~~~~~~
 
--  `FreeIPA CA <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa-ca-component.pdf>`__
--  `Introduction to LDAP <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Freeipa-introduction-to-ldap.pdf>`__
+-  :download:`FreeIPA CA <Freeipa-ca-component.pdf>`
+-  :download:`Introduction to LDAP <Freeipa-introduction-to-ldap.pdf>`
 
 
 
 FreeIPA 3.3 & SSSD 1.11
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -206,7 +231,7 @@ SSSD client presentations
 
 
 FreeIPA 3.0 & SSSD 1.9.2
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -251,10 +276,10 @@ SSSD client presentations
 
 
 Public Presentations
-====================
+--------------------
 
 Red Hat Summit 2025 lighting talks
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 These talks were part of the Community Theater at the exhibition floor of the Red Hat Summit 2025. They ran for 20 minutes each, including discussion, and weren't recorded.
 
@@ -262,10 +287,10 @@ These talks were part of the Community Theater at the exhibition floor of the Re
 
 Below are the local copies of the slides:
 
-- `Deployment migration <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__deployment_migration.pdf>`__
-- `Integration with Keycloak <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__integration_with_Keycloak.pdf>`__
-- `Trust between IdM deployments <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__trust_between_IdM_deployments.pdf>`__
-- `ansible-freeipa dynamic inventory <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Experiencing_FreeIPA_before_RHEL_IdM__dynamic_inventory_in_ansible-freeipa.pdf>`__
+- :download:`Deployment migration <Experiencing_FreeIPA_before_RHEL_IdM__deployment_migration.pdf>`
+- :download:`Integration with Keycloak <Experiencing_FreeIPA_before_RHEL_IdM__integration_with_Keycloak.pdf>`
+- :download:`Trust between IdM deployments <Experiencing_FreeIPA_before_RHEL_IdM__trust_between_IdM_deployments.pdf>`
+- :download:`ansible-freeipa dynamic inventory <Experiencing_FreeIPA_before_RHEL_IdM__dynamic_inventory_in_ansible-freeipa.pdf>`
 
 Here you can find presentations or other materials which FreeIPA team
 presented on various public conferences.

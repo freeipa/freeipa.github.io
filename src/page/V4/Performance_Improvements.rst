@@ -89,6 +89,8 @@ Regarding the duration (10s) of a *user-add* CLI with 50K users the
     ldap bind:               10%  (sum 83%)
     user membership lookup:   8%  (sum 91%)
 
+.. _local-v4-performance-improvements-authenticate:
+
 authenticate
 ''''''''''''
 
@@ -189,6 +191,8 @@ For this reason we did not do specific improvement on LDAP BIND
 
 
 
+.. _local-v4-performance-improvements-control-and-ldap-searches:
+
 Control and LDAP searches
 '''''''''''''''''''''''''
 
@@ -220,6 +224,8 @@ The request that is expensive is :
     [05/Apr/2016:13:57:33 +0200] conn=75540 op=17 RESULT err=0 tag=101 nentries=0 etime=0.275000
 
 
+
+.. _local-v4-performance-improvements-add-user:
 
 Add user
 ''''''''
@@ -269,6 +275,8 @@ was implement.
 
 
 
+.. _local-v4-performance-improvements-update-of-the-group-membership:
+
 Update of the group membership
 ''''''''''''''''''''''''''''''
 
@@ -307,6 +315,8 @@ operation), **major gain** (even for other use case). This is the one
 that was implemented.
 
 
+
+.. _local-v4-performance-improvements-broken-schemacache:
 
 broken SchemaCache
 ''''''''''''''''''
@@ -351,7 +361,7 @@ CLI framework
 '''''''''''''
 
 The following
-`implementation <http://www.freeipa.org/page/V4/Performance_Improvements#Directory_Server>`__
+:ref:`implementation <local-v4-performance-improvements-directory-server>`
 drop the CLI duration from 10s to 3s. However, looking at the time spent
 in those 3s, it appears that remaining ldap requests are only accounting
 for 0.5s, so it remains more than 2s spent in CLI framework. The
@@ -366,25 +376,26 @@ Implementation
 User-add CLI
 ^^^^^^^^^^^^
 
-The improvement described in `Control and LDAP
-searches <http://www.freeipa.org/page/V4/Performance_Improvements#Control_and_LDAP_searches>`__
+The improvement described in :ref:`Control and LDAP searches <local-v4-performance-improvements-control-and-ldap-searches>`
 was implemented since **4.3.4** with the ticket
 `5463 <https://fedorahosted.org/freeipa/ticket/5463>`__ and
 `commit <https://git.fedorahosted.org/cgit/freeipa.git/commit/?id=7f0d018c66da1fe2adedd45aa9f5a63c913e4527>`__
 
 
 
+.. _local-v4-performance-improvements-directory-server:
+
 Directory Server
 ^^^^^^^^^^^^^^^^
 
 The improvement seen in
-`authenticate <http://www.freeipa.org/page/V4/Performance_Improvements#authenticate>`__
+:ref:`authenticate <local-v4-performance-improvements-authenticate>`
 was implemented in slapi-nis plugin.
 
 The improvements seen in ldap
-`ADD <http://www.freeipa.org/page/V4/Performance_Improvements#Add_user>`__
+:ref:`ADD <local-v4-performance-improvements-add-user>`
 and
-`MOD <http://www.freeipa.org/page/V4/Performance_Improvements#Update_of_the_group_membership>`__
+:ref:`MOD <local-v4-performance-improvements-update-of-the-group-membership>`
 were implemented in slapi-nis plugin `slapi-nis: process requests only
 when initialization
 completed <https://git.fedorahosted.org/cgit/slapi-nis.git/diff/src/back-sch.c?id=594fcb2320033d01cfe2b8121793d431d1017987>`__.
@@ -413,6 +424,8 @@ CLI
 ^^^
 
 
+
+.. _local-v4-performance-improvements-slow-user-find:
 
 Slow user-find
 --------------
@@ -553,8 +566,7 @@ However with option --all
 This testcase contains 2000 users with 110 direct and indirect
 memberships.
 
-Fro more details please read `\*-find
-section <http://www.freeipa.org/page/V4/Performance_Improvements#.2A-find>`__
+For more details please read :ref:`*-find section <local-v4-performance-improvements-find>`
 
 
 
@@ -621,7 +633,7 @@ Don't do extra search for ipasshpubkey attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 See
-`user-find <http://www.freeipa.org/page/V4/Performance_Improvements#Slow_user-find>`__
+:ref:`user-find <local-v4-performance-improvements-slow-user-find>`
 
 
 
@@ -629,7 +641,7 @@ Remove userPassword, krbPrincipalKey attributes from search results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 See
-`user-find <http://www.freeipa.org/page/V4/Performance_Improvements#Slow_user-find>`__
+:ref:`user-find <local-v4-performance-improvements-slow-user-find>`
 
 
 
@@ -644,8 +656,7 @@ processing members
 This testcase contains 2000 hostss with 110 direct and indirect
 memberships.
 
-For more details please read `\*-find
-section <http://www.freeipa.org/page/V4/Performance_Improvements#.2A-find>`__
+For more details please read :ref:`*-find section <local-v4-performance-improvements-find>`
 
 
 
@@ -699,8 +710,7 @@ typical provisioning: ldapadd entries, migrate-ds...
 Use case
 ^^^^^^^^
 
--  We are migrating (see `this
-   RFE <http://www.freeipa.org/page/V4/FreeIPA_to_FreeIPA_Migration>`__)
+-  We are migrating (see :doc:`this RFE </page/V4/FreeIPA_to_FreeIPA_Migration>`)
    from old solution to FreeIPA and need to add **entries**
    (users/groups/hosts/rules...) withing a short period of time
 
@@ -772,6 +782,8 @@ Provisioning throughput and DS tuning
 
 
 
+.. _local-v4-performance-improvements-entry-cache-tuning:
+
 Entry cache tuning
 ''''''''''''''''''
 
@@ -814,6 +826,8 @@ file system cache.
 
 
 
+.. _local-v4-performance-improvements-database-cache-tuning:
+
 database cache tuning
 '''''''''''''''''''''
 
@@ -838,6 +852,8 @@ the priority to entry cache
 
 
 
+.. _local-v4-performance-improvements-database-locks:
+
 database locks
 ''''''''''''''
 
@@ -860,6 +876,8 @@ Provisioning throughput and DS plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+
+.. _local-v4-performance-improvements-small-db-10k-entries:
 
 Small DB (10K entries)
 ''''''''''''''''''''''
@@ -943,6 +961,8 @@ operation and the number of members.
 
 
 
+.. _local-v4-performance-improvements-medium-db-100k-entries:
+
 Medium DB (100K entries)
 ''''''''''''''''''''''''
 
@@ -965,11 +985,13 @@ steps: provisioning without memberof and fixup of memberof.
 
 
 
+.. _local-v4-performance-improvements-memberof-plugin:
+
 Memberof plugin
 '''''''''''''''
 
 According to the measurements (see
-`table <http://www.freeipa.org/page/V4/Performance_Improvements#Small_DB_.2810K_entries.29>`__),
+:ref:`table <local-v4-performance-improvements-small-db-10k-entries>`),
 the major bootleneck is the memberof plugin. Disabling memberof during
 provisioning allows to make the full (provisioning+fixup) provisioning
 **20 times faster** (13min instead of 4h14).
@@ -993,7 +1015,7 @@ Schema compat plugin
 ''''''''''''''''''''
 
 According to the measurements (see
-`table <http://www.freeipa.org/page/V4/Performance_Improvements#Small_DB_.2810K_entries.29>`__),
+:ref:`table <local-v4-performance-improvements-small-db-10k-entries>`),
 the schema compat plugin **is not** a performance bottleneck. However,
 when memberof is disabled, it **reduces** the number of SRCH by an extra
 **90%** and the overall **duration** by an extra **10%**.
@@ -1012,7 +1034,7 @@ RetroCL plugin
 ''''''''''''''
 
 According to the measurements (see
-`table <http://www.freeipa.org/page/V4/Performance_Improvements#Small_DB_.2810K_entries.29>`__),
+:ref:`table <local-v4-performance-improvements-small-db-10k-entries>`),
 the Retro CL plugin **is not** a performance bottleneck. However,
 disabling retroCL reduces by **2*(#user + #hosts)** the number of ADD.
 
@@ -1088,9 +1110,8 @@ The CLI that will do the provisioning of a given ldif file will:
    (objectClass=ipasudorule)
    (objectClass=ipahbacrule)
 
--  Compute and set the appropriate `db cache
-   <http://www.freeipa.org/page/V4/Performance_Improvements#database_cache_tuning>`__
-   size and `db locks <http://www.freeipa.org/page/V4/Performance_Improvements#database_locks>`__
+-  Compute and set the appropriate :ref:`db cache <local-v4-performance-improvements-database-cache-tuning>`
+   size and :ref:`db locks <local-v4-performance-improvements-database-locks>`
 
 ::
 
@@ -1102,7 +1123,7 @@ The CLI that will do the provisioning of a given ldif file will:
    replace: nsslapd-db-locks
    nsslapd-db-locks: 
 
--  Compute and set the appropriate *domain* `entry cache <http://www.freeipa.org/page/V4/Performance_Improvements#Entry_cache_tuning>`__ size
+-  Compute and set the appropriate *domain* :ref:`entry cache <local-v4-performance-improvements-entry-cache-tuning>` size
 
 ::
 
@@ -1212,8 +1233,7 @@ much slower.
 The consequence is that replicas will be **very late** (and possibly may
 require some tuning of the **flow control** of the replication)
 
-For example provisioning of a `medium size
-DB <http://www.freeipa.org/page/V4/Performance_Improvements#Medium_DB_.28100K_entries.29>`__
+For example provisioning of a :ref:`medium size DB <local-v4-performance-improvements-medium-db-100k-entries>`
 can put replicas **days behind** the provisioned replica. In such case a
 provision rule (hbac, sudo,...) can exist on the provisioned replica but
 will not exist for a long time on the others. If that rule grants some
@@ -1339,7 +1359,7 @@ Hbacrules    38sec
 
 Note these values are taken for quite *small* groups. So the ratio
 with/without memberof is only **6 times**. The ratio found in with
-`larger <http://www.freeipa.org/page/V4/Performance_Improvements#improvement_of_the_throughput_with_admin_period>`__
+:ref:`larger <local-v4-performance-improvements-memberof-plugin>`
 groups (5000) raise up to **20 times**. It is likely that with very
 large groups (100K and above), the ratio would be **much higher**.
 
@@ -1401,6 +1421,8 @@ provisioning with memberof plugin
 
 
 
+.. _local-v4-performance-improvements-add-users:
+
 add users
          
 
@@ -1434,6 +1456,8 @@ internals): 6 ADDs, 4 MODs, 22SRCHs
     (*) Searches are identicals
 
 
+
+.. _local-v4-performance-improvements-add-a-usergroup:
 
 add a usergroup
                
@@ -1511,6 +1535,8 @@ ADD usergroup with 100 user member and 2 nested groups
 
 
 
+.. _local-v4-performance-improvements-add-host:
+
 add host
         
 
@@ -1530,6 +1556,8 @@ The add of **one** host triggers : 2 ADD, 7 SRCHs
            RetroCL add
 
 
+
+.. _local-v4-performance-improvements-add-a-hostgroup:
 
 add a hostgroup
                
@@ -1690,8 +1718,7 @@ provisioning without memberof plugin
 add user
         
 
-The add of **one** user gives same results as `add user with memberof
-plugin <http://www.freeipa.org/page/V4/Performance_Improvements#add_users>`__
+The add of **one** user gives same results as :ref:`add user with memberof plugin <local-v4-performance-improvements-add-users>`
 
 
 
@@ -1701,8 +1728,7 @@ add usergroup (no memberof)
 The add of **one** user group triggers the following operations:
 
 -  If the group is empty (1 direct, 19 internals): 3 ADDs, 2 MODs,
-   15SRCHs - this is identical results vs add an empty user group `with
-   memberof <http://www.freeipa.org/page/V4/Performance_Improvements#add_a_usergroup>`__
+   15SRCHs - this is identical results vs add an empty user group :ref:`with memberof <local-v4-performance-improvements-add-a-usergroup>`
 -  If the group contains 102 members (100+2nested) (1 direct, 3ADD, 2
    MOD, 813 SRCH)
 
@@ -1737,8 +1763,7 @@ The add of **one** user group triggers the following operations:
 add host
         
 
-The add of **one** host gives same results as `add host with memberof
-plugin <http://www.freeipa.org/page/V4/Performance_Improvements#add_host>`__
+The add of **one** host gives same results as :ref:`add host with memberof plugin <local-v4-performance-improvements-add-host>`
 
 
 
@@ -1750,9 +1775,7 @@ The add of **one** hostgroup triggers the following operations:
 -  If the hostgroup is empty (1 direct, 34 internals): 5 ADDs, 3 MODs,
    27SRCHs
 
-It gives results **almost** identical to `add an empty hostgroup with
-memberof
-plugin <http://www.freeipa.org/page/V4/Performance_Improvements#add_a_hostgroup>`__.
+It gives results **almost** identical to :ref:`add an empty hostgroup with memberof plugin <local-v4-performance-improvements-add-a-hostgroup>`.
 But memberof plugin triggers 5 more internal searches (2 membership and
 3 on the added hostgroup), so running without memberof plugin **saves 5
 SRCHs**.
@@ -1880,8 +1903,7 @@ inetorgperson 100
 Hypothese
 ^^^^^^^^^
 
-The preliminary tests of `memberof
-fixup <http://www.freeipa.org/index.php?title=V4/Performance_Improvements&action=submit#improvement_of_the_throughput_with_admin_period>`__,
+The preliminary tests of :ref:`memberof fixup <local-v4-performance-improvements-memberof-plugin>`,
 shows that both procedures are equivalent in terms of final results but
 much faster (fixup) in term of throughput.
 
@@ -1909,7 +1931,7 @@ all commands
 ----------------------------------------------------------------------------------------------
 
 Caching issue described in
-`1 <http://www.freeipa.org/page/V4/Performance_Improvements#broken_SchemaCache>`__
+:ref:`1 <local-v4-performance-improvements-broken-schemacache>`
 affects all IPA commands.
 
 
@@ -1925,6 +1947,8 @@ usually user don't want all membership details. IPA already has hidden
 option *--no-members* that can be public visible.
 
 Summary: option *--no-members* is publicly visible for all commands
+
+.. _local-v4-performance-improvements-find:
 
 \*-find
 ----------------------------------------------------------------------------------------------

@@ -33,10 +33,9 @@ us!
 Contributing downstream guides
 ------------------------------
 
-FreeIPA project is documented in several downstream `User
-Guides <https://www.freeipa.org/page/Documentation.html#user-guides>`__ which contain enterprise level
+FreeIPA project is documented in several downstream :ref:`User Guides <local-documentation-user-guides>` which contain enterprise level
 documentation. Downstream guide maintainers are happy for any
 contribution, from proposed content to even just a bug report.
 
 -  Direct links for bug reporting can be found next to links to
-   `downstream guides <https://www.freeipa.org/page/Documentation.html#user-guides>`__.
+   :ref:`downstream guides <local-documentation-user-guides>`.

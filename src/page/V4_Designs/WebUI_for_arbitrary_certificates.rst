@@ -9,8 +9,7 @@ FreeIPA CLI contains commands
 certificates. Nowadays WebUI displays certificates as list of base64
 blobs. It's not much user-friendly, because it is not possible to read
 any information about the certificate. This document designs extended
-version of WebUI for CLI described in this design: `User
-Certificates <http://www.freeipa.org/page/V4/User_Certificates>`__ and
+version of WebUI for CLI described in this design: :doc:`User Certificates </page/V4/User_Certificates>` and
 also the CLI part which is necessary for WebUI.
 
 
@@ -18,8 +17,7 @@ also the CLI part which is necessary for WebUI.
 Use Cases
 ---------
 
-`Use
-Cases <http://www.freeipa.org/page/V4/User_Certificates#Use_Cases>`__
+:ref:`Use Cases <local-v4-user-certificates-use-cases>`
 
 Design
 ------

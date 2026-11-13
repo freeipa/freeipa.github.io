@@ -10,7 +10,7 @@ IPA v2.0 Release
 
 **Overview**: Machine and Service Identity. Pluggable management, HBAC.
 
--  `Requirements Doc <http://www.freeipa.org/page/V2BPRD>`__
+-  :doc:`Requirements Doc </page/V2PRD>`
 -  `Detailed outline of the IPA v2
    Features <http://www.freeipa.org/page/V2Outline>`__
 

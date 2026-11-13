@@ -42,7 +42,7 @@ Users and groups can be migrated using the ``migrate-ds`` command, just
 like with any other LDAP based identity management server. You just need
 to make sure that FreeIPA Kerberos related attributes are not migrated
 as they need to be generated again by the new FreeIPA server and it's
-new `Kerberos <https://www.freeipa.org/page/Kerberos>`__ settings or keys.
+new :doc:`Kerberos </page/Kerberos>` settings or keys.
 The command doesn't migrate user private groups. Following command is suggested:
 
 ::
@@ -65,7 +65,7 @@ Migrating existing FreeIPA deployment
 Upgrading to new FreeIPA release
 ----------------------------------------------------------------------------------------------
 
-See `Upgrade <https://www.freeipa.org/page/Upgrade>`__ page.
+See :doc:`Upgrade </page/Upgrade>` page.
 
 
 
@@ -99,11 +99,11 @@ General procedure
       ``$ ipa user-find``
 
    -  Web UI works
-   -  `DNS <https://www.freeipa.org/page/DNS>`__ service (if provided by the server) works
+   -  :doc:`DNS </page/DNS>` service (if provided by the server) works
 
       ``$ host $(hostname)``
 
-   -  `CA <https://www.freeipa.org/page/PKI>`__ services (if appropriate) works
+   -  :doc:`CA </page/PKI>` services (if appropriate) works
 
       ``$ ipa cert-find``
       ``$ ipa cert-request $(CSR_FILENAME)``
@@ -129,13 +129,12 @@ applied:
    system (``ipa-replica-install``). It should have all the services as
    the original server had, i.e.
 
-   -  if original server had `CA <https://www.freeipa.org/page/PKI>`__ installed (it probably did),
+   -  if original server had :doc:`CA </page/PKI>` installed (it probably did),
       add ``--setup-ca`` option to ``ipa-replica-install``
-   -  Note that the FreeIPA master `CA <https://www.freeipa.org/page/PKI>`__ server (this is by
+   -  Note that the FreeIPA master :doc:`CA </page/PKI>` server (this is by
       default the first installed FreeIPA server) is being migrated, you
-      need to `promote the new CA replica to the FreeIPA master CA
-      server <https://www.freeipa.org/page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`__
-   -  if original server had `DNS <https://www.freeipa.org/page/DNS>`__ installed , also add
+      need to :doc:`promote the new CA replica to the FreeIPA master CA server </page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`
+   -  if original server had :doc:`DNS </page/DNS>` installed , also add
       ``--setup-dns`` option to ``ipa-replica-install``
 
       The new server should now have all the capability of the migrated
@@ -156,19 +155,19 @@ applied:
       ``$ ipa user-find``
 
    -  Web UI works
-   -  `DNS <https://www.freeipa.org/page/DNS>`__ service (if provided by the server) works
+   -  :doc:`DNS </page/DNS>` service (if provided by the server) works
 
       ``$ host $(hostname)``
 
-   -  `CA <https://www.freeipa.org/page/PKI>`__ services (if appropriate) works
+   -  :doc:`CA </page/PKI>` services (if appropriate) works
 
       ``$ ipa cert-find``
       ``$ ipa cert-request $(CSR_FILENAME)``
 
-#. If the FreeIPA server is configured to provide `DNS <https://www.freeipa.org/page/DNS>`__ service,
+#. If the FreeIPA server is configured to provide :doc:`DNS </page/DNS>` service,
    FreeIPA domain SRV records should be already updated and FreeIPA
    clients will also use the migrated FreeIPA server for their function.
-   When other `DNS <https://www.freeipa.org/page/DNS>`__ service is used, SRV records need to be
+   When other :doc:`DNS </page/DNS>` service is used, SRV records need to be
    either updated manually, if used. If clients are using fixed list of
    servers, administrator would need to update these lists in
    ``/etc/sssd/sssd.conf`` and ``/etc/krb5.conf`` and other
@@ -203,7 +202,7 @@ applied:
          ``ipa-replica-manage del old.ipa.server.fqdn``
 
       This procedure will also remove these servers from FreeIPA
-      `DNS <https://www.freeipa.org/page/DNS>`__ SRV records, if used.
+      :doc:`DNS </page/DNS>` SRV records, if used.
 
 #. Old FreeIPA servers can be now uninstalled with
    ``ipa-server-install --uninstall``

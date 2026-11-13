@@ -149,14 +149,13 @@ The feature will be implemented in the following steps:
 -  injecting the interface to existing ``server-{show,find}`` and
    ``config-{show,mod}`` commands to utilize the new functionality
 -  new command (``server-mod``) which will be used to edit attributes of
-   specified server. This command will be also used by `DNS
-   Location <http://www.freeipa.org/page/V4/DNS_Location_Mechanism>`__
+   specified server. This command will be also used by :doc:`DNS Location </page/V4/DNS_Location_Mechanism>`
    to set the location of IPA master.
 -  new plugin which will display the status of specified role on
    different masters and also a list of DNS records associated with the
    specific role. The latter information will be consumed during
    creation of
-   `location-specific <http://www.freeipa.org/page/V4/DNS_Location_Mechanism>`__
+   :doc:`location-specific </page/V4/DNS_Location_Mechanism>`
    DNS records for different services.
 -  new commands (``serverrole-{show,find}``) to list the status of
    server roles on a IPA master and to implement substring search among

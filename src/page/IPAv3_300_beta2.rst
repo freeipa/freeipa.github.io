@@ -4,7 +4,7 @@ IPAv3_300_beta2
 \__NOTOC_\_ The FreeIPA team is proud to announce version FreeIPA v3.0.0
 beta 2.
 
-It can be downloaded from http://www.freeipa.org/page/Downloads.
+It can be downloaded from :doc:`/Downloads`.
 
 A build is available in the Fedora 18 and rawhide repositories or for
 Fedora 17 via the freeipa-devel repo on www.freeipa.org:
@@ -12,8 +12,8 @@ http://freeipa.org/downloads/freeipa-devel.repo . To install in Fedora
 17 and 18 the updates-testing repository needs to be enabled as well.
 
 For additional information see the AD Trust design page
-http://freeipa.org/page/IPAv3_AD_trust and the AD Trust testing page
-http://freeipa.org/page/IPAv3_testing_AD_trust.
+:doc:`/page/IPAv3_AD_trust` and the AD Trust testing page
+:doc:`/page/IPAv3_testing_AD_trust`.
 
 
 

@@ -6,7 +6,7 @@ used as well.
 
 [reStructuredText]: https://docutils.sourceforge.io/rst.html
 [Sphinx]: https://www.sphinx-doc.org
-[MyST]: https://mystmd.org/
+[MyST]: https://myst-parser.readthedocs.io/
 
 ## Install Python dependencies
 
@@ -36,6 +36,16 @@ linked to each other:
 (.venv) $ make clean && make html
 ```
 
+Before submitting a change, run the same strict build used by CI:
+
+```console
+(.venv) $ make check
+```
+
+This rebuilds every page, enables nitpicky reference checking, and fails on
+Sphinx warnings. To check external links as well, run `make linkcheck`;
+this requires network access and may report unavailable third-party sites.
+
 ## View it
 ```console
 $ firefox _build/html/index.html
@@ -50,9 +60,9 @@ You do not need to be in virtual environment to see the build result.
    add a page to the ToC tree, either include it in `toctree` directive in an
    existing document or add it to the top level navigation at the end of the [index]
    document.
-3. Build the documentation with `make html` and navigate to your page to check
+3. Build the documentation with `make check` and navigate to your page to check
    that everything is displayed as intended.
 4. Open a Pull Request against this repository with your change.
 
 [src]: src
-[contents]: src/index.rst
+[index]: src/index.rst

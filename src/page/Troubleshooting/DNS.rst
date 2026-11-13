@@ -106,8 +106,7 @@ forward zone.
 
 How to fix it:
 
--  at first please don't use domains you don't own (`FreeIPA Deployment
-   Recommendations <http://www.freeipa.org/page/Deployment_Recommendations#Domain>`__)
+-  at first please don't use domains you don't own (:ref:`FreeIPA Deployment Recommendations <local-deployment-recommendations-domain>`)
 -  if you really need those domains, you have to set
    ``dnssec-validation no;`` in */etc/named.conf* on all FreeIPA DNS
    servers (and proceed restart)
@@ -137,8 +136,7 @@ Example:
     ns.others AAAA 2001:db8::1
 
 Without zone delegation all queries are processed by master zone and
-NXDOMAIN is returned (`Forward zones design
-page <http://www.freeipa.org/page/V4/Forward_zones#Avoid_an_ineffective_forward_zone>`__).
+NXDOMAIN is returned (:ref:`Forward zones design page <local-v4-forward-zones-avoid-an-ineffective-forward-zone>`).
 
 
 

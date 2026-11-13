@@ -79,7 +79,7 @@ Probably the biggest change is the switch from NSS to OpenSSL as a
 backend for SSL connections in HTTPS requests. NSS implementation of SSL
 in FIPS requires any user to know the password to the NSS database in
 */etc/ipa/nssdb*, which is unacceptable. See the design for this change:
-http://www.freeipa.org/page/V4/Replace_NSS_with_OpenSSL
+:doc:`/page/V4/Replace_NSS_with_OpenSSL`
 
 -  **Dependencies**: No new dependencies should be introduced.
 -  **Backup and Restore**: There should be nothing new to back up.

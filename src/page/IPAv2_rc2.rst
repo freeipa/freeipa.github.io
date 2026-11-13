@@ -9,8 +9,7 @@ Overview of FreeIPA v2 Release Candidate 2
 ------------------------------------------
 
 The FreeIPA project team is pleased to announce the availability of the
-`Release Candidate 2 release of freeIPA 2.0
-server <http://www.freeipa.org/page/Downloads>`__.
+:doc:`Release Candidate 2 release of freeIPA 2.0 server </Downloads>`.
 
 -  Binaries are available for F-14 and F-15.
 -  Please do not hesitate to share feedback, criticism or bugs with us

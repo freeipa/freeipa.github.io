@@ -1,28 +1,9 @@
 # Release
 
-- [Release](#release)
-  - [Pre-release repository changes](#pre-release-repository-changes)
-    - [Translations](#translations)
-    - [Update Contributors.txt](#update-contributorstxt)
-    - [Create release notes](#create-release-notes)
-  - [Tagging the tree](#tagging-the-tree)
-    - [Process](#process)
-    - [Creating a new branch](#creating-a-new-branch)
-  - [Building the sources](#building-the-sources)
-    - [Create tarball](#create-tarball)
-      - [IPA 4.5+](#ipa-45)
-      - [IPA 4.4 and older](#ipa-44-and-older)
-    - [Sign and upload tarball](#sign-and-upload-tarball)
-    - [Re-enable git snapshot versioning](#re-enable-git-snapshot-versioning)
-  - [Updating the COPR repository](#updating-the-copr-repository)
-  - [Releasing to Fedora](#releasing-to-fedora)
-    - [Spec file changes](#spec-file-changes)
-    - [Closing Bugzillas](#closing-bugzillas)
-  - [Release to PyPI](#release-to-pypi)
-    - [Test PyPI](#test-pypi)
-    - [PyPI](#pypi)
-  - [Doing a Major Release](#doing-a-major-release)
-  - [Tickets administravia](#tickets-administravia)
+```{contents} On this page
+:local:
+:depth: 3
+```
 
 
 
@@ -98,7 +79,7 @@ The generated release notes are in mediawiki format. You can use pandoc to
 convert them to RST format:
 
 ```
-pandoc -f mediawiki -t rst release_notes-o release_notes.rst
+pandoc -f mediawiki -t rst release_notes -o release-notes.rst
 ```
 
 Make sure to include a title page as well at the top of the file:
@@ -185,7 +166,7 @@ and note down the commit id of the 'Become IPA x.y' commit, then create the bran
 ```
 $ git branch ipa-x-y <commit-id>
 ```
-updating branching information for [fastcheck](/web/20221001164305/https://freeipa.org/page/Testing#Fast_test "Testing"):
+updating branching information for {ref}`fastcheck <testing-fast-test>`:
 
 ```
 $ vim VERSION.m4
@@ -268,7 +249,7 @@ Upload tarball and signature to Codeberg: [https://codeberg.org/freeipa/freeipa/
 Click on the "New release" button, introduce the same tag you created before in the "Tag name" field, and link to the release notes page in the release description.
 Upload tarball and signature, and mark the "Hide automatically generated archives" option. Then click on "Publish release".
 
-If you signing key is not in the [Verify Release Signature](/web/20221001164305/https://freeipa.org/page/Verify_Release_Signature "Verify Release Signature") guide, append it to the list and gpg verify command.
+If you signing key is not in the {doc}`Verify Release Signature </page/Verify_Release_Signature>` guide, append it to the list and gpg verify command.
 
 ### Re-enable git snapshot versioning
 
@@ -278,7 +259,7 @@ After you have created and signed the tarball, you must change _IPA\_VERSION\_IS
 
 We use the freeipa-users@lists.fedorahosted.org mailing list to notify about new upstream releases. Send an email there with the following template:
 
-``
+```text
 Subject: FreeIPA X.Y.Z
 
 The FreeIPA team would like to announce the FreeIPA X.Y.Z release!
@@ -398,7 +379,7 @@ Doing a Major Release
 
 When doing a major release, consider following extra steps:
 
-*   [Downloads](/web/20221001164305/https://freeipa.org/page/Downloads "Downloads") - update list of active COPR repositories
-*   [Roadmap](/web/20221001164305/https://freeipa.org/page/Roadmap "Roadmap") - consider updating information about planned or new releases
-*   [Documentation](/web/20221001164305/https://freeipa.org/page/Documentation "Documentation") - update links and version numbers
-*   [Build](/web/20221001164305/https://freeipa.org/page/Build "Build") - update COPR repositories if new ones are introduced or old abandoned
+*   {doc}`Downloads </Downloads>` - update list of active COPR repositories
+*   {doc}`Roadmap </page/Roadmap>` - consider updating information about planned or new releases
+*   {doc}`Documentation </page/Documentation>` - update links and version numbers
+*   {doc}`Build </page/Build>` - update COPR repositories if new ones are introduced or old abandoned

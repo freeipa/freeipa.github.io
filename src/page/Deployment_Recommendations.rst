@@ -1,4 +1,4 @@
-Deployment_Recommendations
+Deployment Recommendations
 ==========================
 
 Some decisions made before FreeIPA is deployed and adopted are very hard
@@ -11,20 +11,22 @@ Infrastructure
 DNS
 ----------------------------------------------------------------------------------------------
 
-`DNS <DNS>`__ is deliberately listed first as DNS plays an important
+:doc:`DNS </page/DNS>` is deliberately listed first as DNS plays an important
 role in identity management functionality, especially
-`Kerberos <Kerberos>`__.
+:doc:`Kerberos </page/Kerberos>`.
+
+.. _local-deployment-recommendations-domain:
 
 Domain
 ^^^^^^
 
 FreeIPA should always have own primary domain, e.g. ``example.com`` or
 ``ipa.example.com`` which should not be shared with other
-`Kerberos <Kerberos>`__ based identity management system as otherwise
+:doc:`Kerberos </page/Kerberos>` based identity management system as otherwise
 there will be collisions on Kerberos system level. For example, if both
-FreeIPA and Active Directory use the same domain, `trusts <trusts>`__
+FreeIPA and Active Directory use the same domain, :term:`trusts <trust>`
 will be never possible, as well as automatic client server discovery via
-`DNS <DNS>`__ SRV records.
+:doc:`DNS </page/DNS>` SRV records.
 
 Client machines do not need to be in the same domain as FreeIPA servers.
 For example, FreeIPA may be a domain ``ipa.example.com`` and clients in
@@ -80,15 +82,14 @@ of network resources by FreeIPA clients.
 DNS server
 ^^^^^^^^^^
 
-FreeIPA domain may be either served from an integrated `DNS <DNS>`__
+FreeIPA domain may be either served from an integrated :doc:`DNS </page/DNS>`
 service or an external name service. A FreeIPA domain delegated to the
-integrated `DNS <DNS>`__ service is a recommended approach.
+integrated :doc:`DNS </page/DNS>` service is a recommended approach.
 
 When using external name server, identity management functionality or
-`trusts <trusts>`__ will be possible, however the configuration will be
+:term:`trusts <trust>` will be possible, however the configuration will be
 much more difficult and error prone. Full list of benefits of using the
-integrated DNS service can be found in the `DNS
-article <DNS#Benefits_of_integrated_DNS>`__.
+integrated DNS service can be found in :ref:`dns-integration-benefits`.
 
 
 
@@ -115,13 +116,13 @@ Multi-site deployment awareness
 ----------------------------------------------------------------------------------------------
 
 FreeIPA servers and clients may be distributed in various geographical
-locations. `DNS Location mechanism <V4/DNS_Location_Mechanism>`__ allows
+locations. :doc:`DNS Location mechanism </page/V4/DNS_Location_Mechanism>` allows
 to split topology into separated areas called *locations* (mapping to
 geographical areas). Clients using DNS SRV records (like SSSD) in a
 particular location then use the servers from the same location as the
 first (the closest FreeIPA servers) and servers from different locations
 as the backup (remote FreeIPA servers). For more details please refer to
-`FreeIPA DNS Locations HowTo document <Howto/IPA_locations>`__.
+:doc:`FreeIPA DNS Locations HowTo document </page/Howto/IPA_locations>`.
 
 When planning deployment, it is important to keep in mind that DNS
 locations feature in FreeIPA require at least one DNS server in each
@@ -132,20 +133,20 @@ setups are typically less resilient.
 PKI
 ----------------------------------------------------------------------------------------------
 
-When `PKI <PKI>`__ service is configured, FreeIPA hosts and services may
+When :doc:`PKI </page/PKI>` service is configured, FreeIPA hosts and services may
 obtain signed certificates from FreeIPA CA. Certificates can then be
 used for authentication or secure authentication in configured services.
 
 Currently, there are 3 types how FreeIPA can blend in a existent
 certificate environment:
 
-#. No blending - FreeIPA is simply installed with own `PKI <PKI>`__
+#. No blending - FreeIPA is simply installed with own :doc:`PKI </page/PKI>`
    service and a self-signed CA certificate
-#. External CA - FreeIPA is installed with own `PKI <PKI>`__, but it's
+#. External CA - FreeIPA is installed with own :doc:`PKI </page/PKI>`, but it's
    CA certificate is signed with external certificate authority (Active
    Directory Certificate Service or other custom Certificate Service).
    This requires the external CA to allow sub CAs.
-#. `CA-less installation <V3/CA-less_install>`__ - FreeIPA does not
+#. :doc:`CA-less installation </page/V3/CA-less_install>` - FreeIPA does not
    configure own CA, but uses signed host certificates from external CA.
 
 Servers/Replicas
@@ -183,7 +184,7 @@ servers depends on several factors:
 
 Generally it is recommended to have at least 2-3 replicas in each
 datacenter. There should be at least one replica in each datacenter with
-additional FreeIPA services like `PKI <PKI>`__ or `DNS <DNS>`__ if used.
+additional FreeIPA services like :doc:`PKI </page/PKI>` or :doc:`DNS </page/DNS>` if used.
 Note that it is not recommended to have more than 4 replication
 agreements per replica. Following example demonstrated the recommended
 infrastructure:
@@ -203,7 +204,7 @@ Deployment example with 12 FreeIPA servers
 Clients
 ----------------------------------------------------------------------------------------------
 
-Every client should have at least 2 `DNS <DNS>`__ servers configured in
+Every client should have at least 2 :doc:`DNS </page/DNS>` servers configured in
 ``/etc/resolv.conf`` for resiliency. Update resolv.conf and *DHCPd*
 configuration accordingly.
 
@@ -218,16 +219,16 @@ access to HTTPS (443) from a client side.
 Disaster recovery
 -----------------
 
-Please refer to `Backup and Restore <Backup_and_Restore>`__ article.
+Please refer to :doc:`Backup and Restore </page/Backup_and_Restore>`.
 
 
 
 Active Directory Integration
 ----------------------------
 
-In order to be able to configure `trusts <trusts>`__, `DNS <DNS>`__
+In order to be able to configure :term:`trusts <trust>`, :doc:`DNS </page/DNS>`
 needs to be configured properly, FreeIPA must have an own primary DNS
-domain matching it's `Kerberos <Kerberos>`__ realm name. DNS domain and
+domain matching its :doc:`Kerberos </page/Kerberos>` :term:`realm` name. DNS domain and
 realm have to be different from Active Directory DNS domain.
 
 Another important requirement is IPv6 stack. Recommended way for
@@ -248,11 +249,11 @@ Creating and adding following lines to for example
 /etc/sysctl.d/ipv6.conf will avoid assigning IPv6 addresses to a
 specific network interface:
 
-::
+.. code-block:: ini
 
      net.ipv6.conf.all.disable_ipv6 = 1
      # Disabling "all" does not apply to interfaces that are already "up" when sysctl settings are applied.
-     net.ipv6.conf.``\ ``.disable_ipv6 = 1
+     net.ipv6.conf.interface0.disable_ipv6 = 1
      # Interface lo must have IPv6 enabled
      net.ipv6.conf.lo.disable_ipv6 = 0
 
@@ -264,7 +265,7 @@ already.
 Migration
 ---------
 
-FreeIPA can already `migrate <Howto/Migration>`__ from a general LDAP
+FreeIPA can already :doc:`migrate </page/Howto/Migration>` from a general LDAP
 server or NIS. It cannot, however, automatic migration from a pure
 Kerberos solution or from other FreeIPA deployment (see tickets
 `#3656 <https://fedorahosted.org/freeipa/ticket/3656>`__ and
@@ -275,9 +276,9 @@ Kerberos solution or from other FreeIPA deployment (see tickets
 Extending FreeIPA
 -----------------
 
-Both FreeIPA schema, CLI and `Web UI <Web_UI>`__ can be extended.
-`Directory Server <Directory_Server>`__ schema needs to be extended
+Both FreeIPA schema, CLI and :doc:`Web UI </page/Web_UI>` can be extended.
+:doc:`Directory Server </page/Directory_Server>` schema needs to be extended
 manually on one server via LDAP manipulation tools. On the other hand,
 both CLI and Web UI can be extended with plugins shipped together with
-vanilla FreeIPA packages. See `Documentation <Documentation>`__ for
+vanilla FreeIPA packages. See :doc:`/page/Documentation` for
 additional resources on how to write the extensions.

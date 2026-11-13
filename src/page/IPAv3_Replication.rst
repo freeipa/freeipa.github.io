@@ -113,7 +113,6 @@ See also `DNS <Obsolete:IPAv3_DNS>`__.
 References
 ==========
 
--  `Setting up Multi-Master
-   Replication <http://www.freeipa.org/page/InstallAndDeploy#Setting_up_Multi-Master_Replication>`__
+-  :ref:`Setting up Multi-Master Replication <local-installanddeploy-setting-up-multi-master-replication>`
 
 `Category:Obsolete <Category:Obsolete>`__

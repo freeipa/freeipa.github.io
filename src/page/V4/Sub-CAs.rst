@@ -162,8 +162,7 @@ with the other - they can both be supported.
 
 The "upstream" root certificate and intermediate CA certificates would
 be stored in LDAP for distribution to clients, with the IPA CA having an
-``ipaKeyTrust`` value of ``trusted`` (see `CA certificate
-renewal <http://www.freeipa.org/page/V4/CA_certificate_renewal>`__).
+``ipaKeyTrust`` value of ``trusted`` (see :doc:`CA certificate renewal </page/V4/CA_certificate_renewal>`).
 
 
 
@@ -841,8 +840,7 @@ Test Plan
 Dependencies
 ------------
 
--  FreeIPA `Certificate
-   Profiles <http://www.freeipa.org/page/V4/Certificate_Profiles>`__
+-  FreeIPA :doc:`Certificate Profiles </page/V4/Certificate_Profiles>`
    feature.
 -  Dogtag >= 10.3.2
 

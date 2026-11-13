@@ -1,4 +1,4 @@
-Quick_Start_Guide
+Quick Start Guide
 =================
 
 
@@ -25,6 +25,12 @@ then easily decommissioned after the test.
 Before FreeIPA can be installed, make sure that FreeIPA prerequisites
 are fulfilled, namely a static hostname or sane DNS resolution.
 
+.. note::
+
+   Package names and installation requirements depend on the distribution and
+   release. Check the :ref:`distribution documentation <documentation-users>`
+   for your platform before following the commands below.
+
 RAM
 ----------------------------------------------------------------------------------------------
 
@@ -39,7 +45,7 @@ Static Hostname
 Kerberos authentication relies on a static hostname, if the hostname
 changes, Kerberos authentication may break. Thus, the testing machine
 should not use dynamically configured hostname from DHCP, but rather a
-static one configured in ``/etc/hostname``
+static one configured in :file:`/etc/hostname`.
 
 
 
@@ -126,20 +132,26 @@ FreeIPA!
 
 #. **Install FreeIPA server.** From a root terminal, run:
 
-      ``# dnf install freeipa-server``
+      .. code-block:: console
+
+         # dnf install freeipa-server
+
       Note that the installed package just contains all the bits that
       FreeIPA uses, it does not configure the actual server.
       If you want to include the DNS server also install the
       freeipa-server-dns package.
-      ``# dnf install freeipa-server-dns``
+
+      .. code-block:: console
+
+         # dnf install freeipa-server-dns
 
 #. **Configure a FreeIPA server.**
 
       The command can take command arguments or can be run in the
       interactive mode. You can get more details with
-      ``man ipa-server-install``. To start the interactive installation,
-      run:
-      ``# ipa-server-install``
+      :command:`man ipa-server-install`. To start the interactive installation,
+      run :command:`ipa-server-install` as a superuser.
+
       The command will at first gather all required information and then
       configure all required services.
 

@@ -1,4 +1,4 @@
-Active_Directory_trust_setup
+Active Directory trust setup
 ============================
 
 Description
@@ -39,11 +39,11 @@ is recommended approach for cases when you don't use IPv6 networking.
 Creating and adding to for example /etc/sysctl.d/ipv6.conf will avoid
 assigning IPv6 addresses to a specific network interface
 
-::
+.. code-block:: ini
 
      # Disable IPv6
      net.ipv6.conf.all.disable_ipv6 = 1
-     net.ipv6.conf.``\ ``.disable_ipv6 = 1
+     net.ipv6.conf.interface0.disable_ipv6 = 1
 
 where *interface0* is your specialized interface.
 
@@ -97,12 +97,17 @@ Assumptions
 -  AD admins group SID: *ad_admins_sid* (e.g.
    S-1-5-21-16904141-148189700-2149043814-512)
 
-**NOTE**: AD domain and IPA domain must be different, this is very basic
-requirement for any Active Directory cross-forest trust.
+.. important::
 
-**NOTE**: italicized text should be replaced with real values. E.g. if
-IPA domain is ``ipadomain.example.com``, and the IP address of IPA
-server is ``10.16.78.61``, the command:
+   AD domain and IPA domain must be different. This is a basic requirement
+   for any Active Directory cross-forest trust.
+
+.. note::
+
+   Replace italicized placeholders with values from your deployment.
+
+For example, if the IPA domain is ``ipadomain.example.com``, and the IP
+address of the IPA server is ``10.16.78.61``, the command:
 
 ::
 
@@ -331,8 +336,10 @@ restart of the ``iptables`` service:
 DNS configuration
 -----------------
 
-**NOTE**: Any changes to ``/etc/resolv.conf`` file will require a
-restart of ``krb5kdc``, ``sssd`` and ``httpd`` services.
+.. note::
+
+   Any changes to :file:`/etc/resolv.conf` will require a restart of
+   ``krb5kdc``, ``sssd`` and ``httpd`` services.
 
 Both AD and IPA domains need to be visible to each other. In normal DNS
 configuration, no changes are required. When the testing DNS domains are

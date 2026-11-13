@@ -1,4 +1,4 @@
-Deployment_Recommendations
+Deployment Recommendations
 ==========================
 
 Some decisions made before FreeIPA is deployed and adopted are very hard

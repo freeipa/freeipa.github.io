@@ -27,7 +27,7 @@ Assumptions
    admins.
 
 
-Goals `Category:Goals`_.
+Goals
 ----------------------------------------------------------------------------------------------
 
 -  Provide an integrated DNS server which can be used to ease FreeIPA
@@ -188,5 +188,3 @@ Additional Documentation
 
    -  `Maintainability analysis affecting the design
       goals <https://fedorahosted.org/bind-dyndb-ldap/wiki/Maintainability>`__
-
-:ref:`Category:Goals <Category:Goals>`__

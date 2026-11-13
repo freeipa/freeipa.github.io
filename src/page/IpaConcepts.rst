@@ -1,6 +1,13 @@
 IpaConcepts
 ===========
 
+.. note::
+
+   The section URLs quoted in these review comments refer to concepts sections
+   that are not present in this imported page. For local component descriptions,
+   see :doc:`/page/Directory_Server`, :doc:`/page/Kerberos`, and
+   :doc:`/page/NTP_Server`.
+
 -  http://www.freeipa.org/page/IpaConcepts#What_is_389_Directory_Server.3F
 
    -  Is the 389 Directory Server's web management interface used at all

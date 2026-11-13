@@ -45,6 +45,8 @@ Goals
 
 
 
+.. _dns-integration-benefits:
+
 Benefits of integrated DNS
 --------------------------
 
@@ -168,7 +170,7 @@ can be consulted for help.
 Most common problems are caused by mis-configuration. Please see
 `bind-dyndb-ldap documentation
 page <https://fedorahosted.org/bind-dyndb-ldap/#Documentationandsupport>`__
-and `FreeIPA troubleshooting DNS page <Troubleshooting#DNS_Issues>`__.
+and :doc:`FreeIPA troubleshooting DNS page </page/Troubleshooting/DNS>`.
 
 
 

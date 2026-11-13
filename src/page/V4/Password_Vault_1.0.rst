@@ -821,8 +821,7 @@ Object classes:
    objectClasses: (2.16.840.1.113730.3.8.18.1.1 NAME 'ipaVault' DESC 'IPA vault' SUP top STRUCTURAL MUST ( cn ) MAY ( description $ ipaVaultType $ ipaVaultSalt $ ipaVaultPublicKey $ owner $ member ) X-ORIGIN 'IPA v4.2' )
    objectClasses: (2.16.840.1.113730.3.8.18.1.2 NAME 'ipaVaultContainer' DESC 'IPA vault container' SUP top STRUCTURAL MUST ( cn ) MAY ( description $ owner ) X-ORIGIN 'IPA v4.2' )
 
-See also `LDAP schema for PKCS#11
-data <http://www.freeipa.org/page/V4/PKCS11_in_LDAP/Schema>`__.
+See also :doc:`LDAP schema for PKCS#11 data </page/V4/PKCS11_in_LDAP/Schema>`.
 
 
 
@@ -921,8 +920,7 @@ Status
 Test Plan
 =========
 
--  `Test
-   Plan <http://www.freeipa.org/page/V4/Password_Vault/Test_Plan>`__
+-  :doc:`Test Plan </page/V4/Password_Vault/Test_Plan>`
 
 References
 ==========

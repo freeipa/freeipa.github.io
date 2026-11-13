@@ -25,8 +25,7 @@ Design
 While FreeIPA framework offers an API to define a server role, the
 framework itself counts with all the necessary information to be
 available in the backend database. Assigning an IPA server as a CRL
-master requires access to the filesystem (`Promote CA to Renewal and CRL
-Master <https://www.freeipa.org/page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`__)
+master requires access to the filesystem (:doc:`Promote CA to Renewal and CRL Master </page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`)
 and therefore the server role framework should not be used, at least not
 until PKI allows us to change this configuration aspect of the system
 based on the values stored in the database.
@@ -184,8 +183,7 @@ With "enable" subcommand:
 -  If the local host is already configured as CRL generation master, the
    script must print that no modification was done and exit with 0
 -  If the local host needs to be configured, the script must perform all
-   the config steps detailed in `Promote CA to Renewal and CRL
-   Master <https://www.freeipa.org/page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`__
+   the config steps detailed in :doc:`Promote CA to Renewal and CRL Master </page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`
    and trigger the generation of a new CRL before exiting with 0
 
 With "disable" subcommand:
@@ -194,9 +192,7 @@ With "disable" subcommand:
 -  If the local host is not configured for CRL generation, the script
    must print that no modification was done and exit with 0
 -  If the local is configured for CRL generation, the script must
-   perform all the unconfiguration steps detailed in `Promote CA to
-   Renewal and CRL
-   Master <https://www.freeipa.org/page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`__
+   perform all the unconfiguration steps detailed in :doc:`Promote CA to Renewal and CRL Master </page/Howto/Promote_CA_to_Renewal_and_CRL_Master>`
    and exit with 0.
 
 

@@ -22,7 +22,7 @@ PDF files of the skeletons and site map:
    2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/Action_and_HBAC_and_ACI_3.pdf>`__
 -  `IPA Autmount skeletons from Dec, 2010 <https://github.com/freeipa/freeipa.github.io/blob/main/src/page/IPA_Automount.pdf>`__
 
-http://freeipa.org/page/Image:IPA_HBAC_skeletons.pdf
+:download:`IPA HBAC skeletons </page/IPA_HBAC_skeletons.pdf>`
 
 
 

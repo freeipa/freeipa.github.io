@@ -6,8 +6,7 @@ Notice - Design Document
 This document is a design document for a **future** version of Password
 Vault.
 
-For existing deployments, please see `the current
-implementation's <https://www.freeipa.org/page/V4/Password_Vault_1.2>`__
+For existing deployments, please see :doc:`the current implementation's </page/V4/Password_Vault_1.2>`
 page instead.
 
 Overview
@@ -3198,8 +3197,7 @@ under the container.
 LDAP Schema
 -----------
 
-See also `LDAP schema for PKCS#11
-data <http://www.freeipa.org/page/V4/PKCS11_in_LDAP/Schema>`__.
+See also :doc:`LDAP schema for PKCS#11 data </page/V4/PKCS11_in_LDAP/Schema>`.
 
 Container entry:
 

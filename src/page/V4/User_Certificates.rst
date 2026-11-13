@@ -18,6 +18,8 @@ realizable.
 
 
 
+.. _local-v4-user-certificates-use-cases:
+
 Use Cases
 ---------
 
@@ -335,6 +337,8 @@ How to Test
 -----------
 
 
+
+.. _local-v4-user-certificates-using-freeipa-dogtag-pki-to-issue-user-certificates:
 
 Using FreeIPA/Dogtag PKI to issue user certificates
 ----------------------------------------------------------------------------------------------

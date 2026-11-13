@@ -4,7 +4,7 @@ IPAv2_ga
 \__NOTOC_\_ March 25, 2011
 
 The FreeIPA project team is pleased to announce the availability of the
-`freeIPA 2.0 server <http://www.freeipa.org/page/Downloads>`__.
+:doc:`freeIPA 2.0 server </Downloads>`.
 
 It is available in Fedora 15 and Fedora rawhide.
 

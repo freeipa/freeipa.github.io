@@ -54,7 +54,7 @@ moved into `LDAP <Directory_Server>`__.
 
 You can update your zone definition inside FreeIPA and add
 
-.. code:: bash
+.. code:: text
 
    grant DDNS_UPDATE wildcard * ANY;
 

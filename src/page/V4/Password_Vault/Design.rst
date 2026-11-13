@@ -446,8 +446,7 @@ configuration files.
 Test Plan
 ---------
 
--  `Test
-   Plan <http://www.freeipa.org/page/V4/Password_Vault/Test_Plan>`__
+-  :doc:`Test Plan </page/V4/Password_Vault/Test_Plan>`
 
 References
 ----------

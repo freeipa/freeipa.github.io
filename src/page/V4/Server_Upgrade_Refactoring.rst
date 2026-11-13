@@ -309,8 +309,7 @@ Run ``ipa-server-update`` on various old versions of IPA.
 Test Plan
 ---------
 
-`Test
-Plan <http://www.freeipa.org/page/V4/Server_Upgrade_Refactoring/Test_Plan>`__
+:doc:`Test Plan </page/V4/Server_Upgrade_Refactoring/Test_Plan>`
 
 Author
 ------

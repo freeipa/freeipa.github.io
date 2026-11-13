@@ -127,7 +127,7 @@ tree ``(cn=accounts, cn=users)``. The ldap.user.filter
 the compat tree (which among other things does not have the mail
 attribute).
 
-See https://www.freeipa.org/page/Directory_Server and
+See :doc:`/page/Directory_Server` and
 https://www.redhat.com/archives/freeipa-users/2015-June/msg00547.html
 
 

@@ -87,17 +87,16 @@ Development
 Build and Run
 ^^^^^^^^^^^^^
 
-See the dedicated `FreeIPA Build Guide <https://www.freeipa.org/page/Build>`__
+See the dedicated :doc:`FreeIPA Build Guide </page/Build>`
 
 Contribute code
 ^^^^^^^^^^^^^^^
 
--  `Contribute code <https://www.freeipa.org/page/Contribute/Code>`__ by
+-  :doc:`Contribute code </page/Contribute/Code>` by
    submitting bug fixes or new features. Help us make FreeIPA great!
 -  Write a new plugin with a new functionality for FreeIPA and tell us!
    Maybe your plugin will make its way to the FreeIPA main project (see
-   `general
-   considerations <https://www.freeipa.org/page/General_considerations>`__
+   :doc:`general considerations </page/General_considerations>`
    that plugin developers should keep in mind).
 
 Translate
@@ -134,17 +133,16 @@ Help Us Test
 
 -  Help us test and verify the project by simply using it in your
    environment.
--  `Testing page <https://www.freeipa.org/page/Testing>`__ is good start
+-  :doc:`Testing page </page/Testing>` is good start
    point and contains the information about execution of existing test
    suites.
 
 Contribute Tests
 ^^^^^^^^^^^^^^^^
 
--  `Contribute tests <https://www.freeipa.org/page/Contribute/Tests>`__
+-  :doc:`Contribute tests </page/Contribute/Tests>`
    by creating test plans or writing new automatized tests that can be
-   run in `FreeIPA integration
-   testing <https://www.freeipa.org/page/V3/Integration_testing>`__
+   run in :doc:`FreeIPA integration testing </page/V3/Integration_testing>`
 
 Documentation
 ~~~~~~~~~~~~~
@@ -152,10 +150,9 @@ Documentation
 Contribute documentation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
--  `Help with
-   documenting <https://www.freeipa.org/page/Contribute/Documentation>`__
+-  :doc:`Help with documenting </page/Contribute/Documentation>`
    new features or adding more information
--  `Write a How To <https://www.freeipa.org/page/HowTos>`__ article
+-  :doc:`Write a How To </page/HowTos>` article
    about integrating FreeIPA with other projects
 -  Do not hesitate to ask on IRC or our mailing lists - see section
-   `#Communication <https://www.freeipa.org/page/Contribute#Communication>`__.
+   `Communication <#communication>`__.

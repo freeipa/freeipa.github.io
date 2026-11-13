@@ -84,6 +84,8 @@ system administrator to activate this module on the clients if needed.
 If a suitable directory and mechanism are not available for the creation
 of home directories, users may not be able to log in successfully.
 
+.. _local-installanddeploy-dns:
+
 DNS
 ----------------------------------------------------------------------------------------------
 
@@ -472,6 +474,8 @@ system. Do not overwrite the existing ``krb5.conf`` file.
 Now you should be able to connect to the IPA Web interface remotely.
 
 
+
+.. _local-installanddeploy-setting-up-multi-master-replication:
 
 Setting up Multi-Master Replication
 ===================================

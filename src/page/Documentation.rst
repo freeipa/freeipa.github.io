@@ -3,6 +3,8 @@ Documentation
 
 
 
+.. _documentation-users:
+
 User Documentation
 ------------------
 
@@ -16,6 +18,8 @@ User Documentation
    Frequently Asked Questions </page/Frequently_Asked_Questions>
 
 
+
+.. _local-documentation-user-guides:
 
 User Guides
 ~~~~~~~~~~~
@@ -46,7 +50,7 @@ Use Red Hat Enteprise Linux documentation:
       (`report
       bug <https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%207&component=doc-System_Level_Authentication_Guide>`__)
 
-Upstream user guide `is not maintained <Upstream_User_Guide>`__ anymore
+Upstream user guide :doc:`is not maintained </page/Upstream_User_Guide>` anymore
 as all effort is put into the Red Hat Enteprise Linux documentation.
 Bugs found in the documentation can be reported in `Red Hat Issues tracker 
 <https://issues.redhat.com/secure/CreateIssue!default.jspa>`__ by choosing RHELDOCS project and Documentation component.

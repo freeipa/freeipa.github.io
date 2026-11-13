@@ -126,6 +126,8 @@ SIDs are mapped to POSIX IDs.
 
 
 
+.. _local-v3-serving-legacy-clients-for-trusts-major-configuration-options-and-enablement:
+
 Major configuration options and enablement
 ==========================================
 

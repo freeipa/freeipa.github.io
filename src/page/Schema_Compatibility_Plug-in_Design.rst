@@ -51,6 +51,8 @@ its relative distinguished name.
 
 
 
+.. _local-schema-compatibility-plug-in-design-back-end:
+
 Back End
 --------
 
@@ -240,6 +242,8 @@ using the n'th substring from the matched value by using the sequence
 %regsub("%{member}","^e","%1")         FAILS
 %regsub("%{member}","^e.*","%1","jim") jim
 ====================================== =====
+
+.. _local-schema-compatibility-plug-in-design-deref-thisattribute-thatattribute:
 
 deref(THISATTRIBUTE,THATATTRIBUTE)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

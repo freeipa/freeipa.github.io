@@ -85,7 +85,7 @@ Design
    -  priority of the DC and GC services (read-write, DNS SRV record)
 
 Details on ``ipa trustconfig`` commands design are available at
-http://www.freeipa.org/page/V3/Trust_config_command Details on
+:doc:`/page/V3/Trust_config_command` Details on
 additional domain suffixes handling are available at
 http://www.freeipa.org/page/V3/Domain_suffixes
 

@@ -14,12 +14,12 @@ Prerequisites
 -  Windows Server 2008 R2 or later with configured AD DC and DNS
    installed locally on the DC
 
-| 
-| If you need to install and configure AD DC for testing purposes, you
-  can follow article `Setting up Active Directory domain for testing
-  purposes <Setting_up_Active_Directory_domain_for_testing_purposes>`__.
+If you need to install and configure AD DC for testing purposes, you
+can follow :doc:`Setting up Active Directory domain for testing purposes </page/Setting_up_Active_Directory_domain_for_testing_purposes>`.
 
 
+
+.. _ad-trust-ipv6:
 
 IPv6 stack usage
 ----------------
@@ -183,6 +183,8 @@ above commands fail, restart the ``sssd`` service
 (``service sssd restart``), and try them again.
 
 
+
+.. _local-active-directory-trust-setup-configure-ipa-server-for-cross-forest-trusts:
 
 Configure IPA server for cross-forest trusts
 --------------------------------------------
@@ -639,6 +641,8 @@ Test cross-forest trust
 
 
 
+.. _local-active-directory-trust-setup-using-ssh:
+
 Using SSH
 ---------
 
@@ -729,8 +733,7 @@ General debugging guidelines
 What you can do is following (assumes Fedora 20+ or RHEL 7+):
 
 -  Check that IPv6 module is not disabled on the Linux side as Samba and
-   CLDAP module in IPA require it. See `instructions
-   above <Active_Directory_trust_setup#IPv6_stack_usage>`__.
+   CLDAP module in IPA require it. See :ref:`ad-trust-ipv6`.
 -  Check firewall rules: AD DCs should be able to contact IdM smbd over
    138/139/445 TCP and UDP ports, 389 UDP port.
 -  Stop smb and winbind services on IdM server
@@ -845,6 +848,6 @@ You may search for ``dnaRemainingValues`` attribute in
    # numResponses: 2
    # numEntries: 1
 
-If this is the case, then follow `this guide <V3/Recover_DNA_Ranges>`__
+If this is the case, then follow :doc:`this guide </page/V3/Recover_DNA_Ranges>`
 to re-create POSIX ranges on the replica. Then try to re-establish
 trust; it should complete successfuly now.

@@ -221,8 +221,7 @@ Storing issued certificates
 
 Support for multiple profiles means that principals (including user
 principals) may now have *multiple certificates*. The proposed schema
-and implications are discussed in the `V4/User
-Certificates <http://www.freeipa.org/page/V4/User_Certificates>`__
+and implications are discussed in the :doc:`V4/User Certificates </page/V4/User_Certificates>`
 design page.
 
 The FreeIPA profile object class includes a boolean attribute
@@ -785,7 +784,7 @@ https://blog-ftweedal.rhcloud.com/2015/08/user-certificates-and-custom-profiles-
 Test Plan
 =========
 
-http://www.freeipa.org/page/V4/Certificate_Profiles/Test_Plan
+:doc:`/page/V4/Certificate_Profiles/Test_Plan`
 
 Dependencies
 ============

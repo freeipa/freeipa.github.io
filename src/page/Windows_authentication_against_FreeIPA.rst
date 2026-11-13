@@ -68,8 +68,9 @@ Configure FreeIPA
                   -e  aes256-cts-hmac-sha1-96,aes128-cts-hmac-sha1-96,aes256-cts-hmac-sha384-192
                   -k krb5.keytab.[machine-name]
                   -P
-    At the prompt enter a random MACHINE_PASSWORD
-    (you will enter this later on the windows machine too).
+     At the prompt enter a random MACHINE_PASSWORD
+     (you will enter this later on the windows machine too).
+
 Note:  you  can  change  the  -e  argument  to  include  also
 AES enctypes from FreeIPA2.1.4 and higher. (FreeIPA ticket `2038 <https://codeberg.org/freeipa/freeipa/issues/2038>`_)
 

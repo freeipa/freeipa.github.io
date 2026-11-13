@@ -46,10 +46,14 @@ execution which it is not expecting.
 
 
 
+.. _local-testing-for-developers:
+
 For Developers
 --------------
 
 
+
+.. _testing-fast-test:
 
 Fast test
 ~

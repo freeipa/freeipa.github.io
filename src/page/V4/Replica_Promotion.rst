@@ -654,5 +654,4 @@ subsystem (KDC, DNS, CA, KRA) keeps working as expected.
 Test Plan
 ---------
 
-`Test plan is
-here <http://www.freeipa.org/page/V4/Replica_Promotion/Test_plan>`__
+:doc:`Test plan is here </page/V4/Replica_Promotion/Test_Plan>`

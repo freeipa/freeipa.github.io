@@ -57,7 +57,7 @@ ldapmodify -x -D "cn=Directory Manager" -f vsphere\_groupmod.ldif -W
 Permission Update
 -----------------
 
-With [FreeIPA 4.0](https://www.freeipa.org/page/Releases/4.0.0 "Releases/4.0.0") and later, system permissions need to be updated to allow the new attributes. Run following commands as admin to allow the new sn attribute for compat users and uniqueMember for compat groups:
+With :doc:`FreeIPA 4.0 </page/Releases/4.0.0>` and later, system permissions need to be updated to allow the new attributes. Run following commands as admin to allow the new sn attribute for compat users and uniqueMember for compat groups:
 
 \# ipa permission-mod "System: Read User Compat Tree" --includedattrs sn
 # ipa permission-mod "System: Read Group Compat Tree" --includedattrs uniquemember

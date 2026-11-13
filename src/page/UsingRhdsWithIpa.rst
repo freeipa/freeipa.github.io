@@ -87,7 +87,7 @@ and the schema.
 Downloading and Installing freeIPA
 ==================================
 
-Refer to the `Downloads <http://www.freeipa.org/page/Downloads>`__ page
+Refer to the :doc:`Downloads </Downloads>` page
 for instructions on how to download the freeIPA packages.
 
 Refer to the `Installation and Deployment

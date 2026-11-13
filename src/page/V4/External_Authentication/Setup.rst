@@ -94,8 +94,7 @@ certificate issued by the FreeIPA certificate authority (CA):
 -  Create a ``demo`` user account in FreeIPA with a certificate and
    store the private key in the ``~/demo.key`` file.
 
-   For details, see `Using FreeIPA/Dogtag PKI to Issue User
-   Certificates <http://www.freeipa.org/page/V4/User_Certificates#Using_FreeIPA.2FDogtag_PKI_to_issue_user_certificates>`__.
+   For details, see :ref:`Using FreeIPA/Dogtag PKI to Issue User Certificates <local-v4-user-certificates-using-freeipa-dogtag-pki-to-issue-user-certificates>`.
 
 -  Verify that the certificate is displayed in the output of the
    ``ipa user-show`` command:

@@ -427,8 +427,7 @@ Remaining options considered were:
    to replicate password securely). The accounts need the same
    permission as the previous option, which could be achieved via a
    group membership. The same file readership requirements apply.
-#. Implement most of the remainder of the `GSS-API authentication to
-   Dogtag <https://www.freeipa.org/page/V4/Dogtag_GSS-API_Authentication>`__
+#. Implement most of the remainder of the :doc:`GSS-API authentication to Dogtag </page/V4/Dogtag_GSS-API_Authentication>`
    effort so that we can use GSS-API authentication between the ACME
    service and the Dogtag CA subsystem. This is a complex (risky) and
    time-consuming effort. The upside is that it's a big step toward

@@ -6,8 +6,7 @@ Integrating_Dell_EMC_Isilon_OneFS
 Create a System Account
 -----------------------
 
-First, create a `system
-account <https://www.freeipa.org/page/HowTo/LDAP#System_Accounts>`__.
+First, create a :ref:`system account <local-howto-ldap-system-accounts>`.
 
 An example of a system account for Foreman is available at
 `Creating_a_binddn_for_Foreman <Creating_a_binddn_for_Foreman>`__ as

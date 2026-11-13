@@ -101,4 +101,4 @@ Details how to use DNSSEC in isolated networks are described in article
 `DNSSEC in isolated
 networks <DNSSEC#DNSSEC_in_isolated_networks>`__.
 
-`Category:How to <https://www.freeipa.org/page/HowTos>`__ `Category:Draft documentation <Category:Draft_documentation>`__
+:doc:`Category:How to </page/HowTos>` `Category:Draft documentation <Category:Draft_documentation>`__

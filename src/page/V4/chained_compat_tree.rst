@@ -10,7 +10,7 @@ managed by *Schema compat plugins*. The in-memory maps are protected by
 a lock that acts basically like a backend lock. Those entries are not
 indexed so a search can hit a performance issue. In addition several
 deadlock
-`scenario <https://www.freeipa.org/page/V4_slapi_nis_locking>`__ exist
+:doc:`scenario </page/V4_slapi_nis_locking>` exist
 if to process a request we need to access pages in real domain entries.
 
 It was decided
@@ -72,6 +72,8 @@ servers, instead each server manage its own set of mapped entries.
 
 
 
+.. _local-v4-chained-compat-tree-schema-compat-container:
+
 Schema Compat container
 ----------------------------------------------------------------------------------------------
 
@@ -102,11 +104,10 @@ groups or computers) that is mapped
 Formating keyword: deref
 ----------------------------------------------------------------------------------------------
 
-A **Formating definition** contains a set `format
-specifiers <https://www.freeipa.org/page/FreeIPAv2:Schema_Compatibility_Plug-in_Design#Back_End>`__.
+A **Formating definition** contains a set :ref:`format specifiers <local-schema-compatibility-plug-in-design-back-end>`.
 The specifier *schema-compat-entry-attribute* describes with *keywords*
 how to create the values of the *compat* entries. The
-`deref <https://www.freeipa.org/page/FreeIPAv2:Schema_Compatibility_Plug-in_Design#deref.28THISATTRIBUTE.2CTHATATTRIBUTE.29>`__
+:ref:`deref <local-schema-compatibility-plug-in-design-deref-thisattribute-thatattribute>`
 keyword allows to retrieve values from the entries in the DB.
 
 In the example below, a new developer (dev1) is added to a group
@@ -195,8 +196,7 @@ The plugin config entry contains the *base* search, *filter* and
 *cookie* of the sync repl. A possibility is to keep those info into a
 specific entry into the mapped container (like a RUV entry).
 
-The config entry also contains the `formating
-specifiers <https://www.freeipa.org/page/FreeIPAv2:Schema_Compatibility_Plug-in_Design#Back_End>`__.
+The config entry also contains the :ref:`formating specifiers <local-schema-compatibility-plug-in-design-back-end>`.
 The lookup entries are processed with the formating specifiers and then
 stored locally.
 
@@ -214,8 +214,7 @@ entry** and then immediately does LDAP search on primary instance of the
 compat_user entry. The LDAP search will following the chained backend
 and retrieve the entry from the secondary instance. There is a
 possibility that this entry **does not reflect** the update done on the
-primary instance. Compare to `current
-status <https://www.freeipa.org/page/V4/chained_compat_tree#Schema_Compat_container>`__
+primary instance. Compare to :ref:`current status <local-v4-chained-compat-tree-schema-compat-container>`
 where the updates are atomic, with a secondary instance **updates of the
 primary and secondary entry are not longer atomic**
 

@@ -88,14 +88,13 @@ to install. There are two options:
 -  **Standard FreeIPA version distributed with the OS**: this is the
    safest option, contains a tested FreeIPA version. It may just not
    contain the latest bits.
--  **Bleeding Edge repo**: `daily build
-   repository <Downloads#Bleeding_Edge>`__ from our git containing the
+-  **Bleeding Edge repo**: :doc:`daily build repository </Downloads>` from our git containing the
    latest bits. Great for testing the upcoming features. Just note, this
    version is not tested and there may be dragons!
 -  **Public Demo**: the quickest way to get the look and feel of FreeIPA
-   is to look at it's `public demo <Demo>`__!
+   is to look at its :doc:`public demo </page/Demo>`!
 -  **Docker container**: quick and easy way to test the FreeIPA server
-   in an isolated `Docker container <Docker>`__ without need to create
+   in an isolated :doc:`Docker container </page/Docker>` without need to create
    virtual machines.
 
 
@@ -176,8 +175,8 @@ To authenticate as the *admin*, just run:
 
 You will be prompted for the password. Use the password that you
 specified during the configuration step for the admin user. As a result
-of this operation you acquire Kerberos ticket (`more
-info <KerberosService>`__).
+of this operation you acquire a Kerberos ticket for your :term:`principal`
+(see :doc:`/page/Kerberos`).
 
 
 

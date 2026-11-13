@@ -11,6 +11,8 @@ users that can be used by provisioning systems.
 
 
 
+.. _local-v4-user-life-cycle-management-use-cases:
+
 Use Cases
 ---------
 
@@ -218,7 +220,7 @@ Add a stage entry
       -  manager: must be an active user
 
    -  Filled with
-      `placeholders <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Stage_placeholders>`__
+      :ref:`placeholders <local-v4-user-life-cycle-management-stage-placeholders>`
       the entry will look like
 
 ::
@@ -267,8 +269,7 @@ container lastname/firstname are useless.
 Provision stage entry
 '''''''''''''''''''''
 
--  As described in the first `Use
-   case <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Use_Cases>`__,
+-  As described in the first :ref:`Use case <local-v4-user-life-cycle-management-use-cases>`,
    provisioning systems (external) create the vast majority of *Stage*
    entries (using or not the FreeIPA CLI).
 
@@ -280,15 +281,15 @@ Provision stage entry
          entries <https://www.redhat.com/archives/freeipa-devel/2014-May/msg00407.html>`__)
 
    -  Entry may contain both data and
-      `placeholders <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Stage_placeholders>`__.
+      :ref:`placeholders <local-v4-user-life-cycle-management-stage-placeholders>`.
       Note that when the entry will become active, some of the
       data/placeholders may be changed.
    -  Provisoning system can create an entry with few constraints, that
       mean that the
-      `activation <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Activate_StageUser>`__
+      :ref:`activation <local-v4-user-life-cycle-management-activate-stageuser>`
       of a stage entry must be done with care. So provisioning systems
       is the main justification why activation will be done using a
-      `ADD-DEL <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#MODRDN_vs._ADD-DEL>`__
+      :ref:`ADD-DEL <local-v4-user-life-cycle-management-modrdn-vs-add-del>`
       approach
    -  A *Stage* entry does not need to have all attributes that standard
       FreeIPA user has. In order to allow the correct processing of User
@@ -304,6 +305,8 @@ Provision stage entry
    uid: tuser
 
 
+
+.. _local-v4-user-life-cycle-management-activate-stageuser:
 
 Activate StageUser
 ''''''''''''''''''
@@ -341,8 +344,7 @@ it. This action is only authorised to Support Engineer.
       same uid.
 
 -  The destination *Active* LDAP entry is a *NEW* entry compare to the
-   source *Stage* entry (see `MODRDN vs
-   ADD-DEL <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#MODRDN_vs._ADD-DEL>`__)
+   source *Stage* entry (see :ref:`MODRDN vs ADD-DEL <local-v4-user-life-cycle-management-modrdn-vs-add-del>`)
 
    -  It contains all FreeIPA required objectclasses/attributes
       (including structural objectclasses) *(comment: TBL in
@@ -352,9 +354,7 @@ it. This action is only authorised to Support Engineer.
 
 -  The destination *Active* LDAP entry is a *NEW* entry (LDAP ADD). The
    source *Stage* entry may contain *userPassword* in an hashed way (see
-   `http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Staging_entry
-   stored
-   password <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Staging_entry_stored_password>`__).
+   :ref:`local-v4-user-life-cycle-management-staging-entry`).
    To allow the storing of pre-hashed password
    `ipa-pwd-extop:ipapwd_pre_add <https://www.redhat.com/archives/freeipa-devel/2014-June/msg00505.html>`__
    must relax its control for example if the krb keys already exists in
@@ -396,10 +396,12 @@ or if it exists a *Delete* entry that already have the ''uid: foo value:
    uid: foo
 
 -  There are
-   `ajustments <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Adjustment_of_DN_syntax_attributes>`__
+   :ref:`adjustments <local-v4-user-life-cycle-management-adjustment-of-dn-syntax-attributes>`
    of DN syntax attributes
 
 
+
+.. _local-v4-user-life-cycle-management-modrdn-vs-add-del:
 
 MODRDN vs. ADD-DEL
                   
@@ -463,6 +465,8 @@ The *second approach is chosen* solution because:
 
 
 
+.. _local-v4-user-life-cycle-management-adjustment-of-dn-syntax-attributes:
+
 Adjustment of DN syntax attributes
                                   
 
@@ -515,9 +519,13 @@ Delete StageUser
 Restore StageUser
 '''''''''''''''''
 
-::
-
-     ``Support engineer can restore a Delete user (under cn=deletedusers,cn=accounts,cn=provisioning,SUFFIX). Delete user contains properties of a former user. If some of the properties are corrupted, it may be not acceptable to ``\ ```restoreandactivate`` <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Restore_Deleted_User>`__\ `` a Delete user. Stepping the entry into Stage allows to keep valid properties and update the corrupted ones before making the user Active.`` 
+Support engineer can restore a Delete user (under
+``cn=deletedusers,cn=accounts,cn=provisioning,SUFFIX``). Delete user
+contains properties of a former user. If some of the properties are
+corrupted, it may not be acceptable to
+:ref:`restore and activate <local-v4-user-life-cycle-management-restore-deleted-user>`
+a Delete user. Stepping the entry into Stage allows keeping valid
+properties and updating the corrupted ones before making the user Active.
 
 #. Support engineer restore the user using the following CLI
 
@@ -651,7 +659,7 @@ Assign Group Memberships (already available)
 
 #. This command is only available on 'Active' entries. When a 'Stage'
    entry containing *memberOf* attribute is
-   `Activate <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Activate_User>`__,
+   :ref:`activated <local-v4-user-life-cycle-management-activate-stageuser>`,
    the *memberOf* attribute is not preserved and membershift is
    recomputed .
 
@@ -690,6 +698,8 @@ Change Password (already available)
 
 
 
+.. _local-v4-user-life-cycle-management-delete-user:
+
 Delete User
 '''''''''''
 
@@ -720,10 +730,9 @@ decides to delete a user, he does not need to specify if the user is in
    #. This is done by a direct ldap delete of the entry.
    #. all references to the entry are
       `removed <https://www.redhat.com/archives/freeipa-devel/2014-June/msg00083.html>`__.
-      That is done by `referential
-      integrity <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Referential_integrity>`__
+      That is done by :ref:`referential integrity <local-v4-user-life-cycle-management-referential-integrity>`
       and
-      `memberof <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#MemberOf_plugin>`__
+      :ref:`memberof <local-v4-user-life-cycle-management-memberof-plugin>`
       that scope *Active* containers.
 
 #. delete (preserve) of an active entry
@@ -748,10 +757,9 @@ decides to delete a user, he does not need to specify if the user is in
 
       #. all references to the entry must be
          `removed <https://www.redhat.com/archives/freeipa-devel/2014-June/msg00083.html>`__.
-         That is done by `referential
-         integrity <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Referential_integrity>`__
+         That is done by :ref:`referential integrity <local-v4-user-life-cycle-management-referential-integrity>`
          and
-         `memberof <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#MemberOf_plugin>`__
+         :ref:`memberof <local-v4-user-life-cycle-management-memberof-plugin>`
          that only scope *Active* containers.
 
    #. Replace others existing DN syntax attributes with an *Empty*
@@ -770,9 +778,9 @@ decides to delete a user, he does not need to specify if the user is in
    #. restore *manager/managedby/secretary* with the original values
 
       #. if later the entry is
-         `activated <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Activate_StageUser>`__
+         :ref:`activated <local-v4-user-life-cycle-management-activate-stageuser>`
          or
-         `restored <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Restore_Deleted_User>`__,
+         :ref:`restored <local-v4-user-life-cycle-management-restore-deleted-user>`,
          the value of those attributes will be checked.
 
    #. Some attributes are preserved, so that a corrupted active entry
@@ -788,6 +796,8 @@ decides to delete a user, he does not need to specify if the user is in
    #. This is done by a direct ldap delete of the entry.
 
 
+
+.. _local-v4-user-life-cycle-management-restore-deleted-user:
 
 Restore Deleted User
 ''''''''''''''''''''
@@ -820,7 +830,7 @@ again,
       *nsAccountLock: True*
 
 #. There is
-   `ajustments <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Adjustment_of_DN_syntax_attributes>`__
+   :ref:`adjustments <local-v4-user-life-cycle-management-adjustment-of-dn-syntax-attributes>`
    of DN syntax attributes
 
 
@@ -924,7 +934,7 @@ Placeholders
 ----------------------------------------------------------------------------------------------
 
 When an entry is created using FreeIPA CLI
-`user-add <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#user-add>`__,
+:ref:`user-add <local-v4-user-life-cycle-management-user-add>`,
 the value of the required attributes need to be specify somewhere.
 Usually it is provided using the CLI options or if absent CLI uses some
 default values.
@@ -1110,6 +1120,8 @@ Cons
    ACI, containers are replicated
 
 
+
+.. _local-v4-user-life-cycle-management-stage-placeholders:
 
 Stage placeholders
 ^^^^^^^^^^^^^^^^^^
@@ -1390,7 +1402,7 @@ Delete entry requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A *Delete* entry was create with
-`user-del <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Delete_User>`__
+:ref:`user-del <local-v4-user-life-cycle-management-delete-user>`
 and conform the following requirements
 
 -  entry must conform the schema
@@ -1446,12 +1458,16 @@ A entry in Delete container is looking like
    initials: tu
    nsAccountLock: True
 
+.. _local-v4-user-life-cycle-management-authentication:
+
 Authentication
 ----------------------------------------------------------------------------------------------
 
 ``Authentication is not allowed with Stage and Delete entries. Authentication can be done with simple bind or through an external mechanism (like GSSAPI).`` 
 
 
+
+.. _local-v4-user-life-cycle-management-staging-entry:
 
 Staging entry
 ^^^^^^^^^^^^^
@@ -1651,6 +1667,8 @@ The following possibilities were evaluated but did not work:
 
 
 
+.. _local-v4-user-life-cycle-management-krbprincipalname-uniqueness:
+
 krbPrincipalName uniqueness
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1686,7 +1704,7 @@ krbCanonicalName uniqueness
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For the same reasons as
-`krbPrincipalName <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness>`__,
+:ref:`krbPrincipalName <local-v4-user-life-cycle-management-krbprincipalname-uniqueness>`,
 we apply the following configuration
 
 ::
@@ -1705,7 +1723,7 @@ uid uniqueness
 ^^^^^^^^^^^^^^
 
 For the same reasons as
-`krbPrincipalName <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness>`__,
+:ref:`krbPrincipalName <local-v4-user-life-cycle-management-krbprincipalname-uniqueness>`,
 we apply the following configuration
 
 ::
@@ -1722,7 +1740,7 @@ ipaUniqueID uniquness
 ^^^^^^^^^^^^^^^^^^^^^
 
 For the same reasons as
-`krbPrincipalName <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#krbPrincipalName_uniqueness>`__,
+:ref:`krbPrincipalName <local-v4-user-life-cycle-management-krbprincipalname-uniqueness>`,
 we apply the following configuration
 
 ::
@@ -1740,6 +1758,8 @@ system can set any values and stageuser-add CLI creates entries with the
 same value *autogenerate*
 
 
+
+.. _local-v4-user-life-cycle-management-referential-integrity:
 
 Referential integrity
 ^^^^^^^^^^^^^^^^^^^^^
@@ -1779,13 +1799,14 @@ The configuration of this plugin is :
 
 
 
+.. _local-v4-user-life-cycle-management-memberof-plugin:
+
 MemberOf plugin
 ^^^^^^^^^^^^^^^
 
 MemberOf plugins excludes *Active* and *Delete* containers that are both
 under *cn=provisioning,SUFFX* (config attribute
-memberofentryscopeexcludesubtree). Like described in `referential
-integrity <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Referential_integrity>`__
+memberofentryscopeexcludesubtree). Like described in :ref:`referential integrity <local-v4-user-life-cycle-management-referential-integrity>`
 if an *Active account* is member of a group and the account is deleted
 
 -  RI remove the (*member*) account from the group
@@ -1895,11 +1916,11 @@ ipa-pwd-extop
 
 This plugin should scope *Stage* and *Active* containers. In fact both
 *Stage* and *Active* container may receive *userpassword* (see
-`authenticate <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Authentication>`__)
+:ref:`authenticate <local-v4-user-life-cycle-management-authentication>`)
 This plugin should allow the storing of pre-hashed password
 ipa-pwd-extop:ipapwd_pre_add must relax its control for example if the
 krb keys already exists in the entry (see
-`user-activate <http://www.freeipa.org/page/V4/User_Life-Cycle_Management#Activate_StageUser>`__)
+:ref:`user-activate <local-v4-user-life-cycle-management-activate-stageuser>`)
 
 
 
@@ -1912,7 +1933,7 @@ Deletion of active user
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 When using the FreeIPA CLI
-`user-del <http://www.freeipa.org/page/V3/User_Life-Cycle_Management#Delete_User>`__,
+:ref:`user-del <local-v4-user-life-cycle-management-delete-user>`,
 the entry is moved (MODRDN) from the *Active* container to the *Delete*
 container. If the authorized person, issue LDAP DEL (outside of FreeIPA
 framework) on an active user the entry will be deleted permanently from
@@ -1923,9 +1944,7 @@ operation and move the *Active* entry to the *Delete* container.
 Implementation
 --------------
 
-`http://www.freeipa.org/page/V3/User_Life-Cycle_Management/Implementation
-Implementation
-details <http://www.freeipa.org/page/V3/User_Life-Cycle_Management/Implementation_Implementation_details>`__
+:doc:`Implementation details </page/V3/User_Life-Cycle_Management/Implementation>`
 still need to be defined. Consider this section as a work in progress.
 
 
@@ -1998,6 +2017,8 @@ enablement <#Major_configuration_options_and_enablement>`__.
 CLI
 
 
+
+.. _local-v4-user-life-cycle-management-user-add:
 
 user-add
 ^^^^^^^^

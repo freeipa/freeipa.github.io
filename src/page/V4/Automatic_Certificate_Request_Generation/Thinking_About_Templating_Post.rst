@@ -9,7 +9,7 @@ Background
 
 I am working on a project
 (`ticket <https://fedorahosted.org/freeipa/ticket/4899>`__,
-`design <http://www.freeipa.org/page/V4/Automatic_Certificate_Request_Generation>`__)
+:doc:`design </page/V4/Automatic_Certificate_Request_Generation>`)
 to simplify creating certificates in FreeIPA. Currently administrators
 must generate a Certificate Signing Request (CSR) matching the type of
 certificate they wish to issue. They submit this CSR to FreeIPA using
@@ -29,8 +29,7 @@ certificate field values back in formats understood by different
 utilities such as openssl and certutil. Those tools will be responsible
 for generating the actual CSR from the provided configuration.
 
-As suggested in the `Mapping Rules
-design <http://www.freeipa.org/page/V4/Automatic_Certificate_Request_Generation/Mapping_Rules>`__,
+As suggested in the :doc:`Mapping Rules design </page/V4/Automatic_Certificate_Request_Generation/Mapping_Rules>`,
 the first implementation of this system used python to implement the
 low-level formatting rules, such as *return the user's email address,
 prefixed by the string 'email:'*. However, it is a goal of this project

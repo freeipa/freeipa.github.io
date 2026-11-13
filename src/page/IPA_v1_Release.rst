@@ -11,7 +11,7 @@ IPA v1 Release
 **Overview**: User identity management and centralized authentication
 for Unix/Linux world
 
-`Requirements Doc <http://www.freeipa.org/page/V1PRD>`__
+:doc:`Requirements Doc </page/V1PRD>`
 
 **Components**:
 

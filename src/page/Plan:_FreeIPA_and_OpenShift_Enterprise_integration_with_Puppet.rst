@@ -82,6 +82,8 @@ Initial Setup of IPA and Puppet
 
 
 
+.. _local-plan-freeipa-and-openshift-enterprise-integration-with-puppet-puppet-ipa-openshift-module-in-detail:
+
 Puppet IPA/OpenShift Module in Detail
 ----------------------------------------------------------------------------------------------
 
@@ -134,8 +136,7 @@ Puppet IPA/OpenShift Module in Detail
 Open Questions
 --------------
 
--  Will the delegated host bit work? re: # 7 of the `Module in
-   Detail <http://freeipa.org/page/Plan:_FreeIPA_and_OpenShift_Enterprise_integration_with_Puppet#Puppet_IPA.2FOpenShift_Module_in_Detail>`__
+-  Will the delegated host bit work? re: # 7 of the :ref:`Module in Detail <local-plan-freeipa-and-openshift-enterprise-integration-with-puppet-puppet-ipa-openshift-module-in-detail>`
 -  Is the ``/etc/ipa/default.conf`` file enough to determine if
    ipa-client is not installed? Should I catch the error of 'ipa-client
    is already installed'?
